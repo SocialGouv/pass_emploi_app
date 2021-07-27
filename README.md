@@ -1,6 +1,4 @@
-# pass_emploi_app
-
-A new Flutter application.
+L'application iOS et Android Pass Emploi
 
 ## Getting Started
 
