@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:pass_emploi_app/presentation/home_view_model.dart';
+import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -7,6 +10,13 @@ import 'package:pass_emploi_app/ui/margins.dart';
 class ActionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return StoreConnector<AppState, HomeViewModel>(
+      converter: (store) => HomeViewModel.create(store),
+      builder: (context, viewModel) => _body(),
+    );
+  }
+
+  Scaffold _body() {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
