@@ -8,7 +8,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 
-class ActionsPage extends StatelessWidget {
+class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var storeConnector = StoreConnector<AppState, HomeViewModel>(
@@ -19,7 +19,21 @@ class ActionsPage extends StatelessWidget {
     return storeConnector;
   }
 
-  Scaffold _body(HomeViewModel viewModel) {
+  _body(HomeViewModel viewModel) {
+    if (viewModel.withLoading) return _loader();
+    if (viewModel.withFailure) return _failure();
+    return _actions(viewModel);
+  }
+
+  _loader() {
+    return Scaffold(body: Center(child: CircularProgressIndicator()));
+  }
+
+  _failure() {
+    return Scaffold(body: Center(child: Text("Failure"))); // TODO add retry button
+  }
+
+  _actions(HomeViewModel viewModel) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -66,6 +80,7 @@ class ActionsPage extends StatelessWidget {
                       ),
                     ),
                   ),
+                  Text(viewModel.content),
                 ],
               ),
             ),

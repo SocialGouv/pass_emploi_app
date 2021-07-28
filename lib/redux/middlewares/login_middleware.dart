@@ -22,11 +22,11 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
   void _logUser(NextDispatcher next) async {
     final userId = await repository.getUserId();
     if (userId != null) {
-      next(LoginCompletedAction(new User(userId)));
+      next(LoginCompletedAction(User(userId)));
     } else {
       final newUserId = _generateUserId();
       repository.setUserId(newUserId);
-      next(LoginCompletedAction(new User(newUserId)));
+      next(LoginCompletedAction(User(newUserId)));
     }
   }
 

@@ -23,10 +23,10 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   google_fonts: ^2.1.0
   flutter_redux: ^0.8.2
   shared_preferences: ^2.0.6
+  http: ^0.13.3
 
 
 dev_dependencies:
