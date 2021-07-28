@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:pass_emploi_app/presentation/home_view_model.dart';
+import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
@@ -10,13 +11,15 @@ import 'package:pass_emploi_app/ui/margins.dart';
 class ActionsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, HomeViewModel>(
+    var storeConnector = StoreConnector<AppState, HomeViewModel>(
       converter: (store) => HomeViewModel.create(store),
-      builder: (context, viewModel) => _body(),
+      builder: (context, viewModel) => _body(viewModel),
     );
+    StoreProvider.of<AppState>(context).dispatch(BootstrapAction());
+    return storeConnector;
   }
 
-  Scaffold _body() {
+  Scaffold _body(HomeViewModel viewModel) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -62,7 +65,7 @@ class ActionsPage extends StatelessWidget {
                         letterSpacing: -0.3,
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),

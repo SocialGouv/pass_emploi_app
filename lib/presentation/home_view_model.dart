@@ -3,12 +3,12 @@ import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:redux/redux.dart';
 
 class HomeViewModel {
-  final String userId;
+  final bool withLoading;
 
-  HomeViewModel(this.userId);
+  HomeViewModel(this.withLoading);
 
   factory HomeViewModel.create(Store<AppState> store) {
     final loginState = store.state.loginState;
-    return HomeViewModel(loginState is LoginCompleted ? loginState.user.id : "LOGIN NOT COMPLETED");
+    return HomeViewModel(loginState is LoginCompleted ? false : true);
   }
 }
