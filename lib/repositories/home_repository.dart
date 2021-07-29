@@ -16,4 +16,11 @@ class HomeRepository {
       return null;
     }
   }
+
+  void updateActionStatus(int actionId, bool newIsDoneValue) {
+    var url = Uri.parse(baseUrl + "/actions/$actionId");
+    try {
+      http.put(url);
+    } catch (e) {}
+  }
 }
