@@ -1,5 +1,10 @@
 L'application iOS et Android Pass Emploi
 
+## Renseigner l'adresse du serveur de dev
+Dans `Run` > `Edit Configurations`, rajouter l'ID du serveur Ngrok utilisé pour mettre votre backend 
+sur le net `Additional arguments` > `--dart-define=NGROK_SERVER_ID=<SERVER_ID_VALUE>`
+
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
