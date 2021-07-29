@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/widgets/action_widget.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -22,6 +23,7 @@ class HomePage extends StatelessWidget {
   _body(HomeViewModel viewModel) {
     if (viewModel.withLoading) return _loader();
     if (viewModel.withFailure) return _failure();
+    if (viewModel.withoutAnyActions) return _withoutAnyActions();
     return _actions(viewModel);
   }
 
@@ -33,13 +35,17 @@ class HomePage extends StatelessWidget {
     return Scaffold(body: Center(child: Text("Failure"))); // TODO add retry button
   }
 
+  _withoutAnyActions() {
+    return Scaffold(body: Center(child: Text("Aucune actions en cours")));
+  }
+
   _actions(HomeViewModel viewModel) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
           children: [
             Container(
-              height: 200,
+              height: 140,
               width: double.infinity,
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -68,19 +74,58 @@ class HomePage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(Margins.medium),
-                    child: Text(
-                      "Mes actions à faire",
-                      style: GoogleFonts.rubik(
-                        color: AppColors.nightBlue,
-                        fontSize: FontSizes.large,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: -0.3,
+                  if (viewModel.withActionsTodo)
+                    Padding(
+                      padding: const EdgeInsets.all(Margins.medium),
+                      child: Text(
+                        "Mes actions à faire",
+                        style: GoogleFonts.rubik(
+                          color: AppColors.nightBlue,
+                          fontSize: FontSizes.large,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: -0.3,
+                        ),
                       ),
                     ),
-                  ),
-                  Text(viewModel.content),
+                  for (final todoAction in viewModel.todoActions)
+                    Padding(
+                      padding: EdgeInsets.only(
+                        left: Margins.medium,
+                        top: 4,
+                        right: Margins.medium,
+                        bottom: 4,
+                      ),
+                      child: ActionWidget(
+                        action: todoAction,
+                        onTap: () => viewModel.onTapTodoAction(todoAction.id),
+                      ),
+                    ),
+                  if (viewModel.withActionsDone)
+                    Padding(
+                      padding: const EdgeInsets.all(Margins.medium),
+                      child: Text(
+                        "Mes actions faites",
+                        style: GoogleFonts.rubik(
+                          color: AppColors.nightBlue,
+                          fontSize: FontSizes.large,
+                          fontWeight: FontWeight.w600,
+                          letterSpacing: -0.3,
+                        ),
+                      ),
+                    ),
+                  for (final doneAction in viewModel.doneActions)
+                    Padding(
+                      padding: EdgeInsets.only(
+                        left: Margins.medium,
+                        top: 4,
+                        right: Margins.medium,
+                        bottom: 4,
+                      ),
+                      child: ActionWidget(
+                        action: doneAction,
+                        onTap: () => viewModel.onTapDoneAction(doneAction.id),
+                      ),
+                    ),
                 ],
               ),
             ),
