@@ -57,16 +57,13 @@ class HomePage extends StatelessWidget {
 
   _failure(HomeViewModel viewModel) {
     return Scaffold(
-      body: Container(
-        height: double.infinity,
-        width: double.infinity,
-        child: Center(
-          child: Column(
-            children: [
-              Text("Erreur lors de la récupérations des actions"),
-              TextButton(onPressed: () => viewModel.onRetry(), child: Text("Réessayer")),
-            ],
-          ),
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text("Erreur lors de la récupérations des actions"),
+            TextButton(onPressed: () => viewModel.onRetry(), child: Text("Réessayer", style: TextStyles.textLgMedium)),
+          ],
         ),
       ),
     );
