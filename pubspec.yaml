@@ -48,6 +48,9 @@ flutter:
 
   assets:
     - assets/ic_logo.svg
+    - assets/ic_green_check.svg
+    - assets/ic_grey_circle.svg
+    - assets/ic_night_blue_circle.svg
 
   # To add assets to your application, add an assets section, like this:
   # assets:
