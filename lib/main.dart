@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/pass_emploi_app.dart';
+import 'package:pass_emploi_app/redux/middlewares/animation_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/api_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/login_middleware.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
@@ -47,7 +48,7 @@ Store<AppState> _initializeReduxStore(String baseUrl) {
   return Store<AppState>(
     reducer,
     initialState: AppState.initialState(),
-    middleware: [LoginMiddleware(UserRepository()), ApiMiddleware(HomeRepository(baseUrl))],
+    middleware: [LoginMiddleware(UserRepository()), ApiMiddleware(HomeRepository(baseUrl)), AnimationMiddleware()],
   );
 }
 

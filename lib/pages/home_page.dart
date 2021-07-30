@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pass_emploi_app/pages/loader_page.dart';
 import 'package:pass_emploi_app/presentation/home_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -21,38 +21,9 @@ class HomePage extends StatelessWidget {
   }
 
   _body(BuildContext context, HomeViewModel viewModel) {
-    if (viewModel.withLoading) return _loader(context);
+    if (viewModel.withLoading) return LoaderPage(screenHeight: MediaQuery.of(context).size.height);
     if (viewModel.withFailure) return _failure(viewModel);
     return _actions(viewModel);
-  }
-
-  _loader(BuildContext context) {
-    return Scaffold(
-      body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          child: Stack(
-            alignment: AlignmentDirectional.center,
-            children: [
-              Positioned(
-                top: MediaQuery.of(context).size.height / 4 - 36,
-                child: Text("Bienvenue sur", style: TextStyles.textLgMedium),
-              ),
-              Positioned(
-                top: MediaQuery.of(context).size.height / 4,
-                child: SvgPicture.asset("assets/ic_logo.svg", semanticsLabel: 'Logo Pass Emploi'),
-              ),
-              CircularProgressIndicator(color: AppColors.nightBlue),
-            ],
-          ),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [AppColors.blue, AppColors.purple],
-            ),
-          )),
-    );
   }
 
   _failure(HomeViewModel viewModel) {
