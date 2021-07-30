@@ -25,6 +25,7 @@ AppState reducer(AppState currentState, dynamic action) {
         id: actionToUpdate.id,
         content: actionToUpdate.content,
         isDone: action.newIsDoneValue,
+        lastUpdate: DateTime.now()
       );
       final newActions = List<UserAction>.from(home.actions).where((a) => a.id != action.actionId).toList()
         ..add(updatedAction);

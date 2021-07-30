@@ -38,8 +38,8 @@ class HomeViewModel {
       withoutAnyActions: actions.isEmpty,
       withActionsTodo: todoActions.isNotEmpty,
       withActionsDone: doneActions.isNotEmpty,
-      todoActions: todoActions,
-      doneActions: doneActions,
+      todoActions: todoActions..sort((a1, a2) => a1.lastUpdate.compareTo(a2.lastUpdate)),
+      doneActions: doneActions..sort((a1, a2) => a1.lastUpdate.compareTo(a2.lastUpdate)),
       onTapTodoAction: (int actionId) {
         store.dispatch(UpdateActionStatus(actionId: actionId, newIsDoneValue: true));
       },
