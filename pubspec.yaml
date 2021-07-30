@@ -16,6 +16,8 @@ dependencies:
   http: ^0.13.3
   intl: ^0.17.0
   flutter_svg: ^0.22.0
+  firebase_core: ^1.4.0
+  firebase_crashlytics: ^2.1.1
 
 
 dev_dependencies:

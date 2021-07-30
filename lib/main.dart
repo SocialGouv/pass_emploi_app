@@ -1,5 +1,9 @@
+import 'dart:async';
 import 'dart:io';
+import 'dart:isolate';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/pass_emploi_app.dart';
 import 'package:pass_emploi_app/redux/middlewares/api_middleware.dart';
@@ -10,10 +14,21 @@ import 'package:pass_emploi_app/repositories/home_repository.dart';
 import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
 
-void main() {
+main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+  FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+
   final baseUrl = _baseUrl();
   final store = _initializeReduxStore(baseUrl);
-  runApp(PassEmploiApp(store));
+
+  runZonedGuarded<Future<void>>(() async {
+    runApp(PassEmploiApp(store));
+  }, FirebaseCrashlytics.instance.recordError);
+
+  await _handleErrorsOutsideFlutter();
 }
 
 _baseUrl() {
@@ -34,4 +49,14 @@ Store<AppState> _initializeReduxStore(String baseUrl) {
     initialState: AppState.initialState(),
     middleware: [LoginMiddleware(UserRepository()), ApiMiddleware(HomeRepository(baseUrl))],
   );
+}
+
+Future _handleErrorsOutsideFlutter() async {
+  Isolate.current.addErrorListener(RawReceivePort((pair) async {
+    final List<dynamic> errorAndStacktrace = pair;
+    await FirebaseCrashlytics.instance.recordError(
+      errorAndStacktrace.first,
+      errorAndStacktrace.last,
+    );
+  }).sendPort);
 }
