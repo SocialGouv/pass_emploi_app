@@ -1,0 +1,5 @@
+# Values and keystore are located in project's drive
+storePassword=
+keyAlias=
+keyPassword=
+storeFile=../keystore/passemploi.jks

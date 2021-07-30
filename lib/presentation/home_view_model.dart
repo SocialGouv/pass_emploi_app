@@ -13,6 +13,7 @@ class HomeViewModel {
   final List<UserAction> doneActions;
   final Function(int actionId) onTapTodoAction;
   final Function(int actionId) onTapDoneAction;
+  final Function() onRetry;
 
   HomeViewModel({
     required this.withLoading,
@@ -23,6 +24,7 @@ class HomeViewModel {
     required this.doneActions,
     required this.onTapTodoAction,
     required this.onTapDoneAction,
+    required this.onRetry,
   });
 
   factory HomeViewModel.create(Store<AppState> store) {
@@ -42,6 +44,9 @@ class HomeViewModel {
       },
       onTapDoneAction: (int actionId) {
         store.dispatch(UpdateActionStatus(actionId: actionId, newIsDoneValue: false));
+      },
+      onRetry: () {
+        store.dispatch(BootstrapAction());
       },
     );
   }

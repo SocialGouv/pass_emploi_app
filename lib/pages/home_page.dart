@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
 
   _body(BuildContext context, HomeViewModel viewModel) {
     if (viewModel.withLoading) return _loader(context);
-    if (viewModel.withFailure) return _failure();
+    if (viewModel.withFailure) return _failure(viewModel);
     return _actions(viewModel);
   }
 
@@ -55,8 +55,21 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _failure() {
-    return Scaffold(body: Center(child: Text("Failure"))); // TODO add retry button
+  _failure(HomeViewModel viewModel) {
+    return Scaffold(
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        child: Center(
+          child: Column(
+            children: [
+              Text("Erreur lors de la récupérations des actions"),
+              TextButton(onPressed: () => viewModel.onRetry(), child: Text("Réessayer")),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   _actions(HomeViewModel viewModel) {
