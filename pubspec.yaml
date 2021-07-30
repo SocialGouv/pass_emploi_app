@@ -28,6 +28,7 @@ dependencies:
   shared_preferences: ^2.0.6
   http: ^0.13.3
   intl: ^0.17.0
+  flutter_svg: ^0.22.0
 
 
 dev_dependencies:
@@ -44,6 +45,9 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  assets:
+    - assets/ic_logo.svg
 
   # To add assets to your application, add an assets section, like this:
   # assets:
