@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
+// TODO DELETE
 class ChatPage extends StatefulWidget {
   @override
   _ChatPageState createState() => _ChatPageState();
@@ -10,7 +11,7 @@ class _ChatPageState extends State<ChatPage> {
   //final Stream<QuerySnapshot> _stream = FirebaseFirestore.instance.collection('chat').where('jeuneId', isEqualTo: '2').snapshots();
   final Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
       .collection('chat')
-      .doc('vPuWworfrI7wcYJ4gDtF')
+      .doc('fR69o37z9p9n22cNtcAU')
       .collection('messages')
       .orderBy('creationDate')
       .snapshots();
@@ -41,10 +42,10 @@ class _ChatPageState extends State<ChatPage> {
           floatingActionButton: FloatingActionButton(
             onPressed: () {
               CollectionReference messages =
-                  FirebaseFirestore.instance.collection('chat').doc('vPuWworfrI7wcYJ4gDtF').collection('messages');
+                  FirebaseFirestore.instance.collection('chat').doc('fR69o37z9p9n22cNtcAU').collection('messages');
               messages
                   .add({'content': "Hello", 'sentBy': "jeune", 'creationDate': FieldValue.serverTimestamp()})
-                  .then((value) => print("User Added"))
+                  .then((value) => print("Message Added"))
                   .catchError((error) => print("Failed to add user: $error"));
             },
           ),
