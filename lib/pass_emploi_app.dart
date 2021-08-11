@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/pages/chat_page.dart';
+import 'package:pass_emploi_app/pages/home_page.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:redux/redux.dart';
 
@@ -16,7 +16,7 @@ class PassEmploiApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Pass Emploi',
         theme: ThemeData(primarySwatch: Colors.indigo),
-        home: ChatPage(), // TODO HomePage(),
+        home: HomePage(),
       ),
     );
   }
