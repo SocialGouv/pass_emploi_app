@@ -13,6 +13,7 @@ class HomeRepository {
       final response = await http.get(url);
       return Home.fromJson(jsonUtf8Decode(response.bodyBytes));
     } catch (e) {
+      print('Home Exception: '+ e.toString());
       return null;
     }
   }

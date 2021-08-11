@@ -3,29 +3,29 @@ import 'package:pass_emploi_app/models/message.dart';
 abstract class ChatState {
   ChatState._();
 
-  factory ChatState.loading() = MessageLoadingState;
+  factory ChatState.loading() = ChatLoadingState;
 
-  factory ChatState.success(List<Message> messages) = MessageSuccessState;
+  factory ChatState.success(List<Message> messages) = ChatSuccessState;
 
-  factory ChatState.failure() = MessageFailureState;
+  factory ChatState.failure() = ChatFailureState;
 
-  factory ChatState.notInitialized() = MessageNotInitializedState;
+  factory ChatState.notInitialized() = ChatNotInitializedState;
 }
 
-class MessageLoadingState extends ChatState {
-  MessageLoadingState() : super._();
+class ChatLoadingState extends ChatState {
+  ChatLoadingState() : super._();
 }
 
-class MessageSuccessState extends ChatState {
+class ChatSuccessState extends ChatState {
   final List<Message> messages;
 
-  MessageSuccessState(this.messages) : super._();
+  ChatSuccessState(this.messages) : super._();
 }
 
-class MessageFailureState extends ChatState {
-  MessageFailureState() : super._();
+class ChatFailureState extends ChatState {
+  ChatFailureState() : super._();
 }
 
-class MessageNotInitializedState extends ChatState {
-  MessageNotInitializedState() : super._();
+class ChatNotInitializedState extends ChatState {
+  ChatNotInitializedState() : super._();
 }
