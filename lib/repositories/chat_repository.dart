@@ -11,6 +11,8 @@ class ChatRepository {
   StreamSubscription<QuerySnapshot>? _subscription;
 
   // TODO return stream and remove store from params
+  // https://www.youtube.com/watch?v=nQBpOIHE4eE (6:23)
+  // TODO unsubscribe depending on app lifecycle
   subscribeToMessages(String userId, Store<AppState> store) async {
     unsubscribeToMessages();
     store.dispatch(ChatLoadingAction());
@@ -24,14 +26,16 @@ class ChatRepository {
         .orderBy('creationDate')
         .snapshots();
 
-    _subscription = stream.listen((QuerySnapshot snapshot) {
-      final messages = snapshot.docs.map((DocumentSnapshot document) => Message.fromJson(document)).toList();
-      store.dispatch(ChatSuccessAction(messages));
-    }, onDone: () {
-      // TODO ???
-    }, onError: (Object error, StackTrace stackTrace) {
-      store.dispatch(ChatFailureAction());
-    });
+    _subscription = stream.listen(
+      (QuerySnapshot snapshot) {
+        final messages = snapshot.docs.map((DocumentSnapshot document) => Message.fromJson(document)).toList();
+        store.dispatch(ChatSuccessAction(messages));
+      },
+      onError: (Object error, StackTrace stackTrace) {
+        store.dispatch(ChatFailureAction());
+      },
+      cancelOnError: false,
+    );
   }
 
   unsubscribeToMessages() {

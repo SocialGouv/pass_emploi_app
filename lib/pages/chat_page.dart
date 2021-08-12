@@ -2,12 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 // TODO DELETE
-class ChatPage extends StatefulWidget {
+class ChatPageOLD extends StatefulWidget {
   @override
-  _ChatPageState createState() => _ChatPageState();
+  _ChatPageOLDState createState() => _ChatPageOLDState();
 }
 
-class _ChatPageState extends State<ChatPage> {
+class _ChatPageOLDState extends State<ChatPageOLD> {
   //final Stream<QuerySnapshot> _stream = FirebaseFirestore.instance.collection('chat').where('jeuneId', isEqualTo: '2').snapshots();
   final Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
       .collection('chat')
