@@ -1,8 +1,11 @@
-import 'package:intl/intl.dart';
+import 'package:collection/collection.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_state.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
+
+import 'chat_item.dart';
 
 class ChatViewModel {
   final bool withLoading;
@@ -27,15 +30,13 @@ class ChatViewModel {
   }
 }
 
-List<ChatItem> _messagesToChatItems(List<Message> messages) {
-  final messagesWithDaySections = _messagesWithDaySections(messages);
-  return messagesWithDaySections.map<ChatItem>((element) {
+_messagesToChatItems(List<Message> messages) {
+  return _messagesWithDaySections(messages).map<ChatItem>((element) {
     if (element is String) {
       return DayItem(element);
     } else {
       final message = element as Message;
-      final DateFormat formatter = DateFormat('à HH:mm');
-      final hourLabel = formatter.format(message.creationDate);
+      final hourLabel = 'à ' + message.creationDate.toHour();
       if (message.sentBy == Sender.jeune) return JeuneMessageItem(message.content, hourLabel);
       return ConseillerMessageItem(message.content, hourLabel);
     }
@@ -43,47 +44,12 @@ List<ChatItem> _messagesToChatItems(List<Message> messages) {
 }
 
 _messagesWithDaySections(List<Message> messages) {
-  final days = messages
-      .map((message) {
-        final DateFormat formatter = DateFormat('dd/MM/yyyy');
-        return 'Le ' + formatter.format(message.creationDate);
-      })
-      .toSet()
-      .toList();
-
   final messagesWithDaySections = <dynamic>[];
-
-  for (var indexOfDay = 0; indexOfDay < days.length; indexOfDay++) {
-    messagesWithDaySections.add(days[indexOfDay]);
-    final messageOfDay = messages.where((message) {
-      final DateFormat formatter = DateFormat('dd/MM/yyyy');
-      final messageDay = 'Le ' + formatter.format(message.creationDate);
-      return messageDay == days[indexOfDay];
-    }).toList();
-    messagesWithDaySections.addAll(messageOfDay);
-  }
+  groupBy(messages, (message) => _getDayLabel((message as Message).creationDate)).forEach((day, messagesOfDay) {
+    messagesWithDaySections.add(day);
+    messagesWithDaySections.addAll(messagesOfDay);
+  });
   return messagesWithDaySections;
 }
 
-abstract class ChatItem {}
-
-class DayItem extends ChatItem {
-  final String dayLabel;
-
-  DayItem(this.dayLabel);
-}
-
-abstract class MessageItem extends ChatItem {
-  final String content;
-  final String hourLabel;
-
-  MessageItem(this.content, this.hourLabel);
-}
-
-class JeuneMessageItem extends MessageItem {
-  JeuneMessageItem(String content, String hour) : super(content, hour);
-}
-
-class ConseillerMessageItem extends MessageItem {
-  ConseillerMessageItem(String content, String hour) : super(content, hour);
-}
+_getDayLabel(DateTime dateTime) => dateTime.isAtSameDayAs(DateTime.now()) ? "Aujourd'hui" : 'Le ' + dateTime.toDay();
