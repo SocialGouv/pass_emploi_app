@@ -1,56 +1,43 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/presentation/chat_item.dart';
+import 'package:pass_emploi_app/presentation/chat_view_model.dart';
+import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/chat_message_widget.dart';
 
-// TODO DELETE
-class ChatPageOLD extends StatefulWidget {
-  @override
-  _ChatPageOLDState createState() => _ChatPageOLDState();
-}
-
-class _ChatPageOLDState extends State<ChatPageOLD> {
-  //final Stream<QuerySnapshot> _stream = FirebaseFirestore.instance.collection('chat').where('jeuneId', isEqualTo: '2').snapshots();
-  final Stream<QuerySnapshot> _stream = FirebaseFirestore.instance
-      .collection('chat')
-      .doc('fR69o37z9p9n22cNtcAU')
-      .collection('messages')
-      .orderBy('creationDate')
-      .snapshots();
-
+class ChatPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: _stream,
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if (snapshot.hasError) {
-          return Scaffold(body: Text('Something went wrong'));
-        }
+    return StoreConnector<AppState, ChatViewModel>(
+      converter: (store) => ChatViewModel.create(store),
+      builder: (context, viewModel) => _body(context, viewModel),
+    );
+  }
 
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Scaffold(body: Text("Loading"));
-        }
+  _body(BuildContext context, ChatViewModel viewModel) {
+    if (viewModel.withLoading) return Scaffold();
+    if (viewModel.withContent) return _chat(context, viewModel);
+    return Scaffold();
+  }
 
-        return Scaffold(
-          body: ListView(
-            children: snapshot.data!.docs.map((DocumentSnapshot document) {
-              Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-              return ListTile(
-                title: Text(data['content']),
-                //subtitle: Text(data['creationDate']),
-              );
-            }).toList(),
-          ),
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              CollectionReference messages =
-                  FirebaseFirestore.instance.collection('chat').doc('fR69o37z9p9n22cNtcAU').collection('messages');
-              messages
-                  .add({'content': "Hello", 'sentBy': "jeune", 'creationDate': FieldValue.serverTimestamp()})
-                  .then((value) => print("Message Added"))
-                  .catchError((error) => print("Failed to add user: $error"));
-            },
-          ),
-        );
-      },
+  _chat(BuildContext context, ChatViewModel viewModel) {
+    return Scaffold(
+      body: ListView(
+        padding: const EdgeInsets.all(16.0),
+        children: viewModel.items.map((item) {
+          if (item is DayItem) {
+            return Center(
+              child: Text(item.dayLabel, style: TextStyles.textSmRegular(color: AppColors.purpleBlue)),
+            );
+          } else if (item is MessageItem) {
+            return ChatMessageWidget(item);
+          } else {
+            return Container();
+          }
+        }).toList(),
+      ),
     );
   }
 }
