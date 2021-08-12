@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/loader_page.dart';
 import 'package:pass_emploi_app/presentation/home_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
@@ -23,7 +24,7 @@ class HomePage extends StatelessWidget {
   _body(BuildContext context, HomeViewModel viewModel) {
     if (viewModel.withLoading) return LoaderPage(screenHeight: MediaQuery.of(context).size.height);
     if (viewModel.withFailure) return _failure(viewModel);
-    return _actions(viewModel);
+    return _actions(context, viewModel);
   }
 
   _failure(HomeViewModel viewModel) {
@@ -40,7 +41,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _actions(HomeViewModel viewModel) {
+  _actions(BuildContext context, HomeViewModel viewModel) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -73,7 +74,7 @@ class HomePage extends StatelessWidget {
                   if (viewModel.withoutActionsTodo)
                     Padding(
                       padding: const EdgeInsets.only(left: Margins.medium, right: Margins.medium),
-                      child: Text("Vous n’avez pas encore d’actions en cours.", style: TextStyles.textSmRegular),
+                      child: Text("Vous n’avez pas encore d’actions en cours.", style: TextStyles.textSmRegular()()),
                     ),
                   for (final todoAction in viewModel.todoActions)
                     Padding(
@@ -96,7 +97,7 @@ class HomePage extends StatelessWidget {
                   if (viewModel.withoutActionsDone)
                     Padding(
                       padding: const EdgeInsets.only(left: Margins.medium, right: Margins.medium),
-                      child: Text("Vous n’avez pas encore d’actions terminées.", style: TextStyles.textSmRegular),
+                      child: Text("Vous n’avez pas encore d’actions terminées.", style: TextStyles.textSmRegular()),
                     ),
                   for (final doneAction in viewModel.doneActions)
                     Padding(
@@ -119,7 +120,12 @@ class HomePage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ChatPage()),
+          );
+        },
         child: Text(viewModel.messagesCount.toString()),
       ),
     );

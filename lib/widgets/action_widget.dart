@@ -45,7 +45,7 @@ class ActionWidget extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 16, bottom: 16, right: 16),
                   child: Text(
                     action.content,
-                    style: TextStyles.textSmRegular,
+                    style: TextStyles.textSmRegular(),
                   ),
                 ),
               ),
