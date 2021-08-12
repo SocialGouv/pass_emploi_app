@@ -9,6 +9,7 @@ import 'package:redux/redux.dart';
 class ChatRepository {
   final firestore = FirebaseFirestore.instance;
   StreamSubscription<QuerySnapshot>? _subscription;
+  String? _chatDocumentId;
 
   // TODO return stream and remove store from params
   // https://www.youtube.com/watch?v=nQBpOIHE4eE (6:23)
@@ -19,13 +20,9 @@ class ChatRepository {
 
     // TODO Use withConverter (https://firebase.flutter.dev/docs/firestore/usage)
     final chats = await firestore.collection('chat').where('jeuneId', isEqualTo: userId).get();
-    final Stream<QuerySnapshot> stream = FirebaseFirestore.instance
-        .collection('chat')
-        .doc(chats.docs.first.id)
-        .collection('messages')
-        .orderBy('creationDate')
-        .snapshots();
+    _chatDocumentId = chats.docs.first.id;
 
+    final Stream<QuerySnapshot> stream = _collection().orderBy('creationDate').snapshots();
     _subscription = stream.listen(
       (QuerySnapshot snapshot) {
         final messages = snapshot.docs.map((DocumentSnapshot document) => Message.fromJson(document)).toList();
@@ -41,4 +38,13 @@ class ChatRepository {
   unsubscribeToMessages() {
     _subscription?.cancel();
   }
+
+  sendMessage(String message) {
+    _collection()
+        .add({'content': message, 'sentBy': "jeune", 'creationDate': FieldValue.serverTimestamp()})
+        .then((value) => print("New message sent $message"))
+        .catchError((error) => print("Failed to send message: $error"));
+  }
+
+  _collection() => FirebaseFirestore.instance.collection('chat').doc(_chatDocumentId).collection('messages');
 }

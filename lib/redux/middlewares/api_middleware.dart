@@ -19,6 +19,8 @@ class ApiMiddleware extends MiddlewareClass<AppState> {
       _getHome(action.user.id, next, store);
     } else if (action is UpdateActionStatus) {
       _homeRepository.updateActionStatus(action.actionId, action.newIsDoneValue);
+    } else if (action is SendMessageAction) {
+      _chatRepository.sendMessage(action.message);
     }
   }
 

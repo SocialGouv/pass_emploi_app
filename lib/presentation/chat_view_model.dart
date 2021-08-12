@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:pass_emploi_app/models/message.dart';
+import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_state.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
@@ -12,21 +13,25 @@ class ChatViewModel {
   final bool withFailure;
   final bool withContent;
   final List<ChatItem> items;
+  final Function(String message) onSendMessage;
 
   ChatViewModel({
     required this.withLoading,
     required this.withFailure,
     required this.withContent,
     required this.items,
+    required this.onSendMessage,
   });
 
   factory ChatViewModel.create(Store<AppState> store) {
     final state = store.state.chatState;
     return ChatViewModel(
-        withLoading: state is ChatLoadingState,
-        withFailure: state is ChatFailureState,
-        withContent: state is ChatSuccessState,
-        items: state is ChatSuccessState ? _messagesToChatItems(state.messages) : []);
+      withLoading: state is ChatLoadingState,
+      withFailure: state is ChatFailureState,
+      withContent: state is ChatSuccessState,
+      items: state is ChatSuccessState ? _messagesToChatItems(state.messages) : [],
+      onSendMessage: (String message) => store.dispatch(SendMessageAction(message)),
+    );
   }
 }
 

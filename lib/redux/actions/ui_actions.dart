@@ -8,3 +8,9 @@ class UpdateActionStatus extends UiAction {
 
   UpdateActionStatus({required this.actionId, required this.newIsDoneValue});
 }
+
+class SendMessageAction extends UiAction {
+  final String message;
+
+  SendMessageAction(this.message);
+}
