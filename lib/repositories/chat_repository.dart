@@ -11,8 +11,7 @@ class ChatRepository {
   StreamSubscription<QuerySnapshot>? _subscription;
   String? _chatDocumentId;
 
-  // TODO return stream and remove store from params
-  // https://www.youtube.com/watch?v=nQBpOIHE4eE (6:23)
+  // TODO return stream and remove store from params (https://www.youtube.com/watch?v=nQBpOIHE4eE (6:23))
   // TODO unsubscribe depending on app lifecycle
   subscribeToMessages(String userId, Store<AppState> store) async {
     unsubscribeToMessages();

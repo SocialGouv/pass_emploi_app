@@ -25,13 +25,15 @@ AppState reducer(AppState currentState, dynamic action) {
       final home = homeState.home;
       final actionToUpdate = home.actions.firstWhere((a) => a.id == action.actionId);
       final updatedAction = UserAction(
-          id: actionToUpdate.id,
-          content: actionToUpdate.content,
-          isDone: action.newIsDoneValue,
-          lastUpdate: DateTime.now());
+        id: actionToUpdate.id,
+        content: actionToUpdate.content,
+        isDone: action.newIsDoneValue,
+        lastUpdate: DateTime.now(),
+      );
       final newActions = List<UserAction>.from(home.actions).where((a) => a.id != action.actionId).toList()
         ..add(updatedAction);
-      return currentState.copyWith(homeState: HomeState.success(Home(actions: newActions)));
+      return currentState.copyWith(
+          homeState: HomeState.success(Home(actions: newActions, conseiller: home.conseiller)));
     } else {
       return currentState;
     }
