@@ -28,7 +28,7 @@ class TextStyles {
     letterSpacing: -0.3,
   );
 
-  static textSmRegular({Color color = Colors.black}) {
+  static textSmRegular({Color color = AppColors.nightBlue}) {
     return GoogleFonts.rubik(
       color: color,
       fontSize: FontSizes.normal,
@@ -36,7 +36,7 @@ class TextStyles {
     );
   }
 
-  static textXsRegular({Color color = Colors.black}) {
+  static textXsRegular({Color color = AppColors.nightBlue}) {
     return GoogleFonts.rubik(
       color: color,
       fontSize: FontSizes.small,

@@ -32,8 +32,8 @@ flutter:
 
   assets:
     - assets/ic_logo.svg
-    - assets/ic_green_check.svg
-    - assets/ic_grey_circle.svg
+    - assets/ic_white_check.svg
+    - assets/ic_white_circle.svg
     - assets/ic_night_blue_circle.svg
     - assets/ic_paper_plane.svg
     - assets/ic_envelope.svg

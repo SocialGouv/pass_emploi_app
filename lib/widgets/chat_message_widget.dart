@@ -33,7 +33,7 @@ class ChatMessageWidget extends StatelessWidget {
             ),
           ),
           SizedBox(height: 4),
-          Text(item.hourLabel, style: TextStyles.textXsRegular(color: AppColors.nightBlue))
+          Text(item.hourLabel, style: TextStyles.textXsRegular())
         ],
       ),
     );

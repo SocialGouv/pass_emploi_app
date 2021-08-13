@@ -58,12 +58,12 @@ class HomePage extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(Margins.medium),
-                    child: Text("Mes actions en cours", style: TextStyles.textLgSemi),
+                    child: Text("Mes actions en cours", style: TextStyles.textLgMedium),
                   ),
                   if (viewModel.withoutActionsTodo)
                     Padding(
                       padding: const EdgeInsets.only(left: Margins.medium, right: Margins.medium),
-                      child: Text("Vous n’avez pas encore d’actions en cours.", style: TextStyles.textSmRegular()),
+                      child: Text("Tu n’as pas encore d’actions en cours.", style: TextStyles.textSmRegular()),
                     ),
                   for (final todoAction in viewModel.todoActions)
                     Padding(
@@ -71,17 +71,16 @@ class HomePage extends StatelessWidget {
                       child: ActionWidget(
                         action: todoAction,
                         onTap: () => viewModel.onTapTodoAction(todoAction.id),
-                        borderColor: AppColors.borderGrey,
                       ),
                     ),
                   Padding(
                     padding: const EdgeInsets.all(Margins.medium),
-                    child: Text("Mes actions terminées", style: TextStyles.textLgSemi),
+                    child: Text("Mes actions terminées", style: TextStyles.textLgMedium),
                   ),
                   if (viewModel.withoutActionsDone)
                     Padding(
                       padding: const EdgeInsets.only(left: Margins.medium, right: Margins.medium),
-                      child: Text("Vous n’avez pas encore d’actions terminées.", style: TextStyles.textSmRegular()),
+                      child: Text("Tu n’as pas encore terminé d’actions.", style: TextStyles.textSmRegular()),
                     ),
                   for (final doneAction in viewModel.doneActions)
                     Padding(
@@ -89,7 +88,6 @@ class HomePage extends StatelessWidget {
                       child: ActionWidget(
                         action: doneAction,
                         onTap: () => viewModel.onTapDoneAction(doneAction.id),
-                        borderColor: AppColors.nightBlue,
                       ),
                     ),
                 ],
