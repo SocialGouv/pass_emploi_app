@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/redux/states/home_state.dart';
 import 'package:redux/redux.dart';
 
 class HomeViewModel {
+  final String title;
   final bool withLoading;
   final bool withFailure;
   final bool withoutActionsTodo;
@@ -16,6 +17,7 @@ class HomeViewModel {
   final Function() onRetry;
 
   HomeViewModel({
+    required this.title,
     required this.withLoading,
     required this.withFailure,
     required this.withoutActionsTodo,
@@ -33,21 +35,16 @@ class HomeViewModel {
     final List<UserAction> todoActions = actions.where((action) => !action.isDone).toList();
     final List<UserAction> doneActions = actions.where((action) => action.isDone).toList();
     return HomeViewModel(
+      title: "Mes actions${todoActions.isNotEmpty ? " (${todoActions.length})" : ""}",
       withLoading: homeState is HomeLoadingState || homeState is HomeNotInitializedState,
       withFailure: homeState is HomeFailureState,
       withoutActionsTodo: todoActions.isEmpty,
       withoutActionsDone: doneActions.isEmpty,
       todoActions: todoActions..sort((a1, a2) => a2.lastUpdate.compareTo(a1.lastUpdate)),
       doneActions: doneActions..sort((a1, a2) => a2.lastUpdate.compareTo(a1.lastUpdate)),
-      onTapTodoAction: (int actionId) {
-        store.dispatch(UpdateActionStatus(actionId: actionId, newIsDoneValue: true));
-      },
-      onTapDoneAction: (int actionId) {
-        store.dispatch(UpdateActionStatus(actionId: actionId, newIsDoneValue: false));
-      },
-      onRetry: () {
-        store.dispatch(BootstrapAction());
-      },
+      onTapTodoAction: (int actionId) => store.dispatch(UpdateActionStatus(actionId: actionId, newIsDoneValue: true)),
+      onTapDoneAction: (int actionId) => store.dispatch(UpdateActionStatus(actionId: actionId, newIsDoneValue: false)),
+      onRetry: () => store.dispatch(BootstrapAction()),
     );
   }
 }

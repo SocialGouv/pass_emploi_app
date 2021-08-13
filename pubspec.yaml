@@ -15,8 +15,10 @@ dependencies:
   shared_preferences: ^2.0.6
   http: ^0.13.3
   intl: ^0.17.0
+  collection: ^1.15.0
   flutter_svg: ^0.22.0
   firebase_core: ^1.4.0
+  cloud_firestore: ^2.4.0
   firebase_crashlytics: ^2.1.1
 
 
@@ -30,6 +32,8 @@ flutter:
 
   assets:
     - assets/ic_logo.svg
-    - assets/ic_green_check.svg
-    - assets/ic_grey_circle.svg
+    - assets/ic_white_check.svg
+    - assets/ic_white_circle.svg
     - assets/ic_night_blue_circle.svg
+    - assets/ic_paper_plane.svg
+    - assets/ic_envelope.svg

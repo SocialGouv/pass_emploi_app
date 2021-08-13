@@ -2,27 +2,32 @@ import 'package:pass_emploi_app/redux/actions/home_actions.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/home_repository.dart';
 import 'package:redux/redux.dart';
 
 class ApiMiddleware extends MiddlewareClass<AppState> {
-  final HomeRepository repository;
+  final HomeRepository _homeRepository;
+  final ChatRepository _chatRepository;
 
-  ApiMiddleware(this.repository);
+  ApiMiddleware(this._homeRepository, this._chatRepository);
 
   @override
-  call(Store<dynamic> store, action, NextDispatcher next) async {
+  call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     if (action is LoginCompletedAction) {
-      _getHome(action.user.id, next);
+      _getHome(action.user.id, next, store);
     } else if (action is UpdateActionStatus) {
-      repository.updateActionStatus(action.actionId, action.newIsDoneValue);
+      _homeRepository.updateActionStatus(action.actionId, action.newIsDoneValue);
+    } else if (action is SendMessageAction) {
+      _chatRepository.sendMessage(action.message);
     }
   }
 
-  _getHome(String userId, NextDispatcher next) async {
+  _getHome(String userId, NextDispatcher next, Store<AppState> store) async {
     next(HomeLoadingAction());
-    final home = await repository.getHome(userId);
+    final home = await _homeRepository.getHome(userId);
     next(home != null ? HomeSuccessAction(home) : HomeFailureAction());
+    _chatRepository.subscribeToMessages(userId, store);
   }
 }

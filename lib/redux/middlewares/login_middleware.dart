@@ -21,6 +21,7 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
 
   void _logUser(NextDispatcher next) async {
     final userId = await repository.getUserId();
+    print("User ID = $userId");
     if (userId != null) {
       next(LoginCompletedAction(User(userId)));
     } else {

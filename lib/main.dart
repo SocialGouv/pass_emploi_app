@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/redux/middlewares/api_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/login_middleware.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/home_repository.dart';
 import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
@@ -48,7 +49,11 @@ Store<AppState> _initializeReduxStore(String baseUrl) {
   return Store<AppState>(
     reducer,
     initialState: AppState.initialState(),
-    middleware: [LoginMiddleware(UserRepository()), ApiMiddleware(HomeRepository(baseUrl)), AnimationMiddleware()],
+    middleware: [
+      LoginMiddleware(UserRepository()),
+      ApiMiddleware(HomeRepository(baseUrl), ChatRepository()),
+      AnimationMiddleware(),
+    ],
   );
 }
 

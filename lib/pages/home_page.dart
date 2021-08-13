@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/loader_page.dart';
 import 'package:pass_emploi_app/presentation/home_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/action_widget.dart';
@@ -23,11 +26,12 @@ class HomePage extends StatelessWidget {
   _body(BuildContext context, HomeViewModel viewModel) {
     if (viewModel.withLoading) return LoaderPage(screenHeight: MediaQuery.of(context).size.height);
     if (viewModel.withFailure) return _failure(viewModel);
-    return _actions(viewModel);
+    return _actions(context, viewModel);
   }
 
   _failure(HomeViewModel viewModel) {
     return Scaffold(
+      appBar: _appBar(viewModel.title),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -40,26 +44,12 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _actions(HomeViewModel viewModel) {
+  _actions(BuildContext context, HomeViewModel viewModel) {
     return Scaffold(
+      appBar: _appBar(viewModel.title),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              height: 122,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [AppColors.blue, AppColors.purple],
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.only(left: Margins.medium, top: 68),
-                child: Text("Vos actions", style: TextStyles.h3Semi),
-              ),
-            ),
             Container(
               color: Colors.white,
               width: double.infinity,
@@ -68,48 +58,36 @@ class HomePage extends StatelessWidget {
                 children: [
                   Padding(
                     padding: const EdgeInsets.all(Margins.medium),
-                    child: Text("Mes actions en cours", style: TextStyles.textLgSemi),
+                    child: Text("Mes actions en cours", style: TextStyles.textLgMedium),
                   ),
                   if (viewModel.withoutActionsTodo)
                     Padding(
                       padding: const EdgeInsets.only(left: Margins.medium, right: Margins.medium),
-                      child: Text("Vous n’avez pas encore d’actions en cours.", style: TextStyles.textSmRegular),
+                      child: Text("Tu n’as pas encore d’actions en cours.", style: TextStyles.textSmRegular()),
                     ),
                   for (final todoAction in viewModel.todoActions)
                     Padding(
-                      padding: EdgeInsets.only(
-                        left: Margins.medium,
-                        top: 4,
-                        right: Margins.medium,
-                        bottom: 4,
-                      ),
+                      padding: EdgeInsets.only(left: Margins.medium, top: 4, right: Margins.medium, bottom: 4),
                       child: ActionWidget(
                         action: todoAction,
                         onTap: () => viewModel.onTapTodoAction(todoAction.id),
-                        borderColor: AppColors.borderGrey,
                       ),
                     ),
                   Padding(
                     padding: const EdgeInsets.all(Margins.medium),
-                    child: Text("Mes actions terminées", style: TextStyles.textLgSemi),
+                    child: Text("Mes actions terminées", style: TextStyles.textLgMedium),
                   ),
                   if (viewModel.withoutActionsDone)
                     Padding(
                       padding: const EdgeInsets.only(left: Margins.medium, right: Margins.medium),
-                      child: Text("Vous n’avez pas encore d’actions terminées.", style: TextStyles.textSmRegular),
+                      child: Text("Tu n’as pas encore terminé d’actions.", style: TextStyles.textSmRegular()),
                     ),
                   for (final doneAction in viewModel.doneActions)
                     Padding(
-                      padding: EdgeInsets.only(
-                        left: Margins.medium,
-                        top: 4,
-                        right: Margins.medium,
-                        bottom: 4,
-                      ),
+                      padding: EdgeInsets.only(left: Margins.medium, top: 4, right: Margins.medium, bottom: 4),
                       child: ActionWidget(
                         action: doneAction,
                         onTap: () => viewModel.onTapDoneAction(doneAction.id),
-                        borderColor: AppColors.nightBlue,
                       ),
                     ),
                 ],
@@ -118,6 +96,21 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.bluePurple,
+        child: SvgPicture.asset("assets/ic_envelope.svg"),
+        onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ChatPage())),
+      ),
+    );
+  }
+
+  _appBar(String title) {
+    return AppBar(
+      iconTheme: IconThemeData(color: AppColors.nightBlue),
+      toolbarHeight: Dimens.appBarHeight,
+      backgroundColor: Colors.white,
+      elevation: 2,
+      title: Text(title, style: TextStyles.h3Semi),
     );
   }
 }

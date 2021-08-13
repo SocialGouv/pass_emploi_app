@@ -28,9 +28,19 @@ class TextStyles {
     letterSpacing: -0.3,
   );
 
-  static final textSmRegular = GoogleFonts.rubik(
-    color: Colors.black,
-    fontSize: FontSizes.normal,
-    fontWeight: FontWeight.w400,
-  );
+  static textSmRegular({Color color = AppColors.nightBlue}) {
+    return GoogleFonts.rubik(
+      color: color,
+      fontSize: FontSizes.normal,
+      fontWeight: FontWeight.w400,
+    );
+  }
+
+  static textXsRegular({Color color = AppColors.nightBlue}) {
+    return GoogleFonts.rubik(
+      color: color,
+      fontSize: FontSizes.small,
+      fontWeight: FontWeight.w400,
+    );
+  }
 }

@@ -18,5 +18,9 @@ void main() {
     expect(action.id, 8802034);
     expect(action.isDone, true);
     expect(action.lastUpdate, DateTime(2021, 7, 30, 9, 43, 9));
+    final conseiller = home.conseiller;
+    expect(conseiller.id, "1");
+    expect(conseiller.firstName, "Nils");
+    expect(conseiller.lastName, "Tavernier");
   });
 }
