@@ -1,3 +1,3 @@
 class Margins {
-  static const double medium = 24;
+  static const double medium = 16;
 }
