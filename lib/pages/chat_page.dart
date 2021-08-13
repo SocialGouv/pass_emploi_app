@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/presentation/chat_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/chat_message_widget.dart';
 
@@ -38,14 +39,14 @@ class _ChatPageState extends State<ChatPage> {
 
   _body(BuildContext context, ChatViewModel viewModel) {
     if (viewModel.withContent) return _chat(context, viewModel);
-    return Scaffold(); // TODO How could we refresh subscription ?
+    return Scaffold(); // TODO How could we refresh subscription?
   }
 
   _chat(BuildContext context, ChatViewModel viewModel) {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: AppColors.nightBlue),
-        toolbarHeight: 93,
+        toolbarHeight: Dimens.appBarHeight,
         backgroundColor: Colors.white,
         elevation: 2,
         title: Text(viewModel.title, style: TextStyles.h3Semi),
