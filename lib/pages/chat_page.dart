@@ -37,9 +37,8 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   _body(BuildContext context, ChatViewModel viewModel) {
-    if (viewModel.withLoading) return Scaffold(); // TODO
     if (viewModel.withContent) return _chat(context, viewModel);
-    return Scaffold(); // TODO
+    return Scaffold(); // TODO How could we refresh subscription ?
   }
 
   _chat(BuildContext context, ChatViewModel viewModel) {
@@ -78,7 +77,7 @@ class _ChatPageState extends State<ChatPage> {
             alignment: Alignment.bottomCenter,
             child: Container(
               color: Colors.white,
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.all(16),
               child: Row(
                 children: [
                   Flexible(
