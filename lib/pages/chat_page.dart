@@ -44,6 +44,13 @@ class _ChatPageState extends State<ChatPage> {
 
   _chat(BuildContext context, ChatViewModel viewModel) {
     return Scaffold(
+      appBar: AppBar(
+        iconTheme: IconThemeData(color: AppColors.nightBlue),
+        toolbarHeight: 93,
+        backgroundColor: Colors.white,
+        elevation: 2,
+        title: Text(viewModel.title, style: TextStyles.h3Semi),
+      ),
       body: Stack(
         children: [
           Container(

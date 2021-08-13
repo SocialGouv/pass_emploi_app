@@ -3,12 +3,14 @@ import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_state.dart';
+import 'package:pass_emploi_app/redux/states/home_state.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
 
 import 'chat_item.dart';
 
 class ChatViewModel {
+  final String title;
   final bool withLoading;
   final bool withFailure;
   final bool withContent;
@@ -16,6 +18,7 @@ class ChatViewModel {
   final Function(String message) onSendMessage;
 
   ChatViewModel({
+    required this.title,
     required this.withLoading,
     required this.withFailure,
     required this.withContent,
@@ -24,12 +27,15 @@ class ChatViewModel {
   });
 
   factory ChatViewModel.create(Store<AppState> store) {
-    final state = store.state.chatState;
+    final chatState = store.state.chatState;
+    final homeState = store.state.homeState;
     return ChatViewModel(
-      withLoading: state is ChatLoadingState,
-      withFailure: state is ChatFailureState,
-      withContent: state is ChatSuccessState,
-      items: state is ChatSuccessState ? _messagesToChatItems(state.messages) : [],
+      title:
+          homeState is HomeSuccessState ? "Discuter avec ${homeState.home.conseiller.firstName}" : "Votre conseiller",
+      withLoading: chatState is ChatLoadingState,
+      withFailure: chatState is ChatFailureState,
+      withContent: chatState is ChatSuccessState,
+      items: chatState is ChatSuccessState ? _messagesToChatItems(chatState.messages) : [],
       onSendMessage: (String message) => store.dispatch(SendMessageAction(message)),
     );
   }
