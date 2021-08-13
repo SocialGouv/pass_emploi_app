@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/loader_page.dart';
 import 'package:pass_emploi_app/presentation/home_view_model.dart';
@@ -120,13 +121,9 @@ class HomePage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => ChatPage()),
-          );
-        },
-        child: Text(viewModel.messagesCount.toString()),
+        backgroundColor: AppColors.bluePurple,
+        child: SvgPicture.asset("assets/ic_envelope.svg"),
+        onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ChatPage())),
       ),
     );
   }
