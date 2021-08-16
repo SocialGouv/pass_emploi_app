@@ -85,6 +85,7 @@ class _ChatPageState extends State<ChatPage> {
                     child: TextField(
                       controller: _controller,
                       keyboardType: TextInputType.multiline,
+                      textCapitalization: TextCapitalization.sentences,
                       maxLines: null,
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.only(left: 16, right: 16, top: 13, bottom: 13),
