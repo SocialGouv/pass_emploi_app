@@ -1,7 +1,7 @@
 import 'package:intl/intl.dart';
 
 class UserAction {
-  final int id;
+  final String id;
   final String content;
   final bool isDone;
   final DateTime lastUpdate;
@@ -15,7 +15,7 @@ class UserAction {
 
   factory UserAction.fromJson(dynamic json) {
     return UserAction(
-        id: json['id'] as int,
+        id: json['id'] as String,
         content: json['content'] as String,
         isDone: json['isDone'] as bool,
         lastUpdate: extractDateTime(json['lastUpdate']));

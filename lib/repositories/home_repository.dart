@@ -21,7 +21,7 @@ class HomeRepository {
   }
 
   //TODO Change put to PATCH
-  void updateActionStatus(int actionId, bool newIsDoneValue) {
+  void updateActionStatus(String actionId, bool newIsDoneValue) {
     var url = Uri.parse(baseUrl + "/actions/$actionId");
     try {
       http.put(
