@@ -12,8 +12,8 @@ class HomeViewModel {
   final bool withoutActionsDone;
   final List<UserAction> todoActions;
   final List<UserAction> doneActions;
-  final Function(int actionId) onTapTodoAction;
-  final Function(int actionId) onTapDoneAction;
+  final Function(String actionId) onTapTodoAction;
+  final Function(String actionId) onTapDoneAction;
   final Function() onRetry;
 
   HomeViewModel({
@@ -42,8 +42,10 @@ class HomeViewModel {
       withoutActionsDone: doneActions.isEmpty,
       todoActions: todoActions..sort((a1, a2) => a2.lastUpdate.compareTo(a1.lastUpdate)),
       doneActions: doneActions..sort((a1, a2) => a2.lastUpdate.compareTo(a1.lastUpdate)),
-      onTapTodoAction: (int actionId) => store.dispatch(UpdateActionStatus(actionId: actionId, newIsDoneValue: true)),
-      onTapDoneAction: (int actionId) => store.dispatch(UpdateActionStatus(actionId: actionId, newIsDoneValue: false)),
+      onTapTodoAction: (String actionId) =>
+          store.dispatch(UpdateActionStatus(actionId: actionId, newIsDoneValue: true)),
+      onTapDoneAction: (String actionId) =>
+          store.dispatch(UpdateActionStatus(actionId: actionId, newIsDoneValue: false)),
       onRetry: () => store.dispatch(BootstrapAction()),
     );
   }
