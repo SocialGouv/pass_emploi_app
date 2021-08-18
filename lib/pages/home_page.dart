@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/loader_page.dart';
 import 'package:pass_emploi_app/presentation/home_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
@@ -15,12 +14,15 @@ import 'package:pass_emploi_app/widgets/action_widget.dart';
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var storeConnector = StoreConnector<AppState, HomeViewModel>(
+    return StoreConnector<AppState, HomeViewModel>(
       converter: (store) => HomeViewModel.create(store),
-      builder: (context, viewModel) => _body(context, viewModel),
+      builder: (context, viewModel) {
+        return AnimatedSwitcher(
+          duration: Duration(milliseconds: 200),
+          child: _body(context, viewModel),
+        );
+      },
     );
-    StoreProvider.of<AppState>(context).dispatch(BootstrapAction());
-    return storeConnector;
   }
 
   _body(BuildContext context, HomeViewModel viewModel) {

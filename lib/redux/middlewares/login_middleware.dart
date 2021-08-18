@@ -1,4 +1,3 @@
-import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -13,22 +12,18 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
   @override
   call(Store<AppState> store, action, NextDispatcher next) async {
     if (action is BootstrapAction) {
-      _logUser(next);
+      _checkIfUserIsLoggedIn(next);
     } else {
       next(action);
     }
   }
 
-  void _logUser(NextDispatcher next) async {
-    final userId = await repository.getUserId();
-    print("User ID = $userId");
-    if (userId != null) {
-      next(LoginCompletedAction(User(userId)));
-    } else {
-      final newUserId = _generateUserId();
-      repository.setUserId(newUserId);
-      next(LoginCompletedAction(User(newUserId)));
-    }
+  void _checkIfUserIsLoggedIn(NextDispatcher next) async {
+    final user = await repository.getUser();
+    next(user != null ? LoggedInAction(user) : NotLoggedInAction());
+    // final newUserId = _generateUserId();
+    // repository.setUserId(newUserId);
+    // next(LoggedInAction(User(newUserId)));
   }
 
   String _generateUserId() => DateTime.now().hashCode.toString();

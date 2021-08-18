@@ -15,7 +15,7 @@ class ApiMiddleware extends MiddlewareClass<AppState> {
   @override
   call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
-    if (action is LoginCompletedAction) {
+    if (action is LoggedInAction) {
       _getHome(action.user.id, next, store);
     } else if (action is UpdateActionStatus) {
       _homeRepository.updateActionStatus(action.actionId, action.newIsDoneValue);

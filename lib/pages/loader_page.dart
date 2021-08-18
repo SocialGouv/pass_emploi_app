@@ -43,29 +43,30 @@ class _LoaderPageState extends State<LoaderPage> with SingleTickerProviderStateM
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          child: Stack(
-            alignment: AlignmentDirectional.center,
-            children: [
-              Positioned(
-                top: widget._screenHeight / 4 - 36,
-                child: FadeTransition(
-                  opacity: _fadeAnimation,
-                  child: Text("Bienvenue sur", style: TextStyles.textLgMedium),
-                ),
+        width: double.infinity,
+        height: double.infinity,
+        child: Stack(
+          alignment: AlignmentDirectional.center,
+          children: [
+            Positioned(
+              top: widget._screenHeight / 4 - 36,
+              child: FadeTransition(
+                opacity: _fadeAnimation,
+                child: Text("Bienvenue sur", style: TextStyles.textLgMedium),
               ),
-              AnimatedLogo(animation: _logoAnimation),
-              FadeTransition(opacity: _fadeAnimation, child: CircularProgressIndicator(color: AppColors.nightBlue)),
-            ],
-          ),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [AppColors.blue, AppColors.purple],
             ),
-          )),
+            AnimatedLogo(animation: _logoAnimation),
+            FadeTransition(opacity: _fadeAnimation, child: CircularProgressIndicator(color: AppColors.nightBlue)),
+          ],
+        ),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [AppColors.blue, AppColors.purple],
+          ),
+        ),
+      ),
     );
   }
 }

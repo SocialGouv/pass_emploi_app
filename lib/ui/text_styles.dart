@@ -28,6 +28,21 @@ class TextStyles {
     letterSpacing: -0.3,
   );
 
+  static final textMdMedium = GoogleFonts.rubik(
+    color: AppColors.nightBlue,
+    fontSize: FontSizes.medium,
+    fontWeight: FontWeight.w500,
+    letterSpacing: -0.3,
+  );
+
+  static textSmMedium({Color color = AppColors.nightBlue}) {
+    return GoogleFonts.rubik(
+      color: color,
+      fontSize: FontSizes.normal,
+      fontWeight: FontWeight.w500,
+    );
+  }
+
   static textSmRegular({Color color = AppColors.nightBlue}) {
     return GoogleFonts.rubik(
       color: color,

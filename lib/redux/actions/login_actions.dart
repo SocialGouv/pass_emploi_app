@@ -1,7 +1,11 @@
 import 'package:pass_emploi_app/models/user.dart';
 
-class LoginCompletedAction {
+abstract class LoginAction {}
+
+class LoggedInAction extends LoginAction {
   final User user;
 
-  LoginCompletedAction(this.user);
+  LoggedInAction(this.user);
 }
+
+class NotLoggedInAction extends LoginAction {}
