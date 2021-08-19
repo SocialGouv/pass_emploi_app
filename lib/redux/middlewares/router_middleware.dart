@@ -16,11 +16,18 @@ class RouterMiddleware extends MiddlewareClass<AppState> {
       _checkIfUserIsLoggedIn(store);
     } else if (action is LoggedInAction) {
       store.dispatch(RequestHomeAction(action.user.id));
+    } else if (action is LogoutAction) {
+      _logout(store);
     }
   }
 
-  void _checkIfUserIsLoggedIn(Store<AppState> store) async {
+  _checkIfUserIsLoggedIn(Store<AppState> store) async {
     final user = await repository.getUser();
     store.dispatch(user != null ? LoggedInAction(user) : NotLoggedInAction());
+  }
+
+  _logout(Store<AppState> store) async {
+    await repository.deleteUser();
+    store.dispatch(BootstrapAction());
   }
 }

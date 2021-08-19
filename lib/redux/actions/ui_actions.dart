@@ -2,6 +2,8 @@ abstract class UiAction {}
 
 class BootstrapAction extends UiAction {}
 
+class LogoutAction extends UiAction {}
+
 class UpdateActionStatus extends UiAction {
   final String actionId;
   final bool newIsDoneValue;

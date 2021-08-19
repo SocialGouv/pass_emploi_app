@@ -24,6 +24,11 @@ class UserRepository {
     prefs.setString(USER_KEY, customJsonEncode(user.toJson()));
   }
 
+  Future<void> deleteUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove(USER_KEY);
+  }
+
   Future<User?> logUser(String firstName, String lastName) async {
     final user = User(id: _generateUserId(), firstName: firstName, lastName: lastName);
     var url = Uri.parse(baseUrl + "/jeunes");

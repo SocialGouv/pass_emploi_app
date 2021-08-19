@@ -39,7 +39,14 @@ class HomePage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text("Erreur lors de la récupérations des actions"),
-            TextButton(onPressed: () => viewModel.onRetry(), child: Text("Réessayer", style: TextStyles.textLgMedium)),
+            TextButton(
+              onPressed: () => viewModel.onRetry(),
+              child: Text("Réessayer", style: TextStyles.textLgMedium),
+            ),
+            TextButton(
+              onPressed: () => viewModel.onLogout(),
+              child: Text("Me reconnecter", style: TextStyles.textLgMedium),
+            ),
           ],
         ),
       ),

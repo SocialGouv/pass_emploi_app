@@ -138,29 +138,18 @@ class _LoginPageState extends State<LoginPage> {
                                     ),
                                   ),
                                 ),
+                                if (viewModel.withFailure)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 16),
+                                    child: Text(
+                                      "Erreur lors de la connexion",
+                                      style: TextStyles.textSmMedium(color: AppColors.errorRed),
+                                    ),
+                                  ),
                                 SizedBox(height: 16),
                                 Padding(
                                   padding: const EdgeInsets.only(left: Margins.medium, right: Margins.medium),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(78),
-                                    child: Material(
-                                      child: InkWell(
-                                        onTap: () {
-                                          if (_formKey.currentState!.validate()) {
-                                            viewModel.onLoginAction(_firstName!, _lastName!);
-                                          }
-                                        },
-                                        child: Container(
-                                          height: 56,
-                                          child: Center(
-                                            child: Text('Se connecter',
-                                                style: TextStyles.textSmMedium(color: Colors.white)),
-                                          ),
-                                        ),
-                                      ),
-                                      color: AppColors.nightBlue,
-                                    ),
-                                  ),
+                                  child: viewModel.withLoading ? _loginButtonLoading() : _loginButton(viewModel),
                                 ),
                                 SizedBox(height: 16),
                               ],
@@ -173,6 +162,53 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  ClipRRect _loginButton(LoginViewModel viewModel) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(78),
+      child: Material(
+        child: InkWell(
+          onTap: () {
+            if (_formKey.currentState!.validate()) {
+              viewModel.onLoginAction(_firstName!, _lastName!);
+            }
+          },
+          child: Container(
+            height: 56,
+            child: Center(
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('Se connecter', style: TextStyles.textSmMedium(color: Colors.white)),
+                ],
+              ),
+            ),
+          ),
+        ),
+        color: AppColors.nightBlue,
+      ),
+    );
+  }
+
+  ClipRRect _loginButtonLoading() {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(78),
+      child: Container(
+        height: 56,
+        color: AppColors.bluePurple,
+        child: Center(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text('Se connecter', style: TextStyles.textSmMedium(color: Colors.white)),
+              SizedBox(width: 8),
+              Container(height: 16, width: 16, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 1))
+            ],
           ),
         ),
       ),
