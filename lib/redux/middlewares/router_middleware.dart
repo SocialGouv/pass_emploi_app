@@ -4,27 +4,23 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
 
-class LoginMiddleware extends MiddlewareClass<AppState> {
+class RouterMiddleware extends MiddlewareClass<AppState> {
   final UserRepository repository;
 
-  LoginMiddleware(this.repository);
+  RouterMiddleware(this.repository);
 
   @override
   call(Store<AppState> store, action, NextDispatcher next) async {
+    next(action);
     if (action is BootstrapAction) {
-      _checkIfUserIsLoggedIn(next);
-    } else {
-      next(action);
+      _checkIfUserIsLoggedIn(store);
+    } else if (action is LoggedInAction) {
+      store.dispatch(RequestHomeAction(action.user.id));
     }
   }
 
-  void _checkIfUserIsLoggedIn(NextDispatcher next) async {
+  void _checkIfUserIsLoggedIn(Store<AppState> store) async {
     final user = await repository.getUser();
-    next(user != null ? LoggedInAction(user) : NotLoggedInAction());
-    // final newUserId = _generateUserId();
-    // repository.setUserId(newUserId);
-    // next(LoggedInAction(User(newUserId)));
+    store.dispatch(user != null ? LoggedInAction(user) : NotLoggedInAction());
   }
-
-  String _generateUserId() => DateTime.now().hashCode.toString();
 }

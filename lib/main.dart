@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/pass_emploi_app.dart';
 import 'package:pass_emploi_app/redux/middlewares/animation_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/api_middleware.dart';
-import 'package:pass_emploi_app/redux/middlewares/login_middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/router_middleware.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
@@ -46,12 +46,13 @@ _baseUrl() {
 }
 
 Store<AppState> _initializeReduxStore(String baseUrl) {
+  var userRepository = UserRepository(baseUrl);
   return Store<AppState>(
     reducer,
     initialState: AppState.initialState(),
     middleware: [
-      LoginMiddleware(UserRepository()),
-      ApiMiddleware(HomeRepository(baseUrl), ChatRepository()),
+      RouterMiddleware(userRepository),
+      ApiMiddleware(userRepository, HomeRepository(baseUrl), ChatRepository()),
       AnimationMiddleware(),
     ],
   );

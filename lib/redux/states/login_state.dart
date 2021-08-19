@@ -7,6 +7,10 @@ abstract class LoginState {
 
   factory LoginState.notLoggedIn() = NotLoggedInState;
 
+  factory LoginState.loading(String firstName, String lastName) = LoginLoadingState;
+
+  factory LoginState.failure(String firstName, String lastName) = LoginFailureState;
+
   factory LoginState.notInitialized() = LoginNotInitializedState;
 }
 
@@ -18,6 +22,20 @@ class LoggedInState extends LoginState {
 
 class NotLoggedInState extends LoginState {
   NotLoggedInState() : super._();
+}
+
+class LoginLoadingState extends LoginState {
+  final String firstName;
+  final String lastName;
+
+  LoginLoadingState(this.firstName, this.lastName) : super._();
+}
+
+class LoginFailureState extends LoginState {
+  final String firstName;
+  final String lastName;
+
+  LoginFailureState(this.firstName, this.lastName) : super._();
 }
 
 class LoginNotInitializedState extends LoginState {

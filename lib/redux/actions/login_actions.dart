@@ -9,3 +9,17 @@ class LoggedInAction extends LoginAction {
 }
 
 class NotLoggedInAction extends LoginAction {}
+
+class LoginLoadingAction extends LoginAction {
+  final String firstName;
+  final String lastName;
+
+  LoginLoadingAction(this.firstName, this.lastName);
+}
+
+class LoginFailureAction extends LoginAction {
+  final String firstName;
+  final String lastName;
+
+  LoginFailureAction(this.firstName, this.lastName);
+}

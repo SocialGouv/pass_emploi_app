@@ -14,3 +14,16 @@ class SendMessageAction extends UiAction {
 
   SendMessageAction(this.message);
 }
+
+class RequestLoginAction extends UiAction {
+  final String firstName;
+  final String lastName;
+
+  RequestLoginAction(this.firstName, this.lastName);
+}
+
+class RequestHomeAction extends UiAction {
+  final String userId;
+
+  RequestHomeAction(this.userId);
+}

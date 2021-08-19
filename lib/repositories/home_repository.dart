@@ -20,12 +20,12 @@ class HomeRepository {
     }
   }
 
-  //TODO Change put to PATCH
   void updateActionStatus(String actionId, bool newIsDoneValue) {
     var url = Uri.parse(baseUrl + "/actions/$actionId");
     try {
-      http.put(
+      http.patch(
         url,
+        headers: {'Content-Type': 'application/json'},
         body: customJsonEncode(PatchUserActionRequest(isDone: newIsDoneValue)),
       );
     } catch (e) {
