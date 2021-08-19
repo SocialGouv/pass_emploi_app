@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/loader_page.dart';
 import 'package:pass_emploi_app/presentation/home_view_model.dart';
+import 'package:pass_emploi_app/presentation/user_action_item.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
@@ -56,53 +57,11 @@ class HomePage extends StatelessWidget {
   _actions(BuildContext context, HomeViewModel viewModel) {
     return Scaffold(
       appBar: _appBar(viewModel.title),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              color: Colors.white,
-              width: double.infinity,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(Margins.medium),
-                    child: Text("Mes actions en cours", style: TextStyles.textLgMedium),
-                  ),
-                  if (viewModel.withoutActionsTodo)
-                    Padding(
-                      padding: const EdgeInsets.only(left: Margins.medium, right: Margins.medium),
-                      child: Text("Tu n’as pas encore d’actions en cours.", style: TextStyles.textSmRegular()),
-                    ),
-                  for (final todoAction in viewModel.todoActions)
-                    Padding(
-                      padding: EdgeInsets.only(left: Margins.medium, top: 4, right: Margins.medium, bottom: 4),
-                      child: ActionWidget(
-                        action: todoAction,
-                        onTap: () => viewModel.onTapTodoAction(todoAction.id),
-                      ),
-                    ),
-                  Padding(
-                    padding: const EdgeInsets.all(Margins.medium),
-                    child: Text("Mes actions terminées", style: TextStyles.textLgMedium),
-                  ),
-                  if (viewModel.withoutActionsDone)
-                    Padding(
-                      padding: const EdgeInsets.only(left: Margins.medium, right: Margins.medium),
-                      child: Text("Tu n’as pas encore terminé d’actions.", style: TextStyles.textSmRegular()),
-                    ),
-                  for (final doneAction in viewModel.doneActions)
-                    Padding(
-                      padding: EdgeInsets.only(left: Margins.medium, top: 4, right: Margins.medium, bottom: 4),
-                      child: ActionWidget(
-                        action: doneAction,
-                        onTap: () => viewModel.onTapDoneAction(doneAction.id),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-          ],
+      body: Container(
+        color: Colors.white,
+        child: ListView(
+          padding: const EdgeInsets.only(left: Margins.medium, right: Margins.medium),
+          children: viewModel.userActionItems.map((item) => _listItem(item, viewModel)).toList(),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -111,6 +70,37 @@ class HomePage extends StatelessWidget {
         onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ChatPage())),
       ),
     );
+  }
+
+  Widget _listItem(UserActionItem item, HomeViewModel viewModel) {
+    if (item is SectionItem) {
+      return Padding(
+        padding: const EdgeInsets.only(top: Margins.medium, bottom: Margins.medium),
+        child: Text(item.title, style: TextStyles.textLgMedium),
+      );
+    } else if (item is MessageItem) {
+      return Padding(
+        padding: const EdgeInsets.only(top: Margins.medium, bottom: Margins.medium),
+        child: Text(item.message, style: TextStyles.textSmRegular()),
+      );
+    } else if (item is TodoActionItem) {
+      return Padding(
+        padding: EdgeInsets.only(top: 4, bottom: 4),
+        child: ActionWidget(
+          action: item.action,
+          onTap: () => viewModel.onTapTodoAction(item.action.id),
+        ),
+      );
+    } else if (item is DoneActionItem) {
+      return Padding(
+        padding: EdgeInsets.only(top: 4, bottom: 4),
+        child: ActionWidget(
+          action: item.action,
+          onTap: () => viewModel.onTapDoneAction(item.action.id),
+        ),
+      );
+    }
+    return Container();
   }
 
   _appBar(String title) {
