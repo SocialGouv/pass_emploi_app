@@ -3,17 +3,41 @@ import 'package:pass_emploi_app/models/user.dart';
 abstract class LoginState {
   LoginState._();
 
-  factory LoginState.loginCompleted(User user) = LoginCompleted;
+  factory LoginState.loggedIn(User user) = LoggedInState;
 
-  factory LoginState.notInitialized() = LoginNotInitialized;
+  factory LoginState.notLoggedIn() = NotLoggedInState;
+
+  factory LoginState.loading(String firstName, String lastName) = LoginLoadingState;
+
+  factory LoginState.failure(String firstName, String lastName) = LoginFailureState;
+
+  factory LoginState.notInitialized() = LoginNotInitializedState;
 }
 
-class LoginCompleted extends LoginState {
+class LoggedInState extends LoginState {
   final User user;
 
-  LoginCompleted(this.user) : super._();
+  LoggedInState(this.user) : super._();
 }
 
-class LoginNotInitialized extends LoginState {
-  LoginNotInitialized() : super._();
+class NotLoggedInState extends LoginState {
+  NotLoggedInState() : super._();
+}
+
+class LoginLoadingState extends LoginState {
+  final String firstName;
+  final String lastName;
+
+  LoginLoadingState(this.firstName, this.lastName) : super._();
+}
+
+class LoginFailureState extends LoginState {
+  final String firstName;
+  final String lastName;
+
+  LoginFailureState(this.firstName, this.lastName) : super._();
+}
+
+class LoginNotInitializedState extends LoginState {
+  LoginNotInitializedState() : super._();
 }

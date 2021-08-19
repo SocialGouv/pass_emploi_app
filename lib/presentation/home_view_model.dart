@@ -15,6 +15,7 @@ class HomeViewModel {
   final Function(String actionId) onTapTodoAction;
   final Function(String actionId) onTapDoneAction;
   final Function() onRetry;
+  final Function() onLogout;
 
   HomeViewModel({
     required this.title,
@@ -27,6 +28,7 @@ class HomeViewModel {
     required this.onTapTodoAction,
     required this.onTapDoneAction,
     required this.onRetry,
+    required this.onLogout,
   });
 
   factory HomeViewModel.create(Store<AppState> store) {
@@ -47,6 +49,7 @@ class HomeViewModel {
       onTapDoneAction: (String actionId) =>
           store.dispatch(UpdateActionStatus(actionId: actionId, newIsDoneValue: false)),
       onRetry: () => store.dispatch(BootstrapAction()),
+      onLogout: () => store.dispatch(LogoutAction()),
     );
   }
 }
