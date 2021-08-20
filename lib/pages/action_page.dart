@@ -3,7 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/loader_page.dart';
-import 'package:pass_emploi_app/presentation/home_view_model.dart';
+import 'package:pass_emploi_app/presentation/action_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_item.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -12,11 +12,11 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/action_widget.dart';
 
-class HomePage extends StatelessWidget {
+class ActionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, HomeViewModel>(
-      converter: (store) => HomeViewModel.create(store),
+    return StoreConnector<AppState, ActionViewModel>(
+      converter: (store) => ActionViewModel.create(store),
       builder: (context, viewModel) {
         return AnimatedSwitcher(
           duration: Duration(milliseconds: 200),
@@ -26,13 +26,13 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _body(BuildContext context, HomeViewModel viewModel) {
+  _body(BuildContext context, ActionViewModel viewModel) {
     if (viewModel.withLoading) return LoaderPage(screenHeight: MediaQuery.of(context).size.height);
     if (viewModel.withFailure) return _failure(viewModel);
     return _actions(context, viewModel);
   }
 
-  _failure(HomeViewModel viewModel) {
+  _failure(ActionViewModel viewModel) {
     return Scaffold(
       appBar: _appBar(viewModel.title),
       body: Center(
@@ -54,7 +54,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _actions(BuildContext context, HomeViewModel viewModel) {
+  _actions(BuildContext context, ActionViewModel viewModel) {
     return Scaffold(
       appBar: _appBar(viewModel.title),
       body: Container(
@@ -72,7 +72,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _listItem(UserActionItem item, HomeViewModel viewModel) {
+  Widget _listItem(UserActionItem item, ActionViewModel viewModel) {
     if (item is SectionItem) {
       return Padding(
         padding: const EdgeInsets.only(top: Margins.medium, bottom: Margins.medium),

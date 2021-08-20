@@ -7,12 +7,12 @@ import 'package:pass_emploi_app/presentation/chat_view_model.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_state.dart';
-import 'package:pass_emploi_app/redux/states/home_state.dart';
+import 'package:pass_emploi_app/redux/states/user_action_state.dart';
 import 'package:redux/redux.dart';
 
 void main() {
   test('ChatViewModel.create when home state is not success should set default title', () {
-    final state = AppState.initialState().copyWith(homeState: HomeState.failure());
+    final state = AppState.initialState().copyWith(userActionState: UserActionState.failure());
     final store = Store<AppState>(reducer, initialState: state);
 
     final viewModel = ChatViewModel.create(store);
@@ -22,7 +22,7 @@ void main() {
 
   test('ChatViewModel.create when home state is success should set conseiller first name as title', () {
     final home = Home(actions: [], conseiller: Conseiller(id: "1", firstName: "Nils", lastName: "Tavernier"));
-    final state = AppState.initialState().copyWith(homeState: HomeState.success(home));
+    final state = AppState.initialState().copyWith(userActionState: UserActionState.success(home));
     final store = Store<AppState>(reducer, initialState: state);
 
     final viewModel = ChatViewModel.create(store);

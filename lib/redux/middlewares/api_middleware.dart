@@ -1,15 +1,15 @@
-import 'package:pass_emploi_app/redux/actions/home_actions.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
+import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
-import 'package:pass_emploi_app/repositories/home_repository.dart';
+import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
 
 class ApiMiddleware extends MiddlewareClass<AppState> {
   final UserRepository _userRepository;
-  final HomeRepository _homeRepository;
+  final UserActionRepository _homeRepository;
   final ChatRepository _chatRepository;
 
   ApiMiddleware(this._userRepository, this._homeRepository, this._chatRepository);
@@ -40,9 +40,9 @@ class ApiMiddleware extends MiddlewareClass<AppState> {
   }
 
   _getHome(Store<AppState> store, String userId) async {
-    store.dispatch(HomeLoadingAction());
+    store.dispatch(UserActionLoadingAction());
     final home = await _homeRepository.getHome(userId);
-    store.dispatch(home != null ? HomeSuccessAction(home) : HomeFailureAction());
+    store.dispatch(home != null ? UserActionSuccessAction(home) : UserActionFailureAction());
     _chatRepository.subscribeToMessages(userId, store);
   }
 }

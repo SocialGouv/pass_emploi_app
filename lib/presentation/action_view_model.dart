@@ -2,10 +2,10 @@ import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/user_action_item.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/home_state.dart';
+import 'package:pass_emploi_app/redux/states/user_action_state.dart';
 import 'package:redux/redux.dart';
 
-class HomeViewModel {
+class ActionViewModel {
   final String title;
   final bool withLoading;
   final bool withFailure;
@@ -19,7 +19,7 @@ class HomeViewModel {
   final Function() onRetry;
   final Function() onLogout;
 
-  HomeViewModel({
+  ActionViewModel({
     required this.title,
     required this.withLoading,
     required this.withFailure,
@@ -34,15 +34,15 @@ class HomeViewModel {
     required this.onLogout,
   });
 
-  factory HomeViewModel.create(Store<AppState> store) {
-    final homeState = store.state.homeState;
-    final List<UserAction> actions = homeState is HomeSuccessState ? homeState.home.actions : [];
+  factory ActionViewModel.create(Store<AppState> store) {
+    final userActionState = store.state.userActionState;
+    final List<UserAction> actions = userActionState is UserActionSuccessState ? userActionState.home.actions : [];
     final List<UserAction> todoActions = actions.where((action) => !action.isDone).toList();
     final List<UserAction> doneActions = actions.where((action) => action.isDone).toList();
-    return HomeViewModel(
+    return ActionViewModel(
       title: "Mes actions${todoActions.isNotEmpty ? " (${todoActions.length})" : ""}",
-      withLoading: homeState is HomeLoadingState || homeState is HomeNotInitializedState,
-      withFailure: homeState is HomeFailureState,
+      withLoading: userActionState is UserActionLoadingState || userActionState is UserActionNotInitializedState,
+      withFailure: userActionState is UserActionFailureState,
       withoutActionsTodo: todoActions.isEmpty,
       withoutActionsDone: doneActions.isEmpty,
       todoActions: todoActions..sort((a1, a2) => a2.lastUpdate.compareTo(a1.lastUpdate)),

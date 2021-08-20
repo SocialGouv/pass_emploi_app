@@ -3,7 +3,7 @@ import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_state.dart';
-import 'package:pass_emploi_app/redux/states/home_state.dart';
+import 'package:pass_emploi_app/redux/states/user_action_state.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
 
@@ -28,10 +28,11 @@ class ChatViewModel {
 
   factory ChatViewModel.create(Store<AppState> store) {
     final chatState = store.state.chatState;
-    final homeState = store.state.homeState;
+    final userActionState = store.state.userActionState;
     return ChatViewModel(
-      title:
-          homeState is HomeSuccessState ? "Discuter avec ${homeState.home.conseiller.firstName}" : "Votre conseiller",
+      title: userActionState is UserActionSuccessState
+          ? "Discuter avec ${userActionState.home.conseiller.firstName}"
+          : "Votre conseiller",
       withLoading: chatState is ChatLoadingState,
       withFailure: chatState is ChatFailureState,
       withContent: chatState is ChatSuccessState,
