@@ -60,15 +60,15 @@ class ActionViewModel {
 
 _userActionItems(List<UserAction> todoActions, List<UserAction> doneActions) {
   final userActionItems = <UserActionItem>[];
-  userActionItems.add(SectionItem("Mes actions en cours"));
-  if (todoActions.isEmpty) userActionItems.add(MessageItem("Tu n’as pas encore d’actions en cours."));
+  userActionItems.add(UserActionItem.section("Mes actions en cours"));
+  if (todoActions.isEmpty) userActionItems.add(UserActionItem.message("Tu n’as pas encore d’actions en cours."));
   for (final action in todoActions) {
-    userActionItems.add(TodoActionItem(action));
+    userActionItems.add(UserActionItem.todoAction(action));
   }
-  userActionItems.add(SectionItem("Mes actions terminées"));
-  if (doneActions.isEmpty) userActionItems.add(MessageItem("Tu n’as pas encore terminé d’actions."));
+  userActionItems.add(UserActionItem.section("Mes actions terminées"));
+  if (doneActions.isEmpty) userActionItems.add(UserActionItem.message("Tu n’as pas encore terminé d’actions."));
   for (final action in doneActions) {
-    userActionItems.add(DoneActionItem(action));
+    userActionItems.add(UserActionItem.doneAction(action));
   }
   return userActionItems;
 }

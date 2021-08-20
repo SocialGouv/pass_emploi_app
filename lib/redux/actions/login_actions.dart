@@ -1,5 +1,6 @@
 import 'package:pass_emploi_app/models/user.dart';
 
+// TODO Use factory
 abstract class LoginAction {}
 
 class LoggedInAction extends LoginAction {

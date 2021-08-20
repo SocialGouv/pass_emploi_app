@@ -1,18 +1,21 @@
+import 'package:pass_emploi_app/redux/actions/home_actions.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/repositories/home_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
 
 class ApiMiddleware extends MiddlewareClass<AppState> {
   final UserRepository _userRepository;
-  final UserActionRepository _homeRepository;
+  final HomeRepository _homeRepository;
+  final UserActionRepository _userActionRepository;
   final ChatRepository _chatRepository;
 
-  ApiMiddleware(this._userRepository, this._homeRepository, this._chatRepository);
+  ApiMiddleware(this._userRepository, this._homeRepository, this._userActionRepository, this._chatRepository);
 
   @override
   call(Store<AppState> store, action, NextDispatcher next) async {
@@ -22,7 +25,7 @@ class ApiMiddleware extends MiddlewareClass<AppState> {
     } else if (action is RequestHomeAction) {
       _getHome(store, action.userId);
     } else if (action is UpdateActionStatus) {
-      _homeRepository.updateActionStatus(action.actionId, action.newIsDoneValue);
+      _userActionRepository.updateActionStatus(action.actionId, action.newIsDoneValue);
     } else if (action is SendMessageAction) {
       _chatRepository.sendMessage(action.message);
     }
@@ -40,9 +43,16 @@ class ApiMiddleware extends MiddlewareClass<AppState> {
   }
 
   _getHome(Store<AppState> store, String userId) async {
-    store.dispatch(UserActionLoadingAction());
+    store.dispatch(HomeAction.loading());
     final home = await _homeRepository.getHome(userId);
-    store.dispatch(home != null ? UserActionSuccessAction(home) : UserActionFailureAction());
+    store.dispatch(home != null ? HomeAction.success(home) : HomeAction.failure());
     _chatRepository.subscribeToMessages(userId, store);
+  }
+
+  _getActions(Store<AppState> store, String userId) async {
+    store.dispatch(UserActionLoadingAction());
+    final home = await _userActionRepository.getHome(userId);
+    store.dispatch(home != null ? UserActionSuccessAction(home) : UserActionFailureAction());
+    _chatRepository.subscribeToMessages(userId, store); // TODO Remove
   }
 }
