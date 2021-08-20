@@ -19,7 +19,14 @@ AppState uiActionReducer(AppState currentState, dynamic action) {
       final newActions = List<UserAction>.from(home.actions).where((a) => a.id != action.actionId).toList()
         ..add(updatedAction);
       return currentState.copyWith(
-          userActionState: UserActionState.success(Home(actions: newActions, conseiller: home.conseiller)));
+        userActionState: UserActionState.success(
+          Home(
+            conseiller: home.conseiller,
+            actions: newActions,
+            rendezvous: home.rendezvous,
+          ),
+        ),
+      );
     } else {
       return currentState;
     }

@@ -40,5 +40,21 @@
     "firstName": "Nils",
     "id": "1",
     "lastName": "Tavernier"
-  }
+  },
+  "rendezvous": [
+    {
+      "comment": "Préparation aux entretiens",
+      "date": "Mon, 23 Dec 2022 00:00:00 GMT",
+      "duration": "1:00:00",
+      "id": "8230054",
+      "modality": "Par tel"
+    },
+    {
+      "comment": "Suivi des démarches pro",
+      "date": "Mon, 24 Dec 2022 00:00:00 GMT",
+      "duration": "1:00:00",
+      "id": "722180",
+      "modality": "Par tel"
+    }
+  ]
 }

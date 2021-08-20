@@ -12,15 +12,24 @@ void main() {
 
     final Home home = Home.fromJson(homeJson);
 
-    expect(home.actions.length, 5);
-    final action = home.actions.first;
-    expect(action.content, "Changer de prénom");
-    expect(action.id, "8802034");
-    expect(action.isDone, true);
-    expect(action.lastUpdate, DateTime(2021, 7, 30, 9, 43, 9));
     final conseiller = home.conseiller;
     expect(conseiller.id, "1");
     expect(conseiller.firstName, "Nils");
     expect(conseiller.lastName, "Tavernier");
+
+    expect(home.actions.length, 5);
+    final action = home.actions.first;
+    expect(action.id, "8802034");
+    expect(action.content, "Changer de prénom");
+    expect(action.isDone, true);
+    expect(action.lastUpdate, DateTime(2021, 7, 30, 9, 43, 9));
+
+    expect(home.rendezvous.length, 2);
+    final rendezvous = home.rendezvous.first;
+    expect(rendezvous.id, "8230054");
+    expect(rendezvous.date, DateTime(2022, 12, 23, 0, 0, 0));
+    expect(rendezvous.comment, "Préparation aux entretiens");
+    expect(rendezvous.duration, "1:00:00");
+    expect(rendezvous.modality, "Par tel");
   });
 }
