@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/post_user_action_request.dart';
+import 'package:pass_emploi_app/network/status_code.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserRepository {
@@ -38,7 +39,7 @@ class UserRepository {
         headers: {'Content-Type': 'application/json'},
         body: customJsonEncode(PostUserRequest(user: user)),
       );
-      if (response.statusCode == 201) return user;
+      if (response.statusCode.isValid()) return user;
     } catch (e) {
       print('Exception on ${url.toString()}: ' + e.toString());
     }
