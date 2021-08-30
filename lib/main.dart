@@ -36,12 +36,11 @@ main() async {
 
 _baseUrl() {
   // Must be declared as const https://github.com/flutter/flutter/issues/55870
-  const env = String.fromEnvironment('NGROK_SERVER_ID');
-  if (env.isEmpty && Platform.environment['FLUTTER_TEST'] == "false") {
-    throw ("A Ngrok server ID must be set in build arguments --dart-define=NGROK_SERVER_ID=<YOUR_SERVER_ID>."
+  const baseUrl = String.fromEnvironment('SERVER_BASE_URL');
+  if (baseUrl.isEmpty && Platform.environment['FLUTTER_TEST'] == "false") {
+    throw ("A server base URL must be set in build arguments --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL>."
         "For more details, please refer to the project README.md.");
   }
-  final baseUrl = "https://$env.ngrok.io";
   print("SERVER BASE URL = $baseUrl");
   return baseUrl;
 }
