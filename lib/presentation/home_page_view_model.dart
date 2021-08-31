@@ -15,7 +15,6 @@ class HomePageViewModel {
   final bool withLoading;
   final bool withFailure;
   final List<HomeItem> items;
-  final Function(String actionId) onTapAction;
   final Function() onRetry;
   final Function() onLogout;
 
@@ -24,7 +23,6 @@ class HomePageViewModel {
     required this.withLoading,
     required this.withFailure,
     required this.items,
-    required this.onTapAction,
     required this.onRetry,
     required this.onLogout,
   });
@@ -39,7 +37,6 @@ class HomePageViewModel {
       withLoading: homeState is HomeLoadingState || homeState is HomeNotInitializedState,
       withFailure: homeState is HomeFailureState,
       items: [..._actionItems(actions), ..._rendezvousItems(rendezvous)],
-      onTapAction: (String actionId) => store.dispatch(UpdateActionStatus(actionId: actionId, newIsDoneValue: true)),
       onRetry: () => store.dispatch(BootstrapAction()),
       onLogout: () => store.dispatch(LogoutAction()),
     );

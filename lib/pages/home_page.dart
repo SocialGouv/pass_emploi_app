@@ -3,9 +3,9 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/loader_page.dart';
+import 'package:pass_emploi_app/pages/user_action_page.dart';
+import 'package:pass_emploi_app/presentation/home_item.dart';
 import 'package:pass_emploi_app/presentation/home_page_view_model.dart';
-import 'package:pass_emploi_app/presentation/user_action_item.dart';
-import 'package:pass_emploi_app/presentation/user_action_page_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
@@ -40,7 +40,7 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text("Erreur lors de la récupérations des actions"),
+            Text("Erreur lors de la récupérations de votre dahboard"),
             TextButton(
               onPressed: () => viewModel.onRetry(),
               child: Text("Réessayer", style: TextStyles.textLgMedium),
@@ -60,7 +60,10 @@ class HomePage extends StatelessWidget {
       appBar: _appBar(viewModel.title),
       body: Container(
         color: Colors.white,
-        child: Text('COOL ;)'),
+        child: ListView(
+          padding: const EdgeInsets.only(left: Margins.medium, right: Margins.medium),
+          children: viewModel.items.map((item) => _listItem(context, item, viewModel)).toList(),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: AppColors.bluePurple,
@@ -70,7 +73,8 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _listItem(UserActionItem item, UserActionPageViewModel viewModel) {
+  // TODO : Add Buttons and Rendezvous
+  Widget _listItem(BuildContext context, HomeItem item, HomePageViewModel viewModel) {
     if (item is SectionItem) {
       return Padding(
         padding: const EdgeInsets.only(top: Margins.medium, bottom: Margins.medium),
@@ -81,20 +85,12 @@ class HomePage extends StatelessWidget {
         padding: const EdgeInsets.only(top: Margins.medium, bottom: Margins.medium),
         child: Text(item.message, style: TextStyles.textSmRegular()),
       );
-    } else if (item is TodoActionItem) {
+    } else if (item is ActionItem) {
       return Padding(
         padding: EdgeInsets.only(top: 4, bottom: 4),
         child: ActionWidget(
           action: item.action,
-          onTap: () => viewModel.onTapTodoAction(item.action.id),
-        ),
-      );
-    } else if (item is DoneActionItem) {
-      return Padding(
-        padding: EdgeInsets.only(top: 4, bottom: 4),
-        child: ActionWidget(
-          action: item.action,
-          onTap: () => viewModel.onTapDoneAction(item.action.id),
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => UserActionPage())),
         ),
       );
     }
