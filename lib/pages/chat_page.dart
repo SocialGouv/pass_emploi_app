@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
-import 'package:pass_emploi_app/presentation/chat_view_model.dart';
+import 'package:pass_emploi_app/presentation/chat_page_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
@@ -31,18 +31,18 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, ChatViewModel>(
-      converter: (store) => ChatViewModel.create(store),
+    return StoreConnector<AppState, ChatPageViewModel>(
+      converter: (store) => ChatPageViewModel.create(store),
       builder: (context, viewModel) => _body(context, viewModel),
     );
   }
 
-  _body(BuildContext context, ChatViewModel viewModel) {
+  _body(BuildContext context, ChatPageViewModel viewModel) {
     if (viewModel.withContent) return _chat(context, viewModel);
     return Scaffold(); // TODO How could we refresh subscription?
   }
 
-  _chat(BuildContext context, ChatViewModel viewModel) {
+  _chat(BuildContext context, ChatPageViewModel viewModel) {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: AppColors.nightBlue),

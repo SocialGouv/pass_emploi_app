@@ -28,6 +28,8 @@ void main() {
     final rendezvous = home.rendezvous.first;
     expect(rendezvous.id, "8230054");
     expect(rendezvous.date, DateTime(2022, 12, 23, 0, 0, 0));
+    expect(rendezvous.title, "Rendez-vous conseiller");
+    expect(rendezvous.subtitle, "Avec Nils");
     expect(rendezvous.comment, "Préparation aux entretiens");
     expect(rendezvous.duration, "1:00:00");
     expect(rendezvous.modality, "Par tel");

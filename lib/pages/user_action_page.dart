@@ -3,8 +3,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/loader_page.dart';
-import 'package:pass_emploi_app/presentation/action_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_item.dart';
+import 'package:pass_emploi_app/presentation/user_action_page_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
@@ -12,11 +12,11 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/action_widget.dart';
 
-class ActionPage extends StatelessWidget {
+class UserActionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, ActionViewModel>(
-      converter: (store) => ActionViewModel.create(store),
+    return StoreConnector<AppState, UserActionPageViewModel>(
+      converter: (store) => UserActionPageViewModel.create(store),
       builder: (context, viewModel) {
         return AnimatedSwitcher(
           duration: Duration(milliseconds: 200),
@@ -26,13 +26,13 @@ class ActionPage extends StatelessWidget {
     );
   }
 
-  _body(BuildContext context, ActionViewModel viewModel) {
+  _body(BuildContext context, UserActionPageViewModel viewModel) {
     if (viewModel.withLoading) return LoaderPage(screenHeight: MediaQuery.of(context).size.height);
     if (viewModel.withFailure) return _failure(viewModel);
     return _actions(context, viewModel);
   }
 
-  _failure(ActionViewModel viewModel) {
+  _failure(UserActionPageViewModel viewModel) {
     return Scaffold(
       appBar: _appBar(viewModel.title),
       body: Center(
@@ -54,14 +54,14 @@ class ActionPage extends StatelessWidget {
     );
   }
 
-  _actions(BuildContext context, ActionViewModel viewModel) {
+  _actions(BuildContext context, UserActionPageViewModel viewModel) {
     return Scaffold(
       appBar: _appBar(viewModel.title),
       body: Container(
         color: Colors.white,
         child: ListView(
           padding: const EdgeInsets.only(left: Margins.medium, right: Margins.medium),
-          children: viewModel.userActionItems.map((item) => _listItem(item, viewModel)).toList(),
+          children: viewModel.items.map((item) => _listItem(item, viewModel)).toList(),
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -72,7 +72,7 @@ class ActionPage extends StatelessWidget {
     );
   }
 
-  Widget _listItem(UserActionItem item, ActionViewModel viewModel) {
+  Widget _listItem(UserActionItem item, UserActionPageViewModel viewModel) {
     if (item is SectionItem) {
       return Padding(
         padding: const EdgeInsets.only(top: Margins.medium, bottom: Margins.medium),

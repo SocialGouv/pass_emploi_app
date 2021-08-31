@@ -43,6 +43,8 @@
   },
   "rendezvous": [
     {
+      "title": "Rendez-vous conseiller",
+      "subtitle": "Avec Nils",
       "comment": "Préparation aux entretiens",
       "date": "Mon, 23 Dec 2022 00:00:00 GMT",
       "duration": "1:00:00",
@@ -50,6 +52,8 @@
       "modality": "Par tel"
     },
     {
+      "title": "Rendez-vous conseiller",
+      "subtitle": "Avec Nils",
       "comment": "Suivi des démarches pro",
       "date": "Mon, 24 Dec 2022 00:00:00 GMT",
       "duration": "1:00:00",

@@ -9,7 +9,7 @@ import 'package:redux/redux.dart';
 
 import 'chat_item.dart';
 
-class ChatViewModel {
+class ChatPageViewModel {
   final String title;
   final bool withLoading;
   final bool withFailure;
@@ -17,7 +17,7 @@ class ChatViewModel {
   final List<ChatItem> items;
   final Function(String message) onSendMessage;
 
-  ChatViewModel({
+  ChatPageViewModel({
     required this.title,
     required this.withLoading,
     required this.withFailure,
@@ -26,10 +26,10 @@ class ChatViewModel {
     required this.onSendMessage,
   });
 
-  factory ChatViewModel.create(Store<AppState> store) {
+  factory ChatPageViewModel.create(Store<AppState> store) {
     final chatState = store.state.chatState;
     final userActionState = store.state.userActionState;
-    return ChatViewModel(
+    return ChatPageViewModel(
       title: userActionState is UserActionSuccessState
           ? "Discuter avec ${userActionState.home.conseiller.firstName}"
           : "Votre conseiller",

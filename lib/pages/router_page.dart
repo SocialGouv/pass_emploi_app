@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/pages/home_page.dart';
 import 'package:pass_emploi_app/pages/spash_screen_page.dart';
 import 'package:pass_emploi_app/presentation/login_page.dart';
 import 'package:pass_emploi_app/presentation/router_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-
-import 'action_page.dart';
 
 class RouterPage extends StatelessWidget {
   @override
@@ -22,6 +21,6 @@ class RouterPage extends StatelessWidget {
   Widget _body(RouterViewModel viewModel) {
     if (viewModel.withSplashScreen) return SplashScreenPage();
     if (viewModel.withLoginPage) return LoginPage();
-    return ActionPage();
+    return HomePage();
   }
 }
