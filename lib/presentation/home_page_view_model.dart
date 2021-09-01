@@ -29,15 +29,16 @@ class HomePageViewModel {
 
   factory HomePageViewModel.create(Store<AppState> store) {
     final loginState = store.state.loginState;
+    final user = loginState is LoggedInState ? loginState.user : null;
     final homeState = store.state.homeState;
     final List<UserAction> actions = homeState is HomeSuccessState ? homeState.home.actions : [];
     final List<Rendezvous> rendezvous = homeState is HomeSuccessState ? homeState.home.rendezvous : [];
     return HomePageViewModel(
-      title: "Bonjour" + (loginState is LoggedInState ? " " + loginState.user.firstName : ""),
+      title: "Bonjour" + (user != null ? " " + user.firstName : ""),
       withLoading: homeState is HomeLoadingState || homeState is HomeNotInitializedState,
       withFailure: homeState is HomeFailureState,
       items: [..._actionItems(actions), ..._rendezvousItems(rendezvous)],
-      onRetry: () => store.dispatch(BootstrapAction()),
+      onRetry: () => store.dispatch(user != null ? RequestHomeAction(user.id) : BootstrapAction()),
       onLogout: () => store.dispatch(LogoutAction()),
     );
   }

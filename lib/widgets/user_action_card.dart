@@ -14,6 +14,7 @@ class UserActionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
       child: InkWell(
         onTap: onTap,
         splashColor: AppColors.bluePurple,

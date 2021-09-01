@@ -13,6 +13,7 @@ class RendezvousCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
       child: Padding(
         padding: const EdgeInsets.all(Margins.medium),
         child: Column(

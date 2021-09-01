@@ -36,7 +36,7 @@ class HomePage extends StatelessWidget {
 
   _failure(HomePageViewModel viewModel) {
     return Scaffold(
-      appBar: _appBar(viewModel.title),
+      appBar: _appBar(viewModel.title, viewModel.onRetry),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -58,7 +58,7 @@ class HomePage extends StatelessWidget {
 
   _home(BuildContext context, HomePageViewModel viewModel) {
     return Scaffold(
-      appBar: _appBar(viewModel.title),
+      appBar: _appBar(viewModel.title, viewModel.onRetry),
       body: Container(
         color: Colors.white,
         child: ListView(
@@ -107,7 +107,7 @@ class HomePage extends StatelessWidget {
     return Container();
   }
 
-  _appBar(String title) {
+  _appBar(String title, Function() onRetry) {
     return AppBar(
       iconTheme: IconThemeData(color: AppColors.nightBlue),
       toolbarHeight: Dimens.appBarHeight,
@@ -123,8 +123,12 @@ class HomePage extends StatelessWidget {
       ),
       actions: [
         Padding(
-          padding: const EdgeInsets.all(16),
-          child: SvgPicture.asset("assets/ic_refresh.svg"),
+          padding: const EdgeInsets.only(right: 8.0),
+          child: IconButton(
+            onPressed: onRetry,
+            tooltip: "Rafraîchir",
+            icon: SvgPicture.asset("assets/ic_refresh.svg"),
+          ),
         ),
       ],
     );
