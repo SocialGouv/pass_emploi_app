@@ -14,6 +14,14 @@ class TextStyles {
     letterSpacing: -0.3,
   );
 
+  static chapoSemi({Color color = AppColors.nightBlue}) {
+    return GoogleFonts.rubik(
+      color: color,
+      fontSize: FontSizes.semi,
+      fontWeight: FontWeight.w500,
+    );
+  }
+
   static final textLgMedium = GoogleFonts.rubik(
     color: AppColors.nightBlue,
     fontSize: FontSizes.large,

@@ -1,4 +1,4 @@
-import 'package:intl/intl.dart';
+import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 class UserAction {
   final String id;
@@ -15,13 +15,10 @@ class UserAction {
 
   factory UserAction.fromJson(dynamic json) {
     return UserAction(
-        id: json['id'] as String,
-        content: json['content'] as String,
-        isDone: json['isDone'] as bool,
-        lastUpdate: extractDateTime(json['lastUpdate']));
+      id: json['id'] as String,
+      content: json['content'] as String,
+      isDone: json['isDone'] as bool,
+      lastUpdate: (json['lastUpdate'] as String).toDateTime(),
+    );
   }
-}
-
-DateTime extractDateTime(dynamic json) {
-  return DateFormat("EEE, d MMM yyyy HH:mm:ss z").parse(json as String);
 }

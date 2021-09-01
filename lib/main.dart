@@ -13,6 +13,7 @@ import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/home_repository.dart';
+import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
 
@@ -35,12 +36,11 @@ main() async {
 
 _baseUrl() {
   // Must be declared as const https://github.com/flutter/flutter/issues/55870
-  const env = String.fromEnvironment('NGROK_SERVER_ID');
-  if (env.isEmpty && Platform.environment['FLUTTER_TEST'] == "false") {
-    throw ("A Ngrok server ID must be set in build arguments --dart-define=NGROK_SERVER_ID=<YOUR_SERVER_ID>."
+  const baseUrl = String.fromEnvironment('SERVER_BASE_URL');
+  if (baseUrl.isEmpty && Platform.environment['FLUTTER_TEST'] == "false") {
+    throw ("A server base URL must be set in build arguments --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL>."
         "For more details, please refer to the project README.md.");
   }
-  final baseUrl = "https://$env.ngrok.io";
   print("SERVER BASE URL = $baseUrl");
   return baseUrl;
 }
@@ -52,7 +52,7 @@ Store<AppState> _initializeReduxStore(String baseUrl) {
     initialState: AppState.initialState(),
     middleware: [
       RouterMiddleware(userRepository),
-      ApiMiddleware(userRepository, HomeRepository(baseUrl), ChatRepository()),
+      ApiMiddleware(userRepository, HomeRepository(baseUrl), UserActionRepository(baseUrl), ChatRepository()),
       AnimationMiddleware(),
     ],
   );

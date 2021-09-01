@@ -3,42 +3,63 @@
     {
       "content": "Changer de prénom",
       "creationDate": "Fri, 30 Jul 2021 09:42:50 GMT",
-      "id": 8802034,
+      "id": "8802034",
       "isDone": true,
       "lastUpdate": "Fri, 30 Jul 2021 09:43:09 GMT"
     },
     {
       "content": "M'inscrire au permis de conduire",
       "creationDate": "Fri, 30 Jul 2021 09:42:50 GMT",
-      "id": 5656467,
+      "id": "5656467",
       "isDone": false,
       "lastUpdate": "Fri, 30 Jul 2021 09:42:50 GMT"
     },
     {
       "content": "Mettre à jour mon CV",
       "creationDate": "Fri, 30 Jul 2021 09:42:50 GMT",
-      "id": 6410864,
+      "id": "6410864",
       "isDone": false,
       "lastUpdate": "Fri, 30 Jul 2021 09:42:50 GMT"
     },
     {
       "content": "Suivre une formation",
       "creationDate": "Fri, 30 Jul 2021 09:42:50 GMT",
-      "id": 9969662,
+      "id": "9969662",
       "isDone": false,
       "lastUpdate": "Fri, 30 Jul 2021 09:42:50 GMT"
     },
     {
       "content": "Apprendre l'anglais avec Jason Statham",
       "creationDate": "Fri, 30 Jul 2021 09:42:50 GMT",
-      "id": 90863,
+      "id": "90863",
       "isDone": false,
       "lastUpdate": "Fri, 30 Jul 2021 09:42:50 GMT"
     }
   ],
+  "doneActionsCount": 3,
   "conseiller": {
     "firstName": "Nils",
     "id": "1",
     "lastName": "Tavernier"
-  }
+  },
+  "rendezvous": [
+    {
+      "title": "Rendez-vous conseiller",
+      "subtitle": "Avec Nils",
+      "comment": "Préparation aux entretiens",
+      "date": "Mon, 23 Dec 2022 00:00:00 GMT",
+      "duration": "1:00:00",
+      "id": "8230054",
+      "modality": "Par tel"
+    },
+    {
+      "title": "Rendez-vous conseiller",
+      "subtitle": "Avec Nils",
+      "comment": "Suivi des démarches pro",
+      "date": "Mon, 24 Dec 2022 00:00:00 GMT",
+      "duration": "1:00:00",
+      "id": "722180",
+      "modality": "Par tel"
+    }
+  ]
 }
