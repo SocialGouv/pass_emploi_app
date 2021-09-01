@@ -12,10 +12,19 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/user_action_widget.dart';
 
-class UserActionPage extends StatelessWidget {
+enum UserActionPageResult { UPDATED, UNCHANGED }
+
+class UserActionPage extends StatefulWidget {
   final String userId;
 
   const UserActionPage(this.userId) : super();
+
+  @override
+  _UserActionPageState createState() => _UserActionPageState();
+}
+
+class _UserActionPageState extends State<UserActionPage> {
+  var _result = UserActionPageResult.UNCHANGED;
 
   @override
   Widget build(BuildContext context) {
@@ -28,18 +37,24 @@ class UserActionPage extends StatelessWidget {
         );
       },
     );
-    StoreProvider.of<AppState>(context).dispatch(RequestUserActionsAction(userId));
+    StoreProvider.of<AppState>(context).dispatch(RequestUserActionsAction(widget.userId));
     return storeConnector;
   }
 
   _scaffold(BuildContext context, UserActionPageViewModel viewModel, Widget body) {
-    return Scaffold(
-      appBar: _appBar(viewModel.title),
-      body: body,
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: AppColors.bluePurple,
-        child: SvgPicture.asset("assets/ic_envelope.svg"),
-        onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ChatPage())),
+    return WillPopScope(
+      onWillPop: () {
+        Navigator.pop(context, _result);
+        return Future.value(true);
+      },
+      child: Scaffold(
+        appBar: _appBar(viewModel.title),
+        body: body,
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: AppColors.bluePurple,
+          child: SvgPicture.asset("assets/ic_envelope.svg"),
+          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ChatPage())),
+        ),
       ),
     );
   }
@@ -102,7 +117,10 @@ class UserActionPage extends StatelessWidget {
         padding: EdgeInsets.only(top: 4, bottom: 4),
         child: UserActionWidget(
           action: item.action,
-          onTap: () => viewModel.onTapTodoAction(item.action.id),
+          onTap: () {
+            _result = UserActionPageResult.UPDATED;
+            return viewModel.onTapTodoAction(item.action.id);
+          },
         ),
       );
     } else if (item is DoneActionItem) {
@@ -110,7 +128,10 @@ class UserActionPage extends StatelessWidget {
         padding: EdgeInsets.only(top: 4, bottom: 4),
         child: UserActionWidget(
           action: item.action,
-          onTap: () => viewModel.onTapDoneAction(item.action.id),
+          onTap: () {
+            _result = UserActionPageResult.UPDATED;
+            return viewModel.onTapDoneAction(item.action.id);
+          },
         ),
       );
     }

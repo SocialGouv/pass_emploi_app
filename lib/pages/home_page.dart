@@ -88,12 +88,12 @@ class HomePage extends StatelessWidget {
     } else if (item is ActionItem) {
       return Padding(
         padding: EdgeInsets.only(top: 6, bottom: 6),
-        child: UserActionCard(action: item.action, onTap: () => _pushUserActionPage(context, viewModel.userId)),
+        child: UserActionCard(action: item.action, onTap: () => _pushUserActionPage(context, viewModel)),
       );
     } else if (item is AllActionsButtonItem) {
       return Padding(
         padding: EdgeInsets.only(top: 6, bottom: 6),
-        child: _allActionsButton(context, viewModel.userId),
+        child: _allActionsButton(context, viewModel),
       );
     } else if (item is RendezvousItem) {
       return Padding(
@@ -131,13 +131,13 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _allActionsButton(BuildContext context, String userId) {
+  _allActionsButton(BuildContext context, HomePageViewModel viewModel) {
     return Material(
       child: Ink(
         decoration: BoxDecoration(color: AppColors.nightBlue, borderRadius: BorderRadius.all(Radius.circular(8))),
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(8)),
-          onTap: () => _pushUserActionPage(context, userId),
+          onTap: () => _pushUserActionPage(context, viewModel),
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: Center(child: Text("Voir toutes les actions", style: TextStyles.textSmMedium(color: Colors.white))),
@@ -147,7 +147,12 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _pushUserActionPage(BuildContext context, String userId) {
-    return Navigator.push(context, MaterialPageRoute(builder: (context) => UserActionPage(userId)));
+  _pushUserActionPage(BuildContext context, HomePageViewModel viewModel) {
+    return Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => UserActionPage(viewModel.userId)),
+    ).then((value) {
+      if (value == UserActionPageResult.UPDATED) viewModel.onRetry();
+    });
   }
 }
