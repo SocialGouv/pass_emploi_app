@@ -22,7 +22,7 @@ void main() {
 
   test('ChatPageViewModel.create when home state is success should set conseiller first name as title', () {
     var conseiller = Conseiller(id: "1", firstName: "Nils", lastName: "Tavernier");
-    final home = Home(conseiller: conseiller, actions: [], rendezvous: []);
+    final home = Home(conseiller: conseiller, doneActionsCount: 0, actions: [], rendezvous: []);
     final state = AppState.initialState().copyWith(homeState: HomeState.success(home));
     final store = Store<AppState>(reducer, initialState: state);
 
