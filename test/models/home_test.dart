@@ -17,6 +17,8 @@ void main() {
     expect(conseiller.firstName, "Nils");
     expect(conseiller.lastName, "Tavernier");
 
+    expect(home.doneActionsCount, 3);
+
     expect(home.actions.length, 5);
     final action = home.actions.first;
     expect(action.id, "8802034");

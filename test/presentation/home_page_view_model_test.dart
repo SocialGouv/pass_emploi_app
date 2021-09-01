@@ -40,9 +40,10 @@ void main() {
     expect(viewModel.withFailure, isTrue);
   });
 
-  test('HomePageViewModel.create when success without any content', () {
+  test('HomePageViewModel.create when success without any actions and not any action done', () {
     final home = Home(
       conseiller: Conseiller(id: '1', firstName: 'first', lastName: 'last'),
+      doneActionsCount: 0,
       actions: [],
       rendezvous: [],
     );
@@ -53,22 +54,39 @@ void main() {
     expect(viewModel.withLoading, isFalse);
     expect(viewModel.withFailure, isFalse);
 
-    expect(viewModel.items.length, 4);
     expect((viewModel.items[0] as SectionItem).title, "Mes actions");
     expect(
       (viewModel.items[1] as MessageItem).message,
       "Tu n’as pas encore d’actions en cours.\nContacte ton conseiller pour les définir avec lui.",
     );
-    expect((viewModel.items[2] as SectionItem).title, "Mes rendez-vous à venir");
-    expect(
-      (viewModel.items[3] as MessageItem).message,
-      "Tu n’as pas de rendez-vous prévus.\nContacte ton conseiller pour prendre rendez-vous.",
+  });
+
+  test('HomePageViewModel.create when success without any actions but some actions done', () {
+    final home = Home(
+      conseiller: Conseiller(id: '1', firstName: 'first', lastName: 'last'),
+      doneActionsCount: 1,
+      actions: [],
+      rendezvous: [],
     );
+    final store = _store(HomeState.success(home));
+
+    final viewModel = HomePageViewModel.create(store);
+
+    expect(viewModel.withLoading, isFalse);
+    expect(viewModel.withFailure, isFalse);
+
+    expect((viewModel.items[0] as SectionItem).title, "Mes actions");
+    expect(
+      (viewModel.items[1] as MessageItem).message,
+      "Bravo :) Tu n’as plus d’actions en cours.\nContacte ton conseiller pour obtenir de nouvelles actions.",
+    );
+    expect(viewModel.items[2] is AllActionsButtonItem, true);
   });
 
   test('HomePageViewModel.create when success with actions', () {
     final home = Home(
       conseiller: Conseiller(id: '1', firstName: 'first', lastName: 'last'),
+      doneActionsCount: 0,
       actions: [
         UserAction(id: '1', content: 'content1', isDone: false, lastUpdate: DateTime(2022, 12, 23, 0, 0, 0)),
         UserAction(id: '2', content: 'content2', isDone: false, lastUpdate: DateTime(2022, 12, 23, 0, 0, 0)),
@@ -88,10 +106,32 @@ void main() {
     expect(viewModel.items[3] is AllActionsButtonItem, true);
   });
 
+  test('HomePageViewModel.create when success without any rendezvous', () {
+    final home = Home(
+      conseiller: Conseiller(id: '1', firstName: 'first', lastName: 'last'),
+      doneActionsCount: 0,
+      actions: [],
+      rendezvous: [],
+    );
+    final store = _store(HomeState.success(home));
+
+    final viewModel = HomePageViewModel.create(store);
+
+    expect(viewModel.withLoading, isFalse);
+    expect(viewModel.withFailure, isFalse);
+
+    expect((viewModel.items[2] as SectionItem).title, "Mes rendez-vous à venir");
+    expect(
+      (viewModel.items[3] as MessageItem).message,
+      "Tu n’as pas de rendez-vous prévus.\nContacte ton conseiller pour prendre rendez-vous.",
+    );
+  });
+
   test('HomePageViewModel.create when success with rendezvous', () {
     final home = Home(
       conseiller: Conseiller(id: '1', firstName: 'first', lastName: 'last'),
       actions: [],
+      doneActionsCount: 0,
       rendezvous: [
         Rendezvous(
           id: '1',
