@@ -1,4 +1,3 @@
-// TODO Use factory
 abstract class UiAction {}
 
 class BootstrapAction extends UiAction {}
