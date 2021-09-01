@@ -78,7 +78,7 @@ void main() {
     expect((viewModel.items[0] as SectionItem).title, "Mes actions");
     expect((viewModel.items[1] as ActionItem).action.content, 'content1');
     expect((viewModel.items[2] as ActionItem).action.content, 'content2');
-    expect(viewModel.items[3] is AllActionsButton, true);
+    expect(viewModel.items[3] is AllActionsButtonItem, true);
   });
 
   test('HomePageViewModel.create when success with rendezvous', () {

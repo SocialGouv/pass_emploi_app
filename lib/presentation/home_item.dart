@@ -10,7 +10,7 @@ abstract class HomeItem {
 
   factory HomeItem.action(UserAction action) = ActionItem;
 
-  factory HomeItem.allActionsButton() = AllActionsButton;
+  factory HomeItem.allActionsButton() = AllActionsButtonItem;
 
   factory HomeItem.rendezvous(RendezvousViewModel rendezvous) = RendezvousItem;
 }
@@ -33,8 +33,8 @@ class ActionItem extends HomeItem {
   ActionItem(this.action) : super._();
 }
 
-class AllActionsButton extends HomeItem {
-  AllActionsButton() : super._();
+class AllActionsButtonItem extends HomeItem {
+  AllActionsButtonItem() : super._();
 }
 
 class RendezvousItem extends HomeItem {

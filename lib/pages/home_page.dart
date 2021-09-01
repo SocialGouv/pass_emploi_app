@@ -74,7 +74,6 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  // TODO : Add Buttons
   Widget _listItem(BuildContext context, HomeItem item, HomePageViewModel viewModel) {
     if (item is SectionItem) {
       return Padding(
@@ -88,15 +87,20 @@ class HomePage extends StatelessWidget {
       );
     } else if (item is ActionItem) {
       return Padding(
-        padding: EdgeInsets.only(top: 4, bottom: 4),
+        padding: EdgeInsets.only(top: 6, bottom: 6),
         child: UserActionCard(
           action: item.action,
           onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => UserActionPage())),
         ),
       );
+    } else if (item is AllActionsButtonItem) {
+      return Padding(
+        padding: EdgeInsets.only(top: 6, bottom: 6),
+        child: _allActionsButton(context),
+      );
     } else if (item is RendezvousItem) {
       return Padding(
-        padding: EdgeInsets.only(top: 4, bottom: 4),
+        padding: EdgeInsets.only(top: 6, bottom: 6),
         child: RendezvousCard(item.rendezvous),
       );
     }
@@ -109,7 +113,36 @@ class HomePage extends StatelessWidget {
       toolbarHeight: Dimens.appBarHeight,
       backgroundColor: Colors.white,
       elevation: 2,
-      title: Text(title, style: TextStyles.h3Semi),
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title, style: TextStyles.h3Semi),
+          SizedBox(height: 4),
+          Text('Bienvenue sur ton tableau de bord', style: TextStyles.textSmMedium()),
+        ],
+      ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: SvgPicture.asset("assets/ic_refresh.svg"),
+        ),
+      ],
+    );
+  }
+
+  _allActionsButton(BuildContext context) {
+    return Material(
+      child: Ink(
+        decoration: BoxDecoration(color: AppColors.nightBlue, borderRadius: BorderRadius.all(Radius.circular(8))),
+        child: InkWell(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => UserActionPage())),
+          child: Padding(
+            padding: const EdgeInsets.all(10),
+            child: Center(child: Text("Voir toutes les actions", style: TextStyles.textSmMedium(color: Colors.white))),
+          ),
+        ),
+      ),
     );
   }
 }
