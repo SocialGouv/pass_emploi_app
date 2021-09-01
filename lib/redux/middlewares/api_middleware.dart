@@ -24,6 +24,8 @@ class ApiMiddleware extends MiddlewareClass<AppState> {
       _requestLogin(store, action);
     } else if (action is RequestHomeAction) {
       _getHome(store, action.userId);
+    } else if (action is RequestUserActionsAction) {
+      _getUserActions(store, action.userId);
     } else if (action is UpdateActionStatus) {
       _userActionRepository.updateActionStatus(action.actionId, action.newIsDoneValue);
     } else if (action is SendMessageAction) {
@@ -49,10 +51,9 @@ class ApiMiddleware extends MiddlewareClass<AppState> {
     _chatRepository.subscribeToMessages(userId, store);
   }
 
-  _getActions(Store<AppState> store, String userId) async {
+  _getUserActions(Store<AppState> store, String userId) async {
     store.dispatch(UserActionLoadingAction());
-    final home = await _userActionRepository.getHome(userId);
-    store.dispatch(home != null ? UserActionSuccessAction(home) : UserActionFailureAction());
-    _chatRepository.subscribeToMessages(userId, store); // TODO Remove
+    final actions = await _userActionRepository.getUserActions(userId);
+    store.dispatch(actions != null ? UserActionSuccessAction(actions) : UserActionFailureAction());
   }
 }

@@ -13,7 +13,7 @@ class UserActionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 4,
+      elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
       child: InkWell(
         onTap: onTap,

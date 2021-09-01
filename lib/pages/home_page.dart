@@ -41,7 +41,7 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text("Erreur lors de la récupérations de votre dahboard"),
+            Text("Erreur lors de la récupérations de ton tableau de bord."),
             TextButton(
               onPressed: () => viewModel.onRetry(),
               child: Text("Réessayer", style: TextStyles.textLgMedium),
@@ -88,15 +88,12 @@ class HomePage extends StatelessWidget {
     } else if (item is ActionItem) {
       return Padding(
         padding: EdgeInsets.only(top: 6, bottom: 6),
-        child: UserActionCard(
-          action: item.action,
-          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => UserActionPage())),
-        ),
+        child: UserActionCard(action: item.action, onTap: () => _pushUserActionPage(context, viewModel.userId)),
       );
     } else if (item is AllActionsButtonItem) {
       return Padding(
         padding: EdgeInsets.only(top: 6, bottom: 6),
-        child: _allActionsButton(context),
+        child: _allActionsButton(context, viewModel.userId),
       );
     } else if (item is RendezvousItem) {
       return Padding(
@@ -134,13 +131,13 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _allActionsButton(BuildContext context) {
+  _allActionsButton(BuildContext context, String userId) {
     return Material(
       child: Ink(
         decoration: BoxDecoration(color: AppColors.nightBlue, borderRadius: BorderRadius.all(Radius.circular(8))),
         child: InkWell(
           borderRadius: BorderRadius.all(Radius.circular(8)),
-          onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => UserActionPage())),
+          onTap: () => _pushUserActionPage(context, userId),
           child: Padding(
             padding: const EdgeInsets.all(10),
             child: Center(child: Text("Voir toutes les actions", style: TextStyles.textSmMedium(color: Colors.white))),
@@ -148,5 +145,9 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  _pushUserActionPage(BuildContext context, String userId) {
+    return Navigator.push(context, MaterialPageRoute(builder: (context) => UserActionPage(userId)));
   }
 }

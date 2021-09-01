@@ -1,11 +1,11 @@
-import 'package:pass_emploi_app/models/home.dart';
+import 'package:pass_emploi_app/models/user_action.dart';
 
 abstract class UserActionState {
   UserActionState._();
 
   factory UserActionState.loading() = UserActionLoadingState;
 
-  factory UserActionState.success(Home home) = UserActionSuccessState;
+  factory UserActionState.success(List<UserAction> actions) = UserActionSuccessState;
 
   factory UserActionState.failure() = UserActionFailureState;
 
@@ -17,9 +17,9 @@ class UserActionLoadingState extends UserActionState {
 }
 
 class UserActionSuccessState extends UserActionState {
-  final Home home;
+  final List<UserAction> actions;
 
-  UserActionSuccessState(this.home) : super._();
+  UserActionSuccessState(this.actions) : super._();
 }
 
 class UserActionFailureState extends UserActionState {

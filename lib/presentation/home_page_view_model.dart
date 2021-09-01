@@ -11,6 +11,7 @@ import 'package:redux/redux.dart';
 import 'home_item.dart';
 
 class HomePageViewModel {
+  final String userId;
   final String title;
   final bool withLoading;
   final bool withFailure;
@@ -19,6 +20,7 @@ class HomePageViewModel {
   final Function() onLogout;
 
   HomePageViewModel({
+    required this.userId,
     required this.title,
     required this.withLoading,
     required this.withFailure,
@@ -28,17 +30,20 @@ class HomePageViewModel {
   });
 
   factory HomePageViewModel.create(Store<AppState> store) {
-    final loginState = store.state.loginState;
-    final user = loginState is LoggedInState ? loginState.user : null;
+    if (!(store.state.loginState is LoggedInState)) {
+      throw Exception("User should be logged in to access home page");
+    }
+    final user = (store.state.loginState as LoggedInState).user;
     final homeState = store.state.homeState;
     final List<UserAction> actions = homeState is HomeSuccessState ? homeState.home.actions : [];
     final List<Rendezvous> rendezvous = homeState is HomeSuccessState ? homeState.home.rendezvous : [];
     return HomePageViewModel(
-      title: "Bonjour" + (user != null ? " " + user.firstName : ""),
+      userId: user.id,
+      title: "Bonjour ${user.firstName}",
       withLoading: homeState is HomeLoadingState || homeState is HomeNotInitializedState,
       withFailure: homeState is HomeFailureState,
       items: [..._actionItems(actions), ..._rendezvousItems(rendezvous)],
-      onRetry: () => store.dispatch(user != null ? RequestHomeAction(user.id) : BootstrapAction()),
+      onRetry: () => store.dispatch(RequestHomeAction(user.id)),
       onLogout: () => store.dispatch(LogoutAction()),
     );
   }

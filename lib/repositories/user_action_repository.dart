@@ -1,5 +1,5 @@
 import 'package:http/http.dart' as http;
-import 'package:pass_emploi_app/models/home.dart';
+import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/network/patch_user_action_request.dart';
@@ -10,11 +10,14 @@ class UserActionRepository {
 
   UserActionRepository(this.baseUrl);
 
-  Future<Home?> getHome(String userId) async {
-    var url = Uri.parse(baseUrl + "/jeunes/$userId/home");
+  Future<List<UserAction>?> getUserActions(String userId) async {
+    var url = Uri.parse(baseUrl + "/jeunes/$userId/actions");
     try {
       final response = await http.get(url);
-      if (response.statusCode.isValid()) return Home.fromJson(jsonUtf8Decode(response.bodyBytes));
+      if (response.statusCode.isValid()) {
+        final json = jsonUtf8Decode(response.bodyBytes);
+        return (json as List).map((action) => UserAction.fromJson(action)).toList();
+      }
     } catch (e) {
       print('Exception on ${url.toString()}: ' + e.toString());
     }

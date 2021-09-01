@@ -30,3 +30,9 @@ class RequestHomeAction extends UiAction {
 
   RequestHomeAction(this.userId);
 }
+
+class RequestUserActionsAction extends UiAction {
+  final String userId;
+
+  RequestUserActionsAction(this.userId);
+}

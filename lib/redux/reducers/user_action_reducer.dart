@@ -6,7 +6,7 @@ AppState userActionReducer(AppState currentState, dynamic action) {
   if (action is UserActionLoadingAction) {
     return currentState.copyWith(userActionState: UserActionState.loading());
   } else if (action is UserActionSuccessAction) {
-    return currentState.copyWith(userActionState: UserActionState.success(action.home));
+    return currentState.copyWith(userActionState: UserActionState.success(action.actions));
   } else if (action is UserActionFailureAction) {
     return currentState.copyWith(userActionState: UserActionState.failure());
   } else {

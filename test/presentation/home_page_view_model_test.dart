@@ -2,18 +2,28 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/home.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/home_item.dart';
 import 'package:pass_emploi_app/presentation/home_page_view_model.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/home_state.dart';
+import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:redux/redux.dart';
 
 void main() {
+  test('HomePageViewModel.create when user is not logged in throws exception', () {
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(loginState: LoginState.notLoggedIn()),
+    );
+
+    expect(() => HomePageViewModel.create(store), throwsException);
+  });
+
   test('HomePageViewModel.create when state is loading', () {
-    final state = AppState.initialState().copyWith(homeState: HomeState.loading());
-    final store = Store<AppState>(reducer, initialState: state);
+    final store = _store(HomeState.loading());
 
     final viewModel = HomePageViewModel.create(store);
 
@@ -22,8 +32,7 @@ void main() {
   });
 
   test('HomePageViewModel.create when state is failure', () {
-    final state = AppState.initialState().copyWith(homeState: HomeState.failure());
-    final store = Store<AppState>(reducer, initialState: state);
+    final store = _store(HomeState.failure());
 
     final viewModel = HomePageViewModel.create(store);
 
@@ -37,8 +46,7 @@ void main() {
       actions: [],
       rendezvous: [],
     );
-    final state = AppState.initialState().copyWith(homeState: HomeState.success(home));
-    final store = Store<AppState>(reducer, initialState: state);
+    final store = _store(HomeState.success(home));
 
     final viewModel = HomePageViewModel.create(store);
 
@@ -67,8 +75,7 @@ void main() {
       ],
       rendezvous: [],
     );
-    final state = AppState.initialState().copyWith(homeState: HomeState.success(home));
-    final store = Store<AppState>(reducer, initialState: state);
+    final store = _store(HomeState.success(home));
 
     final viewModel = HomePageViewModel.create(store);
 
@@ -106,8 +113,7 @@ void main() {
         )
       ],
     );
-    final state = AppState.initialState().copyWith(homeState: HomeState.success(home));
-    final store = Store<AppState>(reducer, initialState: state);
+    final store = _store(HomeState.success(home));
 
     final viewModel = HomePageViewModel.create(store);
 
@@ -124,4 +130,14 @@ void main() {
     expect(rdv2.subtitle, 'subtitle2');
     expect(rdv2.date, '24/12/2022 à 13:40');
   });
+}
+
+_store(HomeState homeState) {
+  return Store<AppState>(
+    reducer,
+    initialState: AppState.initialState().copyWith(
+      loginState: LoginState.loggedIn(User(id: '', firstName: '', lastName: '')),
+      homeState: homeState,
+    ),
+  );
 }
