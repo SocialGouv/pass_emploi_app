@@ -11,7 +11,8 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/action_widget.dart';
+import 'package:pass_emploi_app/widgets/rendezvous_card.dart';
+import 'package:pass_emploi_app/widgets/user_action_card.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -73,7 +74,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  // TODO : Add Buttons and Rendezvous
+  // TODO : Add Buttons
   Widget _listItem(BuildContext context, HomeItem item, HomePageViewModel viewModel) {
     if (item is SectionItem) {
       return Padding(
@@ -88,10 +89,15 @@ class HomePage extends StatelessWidget {
     } else if (item is ActionItem) {
       return Padding(
         padding: EdgeInsets.only(top: 4, bottom: 4),
-        child: ActionWidget(
+        child: UserActionCard(
           action: item.action,
           onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => UserActionPage())),
         ),
+      );
+    } else if (item is RendezvousItem) {
+      return Padding(
+        padding: EdgeInsets.only(top: 4, bottom: 4),
+        child: RendezvousCard(item.rendezvous),
       );
     }
     return Container();

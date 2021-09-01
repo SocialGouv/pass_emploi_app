@@ -10,7 +10,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/action_widget.dart';
+import 'package:pass_emploi_app/widgets/user_action_widget.dart';
 
 class UserActionPage extends StatelessWidget {
   @override
@@ -86,7 +86,7 @@ class UserActionPage extends StatelessWidget {
     } else if (item is TodoActionItem) {
       return Padding(
         padding: EdgeInsets.only(top: 4, bottom: 4),
-        child: ActionWidget(
+        child: UserActionWidget(
           action: item.action,
           onTap: () => viewModel.onTapTodoAction(item.action.id),
         ),
@@ -94,7 +94,7 @@ class UserActionPage extends StatelessWidget {
     } else if (item is DoneActionItem) {
       return Padding(
         padding: EdgeInsets.only(top: 4, bottom: 4),
-        child: ActionWidget(
+        child: UserActionWidget(
           action: item.action,
           onTap: () => viewModel.onTapDoneAction(item.action.id),
         ),

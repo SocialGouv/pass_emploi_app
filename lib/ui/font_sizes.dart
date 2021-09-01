@@ -1,5 +1,6 @@
 class FontSizes {
   static const double huge = 24;
+  static const double semi = 20;
   static const double large = 18;
   static const double medium = 16;
   static const double normal = 14;

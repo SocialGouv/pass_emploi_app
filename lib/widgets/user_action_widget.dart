@@ -4,11 +4,11 @@ import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
-class ActionWidget extends StatelessWidget {
+class UserActionWidget extends StatelessWidget {
   final UserAction action;
   final GestureTapCallback onTap;
 
-  ActionWidget({required this.action, required this.onTap});
+  UserActionWidget({required this.action, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
