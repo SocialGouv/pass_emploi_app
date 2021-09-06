@@ -35,7 +35,9 @@ class ChatRepository {
     final Stream<DocumentSnapshot> chatStatusStream = _chatStatusCollection().snapshots();
     _chatStatusSubscription = chatStatusStream.listen(
       (DocumentSnapshot snapshot) {
-        print("Chat status updated");
+        final Map<String, dynamic> data = snapshot.data()! as Map<String, dynamic>;
+        final unreadMessageCount = data['newConseillerMessageCount'];
+        if (unreadMessageCount != null) store.dispatch(ChatUnseenMessageAction(unreadMessageCount));
       },
       onError: (Object error, StackTrace stackTrace) {
         print("Chat status error");
@@ -66,7 +68,6 @@ class ChatRepository {
           'lastMessageContent': message,
           'lastMessageSentBy': "jeune",
           'lastMessageSentAt': messageCreationDate,
-          'seenByJeune': true,
           'seenByConseiller': false,
         })
         .then((value) => print("Chat status updated"))
@@ -75,7 +76,7 @@ class ChatRepository {
 
   setLastMessageSeen() {
     _chatStatusCollection()
-        .update({'seenByJeune': true})
+        .update({'newConseillerMessageCount': 0})
         .then((value) => print("Last message seen updated"))
         .catchError((error) => print("Failed to update last message seen: $error"));
   }

@@ -39,7 +39,7 @@ class _LoginPageState extends State<LoginPage> {
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
-                          colors: [AppColors.blue, AppColors.purple],
+                          colors: [AppColors.lightBlue, AppColors.lightPurple],
                         ),
                       ),
                     ),

@@ -12,7 +12,7 @@ class SplashScreenPage extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [AppColors.blue, AppColors.purple],
+          colors: [AppColors.lightBlue, AppColors.lightPurple],
         ),
       ),
       child: Center(child: SvgPicture.asset("assets/ic_logo.svg", semanticsLabel: 'Logo Pass Emploi')),
