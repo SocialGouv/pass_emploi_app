@@ -8,21 +8,20 @@ import 'package:redux/redux.dart';
 
 class ChatRepository {
   final firestore = FirebaseFirestore.instance;
-  StreamSubscription<QuerySnapshot>? _subscription;
+  StreamSubscription<QuerySnapshot>? _messagesSubscription;
+  StreamSubscription<DocumentSnapshot>? _chatStatusSubscription;
   String? _chatDocumentId;
 
-  // TODO return stream and remove store from params (https://www.youtube.com/watch?v=nQBpOIHE4eE (6:23))
   // TODO unsubscribe depending on app lifecycle
   subscribeToMessages(String userId, Store<AppState> store) async {
     unsubscribeToMessages();
     store.dispatch(ChatLoadingAction());
 
-    // TODO Use withConverter (https://firebase.flutter.dev/docs/firestore/usage)
     final chats = await firestore.collection('chat').where('jeuneId', isEqualTo: userId).get();
     _chatDocumentId = chats.docs.first.id;
 
-    final Stream<QuerySnapshot> stream = _collection().orderBy('creationDate').snapshots();
-    _subscription = stream.listen(
+    final Stream<QuerySnapshot> messageStream = _messagesCollection().orderBy('creationDate').snapshots();
+    _messagesSubscription = messageStream.listen(
       (QuerySnapshot snapshot) {
         final messages = snapshot.docs.map((DocumentSnapshot document) => Message.fromJson(document)).toList();
         store.dispatch(ChatSuccessAction(messages));
@@ -32,18 +31,56 @@ class ChatRepository {
       },
       cancelOnError: false,
     );
+
+    final Stream<DocumentSnapshot> chatStatusStream = _chatStatusCollection().snapshots();
+    _chatStatusSubscription = chatStatusStream.listen(
+      (DocumentSnapshot snapshot) {
+        print("Chat status updated");
+      },
+      onError: (Object error, StackTrace stackTrace) {
+        print("Chat status error");
+      },
+      cancelOnError: false,
+    );
   }
 
   unsubscribeToMessages() {
-    _subscription?.cancel();
+    _messagesSubscription?.cancel();
+    _chatStatusSubscription?.cancel();
   }
 
-  sendMessage(String message) {
-    _collection()
-        .add({'content': message, 'sentBy': "jeune", 'creationDate': FieldValue.serverTimestamp()})
+  sendMessage(String message) async {
+    var messageCreationDate = FieldValue.serverTimestamp();
+
+    _messagesCollection()
+        .add({
+          'content': message,
+          'sentBy': "jeune",
+          'creationDate': messageCreationDate,
+        })
         .then((value) => print("New message sent $message"))
         .catchError((error) => print("Failed to send message: $error"));
+
+    _chatStatusCollection()
+        .update({
+          'lastMessageContent': message,
+          'lastMessageSentBy': "jeune",
+          'lastMessageSentAt': messageCreationDate,
+          'seenByJeune': true,
+          'seenByConseiller': false,
+        })
+        .then((value) => print("Chat status updated"))
+        .catchError((error) => print("Failed to update chat status: $error"));
   }
 
-  _collection() => FirebaseFirestore.instance.collection('chat').doc(_chatDocumentId).collection('messages');
+  setLastMessageSeen() {
+    _chatStatusCollection()
+        .update({'seenByJeune': true})
+        .then((value) => print("Last message seen updated"))
+        .catchError((error) => print("Failed to update last message seen: $error"));
+  }
+
+  _messagesCollection() => FirebaseFirestore.instance.collection('chat').doc(_chatDocumentId).collection('messages');
+
+  _chatStatusCollection() => FirebaseFirestore.instance.collection('chat').doc(_chatDocumentId);
 }

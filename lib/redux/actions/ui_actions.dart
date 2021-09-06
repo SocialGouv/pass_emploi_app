@@ -17,6 +17,8 @@ class SendMessageAction extends UiAction {
   SendMessageAction(this.message);
 }
 
+class LastMessageSeenAction extends UiAction {}
+
 class RequestLoginAction extends UiAction {
   final String firstName;
   final String lastName;
