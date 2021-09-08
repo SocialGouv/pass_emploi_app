@@ -11,3 +11,9 @@ class ChatSuccessAction extends ChatAction {
 }
 
 class ChatFailureAction extends ChatAction {}
+
+class ChatUnseenMessageAction extends ChatAction {
+  final int unreadMessageCount;
+
+  ChatUnseenMessageAction(this.unreadMessageCount);
+}

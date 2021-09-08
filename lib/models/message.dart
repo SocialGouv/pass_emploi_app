@@ -10,9 +10,11 @@ class Message {
   Message(this.content, this.creationDate, this.sentBy);
 
   factory Message.fromJson(dynamic json) {
+    final creationDateValue = json['creationDate'];
+    final creationDate = creationDateValue is Timestamp ? creationDateValue.toDate() : DateTime.now();
     return Message(
       json['content'] as String,
-      (json['creationDate'] as Timestamp).toDate(),
+      creationDate,
       json['sentBy'] as String == 'jeune' ? Sender.jeune : Sender.conseiller,
     );
   }

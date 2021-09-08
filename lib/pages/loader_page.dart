@@ -63,7 +63,7 @@ class _LoaderPageState extends State<LoaderPage> with SingleTickerProviderStateM
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [AppColors.blue, AppColors.purple],
+            colors: [AppColors.lightBlue, AppColors.lightPurple],
           ),
         ),
       ),

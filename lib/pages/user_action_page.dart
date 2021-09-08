@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/presentation/user_action_item.dart';
 import 'package:pass_emploi_app/presentation/user_action_page_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
@@ -10,6 +8,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/chat_floating_action_button.dart';
 import 'package:pass_emploi_app/widgets/user_action_widget.dart';
 
 enum UserActionPageResult { UPDATED, UNCHANGED }
@@ -50,11 +49,7 @@ class _UserActionPageState extends State<UserActionPage> {
       child: Scaffold(
         appBar: _appBar(viewModel.title),
         body: body,
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: AppColors.bluePurple,
-          child: SvgPicture.asset("assets/ic_envelope.svg"),
-          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ChatPage())),
-        ),
+        floatingActionButton: ChatFloatingActionButton(),
       ),
     );
   }

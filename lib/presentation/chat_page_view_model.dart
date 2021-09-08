@@ -27,6 +27,7 @@ class ChatPageViewModel {
   });
 
   factory ChatPageViewModel.create(Store<AppState> store) {
+    _setLastMessageSeenDelayedToAvoidBlockingOfUi(store);
     final chatState = store.state.chatState;
     final homeState = store.state.homeState;
     return ChatPageViewModel(
@@ -39,6 +40,10 @@ class ChatPageViewModel {
       onSendMessage: (String message) => store.dispatch(SendMessageAction(message)),
     );
   }
+}
+
+_setLastMessageSeenDelayedToAvoidBlockingOfUi(Store<AppState> store) {
+  Future.delayed(new Duration(seconds: 1)).then((value) => store.dispatch(LastMessageSeenAction()));
 }
 
 _messagesToChatItems(List<Message> messages) {
