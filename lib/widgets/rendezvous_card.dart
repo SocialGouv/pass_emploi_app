@@ -19,7 +19,7 @@ class RendezvousCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(rendezvous.date, style: TextStyles.textSmMedium(color: AppColors.nightBlue)),
+            Text(rendezvous.dateAndHour, style: TextStyles.textSmMedium(color: AppColors.nightBlue)),
             SizedBox(height: 4),
             Text(rendezvous.title, style: TextStyles.chapoSemi(color: AppColors.nightBlue)),
             SizedBox(height: 4),

@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/home_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
-import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
 
 import 'home_item.dart';
@@ -74,9 +73,7 @@ _rendezvousItems(List<Rendezvous> rendezvous) {
         ..add(rendezvous.isEmpty
             ? HomeItem.message("Tu n’as pas de rendez-vous prévus.\nContacte ton conseiller pour prendre rendez-vous.")
             : null)
-        ..addAll(rendezvous.map((rdv) => HomeItem.rendezvous(
-              RendezvousViewModel(title: rdv.title, subtitle: rdv.subtitle, date: rdv.date.toDayAndHour()),
-            ))))
+        ..addAll(rendezvous.map((rdv) => HomeItem.rendezvous(RendezvousViewModel.create(rdv)))))
       .whereType<HomeItem>()
       .toList();
 }
