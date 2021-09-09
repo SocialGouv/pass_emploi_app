@@ -8,19 +8,24 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  # Flutter
   flutter:
     sdk: flutter
-  google_fonts: ^2.1.0
-  flutter_redux: ^0.8.2
   shared_preferences: ^2.0.6
+  flutter_svg: ^0.22.0
+  flutter_redux: ^0.8.2
+  package_info: ^2.0.2
+  # Dart
   http: ^0.13.3
   intl: ^0.17.0
   collection: ^1.15.0
-  flutter_svg: ^0.22.0
-  firebase_core: ^1.4.0
-  cloud_firestore: ^2.4.0
-  firebase_crashlytics: ^2.1.1
-
+  # Firebase
+  firebase_core: ^1.6.0
+  firebase_crashlytics: ^2.2.1
+  firebase_remote_config: ^0.10.0+5
+  cloud_firestore: ^2.5.1
+  # UI
+  google_fonts: ^2.1.0
 
 dev_dependencies:
   flutter_test:
