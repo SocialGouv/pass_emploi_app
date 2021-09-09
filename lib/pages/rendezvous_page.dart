@@ -32,7 +32,7 @@ class RendezvousPage extends StatelessWidget {
                   SvgPicture.asset("assets/ic_calendar.svg"),
                   SizedBox(width: 8),
                   Text(rendezvous.dateWithoutHour, style: TextStyles.textMdMedium),
-                  Expanded(child: SizedBox(width: 0)),
+                  Expanded(child: SizedBox()),
                   SvgPicture.asset("assets/ic_clock.svg"),
                   SizedBox(width: 8),
                   Text(rendezvous.hourAndDuration, style: TextStyles.textMdMedium),
