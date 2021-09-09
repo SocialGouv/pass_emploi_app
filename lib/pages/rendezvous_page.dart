@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/chat_floating_action_button.dart';
+import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
 class RendezvousPage extends StatelessWidget {
   final RendezvousViewModel rendezvous;
@@ -15,13 +15,7 @@ class RendezvousPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: AppColors.nightBlue),
-        toolbarHeight: Dimens.appBarHeight,
-        backgroundColor: Colors.white,
-        elevation: 2,
-        title: Text('Mon rendez-vous', style: TextStyles.h3Semi),
-      ),
+      appBar: DefaultAppBar(title: Text('Mon rendez-vous', style: TextStyles.h3Semi)),
       floatingActionButton: ChatFloatingActionButton(),
       body: SingleChildScrollView(
         child: Padding(

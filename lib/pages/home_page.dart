@@ -8,10 +8,10 @@ import 'package:pass_emploi_app/presentation/home_item.dart';
 import 'package:pass_emploi_app/presentation/home_page_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/chat_floating_action_button.dart';
+import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/user_action_card.dart';
 
@@ -108,11 +108,7 @@ class HomePage extends StatelessWidget {
   }
 
   _appBar(String title, Function() onRetry) {
-    return AppBar(
-      iconTheme: IconThemeData(color: AppColors.nightBlue),
-      toolbarHeight: Dimens.appBarHeight,
-      backgroundColor: Colors.white,
-      elevation: 2,
+    return DefaultAppBar(
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
