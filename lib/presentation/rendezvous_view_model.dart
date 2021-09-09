@@ -7,6 +7,7 @@ class RendezvousViewModel {
   final String dateAndHour;
   final String dateWithoutHour;
   final String hourAndDuration;
+  final String modality;
   final bool withComment;
   final String comment;
 
@@ -16,6 +17,7 @@ class RendezvousViewModel {
     required this.dateAndHour,
     required this.dateWithoutHour,
     required this.hourAndDuration,
+    required this.modality,
     required this.withComment,
     required this.comment,
   });
@@ -27,6 +29,7 @@ class RendezvousViewModel {
       dateAndHour: rdv.date.toDayAndHour(),
       dateWithoutHour: rdv.date.toDayWithFullMonth(),
       hourAndDuration: "${rdv.date.toHour()} (${_toDuration(rdv.duration)})",
+      modality: 'Le rendez-vous se fera ${rdv.modality.toLowerCase()}.',
       withComment: rdv.comment.isNotEmpty,
       comment: rdv.comment,
     );

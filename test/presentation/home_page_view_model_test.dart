@@ -140,7 +140,7 @@ void main() {
           subtitle: 'subtitle1',
           comment: '',
           duration: '1:00:00',
-          modality: 'modality',
+          modality: 'Par téléphone',
         ),
         Rendezvous(
           id: '2',
@@ -149,7 +149,7 @@ void main() {
           subtitle: 'subtitle2',
           comment: 'comment2',
           duration: '0:30:00',
-          modality: 'modality',
+          modality: 'À l\'agence',
         )
       ],
     );
@@ -168,6 +168,7 @@ void main() {
     expect(rdv1.dateWithoutHour, '23 décembre 2022');
     expect(rdv1.hourAndDuration, '10:20 (1h)');
     expect(rdv1.withComment, false);
+    expect(rdv1.modality, 'Le rendez-vous se fera par téléphone.');
     final rdv2 = (viewModel.items[4] as RendezvousItem).rendezvous;
     expect(rdv2.title, 'title2');
     expect(rdv2.subtitle, 'subtitle2');
@@ -176,6 +177,7 @@ void main() {
     expect(rdv2.hourAndDuration, '13:40 (30min)');
     expect(rdv2.withComment, true);
     expect(rdv2.comment, 'comment2');
+    expect(rdv2.modality, 'Le rendez-vous se fera à l\'agence.');
   });
 }
 

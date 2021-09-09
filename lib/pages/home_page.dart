@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/pages/loader_page.dart';
+import 'package:pass_emploi_app/pages/rendezvous_page.dart';
 import 'package:pass_emploi_app/pages/user_action_page.dart';
 import 'package:pass_emploi_app/presentation/home_item.dart';
 import 'package:pass_emploi_app/presentation/home_page_view_model.dart';
@@ -94,7 +95,13 @@ class HomePage extends StatelessWidget {
     } else if (item is RendezvousItem) {
       return Padding(
         padding: EdgeInsets.only(top: 6, bottom: 6),
-        child: RendezvousCard(item.rendezvous),
+        child: RendezvousCard(
+          rendezvous: item.rendezvous,
+          onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => RendezvousPage(item.rendezvous)),
+          ),
+        ),
       );
     }
     return Container();

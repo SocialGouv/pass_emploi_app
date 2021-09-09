@@ -43,6 +43,13 @@ class TextStyles {
     letterSpacing: -0.3,
   );
 
+  static final textMdRegular = GoogleFonts.rubik(
+    color: AppColors.nightBlue,
+    fontSize: FontSizes.medium,
+    fontWeight: FontWeight.w400,
+    letterSpacing: -0.3,
+  );
+
   static textSmMedium({Color color = AppColors.nightBlue}) {
     return GoogleFonts.rubik(
       color: color,
