@@ -5,9 +5,9 @@ import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/presentation/chat_page_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/chat_message_widget.dart';
+import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
 class ChatPage extends StatefulWidget {
   @override
@@ -44,13 +44,7 @@ class _ChatPageState extends State<ChatPage> {
 
   _chat(BuildContext context, ChatPageViewModel viewModel) {
     return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: AppColors.nightBlue),
-        toolbarHeight: Dimens.appBarHeight,
-        backgroundColor: Colors.white,
-        elevation: 2,
-        title: Text(viewModel.title, style: TextStyles.h3Semi),
-      ),
+      appBar: DefaultAppBar(title: Text(viewModel.title, style: TextStyles.h3Semi)),
       body: Stack(
         children: [
           Container(

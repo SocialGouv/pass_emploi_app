@@ -38,3 +38,5 @@ flutter:
     - assets/ic_paper_plane.svg
     - assets/ic_envelope.svg
     - assets/ic_refresh.svg
+    - assets/ic_calendar.svg
+    - assets/ic_clock.svg

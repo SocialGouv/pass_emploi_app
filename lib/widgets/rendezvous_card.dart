@@ -6,25 +6,30 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class RendezvousCard extends StatelessWidget {
   final RendezvousViewModel rendezvous;
+  final GestureTapCallback onTap;
 
-  RendezvousCard(this.rendezvous);
+  RendezvousCard({required this.rendezvous, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8))),
-      child: Padding(
-        padding: const EdgeInsets.all(Margins.medium),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(rendezvous.date, style: TextStyles.textSmMedium(color: AppColors.nightBlue)),
-            SizedBox(height: 4),
-            Text(rendezvous.title, style: TextStyles.chapoSemi(color: AppColors.nightBlue)),
-            SizedBox(height: 4),
-            Text(rendezvous.subtitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
-          ],
+      child: InkWell(
+        onTap: onTap,
+        splashColor: AppColors.bluePurple,
+        child: Padding(
+          padding: const EdgeInsets.all(Margins.medium),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(rendezvous.dateAndHour, style: TextStyles.textSmMedium(color: AppColors.nightBlue)),
+              SizedBox(height: 4),
+              Text(rendezvous.title, style: TextStyles.chapoSemi(color: AppColors.nightBlue)),
+              SizedBox(height: 4),
+              Text(rendezvous.subtitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+            ],
+          ),
         ),
       ),
     );

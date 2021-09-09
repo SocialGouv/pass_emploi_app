@@ -138,18 +138,18 @@ void main() {
           date: DateTime(2022, 12, 23, 10, 20),
           title: 'title1',
           subtitle: 'subtitle1',
-          comment: 'comment',
+          comment: '',
           duration: '1:00:00',
-          modality: 'modality',
+          modality: 'Par téléphone',
         ),
         Rendezvous(
           id: '2',
           date: DateTime(2022, 12, 24, 13, 40),
           title: 'title2',
           subtitle: 'subtitle2',
-          comment: 'comment',
-          duration: '1:00:00',
-          modality: 'modality',
+          comment: 'comment2',
+          duration: '0:30:00',
+          modality: 'À l\'agence',
         )
       ],
     );
@@ -164,11 +164,20 @@ void main() {
     final rdv1 = (viewModel.items[3] as RendezvousItem).rendezvous;
     expect(rdv1.title, 'title1');
     expect(rdv1.subtitle, 'subtitle1');
-    expect(rdv1.date, '23/12/2022 à 10:20');
+    expect(rdv1.dateAndHour, '23/12/2022 à 10:20');
+    expect(rdv1.dateWithoutHour, '23 décembre 2022');
+    expect(rdv1.hourAndDuration, '10:20 (1h)');
+    expect(rdv1.withComment, false);
+    expect(rdv1.modality, 'Le rendez-vous se fera par téléphone.');
     final rdv2 = (viewModel.items[4] as RendezvousItem).rendezvous;
     expect(rdv2.title, 'title2');
     expect(rdv2.subtitle, 'subtitle2');
-    expect(rdv2.date, '24/12/2022 à 13:40');
+    expect(rdv2.dateAndHour, '24/12/2022 à 13:40');
+    expect(rdv2.dateWithoutHour, '24 décembre 2022');
+    expect(rdv2.hourAndDuration, '13:40 (30min)');
+    expect(rdv2.withComment, true);
+    expect(rdv2.comment, 'comment2');
+    expect(rdv2.modality, 'Le rendez-vous se fera à l\'agence.');
   });
 }
 
