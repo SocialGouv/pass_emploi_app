@@ -4,6 +4,11 @@ L'application iOS et Android Pass Emploi
 Dans `Run` > `Edit Configurations`, rajouter la base URL du backend 
 sur le net `Additional arguments` > `--dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL>`
 
+## Spécificité Firestore iOS
+La dépendance basique de Firestore sur iOS augmente considérablement le temps de build de l'app iOS. 
+Aussi pour éviter un tel écueil, on utilise un version précompilé proposée par la communauté. 
+Si besoin de la mettre à jour, il faut le faire dans le fichier `ios/Podfile` :
+`pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => 'X.X.X'` 
 
 ## Déployer une app sur Firebase
 ### Prérequis
