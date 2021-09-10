@@ -27,7 +27,7 @@ class ApiMiddleware extends MiddlewareClass<AppState> {
     } else if (action is RequestUserActionsAction) {
       _getUserActions(store, action.userId);
     } else if (action is UpdateActionStatus) {
-      _userActionRepository.updateActionStatus(action.actionId, action.newIsDoneValue);
+      _userActionRepository.updateActionStatus(action.userId, action.actionId, action.newIsDoneValue);
     } else if (action is SendMessageAction) {
       _chatRepository.sendMessage(action.message);
     } else if (action is LastMessageSeenAction) {

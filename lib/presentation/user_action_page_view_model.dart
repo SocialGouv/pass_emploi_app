@@ -42,9 +42,9 @@ class UserActionPageViewModel {
       withFailure: userActionState is UserActionFailureState,
       items: _userActionItems(sortedTodoActions, sortedDoneActions),
       onTapTodoAction: (String actionId) =>
-          store.dispatch(UpdateActionStatus(actionId: actionId, newIsDoneValue: true)),
+          store.dispatch(UpdateActionStatus(userId: user.id, actionId: actionId, newIsDoneValue: true)),
       onTapDoneAction: (String actionId) =>
-          store.dispatch(UpdateActionStatus(actionId: actionId, newIsDoneValue: false)),
+          store.dispatch(UpdateActionStatus(userId: user.id, actionId: actionId, newIsDoneValue: false)),
       onRetry: () => store.dispatch(RequestUserActionsAction(user.id)),
     );
   }

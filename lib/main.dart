@@ -7,6 +7,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
+import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/pages/force_update_page.dart';
 import 'package:pass_emploi_app/pass_emploi_app.dart';
 import 'package:pass_emploi_app/redux/middlewares/animation_middleware.dart';
@@ -71,13 +72,19 @@ Future<bool> _shouldForceUpdate(RemoteConfig remoteConfig) async {
 }
 
 Store<AppState> _initializeReduxStore(String baseUrl) {
-  var userRepository = UserRepository(baseUrl);
+  final headersBuilder = HeadersBuilder();
+  final userRepository = UserRepository(baseUrl, headersBuilder);
   return Store<AppState>(
     reducer,
     initialState: AppState.initialState(),
     middleware: [
       RouterMiddleware(userRepository),
-      ApiMiddleware(userRepository, HomeRepository(baseUrl), UserActionRepository(baseUrl), ChatRepository()),
+      ApiMiddleware(
+        userRepository,
+        HomeRepository(baseUrl, headersBuilder),
+        UserActionRepository(baseUrl, headersBuilder),
+        ChatRepository(),
+      ),
       AnimationMiddleware(),
     ],
   );

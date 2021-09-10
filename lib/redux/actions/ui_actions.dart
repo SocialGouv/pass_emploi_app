@@ -5,10 +5,11 @@ class BootstrapAction extends UiAction {}
 class LogoutAction extends UiAction {}
 
 class UpdateActionStatus extends UiAction {
+  final String userId;
   final String actionId;
   final bool newIsDoneValue;
 
-  UpdateActionStatus({required this.actionId, required this.newIsDoneValue});
+  UpdateActionStatus({required this.userId, required this.actionId, required this.newIsDoneValue});
 }
 
 class SendMessageAction extends UiAction {

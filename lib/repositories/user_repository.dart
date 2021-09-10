@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:pass_emploi_app/models/user.dart';
+import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/post_user_action_request.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
@@ -11,8 +12,9 @@ class UserRepository {
   static const USER_KEY = "USER_KEY";
 
   final String baseUrl;
+  final HeadersBuilder headerBuilder;
 
-  UserRepository(this.baseUrl);
+  UserRepository(this.baseUrl, this.headerBuilder);
 
   Future<User?> getUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -36,7 +38,7 @@ class UserRepository {
     try {
       final response = await http.post(
         url,
-        headers: {'Content-Type': 'application/json'},
+        headers: await headerBuilder.headers(contentType: 'application/json'),
         body: customJsonEncode(PostUserRequest(user: user)),
       );
       if (response.statusCode.isValid()) return user;
