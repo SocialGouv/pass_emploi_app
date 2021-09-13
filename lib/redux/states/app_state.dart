@@ -45,4 +45,15 @@ class AppState {
       chatState: ChatState.notInitialized(),
     );
   }
+
+  @override
+  String toString() {
+    return 'AppState{'
+        'loginState: $loginState, '
+        'homeState: $homeState, '
+        'userActionState: $userActionState, '
+        'chatStatusState: $chatStatusState, '
+        'chatState: $chatState'
+        '}';
+  }
 }

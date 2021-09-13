@@ -13,7 +13,7 @@ import 'package:pass_emploi_app/pass_emploi_app.dart';
 import 'package:pass_emploi_app/redux/middlewares/animation_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/api_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/router_middleware.dart';
-import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
+import 'package:pass_emploi_app/redux/reducers/crashlytics_reducer_decorator.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/home_repository.dart';
@@ -75,7 +75,7 @@ Store<AppState> _initializeReduxStore(String baseUrl) {
   final headersBuilder = HeadersBuilder();
   final userRepository = UserRepository(baseUrl, headersBuilder);
   return Store<AppState>(
-    reducer,
+    crashlyticsReducerDecorator,
     initialState: AppState.initialState(),
     middleware: [
       RouterMiddleware(userRepository),
