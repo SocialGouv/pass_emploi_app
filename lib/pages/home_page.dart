@@ -109,6 +109,7 @@ class HomePage extends StatelessWidget {
 
   _appBar(String title, Function() onRetry) {
     return DefaultAppBar(
+      centerTitle: false,
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
