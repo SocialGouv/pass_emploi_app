@@ -1,8 +1,18 @@
 L'application iOS et Android Pass Emploi
 
-## Renseigner l'adresse du serveur de dev
+## Renseigner l'adresse du serveur
 Dans `Run` > `Edit Configurations`, rajouter la base URL du backend 
 sur le net `Additional arguments` > `--dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL>`
+
+## Renseigner les secrets Firebase
+Le projet utilise plusieurs foncionnalité de firebase. Les secrets ne sont pas et ne doivent pas 
+être commités (à ce titre, ils sont présent dans le `.gitignore`. Pour autant, ils sont nécessaires 
+au bon fonctionnement de l'application. Ils sont téléchargeables directement depuis Firebase : 
+[https://console.firebase.google.com/u/1/project/pass-emploi/settings/general] et doivent être 
+dans les PATH suivants :
+* Android : `/android/app/google-services.json`
+* iOS : `/ios/Runner/GoogleService-Info.plist`
+
 
 ## Spécificité Firestore iOS
 La dépendance basique de Firestore sur iOS augmente considérablement le temps de build de l'app iOS. 
@@ -23,7 +33,7 @@ Si besoin de la mettre à jour, il faut le faire dans le fichier `ios/Podfile` :
 3. Renseigner les valeurs demandées (valeurs présentes dans le Drive du projet) dans ce fichier.
 4. Construire l'APK en release : `$ flutter build apk --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL>`
 5. Récupérer l'APK `build/app/outputs/flutter-apk/app-release.apk` 
-6. Créer une version avec cet APK sur Firebase App Distribution : https://console.firebase.google.com/u/1/project/pass-emploi/appdistribution/app/android:fr.fabrique.social.gouv.passemploi/releases
+6. Créer une version avec cet APK sur Firebase App Distribution : [https://console.firebase.google.com/u/1/project/pass-emploi/appdistribution/app/android:fr.fabrique.social.gouv.passemploi/releases]
 7. Ajouter le groupe `Equipe projet` aux testeurs
 8. Distribuer la version 
 
@@ -38,6 +48,6 @@ Si besoin de la mettre à jour, il faut le faire dans le fichier `ios/Podfile` :
 7. Selectionner Product > Archive.
 8. Une fois l'archive réalisée, cliquer sur Distribute App > Adhoc> Répréciser le provisioning.profile `fr.fabrique.socialgouv.passemploi` > Export
 9. Récupérer l'IPA `pass_emploi_app.ipa`
-10. Créer une version avec cet IPA sur Firebase App Distribution : https://console.firebase.google.com/u/1/project/pass-emploi/appdistribution/app/ios:fr.fabrique.social.gouv.passemploi/releases
+10. Créer une version avec cet IPA sur Firebase App Distribution : [https://console.firebase.google.com/u/1/project/pass-emploi/appdistribution/app/ios:fr.fabrique.social.gouv.passemploi/releases]
 11. Ajouter le groupe `Equipe projet` aux testeurs
 12. Distribuer la version 
