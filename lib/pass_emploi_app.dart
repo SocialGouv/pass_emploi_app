@@ -15,7 +15,14 @@ class PassEmploiApp extends StatelessWidget {
       store: _store,
       child: MaterialApp(
         title: 'Pass Emploi',
-        theme: ThemeData(primarySwatch: Colors.indigo),
+        theme: ThemeData(
+            primarySwatch: Colors.indigo,
+            pageTransitionsTheme: PageTransitionsTheme(
+              builders: {
+                TargetPlatform.android: ZoomPageTransitionsBuilder(),
+                TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+              },
+            )),
         home: RouterPage(),
       ),
     );
