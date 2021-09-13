@@ -23,6 +23,7 @@ dependencies:
   firebase_core: ^1.6.0
   firebase_crashlytics: ^2.2.1
   firebase_remote_config: ^0.10.0+5
+  firebase_analytics: ^8.3.2
   cloud_firestore: ^2.5.1
   # UI
   google_fonts: ^2.1.0

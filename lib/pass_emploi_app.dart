@@ -1,3 +1,5 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/pages/router_page.dart';
@@ -24,6 +26,7 @@ class PassEmploiApp extends StatelessWidget {
               },
             )),
         home: RouterPage(),
+        navigatorObservers: [FirebaseAnalyticsObserver(analytics: FirebaseAnalytics())],
       ),
     );
   }
