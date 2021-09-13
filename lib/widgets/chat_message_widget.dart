@@ -22,13 +22,13 @@ class ChatMessageWidget extends StatelessWidget {
             ),
             padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
-              color: item is ConseillerMessageItem ? AppColors.nightBlue : AppColors.lightBlue,
+              color: item is ConseillerMessageItem ? AppColors.lightBlue : AppColors.nightBlue,
               borderRadius: BorderRadius.all(Radius.circular(16)),
             ),
             child: Text(
               item.content,
               style: TextStyles.textSmRegular(
-                color: item is ConseillerMessageItem ? Colors.white : AppColors.nightBlue,
+                color: item is ConseillerMessageItem ? AppColors.nightBlue : Colors.white,
               ),
             ),
           ),

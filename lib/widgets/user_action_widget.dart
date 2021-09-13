@@ -37,7 +37,11 @@ class UserActionWidget extends StatelessWidget {
                   children: [
                     if (!action.isDone) SvgPicture.asset("assets/ic_night_blue_circle.svg"),
                     if (action.isDone) SvgPicture.asset("assets/ic_white_circle.svg"),
-                    if (action.isDone) SvgPicture.asset("assets/ic_white_check.svg"),
+                    if (action.isDone)
+                      Padding(
+                        padding: const EdgeInsets.only(left: 1),
+                        child: SvgPicture.asset("assets/ic_white_check.svg"),
+                      ),
                   ],
                 ),
               ),
