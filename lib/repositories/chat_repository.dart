@@ -7,6 +7,8 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:redux/redux.dart';
 
 class ChatRepository {
+  static const _FIREBASE_ENV = String.fromEnvironment('FIREBASE_ENVIRONMENT_PREFIX');
+  static const _COLLECTION_PATH = _FIREBASE_ENV + "-chat";
   final firestore = FirebaseFirestore.instance;
   StreamSubscription<QuerySnapshot>? _messagesSubscription;
   StreamSubscription<DocumentSnapshot>? _chatStatusSubscription;
@@ -17,7 +19,7 @@ class ChatRepository {
     unsubscribeToMessages();
     store.dispatch(ChatLoadingAction());
 
-    final chats = await firestore.collection('chat').where('jeuneId', isEqualTo: userId).get();
+    final chats = await firestore.collection(_COLLECTION_PATH).where('jeuneId', isEqualTo: userId).get();
     _chatDocumentId = chats.docs.first.id;
 
     final Stream<QuerySnapshot> messageStream = _messagesCollection().orderBy('creationDate').snapshots();
@@ -34,7 +36,7 @@ class ChatRepository {
 
     final Stream<DocumentSnapshot> chatStatusStream = _chatStatusCollection().snapshots();
     _chatStatusSubscription = chatStatusStream.listen(
-      (DocumentSnapshot snapshot) {
+          (DocumentSnapshot snapshot) {
         final Map<String, dynamic> data = snapshot.data()! as Map<String, dynamic>;
         final unreadMessageCount = data['newConseillerMessageCount'];
         if (unreadMessageCount != null) store.dispatch(ChatUnseenMessageAction(unreadMessageCount));
@@ -56,20 +58,20 @@ class ChatRepository {
 
     _messagesCollection()
         .add({
-          'content': message,
-          'sentBy': "jeune",
-          'creationDate': messageCreationDate,
-        })
+      'content': message,
+      'sentBy': "jeune",
+      'creationDate': messageCreationDate,
+    })
         .then((value) => print("New message sent $message"))
         .catchError((error) => print("Failed to send message: $error"));
 
     _chatStatusCollection()
         .update({
-          'lastMessageContent': message,
-          'lastMessageSentBy': "jeune",
-          'lastMessageSentAt': messageCreationDate,
-          'seenByConseiller': false,
-        })
+      'lastMessageContent': message,
+      'lastMessageSentBy': "jeune",
+      'lastMessageSentAt': messageCreationDate,
+      'seenByConseiller': false,
+    })
         .then((value) => print("Chat status updated"))
         .catchError((error) => print("Failed to update chat status: $error"));
   }
@@ -81,7 +83,7 @@ class ChatRepository {
         .catchError((error) => print("Failed to update last message seen: $error"));
   }
 
-  _messagesCollection() => FirebaseFirestore.instance.collection('chat').doc(_chatDocumentId).collection('messages');
+  _messagesCollection() => firestore.collection(_COLLECTION_PATH).doc(_chatDocumentId).collection('messages');
 
-  _chatStatusCollection() => FirebaseFirestore.instance.collection('chat').doc(_chatDocumentId);
+  _chatStatusCollection() => firestore.collection(_COLLECTION_PATH).doc(_chatDocumentId);
 }

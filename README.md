@@ -2,7 +2,7 @@ L'application iOS et Android Pass Emploi
 
 ## Renseigner l'adresse du serveur
 Dans `Run` > `Edit Configurations`, rajouter la base URL du backend 
-sur le net `Additional arguments` > `--dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL>`
+sur le net `Additional arguments` > `--dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL> --dart-define=FIREBASE_ENVIRONMENT_PREFIX=<staging | prod>`
 
 ## Renseigner les secrets Firebase
 Le projet utilise plusieurs foncionnalité de firebase. Les secrets ne sont pas et ne doivent pas 
@@ -31,7 +31,7 @@ Si besoin de la mettre à jour, il faut le faire dans le fichier `ios/Podfile` :
 1. Vérifier que le fichier `passemploi.jks` (fichier privé) est bien situé dans le repertoire `android/keystore` 
 2. Créer un fichier `key.properties` dans le repertoire `android` à partir du même modèle que `key.properties.template`. Ce fichier ne doit JAMAIS être versionné.
 3. Renseigner les valeurs demandées (valeurs présentes dans le Drive du projet) dans ce fichier.
-4. Construire l'APK en release : `$ flutter build apk --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL>`
+4. Construire l'APK en release : `$ flutter build apk --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL> --dart-define=FIREBASE_ENVIRONMENT_PREFIX=<staging | prod>`
 5. Récupérer l'APK `build/app/outputs/flutter-apk/app-release.apk` 
 6. Créer une version avec cet APK sur Firebase App Distribution : [https://console.firebase.google.com/u/1/project/pass-emploi/appdistribution/app/android:fr.fabrique.social.gouv.passemploi/releases]
 7. Ajouter le groupe `Equipe projet` aux testeurs
@@ -41,7 +41,7 @@ Si besoin de la mettre à jour, il faut le faire dans le fichier `ios/Podfile` :
 ### Pour iOS
 1. Vérifier que votre compte Apple Dev ait bien accès au compte Apple "Fabrique numérique des ministères sociaux"
 2. COnfigurer XCode, notamment sur la partie `Signing & Capabilities` [https://flutter.dev/docs/deployment/ios] en renseingnant le bon provisioning profile de l'app `fr.fabrique.socialgouv.passemploi`
-3. Lancer le build iOS release : `flutter build ipa --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL>`
+3. Lancer le build iOS release : `flutter build ipa --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL> --dart-define=FIREBASE_ENVIRONMENT_PREFIX=<staging | prod>`
 4. Ouvrir le projet dans Xcode
 5. Selectionner Product > Scheme > Runner.
 6. Selectionner Product > Destination > Any iOS Device.
