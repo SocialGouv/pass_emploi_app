@@ -21,10 +21,9 @@ class SendMessageAction extends UiAction {
 class LastMessageSeenAction extends UiAction {}
 
 class RequestLoginAction extends UiAction {
-  final String firstName;
-  final String lastName;
+  final String accessCode;
 
-  RequestLoginAction(this.firstName, this.lastName);
+  RequestLoginAction(this.accessCode);
 }
 
 class RequestHomeAction extends UiAction {

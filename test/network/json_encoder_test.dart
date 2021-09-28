@@ -2,20 +2,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/patch_user_action_request.dart';
-import 'package:pass_emploi_app/network/post_user_action_request.dart';
 
 void main() {
   test('customJsonEncode for PatchUserActionRequest', () {
     final request = PatchUserActionRequest(isDone: false);
     final json = customJsonEncode(request);
     expect(json, '{"isDone":false}');
-  });
-
-  test('customJsonEncode for PostUserRequest', () {
-    final user = User(id: "1", firstName: "first-name", lastName: "last-name");
-    final request = PostUserRequest(user: user);
-    final json = customJsonEncode(request);
-    expect(json, '{"id":"1","firstName":"first-name","lastName":"last-name"}');
   });
 
   test('customJsonEncode for User', () {

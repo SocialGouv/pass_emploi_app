@@ -11,15 +11,13 @@ class LoggedInAction extends LoginAction {
 class NotLoggedInAction extends LoginAction {}
 
 class LoginLoadingAction extends LoginAction {
-  final String firstName;
-  final String lastName;
+  final String accessCode;
 
-  LoginLoadingAction(this.firstName, this.lastName);
+  LoginLoadingAction(this.accessCode);
 }
 
 class LoginFailureAction extends LoginAction {
-  final String firstName;
-  final String lastName;
+  final String accessCode;
 
-  LoginFailureAction(this.firstName, this.lastName);
+  LoginFailureAction(this.accessCode);
 }

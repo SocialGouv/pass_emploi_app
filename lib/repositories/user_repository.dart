@@ -4,12 +4,12 @@ import 'package:http/http.dart' as http;
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
-import 'package:pass_emploi_app/network/post_user_action_request.dart';
+import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class UserRepository {
-  static const USER_KEY = "USER_KEY";
+  static const USER_KEY = "USER_V2_KEY";
 
   final String baseUrl;
   final HeadersBuilder headerBuilder;
@@ -32,21 +32,17 @@ class UserRepository {
     prefs.remove(USER_KEY);
   }
 
-  Future<User?> logUser(String firstName, String lastName) async {
-    final user = User(id: _generateUserId(), firstName: firstName, lastName: lastName);
-    var url = Uri.parse(baseUrl + "/jeunes");
+  Future<User?> logUser(String accessCode) async {
+    var url = Uri.parse(baseUrl + "/jeunes/$accessCode/login");
     try {
       final response = await http.post(
         url,
         headers: await headerBuilder.headers(contentType: 'application/json'),
-        body: customJsonEncode(PostUserRequest(user: user)),
       );
-      if (response.statusCode.isValid()) return user;
+      if (response.statusCode.isValid()) return User.fromJson(jsonUtf8Decode(response.bodyBytes));
     } catch (e) {
       print('Exception on ${url.toString()}: ' + e.toString());
     }
     return null;
   }
-
-  _generateUserId() => DateTime.now().hashCode.toString();
 }

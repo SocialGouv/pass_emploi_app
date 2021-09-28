@@ -36,13 +36,13 @@ class ApiMiddleware extends MiddlewareClass<AppState> {
   }
 
   _requestLogin(Store<AppState> store, RequestLoginAction action) async {
-    store.dispatch(LoginLoadingAction(action.firstName, action.lastName));
-    final user = await _userRepository.logUser(action.firstName, action.lastName);
+    store.dispatch(LoginLoadingAction(action.accessCode));
+    final user = await _userRepository.logUser(action.accessCode);
     if (user != null) {
       _userRepository.saveUser(user);
       store.dispatch(LoggedInAction(user));
     } else {
-      store.dispatch(LoginFailureAction(action.firstName, action.lastName));
+      store.dispatch(LoginFailureAction(action.accessCode));
     }
   }
 
