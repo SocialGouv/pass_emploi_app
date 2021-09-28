@@ -44,19 +44,21 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     Column(
                       children: [
-                        Expanded(child: SvgPicture.asset("assets/ic_logo.svg", semanticsLabel: 'Logo Pass Emploi')),
+                        Expanded(
+                          child: SvgPicture.asset("assets/ic_logo.svg", width: 145, semanticsLabel: 'Logo Pass Emploi'),
+                        ),
                         Expanded(
                           child: Container(
                             width: double.infinity,
+                            margin: EdgeInsets.only(left: 16, right: 16),
+                            padding: EdgeInsets.all(16),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               border: Border.all(width: 1, color: Colors.white),
-                              borderRadius:
-                                  BorderRadius.only(topLeft: Radius.circular(32), topRight: Radius.circular(32)),
+                              borderRadius: BorderRadius.all(Radius.circular(16)),
                             ),
                             child: Column(
                               children: [
-                                SizedBox(height: 28),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 40, right: 40),
                                   child: Text(
@@ -79,9 +81,10 @@ class _LoginPageState extends State<LoginPage> {
                                       return null;
                                     },
                                     onChanged: (String? value) => _accessCode = value,
+                                    onEditingComplete: () => _performLogin(viewModel),
                                     decoration: InputDecoration(
                                       contentPadding: const EdgeInsets.only(left: 24, top: 18, bottom: 18),
-                                      labelText: 'Code d\'accès',
+                                      labelText: 'Ton code d\'accès',
                                       labelStyle: TextStyles.textSmMedium(color: AppColors.bluePurple),
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(8.0),
@@ -115,13 +118,13 @@ class _LoginPageState extends State<LoginPage> {
                                   padding: const EdgeInsets.only(left: Margins.medium, right: Margins.medium),
                                   child: viewModel.withLoading ? _loginButtonLoading() : _loginButton(viewModel),
                                 ),
-                                SizedBox(height: 16),
                               ],
                             ),
                           ),
                         ),
+                        Spacer(),
                       ],
-                    ),
+                    )
                   ],
                 ),
               ),
@@ -137,11 +140,7 @@ class _LoginPageState extends State<LoginPage> {
       borderRadius: BorderRadius.circular(8),
       child: Material(
         child: InkWell(
-          onTap: () {
-            if (_formKey.currentState!.validate()) {
-              viewModel.onLoginAction(_accessCode!);
-            }
-          },
+          onTap: () => _performLogin(viewModel),
           child: Container(
             height: 56,
             child: Center(
@@ -177,5 +176,11 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  void _performLogin(LoginViewModel viewModel) {
+    if (_formKey.currentState!.validate()) {
+      viewModel.onLoginAction(_accessCode!);
+    }
   }
 }
