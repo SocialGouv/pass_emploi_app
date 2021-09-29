@@ -53,17 +53,22 @@ String _baseUrl() {
   return baseUrl;
 }
 
-Future<RemoteConfig> _remoteConfig() async {
+Future<RemoteConfig?> _remoteConfig() async {
   final RemoteConfig remoteConfig = RemoteConfig.instance;
   await remoteConfig.setConfigSettings(RemoteConfigSettings(
     fetchTimeout: Duration(seconds: 5),
     minimumFetchInterval: Duration(minutes: 5),
   ));
-  await remoteConfig.fetchAndActivate();
+  try {
+    await remoteConfig.fetchAndActivate();
+  } catch (e) {
+    return null;
+  }
   return remoteConfig;
 }
 
-Future<bool> _shouldForceUpdate(RemoteConfig remoteConfig) async {
+Future<bool> _shouldForceUpdate(RemoteConfig? remoteConfig) async {
+  if (remoteConfig == null) return false;
   final PackageInfo packageInfo = await PackageInfo.fromPlatform();
   final minimumVersionKey = Platform.isAndroid ? 'app_android_min_required_version' : 'app_ios_min_required_version';
   final currentVersion = packageInfo.version;

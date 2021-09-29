@@ -7,16 +7,14 @@ class LoginViewModel {
   final bool withLoading;
   final bool withFailure;
   final bool withAlreadyEnteredValues;
-  final String firstName;
-  final String lastName;
-  final Function(String firstName, String lastName) onLoginAction;
+  final String accessCode;
+  final Function(String accessCode) onLoginAction;
 
   LoginViewModel({
     required this.withLoading,
     required this.withFailure,
     required this.withAlreadyEnteredValues,
-    required this.firstName,
-    required this.lastName,
+    required this.accessCode,
     required this.onLoginAction,
   });
 
@@ -26,21 +24,14 @@ class LoginViewModel {
       withLoading: state is LoginLoadingState,
       withFailure: state is LoginFailureState,
       withAlreadyEnteredValues: state is LoginLoadingState,
-      firstName: _firstName(state),
-      lastName: _lastName(state),
-      onLoginAction: (String firstName, String lastName) => store.dispatch(RequestLoginAction(firstName, lastName)),
+      accessCode: _accessCode(state),
+      onLoginAction: (String accessCode) => store.dispatch(RequestLoginAction(accessCode)),
     );
   }
 }
 
-String _firstName(LoginState state) {
-  if (state is LoginLoadingState) return state.firstName;
-  if (state is LoginFailureState) return state.firstName;
-  return "";
-}
-
-String _lastName(LoginState state) {
-  if (state is LoginLoadingState) return state.lastName;
-  if (state is LoginFailureState) return state.lastName;
+String _accessCode(LoginState state) {
+  if (state is LoginLoadingState) return state.accessCode;
+  if (state is LoginFailureState) return state.accessCode;
   return "";
 }

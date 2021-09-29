@@ -14,8 +14,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  String? _firstName;
-  String? _lastName;
+  String? _accessCode;
 
   @override
   Widget build(BuildContext context) {
@@ -45,23 +44,25 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     Column(
                       children: [
-                        Expanded(child: SvgPicture.asset("assets/ic_logo.svg", semanticsLabel: 'Logo Pass Emploi')),
+                        Expanded(
+                          child: SvgPicture.asset("assets/ic_logo.svg", width: 145, semanticsLabel: 'Logo Pass Emploi'),
+                        ),
                         Expanded(
                           child: Container(
                             width: double.infinity,
+                            margin: EdgeInsets.only(left: 16, right: 16),
+                            padding: EdgeInsets.all(16),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               border: Border.all(width: 1, color: Colors.white),
-                              borderRadius:
-                                  BorderRadius.only(topLeft: Radius.circular(32), topRight: Radius.circular(32)),
+                              borderRadius: BorderRadius.all(Radius.circular(16)),
                             ),
                             child: Column(
                               children: [
-                                SizedBox(height: 28),
                                 Padding(
                                   padding: const EdgeInsets.only(left: 40, right: 40),
                                   child: Text(
-                                    "Identifie-toi pour accéder à\nPass Emploi",
+                                    "Connecte-toi",
                                     style: TextStyles.textMdMedium,
                                     textAlign: TextAlign.center,
                                   ),
@@ -73,66 +74,32 @@ class _LoginPageState extends State<LoginPage> {
                                     style: TextStyles.textSmMedium(color: AppColors.nightBlue),
                                     keyboardType: TextInputType.name,
                                     textCapitalization: TextCapitalization.words,
-                                    textInputAction: TextInputAction.next,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) return 'Veuillez entrer votre prénom';
-                                      return null;
-                                    },
-                                    onChanged: (String? value) => _firstName = value,
-                                    decoration: InputDecoration(
-                                      contentPadding: const EdgeInsets.only(left: 24, top: 18, bottom: 18),
-                                      labelText: "Prénom",
-                                      labelStyle: TextStyles.textSmMedium(color: AppColors.bluePurple),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(51.0),
-                                        borderSide: BorderSide(color: AppColors.borderGrey, width: 1.0),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(51.0),
-                                        borderSide: BorderSide(color: AppColors.borderGrey, width: 1.0),
-                                      ),
-                                      focusedErrorBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(51.0),
-                                        borderSide: BorderSide(color: AppColors.borderGrey, width: 1.0),
-                                      ),
-                                      errorBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(51.0),
-                                        borderSide: BorderSide(color: AppColors.borderGrey, width: 1.0),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 16),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: Margins.medium, right: Margins.medium),
-                                  child: TextFormField(
-                                    style: TextStyles.textSmMedium(color: AppColors.nightBlue),
-                                    keyboardType: TextInputType.name,
-                                    textCapitalization: TextCapitalization.words,
                                     textInputAction: TextInputAction.done,
                                     validator: (value) {
-                                      if (value == null || value.isEmpty) return 'Veuillez entrer votre nom';
+                                      if (value == null || value.isEmpty)
+                                        return 'Ton code d\'accès doit être renseigné';
                                       return null;
                                     },
-                                    onChanged: (String? value) => _lastName = value,
+                                    onChanged: (String? value) => _accessCode = value,
+                                    onEditingComplete: () => _performLogin(viewModel),
                                     decoration: InputDecoration(
                                       contentPadding: const EdgeInsets.only(left: 24, top: 18, bottom: 18),
-                                      labelText: "Nom",
+                                      labelText: 'Ton code d\'accès',
                                       labelStyle: TextStyles.textSmMedium(color: AppColors.bluePurple),
                                       enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(51.0),
+                                        borderRadius: BorderRadius.circular(8.0),
                                         borderSide: BorderSide(color: AppColors.borderGrey, width: 1.0),
                                       ),
                                       focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(51.0),
+                                        borderRadius: BorderRadius.circular(8.0),
                                         borderSide: BorderSide(color: AppColors.borderGrey, width: 1.0),
                                       ),
                                       focusedErrorBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(51.0),
+                                        borderRadius: BorderRadius.circular(8.0),
                                         borderSide: BorderSide(color: AppColors.borderGrey, width: 1.0),
                                       ),
                                       errorBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(51.0),
+                                        borderRadius: BorderRadius.circular(8.0),
                                         borderSide: BorderSide(color: AppColors.borderGrey, width: 1.0),
                                       ),
                                     ),
@@ -151,13 +118,13 @@ class _LoginPageState extends State<LoginPage> {
                                   padding: const EdgeInsets.only(left: Margins.medium, right: Margins.medium),
                                   child: viewModel.withLoading ? _loginButtonLoading() : _loginButton(viewModel),
                                 ),
-                                SizedBox(height: 16),
                               ],
                             ),
                           ),
                         ),
+                        Spacer(),
                       ],
-                    ),
+                    )
                   ],
                 ),
               ),
@@ -170,21 +137,17 @@ class _LoginPageState extends State<LoginPage> {
 
   ClipRRect _loginButton(LoginViewModel viewModel) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(78),
+      borderRadius: BorderRadius.circular(8),
       child: Material(
         child: InkWell(
-          onTap: () {
-            if (_formKey.currentState!.validate()) {
-              viewModel.onLoginAction(_firstName!, _lastName!);
-            }
-          },
+          onTap: () => _performLogin(viewModel),
           child: Container(
             height: 56,
             child: Center(
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('Se connecter', style: TextStyles.textSmMedium(color: Colors.white)),
+                  Text('Connexion', style: TextStyles.textSmMedium(color: Colors.white)),
                 ],
               ),
             ),
@@ -197,7 +160,7 @@ class _LoginPageState extends State<LoginPage> {
 
   ClipRRect _loginButtonLoading() {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(78),
+      borderRadius: BorderRadius.circular(8),
       child: Container(
         height: 56,
         color: AppColors.bluePurple,
@@ -213,5 +176,11 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
     );
+  }
+
+  void _performLogin(LoginViewModel viewModel) {
+    if (_formKey.currentState!.validate()) {
+      viewModel.onLoginAction(_accessCode!);
+    }
   }
 }
