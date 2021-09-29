@@ -1,5 +1,11 @@
 L'application iOS et Android Pass Emploi
 
+## Code style
+A date, nous utilisons le code style par défaut de l'IDE Android Studio pour le langage Dart. La 
+seule spécificité est de mettre le nombre de caractère par ligne à 120 : dans les préférences de 
+l'IDE `Editor > Code Style > Dart > Line length`
+
+
 ## Renseigner l'adresse du serveur
 Dans `Run` > `Edit Configurations`, rajouter la base URL du backend 
 sur le net `Additional arguments` > `--dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL> --dart-define=FIREBASE_ENVIRONMENT_PREFIX=<staging | prod>`
