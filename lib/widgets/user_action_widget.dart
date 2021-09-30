@@ -55,13 +55,14 @@ class UserActionWidget extends StatelessWidget {
                         action.content,
                         style: TextStyles.textSmRegular(color: action.isDone ? Colors.white : AppColors.nightBlue),
                       ),
-                      SizedBox(height: 4),
                       if (action.withComment)
-                        Text(
-                          action.comment,
-                          style: TextStyles.textXsRegular(color: action.isDone ? Colors.white : AppColors.nightBlue),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4, bottom: 4),
+                          child: Text(
+                            action.comment,
+                            style: TextStyles.textXsRegular(color: action.isDone ? Colors.white : AppColors.nightBlue),
+                          ),
                         ),
-                      SizedBox(height: 4),
                     ],
                   ),
                 ),
