@@ -1,5 +1,6 @@
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_view_model.dart';
+import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 
 abstract class HomeItem {
   HomeItem._();
@@ -8,7 +9,7 @@ abstract class HomeItem {
 
   factory HomeItem.message(String message) = MessageItem;
 
-  factory HomeItem.action(UserAction action) = ActionItem;
+  factory HomeItem.action(UserActionViewModel action) = ActionItem;
 
   factory HomeItem.allActionsButton() = AllActionsButtonItem;
 
@@ -28,7 +29,7 @@ class MessageItem extends HomeItem {
 }
 
 class ActionItem extends HomeItem {
-  final UserAction action;
+  final UserActionViewModel action;
 
   ActionItem(this.action) : super._();
 }

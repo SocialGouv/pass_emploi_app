@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class UserActionWidget extends StatelessWidget {
-  final UserAction action;
+  final UserActionViewModel action;
   final GestureTapCallback onTap;
 
   UserActionWidget({required this.action, required this.onTap});
@@ -48,9 +48,14 @@ class UserActionWidget extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 16, bottom: 16, right: 16),
-                  child: Text(
-                    action.content,
-                    style: TextStyles.textSmRegular(color: action.isDone ? Colors.white : AppColors.nightBlue),
+                  child:Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(action.content, style: TextStyles.textSmRegular(color: action.isDone ? Colors.white : AppColors.nightBlue)),
+                      SizedBox(height: 4),
+                      if(action.withComment) Text(action.comment, style: TextStyles.textXsRegular(color: action.isDone ? Colors.white : AppColors.nightBlue)),
+                      SizedBox(height: 4),
+                    ],
                   ),
                 ),
               ),
