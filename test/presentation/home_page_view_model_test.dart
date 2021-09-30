@@ -88,8 +88,20 @@ void main() {
       conseiller: Conseiller(id: '1', firstName: 'first', lastName: 'last'),
       doneActionsCount: 0,
       actions: [
-        UserAction(id: '1', content: 'content1', isDone: false, lastUpdate: DateTime(2022, 12, 23, 0, 0, 0)),
-        UserAction(id: '2', content: 'content2', isDone: false, lastUpdate: DateTime(2022, 12, 23, 0, 0, 0)),
+        UserAction(
+          id: '1',
+          content: 'content1',
+          comment: 'comment1',
+          isDone: false,
+          lastUpdate: DateTime(2022, 12, 23, 0, 0, 0),
+        ),
+        UserAction(
+          id: '2',
+          content: 'content2',
+          comment: 'comment2',
+          isDone: false,
+          lastUpdate: DateTime(2022, 12, 23, 0, 0, 0),
+        ),
       ],
       rendezvous: [],
     );
@@ -102,7 +114,9 @@ void main() {
 
     expect((viewModel.items[0] as SectionItem).title, "Mes actions");
     expect((viewModel.items[1] as ActionItem).action.content, 'content1');
+    expect((viewModel.items[1] as ActionItem).action.comment, 'comment1');
     expect((viewModel.items[2] as ActionItem).action.content, 'content2');
+    expect((viewModel.items[2] as ActionItem).action.comment, 'comment2');
     expect(viewModel.items[3] is AllActionsButtonItem, true);
   });
 
