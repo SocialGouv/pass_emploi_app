@@ -48,12 +48,19 @@ class UserActionWidget extends StatelessWidget {
               Expanded(
                 child: Padding(
                   padding: const EdgeInsets.only(top: 16, bottom: 16, right: 16),
-                  child:Column(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(action.content, style: TextStyles.textSmRegular(color: action.isDone ? Colors.white : AppColors.nightBlue)),
+                      Text(
+                        action.content,
+                        style: TextStyles.textSmRegular(color: action.isDone ? Colors.white : AppColors.nightBlue),
+                      ),
                       SizedBox(height: 4),
-                      if(action.withComment) Text(action.comment, style: TextStyles.textXsRegular(color: action.isDone ? Colors.white : AppColors.nightBlue)),
+                      if (action.withComment)
+                        Text(
+                          action.comment,
+                          style: TextStyles.textXsRegular(color: action.isDone ? Colors.white : AppColors.nightBlue),
+                        ),
                       SizedBox(height: 4),
                     ],
                   ),
