@@ -12,6 +12,7 @@ AppState uiActionReducer(AppState currentState, dynamic action) {
       final updatedAction = UserAction(
         id: actionToUpdate.id,
         content: actionToUpdate.content,
+        comment: actionToUpdate.comment,
         isDone: action.newIsDoneValue,
         lastUpdate: DateTime.now(),
       );

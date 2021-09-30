@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/models/home.dart';
 import '../utils/test_assets.dart';
 
 void main() {
-  test('Home.fromJson when complete data should unserialized correctly data', () {
+  test('Home.fromJson when complete data should unserialized data correctly', () {
     final String homeString = loadTestAssets("home.json");
     final homeJson = json.decode(homeString);
 
@@ -23,6 +23,7 @@ void main() {
     final action = home.actions.first;
     expect(action.id, "8802034");
     expect(action.content, "Changer de prénom");
+    expect(action.comment, "Commentaire");
     expect(action.isDone, true);
     expect(action.lastUpdate, DateTime(2021, 7, 30, 9, 43, 9));
 

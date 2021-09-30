@@ -1,6 +1,7 @@
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_view_model.dart';
+import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/home_state.dart';
@@ -61,7 +62,7 @@ _actionItems(List<UserAction> actions, int doneActionsCount) {
             ? HomeItem.message(
                 "Bravo :) Tu n’as plus d’actions en cours.\nContacte ton conseiller pour obtenir de nouvelles actions.")
             : null)
-        ..addAll(actions.map((action) => HomeItem.action(action)))
+        ..addAll(actions.map((action) => HomeItem.action(UserActionViewModel.create(action))))
         ..add(actions.isNotEmpty || doneActionsCount > 0 ? HomeItem.allActionsButton() : null))
       .whereType<HomeItem>()
       .toList();

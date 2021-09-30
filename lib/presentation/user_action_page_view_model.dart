@@ -1,5 +1,6 @@
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/user_action_item.dart';
+import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
@@ -54,10 +55,10 @@ _userActionItems(List<UserAction> todoActions, List<UserAction> doneActions) {
   return (<UserActionItem?>[]
         ..add(UserActionItem.section("Mes actions en cours"))
         ..add(todoActions.isEmpty ? UserActionItem.message("Tu n’as pas encore d’actions en cours.") : null)
-        ..addAll(todoActions.map((action) => UserActionItem.todoAction(action)))
+        ..addAll(todoActions.map((action) => UserActionItem.todoAction(UserActionViewModel.create(action))))
         ..add(UserActionItem.section("Mes actions terminées"))
         ..add(doneActions.isEmpty ? UserActionItem.message("Tu n’as pas encore terminé d’actions.") : null)
-        ..addAll(doneActions.map((action) => UserActionItem.doneAction(action))))
+        ..addAll(doneActions.map((action) => UserActionItem.doneAction(UserActionViewModel.create(action)))))
       .whereType<UserActionItem>()
       .toList();
 }

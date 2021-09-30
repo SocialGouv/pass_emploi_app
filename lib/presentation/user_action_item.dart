@@ -1,4 +1,5 @@
 import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 
 abstract class UserActionItem {
   UserActionItem._();
@@ -7,9 +8,9 @@ abstract class UserActionItem {
 
   factory UserActionItem.message(String message) = MessageItem;
 
-  factory UserActionItem.todoAction(UserAction action) = TodoActionItem;
+  factory UserActionItem.todoAction(UserActionViewModel action) = TodoActionItem;
 
-  factory UserActionItem.doneAction(UserAction action) = DoneActionItem;
+  factory UserActionItem.doneAction(UserActionViewModel action) = DoneActionItem;
 }
 
 class SectionItem extends UserActionItem {
@@ -25,13 +26,13 @@ class MessageItem extends UserActionItem {
 }
 
 class TodoActionItem extends UserActionItem {
-  final UserAction action;
+  final UserActionViewModel action;
 
   TodoActionItem(this.action) : super._();
 }
 
 class DoneActionItem extends UserActionItem {
-  final UserAction action;
+  final UserActionViewModel action;
 
   DoneActionItem(this.action) : super._();
 }
