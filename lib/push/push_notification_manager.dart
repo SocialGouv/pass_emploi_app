@@ -37,8 +37,7 @@ class PushNotificationManager {
   Future<void> _createHighImportanceAndroidChannel() async {
     const AndroidNotificationChannel channel = AndroidNotificationChannel(
       'high_importance_channel',
-      'High Importance Notifications',
-      description: 'Canal pour les messages envoyés par le conseiller.',
+      'Notifications importantes',
       importance: Importance.max,
     );
     await FlutterLocalNotificationsPlugin()
