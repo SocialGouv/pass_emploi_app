@@ -7,12 +7,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 class PushNotificationManager {
-  PushNotificationManager._();
-
-  factory PushNotificationManager() => _instance;
-
-  static final PushNotificationManager _instance = PushNotificationManager._();
-
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
   Future<void> init(Store<AppState> store) async {
