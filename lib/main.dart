@@ -38,6 +38,7 @@ main() async {
 
   final pushManager = PushNotificationManager();
   await pushManager.init(store);
+  await pushManager.getToken();
 
   runZonedGuarded<Future<void>>(() async {
     runApp(forceUpdate ? ForceUpdatePage() : PassEmploiApp(store));
