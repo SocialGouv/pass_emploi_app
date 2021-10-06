@@ -56,11 +56,11 @@ _actionItems(List<UserAction> actions, int doneActionsCount) {
         ..add(HomeItem.section("Mes actions"))
         ..add(actions.isEmpty && doneActionsCount == 0
             ? HomeItem.message(
-                "Vous n'avez pas encore d’actions en cours.\nContactez votre conseiller pour les définir avec lui.")
+                "Vous n’avez pas encore d’actions en cours.\nContactez votre conseiller pour les définir avec lui.")
             : null)
         ..add(actions.isEmpty && doneActionsCount > 0
             ? HomeItem.message(
-                "Bravo :) Vous n'avez plus d’actions en cours.\nContactez votre conseiller pour obtenir de nouvelles actions.")
+                "Bravo :) Vous n’avez plus d’actions en cours.\nContactez votre conseiller pour obtenir de nouvelles actions.")
             : null)
         ..addAll(actions.map((action) => HomeItem.action(UserActionViewModel.create(action))))
         ..add(actions.isNotEmpty || doneActionsCount > 0 ? HomeItem.allActionsButton() : null))
