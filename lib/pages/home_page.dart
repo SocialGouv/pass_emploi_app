@@ -42,7 +42,7 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text("Erreur lors de la récupérations de ton tableau de bord."),
+            Text("Erreur lors de la récupérations de votre tableau de bord."),
             TextButton(
               onPressed: () => viewModel.onRetry(),
               child: Text("Réessayer", style: TextStyles.textLgMedium),
@@ -115,7 +115,7 @@ class HomePage extends StatelessWidget {
         children: [
           Text(title, style: TextStyles.h3Semi),
           SizedBox(height: 4),
-          Text('Bienvenue sur ton tableau de bord', style: TextStyles.textSmMedium()),
+          Text('Bienvenue sur votre tableau de bord', style: TextStyles.textSmMedium()),
         ],
       ),
       actions: [

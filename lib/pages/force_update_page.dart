@@ -18,7 +18,7 @@ class ForceUpdatePage extends StatelessWidget {
             children: [
               Expanded(child: SvgPicture.asset("assets/ic_logo.svg", semanticsLabel: 'Logo Pass Emploi')),
               Text(
-                'Ton application nécessite d\'être mise à jour pour son bon fonctionnement.',
+                'Votre application nécessite d\'être mise à jour pour son bon fonctionnement.',
                 style: TextStyles.textMdRegular,
                 textAlign: TextAlign.center,
               ),
