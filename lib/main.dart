@@ -10,13 +10,16 @@ import 'package:package_info/package_info.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/pages/force_update_page.dart';
 import 'package:pass_emploi_app/pass_emploi_app.dart';
+import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/middlewares/animation_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/api_middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/router_middleware.dart';
 import 'package:pass_emploi_app/redux/reducers/crashlytics_reducer_decorator.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/home_repository.dart';
+import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
@@ -33,7 +36,12 @@ main() async {
   final baseUrl = _baseUrl();
   final remoteConfig = await _remoteConfig();
   final forceUpdate = await _shouldForceUpdate(remoteConfig);
-  final store = _initializeReduxStore(baseUrl);
+
+  final pushManager = PushNotificationManager();
+
+  final store = _initializeReduxStore(baseUrl, pushManager);
+
+  await pushManager.init(store);
 
   runZonedGuarded<Future<void>>(() async {
     runApp(forceUpdate ? ForceUpdatePage() : PassEmploiApp(store));
@@ -76,7 +84,7 @@ Future<bool> _shouldForceUpdate(RemoteConfig? remoteConfig) async {
   return AppVersionChecker().shouldForceUpdate(currentVersion: currentVersion, minimumVersion: minimumVersion);
 }
 
-Store<AppState> _initializeReduxStore(String baseUrl) {
+Store<AppState> _initializeReduxStore(String baseUrl, PushNotificationManager pushNotificationManager) {
   final headersBuilder = HeadersBuilder();
   final userRepository = UserRepository(baseUrl, headersBuilder);
   return Store<AppState>(
@@ -89,6 +97,13 @@ Store<AppState> _initializeReduxStore(String baseUrl) {
         HomeRepository(baseUrl, headersBuilder),
         UserActionRepository(baseUrl, headersBuilder),
         ChatRepository(),
+      ),
+      RegisterPushNotificationTokenMiddleware(
+        RegisterTokenRepository(
+          baseUrl,
+          headersBuilder,
+          pushNotificationManager,
+        ),
       ),
       AnimationMiddleware(),
     ],

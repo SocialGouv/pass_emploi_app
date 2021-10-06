@@ -1,4 +1,6 @@
-class User {
+import 'package:pass_emploi_app/network/json_serializable.dart';
+
+class User implements JsonSerializable {
   final String id;
   final String firstName;
   final String lastName;
@@ -13,6 +15,7 @@ class User {
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,
