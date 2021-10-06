@@ -73,7 +73,7 @@ class _UserActionPageState extends State<UserActionPage> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text("Erreur lors de la récupérations de tes actions."),
+          Text("Erreur lors de la récupérations de vos actions."),
           TextButton(onPressed: () => viewModel.onRetry(), child: Text("Réessayer", style: TextStyles.textLgMedium)),
         ],
       ),

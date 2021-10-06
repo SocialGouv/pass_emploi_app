@@ -57,7 +57,7 @@ void main() {
     expect((viewModel.items[0] as SectionItem).title, "Mes actions");
     expect(
       (viewModel.items[1] as MessageItem).message,
-      "Tu n’as pas encore d’actions en cours.\nContacte ton conseiller pour les définir avec lui.",
+      "Vous n'avez pas encore d’actions en cours.\nContactez votre conseiller pour les définir avec lui.",
     );
   });
 
@@ -78,7 +78,7 @@ void main() {
     expect((viewModel.items[0] as SectionItem).title, "Mes actions");
     expect(
       (viewModel.items[1] as MessageItem).message,
-      "Bravo :) Tu n’as plus d’actions en cours.\nContacte ton conseiller pour obtenir de nouvelles actions.",
+      "Bravo :) Vous n’avez plus d’actions en cours.\nContactez votre conseiller pour obtenir de nouvelles actions.",
     );
     expect(viewModel.items[2] is AllActionsButtonItem, true);
   });
@@ -137,7 +137,7 @@ void main() {
     expect((viewModel.items[2] as SectionItem).title, "Mes rendez-vous à venir");
     expect(
       (viewModel.items[3] as MessageItem).message,
-      "Tu n’as pas de rendez-vous prévus.\nContacte ton conseiller pour prendre rendez-vous.",
+      "Vous n'avez pas de rendez-vous prévus.\nContactez votre conseiller pour prendre rendez-vous.",
     );
   });
 

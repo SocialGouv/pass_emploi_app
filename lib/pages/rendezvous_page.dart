@@ -54,7 +54,7 @@ class RendezvousPage extends StatelessWidget {
               Text('Un imprévu ? Ce n’est pas grave, mais…', style: TextStyles.textLgMedium),
               SizedBox(height: 8),
               Text(
-                'En cas d’imprévu, il est impératif de prévenir ton conseiller. Pour cela, n’hésite pas à le contacter via la messagerie de Pass emploi.',
+                'En cas d’imprévu, il est impératif de prévenir votre conseiller. Pour cela, n’hésitez pas à le contacter via la messagerie de Pass emploi.',
                 style: TextStyles.textSmRegular(),
               ),
             ],

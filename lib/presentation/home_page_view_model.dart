@@ -56,11 +56,11 @@ _actionItems(List<UserAction> actions, int doneActionsCount) {
         ..add(HomeItem.section("Mes actions"))
         ..add(actions.isEmpty && doneActionsCount == 0
             ? HomeItem.message(
-                "Tu n’as pas encore d’actions en cours.\nContacte ton conseiller pour les définir avec lui.")
+                "Vous n'avez pas encore d’actions en cours.\nContactez votre conseiller pour les définir avec lui.")
             : null)
         ..add(actions.isEmpty && doneActionsCount > 0
             ? HomeItem.message(
-                "Bravo :) Tu n’as plus d’actions en cours.\nContacte ton conseiller pour obtenir de nouvelles actions.")
+                "Bravo :) Vous n'avez plus d’actions en cours.\nContactez votre conseiller pour obtenir de nouvelles actions.")
             : null)
         ..addAll(actions.map((action) => HomeItem.action(UserActionViewModel.create(action))))
         ..add(actions.isNotEmpty || doneActionsCount > 0 ? HomeItem.allActionsButton() : null))
@@ -72,7 +72,7 @@ _rendezvousItems(List<Rendezvous> rendezvous) {
   return (<HomeItem?>[]
         ..add(HomeItem.section("Mes rendez-vous à venir"))
         ..add(rendezvous.isEmpty
-            ? HomeItem.message("Tu n’as pas de rendez-vous prévus.\nContacte ton conseiller pour prendre rendez-vous.")
+            ? HomeItem.message("Vous n’avez pas de rendez-vous prévus.\nContactez votre conseiller pour prendre rendez-vous.")
             : null)
         ..addAll(rendezvous.map((rdv) => HomeItem.rendezvous(RendezvousViewModel.create(rdv)))))
       .whereType<HomeItem>()

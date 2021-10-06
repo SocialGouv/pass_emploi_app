@@ -54,10 +54,10 @@ class UserActionPageViewModel {
 _userActionItems(List<UserAction> todoActions, List<UserAction> doneActions) {
   return (<UserActionItem?>[]
         ..add(UserActionItem.section("Mes actions en cours"))
-        ..add(todoActions.isEmpty ? UserActionItem.message("Tu n’as pas encore d’actions en cours.") : null)
+        ..add(todoActions.isEmpty ? UserActionItem.message("Vous n'avez pas encore d’actions en cours.") : null)
         ..addAll(todoActions.map((action) => UserActionItem.todoAction(UserActionViewModel.create(action))))
         ..add(UserActionItem.section("Mes actions terminées"))
-        ..add(doneActions.isEmpty ? UserActionItem.message("Tu n’as pas encore terminé d’actions.") : null)
+        ..add(doneActions.isEmpty ? UserActionItem.message("Vous n'avez pas encore terminé d’actions.") : null)
         ..addAll(doneActions.map((action) => UserActionItem.doneAction(UserActionViewModel.create(action)))))
       .whereType<UserActionItem>()
       .toList();

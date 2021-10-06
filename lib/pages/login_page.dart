@@ -62,7 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                                 Padding(
                                   padding: const EdgeInsets.only(left: 40, right: 40),
                                   child: Text(
-                                    "Connecte-toi",
+                                    "Connectez-vous",
                                     style: TextStyles.textMdMedium,
                                     textAlign: TextAlign.center,
                                   ),
@@ -77,14 +77,14 @@ class _LoginPageState extends State<LoginPage> {
                                     textInputAction: TextInputAction.done,
                                     validator: (value) {
                                       if (value == null || value.isEmpty)
-                                        return 'Ton code d\'accès doit être renseigné';
+                                        return 'Votre code d\'accès doit être renseigné';
                                       return null;
                                     },
                                     onChanged: (String? value) => _accessCode = value,
                                     onEditingComplete: () => _performLogin(viewModel),
                                     decoration: InputDecoration(
                                       contentPadding: const EdgeInsets.only(left: 24, top: 18, bottom: 18),
-                                      labelText: 'Ton code d\'accès',
+                                      labelText: 'Votre code d\'accès',
                                       labelStyle: TextStyles.textSmMedium(color: AppColors.bluePurple),
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(8.0),
