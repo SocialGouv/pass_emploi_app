@@ -24,7 +24,7 @@ class UserRepository {
 
   Future<void> saveUser(User user) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString(USER_KEY, customJsonEncode(user.toJson()));
+    prefs.setString(USER_KEY, customJsonEncode(user));
   }
 
   Future<void> deleteUser() async {

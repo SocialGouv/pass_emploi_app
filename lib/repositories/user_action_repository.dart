@@ -13,7 +13,7 @@ class UserActionRepository {
   UserActionRepository(this.baseUrl, this.headerBuilder);
 
   Future<List<UserAction>?> getUserActions(String userId) async {
-    var url = Uri.parse(baseUrl + "/jeunes/$userId/actions");
+    final url = Uri.parse(baseUrl + "/jeunes/$userId/actions");
     try {
       final response = await http.get(
         url,
