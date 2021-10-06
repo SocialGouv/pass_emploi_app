@@ -137,7 +137,7 @@ void main() {
     expect((viewModel.items[2] as SectionItem).title, "Mes rendez-vous à venir");
     expect(
       (viewModel.items[3] as MessageItem).message,
-@      "Vous n’avez pas de rendez-vous prévus.\nContactez votre conseiller pour prendre rendez-vous.",
+      "Vous n’avez pas de rendez-vous prévus.\nContactez votre conseiller pour prendre rendez-vous.",
     );
   });
 
