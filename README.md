@@ -46,9 +46,9 @@ Si besoin de la mettre à jour, il faut le faire dans le fichier `ios/Podfile` :
 
 ### Pour iOS
 1. Vérifier que votre compte Apple Dev ait bien accès au compte Apple "Fabrique numérique des ministères sociaux"
-2. COnfigurer XCode, notamment sur la partie `Signing & Capabilities` [https://flutter.dev/docs/deployment/ios] en renseingnant le bon provisioning profile de l'app `fr.fabrique.socialgouv.passemploi`
-3. Lancer le build iOS release : `flutter build ipa --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL> --dart-define=FIREBASE_ENVIRONMENT_PREFIX=<staging | prod>`
-4. Ouvrir le projet dans Xcode
+2. Lancer le build iOS release : `flutter build ipa --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL> --dart-define=FIREBASE_ENVIRONMENT_PREFIX=<staging | prod>`
+3. Ouvrir le projet dans Xcode
+4. Configurer XCode, notamment sur la partie `Signing & Capabilities` [https://flutter.dev/docs/deployment/ios] en renseignant le bon provisioning profile de l'app `fr.fabrique.socialgouv.passemploi`
 5. Selectionner Product > Scheme > Runner.
 6. Selectionner Product > Destination > Any iOS Device.
 7. Selectionner Product > Archive.
@@ -56,4 +56,34 @@ Si besoin de la mettre à jour, il faut le faire dans le fichier `ios/Podfile` :
 9. Récupérer l'IPA `pass_emploi_app.ipa`
 10. Créer une version avec cet IPA sur Firebase App Distribution : [https://console.firebase.google.com/u/1/project/pass-emploi/appdistribution/app/ios:fr.fabrique.social.gouv.passemploi/releases]
 11. Ajouter le groupe `Equipe projet` aux testeurs
-12. Distribuer la version 
+12. Distribuer la version
+
+## Déployer une app en bêta test sur les stores publics
+### Prérequis
+1. Se mettre à jour sur master
+2. Mettre à jour le version name et incrementer le version code dans le fichier `pubspec.yaml` (variable `version`)
+3. Commiter le changement 
+4. Vérifier que les tests sont au vert : `$ flutter test`
+
+### Pour iOS
+1. Vérifier que votre compte Apple Dev ait bien accès au compte Apple "Fabrique numérique des ministères sociaux"
+2. Lancer le build iOS release : `flutter build ipa --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL> --dart-define=FIREBASE_ENVIRONMENT_PREFIX=prod`
+3. Ouvrir le projet dans Xcode
+4. Configurer XCode, notamment sur la partie `Signing & Capabilities` [https://flutter.dev/docs/deployment/ios] en renseignant le bon provisioning profile de l'app `fr.fabrique.socialgouv.passemploi.distribution`
+5. Selectionner Product > Scheme > Runner.
+6. Selectionner Product > Destination > Any iOS Device.
+7. Selectionner Product > Archive.
+8. Une fois l'archive réalisée, cliquer sur Distribute App > App Store Connect> Upload
+9. Garder les checkbox `Strip Swift symbols` et `Upload your app symbols…` cochées, puis Next
+10. Dans `Runner.app, choisir `fr.fabrique.socialgouv.passemploi.distribution`, puis Next puis Upload
+11. /!\ Attention : l'étape précédente peut prendre plusieurs minutes. Mais si au bout de 10 minutes 
+il ne se passe rien, c'est potentiellement dû à un mauvais réseau sur votre poste. Dans ce cas là, 
+il faut annuler, et recommencer à l'étape 8. 
+12. Aller sur [https://appstoreconnect.apple.com/apps]
+13. Dans l'onglet `Test flight` de l'app `Pass Emploi`, attendre que la version tout juste uploadée 
+soit bien présente. Il ne faut pas hésiter à rafraichir la page régulièrement.
+14. Par défaut, un warning apparaît `Attestation manquantes`. Indiquez que *non*, il n'y a pas 
+d'algorithme de chiffrement dans l'app.
+15. Dans le pannel de gauche, Test externes > Ambassadeurs, rajoutez le build tout juste uplpoadé 
+(section `Build` en bas de la page).
+16. La vérification peut prendre *jusqu'à 72h*.
