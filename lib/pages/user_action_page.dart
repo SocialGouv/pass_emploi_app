@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/presentation/user_action_item.dart';
 import 'package:pass_emploi_app/presentation/user_action_page_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -73,8 +74,8 @@ class _UserActionPageState extends State<UserActionPage> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text("Erreur lors de la récupérations de vos actions."),
-          TextButton(onPressed: () => viewModel.onRetry(), child: Text("Réessayer", style: TextStyles.textLgMedium)),
+          Text(Strings.actionsError),
+          TextButton(onPressed: () => viewModel.onRetry(), child: Text(Strings.retry, style: TextStyles.textLgMedium)),
         ],
       ),
     );

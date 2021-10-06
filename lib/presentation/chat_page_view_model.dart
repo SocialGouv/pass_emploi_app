@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/redux/states/home_state.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
 
+import '../ui/strings.dart';
 import 'chat_item.dart';
 
 class ChatPageViewModel {
@@ -32,7 +33,7 @@ class ChatPageViewModel {
     final homeState = store.state.homeState;
     return ChatPageViewModel(
       title:
-          homeState is HomeSuccessState ? "Discuter avec ${homeState.home.conseiller.firstName}" : "Votre conseiller",
+          homeState is HomeSuccessState ? Strings.chatWith(homeState.home.conseiller.firstName) : Strings.yourConseiller,
       withLoading: chatState is ChatLoadingState,
       withFailure: chatState is ChatFailureState,
       withContent: chatState is ChatSuccessState,
@@ -52,7 +53,7 @@ _messagesToChatItems(List<Message> messages) {
       return DayItem(element);
     } else {
       final message = element as Message;
-      final hourLabel = 'à ' + message.creationDate.toHour();
+      final hourLabel = Strings.simpleHourFormat(message.creationDate.toHour());
       if (message.sentBy == Sender.jeune) return JeuneMessageItem(message.content, hourLabel);
       return ConseillerMessageItem(message.content, hourLabel);
     }
@@ -68,4 +69,5 @@ _messagesWithDaySections(List<Message> messages) {
   return messagesWithDaySections;
 }
 
-_getDayLabel(DateTime dateTime) => dateTime.isAtSameDayAs(DateTime.now()) ? "Aujourd'hui" : 'Le ' + dateTime.toDay();
+_getDayLabel(DateTime dateTime) =>
+    dateTime.isAtSameDayAs(DateTime.now()) ? Strings.today : Strings.simpleDayFormat(dateTime.toDay());

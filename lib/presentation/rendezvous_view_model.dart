@@ -1,4 +1,5 @@
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class RendezvousViewModel {
@@ -29,7 +30,7 @@ class RendezvousViewModel {
       dateAndHour: rdv.date.toDayAndHour(),
       dateWithoutHour: rdv.date.toDayWithFullMonth(),
       hourAndDuration: "${rdv.date.toHour()} (${_toDuration(rdv.duration)})",
-      modality: 'Le rendez-vous se fera ${rdv.modality.toLowerCase()}.',
+      modality: Strings.rendezVousModalityMessage(rdv.modality.toLowerCase()),
       withComment: rdv.comment.isNotEmpty,
       comment: rdv.comment,
     );

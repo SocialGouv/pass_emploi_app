@@ -4,21 +4,23 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
+import '../ui/strings.dart';
+
 class ForceUpdatePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Pass Emploi',
+      title: Strings.appName,
       theme: ThemeData(primarySwatch: Colors.indigo),
       home: Scaffold(
-        appBar: DefaultAppBar(title: Text('Mise à jour', style: TextStyles.h3Semi)),
+        appBar: DefaultAppBar(title: Text(Strings.update, style: TextStyles.h3Semi)),
         body: Padding(
           padding: const EdgeInsets.all(Margins.medium),
           child: Column(
             children: [
-              Expanded(child: SvgPicture.asset("assets/ic_logo.svg", semanticsLabel: 'Logo Pass Emploi')),
+              Expanded(child: SvgPicture.asset("assets/ic_logo.svg", semanticsLabel: Strings.logoTextDescription)),
               Text(
-                'Votre application nécessite d\'être mise à jour pour son bon fonctionnement.',
+                Strings.forceUpdateExplanation,
                 style: TextStyles.textMdRegular,
                 textAlign: TextAlign.center,
               ),

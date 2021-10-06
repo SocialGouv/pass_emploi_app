@@ -1,4 +1,3 @@
-import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 
 abstract class UserActionItem {

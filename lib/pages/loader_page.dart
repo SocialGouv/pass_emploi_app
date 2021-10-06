@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
@@ -52,7 +53,7 @@ class _LoaderPageState extends State<LoaderPage> with SingleTickerProviderStateM
               top: widget._screenHeight / 4 - 36,
               child: FadeTransition(
                 opacity: _fadeAnimation,
-                child: Text("Bienvenue sur", style: TextStyles.textLgMedium),
+                child: Text(Strings.welcomeOn, style: TextStyles.textLgMedium),
               ),
             ),
             AnimatedLogo(animation: _logoAnimation),
@@ -79,7 +80,7 @@ class AnimatedLogo extends AnimatedWidget {
     final animation = listenable as Animation<double>;
     return Positioned(
       top: animation.value,
-      child: SvgPicture.asset("assets/ic_logo.svg", semanticsLabel: 'Logo Pass Emploi'),
+      child: SvgPicture.asset("assets/ic_logo.svg", semanticsLabel: Strings.logoTextDescription),
     );
   }
 }

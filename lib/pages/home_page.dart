@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/pages/user_action_page.dart';
 import 'package:pass_emploi_app/presentation/home_item.dart';
 import 'package:pass_emploi_app/presentation/home_page_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -42,14 +43,14 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text("Erreur lors de la récupérations de votre tableau de bord."),
+            Text(Strings.dashboardError),
             TextButton(
               onPressed: () => viewModel.onRetry(),
-              child: Text("Réessayer", style: TextStyles.textLgMedium),
+              child: Text(Strings.retry, style: TextStyles.textLgMedium),
             ),
             TextButton(
               onPressed: () => viewModel.onLogout(),
-              child: Text("Me reconnecter", style: TextStyles.textLgMedium),
+              child: Text(Strings.reconnect, style: TextStyles.textLgMedium),
             ),
           ],
         ),
@@ -115,7 +116,7 @@ class HomePage extends StatelessWidget {
         children: [
           Text(title, style: TextStyles.h3Semi),
           SizedBox(height: 4),
-          Text('Bienvenue sur votre tableau de bord', style: TextStyles.textSmMedium()),
+          Text(Strings.dashboardWelcome, style: TextStyles.textSmMedium()),
         ],
       ),
       actions: [
@@ -123,7 +124,7 @@ class HomePage extends StatelessWidget {
           padding: const EdgeInsets.only(right: 8.0),
           child: IconButton(
             onPressed: onRetry,
-            tooltip: "Rafraîchir",
+            tooltip: Strings.refresh,
             icon: SvgPicture.asset("assets/ic_refresh.svg"),
           ),
         ),
@@ -140,7 +141,7 @@ class HomePage extends StatelessWidget {
           onTap: () => _pushUserActionPage(context, viewModel),
           child: Padding(
             padding: const EdgeInsets.all(10),
-            child: Center(child: Text("Voir toutes les actions", style: TextStyles.textSmMedium(color: Colors.white))),
+            child: Center(child: Text(Strings.seeAllActions, style: TextStyles.textSmMedium(color: Colors.white))),
           ),
         ),
       ),

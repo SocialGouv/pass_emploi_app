@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/home_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
 import 'home_item.dart';
@@ -41,7 +42,7 @@ class HomePageViewModel {
     final doneActionsCount = home != null ? home.doneActionsCount : 0;
     return HomePageViewModel(
       userId: user.id,
-      title: "Bonjour ${user.firstName}",
+      title: Strings.hello(user.firstName),
       withLoading: homeState is HomeLoadingState || homeState is HomeNotInitializedState,
       withFailure: homeState is HomeFailureState,
       items: [..._actionItems(actions, doneActionsCount), ..._rendezvousItems(rendezvous)],
@@ -53,15 +54,9 @@ class HomePageViewModel {
 
 _actionItems(List<UserAction> actions, int doneActionsCount) {
   return (<HomeItem?>[]
-        ..add(HomeItem.section("Mes actions"))
-        ..add(actions.isEmpty && doneActionsCount == 0
-            ? HomeItem.message(
-                "Vous n’avez pas encore d’actions en cours.\nContactez votre conseiller pour les définir avec lui.")
-            : null)
-        ..add(actions.isEmpty && doneActionsCount > 0
-            ? HomeItem.message(
-                "Bravo :) Vous n’avez plus d’actions en cours.\nContactez votre conseiller pour obtenir de nouvelles actions.")
-            : null)
+        ..add(HomeItem.section(Strings.myActions))
+        ..add(actions.isEmpty && doneActionsCount == 0 ? HomeItem.message(Strings.noActionsYetContactConseiller) : null)
+        ..add(actions.isEmpty && doneActionsCount > 0 ? HomeItem.message(Strings.noMoreActionsContactConseiller) : null)
         ..addAll(actions.map((action) => HomeItem.action(UserActionViewModel.create(action))))
         ..add(actions.isNotEmpty || doneActionsCount > 0 ? HomeItem.allActionsButton() : null))
       .whereType<HomeItem>()
@@ -70,10 +65,8 @@ _actionItems(List<UserAction> actions, int doneActionsCount) {
 
 _rendezvousItems(List<Rendezvous> rendezvous) {
   return (<HomeItem?>[]
-        ..add(HomeItem.section("Mes rendez-vous à venir"))
-        ..add(rendezvous.isEmpty
-            ? HomeItem.message("Vous n’avez pas de rendez-vous prévus.\nContactez votre conseiller pour prendre rendez-vous.")
-            : null)
+        ..add(HomeItem.section(Strings.upcomingRendezVous))
+        ..add(rendezvous.isEmpty ? HomeItem.message(Strings.noUpcomingRendezVous) : null)
         ..addAll(rendezvous.map((rdv) => HomeItem.rendezvous(RendezvousViewModel.create(rdv)))))
       .whereType<HomeItem>()
       .toList();

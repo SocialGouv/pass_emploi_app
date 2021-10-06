@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_state.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
 class UserActionPageViewModel {
@@ -38,7 +39,7 @@ class UserActionPageViewModel {
     final List<UserAction> sortedTodoActions = todoActions..sort((a1, a2) => a2.lastUpdate.compareTo(a1.lastUpdate));
     final List<UserAction> sortedDoneActions = doneActions..sort((a1, a2) => a2.lastUpdate.compareTo(a1.lastUpdate));
     return UserActionPageViewModel(
-      title: "Mes actions${todoActions.isNotEmpty ? " (${todoActions.length})" : ""}",
+      title: "${Strings.myActions}${todoActions.isNotEmpty ? " (${todoActions.length})" : ""}",
       withLoading: userActionState is UserActionLoadingState || userActionState is UserActionNotInitializedState,
       withFailure: userActionState is UserActionFailureState,
       items: _userActionItems(sortedTodoActions, sortedDoneActions),
@@ -53,11 +54,11 @@ class UserActionPageViewModel {
 
 _userActionItems(List<UserAction> todoActions, List<UserAction> doneActions) {
   return (<UserActionItem?>[]
-        ..add(UserActionItem.section("Mes actions en cours"))
-        ..add(todoActions.isEmpty ? UserActionItem.message("Vous n'avez pas encore d’actions en cours.") : null)
+        ..add(UserActionItem.section(Strings.currentActions))
+        ..add(todoActions.isEmpty ? UserActionItem.message(Strings.noCurrentActionsYet) : null)
         ..addAll(todoActions.map((action) => UserActionItem.todoAction(UserActionViewModel.create(action))))
-        ..add(UserActionItem.section("Mes actions terminées"))
-        ..add(doneActions.isEmpty ? UserActionItem.message("Vous n'avez pas encore terminé d’actions.") : null)
+        ..add(UserActionItem.section(Strings.finishedActions))
+        ..add(doneActions.isEmpty ? UserActionItem.message(Strings.nofinishedActionsYet) : null)
         ..addAll(doneActions.map((action) => UserActionItem.doneAction(UserActionViewModel.create(action)))))
       .whereType<UserActionItem>()
       .toList();

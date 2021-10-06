@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/presentation/login_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -45,7 +46,8 @@ class _LoginPageState extends State<LoginPage> {
                     Column(
                       children: [
                         Expanded(
-                          child: SvgPicture.asset("assets/ic_logo.svg", width: 145, semanticsLabel: 'Logo Pass Emploi'),
+                          child: SvgPicture.asset("assets/ic_logo.svg",
+                              width: 145, semanticsLabel: Strings.logoTextDescription),
                         ),
                         Expanded(
                           child: Container(
@@ -62,7 +64,7 @@ class _LoginPageState extends State<LoginPage> {
                                 Padding(
                                   padding: const EdgeInsets.only(left: 40, right: 40),
                                   child: Text(
-                                    "Connectez-vous",
+                                    Strings.performLogin,
                                     style: TextStyles.textMdMedium,
                                     textAlign: TextAlign.center,
                                   ),
@@ -77,14 +79,14 @@ class _LoginPageState extends State<LoginPage> {
                                     textInputAction: TextInputAction.done,
                                     validator: (value) {
                                       if (value == null || value.isEmpty)
-                                        return 'Votre code d\'accès doit être renseigné';
+                                        return Strings.mandatoryAccessCodeError;
                                       return null;
                                     },
                                     onChanged: (String? value) => _accessCode = value,
                                     onEditingComplete: () => _performLogin(viewModel),
                                     decoration: InputDecoration(
                                       contentPadding: const EdgeInsets.only(left: 24, top: 18, bottom: 18),
-                                      labelText: 'Votre code d\'accès',
+                                      labelText: Strings.yourAccessCode,
                                       labelStyle: TextStyles.textSmMedium(color: AppColors.bluePurple),
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(8.0),
@@ -109,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                                   Padding(
                                     padding: const EdgeInsets.only(top: 16),
                                     child: Text(
-                                      "Erreur lors de la connexion",
+                                      Strings.loginError,
                                       style: TextStyles.textSmMedium(color: AppColors.errorRed),
                                     ),
                                   ),
@@ -147,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text('Connexion', style: TextStyles.textSmMedium(color: Colors.white)),
+                  Text(Strings.login, style: TextStyles.textSmMedium(color: Colors.white)),
                 ],
               ),
             ),
@@ -168,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Se connecter', style: TextStyles.textSmMedium(color: Colors.white)),
+              Text(Strings.loginAction, style: TextStyles.textSmMedium(color: Colors.white)),
               SizedBox(width: 8),
               Container(height: 16, width: 16, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 1))
             ],

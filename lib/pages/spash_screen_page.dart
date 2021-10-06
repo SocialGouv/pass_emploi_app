@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 
 class SplashScreenPage extends StatelessWidget {
@@ -15,7 +16,7 @@ class SplashScreenPage extends StatelessWidget {
           colors: [AppColors.lightBlue, AppColors.lightPurple],
         ),
       ),
-      child: Center(child: SvgPicture.asset("assets/ic_logo.svg", semanticsLabel: 'Logo Pass Emploi')),
+      child: Center(child: SvgPicture.asset("assets/ic_logo.svg", semanticsLabel: Strings.logoTextDescription)),
     );
   }
 }

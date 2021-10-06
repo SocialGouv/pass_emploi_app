@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_view_model.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -15,7 +16,7 @@ class RendezvousPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar(title: Text('Mon rendez-vous', style: TextStyles.h3Semi)),
+      appBar: DefaultAppBar(title: Text(Strings.myRendezVous, style: TextStyles.h3Semi)),
       floatingActionButton: ChatFloatingActionButton(),
       body: SingleChildScrollView(
         child: Padding(
@@ -45,16 +46,16 @@ class RendezvousPage extends StatelessWidget {
               SizedBox(height: 24),
               Container(height: 1, color: AppColors.blueGrey),
               SizedBox(height: 12),
-              Text('Commentaire de mon conseiller', style: TextStyles.textLgMedium),
+              Text(Strings.rendezVousConseillerCommentLabel, style: TextStyles.textLgMedium),
               SizedBox(height: 8),
               Text(rendezvous.comment, style: TextStyles.textSmRegular(color: AppColors.bluePurple)),
               SizedBox(height: 24),
               Container(height: 1, color: AppColors.blueGrey),
               SizedBox(height: 12),
-              Text('Un imprévu ? Ce n’est pas grave, mais…', style: TextStyles.textLgMedium),
+              Text(Strings.cantMakeItNoBigDeal, style: TextStyles.textLgMedium),
               SizedBox(height: 8),
               Text(
-                'En cas d’imprévu, il est impératif de prévenir votre conseiller. Pour cela, n’hésitez pas à le contacter via la messagerie de Pass emploi.',
+                Strings.shouldInformConseiller,
                 style: TextStyles.textSmRegular(),
               ),
             ],

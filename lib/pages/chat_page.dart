@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/presentation/chat_page_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/chat_message_widget.dart';
@@ -85,7 +86,7 @@ class _ChatPageState extends State<ChatPage> {
                         contentPadding: const EdgeInsets.only(left: 16, right: 16, top: 13, bottom: 13),
                         filled: true,
                         fillColor: AppColors.lightBlue,
-                        hintText: 'Votre message…',
+                        hintText: Strings.yourMessage,
                         hintStyle: TextStyles.textSmRegular(color: AppColors.bluePurple),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(34.0),
