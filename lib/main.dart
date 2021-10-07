@@ -5,6 +5,7 @@ import 'dart:isolate';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:pass_emploi_app/network/headers.dart';
@@ -13,6 +14,7 @@ import 'package:pass_emploi_app/pass_emploi_app.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/middlewares/animation_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/api_middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/logging_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/router_middleware.dart';
 import 'package:pass_emploi_app/redux/reducers/crashlytics_reducer_decorator.dart';
@@ -106,8 +108,19 @@ Store<AppState> _initializeReduxStore(String baseUrl, PushNotificationManager pu
         ),
       ),
       AnimationMiddleware(),
+      ..._debugMiddleware(),
     ],
   );
+}
+
+List<Middleware<AppState>> _debugMiddleware() {
+  if (kReleaseMode) {
+    return [];
+  } else {
+    return [
+      ActionLoggingMiddleware(),
+    ];
+  }
 }
 
 Future _handleErrorsOutsideFlutter() async {
