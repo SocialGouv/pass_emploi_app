@@ -10,12 +10,11 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 class RouterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final storeConnector = StoreConnector<AppState, RouterViewModel>(
+    return StoreConnector<AppState, RouterViewModel>(
+      onInit: (store) => store.dispatch(BootstrapAction()),
       converter: (store) => RouterViewModel.create(store),
       builder: (context, viewModel) => _body(viewModel),
     );
-    StoreProvider.of<AppState>(context).dispatch(BootstrapAction());
-    return storeConnector;
   }
 
   Widget _body(RouterViewModel viewModel) {
