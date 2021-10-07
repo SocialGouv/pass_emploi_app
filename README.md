@@ -29,9 +29,9 @@ Si besoin de la mettre à jour, il faut le faire dans le fichier `ios/Podfile` :
 ## Déployer une app sur Firebase
 ### Prérequis
 1. Se mettre à jour sur master
-2. Mettre à jour le version name et incrementer le version code dans le fichier `pubspec.yaml` (variable `version`)
-3. Commiter le changement 
-4. Vérifier que les tests sont au vert : `$ flutter test`
+2. Vérifier que les tests sont au vert : `$ flutter test`
+3. Mettre à jour le version name et incrementer le version code dans le fichier `pubspec.yaml` (variable `version`)
+4. Commiter le changement
 
 ### Pour Android
 1. Vérifier que le fichier `passemploi.jks` (fichier privé) est bien situé dans le repertoire `android/keystore` 
@@ -61,9 +61,15 @@ Si besoin de la mettre à jour, il faut le faire dans le fichier `ios/Podfile` :
 ## Déployer une app en bêta test sur les stores publics
 ### Prérequis
 1. Se mettre à jour sur master
-2. Mettre à jour le version name et incrementer le version code dans le fichier `pubspec.yaml` (variable `version`)
-3. Commiter le changement 
-4. Vérifier que les tests sont au vert : `$ flutter test`
+2. Vérifier que les tests sont au vert : `$ flutter test`
+3. Mettre à jour le version name et incrementer le version code dans le fichier `pubspec.yaml` (variable `version`)
+4. Commiter le changement
+5. Tagger la release
+```shell script
+$ git tag -a major.minor.patch -m "major.minor.patch"
+$ git push --tags 
+```
+
 
 ### Pour Android
 1. Vérifier que le fichier `passemploi.jks` (fichier privé) est bien situé dans le repertoire `android/keystore` 
