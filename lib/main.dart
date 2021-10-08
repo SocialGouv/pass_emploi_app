@@ -14,7 +14,7 @@ import 'package:pass_emploi_app/pass_emploi_app.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/middlewares/animation_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/api_middleware.dart';
-import 'package:pass_emploi_app/redux/middlewares/logging_middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/action_logging_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/router_middleware.dart';
 import 'package:pass_emploi_app/redux/reducers/crashlytics_reducer_decorator.dart';
