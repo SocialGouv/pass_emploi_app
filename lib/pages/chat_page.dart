@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
@@ -10,6 +12,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/chat_message_widget.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:redux/redux.dart';
 
 class ChatPage extends StatefulWidget {
   @override
@@ -37,9 +40,13 @@ class _ChatPageState extends State<ChatPage> {
       converter: (store) => ChatPageViewModel.create(store),
       builder: (context, viewModel) => _body(context, viewModel),
       distinct: true,
-      onDidChange: (previousVm, newVm) => StoreProvider.of<AppState>(context).dispatch(LastMessageSeenAction()),
+      onInit: (store) => sendLastMessageSeenAction(store),
+      onDidChange: (previousVm, newVm) => sendLastMessageSeenAction(StoreProvider.of<AppState>(context)),
     );
   }
+
+  sendLastMessageSeenAction(Store<AppState> store) =>
+      store.dispatch(LastMessageSeenAction());
 
   _body(BuildContext context, ChatPageViewModel viewModel) {
     if (viewModel.withContent) return _chat(context, viewModel);
