@@ -15,9 +15,10 @@ import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/middlewares/animation_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/api_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/action_logging_middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/crashlytics_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/router_middleware.dart';
-import 'package:pass_emploi_app/redux/reducers/crashlytics_reducer_decorator.dart';
+import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/home_repository.dart';
@@ -90,7 +91,7 @@ Store<AppState> _initializeReduxStore(String baseUrl, PushNotificationManager pu
   final headersBuilder = HeadersBuilder();
   final userRepository = UserRepository(baseUrl, headersBuilder);
   return Store<AppState>(
-    crashlyticsReducerDecorator,
+    reducer,
     initialState: AppState.initialState(),
     middleware: [
       RouterMiddleware(userRepository),
@@ -108,6 +109,7 @@ Store<AppState> _initializeReduxStore(String baseUrl, PushNotificationManager pu
         ),
       ),
       AnimationMiddleware(),
+      CrashlyticsMiddleware(),
       ..._debugMiddleware(),
     ],
   );
