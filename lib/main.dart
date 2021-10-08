@@ -11,10 +11,11 @@ import 'package:package_info/package_info.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/pages/force_update_page.dart';
 import 'package:pass_emploi_app/pass_emploi_app.dart';
+import 'package:pass_emploi_app/push/firebase_push_notification_manager.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
+import 'package:pass_emploi_app/redux/middlewares/action_logging_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/animation_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/api_middleware.dart';
-import 'package:pass_emploi_app/redux/middlewares/action_logging_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/crashlytics_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/router_middleware.dart';
@@ -40,7 +41,7 @@ main() async {
   final remoteConfig = await _remoteConfig();
   final forceUpdate = await _shouldForceUpdate(remoteConfig);
 
-  final pushManager = PushNotificationManager();
+  final PushNotificationManager pushManager = FirebasePushNotificationManager();
 
   final store = _initializeReduxStore(baseUrl, pushManager);
 
