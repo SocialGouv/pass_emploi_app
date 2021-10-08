@@ -28,12 +28,12 @@ class ChatPageViewModel {
   });
 
   factory ChatPageViewModel.create(Store<AppState> store) {
-    _setLastMessageSeenDelayedToAvoidBlockingOfUi(store);
     final chatState = store.state.chatState;
     final homeState = store.state.homeState;
     return ChatPageViewModel(
-      title:
-          homeState is HomeSuccessState ? Strings.chatWith(homeState.home.conseiller.firstName) : Strings.yourConseiller,
+      title: homeState is HomeSuccessState
+          ? Strings.chatWith(homeState.home.conseiller.firstName)
+          : Strings.yourConseiller,
       withLoading: chatState is ChatLoadingState,
       withFailure: chatState is ChatFailureState,
       withContent: chatState is ChatSuccessState,
@@ -41,10 +41,21 @@ class ChatPageViewModel {
       onSendMessage: (String message) => store.dispatch(SendMessageAction(message)),
     );
   }
-}
 
-_setLastMessageSeenDelayedToAvoidBlockingOfUi(Store<AppState> store) {
-  Future.delayed(new Duration(seconds: 1)).then((value) => store.dispatch(LastMessageSeenAction()));
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ChatPageViewModel &&
+          runtimeType == other.runtimeType &&
+          title == other.title &&
+          items.length == other.items.length &&
+          withLoading == other.withLoading &&
+          withFailure == other.withFailure &&
+          withContent == other.withContent;
+
+  @override
+  int get hashCode =>
+      items.length ^ title.hashCode ^ withContent.hashCode ^ withLoading.hashCode ^ withFailure.hashCode;
 }
 
 _messagesToChatItems(List<Message> messages) {

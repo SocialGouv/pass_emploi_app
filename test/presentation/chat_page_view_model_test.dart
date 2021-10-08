@@ -114,4 +114,66 @@ void main() {
     expect(viewModel.items.length, 2);
     expect((viewModel.items[0] as DayItem).dayLabel, "Aujourd'hui");
   });
+
+  test('Two view models should be equal if they have same statuses, same title, and same message count ', () {
+    final chatItems = [
+      JeuneMessageItem("Hello !", "12:00"),
+      ConseillerMessageItem("Yo !", "12:02"),
+    ];
+
+    final firstViewModel = ChatPageViewModel(
+      title: "title",
+      withLoading: false,
+      withFailure: false,
+      withContent: true,
+      items: chatItems,
+      onSendMessage: (s) => {},
+    );
+
+    final secondViewModel = ChatPageViewModel(
+      title: "title",
+      withLoading: false,
+      withFailure: false,
+      withContent: true,
+      items: chatItems,
+      onSendMessage: (s) => {},
+    );
+
+    expect(firstViewModel == secondViewModel, true);
+    expect(firstViewModel.hashCode == secondViewModel.hashCode, true);
+  });
+
+  test('Two view models should not be equal if their message count is different', () {
+    final chatItems = [
+      JeuneMessageItem("Hello !", "12:00"),
+      ConseillerMessageItem("Yo !", "12:02"),
+    ];
+
+    final chatItemsWithNewMessage = [
+      JeuneMessageItem("Hello !", "12:00"),
+      ConseillerMessageItem("Yo !", "12:02"),
+      JeuneMessageItem("ça va ?", "12:03"),
+    ];
+
+    final firstViewModel = ChatPageViewModel(
+      title: "title",
+      withLoading: false,
+      withFailure: false,
+      withContent: true,
+      items: chatItems,
+      onSendMessage: (s) => {},
+    );
+
+    final secondViewModel = ChatPageViewModel(
+      title: "title",
+      withLoading: false,
+      withFailure: false,
+      withContent: true,
+      items: chatItemsWithNewMessage,
+      onSendMessage: (s) => {},
+    );
+
+    expect(firstViewModel == secondViewModel, false);
+    expect(firstViewModel.hashCode == secondViewModel.hashCode, false);
+  });
 }
