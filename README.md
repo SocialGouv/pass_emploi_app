@@ -8,17 +8,26 @@ l'IDE `Editor > Code Style > Dart > Line length`
 
 ## Renseigner l'adresse du serveur
 Dans `Run` > `Edit Configurations`, rajouter la base URL du backend 
-sur le net `Additional arguments` > `--dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL> --dart-define=FIREBASE_ENVIRONMENT_PREFIX=<staging | prod>`
+sur le net `Additional arguments` > `--flavor <staging | prod> --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL> --dart-define=FIREBASE_ENVIRONMENT_PREFIX=<staging | prod>`
 
 ## Renseigner les secrets Firebase
 Le projet utilise plusieurs foncionnalité de firebase. Les secrets ne sont pas et ne doivent pas 
 être commités (à ce titre, ils sont présent dans le `.gitignore`. Pour autant, ils sont nécessaires 
-au bon fonctionnement de l'application. Ils sont téléchargeables directement depuis Firebase : 
-[https://console.firebase.google.com/u/1/project/pass-emploi/settings/general] et doivent être 
-dans les PATH suivants :
-* Android : `/android/app/google-services.json`
-* iOS : `/ios/Runner/GoogleService-Info.plist`
+au bon fonctionnement de l'application. Ils sont téléchargeables directement depuis Firebase.
 
+Pour rappel ces fichiers ne doivent pas être versionnés (le gitignore est déjà configuré pour).
+
+#Pour l'environnement de staging 
+1. Télécharger les fichiers `google-services.json` et `GoogleService-Info.plist` [ici](https://console.firebase.google.com/project/pass-emploi-staging/settings/general).
+2. Les déplacer respectivement dans les dossiers suivants (à créer) :
+* Android : `/android/app/src/staging/google-services.json`
+* iOS : `/ios/firebase-config/staging/GoogleService-Info.plist`
+
+#Pour l'environnement de prod
+1. Télécharger les fichiers `google-services.json` et `GoogleService-Info.plist` [ici](https://console.firebase.google.com/u/1/project/pass-emploi/settings/general).
+2. Les déplacer respectivement dans les dossiers suivants (à créer) :
+* Android : `/android/app/src/prod/google-services.json`
+* iOS : `/ios/firebase-config/prod/GoogleService-Info.plist`
 
 ## Spécificité Firestore iOS
 La dépendance basique de Firestore sur iOS augmente considérablement le temps de build de l'app iOS. 
