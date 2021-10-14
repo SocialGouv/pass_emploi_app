@@ -46,16 +46,16 @@ Si besoin de la mettre à jour, il faut le faire dans le fichier `ios/Podfile` :
 1. Vérifier que le fichier `passemploi.jks` (fichier privé) est bien situé dans le repertoire `android/keystore` 
 2. Créer un fichier `key.properties` dans le repertoire `android` à partir du même modèle que `key.properties.template`. Ce fichier ne doit JAMAIS être versionné.
 3. Renseigner les valeurs demandées (valeurs présentes dans le Drive du projet) dans ce fichier.
-4. Construire l'APK en release : `$ flutter build apk --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL> --dart-define=FIREBASE_ENVIRONMENT_PREFIX=staging`
+4. Construire l'APK en release : `$ flutter build apk --flavor staging --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL> --dart-define=FIREBASE_ENVIRONMENT_PREFIX=staging`
 5. Récupérer l'APK `build/app/outputs/flutter-apk/app-release.apk` 
-6. Créer une version avec cet APK sur Firebase App Distribution : [https://console.firebase.google.com/u/1/project/pass-emploi/appdistribution/app/android:fr.fabrique.social.gouv.passemploi/releases]
+6. Créer une version avec cet APK sur [Firebase App Distribution](https://console.firebase.google.com/u/1/project/pass-emploi/appdistribution/app/android:fr.fabrique.social.gouv.passemploi/releases)
 7. Ajouter le groupe `Equipe projet` aux testeurs
 8. Distribuer la version
 
 
 ### Pour iOS
 1. Vérifier que votre compte Apple Dev ait bien accès au compte Apple "Fabrique numérique des ministères sociaux"
-2. Lancer le build iOS release : `flutter build ipa --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL> --dart-define=FIREBASE_ENVIRONMENT_PREFIX=staging`
+2. Lancer le build iOS release : `flutter build ipa --flavor staging --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL> --dart-define=FIREBASE_ENVIRONMENT_PREFIX=staging`
 3. Ouvrir le projet dans Xcode
 4. Configurer XCode, notamment sur la partie `Signing & Capabilities` [https://flutter.dev/docs/deployment/ios] en renseignant le bon provisioning profile de l'app `fr.fabrique.socialgouv.passemploi`
 5. Selectionner Product > Scheme > Runner.
@@ -63,7 +63,7 @@ Si besoin de la mettre à jour, il faut le faire dans le fichier `ios/Podfile` :
 7. Selectionner Product > Archive.
 8. Une fois l'archive réalisée, cliquer sur Distribute App > Adhoc> Répréciser le provisioning.profile `fr.fabrique.socialgouv.passemploi` > Export
 9. Récupérer l'IPA `pass_emploi_app.ipa`
-10. Créer une version avec cet IPA sur Firebase App Distribution : [https://console.firebase.google.com/u/1/project/pass-emploi/appdistribution/app/ios:fr.fabrique.social.gouv.passemploi/releases]
+10. Créer une version avec cet IPA sur [Firebase App Distribution](https://console.firebase.google.com/u/1/project/pass-emploi/appdistribution/app/ios:fr.fabrique.social.gouv.passemploi/releases)
 11. Ajouter le groupe `Equipe projet` aux testeurs
 12. Distribuer la version
 
