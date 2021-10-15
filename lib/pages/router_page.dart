@@ -13,13 +13,31 @@ class RouterPage extends StatelessWidget {
     return StoreConnector<AppState, RouterViewModel>(
       onInit: (store) => store.dispatch(BootstrapAction()),
       converter: (store) => RouterViewModel.create(store),
-      builder: (context, viewModel) => _body(viewModel),
+      onDidChange: (previousVm, newVm) => _handleNavigation(context, newVm),
+      builder: (context, viewModel) => Scaffold(),
+      distinct: true,
     );
   }
 
-  Widget _body(RouterViewModel viewModel) {
-    if (viewModel.withSplashScreen) return SplashScreenPage();
-    if (viewModel.withLoginPage) return LoginPage();
-    return HomePage();
+  _handleNavigation(BuildContext context, RouterViewModel viewModel) {
+    if (viewModel.withSplashScreen) {
+      Navigator.of(context).push(MaterialPageRoute(
+          settings: const RouteSettings(name: "splash"),
+          builder: (BuildContext context) {
+            return SplashScreenPage();
+          }));
+    } else if (viewModel.withLoginPage) {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          settings: const RouteSettings(name: "login"),
+          builder: (BuildContext context) {
+            return LoginPage();
+          }));
+    } else {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          settings: const RouteSettings(name: "home"),
+          builder: (BuildContext context) {
+            return HomePage();
+          }));
+    }
   }
 }

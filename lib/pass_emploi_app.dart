@@ -27,7 +27,9 @@ class PassEmploiApp extends StatelessWidget {
               },
             )),
         home: RouterPage(),
-        navigatorObservers: [FirebaseAnalyticsObserver(analytics: FirebaseAnalytics())],
+        navigatorObservers: [
+          FirebaseAnalyticsObserver(analytics: FirebaseAnalytics())
+        ],
       ),
     );
   }
