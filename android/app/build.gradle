@@ -75,6 +75,10 @@ android {
             resValue "string", "app_name", "Pass Emploi"
         }
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+    }
 }
 
 flutter {
