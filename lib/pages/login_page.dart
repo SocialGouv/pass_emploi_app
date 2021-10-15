@@ -149,7 +149,7 @@ class _LoginPageState extends State<LoginPage> {
 
   _navigateToHomeIfLoggedIn(BuildContext context, LoginViewModel viewModel) {
     if (viewModel.loggedIn) {
-      Navigator.of(context).pushReplacement(HomePage.materialPageRoute());
+      Navigator.pushReplacement(context, HomePage.materialPageRoute());
     }
   }
 
