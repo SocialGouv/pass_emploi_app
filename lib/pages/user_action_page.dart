@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/user_action_item.dart';
 import 'package:pass_emploi_app/presentation/user_action_page_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/chat_floating_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -17,7 +18,14 @@ enum UserActionPageResult { UPDATED, UNCHANGED }
 class UserActionPage extends StatefulWidget {
   final String userId;
 
-  const UserActionPage(this.userId) : super();
+  UserActionPage._(this.userId) : super();
+
+  static MaterialPageRoute materialPageRoute(String userId) {
+    return MaterialPageRoute(
+      builder: (context) => UserActionPage._(userId),
+      settings: AnalyticsRouteSettings.userAction(),
+    );
+  }
 
   @override
   _UserActionPageState createState() => _UserActionPageState();

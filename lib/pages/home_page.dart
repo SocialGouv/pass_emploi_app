@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/loader_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous_page.dart';
 import 'package:pass_emploi_app/pages/user_action_page.dart';
 import 'package:pass_emploi_app/presentation/home_item.dart';
 import 'package:pass_emploi_app/presentation/home_page_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/chat_floating_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -17,6 +18,12 @@ import 'package:pass_emploi_app/widgets/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/user_action_card.dart';
 
 class HomePage extends StatelessWidget {
+  HomePage._();
+
+  static MaterialPageRoute materialPageRoute() {
+    return MaterialPageRoute(builder: (context) => HomePage._(), settings: AnalyticsRouteSettings.home());
+  }
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, HomePageViewModel>(
@@ -100,7 +107,7 @@ class HomePage extends StatelessWidget {
           rendezvous: item.rendezvous,
           onTap: () => Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => RendezvousPage(item.rendezvous)),
+            RendezvousPage.materialPageRoute(item.rendezvous),
           ),
         ),
       );
@@ -151,7 +158,7 @@ class HomePage extends StatelessWidget {
   _pushUserActionPage(BuildContext context, HomePageViewModel viewModel) {
     return Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => UserActionPage(viewModel.userId)),
+      UserActionPage.materialPageRoute(viewModel.userId),
     ).then((value) {
       if (value == UserActionPageResult.UPDATED) viewModel.onRetry();
     });
