@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:isolate';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
@@ -28,6 +29,8 @@ import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
 
+import 'analytics/analytics.dart';
+import 'analytics/analytics_constants.dart';
 import 'configuration/app_version_checker.dart';
 
 main() async {
@@ -42,13 +45,19 @@ main() async {
   final forceUpdate = await _shouldForceUpdate(remoteConfig);
 
   final PushNotificationManager pushManager = FirebasePushNotificationManager();
+  final Analytics analytics = AnalyticsLoggerDecorator(decorated: AnalyticsWithFirebase(FirebaseAnalytics()));
 
   final store = _initializeReduxStore(baseUrl, pushManager);
 
   await pushManager.init(store);
 
   runZonedGuarded<Future<void>>(() async {
-    runApp(forceUpdate ? ForceUpdatePage() : PassEmploiApp(store));
+    if (forceUpdate) {
+      analytics.setCurrentScreen(AnalyticsScreenNames.forceUpdate);
+      runApp(ForceUpdatePage());
+    } else {
+      runApp(PassEmploiApp(store, analytics));
+    }
   }, FirebaseCrashlytics.instance.recordError);
 
   await _handleErrorsOutsideFlutter();

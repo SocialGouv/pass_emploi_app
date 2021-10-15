@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:pass_emploi_app/analytics/analytics_route_settings.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 
 class SplashScreenPage extends StatelessWidget {
 
