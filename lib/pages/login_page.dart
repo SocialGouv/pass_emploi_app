@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pass_emploi_app/analytics/analytics_route_settings.dart';
 import 'package:pass_emploi_app/presentation/login_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -11,6 +12,12 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
+  LoginPage._();
+
+  static MaterialPageRoute materialPageRoute() {
+    return MaterialPageRoute(builder: (context) => LoginPage._(), settings: AnalyticsRouteSettings.login());
+  }
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -82,8 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                                     textCapitalization: TextCapitalization.words,
                                     textInputAction: TextInputAction.done,
                                     validator: (value) {
-                                      if (value == null || value.isEmpty)
-                                        return Strings.mandatoryAccessCodeError;
+                                      if (value == null || value.isEmpty) return Strings.mandatoryAccessCodeError;
                                       return null;
                                     },
                                     onChanged: (String? value) => _accessCode = value,
@@ -143,11 +149,7 @@ class _LoginPageState extends State<LoginPage> {
 
   _navigateToHomeIfLoggedIn(BuildContext context, LoginViewModel viewModel) {
     if (viewModel.loggedIn) {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          settings: const RouteSettings(name: "home"),
-          builder: (BuildContext context) {
-            return HomePage();
-          }));
+      Navigator.of(context).pushReplacement(HomePage.materialPageRoute());
     }
   }
 

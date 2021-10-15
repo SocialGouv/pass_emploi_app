@@ -19,7 +19,7 @@ class ChatFloatingActionButton extends StatelessWidget {
             FloatingActionButton(
               backgroundColor: AppColors.bluePurple,
               child: SvgPicture.asset("assets/ic_envelope.svg"),
-              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => ChatPage())),
+              onPressed: () => Navigator.push(context, ChatPage.materialPageRoute()),
             ),
             if (viewModel.withUnreadMessages)
               Container(

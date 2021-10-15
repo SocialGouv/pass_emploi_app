@@ -21,23 +21,11 @@ class RouterPage extends StatelessWidget {
 
   _handleNavigation(BuildContext context, RouterViewModel viewModel) {
     if (viewModel.withSplashScreen) {
-      Navigator.of(context).push(MaterialPageRoute(
-          settings: const RouteSettings(name: "splash"),
-          builder: (BuildContext context) {
-            return SplashScreenPage();
-          }));
+      Navigator.of(context).push(SplashScreenPage.materialPageRoute());
     } else if (viewModel.withLoginPage) {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          settings: const RouteSettings(name: "login"),
-          builder: (BuildContext context) {
-            return LoginPage();
-          }));
+      Navigator.of(context).pushReplacement(LoginPage.materialPageRoute());
     } else {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          settings: const RouteSettings(name: "home"),
-          builder: (BuildContext context) {
-            return HomePage();
-          }));
+      Navigator.of(context).pushReplacement(HomePage.materialPageRoute());
     }
   }
 }
