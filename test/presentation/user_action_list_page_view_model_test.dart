@@ -1,0 +1,166 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/models/user.dart';
+import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/presentation/user_action_list_page_view_model.dart';
+import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
+import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
+import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/login_state.dart';
+import 'package:pass_emploi_app/redux/states/user_action_state.dart';
+import 'package:redux/redux.dart';
+
+main() {
+  test('create when user is not logged in should throw exception', () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(loginState: LoginState.notLoggedIn()),
+    );
+
+    // When / Then
+    expect(() => UserActionListPageViewModel.create(store), throwsException);
+  });
+
+  test('create when action state is loading should display loader', () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(
+          loginState: LoginState.loggedIn(User(
+            id: "id",
+            firstName: "F",
+            lastName: "L",
+          )),
+          userActionState: UserActionState.loading()),
+    );
+
+    // When
+    final viewModel = UserActionListPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.withLoading, true);
+    expect(viewModel.withFailure, false);
+  });
+
+  test('create when action state is not initialized should display loader', () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(
+          loginState: LoginState.loggedIn(User(
+            id: "id",
+            firstName: "F",
+            lastName: "L",
+          )),
+          userActionState: UserActionState.notInitialized()),
+    );
+
+    // When
+    final viewModel = UserActionListPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.withLoading, true);
+    expect(viewModel.withFailure, false);
+  });
+
+  test('create when action state is a failure should display failure', () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(
+          loginState: LoginState.loggedIn(User(
+            id: "id",
+            firstName: "F",
+            lastName: "L",
+          )),
+          userActionState: UserActionState.failure()),
+    );
+
+    // When
+    final viewModel = UserActionListPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.withLoading, false);
+    expect(viewModel.withFailure, true);
+  });
+
+  test('retry, after view model was created with failure, should dispatch a RequestUserActionsAction', () {
+    // Given
+    var storeSpy = StoreSpy();
+    final store = Store<AppState>(
+      storeSpy.reducer,
+      initialState: AppState.initialState().copyWith(
+          loginState: LoginState.loggedIn(User(
+            id: "id",
+            firstName: "F",
+            lastName: "L",
+          )),
+          userActionState: UserActionState.failure()),
+    );
+    final viewModel = UserActionListPageViewModel.create(store);
+
+    // When
+    viewModel.onRetry();
+
+    // Then
+    expect(storeSpy.calledWithRetry, true);
+  });
+
+  test('create when action state is success with actions should display them', () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(
+          loginState: LoginState.loggedIn(User(
+            id: "id",
+            firstName: "F",
+            lastName: "L",
+          )),
+          userActionState: UserActionState.success([
+            UserAction(
+                id: "id",
+                content: "content",
+                comment: "comment",
+                isDone: true,
+                lastUpdate: DateTime(2022, 12, 23, 0, 0, 0)),
+            UserAction(
+                id: "id2",
+                content: "content2",
+                comment: "",
+                isDone: false,
+                lastUpdate: DateTime(2022, 11, 13, 0, 0, 0)),
+          ])),
+    );
+
+    // When
+    final viewModel = UserActionListPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.withLoading, false);
+    expect(viewModel.withFailure, false);
+    expect(viewModel.items.length, 2);
+    expect(viewModel.items[0].id, "id");
+    expect(viewModel.items[0].content, "content");
+    expect(viewModel.items[0].comment, "comment");
+    expect(viewModel.items[0].withComment, true);
+    expect(viewModel.items[0].isDone, true);
+    expect(viewModel.items[0].lastUpdate, DateTime(2022, 12, 23, 0, 0, 0));
+    expect(viewModel.items[1].id, "id2");
+    expect(viewModel.items[1].content, "content2");
+    expect(viewModel.items[1].comment, "");
+    expect(viewModel.items[1].withComment, false);
+    expect(viewModel.items[1].isDone, false);
+    expect(viewModel.items[1].lastUpdate, DateTime(2022, 11, 13, 0, 0, 0));
+  });
+}
+
+class StoreSpy {
+  var calledWithRetry = false;
+
+  AppState reducer(AppState currentState, dynamic action) {
+    if (action is RequestUserActionsAction) {
+      calledWithRetry = true;
+    }
+    return currentState;
+  }
+}

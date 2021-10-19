@@ -48,7 +48,9 @@ class Strings {
   static String myRendezVous = "Mon rendez-vous";
   static String rendezVousConseillerCommentLabel = "Commentaire de mon conseiller";
   static String cantMakeItNoBigDeal = "Un imprévu ? Ce n’est pas grave, mais…";
-  static String shouldInformConseiller = "En cas d’imprévu, il est impératif de prévenir votre conseiller. Pour cela, n’hésitez pas à le contacter via la messagerie de Pass emploi.";
+  static String shouldInformConseiller =
+      "En cas d’imprévu, il est impératif de prévenir votre conseiller. Pour cela, n’hésitez pas à le contacter via la messagerie de Pass emploi.";
+
   static String rendezVousModalityMessage(modality) => "Le rendez-vous se fera $modality.";
 
   // User Action
@@ -57,4 +59,10 @@ class Strings {
   static String noCurrentActionsYet = "Vous n'avez pas encore d’actions en cours.";
   static String finishedActions = "Mes actions terminées";
   static String nofinishedActionsYet = "Vous n'avez pas encore terminé d’actions.";
+  static String actionDone = "Terminée";
+  static String aboutThisAction = "À propos de cette action";
+  static String actionDetails = "Détail de l'action";
+  static String updateStatus = "Changer le statut";
+  static String refreshActionStatus = "Actualiser";
+  static String actionToDo = "À réaliser";
 }
