@@ -1,7 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/user.dart';
-import 'package:pass_emploi_app/network/headers.dart';
-import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
@@ -9,9 +7,12 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:redux/redux.dart';
 
+import '../../testdoubles/dummies.dart';
+import '../../testdoubles/spies.dart';
+
 void main() {
   final _repositorySpy = RegisterTokenRepositorySpy();
-  final _repositoryStub = RegisterTokenRepositoryStub();
+  final _repositoryStub = DummyRegisterTokenRepository();
 
   test('call should send action untouched to next middleware', () {
     final store = Store<AppState>(reducer, initialState: AppState.initialState());
@@ -45,38 +46,6 @@ class RegisterTokenRepositorySpy extends RegisterTokenRepository {
 
   Future<void> registerToken(String userId) async {
     expect(userId, "1");
-    wasCalled = true;
-  }
-}
-
-class RegisterTokenRepositoryStub extends RegisterTokenRepository {
-  RegisterTokenRepositoryStub() : super("", DummyHeadersBuilder(), DummyPushNotificationManager());
-
-  Future<void> registerToken(String userId) async {}
-}
-
-class DummyHeadersBuilder extends HeadersBuilder {}
-
-class DummyPushNotificationManager extends PushNotificationManager {
-  @override
-  Future<String?> getToken() async {
-    return "";
-  }
-
-  @override
-  Future<void> init(Store<AppState> store) async {}
-}
-
-class NextDispatcherSpy {
-  bool wasCalled = false;
-  late final dynamic _expectedAction;
-
-  NextDispatcherSpy({dynamic expectedAction}) {
-    _expectedAction = expectedAction;
-  }
-
-  dynamic performAction(dynamic action) {
-    expect(_expectedAction, action);
     wasCalled = true;
   }
 }
