@@ -9,7 +9,6 @@ import 'package:redux/redux.dart';
 class ChatRepository {
   static const _FIREBASE_ENV = String.fromEnvironment('FIREBASE_ENVIRONMENT_PREFIX');
   static const _COLLECTION_PATH = _FIREBASE_ENV + "-chat";
-  final firestore = FirebaseFirestore.instance;
   StreamSubscription<QuerySnapshot>? _messagesSubscription;
   StreamSubscription<DocumentSnapshot>? _chatStatusSubscription;
   String? _chatDocumentId;
@@ -19,7 +18,7 @@ class ChatRepository {
     unsubscribeToMessages();
     store.dispatch(ChatLoadingAction());
 
-    final chats = await firestore.collection(_COLLECTION_PATH).where('jeuneId', isEqualTo: userId).get();
+    final chats = await FirebaseFirestore.instance.collection(_COLLECTION_PATH).where('jeuneId', isEqualTo: userId).get();
     _chatDocumentId = chats.docs.first.id;
 
     final Stream<QuerySnapshot> messageStream = _messagesCollection().orderBy('creationDate').snapshots();
@@ -83,7 +82,7 @@ class ChatRepository {
         .catchError((error) => print("Failed to update last message seen: $error"));
   }
 
-  _messagesCollection() => firestore.collection(_COLLECTION_PATH).doc(_chatDocumentId).collection('messages');
+  _messagesCollection() => FirebaseFirestore.instance.collection(_COLLECTION_PATH).doc(_chatDocumentId).collection('messages');
 
-  _chatStatusCollection() => firestore.collection(_COLLECTION_PATH).doc(_chatDocumentId);
+  _chatStatusCollection() => FirebaseFirestore.instance.collection(_COLLECTION_PATH).doc(_chatDocumentId);
 }
