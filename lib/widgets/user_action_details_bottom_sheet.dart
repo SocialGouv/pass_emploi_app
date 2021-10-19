@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -52,7 +51,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
     );
   }
 
-  Divider _bottomSheetSeparator() => Divider(thickness: 1, color: AppColors.bluePurpleAlpha20);
+  Container _bottomSheetSeparator() => Container(height: 1, color: AppColors.bluePurpleAlpha20);
 
   EdgeInsets _bottomSheetContentPadding() => const EdgeInsets.fromLTRB(16, 24, 16, 24);
 

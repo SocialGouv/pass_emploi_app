@@ -92,8 +92,8 @@ class _UserActionListPageState extends State<UserActionListPage> {
       child: ListView.separated(
         itemCount: viewModel.items.length,
         itemBuilder: (context, i) => _tapListener(context, viewModel.items[i], viewModel),
-        separatorBuilder: (context, i) => Divider(
-          thickness: 1,
+        separatorBuilder: (context, i) => Container(
+          height: 1,
           color: AppColors.bluePurpleAlpha20,
         ),
       ),
@@ -101,15 +101,20 @@ class _UserActionListPageState extends State<UserActionListPage> {
   }
 
   Widget _tapListener(BuildContext context, UserActionViewModel item, UserActionListPageViewModel viewModel) {
-    return InkWell(
+    return Material(
+      type: MaterialType.transparency,
+      child: InkWell(
         onTap: () => showModalBottomSheet(
-              context: context,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
-              builder: (context) => UserActionDetailsBottomSheet(viewModel, item),
-              routeSettings: AnalyticsRouteSettings.userActionDetails(),
-              isScrollControlled: true,
-            ).then((value) => {if (value != null) _result = UserActionPageResult.UPDATED}),
-        child: _listItem(item, viewModel));
+          context: context,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+          builder: (context) => UserActionDetailsBottomSheet(viewModel, item),
+          routeSettings: AnalyticsRouteSettings.userActionDetails(),
+          isScrollControlled: true,
+        ).then((value) => {if (value != null) _result = UserActionPageResult.UPDATED}),
+        splashColor: AppColors.bluePurple,
+        child: _listItem(item, viewModel),
+      ),
+    );
   }
 
   Widget _listItem(UserActionViewModel item, UserActionListPageViewModel viewModel) {
@@ -155,15 +160,15 @@ class _UserActionListPageState extends State<UserActionListPage> {
   }
 
   Container _doneTag() => Container(
-    decoration: BoxDecoration(
-      color: AppColors.blueGrey,
-      borderRadius: BorderRadius.all(Radius.circular(16)),
-    ),
-    child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
-        child: Text(
-          Strings.actionDone,
-          style: TextStyles.textSmMedium(),
-        )),
-  );
+        decoration: BoxDecoration(
+          color: AppColors.blueGrey,
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+        ),
+        child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
+            child: Text(
+              Strings.actionDone,
+              style: TextStyles.textSmMedium(),
+            )),
+      );
 }
