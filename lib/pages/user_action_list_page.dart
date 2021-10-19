@@ -67,6 +67,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
   Widget _body(BuildContext context, UserActionListPageViewModel viewModel) {
     if (viewModel.withLoading) return _loader();
     if (viewModel.withFailure) return _failure(viewModel);
+    if (viewModel.withEmptyMessage) return _empty();
     return Container(
       child: _userActions(context, viewModel),
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
@@ -86,6 +87,8 @@ class _UserActionListPageState extends State<UserActionListPage> {
       ),
     );
   }
+
+  _empty() => Center(child: Text(Strings.noActionsYet, style: TextStyles.textSmRegular()));
 
   Widget _userActions(BuildContext context, UserActionListPageViewModel viewModel) {
     return Container(

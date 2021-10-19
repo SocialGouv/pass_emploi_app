@@ -8,6 +8,7 @@ import 'package:redux/redux.dart';
 class UserActionListPageViewModel {
   final bool withLoading;
   final bool withFailure;
+  final bool withEmptyMessage;
   final List<UserActionViewModel> items;
   final Function() onRetry;
   final Function(String actionId, bool newStatus) onRefreshStatus;
@@ -15,6 +16,7 @@ class UserActionListPageViewModel {
   UserActionListPageViewModel({
     required this.withLoading,
     required this.withFailure,
+    required this.withEmptyMessage,
     required this.items,
     required this.onRetry,
     required this.onRefreshStatus,
@@ -28,6 +30,7 @@ class UserActionListPageViewModel {
     return UserActionListPageViewModel(
       withLoading: _isLoading(store.state.userActionState),
       withFailure: _isFailure(store.state.userActionState),
+      withEmptyMessage: _isEmpty(store.state.userActionState),
       items: _items(
         state: store.state.userActionState,
       ),
@@ -40,6 +43,8 @@ class UserActionListPageViewModel {
 bool _isLoading(UserActionState state) => state is UserActionLoadingState || state is UserActionNotInitializedState;
 
 bool _isFailure(UserActionState state) => state is UserActionFailureState;
+
+bool _isEmpty(UserActionState state) => state is UserActionSuccessState && state.actions.isEmpty;
 
 List<UserActionViewModel> _items({
   required UserActionState state,

@@ -153,6 +153,29 @@ main() {
     expect(viewModel.items[1].lastUpdate, DateTime(2022, 11, 13, 0, 0, 0));
   });
 
+  test('create when action state is success but there are no actions should display an empty message', () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(
+          loginState: LoginState.loggedIn(User(
+            id: "id",
+            firstName: "F",
+            lastName: "L",
+          )),
+          userActionState: UserActionState.success([])),
+    );
+
+    // When
+    final viewModel = UserActionListPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.withLoading, false);
+    expect(viewModel.withFailure, false);
+    expect(viewModel.withEmptyMessage, true);
+    expect(viewModel.items.length, 0);
+  });
+
   test('refreshStatus when update status has changed should dispatch a UpdateActionStatus', () {
     // Given
     var storeSpy = StoreSpy();
