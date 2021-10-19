@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/redux/middlewares/api_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/crashlytics_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/router_middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/user_action_middleware.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
@@ -44,6 +45,7 @@ class StoreFactory {
           userActionRepository,
           chatRepository,
         ),
+        UserActionMiddleware(userActionRepository),
         RegisterPushNotificationTokenMiddleware(
           registerTokenRepository,
         ),
