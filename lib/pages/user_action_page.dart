@@ -37,6 +37,7 @@ class _UserActionPageState extends State<UserActionPage> {
   @override
   Widget build(BuildContext context) {
     final storeConnector = StoreConnector<AppState, UserActionPageViewModel>(
+      onInit: (store) => store.dispatch(RequestUserActionsAction(widget.userId)),
       converter: (store) => UserActionPageViewModel.create(store),
       builder: (context, viewModel) {
         return AnimatedSwitcher(
@@ -45,7 +46,6 @@ class _UserActionPageState extends State<UserActionPage> {
         );
       },
     );
-    StoreProvider.of<AppState>(context).dispatch(RequestUserActionsAction(widget.userId));
     return storeConnector;
   }
 
