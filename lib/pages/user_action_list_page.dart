@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/pages/user_action_page.dart';
 import 'package:pass_emploi_app/presentation/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
@@ -12,10 +13,10 @@ import 'package:pass_emploi_app/widgets/chat_floating_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/user_action_details_bottom_sheet.dart';
 
-class UserActionListPage extends StatelessWidget {
+class UserActionListPage extends StatefulWidget {
   final String userId;
 
-  const UserActionListPage._(this.userId) : super();
+  UserActionListPage._(this.userId) : super();
 
   static MaterialPageRoute materialPageRoute(String userId) {
     return MaterialPageRoute(
@@ -25,9 +26,16 @@ class UserActionListPage extends StatelessWidget {
   }
 
   @override
+  State<UserActionListPage> createState() => _UserActionListPageState();
+}
+
+class _UserActionListPageState extends State<UserActionListPage> {
+  var _result = UserActionPageResult.UNCHANGED;
+
+  @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, UserActionListPageViewModel>(
-      onInit: (store) => store.dispatch(RequestUserActionsAction(userId)),
+      onInit: (store) => store.dispatch(RequestUserActionsAction(widget.userId)),
       builder: (context, viewModel) {
         return AnimatedSwitcher(
           duration: Duration(milliseconds: 200),
@@ -39,11 +47,17 @@ class UserActionListPage extends StatelessWidget {
   }
 
   Widget _scaffold(BuildContext context, UserActionListPageViewModel viewModel, Widget body) {
-    return Scaffold(
-      backgroundColor: AppColors.lightBlue,
-      appBar: _appBar(),
-      body: body,
-      floatingActionButton: ChatFloatingActionButton(),
+    return WillPopScope(
+      onWillPop: () {
+        Navigator.pop(context, _result);
+        return Future.value(true);
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.lightBlue,
+        appBar: _appBar(),
+        body: body,
+        floatingActionButton: ChatFloatingActionButton(),
+      ),
     );
   }
 
@@ -92,8 +106,9 @@ class UserActionListPage extends StatelessWidget {
               context: context,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
               builder: (context) => UserActionDetailsBottomSheet(viewModel, item),
+              routeSettings: AnalyticsRouteSettings.userActionDetails(),
               isScrollControlled: true,
-            ),
+            ).then((value) => {if (value != null) _result = UserActionPageResult.UPDATED}),
         child: _listItem(item, viewModel));
   }
 
@@ -140,15 +155,15 @@ class UserActionListPage extends StatelessWidget {
   }
 
   Container _doneTag() => Container(
-        decoration: BoxDecoration(
-          color: AppColors.blueGrey,
-          borderRadius: BorderRadius.all(Radius.circular(16)),
-        ),
-        child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
-            child: Text(
-              Strings.actionDone,
-              style: TextStyles.textSmMedium(),
-            )),
-      );
+    decoration: BoxDecoration(
+      color: AppColors.blueGrey,
+      borderRadius: BorderRadius.all(Radius.circular(16)),
+    ),
+    child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
+        child: Text(
+          Strings.actionDone,
+          style: TextStyles.textSmMedium(),
+        )),
+  );
 }

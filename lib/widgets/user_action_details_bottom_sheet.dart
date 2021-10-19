@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -139,9 +140,10 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
               backgroundColor: AppColors.nightBlue,
               shape: StadiumBorder(),
             ),
-            onPressed: () => {
+            onPressed: () =>
+            {
               widget.listViewModel.onRefreshStatus(widget.viewModel.id, isActionDone),
-              Navigator.pop(context),
+              Navigator.pop(context, true),
             },
             child: Padding(
               padding: const EdgeInsets.all(16.0),
