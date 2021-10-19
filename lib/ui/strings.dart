@@ -7,6 +7,7 @@ class Strings {
   static String retry = "Réessayer";
   static String logoTextDescription = "Logo Pass Emploi";
   static String myActions = "Mes actions";
+  static String close = "Fermer";
 
   // Chat
   static String yourMessage = "Votre message…";
