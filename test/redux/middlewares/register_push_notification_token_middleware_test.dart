@@ -14,8 +14,13 @@ void main() {
   final _repositorySpy = RegisterTokenRepositorySpy();
   final _repositoryStub = DummyRegisterTokenRepository();
 
+  late Store<AppState> store;
+
+  setUp(() {
+    store = Store<AppState>(reducer, initialState: AppState.initialState());
+  });
+
   test('call should send action untouched to next middleware', () {
-    final store = Store<AppState>(reducer, initialState: AppState.initialState());
     var initialAction = NotLoggedInAction();
 
     final middleware = RegisterPushNotificationTokenMiddleware(_repositoryStub);
@@ -27,7 +32,6 @@ void main() {
   });
 
   test('call when action is LoggedInAction should call repository to register token', () {
-    final store = Store<AppState>(reducer, initialState: AppState.initialState());
     final user = User(id: "1", firstName: "first-name", lastName: "last-name");
     var action = LoggedInAction(user);
 

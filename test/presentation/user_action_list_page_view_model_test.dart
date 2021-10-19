@@ -25,13 +25,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: AppState.initialState().copyWith(
-          loginState: LoginState.loggedIn(User(
-            id: "id",
-            firstName: "F",
-            lastName: "L",
-          )),
-          userActionState: UserActionState.loading()),
+      initialState: _loggedInState().copyWith(userActionState: UserActionState.loading()),
     );
 
     // When
@@ -46,13 +40,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: AppState.initialState().copyWith(
-          loginState: LoginState.loggedIn(User(
-            id: "id",
-            firstName: "F",
-            lastName: "L",
-          )),
-          userActionState: UserActionState.notInitialized()),
+      initialState: _loggedInState().copyWith(userActionState: UserActionState.notInitialized()),
     );
 
     // When
@@ -67,13 +55,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: AppState.initialState().copyWith(
-          loginState: LoginState.loggedIn(User(
-            id: "id",
-            firstName: "F",
-            lastName: "L",
-          )),
-          userActionState: UserActionState.failure()),
+      initialState: _loggedInState().copyWith(userActionState: UserActionState.failure()),
     );
 
     // When
@@ -89,13 +71,7 @@ main() {
     var storeSpy = StoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
-      initialState: AppState.initialState().copyWith(
-          loginState: LoginState.loggedIn(User(
-            id: "id",
-            firstName: "F",
-            lastName: "L",
-          )),
-          userActionState: UserActionState.failure()),
+      initialState: _loggedInState().copyWith(userActionState: UserActionState.failure()),
     );
     final viewModel = UserActionListPageViewModel.create(store);
 
@@ -110,26 +86,22 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: AppState.initialState().copyWith(
-          loginState: LoginState.loggedIn(User(
-            id: "id",
-            firstName: "F",
-            lastName: "L",
-          )),
+      initialState: _loggedInState().copyWith(
           userActionState: UserActionState.success([
-            UserAction(
-                id: "id",
-                content: "content",
-                comment: "comment",
-                isDone: true,
-                lastUpdate: DateTime(2022, 12, 23, 0, 0, 0)),
-            UserAction(
-                id: "id2",
-                content: "content2",
-                comment: "",
-                isDone: false,
-                lastUpdate: DateTime(2022, 11, 13, 0, 0, 0)),
-          ])),
+        UserAction(
+            id: "id",
+            content: "content",
+            comment: "comment",
+            isDone: true,
+            lastUpdate: DateTime(2022, 12, 23, 0, 0, 0)),
+        UserAction(
+          id: "id2",
+          content: "content2",
+          comment: "",
+          isDone: false,
+          lastUpdate: DateTime(2022, 11, 13, 0, 0, 0),
+        ),
+      ])),
     );
 
     // When
@@ -157,13 +129,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: AppState.initialState().copyWith(
-          loginState: LoginState.loggedIn(User(
-            id: "id",
-            firstName: "F",
-            lastName: "L",
-          )),
-          userActionState: UserActionState.success([])),
+      initialState: _loggedInState().copyWith(userActionState: UserActionState.success([])),
     );
 
     // When
@@ -181,26 +147,23 @@ main() {
     var storeSpy = StoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
-      initialState: AppState.initialState().copyWith(
-          loginState: LoginState.loggedIn(User(
-            id: "userId",
-            firstName: "F",
-            lastName: "L",
-          )),
+      initialState: _loggedInState().copyWith(
           userActionState: UserActionState.success([
-            UserAction(
-                id: "id",
-                content: "content",
-                comment: "comment",
-                isDone: true,
-                lastUpdate: DateTime(2022, 12, 23, 0, 0, 0)),
-            UserAction(
-                id: "id2",
-                content: "content2",
-                comment: "",
-                isDone: false,
-                lastUpdate: DateTime(2022, 11, 13, 0, 0, 0)),
-          ])),
+        UserAction(
+          id: "id",
+          content: "content",
+          comment: "comment",
+          isDone: true,
+          lastUpdate: DateTime(2022, 12, 23, 0, 0, 0),
+        ),
+        UserAction(
+          id: "id2",
+          content: "content2",
+          comment: "",
+          isDone: false,
+          lastUpdate: DateTime(2022, 11, 13, 0, 0, 0),
+        ),
+      ])),
     );
 
     // When
@@ -216,23 +179,16 @@ main() {
     var storeSpy = StoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
-      initialState: AppState.initialState().copyWith(
-          loginState: LoginState.loggedIn(User(
-            id: "userId",
-            firstName: "F",
-            lastName: "L",
-          )),
+      initialState: _loggedInState().copyWith(
           userActionState: UserActionState.success([
-            UserAction(
-                id: "id",
-                content: "content",
-                comment: "comment",
-                isDone: true,
-                lastUpdate: DateTime(2022, 12, 23, 0, 0, 0)),
-            UserAction(
-                id: "id2",
-                content: "content2",
-                comment: "",
+        UserAction(
+            id: "id",
+            content: "content",
+            comment: "comment",
+            isDone: true,
+            lastUpdate: DateTime(2022, 12, 23, 0, 0, 0)),
+        UserAction(
+            id: "id2", content: "content2", comment: "",
                 isDone: false,
                 lastUpdate: DateTime(2022, 11, 13, 0, 0, 0)),
           ])),
@@ -245,6 +201,16 @@ main() {
     // Then
     expect(storeSpy.calledWithUpdate, false);
   });
+}
+
+AppState _loggedInState() {
+  return AppState.initialState().copyWith(
+    loginState: LoginState.loggedIn(User(
+      id: "id",
+      firstName: "F",
+      lastName: "L",
+    )),
+  );
 }
 
 class StoreSpy {

@@ -21,6 +21,7 @@ main() {
     // Given
     final nextActionSpy = NextDispatcherSpy(expectedAction: action);
     final store = Store<AppState>(reducer, initialState: AppState.initialState());
+
     // When
     middleware.call(store, action, nextActionSpy.performAction);
 
@@ -32,6 +33,7 @@ main() {
     // Given
     final storeSpy = StoreSpy();
     final store = Store<AppState>(storeSpy.reducer, initialState: AppState.initialState());
+
     // When
     await middleware.call(store, action, (action) => {});
 
@@ -44,9 +46,9 @@ main() {
   test("call when repository returns null should dispatch loading and then failure", () async {
     // Given
     final middleware = UserActionMiddleware(UserActionRepositoryFailureStub());
-
     final storeSpy = StoreSpy();
     final store = Store<AppState>(storeSpy.reducer, initialState: AppState.initialState());
+
     // When
     await middleware.call(store, action, (action) => {});
 
