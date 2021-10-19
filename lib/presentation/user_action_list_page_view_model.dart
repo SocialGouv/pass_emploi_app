@@ -10,12 +10,14 @@ class UserActionListPageViewModel {
   final bool withFailure;
   final List<UserActionViewModel> items;
   final Function() onRetry;
+  final Function(String actionId, bool newStatus) onRefreshStatus;
 
   UserActionListPageViewModel({
     required this.withLoading,
     required this.withFailure,
     required this.items,
     required this.onRetry,
+    required this.onRefreshStatus,
   });
 
   factory UserActionListPageViewModel.create(Store<AppState> store) {
@@ -26,8 +28,11 @@ class UserActionListPageViewModel {
     return UserActionListPageViewModel(
       withLoading: _isLoading(store.state.userActionState),
       withFailure: _isFailure(store.state.userActionState),
-      items: _items(store.state.userActionState),
+      items: _items(
+        state: store.state.userActionState,
+      ),
       onRetry: () => store.dispatch(RequestUserActionsAction(user.id)),
+      onRefreshStatus: (actionId, newStatus) => refreshStatus(store, actionId, newStatus),
     );
   }
 }
@@ -36,19 +41,27 @@ bool _isLoading(UserActionState state) => state is UserActionLoadingState || sta
 
 bool _isFailure(UserActionState state) => state is UserActionFailureState;
 
-List<UserActionViewModel> _items(UserActionState state) {
+List<UserActionViewModel> _items({
+  required UserActionState state,
+}) {
   if (state is! UserActionSuccessState) {
     return [];
   } else {
-    return state.actions
-        .map((e) => UserActionViewModel(
-              id: e.id,
-              content: e.content,
-              comment: e.comment,
-              withComment: e.comment.isNotEmpty,
-              isDone: e.isDone,
-              lastUpdate: e.lastUpdate,
-            ))
-        .toList();
+    return state.actions.map((userAction) => UserActionViewModel.create(userAction)).toList();
+  }
+}
+
+refreshStatus(Store<AppState> store, String actionId, bool newStatus) {
+  final actionState = store.state.userActionState;
+  final loginState = store.state.loginState;
+  if (actionState is UserActionSuccessState && loginState is LoggedInState) {
+    final updatedAction = actionState.actions.firstWhere((element) => element.id == actionId);
+    if (updatedAction.isDone != newStatus) {
+      store.dispatch(UpdateActionStatus(
+        userId: loginState.user.id,
+        actionId: actionId,
+        newIsDoneValue: newStatus,
+      ));
+    }
   }
 }

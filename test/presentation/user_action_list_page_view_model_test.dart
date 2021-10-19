@@ -152,14 +152,88 @@ main() {
     expect(viewModel.items[1].isDone, false);
     expect(viewModel.items[1].lastUpdate, DateTime(2022, 11, 13, 0, 0, 0));
   });
+
+  test('refreshStatus when update status has changed should dispatch a UpdateActionStatus', () {
+    // Given
+    var storeSpy = StoreSpy();
+    final store = Store<AppState>(
+      storeSpy.reducer,
+      initialState: AppState.initialState().copyWith(
+          loginState: LoginState.loggedIn(User(
+            id: "userId",
+            firstName: "F",
+            lastName: "L",
+          )),
+          userActionState: UserActionState.success([
+            UserAction(
+                id: "id",
+                content: "content",
+                comment: "comment",
+                isDone: true,
+                lastUpdate: DateTime(2022, 12, 23, 0, 0, 0)),
+            UserAction(
+                id: "id2",
+                content: "content2",
+                comment: "",
+                isDone: false,
+                lastUpdate: DateTime(2022, 11, 13, 0, 0, 0)),
+          ])),
+    );
+
+    // When
+    final viewModel = UserActionListPageViewModel.create(store);
+    viewModel.onRefreshStatus("id", false);
+
+    // Then
+    expect(storeSpy.calledWithUpdate, true);
+  });
+
+  test('refreshStatus when update status has not changed should not dispatch any action', () {
+    // Given
+    var storeSpy = StoreSpy();
+    final store = Store<AppState>(
+      storeSpy.reducer,
+      initialState: AppState.initialState().copyWith(
+          loginState: LoginState.loggedIn(User(
+            id: "userId",
+            firstName: "F",
+            lastName: "L",
+          )),
+          userActionState: UserActionState.success([
+            UserAction(
+                id: "id",
+                content: "content",
+                comment: "comment",
+                isDone: true,
+                lastUpdate: DateTime(2022, 12, 23, 0, 0, 0)),
+            UserAction(
+                id: "id2",
+                content: "content2",
+                comment: "",
+                isDone: false,
+                lastUpdate: DateTime(2022, 11, 13, 0, 0, 0)),
+          ])),
+    );
+
+    // When
+    final viewModel = UserActionListPageViewModel.create(store);
+    viewModel.onRefreshStatus("id", true);
+
+    // Then
+    expect(storeSpy.calledWithUpdate, false);
+  });
 }
 
 class StoreSpy {
   var calledWithRetry = false;
+  var calledWithUpdate = false;
 
   AppState reducer(AppState currentState, dynamic action) {
     if (action is RequestUserActionsAction) {
       calledWithRetry = true;
+    }
+    if (action is UpdateActionStatus) {
+      calledWithUpdate = true;
     }
     return currentState;
   }

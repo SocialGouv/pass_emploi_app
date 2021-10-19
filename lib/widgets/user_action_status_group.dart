@@ -3,23 +3,11 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
-class UserActionStatusGroup extends StatefulWidget {
-  final bool isInitiallyDone;
+class UserActionStatusGroup extends StatelessWidget {
+  final bool isDone;
+  final Function(bool isNowDone) update;
 
-  const UserActionStatusGroup({required this.isInitiallyDone}) : super();
-
-  @override
-  _UserActionStatusGroupState createState() => _UserActionStatusGroupState();
-}
-
-class _UserActionStatusGroupState extends State<UserActionStatusGroup> {
-  late bool isDone;
-
-  @override
-  void initState() {
-    super.initState();
-    update(isNowDone: widget.isInitiallyDone);
-  }
+  const UserActionStatusGroup({required this.isDone, required this.update}) : super();
 
   @override
   Widget build(BuildContext context) {
@@ -29,27 +17,19 @@ class _UserActionStatusGroupState extends State<UserActionStatusGroup> {
           padding: const EdgeInsets.only(right: 8),
           child: UserActionStatusButton(
             label: Strings.actionToDo,
-            onPressed: () => update(isNowDone: false),
-            isSelected: isDone,
+            onPressed: () => update(false),
+            isSelected: !isDone,
           ),
         ),
         UserActionStatusButton(
           label: Strings.actionDone,
-          onPressed: () => update(isNowDone: true),
-          isSelected: !isDone,
+          onPressed: () => update(true),
+          isSelected: isDone,
         ),
       ],
     );
   }
-
-  update({required bool isNowDone}) {
-    setState(() {
-      isDone = isNowDone;
-    });
-  }
 }
-
-enum UserActionStatus { TODO, IN_PROGRESS, DONE }
 
 class UserActionStatusButton extends StatelessWidget {
   final VoidCallback onPressed;

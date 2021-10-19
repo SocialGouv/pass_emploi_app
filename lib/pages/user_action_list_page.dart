@@ -91,7 +91,7 @@ class UserActionListPage extends StatelessWidget {
         onTap: () => showModalBottomSheet(
               context: context,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
-              builder: (context) => UserActionDetailsBottomSheet(item),
+              builder: (context) => UserActionDetailsBottomSheet(viewModel, item),
               isScrollControlled: true,
             ),
         child: _listItem(item, viewModel));

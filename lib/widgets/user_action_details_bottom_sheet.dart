@@ -1,19 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pass_emploi_app/presentation/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
-class UserActionDetailsBottomSheet extends StatelessWidget {
+class UserActionDetailsBottomSheet extends StatefulWidget {
+  final UserActionListPageViewModel listViewModel;
   final UserActionViewModel viewModel;
 
-  const UserActionDetailsBottomSheet(this.viewModel) : super();
+  const UserActionDetailsBottomSheet(this.listViewModel, this.viewModel) : super();
+
+  @override
+  State<UserActionDetailsBottomSheet> createState() => _UserActionDetailsBottomSheetState();
+}
+
+class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSheet> {
+  late bool isActionDone;
+
+  @override
+  void initState() {
+    super.initState();
+    isActionDone = widget.viewModel.isDone;
+  }
 
   @override
   Widget build(BuildContext context) {
     return _bottomSheetContent(context);
+  }
+
+  _update(bool isNowDone) {
+    setState(() {
+      isActionDone = isNowDone;
+    });
   }
 
   Column _bottomSheetContent(BuildContext context) {
@@ -48,11 +69,11 @@ class UserActionDetailsBottomSheet extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
             child: Text(
-              viewModel.content,
+              widget.viewModel.content,
               style: TextStyles.textMdMedium,
             ),
           ),
-          ..._insertCommentIfPresent(viewModel),
+          ..._insertCommentIfPresent(widget.viewModel),
         ],
       ),
     );
@@ -106,7 +127,10 @@ class UserActionDetailsBottomSheet extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 16),
-            child: UserActionStatusGroup(isInitiallyDone: viewModel.isDone),
+            child: UserActionStatusGroup(
+              isDone: isActionDone,
+              update: (bool isNowDone) => _update(isNowDone),
+            ),
           ),
           TextButton(
             style: TextButton.styleFrom(
@@ -115,7 +139,10 @@ class UserActionDetailsBottomSheet extends StatelessWidget {
               backgroundColor: AppColors.nightBlue,
               shape: StadiumBorder(),
             ),
-            onPressed: () => print("toto"),
+            onPressed: () => {
+              widget.listViewModel.onRefreshStatus(widget.viewModel.id, isActionDone),
+              Navigator.pop(context),
+            },
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Text(Strings.refreshActionStatus),
