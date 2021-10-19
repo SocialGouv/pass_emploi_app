@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/loader_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous_page.dart';
 import 'package:pass_emploi_app/pages/user_action_list_page.dart';
-import 'package:pass_emploi_app/pages/user_action_page.dart';
 import 'package:pass_emploi_app/presentation/home_item.dart';
 import 'package:pass_emploi_app/presentation/home_page_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -161,7 +160,7 @@ class HomePage extends StatelessWidget {
       context,
       UserActionListPage.materialPageRoute(viewModel.userId),
     ).then((value) {
-      if (value == UserActionPageResult.UPDATED) viewModel.onRetry();
+      if (value == UserActionListPageResult.UPDATED) viewModel.onRetry();
     });
   }
 }

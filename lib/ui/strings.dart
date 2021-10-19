@@ -55,10 +55,6 @@ class Strings {
 
   // User Action
   static String actionsError = "Erreur lors de la récupérations de vos actions.";
-  static String currentActions = "Mes actions en cours";
-  static String noCurrentActionsYet = "Vous n'avez pas encore d’actions en cours.";
-  static String finishedActions = "Mes actions terminées";
-  static String nofinishedActionsYet = "Vous n'avez pas encore terminé d’actions.";
   static String actionDone = "Terminée";
   static String aboutThisAction = "À propos de cette action";
   static String actionDetails = "Détail de l'action";

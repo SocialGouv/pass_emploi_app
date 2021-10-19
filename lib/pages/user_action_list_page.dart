@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/pages/user_action_page.dart';
 import 'package:pass_emploi_app/presentation/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
@@ -12,6 +11,8 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/chat_floating_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/user_action_details_bottom_sheet.dart';
+
+enum UserActionListPageResult { UPDATED, UNCHANGED }
 
 class UserActionListPage extends StatefulWidget {
   final String userId;
@@ -30,7 +31,7 @@ class UserActionListPage extends StatefulWidget {
 }
 
 class _UserActionListPageState extends State<UserActionListPage> {
-  var _result = UserActionPageResult.UNCHANGED;
+  var _result = UserActionListPageResult.UNCHANGED;
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +111,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
           builder: (context) => UserActionDetailsBottomSheet(viewModel, item),
           routeSettings: AnalyticsRouteSettings.userActionDetails(),
           isScrollControlled: true,
-        ).then((value) => {if (value != null) _result = UserActionPageResult.UPDATED}),
+        ).then((value) => {if (value != null) _result = UserActionListPageResult.UPDATED}),
         splashColor: AppColors.bluePurple,
         child: _listItem(item, viewModel),
       ),
