@@ -40,14 +40,14 @@ class _UserActionListPageState extends State<UserActionListPage> {
       builder: (context, viewModel) {
         return AnimatedSwitcher(
           duration: Duration(milliseconds: 200),
-          child: _scaffold(context, viewModel, _body(context, viewModel)),
+          child: _scaffold(context, _body(context, viewModel)),
         );
       },
       converter: (store) => UserActionListPageViewModel.create(store),
     );
   }
 
-  Widget _scaffold(BuildContext context, UserActionListPageViewModel viewModel, Widget body) {
+  Widget _scaffold(BuildContext context, Widget body) {
     return WillPopScope(
       onWillPop: () {
         Navigator.pop(context, _result);
@@ -143,24 +143,22 @@ class _UserActionListPageState extends State<UserActionListPage> {
   }
 
   List<Widget> _addCommentIfPresent(UserActionViewModel item) {
-    if (item.withComment) {
-      return [Text(item.comment, style: TextStyles.textSmRegular())];
-    } else {
+    if (!item.withComment) {
       return [];
     }
+    return [Text(item.comment, style: TextStyles.textSmRegular())];
   }
 
   List<Widget> _addTagIfDone(UserActionViewModel item) {
-    if (item.isDone) {
-      return [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 4),
-          child: Align(alignment: Alignment.centerLeft, child: _doneTag()),
-        )
-      ];
-    } else {
+    if (!item.isDone) {
       return [];
     }
+    return [
+      Padding(
+        padding: const EdgeInsets.only(bottom: 4),
+        child: Align(alignment: Alignment.centerLeft, child: _doneTag()),
+      )
+    ];
   }
 
   Container _doneTag() => Container(

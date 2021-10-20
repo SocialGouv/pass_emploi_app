@@ -51,9 +51,8 @@ List<UserActionViewModel> _items({
 }) {
   if (state is! UserActionSuccessState) {
     return [];
-  } else {
-    return state.actions.map((userAction) => UserActionViewModel.create(userAction)).toList();
   }
+  return state.actions.map((userAction) => UserActionViewModel.create(userAction)).toList();
 }
 
 refreshStatus(Store<AppState> store, String actionId, bool newStatus) {

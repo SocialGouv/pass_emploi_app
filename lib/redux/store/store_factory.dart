@@ -59,10 +59,9 @@ class StoreFactory {
   List<Middleware<AppState>> _debugMiddleware() {
     if (kReleaseMode) {
       return [];
-    } else {
-      return [
-        ActionLoggingMiddleware(),
-      ];
     }
+    return [
+      ActionLoggingMiddleware(),
+    ];
   }
 }
