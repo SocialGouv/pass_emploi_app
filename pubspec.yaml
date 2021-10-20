@@ -48,3 +48,4 @@ flutter:
     - assets/ic_refresh.svg
     - assets/ic_calendar.svg
     - assets/ic_clock.svg
+    - assets/ic_close.svg

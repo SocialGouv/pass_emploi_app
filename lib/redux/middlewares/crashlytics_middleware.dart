@@ -1,5 +1,5 @@
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:pass_emploi_app/collection/last_in_first_out_queue.dart';
+import 'package:pass_emploi_app/crashlytics/Crashlytics.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:redux/redux.dart';
 
@@ -7,12 +7,16 @@ class CrashlyticsMiddleware extends MiddlewareClass<AppState> {
   static const _CAPACITY = 10;
   final _lastActions = LastInFirstOutQueue<String>(_CAPACITY);
 
+  final Crashlytics crashlytics;
+
+  CrashlyticsMiddleware(this.crashlytics);
+
   @override
   call(Store<AppState> store, dynamic action, NextDispatcher next) {
     _lastActions.add(action.toString());
 
-    FirebaseCrashlytics.instance.setCustomKey("last_actions", _formatQueueForCrashlytics());
-    FirebaseCrashlytics.instance.setCustomKey("app_state", _formatStoreForCrashlytics(store));
+    crashlytics.setCustomKey("last_actions", _formatQueueForCrashlytics());
+    crashlytics.setCustomKey("app_state", _formatStoreForCrashlytics(store));
 
     next(action);
   }
