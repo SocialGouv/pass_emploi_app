@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -19,12 +20,12 @@ class UserActionDetailsBottomSheet extends StatefulWidget {
 }
 
 class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSheet> {
-  late bool isActionDone;
+  late UserActionStatus actionStatus;
 
   @override
   void initState() {
     super.initState();
-    isActionDone = widget.viewModel.isDone;
+    actionStatus = widget.viewModel.status;
   }
 
   @override
@@ -32,9 +33,9 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
     return _bottomSheetContent(context);
   }
 
-  _update(bool isNowDone) {
+  _update(UserActionStatus newStatus) {
     setState(() {
-      isActionDone = isNowDone;
+      actionStatus = newStatus;
     });
   }
 
@@ -103,13 +104,13 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
           Padding(
             padding: const EdgeInsets.only(bottom: 16),
             child: UserActionStatusGroup(
-              isDone: isActionDone,
-              update: (bool isNowDone) => _update(isNowDone),
+              status: actionStatus,
+              update: (newStatus) => _update(newStatus),
             ),
           ),
           userActionBottomSheetActionButton(
             onPressed: () => {
-              widget.listViewModel.onRefreshStatus(widget.viewModel.id, isActionDone),
+              widget.listViewModel.onRefreshStatus(widget.viewModel.id, actionStatus),
               Navigator.pop(context, true),
             },
             label: Strings.refreshActionStatus,

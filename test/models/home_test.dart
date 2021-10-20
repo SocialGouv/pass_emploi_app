@@ -2,11 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/home.dart';
+import 'package:pass_emploi_app/models/user_action.dart';
 
 import '../utils/test_assets.dart';
 
 void main() {
-  test('Home.fromJson when complete data should unserialized data correctly', () {
+  test('Home.fromJson when complete data should deserialize data correctly', () {
     final String homeString = loadTestAssets("home.json");
     final homeJson = json.decode(homeString);
 
@@ -24,7 +25,7 @@ void main() {
     expect(action.id, "8802034");
     expect(action.content, "Changer de prénom");
     expect(action.comment, "Commentaire");
-    expect(action.isDone, true);
+    expect(action.status, UserActionStatus.DONE);
     expect(action.lastUpdate, DateTime(2021, 7, 30, 9, 43, 9));
 
     expect(home.rendezvous.length, 2);

@@ -89,5 +89,5 @@ class UserActionRepositoryFailureStub extends UserActionRepository {
   }
 
   @override
-  Future<void> updateActionStatus(String userId, String actionId, bool newIsDoneValue) async {}
+  Future<void> updateActionStatus(String userId, String actionId,  UserActionStatus newStatus) async {}
 }

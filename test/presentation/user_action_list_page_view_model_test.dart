@@ -92,13 +92,13 @@ main() {
             id: "id",
             content: "content",
             comment: "comment",
-            isDone: true,
+            status: UserActionStatus.DONE,
             lastUpdate: DateTime(2022, 12, 23, 0, 0, 0)),
         UserAction(
           id: "id2",
           content: "content2",
           comment: "",
-          isDone: false,
+          status: UserActionStatus.NOT_STARTED,
           lastUpdate: DateTime(2022, 11, 13, 0, 0, 0),
         ),
       ])),
@@ -115,13 +115,13 @@ main() {
     expect(viewModel.items[0].content, "content");
     expect(viewModel.items[0].comment, "comment");
     expect(viewModel.items[0].withComment, true);
-    expect(viewModel.items[0].isDone, true);
+    expect(viewModel.items[0].status, UserActionStatus.DONE);
     expect(viewModel.items[0].lastUpdate, DateTime(2022, 12, 23, 0, 0, 0));
     expect(viewModel.items[1].id, "id2");
     expect(viewModel.items[1].content, "content2");
     expect(viewModel.items[1].comment, "");
     expect(viewModel.items[1].withComment, false);
-    expect(viewModel.items[1].isDone, false);
+    expect(viewModel.items[1].status, UserActionStatus.NOT_STARTED);
     expect(viewModel.items[1].lastUpdate, DateTime(2022, 11, 13, 0, 0, 0));
   });
 
@@ -153,14 +153,14 @@ main() {
           id: "id",
           content: "content",
           comment: "comment",
-          isDone: true,
+          status: UserActionStatus.DONE,
           lastUpdate: DateTime(2022, 12, 23, 0, 0, 0),
         ),
         UserAction(
           id: "id2",
           content: "content2",
           comment: "",
-          isDone: false,
+          status: UserActionStatus.NOT_STARTED,
           lastUpdate: DateTime(2022, 11, 13, 0, 0, 0),
         ),
       ])),
@@ -168,7 +168,7 @@ main() {
 
     // When
     final viewModel = UserActionListPageViewModel.create(store);
-    viewModel.onRefreshStatus("id", false);
+    viewModel.onRefreshStatus("id", UserActionStatus.NOT_STARTED);
 
     // Then
     expect(storeSpy.calledWithUpdate, true);
@@ -185,18 +185,21 @@ main() {
             id: "id",
             content: "content",
             comment: "comment",
-            isDone: true,
+            status: UserActionStatus.DONE,
             lastUpdate: DateTime(2022, 12, 23, 0, 0, 0)),
         UserAction(
-            id: "id2", content: "content2", comment: "",
-                isDone: false,
-                lastUpdate: DateTime(2022, 11, 13, 0, 0, 0)),
-          ])),
+          id: "id2",
+          content: "content2",
+          comment: "",
+          status: UserActionStatus.NOT_STARTED,
+          lastUpdate: DateTime(2022, 11, 13, 0, 0, 0),
+        ),
+      ])),
     );
 
     // When
     final viewModel = UserActionListPageViewModel.create(store);
-    viewModel.onRefreshStatus("id", true);
+    viewModel.onRefreshStatus("id", UserActionStatus.DONE);
 
     // Then
     expect(storeSpy.calledWithUpdate, false);

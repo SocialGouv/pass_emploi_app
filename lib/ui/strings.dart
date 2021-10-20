@@ -61,5 +61,6 @@ class Strings {
   static String updateStatus = "Changer le statut";
   static String refreshActionStatus = "Actualiser";
   static String actionToDo = "À réaliser";
+  static String actionInProgress = "Commencée";
   static String noActionsYet = "Vous n'avez pas encore d’actions";
 }

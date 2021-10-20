@@ -1,30 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class UserActionStatusGroup extends StatelessWidget {
-  final bool isDone;
-  final Function(bool isNowDone) update;
+  final UserActionStatus status;
+  final Function(UserActionStatus newStatus) update;
 
-  const UserActionStatusGroup({required this.isDone, required this.update}) : super();
+  const UserActionStatusGroup({required this.status, required this.update}) : super();
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 8),
-          child: UserActionStatusButton(
-            label: Strings.actionToDo,
-            onPressed: () => update(false),
-            isSelected: !isDone,
-          ),
+        UserActionStatusButton(
+          label: Strings.actionToDo,
+          onPressed: () => update(UserActionStatus.NOT_STARTED),
+          isSelected: status == UserActionStatus.NOT_STARTED,
         ),
+        SizedBox(width: 8),
+        UserActionStatusButton(
+          label: Strings.actionInProgress,
+          onPressed: () => update(UserActionStatus.IN_PROGRESS),
+          isSelected: status == UserActionStatus.IN_PROGRESS,
+        ),
+        SizedBox(width: 8),
         UserActionStatusButton(
           label: Strings.actionDone,
-          onPressed: () => update(true),
-          isSelected: isDone,
+          onPressed: () => update(UserActionStatus.DONE),
+          isSelected: status == UserActionStatus.DONE,
         ),
       ],
     );

@@ -13,12 +13,12 @@ class UserActionRepositorySuccessStub extends UserActionRepository {
         id: "id",
         content: "content",
         comment: "comment",
-        isDone: false,
+        status: UserActionStatus.NOT_STARTED,
         lastUpdate: DateTime(2022, 12, 23, 0, 0, 0),
       ),
     ];
   }
 
   @override
-  Future<void> updateActionStatus(String userId, String actionId, bool newIsDoneValue) async {}
+  Future<void> updateActionStatus(String userId, String actionId, UserActionStatus newStatus) async {}
 }

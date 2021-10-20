@@ -5,7 +5,7 @@ class UserActionViewModel {
   final String content;
   final String comment;
   final bool withComment;
-  final bool isDone;
+  final UserActionStatus status;
   final DateTime lastUpdate;
 
   UserActionViewModel({
@@ -13,7 +13,7 @@ class UserActionViewModel {
     required this.content,
     required this.comment,
     required this.withComment,
-    required this.isDone,
+    required this.status,
     required this.lastUpdate,
   });
 
@@ -23,7 +23,7 @@ class UserActionViewModel {
       content: userAction.content,
       comment: userAction.comment,
       withComment: userAction.comment.isNotEmpty,
-      isDone: userAction.isDone,
+      status: userAction.status,
       lastUpdate: userAction.lastUpdate,
     );
   }

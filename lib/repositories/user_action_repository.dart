@@ -29,13 +29,13 @@ class UserActionRepository {
     return null;
   }
 
-  Future<void> updateActionStatus(String userId, String actionId, bool newIsDoneValue) async {
+  Future<void> updateActionStatus(String userId, String actionId, UserActionStatus newStatus) async {
     var url = Uri.parse(baseUrl + "/actions/$actionId");
     try {
       http.patch(
         url,
         headers: await headerBuilder.headers(userId: userId, contentType: 'application/json'),
-        body: customJsonEncode(PatchUserActionRequest(isDone: newIsDoneValue)),
+        body: customJsonEncode(PatchUserActionRequest(isDone: newStatus == UserActionStatus.DONE)),
       );
     } catch (e) {
       print('Exception on ${url.toString()}: ' + e.toString());

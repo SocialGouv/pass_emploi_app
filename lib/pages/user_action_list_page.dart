@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
@@ -152,7 +153,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
   }
 
   List<Widget> _addTagIfDone(UserActionViewModel item) {
-    if (!item.isDone) {
+    if (item.status != UserActionStatus.DONE) {
       return [];
     }
     return [

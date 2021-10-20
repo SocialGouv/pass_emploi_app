@@ -1,3 +1,4 @@
+import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -11,7 +12,7 @@ class UserActionListPageViewModel {
   final bool withEmptyMessage;
   final List<UserActionViewModel> items;
   final Function() onRetry;
-  final Function(String actionId, bool newStatus) onRefreshStatus;
+  final Function(String actionId, UserActionStatus newStatus) onRefreshStatus;
 
   UserActionListPageViewModel({
     required this.withLoading,
@@ -55,16 +56,16 @@ List<UserActionViewModel> _items({
   return state.actions.map((userAction) => UserActionViewModel.create(userAction)).toList();
 }
 
-refreshStatus(Store<AppState> store, String actionId, bool newStatus) {
+refreshStatus(Store<AppState> store, String actionId, UserActionStatus newStatus) {
   final actionState = store.state.userActionState;
   final loginState = store.state.loginState;
   if (actionState is UserActionSuccessState && loginState is LoggedInState) {
     final updatedAction = actionState.actions.firstWhere((element) => element.id == actionId);
-    if (updatedAction.isDone != newStatus) {
+    if (updatedAction.status != newStatus) {
       store.dispatch(UpdateActionStatus(
         userId: loginState.user.id,
         actionId: actionId,
-        newIsDoneValue: newStatus,
+        newStatus: newStatus,
       ));
     }
   }

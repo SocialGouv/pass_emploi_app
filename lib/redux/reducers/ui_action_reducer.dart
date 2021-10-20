@@ -13,7 +13,7 @@ AppState uiActionReducer(AppState currentState, dynamic action) {
         id: actionToUpdate.id,
         content: actionToUpdate.content,
         comment: actionToUpdate.comment,
-        isDone: action.newIsDoneValue,
+        status: action.newStatus,
         lastUpdate: DateTime.now(),
       );
       final newActions = List<UserAction>.from(actions).where((a) => a.id != action.actionId).toList()
