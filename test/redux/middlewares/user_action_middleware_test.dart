@@ -8,9 +8,9 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
 
-import '../../testdoubles/dummies.dart';
-import '../../testdoubles/spies.dart';
-import '../../testdoubles/stubs.dart';
+import '../../doubles/dummies.dart';
+import '../../doubles/spies.dart';
+import '../../doubles/stubs.dart';
 
 main() {
   final repository = UserActionRepositorySuccessStub();

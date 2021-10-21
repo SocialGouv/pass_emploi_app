@@ -8,7 +8,7 @@ import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
 
-import '../testdoubles/dummies.dart';
+import '../doubles/dummies.dart';
 
 class TestStoreFactory {
   UserRepository userRepository = DummyUserRepository();

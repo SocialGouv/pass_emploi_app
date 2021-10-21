@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/user_action_state.dart';
 
-import '../testdoubles/stubs.dart';
+import '../doubles/stubs.dart';
 import '../utils/test_setup.dart';
 
 void main() {
