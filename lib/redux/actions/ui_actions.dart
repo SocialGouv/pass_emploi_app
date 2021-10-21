@@ -39,3 +39,5 @@ class RequestUserActionsAction extends UiAction {
 
   RequestUserActionsAction(this.userId);
 }
+
+class DismissUserActionUpdated extends UiAction {}

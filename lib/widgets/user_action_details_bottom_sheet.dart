@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/presentation/user_action_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
+import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -30,7 +33,23 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
 
   @override
   Widget build(BuildContext context) {
-    return _bottomSheetContent(context);
+    return StoreConnector<AppState, UserActionDetailsViewModel>(
+      converter: (store) => UserActionDetailsViewModel.create(store),
+      builder: (context, viewModel) => _build(context, viewModel),
+      distinct: true,
+    );
+  }
+
+  _build(BuildContext context, UserActionDetailsViewModel viewModel) {
+    switch (viewModel.displayState) {
+      case UserActionDetailsState.SHOW_CONTENT:
+        return _bottomSheetContent(context);
+      case UserActionDetailsState.SHOW_SUCCESS:
+        return FractionallySizedBox(
+          heightFactor: 0.9,
+          child: Center(child: Text("SUCCESS")),
+        );
+    }
   }
 
   _update(UserActionStatus newStatus) {

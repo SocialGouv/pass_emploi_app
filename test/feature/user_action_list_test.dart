@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
+import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_state.dart';
 
 import '../doubles/stubs.dart';
@@ -10,7 +11,7 @@ void main() {
     // Given
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.userActionRepository = UserActionRepositorySuccessStub();
-    final store = testStoreFactory.initializeReduxStore();
+    final store = testStoreFactory.initializeReduxStore(initialState: AppState.initialState());
 
     final displayedLoading = store.onChange.any((element) => element.userActionState is UserActionLoadingState);
     final successAppState = store.onChange.firstWhere((element) => element.userActionState is UserActionSuccessState);

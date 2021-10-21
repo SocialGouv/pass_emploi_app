@@ -33,10 +33,10 @@ class StoreFactory {
     this.crashlytics,
   );
 
-  Store<AppState> initializeReduxStore() {
+  Store<AppState> initializeReduxStore({required AppState initialState}) {
     return Store<AppState>(
       reducer,
-      initialState: AppState.initialState(),
+      initialState: initialState,
       middleware: [
         RouterMiddleware(userRepository),
         ApiMiddleware(

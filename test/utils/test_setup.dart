@@ -18,7 +18,7 @@ class TestStoreFactory {
   RegisterTokenRepository registerTokenRepository = DummyRegisterTokenRepository();
   Crashlytics crashlytics = DummyCrashlytics();
 
-  Store<AppState> initializeReduxStore() {
+  Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
       userRepository,
       homeRepository,
@@ -26,6 +26,6 @@ class TestStoreFactory {
       chatRepository,
       registerTokenRepository,
       crashlytics,
-    ).initializeReduxStore();
+    ).initializeReduxStore(initialState: initialState);
   }
 }
