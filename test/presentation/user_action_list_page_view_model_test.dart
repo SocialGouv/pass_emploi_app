@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_state.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
 main() {
@@ -121,12 +122,14 @@ main() {
     expect(viewModel.items[0].withComment, true);
     expect(viewModel.items[0].status, UserActionStatus.DONE);
     expect(viewModel.items[0].lastUpdate, DateTime(2022, 12, 23, 0, 0, 0));
+    expect(viewModel.items[0].creator, Strings.you);
     expect(viewModel.items[1].id, "id2");
     expect(viewModel.items[1].content, "content2");
     expect(viewModel.items[1].comment, "");
     expect(viewModel.items[1].withComment, false);
     expect(viewModel.items[1].status, UserActionStatus.NOT_STARTED);
     expect(viewModel.items[1].lastUpdate, DateTime(2022, 11, 13, 0, 0, 0));
+    expect(viewModel.items[1].creator, "Nils Tavernier");
   });
 
   test('create when action state is success but there are no actions should display an empty message', () {

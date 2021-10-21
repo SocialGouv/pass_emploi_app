@@ -48,6 +48,8 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
         userActionBottomSheetSeparator(),
         _aboutUserAction(),
         userActionBottomSheetSeparator(),
+        _creator(),
+        userActionBottomSheetSeparator(),
         _changeStatus()
       ],
     );
@@ -71,17 +73,33 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
               style: TextStyles.textMdMedium,
             ),
           ),
-          ..._insertCommentIfPresent(widget.viewModel),
+          ..._insertCommentIfPresent(),
         ],
       ),
     );
   }
 
-  List<Text> _insertCommentIfPresent(UserActionViewModel viewModel) {
-    if (viewModel.withComment) {
+  Padding _creator() {
+    return Padding(
+      padding: userActionBottomSheetContentPadding(),
+      child: Row(children: [
+        Text(Strings.actionCreatedBy, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+        Expanded(
+            child: Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  widget.viewModel.creator,
+                  style: TextStyles.textSmMedium(),
+                ))),
+      ]),
+    );
+  }
+
+  List<Text> _insertCommentIfPresent() {
+    if (widget.viewModel.withComment) {
       return [
         Text(
-          viewModel.comment,
+          widget.viewModel.comment,
           style: TextStyles.textSmRegular(color: AppColors.bluePurple),
         )
       ];

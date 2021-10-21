@@ -63,4 +63,12 @@ class Strings {
   static String actionToDo = "À réaliser";
   static String actionInProgress = "Commencée";
   static String noActionsYet = "Vous n'avez pas encore d’actions";
+  static String addAnAction = "Créer une action";
+  static String create = "Créer";
+  static String actionLabel = "Intitulé de l'action";
+  static String actionDescription = "Description de l'action";
+  static String mandatoryActionLabelError = "L'intitulé de l'action doit être renseigné";
+  static String defineActionStatus = "Définir le statut";
+  static String actionCreatedBy = "Créée par";
+  static String you = "vous";
 }
