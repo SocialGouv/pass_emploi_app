@@ -5,40 +5,49 @@
       "comment": "Commentaire",
       "creationDate": "Fri, 30 Jul 2021 09:42:50 GMT",
       "id": "8802034",
-      "isDone": true,
-      "lastUpdate": "Fri, 30 Jul 2021 09:43:09 GMT"
+      "status": "not_started",
+      "lastUpdate": "Fri, 30 Jul 2021 09:43:09 GMT",
+      "creatorType": "jeune"
     },
     {
       "content": "M'inscrire au permis de conduire",
       "comment": "",
       "creationDate": "Fri, 30 Jul 2021 09:42:50 GMT",
       "id": "5656467",
-      "isDone": false,
-      "lastUpdate": "Fri, 30 Jul 2021 09:42:50 GMT"
+      "status": "in_progress",
+      "lastUpdate": "Fri, 30 Jul 2021 09:42:50 GMT",
+      "creatorType": "conseiller",
+      "creator": "Nils Tavernier"
     },
     {
       "content": "Mettre à jour mon CV",
       "comment": "",
       "creationDate": "Fri, 30 Jul 2021 09:42:50 GMT",
       "id": "6410864",
-      "isDone": false,
-      "lastUpdate": "Fri, 30 Jul 2021 09:42:50 GMT"
+      "status": "done",
+      "lastUpdate": "Fri, 30 Jul 2021 09:42:50 GMT",
+      "creatorType": "conseiller",
+      "creator": "Nils Tavernier"
     },
     {
       "content": "Suivre une formation",
       "comment": "",
       "creationDate": "Fri, 30 Jul 2021 09:42:50 GMT",
       "id": "9969662",
-      "isDone": false,
-      "lastUpdate": "Fri, 30 Jul 2021 09:42:50 GMT"
+      "status": "not_started",
+      "lastUpdate": "Fri, 30 Jul 2021 09:42:50 GMT",
+      "creatorType": "conseiller",
+      "creator": "Nils Tavernier"
     },
     {
       "content": "Apprendre l'anglais avec Jason Statham",
       "comment": "",
       "creationDate": "Fri, 30 Jul 2021 09:42:50 GMT",
       "id": "90863",
-      "isDone": false,
-      "lastUpdate": "Fri, 30 Jul 2021 09:42:50 GMT"
+      "status": "in_progress",
+      "lastUpdate": "Fri, 30 Jul 2021 09:42:50 GMT",
+      "creatorType": "conseiller",
+      "creator": "Nils Tavernier"
     }
   ],
   "doneActionsCount": 3,

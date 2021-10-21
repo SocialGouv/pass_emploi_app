@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/models/home.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/home_item.dart';
 import 'package:pass_emploi_app/presentation/home_page_view_model.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
@@ -94,6 +95,7 @@ void main() {
           comment: 'comment1',
           status: UserActionStatus.NOT_STARTED,
           lastUpdate: DateTime(2022, 12, 23, 0, 0, 0),
+          creator: JeuneActionCreator(),
         ),
         UserAction(
           id: '2',
@@ -101,6 +103,7 @@ void main() {
           comment: 'comment2',
           status: UserActionStatus.NOT_STARTED,
           lastUpdate: DateTime(2022, 12, 23, 0, 0, 0),
+          creator: JeuneActionCreator(),
         ),
       ],
       rendezvous: [],

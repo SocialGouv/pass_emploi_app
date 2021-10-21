@@ -35,7 +35,7 @@ class UserActionRepository {
       http.patch(
         url,
         headers: await headerBuilder.headers(userId: userId, contentType: 'application/json'),
-        body: customJsonEncode(PatchUserActionRequest(isDone: newStatus == UserActionStatus.DONE)),
+        body: customJsonEncode(PatchUserActionRequest(status: newStatus)),
       );
     } catch (e) {
       print('Exception on ${url.toString()}: ' + e.toString());
