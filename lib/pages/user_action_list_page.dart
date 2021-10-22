@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
@@ -11,6 +12,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/chat_floating_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/user_action_add_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/user_action_details_bottom_sheet.dart';
 
 enum UserActionListPageResult { UPDATED, UNCHANGED }
@@ -56,15 +58,30 @@ class _UserActionListPageState extends State<UserActionListPage> {
       },
       child: Scaffold(
         backgroundColor: AppColors.lightBlue,
-        appBar: _appBar(),
+        appBar: _appBar(context),
         body: body,
         floatingActionButton: ChatFloatingActionButton(),
       ),
     );
   }
 
-  _appBar() => FlatDefaultAppBar(
+  _appBar(BuildContext context) => FlatDefaultAppBar(
         title: Text(Strings.myActions, style: TextStyles.h3Semi),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: IconButton(
+              iconSize: 42,
+              onPressed: () => showUserActionBottomSheet(
+                context: context,
+                builder: (context) => UserActionAddBottomSheet(),
+                routeSettings: AnalyticsRouteSettings.addUserAction(),
+              ),
+              tooltip: Strings.addAnAction,
+              icon: SvgPicture.asset("assets/ic_add_circle.svg"),
+            ),
+          ),
+        ],
       );
 
   Widget _body(BuildContext context, UserActionListPageViewModel viewModel) {

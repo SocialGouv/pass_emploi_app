@@ -50,4 +50,5 @@ flutter:
     - assets/ic_calendar.svg
     - assets/ic_clock.svg
     - assets/ic_close.svg
+    - assets/ic_add_circle.svg
     - assets/ic_congratulations.svg

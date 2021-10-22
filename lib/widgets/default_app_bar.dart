@@ -16,10 +16,11 @@ class DefaultAppBar extends AppBar {
 }
 
 class FlatDefaultAppBar extends AppBar {
-  FlatDefaultAppBar({Widget? title, bool? centerTitle})
+  FlatDefaultAppBar({Widget? title, List<Widget>? actions, bool? centerTitle})
       : super(
           title: title,
           centerTitle: centerTitle,
+          actions: actions,
           iconTheme: IconThemeData(color: AppColors.nightBlue),
           toolbarHeight: Dimens.flatAppBarHeight,
           backgroundColor: Colors.white,
