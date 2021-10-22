@@ -49,6 +49,20 @@ main() {
     // Then
     expect(viewModel.displayState, UserActionDetailsState.TO_DISMISS);
   });
+
+  test("create when action is no update needed should dismiss details", () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(userActionUpdateState: UserActionUpdateState.noUpdateNeeded()),
+    );
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, UserActionDetailsState.TO_DISMISS);
+  });
 }
 
 class StoreSpy {

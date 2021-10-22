@@ -11,7 +11,6 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
 import 'bottom_sheets.dart';
-
 class UserActionDetailsBottomSheet extends StatefulWidget {
   final UserActionListPageViewModel listViewModel;
   final UserActionViewModel viewModel;
@@ -36,6 +35,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
     return StoreConnector<AppState, UserActionDetailsViewModel>(
       converter: (store) => UserActionDetailsViewModel.create(store),
       builder: (context, viewModel) => _build(context, viewModel),
+      onWillChange: (previousVm, newVm) => _dismissBottomSheetIfNeeded(context, newVm),
       distinct: true,
     );
   }
@@ -46,9 +46,11 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
         return _bottomSheetContent(context);
       case UserActionDetailsState.SHOW_SUCCESS:
         return FractionallySizedBox(
-          heightFactor: 0.9,
+          heightFactor: 0.85,
           child: Center(child: Text("SUCCESS")),
         );
+      case UserActionDetailsState.TO_DISMISS:
+        break;
     }
   }
 
@@ -148,12 +150,17 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
           userActionBottomSheetActionButton(
             onPressed: () => {
               widget.listViewModel.onRefreshStatus(widget.viewModel.id, actionStatus),
-              Navigator.pop(context, true),
             },
             label: Strings.refreshActionStatus,
           ),
         ],
       ),
     );
+  }
+
+  _dismissBottomSheetIfNeeded(BuildContext context, UserActionDetailsViewModel viewModel) {
+    if (viewModel.displayState == UserActionDetailsState.TO_DISMISS) {
+      Navigator.pop(context);
+    }
   }
 }

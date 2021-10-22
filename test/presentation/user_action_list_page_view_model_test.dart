@@ -183,7 +183,7 @@ main() {
     expect(storeSpy.calledWithUpdate, true);
   });
 
-  test('refreshStatus when update status has not changed should not dispatch any action', () {
+  test('refreshStatus when update status has not changed should still dispatch a UpdateActionStatus', () {
     // Given
     var storeSpy = StoreSpy();
     final store = Store<AppState>(
@@ -214,7 +214,7 @@ main() {
     viewModel.onRefreshStatus("id", UserActionStatus.DONE);
 
     // Then
-    expect(storeSpy.calledWithUpdate, false);
+    expect(storeSpy.calledWithUpdate, true);
   });
 }
 

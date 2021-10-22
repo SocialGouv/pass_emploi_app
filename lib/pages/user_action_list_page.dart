@@ -123,7 +123,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
           context: context,
           builder: (context) => UserActionDetailsBottomSheet(viewModel, item),
           routeSettings: AnalyticsRouteSettings.userActionDetails(),
-        ).then((value) => {if (value != null) _result = UserActionListPageResult.UPDATED}),
+        ).then((value) => _onUserActionDetailsDismissed(value, viewModel)),
         splashColor: AppColors.bluePurple,
         child: _listItem(item, viewModel),
       ),
@@ -172,7 +172,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
   Padding _tagPadding({required Widget tag}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 4),
-      child: Align(alignment: Alignment.centerLeft, child: _doneTag()),
+      child: Align(alignment: Alignment.centerLeft, child: tag),
     );
   }
 
@@ -195,5 +195,12 @@ class _UserActionListPageState extends State<UserActionListPage> {
             style: TextStyles.textSmMedium(color: textColor),
           )),
     );
+  }
+
+  _onUserActionDetailsDismissed(dynamic value, UserActionListPageViewModel viewModel) {
+    if (value != null) {
+      _result = UserActionListPageResult.UPDATED;
+    }
+    viewModel.dismissSuccess();
   }
 }

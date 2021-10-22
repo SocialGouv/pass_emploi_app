@@ -8,7 +8,7 @@ AppState uiActionReducer(AppState currentState, dynamic action) {
   if (action is UpdateActionStatus) {
     final currentActionState = currentState.userActionState;
     if (currentActionState is UserActionSuccessState) {
-      return _updateActionStatus(
+      return _checkIfUpdateActionStatusNeeded(
         currentState,
         currentActions: currentActionState.actions,
         updateActionStatus: action,
@@ -23,9 +23,24 @@ AppState uiActionReducer(AppState currentState, dynamic action) {
   }
 }
 
-AppState _updateActionStatus(AppState currentState,
+AppState _checkIfUpdateActionStatusNeeded(AppState currentState,
     {required List<UserAction> currentActions, required UpdateActionStatus updateActionStatus}) {
   final actionToUpdate = currentActions.firstWhere((a) => a.id == updateActionStatus.actionId);
+  if (actionToUpdate.status == updateActionStatus.newStatus) {
+    return currentState.copyWith(
+      userActionUpdateState: UserActionUpdateState.noUpdateNeeded(),
+    );
+  } else {
+    return _updateActionStatus(actionToUpdate, updateActionStatus, currentActions, currentState);
+  }
+}
+
+AppState _updateActionStatus(
+  UserAction actionToUpdate,
+  UpdateActionStatus updateActionStatus,
+  List<UserAction> currentActions,
+  AppState currentState,
+) {
   final updatedAction = UserAction(
     id: actionToUpdate.id,
     content: actionToUpdate.content,

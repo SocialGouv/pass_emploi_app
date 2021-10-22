@@ -3,6 +3,8 @@ abstract class UserActionUpdateState {
 
   factory UserActionUpdateState.notUpdating() = UserActionNotUpdatingState;
   factory UserActionUpdateState.updated() => UserActionUpdatedState();
+
+  factory UserActionUpdateState.noUpdateNeeded() = UserActionNoUpdateNeeded;
 }
 
 class UserActionUpdatedState extends UserActionUpdateState {
@@ -11,4 +13,8 @@ class UserActionUpdatedState extends UserActionUpdateState {
 
 class UserActionNotUpdatingState extends UserActionUpdateState {
   UserActionNotUpdatingState() : super._();
+}
+
+class UserActionNoUpdateNeeded extends UserActionUpdateState {
+  UserActionNoUpdateNeeded() : super._();
 }

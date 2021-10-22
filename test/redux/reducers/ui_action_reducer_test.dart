@@ -19,7 +19,9 @@ main() {
     expect(updatedState, initialState);
   });
 
-  test("uiActionReducer when action is UpdateActionStatus should update action and actionUpdate states", () {
+  test(
+      "uiActionReducer when action is UpdateActionStatus with different status should update action and actionUpdate states",
+      () {
     // Given
     final initialState = AppState.initialState().copyWith(
       userActionState: UserActionState.success(
@@ -43,6 +45,58 @@ main() {
     expect(actionState.actions[0].status, UserActionStatus.DONE);
 
     expect(updatedState.userActionUpdateState is UserActionUpdatedState, true);
+  });
+
+  test(
+      "uiActionReducer when UpdateActionStatus with same status should update actionUpdate and leave actions untouched",
+      () {
+    // Given
+    final initialState = AppState.initialState().copyWith(
+      userActionState: UserActionState.success(
+        [_notStartedAction()],
+      ),
+    );
+
+    // When
+    final updatedState = uiActionReducer(
+      initialState,
+      UpdateActionStatus(
+        userId: "userId",
+        actionId: "actionId",
+        newStatus: UserActionStatus.NOT_STARTED,
+      ),
+    );
+
+    // Then
+    expect(updatedState.userActionState, initialState.userActionState);
+
+    expect(updatedState.userActionUpdateState is UserActionNoUpdateNeeded, true);
+  });
+
+  test(
+      "uiActionReducer when UpdateActionStatus with same status should update actionUpdate and leave actions untouched",
+      () {
+    // Given
+    final initialState = AppState.initialState().copyWith(
+      userActionState: UserActionState.success(
+        [_notStartedAction()],
+      ),
+    );
+
+    // When
+    final updatedState = uiActionReducer(
+      initialState,
+      UpdateActionStatus(
+        userId: "userId",
+        actionId: "actionId",
+        newStatus: UserActionStatus.NOT_STARTED,
+      ),
+    );
+
+    // Then
+    expect(updatedState.userActionState, initialState.userActionState);
+
+    expect(updatedState.userActionUpdateState is UserActionNoUpdateNeeded, true);
   });
 
   test("uiActionReducer when action is DismissUserActionUpdated should reset actionUpdate state", () {
