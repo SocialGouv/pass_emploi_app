@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/user_action_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_list_page_view_model.dart';
@@ -11,6 +12,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
 import 'bottom_sheets.dart';
+
 class UserActionDetailsBottomSheet extends StatefulWidget {
   final UserActionListPageViewModel listViewModel;
   final UserActionViewModel viewModel;
@@ -45,13 +47,54 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
       case UserActionDetailsState.SHOW_CONTENT:
         return _bottomSheetContent(context);
       case UserActionDetailsState.SHOW_SUCCESS:
-        return FractionallySizedBox(
-          heightFactor: 0.85,
-          child: Center(child: Text("SUCCESS")),
-        );
+        return _congratulations(context);
       case UserActionDetailsState.TO_DISMISS:
         break;
     }
+  }
+
+  FractionallySizedBox _congratulations(BuildContext context) {
+    return FractionallySizedBox(
+      heightFactor: 0.85,
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          userActionBottomSheetHeader(context, title: Strings.actionDetails),
+          userActionBottomSheetSeparator(),
+          _congratulationsContent(),
+          _understood(context),
+        ],
+      ),
+    );
+  }
+
+  Widget _congratulationsContent() {
+    return Expanded(
+        child: Padding(
+      padding: userActionBottomSheetContentPadding(),
+      child: Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SvgPicture.asset("assets/ic_congratulations.svg", excludeFromSemantics: true),
+          SizedBox(height: 64),
+          Text(Strings.congratulationsActionUpdated, textAlign: TextAlign.center, style: TextStyles.textSmMedium()),
+          SizedBox(height: 16),
+          Text(Strings.conseillerNotifiedActionUpdated, textAlign: TextAlign.center, style: TextStyles.textSmRegular()),
+        ],
+      )),
+    ));
+  }
+
+  Widget _understood(BuildContext context) {
+    return Padding(
+      padding: userActionBottomSheetContentPadding(),
+      child: userActionBottomSheetActionButton(
+        label: Strings.understood,
+        onPressed: () => Navigator.pop(context),
+      ),
+    );
   }
 
   _update(UserActionStatus newStatus) {
