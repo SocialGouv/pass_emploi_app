@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/chat_floating_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/user_action_details_bottom_sheet.dart';
@@ -111,12 +112,10 @@ class _UserActionListPageState extends State<UserActionListPage> {
     return Material(
       type: MaterialType.transparency,
       child: InkWell(
-        onTap: () => showModalBottomSheet(
+        onTap: () => showUserActionBottomSheet(
           context: context,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
           builder: (context) => UserActionDetailsBottomSheet(viewModel, item),
           routeSettings: AnalyticsRouteSettings.userActionDetails(),
-          isScrollControlled: true,
         ).then((value) => {if (value != null) _result = UserActionListPageResult.UPDATED}),
         splashColor: AppColors.bluePurple,
         child: _listItem(item, viewModel),
