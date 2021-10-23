@@ -12,20 +12,21 @@ class UserActionStatusGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      alignment: WrapAlignment.start,
       children: [
         UserActionStatusButton(
           label: Strings.actionToDo,
           onPressed: () => update(UserActionStatus.NOT_STARTED),
           isSelected: status == UserActionStatus.NOT_STARTED,
         ),
-        SizedBox(width: 8),
         UserActionStatusButton(
           label: Strings.actionInProgress,
           onPressed: () => update(UserActionStatus.IN_PROGRESS),
           isSelected: status == UserActionStatus.IN_PROGRESS,
         ),
-        SizedBox(width: 8),
         UserActionStatusButton(
           label: Strings.actionDone,
           onPressed: () => update(UserActionStatus.DONE),
@@ -57,7 +58,7 @@ class UserActionStatusButton extends StatelessWidget {
           side: BorderSide(color: _borderColor(), width: _borderWidth()),
           backgroundColor: _backgroundColor()),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(vertical: 16),
         child: Text(label, style: _textStyle()),
       ),
     );

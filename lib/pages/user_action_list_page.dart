@@ -98,16 +98,22 @@ class _UserActionListPageState extends State<UserActionListPage> {
   Widget _userActions(BuildContext context, UserActionListPageViewModel viewModel) {
     return Container(
       color: Colors.white,
-      child: ListView.separated(
-        itemCount: viewModel.items.length,
-        itemBuilder: (context, i) => _tapListener(context, viewModel.items[i], viewModel),
-        separatorBuilder: (context, i) => Container(
-          height: 1,
-          color: AppColors.bluePurpleAlpha20,
-        ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListView.separated(
+            shrinkWrap: true,
+            itemCount: viewModel.items.length,
+            itemBuilder: (context, i) => _tapListener(context, viewModel.items[i], viewModel),
+            separatorBuilder: (context, i) => _listSeparator(),
+          ),
+          _listSeparator()
+        ],
       ),
     );
   }
+
+  Container _listSeparator() => Container(height: 1, color: AppColors.bluePurpleAlpha20);
 
   Widget _tapListener(BuildContext context, UserActionViewModel item, UserActionListPageViewModel viewModel) {
     return Material(
@@ -131,7 +137,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          ..._addTagIfDone(item),
+          ..._addTagIfNeeded(item),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: Text(
@@ -152,28 +158,42 @@ class _UserActionListPageState extends State<UserActionListPage> {
     return [Text(item.comment, style: TextStyles.textSmRegular())];
   }
 
-  List<Widget> _addTagIfDone(UserActionViewModel item) {
-    if (item.status != UserActionStatus.DONE) {
-      return [];
+  List<Widget> _addTagIfNeeded(UserActionViewModel item) {
+    switch (item.status) {
+      case UserActionStatus.IN_PROGRESS:
+        return [_tagPadding(tag: _inProgressTag())];
+      case UserActionStatus.DONE:
+        return [_tagPadding(tag: _doneTag())];
+      default:
+        return [];
     }
-    return [
-      Padding(
-        padding: const EdgeInsets.only(bottom: 4),
-        child: Align(alignment: Alignment.centerLeft, child: _doneTag()),
-      )
-    ];
   }
 
-  Container _doneTag() => Container(
-        decoration: BoxDecoration(
-          color: AppColors.blueGrey,
-          borderRadius: BorderRadius.all(Radius.circular(16)),
-        ),
-        child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
-            child: Text(
-              Strings.actionDone,
-              style: TextStyles.textSmMedium(),
-            )),
-      );
+  Padding _tagPadding({required Widget tag}) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4),
+      child: Align(alignment: Alignment.centerLeft, child: _doneTag()),
+    );
+  }
+
+  Container _doneTag() =>
+      _tag(title: Strings.actionDone, backgroundColor: AppColors.blueGrey, textColor: AppColors.nightBlue);
+
+  Container _inProgressTag() =>
+      _tag(title: Strings.actionInProgress, backgroundColor: AppColors.purple, textColor: Colors.white);
+
+  Container _tag({required String title, required Color backgroundColor, required Color textColor}) {
+    return Container(
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.all(Radius.circular(16)),
+      ),
+      child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
+          child: Text(
+            title,
+            style: TextStyles.textSmMedium(color: textColor),
+          )),
+    );
+  }
 }
