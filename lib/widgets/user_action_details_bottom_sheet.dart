@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/presentation/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
+
+import 'bottom_sheets.dart';
 
 class UserActionDetailsBottomSheet extends StatefulWidget {
   final UserActionListPageViewModel listViewModel;
@@ -42,22 +43,18 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _bottomSheetHeader(context),
-        _bottomSheetSeparator(),
+        userActionBottomSheetHeader(context, title: Strings.actionDetails),
+        userActionBottomSheetSeparator(),
         _aboutUserAction(),
-        _bottomSheetSeparator(),
+        userActionBottomSheetSeparator(),
         _changeStatus()
       ],
     );
   }
 
-  Container _bottomSheetSeparator() => Container(height: 1, color: AppColors.bluePurpleAlpha20);
-
-  EdgeInsets _bottomSheetContentPadding() => const EdgeInsets.fromLTRB(16, 24, 16, 24);
-
   Padding _aboutUserAction() {
     return Padding(
-      padding: _bottomSheetContentPadding(),
+      padding: userActionBottomSheetContentPadding(),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -92,31 +89,9 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
     }
   }
 
-  Padding _bottomSheetHeader(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 22),
-      child: Stack(
-        alignment: AlignmentDirectional.center,
-        children: [
-          Text(Strings.actionDetails, style: TextStyles.textMdMedium),
-          Positioned(
-            right: 8,
-            child: IconButton(
-              padding: const EdgeInsets.all(0),
-              iconSize: 48,
-              onPressed: () => Navigator.pop(context),
-              tooltip: Strings.close,
-              icon: SvgPicture.asset("assets/ic_close.svg"),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _changeStatus() {
     return Padding(
-      padding: _bottomSheetContentPadding(),
+      padding: userActionBottomSheetContentPadding(),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -132,23 +107,13 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
               update: (bool isNowDone) => _update(isNowDone),
             ),
           ),
-          TextButton(
-            style: TextButton.styleFrom(
-              primary: Colors.white,
-              textStyle: TextStyles.textSmMedium(),
-              backgroundColor: AppColors.nightBlue,
-              shape: StadiumBorder(),
-            ),
-            onPressed: () =>
-            {
+          userActionBottomSheetActionButton(
+            onPressed: () => {
               widget.listViewModel.onRefreshStatus(widget.viewModel.id, isActionDone),
               Navigator.pop(context, true),
             },
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(Strings.refreshActionStatus),
-            ),
-          )
+            label: Strings.refreshActionStatus,
+          ),
         ],
       ),
     );
