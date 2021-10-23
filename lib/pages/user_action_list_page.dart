@@ -76,7 +76,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
                 context: context,
                 builder: (context) => UserActionAddBottomSheet(),
                 routeSettings: AnalyticsRouteSettings.addUserAction(),
-              ),
+              ).then((value) => {if (value != null) _result = UserActionListPageResult.UPDATED}),
               tooltip: Strings.addAnAction,
               icon: SvgPicture.asset("assets/ic_add_circle.svg"),
             ),
