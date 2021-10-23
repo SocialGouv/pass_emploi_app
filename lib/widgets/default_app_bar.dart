@@ -14,3 +14,15 @@ class DefaultAppBar extends AppBar {
           elevation: 2,
         );
 }
+
+class FlatDefaultAppBar extends AppBar {
+  FlatDefaultAppBar({Widget? title, bool? centerTitle})
+      : super(
+          title: title,
+          centerTitle: centerTitle,
+          iconTheme: IconThemeData(color: AppColors.nightBlue),
+          toolbarHeight: Dimens.flatAppBarHeight,
+          backgroundColor: Colors.white,
+          elevation: 0,
+        );
+}
