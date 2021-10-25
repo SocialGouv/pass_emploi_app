@@ -66,7 +66,6 @@ class _UserActionListPageState extends State<UserActionListPage> {
 
   _appBar() => FlatDefaultAppBar(
         title: Text(Strings.myActions, style: TextStyles.h3Semi),
-        centerTitle: true,
       );
 
   Widget _body(BuildContext context, UserActionListPageViewModel viewModel) {

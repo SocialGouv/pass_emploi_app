@@ -53,9 +53,9 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
     }
   }
 
-  FractionallySizedBox _congratulations(BuildContext context) {
+  Widget _congratulations(BuildContext context) {
     return FractionallySizedBox(
-      heightFactor: 0.85,
+      heightFactor: 0.90,
       child: Column(
         mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -77,11 +77,28 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SvgPicture.asset("assets/ic_congratulations.svg", excludeFromSemantics: true),
-          SizedBox(height: 64),
-          Text(Strings.congratulationsActionUpdated, textAlign: TextAlign.center, style: TextStyles.textSmMedium()),
           SizedBox(height: 16),
-          Text(Strings.conseillerNotifiedActionUpdated, textAlign: TextAlign.center, style: TextStyles.textSmRegular()),
+          Expanded(child: SvgPicture.asset("assets/ic_congratulations.svg", excludeFromSemantics: true)),
+          Expanded(
+            child: Container(
+              alignment: Alignment.bottomCenter,
+              child: Text(
+                Strings.congratulationsActionUpdated,
+                textAlign: TextAlign.center,
+                style: TextStyles.textSmMedium(),
+              ),
+            ),
+          ),
+          SizedBox(height: 16),
+          Expanded(
+            child: Container(
+              child: Text(
+                Strings.conseillerNotifiedActionUpdated,
+                textAlign: TextAlign.center,
+                style: TextStyles.textSmRegular(),
+              ),
+            ),
+          ),
         ],
       )),
     ));
