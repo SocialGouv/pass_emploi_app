@@ -3,7 +3,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/user_action_details_view_model.dart';
-import 'package:pass_emploi_app/presentation/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -14,10 +13,9 @@ import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 import 'bottom_sheets.dart';
 
 class UserActionDetailsBottomSheet extends StatefulWidget {
-  final UserActionListPageViewModel listViewModel;
-  final UserActionViewModel viewModel;
+  final UserActionViewModel actionViewModel;
 
-  const UserActionDetailsBottomSheet(this.listViewModel, this.viewModel) : super();
+  const UserActionDetailsBottomSheet(this.actionViewModel) : super();
 
   @override
   State<UserActionDetailsBottomSheet> createState() => _UserActionDetailsBottomSheetState();
@@ -29,23 +27,23 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
   @override
   void initState() {
     super.initState();
-    actionStatus = widget.viewModel.status;
+    actionStatus = widget.actionViewModel.status;
   }
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, UserActionDetailsViewModel>(
       converter: (store) => UserActionDetailsViewModel.create(store),
-      builder: (context, viewModel) => _build(context, viewModel),
+      builder: (context, detailsViewModel) => _build(context, detailsViewModel),
       onWillChange: (previousVm, newVm) => _dismissBottomSheetIfNeeded(context, newVm),
       distinct: true,
     );
   }
 
-  _build(BuildContext context, UserActionDetailsViewModel viewModel) {
-    switch (viewModel.displayState) {
+  _build(BuildContext context, UserActionDetailsViewModel detailsViewModel) {
+    switch (detailsViewModel.displayState) {
       case UserActionDetailsDisplayState.SHOW_CONTENT:
-        return _bottomSheetContent(context);
+        return _bottomSheetContent(context, detailsViewModel);
       case UserActionDetailsDisplayState.SHOW_SUCCESS:
         return _congratulations(context);
       case UserActionDetailsDisplayState.TO_DISMISS:
@@ -120,7 +118,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
     });
   }
 
-  Column _bottomSheetContent(BuildContext context) {
+  Column _bottomSheetContent(BuildContext context, UserActionDetailsViewModel detailsViewModel) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -131,7 +129,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
         userActionBottomSheetSeparator(),
         _creator(),
         userActionBottomSheetSeparator(),
-        _changeStatus()
+        _changeStatus(detailsViewModel)
       ],
     );
   }
@@ -150,13 +148,13 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
             child: Text(
-              widget.viewModel.content,
+              widget.actionViewModel.content,
               style: TextStyles.textMdMedium,
             ),
           ),
-          if (widget.viewModel.withComment)
+          if (widget.actionViewModel.withComment)
             Text(
-              widget.viewModel.comment,
+              widget.actionViewModel.comment,
               style: TextStyles.textSmRegular(color: AppColors.bluePurple),
             )
         ],
@@ -173,14 +171,14 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
             child: Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  widget.viewModel.creator,
+                  widget.actionViewModel.creator,
                   style: TextStyles.textSmMedium(),
                 ))),
       ]),
     );
   }
 
-  Widget _changeStatus() {
+  Widget _changeStatus(UserActionDetailsViewModel detailsViewModel) {
     return Padding(
       padding: userActionBottomSheetContentPadding(),
       child: Column(
@@ -199,9 +197,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
             ),
           ),
           userActionBottomSheetActionButton(
-            onPressed: () => {
-              widget.listViewModel.onRefreshStatus(widget.viewModel.id, actionStatus),
-            },
+            onPressed: () => {detailsViewModel.onRefreshStatus(widget.actionViewModel.id, actionStatus)},
             label: Strings.refreshActionStatus,
           ),
         ],

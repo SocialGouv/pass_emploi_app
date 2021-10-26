@@ -119,7 +119,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
       child: InkWell(
         onTap: () => showUserActionBottomSheet(
           context: context,
-          builder: (context) => UserActionDetailsBottomSheet(viewModel, item),
+          builder: (context) => UserActionDetailsBottomSheet(item),
           routeSettings: AnalyticsRouteSettings.userActionDetails(),
         ).then((value) => _onUserActionDetailsDismissed(value, viewModel)),
         splashColor: AppColors.bluePurple,
@@ -179,6 +179,6 @@ class _UserActionListPageState extends State<UserActionListPage> {
     if (value != null) {
       _result = UserActionListPageResult.UPDATED;
     }
-    viewModel.dismissSuccess();
+    viewModel.onUserActionDetailsDismissed();
   }
 }

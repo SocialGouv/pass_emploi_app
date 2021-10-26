@@ -1,4 +1,3 @@
-import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -12,8 +11,7 @@ class UserActionListPageViewModel {
   final bool withEmptyMessage;
   final List<UserActionViewModel> items;
   final Function() onRetry;
-  final Function(String actionId, UserActionStatus newStatus) onRefreshStatus;
-  final Function() dismissSuccess;
+  final Function() onUserActionDetailsDismissed;
 
   UserActionListPageViewModel({
     required this.withLoading,
@@ -21,8 +19,7 @@ class UserActionListPageViewModel {
     required this.withEmptyMessage,
     required this.items,
     required this.onRetry,
-    required this.onRefreshStatus,
-    required this.dismissSuccess,
+    required this.onUserActionDetailsDismissed,
   });
 
   factory UserActionListPageViewModel.create(Store<AppState> store) {
@@ -38,8 +35,7 @@ class UserActionListPageViewModel {
         state: store.state.userActionState,
       ),
       onRetry: () => store.dispatch(RequestUserActionsAction(user.id)),
-      onRefreshStatus: (actionId, newStatus) => refreshStatus(store, actionId, newStatus),
-      dismissSuccess: () => store.dispatch(DismissUserActionUpdated()),
+      onUserActionDetailsDismissed: () => store.dispatch(DismissUserActionDetailsAction()),
     );
   }
 }
@@ -57,15 +53,4 @@ List<UserActionViewModel> _items({
     return [];
   }
   return state.actions.map((userAction) => UserActionViewModel.create(userAction)).toList();
-}
-
-refreshStatus(Store<AppState> store, String actionId, UserActionStatus newStatus) {
-  final loginState = store.state.loginState;
-  if (loginState is LoggedInState) {
-    store.dispatch(UpdateActionStatus(
-      userId: loginState.user.id,
-      actionId: actionId,
-      newStatus: newStatus,
-    ));
-  }
 }

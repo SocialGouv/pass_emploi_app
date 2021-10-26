@@ -8,30 +8,23 @@ AppState uiActionReducer(AppState currentState, dynamic action) {
   if (action is UpdateActionStatus) {
     final currentActionState = currentState.userActionState;
     if (currentActionState is UserActionSuccessState) {
-      return _checkIfUpdateActionStatusNeeded(
+      final currentActions = currentActionState.actions;
+      final actionToUpdate = currentActions.firstWhere((a) => a.id == action.actionId);
+      return _updateActionStatus(
+        actionToUpdate,
+        action,
+        currentActions,
         currentState,
-        currentActions: currentActionState.actions,
-        updateActionStatus: action,
       );
     } else {
       return currentState;
     }
-  } else if (action is DismissUserActionUpdated) {
-    return _dismissUserActionUpdated(currentState);
+  } else if (action is DismissUserActionDetailsAction) {
+    return _dismissUserActionDetailsAction(currentState);
+  } else if (action is UserActionNoUpdateNeededAction) {
+    return _noUpdateNeededActionUpdate(currentState);
   } else {
     return currentState;
-  }
-}
-
-AppState _checkIfUpdateActionStatusNeeded(AppState currentState,
-    {required List<UserAction> currentActions, required UpdateActionStatus updateActionStatus}) {
-  final actionToUpdate = currentActions.firstWhere((a) => a.id == updateActionStatus.actionId);
-  if (actionToUpdate.status == updateActionStatus.newStatus) {
-    return currentState.copyWith(
-      userActionUpdateState: UserActionUpdateState.noUpdateNeeded(),
-    );
-  } else {
-    return _updateActionStatus(actionToUpdate, updateActionStatus, currentActions, currentState);
   }
 }
 
@@ -57,8 +50,14 @@ AppState _updateActionStatus(
   );
 }
 
-AppState _dismissUserActionUpdated(AppState currentState) {
+AppState _dismissUserActionDetailsAction(AppState currentState) {
   return currentState.copyWith(
     userActionUpdateState: UserActionUpdateState.notUpdating(),
+  );
+}
+
+AppState _noUpdateNeededActionUpdate(AppState currentState) {
+  return currentState.copyWith(
+    userActionUpdateState: UserActionUpdateState.noUpdateNeeded(),
   );
 }
