@@ -9,7 +9,7 @@ class NextDispatcherSpy {
   }
 
   dynamic performAction(dynamic action) {
-    expect(_expectedAction, action);
+    expect(action, _expectedAction);
     wasCalled = true;
   }
 }

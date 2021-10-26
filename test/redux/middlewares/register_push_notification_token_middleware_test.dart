@@ -7,8 +7,8 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:redux/redux.dart';
 
-import '../../testdoubles/dummies.dart';
-import '../../testdoubles/spies.dart';
+import '../../doubles/dummies.dart';
+import '../../doubles/spies.dart';
 
 void main() {
   final _repositorySpy = RegisterTokenRepositorySpy();

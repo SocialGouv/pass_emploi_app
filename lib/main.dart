@@ -106,7 +106,7 @@ Store<AppState> _initializeReduxStore(String baseUrl, PushNotificationManager pu
       pushNotificationManager,
     ),
     CrashlyticsWithFirebase(FirebaseCrashlytics.instance),
-  ).initializeReduxStore();
+  ).initializeReduxStore(initialState: AppState.initialState());
 }
 
 Future _handleErrorsOutsideFlutter() async {

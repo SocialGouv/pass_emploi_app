@@ -1,12 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_state.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
 main() {
@@ -89,17 +91,20 @@ main() {
       initialState: _loggedInState().copyWith(
           userActionState: UserActionState.success([
         UserAction(
-            id: "id",
-            content: "content",
-            comment: "comment",
-            isDone: true,
-            lastUpdate: DateTime(2022, 12, 23, 0, 0, 0)),
+          id: "id",
+          content: "content",
+          comment: "comment",
+          status: UserActionStatus.DONE,
+          lastUpdate: DateTime(2022, 12, 23, 0, 0, 0),
+          creator: JeuneActionCreator(),
+        ),
         UserAction(
           id: "id2",
           content: "content2",
           comment: "",
-          isDone: false,
+          status: UserActionStatus.NOT_STARTED,
           lastUpdate: DateTime(2022, 11, 13, 0, 0, 0),
+          creator: ConseillerActionCreator(name: "Nils Tavernier"),
         ),
       ])),
     );
@@ -115,14 +120,16 @@ main() {
     expect(viewModel.items[0].content, "content");
     expect(viewModel.items[0].comment, "comment");
     expect(viewModel.items[0].withComment, true);
-    expect(viewModel.items[0].isDone, true);
+    expect(viewModel.items[0].status, UserActionStatus.DONE);
     expect(viewModel.items[0].lastUpdate, DateTime(2022, 12, 23, 0, 0, 0));
+    expect(viewModel.items[0].creator, Strings.you);
     expect(viewModel.items[1].id, "id2");
     expect(viewModel.items[1].content, "content2");
     expect(viewModel.items[1].comment, "");
     expect(viewModel.items[1].withComment, false);
-    expect(viewModel.items[1].isDone, false);
+    expect(viewModel.items[1].status, UserActionStatus.NOT_STARTED);
     expect(viewModel.items[1].lastUpdate, DateTime(2022, 11, 13, 0, 0, 0));
+    expect(viewModel.items[1].creator, "Nils Tavernier");
   });
 
   test('create when action state is success but there are no actions should display an empty message', () {
@@ -142,64 +149,20 @@ main() {
     expect(viewModel.items.length, 0);
   });
 
-  test('refreshStatus when update status has changed should dispatch a UpdateActionStatus', () {
+  test('onUserActionDetailsDismissed should dispatch DismissUserActionDetailsAction', () {
     // Given
     var storeSpy = StoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
-      initialState: _loggedInState().copyWith(
-          userActionState: UserActionState.success([
-        UserAction(
-          id: "id",
-          content: "content",
-          comment: "comment",
-          isDone: true,
-          lastUpdate: DateTime(2022, 12, 23, 0, 0, 0),
-        ),
-        UserAction(
-          id: "id2",
-          content: "content2",
-          comment: "",
-          isDone: false,
-          lastUpdate: DateTime(2022, 11, 13, 0, 0, 0),
-        ),
-      ])),
+      initialState: _loggedInState(),
     );
 
     // When
     final viewModel = UserActionListPageViewModel.create(store);
-    viewModel.onRefreshStatus("id", false);
+    viewModel.onUserActionDetailsDismissed();
 
     // Then
-    expect(storeSpy.calledWithUpdate, true);
-  });
-
-  test('refreshStatus when update status has not changed should not dispatch any action', () {
-    // Given
-    var storeSpy = StoreSpy();
-    final store = Store<AppState>(
-      storeSpy.reducer,
-      initialState: _loggedInState().copyWith(
-          userActionState: UserActionState.success([
-        UserAction(
-            id: "id",
-            content: "content",
-            comment: "comment",
-            isDone: true,
-            lastUpdate: DateTime(2022, 12, 23, 0, 0, 0)),
-        UserAction(
-            id: "id2", content: "content2", comment: "",
-                isDone: false,
-                lastUpdate: DateTime(2022, 11, 13, 0, 0, 0)),
-          ])),
-    );
-
-    // When
-    final viewModel = UserActionListPageViewModel.create(store);
-    viewModel.onRefreshStatus("id", true);
-
-    // Then
-    expect(storeSpy.calledWithUpdate, false);
+    expect(storeSpy.calledWithDismiss, true);
   });
 }
 
@@ -216,6 +179,7 @@ AppState _loggedInState() {
 class StoreSpy {
   var calledWithRetry = false;
   var calledWithUpdate = false;
+  var calledWithDismiss = false;
 
   AppState reducer(AppState currentState, dynamic action) {
     if (action is RequestUserActionsAction) {
@@ -223,6 +187,9 @@ class StoreSpy {
     }
     if (action is UpdateActionStatus) {
       calledWithUpdate = true;
+    }
+    if (action is DismissUserActionDetailsAction) {
+      calledWithDismiss = true;
     }
     return currentState;
   }

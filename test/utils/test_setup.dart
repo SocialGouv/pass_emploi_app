@@ -8,7 +8,7 @@ import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
 
-import '../testdoubles/dummies.dart';
+import '../doubles/dummies.dart';
 
 class TestStoreFactory {
   UserRepository userRepository = DummyUserRepository();
@@ -18,7 +18,7 @@ class TestStoreFactory {
   RegisterTokenRepository registerTokenRepository = DummyRegisterTokenRepository();
   Crashlytics crashlytics = DummyCrashlytics();
 
-  Store<AppState> initializeReduxStore() {
+  Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
       userRepository,
       homeRepository,
@@ -26,6 +26,6 @@ class TestStoreFactory {
       chatRepository,
       registerTokenRepository,
       crashlytics,
-    ).initializeReduxStore();
+    ).initializeReduxStore(initialState: initialState);
   }
 }

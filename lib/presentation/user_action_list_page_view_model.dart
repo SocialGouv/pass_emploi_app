@@ -11,7 +11,7 @@ class UserActionListPageViewModel {
   final bool withEmptyMessage;
   final List<UserActionViewModel> items;
   final Function() onRetry;
-  final Function(String actionId, bool newStatus) onRefreshStatus;
+  final Function() onUserActionDetailsDismissed;
 
   UserActionListPageViewModel({
     required this.withLoading,
@@ -19,7 +19,7 @@ class UserActionListPageViewModel {
     required this.withEmptyMessage,
     required this.items,
     required this.onRetry,
-    required this.onRefreshStatus,
+    required this.onUserActionDetailsDismissed,
   });
 
   factory UserActionListPageViewModel.create(Store<AppState> store) {
@@ -35,7 +35,7 @@ class UserActionListPageViewModel {
         state: store.state.userActionState,
       ),
       onRetry: () => store.dispatch(RequestUserActionsAction(user.id)),
-      onRefreshStatus: (actionId, newStatus) => refreshStatus(store, actionId, newStatus),
+      onUserActionDetailsDismissed: () => store.dispatch(DismissUserActionDetailsAction()),
     );
   }
 }
@@ -53,19 +53,4 @@ List<UserActionViewModel> _items({
     return [];
   }
   return state.actions.map((userAction) => UserActionViewModel.create(userAction)).toList();
-}
-
-refreshStatus(Store<AppState> store, String actionId, bool newStatus) {
-  final actionState = store.state.userActionState;
-  final loginState = store.state.loginState;
-  if (actionState is UserActionSuccessState && loginState is LoggedInState) {
-    final updatedAction = actionState.actions.firstWhere((element) => element.id == actionId);
-    if (updatedAction.isDone != newStatus) {
-      store.dispatch(UpdateActionStatus(
-        userId: loginState.user.id,
-        actionId: actionId,
-        newIsDoneValue: newStatus,
-      ));
-    }
-  }
 }

@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/chat_floating_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/user_action_details_bottom_sheet.dart';
@@ -62,7 +63,9 @@ class _UserActionListPageState extends State<UserActionListPage> {
     );
   }
 
-  _appBar() => DefaultAppBar(title: Text(Strings.myActions, style: TextStyles.h3Semi));
+  _appBar() => FlatDefaultAppBar(
+        title: Text(Strings.myActions, style: TextStyles.h3Semi),
+      );
 
   Widget _body(BuildContext context, UserActionListPageViewModel viewModel) {
     if (viewModel.withLoading) return _loader();
@@ -93,28 +96,32 @@ class _UserActionListPageState extends State<UserActionListPage> {
   Widget _userActions(BuildContext context, UserActionListPageViewModel viewModel) {
     return Container(
       color: Colors.white,
-      child: ListView.separated(
-        itemCount: viewModel.items.length,
-        itemBuilder: (context, i) => _tapListener(context, viewModel.items[i], viewModel),
-        separatorBuilder: (context, i) => Container(
-          height: 1,
-          color: AppColors.bluePurpleAlpha20,
-        ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListView.separated(
+            shrinkWrap: true,
+            itemCount: viewModel.items.length,
+            itemBuilder: (context, i) => _tapListener(context, viewModel.items[i], viewModel),
+            separatorBuilder: (context, i) => _listSeparator(),
+          ),
+          _listSeparator()
+        ],
       ),
     );
   }
+
+  Container _listSeparator() => Container(height: 1, color: AppColors.bluePurpleAlpha20);
 
   Widget _tapListener(BuildContext context, UserActionViewModel item, UserActionListPageViewModel viewModel) {
     return Material(
       type: MaterialType.transparency,
       child: InkWell(
-        onTap: () => showModalBottomSheet(
+        onTap: () => showUserActionBottomSheet(
           context: context,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
-          builder: (context) => UserActionDetailsBottomSheet(viewModel, item),
+          builder: (context) => UserActionDetailsBottomSheet(item),
           routeSettings: AnalyticsRouteSettings.userActionDetails(),
-          isScrollControlled: true,
-        ).then((value) => {if (value != null) _result = UserActionListPageResult.UPDATED}),
+        ).then((value) => _onUserActionDetailsDismissed(value, viewModel)),
         splashColor: AppColors.bluePurple,
         child: _listItem(item, viewModel),
       ),
@@ -128,49 +135,49 @@ class _UserActionListPageState extends State<UserActionListPage> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          ..._addTagIfDone(item),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Text(
-              item.content,
-              style: TextStyles.textSmMedium(),
+          if (item.tag != null)
+            _tagPadding(
+              tag: _tag(
+                  title: item.tag!.title, backgroundColor: item.tag!.backgroundColor, textColor: item.tag!.textColor),
             ),
+          if (item.tag != null) SizedBox(height: 4),
+          Text(
+            item.content,
+            style: TextStyles.textSmMedium(),
           ),
-          ..._addCommentIfPresent(item),
+          SizedBox(height: 4),
+          if (item.withComment) Text(item.comment, style: TextStyles.textSmRegular())
         ],
       ),
     );
   }
 
-  List<Widget> _addCommentIfPresent(UserActionViewModel item) {
-    if (!item.withComment) {
-      return [];
-    }
-    return [Text(item.comment, style: TextStyles.textSmRegular())];
+  Padding _tagPadding({required Widget tag}) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4),
+      child: Align(alignment: Alignment.centerLeft, child: tag),
+    );
   }
 
-  List<Widget> _addTagIfDone(UserActionViewModel item) {
-    if (!item.isDone) {
-      return [];
-    }
-    return [
-      Padding(
-        padding: const EdgeInsets.only(bottom: 4),
-        child: Align(alignment: Alignment.centerLeft, child: _doneTag()),
-      )
-    ];
+  Container _tag({required String title, required Color backgroundColor, required Color textColor}) {
+    return Container(
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.all(Radius.circular(16)),
+      ),
+      child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
+          child: Text(
+            title,
+            style: TextStyles.textSmMedium(color: textColor),
+          )),
+    );
   }
 
-  Container _doneTag() => Container(
-        decoration: BoxDecoration(
-          color: AppColors.blueGrey,
-          borderRadius: BorderRadius.all(Radius.circular(16)),
-        ),
-        child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
-            child: Text(
-              Strings.actionDone,
-              style: TextStyles.textSmMedium(),
-            )),
-      );
+  _onUserActionDetailsDismissed(dynamic value, UserActionListPageViewModel viewModel) {
+    if (value != null) {
+      _result = UserActionListPageResult.UPDATED;
+    }
+    viewModel.onUserActionDetailsDismissed();
+  }
 }

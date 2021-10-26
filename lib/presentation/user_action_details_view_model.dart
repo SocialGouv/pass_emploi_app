@@ -1,0 +1,63 @@
+import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
+import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/login_state.dart';
+import 'package:pass_emploi_app/redux/states/user_action_state.dart';
+import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
+import 'package:redux/redux.dart';
+
+enum UserActionDetailsDisplayState { SHOW_CONTENT, SHOW_SUCCESS, TO_DISMISS }
+
+class UserActionDetailsViewModel {
+  final UserActionDetailsDisplayState displayState;
+  final Function(String actionId, UserActionStatus newStatus) onRefreshStatus;
+
+  factory UserActionDetailsViewModel.create(Store<AppState> store) {
+    return UserActionDetailsViewModel._(
+      displayState: _displayState(store.state),
+      onRefreshStatus: (actionId, newStatus) => _refreshStatus(store, actionId, newStatus),
+    );
+  }
+
+  UserActionDetailsViewModel._({
+    required this.displayState,
+    required this.onRefreshStatus,
+  });
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is UserActionDetailsViewModel && runtimeType == other.runtimeType && displayState == other.displayState;
+
+  @override
+  int get hashCode => displayState.hashCode;
+}
+
+UserActionDetailsDisplayState _displayState(AppState state) {
+  if (state.userActionUpdateState is UserActionUpdatedState) {
+    return UserActionDetailsDisplayState.SHOW_SUCCESS;
+  } else if (state.userActionUpdateState is UserActionNoUpdateNeeded) {
+    return UserActionDetailsDisplayState.TO_DISMISS;
+  } else {
+    return UserActionDetailsDisplayState.SHOW_CONTENT;
+  }
+}
+
+_refreshStatus(Store<AppState> store, String actionId, UserActionStatus newStatus) {
+  final loginState = store.state.loginState;
+  final userActionState = store.state.userActionState;
+  if (userActionState is UserActionSuccessState) {
+    if (loginState is LoggedInState) {
+      final action = userActionState.actions.firstWhere((element) => element.id == actionId);
+      if (action.status != newStatus) {
+        store.dispatch(UpdateActionStatus(
+          userId: loginState.user.id,
+          actionId: actionId,
+          newStatus: newStatus,
+        ));
+      } else {
+        store.dispatch(UserActionNoUpdateNeededAction());
+      }
+    }
+  }
+}

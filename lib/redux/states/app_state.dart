@@ -2,6 +2,7 @@ import 'package:pass_emploi_app/redux/states/chat_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
 import 'package:pass_emploi_app/redux/states/home_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_state.dart';
+import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 
 import 'login_state.dart';
 
@@ -9,6 +10,7 @@ class AppState {
   final LoginState loginState;
   final HomeState homeState;
   final UserActionState userActionState;
+  final UserActionUpdateState userActionUpdateState;
   final ChatStatusState chatStatusState;
   final ChatState chatState;
 
@@ -16,6 +18,7 @@ class AppState {
     required this.loginState,
     required this.homeState,
     required this.userActionState,
+    required this.userActionUpdateState,
     required this.chatStatusState,
     required this.chatState,
   });
@@ -24,6 +27,7 @@ class AppState {
     final LoginState? loginState,
     final HomeState? homeState,
     final UserActionState? userActionState,
+    final UserActionUpdateState? userActionUpdateState,
     final ChatStatusState? chatStatusState,
     final ChatState? chatState,
   }) {
@@ -31,6 +35,7 @@ class AppState {
       loginState: loginState ?? this.loginState,
       homeState: homeState ?? this.homeState,
       userActionState: userActionState ?? this.userActionState,
+      userActionUpdateState: userActionUpdateState ?? this.userActionUpdateState,
       chatStatusState: chatStatusState ?? this.chatStatusState,
       chatState: chatState ?? this.chatState,
     );
@@ -41,6 +46,7 @@ class AppState {
       loginState: LoginState.notInitialized(),
       homeState: HomeState.notInitialized(),
       userActionState: UserActionState.notInitialized(),
+      userActionUpdateState: UserActionUpdateState.notUpdating(),
       chatStatusState: ChatStatusState.notInitialized(),
       chatState: ChatState.notInitialized(),
     );
@@ -52,6 +58,7 @@ class AppState {
         'loginState: $loginState, '
         'homeState: $homeState, '
         'userActionState: $userActionState, '
+        'userActionUpdateState: $userActionUpdateState, '
         'chatStatusState: $chatStatusState, '
         'chatState: $chatState'
         '}';
