@@ -14,7 +14,7 @@ void main() {
   test("when user requests an update the action should be updated and user notified", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
-    var repositorySpy = UserActionRepositorySpy();
+    final repositorySpy = UserActionRepositorySpy();
     testStoreFactory.userActionRepository = repositorySpy;
     final store = testStoreFactory.initializeReduxStore(
       initialState: AppState.initialState().copyWith(

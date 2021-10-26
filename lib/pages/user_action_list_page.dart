@@ -140,13 +140,12 @@ class _UserActionListPageState extends State<UserActionListPage> {
               tag: _tag(
                   title: item.tag!.title, backgroundColor: item.tag!.backgroundColor, textColor: item.tag!.textColor),
             ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Text(
-              item.content,
-              style: TextStyles.textSmMedium(),
-            ),
+          if (item.tag != null) SizedBox(height: 4),
+          Text(
+            item.content,
+            style: TextStyles.textSmMedium(),
           ),
+          SizedBox(height: 4),
           if (item.withComment) Text(item.comment, style: TextStyles.textSmRegular())
         ],
       ),
