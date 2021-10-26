@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/presentation/chat_page_view_model.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_state.dart';
+import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
 import 'package:pass_emploi_app/redux/states/home_state.dart';
 import 'package:redux/redux.dart';
 
@@ -77,9 +78,9 @@ void main() {
     expect(viewModel.items.length, 3);
     expect((viewModel.items[0] as DayItem).dayLabel, "Le 02/01/2021");
     expect((viewModel.items[1] as JeuneMessageItem).content, "1");
-    expect((viewModel.items[1] as JeuneMessageItem).hourLabel, "à 10:34");
+    expect((viewModel.items[1] as JeuneMessageItem).caption, "10:34 · Envoyé");
     expect((viewModel.items[2] as ConseillerMessageItem).content, "2");
-    expect((viewModel.items[2] as ConseillerMessageItem).hourLabel, "à 11:37");
+    expect((viewModel.items[2] as ConseillerMessageItem).caption, "11:37");
   });
 
   test('ChatPageViewModel.create when state is success and messages are of different days', () {
@@ -96,12 +97,12 @@ void main() {
     expect(viewModel.items.length, 5);
     expect((viewModel.items[0] as DayItem).dayLabel, "Le 02/01/2021");
     expect((viewModel.items[1] as JeuneMessageItem).content, "1");
-    expect((viewModel.items[1] as JeuneMessageItem).hourLabel, "à 10:34");
+    expect((viewModel.items[1] as JeuneMessageItem).caption, "10:34 · Envoyé");
     expect((viewModel.items[2] as ConseillerMessageItem).content, "2");
-    expect((viewModel.items[2] as ConseillerMessageItem).hourLabel, "à 11:37");
+    expect((viewModel.items[2] as ConseillerMessageItem).caption, "11:37");
     expect((viewModel.items[3] as DayItem).dayLabel, "Le 03/01/2021");
     expect((viewModel.items[4] as JeuneMessageItem).content, "3");
-    expect((viewModel.items[4] as JeuneMessageItem).hourLabel, "à 13:45");
+    expect((viewModel.items[4] as JeuneMessageItem).caption, "13:45 · Envoyé");
   });
 
   test('ChatPageViewModel.create when state is success and messages are of today', () {
@@ -115,10 +116,38 @@ void main() {
     expect((viewModel.items[0] as DayItem).dayLabel, "Aujourd'hui");
   });
 
+  test('ChatPageViewModel.create when state is success and message is not red by conseiller', () {
+    final messages = [Message("1", DateTime.utc(2021, 7, 2, 13, 45), Sender.jeune)];
+    final state = AppState.initialState().copyWith(
+      chatState: ChatState.success(messages),
+      chatStatusState: ChatStatusState.success(unreadMessageCount: 0, lastConseillerReading: DateTime.utc(2021, 6, 1)),
+    );
+    final store = Store<AppState>(reducer, initialState: state);
+
+    final viewModel = ChatPageViewModel.create(store);
+
+    expect(viewModel.items.length, 2);
+    expect((viewModel.items[1] as JeuneMessageItem).caption, "13:45 · Envoyé");
+  });
+
+  test('ChatPageViewModel.create when state is success and message is red by conseiller', () {
+    final messages = [Message("1", DateTime.utc(2021, 7, 2, 13, 45), Sender.jeune)];
+    final state = AppState.initialState().copyWith(
+      chatState: ChatState.success(messages),
+      chatStatusState: ChatStatusState.success(unreadMessageCount: 0, lastConseillerReading: DateTime.utc(2021, 8, 1)),
+    );
+    final store = Store<AppState>(reducer, initialState: state);
+
+    final viewModel = ChatPageViewModel.create(store);
+
+    expect(viewModel.items.length, 2);
+    expect((viewModel.items[1] as JeuneMessageItem).caption, "13:45 · Lu");
+  });
+
   test('Two view models should be equal if they have same statuses, same title, and same message count ', () {
     final chatItems = [
-      JeuneMessageItem("Hello !", "12:00"),
-      ConseillerMessageItem("Yo !", "12:02"),
+      JeuneMessageItem(content: "Hello !", caption: "12:00"),
+      ConseillerMessageItem(content: "Yo !", caption: "12:02"),
     ];
 
     final firstViewModel = ChatPageViewModel(
@@ -145,14 +174,14 @@ void main() {
 
   test('Two view models should not be equal if their message count is different', () {
     final chatItems = [
-      JeuneMessageItem("Hello !", "12:00"),
-      ConseillerMessageItem("Yo !", "12:02"),
+      JeuneMessageItem(content: "Hello !", caption: "12:00"),
+      ConseillerMessageItem(content: "Yo !", caption: "12:02"),
     ];
 
     final chatItemsWithNewMessage = [
-      JeuneMessageItem("Hello !", "12:00"),
-      ConseillerMessageItem("Yo !", "12:02"),
-      JeuneMessageItem("ça va ?", "12:03"),
+      JeuneMessageItem(content: "Hello !", caption: "12:00"),
+      ConseillerMessageItem(content: "Yo !", caption: "12:02"),
+      JeuneMessageItem(content: "ça va ?", caption: "12:03"),
     ];
 
     final firstViewModel = ChatPageViewModel(

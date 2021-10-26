@@ -15,7 +15,7 @@ class ChatStatusViewModel {
     final chatState = store.state.chatStatusState;
     final unreadMessages = chatState is ChatStatusSuccessState ? chatState.unreadMessageCount : 0;
     return ChatStatusViewModel(
-      withUnreadMessages: (chatState is ChatStatusSuccessState) && chatState.unreadMessageCount > 0,
+      withUnreadMessages: unreadMessages > 0,
       unreadMessageCount: unreadMessages < 99 ? unreadMessages.toString() : '99',
     );
   }

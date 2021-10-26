@@ -1,6 +1,8 @@
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
+final DateTime minDateTime = DateTime.fromMicrosecondsSinceEpoch(0);
+
 extension DateExtensions on DateTime {
   String toDayAndHour() => DateFormat('dd/MM/yyyy à HH:mm').format(this);
 

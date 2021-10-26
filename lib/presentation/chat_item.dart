@@ -8,15 +8,15 @@ class DayItem extends ChatItem {
 
 abstract class MessageItem extends ChatItem {
   final String content;
-  final String hourLabel;
+  final String caption;
 
-  MessageItem(this.content, this.hourLabel);
+  MessageItem(this.content, this.caption);
 }
 
 class JeuneMessageItem extends MessageItem {
-  JeuneMessageItem(String content, String hour) : super(content, hour);
+  JeuneMessageItem({required String content, required String caption}) : super(content, caption);
 }
 
 class ConseillerMessageItem extends MessageItem {
-  ConseillerMessageItem(String content, String hour) : super(content, hour);
+  ConseillerMessageItem({required String content, required String caption}) : super(content, caption);
 }
