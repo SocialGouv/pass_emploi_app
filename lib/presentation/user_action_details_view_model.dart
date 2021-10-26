@@ -2,10 +2,10 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 import 'package:redux/redux.dart';
 
-enum UserActionDetailsState { SHOW_CONTENT, SHOW_SUCCESS, TO_DISMISS }
+enum UserActionDetailsDisplayState { SHOW_CONTENT, SHOW_SUCCESS, TO_DISMISS }
 
 class UserActionDetailsViewModel {
-  final UserActionDetailsState displayState;
+  final UserActionDetailsDisplayState displayState;
 
   factory UserActionDetailsViewModel.create(Store<AppState> store) {
     return UserActionDetailsViewModel._(
@@ -26,12 +26,12 @@ class UserActionDetailsViewModel {
   int get hashCode => displayState.hashCode;
 }
 
-UserActionDetailsState _displayState(AppState state) {
+UserActionDetailsDisplayState _displayState(AppState state) {
   if (state.userActionUpdateState is UserActionUpdatedState) {
-    return UserActionDetailsState.SHOW_SUCCESS;
+    return UserActionDetailsDisplayState.SHOW_SUCCESS;
   } else if (state.userActionUpdateState is UserActionNoUpdateNeeded) {
-    return UserActionDetailsState.TO_DISMISS;
+    return UserActionDetailsDisplayState.TO_DISMISS;
   } else {
-    return UserActionDetailsState.SHOW_CONTENT;
+    return UserActionDetailsDisplayState.SHOW_CONTENT;
   }
 }

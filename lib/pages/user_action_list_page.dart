@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
@@ -136,7 +135,11 @@ class _UserActionListPageState extends State<UserActionListPage> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          ..._addTagIfNeeded(item),
+          if (item.tag != null)
+            _tagPadding(
+              tag: _tag(
+                  title: item.tag!.title, backgroundColor: item.tag!.backgroundColor, textColor: item.tag!.textColor),
+            ),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 4),
             child: Text(
@@ -144,28 +147,10 @@ class _UserActionListPageState extends State<UserActionListPage> {
               style: TextStyles.textSmMedium(),
             ),
           ),
-          ..._addCommentIfPresent(item),
+          if (item.withComment) Text(item.comment, style: TextStyles.textSmRegular())
         ],
       ),
     );
-  }
-
-  List<Widget> _addCommentIfPresent(UserActionViewModel item) {
-    if (!item.withComment) {
-      return [];
-    }
-    return [Text(item.comment, style: TextStyles.textSmRegular())];
-  }
-
-  List<Widget> _addTagIfNeeded(UserActionViewModel item) {
-    switch (item.status) {
-      case UserActionStatus.IN_PROGRESS:
-        return [_tagPadding(tag: _inProgressTag())];
-      case UserActionStatus.DONE:
-        return [_tagPadding(tag: _doneTag())];
-      default:
-        return [];
-    }
   }
 
   Padding _tagPadding({required Widget tag}) {
@@ -174,12 +159,6 @@ class _UserActionListPageState extends State<UserActionListPage> {
       child: Align(alignment: Alignment.centerLeft, child: tag),
     );
   }
-
-  Container _doneTag() =>
-      _tag(title: Strings.actionDone, backgroundColor: AppColors.blueGrey, textColor: AppColors.nightBlue);
-
-  Container _inProgressTag() =>
-      _tag(title: Strings.actionInProgress, backgroundColor: AppColors.purple, textColor: Colors.white);
 
   Container _tag({required String title, required Color backgroundColor, required Color textColor}) {
     return Container(

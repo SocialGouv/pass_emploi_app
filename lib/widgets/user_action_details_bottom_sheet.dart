@@ -44,11 +44,11 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
 
   _build(BuildContext context, UserActionDetailsViewModel viewModel) {
     switch (viewModel.displayState) {
-      case UserActionDetailsState.SHOW_CONTENT:
+      case UserActionDetailsDisplayState.SHOW_CONTENT:
         return _bottomSheetContent(context);
-      case UserActionDetailsState.SHOW_SUCCESS:
+      case UserActionDetailsDisplayState.SHOW_SUCCESS:
         return _congratulations(context);
-      case UserActionDetailsState.TO_DISMISS:
+      case UserActionDetailsDisplayState.TO_DISMISS:
         break;
     }
   }
@@ -154,7 +154,11 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
               style: TextStyles.textMdMedium,
             ),
           ),
-          ..._insertCommentIfPresent(),
+          if (widget.viewModel.withComment)
+            Text(
+              widget.viewModel.comment,
+              style: TextStyles.textSmRegular(color: AppColors.bluePurple),
+            )
         ],
       ),
     );
@@ -174,19 +178,6 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
                 ))),
       ]),
     );
-  }
-
-  List<Text> _insertCommentIfPresent() {
-    if (widget.viewModel.withComment) {
-      return [
-        Text(
-          widget.viewModel.comment,
-          style: TextStyles.textSmRegular(color: AppColors.bluePurple),
-        )
-      ];
-    } else {
-      return [];
-    }
   }
 
   Widget _changeStatus() {
@@ -219,7 +210,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
   }
 
   _dismissBottomSheetIfNeeded(BuildContext context, UserActionDetailsViewModel viewModel) {
-    if (viewModel.displayState == UserActionDetailsState.TO_DISMISS) {
+    if (viewModel.displayState == UserActionDetailsDisplayState.TO_DISMISS) {
       Navigator.pop(context);
     }
   }

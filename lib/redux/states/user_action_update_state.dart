@@ -3,7 +3,6 @@ abstract class UserActionUpdateState {
 
   factory UserActionUpdateState.notUpdating() = UserActionNotUpdatingState;
   factory UserActionUpdateState.updated() => UserActionUpdatedState();
-
   factory UserActionUpdateState.noUpdateNeeded() = UserActionNoUpdateNeeded;
 }
 

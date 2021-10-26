@@ -1,5 +1,9 @@
+import 'dart:ui';
+
+import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
 class UserActionViewModel {
@@ -10,6 +14,7 @@ class UserActionViewModel {
   final UserActionStatus status;
   final DateTime lastUpdate;
   final String creator;
+  final UserActionTagViewModel? tag;
 
   UserActionViewModel({
     required this.id,
@@ -19,6 +24,7 @@ class UserActionViewModel {
     required this.status,
     required this.lastUpdate,
     required this.creator,
+    required this.tag,
   });
 
   factory UserActionViewModel.create(UserAction userAction) {
@@ -30,6 +36,7 @@ class UserActionViewModel {
       status: userAction.status,
       lastUpdate: userAction.lastUpdate,
       creator: _displayName(userAction.creator),
+      tag: _userActionTagViewModel(userAction),
     );
   }
 }
@@ -40,4 +47,47 @@ _displayName(UserActionCreator creator) {
   } else {
     return Strings.you;
   }
+}
+
+UserActionTagViewModel? _userActionTagViewModel(userAction) {
+  switch (userAction.status) {
+    case UserActionStatus.DONE:
+      return UserActionTagViewModel(
+        title: Strings.actionDone,
+        backgroundColor: AppColors.blueGrey,
+        textColor: AppColors.nightBlue,
+      );
+    case UserActionStatus.IN_PROGRESS:
+      return UserActionTagViewModel(
+        title: Strings.actionInProgress,
+        backgroundColor: AppColors.purple,
+        textColor: Colors.white,
+      );
+    case UserActionStatus.NOT_STARTED:
+      return null;
+  }
+}
+
+class UserActionTagViewModel {
+  final String title;
+  final Color backgroundColor;
+  final Color textColor;
+
+  UserActionTagViewModel({
+    required this.title,
+    required this.backgroundColor,
+    required this.textColor,
+  });
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is UserActionTagViewModel &&
+          runtimeType == other.runtimeType &&
+          title == other.title &&
+          backgroundColor == other.backgroundColor &&
+          textColor == other.textColor;
+
+  @override
+  int get hashCode => title.hashCode ^ backgroundColor.hashCode ^ textColor.hashCode;
 }

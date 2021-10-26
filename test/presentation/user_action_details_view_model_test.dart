@@ -19,7 +19,7 @@ main() {
     final viewModel = UserActionDetailsViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, UserActionDetailsState.SHOW_SUCCESS);
+    expect(viewModel.displayState, UserActionDetailsDisplayState.SHOW_SUCCESS);
   });
 
   test("create when action is not updating should show content", () {
@@ -33,7 +33,7 @@ main() {
     final viewModel = UserActionDetailsViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, UserActionDetailsState.SHOW_CONTENT);
+    expect(viewModel.displayState, UserActionDetailsDisplayState.SHOW_CONTENT);
   });
 
   test("create when action is no update needed should dismiss details", () {
@@ -47,7 +47,7 @@ main() {
     final viewModel = UserActionDetailsViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, UserActionDetailsState.TO_DISMISS);
+    expect(viewModel.displayState, UserActionDetailsDisplayState.TO_DISMISS);
   });
 
   test("create when action is no update needed should dismiss details", () {
@@ -61,7 +61,7 @@ main() {
     final viewModel = UserActionDetailsViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, UserActionDetailsState.TO_DISMISS);
+    expect(viewModel.displayState, UserActionDetailsDisplayState.TO_DISMISS);
   });
 }
 
