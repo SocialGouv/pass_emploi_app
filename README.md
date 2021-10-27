@@ -55,17 +55,18 @@ Si besoin de la mettre à jour, il faut le faire dans le fichier `ios/Podfile` :
 
 ### Pour iOS
 1. Vérifier que votre compte Apple Dev ait bien accès au compte Apple "Fabrique numérique des ministères sociaux"
-2. Lancer le build iOS release : `flutter build ipa --flavor staging --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL> --dart-define=FIREBASE_ENVIRONMENT_PREFIX=staging`
-3. Ouvrir le projet dans Xcode
-4. Configurer XCode, notamment sur la partie `Signing & Capabilities` [https://flutter.dev/docs/deployment/ios] en renseignant le bon provisioning profile de l'app `fr.fabrique.socialgouv.passemploi`
-5. Selectionner Product > Scheme > Runner.
-6. Selectionner Product > Destination > Any iOS Device.
-7. Selectionner Product > Archive.
-8. Une fois l'archive réalisée, cliquer sur Distribute App > Adhoc> Répréciser le provisioning.profile `fr.fabrique.socialgouv.passemploi` > Export
-9. Récupérer l'IPA `pass_emploi_app.ipa`
-10. Créer une version avec cet IPA sur [Firebase App Distribution](https://console.firebase.google.com/project/pass-emploi-staging/appdistribution/app/ios:fr.fabrique.social.gouv.passemploi.staging/releases)
-11. Ajouter le groupe `Equipe projet` aux testeurs
-12. Distribuer la version
+2. Ouvrir le projet dans Xcode
+3. Configurer XCode, notamment sur la partie `Signing & Capabilities` [https://flutter.dev/docs/deployment/ios] en renseignant le bon provisioning profile de l'app `fr.fabrique.socialgouv.passemploi.staging`
+4. Lancer le build iOS release : `flutter build ipa --flavor staging --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL> --dart-define=FIREBASE_ENVIRONMENT_PREFIX=staging`
+5. Revenir dans Xcode
+6. Selectionner Product > Scheme > Runner.
+7. Selectionner Product > Destination > Any iOS Device.
+8. Selectionner Product > Archive.
+9. Une fois l'archive réalisée, cliquer sur Distribute App > Adhoc> Répréciser le provisioning.profile `fr.fabrique.socialgouv.passemploi.staging` > Export
+10. Récupérer l'IPA `pass_emploi_app.ipa`
+11. Créer une version avec cet IPA sur [Firebase App Distribution](https://console.firebase.google.com/project/pass-emploi-staging/appdistribution/app/ios:fr.fabrique.social.gouv.passemploi.staging/releases)
+12. Ajouter le groupe `Equipe projet` aux testeurs
+13. Distribuer la version
 
 ## Déployer une app en bêta test sur les stores publics
 ### Prérequis
@@ -106,7 +107,7 @@ $ git push --tags
 11. /!\ Attention : l'étape précédente peut prendre plusieurs minutes. Mais si au bout de 10 minutes 
 il ne se passe rien, c'est potentiellement dû à un mauvais réseau sur votre poste. Dans ce cas là, 
 il faut annuler, et recommencer à l'étape 8. 
-12. Aller sur [https://appstoreconnect.apple.com/apps]
+12. Aller sur [https://appstoreconnect.apple.com/apps](App Store Connect)
 13. Dans l'onglet `Test flight` de l'app `Pass Emploi`, attendre que la version tout juste uploadée 
 soit bien présente. Il ne faut pas hésiter à rafraichir la page régulièrement.
 14. Par défaut, un warning apparaît `Attestation manquantes`. Indiquez que *non*, il n'y a pas 
