@@ -4,6 +4,13 @@ class DayItem extends ChatItem {
   final String dayLabel;
 
   DayItem(this.dayLabel);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is DayItem && runtimeType == other.runtimeType && dayLabel == other.dayLabel;
+
+  @override
+  int get hashCode => dayLabel.hashCode;
 }
 
 abstract class MessageItem extends ChatItem {
@@ -11,6 +18,14 @@ abstract class MessageItem extends ChatItem {
   final String caption;
 
   MessageItem(this.content, this.caption);
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is MessageItem && runtimeType == other.runtimeType && content == other.content && caption == other.caption;
+
+  @override
+  int get hashCode => content.hashCode ^ caption.hashCode;
 }
 
 class JeuneMessageItem extends MessageItem {

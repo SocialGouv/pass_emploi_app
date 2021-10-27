@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -46,19 +47,21 @@ class ChatPageViewModel {
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is ChatPageViewModel &&
-          runtimeType == other.runtimeType &&
-          title == other.title &&
-          items.length == other.items.length &&
-          withLoading == other.withLoading &&
-          withFailure == other.withFailure &&
-          withContent == other.withContent;
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        other is ChatPageViewModel &&
+            runtimeType == other.runtimeType &&
+            title == other.title &&
+            withLoading == other.withLoading &&
+            withFailure == other.withFailure &&
+            withContent == other.withContent &&
+            listEquals(items, other.items);
+  }
 
   @override
-  int get hashCode =>
-      items.length ^ title.hashCode ^ withContent.hashCode ^ withLoading.hashCode ^ withFailure.hashCode;
+  int get hashCode {
+    return title.hashCode ^ withLoading.hashCode ^ withFailure.hashCode ^ withContent.hashCode ^ items.hashCode;
+  }
 }
 
 _messagesToChatItems(List<Message> messages, DateTime lastConseillerReading) {

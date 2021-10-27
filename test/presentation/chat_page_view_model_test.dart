@@ -144,10 +144,10 @@ void main() {
     expect((viewModel.items[1] as JeuneMessageItem).caption, "13:45 · Lu");
   });
 
-  test('Two view models should be equal if they have same statuses, same title, and same message count ', () {
+  test('Two view models should be equal if they have same statuses, same title, and same messages', () {
     final chatItems = [
       JeuneMessageItem(content: "Hello !", caption: "12:00"),
-      ConseillerMessageItem(content: "Yo !", caption: "12:02"),
+      ConseillerMessageItem(content: "Yo !", caption: "12:02 • Vu"),
     ];
 
     final firstViewModel = ChatPageViewModel(
@@ -172,16 +172,15 @@ void main() {
     expect(firstViewModel.hashCode == secondViewModel.hashCode, true);
   });
 
-  test('Two view models should not be equal if their message count is different', () {
+  test('Two view models should not be equal if their message are different', () {
     final chatItems = [
       JeuneMessageItem(content: "Hello !", caption: "12:00"),
-      ConseillerMessageItem(content: "Yo !", caption: "12:02"),
+      ConseillerMessageItem(content: "Yo !", caption: "12:02 • Vu"),
     ];
 
     final chatItemsWithNewMessage = [
       JeuneMessageItem(content: "Hello !", caption: "12:00"),
-      ConseillerMessageItem(content: "Yo !", caption: "12:02"),
-      JeuneMessageItem(content: "ça va ?", caption: "12:03"),
+      ConseillerMessageItem(content: "Yo !", caption: "12:02 • Envoyé"),
     ];
 
     final firstViewModel = ChatPageViewModel(
