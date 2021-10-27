@@ -36,7 +36,7 @@ class ChatRepository {
 
     final Stream<DocumentSnapshot> chatStatusStream = _chatStatusCollection().snapshots();
     _chatStatusSubscription = chatStatusStream.listen(
-          (DocumentSnapshot snapshot) {
+      (DocumentSnapshot snapshot) {
         final Map<String, dynamic> data = snapshot.data()! as Map<String, dynamic>;
         final unreadMessageCount = data['newConseillerMessageCount'];
         final lastConseillerReading = data['lastConseillerReading'];
@@ -58,7 +58,7 @@ class ChatRepository {
   }
 
   sendMessage(String message) async {
-    var messageCreationDate = FieldValue.serverTimestamp();
+    final messageCreationDate = FieldValue.serverTimestamp();
 
     _messagesCollection()
         .add({
@@ -81,8 +81,12 @@ class ChatRepository {
   }
 
   setLastMessageSeen() {
+    final seenByJeuneAt = FieldValue.serverTimestamp();
     _chatStatusCollection()
-        .update({'newConseillerMessageCount': 0})
+        .update({
+          'newConseillerMessageCount': 0,
+          'lastJeuneReading': seenByJeuneAt,
+        })
         .then((value) => print("Last message seen updated"))
         .catchError((error) => print("Failed to update last message seen: $error"));
   }
