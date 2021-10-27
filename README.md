@@ -59,7 +59,7 @@ Si besoin de la mettre à jour, il faut le faire dans le fichier `ios/Podfile` :
 3. Configurer XCode, notamment sur la partie `Signing & Capabilities` [https://flutter.dev/docs/deployment/ios] en renseignant le bon provisioning profile de l'app `fr.fabrique.socialgouv.passemploi.staging`
 4. Lancer le build iOS release : `flutter build ipa --flavor staging --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL> --dart-define=FIREBASE_ENVIRONMENT_PREFIX=staging`
 5. Revenir dans Xcode
-6. Selectionner Product > Scheme > Runner.
+6. Selectionner Product > Scheme > `staging`.
 7. Selectionner Product > Destination > Any iOS Device.
 8. Selectionner Product > Archive.
 9. Une fois l'archive réalisée, cliquer sur Distribute App > Adhoc> Répréciser le provisioning.profile `fr.fabrique.socialgouv.passemploi.staging` > Export
