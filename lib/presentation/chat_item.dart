@@ -1,4 +1,6 @@
-abstract class ChatItem {}
+import 'package:equatable/equatable.dart';
+
+abstract class ChatItem extends Equatable {}
 
 class DayItem extends ChatItem {
   final String dayLabel;
@@ -6,11 +8,7 @@ class DayItem extends ChatItem {
   DayItem(this.dayLabel);
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) || other is DayItem && runtimeType == other.runtimeType && dayLabel == other.dayLabel;
-
-  @override
-  int get hashCode => dayLabel.hashCode;
+  List<Object?> get props => [dayLabel];
 }
 
 abstract class MessageItem extends ChatItem {
@@ -20,12 +18,7 @@ abstract class MessageItem extends ChatItem {
   MessageItem(this.content, this.caption);
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is MessageItem && runtimeType == other.runtimeType && content == other.content && caption == other.caption;
-
-  @override
-  int get hashCode => content.hashCode ^ caption.hashCode;
+  List<Object?> get props => [content, caption];
 }
 
 class JeuneMessageItem extends MessageItem {

@@ -1,7 +1,7 @@
-import 'package:flutter/foundation.dart';
+import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/message.dart';
 
-abstract class ChatState {
+abstract class ChatState extends Equatable {
   ChatState._();
 
   factory ChatState.loading() = ChatLoadingState;
@@ -13,10 +13,7 @@ abstract class ChatState {
   factory ChatState.notInitialized() = ChatNotInitializedState;
 
   @override
-  bool operator ==(Object other) => identical(this, other) || other is ChatState && runtimeType == other.runtimeType;
-
-  @override
-  int get hashCode => 0;
+  List<Object?> get props => [];
 }
 
 class ChatLoadingState extends ChatState {
@@ -29,15 +26,7 @@ class ChatSuccessState extends ChatState {
   ChatSuccessState(this.messages) : super._();
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      super == other &&
-          other is ChatSuccessState &&
-          runtimeType == other.runtimeType &&
-          listEquals(messages, other.messages);
-
-  @override
-  int get hashCode => super.hashCode ^ messages.hashCode;
+  List<Object?> get props => [messages];
 }
 
 class ChatFailureState extends ChatState {

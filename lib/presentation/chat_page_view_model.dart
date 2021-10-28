@@ -1,5 +1,5 @@
 import 'package:collection/collection.dart';
-import 'package:flutter/foundation.dart';
+import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -12,7 +12,7 @@ import 'package:redux/redux.dart';
 import '../ui/strings.dart';
 import 'chat_item.dart';
 
-class ChatPageViewModel {
+class ChatPageViewModel extends Equatable {
   final String title;
   final bool withLoading;
   final bool withFailure;
@@ -47,21 +47,7 @@ class ChatPageViewModel {
   }
 
   @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        other is ChatPageViewModel &&
-            runtimeType == other.runtimeType &&
-            title == other.title &&
-            withLoading == other.withLoading &&
-            withFailure == other.withFailure &&
-            withContent == other.withContent &&
-            listEquals(items, other.items);
-  }
-
-  @override
-  int get hashCode {
-    return title.hashCode ^ withLoading.hashCode ^ withFailure.hashCode ^ withContent.hashCode ^ items.hashCode;
-  }
+  List<Object?> get props => [title, withLoading, withFailure, withContent, items];
 }
 
 _messagesToChatItems(List<Message> messages, DateTime lastConseillerReading) {
