@@ -1,4 +1,6 @@
-abstract class ChatStatusState {
+import 'package:equatable/equatable.dart';
+
+abstract class ChatStatusState extends Equatable {
   ChatStatusState._();
 
   factory ChatStatusState.success({
@@ -16,17 +18,12 @@ class ChatStatusSuccessState extends ChatStatusState {
   ChatStatusSuccessState({required this.unreadMessageCount, required this.lastConseillerReading}) : super._();
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is ChatStatusSuccessState &&
-          runtimeType == other.runtimeType &&
-          unreadMessageCount == other.unreadMessageCount &&
-          lastConseillerReading == other.lastConseillerReading;
-
-  @override
-  int get hashCode => unreadMessageCount.hashCode ^ lastConseillerReading.hashCode;
+  List<Object?> get props => [unreadMessageCount, lastConseillerReading];
 }
 
 class ChatStatusNotInitializedState extends ChatStatusState {
   ChatStatusNotInitializedState() : super._();
+
+  @override
+  List<Object?> get props => [];
 }

@@ -32,7 +32,7 @@ void main() {
     expect(viewModel.title, "Discuter avec Nils");
   });
 
-  test('ChatPageViewModel.create when state is loading', () {
+  test('ChatPageViewModel.create when chat state is loading', () {
     final state = AppState.initialState().copyWith(chatState: ChatState.loading());
     final store = Store<AppState>(reducer, initialState: state);
 
@@ -43,7 +43,7 @@ void main() {
     expect(viewModel.withContent, isFalse);
   });
 
-  test('ChatPageViewModel.create when state is failure', () {
+  test('ChatPageViewModel.create when chat state is failure', () {
     final state = AppState.initialState().copyWith(chatState: ChatState.failure());
     final store = Store<AppState>(reducer, initialState: state);
 
@@ -54,7 +54,7 @@ void main() {
     expect(viewModel.withContent, isFalse);
   });
 
-  test('ChatPageViewModel.create when state is success', () {
+  test('ChatPageViewModel.create when chat state is success', () {
     final state = AppState.initialState().copyWith(chatState: ChatState.success([]));
     final store = Store<AppState>(reducer, initialState: state);
 
@@ -65,7 +65,7 @@ void main() {
     expect(viewModel.withContent, isTrue);
   });
 
-  test('ChatPageViewModel.create when state is success and messages are of same day', () {
+  test('ChatPageViewModel.create when chat state is success and messages are of same day', () {
     final messages = [
       Message("1", DateTime.utc(2021, 1, 2, 10, 34), Sender.jeune),
       Message("2", DateTime.utc(2021, 1, 2, 11, 37), Sender.conseiller),
@@ -83,7 +83,7 @@ void main() {
     expect((viewModel.items[2] as ConseillerMessageItem).caption, "11:37");
   });
 
-  test('ChatPageViewModel.create when state is success and messages are of different days', () {
+  test('ChatPageViewModel.create when chat state is success and messages are of different days', () {
     final messages = [
       Message("1", DateTime.utc(2021, 1, 2, 10, 34), Sender.jeune),
       Message("2", DateTime.utc(2021, 1, 2, 11, 37), Sender.conseiller),
@@ -105,7 +105,7 @@ void main() {
     expect((viewModel.items[4] as JeuneMessageItem).caption, "13:45 · Envoyé");
   });
 
-  test('ChatPageViewModel.create when state is success and messages are of today', () {
+  test('ChatPageViewModel.create when chat state is success and messages are of today', () {
     final messages = [Message("1", DateTime.now(), Sender.jeune)];
     final state = AppState.initialState().copyWith(chatState: ChatState.success(messages));
     final store = Store<AppState>(reducer, initialState: state);
@@ -116,7 +116,7 @@ void main() {
     expect((viewModel.items[0] as DayItem).dayLabel, "Aujourd'hui");
   });
 
-  test('ChatPageViewModel.create when state is success and message is not red by conseiller', () {
+  test('ChatPageViewModel.create when chat state is success and message is not red by conseiller', () {
     final messages = [Message("1", DateTime.utc(2021, 7, 2, 13, 45), Sender.jeune)];
     final state = AppState.initialState().copyWith(
       chatState: ChatState.success(messages),
@@ -130,7 +130,7 @@ void main() {
     expect((viewModel.items[1] as JeuneMessageItem).caption, "13:45 · Envoyé");
   });
 
-  test('ChatPageViewModel.create when state is success and message is red by conseiller', () {
+  test('ChatPageViewModel.create when chat state is success and message is red by conseiller', () {
     final messages = [Message("1", DateTime.utc(2021, 7, 2, 13, 45), Sender.jeune)];
     final state = AppState.initialState().copyWith(
       chatState: ChatState.success(messages),

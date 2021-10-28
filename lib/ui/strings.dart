@@ -15,9 +15,7 @@ class Strings {
   static String today = "Aujourd'hui";
   static String red = "Lu";
   static String sent = "Envoyé";
-
   static String chatWith(firstName) => "Discuter avec $firstName";
-
   static String simpleDayFormat(day) => "Le $day";
 
   // Force Update
