@@ -39,7 +39,7 @@ main() {
 
     assertState(
       ChatConseillerMessageAction(null, null),
-      ChatStatusState.success(unreadMessageCount: 0, lastConseillerReading: _minDateTime),
+      ChatStatusState.empty(),
     );
     assertState(
       ChatConseillerMessageAction(22, null),

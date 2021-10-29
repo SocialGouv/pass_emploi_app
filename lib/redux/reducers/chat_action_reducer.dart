@@ -12,13 +12,21 @@ AppState chatActionReducer(AppState currentState, dynamic action) {
   } else if (action is ChatFailureAction) {
     return currentState.copyWith(chatState: ChatState.failure());
   } else if (action is ChatConseillerMessageAction) {
-    return currentState.copyWith(
-      chatStatusState: ChatStatusState.success(
-        unreadMessageCount: action.unreadMessageCount != null ? action.unreadMessageCount! : 0,
-        lastConseillerReading: action.lastConseillerReading != null ? action.lastConseillerReading! : minDateTime,
-      ),
-    );
+    return _handleChatConseillerMessageAction(action, currentState);
   } else {
     return currentState;
   }
+}
+
+AppState _handleChatConseillerMessageAction(ChatConseillerMessageAction action, AppState currentState) {
+  final ChatStatusState chatStatusState;
+  if (action.lastConseillerReading == null && action.unreadMessageCount == null) {
+    chatStatusState = ChatStatusState.empty();
+  } else {
+    chatStatusState = ChatStatusState.success(
+      unreadMessageCount: action.unreadMessageCount != null ? action.unreadMessageCount! : 0,
+      lastConseillerReading: action.lastConseillerReading != null ? action.lastConseillerReading! : minDateTime,
+    );
+  }
+  return currentState.copyWith(chatStatusState: chatStatusState);
 }

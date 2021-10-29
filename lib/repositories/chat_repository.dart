@@ -41,9 +41,7 @@ class ChatRepository {
         final unreadMessageCount = data['newConseillerMessageCount'];
         final lastConseillerReading = data['lastConseillerReading'];
         final DateTime? dateTime = lastConseillerReading != null ? (lastConseillerReading as Timestamp).toDate() : null;
-        if (unreadMessageCount != null || dateTime != null) {
-          store.dispatch(ChatConseillerMessageAction(unreadMessageCount, dateTime));
-        }
+        store.dispatch(ChatConseillerMessageAction(unreadMessageCount, dateTime));
       },
       onError: (Object error, StackTrace stackTrace) {
         print("Chat status error");

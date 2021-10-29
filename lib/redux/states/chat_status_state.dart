@@ -8,6 +8,8 @@ abstract class ChatStatusState extends Equatable {
     required DateTime lastConseillerReading,
   }) = ChatStatusSuccessState;
 
+  factory ChatStatusState.empty() = ChatStatusNotInitializedState;
+
   factory ChatStatusState.notInitialized() = ChatStatusNotInitializedState;
 }
 
@@ -23,6 +25,13 @@ class ChatStatusSuccessState extends ChatStatusState {
 
 class ChatStatusNotInitializedState extends ChatStatusState {
   ChatStatusNotInitializedState() : super._();
+
+  @override
+  List<Object?> get props => [];
+}
+
+class ChatStatusEmptyState extends ChatStatusState {
+  ChatStatusEmptyState() : super._();
 
   @override
   List<Object?> get props => [];
