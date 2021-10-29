@@ -12,8 +12,9 @@ class ChatSuccessAction extends ChatAction {
 
 class ChatFailureAction extends ChatAction {}
 
-class ChatUnseenMessageAction extends ChatAction {
-  final int unreadMessageCount;
+class ChatConseillerMessageAction extends ChatAction {
+  final int? unreadMessageCount;
+  final DateTime? lastConseillerReading;
 
-  ChatUnseenMessageAction(this.unreadMessageCount);
+  ChatConseillerMessageAction(this.unreadMessageCount, this.lastConseillerReading);
 }

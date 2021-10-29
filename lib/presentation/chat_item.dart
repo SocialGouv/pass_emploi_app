@@ -1,22 +1,30 @@
-abstract class ChatItem {}
+import 'package:equatable/equatable.dart';
+
+abstract class ChatItem extends Equatable {}
 
 class DayItem extends ChatItem {
   final String dayLabel;
 
   DayItem(this.dayLabel);
+
+  @override
+  List<Object?> get props => [dayLabel];
 }
 
 abstract class MessageItem extends ChatItem {
   final String content;
-  final String hourLabel;
+  final String caption;
 
-  MessageItem(this.content, this.hourLabel);
+  MessageItem(this.content, this.caption);
+
+  @override
+  List<Object?> get props => [content, caption];
 }
 
 class JeuneMessageItem extends MessageItem {
-  JeuneMessageItem(String content, String hour) : super(content, hour);
+  JeuneMessageItem({required String content, required String caption}) : super(content, caption);
 }
 
 class ConseillerMessageItem extends MessageItem {
-  ConseillerMessageItem(String content, String hour) : super(content, hour);
+  ConseillerMessageItem({required String content, required String caption}) : super(content, caption);
 }

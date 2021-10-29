@@ -18,7 +18,8 @@ class ChatRepository {
     unsubscribeToMessages();
     store.dispatch(ChatLoadingAction());
 
-    final chats = await FirebaseFirestore.instance.collection(_COLLECTION_PATH).where('jeuneId', isEqualTo: userId).get();
+    final chats =
+        await FirebaseFirestore.instance.collection(_COLLECTION_PATH).where('jeuneId', isEqualTo: userId).get();
     _chatDocumentId = chats.docs.first.id;
 
     final Stream<QuerySnapshot> messageStream = _messagesCollection().orderBy('creationDate').snapshots();
@@ -35,10 +36,12 @@ class ChatRepository {
 
     final Stream<DocumentSnapshot> chatStatusStream = _chatStatusCollection().snapshots();
     _chatStatusSubscription = chatStatusStream.listen(
-          (DocumentSnapshot snapshot) {
+      (DocumentSnapshot snapshot) {
         final Map<String, dynamic> data = snapshot.data()! as Map<String, dynamic>;
         final unreadMessageCount = data['newConseillerMessageCount'];
-        if (unreadMessageCount != null) store.dispatch(ChatUnseenMessageAction(unreadMessageCount));
+        final lastConseillerReading = data['lastConseillerReading'];
+        final DateTime? dateTime = lastConseillerReading != null ? (lastConseillerReading as Timestamp).toDate() : null;
+        store.dispatch(ChatConseillerMessageAction(unreadMessageCount, dateTime));
       },
       onError: (Object error, StackTrace stackTrace) {
         print("Chat status error");
@@ -53,36 +56,41 @@ class ChatRepository {
   }
 
   sendMessage(String message) async {
-    var messageCreationDate = FieldValue.serverTimestamp();
+    final messageCreationDate = FieldValue.serverTimestamp();
 
     _messagesCollection()
         .add({
-      'content': message,
-      'sentBy': "jeune",
-      'creationDate': messageCreationDate,
-    })
+          'content': message,
+          'sentBy': "jeune",
+          'creationDate': messageCreationDate,
+        })
         .then((value) => print("New message sent $message"))
         .catchError((error) => print("Failed to send message: $error"));
 
     _chatStatusCollection()
         .update({
-      'lastMessageContent': message,
-      'lastMessageSentBy': "jeune",
-      'lastMessageSentAt': messageCreationDate,
-      'seenByConseiller': false,
-    })
+          'lastMessageContent': message,
+          'lastMessageSentBy': "jeune",
+          'lastMessageSentAt': messageCreationDate,
+          'seenByConseiller': false,
+        })
         .then((value) => print("Chat status updated"))
         .catchError((error) => print("Failed to update chat status: $error"));
   }
 
   setLastMessageSeen() {
+    final seenByJeuneAt = FieldValue.serverTimestamp();
     _chatStatusCollection()
-        .update({'newConseillerMessageCount': 0})
+        .update({
+          'newConseillerMessageCount': 0,
+          'lastJeuneReading': seenByJeuneAt,
+        })
         .then((value) => print("Last message seen updated"))
         .catchError((error) => print("Failed to update last message seen: $error"));
   }
 
-  _messagesCollection() => FirebaseFirestore.instance.collection(_COLLECTION_PATH).doc(_chatDocumentId).collection('messages');
+  _messagesCollection() =>
+      FirebaseFirestore.instance.collection(_COLLECTION_PATH).doc(_chatDocumentId).collection('messages');
 
   _chatStatusCollection() => FirebaseFirestore.instance.collection(_COLLECTION_PATH).doc(_chatDocumentId);
 }

@@ -20,6 +20,7 @@ dependencies:
   http: ^0.13.3
   intl: ^0.17.0
   collection: ^1.15.0
+  equatable: 2.0.3
   # Firebase
   firebase_core: ^1.6.0
   firebase_crashlytics: ^2.2.1

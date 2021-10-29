@@ -1,8 +1,10 @@
 import 'package:collection/collection.dart';
+import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_state.dart';
+import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
 import 'package:pass_emploi_app/redux/states/home_state.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
@@ -10,7 +12,7 @@ import 'package:redux/redux.dart';
 import '../ui/strings.dart';
 import 'chat_item.dart';
 
-class ChatPageViewModel {
+class ChatPageViewModel extends Equatable {
   final String title;
   final bool withLoading;
   final bool withFailure;
@@ -30,6 +32,8 @@ class ChatPageViewModel {
   factory ChatPageViewModel.create(Store<AppState> store) {
     final chatState = store.state.chatState;
     final homeState = store.state.homeState;
+    final statusState = store.state.chatStatusState;
+    final lastReading = (statusState is ChatStatusSuccessState) ? statusState.lastConseillerReading : minDateTime;
     return ChatPageViewModel(
       title: homeState is HomeSuccessState
           ? Strings.chatWith(homeState.home.conseiller.firstName)
@@ -37,36 +41,28 @@ class ChatPageViewModel {
       withLoading: chatState is ChatLoadingState,
       withFailure: chatState is ChatFailureState,
       withContent: chatState is ChatSuccessState,
-      items: chatState is ChatSuccessState ? _messagesToChatItems(chatState.messages) : [],
+      items: chatState is ChatSuccessState ? _messagesToChatItems(chatState.messages, lastReading) : [],
       onSendMessage: (String message) => store.dispatch(SendMessageAction(message)),
     );
   }
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is ChatPageViewModel &&
-          runtimeType == other.runtimeType &&
-          title == other.title &&
-          items.length == other.items.length &&
-          withLoading == other.withLoading &&
-          withFailure == other.withFailure &&
-          withContent == other.withContent;
-
-  @override
-  int get hashCode =>
-      items.length ^ title.hashCode ^ withContent.hashCode ^ withLoading.hashCode ^ withFailure.hashCode;
+  List<Object?> get props => [title, withLoading, withFailure, withContent, items];
 }
 
-_messagesToChatItems(List<Message> messages) {
+_messagesToChatItems(List<Message> messages, DateTime lastConseillerReading) {
   return _messagesWithDaySections(messages).map<ChatItem>((element) {
     if (element is String) {
       return DayItem(element);
     } else {
       final message = element as Message;
-      final hourLabel = Strings.simpleHourFormat(message.creationDate.toHour());
-      if (message.sentBy == Sender.jeune) return JeuneMessageItem(message.content, hourLabel);
-      return ConseillerMessageItem(message.content, hourLabel);
+      final hourLabel = message.creationDate.toHour();
+      if (message.sentBy == Sender.jeune) {
+        final redState = lastConseillerReading.isAfter(message.creationDate) ? Strings.read : Strings.sent;
+        return JeuneMessageItem(content: message.content, caption: "$hourLabel · $redState");
+      } else {
+        return ConseillerMessageItem(content: message.content, caption: hourLabel);
+      }
     }
   }).toList();
 }

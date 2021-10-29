@@ -13,8 +13,11 @@ class Strings {
   static String yourMessage = "Votre message…";
   static String yourConseiller = "Votre conseiller";
   static String today = "Aujourd'hui";
+  static String read = "Lu";
+  static String sent = "Envoyé";
+
   static String chatWith(firstName) => "Discuter avec $firstName";
-  static String simpleHourFormat(hour) => "à $hour";
+
   static String simpleDayFormat(day) => "Le $day";
 
   // Force Update
