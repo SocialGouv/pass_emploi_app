@@ -58,7 +58,7 @@ _messagesToChatItems(List<Message> messages, DateTime lastConseillerReading) {
       final message = element as Message;
       final hourLabel = message.creationDate.toHour();
       if (message.sentBy == Sender.jeune) {
-        final redState = lastConseillerReading.isAfter(message.creationDate) ? Strings.red : Strings.sent;
+        final redState = lastConseillerReading.isAfter(message.creationDate) ? Strings.read : Strings.sent;
         return JeuneMessageItem(content: message.content, caption: "$hourLabel · $redState");
       } else {
         return ConseillerMessageItem(content: message.content, caption: hourLabel);
