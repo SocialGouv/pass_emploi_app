@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/home_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
+import 'package:pass_emploi_app/repositories/user_action_creation_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
@@ -44,4 +45,8 @@ class DummyChatRepository extends ChatRepository {}
 class DummyCrashlytics extends Crashlytics {
   @override
   void setCustomKey(String key, value) {}
+}
+
+class DummyUserActionCreationRepository extends UserActionCreationRepository {
+  DummyUserActionCreationRepository() : super("", DummyHeadersBuilder());
 }

@@ -9,7 +9,10 @@ AppState userActionReducer(AppState currentState, dynamic action) {
     return currentState.copyWith(userActionState: UserActionState.success(action.actions));
   } else if (action is UserActionFailureAction) {
     return currentState.copyWith(userActionState: UserActionState.failure());
+  } else if (action is UserActionCreation) {
+    return currentState.copyWith(userActionState: UserActionState.creation(action.content, action.comment));
   } else {
     return currentState;
   }
+
 }

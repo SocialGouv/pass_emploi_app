@@ -132,7 +132,7 @@ class _UserActionAddBottomSheetState extends State<UserActionAddBottomSheet> {
       padding: userActionBottomSheetContentPadding().add(const EdgeInsets.only(top: 64)),
       child: userActionBottomSheetActionButton(
         label: Strings.create,
-        onPressed: () => {viewModel.createUserAction(_actionContent, _actionComment)},
+        onPressed: () => {viewModel.createUserAction(_actionContent, _actionComment, _initialStatus)},
       ),
     );
   }

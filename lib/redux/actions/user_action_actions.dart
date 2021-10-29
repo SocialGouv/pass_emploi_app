@@ -11,3 +11,10 @@ class UserActionSuccessAction extends UserActionAction {
 }
 
 class UserActionFailureAction extends UserActionAction {}
+
+class UserActionCreation extends UserActionAction {
+  final content;
+  final comment;
+
+  UserActionCreation(this.content, this.comment);
+}

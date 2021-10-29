@@ -1,9 +1,13 @@
+import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/actions/home_actions.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
+import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/home_repository.dart';
+import 'package:pass_emploi_app/repositories/user_action_creation_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
@@ -13,8 +17,9 @@ class ApiMiddleware extends MiddlewareClass<AppState> {
   final HomeRepository _homeRepository;
   final UserActionRepository _userActionRepository;
   final ChatRepository _chatRepository;
+  final UserActionCreationRepository _creationRepository;
 
-  ApiMiddleware(this._userRepository, this._homeRepository, this._userActionRepository, this._chatRepository);
+  ApiMiddleware(this._userRepository, this._homeRepository, this._userActionRepository, this._chatRepository, this._creationRepository);
 
   @override
   call(Store<AppState> store, action, NextDispatcher next) async {
@@ -29,6 +34,11 @@ class ApiMiddleware extends MiddlewareClass<AppState> {
       _chatRepository.sendMessage(action.message);
     } else if (action is LastMessageSeenAction) {
       _chatRepository.setLastMessageSeen();
+    } else if (action is CreateUserAction) {
+      final loginState = store.state.loginState;
+      if (loginState is LoggedInState) {
+        _creationAction(store, loginState.user.id, action.content, action.comment, action.initialStatus);
+      }
     }
   }
 
@@ -48,5 +58,10 @@ class ApiMiddleware extends MiddlewareClass<AppState> {
     final home = await _homeRepository.getHome(userId);
     store.dispatch(home != null ? HomeAction.success(home) : HomeAction.failure());
     _chatRepository.subscribeToMessages(userId, store);
+  }
+
+  _creationAction(Store<AppState> store, String userId, String? content, String? comment, UserActionStatus status) async {
+    final action = await _creationRepository.createAction(userId, content, comment, status);
+    store.dispatch(UserActionCreation(content, comment));
   }
 }
