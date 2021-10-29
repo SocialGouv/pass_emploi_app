@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/presentation/user_action_add_view_model.dart';
+import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -34,20 +37,23 @@ class _UserActionAddBottomSheetState extends State<UserActionAddBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Form(
-      key: _formKey,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          userActionBottomSheetHeader(context, title: Strings.addAnAction),
-          userActionBottomSheetSeparator(),
-          _actionContentAndComment(),
-          userActionBottomSheetSeparator(),
-          _defineStatus(),
-          userActionBottomSheetSeparator(),
-          _createButton(),
-        ],
+    return StoreConnector<AppState, UserActionAddViewModel>(
+      converter: (state) => UserActionAddViewModel.create(state),
+      builder: (context, viewModel) => Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            userActionBottomSheetHeader(context, title: Strings.addAnAction),
+            userActionBottomSheetSeparator(),
+            _actionContentAndComment(),
+            userActionBottomSheetSeparator(),
+            _defineStatus(),
+            userActionBottomSheetSeparator(),
+            _createButton(viewModel),
+          ],
+        ),
       ),
     );
   }
@@ -121,12 +127,12 @@ class _UserActionAddBottomSheetState extends State<UserActionAddBottomSheet> {
     );
   }
 
-  Widget _createButton() {
+  Widget _createButton(UserActionAddViewModel viewModel) {
     return Padding(
       padding: userActionBottomSheetContentPadding().add(const EdgeInsets.only(top: 64)),
       child: userActionBottomSheetActionButton(
         label: Strings.create,
-        onPressed: () => {Navigator.pop(context, true)},
+        onPressed: () => {viewModel.createUserAction(_actionContent, _actionComment)},
       ),
     );
   }
