@@ -40,6 +40,7 @@ class _UserActionAddBottomSheetState extends State<UserActionAddBottomSheet> {
     return StoreConnector<AppState, UserActionAddViewModel>(
       converter: (state) => UserActionAddViewModel.create(state),
       builder: (context, viewModel) => Form(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         key: _formKey,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -132,10 +133,9 @@ class _UserActionAddBottomSheetState extends State<UserActionAddBottomSheet> {
       padding: userActionBottomSheetContentPadding().add(const EdgeInsets.only(top: 64)),
       child: userActionBottomSheetActionButton(
         label: Strings.create,
-        onPressed: () => {
-          if (_formKey.currentState!.validate())
+        onPressed: !viewModel.isLoading && _formKey.currentState?.validate() == true ? () => {
             viewModel.createUserAction(_actionContent, _actionComment, _initialStatus)
-        },
+        } : null,
       ),
     );
   }
