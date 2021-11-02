@@ -113,17 +113,11 @@ class _UserActionListPageState extends State<UserActionListPage> {
   Widget _userActions(BuildContext context, UserActionListPageViewModel viewModel) {
     return Container(
       color: Colors.white,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ListView.separated(
-            shrinkWrap: true,
-            itemCount: viewModel.items.length,
-            itemBuilder: (context, i) => _tapListener(context, viewModel.items[i], viewModel),
-            separatorBuilder: (context, i) => _listSeparator(),
-          ),
-          _listSeparator()
-        ],
+      child: ListView.separated(
+        shrinkWrap: true,
+        itemCount: viewModel.items.length,
+        itemBuilder: (context, i) => _tapListener(context, viewModel.items[i], viewModel),
+        separatorBuilder: (context, i) => _listSeparator(),
       ),
     );
   }
