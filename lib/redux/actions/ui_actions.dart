@@ -51,3 +51,5 @@ class CreateUserAction extends UiAction {
 
   CreateUserAction(this.content, this.comment, this.initialStatus);
 }
+
+class DismissCreateUserAction extends UiAction {}

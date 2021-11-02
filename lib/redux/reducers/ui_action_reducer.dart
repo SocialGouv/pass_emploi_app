@@ -22,6 +22,8 @@ AppState uiActionReducer(AppState currentState, dynamic action) {
     }
   } else if (action is DismissUserActionDetailsAction) {
     return _dismissUserActionDetailsAction(currentState);
+  } else if (action is DismissCreateUserAction) {
+    return _dismissCreateUserAction(currentState);
   } else if (action is UserActionNoUpdateNeededAction) {
     return _noUpdateNeededActionUpdate(currentState);
   } else if (action is CreateUserAction) {
@@ -62,5 +64,11 @@ AppState _dismissUserActionDetailsAction(AppState currentState) {
 AppState _noUpdateNeededActionUpdate(AppState currentState) {
   return currentState.copyWith(
     userActionUpdateState: UserActionUpdateState.noUpdateNeeded(),
+  );
+}
+
+AppState _dismissCreateUserAction(AppState currentState) {
+  return currentState.copyWith(
+    createUserActionState: UserActionCreateState.notInitialized(),
   );
 }

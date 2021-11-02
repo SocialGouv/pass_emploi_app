@@ -12,9 +12,9 @@ class UserActionSuccessAction extends UserActionAction {
 
 class UserActionFailureAction extends UserActionAction {}
 
-class UserActionCreation extends UserActionAction {
+class UserActionCreatedWithSuccessAction extends UserActionAction {
   final content;
   final comment;
 
-  UserActionCreation(this.content, this.comment);
+  UserActionCreatedWithSuccessAction(this.content, this.comment);
 }

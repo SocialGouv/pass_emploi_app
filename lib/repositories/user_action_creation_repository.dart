@@ -13,7 +13,7 @@ class UserActionCreationRepository {
   Future<void> createAction(String userId, String? content, String? comment, UserActionStatus status) async {
     var url = Uri.parse(_baseUrl + "/jeunes/$userId/action");
     try {
-      http.post(
+      await http.post(
         url,
         headers: await _headersBuilder.headers(userId: userId, contentType: 'application/json'),
         body: customJsonEncode(PostUserActionRequest(content: content!, comment: comment, status: status)),

@@ -39,22 +39,33 @@ class _UserActionAddBottomSheetState extends State<UserActionAddBottomSheet> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, UserActionAddViewModel>(
       converter: (state) => UserActionAddViewModel.create(state),
-      builder: (context, viewModel) => Form(
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        key: _formKey,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            userActionBottomSheetHeader(context, title: Strings.addAnAction),
-            userActionBottomSheetSeparator(),
-            _actionContentAndComment(),
-            userActionBottomSheetSeparator(),
-            _defineStatus(),
-            userActionBottomSheetSeparator(),
-            _createButton(viewModel),
-          ],
-        ),
+      builder: (context, viewModel) => _build(context, viewModel),
+      onWillChange: (previousVm, newVm) => _dismissBottomSheetIfNeeded(context, newVm),
+    );
+  }
+
+  _build(BuildContext context, UserActionAddViewModel viewModel) {
+    if (viewModel.displayState != UserActionAddDisplayState.TO_DISMISS) {
+      return _buildForm(context, viewModel);
+    }
+  }
+
+  Form _buildForm(BuildContext context, UserActionAddViewModel viewModel) {
+    return Form(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      key: _formKey,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          userActionBottomSheetHeader(context, title: Strings.addAnAction),
+          userActionBottomSheetSeparator(),
+          _actionContentAndComment(),
+          userActionBottomSheetSeparator(),
+          _defineStatus(),
+          userActionBottomSheetSeparator(),
+          _createButton(viewModel),
+        ],
       ),
     );
   }
@@ -133,10 +144,20 @@ class _UserActionAddBottomSheetState extends State<UserActionAddBottomSheet> {
       padding: userActionBottomSheetContentPadding().add(const EdgeInsets.only(top: 64)),
       child: userActionBottomSheetActionButton(
         label: Strings.create,
-        onPressed: !viewModel.isLoading && _formKey.currentState?.validate() == true ? () => {
-            viewModel.createUserAction(_actionContent, _actionComment, _initialStatus)
-        } : null,
+        onPressed: _isLoading(viewModel) && _isFormValid()
+            ? () => {viewModel.createUserAction(_actionContent, _actionComment, _initialStatus)}
+            : null,
       ),
     );
+  }
+
+  bool _isFormValid() => _formKey.currentState?.validate() == true;
+
+  bool _isLoading(UserActionAddViewModel viewModel) => viewModel.displayState != UserActionAddDisplayState.SHOW_LOADING;
+
+  _dismissBottomSheetIfNeeded(BuildContext context, UserActionAddViewModel viewModel) {
+    if (viewModel.displayState == UserActionAddDisplayState.TO_DISMISS) {
+      Navigator.pop(context);
+    }
   }
 }

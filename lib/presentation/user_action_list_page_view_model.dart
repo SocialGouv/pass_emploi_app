@@ -12,6 +12,7 @@ class UserActionListPageViewModel {
   final List<UserActionViewModel> items;
   final Function() onRetry;
   final Function() onUserActionDetailsDismissed;
+  final Function() onCreateUserActionDismissed;
 
   UserActionListPageViewModel({
     required this.withLoading,
@@ -20,6 +21,7 @@ class UserActionListPageViewModel {
     required this.items,
     required this.onRetry,
     required this.onUserActionDetailsDismissed,
+    required this.onCreateUserActionDismissed,
   });
 
   factory UserActionListPageViewModel.create(Store<AppState> store) {
@@ -36,6 +38,7 @@ class UserActionListPageViewModel {
       ),
       onRetry: () => store.dispatch(RequestUserActionsAction(user.id)),
       onUserActionDetailsDismissed: () => store.dispatch(DismissUserActionDetailsAction()),
+      onCreateUserActionDismissed: () => store.dispatch(DismissCreateUserAction()),
     );
   }
 }

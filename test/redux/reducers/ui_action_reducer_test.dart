@@ -99,6 +99,22 @@ main() {
     // Then
     expect(updatedState.createUserActionState is CreateUserActionLoadingState, true);
   });
+
+  test("uiActionReducer when action is DismissCreateUserAction should reset actionCreate state", () {
+    // Given
+    final initialState = AppState.initialState().copyWith(
+      createUserActionState: UserActionCreateState.success(),
+    );
+
+    // When
+    final updatedState = uiActionReducer(
+      initialState,
+      DismissCreateUserAction(),
+    );
+
+    // Then
+    expect(updatedState.createUserActionState is UserActionCreateNotInitializedState, true);
+  });
 }
 
 UserAction _notStartedAction() {

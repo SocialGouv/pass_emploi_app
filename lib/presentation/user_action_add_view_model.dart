@@ -4,21 +4,33 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_create_state.dart';
 import 'package:redux/redux.dart';
 
+enum UserActionAddDisplayState { SHOW_CONTENT, SHOW_LOADING, TO_DISMISS }
+
 class UserActionAddViewModel {
   final Function(String? actionContent, String? actionComment, UserActionStatus initialStatus) createUserAction;
 
-  final bool isLoading;
+  final UserActionAddDisplayState displayState;
 
   UserActionAddViewModel({
-    required this.isLoading,
+    required this.displayState,
     required this.createUserAction,
   });
 
   factory UserActionAddViewModel.create(Store<AppState> store) {
     return UserActionAddViewModel(
-      isLoading: store.state.createUserActionState is CreateUserActionLoadingState,
+      displayState: _displayState(store.state.createUserActionState),
       createUserAction: (content, comment, initialStatus) =>
           {store.dispatch(CreateUserAction(content, comment, initialStatus))},
     );
+  }
+}
+
+UserActionAddDisplayState _displayState(UserActionCreateState userActionCreateState) {
+  if (userActionCreateState is UserActionCreateNotInitializedState) {
+    return UserActionAddDisplayState.SHOW_CONTENT;
+  } else if (userActionCreateState is CreateUserActionLoadingState) {
+    return UserActionAddDisplayState.SHOW_LOADING;
+  } else {
+    return UserActionAddDisplayState.TO_DISMISS;
   }
 }

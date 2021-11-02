@@ -162,7 +162,23 @@ main() {
     viewModel.onUserActionDetailsDismissed();
 
     // Then
-    expect(storeSpy.calledWithDismiss, true);
+    expect(storeSpy.calledWithDismissDetails, true);
+  });
+
+  test('onCreateUserActionDismissed should dispatch DismissCreateUserAction', () {
+    // Given
+    var storeSpy = StoreSpy();
+    final store = Store<AppState>(
+      storeSpy.reducer,
+      initialState: _loggedInState(),
+    );
+
+    // When
+    final viewModel = UserActionListPageViewModel.create(store);
+    viewModel.onCreateUserActionDismissed();
+
+    // Then
+    expect(storeSpy.calledWithDismissCreate, true);
   });
 }
 
@@ -179,7 +195,8 @@ AppState _loggedInState() {
 class StoreSpy {
   var calledWithRetry = false;
   var calledWithUpdate = false;
-  var calledWithDismiss = false;
+  var calledWithDismissDetails = false;
+  var calledWithDismissCreate = false;
 
   AppState reducer(AppState currentState, dynamic action) {
     if (action is RequestUserActionsAction) {
@@ -189,7 +206,10 @@ class StoreSpy {
       calledWithUpdate = true;
     }
     if (action is DismissUserActionDetailsAction) {
-      calledWithDismiss = true;
+      calledWithDismissDetails = true;
+    }
+    if (action is DismissCreateUserAction) {
+      calledWithDismissCreate = true;
     }
     return currentState;
   }

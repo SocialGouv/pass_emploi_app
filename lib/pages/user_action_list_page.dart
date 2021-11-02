@@ -43,14 +43,14 @@ class _UserActionListPageState extends State<UserActionListPage> {
       builder: (context, viewModel) {
         return AnimatedSwitcher(
           duration: Duration(milliseconds: 200),
-          child: _scaffold(context, _body(context, viewModel)),
+          child: _scaffold(context, viewModel, _body(context, viewModel)),
         );
       },
       converter: (store) => UserActionListPageViewModel.create(store),
     );
   }
 
-  Widget _scaffold(BuildContext context, Widget body) {
+  Widget _scaffold(BuildContext context, UserActionListPageViewModel viewModel, Widget body) {
     return WillPopScope(
       onWillPop: () {
         Navigator.pop(context, _result);
@@ -58,14 +58,14 @@ class _UserActionListPageState extends State<UserActionListPage> {
       },
       child: Scaffold(
         backgroundColor: AppColors.lightBlue,
-        appBar: _appBar(context),
+        appBar: _appBar(context, viewModel),
         body: body,
         floatingActionButton: ChatFloatingActionButton(),
       ),
     );
   }
 
-  _appBar(BuildContext context) => FlatDefaultAppBar(
+  _appBar(BuildContext context, UserActionListPageViewModel viewModel) => FlatDefaultAppBar(
         title: Text(Strings.myActions, style: TextStyles.h3Semi),
         actions: [
           Padding(
@@ -76,7 +76,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
                 context: context,
                 builder: (context) => UserActionAddBottomSheet(),
                 routeSettings: AnalyticsRouteSettings.addUserAction(),
-              ).then((value) => {if (value != null) _result = UserActionListPageResult.UPDATED}),
+              ).then((value) => _onCreateUserActionDismissed(value, viewModel)),
               tooltip: Strings.addAnAction,
               icon: SvgPicture.asset("assets/ic_add_circle.svg"),
             ),
@@ -190,5 +190,12 @@ class _UserActionListPageState extends State<UserActionListPage> {
       _result = UserActionListPageResult.UPDATED;
     }
     viewModel.onUserActionDetailsDismissed();
+  }
+
+  _onCreateUserActionDismissed(dynamic value, UserActionListPageViewModel viewModel) {
+    if (value != null) {
+      _result = UserActionListPageResult.UPDATED;
+    }
+    viewModel.onCreateUserActionDismissed();
   }
 }

@@ -11,7 +11,6 @@ abstract class UserActionState {
 
   factory UserActionState.notInitialized() = UserActionNotInitializedState;
 
-  factory UserActionState.creation(String content, String comment) = UserActionCreationState;
 }
 
 class UserActionLoadingState extends UserActionState {
@@ -30,11 +29,4 @@ class UserActionFailureState extends UserActionState {
 
 class UserActionNotInitializedState extends UserActionState {
   UserActionNotInitializedState() : super._();
-}
-
-class UserActionCreationState extends UserActionState {
-  final String content;
-  final String comment;
-
-  UserActionCreationState(this.content, this.comment) : super._();
 }

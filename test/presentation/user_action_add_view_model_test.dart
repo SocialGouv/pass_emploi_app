@@ -8,7 +8,7 @@ import 'package:pass_emploi_app/redux/states/user_action_create_state.dart';
 import 'package:redux/redux.dart';
 
 main() {
-  test("create when state is loading should set isLoading to true", () {
+  test("create when state is loading should set display state to loading", () {
     // Given
     final state = AppState.initialState().copyWith(createUserActionState: UserActionCreateState.loading());
     final store = Store<AppState>(reducer, initialState: state);
@@ -17,10 +17,10 @@ main() {
     final viewModel = UserActionAddViewModel.create(store);
 
     // Then
-    expect(viewModel.isLoading, true);
+    expect(viewModel.displayState, UserActionAddDisplayState.SHOW_LOADING);
   });
 
-  test("create when state is not loading should set isLoading to false", () {
+  test("create when state is not initialized should set display state to show content", () {
     // Given
     final state = AppState.initialState().copyWith(createUserActionState: UserActionCreateState.notInitialized());
     final store = Store<AppState>(reducer, initialState: state);
@@ -29,7 +29,19 @@ main() {
     final viewModel = UserActionAddViewModel.create(store);
 
     // Then
-    expect(viewModel.isLoading, false);
+    expect(viewModel.displayState, UserActionAddDisplayState.SHOW_CONTENT);
+  });
+
+  test("create when state is success should set display state to dismiss", () {
+    // Given
+    final state = AppState.initialState().copyWith(createUserActionState: UserActionCreateState.success());
+    final store = Store<AppState>(reducer, initialState: state);
+
+    // When
+    final viewModel = UserActionAddViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, UserActionAddDisplayState.TO_DISMISS);
   });
 
   test('createUserAction should dispatch CreateUserAction', () {
