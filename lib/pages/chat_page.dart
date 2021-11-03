@@ -14,10 +14,10 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:redux/redux.dart';
 
 class ChatPage extends StatefulWidget {
-  ChatPage._();
+  //ChatPage._(); //TODO-16
 
   static MaterialPageRoute materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => ChatPage._(), settings: AnalyticsRouteSettings.chat());
+    return MaterialPageRoute(builder: (context) => ChatPage(), settings: AnalyticsRouteSettings.chat()); //TODO-16
   }
 
   @override

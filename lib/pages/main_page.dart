@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/pages/chat_page.dart';
+import 'package:pass_emploi_app/pages/home_page.dart';
+import 'package:pass_emploi_app/pages/user_action_list_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -25,9 +28,7 @@ class _MainPageState extends State<MainPage> {
     return Scaffold(
       body: Container(
         color: AppColors.lightBlue,
-        child: Center(
-          child: Text("$_selectedIndex"),
-        ),
+        child: _content(_selectedIndex),
       ),
       bottomNavigationBar: Container(
         height: Dimens.bottomNavigationBarHeight,
@@ -53,5 +54,20 @@ class _MainPageState extends State<MainPage> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  Widget _content(int index) {
+    switch (index) {
+      case 0:
+        return HomePage();
+      case 1:
+        return UserActionListPage("800418048");
+      case 2:
+        return ChatPage();
+      case 3:
+        return UserActionListPage("800418048");
+      default:
+        return HomePage();
+    }
   }
 }

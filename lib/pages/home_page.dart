@@ -18,10 +18,10 @@ import 'package:pass_emploi_app/widgets/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/user_action_card.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage._();
+  //HomePage._(); TODO-16
 
   static MaterialPageRoute materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => HomePage._(), settings: AnalyticsRouteSettings.home());
+    return MaterialPageRoute(builder: (context) => HomePage(), settings: AnalyticsRouteSettings.home()); //TODO-16
   }
 
   @override
