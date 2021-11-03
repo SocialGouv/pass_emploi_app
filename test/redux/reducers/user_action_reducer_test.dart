@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_create_state.dart';
 
 main() {
+
   test("userActionReducer when action is UserActionCreatedWithSuccessAction should set CreateActionState to success", () {
     // Given
     final initialState = AppState.initialState();
@@ -18,4 +19,19 @@ main() {
     // Then
     expect(updatedState.createUserActionState is CreateUserActionSuccessState, true);
   });
+
+  test("userActionReducer when action is UserActionCreatedFailed should set CreateActionState to error", () {
+    // Given
+    final initialState = AppState.initialState();
+
+    // When
+    final updatedState = userActionReducer(
+      initialState,
+      UserActionCreationFailed(),
+    );
+
+    // Then
+    expect(updatedState.createUserActionState is CreateUserActionErrorState, true);
+  });
+
 }

@@ -18,3 +18,5 @@ class UserActionCreatedWithSuccessAction extends UserActionAction {
 
   UserActionCreatedWithSuccessAction(this.content, this.comment);
 }
+
+class UserActionCreationFailed extends UserActionAction {}

@@ -14,7 +14,7 @@ import 'package:redux/redux.dart';
 import '../../doubles/dummies.dart';
 
 main() {
-  final createActionSpy = CreateUserActionRepositorySpy();
+  final createActionSpy = CreateUserActionRepositoryMock();
 
   final middleware = ApiMiddleware(
     DummyUserRepository(),
@@ -24,28 +24,63 @@ main() {
     createActionSpy,
   );
 
-  test('call should call create action repository', () {
+  test('call should call create action repository with success dispatch', () async {
     // Given
+    final storeSpy = StoreSpy();
     final createUserAction = CreateUserAction("content", "comment", UserActionStatus.DONE);
-    final store = Store<AppState>(reducer,
+    final store = Store<AppState>(storeSpy.reducer,
         initialState: AppState.initialState().copyWith(
             loginState: LoggedInState(User(id: "id", firstName: "firstName", lastName: "lastName"))));
 
     // When
-    middleware.call(store, createUserAction, (action) => {});
+    await middleware.call(store, createUserAction, (action) => {});
 
     // Then
     expect(createActionSpy.wasCalled, true);
+    expect(storeSpy.calledWithSuccess, true);
   });
+
+  test('call should dispatch un error action', () async {
+    // Given
+    final storeSpy = StoreSpy();
+    final createUserAction = CreateUserAction("content", "comment", UserActionStatus.DONE);
+    final store = Store<AppState>(storeSpy.reducer,
+        initialState: AppState.initialState().copyWith(
+            loginState: LoggedInState(User(id: "error", firstName: "firstName", lastName: "lastName"))));
+
+    // When
+    await middleware.call(store, createUserAction, (action) => {});
+
+    // Then
+    expect(createActionSpy.wasCalled, true);
+    expect(storeSpy.calledWithFailure, true);
+  });
+
 }
 
-class CreateUserActionRepositorySpy extends UserActionCreationRepository {
+class StoreSpy {
+  var calledWithSuccess = false;
+  var calledWithFailure = false;
+
+  AppState reducer(AppState currentState, dynamic action) {
+    if (action is UserActionCreatedWithSuccessAction) {
+      calledWithSuccess = true;
+    }
+    if (action is UserActionCreationFailed) {
+      calledWithFailure = true;
+    }
+    return currentState;
+  }
+}
+
+class CreateUserActionRepositoryMock extends UserActionCreationRepository {
   bool wasCalled = false;
 
-  CreateUserActionRepositorySpy() : super("string", DummyHeadersBuilder());
+  CreateUserActionRepositoryMock() : super("string", DummyHeadersBuilder());
 
   @override
-  Future<void> createAction(String userId, String? content, String? comment, UserActionStatus status) async {
+  Future<bool> createAction(String userId, String? content, String? comment, UserActionStatus status) async {
     wasCalled = true;
+    return userId == "error" ? false : true;
   }
 }

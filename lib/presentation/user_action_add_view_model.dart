@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_create_state.dart';
 import 'package:redux/redux.dart';
 
-enum UserActionAddDisplayState { SHOW_CONTENT, SHOW_LOADING, TO_DISMISS }
+enum UserActionAddDisplayState { SHOW_CONTENT, SHOW_LOADING, TO_DISMISS, SHOW_ERROR }
 
 class UserActionAddViewModel {
   final Function(String? actionContent, String? actionComment, UserActionStatus initialStatus) createUserAction;
@@ -30,7 +30,9 @@ UserActionAddDisplayState _displayState(UserActionCreateState userActionCreateSt
     return UserActionAddDisplayState.SHOW_CONTENT;
   } else if (userActionCreateState is CreateUserActionLoadingState) {
     return UserActionAddDisplayState.SHOW_LOADING;
-  } else {
+  } else if (userActionCreateState is CreateUserActionSuccessState){
     return UserActionAddDisplayState.TO_DISMISS;
+  } else {
+    return UserActionAddDisplayState.SHOW_ERROR;
   }
 }

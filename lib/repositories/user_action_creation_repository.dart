@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/network/headers.dart';
 import 'package:http/http.dart' as http;
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/post_user_action_request.dart';
+import 'package:pass_emploi_app/network/status_code.dart';
 
 class UserActionCreationRepository {
   final String _baseUrl;
@@ -10,16 +11,18 @@ class UserActionCreationRepository {
 
   UserActionCreationRepository(this._baseUrl, this._headersBuilder);
 
-  Future<void> createAction(String userId, String? content, String? comment, UserActionStatus status) async {
+  Future<bool> createAction(String userId, String? content, String? comment, UserActionStatus status) async {
     var url = Uri.parse(_baseUrl + "/jeunes/$userId/action");
     try {
-      await http.post(
+      final response = await http.post(
         url,
         headers: await _headersBuilder.headers(userId: userId, contentType: 'application/json'),
         body: customJsonEncode(PostUserActionRequest(content: content!, comment: comment, status: status)),
       );
+      if (response.statusCode.isValid()) return true;
     } catch (e) {
       print('Exception on ${url.toString()}: ' + e.toString());
     }
+    return false;
   }
 }

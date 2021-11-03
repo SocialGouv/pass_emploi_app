@@ -61,7 +61,11 @@ class ApiMiddleware extends MiddlewareClass<AppState> {
   }
 
   _creationAction(Store<AppState> store, String userId, String? content, String? comment, UserActionStatus status) async {
-    await _creationRepository.createAction(userId, content, comment, status);
-    store.dispatch(UserActionCreatedWithSuccessAction(content, comment));
+    final response = await _creationRepository.createAction(userId, content, comment, status);
+    if (response) {
+      store.dispatch(UserActionCreatedWithSuccessAction(content, comment));
+    } else {
+      store.dispatch(UserActionCreationFailed());
+    }
   }
 }

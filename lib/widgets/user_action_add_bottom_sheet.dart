@@ -141,12 +141,28 @@ class _UserActionAddBottomSheetState extends State<UserActionAddBottomSheet> {
 
   Widget _createButton(UserActionAddViewModel viewModel) {
     return Padding(
-      padding: userActionBottomSheetContentPadding().add(const EdgeInsets.only(top: 64)),
-      child: userActionBottomSheetActionButton(
-        label: Strings.create,
-        onPressed: _isLoading(viewModel) && _isFormValid()
-            ? () => {viewModel.createUserAction(_actionContent, _actionComment, _initialStatus)}
-            : null,
+      padding: userActionBottomSheetContentPadding(),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          userActionBottomSheetActionButton(
+            label: Strings.create,
+            onPressed: _isLoading(viewModel) && _isFormValid()
+                ? () => {viewModel.createUserAction(_actionContent, _actionComment, _initialStatus)}
+                : null,
+          ),
+          if (viewModel.displayState == UserActionAddDisplayState.SHOW_ERROR)
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  Strings.actionCreationError,
+                  textAlign: TextAlign.center,
+                  style: TextStyles.textSmRegular(color: AppColors.errorRed),
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }

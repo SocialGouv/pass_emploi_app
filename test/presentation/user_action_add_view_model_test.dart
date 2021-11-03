@@ -57,6 +57,19 @@ main() {
     // Then
     expect(storeSpy.calledWithCreate, true);
   });
+
+  test("create when state is error should display un error", () {
+    // Given
+    final state = AppState.initialState().copyWith(createUserActionState: UserActionCreateState.error());
+    final store = Store<AppState>(reducer, initialState: state);
+
+    // When
+    final viewModel = UserActionAddViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, UserActionAddDisplayState.SHOW_ERROR);
+  });
+
 }
 
 class StoreSpy {

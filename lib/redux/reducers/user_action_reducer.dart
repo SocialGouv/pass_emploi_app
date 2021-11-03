@@ -12,6 +12,8 @@ AppState userActionReducer(AppState currentState, dynamic action) {
     return currentState.copyWith(userActionState: UserActionState.failure());
   } else if (action is UserActionCreatedWithSuccessAction) {
     return currentState.copyWith(createUserActionState: UserActionCreateState.success());
+  } else if (action is UserActionCreationFailed) {
+    return currentState.copyWith(createUserActionState: UserActionCreateState.error());
   } else {
     return currentState;
   }
