@@ -54,18 +54,28 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
     return Form(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       key: _formKey,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          userActionBottomSheetHeader(context, title: Strings.addAnAction),
-          userActionBottomSheetSeparator(),
-          _actionContentAndComment(viewModel),
-          userActionBottomSheetSeparator(),
-          _defineStatus(viewModel),
-          userActionBottomSheetSeparator(),
-          _createButton(viewModel),
-        ],
+      child: FractionallySizedBox(
+        heightFactor: 0.90,
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            userActionBottomSheetHeader(context, title: Strings.addAnAction),
+            userActionBottomSheetSeparator(),
+            Expanded(
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  _actionContentAndComment(viewModel),
+                  userActionBottomSheetSeparator(),
+                  _defineStatus(viewModel),
+                ],
+              ),
+            ),
+            userActionBottomSheetSeparator(),
+            _createButton(viewModel),
+          ],
+        ),
       ),
     );
   }
