@@ -29,6 +29,7 @@ main() {
     // Then
     expect(repository.wasCalled, true);
     expect(storeSpy.calledWithSuccess, true);
+    expect(storeSpy.calledWithReloadData, true);
   });
 
   test('call should dispatch un error action', () async {
@@ -52,6 +53,7 @@ main() {
 class StoreSpy {
   var calledWithSuccess = false;
   var calledWithFailure = false;
+  var calledWithReloadData = false;
 
   AppState reducer(AppState currentState, dynamic action) {
     if (action is UserActionCreatedWithSuccessAction) {
@@ -59,6 +61,9 @@ class StoreSpy {
     }
     if (action is UserActionCreationFailed) {
       calledWithFailure = true;
+    }
+    if (action is RequestUserActionsAction) {
+      calledWithReloadData = true;
     }
     return currentState;
   }

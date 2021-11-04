@@ -21,12 +21,12 @@ class UserActionMiddleware extends MiddlewareClass<AppState> {
     } else if (action is CreateUserAction) {
       final loginState = store.state.loginState;
       if (loginState is LoggedInState) {
-        _creationAction(store, loginState.user.id, action.content, action.comment, action.initialStatus);
+        _createUserAction(store, loginState.user.id, action.content, action.comment, action.initialStatus);
       }
     }
   }
 
-  _creationAction(
+  _createUserAction(
     Store<AppState> store,
     String userId,
     String? content,
@@ -36,6 +36,7 @@ class UserActionMiddleware extends MiddlewareClass<AppState> {
     final response = await _repository.createUserAction(userId, content, comment, status);
     if (response) {
       store.dispatch(UserActionCreatedWithSuccessAction());
+      store.dispatch(RequestUserActionsAction(userId));
     } else {
       store.dispatch(UserActionCreationFailed());
     }

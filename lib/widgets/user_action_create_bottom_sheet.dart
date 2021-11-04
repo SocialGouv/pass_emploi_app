@@ -62,7 +62,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
           userActionBottomSheetSeparator(),
           _actionContentAndComment(viewModel),
           userActionBottomSheetSeparator(),
-          _defineStatus(),
+          _defineStatus(viewModel),
           userActionBottomSheetSeparator(),
           _createButton(viewModel),
         ],
@@ -128,7 +128,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
     );
   }
 
-  Widget _defineStatus() {
+  Widget _defineStatus(CreateUserActionViewModel viewModel) {
     return Padding(
       padding: userActionBottomSheetContentPadding(),
       child: Column(
@@ -137,7 +137,11 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
         children: [
           Text(Strings.defineActionStatus, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
           SizedBox(height: 16),
-          UserActionStatusGroup(status: _initialStatus, update: (wantedStatus) => _update(wantedStatus)),
+          UserActionStatusGroup(
+            status: _initialStatus,
+            update: (wantedStatus) => _update(wantedStatus),
+            isEnabled: viewModel.displayState != CreateUserActionDisplayState.SHOW_LOADING,
+          ),
         ],
       ),
     );
