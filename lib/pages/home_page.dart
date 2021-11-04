@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/loader_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous_page.dart';
@@ -36,15 +35,15 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _body(BuildContext context, HomePageViewModel viewModel) {
+  Widget _body(BuildContext context, HomePageViewModel viewModel) {
     if (viewModel.withLoading) return LoaderPage(screenHeight: MediaQuery.of(context).size.height);
     if (viewModel.withFailure) return _failure(viewModel);
     return _home(context, viewModel);
   }
 
-  _failure(HomePageViewModel viewModel) {
+  Widget _failure(HomePageViewModel viewModel) {
     return Scaffold(
-      appBar: _appBar(viewModel.title, viewModel.onRetry),
+      appBar: _appBar(viewModel.title),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -64,9 +63,9 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _home(BuildContext context, HomePageViewModel viewModel) {
+  Widget _home(BuildContext context, HomePageViewModel viewModel) {
     return Scaffold(
-      appBar: _appBar(viewModel.title, viewModel.onRetry),
+      appBar: _appBar(viewModel.title),
       body: Container(
         color: Colors.white,
         child: ListView(
@@ -110,7 +109,7 @@ class HomePage extends StatelessWidget {
     return Container();
   }
 
-  _appBar(String title, Function() onRetry) {
+  AppBar _appBar(String title) {
     return DefaultAppBar(
       centerTitle: false,
       title: Column(
@@ -121,20 +120,10 @@ class HomePage extends StatelessWidget {
           Text(Strings.dashboardWelcome, style: TextStyles.textSmMedium()),
         ],
       ),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: IconButton(
-            onPressed: onRetry,
-            tooltip: Strings.refresh,
-            icon: SvgPicture.asset("assets/ic_refresh.svg"),
-          ),
-        ),
-      ],
     );
   }
 
-  _allActionsButton(BuildContext context, HomePageViewModel viewModel) {
+  Widget _allActionsButton(BuildContext context, HomePageViewModel viewModel) {
     return Material(
       child: Ink(
         decoration: BoxDecoration(color: AppColors.nightBlue, borderRadius: BorderRadius.all(Radius.circular(8))),
@@ -150,7 +139,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _pushUserActionPage(BuildContext context, HomePageViewModel viewModel) {
+  Future<Null> _pushUserActionPage(BuildContext context, HomePageViewModel viewModel) {
     return Navigator.push(
       context,
       UserActionListPage.materialPageRoute(viewModel.userId),
