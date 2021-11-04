@@ -12,7 +12,6 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/chat_floating_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/user_action_card.dart';
@@ -75,7 +74,6 @@ class HomePage extends StatelessWidget {
           children: viewModel.items.map((item) => _listItem(context, item, viewModel)).toList(),
         ),
       ),
-      floatingActionButton: ChatFloatingActionButton(),
     );
   }
 

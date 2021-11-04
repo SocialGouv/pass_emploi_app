@@ -10,7 +10,6 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets.dart';
-import 'package:pass_emploi_app/widgets/chat_floating_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/user_action_details_bottom_sheet.dart';
@@ -61,7 +60,6 @@ class _UserActionListPageState extends State<UserActionListPage> {
         backgroundColor: AppColors.lightBlue,
         appBar: _appBar(context, viewModel),
         body: body,
-        floatingActionButton: ChatFloatingActionButton(),
       ),
     );
   }
