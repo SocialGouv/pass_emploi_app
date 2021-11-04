@@ -17,7 +17,7 @@ class RouterViewModel {
 
   factory RouterViewModel.create(Store<AppState> store) {
     final loginState = store.state.loginState;
-    var withSplashScreen = loginState is LoginNotInitializedState;
+    final withSplashScreen = loginState is LoginNotInitializedState;
     return RouterViewModel(
       withSplashScreen: withSplashScreen,
       withLoginPage: !withSplashScreen && !(loginState is LoggedInState),

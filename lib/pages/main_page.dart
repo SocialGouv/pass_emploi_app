@@ -63,7 +63,7 @@ class _MainPageState extends State<MainPage> {
   Widget _content(int index) {
     switch (index) {
       case 0:
-        return HomePage();
+        return HomePage(widget.userId);
       case 1:
         return UserActionListPage(widget.userId);
       case 2:
@@ -71,7 +71,7 @@ class _MainPageState extends State<MainPage> {
       case 3:
         return RendezvousListPage(widget.userId);
       default:
-        return HomePage();
+        return HomePage(widget.userId);
     }
   }
 }

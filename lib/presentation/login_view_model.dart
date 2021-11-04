@@ -55,5 +55,6 @@ class LoginViewModel {
 String _accessCode(LoginState state) {
   if (state is LoginLoadingState) return state.accessCode;
   if (state is LoginFailureState) return state.accessCode;
+  if (state is LoggedInState) return state.user.id;
   return "";
 }

@@ -2,14 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/pages/main_page.dart';
 import 'package:pass_emploi_app/presentation/login_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-
-import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
   LoginPage._();
@@ -31,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
     return StoreConnector<AppState, LoginViewModel>(
       converter: (store) => LoginViewModel.create(store),
       distinct: true,
-      onWillChange: (previousVm, newVm) => _navigateToHomeIfLoggedIn(context, newVm),
+      onWillChange: (previousVm, newVm) => _navigateToMainPageIfLoggedIn(context, newVm),
       builder: (context, viewModel) => Scaffold(
         body: Form(
           key: _formKey,
@@ -147,9 +146,9 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  _navigateToHomeIfLoggedIn(BuildContext context, LoginViewModel viewModel) {
+  _navigateToMainPageIfLoggedIn(BuildContext context, LoginViewModel viewModel) {
     if (viewModel.loggedIn) {
-      Navigator.pushReplacement(context, HomePage.materialPageRoute());
+      Navigator.pushReplacement(context, MainPage.materialPageRoute(viewModel.accessCode));
     }
   }
 

@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/pages/rendezvous_page.dart';
 import 'package:pass_emploi_app/pages/user_action_list_page.dart';
 import 'package:pass_emploi_app/presentation/home_item.dart';
 import 'package:pass_emploi_app/presentation/home_page_view_model.dart';
+import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -16,15 +17,20 @@ import 'package:pass_emploi_app/widgets/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/user_action_card.dart';
 
 class HomePage extends StatelessWidget {
+  final String userId;
+
+  HomePage(this.userId) : super();
+
   //HomePage._(); TODO-16
 
-  static MaterialPageRoute materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => HomePage(), settings: AnalyticsRouteSettings.home()); //TODO-16
+  static MaterialPageRoute materialPageRoute(String userId) {
+    return MaterialPageRoute(builder: (context) => HomePage(userId), settings: AnalyticsRouteSettings.home()); //TODO-16
   }
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, HomePageViewModel>(
+      onInit: (store) => store.dispatch(RequestHomeAction(userId)),
       converter: (store) => HomePageViewModel.create(store),
       builder: (context, viewModel) {
         return AnimatedSwitcher(
