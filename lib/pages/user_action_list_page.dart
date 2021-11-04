@@ -12,7 +12,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/chat_floating_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
-import 'package:pass_emploi_app/widgets/user_action_add_bottom_sheet.dart';
+import 'package:pass_emploi_app/widgets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/user_action_details_bottom_sheet.dart';
 
 enum UserActionListPageResult { UPDATED, UNCHANGED }
@@ -74,8 +74,8 @@ class _UserActionListPageState extends State<UserActionListPage> {
               iconSize: 42,
               onPressed: () => showUserActionBottomSheet(
                 context: context,
-                builder: (context) => UserActionAddBottomSheet(),
-                routeSettings: AnalyticsRouteSettings.addUserAction(),
+                builder: (context) => CreateUserActionBottomSheet(),
+                routeSettings: AnalyticsRouteSettings.createUserAction(),
               ).then((value) => _onCreateUserActionDismissed(value, viewModel)),
               tooltip: Strings.addAnAction,
               icon: SvgPicture.asset("assets/ic_add_circle.svg"),

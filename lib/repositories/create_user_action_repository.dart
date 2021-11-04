@@ -5,13 +5,13 @@ import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/post_user_action_request.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
 
-class UserActionCreationRepository {
+class CreateUserActionRepository {
   final String _baseUrl;
   final HeadersBuilder _headersBuilder;
 
-  UserActionCreationRepository(this._baseUrl, this._headersBuilder);
+  CreateUserActionRepository(this._baseUrl, this._headersBuilder);
 
-  Future<bool> createAction(String userId, String? content, String? comment, UserActionStatus status) async {
+  Future<bool> createUserAction(String userId, String? content, String? comment, UserActionStatus status) async {
     var url = Uri.parse(_baseUrl + "/jeunes/$userId/action");
     try {
       final response = await http.post(

@@ -8,7 +8,7 @@ import 'package:pass_emploi_app/redux/middlewares/api_middleware.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
-import 'package:pass_emploi_app/repositories/user_action_creation_repository.dart';
+import 'package:pass_emploi_app/repositories/create_user_action_repository.dart';
 import 'package:redux/redux.dart';
 
 import '../../doubles/dummies.dart';
@@ -73,13 +73,13 @@ class StoreSpy {
   }
 }
 
-class CreateUserActionRepositoryMock extends UserActionCreationRepository {
+class CreateUserActionRepositoryMock extends CreateUserActionRepository {
   bool wasCalled = false;
 
   CreateUserActionRepositoryMock() : super("string", DummyHeadersBuilder());
 
   @override
-  Future<bool> createAction(String userId, String? content, String? comment, UserActionStatus status) async {
+  Future<bool> createUserAction(String userId, String? content, String? comment, UserActionStatus status) async {
     wasCalled = true;
     return userId == "error" ? false : true;
   }

@@ -20,7 +20,7 @@ import 'package:pass_emploi_app/redux/store/store_factory.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/home_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
-import 'package:pass_emploi_app/repositories/user_action_creation_repository.dart';
+import 'package:pass_emploi_app/repositories/create_user_action_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
@@ -107,7 +107,7 @@ Store<AppState> _initializeReduxStore(String baseUrl, PushNotificationManager pu
       pushNotificationManager,
     ),
     CrashlyticsWithFirebase(FirebaseCrashlytics.instance),
-    UserActionCreationRepository(baseUrl, headersBuilder)
+    CreateUserActionRepository(baseUrl, headersBuilder)
   ).initializeReduxStore(initialState: AppState.initialState());
 }
 

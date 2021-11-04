@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
-import 'package:pass_emploi_app/presentation/user_action_add_view_model.dart';
+import 'package:pass_emploi_app/presentation/create_user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -10,14 +10,14 @@ import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
 import 'bottom_sheets.dart';
 
-class UserActionAddBottomSheet extends StatefulWidget {
-  UserActionAddBottomSheet() : super();
+class CreateUserActionBottomSheet extends StatefulWidget {
+  CreateUserActionBottomSheet() : super();
 
   @override
-  State<UserActionAddBottomSheet> createState() => _UserActionAddBottomSheetState();
+  State<CreateUserActionBottomSheet> createState() => _CreateUserActionBottomSheetState();
 }
 
-class _UserActionAddBottomSheetState extends State<UserActionAddBottomSheet> {
+class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomSheet> {
   final _formKey = GlobalKey<FormState>();
   String? _actionContent;
   String? _actionComment;
@@ -37,20 +37,20 @@ class _UserActionAddBottomSheetState extends State<UserActionAddBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, UserActionAddViewModel>(
-      converter: (state) => UserActionAddViewModel.create(state),
+    return StoreConnector<AppState, CreateUserActionViewModel>(
+      converter: (state) => CreateUserActionViewModel.create(state),
       builder: (context, viewModel) => _build(context, viewModel),
       onWillChange: (previousVm, newVm) => _dismissBottomSheetIfNeeded(context, newVm),
     );
   }
 
-  _build(BuildContext context, UserActionAddViewModel viewModel) {
-    if (viewModel.displayState != UserActionAddDisplayState.TO_DISMISS) {
+  _build(BuildContext context, CreateUserActionViewModel viewModel) {
+    if (viewModel.displayState != CreateUserActionDisplayState.TO_DISMISS) {
       return _buildForm(context, viewModel);
     }
   }
 
-  Form _buildForm(BuildContext context, UserActionAddViewModel viewModel) {
+  Form _buildForm(BuildContext context, CreateUserActionViewModel viewModel) {
     return Form(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       key: _formKey,
@@ -139,7 +139,7 @@ class _UserActionAddBottomSheetState extends State<UserActionAddBottomSheet> {
     );
   }
 
-  Widget _createButton(UserActionAddViewModel viewModel) {
+  Widget _createButton(CreateUserActionViewModel viewModel) {
     return Padding(
       padding: userActionBottomSheetContentPadding(),
       child: Column(
@@ -151,7 +151,7 @@ class _UserActionAddBottomSheetState extends State<UserActionAddBottomSheet> {
                 ? () => {viewModel.createUserAction(_actionContent, _actionComment, _initialStatus)}
                 : null,
           ),
-          if (viewModel.displayState == UserActionAddDisplayState.SHOW_ERROR)
+          if (viewModel.displayState == CreateUserActionDisplayState.SHOW_ERROR)
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -169,10 +169,10 @@ class _UserActionAddBottomSheetState extends State<UserActionAddBottomSheet> {
 
   bool _isFormValid() => _formKey.currentState?.validate() == true;
 
-  bool _isLoading(UserActionAddViewModel viewModel) => viewModel.displayState != UserActionAddDisplayState.SHOW_LOADING;
+  bool _isLoading(CreateUserActionViewModel viewModel) => viewModel.displayState != CreateUserActionDisplayState.SHOW_LOADING;
 
-  _dismissBottomSheetIfNeeded(BuildContext context, UserActionAddViewModel viewModel) {
-    if (viewModel.displayState == UserActionAddDisplayState.TO_DISMISS) {
+  _dismissBottomSheetIfNeeded(BuildContext context, CreateUserActionViewModel viewModel) {
+    if (viewModel.displayState == CreateUserActionDisplayState.TO_DISMISS) {
       Navigator.pop(context);
     }
   }

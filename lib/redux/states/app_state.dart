@@ -1,7 +1,7 @@
 import 'package:pass_emploi_app/redux/states/chat_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
 import 'package:pass_emploi_app/redux/states/home_state.dart';
-import 'package:pass_emploi_app/redux/states/user_action_create_state.dart';
+import 'package:pass_emploi_app/redux/states/create_user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 
@@ -11,7 +11,7 @@ class AppState {
   final LoginState loginState;
   final HomeState homeState;
   final UserActionState userActionState;
-  final UserActionCreateState createUserActionState;
+  final CreateUserActionState createUserActionState;
   final UserActionUpdateState userActionUpdateState;
   final ChatStatusState chatStatusState;
   final ChatState chatState;
@@ -30,7 +30,7 @@ class AppState {
     final LoginState? loginState,
     final HomeState? homeState,
     final UserActionState? userActionState,
-    final UserActionCreateState? createUserActionState,
+    final CreateUserActionState? createUserActionState,
     final UserActionUpdateState? userActionUpdateState,
     final ChatStatusState? chatStatusState,
     final ChatState? chatState,
@@ -51,7 +51,7 @@ class AppState {
       loginState: LoginState.notInitialized(),
       homeState: HomeState.notInitialized(),
       userActionState: UserActionState.notInitialized(),
-      createUserActionState: UserActionCreateState.notInitialized(),
+      createUserActionState: CreateUserActionState.notInitialized(),
       userActionUpdateState: UserActionUpdateState.notUpdating(),
       chatStatusState: ChatStatusState.notInitialized(),
       chatState: ChatState.notInitialized(),

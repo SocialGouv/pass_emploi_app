@@ -1,23 +1,23 @@
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/user_action_create_state.dart';
+import 'package:pass_emploi_app/redux/states/create_user_action_state.dart';
 import 'package:redux/redux.dart';
 
-enum UserActionAddDisplayState { SHOW_CONTENT, SHOW_LOADING, TO_DISMISS, SHOW_ERROR }
+enum CreateUserActionDisplayState { SHOW_CONTENT, SHOW_LOADING, TO_DISMISS, SHOW_ERROR }
 
-class UserActionAddViewModel {
+class CreateUserActionViewModel {
   final Function(String? actionContent, String? actionComment, UserActionStatus initialStatus) createUserAction;
 
-  final UserActionAddDisplayState displayState;
+  final CreateUserActionDisplayState displayState;
 
-  UserActionAddViewModel({
+  CreateUserActionViewModel({
     required this.displayState,
     required this.createUserAction,
   });
 
-  factory UserActionAddViewModel.create(Store<AppState> store) {
-    return UserActionAddViewModel(
+  factory CreateUserActionViewModel.create(Store<AppState> store) {
+    return CreateUserActionViewModel(
       displayState: _displayState(store.state.createUserActionState),
       createUserAction: (content, comment, initialStatus) =>
           {store.dispatch(CreateUserAction(content, comment, initialStatus))},
@@ -25,14 +25,14 @@ class UserActionAddViewModel {
   }
 }
 
-UserActionAddDisplayState _displayState(UserActionCreateState userActionCreateState) {
-  if (userActionCreateState is UserActionCreateNotInitializedState) {
-    return UserActionAddDisplayState.SHOW_CONTENT;
+CreateUserActionDisplayState _displayState(CreateUserActionState userActionCreateState) {
+  if (userActionCreateState is CreateUserActionNotInitializedState) {
+    return CreateUserActionDisplayState.SHOW_CONTENT;
   } else if (userActionCreateState is CreateUserActionLoadingState) {
-    return UserActionAddDisplayState.SHOW_LOADING;
+    return CreateUserActionDisplayState.SHOW_LOADING;
   } else if (userActionCreateState is CreateUserActionSuccessState){
-    return UserActionAddDisplayState.TO_DISMISS;
+    return CreateUserActionDisplayState.TO_DISMISS;
   } else {
-    return UserActionAddDisplayState.SHOW_ERROR;
+    return CreateUserActionDisplayState.SHOW_ERROR;
   }
 }

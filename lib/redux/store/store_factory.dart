@@ -12,7 +12,7 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/home_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
-import 'package:pass_emploi_app/repositories/user_action_creation_repository.dart';
+import 'package:pass_emploi_app/repositories/create_user_action_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
@@ -24,7 +24,7 @@ class StoreFactory {
   final ChatRepository chatRepository;
   final RegisterTokenRepository registerTokenRepository;
   final Crashlytics crashlytics;
-  final UserActionCreationRepository userActionCreationRepository;
+  final CreateUserActionRepository createUserActionRepository;
 
   StoreFactory(
     this.userRepository,
@@ -33,7 +33,7 @@ class StoreFactory {
     this.chatRepository,
     this.registerTokenRepository,
     this.crashlytics,
-    this.userActionCreationRepository
+    this.createUserActionRepository
   );
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -47,7 +47,7 @@ class StoreFactory {
           homeRepository,
           userActionRepository,
           chatRepository,
-          userActionCreationRepository
+          createUserActionRepository
         ),
         UserActionMiddleware(userActionRepository),
         RegisterPushNotificationTokenMiddleware(
