@@ -11,10 +11,13 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/menu_item.dart';
 
 class MainPage extends StatefulWidget {
-  MainPage._();
+  final String userId;
 
-  static MaterialPageRoute materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => MainPage._(), settings: AnalyticsRouteSettings.home());
+  MainPage._(this.userId);
+
+  static MaterialPageRoute materialPageRoute(String userId) {
+    //TODO-16 Analytics
+    return MaterialPageRoute(builder: (context) => MainPage._(userId), settings: AnalyticsRouteSettings.home());
   }
 
   @override
@@ -62,11 +65,11 @@ class _MainPageState extends State<MainPage> {
       case 0:
         return HomePage();
       case 1:
-        return UserActionListPage("723195873");
+        return UserActionListPage(widget.userId);
       case 2:
         return ChatPage();
       case 3:
-        return RendezvousListPage("723195873");
+        return RendezvousListPage(widget.userId);
       default:
         return HomePage();
     }

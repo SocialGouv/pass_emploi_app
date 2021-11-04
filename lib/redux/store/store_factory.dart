@@ -51,9 +51,7 @@ class StoreFactory {
         ),
         UserActionMiddleware(userActionRepository),
         RendezvousMiddleware(rendezvousRepository),
-        RegisterPushNotificationTokenMiddleware(
-          registerTokenRepository,
-        ),
+        RegisterPushNotificationTokenMiddleware(registerTokenRepository),
         AnimationMiddleware(),
         CrashlyticsMiddleware(crashlytics),
         ..._debugMiddleware(),

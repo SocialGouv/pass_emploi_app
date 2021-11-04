@@ -25,7 +25,7 @@ class RouterPage extends StatelessWidget {
     } else if (viewModel.withLoginPage) {
       Navigator.pushReplacement(context, LoginPage.materialPageRoute());
     } else {
-      Navigator.pushReplacement(context, MainPage.materialPageRoute());
+      Navigator.pushReplacement(context, MainPage.materialPageRoute(viewModel.userId));
     }
   }
 }
