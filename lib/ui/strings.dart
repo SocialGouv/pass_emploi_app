@@ -73,6 +73,7 @@ class Strings {
   static String mandatoryActionLabelError = "L'intitulé de l'action doit être renseigné";
   static String defineActionStatus = "Définir le statut";
   static String actionCreatedBy = "Créée par";
+  static String actionCreationError = "Erreur lors de la création de l'action. Veuillez réessayer.";
   static String you = "Vous";
   static String congratulationsActionUpdated = "Félicitations !\n\nLa mise à jour de votre action a bien été prise en compte.";
   static String conseillerNotifiedActionUpdated = "Votre conseiller a reçu une notification de la mise à jour de votre action.";

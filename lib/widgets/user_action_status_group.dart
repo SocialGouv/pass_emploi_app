@@ -6,9 +6,10 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class UserActionStatusGroup extends StatelessWidget {
   final UserActionStatus status;
+  final bool isEnabled;
   final Function(UserActionStatus newStatus) update;
 
-  const UserActionStatusGroup({required this.status, required this.update}) : super();
+  const UserActionStatusGroup({required this.status, required this.update, this.isEnabled = false}) : super();
 
   @override
   Widget build(BuildContext context) {
@@ -19,17 +20,17 @@ class UserActionStatusGroup extends StatelessWidget {
       children: [
         UserActionStatusButton(
           label: Strings.actionToDo,
-          onPressed: () => update(UserActionStatus.NOT_STARTED),
+          onPressed: isEnabled ? () => {update(UserActionStatus.NOT_STARTED)} : null,
           isSelected: status == UserActionStatus.NOT_STARTED,
         ),
         UserActionStatusButton(
           label: Strings.actionInProgress,
-          onPressed: () => update(UserActionStatus.IN_PROGRESS),
+          onPressed: isEnabled ? () => update(UserActionStatus.IN_PROGRESS) : null,
           isSelected: status == UserActionStatus.IN_PROGRESS,
         ),
         UserActionStatusButton(
           label: Strings.actionDone,
-          onPressed: () => update(UserActionStatus.DONE),
+          onPressed: isEnabled ? () => update(UserActionStatus.DONE) : null,
           isSelected: status == UserActionStatus.DONE,
         ),
       ],
@@ -38,7 +39,7 @@ class UserActionStatusGroup extends StatelessWidget {
 }
 
 class UserActionStatusButton extends StatelessWidget {
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final String label;
   final bool isSelected;
 

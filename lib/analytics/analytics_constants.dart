@@ -8,6 +8,7 @@ abstract class AnalyticsScreenNames {
   static const rendezvous = "rendez_vous";
   static const userAction = "actions";
   static const userActionDetails = "action_details";
+  static const createUserAction = "create_action";
   static const chat = "chat";
 }
 
@@ -23,6 +24,8 @@ abstract class AnalyticsRouteSettings {
   static RouteSettings userAction() => RouteSettings(name: AnalyticsScreenNames.userAction);
 
   static RouteSettings userActionDetails() => RouteSettings(name: AnalyticsScreenNames.userActionDetails);
+
+  static RouteSettings createUserAction() => RouteSettings(name: AnalyticsScreenNames.createUserAction);
 
   static RouteSettings chat() => RouteSettings(name: AnalyticsScreenNames.chat);
 }

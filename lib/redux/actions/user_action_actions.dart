@@ -11,3 +11,7 @@ class UserActionSuccessAction extends UserActionAction {
 }
 
 class UserActionFailureAction extends UserActionAction {}
+
+class UserActionCreatedWithSuccessAction extends UserActionAction {}
+
+class UserActionCreationFailed extends UserActionAction {}

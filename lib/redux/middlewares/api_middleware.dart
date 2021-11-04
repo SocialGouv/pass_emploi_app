@@ -14,7 +14,12 @@ class ApiMiddleware extends MiddlewareClass<AppState> {
   final UserActionRepository _userActionRepository;
   final ChatRepository _chatRepository;
 
-  ApiMiddleware(this._userRepository, this._homeRepository, this._userActionRepository, this._chatRepository);
+  ApiMiddleware(
+    this._userRepository,
+    this._homeRepository,
+    this._userActionRepository,
+    this._chatRepository,
+  );
 
   @override
   call(Store<AppState> store, action, NextDispatcher next) async {

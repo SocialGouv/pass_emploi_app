@@ -43,3 +43,13 @@ class RequestUserActionsAction extends UiAction {
 class DismissUserActionDetailsAction extends UiAction {}
 
 class UserActionNoUpdateNeededAction extends UiAction {}
+
+class CreateUserAction extends UiAction {
+  final String content;
+  final String? comment;
+  final UserActionStatus initialStatus;
+
+  CreateUserAction(this.content, this.comment, this.initialStatus);
+}
+
+class DismissCreateUserAction extends UiAction {}

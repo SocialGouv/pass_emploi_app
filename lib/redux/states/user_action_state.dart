@@ -10,6 +10,7 @@ abstract class UserActionState {
   factory UserActionState.failure() = UserActionFailureState;
 
   factory UserActionState.notInitialized() = UserActionNotInitializedState;
+
 }
 
 class UserActionLoadingState extends UserActionState {

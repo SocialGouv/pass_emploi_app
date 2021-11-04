@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
@@ -11,6 +12,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/chat_floating_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/user_action_details_bottom_sheet.dart';
 
 enum UserActionListPageResult { UPDATED, UNCHANGED }
@@ -41,14 +43,14 @@ class _UserActionListPageState extends State<UserActionListPage> {
       builder: (context, viewModel) {
         return AnimatedSwitcher(
           duration: Duration(milliseconds: 200),
-          child: _scaffold(context, _body(context, viewModel)),
+          child: _scaffold(context, viewModel, _body(context, viewModel)),
         );
       },
       converter: (store) => UserActionListPageViewModel.create(store),
     );
   }
 
-  Widget _scaffold(BuildContext context, Widget body) {
+  Widget _scaffold(BuildContext context, UserActionListPageViewModel viewModel, Widget body) {
     return WillPopScope(
       onWillPop: () {
         Navigator.pop(context, _result);
@@ -56,15 +58,30 @@ class _UserActionListPageState extends State<UserActionListPage> {
       },
       child: Scaffold(
         backgroundColor: AppColors.lightBlue,
-        appBar: _appBar(),
+        appBar: _appBar(context, viewModel),
         body: body,
         floatingActionButton: ChatFloatingActionButton(),
       ),
     );
   }
 
-  _appBar() => FlatDefaultAppBar(
+  _appBar(BuildContext context, UserActionListPageViewModel viewModel) => FlatDefaultAppBar(
         title: Text(Strings.myActions, style: TextStyles.h3Semi),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 16),
+            child: IconButton(
+              iconSize: 42,
+              onPressed: () => showUserActionBottomSheet(
+                context: context,
+                builder: (context) => CreateUserActionBottomSheet(),
+                routeSettings: AnalyticsRouteSettings.createUserAction(),
+              ).then((value) => _onCreateUserActionDismissed(value, viewModel)),
+              tooltip: Strings.addAnAction,
+              icon: SvgPicture.asset("assets/ic_add_circle.svg"),
+            ),
+          ),
+        ],
       );
 
   Widget _body(BuildContext context, UserActionListPageViewModel viewModel) {
@@ -96,17 +113,11 @@ class _UserActionListPageState extends State<UserActionListPage> {
   Widget _userActions(BuildContext context, UserActionListPageViewModel viewModel) {
     return Container(
       color: Colors.white,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          ListView.separated(
-            shrinkWrap: true,
-            itemCount: viewModel.items.length,
-            itemBuilder: (context, i) => _tapListener(context, viewModel.items[i], viewModel),
-            separatorBuilder: (context, i) => _listSeparator(),
-          ),
-          _listSeparator()
-        ],
+      child: ListView.separated(
+        shrinkWrap: true,
+        itemCount: viewModel.items.length,
+        itemBuilder: (context, i) => _tapListener(context, viewModel.items[i], viewModel),
+        separatorBuilder: (context, i) => _listSeparator(),
       ),
     );
   }
@@ -179,5 +190,12 @@ class _UserActionListPageState extends State<UserActionListPage> {
       _result = UserActionListPageResult.UPDATED;
     }
     viewModel.onUserActionDetailsDismissed();
+  }
+
+  _onCreateUserActionDismissed(dynamic value, UserActionListPageViewModel viewModel) {
+    if (value != null) {
+      _result = UserActionListPageResult.UPDATED;
+    }
+    viewModel.onCreateUserActionDismissed();
   }
 }

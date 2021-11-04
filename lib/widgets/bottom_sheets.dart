@@ -49,11 +49,17 @@ TextButton userActionBottomSheetActionButton({
   required VoidCallback? onPressed,
 }) =>
     TextButton(
-      style: TextButton.styleFrom(
-        primary: Colors.white,
-        textStyle: TextStyles.textSmMedium(),
-        backgroundColor: AppColors.nightBlue,
-        shape: StadiumBorder(),
+      style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.all(Colors.white),
+        textStyle: MaterialStateProperty.all(TextStyles.textSmMedium()),
+        backgroundColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
+          if (states.contains(MaterialState.disabled)) {
+            return AppColors.blueGrey;
+          } else {
+            return AppColors.nightBlue;
+          }
+        }),
+        shape: MaterialStateProperty.all(StadiumBorder()),
       ),
       onPressed: onPressed,
       child: Padding(

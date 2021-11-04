@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/ui_action_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/create_user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 
@@ -83,6 +84,36 @@ main() {
 
     // Then
     expect(updatedState.userActionUpdateState is UserActionNoUpdateNeeded, true);
+  });
+
+  test("uiActionReducer when action is CreateUserAction should set CreateActionState to loading", () {
+    // Given
+    final initialState = AppState.initialState();
+
+    // When
+    final updatedState = uiActionReducer(
+      initialState,
+      CreateUserAction("content", "comment", UserActionStatus.DONE),
+    );
+
+    // Then
+    expect(updatedState.createUserActionState is CreateUserActionLoadingState, true);
+  });
+
+  test("uiActionReducer when action is DismissCreateUserAction should reset actionCreate state", () {
+    // Given
+    final initialState = AppState.initialState().copyWith(
+      createUserActionState: CreateUserActionState.success(),
+    );
+
+    // When
+    final updatedState = uiActionReducer(
+      initialState,
+      DismissCreateUserAction(),
+    );
+
+    // Then
+    expect(updatedState.createUserActionState is CreateUserActionNotInitializedState, true);
   });
 }
 
