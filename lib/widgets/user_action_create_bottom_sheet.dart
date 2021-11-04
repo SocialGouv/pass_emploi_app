@@ -60,7 +60,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
         children: [
           userActionBottomSheetHeader(context, title: Strings.addAnAction),
           userActionBottomSheetSeparator(),
-          _actionContentAndComment(),
+          _actionContentAndComment(viewModel),
           userActionBottomSheetSeparator(),
           _defineStatus(),
           userActionBottomSheetSeparator(),
@@ -70,7 +70,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
     );
   }
 
-  Widget _actionContentAndComment() {
+  Widget _actionContentAndComment(CreateUserActionViewModel viewModel) {
     return Padding(
       padding: userActionBottomSheetContentPadding(),
       child: Column(
@@ -80,6 +80,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
           Text(Strings.actionLabel, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
           SizedBox(height: 16),
           _textField(
+            isEnabled: viewModel.displayState != CreateUserActionDisplayState.SHOW_LOADING,
             onChanged: (value) => _actionContent = value,
             isMandatory: true,
             mandatoryError: Strings.mandatoryActionLabelError,
@@ -89,6 +90,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
           Text(Strings.actionDescription, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
           SizedBox(height: 16),
           _textField(
+            isEnabled: viewModel.displayState != CreateUserActionDisplayState.SHOW_LOADING,
             onChanged: (value) => _actionComment = value,
             textInputAction: TextInputAction.newline,
           ),
@@ -102,8 +104,10 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
     bool isMandatory = false,
     String? mandatoryError,
     TextInputAction? textInputAction,
+    required bool isEnabled,
   }) {
     return TextFormField(
+      enabled: isEnabled,
       minLines: 3,
       maxLines: 3,
       decoration: InputDecoration(
