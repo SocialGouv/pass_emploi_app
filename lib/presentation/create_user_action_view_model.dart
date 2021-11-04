@@ -7,7 +7,7 @@ import 'package:redux/redux.dart';
 enum CreateUserActionDisplayState { SHOW_CONTENT, SHOW_LOADING, TO_DISMISS, SHOW_ERROR }
 
 class CreateUserActionViewModel {
-  final Function(String? actionContent, String? actionComment, UserActionStatus initialStatus) createUserAction;
+  final Function(String actionContent, String? actionComment, UserActionStatus initialStatus) createUserAction;
 
   final CreateUserActionDisplayState displayState;
 

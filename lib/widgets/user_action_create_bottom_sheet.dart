@@ -148,7 +148,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
           userActionBottomSheetActionButton(
             label: Strings.create,
             onPressed: _isLoading(viewModel) && _isFormValid()
-                ? () => {viewModel.createUserAction(_actionContent, _actionComment, _initialStatus)}
+                ? () => {viewModel.createUserAction(_actionContent!, _actionComment, _initialStatus)}
                 : null,
           ),
           if (viewModel.displayState == CreateUserActionDisplayState.SHOW_ERROR)

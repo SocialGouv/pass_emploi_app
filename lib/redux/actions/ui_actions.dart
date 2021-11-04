@@ -45,7 +45,7 @@ class DismissUserActionDetailsAction extends UiAction {}
 class UserActionNoUpdateNeededAction extends UiAction {}
 
 class CreateUserAction extends UiAction {
-  final String? content;
+  final String content;
   final String? comment;
   final UserActionStatus initialStatus;
 
