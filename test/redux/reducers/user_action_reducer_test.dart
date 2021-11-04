@@ -13,7 +13,7 @@ main() {
     // When
     final updatedState = userActionReducer(
       initialState,
-      UserActionCreatedWithSuccessAction("content", "comment"),
+      UserActionCreatedWithSuccessAction(),
     );
 
     // Then
