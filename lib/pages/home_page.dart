@@ -105,10 +105,7 @@ class HomePage extends StatelessWidget {
         padding: EdgeInsets.only(top: 6, bottom: 6),
         child: RendezvousCard(
           rendezvous: item.rendezvous,
-          onTap: () => Navigator.push(
-            context,
-            RendezvousPage.materialPageRoute(item.rendezvous),
-          ),
+          onTap: () => Navigator.push(context, RendezvousPage.materialPageRoute(item.rendezvous)),
         ),
       );
     }

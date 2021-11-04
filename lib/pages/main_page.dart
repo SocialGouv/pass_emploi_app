@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/home_page.dart';
+import 'package:pass_emploi_app/pages/rendezvous_list_page.dart';
 import 'package:pass_emploi_app/pages/user_action_list_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
@@ -61,11 +62,11 @@ class _MainPageState extends State<MainPage> {
       case 0:
         return HomePage();
       case 1:
-        return UserActionListPage("800418048");
+        return UserActionListPage("723195873");
       case 2:
         return ChatPage();
       case 3:
-        return UserActionListPage("800418048");
+        return RendezvousListPage("723195873");
       default:
         return HomePage();
     }

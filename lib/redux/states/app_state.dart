@@ -1,18 +1,21 @@
+import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/redux/states/chat_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
-import 'package:pass_emploi_app/redux/states/home_state.dart';
 import 'package:pass_emploi_app/redux/states/create_user_action_state.dart';
+import 'package:pass_emploi_app/redux/states/home_state.dart';
+import 'package:pass_emploi_app/redux/states/rendezvous_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 
 import 'login_state.dart';
 
-class AppState {
+class AppState extends Equatable {
   final LoginState loginState;
   final HomeState homeState;
   final UserActionState userActionState;
   final CreateUserActionState createUserActionState;
   final UserActionUpdateState userActionUpdateState;
+  final RendezvousState rendezvousState;
   final ChatStatusState chatStatusState;
   final ChatState chatState;
 
@@ -22,6 +25,7 @@ class AppState {
     required this.userActionState,
     required this.createUserActionState,
     required this.userActionUpdateState,
+    required this.rendezvousState,
     required this.chatStatusState,
     required this.chatState,
   });
@@ -32,6 +36,7 @@ class AppState {
     final UserActionState? userActionState,
     final CreateUserActionState? createUserActionState,
     final UserActionUpdateState? userActionUpdateState,
+    final RendezvousState? rendezvousState,
     final ChatStatusState? chatStatusState,
     final ChatState? chatState,
   }) {
@@ -41,6 +46,7 @@ class AppState {
       userActionState: userActionState ?? this.userActionState,
       createUserActionState: createUserActionState ?? this.createUserActionState,
       userActionUpdateState: userActionUpdateState ?? this.userActionUpdateState,
+      rendezvousState: rendezvousState ?? this.rendezvousState,
       chatStatusState: chatStatusState ?? this.chatStatusState,
       chatState: chatState ?? this.chatState,
     );
@@ -53,21 +59,24 @@ class AppState {
       userActionState: UserActionState.notInitialized(),
       createUserActionState: CreateUserActionState.notInitialized(),
       userActionUpdateState: UserActionUpdateState.notUpdating(),
+      rendezvousState: RendezvousState.notInitialized(),
       chatStatusState: ChatStatusState.notInitialized(),
       chatState: ChatState.notInitialized(),
     );
   }
 
   @override
-  String toString() {
-    return 'AppState{'
-        'loginState: $loginState, '
-        'homeState: $homeState, '
-        'userActionState: $userActionState, '
-        'createUserActionState: $createUserActionState, '
-        'userActionUpdateState: $userActionUpdateState, '
-        'chatStatusState: $chatStatusState, '
-        'chatState: $chatState'
-        '}';
-  }
+  List<Object?> get props => [
+        loginState,
+        homeState,
+        userActionState,
+        userActionUpdateState,
+        createUserActionState,
+        rendezvousState,
+        chatStatusState,
+        chatState,
+      ];
+
+  @override
+  bool? get stringify => true;
 }

@@ -20,6 +20,7 @@ import 'package:pass_emploi_app/redux/store/store_factory.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/home_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
+import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
@@ -99,6 +100,7 @@ Store<AppState> _initializeReduxStore(String baseUrl, PushNotificationManager pu
     userRepository,
     HomeRepository(baseUrl, headersBuilder),
     UserActionRepository(baseUrl, headersBuilder),
+    RendezvousRepository(baseUrl, headersBuilder),
     ChatRepository(),
     RegisterTokenRepository(
       baseUrl,
