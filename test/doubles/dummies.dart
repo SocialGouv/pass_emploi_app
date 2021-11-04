@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/home_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
+import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
@@ -37,6 +38,10 @@ class DummyHomeRepository extends HomeRepository {
 
 class DummyUserActionRepository extends UserActionRepository {
   DummyUserActionRepository() : super("", DummyHeadersBuilder());
+}
+
+class DummyRendezvousRepository extends RendezvousRepository {
+  DummyRendezvousRepository() : super("", DummyHeadersBuilder());
 }
 
 class DummyChatRepository extends ChatRepository {}
