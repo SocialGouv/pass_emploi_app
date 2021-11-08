@@ -4,6 +4,7 @@ abstract class AnalyticsScreenNames {
   static const splash = "splash";
   static const forceUpdate = "force_update";
   static const login = "login";
+  static const main = "main";
   static const home = "home";
   static const rendezvous = "rendez_vous";
   static const userAction = "actions";
@@ -16,6 +17,8 @@ abstract class AnalyticsRouteSettings {
   static RouteSettings splash() => RouteSettings(name: AnalyticsScreenNames.splash);
 
   static RouteSettings login() => RouteSettings(name: AnalyticsScreenNames.login);
+
+  static RouteSettings main() => RouteSettings(name: AnalyticsScreenNames.main);
 
   static RouteSettings home() => RouteSettings(name: AnalyticsScreenNames.home);
 

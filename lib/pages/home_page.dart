@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/loader_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous_page.dart';
 import 'package:pass_emploi_app/pages/user_action_list_page.dart';
@@ -20,12 +19,6 @@ class HomePage extends StatelessWidget {
   final String userId;
 
   HomePage(this.userId) : super();
-
-  //HomePage._(); TODO-16
-
-  static MaterialPageRoute materialPageRoute(String userId) {
-    return MaterialPageRoute(builder: (context) => HomePage(userId), settings: AnalyticsRouteSettings.home()); //TODO-16
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -16,8 +16,7 @@ class MainPage extends StatefulWidget {
   MainPage._(this.userId);
 
   static MaterialPageRoute materialPageRoute(String userId) {
-    //TODO-16 Analytics
-    return MaterialPageRoute(builder: (context) => MainPage._(userId), settings: AnalyticsRouteSettings.home());
+    return MaterialPageRoute(builder: (context) => MainPage._(userId), settings: AnalyticsRouteSettings.main());
   }
 
   @override
