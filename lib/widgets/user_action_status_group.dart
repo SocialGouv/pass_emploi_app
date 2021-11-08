@@ -9,7 +9,7 @@ class UserActionStatusGroup extends StatelessWidget {
   final bool isEnabled;
   final Function(UserActionStatus newStatus) update;
 
-  const UserActionStatusGroup({required this.status, required this.update, this.isEnabled = false}) : super();
+  const UserActionStatusGroup({required this.status, required this.update, this.isEnabled = true}) : super();
 
   @override
   Widget build(BuildContext context) {
