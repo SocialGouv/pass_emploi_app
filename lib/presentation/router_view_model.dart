@@ -1,8 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:redux/redux.dart';
 
-class RouterViewModel {
+class RouterViewModel extends Equatable {
   final bool withSplashScreen;
   final bool withLoginPage;
   final bool withMainPage;
@@ -25,4 +26,7 @@ class RouterViewModel {
       userId: loginState is LoggedInState ? loginState.user.id : "",
     );
   }
+
+  @override
+  List<Object?> get props => [withSplashScreen, withLoginPage, withMainPage, userId];
 }
