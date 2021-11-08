@@ -102,7 +102,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
           _textField(
             isEnabled: viewModel.displayState != CreateUserActionDisplayState.SHOW_LOADING,
             onChanged: (value) => _actionComment = value,
-            textInputAction: TextInputAction.newline,
+            textInputAction: TextInputAction.done,
           ),
         ],
       ),
