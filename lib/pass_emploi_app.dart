@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics.dart';
+import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
 import 'package:pass_emploi_app/pages/router_page.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';

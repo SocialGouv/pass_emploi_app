@@ -84,4 +84,7 @@ class Strings {
   static String congratulationsActionUpdated = "Félicitations !\n\nLa mise à jour de votre action a bien été prise en compte.";
   static String conseillerNotifiedActionUpdated = "Votre conseiller a reçu une notification de la mise à jour de votre action.";
   static String understood = "Bien compris";
+
+  // Offres Emploi
+  static String offresEmploiTitle= "Résultats offres d'emploi";
 }
