@@ -1,32 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/loader_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous_page.dart';
 import 'package:pass_emploi_app/pages/user_action_list_page.dart';
 import 'package:pass_emploi_app/presentation/home_item.dart';
 import 'package:pass_emploi_app/presentation/home_page_view_model.dart';
+import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/chat_floating_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/user_action_card.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage._();
+  final String userId;
 
-  static MaterialPageRoute materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => HomePage._(), settings: AnalyticsRouteSettings.home());
-  }
+  HomePage(this.userId) : super();
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, HomePageViewModel>(
+      onInit: (store) => store.dispatch(RequestHomeAction(userId)),
       converter: (store) => HomePageViewModel.create(store),
       builder: (context, viewModel) {
         return AnimatedSwitcher(
@@ -37,15 +34,15 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _body(BuildContext context, HomePageViewModel viewModel) {
+  Widget _body(BuildContext context, HomePageViewModel viewModel) {
     if (viewModel.withLoading) return LoaderPage(screenHeight: MediaQuery.of(context).size.height);
     if (viewModel.withFailure) return _failure(viewModel);
     return _home(context, viewModel);
   }
 
-  _failure(HomePageViewModel viewModel) {
+  Widget _failure(HomePageViewModel viewModel) {
     return Scaffold(
-      appBar: _appBar(viewModel.title, viewModel.onRetry),
+      appBar: _appBar(viewModel.title),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -65,9 +62,9 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _home(BuildContext context, HomePageViewModel viewModel) {
+  Widget _home(BuildContext context, HomePageViewModel viewModel) {
     return Scaffold(
-      appBar: _appBar(viewModel.title, viewModel.onRetry),
+      appBar: _appBar(viewModel.title),
       body: Container(
         color: Colors.white,
         child: ListView(
@@ -75,7 +72,6 @@ class HomePage extends StatelessWidget {
           children: viewModel.items.map((item) => _listItem(context, item, viewModel)).toList(),
         ),
       ),
-      floatingActionButton: ChatFloatingActionButton(),
     );
   }
 
@@ -105,17 +101,14 @@ class HomePage extends StatelessWidget {
         padding: EdgeInsets.only(top: 6, bottom: 6),
         child: RendezvousCard(
           rendezvous: item.rendezvous,
-          onTap: () => Navigator.push(
-            context,
-            RendezvousPage.materialPageRoute(item.rendezvous),
-          ),
+          onTap: () => Navigator.push(context, RendezvousPage.materialPageRoute(item.rendezvous)),
         ),
       );
     }
     return Container();
   }
 
-  _appBar(String title, Function() onRetry) {
+  AppBar _appBar(String title) {
     return DefaultAppBar(
       centerTitle: false,
       title: Column(
@@ -126,20 +119,10 @@ class HomePage extends StatelessWidget {
           Text(Strings.dashboardWelcome, style: TextStyles.textSmMedium()),
         ],
       ),
-      actions: [
-        Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: IconButton(
-            onPressed: onRetry,
-            tooltip: Strings.refresh,
-            icon: SvgPicture.asset("assets/ic_refresh.svg"),
-          ),
-        ),
-      ],
     );
   }
 
-  _allActionsButton(BuildContext context, HomePageViewModel viewModel) {
+  Widget _allActionsButton(BuildContext context, HomePageViewModel viewModel) {
     return Material(
       child: Ink(
         decoration: BoxDecoration(color: AppColors.nightBlue, borderRadius: BorderRadius.all(Radius.circular(8))),
@@ -155,7 +138,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _pushUserActionPage(BuildContext context, HomePageViewModel viewModel) {
+  Future<Null> _pushUserActionPage(BuildContext context, HomePageViewModel viewModel) {
     return Navigator.push(
       context,
       UserActionListPage.materialPageRoute(viewModel.userId),

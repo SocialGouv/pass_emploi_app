@@ -33,9 +33,7 @@ class UserActionListPageViewModel {
       withLoading: _isLoading(store.state.userActionState),
       withFailure: _isFailure(store.state.userActionState),
       withEmptyMessage: _isEmpty(store.state.userActionState),
-      items: _items(
-        state: store.state.userActionState,
-      ),
+      items: _items(state: store.state.userActionState),
       onRetry: () => store.dispatch(RequestUserActionsAction(user.id)),
       onUserActionDetailsDismissed: () => store.dispatch(DismissUserActionDetailsAction()),
       onCreateUserActionDismissed: () => store.dispatch(DismissCreateUserAction()),
@@ -49,9 +47,7 @@ bool _isFailure(UserActionState state) => state is UserActionFailureState;
 
 bool _isEmpty(UserActionState state) => state is UserActionSuccessState && state.actions.isEmpty;
 
-List<UserActionViewModel> _items({
-  required UserActionState state,
-}) {
+List<UserActionViewModel> _items({required UserActionState state}) {
   if (state is! UserActionSuccessState) {
     return [];
   }

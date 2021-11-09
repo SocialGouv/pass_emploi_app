@@ -6,7 +6,6 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/chat_floating_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
 class RendezvousPage extends StatelessWidget {
@@ -25,7 +24,6 @@ class RendezvousPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: DefaultAppBar(title: Text(Strings.myRendezVous, style: TextStyles.h3Semi)),
-      floatingActionButton: ChatFloatingActionButton(),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(Margins.medium),

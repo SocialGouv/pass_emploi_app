@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/presentation/chat_page_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
@@ -14,12 +13,6 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:redux/redux.dart';
 
 class ChatPage extends StatefulWidget {
-  ChatPage._();
-
-  static MaterialPageRoute materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => ChatPage._(), settings: AnalyticsRouteSettings.chat());
-  }
-
   @override
   _ChatPageState createState() => _ChatPageState();
 }

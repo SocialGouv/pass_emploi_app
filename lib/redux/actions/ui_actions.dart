@@ -40,6 +40,8 @@ class RequestUserActionsAction extends UiAction {
   RequestUserActionsAction(this.userId);
 }
 
+class RequestRendezvousAction extends UiAction {}
+
 class DismissUserActionDetailsAction extends UiAction {}
 
 class UserActionNoUpdateNeededAction extends UiAction {}

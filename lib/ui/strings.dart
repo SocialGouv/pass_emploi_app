@@ -1,5 +1,4 @@
 class Strings {
-
   Strings._();
 
   // Common
@@ -7,7 +6,14 @@ class Strings {
   static String retry = "Réessayer";
   static String logoTextDescription = "Logo Pass Emploi";
   static String myActions = "Mes actions";
+  static String rendezvousListPageTitle = "Rendez-vous";
   static String close = "Fermer";
+
+  // Menu
+  static String menuHome = "Accueil";
+  static String menuActions = "Actions";
+  static String menuChat = "Messages";
+  static String menuRendezvous = "Rendez-vous";
 
   // Chat
   static String yourMessage = "Votre message…";

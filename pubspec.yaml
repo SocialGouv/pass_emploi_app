@@ -40,15 +40,4 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/ic_logo.svg
-    - assets/ic_white_check.svg
-    - assets/ic_white_circle.svg
-    - assets/ic_night_blue_circle.svg
-    - assets/ic_paper_plane.svg
-    - assets/ic_envelope.svg
-    - assets/ic_refresh.svg
-    - assets/ic_calendar.svg
-    - assets/ic_clock.svg
-    - assets/ic_close.svg
-    - assets/ic_add_circle.svg
-    - assets/ic_congratulations.svg
+    - assets/

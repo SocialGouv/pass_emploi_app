@@ -7,6 +7,8 @@ import 'app_colors.dart';
 import 'font_sizes.dart';
 
 class TextStyles {
+  TextStyles._();
+
   static final h3Semi = GoogleFonts.rubik(
     color: AppColors.nightBlue,
     fontSize: FontSizes.huge,
@@ -49,6 +51,15 @@ class TextStyles {
     fontWeight: FontWeight.w400,
     letterSpacing: -0.3,
   );
+
+  static textMenuRegular(Color color) {
+    return GoogleFonts.rubik(
+      color: color,
+      fontSize: FontSizes.extraSmall,
+      fontWeight: FontWeight.w500,
+      letterSpacing: -0.3,
+    );
+  }
 
   static textSmMedium({Color color = AppColors.nightBlue}) {
     return GoogleFonts.rubik(
