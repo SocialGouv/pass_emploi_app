@@ -15,7 +15,7 @@ class SelectedMenuItem extends StatelessWidget {
       alignment: Alignment.center,
       clipBehavior: Clip.none,
       children: [
-        UnselectedMenuItem(drawableRes: drawableRes, label: label),
+        UnselectedMenuItem(drawableRes: drawableRes, label: label, withBadge: false),
         Positioned(
           bottom: -6,
           child: Center(child: SvgPicture.asset(Drawables.icMenuSelectedBullet)),
