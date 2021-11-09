@@ -68,7 +68,7 @@ class _MainPageState extends State<MainPage> {
       case 2:
         return ChatPage();
       case 3:
-        return RendezvousListPage(widget.userId);
+        return RendezvousListPage();
       default:
         return HomePage(widget.userId);
     }

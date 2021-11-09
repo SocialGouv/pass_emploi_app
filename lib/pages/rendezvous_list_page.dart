@@ -13,14 +13,10 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/rendezvous_card.dart';
 
 class RendezvousListPage extends StatelessWidget {
-  final String userId;
-
-  const RendezvousListPage(this.userId) : super();
-
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RendezvousListPageViewModel>(
-      onInit: (store) => store.dispatch(RequestRendezvousAction(userId)),
+      onInit: (store) => store.dispatch(RequestRendezvousAction()),
       builder: (context, viewModel) => _body(context, viewModel),
       converter: (store) => RendezvousListPageViewModel.create(store),
     );

@@ -10,17 +10,6 @@ import 'package:pass_emploi_app/redux/states/rendezvous_state.dart';
 import 'package:redux/redux.dart';
 
 main() {
-  test('create when user is not logged in should throw exception', () {
-    // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(loginState: LoginState.notLoggedIn()),
-    );
-
-    // When / Then
-    expect(() => RendezvousListPageViewModel.create(store), throwsException);
-  });
-
   test('create when rendezvous state is loading should display loader', () {
     // Given
     final store = Store<AppState>(

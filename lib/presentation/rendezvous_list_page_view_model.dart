@@ -1,7 +1,6 @@
 import 'package:pass_emploi_app/presentation/rendezvous_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/redux/states/rendezvous_state.dart';
 import 'package:redux/redux.dart';
 
@@ -21,16 +20,12 @@ class RendezvousListPageViewModel {
   });
 
   factory RendezvousListPageViewModel.create(Store<AppState> store) {
-    if (!(store.state.loginState is LoggedInState)) {
-      throw Exception("User should be logged in to access rendezvous list page");
-    }
-    final user = (store.state.loginState as LoggedInState).user;
     return RendezvousListPageViewModel(
       withLoading: _isLoading(store.state.rendezvousState),
       withFailure: _isFailure(store.state.rendezvousState),
       withEmptyMessage: _isEmpty(store.state.rendezvousState),
       items: _items(state: store.state.rendezvousState),
-      onRetry: () => store.dispatch(RequestRendezvousAction(user.id)),
+      onRetry: () => store.dispatch(RequestRendezvousAction()),
     );
   }
 }

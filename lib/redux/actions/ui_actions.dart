@@ -40,11 +40,7 @@ class RequestUserActionsAction extends UiAction {
   RequestUserActionsAction(this.userId);
 }
 
-class RequestRendezvousAction extends UiAction {
-  final String userId;
-
-  RequestRendezvousAction(this.userId);
-}
+class RequestRendezvousAction extends UiAction {}
 
 class DismissUserActionDetailsAction extends UiAction {}
 
