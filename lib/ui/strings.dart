@@ -36,10 +36,14 @@ class Strings {
   static String dashboardWelcome = "Bienvenue sur votre tableau de bord";
   static String refresh = "Rafraîchir";
   static String seeAllActions = "Voir toutes les actions";
-  static String noActionsYetContactConseiller = "Vous n’avez pas encore d’actions en cours.\nContactez votre conseiller pour les définir avec lui.";
-  static String noMoreActionsContactConseiller = "Bravo :) Vous n’avez plus d’actions en cours.\nContactez votre conseiller pour obtenir de nouvelles actions.";
+  static String noActionsYetContactConseiller =
+      "Vous n’avez pas encore d’actions en cours.\nContactez votre conseiller pour les définir avec lui.";
+  static String noMoreActionsContactConseiller =
+      "Bravo :) Vous n’avez plus d’actions en cours.\nContactez votre conseiller pour obtenir de nouvelles actions.";
   static String upcomingRendezVous = "Mes rendez-vous à venir";
-  static String noUpcomingRendezVous = "Vous n’avez pas de rendez-vous prévus.\nContactez votre conseiller pour prendre rendez-vous.";
+  static String noUpcomingRendezVous =
+      "Vous n’avez pas de rendez-vous prévus.\nContactez votre conseiller pour prendre rendez-vous.";
+
   static String hello(firstName) => "Bonjour $firstName";
 
   // Loader (Splash)
@@ -81,10 +85,12 @@ class Strings {
   static String actionCreatedBy = "Créée par";
   static String actionCreationError = "Erreur lors de la création de l'action. Veuillez réessayer.";
   static String you = "Vous";
-  static String congratulationsActionUpdated = "Félicitations !\n\nLa mise à jour de votre action a bien été prise en compte.";
-  static String conseillerNotifiedActionUpdated = "Votre conseiller a reçu une notification de la mise à jour de votre action.";
+  static String congratulationsActionUpdated =
+      "Félicitations !\n\nLa mise à jour de votre action a bien été prise en compte.";
+  static String conseillerNotifiedActionUpdated =
+      "Votre conseiller a reçu une notification de la mise à jour de votre action.";
   static String understood = "Bien compris";
 
   // Offres Emploi
-  static String offresEmploiTitle= "Résultats offres d'emploi";
+  static String offresEmploiTitle = "Résultats offres d'emploi";
 }
