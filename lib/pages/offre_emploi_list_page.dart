@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_list_page_view_model.dart';
+import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -14,6 +15,7 @@ class OffreEmploiListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, OffreEmploiListPageViewModel>(
+      onInit: (store) => store.dispatch(SearchOffreEmploiAction(keywords: "", department: "")),
       builder: (context, vm) => _scaffold(context, vm),
       converter: (store) => OffreEmploiListPageViewModel.create(store),
     );

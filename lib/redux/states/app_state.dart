@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/redux/states/user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 
 import 'login_state.dart';
+import 'offre_emploi_search_state.dart';
 
 class AppState extends Equatable {
   final LoginState loginState;
@@ -18,6 +19,7 @@ class AppState extends Equatable {
   final RendezvousState rendezvousState;
   final ChatStatusState chatStatusState;
   final ChatState chatState;
+  final OffreEmploiSearchState offreEmploiSearchState;
 
   AppState({
     required this.loginState,
@@ -28,6 +30,7 @@ class AppState extends Equatable {
     required this.rendezvousState,
     required this.chatStatusState,
     required this.chatState,
+    required this.offreEmploiSearchState,
   });
 
   AppState copyWith({
@@ -39,6 +42,7 @@ class AppState extends Equatable {
     final RendezvousState? rendezvousState,
     final ChatStatusState? chatStatusState,
     final ChatState? chatState,
+    final OffreEmploiSearchState? offreEmploiSearchState,
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
@@ -49,6 +53,7 @@ class AppState extends Equatable {
       rendezvousState: rendezvousState ?? this.rendezvousState,
       chatStatusState: chatStatusState ?? this.chatStatusState,
       chatState: chatState ?? this.chatState,
+      offreEmploiSearchState: offreEmploiSearchState ?? this.offreEmploiSearchState,
     );
   }
 
@@ -62,6 +67,7 @@ class AppState extends Equatable {
       rendezvousState: RendezvousState.notInitialized(),
       chatStatusState: ChatStatusState.notInitialized(),
       chatState: ChatState.notInitialized(),
+      offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
     );
   }
 
