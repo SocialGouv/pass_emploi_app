@@ -11,25 +11,25 @@ dependencies:
   # Flutter
   flutter:
     sdk: flutter
-  shared_preferences: ^2.0.6
-  flutter_svg: ^0.22.0
-  flutter_redux: ^0.8.2
-  package_info: ^2.0.2
-  flutter_local_notifications: ^9.0.0
+  shared_preferences: 2.0.7
+  flutter_svg: 0.22.0
+  flutter_redux: 0.8.2
+  package_info: 2.0.2
+  flutter_local_notifications: 9.0.0
   # Dart
-  http: ^0.13.3
-  intl: ^0.17.0
-  collection: ^1.15.0
+  http: 0.13.3
+  intl: 0.17.0
+  collection: 1.15.0
   equatable: 2.0.3
   # Firebase
-  firebase_core: ^1.6.0
-  firebase_crashlytics: ^2.2.1
-  firebase_remote_config: ^0.10.0+5
-  firebase_analytics: ^8.3.2
-  firebase_messaging: ^10.0.8
-  cloud_firestore: ^2.5.1
+  firebase_core: 1.7.0
+  firebase_crashlytics: 2.2.1
+  firebase_remote_config: 0.10.0+5
+  firebase_analytics: 8.3.2
+  firebase_messaging: 10.0.8
+  cloud_firestore: 2.5.3
   # UI
-  google_fonts: ^2.1.0
+  google_fonts: 2.1.0
 
 dev_dependencies:
   flutter_test:
