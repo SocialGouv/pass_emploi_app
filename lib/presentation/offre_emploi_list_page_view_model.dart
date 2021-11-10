@@ -1,66 +1,66 @@
+import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:redux/redux.dart';
 
-enum OffreEmploiListDisplayState { SHOW_CONTENT, SHOW_LOADER, SHOW_ERROR }
+enum OffreEmploiListDisplayState { SHOW_CONTENT, SHOW_LOADER, SHOW_ERROR, SHOW_EMPTY_ERROR }
 
 class OffreEmploiListPageViewModel {
   final OffreEmploiListDisplayState displayState;
   final List<OffreEmploiItemViewModel> items;
-  final Function() onRetry;
 
-  OffreEmploiListPageViewModel._(this.displayState, this.items, this.onRetry);
+  OffreEmploiListPageViewModel._(this.displayState, this.items);
 
   factory OffreEmploiListPageViewModel.create(Store<AppState> store) {
+    final searchState = store.state.offreEmploiSearchState;
     return OffreEmploiListPageViewModel._(
-      OffreEmploiListDisplayState.SHOW_CONTENT,
-      [
-        OffreEmploiItemViewModel(
-          "123DXPM",
-          "Technicien / Technicienne en froid et climatisation",
-          "RH TT INTERIM",
-          "MIS",
-          "77 - LOGNES",
-        ),
-        OffreEmploiItemViewModel(
-          "123DXPK",
-          " #SALONDEMANDELIEU2021: RECEPTIONNISTE TOURNANT (H/F)",
-          "STAND CHATEAU DE LA BEGUDE",
-          "CDD",
-          "06 - OPIO",
-        ),
-        OffreEmploiItemViewModel(
-          "123DXPG",
-          "Technicien / Technicienne terrain Structure          (H/F)",
-          "GEOTEC",
-          "CDI",
-          "78 - PLAISIR",
-        ),
-        OffreEmploiItemViewModel(
-          "123DXPF",
-          "Responsable de boutique",
-          "GINGER",
-          "CDD",
-          "13 - AIX EN PROVENCE",
-        ),
-        OffreEmploiItemViewModel(
-          "123DXPD",
-          "Agent de fabrication polyvalent / Agente de fabrication pol (H/F)",
-          "TEMPORIS",
-          "MIS",
-          "40 - PONTONX SUR L ADOUR",
-        )
-      ],
-      () => null,
+      _displayState(searchState),
+      _items(searchState),
     );
   }
 }
 
-class OffreEmploiItemViewModel {
+OffreEmploiListDisplayState _displayState(OffreEmploiSearchState searchState) {
+  if (searchState is OffreEmploiSearchSuccessState) {
+    return searchState.offres.isNotEmpty
+        ? OffreEmploiListDisplayState.SHOW_CONTENT
+        : OffreEmploiListDisplayState.SHOW_EMPTY_ERROR;
+  } else if (searchState is OffreEmploiSearchLoadingState) {
+    return OffreEmploiListDisplayState.SHOW_LOADER;
+  } else {
+    return OffreEmploiListDisplayState.SHOW_ERROR;
+  }
+}
+
+List<OffreEmploiItemViewModel> _items(OffreEmploiSearchState searchState) {
+  return searchState is OffreEmploiSearchSuccessState
+      ? searchState.offres
+          .map((e) => OffreEmploiItemViewModel(
+                e.id,
+                e.title,
+                e.companyName,
+                e.contractType,
+                e.location,
+              ))
+          .toList()
+      : [];
+}
+
+class OffreEmploiItemViewModel extends Equatable {
   final String id;
   final String title;
-  final String companyName;
+  final String? companyName;
   final String contractType;
   final String location;
 
   OffreEmploiItemViewModel(this.id, this.title, this.companyName, this.contractType, this.location);
+
+  @override
+  List<Object?> get props => [
+        id,
+        title,
+        companyName,
+        contractType,
+        location,
+      ];
 }
