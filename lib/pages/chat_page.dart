@@ -88,6 +88,7 @@ class _ChatPageState extends State<ChatPage> {
                       controller: _controller,
                       keyboardType: TextInputType.multiline,
                       textCapitalization: TextCapitalization.sentences,
+                      textInputAction: TextInputAction.done,
                       maxLines: null,
                       decoration: InputDecoration(
                         contentPadding: const EdgeInsets.only(left: 16, right: 16, top: 13, bottom: 13),
