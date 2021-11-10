@@ -21,10 +21,9 @@ class OffreEmploiListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, OffreEmploiListPageViewModel>(
-      onInit: (store) => store.dispatch(SearchOffreEmploiAction(keywords: "", department: "")),
+      onInit: (store) => store.dispatch(SearchOffreEmploiAction(keywords: "developpeur mobile", department: "75")),
       builder: (context, vm) => _scaffold(context, vm),
       converter: (store) => OffreEmploiListPageViewModel.create(store),
-      onDidChange: (previousViewModel, viewModel) => print("LOL - ${viewModel.displayState}"),
     );
   }
 

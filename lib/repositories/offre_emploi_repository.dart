@@ -16,9 +16,10 @@ class OffreEmploiRepository {
     required String department,
   }) async {
     final url = Uri.parse(_baseUrl + "/offres-emploi");
+    final urlWithQuery = url.replace(queryParameters: {"q": keywords, "departement": department});
     try {
       final response = await http.get(
-        url,
+        urlWithQuery,
         headers: await _headerBuilder.headers(userId: userId),
       );
       if (response.statusCode.isValid()) {
