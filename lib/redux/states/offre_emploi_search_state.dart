@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 
-abstract class OffreEmploiSearchState {
+abstract class OffreEmploiSearchState extends Equatable {
   OffreEmploiSearchState._();
 
   factory OffreEmploiSearchState.loading() = OffreEmploiSearchLoadingState;
@@ -11,6 +12,8 @@ abstract class OffreEmploiSearchState {
 
   factory OffreEmploiSearchState.notInitialized() = OffreEmploiSearchNotInitializedState;
 
+  @override
+  List<Object> get props => [];
 }
 
 class OffreEmploiSearchLoadingState extends OffreEmploiSearchState {
@@ -21,6 +24,9 @@ class OffreEmploiSearchSuccessState extends OffreEmploiSearchState {
   final List<OffreEmploi> offres;
 
   OffreEmploiSearchSuccessState(this.offres) : super._();
+
+  @override
+  List<Object> get props => [offres];
 }
 
 class OffreEmploiSearchFailureState extends OffreEmploiSearchState {
