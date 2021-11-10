@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/home_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous_list_page.dart';
 import 'package:pass_emploi_app/pages/user_action_list_page.dart';
+import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
+import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -27,6 +30,14 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    return StoreConnector<AppState, MainPageViewModel>(
+      converter: (store) => MainPageViewModel.create(store),
+      builder: (context, viewModel) => _body(viewModel),
+      distinct: true,
+    );
+  }
+
+  Widget _body(MainPageViewModel viewModel) {
     return Scaffold(
       body: Container(
         color: AppColors.lightBlue,
@@ -40,7 +51,7 @@ class _MainPageState extends State<MainPage> {
         items: <BottomNavigationBarItem>[
           MenuItem(drawableRes: Drawables.icMenuHome, label: Strings.menuHome),
           MenuItem(drawableRes: Drawables.icMenuAction, label: Strings.menuActions),
-          MenuItem(drawableRes: Drawables.icMenuChat, label: Strings.menuChat),
+          MenuItem(drawableRes: Drawables.icMenuChat, label: Strings.menuChat, withBadge: viewModel.withChatBadge),
           MenuItem(drawableRes: Drawables.icMenuRendezvous, label: Strings.menuRendezvous),
         ],
         currentIndex: _selectedIndex,
