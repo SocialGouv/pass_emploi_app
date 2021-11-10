@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/redux/middlewares/action_logging_middleware.dart
 import 'package:pass_emploi_app/redux/middlewares/animation_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/api_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/crashlytics_middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/offre_emploi_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/rendezvous_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/router_middleware.dart';
@@ -12,6 +13,7 @@ import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/home_repository.dart';
+import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
@@ -23,6 +25,7 @@ class StoreFactory {
   final HomeRepository homeRepository;
   final UserActionRepository userActionRepository;
   final RendezvousRepository rendezvousRepository;
+  final OffreEmploiRepository offreEmploiRepository;
   final ChatRepository chatRepository;
   final RegisterTokenRepository registerTokenRepository;
   final Crashlytics crashlytics;
@@ -32,6 +35,7 @@ class StoreFactory {
     this.homeRepository,
     this.userActionRepository,
     this.rendezvousRepository,
+    this.offreEmploiRepository,
     this.chatRepository,
     this.registerTokenRepository,
     this.crashlytics,
@@ -52,6 +56,10 @@ class StoreFactory {
         UserActionMiddleware(userActionRepository),
         RendezvousMiddleware(rendezvousRepository),
         RegisterPushNotificationTokenMiddleware(registerTokenRepository),
+        OffreEmploiMiddleware(offreEmploiRepository),
+        RegisterPushNotificationTokenMiddleware(
+          registerTokenRepository,
+        ),
         AnimationMiddleware(),
         CrashlyticsMiddleware(crashlytics),
         ..._debugMiddleware(),
