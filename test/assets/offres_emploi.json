@@ -1,9 +1,9 @@
 [
   {
     "id": "123DXPM",
-    "title": "Technicien / Technicienne en froid et climatisation",
-    "type_contrat": "MIS",
-    "nom_entreprise": "RH TT INTERIM",
+    "titre": "Technicien / Technicienne en froid et climatisation",
+    "typeContrat": "MIS",
+    "nomEntreprise": "RH TT INTERIM",
     "localisation": {
       "nom": "77 - LOGNES",
       "code_postal": "77185",
@@ -12,9 +12,9 @@
   },
   {
     "id": "123DXPK",
-    "title": " #SALONDEMANDELIEU2021: RECEPTIONNISTE TOURNANT (H/F)",
-    "type_contrat": "CDD",
-    "nom_entreprise": "STAND CHATEAU DE LA BEGUDE",
+    "titre": " #SALONDEMANDELIEU2021: RECEPTIONNISTE TOURNANT (H/F)",
+    "typeContrat": "CDD",
+    "nomEntreprise": "STAND CHATEAU DE LA BEGUDE",
     "localisation": {
       "nom": "06 - OPIO",
       "code_postal": "06650",
@@ -23,9 +23,9 @@
   },
   {
     "id": "123DXPG",
-    "title": "Technicien / Technicienne terrain Structure          (H/F)",
-    "type_contrat": "CDI",
-    "nom_entreprise": "GEOTEC",
+    "titre": "Technicien / Technicienne terrain Structure          (H/F)",
+    "typeContrat": "CDI",
+    "nomEntreprise": "GEOTEC",
     "localisation": {
       "nom": "78 - PLAISIR",
       "code_postal": "78370",
@@ -34,9 +34,9 @@
   },
   {
     "id": "123DXPF",
-    "title": "Responsable de boutique",
-    "type_contrat": "CDD",
-    "nom_entreprise": "GINGER",
+    "titre": "Responsable de boutique",
+    "typeContrat": "CDD",
+    "nomEntreprise": "GINGER",
     "localisation": {
       "nom": "13 - AIX EN PROVENCE",
       "code_postal": "13090",
@@ -45,9 +45,9 @@
   },
   {
     "id": "123DXLK",
-    "title": "Commercial sédentaire en Assurances H/F",
-    "type_contrat": "CDI",
-    "nom_entreprise": null,
+    "titre": "Commercial sédentaire en Assurances H/F",
+    "typeContrat": "CDI",
+    "nomEntreprise": null,
     "localisation": {
       "nom": "34 - MONTPELLIER",
       "code_postal": "34000",

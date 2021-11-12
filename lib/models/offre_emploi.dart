@@ -18,9 +18,9 @@ class OffreEmploi extends Equatable {
   factory OffreEmploi.fromJson(dynamic json) {
     return OffreEmploi(
       id: json["id"] as String,
-      title: json["title"] as String,
-      companyName: json["nom_entreprise"] as String?,
-      contractType: json["type_contrat"] as String,
+      title: json["titre"] as String,
+      companyName: json["nomEntreprise"] as String?,
+      contractType: json["typeContrat"] as String,
       location: json["localisation"]["nom"] as String,
     );
   }
