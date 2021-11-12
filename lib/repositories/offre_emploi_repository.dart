@@ -24,7 +24,7 @@ class OffreEmploiRepository {
       );
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes);
-        return (json as List).map((offre) => OffreEmploi.fromJson(offre)).toList();
+        return (json["results"] as List).map((offre) => OffreEmploi.fromJson(offre)).toList();
       }
     } catch (e) {
       print('Exception on ${url.toString()}: ' + e.toString());
