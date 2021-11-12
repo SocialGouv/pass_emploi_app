@@ -38,35 +38,30 @@ Si besoin de la mettre à jour, il faut le faire dans le fichier `ios/Podfile` :
 ## Déployer une app sur Firebase
 ### Prérequis
 1. Se mettre à jour sur master
-2. Vérifier que les tests sont au vert : `$ flutter test`
-3. Mettre à jour le version name et incrementer le version code dans le fichier `pubspec.yaml` (variable `version`)
-4. Commiter le changement
+2. Mettre à jour le version name et incrementer le version code dans le fichier `pubspec.yaml` (variable `version`)
+3. Commiter le changement 
 
-### Pour Android
+### Spécificités Android
 1. Vérifier que le fichier `passemploi.jks` (fichier privé) est bien situé dans le repertoire `android/keystore` 
 2. Créer un fichier `key.properties` dans le repertoire `android` à partir du même modèle que `key.properties.template`. Ce fichier ne doit JAMAIS être versionné.
 3. Renseigner les valeurs demandées (valeurs présentes dans le Drive du projet) dans ce fichier.
-4. Construire l'APK en release : `$ flutter build apk --flavor staging --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL> --dart-define=FIREBASE_ENVIRONMENT_PREFIX=staging`
-5. Récupérer l'APK `build/app/outputs/flutter-apk/app-release.apk` 
-6. Créer une version avec cet APK sur [Firebase App Distribution](https://console.firebase.google.com/u/0/project/pass-emploi-staging/appdistribution/app/android:fr.fabrique.social.gouv.passemploi.staging/releases)
-7. Ajouter le groupe `Equipe projet` aux testeurs
-8. Distribuer la version
 
-
-### Pour iOS
+### Spécificités iOS
 1. Vérifier que votre compte Apple Dev ait bien accès au compte Apple "Fabrique numérique des ministères sociaux"
 2. Ouvrir le projet dans Xcode
 3. Configurer XCode, notamment sur la partie `Signing & Capabilities` [https://flutter.dev/docs/deployment/ios] en renseignant le bon provisioning profile de l'app `fr.fabrique.socialgouv.passemploi.staging`
-4. Lancer le build iOS release : `flutter build ipa --flavor staging --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL> --dart-define=FIREBASE_ENVIRONMENT_PREFIX=staging`
-5. Revenir dans Xcode
-6. Selectionner Product > Scheme > `staging`.
-7. Selectionner Product > Destination > Any iOS Device.
-8. Selectionner Product > Archive.
-9. Une fois l'archive réalisée, cliquer sur Distribute App > Adhoc> Répréciser le provisioning.profile `fr.fabrique.socialgouv.passemploi.staging` > Export
-10. Récupérer l'IPA `pass_emploi_app.ipa`
-11. Créer une version avec cet IPA sur [Firebase App Distribution](https://console.firebase.google.com/project/pass-emploi-staging/appdistribution/app/ios:fr.fabrique.social.gouv.passemploi.staging/releases)
-12. Ajouter le groupe `Equipe projet` aux testeurs
-13. Distribuer la version
+4. Récupérer le fichier `StagingOptionsPlist.plist` dans le Drive du projet, et le placer dans le dossier `ios`.
+
+### Lancement du script
+
+Le script lance les tests, build les ipa et apk, et les distribue sur firebase app distribution. 
+
+NB: le déploiement nécessite [la cli firebase](https://firebase.google.com/docs/cli). Il ne devrait pas être nécessaire d'être connecté, le script utilisant un token "ci".
+
+1. S'assurer que le fichier `scripts/build.env` est bien rempli, à partir du même modèle que `scripts/build.env.template`.
+   Ce fichier contient notamment la release note qui apparaîtra dans la description des builds.
+2. S'assurer que le script `scripts/staging_release.sh` est bien executable : `chmod u+x scripts/staging_release.sh`    
+3. En se plaçant à la racine du projet, lancer le script `scripts/staging_release.sh`.
 
 ## Déployer une app en bêta test sur les stores publics
 ### Prérequis
