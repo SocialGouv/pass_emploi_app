@@ -14,6 +14,7 @@ class Strings {
   static String menuActions = "Actions";
   static String menuChat = "Messages";
   static String menuRendezvous = "Rendez-vous";
+  static String menuSolutions = "Solutions";
 
   // Chat
   static String yourMessage = "Votre message…";
@@ -93,4 +94,13 @@ class Strings {
 
   // Offres Emploi
   static String offresEmploiTitle = "Résultats offres d'emploi";
+
+  //Solutions
+  static String searchingPageTitle = "Recherche de solutions";
+  static String keyWordsTitle = "Mots clés";
+  static String keyWordsTextField = "Métier, compétence...";
+  static String departmentTitle = "Région";
+  static String departmentTextField = "Département";
+  static String searchButton = "RECHERCHER";
+
 }
