@@ -52,3 +52,7 @@ app.*.map.json
 # Firebase secrets
 google-services.json
 GoogleService-Info.plist
+
+# staging build
+build.env
+StagingOptionsPlist.plist
