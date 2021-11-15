@@ -11,13 +11,13 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
-class OffreEmploiSearchingPage extends StatefulWidget {
+class OffreEmploiSearchPage extends StatefulWidget {
 
   @override
-  State<OffreEmploiSearchingPage> createState() => _OffreEmploiSearchingPageState();
+  State<OffreEmploiSearchPage> createState() => _OffreEmploiSearchPageState();
 }
 
-class _OffreEmploiSearchingPageState extends State<OffreEmploiSearchingPage> {
+class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
   var _keyWord = "";
   var _department = "";
 
