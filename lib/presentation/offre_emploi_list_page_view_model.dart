@@ -24,6 +24,31 @@ class OffreEmploiListPageViewModel {
       departments: Department.values,
     );
   }
+
+  List<Department> filterDepartments(String userInput) {
+    if (userInput.length < 2 || userInput.isEmpty) return [];
+    return departments.where((department) {
+      return sanitizeString(department.name).contains(sanitizeString(userInput));
+    }).toList();
+  }
+
+  String sanitizeString(String str) {
+    return removeDiacritics(str).replaceAll(RegExp("[-'`]"), " ").trim().toUpperCase();
+  }
+
+
+
+  String removeDiacritics(String str) {
+    var withDia = 'ÀÁÂÃÄàáâäÒÓÔÕÕÖòóôõöÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûü';
+    var withoutDia = 'AAAAAaaaaOOOOOOoooooEEEEeeeeCcIIIIiiiiUUUUuuuu';
+
+    for (int i = 0; i < withDia.length; i++) {
+      str = str.replaceAll(withDia[i], withoutDia[i]);
+    }
+
+    return str;
+  }
+
 }
 
 void _searchingRequest(Store<AppState> store, String keyWord, String department) {

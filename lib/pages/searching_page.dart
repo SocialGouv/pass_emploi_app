@@ -25,7 +25,11 @@ class _OffreEmploiSearchingPageState extends State<OffreEmploiSearchingPage> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, OffreEmploiListPageViewModel>(
         converter: (store) => OffreEmploiListPageViewModel.create(store),
-        onWillChange: (previousVm, newVm) => _showOffresListPage(context, newVm),
+        onWillChange: (previousVm, newVm) {
+          if (newVm.displayState == OffreEmploiListDisplayState.SHOW_CONTENT) {
+            _showOffresListPage(context, newVm);
+          }
+        },
         builder: (context, viewModel) {
           return Scaffold(
             appBar: _appBar(Strings.searchingPageTitle),
@@ -54,7 +58,7 @@ class _OffreEmploiSearchingPageState extends State<OffreEmploiSearchingPage> {
     );
   }
 
-  Widget _body(OffreEmploiListPageViewModel searchingPageViewModel) {
+  Widget _body(OffreEmploiListPageViewModel viewModel) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -95,10 +99,7 @@ class _OffreEmploiSearchingPageState extends State<OffreEmploiSearchingPage> {
           child: Text(Strings.departmentTitle, style: TextStyles.textLgMedium),
         ),
         Autocomplete<Department>(optionsBuilder: (textEditingValue) {
-          if (textEditingValue.text.length < 2 || textEditingValue.text.isEmpty) return [];
-          return searchingPageViewModel.departments.where((department) {
-            return department.name.toUpperCase().contains(textEditingValue.text.toUpperCase());
-          });
+            return viewModel.filterDepartments(textEditingValue.text);
         },
           onSelected: (department) {
           _department = department.number;
