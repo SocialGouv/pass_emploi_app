@@ -98,16 +98,49 @@ class _OffreEmploiSearchingPageState extends State<OffreEmploiSearchingPage> {
           padding: const EdgeInsets.only(top: Margins.small, bottom: Margins.small),
           child: Text(Strings.departmentTitle, style: TextStyles.textLgMedium),
         ),
-        Autocomplete<Department>(optionsBuilder: (textEditingValue) {
-            return viewModel.filterDepartments(textEditingValue.text);
-        },
-          onSelected: (department) {
-          _department = department.number;
-          },
-          fieldViewBuilder: (BuildContext context,
-              TextEditingController textEditingController,
-              FocusNode focusNode, VoidCallback onFieldSubmitted) {
-            return TextFormField(
+        LayoutBuilder(
+          builder: (context, constraints) => Autocomplete<Department>(
+            optionsBuilder: (textEditingValue) {
+              return viewModel.filterDepartments(textEditingValue.text);
+            },
+            onSelected: (department) {
+              _department = department.number;
+            },
+            optionsViewBuilder:
+                (BuildContext context, AutocompleteOnSelected<Department> onSelected, Iterable<Department> options) {
+              return Align(
+                  alignment: Alignment.topLeft,
+                  child: Material(
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(bottom: Radius.circular(4.0)),
+                    ),
+                    child: Container(
+                      width: constraints.biggest.width,
+                      child: ListView.builder(
+                        padding: EdgeInsets.zero,
+                        shrinkWrap: true,
+                        itemCount: options.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final Department option = options.elementAt(index);
+
+                          return GestureDetector(
+                            onTap: () {
+                              onSelected(option);
+                            },
+                            child: ListTile(
+                              title: Text(option.name, style: const TextStyle(color: AppColors.nightBlue)),
+                            ),
+                          );
+                        },
+                      ),
+                      color: Colors.white,
+                    ),
+                    color: Colors.white,
+                  ));
+            },
+            fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode,
+                VoidCallback onFieldSubmitted) {
+              return TextFormField(
                 controller: textEditingController,
                 decoration:InputDecoration(
                   contentPadding: const EdgeInsets.only(left: 24, top: 18, bottom: 18),
@@ -129,6 +162,7 @@ class _OffreEmploiSearchingPageState extends State<OffreEmploiSearchingPage> {
             );
           },
 
+        ),
         ),
       ],
     );
