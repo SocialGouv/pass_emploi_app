@@ -10,23 +10,25 @@ set +a
 
 flutter test
 
-flutter build ipa --flavor staging --dart-define=SERVER_BASE_URL=$STAGING_SERVER_BASE_URL --dart-define=FIREBASE_ENVIRONMENT_PREFIX=staging
+flutter build ipa \
+    --flavor staging \
+    --dart-define=SERVER_BASE_URL=$STAGING_SERVER_BASE_URL \
+    --dart-define=FIREBASE_ENVIRONMENT_PREFIX=staging \
+    --export-options-plist=ios/StagingOptionsPlist.plist
 
-xcodebuild -exportArchive \
-              -archivePath build/ios/archive/Runner.xcarchive \
-              -exportPath ios-release \
-              -exportOptionsPlist ios/StagingOptionsPlist.plist
+flutter build apk \
+    --flavor staging \
+    --dart-define=SERVER_BASE_URL=$STAGING_SERVER_BASE_URL \
+    --dart-define=FIREBASE_ENVIRONMENT_PREFIX=staging
 
-flutter build apk --flavor staging --dart-define=SERVER_BASE_URL=$STAGING_SERVER_BASE_URL --dart-define=FIREBASE_ENVIRONMENT_PREFIX=staging
-
-firebase appdistribution:distribute build/app/outputs/flutter-apk/app-staging-release.apk  \
+firebase appdistribution:distribute build/app/outputs/flutter-apk/app-staging-release.apk \
     --token "$STAGING_FIREBASE_CI_TOKEN" \
-    --app "$STAGING_ANDROID_APP_ID"  \
+    --app "$STAGING_ANDROID_APP_ID" \
     --release-notes "$RELEASE_NOTE" \
     --groups "$STAGING_FIREBASE_RELEASE_GROUPS"
 
-firebase appdistribution:distribute ios-release/pass_emploi_app.ipa  \
+firebase appdistribution:distribute ios-release/pass_emploi_app.ipa \
     --token "$STAGING_FIREBASE_CI_TOKEN" \
-    --app "$STAGING_IOS_APP_ID"  \
+    --app "$STAGING_IOS_APP_ID" \
     --release-notes "$RELEASE_NOTE" \
     --groups "$STAGING_FIREBASE_RELEASE_GROUPS"
