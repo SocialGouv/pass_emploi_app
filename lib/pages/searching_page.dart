@@ -23,10 +23,10 @@ class _OffreEmploiSearchingPageState extends State<OffreEmploiSearchingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, OffreEmploiListPageViewModel>(
-        converter: (store) => OffreEmploiListPageViewModel.create(store),
+    return StoreConnector<AppState, OffreEmploiSearchViewModel>(
+        converter: (store) => OffreEmploiSearchViewModel.create(store),
         onWillChange: (previousVm, newVm) {
-          if (newVm.displayState == OffreEmploiListDisplayState.SHOW_CONTENT) {
+          if (newVm.displayState == OffreEmploiSearchDisplayState.SHOW_CONTENT) {
             _showOffresListPage(context, newVm);
           }
         },
@@ -58,7 +58,7 @@ class _OffreEmploiSearchingPageState extends State<OffreEmploiSearchingPage> {
     );
   }
 
-  Widget _body(OffreEmploiListPageViewModel viewModel) {
+  Widget _body(OffreEmploiSearchViewModel viewModel) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -134,7 +134,7 @@ class _OffreEmploiSearchingPageState extends State<OffreEmploiSearchingPage> {
     );
   }
 
-  Widget _searchOffersButton(BuildContext context, OffreEmploiListPageViewModel viewModel) {
+  Widget _searchOffersButton(BuildContext context, OffreEmploiSearchViewModel viewModel) {
     return  Material(
       child: Ink(
         decoration: BoxDecoration(color: AppColors.nightBlue, borderRadius: BorderRadius.all(Radius.circular(30))),
@@ -150,11 +150,11 @@ class _OffreEmploiSearchingPageState extends State<OffreEmploiSearchingPage> {
     );
   }
 
-  void _searchingRequest(OffreEmploiListPageViewModel viewModel) {
+  void _searchingRequest(OffreEmploiSearchViewModel viewModel) {
     viewModel.searchingRequest(_keyWord, _department);
   }
 
-  void _showOffresListPage(BuildContext context, OffreEmploiListPageViewModel viewModel) {
+  void _showOffresListPage(BuildContext context, OffreEmploiSearchViewModel viewModel) {
     Navigator.push(context, OffreEmploiListPage.materialPageRoute(viewModel.items));
   }
 

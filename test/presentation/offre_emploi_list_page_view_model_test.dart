@@ -19,10 +19,10 @@ main() {
     );
 
     // When
-    final viewModel = OffreEmploiListPageViewModel.create(store);
+    final viewModel = OffreEmploiSearchViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, OffreEmploiListDisplayState.SHOW_LOADER);
+    expect(viewModel.displayState, OffreEmploiSearchDisplayState.SHOW_LOADER);
   });
 
   test("create when state is failure should set display state properly", () {
@@ -35,10 +35,10 @@ main() {
     );
 
     // When
-    final viewModel = OffreEmploiListPageViewModel.create(store);
+    final viewModel = OffreEmploiSearchViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, OffreEmploiListDisplayState.SHOW_ERROR);
+    expect(viewModel.displayState, OffreEmploiSearchDisplayState.SHOW_ERROR);
   });
 
   test("create when state is success but empty should set display state properly", () {
@@ -51,10 +51,10 @@ main() {
     );
 
     // When
-    final viewModel = OffreEmploiListPageViewModel.create(store);
+    final viewModel = OffreEmploiSearchViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, OffreEmploiListDisplayState.SHOW_EMPTY_ERROR);
+    expect(viewModel.displayState, OffreEmploiSearchDisplayState.SHOW_EMPTY_ERROR);
   });
 
   test("create when state is success should set display state properly and convert data to view model", () {
@@ -67,10 +67,10 @@ main() {
     );
 
     // When
-    final viewModel = OffreEmploiListPageViewModel.create(store);
+    final viewModel = OffreEmploiSearchViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, OffreEmploiListDisplayState.SHOW_CONTENT);
+    expect(viewModel.displayState, OffreEmploiSearchDisplayState.SHOW_CONTENT);
     expect(viewModel.items, [
       OffreEmploiItemViewModel(
         "123DXPM",
@@ -112,14 +112,14 @@ main() {
 
 
   group("_filterDepartments should return ...", () {
-   late OffreEmploiListPageViewModel viewModel;
+   late OffreEmploiSearchViewModel viewModel;
 
     setUp(() {
       final store = Store<AppState>(
         reducer,
         initialState: AppState.initialState(),
       );
-      viewModel = OffreEmploiListPageViewModel.create(store);
+      viewModel = OffreEmploiSearchViewModel.create(store);
     });
 
     test("filtered list of departments when user input match to department name", () {
