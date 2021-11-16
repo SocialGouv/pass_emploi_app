@@ -69,10 +69,13 @@ NB: le déploiement nécessite [la cli firebase](https://firebase.google.com/doc
 2. Vérifier que les tests sont au vert : `$ flutter test`
 3. Mettre à jour le version name et incrementer le version code dans le fichier `pubspec.yaml` (variable `version`)
 4. Commiter le changement
-5. Merger develop sur master : 
-`$ git checkout master`
-`$ git pull`
-`$ git merge develop --no-ff`
+5. Merger develop sur master :
+```shell script
+$ git checkout master
+$ git pull
+$ git merge --no-ff develop
+$ git push
+```
 6. Tagger la release
 ```shell script
 $ git tag -a major.minor.patch -m "major.minor.patch"
