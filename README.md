@@ -37,7 +37,7 @@ Si besoin de la mettre à jour, il faut le faire dans le fichier `ios/Podfile` :
 
 ## Déployer une app sur Firebase
 ### Prérequis
-1. Se mettre à jour sur master
+1. Se mettre à jour sur develop
 2. Mettre à jour le version name et incrementer le version code dans le fichier `pubspec.yaml` (variable `version`)
 3. Commiter le changement 
 
