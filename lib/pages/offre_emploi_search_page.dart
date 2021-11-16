@@ -47,8 +47,9 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
   }
 
   Widget _body(OffreEmploiSearchViewModel viewModel) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    return ListView(
+      padding: EdgeInsets.all(0.0),
+      shrinkWrap: true,
       children: [
         _separator(),
         Text(Strings.keyWordsTitle, style: TextStyles.textLgMedium),
