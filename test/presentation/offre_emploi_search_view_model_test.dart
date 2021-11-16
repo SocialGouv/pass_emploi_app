@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/department.dart';
-import 'package:pass_emploi_app/presentation/offre_emploi_list_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
@@ -39,6 +39,7 @@ main() {
 
     // Then
     expect(viewModel.displayState, OffreEmploiSearchDisplayState.SHOW_ERROR);
+    expect(viewModel.errorMessage, "Erreur lors de la recherche. Veuillez réessayer");
   });
 
   test("create when state is success but empty should set display state properly", () {
@@ -55,6 +56,7 @@ main() {
 
     // Then
     expect(viewModel.displayState, OffreEmploiSearchDisplayState.SHOW_EMPTY_ERROR);
+    expect(viewModel.errorMessage, "Aucune offre ne correspond à votre recherche");
   });
 
   test("create when state is success should set display state properly and convert data to view model", () {

@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:redux/redux.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 
 enum OffreEmploiSearchDisplayState { SHOW_CONTENT, SHOW_LOADER, SHOW_ERROR, SHOW_EMPTY_ERROR }
 
@@ -12,8 +13,9 @@ class OffreEmploiSearchViewModel {
   final List<OffreEmploiItemViewModel> items;
   final List<Department> departments;
   final Function(String keyWord, String department) searchingRequest;
+  final String errorMessage;
 
-  OffreEmploiSearchViewModel._({required this.displayState, required this.items, required this.departments, required this.searchingRequest});
+  OffreEmploiSearchViewModel._({required this.displayState, required this.items, required this.departments, required this.searchingRequest, this.errorMessage = ""});
 
   factory OffreEmploiSearchViewModel.create(Store<AppState> store) {
     final searchState = store.state.offreEmploiSearchState;
@@ -22,6 +24,7 @@ class OffreEmploiSearchViewModel {
       items: _items(searchState),
       searchingRequest: (keyWord, department) => _searchingRequest(store, keyWord, department),
       departments: Department.values,
+      errorMessage: _setErrorMessage(searchState),
     );
   }
 
@@ -48,11 +51,21 @@ class OffreEmploiSearchViewModel {
 
     return str;
   }
-
 }
 
 void _searchingRequest(Store<AppState> store, String keyWord, String department) {
  store.dispatch(SearchOffreEmploiAction(keywords: keyWord, department: department));
+}
+
+String _setErrorMessage(OffreEmploiSearchState searchState) {
+  if (searchState is OffreEmploiSearchSuccessState) {
+    return searchState.offres.isNotEmpty
+        ? ""
+        : Strings.noContentError;
+  } else if (searchState is OffreEmploiSearchFailureState) {
+    return Strings.genericError;
+  }
+  return "";
 }
 
 OffreEmploiSearchDisplayState _displayState(OffreEmploiSearchState searchState) {

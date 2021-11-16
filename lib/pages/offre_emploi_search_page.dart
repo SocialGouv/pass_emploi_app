@@ -3,16 +3,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/models/department.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
-import 'package:pass_emploi_app/presentation/offre_emploi_list_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
 class OffreEmploiSearchPage extends StatefulWidget {
-
   @override
   State<OffreEmploiSearchPage> createState() => _OffreEmploiSearchPageState();
 }
@@ -32,24 +31,13 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
         },
         builder: (context, viewModel) {
           return Scaffold(
-            appBar: _appBar(Strings.searchingPageTitle),
-            body: Container(
-                    margin: EdgeInsets.only(left: 16, right: 16),
-                    padding: EdgeInsets.all(16),
-                    child: Column(
-                      children: [
-                          Padding(
-                          padding: const EdgeInsets.only(left: 40, right: 40),),
-                          SizedBox(height: 20,),
-                          _body(viewModel),
-                          SizedBox(height: 40,),
-                          _searchOffersButton(context, viewModel),
-                        ],
-                    )
-          )
-          );
-        }
-    );
+              appBar: _appBar(Strings.searchingPageTitle),
+              body: Container(
+                margin: EdgeInsets.only(left: 16, right: 16),
+                padding: EdgeInsets.all(16),
+                child: _body(viewModel),
+              ));
+        });
   }
 
   AppBar _appBar(String title) {
@@ -62,127 +50,124 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(top: Margins.small, bottom: Margins.small),
-          child: Text(Strings.keyWordsTitle, style: TextStyles.textLgMedium),
-        ),
-        TextFormField(
-          style: TextStyles.textSmMedium(color: AppColors.nightBlue),
-          keyboardType: TextInputType.name,
-          textCapitalization: TextCapitalization.words,
-          textInputAction: TextInputAction.done,
-          validator: (value) {
-            if (value == null || value.isEmpty) return Strings.mandatoryAccessCodeError;
-            return null;
-          },
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.only(left: 24, top: 18, bottom: 18),
-            labelText: Strings.keyWordsTextField,
-            labelStyle: TextStyles.textSmMedium(color: AppColors.bluePurple),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.0),
-              borderSide: BorderSide(color: AppColors.nightBlue, width: 1.0),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.0),
-              borderSide: BorderSide(color: AppColors.nightBlue, width: 1.0),
-            ),
-          ),
-          onChanged: (keyword) {
-            _keyWord = keyword;
-          },
-        ),
-        SizedBox(height: 24,),
-
-        Padding(
-          padding: const EdgeInsets.only(top: Margins.small, bottom: Margins.small),
-          child: Text(Strings.departmentTitle, style: TextStyles.textLgMedium),
-        ),
-        LayoutBuilder(
-          builder: (context, constraints) => Autocomplete<Department>(
-            optionsBuilder: (textEditingValue) {
-              return viewModel.filterDepartments(textEditingValue.text);
-            },
-            onSelected: (department) {
-              _department = department.number;
-            },
-            optionsViewBuilder:
-                (BuildContext context, AutocompleteOnSelected<Department> onSelected, Iterable<Department> options) {
-              return Align(
-                  alignment: Alignment.topLeft,
-                  child: Material(
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(bottom: Radius.circular(4.0)),
-                    ),
-                    child: Container(
-                      width: constraints.biggest.width,
-                      child: ListView.builder(
-                        padding: EdgeInsets.zero,
-                        shrinkWrap: true,
-                        itemCount: options.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final Department option = options.elementAt(index);
-
-                          return GestureDetector(
-                            onTap: () {
-                              onSelected(option);
-                            },
-                            child: ListTile(
-                              title: Text(option.name, style: const TextStyle(color: AppColors.nightBlue)),
-                            ),
-                          );
-                        },
-                      ),
-                      color: Colors.white,
-                    ),
-                    color: Colors.white,
-                  ));
-            },
-            fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode,
-                VoidCallback onFieldSubmitted) {
-              return TextFormField(
-                controller: textEditingController,
-                decoration:InputDecoration(
-                  contentPadding: const EdgeInsets.only(left: 24, top: 18, bottom: 18),
-                  labelText: Strings.departmentTextField,
-                  labelStyle: TextStyles.textSmMedium(color: AppColors.bluePurple),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide(color: AppColors.nightBlue, width: 1.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(8.0),
-                    borderSide: BorderSide(color: AppColors.nightBlue, width: 1.0),
-                  ),
-                ),
-              focusNode: focusNode,
-              onFieldSubmitted: (String value) {
-                onFieldSubmitted();
-              },
-            );
-          },
-
-        ),
-        ),
+        _separator(),
+        Text(Strings.keyWordsTitle, style: TextStyles.textLgMedium),
+        _separator(),
+        _keywordTextFormField(),
+        _separator(),
+        Text(Strings.departmentTitle, style: TextStyles.textLgMedium),
+        _separator(),
+        _autocomplete(viewModel),
+        _separator(),
+        Center(
+            child: userActionBottomSheetActionButton(
+                onPressed: _isLoading(viewModel) ? null : () => _searchingRequest(viewModel),
+                label: Strings.searchButton)),
+        _separator(),
+        if (viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_ERROR ||
+            viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_EMPTY_ERROR)
+          _errorTextField(viewModel),
       ],
     );
   }
 
-  Widget _searchOffersButton(BuildContext context, OffreEmploiSearchViewModel viewModel) {
-    return  Material(
-      child: Ink(
-        decoration: BoxDecoration(color: AppColors.nightBlue, borderRadius: BorderRadius.all(Radius.circular(30))),
-        child: InkWell(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          onTap: () => _searchingRequest(viewModel),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
-            child: Text(Strings.searchButton, style: TextStyles.textSmMedium(color: Colors.white)),
-          ),
-        ),
+  SizedBox _separator() {
+    return SizedBox(
+      height: 24,
+    );
+  }
+
+  TextFormField _keywordTextFormField() {
+    return TextFormField(
+      style: TextStyles.textSmMedium(color: AppColors.nightBlue),
+      keyboardType: TextInputType.name,
+      textCapitalization: TextCapitalization.words,
+      textInputAction: TextInputAction.done,
+      validator: (value) {
+        if (value == null || value.isEmpty) return Strings.mandatoryAccessCodeError;
+        return null;
+      },
+      decoration: _inputDecoration(Strings.keyWordsTextField),
+      onChanged: (keyword) {
+        _keyWord = keyword;
+      },
+    );
+  }
+
+  LayoutBuilder _autocomplete(OffreEmploiSearchViewModel viewModel) {
+    return LayoutBuilder(
+      builder: (context, constraints) => Autocomplete<Department>(
+        optionsBuilder: (textEditingValue) {
+          return viewModel.filterDepartments(textEditingValue.text);
+        },
+        onSelected: (department) {
+          _department = department.number;
+        },
+        optionsViewBuilder:
+            (BuildContext context, AutocompleteOnSelected<Department> onSelected, Iterable<Department> options) {
+          return Align(
+              alignment: Alignment.topLeft,
+              child: Material(
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(bottom: Radius.circular(4.0)),
+                ),
+                child: Container(
+                  width: constraints.biggest.width,
+                  child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    itemCount: options.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final Department option = options.elementAt(index);
+
+                      return GestureDetector(
+                        onTap: () {
+                          onSelected(option);
+                        },
+                        child: ListTile(
+                          title: Text(option.name, style: const TextStyle(color: AppColors.nightBlue)),
+                        ),
+                      );
+                    },
+                  ),
+                  color: Colors.white,
+                ),
+                color: Colors.white,
+              ));
+        },
+        fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode,
+            VoidCallback onFieldSubmitted) {
+          return TextFormField(
+            controller: textEditingController,
+            decoration: _inputDecoration(Strings.departmentTextField),
+            focusNode: focusNode,
+            onFieldSubmitted: (String value) {
+              onFieldSubmitted();
+            },
+          );
+        },
       ),
     );
   }
+
+  InputDecoration _inputDecoration(String textFieldString) {
+    return InputDecoration(
+      contentPadding: const EdgeInsets.only(left: 24, top: 18, bottom: 18),
+      labelText: textFieldString,
+      labelStyle: TextStyles.textSmMedium(color: AppColors.bluePurple),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: BorderSide(color: AppColors.nightBlue, width: 1.0),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: BorderSide(color: AppColors.nightBlue, width: 1.0),
+      ),
+    );
+  }
+
+  bool _isLoading(OffreEmploiSearchViewModel viewModel) =>
+      viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_LOADER;
 
   void _searchingRequest(OffreEmploiSearchViewModel viewModel) {
     viewModel.searchingRequest(_keyWord, _department);
@@ -192,4 +177,16 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
     Navigator.push(context, OffreEmploiListPage.materialPageRoute(viewModel.items));
   }
 
+  Widget _errorTextField(OffreEmploiSearchViewModel viewModel) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          viewModel.errorMessage,
+          textAlign: TextAlign.center,
+          style: TextStyles.textSmRegular(color: AppColors.errorRed),
+        ),
+      ),
+    );
+  }
 }
