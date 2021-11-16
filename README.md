@@ -65,11 +65,15 @@ NB: le déploiement nécessite [la cli firebase](https://firebase.google.com/doc
 
 ## Déployer une app en bêta test sur les stores publics
 ### Prérequis
-1. Se mettre à jour sur master
+1. Se mettre à jour sur develop
 2. Vérifier que les tests sont au vert : `$ flutter test`
 3. Mettre à jour le version name et incrementer le version code dans le fichier `pubspec.yaml` (variable `version`)
 4. Commiter le changement
-5. Tagger la release
+5. Merger develop sur master : 
+`$ git checkout master`
+`$ git pull`
+`$ git merge develop --no-ff`
+6. Tagger la release
 ```shell script
 $ git tag -a major.minor.patch -m "major.minor.patch"
 $ git push --tags 
