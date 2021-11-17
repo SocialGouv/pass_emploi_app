@@ -182,7 +182,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
   }
 
   void _showOffresListPage(BuildContext context, OffreEmploiSearchViewModel viewModel) {
-    Navigator.push(context, OffreEmploiListPage.materialPageRoute(viewModel.items));
+    Navigator.push(context, OffreEmploiListPage.materialPageRoute());
   }
 
   Widget _errorTextField(OffreEmploiSearchViewModel viewModel) {

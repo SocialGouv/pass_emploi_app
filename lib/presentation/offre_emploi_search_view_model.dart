@@ -10,14 +10,12 @@ enum OffreEmploiSearchDisplayState { SHOW_CONTENT, SHOW_LOADER, SHOW_ERROR, SHOW
 
 class OffreEmploiSearchViewModel {
   final OffreEmploiSearchDisplayState displayState;
-  final List<OffreEmploiItemViewModel> items;
   final List<Department> departments;
   final Function(String keyWord, String department) searchingRequest;
   final String errorMessage;
 
   OffreEmploiSearchViewModel._({
     required this.displayState,
-    required this.items,
     required this.departments,
     required this.searchingRequest,
     this.errorMessage = "",
@@ -27,7 +25,6 @@ class OffreEmploiSearchViewModel {
     final searchState = store.state.offreEmploiSearchState;
     return OffreEmploiSearchViewModel._(
       displayState: _displayState(searchState),
-      items: _items(searchState),
       searchingRequest: (keyWord, department) => _searchingRequest(store, keyWord, department),
       departments: Department.values,
       errorMessage: _setErrorMessage(searchState),
@@ -80,40 +77,4 @@ OffreEmploiSearchDisplayState _displayState(OffreEmploiSearchState searchState) 
   } else {
     return OffreEmploiSearchDisplayState.SHOW_ERROR;
   }
-}
-
-List<OffreEmploiItemViewModel> _items(OffreEmploiSearchState searchState) {
-  return searchState is OffreEmploiSearchSuccessState
-      ? searchState.offres
-          .map((e) => OffreEmploiItemViewModel(
-                e.id,
-                e.title,
-                e.companyName,
-                e.contractType,
-                e.duration,
-                e.location,
-              ))
-          .toList()
-      : [];
-}
-
-class OffreEmploiItemViewModel extends Equatable {
-  final String id;
-  final String title;
-  final String? companyName;
-  final String contractType;
-  final String? duration;
-  final String? location;
-
-  OffreEmploiItemViewModel(this.id, this.title, this.companyName, this.contractType, this.duration, this.location);
-
-  @override
-  List<Object?> get props => [
-        id,
-        title,
-        companyName,
-        contractType,
-        location,
-        duration,
-      ];
 }

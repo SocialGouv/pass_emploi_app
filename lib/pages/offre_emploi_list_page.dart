@@ -1,28 +1,58 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart';
+import 'package:pass_emploi_app/presentation/offre_emploi_search_results_view_model.dart';
+import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
-class OffreEmploiListPage extends TraceableStatelessWidget {
-  OffreEmploiListPage._(this._items) : super(name: AnalyticsScreenNames.offreEmploiResults);
+class OffreEmploiListPage extends TraceableStatefulWidget {
+  OffreEmploiListPage._(): super(name: AnalyticsScreenNames.offreEmploiResults);
 
-  final List<OffreEmploiItemViewModel> _items;
+  static MaterialPageRoute materialPageRoute() {
+    return MaterialPageRoute(builder: (context) => OffreEmploiListPage._());
+  }
 
-  static MaterialPageRoute materialPageRoute(List<OffreEmploiItemViewModel> items) {
-    return MaterialPageRoute(builder: (context) => OffreEmploiListPage._(items));
+  @override
+  State<OffreEmploiListPage> createState() => _OffreEmploiListPageState();
+}
+
+class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
+  late ScrollController _scrollController;
+  OffreEmploiSearchResultsViewModel? _currentViewModel;
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      if (_scrollController.offset >= _scrollController.position.maxScrollExtent) {
+        _currentViewModel?.onReachBottom();
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return _scaffold(context);
+    return StoreConnector<AppState, OffreEmploiSearchResultsViewModel>(
+      converter: (store) => OffreEmploiSearchResultsViewModel.create(store),
+      builder: (context, viewModel) => _scaffold(context, viewModel),
+      onInitialBuild: (viewModel) => _currentViewModel = viewModel,
+      onDidChange: (previousViewModel, viewModel) => {_currentViewModel = viewModel},
+    );
   }
 
-  Widget _scaffold(BuildContext context) {
+  Widget _scaffold(BuildContext context, OffreEmploiSearchResultsViewModel viewModel) {
     return Scaffold(
       backgroundColor: AppColors.lightBlue,
       appBar: FlatDefaultAppBar(
@@ -35,9 +65,10 @@ class OffreEmploiListPage extends TraceableStatelessWidget {
           child: Container(
             color: Colors.white,
             child: ListView.separated(
-              itemBuilder: (context, index) => _buildItem(context, _items[index]),
+              controller: _scrollController,
+              itemBuilder: (context, index) => _buildItem(context, viewModel.items[index]),
               separatorBuilder: (context, index) => _listSeparator(),
-              itemCount: _items.length,
+              itemCount: viewModel.items.length,
             ),
           ),
         ),

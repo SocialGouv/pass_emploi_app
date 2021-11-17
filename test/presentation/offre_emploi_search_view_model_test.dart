@@ -59,65 +59,6 @@ main() {
     expect(viewModel.errorMessage, "Aucune offre ne correspond à votre recherche");
   });
 
-  test("create when state is success should set display state properly and convert data to view model", () {
-    // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(
-        offreEmploiSearchState: OffreEmploiSearchState.success(offreEmploiData()),
-      ),
-    );
-
-    // When
-    final viewModel = OffreEmploiSearchViewModel.create(store);
-
-    // Then
-    expect(viewModel.displayState, OffreEmploiSearchDisplayState.SHOW_CONTENT);
-    expect(viewModel.items, [
-      OffreEmploiItemViewModel(
-        "123DXPM",
-        "Technicien / Technicienne en froid et climatisation",
-        "RH TT INTERIM",
-        "MIS",
-        "Temps plein",
-        "77 - LOGNES",
-      ),
-      OffreEmploiItemViewModel(
-        "123DXPK",
-        " #SALONDEMANDELIEU2021: RECEPTIONNISTE TOURNANT (H/F)",
-        "STAND CHATEAU DE LA BEGUDE",
-        "CDD",
-        "Temps partiel",
-        "06 - OPIO",
-      ),
-      OffreEmploiItemViewModel(
-        "123DXPG",
-        "Technicien / Technicienne terrain Structure          (H/F)",
-        "GEOTEC",
-        "CDI",
-        "Temps plein",
-        "78 - PLAISIR",
-      ),
-      OffreEmploiItemViewModel(
-        "123DXPF",
-        "Responsable de boutique",
-        "GINGER",
-        "CDD",
-        null,
-        "13 - AIX EN PROVENCE",
-      ),
-      OffreEmploiItemViewModel(
-        "123DXLK",
-        "Commercial sédentaire en Assurances H/F",
-        null,
-        "CDI",
-        "Temps plein",
-        "34 - MONTPELLIER",
-      )
-    ]);
-  });
-
-
   group("_filterDepartments should return ...", () {
    late OffreEmploiSearchViewModel viewModel;
 
