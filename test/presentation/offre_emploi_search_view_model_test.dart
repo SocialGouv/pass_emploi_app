@@ -6,8 +6,6 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:redux/redux.dart';
 
-import '../models/offre_emploi_test.dart';
-
 main() {
   test("create when state is loading should set display state properly", () {
     // Given
@@ -47,7 +45,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiSearchState: OffreEmploiSearchState.success([]),
+        offreEmploiSearchState: OffreEmploiSearchState.success([], 1),
       ),
     );
 

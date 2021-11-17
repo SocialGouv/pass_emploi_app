@@ -14,9 +14,14 @@ class OffreEmploiRepository {
     required String userId,
     required String keywords,
     required String department,
+    required int page,
   }) async {
     final url = Uri.parse(_baseUrl + "/offres-emploi");
-    final urlWithQuery = url.replace(queryParameters: {"q": keywords, "departement": department});
+    final urlWithQuery = url.replace(queryParameters: {
+      "q": keywords,
+      "departement": department,
+      "page": page.toString(),
+    });
     try {
       final response = await http.get(
         urlWithQuery,

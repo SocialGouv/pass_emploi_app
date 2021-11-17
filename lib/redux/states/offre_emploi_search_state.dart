@@ -6,7 +6,8 @@ abstract class OffreEmploiSearchState extends Equatable {
 
   factory OffreEmploiSearchState.loading() = OffreEmploiSearchLoadingState;
 
-  factory OffreEmploiSearchState.success(List<OffreEmploi> offres) = OffreEmploiSearchSuccessState;
+  factory OffreEmploiSearchState.success(List<OffreEmploi> loadedOffres, int loadedPage) =>
+      OffreEmploiSearchSuccessState(offres: loadedOffres, loadedPage: loadedPage);
 
   factory OffreEmploiSearchState.failure() = OffreEmploiSearchFailureState;
 
@@ -22,11 +23,12 @@ class OffreEmploiSearchLoadingState extends OffreEmploiSearchState {
 
 class OffreEmploiSearchSuccessState extends OffreEmploiSearchState {
   final List<OffreEmploi> offres;
+  final int loadedPage;
 
-  OffreEmploiSearchSuccessState(this.offres) : super._();
+  OffreEmploiSearchSuccessState({required this.offres, required this.loadedPage}) : super._();
 
   @override
-  List<Object> get props => [offres];
+  List<Object> get props => [offres, loadedPage];
 }
 
 class OffreEmploiSearchFailureState extends OffreEmploiSearchState {

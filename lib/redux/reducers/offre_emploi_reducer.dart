@@ -7,11 +7,18 @@ AppState offreEmploiReducer(AppState currentState, dynamic action) {
   if (action is SearchOffreEmploiAction) {
     return currentState.copyWith(
         offreEmploiSearchParametersState:
-            OffreEmploiSearchParametersInitializedState(action.keywords, action.department));
+            OffreEmploiSearchParametersInitializedState(keyWords: action.keywords, department: action.department));
   } else if (action is OffreEmploiSearchLoadingAction) {
     return currentState.copyWith(offreEmploiSearchState: OffreEmploiSearchState.loading());
   } else if (action is OffreEmploiSearchSuccessAction) {
-    return currentState.copyWith(offreEmploiSearchState: OffreEmploiSearchState.success(action.offres));
+    if (action.page == 1)
+      return currentState.copyWith(offreEmploiSearchState: OffreEmploiSearchState.success(action.offres, action.page));
+    else {
+      final previousSuccessState = (currentState.offreEmploiSearchState as OffreEmploiSearchSuccessState);
+      return currentState.copyWith(
+          offreEmploiSearchState:
+              OffreEmploiSearchState.success(previousSuccessState.offres + action.offres, action.page));
+    }
   } else if (action is OffreEmploiSearchFailureAction) {
     return currentState.copyWith(offreEmploiSearchState: OffreEmploiSearchState.failure());
   } else {

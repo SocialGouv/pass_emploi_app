@@ -1,17 +1,17 @@
 abstract class OffreEmploiSearchParametersState {
   OffreEmploiSearchParametersState._();
 
-  factory OffreEmploiSearchParametersState.initialized(String? keyWords, String? department) =
-      OffreEmploiSearchParametersInitializedState;
+  factory OffreEmploiSearchParametersState.initialized(String keyWords, String department) =>
+      OffreEmploiSearchParametersInitializedState(keyWords: keyWords, department: department);
 
   factory OffreEmploiSearchParametersState.notInitialized() = OffreEmploiSearchParametersStateNotInitializedState;
 }
 
 class OffreEmploiSearchParametersInitializedState extends OffreEmploiSearchParametersState {
-  final String? keyWords;
-  final String? department;
+  final String keyWords;
+  final String department;
 
-  OffreEmploiSearchParametersInitializedState(this.keyWords, this.department) : super._();
+  OffreEmploiSearchParametersInitializedState({required this.keyWords, required this.department}) : super._();
 }
 
 class OffreEmploiSearchParametersStateNotInitializedState extends OffreEmploiSearchParametersState {

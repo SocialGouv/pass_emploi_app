@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:redux/redux.dart';
@@ -12,12 +13,10 @@ class OffreEmploiSearchResultsViewModel {
   factory OffreEmploiSearchResultsViewModel.create(Store<AppState> store) {
     return OffreEmploiSearchResultsViewModel(
       items: _items(store.state.offreEmploiSearchState),
-      onReachBottom: () => _reachBottom(),
+      onReachBottom: () => store.dispatch(RequestMoreOffreEmploiSearchResultsAction()),
     );
   }
 }
-
-void _reachBottom() {}
 
 List<OffreEmploiItemViewModel> _items(OffreEmploiSearchState searchState) {
   return searchState is OffreEmploiSearchSuccessState

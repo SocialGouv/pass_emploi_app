@@ -13,7 +13,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiSearchState: OffreEmploiSearchState.success(offreEmploiData()),
+        offreEmploiSearchState: OffreEmploiSearchState.success(offreEmploiData(), 1),
       ),
     );
 
