@@ -58,7 +58,7 @@ void main() {
     expect((viewModel.items[0] as SectionItem).title, "Mes actions");
     expect(
       (viewModel.items[1] as MessageItem).message,
-      "Vous n’avez pas encore d’actions en cours.\nContactez votre conseiller pour les définir avec lui.",
+      "Vous n’avez pas encore d’actions en cours.\nContactez votre conseiller pour les définir avec lui",
     );
   });
 
@@ -79,7 +79,7 @@ void main() {
     expect((viewModel.items[0] as SectionItem).title, "Mes actions");
     expect(
       (viewModel.items[1] as MessageItem).message,
-      "Bravo :) Vous n’avez plus d’actions en cours.\nContactez votre conseiller pour obtenir de nouvelles actions.",
+      "Bravo :) Vous n’avez plus d’actions en cours.\nContactez votre conseiller pour obtenir de nouvelles actions",
     );
     expect(viewModel.items[2] is AllActionsButtonItem, true);
   });
@@ -140,7 +140,7 @@ void main() {
     expect((viewModel.items[2] as SectionItem).title, "Mes rendez-vous à venir");
     expect(
       (viewModel.items[3] as MessageItem).message,
-      "Vous n’avez pas de rendez-vous prévus.\nContactez votre conseiller pour prendre rendez-vous.",
+      "Vous n’avez pas de rendez-vous prévus.\nContactez votre conseiller pour prendre rendez-vous",
     );
   });
 
@@ -185,7 +185,7 @@ void main() {
     expect(rdv1.dateWithoutHour, '23 décembre 2022');
     expect(rdv1.hourAndDuration, '10:20 (1h)');
     expect(rdv1.withComment, false);
-    expect(rdv1.modality, 'Le rendez-vous se fera par téléphone.');
+    expect(rdv1.modality, 'Le rendez-vous se fera par téléphone');
     final rdv2 = (viewModel.items[4] as RendezvousItem).rendezvous;
     expect(rdv2.title, 'title2');
     expect(rdv2.subtitle, 'subtitle2');
@@ -194,7 +194,7 @@ void main() {
     expect(rdv2.hourAndDuration, '13:40 (30min)');
     expect(rdv2.withComment, true);
     expect(rdv2.comment, 'comment2');
-    expect(rdv2.modality, 'Le rendez-vous se fera à l\'agence.');
+    expect(rdv2.modality, 'Le rendez-vous se fera à l\'agence');
   });
 }
 
