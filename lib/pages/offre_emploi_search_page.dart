@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/department.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart';
@@ -11,7 +13,9 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
-class OffreEmploiSearchPage extends StatefulWidget {
+class OffreEmploiSearchPage extends TraceableStatefulWidget {
+  OffreEmploiSearchPage() : super(name: AnalyticsScreenNames.offreEmploiResearch);
+
   @override
   State<OffreEmploiSearchPage> createState() => _OffreEmploiSearchPageState();
 }

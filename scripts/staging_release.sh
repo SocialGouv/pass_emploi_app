@@ -12,14 +12,10 @@ flutter test
 
 flutter build ipa \
     --flavor staging \
-    --dart-define=SERVER_BASE_URL=$STAGING_SERVER_BASE_URL \
-    --dart-define=FIREBASE_ENVIRONMENT_PREFIX=staging \
     --export-options-plist=ios/StagingOptionsPlist.plist
 
 flutter build apk \
-    --flavor staging \
-    --dart-define=SERVER_BASE_URL=$STAGING_SERVER_BASE_URL \
-    --dart-define=FIREBASE_ENVIRONMENT_PREFIX=staging
+    --flavor staging
 
 firebase appdistribution:distribute build/app/outputs/flutter-apk/app-staging-release.apk \
     --token "$STAGING_FIREBASE_CI_TOKEN" \
