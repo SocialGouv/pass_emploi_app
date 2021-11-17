@@ -3,7 +3,7 @@ import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
-import 'package:pass_emploi_app/network/patch_user_action_request.dart';
+import 'package:pass_emploi_app/network/put_user_action_request.dart';
 import 'package:pass_emploi_app/network/post_user_action_request.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
 
@@ -33,10 +33,10 @@ class UserActionRepository {
   Future<void> updateActionStatus(String userId, String actionId, UserActionStatus newStatus) async {
     var url = Uri.parse(baseUrl + "/actions/$actionId");
     try {
-      http.patch(
+      http.put(
         url,
         headers: await headerBuilder.headers(userId: userId, contentType: 'application/json'),
-        body: customJsonEncode(PatchUserActionRequest(status: newStatus)),
+        body: customJsonEncode(PutUserActionRequest(status: newStatus)),
       );
     } catch (e) {
       print('Exception on ${url.toString()}: ' + e.toString());
