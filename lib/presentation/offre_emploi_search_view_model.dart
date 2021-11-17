@@ -15,12 +15,13 @@ class OffreEmploiSearchViewModel {
   final Function(String keyWord, String department) searchingRequest;
   final String errorMessage;
 
-  OffreEmploiSearchViewModel._(
-      {required this.displayState,
-      required this.items,
-      required this.departments,
-      required this.searchingRequest,
-      this.errorMessage = ""});
+  OffreEmploiSearchViewModel._({
+    required this.displayState,
+    required this.items,
+    required this.departments,
+    required this.searchingRequest,
+    this.errorMessage = "",
+  });
 
   factory OffreEmploiSearchViewModel.create(Store<AppState> store) {
     final searchState = store.state.offreEmploiSearchState;
