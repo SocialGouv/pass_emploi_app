@@ -4,6 +4,7 @@
     "titre": "Technicien / Technicienne en froid et climatisation",
     "typeContrat": "MIS",
     "nomEntreprise": "RH TT INTERIM",
+    "duree": "Temps plein",
     "localisation": {
       "nom": "77 - LOGNES",
       "code_postal": "77185",
@@ -15,6 +16,7 @@
     "titre": " #SALONDEMANDELIEU2021: RECEPTIONNISTE TOURNANT (H/F)",
     "typeContrat": "CDD",
     "nomEntreprise": "STAND CHATEAU DE LA BEGUDE",
+    "duree": "Temps partiel",
     "localisation": {
       "nom": "06 - OPIO",
       "code_postal": "06650",
@@ -26,6 +28,7 @@
     "titre": "Technicien / Technicienne terrain Structure          (H/F)",
     "typeContrat": "CDI",
     "nomEntreprise": "GEOTEC",
+    "duree": "Temps plein",
     "localisation": {
       "nom": "78 - PLAISIR",
       "code_postal": "78370",
@@ -37,6 +40,7 @@
     "titre": "Responsable de boutique",
     "typeContrat": "CDD",
     "nomEntreprise": "GINGER",
+    "duree": null,
     "localisation": {
       "nom": "13 - AIX EN PROVENCE",
       "code_postal": "13090",
@@ -48,6 +52,7 @@
     "titre": "Commercial sédentaire en Assurances H/F",
     "typeContrat": "CDI",
     "nomEntreprise": null,
+    "duree": "Temps plein",
     "localisation": {
       "nom": "34 - MONTPELLIER",
       "code_postal": "34000",

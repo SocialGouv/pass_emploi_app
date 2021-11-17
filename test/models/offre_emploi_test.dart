@@ -28,6 +28,7 @@ List<OffreEmploi> offreEmploiData() => [
         companyName: "RH TT INTERIM",
         contractType: "MIS",
         location: "77 - LOGNES",
+        duration: "Temps plein",
       ),
       OffreEmploi(
         id: "123DXPK",
@@ -35,6 +36,7 @@ List<OffreEmploi> offreEmploiData() => [
         companyName: "STAND CHATEAU DE LA BEGUDE",
         contractType: "CDD",
         location: "06 - OPIO",
+        duration: "Temps partiel",
       ),
       OffreEmploi(
         id: "123DXPG",
@@ -42,6 +44,7 @@ List<OffreEmploi> offreEmploiData() => [
         companyName: "GEOTEC",
         contractType: "CDI",
         location: "78 - PLAISIR",
+        duration: "Temps plein",
       ),
       OffreEmploi(
         id: "123DXPF",
@@ -49,6 +52,7 @@ List<OffreEmploi> offreEmploiData() => [
         companyName: "GINGER",
         contractType: "CDD",
         location: "13 - AIX EN PROVENCE",
+        duration: null,
       ),
       OffreEmploi(
         id: "123DXLK",
@@ -56,5 +60,6 @@ List<OffreEmploi> offreEmploiData() => [
         companyName: null,
         contractType: "CDI",
         location: "34 - MONTPELLIER",
+        duration: "Temps plein",
       )
     ];

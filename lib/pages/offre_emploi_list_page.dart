@@ -1,33 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/presentation/offre_emploi_list_page_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
 class OffreEmploiListPage extends StatelessWidget {
-  OffreEmploiListPage._();
+  OffreEmploiListPage._(this._items);
+  final List<OffreEmploiItemViewModel> _items;
 
-  static MaterialPageRoute materialPageRoute() {
+  static MaterialPageRoute materialPageRoute(List<OffreEmploiItemViewModel> items) {
     return MaterialPageRoute(
-        builder: (context) => OffreEmploiListPage._(), settings: AnalyticsRouteSettings.offreEmploiList());
+        builder: (context) => OffreEmploiListPage._(items), settings: AnalyticsRouteSettings.offreEmploiList());
   }
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, OffreEmploiListPageViewModel>(
-      onInit: (store) => store.dispatch(SearchOffreEmploiAction(keywords: "developpeur mobile", department: "75")),
-      builder: (context, vm) => _scaffold(context, vm),
-      converter: (store) => OffreEmploiListPageViewModel.create(store),
-    );
+    return _scaffold(context);
   }
 
-  Widget _scaffold(BuildContext context, OffreEmploiListPageViewModel listViewModel) {
+  Widget _scaffold(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.lightBlue,
       appBar: FlatDefaultAppBar(
@@ -40,9 +34,9 @@ class OffreEmploiListPage extends StatelessWidget {
           child: Container(
             color: Colors.white,
             child: ListView.separated(
-              itemBuilder: (context, index) => _buildItem(context, listViewModel.items[index]),
+              itemBuilder: (context, index) => _buildItem(context, _items[index]),
               separatorBuilder: (context, index) => _listSeparator(),
-              itemCount: listViewModel.items.length,
+              itemCount: _items.length,
             ),
           ),
         ),
@@ -69,11 +63,13 @@ class OffreEmploiListPage extends StatelessWidget {
               ),
             ),
           SizedBox(height: 8),
-          Row(
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
             children: [
-              _tag(label: itemViewModel.contractType),
-              SizedBox(width: 8),
-              _tag(label: itemViewModel.location, icon: SvgPicture.asset("assets/ic_place.svg")),
+              _lightBlueTag(label: itemViewModel.contractType),
+              if (itemViewModel.duration != null) _lightBlueTag(label: itemViewModel.duration!),
+              _lightBlueTag(label: itemViewModel.location, icon: SvgPicture.asset("assets/ic_place.svg")),
             ],
           )
         ],
@@ -83,7 +79,7 @@ class OffreEmploiListPage extends StatelessWidget {
 
   Widget _listSeparator() => Container(height: 1, color: AppColors.bluePurpleAlpha20);
 
-  Container _tag({required String label, SvgPicture? icon}) {
+  Container _lightBlueTag({required String label, SvgPicture? icon}) {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.lightBlue,
@@ -92,15 +88,18 @@ class OffreEmploiListPage extends StatelessWidget {
       child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               if (icon != null)
                 Padding(
                   padding: const EdgeInsets.only(right: 6),
                   child: icon,
                 ),
-              Text(
-                label,
-                style: TextStyles.textSmRegular(),
+              Flexible(
+                child: Text(
+                  label,
+                  style: TextStyles.textSmRegular(),
+                ),
               ),
             ],
           )),

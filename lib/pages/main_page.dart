@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/home_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous_list_page.dart';
+import 'package:pass_emploi_app/pages/offre_emploi_search_page.dart';
 import 'package:pass_emploi_app/pages/user_action_list_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -53,6 +54,7 @@ class _MainPageState extends State<MainPage> {
           MenuItem(drawableRes: Drawables.icMenuAction, label: Strings.menuActions),
           MenuItem(drawableRes: Drawables.icMenuChat, label: Strings.menuChat, withBadge: viewModel.withChatBadge),
           MenuItem(drawableRes: Drawables.icMenuRendezvous, label: Strings.menuRendezvous),
+          MenuItem(drawableRes: Drawables.icSearchingBar, label: Strings.menuSolutions),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
@@ -76,6 +78,8 @@ class _MainPageState extends State<MainPage> {
         return ChatPage();
       case 3:
         return RendezvousListPage();
+      case 4:
+        return OffreEmploiSearchPage();
       default:
         return HomePage(widget.userId);
     }

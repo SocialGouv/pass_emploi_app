@@ -107,4 +107,9 @@ class Department {
   final String name;
 
   Department._(this.number, this.name);
+
+  @override
+  String toString() {
+    return name.toString();
+  }
 }
