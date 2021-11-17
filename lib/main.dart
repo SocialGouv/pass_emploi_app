@@ -8,6 +8,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:matomo/matomo.dart';
 import 'package:package_info/package_info.dart';
 import 'package:pass_emploi_app/crashlytics/Crashlytics.dart';
 import 'package:pass_emploi_app/network/headers.dart';
@@ -27,7 +28,6 @@ import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
 
 import 'analytics/analytics.dart';
-import 'analytics/analytics_constants.dart';
 import 'configuration/app_version_checker.dart';
 
 main() async {
@@ -42,19 +42,19 @@ main() async {
   final forceUpdate = await _shouldForceUpdate(remoteConfig);
 
   final PushNotificationManager pushManager = FirebasePushNotificationManager();
+
+  //TODO-63 : remove
   final Analytics analytics = AnalyticsLoggerDecorator(decorated: AnalyticsWithFirebase(FirebaseAnalytics()));
+
+  //TODO-63 : add specific class ?
+  await MatomoTracker().initialize(siteId: 1234, url: 'FAKE_URL');
 
   final store = _initializeReduxStore(baseUrl, pushManager);
 
   await pushManager.init(store);
 
   runZonedGuarded<Future<void>>(() async {
-    if (forceUpdate) {
-      analytics.setCurrentScreen(AnalyticsScreenNames.forceUpdate);
-      runApp(ForceUpdatePage());
-    } else {
-      runApp(PassEmploiApp(store, analytics));
-    }
+    runApp(forceUpdate ? ForceUpdatePage() : PassEmploiApp(store, analytics));
   }, FirebaseCrashlytics.instance.recordError);
 
   await _handleErrorsOutsideFlutter();

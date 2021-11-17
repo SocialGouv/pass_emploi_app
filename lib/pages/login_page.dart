@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/main_page.dart';
 import 'package:pass_emploi_app/presentation/login_view_model.dart';
@@ -10,12 +11,10 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
-class LoginPage extends StatefulWidget {
-  LoginPage._();
+class LoginPage extends TraceableStatefulWidget {
+  LoginPage._() : super(name: AnalyticsScreenNames.login);
 
-  static MaterialPageRoute materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => LoginPage._(), settings: AnalyticsRouteSettings.login());
-  }
+  static MaterialPageRoute materialPageRoute() => MaterialPageRoute(builder: (context) => LoginPage._());
 
   @override
   _LoginPageState createState() => _LoginPageState();

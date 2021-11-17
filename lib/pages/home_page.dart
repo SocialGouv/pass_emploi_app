@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/loader_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous_page.dart';
 import 'package:pass_emploi_app/pages/user_action_list_page.dart';
@@ -15,10 +17,10 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/user_action_card.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends TraceableStatelessWidget {
   final String userId;
 
-  HomePage(this.userId) : super();
+  HomePage(this.userId) : super(name: AnalyticsScreenNames.home);
 
   @override
   Widget build(BuildContext context) {

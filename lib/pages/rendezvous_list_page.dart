@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/rendezvous_page.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_view_model.dart';
@@ -12,7 +14,9 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/rendezvous_card.dart';
 
-class RendezvousListPage extends StatelessWidget {
+class RendezvousListPage extends TraceableStatelessWidget {
+  RendezvousListPage() : super(name: AnalyticsScreenNames.rendezvousList);
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RendezvousListPageViewModel>(

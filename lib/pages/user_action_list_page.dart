@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
@@ -16,16 +17,13 @@ import 'package:pass_emploi_app/widgets/user_action_details_bottom_sheet.dart';
 
 enum UserActionListPageResult { UPDATED, UNCHANGED }
 
-class UserActionListPage extends StatefulWidget {
+class UserActionListPage extends TraceableStatefulWidget {
   final String userId;
 
-  UserActionListPage(this.userId) : super();
+  UserActionListPage(this.userId) : super(name: AnalyticsScreenNames.userActionList);
 
   static MaterialPageRoute materialPageRoute(String userId) {
-    return MaterialPageRoute(
-      builder: (context) => UserActionListPage(userId),
-      settings: AnalyticsRouteSettings.userAction(),
-    );
+    return MaterialPageRoute(builder: (context) => UserActionListPage(userId));
   }
 
   @override
@@ -73,7 +71,6 @@ class _UserActionListPageState extends State<UserActionListPage> {
               onPressed: () => showUserActionBottomSheet(
                 context: context,
                 builder: (context) => CreateUserActionBottomSheet(),
-                routeSettings: AnalyticsRouteSettings.createUserAction(),
               ).then((value) => _onCreateUserActionDismissed(value, viewModel)),
               tooltip: Strings.addAnAction,
               icon: SvgPicture.asset("assets/ic_add_circle.svg"),
@@ -129,7 +126,6 @@ class _UserActionListPageState extends State<UserActionListPage> {
         onTap: () => showUserActionBottomSheet(
           context: context,
           builder: (context) => UserActionDetailsBottomSheet(item),
-          routeSettings: AnalyticsRouteSettings.userActionDetails(),
         ).then((value) => _onUserActionDetailsDismissed(value, viewModel)),
         splashColor: AppColors.bluePurple,
         child: _listItem(item, viewModel),
