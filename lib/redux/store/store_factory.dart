@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:pass_emploi_app/crashlytics/Crashlytics.dart';
+import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/redux/middlewares/action_logging_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/animation_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/api_middleware.dart';
