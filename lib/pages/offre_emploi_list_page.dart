@@ -67,8 +67,9 @@ class OffreEmploiListPage extends StatelessWidget {
             spacing: 8,
             runSpacing: 8,
             children: [
-              _tag(label: itemViewModel.contractType),
-              _tag(label: itemViewModel.location, icon: SvgPicture.asset("assets/ic_place.svg")),
+              _lightBlueTag(label: itemViewModel.contractType),
+              if (itemViewModel.duration != null) _lightBlueTag(label: itemViewModel.duration!),
+              _lightBlueTag(label: itemViewModel.location, icon: SvgPicture.asset("assets/ic_place.svg")),
             ],
           )
         ],
@@ -78,7 +79,7 @@ class OffreEmploiListPage extends StatelessWidget {
 
   Widget _listSeparator() => Container(height: 1, color: AppColors.bluePurpleAlpha20);
 
-  Container _tag({required String label, SvgPicture? icon}) {
+  Container _lightBlueTag({required String label, SvgPicture? icon}) {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.lightBlue,

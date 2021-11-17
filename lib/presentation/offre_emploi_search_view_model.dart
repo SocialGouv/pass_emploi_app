@@ -3,8 +3,8 @@ import 'package:pass_emploi_app/models/department.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
-import 'package:redux/redux.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:redux/redux.dart';
 
 enum OffreEmploiSearchDisplayState { SHOW_CONTENT, SHOW_LOADER, SHOW_ERROR, SHOW_EMPTY_ERROR }
 
@@ -15,7 +15,12 @@ class OffreEmploiSearchViewModel {
   final Function(String keyWord, String department) searchingRequest;
   final String errorMessage;
 
-  OffreEmploiSearchViewModel._({required this.displayState, required this.items, required this.departments, required this.searchingRequest, this.errorMessage = ""});
+  OffreEmploiSearchViewModel._(
+      {required this.displayState,
+      required this.items,
+      required this.departments,
+      required this.searchingRequest,
+      this.errorMessage = ""});
 
   factory OffreEmploiSearchViewModel.create(Store<AppState> store) {
     final searchState = store.state.offreEmploiSearchState;
@@ -39,8 +44,6 @@ class OffreEmploiSearchViewModel {
     return removeDiacritics(str).replaceAll(RegExp("[-'`]"), " ").trim().toUpperCase();
   }
 
-
-
   String removeDiacritics(String str) {
     var withDia = 'ÀÁÂÃÄàáâäÒÓÔÕÕÖòóôõöÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûü';
     var withoutDia = 'AAAAAaaaaOOOOOOoooooEEEEeeeeCcIIIIiiiiUUUUuuuu';
@@ -54,14 +57,12 @@ class OffreEmploiSearchViewModel {
 }
 
 void _searchingRequest(Store<AppState> store, String keyWord, String department) {
- store.dispatch(SearchOffreEmploiAction(keywords: keyWord, department: department));
+  store.dispatch(SearchOffreEmploiAction(keywords: keyWord, department: department));
 }
 
 String _setErrorMessage(OffreEmploiSearchState searchState) {
   if (searchState is OffreEmploiSearchSuccessState) {
-    return searchState.offres.isNotEmpty
-        ? ""
-        : Strings.noContentError;
+    return searchState.offres.isNotEmpty ? "" : Strings.noContentError;
   } else if (searchState is OffreEmploiSearchFailureState) {
     return Strings.genericError;
   }
@@ -88,6 +89,7 @@ List<OffreEmploiItemViewModel> _items(OffreEmploiSearchState searchState) {
                 e.title,
                 e.companyName,
                 e.contractType,
+                e.duration,
                 e.location,
               ))
           .toList()
@@ -99,9 +101,10 @@ class OffreEmploiItemViewModel extends Equatable {
   final String title;
   final String? companyName;
   final String contractType;
+  final String? duration;
   final String location;
 
-  OffreEmploiItemViewModel(this.id, this.title, this.companyName, this.contractType, this.location);
+  OffreEmploiItemViewModel(this.id, this.title, this.companyName, this.contractType, this.duration, this.location);
 
   @override
   List<Object?> get props => [
@@ -110,5 +113,6 @@ class OffreEmploiItemViewModel extends Equatable {
         companyName,
         contractType,
         location,
+        duration,
       ];
 }

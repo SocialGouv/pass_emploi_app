@@ -79,6 +79,7 @@ main() {
         "Technicien / Technicienne en froid et climatisation",
         "RH TT INTERIM",
         "MIS",
+        "Temps plein",
         "77 - LOGNES",
       ),
       OffreEmploiItemViewModel(
@@ -86,6 +87,7 @@ main() {
         " #SALONDEMANDELIEU2021: RECEPTIONNISTE TOURNANT (H/F)",
         "STAND CHATEAU DE LA BEGUDE",
         "CDD",
+        "Temps partiel",
         "06 - OPIO",
       ),
       OffreEmploiItemViewModel(
@@ -93,6 +95,7 @@ main() {
         "Technicien / Technicienne terrain Structure          (H/F)",
         "GEOTEC",
         "CDI",
+        "Temps plein",
         "78 - PLAISIR",
       ),
       OffreEmploiItemViewModel(
@@ -100,6 +103,7 @@ main() {
         "Responsable de boutique",
         "GINGER",
         "CDD",
+        null,
         "13 - AIX EN PROVENCE",
       ),
       OffreEmploiItemViewModel(
@@ -107,6 +111,7 @@ main() {
         "Commercial sédentaire en Assurances H/F",
         null,
         "CDI",
+        "Temps plein",
         "34 - MONTPELLIER",
       )
     ]);
