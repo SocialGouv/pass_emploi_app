@@ -63,10 +63,11 @@ class OffreEmploiListPage extends StatelessWidget {
               ),
             ),
           SizedBox(height: 8),
-          Row(
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
             children: [
               _tag(label: itemViewModel.contractType),
-              SizedBox(width: 8),
               _tag(label: itemViewModel.location, icon: SvgPicture.asset("assets/ic_place.svg")),
             ],
           )
@@ -86,15 +87,18 @@ class OffreEmploiListPage extends StatelessWidget {
       child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               if (icon != null)
                 Padding(
                   padding: const EdgeInsets.only(right: 6),
                   child: icon,
                 ),
-              Text(
-                label,
-                style: TextStyles.textSmRegular(),
+              Flexible(
+                child: Text(
+                  label,
+                  style: TextStyles.textSmRegular(),
+                ),
               ),
             ],
           )),
