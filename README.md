@@ -87,8 +87,8 @@ $ git push --tags
 1. Vérifier que le fichier `passemploi.jks` (fichier privé) est bien situé dans le repertoire `android/keystore` 
 2. Créer un fichier `key.properties` dans le repertoire `android` à partir du même modèle que `key.properties.template`. Ce fichier ne doit JAMAIS être versionné.
 3. Renseigner les valeurs demandées (valeurs présentes dans le Drive du projet) dans ce fichier.
-4. Construire l'APK en release : `$ flutter build appbundle --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL> --dart-define=FIREBASE_ENVIRONMENT_PREFIX=prod`
-5. Récupérer l'AAB  `build/app/outputs/bundle/release/app-release.aab`
+4. Construire l'APK en release : `$ flutter build appbundle --flavor prod --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL> --dart-define=FIREBASE_ENVIRONMENT_PREFIX=prod`
+5. Récupérer l'AAB  `build/app/outputs/bundle/prodRelease/app-prod-release.aab`
 6. Aller sur la console Google Play de l'application.
 7. Dans le pannel de gauche, aller sur `Tests ouverts`, puis `Créer une release`
 8. Uploader l'AAB. 
@@ -97,7 +97,7 @@ $ git push --tags
 
 ### Pour iOS
 1. Vérifier que votre compte Apple Dev ait bien accès au compte Apple "Fabrique numérique des ministères sociaux"
-2. Lancer le build iOS release : `flutter build ipa --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL> --dart-define=FIREBASE_ENVIRONMENT_PREFIX=prod`
+2. Lancer le build iOS release : `flutter build ipa --flavor prod --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL> --dart-define=FIREBASE_ENVIRONMENT_PREFIX=prod`
 3. Ouvrir le projet dans Xcode
 4. Configurer XCode, notamment sur la partie `Signing & Capabilities` [https://flutter.dev/docs/deployment/ios] en renseignant le bon provisioning profile de l'app `fr.fabrique.socialgouv.passemploi.distribution`
 5. Selectionner Product > Scheme > Runner.
