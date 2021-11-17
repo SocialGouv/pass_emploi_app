@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 
@@ -22,15 +23,22 @@ main() {
         store.onChange.any((element) => element.offreEmploiSearchState is OffreEmploiSearchLoadingState);
     final successState =
         store.onChange.firstWhere((element) => element.offreEmploiSearchState is OffreEmploiSearchSuccessState);
+    final savedSearch = store.onChange.firstWhere(
+        (element) => element.offreEmploiSearchParametersState is OffreEmploiSearchParametersInitializedState);
 
     // When
     store.dispatch(SearchOffreEmploiAction(keywords: "boulanger patissier", department: "02"));
 
     // Then
     expect(await displayedLoading, true);
-    final appState = await successState;
-    var searchState = (appState.offreEmploiSearchState as OffreEmploiSearchSuccessState);
+    final successAppState = await successState;
+    final searchState = (successAppState.offreEmploiSearchState as OffreEmploiSearchSuccessState);
     expect(searchState.offres.length, 5);
+    final savedSearchAppState = await savedSearch;
+    final initializedSearchParametersState =
+        (savedSearchAppState.offreEmploiSearchParametersState as OffreEmploiSearchParametersInitializedState);
+    expect(initializedSearchParametersState.department, "02");
+    expect(initializedSearchParametersState.keyWords, "boulanger patissier");
   });
 
   test("offre emplois should be fetched and an error must be displayed if something wrong happens", () async {

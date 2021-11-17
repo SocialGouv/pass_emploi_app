@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/redux/states/chat_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
 import 'package:pass_emploi_app/redux/states/create_user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/home_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/rendezvous_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
@@ -20,6 +21,7 @@ class AppState extends Equatable {
   final ChatStatusState chatStatusState;
   final ChatState chatState;
   final OffreEmploiSearchState offreEmploiSearchState;
+  final OffreEmploiSearchParametersState offreEmploiSearchParametersState;
 
   AppState({
     required this.loginState,
@@ -31,6 +33,7 @@ class AppState extends Equatable {
     required this.chatStatusState,
     required this.chatState,
     required this.offreEmploiSearchState,
+    required this.offreEmploiSearchParametersState,
   });
 
   AppState copyWith({
@@ -43,6 +46,7 @@ class AppState extends Equatable {
     final ChatStatusState? chatStatusState,
     final ChatState? chatState,
     final OffreEmploiSearchState? offreEmploiSearchState,
+    final OffreEmploiSearchParametersState? offreEmploiSearchParametersState,
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
@@ -54,6 +58,7 @@ class AppState extends Equatable {
       chatStatusState: chatStatusState ?? this.chatStatusState,
       chatState: chatState ?? this.chatState,
       offreEmploiSearchState: offreEmploiSearchState ?? this.offreEmploiSearchState,
+      offreEmploiSearchParametersState: offreEmploiSearchParametersState ?? this.offreEmploiSearchParametersState,
     );
   }
 
@@ -68,6 +73,7 @@ class AppState extends Equatable {
       chatStatusState: ChatStatusState.notInitialized(),
       chatState: ChatState.notInitialized(),
       offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
+      offreEmploiSearchParametersState: OffreEmploiSearchParametersState.notInitialized(),
     );
   }
 
