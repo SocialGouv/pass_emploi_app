@@ -56,7 +56,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
         _separator(),
         _keywordTextFormField(),
         _separator(),
-        Text(Strings.departmentTitle, style: TextStyles.textLgMedium),
+        Text(Strings.jobLocationTitle, style: TextStyles.textLgMedium),
         _separator(),
         _autocomplete(viewModel),
         _separator(),
@@ -140,7 +140,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
             VoidCallback onFieldSubmitted) {
           return TextFormField(
             controller: textEditingController,
-            decoration: _inputDecoration(Strings.departmentTextField),
+            decoration: _inputDecoration(Strings.jobLocationHint),
             focusNode: focusNode,
             onFieldSubmitted: (String value) {
               onFieldSubmitted();
