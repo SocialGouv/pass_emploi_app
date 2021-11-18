@@ -43,5 +43,4 @@ flutter:
 
   assets:
     - assets/
-    - .env.staging
-    - .env.prod
+    - env/

@@ -58,5 +58,5 @@ build.env
 StagingOptionsPlist.plist
 
 # .env
-.env.staging
-.env.prod
+env/.env.staging
+env/.env.prod

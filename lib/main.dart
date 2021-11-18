@@ -29,6 +29,9 @@ import 'package:redux/redux.dart';
 import 'configuration/app_version_checker.dart';
 import 'crashlytics/crashlytics.dart';
 
+const String stagingEnvFilePath = "env/.env.staging";
+const String prodEnvFilePath = "env/.env.prod";
+
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -58,7 +61,7 @@ Future<void> loadEnvironmentVariables() async {
   final packageName = (await PackageInfo.fromPlatform()).packageName;
   final isStagingFlavor = packageName.contains("staging");
   print("FLAVOR = ${isStagingFlavor ? "staging" : "prod"}");
-  return await dotenv.load(fileName: isStagingFlavor ? ".env.staging" : ".env.prod");
+  return await dotenv.load(fileName: isStagingFlavor ? stagingEnvFilePath : prodEnvFilePath);
 }
 
 Future<void> _initializeMatomoTracker() async {

@@ -6,8 +6,9 @@ seule spécificité est de mettre le nombre de caractère par ligne à 120 : dan
 l'IDE `Editor > Code Style > Dart > Line length`
 
 ## Renseigner les variables d'environnement
-Créer deux fichiers à la racine du projet intitulé `env.staging` et `env.prod` en vous inspirant du 
-fichier `env.template`. Y insérer toutes les bonnes valeurs.
+Créer un repertoire `env` à la racine du projet.
+Créer deux fichiers dans ce répertoire intitulés `env.staging` et `env.prod` en vous inspirant du 
+fichier `env.template` situé à la racine du projet. Y insérer toutes les bonnes valeurs.
 
 ## Lancer l'application depuis Android Studio
 Il est nécessaire pour cela de créer 2 configurations, en fonction que vous soyez sur le flavor 
