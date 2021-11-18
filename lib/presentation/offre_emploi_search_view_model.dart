@@ -102,7 +102,7 @@ class OffreEmploiItemViewModel extends Equatable {
   final String? companyName;
   final String contractType;
   final String? duration;
-  final String location;
+  final String? location;
 
   OffreEmploiItemViewModel(this.id, this.title, this.companyName, this.contractType, this.duration, this.location);
 

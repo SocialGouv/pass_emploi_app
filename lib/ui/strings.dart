@@ -99,8 +99,8 @@ class Strings {
   static String searchingPageTitle = "Recherche de solutions";
   static String keyWordsTitle = "Mots clés";
   static String keyWordsTextField = "Métier, compétence...";
-  static String departmentTitle = "Département";
-  static String departmentTextField = "Lieu de travail";
+  static String jobLocationTitle = "Lieu de travail";
+  static String jobLocationHint = "Département";
   static String searchButton = "RECHERCHER";
   // Solutions Errors
   static String noContentError = "Aucune offre ne correspond à votre recherche";

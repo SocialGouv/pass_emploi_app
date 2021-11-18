@@ -69,7 +69,7 @@ class OffreEmploiListPage extends StatelessWidget {
             children: [
               _lightBlueTag(label: itemViewModel.contractType),
               if (itemViewModel.duration != null) _lightBlueTag(label: itemViewModel.duration!),
-              _lightBlueTag(label: itemViewModel.location, icon: SvgPicture.asset("assets/ic_place.svg")),
+              if (itemViewModel.location != null) _lightBlueTag(label: itemViewModel.location!, icon: SvgPicture.asset("assets/ic_place.svg")),
             ],
           )
         ],
