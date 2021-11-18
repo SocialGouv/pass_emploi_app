@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/models/department.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
@@ -144,6 +144,9 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
             focusNode: focusNode,
             onFieldSubmitted: (String value) {
               onFieldSubmitted();
+            },
+            onChanged: (value) {
+              if (value == "") _department = "";
             },
           );
         },

@@ -5,7 +5,7 @@ class OffreEmploi extends Equatable {
   final String title;
   final String? companyName;
   final String contractType;
-  final String location;
+  final String? location;
   final String? duration;
 
   OffreEmploi({
