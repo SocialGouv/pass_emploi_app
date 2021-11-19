@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 
+import '../models/offre_emploi_test.dart';
 import 'dummies.dart';
 
 class UserActionRepositorySuccessStub extends UserActionRepository {
