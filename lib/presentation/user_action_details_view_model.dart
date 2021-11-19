@@ -17,9 +17,10 @@ class UserActionDetailsViewModel {
 
   factory UserActionDetailsViewModel.create(Store<AppState> store) {
     return UserActionDetailsViewModel._(
-        displayState: _displayState(store.state),
-        onRefreshStatus: (actionId, newStatus) => _refreshStatus(store, actionId, newStatus),
-        onDelete: (actionId) => store.dispatch(UserActionDeleteAction(actionId)));
+      displayState: _displayState(store.state),
+      onRefreshStatus: (actionId, newStatus) => _refreshStatus(store, actionId, newStatus),
+      onDelete: (actionId) => store.dispatch(UserActionDeleteAction(actionId)),
+    );
   }
 
   UserActionDetailsViewModel._({

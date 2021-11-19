@@ -233,7 +233,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
             Padding(
               padding: const EdgeInsets.only(top: 8),
               child: Text(
-                "Erreur lors de la suppression de l'action. Veuillez réessayer",
+                Strings.deleteActionError,
                 textAlign: TextAlign.center,
                 style: TextStyles.textSmRegular(color: AppColors.errorRed),
               ),
