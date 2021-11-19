@@ -6,26 +6,15 @@ import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 
 AppState offreEmploiReducer(AppState currentState, dynamic action) {
   if (action is SearchOffreEmploiAction) {
-    return currentState.copyWith(
-        offreEmploiSearchParametersState:
-            OffreEmploiSearchParametersInitializedState(keyWords: action.keywords, department: action.department));
+    return _storeSearchParameters(currentState, action);
   } else if (action is OffreEmploiSearchLoadingAction) {
     return currentState.copyWith(offreEmploiSearchState: OffreEmploiSearchState.loading());
   } else if (action is OffreEmploiSearchSuccessAction) {
     final previousSearchState = currentState.offreEmploiSearchResultsState;
-    if (previousSearchState is OffreEmploiSearchResultsNotInitializedState) {
-      return currentState.copyWith(
-        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(action.offres, action.page),
-        offreEmploiSearchState: OffreEmploiSearchState.success(),
-      );
-    } else if (previousSearchState is OffreEmploiSearchResultsDataState) {
-      return currentState.copyWith(
-        offreEmploiSearchResultsState:
-            OffreEmploiSearchResultsState.data(previousSearchState.offres + action.offres, action.page),
-        offreEmploiSearchState: OffreEmploiSearchState.success(),
-      );
+    if (previousSearchState is OffreEmploiSearchResultsDataState) {
+      return _appendNewOffres(currentState, previousSearchState, action);
     } else {
-      return currentState;
+      return _storeOffres(currentState, action);
     }
   } else if (action is OffreEmploiSearchFailureAction) {
     return currentState.copyWith(offreEmploiSearchState: OffreEmploiSearchState.failure());
@@ -38,4 +27,26 @@ AppState offreEmploiReducer(AppState currentState, dynamic action) {
   } else {
     return currentState;
   }
+}
+
+AppState _storeOffres(AppState currentState, OffreEmploiSearchSuccessAction action) {
+  return currentState.copyWith(
+    offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(action.offres, action.page),
+    offreEmploiSearchState: OffreEmploiSearchState.success(),
+  );
+}
+
+AppState _appendNewOffres(AppState currentState, OffreEmploiSearchResultsDataState previousSearchState,
+    OffreEmploiSearchSuccessAction action) {
+  return currentState.copyWith(
+    offreEmploiSearchResultsState:
+        OffreEmploiSearchResultsState.data(previousSearchState.offres + action.offres, action.page),
+    offreEmploiSearchState: OffreEmploiSearchState.success(),
+  );
+}
+
+AppState _storeSearchParameters(AppState currentState, SearchOffreEmploiAction action) {
+  return currentState.copyWith(
+      offreEmploiSearchParametersState:
+          OffreEmploiSearchParametersInitializedState(keyWords: action.keywords, department: action.department));
 }

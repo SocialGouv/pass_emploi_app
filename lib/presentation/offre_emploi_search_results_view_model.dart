@@ -10,13 +10,13 @@ enum OffreEmploiSearchResultsDisplayState { SHOW_CONTENT, SHOW_LOADER, SHOW_ERRO
 class OffreEmploiSearchResultsViewModel {
   final OffreEmploiSearchResultsDisplayState displayState;
   final List<OffreEmploiItemViewModel> items;
-  final Function() onReachBottom;
+  final Function() onLoadMore;
   final Function() onQuit;
 
   OffreEmploiSearchResultsViewModel({
     required this.displayState,
     required this.items,
-    required this.onReachBottom,
+    required this.onLoadMore,
     required this.onQuit,
   });
 
@@ -26,7 +26,7 @@ class OffreEmploiSearchResultsViewModel {
     return OffreEmploiSearchResultsViewModel(
       displayState: _displayState(searchState, searchResultsState),
       items: _items(store.state.offreEmploiSearchResultsState),
-      onReachBottom: () => store.dispatch(RequestMoreOffreEmploiSearchResultsAction()),
+      onLoadMore: () => store.dispatch(RequestMoreOffreEmploiSearchResultsAction()),
       onQuit: () => store.dispatch(ResetOffreEmploiSearchResultsAction()),
     );
   }

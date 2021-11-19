@@ -30,15 +30,3 @@ class OffreEmploiSearchFailureState extends OffreEmploiSearchState {
 class OffreEmploiSearchNotInitializedState extends OffreEmploiSearchState {
   OffreEmploiSearchNotInitializedState() : super._();
 }
-
-/*
-class OffreEmploiSearchSuccessState extends OffreEmploiSearchState {
-  final List<OffreEmploi> offres;
-  final int loadedPage;
-
-  OffreEmploiSearchSuccessState({required this.offres, required this.loadedPage}) : super._();
-
-  @override
-  List<Object> get props => [offres, loadedPage];
-}
- */

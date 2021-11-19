@@ -57,8 +57,6 @@ class OffreEmploiSearchViewModel extends Equatable {
 
   @override
   List<Object?> get props => [displayState, errorMessage];
-  @override
-  bool? get stringify => true;
 }
 
 void _searchingRequest(Store<AppState> store, String keyWord, String department) {

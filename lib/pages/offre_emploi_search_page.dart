@@ -4,7 +4,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/department.dart';
-import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -29,9 +28,6 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
     return StoreConnector<AppState, OffreEmploiSearchViewModel>(
         converter: (store) => OffreEmploiSearchViewModel.create(store),
         distinct: true,
-        onWillChange: (previousVm, newVm) {
-
-        },
         builder: (context, viewModel) {
           return Scaffold(
               appBar: _appBar(Strings.searchingPageTitle),

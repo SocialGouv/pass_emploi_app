@@ -18,37 +18,47 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
     final parametersState = store.state.offreEmploiSearchParametersState;
     final previousResultsState = store.state.offreEmploiSearchResultsState;
     if (loginState is LoggedInState) {
+      var userId = loginState.user.id;
       if (action is SearchOffreEmploiAction) {
-        store.dispatch(OffreEmploiSearchLoadingAction());
-        final result = await _repository.search(
-          userId: loginState.user.id,
-          keywords: action.keywords,
+        _search(
+          store: store,
+          userId: userId,
+          keyWords: action.keywords,
           department: action.department,
-          page: 1,
+          pageToLoad: 1,
         );
-
-        if (result != null) {
-          store.dispatch(OffreEmploiSearchSuccessAction(offres: result, page: 1));
-        } else {
-          store.dispatch(OffreEmploiSearchFailureAction());
-        }
       } else if (action is RequestMoreOffreEmploiSearchResultsAction &&
           parametersState is OffreEmploiSearchParametersInitializedState &&
           previousResultsState is OffreEmploiSearchResultsDataState) {
-        store.dispatch(OffreEmploiSearchLoadingAction());
-        var pageToLoad = previousResultsState.loadedPage + 1;
-        final result = await _repository.search(
-          userId: loginState.user.id,
-          keywords: parametersState.keyWords,
+        await _search(
+          store: store,
+          userId: userId,
+          keyWords: parametersState.keyWords,
           department: parametersState.department,
-          page: pageToLoad,
+          pageToLoad: previousResultsState.loadedPage + 1,
         );
-        if (result != null) {
-          store.dispatch(OffreEmploiSearchSuccessAction(offres: result, page: pageToLoad));
-        } else {
-          store.dispatch(OffreEmploiSearchFailureAction());
-        }
       }
+    }
+  }
+
+  Future<void> _search({
+    required Store<AppState> store,
+    required String userId,
+    required String keyWords,
+    required String department,
+    required int pageToLoad,
+  }) async {
+    store.dispatch(OffreEmploiSearchLoadingAction());
+    final result = await _repository.search(
+      userId: userId,
+      keywords: keyWords,
+      department: department,
+      page: pageToLoad,
+    );
+    if (result != null) {
+      store.dispatch(OffreEmploiSearchSuccessAction(offres: result, page: pageToLoad));
+    } else {
+      store.dispatch(OffreEmploiSearchFailureAction());
     }
   }
 }

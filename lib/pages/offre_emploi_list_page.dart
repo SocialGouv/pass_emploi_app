@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:matomo/matomo.dart';
-import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_results_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -10,13 +8,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
-class OffreEmploiListPage extends TraceableStatefulWidget {
-  OffreEmploiListPage(): super(name: AnalyticsScreenNames.offreEmploiResults);
-
-  static MaterialPageRoute materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => OffreEmploiListPage());
-  }
-
+class OffreEmploiListPage extends StatefulWidget {
   @override
   State<OffreEmploiListPage> createState() => _OffreEmploiListPageState();
 }
@@ -25,15 +17,15 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
   late ScrollController _scrollController;
   OffreEmploiSearchResultsViewModel? _currentViewModel;
   double _offsetBeforeLoading = 0;
-  bool shouldLoadAtBottom = true;
+  bool _shouldLoadAtBottom = true;
 
   @override
   void initState() {
     _scrollController = ScrollController();
     _scrollController.addListener(() {
-      if (shouldLoadAtBottom && _scrollController.offset >= _scrollController.position.maxScrollExtent) {
+      if (_shouldLoadAtBottom && _scrollController.offset >= _scrollController.position.maxScrollExtent) {
         _offsetBeforeLoading = _scrollController.offset;
-        _currentViewModel?.onReachBottom();
+        _currentViewModel?.onLoadMore();
       }
     });
     super.initState();
@@ -49,18 +41,22 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, OffreEmploiSearchResultsViewModel>(
       converter: (store) => OffreEmploiSearchResultsViewModel.create(store),
-      builder: (context, viewModel) => WillPopScope(
-        child: _scaffold(context, viewModel),
-        onWillPop: () {
-          viewModel.onQuit();
-          return Future.value(false);
-        },
-      ),
       onInitialBuild: (viewModel) => _currentViewModel = viewModel,
+      builder: (context, viewModel) => _willPopScope(context, viewModel),
       onDidChange: (previousViewModel, viewModel) => {
         _currentViewModel = viewModel,
         _scrollController.jumpTo(_offsetBeforeLoading),
-        shouldLoadAtBottom = viewModel.displayState != OffreEmploiSearchResultsDisplayState.SHOW_ERROR
+        _shouldLoadAtBottom = viewModel.displayState != OffreEmploiSearchResultsDisplayState.SHOW_ERROR
+      },
+    );
+  }
+
+  WillPopScope _willPopScope(BuildContext context, OffreEmploiSearchResultsViewModel viewModel) {
+    return WillPopScope(
+      child: _scaffold(context, viewModel),
+      onWillPop: () {
+        viewModel.onQuit();
+        return Future.value(false);
       },
     );
   }
@@ -81,7 +77,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
               controller: _scrollController,
               itemBuilder: (context, index) => _buildItem(context, index, viewModel),
               separatorBuilder: (context, index) => _listSeparator(),
-              itemCount: itemCount(viewModel),
+              itemCount: viewModel.items.length + 1,
             ),
           ),
         ),
@@ -89,65 +85,80 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     );
   }
 
-  int itemCount(OffreEmploiSearchResultsViewModel viewModel) {
-    return viewModel.items.length + 1;
-  }
-
   Widget _buildItem(BuildContext context, int index, OffreEmploiSearchResultsViewModel resultsViewModel) {
     if (index == resultsViewModel.items.length) {
-      if (resultsViewModel.displayState == OffreEmploiSearchResultsDisplayState.SHOW_ERROR) {
-        return Padding(
-          padding: const EdgeInsets.only(top: 24),
-          child: Column(
-            children: [
-              Text(
-                "Erreur, impossible de charger plus d'offres",
-                textAlign: TextAlign.center,
-                style: TextStyles.textSmMedium(color: AppColors.bluePurple),
-              ),
-              TextButton(onPressed: () => _currentViewModel?.onReachBottom(), child: Text("Réessayer", style: TextStyles.textMdMedium,)),
-            ],
-          ),
-        );
-      } else
-        return Padding(
-          padding: const EdgeInsets.all(24),
-          child: Center(child: CircularProgressIndicator(color: AppColors.nightBlue)),
-        );
+      return _buildLastItem(resultsViewModel);
     } else {
-      final itemViewModel = resultsViewModel.items[index];
-      return Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              itemViewModel.title,
-              style: TextStyles.textSmMedium(),
-            ),
-            if (itemViewModel.companyName != null)
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Text(
-                  itemViewModel.companyName!,
-                  style: TextStyles.textSmRegular(color: AppColors.bluePurple),
-                ),
-              ),
-            SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                _lightBlueTag(label: itemViewModel.contractType),
-                if (itemViewModel.duration != null) _lightBlueTag(label: itemViewModel.duration!),
-                if (itemViewModel.location != null)
-                  _lightBlueTag(label: itemViewModel.location!, icon: SvgPicture.asset("assets/ic_place.svg")),
-              ],
-            )
-          ],
-        ),
-      );
+      return _buildOffreItem(resultsViewModel, index);
     }
+  }
+
+  Padding _buildOffreItem(OffreEmploiSearchResultsViewModel resultsViewModel, int index) {
+    final itemViewModel = resultsViewModel.items[index];
+    return Padding(
+      padding: const EdgeInsets.all(24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            itemViewModel.title,
+            style: TextStyles.textSmMedium(),
+          ),
+          if (itemViewModel.companyName != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Text(
+                itemViewModel.companyName!,
+                style: TextStyles.textSmRegular(color: AppColors.bluePurple),
+              ),
+            ),
+          SizedBox(height: 8),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: [
+              _lightBlueTag(label: itemViewModel.contractType),
+              if (itemViewModel.duration != null) _lightBlueTag(label: itemViewModel.duration!),
+              if (itemViewModel.location != null)
+                _lightBlueTag(label: itemViewModel.location!, icon: SvgPicture.asset("assets/ic_place.svg")),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  Padding _buildLastItem(OffreEmploiSearchResultsViewModel resultsViewModel) {
+    if (resultsViewModel.displayState == OffreEmploiSearchResultsDisplayState.SHOW_ERROR) {
+      return _buildErrorItem();
+    } else {
+      return _buildLoaderItem();
+    }
+  }
+
+  Padding _buildErrorItem() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 24),
+      child: Column(
+        children: [
+          Text(
+            Strings.loadMoreOffresError,
+            textAlign: TextAlign.center,
+            style: TextStyles.textSmMedium(color: AppColors.bluePurple),
+          ),
+          TextButton(
+              onPressed: () => _currentViewModel?.onLoadMore(),
+              child: Text(Strings.retry, style: TextStyles.textMdMedium)),
+        ],
+      ),
+    );
+  }
+
+  Padding _buildLoaderItem() {
+    return Padding(
+      padding: const EdgeInsets.all(24),
+      child: Center(child: CircularProgressIndicator(color: AppColors.nightBlue)),
+    );
   }
 
   Widget _listSeparator() => Container(height: 1, color: AppColors.bluePurpleAlpha20);
