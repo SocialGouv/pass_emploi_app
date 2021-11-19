@@ -28,10 +28,9 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, OffreEmploiSearchViewModel>(
         converter: (store) => OffreEmploiSearchViewModel.create(store),
+        distinct: true,
         onWillChange: (previousVm, newVm) {
-          if (newVm.displayState == OffreEmploiSearchDisplayState.SHOW_CONTENT) {
-            _showOffresListPage(context, newVm);
-          }
+
         },
         builder: (context, viewModel) {
           return Scaffold(
@@ -179,10 +178,6 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
 
   void _searchingRequest(OffreEmploiSearchViewModel viewModel) {
     viewModel.searchingRequest(_keyWord, _department);
-  }
-
-  void _showOffresListPage(BuildContext context, OffreEmploiSearchViewModel viewModel) {
-    Navigator.push(context, OffreEmploiListPage.materialPageRoute());
   }
 
   Widget _errorTextField(OffreEmploiSearchViewModel viewModel) {

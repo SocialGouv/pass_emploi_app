@@ -2,13 +2,14 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/department.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
 enum OffreEmploiSearchDisplayState { SHOW_CONTENT, SHOW_LOADER, SHOW_ERROR, SHOW_EMPTY_ERROR }
 
-class OffreEmploiSearchViewModel {
+class OffreEmploiSearchViewModel extends Equatable {
   final OffreEmploiSearchDisplayState displayState;
   final List<Department> departments;
   final Function(String keyWord, String department) searchingRequest;
@@ -18,16 +19,17 @@ class OffreEmploiSearchViewModel {
     required this.displayState,
     required this.departments,
     required this.searchingRequest,
-    this.errorMessage = "",
+    required this.errorMessage,
   });
 
   factory OffreEmploiSearchViewModel.create(Store<AppState> store) {
     final searchState = store.state.offreEmploiSearchState;
+    final searchResultsState = store.state.offreEmploiSearchResultsState;
     return OffreEmploiSearchViewModel._(
-      displayState: _displayState(searchState),
+      displayState: _displayState(searchState, searchResultsState),
       searchingRequest: (keyWord, department) => _searchingRequest(store, keyWord, department),
       departments: Department.values,
-      errorMessage: _setErrorMessage(searchState),
+      errorMessage: _setErrorMessage(searchState, searchResultsState),
     );
   }
 
@@ -52,24 +54,31 @@ class OffreEmploiSearchViewModel {
 
     return str;
   }
+
+  @override
+  List<Object?> get props => [displayState, errorMessage];
+  @override
+  bool? get stringify => true;
 }
 
 void _searchingRequest(Store<AppState> store, String keyWord, String department) {
   store.dispatch(SearchOffreEmploiAction(keywords: keyWord, department: department));
 }
 
-String _setErrorMessage(OffreEmploiSearchState searchState) {
-  if (searchState is OffreEmploiSearchSuccessState) {
-    return searchState.offres.isNotEmpty ? "" : Strings.noContentError;
+String _setErrorMessage(OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
+  if (searchState is OffreEmploiSearchSuccessState && searchResultsState is OffreEmploiSearchResultsDataState) {
+    return searchResultsState.offres.isNotEmpty ? "" : Strings.noContentError;
   } else if (searchState is OffreEmploiSearchFailureState) {
     return Strings.genericError;
+  } else {
+    return "";
   }
-  return "";
 }
 
-OffreEmploiSearchDisplayState _displayState(OffreEmploiSearchState searchState) {
-  if (searchState is OffreEmploiSearchSuccessState) {
-    return searchState.offres.isNotEmpty
+OffreEmploiSearchDisplayState _displayState(
+    OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
+  if (searchState is OffreEmploiSearchSuccessState && searchResultsState is OffreEmploiSearchResultsDataState) {
+    return searchResultsState.offres.isNotEmpty
         ? OffreEmploiSearchDisplayState.SHOW_CONTENT
         : OffreEmploiSearchDisplayState.SHOW_EMPTY_ERROR;
   } else if (searchState is OffreEmploiSearchLoadingState) {

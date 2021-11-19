@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/home_page.dart';
+import 'package:pass_emploi_app/pages/offre_emploi_router_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous_list_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_search_page.dart';
 import 'package:pass_emploi_app/pages/user_action_list_page.dart';
@@ -78,7 +79,7 @@ class _MainPageState extends State<MainPage> {
       case 3:
         return RendezvousListPage();
       case 4:
-        return OffreEmploiSearchPage();
+        return OffreEmploiRouterPage();
       default:
         return HomePage(widget.userId);
     }

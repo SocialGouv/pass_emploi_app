@@ -11,8 +11,14 @@ class OffreEmploiSearchResultsViewModel {
   final OffreEmploiSearchResultsDisplayState displayState;
   final List<OffreEmploiItemViewModel> items;
   final Function() onReachBottom;
+  final Function() onQuit;
 
-  OffreEmploiSearchResultsViewModel({required this.displayState, required this.items, required this.onReachBottom});
+  OffreEmploiSearchResultsViewModel({
+    required this.displayState,
+    required this.items,
+    required this.onReachBottom,
+    required this.onQuit,
+  });
 
   factory OffreEmploiSearchResultsViewModel.create(Store<AppState> store) {
     final searchState = store.state.offreEmploiSearchState;
@@ -21,6 +27,7 @@ class OffreEmploiSearchResultsViewModel {
       displayState: _displayState(searchState, searchResultsState),
       items: _items(store.state.offreEmploiSearchResultsState),
       onReachBottom: () => store.dispatch(RequestMoreOffreEmploiSearchResultsAction()),
+      onQuit: () => store.dispatch(ResetOffreEmploiSearchResultsAction()),
     );
   }
 }

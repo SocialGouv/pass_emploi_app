@@ -11,10 +11,10 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
 class OffreEmploiListPage extends TraceableStatefulWidget {
-  OffreEmploiListPage._(): super(name: AnalyticsScreenNames.offreEmploiResults);
+  OffreEmploiListPage(): super(name: AnalyticsScreenNames.offreEmploiResults);
 
   static MaterialPageRoute materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => OffreEmploiListPage._());
+    return MaterialPageRoute(builder: (context) => OffreEmploiListPage());
   }
 
   @override
@@ -49,7 +49,13 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, OffreEmploiSearchResultsViewModel>(
       converter: (store) => OffreEmploiSearchResultsViewModel.create(store),
-      builder: (context, viewModel) => _scaffold(context, viewModel),
+      builder: (context, viewModel) => WillPopScope(
+        child: _scaffold(context, viewModel),
+        onWillPop: () {
+          viewModel.onQuit();
+          return Future.value(false);
+        },
+      ),
       onInitialBuild: (viewModel) => _currentViewModel = viewModel,
       onDidChange: (previousViewModel, viewModel) => {
         _currentViewModel = viewModel,
