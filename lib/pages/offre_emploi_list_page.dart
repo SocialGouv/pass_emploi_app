@@ -24,12 +24,15 @@ class OffreEmploiListPage extends TraceableStatefulWidget {
 class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
   late ScrollController _scrollController;
   OffreEmploiSearchResultsViewModel? _currentViewModel;
+  double _offsetBeforeLoading = 0;
+  bool shouldLoadAtBottom = true;
 
   @override
   void initState() {
     _scrollController = ScrollController();
     _scrollController.addListener(() {
-      if (_scrollController.offset >= _scrollController.position.maxScrollExtent) {
+      if (shouldLoadAtBottom && _scrollController.offset >= _scrollController.position.maxScrollExtent) {
+        _offsetBeforeLoading = _scrollController.offset;
         _currentViewModel?.onReachBottom();
       }
     });
@@ -48,7 +51,11 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
       converter: (store) => OffreEmploiSearchResultsViewModel.create(store),
       builder: (context, viewModel) => _scaffold(context, viewModel),
       onInitialBuild: (viewModel) => _currentViewModel = viewModel,
-      onDidChange: (previousViewModel, viewModel) => {_currentViewModel = viewModel},
+      onDidChange: (previousViewModel, viewModel) => {
+        _currentViewModel = viewModel,
+        _scrollController.jumpTo(_offsetBeforeLoading),
+        shouldLoadAtBottom = viewModel.displayState != OffreEmploiSearchResultsDisplayState.SHOW_ERROR
+      },
     );
   }
 
@@ -66,9 +73,9 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
             color: Colors.white,
             child: ListView.separated(
               controller: _scrollController,
-              itemBuilder: (context, index) => _buildItem(context, viewModel.items[index]),
+              itemBuilder: (context, index) => _buildItem(context, index, viewModel),
               separatorBuilder: (context, index) => _listSeparator(),
-              itemCount: viewModel.items.length,
+              itemCount: itemCount(viewModel),
             ),
           ),
         ),
@@ -76,37 +83,65 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     );
   }
 
-  Widget _buildItem(BuildContext context, OffreEmploiItemViewModel itemViewModel) {
-    return Padding(
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            itemViewModel.title,
-            style: TextStyles.textSmMedium(),
-          ),
-          if (itemViewModel.companyName != null)
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Text(
-                itemViewModel.companyName!,
-                style: TextStyles.textSmRegular(color: AppColors.bluePurple),
-              ),
-            ),
-          SizedBox(height: 8),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
+  int itemCount(OffreEmploiSearchResultsViewModel viewModel) {
+    return viewModel.items.length + 1;
+  }
+
+  Widget _buildItem(BuildContext context, int index, OffreEmploiSearchResultsViewModel resultsViewModel) {
+    if (index == resultsViewModel.items.length) {
+      if (resultsViewModel.displayState == OffreEmploiSearchResultsDisplayState.SHOW_ERROR) {
+        return Padding(
+          padding: const EdgeInsets.only(top: 24),
+          child: Column(
             children: [
-              _lightBlueTag(label: itemViewModel.contractType),
-              if (itemViewModel.duration != null) _lightBlueTag(label: itemViewModel.duration!),
-              if (itemViewModel.location != null) _lightBlueTag(label: itemViewModel.location!, icon: SvgPicture.asset("assets/ic_place.svg")),
+              Text(
+                "Erreur, impossible de charger plus d'offres",
+                textAlign: TextAlign.center,
+                style: TextStyles.textSmMedium(color: AppColors.errorRed),
+              ),
+              TextButton(onPressed: () => _currentViewModel?.onReachBottom(), child: Text("Réessayer")),
             ],
-          )
-        ],
-      ),
-    );
+          ),
+        );
+      } else
+        return Padding(
+          padding: const EdgeInsets.all(24),
+          child: Center(child: CircularProgressIndicator(color: AppColors.nightBlue)),
+        );
+    } else {
+      final itemViewModel = resultsViewModel.items[index];
+      return Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              itemViewModel.title,
+              style: TextStyles.textSmMedium(),
+            ),
+            if (itemViewModel.companyName != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  itemViewModel.companyName!,
+                  style: TextStyles.textSmRegular(color: AppColors.bluePurple),
+                ),
+              ),
+            SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                _lightBlueTag(label: itemViewModel.contractType),
+                if (itemViewModel.duration != null) _lightBlueTag(label: itemViewModel.duration!),
+                if (itemViewModel.location != null)
+                  _lightBlueTag(label: itemViewModel.location!, icon: SvgPicture.asset("assets/ic_place.svg")),
+              ],
+            )
+          ],
+        ),
+      );
+    }
   }
 
   Widget _listSeparator() => Container(height: 1, color: AppColors.bluePurpleAlpha20);

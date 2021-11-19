@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 
@@ -19,6 +20,7 @@ main() {
     testStoreFactory.offreEmploiRepository = OffreEmploiRepositorySuccessStub();
     final store = testStoreFactory.initializeReduxStore(
       initialState: _loggedInState().copyWith(
+        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(offreEmploiData(), 1),
         offreEmploiSearchParametersState:
             OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", department: "92"),
       ),
@@ -35,9 +37,11 @@ main() {
     // Then
     expect(await displayedLoading, true);
     final appState = await successState;
-    var searchState = (appState.offreEmploiSearchState as OffreEmploiSearchSuccessState);
-    expect(searchState.offres.length, 10);
-    expect(searchState.loadedPage, 2);
+    expect(appState.offreEmploiSearchState is OffreEmploiSearchSuccessState, true);
+
+    var searchResultsState = (appState.offreEmploiSearchResultsState as OffreEmploiSearchResultsDataState);
+    expect(searchResultsState.offres.length, 10);
+    expect(searchResultsState.loadedPage, 2);
   });
 
   test("offre emplois should be fetched and an error must be displayed if something wrong happens", () async {
@@ -46,6 +50,7 @@ main() {
     testStoreFactory.offreEmploiRepository = OffreEmploiRepositoryFailureStub();
     final store = testStoreFactory.initializeReduxStore(
       initialState: _loggedInState().copyWith(
+        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(offreEmploiData(), 1),
         offreEmploiSearchParametersState:
             OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", department: "92"),
       ),
@@ -54,7 +59,7 @@ main() {
     final displayedLoading =
         store.onChange.any((element) => element.offreEmploiSearchState is OffreEmploiSearchLoadingState);
     final errorState =
-    store.onChange.firstWhere((element) => element.offreEmploiSearchState is OffreEmploiSearchFailureState);
+        store.onChange.firstWhere((element) => element.offreEmploiSearchState is OffreEmploiSearchFailureState);
 
     // When
     store.dispatch(RequestMoreOffreEmploiSearchResultsAction());
@@ -62,10 +67,73 @@ main() {
     // Then
     expect(await displayedLoading, true);
     final appState = await errorState;
-    // TODO BON : this will fail / never end
-    var searchState = (appState.offreEmploiSearchState as OffreEmploiSearchSuccessState);
-    expect(searchState.offres.length, 5);
-    expect(searchState.loadedPage, 1);
+    expect(appState.offreEmploiSearchState is OffreEmploiSearchFailureState, true);
+
+    var searchResultsState = (appState.offreEmploiSearchResultsState as OffreEmploiSearchResultsDataState);
+    expect(searchResultsState.offres.length, 5);
+    expect(searchResultsState.loadedPage, 1);
+  });
+
+  test("offre emplois should be fetched after an error - if error again", () async {
+    // Given
+    final testStoreFactory = TestStoreFactory();
+    testStoreFactory.offreEmploiRepository = OffreEmploiRepositoryFailureStub();
+    final store = testStoreFactory.initializeReduxStore(
+      initialState: _loggedInState().copyWith(
+        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(offreEmploiData(), 1),
+        offreEmploiSearchState: OffreEmploiSearchState.failure(),
+        offreEmploiSearchParametersState:
+            OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", department: "92"),
+      ),
+    );
+
+    final displayedLoading =
+        store.onChange.any((element) => element.offreEmploiSearchState is OffreEmploiSearchLoadingState);
+    final errorState =
+        store.onChange.firstWhere((element) => element.offreEmploiSearchState is OffreEmploiSearchFailureState);
+
+    // When
+    store.dispatch(RequestMoreOffreEmploiSearchResultsAction());
+
+    // Then
+    expect(await displayedLoading, true);
+    final appState = await errorState;
+    expect(appState.offreEmploiSearchState is OffreEmploiSearchFailureState, true);
+
+    var searchResultsState = (appState.offreEmploiSearchResultsState as OffreEmploiSearchResultsDataState);
+    expect(searchResultsState.offres.length, 5);
+    expect(searchResultsState.loadedPage, 1);
+  });
+
+  test("offre emplois should be fetched after an error - if success", () async {
+    // Given
+    final testStoreFactory = TestStoreFactory();
+    testStoreFactory.offreEmploiRepository = OffreEmploiRepositorySuccessStub();
+    final store = testStoreFactory.initializeReduxStore(
+      initialState: _loggedInState().copyWith(
+        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(offreEmploiData(), 1),
+        offreEmploiSearchState: OffreEmploiSearchState.failure(),
+        offreEmploiSearchParametersState:
+            OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", department: "92"),
+      ),
+    );
+
+    final displayedLoading =
+        store.onChange.any((element) => element.offreEmploiSearchState is OffreEmploiSearchLoadingState);
+    final successState =
+        store.onChange.firstWhere((element) => element.offreEmploiSearchState is OffreEmploiSearchSuccessState);
+
+    // When
+    store.dispatch(RequestMoreOffreEmploiSearchResultsAction());
+
+    // Then
+    expect(await displayedLoading, true);
+    final appState = await successState;
+    expect(appState.offreEmploiSearchState is OffreEmploiSearchSuccessState, true);
+
+    var searchResultsState = (appState.offreEmploiSearchResultsState as OffreEmploiSearchResultsDataState);
+    expect(searchResultsState.offres.length, 10);
+    expect(searchResultsState.loadedPage, 2);
   });
 }
 

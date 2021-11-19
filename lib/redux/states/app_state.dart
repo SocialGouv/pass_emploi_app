@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/redux/states/user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 
 import 'login_state.dart';
+import 'offre_emploi_search_results_state.dart';
 import 'offre_emploi_search_state.dart';
 
 class AppState extends Equatable {
@@ -21,6 +22,7 @@ class AppState extends Equatable {
   final ChatStatusState chatStatusState;
   final ChatState chatState;
   final OffreEmploiSearchState offreEmploiSearchState;
+  final OffreEmploiSearchResultsState offreEmploiSearchResultsState;
   final OffreEmploiSearchParametersState offreEmploiSearchParametersState;
 
   AppState({
@@ -33,6 +35,7 @@ class AppState extends Equatable {
     required this.chatStatusState,
     required this.chatState,
     required this.offreEmploiSearchState,
+    required this.offreEmploiSearchResultsState,
     required this.offreEmploiSearchParametersState,
   });
 
@@ -46,6 +49,7 @@ class AppState extends Equatable {
     final ChatStatusState? chatStatusState,
     final ChatState? chatState,
     final OffreEmploiSearchState? offreEmploiSearchState,
+    final OffreEmploiSearchResultsState? offreEmploiSearchResultsState,
     final OffreEmploiSearchParametersState? offreEmploiSearchParametersState,
   }) {
     return AppState(
@@ -58,6 +62,7 @@ class AppState extends Equatable {
       chatStatusState: chatStatusState ?? this.chatStatusState,
       chatState: chatState ?? this.chatState,
       offreEmploiSearchState: offreEmploiSearchState ?? this.offreEmploiSearchState,
+      offreEmploiSearchResultsState: offreEmploiSearchResultsState ?? this.offreEmploiSearchResultsState,
       offreEmploiSearchParametersState: offreEmploiSearchParametersState ?? this.offreEmploiSearchParametersState,
     );
   }
@@ -73,6 +78,7 @@ class AppState extends Equatable {
       chatStatusState: ChatStatusState.notInitialized(),
       chatState: ChatState.notInitialized(),
       offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
+      offreEmploiSearchResultsState: OffreEmploiSearchResultsState.notInitialized(),
       offreEmploiSearchParametersState: OffreEmploiSearchParametersState.notInitialized(),
     );
   }

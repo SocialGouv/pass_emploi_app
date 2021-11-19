@@ -2,7 +2,7 @@ import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:redux/redux.dart';
 
@@ -16,7 +16,7 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
     next(action);
     final loginState = store.state.loginState;
     final parametersState = store.state.offreEmploiSearchParametersState;
-    final searchState = store.state.offreEmploiSearchState;
+    final previousResultsState = store.state.offreEmploiSearchResultsState;
     if (loginState is LoggedInState) {
       if (action is SearchOffreEmploiAction) {
         store.dispatch(OffreEmploiSearchLoadingAction());
@@ -34,9 +34,9 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
         }
       } else if (action is RequestMoreOffreEmploiSearchResultsAction &&
           parametersState is OffreEmploiSearchParametersInitializedState &&
-          searchState is OffreEmploiSearchSuccessState) {
+          previousResultsState is OffreEmploiSearchResultsDataState) {
         store.dispatch(OffreEmploiSearchLoadingAction());
-        var pageToLoad = searchState.loadedPage + 1;
+        var pageToLoad = previousResultsState.loadedPage + 1;
         final result = await _repository.search(
           userId: loginState.user.id,
           keywords: parametersState.keyWords,

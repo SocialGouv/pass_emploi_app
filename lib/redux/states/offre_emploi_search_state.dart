@@ -1,13 +1,11 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/models/offre_emploi.dart';
 
 abstract class OffreEmploiSearchState extends Equatable {
   OffreEmploiSearchState._();
 
   factory OffreEmploiSearchState.loading() = OffreEmploiSearchLoadingState;
 
-  factory OffreEmploiSearchState.success(List<OffreEmploi> loadedOffres, int loadedPage) =>
-      OffreEmploiSearchSuccessState(offres: loadedOffres, loadedPage: loadedPage);
+  factory OffreEmploiSearchState.success() = OffreEmploiSearchSuccessState;
 
   factory OffreEmploiSearchState.failure() = OffreEmploiSearchFailureState;
 
@@ -22,13 +20,7 @@ class OffreEmploiSearchLoadingState extends OffreEmploiSearchState {
 }
 
 class OffreEmploiSearchSuccessState extends OffreEmploiSearchState {
-  final List<OffreEmploi> offres;
-  final int loadedPage;
-
-  OffreEmploiSearchSuccessState({required this.offres, required this.loadedPage}) : super._();
-
-  @override
-  List<Object> get props => [offres, loadedPage];
+  OffreEmploiSearchSuccessState() : super._();
 }
 
 class OffreEmploiSearchFailureState extends OffreEmploiSearchState {
@@ -38,3 +30,15 @@ class OffreEmploiSearchFailureState extends OffreEmploiSearchState {
 class OffreEmploiSearchNotInitializedState extends OffreEmploiSearchState {
   OffreEmploiSearchNotInitializedState() : super._();
 }
+
+/*
+class OffreEmploiSearchSuccessState extends OffreEmploiSearchState {
+  final List<OffreEmploi> offres;
+  final int loadedPage;
+
+  OffreEmploiSearchSuccessState({required this.offres, required this.loadedPage}) : super._();
+
+  @override
+  List<Object> get props => [offres, loadedPage];
+}
+ */
