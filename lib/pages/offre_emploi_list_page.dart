@@ -103,9 +103,9 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
               Text(
                 "Erreur, impossible de charger plus d'offres",
                 textAlign: TextAlign.center,
-                style: TextStyles.textSmMedium(color: AppColors.errorRed),
+                style: TextStyles.textSmMedium(color: AppColors.bluePurple),
               ),
-              TextButton(onPressed: () => _currentViewModel?.onReachBottom(), child: Text("Réessayer")),
+              TextButton(onPressed: () => _currentViewModel?.onReachBottom(), child: Text("Réessayer", style: TextStyles.textMdMedium,)),
             ],
           ),
         );
