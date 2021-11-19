@@ -15,3 +15,19 @@ class UserActionFailureAction extends UserActionAction {}
 class UserActionCreatedWithSuccessAction extends UserActionAction {}
 
 class UserActionCreationFailed extends UserActionAction {}
+
+class UserActionDeleteAction extends UserActionAction {
+  final String actionId;
+
+  UserActionDeleteAction(this.actionId);
+}
+
+class UserActionDeleteLoadingAction extends UserActionAction {}
+
+class UserActionDeleteSuccessAction extends UserActionAction {
+  final String actionId;
+
+  UserActionDeleteSuccessAction(this.actionId);
+}
+
+class UserActionDeleteFailureAction extends UserActionAction {}

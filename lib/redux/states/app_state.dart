@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/redux/states/create_user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/home_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/rendezvous_state.dart';
+import 'package:pass_emploi_app/redux/states/user_action_delete_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 
@@ -18,6 +19,7 @@ class AppState extends Equatable {
   final UserActionState userActionState;
   final CreateUserActionState createUserActionState;
   final UserActionUpdateState userActionUpdateState;
+  final UserActionDeleteState userActionDeleteState;
   final RendezvousState rendezvousState;
   final ChatStatusState chatStatusState;
   final ChatState chatState;
@@ -31,6 +33,7 @@ class AppState extends Equatable {
     required this.userActionState,
     required this.createUserActionState,
     required this.userActionUpdateState,
+    required this.userActionDeleteState,
     required this.rendezvousState,
     required this.chatStatusState,
     required this.chatState,
@@ -45,6 +48,7 @@ class AppState extends Equatable {
     final UserActionState? userActionState,
     final CreateUserActionState? createUserActionState,
     final UserActionUpdateState? userActionUpdateState,
+    final UserActionDeleteState? userActionDeleteState,
     final RendezvousState? rendezvousState,
     final ChatStatusState? chatStatusState,
     final ChatState? chatState,
@@ -58,6 +62,7 @@ class AppState extends Equatable {
       userActionState: userActionState ?? this.userActionState,
       createUserActionState: createUserActionState ?? this.createUserActionState,
       userActionUpdateState: userActionUpdateState ?? this.userActionUpdateState,
+      userActionDeleteState: userActionDeleteState ?? this.userActionDeleteState,
       rendezvousState: rendezvousState ?? this.rendezvousState,
       chatStatusState: chatStatusState ?? this.chatStatusState,
       chatState: chatState ?? this.chatState,
@@ -74,6 +79,7 @@ class AppState extends Equatable {
       userActionState: UserActionState.notInitialized(),
       createUserActionState: CreateUserActionState.notInitialized(),
       userActionUpdateState: UserActionUpdateState.notUpdating(),
+      userActionDeleteState: UserActionDeleteState.notInitialized(),
       rendezvousState: RendezvousState.notInitialized(),
       chatStatusState: ChatStatusState.notInitialized(),
       chatState: ChatState.notInitialized(),

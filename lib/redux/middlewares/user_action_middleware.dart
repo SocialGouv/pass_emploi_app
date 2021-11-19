@@ -23,6 +23,14 @@ class UserActionMiddleware extends MiddlewareClass<AppState> {
       if (loginState is LoggedInState) {
         _createUserAction(store, loginState.user.id, action.content, action.comment, action.initialStatus);
       }
+    } else if (action is UserActionDeleteAction) {
+      store.dispatch(UserActionDeleteLoadingAction());
+      final result = await _repository.deleteUserAction(action.actionId);
+      if (result) {
+        store.dispatch(UserActionDeleteSuccessAction(action.actionId));
+      } else {
+        store.dispatch(UserActionDeleteFailureAction());
+      }
     }
   }
 

@@ -13,4 +13,7 @@ class AppColors {
   static const Color nightBlueAlpha05 = Color.fromARGB(13, 51, 56, 102);
   static const Color purple = Color.fromARGB(255, 151, 98, 218);
   static const Color errorRed = Color.fromARGB(255, 211, 47, 47);
+  static const Color franceRed = Color.fromARGB(255, 225, 0, 15);
+  static const Color franceRedAlpha05 = Color.fromARGB(13, 225, 0, 15);
+  static const Color redGrey = Color.fromARGB(255, 228, 203, 200);
 }

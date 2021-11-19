@@ -9,7 +9,7 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
 class OffreEmploiSearchPage extends TraceableStatefulWidget {
@@ -60,12 +60,13 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
         _autocomplete(viewModel),
         _separator(),
         Center(
-            child: userActionBottomSheetActionButton(
-                onPressed: _isLoading(viewModel) ? null : () {
-                  _searchingRequest(viewModel);
-                  FocusScope.of(context).unfocus();
-                },
-                label: Strings.searchButton)),
+          child: primaryActionButton(
+              onPressed: _isLoading(viewModel) ? null : () {
+                _searchingRequest(viewModel);
+                FocusScope.of(context).unfocus();
+              },
+              label: Strings.searchButton),
+        ),
         _separator(),
         if (viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_ERROR ||
             viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_EMPTY_ERROR)

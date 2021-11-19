@@ -38,27 +38,3 @@ Padding userActionBottomSheetHeader(BuildContext context, {required String title
 Container userActionBottomSheetSeparator() => Container(height: 1, color: AppColors.bluePurpleAlpha20);
 
 EdgeInsets userActionBottomSheetContentPadding() => const EdgeInsets.fromLTRB(16, 24, 16, 24);
-
-TextButton userActionBottomSheetActionButton({
-  required String label,
-  required VoidCallback? onPressed,
-}) =>
-    TextButton(
-      style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.all(Colors.white),
-        textStyle: MaterialStateProperty.all(TextStyles.textSmMedium()),
-        backgroundColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-          if (states.contains(MaterialState.disabled)) {
-            return AppColors.blueGrey;
-          } else {
-            return AppColors.nightBlue;
-          }
-        }),
-        shape: MaterialStateProperty.all(StadiumBorder()),
-      ),
-      onPressed: onPressed,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Text(label),
-      ),
-    );
