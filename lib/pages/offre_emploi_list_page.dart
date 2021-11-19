@@ -66,6 +66,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
       backgroundColor: AppColors.lightBlue,
       appBar: FlatDefaultAppBar(
         title: Text(Strings.offresEmploiTitle, style: TextStyles.textLgMedium),
+        leading: BackButton(onPressed: () => viewModel.onQuit()),
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
