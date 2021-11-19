@@ -106,7 +106,5 @@ class Strings {
   // Solutions Errors
   static String noContentError = "Aucune offre ne correspond à votre recherche";
   static String genericError = "Erreur lors de la recherche. Veuillez réessayer";
-  static String loadMoreOffresError = "Erreur, impossible de charger plus d'offres";
-
-
+  static String loadMoreOffresError = "Erreur lors du chargement des offres";
 }

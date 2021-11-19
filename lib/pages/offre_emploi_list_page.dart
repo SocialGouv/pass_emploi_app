@@ -72,14 +72,11 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
         child: ClipRRect(
           borderRadius: BorderRadius.vertical(top: Radius.circular(16), bottom: Radius.zero),
-          child: Container(
-            color: Colors.white,
-            child: ListView.separated(
-              controller: _scrollController,
-              itemBuilder: (context, index) => _buildItem(context, index, viewModel),
-              separatorBuilder: (context, index) => _listSeparator(),
-              itemCount: viewModel.items.length + 1,
-            ),
+          child: ListView.separated(
+            controller: _scrollController,
+            itemBuilder: (context, index) => _buildItem(context, index, viewModel),
+            separatorBuilder: (context, index) => _listSeparator(),
+            itemCount: viewModel.items.length + 1,
           ),
         ),
       ),
@@ -94,37 +91,40 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     }
   }
 
-  Padding _buildOffreItem(OffreEmploiSearchResultsViewModel resultsViewModel, int index) {
+  Widget _buildOffreItem(OffreEmploiSearchResultsViewModel resultsViewModel, int index) {
     final itemViewModel = resultsViewModel.items[index];
-    return Padding(
-      padding: const EdgeInsets.all(24),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            itemViewModel.title,
-            style: TextStyles.textSmMedium(),
-          ),
-          if (itemViewModel.companyName != null)
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Text(
-                itemViewModel.companyName!,
-                style: TextStyles.textSmRegular(color: AppColors.bluePurple),
-              ),
+    return Container(
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              itemViewModel.title,
+              style: TextStyles.textSmMedium(),
             ),
-          SizedBox(height: 8),
-          Wrap(
-            spacing: 8,
-            runSpacing: 8,
-            children: [
-              _lightBlueTag(label: itemViewModel.contractType),
-              if (itemViewModel.duration != null) _lightBlueTag(label: itemViewModel.duration!),
-              if (itemViewModel.location != null)
-                _lightBlueTag(label: itemViewModel.location!, icon: SvgPicture.asset("assets/ic_place.svg")),
-            ],
-          )
-        ],
+            if (itemViewModel.companyName != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  itemViewModel.companyName!,
+                  style: TextStyles.textSmRegular(color: AppColors.bluePurple),
+                ),
+              ),
+            SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                _lightBlueTag(label: itemViewModel.contractType),
+                if (itemViewModel.duration != null) _lightBlueTag(label: itemViewModel.duration!),
+                if (itemViewModel.location != null)
+                  _lightBlueTag(label: itemViewModel.location!, icon: SvgPicture.asset("assets/ic_place.svg")),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
@@ -139,13 +139,13 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
 
   Padding _buildErrorItem() {
     return Padding(
-      padding: const EdgeInsets.only(top: 24),
+      padding: const EdgeInsets.fromLTRB(0, 24, 0, 16),
       child: Column(
         children: [
           Text(
             Strings.loadMoreOffresError,
             textAlign: TextAlign.center,
-            style: TextStyles.textSmMedium(color: AppColors.bluePurple),
+            style: TextStyles.textSmRegular(color: AppColors.bluePurple),
           ),
           TextButton(
               onPressed: () => _currentViewModel?.onLoadMore(),
