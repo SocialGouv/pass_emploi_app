@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.d
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:redux/redux.dart';
 
-enum OffreEmploiSearchResultsDisplayState { SHOW_CONTENT, SHOW_LOADER, SHOW_ERROR, SHOW_EMPTY_ERROR }
+enum OffreEmploiSearchResultsDisplayState { SHOW_CONTENT, SHOW_LOADER, SHOW_ERROR }
 
 class OffreEmploiSearchResultsViewModel {
   final OffreEmploiSearchResultsDisplayState displayState;
@@ -71,9 +71,7 @@ class OffreEmploiItemViewModel extends Equatable {
 OffreEmploiSearchResultsDisplayState _displayState(
     OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
   if (searchState is OffreEmploiSearchSuccessState && searchResultsState is OffreEmploiSearchResultsDataState) {
-    return searchResultsState.offres.isNotEmpty
-        ? OffreEmploiSearchResultsDisplayState.SHOW_CONTENT
-        : OffreEmploiSearchResultsDisplayState.SHOW_EMPTY_ERROR;
+    return OffreEmploiSearchResultsDisplayState.SHOW_CONTENT;
   } else if (searchState is OffreEmploiSearchLoadingState) {
     return OffreEmploiSearchResultsDisplayState.SHOW_LOADER;
   } else {

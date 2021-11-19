@@ -3,8 +3,11 @@ import 'package:pass_emploi_app/models/department.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:redux/redux.dart';
+
+import '../models/offre_emploi_test.dart';
 
 main() {
   test("create when state is loading should set display state properly", () {
@@ -21,6 +24,7 @@ main() {
 
     // Then
     expect(viewModel.displayState, OffreEmploiSearchDisplayState.SHOW_LOADER);
+    expect(viewModel.errorMessage, "");
   });
 
   test("create when state is failure should set display state properly", () {
@@ -45,7 +49,8 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiSearchState: OffreEmploiSearchState.success([], 1),
+        offreEmploiSearchState: OffreEmploiSearchState.success(),
+        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data([], 1),
       ),
     );
 
@@ -55,6 +60,24 @@ main() {
     // Then
     expect(viewModel.displayState, OffreEmploiSearchDisplayState.SHOW_EMPTY_ERROR);
     expect(viewModel.errorMessage, "Aucune offre ne correspond à votre recherche");
+  });
+
+  test("create when state is success and not empty should set display state properly", () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(
+        offreEmploiSearchState: OffreEmploiSearchState.success(),
+        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(offreEmploiData(), 1),
+      ),
+    );
+
+    // When
+    final viewModel = OffreEmploiSearchViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, OffreEmploiSearchDisplayState.SHOW_CONTENT);
+    expect(viewModel.errorMessage, "");
   });
 
   group("_filterDepartments should return ...", () {
