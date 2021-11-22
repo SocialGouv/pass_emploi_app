@@ -15,14 +15,14 @@ class RouterPage extends StatefulWidget {
 }
 
 /*
- * Handling of opened push notification strongly inspired from FlutterFire documentation
+ * Handling of opened push notifications totally inspired from FlutterFire documentation
  * [https://firebase.flutter.dev/docs/messaging/notifications].
  */
 class _RouterPageState extends State<RouterPage> {
   @override
   void initState() {
     super.initState();
-    _setupInteractedMessage();
+    _handleOpeningApplication();
   }
 
   @override
@@ -50,20 +50,19 @@ class _RouterPageState extends State<RouterPage> {
     }
   }
 
-  //TODO-75 DOC
-  Future<void> _setupInteractedMessage() async {
-    // Get any messages which caused the application to open from
-    // a terminated state.
-    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
-
-    // If the message also contains a data property with a "type" of "chat",
-    // navigate to a chat screen
-    if (initialMessage != null) _handleMessage(initialMessage);
-
-    // Also handle any interaction when the app is in the background via a
-    // Stream listener
-    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  Future<void> _handleOpeningApplication() async {
+    await _handleStoppedApplicationOpenedFromPushNotification();
+    _handleBackgroundApplicationOpenedFromPushNotification();
   }
 
-  void _handleMessage(RemoteMessage message) => StoreProvider.of<AppState>(context).dispatch(DeepLinkAction(message));
+  Future<void> _handleStoppedApplicationOpenedFromPushNotification() async {
+    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+    if (initialMessage != null) _handleDeepLink(initialMessage);
+  }
+
+  void _handleBackgroundApplicationOpenedFromPushNotification() {
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleDeepLink);
+  }
+
+  void _handleDeepLink(RemoteMessage message) => StoreProvider.of<AppState>(context).dispatch(DeepLinkAction(message));
 }
