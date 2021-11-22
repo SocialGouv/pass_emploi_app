@@ -96,6 +96,7 @@ class AppState extends Equatable {
         userActionState,
         createUserActionState,
         userActionUpdateState,
+        userActionDeleteState,
         rendezvousState,
         chatStatusState,
         chatState,

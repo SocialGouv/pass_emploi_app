@@ -135,7 +135,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
         _creator(),
         userActionBottomSheetSeparator(),
         _changeStatus(detailsViewModel),
-        if (widget.actionViewModel.canBeDeleted) _deleteAction(detailsViewModel)
+        if (widget.actionViewModel.withDeleteOption) _deleteAction(detailsViewModel)
       ],
     );
   }

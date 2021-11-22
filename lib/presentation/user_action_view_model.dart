@@ -15,7 +15,7 @@ class UserActionViewModel {
   final DateTime lastUpdate;
   final String creator;
   final UserActionTagViewModel? tag;
-  final bool canBeDeleted;
+  final bool withDeleteOption;
 
   UserActionViewModel({
     required this.id,
@@ -26,7 +26,7 @@ class UserActionViewModel {
     required this.lastUpdate,
     required this.creator,
     required this.tag,
-    required this.canBeDeleted,
+    required this.withDeleteOption,
   });
 
   factory UserActionViewModel.create(UserAction userAction) {
@@ -39,7 +39,7 @@ class UserActionViewModel {
       lastUpdate: userAction.lastUpdate,
       creator: _displayName(userAction.creator),
       tag: _userActionTagViewModel(userAction),
-      canBeDeleted: userAction.creator is! ConseillerActionCreator,
+      withDeleteOption: userAction.creator is! ConseillerActionCreator,
     );
   }
 }
