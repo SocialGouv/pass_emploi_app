@@ -88,11 +88,14 @@ class AppState extends Equatable {
         loginState,
         homeState,
         userActionState,
-        userActionUpdateState,
         createUserActionState,
+        userActionUpdateState,
         rendezvousState,
         chatStatusState,
         chatState,
+        offreEmploiSearchState,
+        offreEmploiSearchResultsState,
+        offreEmploiSearchParametersState,
       ];
 
   @override

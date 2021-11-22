@@ -30,7 +30,7 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
       } else if (action is RequestMoreOffreEmploiSearchResultsAction &&
           parametersState is OffreEmploiSearchParametersInitializedState &&
           previousResultsState is OffreEmploiSearchResultsDataState) {
-        await _search(
+        _search(
           store: store,
           userId: userId,
           keyWords: parametersState.keyWords,
