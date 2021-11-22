@@ -12,6 +12,12 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/menu_item.dart';
 
+const int _indexOfHomePage = 0;
+const int _indexOfUserActionListPage = 1;
+const int _indexOfChatPage = 2;
+const int _indexOfRendezvousListPage = 3;
+const int _indexOfOffreEmploiSearchPage = 4;
+
 class MainPage extends StatefulWidget {
   final String userId;
   final MainPageDisplayState displayState;
@@ -23,17 +29,16 @@ class MainPage extends StatefulWidget {
   @override
   _MainPageState createState() => _MainPageState(_getIndexOfDisplayState(displayState));
 
-  // TODO-75  : utiliser les même int ?
   int _getIndexOfDisplayState(MainPageDisplayState displayState) {
     switch (displayState) {
       case MainPageDisplayState.DEFAULT:
-        return 0;
+        return _indexOfHomePage;
       case MainPageDisplayState.ACTIONS_LIST:
-        return 1;
-      case MainPageDisplayState.RENDEZVOUS_LIST:
-        return 3;
+        return _indexOfUserActionListPage;
       case MainPageDisplayState.CHAT:
-        return 2;
+        return _indexOfChatPage;
+      case MainPageDisplayState.RENDEZVOUS_LIST:
+        return _indexOfRendezvousListPage;
     }
   }
 }
@@ -84,15 +89,13 @@ class _MainPageState extends State<MainPage> {
 
   Widget _content(int index) {
     switch (index) {
-      case 0:
-        return HomePage(widget.userId);
-      case 1:
+      case _indexOfUserActionListPage:
         return UserActionListPage(widget.userId);
-      case 2:
+      case _indexOfChatPage:
         return ChatPage();
-      case 3:
+      case _indexOfRendezvousListPage:
         return RendezvousListPage();
-      case 4:
+      case _indexOfOffreEmploiSearchPage:
         return OffreEmploiRouterPage();
       default:
         return HomePage(widget.userId);
