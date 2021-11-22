@@ -61,7 +61,10 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
         _separator(),
         Center(
             child: userActionBottomSheetActionButton(
-                onPressed: _isLoading(viewModel) ? null : () => _searchingRequest(viewModel),
+                onPressed: _isLoading(viewModel) ? null : () {
+                  _searchingRequest(viewModel);
+                  FocusScope.of(context).unfocus();
+                },
                 label: Strings.searchButton)),
         _separator(),
         if (viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_ERROR ||

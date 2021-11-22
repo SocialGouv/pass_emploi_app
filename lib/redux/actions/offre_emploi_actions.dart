@@ -14,8 +14,9 @@ class OffreEmploiSearchLoadingAction extends OffreEmploiAction {}
 class OffreEmploiSearchSuccessAction extends OffreEmploiAction {
   final List<OffreEmploi> offres;
   final int page;
+  final bool isMoreDataAvailable;
 
-  OffreEmploiSearchSuccessAction({required this.offres, required this.page});
+  OffreEmploiSearchSuccessAction({required this.offres, required this.page, required this.isMoreDataAvailable});
 }
 
 class OffreEmploiSearchFailureAction extends OffreEmploiAction {}

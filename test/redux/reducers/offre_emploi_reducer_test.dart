@@ -22,6 +22,9 @@ main() {
     assertState(OffreEmploiSearchLoadingAction(), OffreEmploiSearchState.loading());
     assertState(OffreEmploiSearchFailureAction(), OffreEmploiSearchState.failure());
     final offres = offreEmploiData();
-    assertState(OffreEmploiSearchSuccessAction(offres: offres, page: 1), OffreEmploiSearchState.success());
+    assertState(
+      OffreEmploiSearchSuccessAction(offres: offres, page: 1, isMoreDataAvailable: true),
+      OffreEmploiSearchState.success(),
+    );
   });
 }

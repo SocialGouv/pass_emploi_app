@@ -50,7 +50,8 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
       onDidChange: (_, viewModel) => {
         _currentViewModel = viewModel,
         _scrollController.jumpTo(_offsetBeforeLoading),
-        _shouldLoadAtBottom = viewModel.displayState != OffreEmploiSearchResultsDisplayState.SHOW_ERROR
+        _shouldLoadAtBottom = viewModel.displayLoaderAtBottomOfList &&
+            viewModel.displayState != OffreEmploiSearchResultsDisplayState.SHOW_ERROR
       },
     );
   }
@@ -77,11 +78,10 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
         child: ClipRRect(
           borderRadius: BorderRadius.vertical(top: Radius.circular(16), bottom: Radius.zero),
           child: ListView.separated(
-            controller: _scrollController,
-            itemBuilder: (context, index) => _buildItem(context, index, viewModel),
-            separatorBuilder: (context, index) => _listSeparator(),
-            itemCount: viewModel.items.length + 1,
-          ),
+              controller: _scrollController,
+              itemBuilder: (context, index) => _buildItem(context, index, viewModel),
+              separatorBuilder: (context, index) => _listSeparator(),
+              itemCount: _itemCount(viewModel)),
         ),
       ),
     );
@@ -193,5 +193,12 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
             ],
           )),
     );
+  }
+
+  int _itemCount(OffreEmploiSearchResultsViewModel viewModel) {
+    if (viewModel.displayLoaderAtBottomOfList)
+      return viewModel.items.length + 1;
+    else
+      return viewModel.items.length;
   }
 }

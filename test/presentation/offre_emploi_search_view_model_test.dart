@@ -50,7 +50,8 @@ main() {
       reducer,
       initialState: AppState.initialState().copyWith(
         offreEmploiSearchState: OffreEmploiSearchState.success(),
-        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data([], 1),
+        offreEmploiSearchResultsState:
+            OffreEmploiSearchResultsState.data(offres: [], loadedPage: 1, isMoreDataAvailable: false),
       ),
     );
 
@@ -68,7 +69,7 @@ main() {
       reducer,
       initialState: AppState.initialState().copyWith(
         offreEmploiSearchState: OffreEmploiSearchState.success(),
-        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(offreEmploiData(), 1),
+        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(offres: offreEmploiData(), loadedPage: 1, isMoreDataAvailable: false),
       ),
     );
 

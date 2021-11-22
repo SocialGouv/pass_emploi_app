@@ -56,7 +56,11 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
       page: pageToLoad,
     );
     if (result != null) {
-      store.dispatch(OffreEmploiSearchSuccessAction(offres: result, page: pageToLoad));
+      store.dispatch(OffreEmploiSearchSuccessAction(
+        offres: result.offres,
+        page: pageToLoad,
+        isMoreDataAvailable: result.isMoreDataAvailable,
+      ));
     } else {
       store.dispatch(OffreEmploiSearchFailureAction());
     }

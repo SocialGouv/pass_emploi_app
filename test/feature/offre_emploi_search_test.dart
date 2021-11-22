@@ -14,7 +14,7 @@ main() {
   test("offre emplois should be loaded, results displayed, and parameters saved", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
-    testStoreFactory.offreEmploiRepository = OffreEmploiRepositorySuccessStub();
+    testStoreFactory.offreEmploiRepository = OffreEmploiRepositorySuccessWithMoreDataStub();
     final store = testStoreFactory.initializeReduxStore(initialState: _loggedInState());
 
     final Future<bool> displayedLoading =

@@ -28,17 +28,17 @@ class UserActionRepositorySuccessStub extends UserActionRepository {
   Future<void> updateActionStatus(String userId, String actionId, UserActionStatus newStatus) async {}
 }
 
-class OffreEmploiRepositorySuccessStub extends OffreEmploiRepository {
-  OffreEmploiRepositorySuccessStub() : super("", DummyHeadersBuilder());
+class OffreEmploiRepositorySuccessWithMoreDataStub extends OffreEmploiRepository {
+  OffreEmploiRepositorySuccessWithMoreDataStub() : super("", DummyHeadersBuilder());
 
   @override
-  Future<List<OffreEmploi>?> search({
+  Future<OffreEmploiSearchResponse?> search({
     required String userId,
     required String keywords,
     required String department,
     required int page,
   }) async {
-    return offreEmploiData();
+    return OffreEmploiSearchResponse(isMoreDataAvailable: true, offres : offreEmploiData());
   }
 }
 
@@ -46,7 +46,7 @@ class OffreEmploiRepositoryFailureStub extends OffreEmploiRepository {
   OffreEmploiRepositoryFailureStub() : super("", DummyHeadersBuilder());
 
   @override
-  Future<List<OffreEmploi>?> search({
+  Future<OffreEmploiSearchResponse?> search({
     required String userId,
     required String keywords,
     required String department,

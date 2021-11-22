@@ -31,7 +31,11 @@ AppState offreEmploiReducer(AppState currentState, dynamic action) {
 
 AppState _storeOffres(AppState currentState, OffreEmploiSearchSuccessAction action) {
   return currentState.copyWith(
-    offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(action.offres, action.page),
+    offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
+      offres: action.offres,
+      loadedPage: action.page,
+      isMoreDataAvailable: action.isMoreDataAvailable,
+    ),
     offreEmploiSearchState: OffreEmploiSearchState.success(),
   );
 }
@@ -39,8 +43,11 @@ AppState _storeOffres(AppState currentState, OffreEmploiSearchSuccessAction acti
 AppState _appendNewOffres(AppState currentState, OffreEmploiSearchResultsDataState previousSearchState,
     OffreEmploiSearchSuccessAction action) {
   return currentState.copyWith(
-    offreEmploiSearchResultsState:
-        OffreEmploiSearchResultsState.data(previousSearchState.offres + action.offres, action.page),
+    offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
+      offres: previousSearchState.offres + action.offres,
+      loadedPage: action.page,
+      isMoreDataAvailable: action.isMoreDataAvailable,
+    ),
     offreEmploiSearchState: OffreEmploiSearchState.success(),
   );
 }

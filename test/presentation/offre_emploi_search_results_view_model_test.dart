@@ -9,22 +9,44 @@ import 'package:redux/redux.dart';
 import '../models/offre_emploi_test.dart';
 
 main() {
-  test("create when state is success should convert data to view model", () {
-    // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(
-        offreEmploiSearchState: OffreEmploiSearchState.success(),
-        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(offreEmploiData(), 1),
-      ),
-    );
+  group("create when state is success should convert data to view model", () {
+    Store<AppState> _successSetUp({required bool moreData}) {
+      final store = Store<AppState>(
+        reducer,
+        initialState: AppState.initialState().copyWith(
+          offreEmploiSearchState: OffreEmploiSearchState.success(),
+          offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
+              offres: offreEmploiData(), loadedPage: 1, isMoreDataAvailable: moreData),
+        ),
+      );
+      return store;
+    }
 
-    // When
-    final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+    test("and more data is available", () {
+      // Given
+      final store = _successSetUp(moreData: true);
 
-    // Then
-    expect(viewModel.displayState, OffreEmploiSearchResultsDisplayState.SHOW_CONTENT);
-    expect(viewModel.items, _expectedViewModels());
+      // When
+      final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+      // Then
+      expect(viewModel.displayState, OffreEmploiSearchResultsDisplayState.SHOW_CONTENT);
+      expect(viewModel.items, _expectedViewModels());
+      expect(viewModel.displayLoaderAtBottomOfList, true);
+    });
+
+    test("and no more data available", () {
+      // Given
+      final store = _successSetUp(moreData: false);
+
+      // When
+      final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+      // Then
+      expect(viewModel.displayState, OffreEmploiSearchResultsDisplayState.SHOW_CONTENT);
+      expect(viewModel.items, _expectedViewModels());
+      expect(viewModel.displayLoaderAtBottomOfList, false);
+    });
   });
 
   test("create when state is loading should convert data to view model", () {
@@ -33,7 +55,8 @@ main() {
       reducer,
       initialState: AppState.initialState().copyWith(
         offreEmploiSearchState: OffreEmploiSearchState.loading(),
-        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(offreEmploiData(), 2),
+        offreEmploiSearchResultsState:
+            OffreEmploiSearchResultsState.data(offres: offreEmploiData(), loadedPage: 2, isMoreDataAvailable: false),
       ),
     );
 
@@ -51,7 +74,11 @@ main() {
       reducer,
       initialState: AppState.initialState().copyWith(
         offreEmploiSearchState: OffreEmploiSearchState.failure(),
-        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(offreEmploiData(), 3),
+        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
+          offres: offreEmploiData(),
+          loadedPage: 3,
+          isMoreDataAvailable: false,
+        ),
       ),
     );
 

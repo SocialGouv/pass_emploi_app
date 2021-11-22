@@ -27,8 +27,9 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: AppState.initialState()
-          .copyWith(offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(offreEmploiData(), 1)),
+      initialState: AppState.initialState().copyWith(
+          offreEmploiSearchResultsState:
+              OffreEmploiSearchResultsState.data(offres: offreEmploiData(), loadedPage: 1, isMoreDataAvailable: true)),
     );
 
     // When
@@ -42,8 +43,9 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: AppState.initialState()
-          .copyWith(offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data([], 1)),
+      initialState: AppState.initialState().copyWith(
+          offreEmploiSearchResultsState:
+              OffreEmploiSearchResultsState.data(offres: [], loadedPage: 1, isMoreDataAvailable: true)),
     );
 
     // When
