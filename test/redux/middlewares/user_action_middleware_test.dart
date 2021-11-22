@@ -1,14 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/middlewares/user_action_middleware.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
 
-import '../../doubles/dummies.dart';
 import '../../doubles/spies.dart';
 import '../../doubles/stubs.dart';
 
@@ -78,16 +75,4 @@ class StoreSpy {
     }
     return currentState;
   }
-}
-
-class UserActionRepositoryFailureStub extends UserActionRepository {
-  UserActionRepositoryFailureStub() : super("", DummyHeadersBuilder());
-
-  @override
-  Future<List<UserAction>?> getUserActions(String userId) async {
-    return null;
-  }
-
-  @override
-  Future<void> updateActionStatus(String userId, String actionId,  UserActionStatus newStatus) async {}
 }

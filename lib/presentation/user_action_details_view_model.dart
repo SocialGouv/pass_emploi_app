@@ -1,27 +1,32 @@
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
+import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
+import 'package:pass_emploi_app/redux/states/user_action_delete_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 import 'package:redux/redux.dart';
 
-enum UserActionDetailsDisplayState { SHOW_CONTENT, SHOW_SUCCESS, TO_DISMISS }
+enum UserActionDetailsDisplayState { SHOW_CONTENT, SHOW_SUCCESS, SHOW_LOADING, SHOW_DELETE_ERROR, TO_DISMISS }
 
 class UserActionDetailsViewModel {
   final UserActionDetailsDisplayState displayState;
   final Function(String actionId, UserActionStatus newStatus) onRefreshStatus;
+  final Function(String actionId) onDelete;
 
   factory UserActionDetailsViewModel.create(Store<AppState> store) {
     return UserActionDetailsViewModel._(
       displayState: _displayState(store.state),
       onRefreshStatus: (actionId, newStatus) => _refreshStatus(store, actionId, newStatus),
+      onDelete: (actionId) => store.dispatch(UserActionDeleteAction(actionId)),
     );
   }
 
   UserActionDetailsViewModel._({
     required this.displayState,
     required this.onRefreshStatus,
+    required this.onDelete,
   });
 
   @override
@@ -36,8 +41,13 @@ class UserActionDetailsViewModel {
 UserActionDetailsDisplayState _displayState(AppState state) {
   if (state.userActionUpdateState is UserActionUpdatedState) {
     return UserActionDetailsDisplayState.SHOW_SUCCESS;
-  } else if (state.userActionUpdateState is UserActionNoUpdateNeeded) {
+  } else if (state.userActionUpdateState is UserActionNoUpdateNeeded ||
+      state.userActionDeleteState is UserActionDeleteSuccessState) {
     return UserActionDetailsDisplayState.TO_DISMISS;
+  } else if (state.userActionDeleteState is UserActionDeleteLoadingState) {
+    return UserActionDetailsDisplayState.SHOW_LOADING;
+  } else if (state.userActionDeleteState is UserActionDeleteFailureState) {
+    return UserActionDetailsDisplayState.SHOW_DELETE_ERROR;
   } else {
     return UserActionDetailsDisplayState.SHOW_CONTENT;
   }

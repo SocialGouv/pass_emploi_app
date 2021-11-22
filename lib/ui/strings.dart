@@ -91,6 +91,8 @@ class Strings {
   static String conseillerNotifiedActionUpdated =
       "Votre conseiller a reçu une notification de la mise à jour de votre action";
   static String understood = "Bien compris";
+  static String deleteAction = "Supprimer l'action";
+  static String deleteActionError = "Erreur lors de la suppression de l'action. Veuillez réessayer";
 
   // Offres Emploi
   static String offresEmploiTitle = "Résultats offres d'emploi";

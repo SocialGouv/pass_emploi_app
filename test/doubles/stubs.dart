@@ -26,6 +26,28 @@ class UserActionRepositorySuccessStub extends UserActionRepository {
 
   @override
   Future<void> updateActionStatus(String userId, String actionId, UserActionStatus newStatus) async {}
+
+  @override
+  Future<bool> deleteUserAction(String actionId) async {
+    return true;
+  }
+}
+
+class UserActionRepositoryFailureStub extends UserActionRepository {
+  UserActionRepositoryFailureStub() : super("", DummyHeadersBuilder());
+
+  @override
+  Future<List<UserAction>?> getUserActions(String userId) async {
+    return null;
+  }
+
+  @override
+  Future<void> updateActionStatus(String userId, String actionId,  UserActionStatus newStatus) async {}
+
+  @override
+  Future<bool> deleteUserAction(String actionId) async {
+    return false;
+  }
 }
 
 class OffreEmploiRepositorySuccessWithMoreDataStub extends OffreEmploiRepository {

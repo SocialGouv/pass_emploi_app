@@ -13,6 +13,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
 import 'bottom_sheets.dart';
+import 'button.dart';
 
 class UserActionDetailsBottomSheet extends TraceableStatefulWidget {
   final UserActionViewModel actionViewModel;
@@ -45,6 +46,8 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
   _build(BuildContext context, UserActionDetailsViewModel detailsViewModel) {
     switch (detailsViewModel.displayState) {
       case UserActionDetailsDisplayState.SHOW_CONTENT:
+      case UserActionDetailsDisplayState.SHOW_LOADING:
+      case UserActionDetailsDisplayState.SHOW_DELETE_ERROR:
         return _bottomSheetContent(context, detailsViewModel);
       case UserActionDetailsDisplayState.SHOW_SUCCESS:
         return _congratulations(context);
@@ -107,7 +110,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
   Widget _understood(BuildContext context) {
     return Padding(
       padding: userActionBottomSheetContentPadding(),
-      child: userActionBottomSheetActionButton(
+      child: primaryActionButton(
         label: Strings.understood,
         onPressed: () => Navigator.pop(context),
       ),
@@ -131,7 +134,8 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
         userActionBottomSheetSeparator(),
         _creator(),
         userActionBottomSheetSeparator(),
-        _changeStatus(detailsViewModel)
+        _changeStatus(detailsViewModel),
+        if (widget.actionViewModel.withDeleteOption) _deleteAction(detailsViewModel)
       ],
     );
   }
@@ -159,6 +163,8 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
               widget.actionViewModel.comment,
               style: TextStyles.textSmRegular(color: AppColors.bluePurple),
             )
+          else
+            SizedBox(height: 8)
         ],
       ),
     );
@@ -182,7 +188,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
 
   Widget _changeStatus(UserActionDetailsViewModel detailsViewModel) {
     return Padding(
-      padding: userActionBottomSheetContentPadding(),
+      padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -198,10 +204,40 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
               update: (newStatus) => _update(newStatus),
             ),
           ),
-          userActionBottomSheetActionButton(
+          primaryActionButton(
             onPressed: () => {detailsViewModel.onRefreshStatus(widget.actionViewModel.id, actionStatus)},
             label: Strings.refreshActionStatus,
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _deleteAction(UserActionDetailsViewModel detailsViewModel) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          primaryActionButton(
+            onPressed: detailsViewModel.displayState == UserActionDetailsDisplayState.SHOW_LOADING
+                ? null
+                : () => detailsViewModel.onDelete(widget.actionViewModel.id),
+            label: Strings.deleteAction,
+            textColor: AppColors.franceRed,
+            backgroundColor: AppColors.franceRedAlpha05,
+            disabledBackgroundColor: AppColors.redGrey,
+            rippleColor: AppColors.redGrey,
+          ),
+          if (detailsViewModel.displayState == UserActionDetailsDisplayState.SHOW_DELETE_ERROR)
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Text(
+                Strings.deleteActionError,
+                textAlign: TextAlign.center,
+                style: TextStyles.textSmRegular(color: AppColors.errorRed),
+              ),
+            ),
         ],
       ),
     );
