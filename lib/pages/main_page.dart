@@ -16,7 +16,7 @@ const int _indexOfHomePage = 0;
 const int _indexOfUserActionListPage = 1;
 const int _indexOfChatPage = 2;
 const int _indexOfRendezvousListPage = 3;
-const int _indexOfOffreEmploiSearchPage = 4;
+const int _indexOfOffreEmploiRouterPage = 4;
 
 class MainPage extends StatefulWidget {
   final String userId;
@@ -95,7 +95,7 @@ class _MainPageState extends State<MainPage> {
         return ChatPage();
       case _indexOfRendezvousListPage:
         return RendezvousListPage();
-      case _indexOfOffreEmploiSearchPage:
+      case _indexOfOffreEmploiRouterPage:
         return OffreEmploiRouterPage();
       default:
         return HomePage(widget.userId);
