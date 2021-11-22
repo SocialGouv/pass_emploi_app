@@ -3,11 +3,13 @@ import 'package:pass_emploi_app/redux/states/chat_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
 import 'package:pass_emploi_app/redux/states/create_user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/home_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/rendezvous_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 
 import 'login_state.dart';
+import 'offre_emploi_search_results_state.dart';
 import 'offre_emploi_search_state.dart';
 
 class AppState extends Equatable {
@@ -20,6 +22,8 @@ class AppState extends Equatable {
   final ChatStatusState chatStatusState;
   final ChatState chatState;
   final OffreEmploiSearchState offreEmploiSearchState;
+  final OffreEmploiSearchResultsState offreEmploiSearchResultsState;
+  final OffreEmploiSearchParametersState offreEmploiSearchParametersState;
 
   AppState({
     required this.loginState,
@@ -31,6 +35,8 @@ class AppState extends Equatable {
     required this.chatStatusState,
     required this.chatState,
     required this.offreEmploiSearchState,
+    required this.offreEmploiSearchResultsState,
+    required this.offreEmploiSearchParametersState,
   });
 
   AppState copyWith({
@@ -43,6 +49,8 @@ class AppState extends Equatable {
     final ChatStatusState? chatStatusState,
     final ChatState? chatState,
     final OffreEmploiSearchState? offreEmploiSearchState,
+    final OffreEmploiSearchResultsState? offreEmploiSearchResultsState,
+    final OffreEmploiSearchParametersState? offreEmploiSearchParametersState,
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
@@ -54,6 +62,8 @@ class AppState extends Equatable {
       chatStatusState: chatStatusState ?? this.chatStatusState,
       chatState: chatState ?? this.chatState,
       offreEmploiSearchState: offreEmploiSearchState ?? this.offreEmploiSearchState,
+      offreEmploiSearchResultsState: offreEmploiSearchResultsState ?? this.offreEmploiSearchResultsState,
+      offreEmploiSearchParametersState: offreEmploiSearchParametersState ?? this.offreEmploiSearchParametersState,
     );
   }
 
@@ -68,6 +78,8 @@ class AppState extends Equatable {
       chatStatusState: ChatStatusState.notInitialized(),
       chatState: ChatState.notInitialized(),
       offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
+      offreEmploiSearchResultsState: OffreEmploiSearchResultsState.notInitialized(),
+      offreEmploiSearchParametersState: OffreEmploiSearchParametersState.notInitialized(),
     );
   }
 
@@ -76,11 +88,14 @@ class AppState extends Equatable {
         loginState,
         homeState,
         userActionState,
-        userActionUpdateState,
         createUserActionState,
+        userActionUpdateState,
         rendezvousState,
         chatStatusState,
         chatState,
+        offreEmploiSearchState,
+        offreEmploiSearchResultsState,
+        offreEmploiSearchParametersState,
       ];
 
   @override

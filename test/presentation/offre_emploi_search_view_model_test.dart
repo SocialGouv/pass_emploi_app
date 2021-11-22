@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/models/department.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:redux/redux.dart';
 
@@ -23,6 +24,7 @@ main() {
 
     // Then
     expect(viewModel.displayState, OffreEmploiSearchDisplayState.SHOW_LOADER);
+    expect(viewModel.errorMessage, "");
   });
 
   test("create when state is failure should set display state properly", () {
@@ -47,7 +49,9 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiSearchState: OffreEmploiSearchState.success([]),
+        offreEmploiSearchState: OffreEmploiSearchState.success(),
+        offreEmploiSearchResultsState:
+            OffreEmploiSearchResultsState.data(offres: [], loadedPage: 1, isMoreDataAvailable: false),
       ),
     );
 
@@ -59,12 +63,13 @@ main() {
     expect(viewModel.errorMessage, "Aucune offre ne correspond à votre recherche");
   });
 
-  test("create when state is success should set display state properly and convert data to view model", () {
+  test("create when state is success and not empty should set display state properly", () {
     // Given
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiSearchState: OffreEmploiSearchState.success(offreEmploiData()),
+        offreEmploiSearchState: OffreEmploiSearchState.success(),
+        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(offres: offreEmploiData(), loadedPage: 1, isMoreDataAvailable: false),
       ),
     );
 
@@ -73,50 +78,8 @@ main() {
 
     // Then
     expect(viewModel.displayState, OffreEmploiSearchDisplayState.SHOW_CONTENT);
-    expect(viewModel.items, [
-      OffreEmploiItemViewModel(
-        "123DXPM",
-        "Technicien / Technicienne en froid et climatisation",
-        "RH TT INTERIM",
-        "MIS",
-        "Temps plein",
-        "77 - LOGNES",
-      ),
-      OffreEmploiItemViewModel(
-        "123DXPK",
-        " #SALONDEMANDELIEU2021: RECEPTIONNISTE TOURNANT (H/F)",
-        "STAND CHATEAU DE LA BEGUDE",
-        "CDD",
-        "Temps partiel",
-        "06 - OPIO",
-      ),
-      OffreEmploiItemViewModel(
-        "123DXPG",
-        "Technicien / Technicienne terrain Structure          (H/F)",
-        "GEOTEC",
-        "CDI",
-        "Temps plein",
-        "78 - PLAISIR",
-      ),
-      OffreEmploiItemViewModel(
-        "123DXPF",
-        "Responsable de boutique",
-        "GINGER",
-        "CDD",
-        null,
-        "13 - AIX EN PROVENCE",
-      ),
-      OffreEmploiItemViewModel(
-        "123DXLK",
-        "Commercial sédentaire en Assurances H/F",
-        null,
-        "CDI",
-        "Temps plein",
-        "34 - MONTPELLIER",
-      )
-    ]);
+    expect(viewModel.errorMessage, "");
   });
-
 
   group("_filterDepartments should return ...", () {
    late OffreEmploiSearchViewModel viewModel;

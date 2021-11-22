@@ -13,8 +13,14 @@ class OffreEmploiSearchLoadingAction extends OffreEmploiAction {}
 
 class OffreEmploiSearchSuccessAction extends OffreEmploiAction {
   final List<OffreEmploi> offres;
+  final int page;
+  final bool isMoreDataAvailable;
 
-  OffreEmploiSearchSuccessAction(this.offres);
+  OffreEmploiSearchSuccessAction({required this.offres, required this.page, required this.isMoreDataAvailable});
 }
 
 class OffreEmploiSearchFailureAction extends OffreEmploiAction {}
+
+class RequestMoreOffreEmploiSearchResultsAction extends OffreEmploiAction {}
+
+class ResetOffreEmploiSearchResultsAction extends OffreEmploiAction {}

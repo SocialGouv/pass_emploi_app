@@ -102,8 +102,9 @@ class Strings {
   static String jobLocationTitle = "Lieu de travail";
   static String jobLocationHint = "Département";
   static String searchButton = "RECHERCHER";
+
   // Solutions Errors
   static String noContentError = "Aucune offre ne correspond à votre recherche";
   static String genericError = "Erreur lors de la recherche. Veuillez réessayer";
-
+  static String loadMoreOffresError = "Erreur lors du chargement des offres";
 }
