@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -7,13 +8,13 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
-class OffreEmploiListPage extends StatelessWidget {
-  OffreEmploiListPage._(this._items);
+class OffreEmploiListPage extends TraceableStatelessWidget {
+  OffreEmploiListPage._(this._items) : super(name: AnalyticsScreenNames.offreEmploiResults);
+
   final List<OffreEmploiItemViewModel> _items;
 
   static MaterialPageRoute materialPageRoute(List<OffreEmploiItemViewModel> items) {
-    return MaterialPageRoute(
-        builder: (context) => OffreEmploiListPage._(items), settings: AnalyticsRouteSettings.offreEmploiList());
+    return MaterialPageRoute(builder: (context) => OffreEmploiListPage._(items));
   }
 
   @override

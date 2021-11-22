@@ -2,14 +2,14 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:matomo/matomo.dart';
 import 'package:package_info/package_info.dart';
-import 'package:pass_emploi_app/crashlytics/Crashlytics.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/pages/force_update_page.dart';
 import 'package:pass_emploi_app/pass_emploi_app.dart';
@@ -26,9 +26,11 @@ import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
 
-import 'analytics/analytics.dart';
-import 'analytics/analytics_constants.dart';
 import 'configuration/app_version_checker.dart';
+import 'crashlytics/crashlytics.dart';
+
+const String stagingEnvFilePath = "env/.env.staging";
+const String prodEnvFilePath = "env/.env.prod";
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,36 +39,41 @@ main() async {
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
 
+  await loadEnvironmentVariables();
+  await _initializeMatomoTracker();
+
   final baseUrl = _baseUrl();
   final remoteConfig = await _remoteConfig();
   final forceUpdate = await _shouldForceUpdate(remoteConfig);
-
   final PushNotificationManager pushManager = FirebasePushNotificationManager();
-  final Analytics analytics = AnalyticsLoggerDecorator(decorated: AnalyticsWithFirebase(FirebaseAnalytics()));
-
   final store = _initializeReduxStore(baseUrl, pushManager);
 
   await pushManager.init(store);
 
   runZonedGuarded<Future<void>>(() async {
-    if (forceUpdate) {
-      analytics.setCurrentScreen(AnalyticsScreenNames.forceUpdate);
-      runApp(ForceUpdatePage());
-    } else {
-      runApp(PassEmploiApp(store, analytics));
-    }
+    runApp(forceUpdate ? ForceUpdatePage() : PassEmploiApp(store));
   }, FirebaseCrashlytics.instance.recordError);
 
   await _handleErrorsOutsideFlutter();
 }
 
+Future<void> loadEnvironmentVariables() async {
+  final packageName = (await PackageInfo.fromPlatform()).packageName;
+  final isStagingFlavor = packageName.contains("staging");
+  print("FLAVOR = ${isStagingFlavor ? "staging" : "prod"}");
+  return await dotenv.load(fileName: isStagingFlavor ? stagingEnvFilePath : prodEnvFilePath);
+}
+
+Future<void> _initializeMatomoTracker() async {
+  final siteId = dotenv.env['MATOMO_SITE_ID'];
+  final url = dotenv.env['MATOMO_BASE_URL'];
+  if (siteId == null || url == null) throw ("MATOMO_SITE_ID & MATOMO_BASE_URL must be set in .env file");
+  await MatomoTracker().initialize(siteId: int.parse(siteId), url: url);
+}
+
 String _baseUrl() {
-  // Must be declared as const https://github.com/flutter/flutter/issues/55870
-  const baseUrl = String.fromEnvironment('SERVER_BASE_URL');
-  if (baseUrl.isEmpty && Platform.environment['FLUTTER_TEST'] == "false") {
-    throw ("A server base URL must be set in build arguments --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL>."
-        "For more details, please refer to the project README.md.");
-  }
+  final baseUrl = dotenv.env['SERVER_BASE_URL'];
+  if (baseUrl == null) throw ("SERVER_BASE_URL must be set in .env file");
   print("SERVER BASE URL = $baseUrl");
   return baseUrl;
 }

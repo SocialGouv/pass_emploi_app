@@ -56,3 +56,7 @@ GoogleService-Info.plist
 # staging build
 build.env
 StagingOptionsPlist.plist
+
+# .env
+env/.env.staging
+env/.env.prod

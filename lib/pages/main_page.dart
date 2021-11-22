@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/home_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous_list_page.dart';
@@ -19,7 +18,7 @@ class MainPage extends StatefulWidget {
   MainPage._(this.userId);
 
   static MaterialPageRoute materialPageRoute(String userId) {
-    return MaterialPageRoute(builder: (context) => MainPage._(userId), settings: AnalyticsRouteSettings.main());
+    return MaterialPageRoute(builder: (context) => MainPage._(userId));
   }
 
   @override
