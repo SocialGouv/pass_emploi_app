@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/redux/states/chat_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
 import 'package:pass_emploi_app/redux/states/create_user_action_state.dart';
+import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
 import 'package:pass_emploi_app/redux/states/home_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/rendezvous_state.dart';
@@ -14,6 +15,7 @@ import 'offre_emploi_search_results_state.dart';
 import 'offre_emploi_search_state.dart';
 
 class AppState extends Equatable {
+  final DeepLinkState deepLinkState;
   final LoginState loginState;
   final HomeState homeState;
   final UserActionState userActionState;
@@ -28,6 +30,7 @@ class AppState extends Equatable {
   final OffreEmploiSearchParametersState offreEmploiSearchParametersState;
 
   AppState({
+    required this.deepLinkState,
     required this.loginState,
     required this.homeState,
     required this.userActionState,
@@ -53,10 +56,12 @@ class AppState extends Equatable {
     final ChatStatusState? chatStatusState,
     final ChatState? chatState,
     final OffreEmploiSearchState? offreEmploiSearchState,
+    final DeepLinkState? deepLinkState,
     final OffreEmploiSearchResultsState? offreEmploiSearchResultsState,
     final OffreEmploiSearchParametersState? offreEmploiSearchParametersState,
   }) {
     return AppState(
+      deepLinkState: deepLinkState ?? this.deepLinkState,
       loginState: loginState ?? this.loginState,
       homeState: homeState ?? this.homeState,
       userActionState: userActionState ?? this.userActionState,
@@ -74,6 +79,7 @@ class AppState extends Equatable {
 
   factory AppState.initialState() {
     return AppState(
+      deepLinkState: DeepLinkState.notInitialized(),
       loginState: LoginState.notInitialized(),
       homeState: HomeState.notInitialized(),
       userActionState: UserActionState.notInitialized(),
@@ -90,7 +96,9 @@ class AppState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
+        deepLinkState,
         loginState,
         homeState,
         userActionState,

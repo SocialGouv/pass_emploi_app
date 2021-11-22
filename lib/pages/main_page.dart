@@ -4,7 +4,6 @@ import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/home_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_router_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous_list_page.dart';
-import 'package:pass_emploi_app/pages/offre_emploi_search_page.dart';
 import 'package:pass_emploi_app/pages/user_action_list_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -15,19 +14,34 @@ import 'package:pass_emploi_app/widgets/menu_item.dart';
 
 class MainPage extends StatefulWidget {
   final String userId;
+  final MainPageDisplayState displayState;
+  final int deepLinkKey;
 
-  MainPage._(this.userId);
-
-  static MaterialPageRoute materialPageRoute(String userId) {
-    return MaterialPageRoute(builder: (context) => MainPage._(userId));
-  }
+  MainPage(this.userId, {this.displayState = MainPageDisplayState.DEFAULT, this.deepLinkKey = 0})
+      : super(key: ValueKey(displayState.hashCode + deepLinkKey));
 
   @override
-  _MainPageState createState() => _MainPageState();
+  _MainPageState createState() => _MainPageState(_getIndexOfDisplayState(displayState));
+
+  // TODO-75  : utiliser les même int ?
+  int _getIndexOfDisplayState(MainPageDisplayState displayState) {
+    switch (displayState) {
+      case MainPageDisplayState.DEFAULT:
+        return 0;
+      case MainPageDisplayState.ACTIONS_LIST:
+        return 1;
+      case MainPageDisplayState.RENDEZVOUS_LIST:
+        return 3;
+      case MainPageDisplayState.CHAT:
+        return 2;
+    }
+  }
 }
 
 class _MainPageState extends State<MainPage> {
-  int _selectedIndex = 0;
+  int _selectedIndex;
+
+  _MainPageState(this._selectedIndex);
 
   @override
   Widget build(BuildContext context) {

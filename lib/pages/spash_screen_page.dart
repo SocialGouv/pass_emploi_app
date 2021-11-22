@@ -6,9 +6,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
 class SplashScreenPage extends TraceableStatelessWidget {
-  SplashScreenPage._() : super(name: AnalyticsScreenNames.splash);
-
-  static MaterialPageRoute materialPageRoute() => MaterialPageRoute(builder: (context) => SplashScreenPage._());
+  SplashScreenPage() : super(name: AnalyticsScreenNames.splash);
 
   @override
   Widget build(BuildContext context) {

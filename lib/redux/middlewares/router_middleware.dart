@@ -21,12 +21,12 @@ class RouterMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
-  _checkIfUserIsLoggedIn(Store<AppState> store) async {
+  void _checkIfUserIsLoggedIn(Store<AppState> store) async {
     final user = await repository.getUser();
     store.dispatch(user != null ? LoggedInAction(user) : NotLoggedInAction());
   }
 
-  _logout(Store<AppState> store) async {
+  void _logout(Store<AppState> store) async {
     await repository.deleteUser();
     store.dispatch(BootstrapAction());
   }

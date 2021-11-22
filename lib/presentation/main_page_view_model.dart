@@ -3,6 +3,8 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
 import 'package:redux/redux.dart';
 
+enum MainPageDisplayState { DEFAULT, ACTIONS_LIST, RENDEZVOUS_LIST, CHAT }
+
 class MainPageViewModel extends Equatable {
   final bool withChatBadge;
 
