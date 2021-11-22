@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_results_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -83,6 +84,16 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
               separatorBuilder: (context, index) => _listSeparator(),
               itemCount: _itemCount(viewModel)),
         ),
+      ),
+    );
+  }
+  Widget _buildItem(BuildContext context, OffreEmploiItemViewModel itemViewModel) {
+    return Material(
+      type: MaterialType.transparency,
+      child: InkWell(
+        onTap: () => _showOfferDetailsPage(context, itemViewModel),
+        splashColor: AppColors.bluePurple,
+        child: _listItem(itemViewModel),
       ),
     );
   }
@@ -194,6 +205,12 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
           )),
     );
   }
+
+  void _showOfferDetailsPage(BuildContext context, OffreEmploiItemViewModel viewModel) {
+    Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(viewModel));
+  }
+
+
 
   int _itemCount(OffreEmploiSearchResultsViewModel viewModel) {
     if (viewModel.displayLoaderAtBottomOfList)

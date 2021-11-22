@@ -104,6 +104,7 @@ class Strings {
   static String jobLocationTitle = "Lieu de travail";
   static String jobLocationHint = "Département";
   static String searchButton = "RECHERCHER";
+  static String offerDetails = "Détails de l'offre";
 
   // Solutions Errors
   static String noContentError = "Aucune offre ne correspond à votre recherche";
