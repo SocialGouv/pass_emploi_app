@@ -1,3 +1,5 @@
+import 'package:http/http.dart';
+import 'package:http/testing.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
@@ -13,6 +15,10 @@ import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
 
 class DummyHeadersBuilder extends HeadersBuilder {}
+
+class DummyHttpClient extends MockClient {
+  DummyHttpClient() : super((request) async => Response("", 200));
+}
 
 class DummyPushNotificationManager extends PushNotificationManager {
   @override
@@ -31,7 +37,7 @@ class DummyRegisterTokenRepository extends RegisterTokenRepository {
 }
 
 class DummyUserRepository extends UserRepository {
-  DummyUserRepository() : super("", DummyHeadersBuilder());
+  DummyUserRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
 }
 
 class DummyHomeRepository extends HomeRepository {
