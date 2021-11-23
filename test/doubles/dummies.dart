@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/repositories/detailed_offer_repository.dart';
 import 'package:pass_emploi_app/repositories/home_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
@@ -54,4 +55,8 @@ class DummyCrashlytics extends Crashlytics {
 
 class DummyOffreEmploiRepository extends OffreEmploiRepository {
   DummyOffreEmploiRepository() : super("", DummyHeadersBuilder());
+}
+
+class DummyDetailedRepository extends DetailedOfferRepository {
+  DummyDetailedRepository() : super("");
 }

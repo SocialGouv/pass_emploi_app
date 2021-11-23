@@ -1,4 +1,5 @@
 import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
+import 'package:pass_emploi_app/redux/actions/detailed_offer_actions.dart';
 import 'package:pass_emploi_app/redux/actions/deep_link_action.dart';
 import 'package:pass_emploi_app/redux/actions/home_actions.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
@@ -7,6 +8,7 @@ import 'package:pass_emploi_app/redux/actions/rendezvous_actions.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/chat_action_reducer.dart';
+import 'package:pass_emploi_app/redux/reducers/detailed_offer_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/deep_link_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/login_action_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/rendezvous_reducer.dart';
@@ -34,6 +36,8 @@ AppState reducer(AppState currentState, dynamic action) {
     return uiActionReducer(currentState, action);
   } else if (action is ChatAction) {
     return chatActionReducer(currentState, action);
+  } else if (action is DetailedOfferAction) {
+    return detailedOfferReducer(currentState, action);
   } else {
     return currentState;
   }

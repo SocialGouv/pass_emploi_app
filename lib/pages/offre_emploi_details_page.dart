@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart';
+import 'package:pass_emploi_app/models/detailed_offer.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -13,9 +13,9 @@ import 'package:pass_emploi_app/widgets/tags.dart';
 class OffreEmploiDetailsPage extends StatelessWidget {
   OffreEmploiDetailsPage._(this._offer) : super();
 
-  final OffreEmploiItemViewModel _offer;
+  final DetailedOffer _offer;
 
-  static MaterialPageRoute materialPageRoute(OffreEmploiItemViewModel offer) {
+  static MaterialPageRoute materialPageRoute(DetailedOffer offer) {
     return MaterialPageRoute(
         builder: (context) => OffreEmploiDetailsPage._(offer), settings: AnalyticsRouteSettings.detailsOffreEmploi());
   }
@@ -59,9 +59,9 @@ class OffreEmploiDetailsPage extends StatelessWidget {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          lightBlueTag(label: _offer.location, icon: SvgPicture.asset("assets/ic_place.svg")),
+          lightBlueTag(label: _offer.location!, icon: SvgPicture.asset("assets/ic_place.svg")),
           _spacer(12),
-          lightBlueTag(label: _offer.contractType, icon: SvgPicture.asset("assets/ic_contract.svg")),
+          lightBlueTag(label: _offer.contractType!, icon: SvgPicture.asset("assets/ic_contract.svg")),
           _spacer(12),
           lightBlueTag(label: "Some salary", icon: SvgPicture.asset("assets/ic_salary.svg")),
           _spacer(12),
@@ -217,7 +217,7 @@ class OffreEmploiDetailsPage extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(right: 8),
+                padding: const EdgeInsets.only(left: 8),
                 child: SvgPicture.asset("assets/ic_info.svg"),
               ),
             ],

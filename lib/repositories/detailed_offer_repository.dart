@@ -8,11 +8,18 @@ class DetailedOfferRepository {
 
   DetailedOfferRepository(this.baseUrl);
 
-  Future<DetailedOffer?> getDetailedOffer(String offerId) async {
+  Future<DetailedOffer?> getDetailedOffer({
+  required String offerId,
+  }) async {
     var url = Uri.parse(baseUrl + "/offres-emploi/$offerId");
     try {
       final response = await http.get(url);
-      if (response.statusCode.isValid()) return DetailedOffer.fromJson(jsonUtf8Decode(response.bodyBytes));
+      if (response.statusCode.isValid()) {
+        final json = jsonUtf8Decode(response.bodyBytes);
+        if (json.containsKey("data")) {
+          return DetailedOffer.fromJson(json["data"]);
+        }
+      }
     } catch (e) {
       print('Exception on ${url.toString()}: ' + e.toString());
     }

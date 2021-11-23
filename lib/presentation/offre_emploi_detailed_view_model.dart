@@ -1,27 +1,27 @@
 import 'package:pass_emploi_app/models/detailed_offer.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/utils/date_extensions.dart';
 
-class OffreEmploiDetailedViewModel {
+class DetailedOfferViewModel {
   final String  id;
   final String  title;
   final String? companyName;
-  final String  contractType;
+  final String? contractType;
   final String? duration;
-  final String  location;
+  final String? location;
   final String? salary;
   final String? offerDescription;
   final String? experience;
-  // final String skills;
-  // final String softSkills;
-  final String? education;
-  final String? language;
-  final String? driverLicence;
+  final String? requiredExperience;
   final String? companyUrl;
-  final String? numberOfStuff;
   final String? companyDescription;
+  final String? lastUpdate;
+  final List<Skill?>? skills;
+  final List<SoftSkill?>? softSkills;
+  final Education? education;
+  final List<Language?>? language;
+  final List<DriverLicence?>? driverLicence;
 
-  OffreEmploiDetailedViewModel({
+
+  DetailedOfferViewModel({
     required this.id,
     required this.title,
     required this.companyName,
@@ -31,18 +31,19 @@ class OffreEmploiDetailedViewModel {
     required this.salary,
     required this.offerDescription,
     required this.experience,
+    required this.requiredExperience,
     required this.education,
     required this.language,
     required this.driverLicence,
     required this.companyUrl,
-    required this.numberOfStuff,
     required this.companyDescription,
-    /*this.skills,
-    This.softSkills*/
+    required this.lastUpdate,
+    required this.skills,
+    required this.softSkills,
   });
 
-  factory OffreEmploiDetailedViewModel.create(DetailedOffer offer) {
-    return OffreEmploiDetailedViewModel(
+  factory DetailedOfferViewModel.create(DetailedOffer offer) {
+    return DetailedOfferViewModel(
       id:                 offer.id,
       title:              offer.title,
       companyName:        offer.companyName,
@@ -55,9 +56,12 @@ class OffreEmploiDetailedViewModel {
       education:          offer.education,
       language:           offer.language,
       driverLicence:      offer.driverLicence,
-      companyUrl:        offer.companyUrl,
-      numberOfStuff:      offer.numberOfStuff,
+      companyUrl:         offer.companyUrl,
       companyDescription: offer.companyDescription,
+      lastUpdate:         offer.lastUpdate,
+      skills:             offer.skills,
+      softSkills:         offer.softSkills,
+      requiredExperience: offer.requiredExperience,
     );
   }
 }
