@@ -6,5 +6,5 @@ class DeepLinkState {
 
   DeepLinkState(this.deepLink, this.deepLinkOpenedAt);
 
-  static DeepLinkState notInitialized() => DeepLinkState(DeepLink.NOT_SET, DateTime.now());
+  factory DeepLinkState.notInitialized() => DeepLinkState(DeepLink.NOT_SET, DateTime.now());
 }
