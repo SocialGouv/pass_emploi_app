@@ -93,6 +93,7 @@ class Strings {
   static String understood = "Bien compris";
   static String deleteAction = "Supprimer l'action";
   static String deleteActionError = "Erreur lors de la suppression de l'action. Veuillez réessayer";
+  static String deleteActionSuccess = "L’action a bien été supprimée";
 
   // Offres Emploi
   static String offresEmploiTitle = "Résultats offres d'emploi";

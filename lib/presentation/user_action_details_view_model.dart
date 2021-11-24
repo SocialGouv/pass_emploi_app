@@ -8,7 +8,14 @@ import 'package:pass_emploi_app/redux/states/user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 import 'package:redux/redux.dart';
 
-enum UserActionDetailsDisplayState { SHOW_CONTENT, SHOW_SUCCESS, SHOW_LOADING, SHOW_DELETE_ERROR, TO_DISMISS }
+enum UserActionDetailsDisplayState {
+  SHOW_CONTENT,
+  SHOW_SUCCESS,
+  SHOW_LOADING,
+  SHOW_DELETE_ERROR,
+  TO_DISMISS,
+  TO_DISMISS_AFTER_DELETION
+}
 
 class UserActionDetailsViewModel {
   final UserActionDetailsDisplayState displayState;
@@ -41,9 +48,10 @@ class UserActionDetailsViewModel {
 UserActionDetailsDisplayState _displayState(AppState state) {
   if (state.userActionUpdateState is UserActionUpdatedState) {
     return UserActionDetailsDisplayState.SHOW_SUCCESS;
-  } else if (state.userActionUpdateState is UserActionNoUpdateNeeded ||
-      state.userActionDeleteState is UserActionDeleteSuccessState) {
+  } else if (state.userActionUpdateState is UserActionNoUpdateNeeded) {
     return UserActionDetailsDisplayState.TO_DISMISS;
+  } else if (state.userActionDeleteState is UserActionDeleteSuccessState) {
+    return UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION;
   } else if (state.userActionDeleteState is UserActionDeleteLoadingState) {
     return UserActionDetailsDisplayState.SHOW_LOADING;
   } else if (state.userActionDeleteState is UserActionDeleteFailureState) {
