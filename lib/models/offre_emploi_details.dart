@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
-class DetailedOffer extends Equatable {
+class OffreEmploiDetails extends Equatable {
   final String id;
   final String title;
   final String? offerDescription;
@@ -23,7 +23,7 @@ class DetailedOffer extends Equatable {
   final List<String>? softSkills;
   final List<DriverLicence>? driverLicences;
 
-  DetailedOffer({
+  OffreEmploiDetails({
     required this.id,
     required this.title,
     required this.offerDescription,
@@ -46,8 +46,8 @@ class DetailedOffer extends Equatable {
     required this.requiredExperience,
   });
 
-  factory DetailedOffer.fromJson(dynamic json) {
-    return DetailedOffer(
+  factory OffreEmploiDetails.fromJson(dynamic json) {
+    return OffreEmploiDetails(
       id: json["id"] as String,
       title: json["intitule"] as String,
       offerDescription: json["description"] as String?,

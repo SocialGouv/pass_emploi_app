@@ -1,4 +1,4 @@
-import 'package:pass_emploi_app/models/detailed_offer.dart';
+import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 
 abstract class OffreEmploiDetailsAction {}
 
@@ -11,7 +11,7 @@ class GetOffreEmploiDetailsAction extends OffreEmploiDetailsAction {
 }
 
 class OffreEmploiDetailsSuccessAction extends OffreEmploiDetailsAction {
-  final DetailedOffer offre;
+  final OffreEmploiDetails offre;
 
   OffreEmploiDetailsSuccessAction(this.offre);
 }

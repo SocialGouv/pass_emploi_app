@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/detailed_offer.dart';
+import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_details_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
@@ -60,12 +60,12 @@ class DetailedOfferRepositorySuccessStub extends OffreEmploiDetailsRepository {
   DetailedOfferRepositorySuccessStub() : super("");
 
   @override
-  Future<DetailedOffer?> getOffreEmploiDetails({required String offerId}) async => mockedDetailedOffer();
+  Future<OffreEmploiDetails?> getOffreEmploiDetails({required String offerId}) async => mockedDetailedOffer();
 }
 
 class DetailedOfferRepositoryFailureStub extends OffreEmploiDetailsRepository {
   DetailedOfferRepositoryFailureStub() : super("");
 
   @override
-  Future<DetailedOffer?> getOffreEmploiDetails({required String offerId}) async => null;
+  Future<OffreEmploiDetails?> getOffreEmploiDetails({required String offerId}) async => null;
 }

@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/models/detailed_offer.dart';
+import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 
 abstract class OffreEmploiDetailsState extends Equatable {
   OffreEmploiDetailsState._();
 
   factory OffreEmploiDetailsState.loading() = OffreEmploiDetailsLoadingState;
 
-  factory OffreEmploiDetailsState.success(DetailedOffer offer) = OffreEmploiDetailsSuccessState;
+  factory OffreEmploiDetailsState.success(OffreEmploiDetails offer) = OffreEmploiDetailsSuccessState;
 
   factory OffreEmploiDetailsState.failure() = OffreEmploiDetailsFailureState;
 
@@ -21,7 +21,7 @@ class OffreEmploiDetailsLoadingState extends OffreEmploiDetailsState {
 }
 
 class OffreEmploiDetailsSuccessState extends OffreEmploiDetailsState {
-  final DetailedOffer offre;
+  final OffreEmploiDetails offre;
 
   OffreEmploiDetailsSuccessState(this.offre) : super._();
 

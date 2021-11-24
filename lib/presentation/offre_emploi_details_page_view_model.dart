@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/models/detailed_offer.dart';
+import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -11,7 +11,6 @@ enum OffreEmploiDetailsPageDisplayState { SHOW_DETAILS, SHOW_LOADER, SHOW_ERROR 
 class OffreEmploiDetailsPageViewModel {
   final OffreEmploiDetailsPageDisplayState displayState;
   final String errorMessage;
-
   final String? id;
   final String? title;
   final String? companyName;
@@ -98,7 +97,7 @@ OffreEmploiDetailsPageDisplayState _displayState(OffreEmploiDetailsState searchS
   }
 }
 
-DetailedOffer? _detailedOffer(OffreEmploiDetailsState searchState) {
+OffreEmploiDetails? _detailedOffer(OffreEmploiDetailsState searchState) {
   return searchState is OffreEmploiDetailsSuccessState ? searchState.offre : null;
 }
 

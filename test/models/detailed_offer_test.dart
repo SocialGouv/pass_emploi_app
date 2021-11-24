@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/detailed_offer.dart';
+import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 
 import '../doubles/fixtures.dart';
 import '../utils/test_assets.dart';
@@ -12,6 +12,6 @@ main() {
     final String detailedOfferString = loadTestAssets("detailed_offer.json");
     final detailedOfferJson = json.decode(detailedOfferString);
     //When - Then
-    expect(DetailedOffer.fromJson(detailedOfferJson), mockedDetailedOffer());
+    expect(OffreEmploiDetails.fromJson(detailedOfferJson), mockedDetailedOffer());
   });
 }

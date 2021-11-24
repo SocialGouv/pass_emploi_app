@@ -1,9 +1,9 @@
-import 'package:pass_emploi_app/models/detailed_offer.dart';
+import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/user.dart';
 
 User mockUser() => User(id: "", firstName: "", lastName: "");
 
-DetailedOffer mockedDetailedOffer() => DetailedOffer(
+OffreEmploiDetails mockedDetailedOffer() => OffreEmploiDetails(
       id: "123TZKB",
       title: "Technicien / Technicienne d'installation de réseaux câblés  (H/F)",
       offerDescription: "Vos Missions :\n\nRéaliser du tirage de câbles,\n"
