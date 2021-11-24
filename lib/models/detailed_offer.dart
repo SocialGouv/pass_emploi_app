@@ -53,12 +53,13 @@ class DetailedOffer extends Equatable {
     print("educations passed.");
 
     List<Language>? languages = (json.containsKey("langues"))
-        ? List<Language>.from(json["langues"]?.map((data) => Language.fromJson(data)))
+        ? List<Language>.from(json["langues"]?.map((data) => Language.fromJson(data)).whereType<Education>())
         : [];
     print("languages passed.");
 
     List<DriverLicence>? driverlicences = (json.containsKey("permis"))
-        ? List<DriverLicence>.from(json["permis"]?.map((data) => DriverLicence.fromJson(data)))
+        ? List<DriverLicence>.from(
+            json["permis"]?.map((data) => DriverLicence.fromJson(data)).whereType<DriverLicence>())
         : [];
     print("licences passed.");
 
@@ -126,8 +127,8 @@ class DetailedOffer extends Equatable {
 }
 
 class Skill extends Equatable {
-  String description;
-  String? requirement;
+  final String description;
+  final String? requirement;
 
   Skill({required this.description, required this.requirement});
 
@@ -144,7 +145,7 @@ class Skill extends Equatable {
 }
 
 class SoftSkill extends Equatable {
-  String? description;
+  final String? description;
 
   SoftSkill({
     required this.description,
@@ -159,24 +160,27 @@ class SoftSkill extends Equatable {
 }
 
 class DriverLicence extends Equatable {
-  String? category;
-  String? requirement;
+  final String category;
+  final String? requirement;
 
   DriverLicence({required this.category, required this.requirement});
 
-  factory DriverLicence.fromJson(Map<String, dynamic> json) => DriverLicence(
-        category: json['libelle'],
-        requirement: json['exigence'],
-      );
+  static DriverLicence? fromJson(Map<String, dynamic> json) {
+    if (json['libelle'] == null) return null;
+    return DriverLicence(
+      category: json['libelle'],
+      requirement: json['exigence'],
+    );
+  }
 
   @override
   List<Object?> get props => [category, requirement];
 }
 
 class Education extends Equatable {
-  String level;
-  String? field;
-  String? requirement;
+  final String level;
+  final String? field;
+  final String? requirement;
 
   Education({
     required this.level,
@@ -185,9 +189,9 @@ class Education extends Equatable {
   });
 
   static Education? fromJson(Map<String, dynamic> json) {
-    if (json['name'] == null) return null;
+    if (json['niveauLibelle'] == null) return null;
     return Education(
-      level: json['name'] as String,
+      level: json['niveauLibelle'] as String,
       field: json['domaineLibelle'] as String?,
       requirement: json['exigence'] as String?,
     );
@@ -198,12 +202,13 @@ class Education extends Equatable {
 }
 
 class Language extends Equatable {
-  String? type;
-  String? requirement;
+  final String type;
+  final String? requirement;
 
   Language({required this.type, required this.requirement});
 
-  factory Language.fromJson(Map<String, dynamic> json) {
+  static Language? fromJson(Map<String, dynamic> json) {
+    if (json['libelle'] == null) return null;
     return Language(
       type: json['libelle'],
       requirement: json['exigence'],

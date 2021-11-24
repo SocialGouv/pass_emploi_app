@@ -89,20 +89,32 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   }
 
   Widget _tags(OffreEmploiDetailsPageViewModel viewModel) {
-    var location = viewModel.location != null ? viewModel.location! : "";
-    var contractType = viewModel.contractType != null ? viewModel.contractType! : "";
-    var salary = viewModel.salary != null ? viewModel.salary! : "";
-    var duration = viewModel.location != null ? viewModel.duration! : "";
+    final location = viewModel.location;
+    final contractType = viewModel.contractType;
+    final salary = viewModel.salary;
+    final duration = viewModel.duration;
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      lightBlueTag(label: location, icon: SvgPicture.asset("assets/ic_place.svg")),
-      _spacer(12),
-      lightBlueTag(label: contractType, icon: SvgPicture.asset("assets/ic_contract.svg")),
-      _spacer(12),
-      lightBlueTag(label: salary, icon: SvgPicture.asset("assets/ic_salary.svg")),
-      _spacer(12),
-      lightBlueTag(label: duration, icon: SvgPicture.asset("assets/ic_time.svg")),
-      _spacer(30),
+      if (location != null)
+        Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: lightBlueTag(label: location, icon: SvgPicture.asset("assets/ic_place.svg")),
+        ),
+      if (contractType != null)
+        Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: lightBlueTag(label: contractType, icon: SvgPicture.asset("assets/ic_contract.svg")),
+        ),
+      if (salary != null)
+        Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: lightBlueTag(label: salary, icon: SvgPicture.asset("assets/ic_salary.svg")),
+        ),
+      if (duration != null)
+        Padding(
+          padding: const EdgeInsets.only(bottom: 12),
+          child: lightBlueTag(label: duration, icon: SvgPicture.asset("assets/ic_time.svg")),
+        ),
     ]);
   }
 
@@ -222,7 +234,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
             children: [
               Flexible(
                 child: Text(
-                  xp,
+                  "· $xp",
                   style: TextStyles.textSmRegular(),
                 ),
               ),
@@ -280,44 +292,52 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     );
   }
 
-  Widget? _isDisplayEducationsBlock({required List<Education?>? educations}) {
-    if (educations == null || educations.length == 0) return null;
-    var educationLvl = educations[0]!.level != null ? educations[0]!.level! : "";
-    var educationField = educations[0]!.field != null ? educations[0]!.field! : "";
-    var education = educationLvl + educationField;
+  Widget? _isDisplayEducationsBlock({required List<EducationViewModel>? educations}) {
+    if (educations == null || educations.isEmpty) return null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(Strings.educationTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
-        Text(education, style: TextStyles.textSmRegular()),
+        for (final education in educations)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Text("· $education", style: TextStyles.textSmRegular()),
+          ),
         _separator(20, 20),
       ],
     );
   }
 
-  Widget? _isDisplayLanguagesBlock({required List<Language?>? languages}) {
-    if (languages == null || languages.length == 0) return null;
+  Widget? _isDisplayLanguagesBlock({required List<Language>? languages}) {
+    if (languages == null || languages.isEmpty) return null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(Strings.languageTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
-        Text(languages[0]!.type!, style: TextStyles.textSmRegular()),
+        for (final language in languages)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Text("· ${language.type}", style: TextStyles.textSmRegular()),
+          ),
         _separator(20, 20),
       ],
     );
   }
 
-  Widget? _isDisplayDriverLicencesBlock({required List<DriverLicence?>? driverLicences}) {
-    if (driverLicences == null || driverLicences.length == 0) return null;
-    var driverLicence = driverLicences[0]!.category == null ? "" : driverLicences[0]!.category!;
+  Widget? _isDisplayDriverLicencesBlock({required List<DriverLicence>? driverLicences}) {
+    if (driverLicences == null || driverLicences.isEmpty) return null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(Strings.driverLicenceTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
-        Text(driverLicence, style: TextStyles.textSmRegular()),
+        for (final licence in driverLicences)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Text("· ${licence.category}", style: TextStyles.textSmRegular()),
+          ),
         _separator(20, 20),
       ],
     );

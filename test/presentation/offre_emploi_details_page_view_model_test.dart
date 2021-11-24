@@ -70,11 +70,10 @@ main() {
     expect(viewModel.companyAdapted, detailedOffer.companyAdapted);
     expect(viewModel.companyAccessibility, detailedOffer.companyAccessibility);
     expect(viewModel.companyDescription, detailedOffer.companyDescription);
-    // DateTime(2021, 11, 22, 14, 47, 29)
     expect(viewModel.lastUpdate, "22 novembre 2021");
     expect(viewModel.skills, detailedOffer.skills);
     expect(viewModel.softSkills, detailedOffer.softSkills);
-    expect(viewModel.educations, detailedOffer.educations);
+    expect(viewModel.educations, [EducationViewModel("Bac+5 et plus ou équivalents conduite projet industriel", "E")]);
     expect(viewModel.languages, detailedOffer.languages);
     expect(viewModel.driverLicences, detailedOffer.driverLicences);
   });

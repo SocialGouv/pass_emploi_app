@@ -22,7 +22,7 @@ DetailedOffer mockedDetailedOffer() => DetailedOffer(
       companyAccessibility: false,
       experience: "Débutant accepté - Expérience électricité/VRD appréciée",
       requiredExperience: "D",
-      educations: [Education(level: null, field: "conduite projet industriel", requirement: "E")],
+      educations: [Education(level: "Bac+5 et plus ou équivalents", field: "conduite projet industriel", requirement: "E")],
       languages: [Language(type: "Anglais", requirement: "E"), Language(type: "Espagnol", requirement: "S")],
       driverLicences: [
         DriverLicence(category: "B - Véhicule léger", requirement: "E"),

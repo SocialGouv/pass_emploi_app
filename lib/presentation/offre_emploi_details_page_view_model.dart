@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/detailed_offer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/detailed_offer_state.dart';
@@ -28,7 +29,7 @@ class OffreEmploiDetailsPageViewModel {
   final String? lastUpdate;
   final List<Skill>? skills;
   final List<String>? softSkills;
-  final List<Education>? educations;
+  final List<EducationViewModel>? educations;
   final List<Language>? languages;
   final List<DriverLicence>? driverLicences;
 
@@ -59,29 +60,29 @@ class OffreEmploiDetailsPageViewModel {
 
   factory OffreEmploiDetailsPageViewModel.getDetails(Store<AppState> store) {
     final searchState = store.state.detailedOfferState;
-    var lol = _detailedOffer(searchState);
+    final detailedOffer = _detailedOffer(searchState);
     return OffreEmploiDetailsPageViewModel._(
       displayState: _displayState(searchState),
-      id: lol?.id,
-      title: lol?.title,
-      companyName: lol?.companyName,
-      contractType: lol?.contractType,
-      duration: lol?.duration,
-      location: lol?.location,
-      salary: lol?.salary,
-      offerDescription: lol?.offerDescription,
-      experience: lol?.experience,
-      requiredExperience: lol?.requiredExperience,
-      companyUrl: lol?.companyUrl,
-      companyAdapted: lol?.companyAdapted,
-      companyAccessibility: lol?.companyAccessibility,
-      companyDescription: lol?.companyDescription,
-      lastUpdate: lol?.lastUpdate?.toDayWithFullMonth(),
-      skills: lol?.skills,
-      softSkills: lol?.softSkills,
-      educations: lol?.educations,
-      languages: lol?.languages,
-      driverLicences: lol?.driverLicences,
+      id: detailedOffer?.id,
+      title: detailedOffer?.title,
+      companyName: detailedOffer?.companyName,
+      contractType: detailedOffer?.contractType,
+      duration: detailedOffer?.duration,
+      location: detailedOffer?.location,
+      salary: detailedOffer?.salary,
+      offerDescription: detailedOffer?.offerDescription,
+      experience: detailedOffer?.experience,
+      requiredExperience: detailedOffer?.requiredExperience,
+      companyUrl: detailedOffer?.companyUrl,
+      companyAdapted: detailedOffer?.companyAdapted,
+      companyAccessibility: detailedOffer?.companyAccessibility,
+      companyDescription: detailedOffer?.companyDescription,
+      lastUpdate: detailedOffer?.lastUpdate?.toDayWithFullMonth(),
+      skills: detailedOffer?.skills,
+      softSkills: detailedOffer?.softSkills,
+      educations: detailedOffer?.educations?.map((e) => _toViewModel(e)).toList(),
+      languages: detailedOffer?.languages,
+      driverLicences: detailedOffer?.driverLicences,
       errorMessage: Strings.genericError,
     );
   }
@@ -99,4 +100,19 @@ OffreEmploiDetailsPageDisplayState _displayState(DetailedOfferState searchState)
 
 DetailedOffer? _detailedOffer(DetailedOfferState searchState) {
   return searchState is DetailedOfferSuccessState ? searchState.offer : null;
+}
+
+EducationViewModel _toViewModel(Education education) {
+  final field = education.field != null ? " ${education.field}" : "";
+  return EducationViewModel("${education.level}$field", education.requirement);
+}
+
+class EducationViewModel extends Equatable {
+  final String label;
+  final String? requirement;
+
+  EducationViewModel(this.label, this.requirement);
+
+  @override
+  List<Object?> get props => [label, requirement];
 }
