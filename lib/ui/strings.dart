@@ -128,4 +128,7 @@ class Strings {
   static String subscribeButtonTitle = "Recevoir l'offre par mail";
   static String applyButtonTitle = "Je postule";
 
+  static String offreDetailNumber(String offreId) => "Offre n°$offreId";
+
+  static String offreDetailLastUpdate(String lastUpdate) => "Actualisée le $lastUpdate";
 }

@@ -56,20 +56,22 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Widget _error() => Center(child: Text(Strings.offerDetailsError));
 
   Widget _content(BuildContext context, OffreEmploiDetailsPageViewModel viewModel) {
+    final id = viewModel.id;
     final title = viewModel.title;
     final companyName = viewModel.companyName;
+    final lastUpdate = viewModel.lastUpdate;
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(Margins.medium),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Offre n°${viewModel.id}", style: TextStyles.textSmRegular()),
-            if (viewModel.lastUpdate != null)
+            if (id != null) Text(Strings.offreDetailNumber(id), style: TextStyles.textSmRegular()),
+            if (lastUpdate != null)
               Padding(
                 padding: const EdgeInsets.only(top: 4),
                 child: Text(
-                  "Actualisée le ${viewModel.lastUpdate}",
+                  Strings.offreDetailNumber(lastUpdate),
                   style: TextStyles.textSmRegular(color: AppColors.bluePurple),
                 ),
               ),
@@ -182,18 +184,6 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         if (companyDescription != null) companyDescription,
       ],
     );
-  }
-
-  Widget _subscribeButton(OffreEmploiDetailsPageViewModel viewModel) {
-    return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      actionButtonWithIcon(label: Strings.subscribeButtonTitle, onPressed: () {}, icon: 'ic_send_mail.svg'),
-    ]);
-  }
-
-  Widget _applyButton() {
-    return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      actionButton(onPressed: () => null, label: Strings.applyButtonTitle),
-    ]);
   }
 
   Widget _spacer(double _height) {
@@ -358,5 +348,17 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         lightBlueTag(label: tagTitle),
       ],
     );
+  }
+
+  Widget _subscribeButton(OffreEmploiDetailsPageViewModel viewModel) {
+    return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      actionButtonWithIcon(label: Strings.subscribeButtonTitle, onPressed: () {}, icon: 'ic_send_mail.svg'),
+    ]);
+  }
+
+  Widget _applyButton() {
+    return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      actionButton(onPressed: () => null, label: Strings.applyButtonTitle),
+    ]);
   }
 }
