@@ -53,7 +53,7 @@ class DetailedOffer extends Equatable {
     print("educations passed.");
 
     List<Language>? languages = (json.containsKey("langues"))
-        ? List<Language>.from(json["langues"]?.map((data) => Language.fromJson(data)).whereType<Education>())
+        ? List<Language>.from(json["langues"]?.map((data) => Language.fromJson(data)).whereType<Language>())
         : [];
     print("languages passed.");
 
