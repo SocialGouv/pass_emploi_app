@@ -8,16 +8,17 @@ class OffreEmploiItemViewModel extends Equatable {
   final String? duration;
   final String? location;
 
-  OffreEmploiItemViewModel(this.id,
-      this.title,
-      this.companyName,
-      this.contractType,
-      this.duration,
-      this.location,);
+  OffreEmploiItemViewModel(
+    this.id,
+    this.title,
+    this.companyName,
+    this.contractType,
+    this.duration,
+    this.location,
+  );
 
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         id,
         title,
         companyName,
@@ -25,5 +26,4 @@ class OffreEmploiItemViewModel extends Equatable {
         location,
         duration,
       ];
-
 }

@@ -7,7 +7,6 @@ import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/repositories/detailed_offer_repository.dart';
 
 import '../doubles/fixtures.dart';
-import '../models/detailed_offer_test.dart';
 import '../utils/test_setup.dart';
 
 main() {
@@ -19,10 +18,9 @@ main() {
       initialState: AppState.initialState().copyWith(loginState: LoginState.notLoggedIn()),
     );
 
-    final displayedLoading =
-    store.onChange.any((element) => element.detailedOfferState is DetailedOfferLoadingState);
+    final displayedLoading = store.onChange.any((element) => element.detailedOfferState is DetailedOfferLoadingState);
     final successState =
-    store.onChange.firstWhere((element) => element.detailedOfferState is DetailedOfferSuccessState);
+        store.onChange.firstWhere((element) => element.detailedOfferState is DetailedOfferSuccessState);
 
     // When
     store.dispatch(GetDetailedOfferAction(offerId: "offerId"));
@@ -31,7 +29,7 @@ main() {
 
     expect(await displayedLoading, true);
     final appState = await successState;
-    var searchState = (appState.detailedOfferState as DetailedOfferSuccessState);
+    final searchState = (appState.detailedOfferState as DetailedOfferSuccessState);
     expect(searchState.offer.id, "123TZKB");
   });
 
@@ -43,10 +41,8 @@ main() {
       initialState: AppState.initialState().copyWith(loginState: LoginState.notLoggedIn()),
     );
 
-    final displayedLoading =
-    store.onChange.any((element) => element.detailedOfferState is DetailedOfferLoadingState);
-    final displayedError =
-    store.onChange.any((element) => element.detailedOfferState is DetailedOfferFailureState);
+    final displayedLoading = store.onChange.any((element) => element.detailedOfferState is DetailedOfferLoadingState);
+    final displayedError = store.onChange.any((element) => element.detailedOfferState is DetailedOfferFailureState);
 
     // When
     store.dispatch(GetDetailedOfferAction(offerId: "offerId"));
@@ -61,20 +57,12 @@ class DetailedOfferRepositorySuccessStub extends DetailedOfferRepository {
   DetailedOfferRepositorySuccessStub() : super("");
 
   @override
-  Future<DetailedOffer?> getDetailedOffer({
-    required String offerId,
-  }) async {
-    return mockedDetailedOffer();
-  }
+  Future<DetailedOffer?> getDetailedOffer({required String offerId}) async => mockedDetailedOffer();
 }
 
-class  DetailedOfferRepositoryFailureStub extends DetailedOfferRepository {
+class DetailedOfferRepositoryFailureStub extends DetailedOfferRepository {
   DetailedOfferRepositoryFailureStub() : super("");
 
   @override
-  Future<DetailedOffer?> getDetailedOffer({
-    required String offerId,
-  }) async {
-    return null;
-  }
+  Future<DetailedOffer?> getDetailedOffer({required String offerId}) async => null;
 }

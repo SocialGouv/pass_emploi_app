@@ -8,10 +8,8 @@ class DetailedOfferRepository {
 
   DetailedOfferRepository(this.baseUrl);
 
-  Future<DetailedOffer?> getDetailedOffer({
-  required String offerId,
-  }) async {
-    var url = Uri.parse(baseUrl + "/offres-emploi/$offerId");
+  Future<DetailedOffer?> getDetailedOffer({required String offerId}) async {
+    final url = Uri.parse(baseUrl + "/offres-emploi/$offerId");
     try {
       final response = await http.get(url);
       if (response.statusCode.isValid()) {

@@ -221,6 +221,6 @@ List<Language> _extractLanguages(json) {
 
 DateTime? _extractLastUpdate(json) {
   return (json["dateActualisation"] is String)
-      ? (json["dateActualisation"] as String).toDateTimeFromPoleEmploi()
+      ? (json["dateActualisation"] as String).toDateTimeFromPoleEmploiPattern()
       : null;
 }
