@@ -53,8 +53,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   }
 
   Widget _content(BuildContext context, OffreEmploiDetailsPageViewModel viewModel) {
-    String lastUpdate = "date"; //TODO-65
-    var companyName = viewModel.detailedOffer!.companyName != null ? viewModel.detailedOffer!.companyName! : "";
+    var companyName = viewModel.companyName != null ? viewModel.companyName! : "";
 
     return Scaffold(
         appBar: DefaultAppBar(title: Text(Strings.offerDetails, style: TextStyles.h3Semi)),
@@ -64,11 +63,15 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Offre n°${viewModel.detailedOffer!.id}", style: TextStyles.textSmRegular()),
-                _spacer(4),
-                Text("Actualisée le $lastUpdate", style: TextStyles.textSmRegular(color: AppColors.bluePurple)),
+                Text("Offre n°${viewModel.id}", style: TextStyles.textSmRegular()),
+                if (viewModel.lastUpdate != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Text("Actualisée le ${viewModel.lastUpdate}",
+                        style: TextStyles.textSmRegular(color: AppColors.bluePurple)),
+                  ),
                 _spacer(18),
-                Text(viewModel.detailedOffer!.title, style: TextStyles.textLgMedium),
+                Text(viewModel.title != null ? viewModel.title as String : "", style: TextStyles.textLgMedium),
                 _spacer(20),
                 Text(companyName, style: TextStyles.textMdRegular),
                 _spacer(12),
@@ -86,10 +89,10 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   }
 
   Widget _tags(OffreEmploiDetailsPageViewModel viewModel) {
-    var location = viewModel.detailedOffer!.location != null ? viewModel.detailedOffer!.location! : "";
-    var contractType = viewModel.detailedOffer!.contractType != null ? viewModel.detailedOffer!.contractType! : "";
-    var salary = viewModel.detailedOffer!.salary != null ? viewModel.detailedOffer!.salary! : "";
-    var duration = viewModel.detailedOffer!.location != null ? viewModel.detailedOffer!.duration! : "";
+    var location = viewModel.location != null ? viewModel.location! : "";
+    var contractType = viewModel.contractType != null ? viewModel.contractType! : "";
+    var salary = viewModel.salary != null ? viewModel.salary! : "";
+    var duration = viewModel.location != null ? viewModel.duration! : "";
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       lightBlueTag(label: location, icon: SvgPicture.asset("assets/ic_place.svg")),
@@ -104,8 +107,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   }
 
   Widget _offerDescription(OffreEmploiDetailsPageViewModel viewModel) {
-    var offerDescription =
-        viewModel.detailedOffer!.offerDescription != null ? viewModel.detailedOffer!.offerDescription! : "";
+    var offerDescription = viewModel.offerDescription != null ? viewModel.offerDescription! : "";
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       _descriptionTitle(title: Strings.offerDetailsTitle, icon: SvgPicture.asset("assets/ic_one_point.svg")),
@@ -116,13 +118,13 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   }
 
   Widget _profileDescription(OffreEmploiDetailsPageViewModel viewModel) {
-    var experience = viewModel.detailedOffer!.experience != null ? viewModel.detailedOffer!.experience! : "";
+    var experience = viewModel.experience != null ? viewModel.experience! : "";
 
-    Widget? skills = _isDisplaySillsBlock(skills: viewModel.detailedOffer!.skills);
-    Widget? softSkills = _isDisplaySoftSillsBlock(softSkills: viewModel.detailedOffer!.softSkills);
-    Widget? educations = _isDisplayEducationsBlock(educations: viewModel.detailedOffer!.educations);
-    Widget? languages = _isDisplayLanguagesBlock(languages: viewModel.detailedOffer!.languages);
-    Widget? driverLicences = _isDisplayDriverLicencesBlock(driverLicences: viewModel.detailedOffer!.driverLicences);
+    Widget? skills = _isDisplaySillsBlock(skills: viewModel.skills);
+    Widget? softSkills = _isDisplaySoftSillsBlock(softSkills: viewModel.softSkills);
+    Widget? educations = _isDisplayEducationsBlock(educations: viewModel.educations);
+    Widget? languages = _isDisplayLanguagesBlock(languages: viewModel.languages);
+    Widget? driverLicences = _isDisplayDriverLicencesBlock(driverLicences: viewModel.driverLicences);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,19 +145,19 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   }
 
   Widget _companyDescription(OffreEmploiDetailsPageViewModel viewModel) {
-    Widget? companyDescription = _isDisplayTextBlock(
-        title: Strings.companyDescriptionTitle, content: viewModel.detailedOffer!.companyDescription);
+    Widget? companyDescription =
+        _isDisplayTextBlock(title: Strings.companyDescriptionTitle, content: viewModel.companyDescription);
     Widget? adaptationTag =
-        _isDisplayBlueTag(tagTitle: Strings.companyAdaptedTitle, tagValue: viewModel.detailedOffer!.companyAdapted);
-    Widget? accessibilityTag = _isDisplayBlueTag(
-        tagTitle: Strings.companyAccessibilityTitle, tagValue: viewModel.detailedOffer!.companyAccessibility);
+        _isDisplayBlueTag(tagTitle: Strings.companyAdaptedTitle, tagValue: viewModel.companyAdapted);
+    Widget? accessibilityTag =
+        _isDisplayBlueTag(tagTitle: Strings.companyAccessibilityTitle, tagValue: viewModel.companyAccessibility);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _descriptionTitle(title: Strings.companyTitle, icon: SvgPicture.asset("assets/ic_three_points.svg")),
         _separator(8, 30),
-        Text(viewModel.detailedOffer!.companyName!, style: TextStyles.textMdMedium),
+        Text(viewModel.companyName!, style: TextStyles.textMdMedium),
         if (adaptationTag != null) adaptationTag,
         if (accessibilityTag != null) accessibilityTag,
         _spacer(20),
@@ -238,7 +240,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             Text(title, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
             _spacer(12),
-            Text(content!, style: TextStyles.textSmRegular()),
+            Text(content, style: TextStyles.textSmRegular()),
             _separator(12, 20),
           ])
         : null;
@@ -246,7 +248,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
 
   Widget? _isDisplaySillsBlock({required List<Skill?>? skills}) {
     if (skills == null) return null;
-    return skills!.length != 0
+    return skills.length != 0
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -269,13 +271,14 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
 
   Widget? _isDisplaySoftSillsBlock({required List<SoftSkill?>? softSkills}) {
     if (softSkills == null) return null;
-    return softSkills!.length != 0
+    return softSkills.length != 0
         ? Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(Strings.softSkillsTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
               _spacer(12),
               Text(softSkills[0]!.description!, style: TextStyles.textSmRegular()),
+              // TODO-65 rajouter softSkills
               // ListView.builder(
               // itemCount: softSkills!.length,
               // itemBuilder: (context, index) {
@@ -291,10 +294,10 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   }
 
   Widget? _isDisplayEducationsBlock({required List<Education?>? educations}) {
-    if (educations == null || educations!.length == 0) return null;
+    if (educations == null || educations.length == 0) return null;
     var educationLvl = educations[0]!.level != null ? educations[0]!.level! : "";
     var educationField = educations[0]!.field != null ? educations[0]!.field! : "";
-    var education = educationLvl! + educationField!;
+    var education = educationLvl + educationField;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -307,7 +310,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   }
 
   Widget? _isDisplayLanguagesBlock({required List<Language?>? languages}) {
-    if (languages == null || languages!.length == 0) return null;
+    if (languages == null || languages.length == 0) return null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -320,7 +323,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   }
 
   Widget? _isDisplayDriverLicencesBlock({required List<DriverLicence?>? driverLicences}) {
-    if (driverLicences == null || driverLicences!.length == 0) return null;
+    if (driverLicences == null || driverLicences.length == 0) return null;
     var driverLicence = driverLicences[0]!.category == null ? "" : driverLicences[0]!.category!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -333,7 +336,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     );
   }
 
-  Widget? _isDisplayBlueTag({required String tagTitle, required bool tagValue}) {
+  Widget? _isDisplayBlueTag({required String tagTitle, required bool? tagValue}) {
     if (tagValue == false) return null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
