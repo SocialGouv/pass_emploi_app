@@ -120,8 +120,8 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Widget _profileDescription(OffreEmploiDetailsPageViewModel viewModel) {
     var experience = viewModel.experience != null ? viewModel.experience! : "";
 
-    Widget? skills = _isDisplaySillsBlock(skills: viewModel.skills);
-    Widget? softSkills = _isDisplaySoftSillsBlock(softSkills: viewModel.softSkills);
+    Widget? skills = _isDisplaySkillsBlock(skills: viewModel.skills);
+    Widget? softSkills = _isDisplaySoftSkillsBlock(softSkills: viewModel.softSkills);
     Widget? educations = _isDisplayEducationsBlock(educations: viewModel.educations);
     Widget? languages = _isDisplayLanguagesBlock(languages: viewModel.languages);
     Widget? driverLicences = _isDisplayDriverLicencesBlock(driverLicences: viewModel.driverLicences);
@@ -246,42 +246,38 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         : null;
   }
 
-  Widget? _isDisplaySillsBlock({required List<Skill?>? skills}) {
-    if (skills == null) return null;
-    return skills.length != 0
-        ? Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(Strings.skillsTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
-              _spacer(12),
-              Text(skills[0]!.description!, style: TextStyles.textSmRegular()),
-              // ListView.builder(
-              // itemCount: skills!.length,
-              // itemBuilder: (context, index) {
-              // return ListTile(
-              // title: Text(skills[index]!.description!, style: TextStyles.textSmRegular()),
-              // );
-              //   },
-              // ),
-              _separator(20, 20),
-            ],
-          )
-        : null;
+  Widget? _isDisplaySkillsBlock({required List<Skill>? skills}) {
+    if (skills == null || skills.isEmpty) return null;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(Strings.skillsTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+        _spacer(12),
+        for (final skill in skills)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Text("· ${skill.description}", style: TextStyles.textSmRegular()),
+          ),
+        _separator(20, 20),
+      ],
+    );
   }
 
-  Widget? _isDisplaySoftSillsBlock({required List<String>? softSkills}) {
-    if (softSkills == null) return null;
-    return softSkills.length != 0
-        ? Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(Strings.softSkillsTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
-              _spacer(12),
-              for(var soft in softSkills) Text(soft, style: TextStyles.textSmRegular()),
-              _separator(20, 20),
-            ],
-          )
-        : null;
+  Widget? _isDisplaySoftSkillsBlock({required List<String>? softSkills}) {
+    if (softSkills == null || softSkills.isEmpty) return null;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(Strings.softSkillsTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+        _spacer(12),
+        for (final soft in softSkills)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Text("· $soft", style: TextStyles.textSmRegular()),
+          ),
+        _separator(20, 20),
+      ],
+    );
   }
 
   Widget? _isDisplayEducationsBlock({required List<Education?>? educations}) {

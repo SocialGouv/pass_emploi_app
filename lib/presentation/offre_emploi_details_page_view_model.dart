@@ -26,11 +26,11 @@ class OffreEmploiDetailsPageViewModel {
   final bool? companyAccessibility;
   final String? companyDescription;
   final String? lastUpdate;
-  final List<Skill?>? skills;
+  final List<Skill>? skills;
   final List<String>? softSkills;
-  final List<Education?>? educations;
-  final List<Language?>? languages;
-  final List<DriverLicence?>? driverLicences;
+  final List<Education>? educations;
+  final List<Language>? languages;
+  final List<DriverLicence>? driverLicences;
 
   OffreEmploiDetailsPageViewModel._({
     required this.displayState,

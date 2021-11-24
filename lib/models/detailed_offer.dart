@@ -2,8 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 class DetailedOffer extends Equatable {
-  final String  id;
-  final String  title;
+  final String id;
+  final String title;
   final String? offerDescription;
   final String? contractType;
   final String? duration;
@@ -12,16 +12,16 @@ class DetailedOffer extends Equatable {
   final String? companyName;
   final String? companyDescription;
   final String? companyUrl;
-  final bool    companyAdapted;
-  final bool    companyAccessibility;
+  final bool companyAdapted;
+  final bool companyAccessibility;
   final String? experience;
   final String? requiredExperience;
   final DateTime? lastUpdate;
-  final List<Education?>? educations;
-  final List<Language?>? languages;
-  final List<Skill?>? skills;
+  final List<Education>? educations;
+  final List<Language>? languages;
+  final List<Skill>? skills;
   final List<String>? softSkills;
-  final List<DriverLicence?>? driverLicences;
+  final List<DriverLicence>? driverLicences;
 
   DetailedOffer({
     required this.id,
@@ -46,46 +46,50 @@ class DetailedOffer extends Equatable {
     required this.requiredExperience,
   });
 
-
   factory DetailedOffer.fromJson(dynamic json) {
-    List<Education?>? educations = (json.containsKey("formations")) ?
-                          List<Education?>.from(json["formations"]?.map((data) => Education.fromJson(data))) : [];
+    List<Education>? educations = (json.containsKey("formations"))
+        ? List<Education>.from(json["formations"]?.map((data) => Education.fromJson(data)).whereType<Education>())
+        : [];
     print("educations passed.");
 
-    List<Language?>? languages = (json.containsKey("langues")) ?
-                          List<Language?>.from(json["langues"]?.map((data) => Language.fromJson(data))) : [];
+    List<Language>? languages = (json.containsKey("langues"))
+        ? List<Language>.from(json["langues"]?.map((data) => Language.fromJson(data)))
+        : [];
     print("languages passed.");
 
-    List<DriverLicence?>? driverlicences = (json.containsKey("permis")) ?
-                          List<DriverLicence?>.from(json["permis"]?.map((data) => DriverLicence.fromJson(data))) : [];
+    List<DriverLicence>? driverlicences = (json.containsKey("permis"))
+        ? List<DriverLicence>.from(json["permis"]?.map((data) => DriverLicence.fromJson(data)))
+        : [];
     print("licences passed.");
 
-    List<Skill?>? skills = (json.containsKey("competences")) ?
-                          List<Skill?>.from(json["competences"]?.map((data) => Skill.fromJson(data))) : [];
+    List<Skill>? skills = (json.containsKey("competences"))
+        ? List<Skill>.from(json["competences"]?.map((data) => Skill.fromJson(data)).whereType<Skill>())
+        : [];
     print("skills passed.");
 
-    List<SoftSkill>? softSkills = (json.containsKey("qualitesProfessionnelles")) ?
-                                    List<SoftSkill>.from(json["qualitesProfessionnelles"]?.map((data) =>
-                                    SoftSkill.fromJson(data)))  : [];
+    List<SoftSkill>? softSkills = (json.containsKey("qualitesProfessionnelles"))
+        ? List<SoftSkill>.from(json["qualitesProfessionnelles"]?.map((data) => SoftSkill.fromJson(data)))
+        : [];
     print("soft skills passed.");
 
     DetailedOffer test = DetailedOffer(
-      id:                   json["id"] as String,
-      title:                json["intitule"] as String,
-      offerDescription:     json["description"] as String?,
-      contractType:         json["typeContratLibelle"] as String?,
-      duration:             json["dureeTravailLibelle"] as String?,
-      location:             json["lieuTravail"]?["libelle"] as String?,
-      salary:               json["salaire"]?["libelle"] as String?,
-      companyName:          json["entreprise"]?["nom"] as String?,
-      companyDescription:   json["entreprise"]?["description"] as String?,
-      companyUrl:           json["entreprise"]?["url"] as String?,
-      experience:           json["experienceLibelle"] as String?,
-      requiredExperience:   json["experienceExige"] as String?,
-      educations:           educations,
-      languages:            languages,
-      driverLicences:       driverlicences,
-      lastUpdate:           (json["dateActualisation"] is String) ? (json["dateActualisation"] as String).toDateTimeFromPoleEmploi()
+      id: json["id"] as String,
+      title: json["intitule"] as String,
+      offerDescription: json["description"] as String?,
+      contractType: json["typeContratLibelle"] as String?,
+      duration: json["dureeTravailLibelle"] as String?,
+      location: json["lieuTravail"]?["libelle"] as String?,
+      salary: json["salaire"]?["libelle"] as String?,
+      companyName: json["entreprise"]?["nom"] as String?,
+      companyDescription: json["entreprise"]?["description"] as String?,
+      companyUrl: json["entreprise"]?["url"] as String?,
+      experience: json["experienceLibelle"] as String?,
+      requiredExperience: json["experienceExige"] as String?,
+      educations: educations,
+      languages: languages,
+      driverLicences: driverlicences,
+      lastUpdate: (json["dateActualisation"] is String)
+          ? (json["dateActualisation"] as String).toDateTimeFromPoleEmploi()
           : null,
       skills: skills,
       softSkills: softSkills.map((soft) => soft.description).whereType<String>().toList(),
@@ -98,24 +102,42 @@ class DetailedOffer extends Equatable {
 
   @override
   List<Object?> get props => [
-    id, title, offerDescription, contractType, duration, location, salary,
-    companyName, companyDescription, companyUrl, companyAdapted, companyAccessibility,
-    experience, requiredExperience, lastUpdate, educations, languages, skills, softSkills, driverLicences];
+        id,
+        title,
+        offerDescription,
+        contractType,
+        duration,
+        location,
+        salary,
+        companyName,
+        companyDescription,
+        companyUrl,
+        companyAdapted,
+        companyAccessibility,
+        experience,
+        requiredExperience,
+        lastUpdate,
+        educations,
+        languages,
+        skills,
+        softSkills,
+        driverLicences
+      ];
 }
 
 class Skill extends Equatable {
-  String? description;
+  String description;
   String? requirement;
 
-  Skill({
-    required this.description,
-    required this.requirement
-  });
+  Skill({required this.description, required this.requirement});
 
-  factory Skill.fromJson(Map<String, dynamic> json) => Skill(
-    description: json['libelle'],
-    requirement: json['exigence'],
-  );
+  static Skill? fromJson(Map<String, dynamic> json) {
+    if (json['libelle'] == null) return null;
+    return Skill(
+      description: json['libelle'],
+      requirement: json['exigence'],
+    );
+  }
 
   @override
   List<Object?> get props => [description, requirement];
@@ -128,8 +150,7 @@ class SoftSkill extends Equatable {
     required this.description,
   });
 
-  factory SoftSkill.fromJson(Map<String, dynamic> json) =>
-      SoftSkill(
+  factory SoftSkill.fromJson(Map<String, dynamic> json) => SoftSkill(
         description: json['libelle'],
       );
 
@@ -141,22 +162,19 @@ class DriverLicence extends Equatable {
   String? category;
   String? requirement;
 
-  DriverLicence({
-    required this.category,
-    required this.requirement
-  });
+  DriverLicence({required this.category, required this.requirement});
 
   factory DriverLicence.fromJson(Map<String, dynamic> json) => DriverLicence(
-    category: json['libelle'],
-    requirement: json['exigence'],
-  );
+        category: json['libelle'],
+        requirement: json['exigence'],
+      );
 
   @override
   List<Object?> get props => [category, requirement];
 }
 
 class Education extends Equatable {
-  String? level;
+  String level;
   String? field;
   String? requirement;
 
@@ -166,11 +184,12 @@ class Education extends Equatable {
     required this.requirement,
   });
 
-  factory Education.fromJson(Map<String, dynamic> json) {
+  static Education? fromJson(Map<String, dynamic> json) {
+    if (json['name'] == null) return null;
     return Education(
-        level: json['name'] as String?,
-        field: json['domaineLibelle'] as String?,
-        requirement: json['exigence'] as String?,
+      level: json['name'] as String,
+      field: json['domaineLibelle'] as String?,
+      requirement: json['exigence'] as String?,
     );
   }
 
@@ -182,15 +201,12 @@ class Language extends Equatable {
   String? type;
   String? requirement;
 
-  Language({
-    required this.type,
-    required this.requirement
-  });
+  Language({required this.type, required this.requirement});
 
   factory Language.fromJson(Map<String, dynamic> json) {
     return Language(
-        type: json['libelle'],
-        requirement: json['exigence'],
+      type: json['libelle'],
+      requirement: json['exigence'],
     );
   }
 
