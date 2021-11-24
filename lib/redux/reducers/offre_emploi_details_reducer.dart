@@ -4,11 +4,11 @@ import 'package:pass_emploi_app/redux/states/offre_emploi_details_state.dart';
 
 AppState offreEmploiDetailsReducer(AppState currentState, dynamic action) {
   if (action is OffreEmploiDetailsLoadingAction) {
-    return currentState.copyWith(detailedOfferState: OffreEmploiDetailsState.loading());
+    return currentState.copyWith(offreEmploiDetailsState: OffreEmploiDetailsState.loading());
   } else if (action is OffreEmploiDetailsSuccessAction) {
-    return currentState.copyWith(detailedOfferState: OffreEmploiDetailsState.success(action.offre));
+    return currentState.copyWith(offreEmploiDetailsState: OffreEmploiDetailsState.success(action.offre));
   } else if (action is OffreEmploiDetailsFailureAction) {
-    return currentState.copyWith(detailedOfferState: OffreEmploiDetailsState.failure());
+    return currentState.copyWith(offreEmploiDetailsState: OffreEmploiDetailsState.failure());
   } else {
     return currentState;
   }

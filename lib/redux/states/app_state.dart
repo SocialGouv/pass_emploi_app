@@ -27,7 +27,7 @@ class AppState extends Equatable {
   final ChatStatusState chatStatusState;
   final ChatState chatState;
   final OffreEmploiSearchState offreEmploiSearchState;
-  final OffreEmploiDetailsState detailedOfferState;
+  final OffreEmploiDetailsState offreEmploiDetailsState;
   final OffreEmploiSearchResultsState offreEmploiSearchResultsState;
   final OffreEmploiSearchParametersState offreEmploiSearchParametersState;
 
@@ -43,7 +43,7 @@ class AppState extends Equatable {
     required this.chatStatusState,
     required this.chatState,
     required this.offreEmploiSearchState,
-    required this.detailedOfferState,
+    required this.offreEmploiDetailsState,
     required this.offreEmploiSearchResultsState,
     required this.offreEmploiSearchParametersState,
   });
@@ -59,7 +59,7 @@ class AppState extends Equatable {
     final ChatStatusState? chatStatusState,
     final ChatState? chatState,
     final OffreEmploiSearchState? offreEmploiSearchState,
-    final OffreEmploiDetailsState? detailedOfferState,
+    final OffreEmploiDetailsState? offreEmploiDetailsState,
     final DeepLinkState? deepLinkState,
     final OffreEmploiSearchResultsState? offreEmploiSearchResultsState,
     final OffreEmploiSearchParametersState? offreEmploiSearchParametersState,
@@ -76,7 +76,7 @@ class AppState extends Equatable {
       chatStatusState: chatStatusState ?? this.chatStatusState,
       chatState: chatState ?? this.chatState,
       offreEmploiSearchState: offreEmploiSearchState ?? this.offreEmploiSearchState,
-      detailedOfferState: detailedOfferState ?? this.detailedOfferState,
+      offreEmploiDetailsState: offreEmploiDetailsState ?? this.offreEmploiDetailsState,
       offreEmploiSearchResultsState: offreEmploiSearchResultsState ?? this.offreEmploiSearchResultsState,
       offreEmploiSearchParametersState: offreEmploiSearchParametersState ?? this.offreEmploiSearchParametersState,
     );
@@ -95,7 +95,7 @@ class AppState extends Equatable {
       chatStatusState: ChatStatusState.notInitialized(),
       chatState: ChatState.notInitialized(),
       offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
-      detailedOfferState: OffreEmploiDetailsState.notInitialized(),
+      offreEmploiDetailsState: OffreEmploiDetailsState.notInitialized(),
       offreEmploiSearchResultsState: OffreEmploiSearchResultsState.notInitialized(),
       offreEmploiSearchParametersState: OffreEmploiSearchParametersState.notInitialized(),
     );
@@ -115,7 +115,7 @@ class AppState extends Equatable {
         chatStatusState,
         chatState,
         offreEmploiSearchState,
-        detailedOfferState,
+        offreEmploiDetailsState,
         offreEmploiSearchState,
         offreEmploiSearchResultsState,
         offreEmploiSearchParametersState,

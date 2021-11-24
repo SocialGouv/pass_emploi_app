@@ -13,7 +13,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        detailedOfferState: OffreEmploiDetailsState.loading(),
+        offreEmploiDetailsState: OffreEmploiDetailsState.loading(),
       ),
     );
 
@@ -29,7 +29,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        detailedOfferState: OffreEmploiDetailsState.failure(),
+        offreEmploiDetailsState: OffreEmploiDetailsState.failure(),
       ),
     );
 
@@ -47,7 +47,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        detailedOfferState: OffreEmploiDetailsState.success(detailedOffer),
+        offreEmploiDetailsState: OffreEmploiDetailsState.success(detailedOffer),
       ),
     );
 
@@ -63,7 +63,7 @@ main() {
     expect(viewModel.duration, detailedOffer.duration);
     expect(viewModel.location, detailedOffer.location);
     expect(viewModel.salary, detailedOffer.salary);
-    expect(viewModel.offerDescription, detailedOffer.offerDescription);
+    expect(viewModel.description, detailedOffer.description);
     expect(viewModel.experience, detailedOffer.experience);
     expect(viewModel.requiredExperience, detailedOffer.requiredExperience);
     expect(viewModel.companyUrl, detailedOffer.companyUrl);

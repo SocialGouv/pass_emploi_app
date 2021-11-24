@@ -18,7 +18,7 @@ class OffreEmploiDetailsPageViewModel {
   final String? duration;
   final String? location;
   final String? salary;
-  final String? offerDescription;
+  final String? description;
   final String? experience;
   final String? requiredExperience;
   final String? companyUrl;
@@ -41,7 +41,7 @@ class OffreEmploiDetailsPageViewModel {
     required this.duration,
     required this.location,
     required this.salary,
-    required this.offerDescription,
+    required this.description,
     required this.experience,
     required this.requiredExperience,
     required this.companyUrl,
@@ -58,46 +58,46 @@ class OffreEmploiDetailsPageViewModel {
   });
 
   factory OffreEmploiDetailsPageViewModel.getDetails(Store<AppState> store) {
-    final searchState = store.state.detailedOfferState;
-    final detailedOffer = _detailedOffer(searchState);
+    final offreEmploiDetailsState = store.state.offreEmploiDetailsState;
+    final offre = _offreEmploiDetails(offreEmploiDetailsState);
     return OffreEmploiDetailsPageViewModel._(
-      displayState: _displayState(searchState),
-      id: detailedOffer?.id,
-      title: detailedOffer?.title,
-      companyName: detailedOffer?.companyName,
-      contractType: detailedOffer?.contractType,
-      duration: detailedOffer?.duration,
-      location: detailedOffer?.location,
-      salary: detailedOffer?.salary,
-      offerDescription: detailedOffer?.offerDescription,
-      experience: detailedOffer?.experience,
-      requiredExperience: detailedOffer?.requiredExperience,
-      companyUrl: detailedOffer?.companyUrl,
-      companyAdapted: detailedOffer?.companyAdapted,
-      companyAccessibility: detailedOffer?.companyAccessibility,
-      companyDescription: detailedOffer?.companyDescription,
-      lastUpdate: detailedOffer?.lastUpdate?.toDayWithFullMonth(),
-      skills: detailedOffer?.skills,
-      softSkills: detailedOffer?.softSkills,
-      educations: detailedOffer?.educations?.map((e) => _toViewModel(e)).toList(),
-      languages: detailedOffer?.languages,
-      driverLicences: detailedOffer?.driverLicences,
+      displayState: _displayState(offreEmploiDetailsState),
+      id: offre?.id,
+      title: offre?.title,
+      companyName: offre?.companyName,
+      contractType: offre?.contractType,
+      duration: offre?.duration,
+      location: offre?.location,
+      salary: offre?.salary,
+      description: offre?.description,
+      experience: offre?.experience,
+      requiredExperience: offre?.requiredExperience,
+      companyUrl: offre?.companyUrl,
+      companyAdapted: offre?.companyAdapted,
+      companyAccessibility: offre?.companyAccessibility,
+      companyDescription: offre?.companyDescription,
+      lastUpdate: offre?.lastUpdate?.toDayWithFullMonth(),
+      skills: offre?.skills,
+      softSkills: offre?.softSkills,
+      educations: offre?.educations?.map((e) => _toViewModel(e)).toList(),
+      languages: offre?.languages,
+      driverLicences: offre?.driverLicences,
       errorMessage: Strings.genericError,
     );
   }
 }
 
-OffreEmploiDetailsPageDisplayState _displayState(OffreEmploiDetailsState searchState) {
-  if (searchState is OffreEmploiDetailsSuccessState) {
+OffreEmploiDetailsPageDisplayState _displayState(OffreEmploiDetailsState offreEmploiDetailsState) {
+  if (offreEmploiDetailsState is OffreEmploiDetailsSuccessState) {
     return OffreEmploiDetailsPageDisplayState.SHOW_DETAILS;
-  } else if (searchState is OffreEmploiDetailsLoadingState) {
+  } else if (offreEmploiDetailsState is OffreEmploiDetailsLoadingState) {
     return OffreEmploiDetailsPageDisplayState.SHOW_LOADER;
   } else {
     return OffreEmploiDetailsPageDisplayState.SHOW_ERROR;
   }
 }
 
-OffreEmploiDetails? _detailedOffer(OffreEmploiDetailsState searchState) {
+OffreEmploiDetails? _offreEmploiDetails(OffreEmploiDetailsState searchState) {
   return searchState is OffreEmploiDetailsSuccessState ? searchState.offre : null;
 }
 

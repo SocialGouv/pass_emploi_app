@@ -19,9 +19,9 @@ main() {
     );
 
     final displayedLoading =
-        store.onChange.any((element) => element.detailedOfferState is OffreEmploiDetailsLoadingState);
+        store.onChange.any((element) => element.offreEmploiDetailsState is OffreEmploiDetailsLoadingState);
     final successState =
-        store.onChange.firstWhere((element) => element.detailedOfferState is OffreEmploiDetailsSuccessState);
+        store.onChange.firstWhere((element) => element.offreEmploiDetailsState is OffreEmploiDetailsSuccessState);
 
     // When
     store.dispatch(GetOffreEmploiDetailsAction(offreId: "offerId"));
@@ -30,7 +30,7 @@ main() {
 
     expect(await displayedLoading, true);
     final appState = await successState;
-    final searchState = (appState.detailedOfferState as OffreEmploiDetailsSuccessState);
+    final searchState = (appState.offreEmploiDetailsState as OffreEmploiDetailsSuccessState);
     expect(searchState.offre.id, "123TZKB");
   });
 
@@ -43,9 +43,9 @@ main() {
     );
 
     final displayedLoading =
-        store.onChange.any((element) => element.detailedOfferState is OffreEmploiDetailsLoadingState);
+        store.onChange.any((element) => element.offreEmploiDetailsState is OffreEmploiDetailsLoadingState);
     final displayedError =
-        store.onChange.any((element) => element.detailedOfferState is OffreEmploiDetailsFailureState);
+        store.onChange.any((element) => element.offreEmploiDetailsState is OffreEmploiDetailsFailureState);
 
     // When
     store.dispatch(GetOffreEmploiDetailsAction(offreId: "offerId"));
@@ -60,12 +60,12 @@ class DetailedOfferRepositorySuccessStub extends OffreEmploiDetailsRepository {
   DetailedOfferRepositorySuccessStub() : super("");
 
   @override
-  Future<OffreEmploiDetails?> getOffreEmploiDetails({required String offerId}) async => mockedDetailedOffer();
+  Future<OffreEmploiDetails?> getOffreEmploiDetails({required String offreId}) async => mockedDetailedOffer();
 }
 
 class DetailedOfferRepositoryFailureStub extends OffreEmploiDetailsRepository {
   DetailedOfferRepositoryFailureStub() : super("");
 
   @override
-  Future<OffreEmploiDetails?> getOffreEmploiDetails({required String offerId}) async => null;
+  Future<OffreEmploiDetails?> getOffreEmploiDetails({required String offreId}) async => null;
 }

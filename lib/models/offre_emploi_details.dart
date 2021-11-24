@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/utils/string_extensions.dart';
 class OffreEmploiDetails extends Equatable {
   final String id;
   final String title;
-  final String? offerDescription;
+  final String? description;
   final String? contractType;
   final String? duration;
   final String? location;
@@ -26,7 +26,7 @@ class OffreEmploiDetails extends Equatable {
   OffreEmploiDetails({
     required this.id,
     required this.title,
-    required this.offerDescription,
+    required this.description,
     required this.contractType,
     required this.duration,
     required this.location,
@@ -50,7 +50,7 @@ class OffreEmploiDetails extends Equatable {
     return OffreEmploiDetails(
       id: json["id"] as String,
       title: json["intitule"] as String,
-      offerDescription: json["description"] as String?,
+      description: json["description"] as String?,
       contractType: json["typeContratLibelle"] as String?,
       duration: json["dureeTravailLibelle"] as String?,
       location: json["lieuTravail"]?["libelle"] as String?,
@@ -72,10 +72,11 @@ class OffreEmploiDetails extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         id,
         title,
-        offerDescription,
+        description,
         contractType,
         duration,
         location,

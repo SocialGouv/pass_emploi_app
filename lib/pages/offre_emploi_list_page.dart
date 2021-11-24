@@ -96,7 +96,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     return Material(
       type: MaterialType.transparency,
       child: InkWell(
-        onTap: () => _showOfferDetailsPage(context, resultsViewModel.items[index].id),
+        onTap: () => _showOffreEmploiDetailsPage(context, resultsViewModel.items[index].id),
         splashColor: AppColors.bluePurple,
         child: _buildOffreItem(resultsViewModel, index),
       ),
@@ -211,8 +211,8 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     );
   }
 
-  void _showOfferDetailsPage(BuildContext context, String offerId) {
-    Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(offerId));
+  void _showOffreEmploiDetailsPage(BuildContext context, String offreId) {
+    Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(offreId));
   }
 
   int _itemCount(OffreEmploiSearchResultsViewModel viewModel) {

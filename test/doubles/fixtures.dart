@@ -6,7 +6,7 @@ User mockUser() => User(id: "", firstName: "", lastName: "");
 OffreEmploiDetails mockedDetailedOffer() => OffreEmploiDetails(
       id: "123TZKB",
       title: "Technicien / Technicienne d'installation de réseaux câblés  (H/F)",
-      offerDescription: "Vos Missions :\n\nRéaliser du tirage de câbles,\n"
+      description: "Vos Missions :\n\nRéaliser du tirage de câbles,\n"
           "Effectuer des raccordements en fibre optique et câble coaxial,\n\n"
           "Le permis B est requis pour ce poste car vous vous déplacerez à bord "
           "d'un véhicule de service mis à votre disposition.",

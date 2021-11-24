@@ -13,7 +13,7 @@ class OffreEmploiDetailsMiddleware extends MiddlewareClass<AppState> {
     next(action);
     if (action is GetOffreEmploiDetailsAction) {
       store.dispatch(OffreEmploiDetailsLoadingAction());
-      final result = await _repository.getOffreEmploiDetails(offerId: action.offreId);
+      final result = await _repository.getOffreEmploiDetails(offreId: action.offreId);
       if (result != null) {
         store.dispatch(OffreEmploiDetailsSuccessAction(result));
       } else {

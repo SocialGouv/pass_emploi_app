@@ -8,8 +8,8 @@ class OffreEmploiDetailsRepository {
 
   OffreEmploiDetailsRepository(this.baseUrl);
 
-  Future<OffreEmploiDetails?> getOffreEmploiDetails({required String offerId}) async {
-    final url = Uri.parse(baseUrl + "/offres-emploi/$offerId");
+  Future<OffreEmploiDetails?> getOffreEmploiDetails({required String offreId}) async {
+    final url = Uri.parse(baseUrl + "/offres-emploi/$offreId");
     try {
       final response = await http.get(url);
       if (response.statusCode.isValid()) {

@@ -31,7 +31,7 @@ class StoreFactory {
   final ChatRepository chatRepository;
   final RegisterTokenRepository registerTokenRepository;
   final Crashlytics crashlytics;
-  final OffreEmploiDetailsRepository detailedOfferRepository;
+  final OffreEmploiDetailsRepository offreEmploiDetailsRepository;
 
   StoreFactory(
     this.userRepository,
@@ -42,7 +42,7 @@ class StoreFactory {
     this.chatRepository,
     this.registerTokenRepository,
     this.crashlytics,
-    this.detailedOfferRepository,
+    this.offreEmploiDetailsRepository,
   );
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -61,7 +61,7 @@ class StoreFactory {
         RendezvousMiddleware(rendezvousRepository),
         RegisterPushNotificationTokenMiddleware(registerTokenRepository),
         OffreEmploiMiddleware(offreEmploiRepository),
-        OffreEmploiDetailsMiddleware(detailedOfferRepository),
+        OffreEmploiDetailsMiddleware(offreEmploiDetailsRepository),
         RegisterPushNotificationTokenMiddleware(
           registerTokenRepository,
         ),

@@ -15,7 +15,7 @@ main() {
         // When
         final updatedState = reducer(initialState, action);
         // Then
-        expect(updatedState.detailedOfferState, expectedState);
+        expect(updatedState.offreEmploiDetailsState, expectedState);
       });
     }
 

@@ -16,9 +16,9 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/tags.dart';
 
 class OffreEmploiDetailsPage extends TraceableStatelessWidget {
-  final String _offerId;
+  final String _offreId;
 
-  OffreEmploiDetailsPage._(this._offerId) : super(name: AnalyticsScreenNames.detailsOffreEmploi);
+  OffreEmploiDetailsPage._(this._offreId) : super(name: AnalyticsScreenNames.detailsOffreEmploi);
 
   static MaterialPageRoute materialPageRoute(String id) {
     return MaterialPageRoute(builder: (context) => OffreEmploiDetailsPage._(id));
@@ -27,7 +27,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, OffreEmploiDetailsPageViewModel>(
-      onInit: (store) => store.dispatch(GetOffreEmploiDetailsAction(offreId: _offerId)),
+      onInit: (store) => store.dispatch(GetOffreEmploiDetailsAction(offreId: _offreId)),
       converter: (store) => OffreEmploiDetailsPageViewModel.getDetails(store),
       builder: (context, viewModel) => _scaffold(_body(context, viewModel)),
     );
@@ -45,12 +45,12 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   }
 
   Scaffold _scaffold(Widget body) {
-    return Scaffold(appBar: FlatDefaultAppBar(title: Text(Strings.offerDetails, style: TextStyles.h3Semi)), body: body);
+    return Scaffold(appBar: FlatDefaultAppBar(title: Text(Strings.offreDetails, style: TextStyles.h3Semi)), body: body);
   }
 
   Widget _loading() => Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
 
-  Widget _error() => Center(child: Text(Strings.offerDetailsError));
+  Widget _error() => Center(child: Text(Strings.offreDetailsError));
 
   Widget _content(BuildContext context, OffreEmploiDetailsPageViewModel viewModel) {
     final id = viewModel.id;
@@ -84,7 +84,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
                 child: Text(companyName, style: TextStyles.textMdRegular),
               ),
             _tags(viewModel),
-            _offerDescription(viewModel),
+            _description(viewModel),
             _profileDescription(viewModel),
             _companyDescription(viewModel),
           ],
@@ -122,12 +122,12 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     ]);
   }
 
-  Widget _offerDescription(OffreEmploiDetailsPageViewModel viewModel) {
-    final offerDescription = viewModel.offerDescription;
+  Widget _description(OffreEmploiDetailsPageViewModel viewModel) {
+    final description = viewModel.description;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      _descriptionTitle(title: Strings.offerDetailsTitle, icon: SvgPicture.asset("assets/ic_one_point.svg")),
+      _descriptionTitle(title: Strings.offreDetailsTitle, icon: SvgPicture.asset("assets/ic_one_point.svg")),
       _separator(8, 12),
-      if (offerDescription != null) Text(offerDescription, style: TextStyles.textSmRegular()),
+      if (description != null) Text(description, style: TextStyles.textSmRegular()),
       _spacer(30),
     ]);
   }

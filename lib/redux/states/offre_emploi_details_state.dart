@@ -6,7 +6,7 @@ abstract class OffreEmploiDetailsState extends Equatable {
 
   factory OffreEmploiDetailsState.loading() = OffreEmploiDetailsLoadingState;
 
-  factory OffreEmploiDetailsState.success(OffreEmploiDetails offer) = OffreEmploiDetailsSuccessState;
+  factory OffreEmploiDetailsState.success(OffreEmploiDetails offre) = OffreEmploiDetailsSuccessState;
 
   factory OffreEmploiDetailsState.failure() = OffreEmploiDetailsFailureState;
 
