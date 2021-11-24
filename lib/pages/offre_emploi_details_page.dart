@@ -53,8 +53,8 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   }
 
   Widget _content(BuildContext context, OffreEmploiDetailsPageViewModel viewModel) {
-    var companyName = viewModel.companyName != null ? viewModel.companyName! : "";
-
+    final title = viewModel.title;
+    final companyName = viewModel.companyName;
     return Scaffold(
         appBar: DefaultAppBar(title: Text(Strings.offerDetails, style: TextStyles.h3Semi)),
         body: SingleChildScrollView(
@@ -67,14 +67,22 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
                 if (viewModel.lastUpdate != null)
                   Padding(
                     padding: const EdgeInsets.only(top: 4),
-                    child: Text("Actualisée le ${viewModel.lastUpdate}",
-                        style: TextStyles.textSmRegular(color: AppColors.bluePurple)),
+                    child: Text(
+                      "Actualisée le ${viewModel.lastUpdate}",
+                      style: TextStyles.textSmRegular(color: AppColors.bluePurple),
+                    ),
                   ),
                 _spacer(18),
-                Text(viewModel.title != null ? viewModel.title as String : "", style: TextStyles.textLgMedium),
-                _spacer(20),
-                Text(companyName, style: TextStyles.textMdRegular),
-                _spacer(12),
+                if (title != null)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: Text(title, style: TextStyles.textLgMedium),
+                  ),
+                if (companyName != null)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: Text(companyName, style: TextStyles.textMdRegular),
+                  ),
                 _tags(viewModel),
                 _offerDescription(viewModel),
                 _profileDescription(viewModel),
