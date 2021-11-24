@@ -67,7 +67,7 @@ main() {
     final viewModel = UserActionDetailsViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, UserActionDetailsDisplayState.TO_DISMISS);
+    expect(viewModel.displayState, UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION);
   });
 
   test("create when delete action loads should display loading", () {

@@ -52,6 +52,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
       case UserActionDetailsDisplayState.SHOW_SUCCESS:
         return _congratulations(context);
       case UserActionDetailsDisplayState.TO_DISMISS:
+      case UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION:
         break;
     }
   }
@@ -244,8 +245,9 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
   }
 
   _dismissBottomSheetIfNeeded(BuildContext context, UserActionDetailsViewModel viewModel) {
-    if (viewModel.displayState == UserActionDetailsDisplayState.TO_DISMISS) {
-      Navigator.pop(context);
+    if (viewModel.displayState == UserActionDetailsDisplayState.TO_DISMISS ||
+        viewModel.displayState == UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION) {
+      Navigator.pop(context, UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION);
     }
   }
 }

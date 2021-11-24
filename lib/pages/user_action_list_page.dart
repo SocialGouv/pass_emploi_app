@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/presentation/user_action_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
@@ -126,7 +127,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
         onTap: () => showUserActionBottomSheet(
           context: context,
           builder: (context) => UserActionDetailsBottomSheet(item),
-        ).then((value) => _onUserActionDetailsDismissed(value, viewModel)),
+        ).then((value) => _onUserActionDetailsDismissed(context, value, viewModel)),
         splashColor: AppColors.bluePurple,
         child: _listItem(item, viewModel),
       ),
@@ -179,9 +180,12 @@ class _UserActionListPageState extends State<UserActionListPage> {
     );
   }
 
-  _onUserActionDetailsDismissed(dynamic value, UserActionListPageViewModel viewModel) {
+  _onUserActionDetailsDismissed(BuildContext context, dynamic value, UserActionListPageViewModel viewModel) {
     if (value != null) {
       _result = UserActionListPageResult.UPDATED;
+      if (value == UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(Strings.deleteActionSuccess)));
+      }
     }
     viewModel.onUserActionDetailsDismissed();
   }
