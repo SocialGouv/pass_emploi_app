@@ -13,7 +13,5 @@ class AnalyticsScreenNames {
   static const chat = "chat";
   static const offreEmploiResearch = "recherche_offres_list";
   static const offreEmploiResults = "resultats_offres_emploi";
-
-  static const offresEmploi = "resultats_offres";
   static const detailsOffreEmploi = "offre_details";
 }
