@@ -61,9 +61,9 @@ class Strings {
   // Rendez-Vous
   static String myRendezVous = "Mon rendez-vous";
   static String rendezVousConseillerCommentLabel = "Commentaire de mon conseiller";
-  static String cantMakeItNoBigDeal = "Un imprévu ? Ce n’est pas grave, mais…";
+  static String cantMakeItNoBigDeal = "Vous n’êtes pas disponible sur ce créneau ?";
   static String shouldInformConseiller =
-      "En cas d’imprévu, il est impératif de prévenir votre conseiller. Pour cela, n’hésitez pas à le contacter via la messagerie de Pass emploi";
+      "Il est impératif de prévenir votre conseiller et de justifier votre absence. Pour cela, contactez-le grâce à la messagerie.";
 
   static String rendezVousModalityMessage(modality) => "Le rendez-vous se fera $modality";
 
