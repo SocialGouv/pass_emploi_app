@@ -13,8 +13,8 @@ import 'package:pass_emploi_app/redux/middlewares/user_action_middleware.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
-import 'package:pass_emploi_app/repositories/detailed_offer_repository.dart';
 import 'package:pass_emploi_app/repositories/home_repository.dart';
+import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
@@ -31,7 +31,7 @@ class StoreFactory {
   final ChatRepository chatRepository;
   final RegisterTokenRepository registerTokenRepository;
   final Crashlytics crashlytics;
-  final DetailedOfferRepository detailedOfferRepository;
+  final OffreEmploiDetailsRepository detailedOfferRepository;
 
   StoreFactory(
     this.userRepository,

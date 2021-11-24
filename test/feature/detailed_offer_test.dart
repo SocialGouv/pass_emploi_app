@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/redux/actions/offre_emploi_details_actions.dart'
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/detailed_offer_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
-import 'package:pass_emploi_app/repositories/detailed_offer_repository.dart';
+import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 
 import '../doubles/fixtures.dart';
 import '../utils/test_setup.dart';
@@ -53,16 +53,16 @@ main() {
   });
 }
 
-class DetailedOfferRepositorySuccessStub extends DetailedOfferRepository {
+class DetailedOfferRepositorySuccessStub extends OffreEmploiDetailsRepository {
   DetailedOfferRepositorySuccessStub() : super("");
 
   @override
-  Future<DetailedOffer?> getDetailedOffer({required String offerId}) async => mockedDetailedOffer();
+  Future<DetailedOffer?> getOffreEmploiDetails({required String offerId}) async => mockedDetailedOffer();
 }
 
-class DetailedOfferRepositoryFailureStub extends DetailedOfferRepository {
+class DetailedOfferRepositoryFailureStub extends OffreEmploiDetailsRepository {
   DetailedOfferRepositoryFailureStub() : super("");
 
   @override
-  Future<DetailedOffer?> getDetailedOffer({required String offerId}) async => null;
+  Future<DetailedOffer?> getOffreEmploiDetails({required String offerId}) async => null;
 }
