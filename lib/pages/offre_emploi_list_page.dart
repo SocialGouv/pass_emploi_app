@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_results_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -87,11 +88,26 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     );
   }
 
+  Widget __buildOffreItemWithListener(
+    BuildContext context,
+    int index,
+    OffreEmploiSearchResultsViewModel resultsViewModel,
+  ) {
+    return Material(
+      type: MaterialType.transparency,
+      child: InkWell(
+        onTap: () => _showOfferDetailsPage(context, resultsViewModel.items[index].id),
+        splashColor: AppColors.bluePurple,
+        child: _buildOffreItem(resultsViewModel, index),
+      ),
+    );
+  }
+
   Widget _buildItem(BuildContext context, int index, OffreEmploiSearchResultsViewModel resultsViewModel) {
     if (index == resultsViewModel.items.length) {
       return _buildLastItem(resultsViewModel);
     } else {
-      return _buildOffreItem(resultsViewModel, index);
+      return __buildOffreItemWithListener(context, index, resultsViewModel);
     }
   }
 
@@ -193,6 +209,10 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
             ],
           )),
     );
+  }
+
+  void _showOfferDetailsPage(BuildContext context, String offerId) {
+    Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(offerId));
   }
 
   int _itemCount(OffreEmploiSearchResultsViewModel viewModel) {

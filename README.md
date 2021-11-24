@@ -118,7 +118,7 @@ $ git push --tags
 6. Selectionner Product > Destination > Any iOS Device.
 7. Selectionner Product > Archive.
 8. Une fois l'archive réalisée, cliquer sur Distribute App > App Store Connect> Upload
-9. Garder les checkbox `Strip Swift symbols` et `Upload your app symbols…` cochées, puis Next
+9. Garder les checkbox `Strip Swift symbols` et `Upload your app symbols…` et `Manage version` cochées, puis Next
 10. Dans `Runner.app, choisir `fr.fabrique.socialgouv.passemploi.distribution`, puis Next puis Upload
 11. /!\ Attention : l'étape précédente peut prendre plusieurs minutes. Mais si au bout de 10 minutes 
 il ne se passe rien, c'est potentiellement dû à un mauvais réseau sur votre poste. Dans ce cas là, 
