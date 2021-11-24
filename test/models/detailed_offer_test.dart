@@ -32,16 +32,22 @@ DetailedOffer detailedOfferData() =>
       duration: "35H Horaires normaux",
       location: "59 - Nord",
       salary: "Mensuel de 1590 Euros sur 12 mois",
-      companyName: "POLE EMPLOI",
-      companyDescription: null,
-      companyUrl: null,
+      companyName: "LTD INTERNATIONAL",
+      companyDescription: "LTD international est à la fois un cabinet de recrutement et une agence de travail "
+          "temporaire spécialisé dans le tertiaire haut de gamme et le luxe.",
+      companyUrl: "http://www.ltd-international.com/",
       companyAdapted: false,
       companyAccessibility: false,
       experience: "Débutant accepté - Expérience électricité/VRD appréciée",
       requiredExperience: "D",
-      education: null,
-      language: [],
-      driverLicence: [
+      educations: [
+        Education(level: null, field: "conduite projet industriel", requirement: "E")
+      ],
+      languages: [
+        Language(type: "Anglais", requirement: "E"),
+        Language(type: "Espagnol", requirement: "S")
+      ],
+      driverLicences: [
         DriverLicence(category: "B - Véhicule léger", requirement: "E"),
       ],
       skills: [

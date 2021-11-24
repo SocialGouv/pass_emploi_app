@@ -11,7 +11,10 @@
   "romeLibelle": "Installation et maintenance télécoms et courants faibles",
   "appellationlibelle": "Technicien(ne) installation réseaux câblés fibre optique",
   "entreprise": {
-    "nom": "POLE EMPLOI",
+    "nom": "LTD INTERNATIONAL",
+    "description": "LTD international est à la fois un cabinet de recrutement et une agence de travail temporaire spécialisé dans le tertiaire haut de gamme et le luxe.",
+    "logo": "https://entreprise.pole-emploi.fr/static/img/logos/k9vB1gBaz0JyAmkEx4vjpU1BAsOwMOTr.png",
+    "url": "http://www.ltd-international.com/",
     "entrepriseAdaptee": false
   },
   "typeContrat": "CDI",
@@ -20,10 +23,28 @@
   "experienceExige": "D",
   "experienceLibelle": "Débutant accepté - Expérience électricité/VRD appréciée",
   "experienceCommentaire": "Expérience électricité/VRD appréciée",
+  "formations": [
+    {
+      "codeFormation": "31606",
+      "domaineLibelle": "conduite projet industriel",
+      "niveauLibelle": "Bac+5 et plus ou équivalents",
+      "exigence": "E"
+    }
+  ],
   "permis": [
     {
       "libelle": "B - Véhicule léger",
       "exigence": "E"
+    }
+  ],
+  "langues": [
+    {
+      "libelle": "Anglais",
+      "exigence": "E"
+    },
+    {
+      "libelle": "Espagnol",
+      "exigence": "S"
     }
   ],
   "competences": [

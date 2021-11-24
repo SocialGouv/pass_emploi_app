@@ -16,9 +16,9 @@ class DetailedOfferViewModel {
   final String? lastUpdate;
   final List<Skill?>? skills;
   final List<SoftSkill?>? softSkills;
-  final Education? education;
-  final List<Language?>? language;
-  final List<DriverLicence?>? driverLicence;
+  final List<Education?>? educations;
+  final List<Language?>? languages;
+  final List<DriverLicence?>? driverLicences;
 
 
   DetailedOfferViewModel({
@@ -32,9 +32,9 @@ class DetailedOfferViewModel {
     required this.offerDescription,
     required this.experience,
     required this.requiredExperience,
-    required this.education,
-    required this.language,
-    required this.driverLicence,
+    required this.educations,
+    required this.languages,
+    required this.driverLicences,
     required this.companyUrl,
     required this.companyDescription,
     required this.lastUpdate,
@@ -53,9 +53,9 @@ class DetailedOfferViewModel {
       salary:             offer.salary,
       offerDescription:   offer.offerDescription,
       experience:         offer.experience,
-      education:          offer.education,
-      language:           offer.language,
-      driverLicence:      offer.driverLicence,
+      educations:         offer.educations,
+      languages:          offer.languages,
+      driverLicences:     offer.driverLicences,
       companyUrl:         offer.companyUrl,
       companyDescription: offer.companyDescription,
       lastUpdate:         offer.lastUpdate,

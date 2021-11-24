@@ -110,4 +110,21 @@ class Strings {
   static String noContentError = "Aucune offre ne correspond à votre recherche";
   static String genericError = "Erreur lors de la recherche. Veuillez réessayer";
   static String loadMoreOffresError = "Erreur lors du chargement des offres";
+
+  //Detailed job offer
+  static String offerDetailsTitle = "Détail de l'offre";
+  static String profileTitle = "Profil souhaité";
+  static String experienceTitle = "Expériences";
+  static String companyDescriptionTitle = "Détail de l'entreprise";
+  static String companyAdaptedTitle = "Entreprise adaptée";
+  static String companyAccessibilityTitle = "Entreprise handi-bienveillante";
+  static String companyTitle = "Entreprise";
+  static String skillsTitle = "Savoir et savoir faire";
+  static String softSkillsTitle = "Savoir être professionnel";
+  static String languageTitle = "Langue";
+  static String educationTitle = "Formation";
+  static String driverLicenceTitle = "Permis";
+  static String subscribeButtonTitle = "Recevoir l'offre par mail";
+  static String applyButtonTitle = "Je postule";
+
 }
