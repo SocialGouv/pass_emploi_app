@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_details_page_view_model.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/detailed_offer_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_details_state.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
@@ -13,7 +13,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        detailedOfferState: DetailedOfferState.loading(),
+        detailedOfferState: OffreEmploiDetailsState.loading(),
       ),
     );
 
@@ -29,7 +29,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        detailedOfferState: DetailedOfferState.failure(),
+        detailedOfferState: OffreEmploiDetailsState.failure(),
       ),
     );
 
@@ -47,7 +47,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        detailedOfferState: DetailedOfferState.success(detailedOffer),
+        detailedOfferState: OffreEmploiDetailsState.success(detailedOffer),
       ),
     );
 

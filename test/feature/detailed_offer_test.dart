@@ -2,8 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/detailed_offer.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_details_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/detailed_offer_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 
 import '../doubles/fixtures.dart';
@@ -18,9 +18,10 @@ main() {
       initialState: AppState.initialState().copyWith(loginState: LoginState.notLoggedIn()),
     );
 
-    final displayedLoading = store.onChange.any((element) => element.detailedOfferState is DetailedOfferLoadingState);
+    final displayedLoading =
+        store.onChange.any((element) => element.detailedOfferState is OffreEmploiDetailsLoadingState);
     final successState =
-        store.onChange.firstWhere((element) => element.detailedOfferState is DetailedOfferSuccessState);
+        store.onChange.firstWhere((element) => element.detailedOfferState is OffreEmploiDetailsSuccessState);
 
     // When
     store.dispatch(GetOffreEmploiDetailsAction(offreId: "offerId"));
@@ -29,8 +30,8 @@ main() {
 
     expect(await displayedLoading, true);
     final appState = await successState;
-    final searchState = (appState.detailedOfferState as DetailedOfferSuccessState);
-    expect(searchState.offer.id, "123TZKB");
+    final searchState = (appState.detailedOfferState as OffreEmploiDetailsSuccessState);
+    expect(searchState.offre.id, "123TZKB");
   });
 
   test("detailed offer should be fetched and an error must be displayed if something wrong happens", () async {
@@ -41,8 +42,10 @@ main() {
       initialState: AppState.initialState().copyWith(loginState: LoginState.notLoggedIn()),
     );
 
-    final displayedLoading = store.onChange.any((element) => element.detailedOfferState is DetailedOfferLoadingState);
-    final displayedError = store.onChange.any((element) => element.detailedOfferState is DetailedOfferFailureState);
+    final displayedLoading =
+        store.onChange.any((element) => element.detailedOfferState is OffreEmploiDetailsLoadingState);
+    final displayedError =
+        store.onChange.any((element) => element.detailedOfferState is OffreEmploiDetailsFailureState);
 
     // When
     store.dispatch(GetOffreEmploiDetailsAction(offreId: "offerId"));

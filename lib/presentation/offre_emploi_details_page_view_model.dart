@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/detailed_offer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/detailed_offer_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
@@ -88,18 +88,18 @@ class OffreEmploiDetailsPageViewModel {
   }
 }
 
-OffreEmploiDetailsPageDisplayState _displayState(DetailedOfferState searchState) {
-  if (searchState is DetailedOfferSuccessState) {
+OffreEmploiDetailsPageDisplayState _displayState(OffreEmploiDetailsState searchState) {
+  if (searchState is OffreEmploiDetailsSuccessState) {
     return OffreEmploiDetailsPageDisplayState.SHOW_DETAILS;
-  } else if (searchState is DetailedOfferLoadingState) {
+  } else if (searchState is OffreEmploiDetailsLoadingState) {
     return OffreEmploiDetailsPageDisplayState.SHOW_LOADER;
   } else {
     return OffreEmploiDetailsPageDisplayState.SHOW_ERROR;
   }
 }
 
-DetailedOffer? _detailedOffer(DetailedOfferState searchState) {
-  return searchState is DetailedOfferSuccessState ? searchState.offer : null;
+DetailedOffer? _detailedOffer(OffreEmploiDetailsState searchState) {
+  return searchState is OffreEmploiDetailsSuccessState ? searchState.offre : null;
 }
 
 EducationViewModel _toViewModel(Education education) {
