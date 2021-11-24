@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/redux/states/detailed_offer_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/repositories/detailed_offer_repository.dart';
 
+import '../doubles/fixtures.dart';
 import '../models/detailed_offer_test.dart';
 import '../utils/test_setup.dart';
 
@@ -63,7 +64,7 @@ class DetailedOfferRepositorySuccessStub extends DetailedOfferRepository {
   Future<DetailedOffer?> getDetailedOffer({
     required String offerId,
   }) async {
-    return detailedOfferData();
+    return mockedDetailedOffer();
   }
 }
 

@@ -35,10 +35,6 @@ DetailedOffer mockedDetailedOffer() => DetailedOffer(
         Skill(description: "Assembler les éléments de l'équipement", requirement: "E"),
         Skill(description: "Connecter une boîte de raccordements", requirement: "E")
       ],
-      softSkills: [
-        SoftSkill(description: "Autonomie"),
-        SoftSkill(description: "Capacité de décision"),
-        SoftSkill(description: "Persévérance")
-      ],
+      softSkills: ["Autonomie", "Capacité de décision", "Persévérance"],
       lastUpdate: DateTime(2021, 11, 22, 14, 47, 29),
     );

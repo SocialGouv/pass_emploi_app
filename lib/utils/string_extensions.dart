@@ -8,5 +8,4 @@ extension StringExtensions on String {
   DateTime toDateTimeFromPoleEmploi() {
     return DateFormat("yyyy-MM-DDTHH:mm:ss.SSSz").parse(this);
   }
-                    // "2021-11-22T14:47:29.000Z",
 }

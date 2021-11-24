@@ -20,7 +20,7 @@ class DetailedOffer extends Equatable {
   final List<Education?>? educations;
   final List<Language?>? languages;
   final List<Skill?>? skills;
-  final List<SoftSkill?>? softSkills;
+  final List<String>? softSkills;
   final List<DriverLicence?>? driverLicences;
 
   DetailedOffer({
@@ -64,8 +64,8 @@ class DetailedOffer extends Equatable {
                           List<Skill?>.from(json["competences"]?.map((data) => Skill.fromJson(data))) : [];
     print("skills passed.");
 
-    List<SoftSkill?>? softSkills = (json.containsKey("qualitesProfessionnelles")) ?
-                                    List<SoftSkill?>.from(json["qualitesProfessionnelles"]?.map((data) =>
+    List<SoftSkill>? softSkills = (json.containsKey("qualitesProfessionnelles")) ?
+                                    List<SoftSkill>.from(json["qualitesProfessionnelles"]?.map((data) =>
                                     SoftSkill.fromJson(data)))  : [];
     print("soft skills passed.");
 
@@ -88,7 +88,7 @@ class DetailedOffer extends Equatable {
       lastUpdate:           (json["dateActualisation"] is String) ? (json["dateActualisation"] as String).toDateTimeFromPoleEmploi()
           : null,
       skills: skills,
-      softSkills: softSkills,
+      softSkills: softSkills.map((soft) => soft.description).whereType<String>().toList(),
       companyAdapted: json["entreprise"]?["entrepriseAdaptee"] as bool,
       companyAccessibility: json["accessibleTH"] as bool,
     );

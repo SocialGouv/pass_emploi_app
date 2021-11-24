@@ -269,7 +269,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         : null;
   }
 
-  Widget? _isDisplaySoftSillsBlock({required List<SoftSkill?>? softSkills}) {
+  Widget? _isDisplaySoftSillsBlock({required List<String>? softSkills}) {
     if (softSkills == null) return null;
     return softSkills.length != 0
         ? Column(
@@ -277,16 +277,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
             children: [
               Text(Strings.softSkillsTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
               _spacer(12),
-              Text(softSkills[0]!.description!, style: TextStyles.textSmRegular()),
-              // TODO-65 rajouter softSkills
-              // ListView.builder(
-              // itemCount: softSkills!.length,
-              // itemBuilder: (context, index) {
-              // return ListTile(
-              // title: Text(softSkills[index]!.description!, style: TextStyles.textSmRegular()),
-              // );
-              //   },
-              // ),
+              for(var soft in softSkills) Text(soft, style: TextStyles.textSmRegular()),
               _separator(20, 20),
             ],
           )

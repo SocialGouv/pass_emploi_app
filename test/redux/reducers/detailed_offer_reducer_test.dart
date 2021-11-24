@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/detailed_offer_state.dart';
 
-import '../../models/detailed_offer_test.dart';
+import '../../doubles/fixtures.dart';
 
 main() {
   group("reducer with detailed offer actions modifying detailed offer state", () {
@@ -21,7 +21,7 @@ main() {
 
     assertState(DetailedOfferLoadingAction(), DetailedOfferState.loading());
     assertState(DetailedOfferFailureAction(), DetailedOfferState.failure());
-    final offer = detailedOfferData();
+    final offer = mockedDetailedOffer();
     assertState(DetailedOfferSuccessAction(offer),DetailedOfferState.success(offer));
   });
 }

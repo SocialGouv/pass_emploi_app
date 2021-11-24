@@ -27,7 +27,7 @@ class OffreEmploiDetailsPageViewModel {
   final String? companyDescription;
   final String? lastUpdate;
   final List<Skill?>? skills;
-  final List<SoftSkill?>? softSkills;
+  final List<String>? softSkills;
   final List<Education?>? educations;
   final List<Language?>? languages;
   final List<DriverLicence?>? driverLicences;
