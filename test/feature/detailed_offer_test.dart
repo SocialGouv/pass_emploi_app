@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/detailed_offer.dart';
-import 'package:pass_emploi_app/redux/actions/detailed_offer_actions.dart';
+import 'package:pass_emploi_app/redux/actions/offre_emploi_details_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/detailed_offer_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
@@ -23,7 +23,7 @@ main() {
         store.onChange.firstWhere((element) => element.detailedOfferState is DetailedOfferSuccessState);
 
     // When
-    store.dispatch(GetDetailedOfferAction(offerId: "offerId"));
+    store.dispatch(GetOffreEmploiDetailsAction(offreId: "offerId"));
 
     // Then
 
@@ -45,7 +45,7 @@ main() {
     final displayedError = store.onChange.any((element) => element.detailedOfferState is DetailedOfferFailureState);
 
     // When
-    store.dispatch(GetDetailedOfferAction(offerId: "offerId"));
+    store.dispatch(GetOffreEmploiDetailsAction(offreId: "offerId"));
 
     // Then
     expect(await displayedLoading, true);

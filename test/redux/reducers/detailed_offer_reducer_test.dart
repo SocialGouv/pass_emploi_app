@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/redux/actions/detailed_offer_actions.dart';
+import 'package:pass_emploi_app/redux/actions/offre_emploi_details_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/detailed_offer_state.dart';
@@ -19,9 +19,9 @@ main() {
       });
     }
 
-    assertState(DetailedOfferLoadingAction(), DetailedOfferState.loading());
-    assertState(DetailedOfferFailureAction(), DetailedOfferState.failure());
+    assertState(OffreEmploiDetailsLoadingAction(), DetailedOfferState.loading());
+    assertState(OffreEmploiDetailsFailureAction(), DetailedOfferState.failure());
     final offer = mockedDetailedOffer();
-    assertState(DetailedOfferSuccessAction(offer),DetailedOfferState.success(offer));
+    assertState(OffreEmploiDetailsSuccessAction(offer), DetailedOfferState.success(offer));
   });
 }

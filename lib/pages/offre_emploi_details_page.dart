@@ -5,7 +5,7 @@ import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/detailed_offer.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_details_page_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/detailed_offer_actions.dart';
+import 'package:pass_emploi_app/redux/actions/offre_emploi_details_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -27,7 +27,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, OffreEmploiDetailsPageViewModel>(
-      onInit: (store) => store.dispatch(GetDetailedOfferAction(offerId: _offerId)),
+      onInit: (store) => store.dispatch(GetOffreEmploiDetailsAction(offreId: _offerId)),
       converter: (store) => OffreEmploiDetailsPageViewModel.getDetails(store),
       builder: (context, viewModel) => _scaffold(_body(context, viewModel)),
     );
