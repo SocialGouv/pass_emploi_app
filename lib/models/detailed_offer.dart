@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 class DetailedOffer extends Equatable {
   final String  id;
@@ -15,7 +16,7 @@ class DetailedOffer extends Equatable {
   final bool    companyAccessibility;
   final String? experience;
   final String? requiredExperience;
-  final String? lastUpdate;
+  final DateTime? lastUpdate;
   final List<Education?>? educations;
   final List<Language?>? languages;
   final List<Skill?>? skills;
@@ -84,10 +85,11 @@ class DetailedOffer extends Equatable {
       educations:           educations,
       languages:            languages,
       driverLicences:       driverlicences,
-      lastUpdate:           json["dateActualisation"] as String?,
-      skills:               skills,
-      softSkills:           softSkills,
-      companyAdapted:       json["entreprise"]?["entrepriseAdaptee"] as bool,
+      lastUpdate:           (json["dateActualisation"] is String) ? (json["dateActualisation"] as String).toDateTimeFromPoleEmploi()
+          : null,
+      skills: skills,
+      softSkills: softSkills,
+      companyAdapted: json["entreprise"]?["entrepriseAdaptee"] as bool,
       companyAccessibility: json["accessibleTH"] as bool,
     );
     print("contructor passed.");

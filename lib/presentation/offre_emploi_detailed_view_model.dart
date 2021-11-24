@@ -58,7 +58,7 @@ class DetailedOfferViewModel {
       driverLicences:     offer.driverLicences,
       companyUrl:         offer.companyUrl,
       companyDescription: offer.companyDescription,
-      lastUpdate:         offer.lastUpdate,
+      lastUpdate:        " offer.lastUpdate",
       skills:             offer.skills,
       softSkills:         offer.softSkills,
       requiredExperience: offer.requiredExperience,

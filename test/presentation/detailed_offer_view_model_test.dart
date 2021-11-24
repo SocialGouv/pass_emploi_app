@@ -97,7 +97,7 @@ main() {
       SoftSkill(description: "Capacité de décision"),
       SoftSkill(description: "Persévérance")
       ],
-      lastUpdate: "2021-11-22T14:47:29.000Z",
+      lastUpdate: "22 novembre 2021"// DateTime(2021, 11, 22, 14, 47, 29)
     )
     );
   });

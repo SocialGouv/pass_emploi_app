@@ -55,7 +55,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   }
 
   Widget _scaffold(BuildContext context){
-    String lastUpdate = _offer!.lastUpdate != null ? _offer!.lastUpdate! : "";
+    String lastUpdate = "date"; //TODO-65
     var companyName = _offer!.companyName != null ? _offer!.companyName! : "";
 
     return Scaffold(

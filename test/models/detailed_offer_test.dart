@@ -9,14 +9,9 @@ main() {
   test('DetailedOffer.fromJson when complete data should deserialize data correctly', () {
     // Given
     final String detailedOfferString = loadTestAssets("detailed_offer.json");
-
-    // When
     final detailedOfferJson = json.decode(detailedOfferString);
-
-    // Then
-    final expectedOffer = detailedOfferData();
-    final test = DetailedOffer.fromJson(detailedOfferJson);
-    expect(test, expectedOffer);
+    //When - Then
+    expect(DetailedOffer.fromJson(detailedOfferJson), detailedOfferData());
   });
 }
 
@@ -62,5 +57,5 @@ DetailedOffer detailedOfferData() =>
         SoftSkill(description: "Capacité de décision"),
         SoftSkill(description: "Persévérance")
       ],
-      lastUpdate: "2021-11-22T14:47:29.000Z",
+      lastUpdate:  DateTime(2021, 11, 22, 14, 47, 29)
     );
