@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/redux/middlewares/action_logging_middleware.dart
 import 'package:pass_emploi_app/redux/middlewares/animation_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/api_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/crashlytics_middleware.dart';
-import 'package:pass_emploi_app/redux/middlewares/detailed_offer_middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/offre_emploi_details_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/rendezvous_middleware.dart';
@@ -61,7 +61,7 @@ class StoreFactory {
         RendezvousMiddleware(rendezvousRepository),
         RegisterPushNotificationTokenMiddleware(registerTokenRepository),
         OffreEmploiMiddleware(offreEmploiRepository),
-        DetailedOfferMiddleware(detailedOfferRepository),
+        OffreEmploiDetailsMiddleware(detailedOfferRepository),
         RegisterPushNotificationTokenMiddleware(
           registerTokenRepository,
         ),
