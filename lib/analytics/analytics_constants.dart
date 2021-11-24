@@ -17,27 +17,3 @@ class AnalyticsScreenNames {
   static const offresEmploi = "resultats_offres";
   static const detailsOffreEmploi = "offre_details";
 }
-
-abstract class AnalyticsRouteSettings {
-  static RouteSettings splash() => RouteSettings(name: AnalyticsScreenNames.splash);
-
-  static RouteSettings login() => RouteSettings(name: AnalyticsScreenNames.login);
-
-  static RouteSettings main() => RouteSettings(name: AnalyticsScreenNames.main);
-
-  static RouteSettings home() => RouteSettings(name: AnalyticsScreenNames.home);
-
-  static RouteSettings rendezvous() => RouteSettings(name: AnalyticsScreenNames.rendezvous);
-
-  static RouteSettings userAction() => RouteSettings(name: AnalyticsScreenNames.userAction);
-
-  static RouteSettings userActionDetails() => RouteSettings(name: AnalyticsScreenNames.userActionDetails);
-
-  static RouteSettings createUserAction() => RouteSettings(name: AnalyticsScreenNames.createUserAction);
-
-  static RouteSettings chat() => RouteSettings(name: AnalyticsScreenNames.chat);
-
-  static RouteSettings offreEmploiList() => RouteSettings(name: AnalyticsScreenNames.offresEmploi);
-
-  static RouteSettings detailsOffreEmploi() => RouteSettings(name: AnalyticsScreenNames.detailsOffreEmploi);
-}

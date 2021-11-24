@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/detailed_offer.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_list_page_view_model.dart';
@@ -13,15 +14,14 @@ import 'package:pass_emploi_app/widgets/actionButtons.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/tags.dart';
 
-class OffreEmploiDetailsPage extends StatelessWidget {
-  OffreEmploiDetailsPage._(this._offerId) : super();
+class OffreEmploiDetailsPage extends TraceableStatelessWidget {
+  OffreEmploiDetailsPage._(this._offerId) : super(name: AnalyticsScreenNames.detailsOffreEmploi);
 
   DetailedOffer? _offer;
   final String _offerId;
 
   static MaterialPageRoute materialPageRoute(String id) {
-    return MaterialPageRoute(
-        builder: (context) => OffreEmploiDetailsPage._(id), settings: AnalyticsRouteSettings.detailsOffreEmploi());
+    return MaterialPageRoute(builder: (context) => OffreEmploiDetailsPage._(id));
   }
 
   @override

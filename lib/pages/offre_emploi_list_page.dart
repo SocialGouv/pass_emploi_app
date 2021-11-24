@@ -87,13 +87,13 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
       ),
     );
   }
-  Widget _buildItem(BuildContext context, OffreEmploiItemViewModel itemViewModel) {
+  Widget _addListener(BuildContext context, int index, OffreEmploiSearchResultsViewModel resultsViewModel) {
     return Material(
       type: MaterialType.transparency,
       child: InkWell(
-        onTap: () => _showOfferDetailsPage(context, itemViewModel),
+        onTap: () => _showOfferDetailsPage(context, resultsViewModel.items[index].id),
         splashColor: AppColors.bluePurple,
-        child: _listItem(itemViewModel),
+        child: _buildOffreItem(resultsViewModel, index),
       ),
     );
   }
@@ -102,7 +102,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     if (index == resultsViewModel.items.length) {
       return _buildLastItem(resultsViewModel);
     } else {
-      return _buildOffreItem(resultsViewModel, index);
+      return _addListener(context, index, resultsViewModel);
     }
   }
 
@@ -206,8 +206,8 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     );
   }
 
-  void _showOfferDetailsPage(BuildContext context, OffreEmploiItemViewModel viewModel) {
-    Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(viewModel));
+  void _showOfferDetailsPage(BuildContext context, String offerId) {
+    Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(offerId));
   }
 
 
