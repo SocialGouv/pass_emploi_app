@@ -29,7 +29,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return StoreConnector<AppState, OffreEmploiDetailsPageViewModel>(
       onInit: (store) => store.dispatch(GetDetailedOfferAction(offerId: _offerId)),
       converter: (store) => OffreEmploiDetailsPageViewModel.getDetails(store),
-      builder: (context, viewModel) => _body(context, viewModel),
+      builder: (context, viewModel) => _scaffold(_body(context, viewModel)),
     );
   }
 
@@ -38,62 +38,63 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       case OffreEmploiDetailsPageDisplayState.SHOW_DETAILS:
         return _content(context, viewModel);
       case OffreEmploiDetailsPageDisplayState.SHOW_LOADER:
-        return _loading(context);
+        return _loading();
       case OffreEmploiDetailsPageDisplayState.SHOW_ERROR:
-        //TODO-65 Gérer l'erreur
-        return Container();
+        return _error();
     }
   }
 
-  Widget _loading(BuildContext context) {
+  Scaffold _scaffold(Widget body) {
     return Scaffold(
-        backgroundColor: AppColors.lightBlue,
-        appBar: DefaultAppBar(title: Text(Strings.offerDetails, style: TextStyles.h3Semi)),
-        body: Text("is loading ...", style: TextStyles.textMdRegular));
+      appBar: DefaultAppBar(title: Text(Strings.offerDetails, style: TextStyles.h3Semi)),
+      body: body,
+    );
   }
+
+  Widget _loading() => Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
+
+  Widget _error() => Center(child: Text(Strings.offerDetailsError));
 
   Widget _content(BuildContext context, OffreEmploiDetailsPageViewModel viewModel) {
     final title = viewModel.title;
     final companyName = viewModel.companyName;
-    return Scaffold(
-        appBar: DefaultAppBar(title: Text(Strings.offerDetails, style: TextStyles.h3Semi)),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(Margins.medium),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Offre n°${viewModel.id}", style: TextStyles.textSmRegular()),
-                if (viewModel.lastUpdate != null)
-                  Padding(
-                    padding: const EdgeInsets.only(top: 4),
-                    child: Text(
-                      "Actualisée le ${viewModel.lastUpdate}",
-                      style: TextStyles.textSmRegular(color: AppColors.bluePurple),
-                    ),
-                  ),
-                _spacer(18),
-                if (title != null)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Text(title, style: TextStyles.textLgMedium),
-                  ),
-                if (companyName != null)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: Text(companyName, style: TextStyles.textMdRegular),
-                  ),
-                _tags(viewModel),
-                _offerDescription(viewModel),
-                _profileDescription(viewModel),
-                _companyDescription(viewModel),
-                _subscribeButton(viewModel),
-                _spacer(16),
-                _applyButton(),
-              ],
-            ),
-          ),
-        ));
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(Margins.medium),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Offre n°${viewModel.id}", style: TextStyles.textSmRegular()),
+            if (viewModel.lastUpdate != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 4),
+                child: Text(
+                  "Actualisée le ${viewModel.lastUpdate}",
+                  style: TextStyles.textSmRegular(color: AppColors.bluePurple),
+                ),
+              ),
+            _spacer(18),
+            if (title != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 20),
+                child: Text(title, style: TextStyles.textLgMedium),
+              ),
+            if (companyName != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 12),
+                child: Text(companyName, style: TextStyles.textMdRegular),
+              ),
+            _tags(viewModel),
+            _offerDescription(viewModel),
+            _profileDescription(viewModel),
+            _companyDescription(viewModel),
+            _subscribeButton(viewModel),
+            _spacer(16),
+            _applyButton(),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _tags(OffreEmploiDetailsPageViewModel viewModel) {

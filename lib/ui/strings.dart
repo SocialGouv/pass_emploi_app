@@ -112,6 +112,7 @@ class Strings {
   static String loadMoreOffresError = "Erreur lors du chargement des offres";
 
   //Detailed job offer
+  static String offerDetailsError = "Erreur lors de la récupération de l'offre";
   static String offerDetailsTitle = "Détail de l'offre";
   static String profileTitle = "Profil souhaité";
   static String experienceTitle = "Expériences";
