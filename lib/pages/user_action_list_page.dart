@@ -84,10 +84,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
     if (viewModel.withLoading) return _loader();
     if (viewModel.withFailure) return _failure(viewModel);
     if (viewModel.withEmptyMessage) return _empty();
-    return Container(
-      child: _userActions(context, viewModel),
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-    );
+    return _userActions(context, viewModel);
   }
 
   _loader() => Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
@@ -107,29 +104,29 @@ class _UserActionListPageState extends State<UserActionListPage> {
   _empty() => Center(child: Text(Strings.noActionsYet, style: TextStyles.textSmRegular()));
 
   Widget _userActions(BuildContext context, UserActionListPageViewModel viewModel) {
-    return Container(
-      color: Colors.white,
-      child: ListView.separated(
-        shrinkWrap: true,
-        itemCount: viewModel.items.length,
-        itemBuilder: (context, i) => _tapListener(context, viewModel.items[i], viewModel),
-        separatorBuilder: (context, i) => _listSeparator(),
-      ),
+    return ListView.separated(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+      itemCount: viewModel.items.length,
+      itemBuilder: (context, i) => _tapListener(context, viewModel.items[i], viewModel),
+      separatorBuilder: (context, i) => _listSeparator(),
     );
   }
 
   Container _listSeparator() => Container(height: 1, color: AppColors.bluePurpleAlpha20);
 
   Widget _tapListener(BuildContext context, UserActionViewModel item, UserActionListPageViewModel viewModel) {
-    return Material(
-      type: MaterialType.transparency,
-      child: InkWell(
-        onTap: () => showUserActionBottomSheet(
-          context: context,
-          builder: (context) => UserActionDetailsBottomSheet(item),
-        ).then((value) => _onUserActionDetailsDismissed(context, value, viewModel)),
-        splashColor: AppColors.bluePurple,
-        child: _listItem(item, viewModel),
+    return Container(
+      color: Colors.white,
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          onTap: () => showUserActionBottomSheet(
+            context: context,
+            builder: (context) => UserActionDetailsBottomSheet(item),
+          ).then((value) => _onUserActionDetailsDismissed(context, value, viewModel)),
+          splashColor: AppColors.bluePurple,
+          child: _listItem(item, viewModel),
+        ),
       ),
     );
   }
