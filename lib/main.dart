@@ -7,7 +7,6 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http_interceptor/http/intercepted_client.dart';
 import 'package:matomo/matomo.dart';
 import 'package:package_info/package_info.dart';
@@ -30,10 +29,8 @@ import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
 
 import 'configuration/app_version_checker.dart';
+import 'configuration/configuration.dart';
 import 'crashlytics/crashlytics.dart';
-
-const String stagingEnvFilePath = "env/.env.staging";
-const String prodEnvFilePath = "env/.env.prod";
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,14 +39,12 @@ main() async {
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
 
-  await loadEnvironmentVariables();
-  await _initializeMatomoTracker();
-
-  final baseUrl = _baseUrl();
+  final configuration = await Configuration.build();
+  await _initializeMatomoTracker(configuration);
   final remoteConfig = await _remoteConfig();
   final forceUpdate = await _shouldForceUpdate(remoteConfig);
   final PushNotificationManager pushManager = FirebasePushNotificationManager();
-  final store = _initializeReduxStore(baseUrl, pushManager);
+  final store = _initializeReduxStore(configuration, pushManager);
 
   await pushManager.init(store);
 
@@ -60,25 +55,10 @@ main() async {
   await _handleErrorsOutsideFlutter();
 }
 
-Future<void> loadEnvironmentVariables() async {
-  final packageName = (await PackageInfo.fromPlatform()).packageName;
-  final isStagingFlavor = packageName.contains("staging");
-  print("FLAVOR = ${isStagingFlavor ? "staging" : "prod"}");
-  return await dotenv.load(fileName: isStagingFlavor ? stagingEnvFilePath : prodEnvFilePath);
-}
-
-Future<void> _initializeMatomoTracker() async {
-  final siteId = dotenv.env['MATOMO_SITE_ID'];
-  final url = dotenv.env['MATOMO_BASE_URL'];
-  if (siteId == null || url == null) throw ("MATOMO_SITE_ID & MATOMO_BASE_URL must be set in .env file");
+Future<void> _initializeMatomoTracker(Configuration configuration) async {
+  final siteId = configuration.matomoSiteId;
+  final url = configuration.matomoBaseUrl;
   await MatomoTracker().initialize(siteId: int.parse(siteId), url: url);
-}
-
-String _baseUrl() {
-  final baseUrl = dotenv.env['SERVER_BASE_URL'];
-  if (baseUrl == null) throw ("SERVER_BASE_URL must be set in .env file");
-  print("SERVER BASE URL = $baseUrl");
-  return baseUrl;
 }
 
 Future<RemoteConfig?> _remoteConfig() async {
@@ -104,24 +84,24 @@ Future<bool> _shouldForceUpdate(RemoteConfig? remoteConfig) async {
   return AppVersionChecker().shouldForceUpdate(currentVersion: currentVersion, minimumVersion: minimumVersion);
 }
 
-Store<AppState> _initializeReduxStore(String baseUrl, PushNotificationManager pushNotificationManager) {
+Store<AppState> _initializeReduxStore(Configuration configuration, PushNotificationManager pushNotificationManager) {
   final headersBuilder = HeadersBuilder();
   final httpClient = InterceptedClient.build(interceptors: [LoggingInterceptor()]);
   return StoreFactory(
-    UserRepository(baseUrl, httpClient, headersBuilder),
-    HomeRepository(baseUrl, httpClient, headersBuilder),
-    UserActionRepository(baseUrl, httpClient, headersBuilder),
-    RendezvousRepository(baseUrl, httpClient, headersBuilder),
-    OffreEmploiRepository(baseUrl, httpClient, headersBuilder),
-    ChatRepository(),
+    UserRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
+    HomeRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
+    UserActionRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
+    RendezvousRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
+    OffreEmploiRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
+    ChatRepository(configuration.firebaseEnvironmentPrefix),
     RegisterTokenRepository(
-      baseUrl,
+      configuration.serverBaseUrl,
       httpClient,
       headersBuilder,
       pushNotificationManager,
     ),
     CrashlyticsWithFirebase(FirebaseCrashlytics.instance),
-    OffreEmploiDetailsRepository(baseUrl, httpClient, headersBuilder),
+    OffreEmploiDetailsRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
   ).initializeReduxStore(initialState: AppState.initialState());
 }
 
