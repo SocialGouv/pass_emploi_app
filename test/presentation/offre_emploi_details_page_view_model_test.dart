@@ -58,6 +58,7 @@ main() {
     expect(viewModel.displayState, OffreEmploiDetailsPageDisplayState.SHOW_DETAILS);
     expect(viewModel.id, detailedOffer.id);
     expect(viewModel.title, detailedOffer.title);
+    expect(viewModel.urlRedirectPourPostulation, detailedOffer.urlRedirectPourPostulation);
     expect(viewModel.companyName, detailedOffer.companyName);
     expect(viewModel.contractType, detailedOffer.contractType);
     expect(viewModel.duration, detailedOffer.duration);

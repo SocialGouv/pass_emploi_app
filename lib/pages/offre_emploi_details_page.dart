@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/actionButtons.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/tags.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   final String _offreId;
@@ -55,6 +56,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Widget _content(BuildContext context, OffreEmploiDetailsPageViewModel viewModel) {
     final id = viewModel.id;
     final title = viewModel.title;
+    final url = viewModel.urlRedirectPourPostulation;
     final companyName = viewModel.companyName;
     final lastUpdate = viewModel.lastUpdate;
     return Stack(
@@ -93,10 +95,11 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
             ),
           ),
         ),
-        Align(
-          child: _applyButton(),
-          alignment: Alignment.bottomCenter,
-        ),
+        if (url != null)
+          Align(
+            child: _postulerButton(url),
+            alignment: Alignment.bottomCenter,
+          ),
       ],
     );
   }
@@ -329,7 +332,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     );
   }
 
-  Widget _applyButton() {
+  Widget _postulerButton(String url) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.all(16),
@@ -337,7 +340,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          actionButton(onPressed: () => null, label: Strings.applyButtonTitle),
+          actionButton(onPressed: () => launch(url), label: Strings.postulerButtonTitle),
         ],
       ),
     );
