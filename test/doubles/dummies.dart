@@ -52,7 +52,9 @@ class DummyRendezvousRepository extends RendezvousRepository {
   DummyRendezvousRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
 }
 
-class DummyChatRepository extends ChatRepository {}
+class DummyChatRepository extends ChatRepository {
+  DummyChatRepository(String firebaseEnvironmentPrefix) : super(firebaseEnvironmentPrefix);
+}
 
 class DummyCrashlytics extends Crashlytics {
   @override

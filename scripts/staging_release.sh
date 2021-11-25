@@ -14,8 +14,12 @@ flutter build ipa \
     --flavor staging \
     --export-options-plist=ios/StagingOptionsPlist.plist
 
+date = echo "$(date +%s)"
+
 flutter build apk \
     --flavor staging
+    --build-number=$date \
+    --build-name=0.6.0
 
 firebase appdistribution:distribute build/app/outputs/flutter-apk/app-staging-release.apk \
     --token "$STAGING_FIREBASE_CI_TOKEN" \

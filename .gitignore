@@ -58,4 +58,4 @@ build.env
 StagingOptionsPlist.plist
 
 # .env
-env/
+env/.env
