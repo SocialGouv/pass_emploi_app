@@ -270,7 +270,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         for (final education in educations)
           Padding(
             padding: const EdgeInsets.only(bottom: 12),
-            child: Text("· $education", style: TextStyles.textSmRegular()),
+            child: Text("· ${education.label}", style: TextStyles.textSmRegular()),
           ),
         _separator(20, 20),
       ],
