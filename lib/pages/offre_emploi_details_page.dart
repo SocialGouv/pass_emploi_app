@@ -14,7 +14,6 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/actionButtons.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/tags.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   final String _offreId;
@@ -56,7 +55,6 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Widget _content(BuildContext context, OffreEmploiDetailsPageViewModel viewModel) {
     final id = viewModel.id;
     final title = viewModel.title;
-    final url = viewModel.urlRedirectPourPostulation;
     final companyName = viewModel.companyName;
     final lastUpdate = viewModel.lastUpdate;
     return Stack(
@@ -285,7 +283,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         Text(Strings.driverLicenceTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
         for (final licence in driverLicences)
-          _checkIsRequired(element: licence.category, criteria: licence.requirement),
+          _setRequiredElement(element: licence.category, criteria: licence.requirement),
         _separator(20, 20),
       ],
     );
@@ -301,9 +299,8 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     );
   }
 
-  Widget _checkIsRequired({required String element, required String? criteria}) {
-    return _require(criteria) ? _requiredElement(element)
-        : _listItem(element);
+  Widget _setRequiredElement({required String element, required String? criteria}) {
+    return _require(criteria) ? _requiredElement(element) : _listItem(element);
   }
 
   bool _require(String? criteria) => (criteria != null && criteria == "E");
@@ -331,6 +328,41 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     );
   }
 
+  //TODO-98 : Check if url is valid
+  Widget _companyName({required String companyName, required String? companyUrl}) {
+    return (companyUrl == null || companyUrl.isEmpty)
+        ? Text(companyName, style: TextStyles.textMdMedium)
+        : _companyNameWithUrl(companyName: companyName);
+  }
+
+  Widget _companyNameWithUrl({required String companyName}) {
+    return InkWell(
+        onTap: () => {},
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(child: Text(companyName, style: TextStyles.textMdMediumUnderline)),
+              Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: SvgPicture.asset("assets/ic_redirection.svg"),
+              ),
+            ],
+          ),
+        ));
+  }
+
+  Widget _subscribeButton(OffreEmploiDetailsPageViewModel viewModel) {
+    return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      actionButtonWithIcon(label: Strings.subscribeButtonTitle, onPressed: () {}, icon: 'ic_send_mail.svg'),
+    ]);
+  }
+
+  Widget _applyButton() {
+    return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      actionButton(onPressed: () => null, label: Strings.applyButtonTitle),
+    ]);
   Widget _postulerButton(String url) {
     return Container(
       color: Colors.white,
