@@ -93,12 +93,15 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     int index,
     OffreEmploiSearchResultsViewModel resultsViewModel,
   ) {
-    return Material(
-      type: MaterialType.transparency,
-      child: InkWell(
-        onTap: () => _showOffreEmploiDetailsPage(context, resultsViewModel.items[index].id),
-        splashColor: AppColors.bluePurple,
-        child: _buildOffreItem(resultsViewModel, index),
+    return Container(
+      color: Colors.white,
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          onTap: () => _showOffreEmploiDetailsPage(context, resultsViewModel.items[index].id),
+          splashColor: AppColors.bluePurple,
+          child: _buildOffreItem(resultsViewModel, index),
+        ),
       ),
     );
   }
@@ -114,7 +117,6 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
   Widget _buildOffreItem(OffreEmploiSearchResultsViewModel resultsViewModel, int index) {
     final itemViewModel = resultsViewModel.items[index];
     return Container(
-      color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(
