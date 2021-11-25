@@ -15,7 +15,7 @@ class OffreEmploiDetailsRepository {
       final response = await _httpClient.get(url);
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes);
-        if (json.containsKey("data")) OffreEmploiDetails.fromJson(json["data"]);
+        if (json.containsKey("data")) return OffreEmploiDetails.fromJson(json["data"]);
       }
     } catch (e) {
       print('Exception on ${url.toString()}: ' + e.toString());
