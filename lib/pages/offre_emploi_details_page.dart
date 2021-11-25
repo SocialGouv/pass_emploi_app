@@ -63,7 +63,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       children: [
         SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(Margins.medium),
+            padding: const EdgeInsets.fromLTRB(Margins.medium, Margins.medium, Margins.medium, 64),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
