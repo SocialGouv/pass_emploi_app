@@ -21,7 +21,7 @@ main() {
 
     assertState(OffreEmploiDetailsLoadingAction(), OffreEmploiDetailsState.loading());
     assertState(OffreEmploiDetailsFailureAction(), OffreEmploiDetailsState.failure());
-    final offer = mockedDetailedOffer();
-    assertState(OffreEmploiDetailsSuccessAction(offer), OffreEmploiDetailsState.success(offer));
+    final offre = mockOffreEmploiDetails();
+    assertState(OffreEmploiDetailsSuccessAction(offre), OffreEmploiDetailsState.success(offre));
   });
 }

@@ -60,7 +60,7 @@ class DetailedOfferRepositorySuccessStub extends OffreEmploiDetailsRepository {
   DetailedOfferRepositorySuccessStub() : super("");
 
   @override
-  Future<OffreEmploiDetails?> getOffreEmploiDetails({required String offreId}) async => mockedDetailedOffer();
+  Future<OffreEmploiDetails?> getOffreEmploiDetails({required String offreId}) async => mockOffreEmploiDetails();
 }
 
 class DetailedOfferRepositoryFailureStub extends OffreEmploiDetailsRepository {

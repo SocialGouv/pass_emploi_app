@@ -4,8 +4,8 @@ import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 
-import '../models/offre_emploi_test.dart';
 import 'dummies.dart';
+import 'fixtures.dart';
 
 class UserActionRepositorySuccessStub extends UserActionRepository {
   UserActionRepositorySuccessStub() : super("", DummyHeadersBuilder());
@@ -51,7 +51,7 @@ class UserActionRepositoryFailureStub extends UserActionRepository {
 }
 
 class OffreEmploiRepositorySuccessWithMoreDataStub extends OffreEmploiRepository {
-  OffreEmploiRepositorySuccessWithMoreDataStub() : super("", DummyHeadersBuilder());
+  OffreEmploiRepositorySuccessWithMoreDataStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
   Future<OffreEmploiSearchResponse?> search({
@@ -60,12 +60,12 @@ class OffreEmploiRepositorySuccessWithMoreDataStub extends OffreEmploiRepository
     required String department,
     required int page,
   }) async {
-    return OffreEmploiSearchResponse(isMoreDataAvailable: true, offres: offreEmploiData());
+    return OffreEmploiSearchResponse(isMoreDataAvailable: true, offres: [mockOffreEmploi()]);
   }
 }
 
 class OffreEmploiRepositoryFailureStub extends OffreEmploiRepository {
-  OffreEmploiRepositoryFailureStub() : super("", DummyHeadersBuilder());
+  OffreEmploiRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
   Future<OffreEmploiSearchResponse?> search({

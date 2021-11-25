@@ -105,13 +105,14 @@ Future<bool> _shouldForceUpdate(RemoteConfig? remoteConfig) async {
 
 Store<AppState> _initializeReduxStore(String baseUrl, PushNotificationManager pushNotificationManager) {
   final headersBuilder = HeadersBuilder();
-  final userRepository = UserRepository(baseUrl, Client(), headersBuilder);
+  final httpClient = Client();
+  final userRepository = UserRepository(baseUrl, httpClient, headersBuilder);
   return StoreFactory(
     userRepository,
     HomeRepository(baseUrl, headersBuilder),
     UserActionRepository(baseUrl, headersBuilder),
     RendezvousRepository(baseUrl, headersBuilder),
-    OffreEmploiRepository(baseUrl, headersBuilder),
+    OffreEmploiRepository(baseUrl, httpClient, headersBuilder),
     ChatRepository(),
     RegisterTokenRepository(
       baseUrl,

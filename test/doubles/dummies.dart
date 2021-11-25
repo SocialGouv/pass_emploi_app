@@ -60,7 +60,7 @@ class DummyCrashlytics extends Crashlytics {
 }
 
 class DummyOffreEmploiRepository extends OffreEmploiRepository {
-  DummyOffreEmploiRepository() : super("", DummyHeadersBuilder());
+  DummyOffreEmploiRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
 }
 
 class DummyDetailedRepository extends OffreEmploiDetailsRepository {

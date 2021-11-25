@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.d
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:redux/redux.dart';
 
-import '../models/offre_emploi_test.dart';
+import '../doubles/fixtures.dart';
 
 main() {
   group("create when state is success should convert data to view model", () {
@@ -16,7 +16,7 @@ main() {
         initialState: AppState.initialState().copyWith(
           offreEmploiSearchState: OffreEmploiSearchState.success(),
           offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
-              offres: offreEmploiData(), loadedPage: 1, isMoreDataAvailable: moreData),
+              offres: [mockOffreEmploi()], loadedPage: 1, isMoreDataAvailable: moreData),
         ),
       );
       return store;
@@ -56,7 +56,7 @@ main() {
       initialState: AppState.initialState().copyWith(
         offreEmploiSearchState: OffreEmploiSearchState.loading(),
         offreEmploiSearchResultsState:
-            OffreEmploiSearchResultsState.data(offres: offreEmploiData(), loadedPage: 2, isMoreDataAvailable: false),
+            OffreEmploiSearchResultsState.data(offres: [mockOffreEmploi()], loadedPage: 2, isMoreDataAvailable: false),
       ),
     );
 
@@ -75,7 +75,7 @@ main() {
       initialState: AppState.initialState().copyWith(
         offreEmploiSearchState: OffreEmploiSearchState.failure(),
         offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
-          offres: offreEmploiData(),
+          offres: [mockOffreEmploi()],
           loadedPage: 3,
           isMoreDataAvailable: false,
         ),
@@ -100,38 +100,6 @@ List<OffreEmploiItemViewModel> _expectedViewModels() {
       "MIS",
       "Temps plein",
       "77 - LOGNES",
-    ),
-    OffreEmploiItemViewModel(
-      "123DXPK",
-      " #SALONDEMANDELIEU2021: RECEPTIONNISTE TOURNANT (H/F)",
-      "STAND CHATEAU DE LA BEGUDE",
-      "CDD",
-      "Temps partiel",
-      "06 - OPIO",
-    ),
-    OffreEmploiItemViewModel(
-      "123DXPG",
-      "Technicien / Technicienne terrain Structure          (H/F)",
-      "GEOTEC",
-      "CDI",
-      "Temps plein",
-      "78 - PLAISIR",
-    ),
-    OffreEmploiItemViewModel(
-      "123DXPF",
-      "Responsable de boutique",
-      "GINGER",
-      "CDD",
-      null,
-      "13 - AIX EN PROVENCE",
-    ),
-    OffreEmploiItemViewModel(
-      "123DXLK",
-      "Commercial sédentaire en Assurances H/F",
-      null,
-      "CDI",
-      "Temps plein",
-      "34 - MONTPELLIER",
     )
   ];
 }
