@@ -68,7 +68,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 4),
                 child: Text(
-                  Strings.offreDetailNumber(lastUpdate),
+                  Strings.offreDetailLastUpdate(lastUpdate),
                   style: TextStyles.textSmRegular(color: AppColors.bluePurple),
                 ),
               ),
