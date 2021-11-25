@@ -1,6 +1,6 @@
-import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
+import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 
@@ -42,7 +42,7 @@ class UserActionRepositoryFailureStub extends UserActionRepository {
   }
 
   @override
-  Future<void> updateActionStatus(String userId, String actionId,  UserActionStatus newStatus) async {}
+  Future<void> updateActionStatus(String userId, String actionId, UserActionStatus newStatus) async {}
 
   @override
   Future<bool> deleteUserAction(String actionId) async {
@@ -60,7 +60,7 @@ class OffreEmploiRepositorySuccessWithMoreDataStub extends OffreEmploiRepository
     required String department,
     required int page,
   }) async {
-    return OffreEmploiSearchResponse(isMoreDataAvailable: true, offres : offreEmploiData());
+    return OffreEmploiSearchResponse(isMoreDataAvailable: true, offres: offreEmploiData());
   }
 }
 
@@ -75,5 +75,14 @@ class OffreEmploiRepositoryFailureStub extends OffreEmploiRepository {
     required int page,
   }) async {
     return null;
+  }
+}
+
+class HeadersBuilderStub extends HeadersBuilder {
+  @override
+  Future<Map<String, String>> headers({String? userId, String? contentType}) async {
+    return {
+      if (contentType != null) 'Content-Type': contentType,
+    };
   }
 }

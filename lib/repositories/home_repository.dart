@@ -11,7 +11,7 @@ class HomeRepository {
   HomeRepository(this.baseUrl, this.headerBuilder);
 
   Future<Home?> getHome(String userId) async {
-    var url = Uri.parse(baseUrl + "/jeunes/$userId/home");
+    final url = Uri.parse(baseUrl + "/jeunes/$userId/home");
     try {
       final response = await http.get(
         url,

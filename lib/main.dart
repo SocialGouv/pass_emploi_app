@@ -8,6 +8,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart';
 import 'package:matomo/matomo.dart';
 import 'package:package_info/package_info.dart';
 import 'package:pass_emploi_app/network/headers.dart';
@@ -104,7 +105,7 @@ Future<bool> _shouldForceUpdate(RemoteConfig? remoteConfig) async {
 
 Store<AppState> _initializeReduxStore(String baseUrl, PushNotificationManager pushNotificationManager) {
   final headersBuilder = HeadersBuilder();
-  final userRepository = UserRepository(baseUrl, headersBuilder);
+  final userRepository = UserRepository(baseUrl, Client(), headersBuilder);
   return StoreFactory(
     userRepository,
     HomeRepository(baseUrl, headersBuilder),
