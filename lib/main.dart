@@ -121,7 +121,7 @@ Store<AppState> _initializeReduxStore(String baseUrl, PushNotificationManager pu
       pushNotificationManager,
     ),
     CrashlyticsWithFirebase(FirebaseCrashlytics.instance),
-    OffreEmploiDetailsRepository(baseUrl, httpClient),
+    OffreEmploiDetailsRepository(baseUrl, httpClient, headersBuilder),
   ).initializeReduxStore(initialState: AppState.initialState());
 }
 

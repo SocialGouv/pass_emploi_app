@@ -58,14 +58,14 @@ main() {
 }
 
 class DetailedOfferRepositorySuccessStub extends OffreEmploiDetailsRepository {
-  DetailedOfferRepositorySuccessStub() : super("", DummyHttpClient());
+  DetailedOfferRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
   Future<OffreEmploiDetails?> getOffreEmploiDetails({required String offreId}) async => mockOffreEmploiDetails();
 }
 
 class DetailedOfferRepositoryFailureStub extends OffreEmploiDetailsRepository {
-  DetailedOfferRepositoryFailureStub() : super("", DummyHttpClient());
+  DetailedOfferRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
   Future<OffreEmploiDetails?> getOffreEmploiDetails({required String offreId}) async => null;

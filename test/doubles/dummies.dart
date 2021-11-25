@@ -64,5 +64,5 @@ class DummyOffreEmploiRepository extends OffreEmploiRepository {
 }
 
 class DummyDetailedRepository extends OffreEmploiDetailsRepository {
-  DummyDetailedRepository() : super("", DummyHttpClient());
+  DummyDetailedRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
 }
