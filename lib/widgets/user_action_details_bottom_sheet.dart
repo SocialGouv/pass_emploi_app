@@ -245,9 +245,9 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
   }
 
   _dismissBottomSheetIfNeeded(BuildContext context, UserActionDetailsViewModel viewModel) {
-    if (viewModel.displayState == UserActionDetailsDisplayState.TO_DISMISS ||
-        viewModel.displayState == UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION) {
+    if (viewModel.displayState == UserActionDetailsDisplayState.TO_DISMISS)
+      Navigator.pop(context);
+    else if (viewModel.displayState == UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION)
       Navigator.pop(context, UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION);
-    }
   }
 }
