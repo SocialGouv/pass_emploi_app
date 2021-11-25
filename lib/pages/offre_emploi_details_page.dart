@@ -57,39 +57,47 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     final title = viewModel.title;
     final companyName = viewModel.companyName;
     final lastUpdate = viewModel.lastUpdate;
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(Margins.medium),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (id != null) Text(Strings.offreDetailNumber(id), style: TextStyles.textSmRegular()),
-            if (lastUpdate != null)
-              Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Text(
-                  Strings.offreDetailLastUpdate(lastUpdate),
-                  style: TextStyles.textSmRegular(color: AppColors.bluePurple),
-                ),
-              ),
-            _spacer(18),
-            if (title != null)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 20),
-                child: Text(title, style: TextStyles.textLgMedium),
-              ),
-            if (companyName != null)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 12),
-                child: Text(companyName, style: TextStyles.textMdRegular),
-              ),
-            _tags(viewModel),
-            _description(viewModel),
-            _profileDescription(viewModel),
-            _companyDescription(viewModel),
-          ],
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(Margins.medium),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (id != null) Text(Strings.offreDetailNumber(id), style: TextStyles.textSmRegular()),
+                if (lastUpdate != null)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Text(
+                      Strings.offreDetailLastUpdate(lastUpdate),
+                      style: TextStyles.textSmRegular(color: AppColors.bluePurple),
+                    ),
+                  ),
+                _spacer(18),
+                if (title != null)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: Text(title, style: TextStyles.textLgMedium),
+                  ),
+                if (companyName != null)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: Text(companyName, style: TextStyles.textMdRegular),
+                  ),
+                _tags(viewModel),
+                _description(viewModel),
+                _profileDescription(viewModel),
+                _companyDescription(viewModel),
+              ],
+            ),
+          ),
         ),
-      ),
+        Align(
+          child: _applyButton(),
+          alignment: Alignment.bottomCenter,
+        ),
+      ],
     );
   }
 
@@ -270,7 +278,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         for (final education in educations)
           Padding(
             padding: const EdgeInsets.only(bottom: 12),
-            child: Text("· ${education.label}", style: TextStyles.textSmRegular()),
+            child: Text("· $education", style: TextStyles.textSmRegular()),
           ),
         _separator(20, 20),
       ],
@@ -321,15 +329,17 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     );
   }
 
-  Widget _subscribeButton(OffreEmploiDetailsPageViewModel viewModel) {
-    return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      actionButtonWithIcon(label: Strings.subscribeButtonTitle, onPressed: () {}, icon: 'ic_send_mail.svg'),
-    ]);
-  }
-
   Widget _applyButton() {
-    return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      actionButton(onPressed: () => null, label: Strings.applyButtonTitle),
-    ]);
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          actionButton(onPressed: () => null, label: Strings.applyButtonTitle),
+        ],
+      ),
+    );
   }
 }
