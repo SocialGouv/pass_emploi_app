@@ -12,6 +12,6 @@ main() {
     final String detailedOfferString = loadTestAssets("detailed_offer.json");
     final detailedOfferJson = json.decode(detailedOfferString);
     //When - Then
-    expect(OffreEmploiDetails.fromJson(detailedOfferJson), mockedDetailedOffer());
+    expect(OffreEmploiDetails.fromJson(detailedOfferJson), mockOffreEmploiDetails());
   });
 }

@@ -1,62 +1,39 @@
-[
-  {
-    "id": "123DXPM",
-    "titre": "Technicien / Technicienne en froid et climatisation",
-    "typeContrat": "MIS",
-    "nomEntreprise": "RH TT INTERIM",
-    "duree": "Temps plein",
-    "localisation": {
-      "nom": "77 - LOGNES",
-      "code_postal": "77185",
-      "commune": "77258"
-    }
+{
+  "pagination": {
+    "page": 1,
+    "limit": 50
   },
-  {
-    "id": "123DXPK",
-    "titre": " #SALONDEMANDELIEU2021: RECEPTIONNISTE TOURNANT (H/F)",
-    "typeContrat": "CDD",
-    "nomEntreprise": "STAND CHATEAU DE LA BEGUDE",
-    "duree": "Temps partiel",
-    "localisation": {
-      "nom": "06 - OPIO",
-      "code_postal": "06650",
-      "commune": "06089"
+  "results": [
+    {
+      "id": "123YYCD",
+      "titre": "Serveur / Serveuse de restaurant - chef de rang h/f   (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "duree": "Temps plein",
+      "nomEntreprise": "BRASSERIE FLO",
+      "localisation": {
+        "nom": "75 - PARIS 10",
+        "codePostal": "75010",
+        "commune": "75110"
+      }
+    },
+    {
+      "id": "5547436",
+      "titre": "Serveur restaurant H/F",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "localisation": {
+        "nom": "75 - Paris (Dept.)"
+      }
+    },
+    {
+      "id": "5546841",
+      "titre": "Serveur (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "localisation": {
+        "nom": "75 - Paris (Dept.)"
+      }
     }
-  },
-  {
-    "id": "123DXPG",
-    "titre": "Technicien / Technicienne terrain Structure          (H/F)",
-    "typeContrat": "CDI",
-    "nomEntreprise": "GEOTEC",
-    "duree": "Temps plein",
-    "localisation": {
-      "nom": "78 - PLAISIR",
-      "code_postal": "78370",
-      "commune": "78490"
-    }
-  },
-  {
-    "id": "123DXPF",
-    "titre": "Responsable de boutique",
-    "typeContrat": "CDD",
-    "nomEntreprise": "GINGER",
-    "duree": null,
-    "localisation": {
-      "nom": "13 - AIX EN PROVENCE",
-      "code_postal": "13090",
-      "commune": "13001"
-    }
-  },
-  {
-    "id": "123DXLK",
-    "titre": "Commercial sédentaire en Assurances H/F",
-    "typeContrat": "CDI",
-    "nomEntreprise": null,
-    "duree": "Temps plein",
-    "localisation": {
-      "nom": "34 - MONTPELLIER",
-      "code_postal": "34000",
-      "commune": "34172"
-    }
-  }
-]
+  ]
+}

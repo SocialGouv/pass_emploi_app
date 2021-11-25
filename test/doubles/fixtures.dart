@@ -1,9 +1,13 @@
+import 'package:http/http.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/user.dart';
 
 User mockUser() => User(id: "", firstName: "", lastName: "");
 
-OffreEmploiDetails mockedDetailedOffer() => OffreEmploiDetails(
+Response invalidHttpResponse() => Response("", 404);
+
+OffreEmploiDetails mockOffreEmploiDetails() => OffreEmploiDetails(
       id: "123TZKB",
       title: "Technicien / Technicienne d'installation de réseaux câblés  (H/F)",
       description: "Vos Missions :\n\nRéaliser du tirage de câbles,\n"
@@ -22,7 +26,9 @@ OffreEmploiDetails mockedDetailedOffer() => OffreEmploiDetails(
       companyAccessibility: false,
       experience: "Débutant accepté - Expérience électricité/VRD appréciée",
       requiredExperience: "D",
-      educations: [Education(level: "Bac+5 et plus ou équivalents", field: "conduite projet industriel", requirement: "E")],
+      educations: [
+        Education(level: "Bac+5 et plus ou équivalents", field: "conduite projet industriel", requirement: "E")
+      ],
       languages: [Language(type: "Anglais", requirement: "E"), Language(type: "Espagnol", requirement: "S")],
       driverLicences: [
         DriverLicence(category: "B - Véhicule léger", requirement: "E"),
@@ -37,4 +43,13 @@ OffreEmploiDetails mockedDetailedOffer() => OffreEmploiDetails(
       ],
       softSkills: ["Autonomie", "Capacité de décision", "Persévérance"],
       lastUpdate: DateTime(2021, 11, 22, 14, 47, 29),
+    );
+
+OffreEmploi mockOffreEmploi() => OffreEmploi(
+      id: "123DXPM",
+      title: "Technicien / Technicienne en froid et climatisation",
+      companyName: "RH TT INTERIM",
+      contractType: "MIS",
+      location: "77 - LOGNES",
+      duration: "Temps plein",
     );

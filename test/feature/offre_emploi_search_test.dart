@@ -32,7 +32,7 @@ main() {
 
     final successAppState = await successState;
     final searchState = (successAppState.offreEmploiSearchResultsState as OffreEmploiSearchResultsDataState);
-    expect(searchState.offres.length, 5);
+    expect(searchState.offres.length, 1);
     expect(searchState.loadedPage, 1);
 
     final savedSearchAppState = await savedSearch;

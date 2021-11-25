@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/department.dart';
-import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -8,7 +7,7 @@ import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.d
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:redux/redux.dart';
 
-import '../models/offre_emploi_test.dart';
+import '../doubles/fixtures.dart';
 
 main() {
   test("create when state is loading should set display state properly", () {
@@ -70,7 +69,8 @@ main() {
       reducer,
       initialState: AppState.initialState().copyWith(
         offreEmploiSearchState: OffreEmploiSearchState.success(),
-        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(offres: offreEmploiData(), loadedPage: 1, isMoreDataAvailable: false),
+        offreEmploiSearchResultsState:
+            OffreEmploiSearchResultsState.data(offres: [mockOffreEmploi()], loadedPage: 1, isMoreDataAvailable: false),
       ),
     );
 
@@ -83,7 +83,7 @@ main() {
   });
 
   group("_filterDepartments should return ...", () {
-   late OffreEmploiSearchViewModel viewModel;
+    late OffreEmploiSearchViewModel viewModel;
 
     setUp(() {
       final store = Store<AppState>(
@@ -97,36 +97,36 @@ main() {
       expect(viewModel.filterDepartments("Paris"), Department.values.where((d) => d.number == "75"));
     });
 
-   test("filtered list of departments when user input has different cases in the department name", () {
-     expect(viewModel.filterDepartments("paris"), Department.values.where((d) => d.number == "75"));
-     expect(viewModel.filterDepartments("paRis"), Department.values.where((d) => d.number == "75"));
-     expect(viewModel.filterDepartments("pariS"), Department.values.where((d) => d.number == "75"));
-   });
+    test("filtered list of departments when user input has different cases in the department name", () {
+      expect(viewModel.filterDepartments("paris"), Department.values.where((d) => d.number == "75"));
+      expect(viewModel.filterDepartments("paRis"), Department.values.where((d) => d.number == "75"));
+      expect(viewModel.filterDepartments("pariS"), Department.values.where((d) => d.number == "75"));
+    });
 
-   test("filtered list of departments when user input not complete", () {
-     expect(viewModel.filterDepartments("par"), Department.values.where((d) => d.number == "75"));
-     expect(viewModel.filterDepartments("ris"), Department.values.where((d) => d.number == "75"));
-   });
+    test("filtered list of departments when user input not complete", () {
+      expect(viewModel.filterDepartments("par"), Department.values.where((d) => d.number == "75"));
+      expect(viewModel.filterDepartments("ris"), Department.values.where((d) => d.number == "75"));
+    });
 
-   test("empty list when user input is empty", () {
-     expect(viewModel.filterDepartments(""), []);
-   });
+    test("empty list when user input is empty", () {
+      expect(viewModel.filterDepartments(""), []);
+    });
 
-   test("empty list when user input contains only one character", () {
-     expect(viewModel.filterDepartments("p"), []);
-   });
+    test("empty list when user input contains only one character", () {
+      expect(viewModel.filterDepartments("p"), []);
+    });
 
-   test("filtered list of departments when user input contains diacritics in the department name", () {
-     expect(viewModel.filterDepartments("Rhône"),  Department.values.where((d) => d.number == "69" || d.number == "13"));
-     expect(viewModel.filterDepartments("Rhone"),  Department.values.where((d) => d.number == "69" || d.number == "13"));
-   });
+    test("filtered list of departments when user input contains diacritics in the department name", () {
+      expect(
+          viewModel.filterDepartments("Rhône"), Department.values.where((d) => d.number == "69" || d.number == "13"));
+      expect(
+          viewModel.filterDepartments("Rhone"), Department.values.where((d) => d.number == "69" || d.number == "13"));
+    });
 
-   test("filtered list of departments when user input contains spaces in the department name", () {
-     expect(viewModel.filterDepartments("Ille et Vilaine"),  Department.values.where((d) => d.number == "35"));
-     expect(viewModel.filterDepartments("Val d Oise"),  Department.values.where((d) => d.number == "95"));
-     expect(viewModel.filterDepartments("           Val d Oise   "),  Department.values.where((d) => d.number == "95"));
-
-   });
-
+    test("filtered list of departments when user input contains spaces in the department name", () {
+      expect(viewModel.filterDepartments("Ille et Vilaine"), Department.values.where((d) => d.number == "35"));
+      expect(viewModel.filterDepartments("Val d Oise"), Department.values.where((d) => d.number == "95"));
+      expect(viewModel.filterDepartments("           Val d Oise   "), Department.values.where((d) => d.number == "95"));
+    });
   });
 }

@@ -81,7 +81,7 @@ void main() {
 class RendezvousRepositorySuccessStub extends RendezvousRepository {
   final String expectedUserId;
 
-  RendezvousRepositorySuccessStub({required this.expectedUserId}) : super("", DummyHeadersBuilder());
+  RendezvousRepositorySuccessStub({required this.expectedUserId}) : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
   Future<List<Rendezvous>?> getRendezvous(String userId) async {
@@ -93,7 +93,7 @@ class RendezvousRepositorySuccessStub extends RendezvousRepository {
 class RendezvousRepositoryFailureStub extends RendezvousRepository {
   final String expectedUserId;
 
-  RendezvousRepositoryFailureStub({required this.expectedUserId}) : super("", DummyHeadersBuilder());
+  RendezvousRepositoryFailureStub({required this.expectedUserId}) : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
   Future<List<Rendezvous>?> getRendezvous(String userId) async {

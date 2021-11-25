@@ -43,7 +43,7 @@ main() {
 
   test("getDetails when state is success should set display state properly and convert data to view model", () {
     // Given
-    final detailedOffer = mockedDetailedOffer();
+    final detailedOffer = mockOffreEmploiDetails();
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(

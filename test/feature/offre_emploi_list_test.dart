@@ -9,8 +9,8 @@ import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 
 import '../doubles/dummies.dart';
+import '../doubles/fixtures.dart';
 import '../doubles/stubs.dart';
-import '../models/offre_emploi_test.dart';
 import '../utils/test_setup.dart';
 
 main() {
@@ -41,7 +41,7 @@ main() {
       expect(appState.offreEmploiSearchState is OffreEmploiSearchSuccessState, true);
 
       var searchResultsState = (appState.offreEmploiSearchResultsState as OffreEmploiSearchResultsDataState);
-      expect(searchResultsState.offres.length, 10);
+      expect(searchResultsState.offres.length, 2);
       expect(searchResultsState.loadedPage, 2);
     });
 
@@ -71,7 +71,7 @@ main() {
       expect(appState.offreEmploiSearchState is OffreEmploiSearchFailureState, true);
 
       var searchResultsState = (appState.offreEmploiSearchResultsState as OffreEmploiSearchResultsDataState);
-      expect(searchResultsState.offres.length, 5);
+      expect(searchResultsState.offres.length, 1);
       expect(searchResultsState.loadedPage, 1);
       expect(searchResultsState.isMoreDataAvailable, true);
     });
@@ -99,7 +99,7 @@ main() {
       expect(appState.offreEmploiSearchState is OffreEmploiSearchSuccessState, true);
 
       var searchResultsState = (appState.offreEmploiSearchResultsState as OffreEmploiSearchResultsDataState);
-      expect(searchResultsState.offres.length, 10);
+      expect(searchResultsState.offres.length, 2);
       expect(searchResultsState.loadedPage, 2);
       expect(searchResultsState.isMoreDataAvailable, false);
     });
@@ -132,7 +132,7 @@ main() {
         expect(appState.offreEmploiSearchState is OffreEmploiSearchFailureState, true);
 
         var searchResultsState = (appState.offreEmploiSearchResultsState as OffreEmploiSearchResultsDataState);
-        expect(searchResultsState.offres.length, 5);
+        expect(searchResultsState.offres.length, 1);
         expect(searchResultsState.loadedPage, 1);
       });
 
@@ -163,7 +163,7 @@ main() {
         expect(appState.offreEmploiSearchState is OffreEmploiSearchSuccessState, true);
 
         var searchResultsState = (appState.offreEmploiSearchResultsState as OffreEmploiSearchResultsDataState);
-        expect(searchResultsState.offres.length, 10);
+        expect(searchResultsState.offres.length, 2);
         expect(searchResultsState.loadedPage, 2);
       });
     });
@@ -195,10 +195,10 @@ main() {
 
 OffreEmploiSearchResultsState _pageOneLoadedAndMoreDataAvailable() {
   return OffreEmploiSearchResultsState.data(
-        offres: offreEmploiData(),
-        loadedPage: 1,
-        isMoreDataAvailable: true,
-      );
+    offres: [mockOffreEmploi()],
+    loadedPage: 1,
+    isMoreDataAvailable: true,
+  );
 }
 
 AppState _loggedInState() {
@@ -212,7 +212,7 @@ AppState _loggedInState() {
 }
 
 class OffreEmploiRepositorySuccessWithNoMoreDataStub extends OffreEmploiRepository {
-  OffreEmploiRepositorySuccessWithNoMoreDataStub() : super("", DummyHeadersBuilder());
+  OffreEmploiRepositorySuccessWithNoMoreDataStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
   Future<OffreEmploiSearchResponse?> search({
@@ -221,6 +221,6 @@ class OffreEmploiRepositorySuccessWithNoMoreDataStub extends OffreEmploiReposito
     required String department,
     required int page,
   }) async {
-    return OffreEmploiSearchResponse(isMoreDataAvailable: false, offres: offreEmploiData());
+    return OffreEmploiSearchResponse(isMoreDataAvailable: false, offres: [mockOffreEmploi()]);
   }
 }

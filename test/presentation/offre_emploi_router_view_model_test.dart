@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:redux/redux.dart';
 
-import '../models/offre_emploi_test.dart';
+import '../doubles/fixtures.dart';
 
 main() {
   test("create when search results are not initialized should display search screen", () {
@@ -28,8 +28,12 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-          offreEmploiSearchResultsState:
-              OffreEmploiSearchResultsState.data(offres: offreEmploiData(), loadedPage: 1, isMoreDataAvailable: true)),
+        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
+          offres: [mockOffreEmploi()],
+          loadedPage: 1,
+          isMoreDataAvailable: true,
+        ),
+      ),
     );
 
     // When
@@ -39,7 +43,8 @@ main() {
     expect(viewModel.displayState, OffreEmploiRouterDisplayState.SHOW_LIST);
   });
 
-  test("create when search results are initialized with empty list should display search screen (to display error)", () {
+  test("create when search results are initialized with empty list should display search screen (to display error)",
+      () {
     // Given
     final store = Store<AppState>(
       reducer,
