@@ -10,6 +10,7 @@ void main() {
   test('logUser when response is valid should return user', () async {
     // Given
     final httpClient = MockClient((request) async {
+      if (request.method != "POST") return Response("", 404);
       if (request.url != Uri.parse("BASE_URL/jeunes/ID/login")) return Response("", 404);
       if (request.headers['content-type'] != 'application/json') return Response("", 404);
       return Response(loadTestAssets("user.json"), 200);
