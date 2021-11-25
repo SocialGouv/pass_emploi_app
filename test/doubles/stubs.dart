@@ -8,7 +8,7 @@ import 'dummies.dart';
 import 'fixtures.dart';
 
 class UserActionRepositorySuccessStub extends UserActionRepository {
-  UserActionRepositorySuccessStub() : super("", DummyHeadersBuilder());
+  UserActionRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
   Future<List<UserAction>?> getUserActions(String userId) async {
@@ -34,7 +34,7 @@ class UserActionRepositorySuccessStub extends UserActionRepository {
 }
 
 class UserActionRepositoryFailureStub extends UserActionRepository {
-  UserActionRepositoryFailureStub() : super("", DummyHeadersBuilder());
+  UserActionRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
   Future<List<UserAction>?> getUserActions(String userId) async {

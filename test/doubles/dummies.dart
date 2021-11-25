@@ -31,7 +31,7 @@ class DummyPushNotificationManager extends PushNotificationManager {
 }
 
 class DummyRegisterTokenRepository extends RegisterTokenRepository {
-  DummyRegisterTokenRepository() : super("", DummyHeadersBuilder(), DummyPushNotificationManager());
+  DummyRegisterTokenRepository() : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPushNotificationManager());
 
   Future<void> registerToken(String userId) async {}
 }
@@ -41,15 +41,15 @@ class DummyUserRepository extends UserRepository {
 }
 
 class DummyHomeRepository extends HomeRepository {
-  DummyHomeRepository() : super("", DummyHeadersBuilder());
+  DummyHomeRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
 }
 
 class DummyUserActionRepository extends UserActionRepository {
-  DummyUserActionRepository() : super("", DummyHeadersBuilder());
+  DummyUserActionRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
 }
 
 class DummyRendezvousRepository extends RendezvousRepository {
-  DummyRendezvousRepository() : super("", DummyHeadersBuilder());
+  DummyRendezvousRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
 }
 
 class DummyChatRepository extends ChatRepository {}
@@ -64,5 +64,5 @@ class DummyOffreEmploiRepository extends OffreEmploiRepository {
 }
 
 class DummyDetailedRepository extends OffreEmploiDetailsRepository {
-  DummyDetailedRepository() : super("");
+  DummyDetailedRepository() : super("", DummyHttpClient());
 }

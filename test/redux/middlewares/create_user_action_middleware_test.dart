@@ -72,7 +72,7 @@ class StoreSpy {
 class UserActionRepositoryMock extends UserActionRepository {
   bool wasCalled = false;
 
-  UserActionRepositoryMock() : super("string", DummyHeadersBuilder());
+  UserActionRepositoryMock() : super("string", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
   Future<bool> createUserAction(String userId, String? content, String? comment, UserActionStatus status) async {

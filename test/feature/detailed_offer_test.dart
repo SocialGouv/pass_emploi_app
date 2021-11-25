@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 
+import '../doubles/dummies.dart';
 import '../doubles/fixtures.dart';
 import '../utils/test_setup.dart';
 
@@ -57,14 +58,14 @@ main() {
 }
 
 class DetailedOfferRepositorySuccessStub extends OffreEmploiDetailsRepository {
-  DetailedOfferRepositorySuccessStub() : super("");
+  DetailedOfferRepositorySuccessStub() : super("", DummyHttpClient());
 
   @override
   Future<OffreEmploiDetails?> getOffreEmploiDetails({required String offreId}) async => mockOffreEmploiDetails();
 }
 
 class DetailedOfferRepositoryFailureStub extends OffreEmploiDetailsRepository {
-  DetailedOfferRepositoryFailureStub() : super("");
+  DetailedOfferRepositoryFailureStub() : super("", DummyHttpClient());
 
   @override
   Future<OffreEmploiDetails?> getOffreEmploiDetails({required String offreId}) async => null;

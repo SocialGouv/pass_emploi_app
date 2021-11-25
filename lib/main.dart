@@ -8,10 +8,11 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:http/http.dart';
+import 'package:http_interceptor/http/intercepted_client.dart';
 import 'package:matomo/matomo.dart';
 import 'package:package_info/package_info.dart';
 import 'package:pass_emploi_app/network/headers.dart';
+import 'package:pass_emploi_app/network/logging_interceptor.dart';
 import 'package:pass_emploi_app/pages/force_update_page.dart';
 import 'package:pass_emploi_app/pass_emploi_app.dart';
 import 'package:pass_emploi_app/push/firebase_push_notification_manager.dart';
@@ -105,22 +106,22 @@ Future<bool> _shouldForceUpdate(RemoteConfig? remoteConfig) async {
 
 Store<AppState> _initializeReduxStore(String baseUrl, PushNotificationManager pushNotificationManager) {
   final headersBuilder = HeadersBuilder();
-  final httpClient = Client();
-  final userRepository = UserRepository(baseUrl, httpClient, headersBuilder);
+  final httpClient = InterceptedClient.build(interceptors: [LoggingInterceptor()]);
   return StoreFactory(
-    userRepository,
-    HomeRepository(baseUrl, headersBuilder),
-    UserActionRepository(baseUrl, headersBuilder),
-    RendezvousRepository(baseUrl, headersBuilder),
+    UserRepository(baseUrl, httpClient, headersBuilder),
+    HomeRepository(baseUrl, httpClient, headersBuilder),
+    UserActionRepository(baseUrl, httpClient, headersBuilder),
+    RendezvousRepository(baseUrl, httpClient, headersBuilder),
     OffreEmploiRepository(baseUrl, httpClient, headersBuilder),
     ChatRepository(),
     RegisterTokenRepository(
       baseUrl,
+      httpClient,
       headersBuilder,
       pushNotificationManager,
     ),
     CrashlyticsWithFirebase(FirebaseCrashlytics.instance),
-    OffreEmploiDetailsRepository(baseUrl),
+    OffreEmploiDetailsRepository(baseUrl, httpClient),
   ).initializeReduxStore(initialState: AppState.initialState());
 }
 

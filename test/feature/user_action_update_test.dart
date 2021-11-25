@@ -59,7 +59,7 @@ UserAction _notStartedAction() {
 class UserActionRepositorySpy extends UserActionRepository {
   var isActionUpdated = false;
 
-  UserActionRepositorySpy() : super("", DummyHeadersBuilder());
+  UserActionRepositorySpy() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
   Future<List<UserAction>?> getUserActions(String userId) async {

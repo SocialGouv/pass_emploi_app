@@ -11,11 +11,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class UserRepository {
   static const USER_KEY = "USER_V2_KEY";
 
-  final String baseUrl;
-  final Client httpClient;
-  final HeadersBuilder headerBuilder;
+  final String _baseUrl;
+  final Client _httpClient;
+  final HeadersBuilder _headerBuilder;
 
-  UserRepository(this.baseUrl, this.httpClient, this.headerBuilder);
+  UserRepository(this._baseUrl, this._httpClient, this._headerBuilder);
 
   Future<User?> getUser() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -34,11 +34,11 @@ class UserRepository {
   }
 
   Future<User?> logUser(String accessCode) async {
-    final url = Uri.parse(baseUrl + "/jeunes/$accessCode/login");
+    final url = Uri.parse(_baseUrl + "/jeunes/$accessCode/login");
     try {
-      final response = await httpClient.post(
+      final response = await _httpClient.post(
         url,
-        headers: await headerBuilder.headers(contentType: 'application/json'),
+        headers: await _headerBuilder.headers(contentType: 'application/json'),
       );
       if (response.statusCode.isValid()) return User.fromJson(jsonUtf8Decode(response.bodyBytes));
     } catch (e) {

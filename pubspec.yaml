@@ -20,6 +20,7 @@ dependencies:
   flutter_dotenv: 5.0.2
   # Dart
   http: 0.13.3
+  http_interceptor: 1.0.1
   intl: 0.17.0
   collection: 1.15.0
   equatable: 2.0.3
