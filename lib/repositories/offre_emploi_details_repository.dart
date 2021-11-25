@@ -17,7 +17,9 @@ class OffreEmploiDetailsRepository {
       final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes);
-        if (json.containsKey("data")) return OffreEmploiDetails.fromJson(json["data"]);
+        if (json.containsKey("data")) {
+          return OffreEmploiDetails.fromJson(json["data"], json["urlRedirectPourPostulation"]);
+        }
       }
     } catch (e) {
       print('Exception on ${url.toString()}: ' + e.toString());

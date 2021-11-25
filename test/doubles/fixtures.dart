@@ -10,6 +10,7 @@ Response invalidHttpResponse() => Response("", 404);
 OffreEmploiDetails mockOffreEmploiDetails() => OffreEmploiDetails(
       id: "123TZKB",
       title: "Technicien / Technicienne d'installation de réseaux câblés  (H/F)",
+      urlRedirectPourPostulation: "https://candidat.pole-emploi.fr/offres/recherche/detail/123TZKB",
       description: "Vos Missions :\n\nRéaliser du tirage de câbles,\n"
           "Effectuer des raccordements en fibre optique et câble coaxial,\n\n"
           "Le permis B est requis pour ce poste car vous vous déplacerez à bord "

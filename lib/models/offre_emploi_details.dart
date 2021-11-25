@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/utils/string_extensions.dart';
 class OffreEmploiDetails extends Equatable {
   final String id;
   final String title;
+  final String urlRedirectPourPostulation;
   final String? description;
   final String? contractType;
   final String? duration;
@@ -26,6 +27,7 @@ class OffreEmploiDetails extends Equatable {
   OffreEmploiDetails({
     required this.id,
     required this.title,
+    required this.urlRedirectPourPostulation,
     required this.description,
     required this.contractType,
     required this.duration,
@@ -46,10 +48,11 @@ class OffreEmploiDetails extends Equatable {
     required this.requiredExperience,
   });
 
-  factory OffreEmploiDetails.fromJson(dynamic json) {
+  factory OffreEmploiDetails.fromJson(dynamic json, String urlRedirectPourPostulation) {
     return OffreEmploiDetails(
       id: json["id"] as String,
       title: json["intitule"] as String,
+      urlRedirectPourPostulation: urlRedirectPourPostulation,
       description: json["description"] as String?,
       contractType: json["typeContratLibelle"] as String?,
       duration: json["dureeTravailLibelle"] as String?,
@@ -76,6 +79,7 @@ class OffreEmploiDetails extends Equatable {
       [
         id,
         title,
+        urlRedirectPourPostulation,
         description,
         contractType,
         duration,
