@@ -157,7 +157,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         _separator(8, 20),
         Text(Strings.experienceTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
-        if (experience != null) _experience(xp: experience),
+        if (experience != null) _checkIsRequired(element: experience, criteria: viewModel.requiredExperience),
         _separator(20, 20),
         if (skills != null) skills,
         if (softSkills != null) softSkills,
@@ -212,22 +212,6 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     );
   }
 
-  Widget _experience({required String xp}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Flexible(child: Text("· $xp", style: TextStyles.textSmRegular())),
-          Padding(
-            padding: const EdgeInsets.only(left: 8),
-            child: SvgPicture.asset("assets/ic_info.svg"),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _companyDescriptionBlock({required String content}) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(Strings.companyDescriptionTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
@@ -244,11 +228,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       children: [
         Text(Strings.skillsTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
-        for (final skill in skills)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: Text("· ${skill.description}", style: TextStyles.textSmRegular()),
-          ),
+        for (final skill in skills) _checkIsRequired(element: skill.description, criteria: skill.requirement),
         _separator(20, 20),
       ],
     );
@@ -278,11 +258,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       children: [
         Text(Strings.educationTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
-        for (final education in educations)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: Text("· $education", style: TextStyles.textSmRegular()),
-          ),
+        for (final education in educations) _checkIsRequired(element: education.label, criteria: education.requirement),
         _separator(20, 20),
       ],
     );
@@ -295,11 +271,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       children: [
         Text(Strings.languageTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
-        for (final language in languages)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: Text("· ${language.type}", style: TextStyles.textSmRegular()),
-          ),
+        for (final language in languages) _checkIsRequired(element: language.type, criteria: language.requirement),
         _separator(20, 20),
       ],
     );
@@ -313,10 +285,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         Text(Strings.driverLicenceTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
         for (final licence in driverLicences)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: Text("· ${licence.category}", style: TextStyles.textSmRegular()),
-          ),
+          _checkIsRequired(element: licence.category, criteria: licence.requirement),
         _separator(20, 20),
       ],
     );
@@ -329,6 +298,36 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         _spacer(12),
         lightBlueTag(label: tagTitle),
       ],
+    );
+  }
+
+  Widget _checkIsRequired({required String element, required String? criteria}) {
+    return _require(criteria) ? _requiredElement(element)
+        : _listItem(element);
+  }
+
+  bool _require(String? criteria) => (criteria != null && criteria == "E");
+
+  Widget _listItem(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Text("· $text", style: TextStyles.textSmRegular()),
+    );
+  }
+
+  Widget _requiredElement(String requiredText) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(child: _listItem(requiredText)),
+          Padding(
+            padding: const EdgeInsets.only(left: 8, bottom: 12),
+            child: SvgPicture.asset("assets/ic_info.svg"),
+          ),
+        ],
+      ),
     );
   }
 
