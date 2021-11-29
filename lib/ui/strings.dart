@@ -116,18 +116,19 @@ class Strings {
   static String offreDetailsError = "Erreur lors de la récupération de l'offre";
   static String offreDetailsTitle = "Détail de l'offre";
   static String profileTitle = "Profil souhaité";
-  static String experienceTitle = "Expériences";
+  static String experienceTitle = "Expérience";
   static String companyDescriptionTitle = "Détail de l'entreprise";
   static String companyAdaptedTitle = "Entreprise adaptée";
   static String companyAccessibilityTitle = "Entreprise handi-bienveillante";
   static String companyTitle = "Entreprise";
-  static String skillsTitle = "Savoir et savoir faire";
-  static String softSkillsTitle = "Savoir être professionnel";
+  static String skillsTitle = "Savoirs et savoir-faire";
+  static String softSkillsTitle = "Savoir-être professionnels";
   static String languageTitle = "Langue";
   static String educationTitle = "Formation";
   static String driverLicenceTitle = "Permis";
   static String subscribeButtonTitle = "Recevoir l'offre par mail";
   static String postulerButtonTitle = "Je postule";
+  static String requiredIcon = "Obligatoire";
 
   static String offreDetailNumber(String offreId) => "Offre n°$offreId";
 

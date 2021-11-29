@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -157,7 +158,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         _separator(8, 20),
         Text(Strings.experienceTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
-        if (experience != null) _experience(xp: experience),
+        if (experience != null) _setRequiredElement(element: experience, criteria: viewModel.requiredExperience),
         _separator(20, 20),
         if (skills != null) skills,
         if (softSkills != null) softSkills,
@@ -178,7 +179,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       children: [
         _descriptionTitle(title: Strings.companyTitle, icon: SvgPicture.asset("assets/ic_three_points.svg")),
         _separator(8, 30),
-        if (companyName != null) Text(companyName, style: TextStyles.textMdMedium),
+        if (companyName != null) _companyName(companyName: companyName, companyUrl: viewModel.companyUrl),
         if (companyAdapted) _blueTag(tagTitle: Strings.companyAdaptedTitle),
         if (companyAccessibility) _blueTag(tagTitle: Strings.companyAccessibilityTitle),
         _spacer(20),
@@ -212,22 +213,6 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     );
   }
 
-  Widget _experience({required String xp}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Flexible(child: Text("· $xp", style: TextStyles.textSmRegular())),
-          Padding(
-            padding: const EdgeInsets.only(left: 8),
-            child: SvgPicture.asset("assets/ic_info.svg"),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget _companyDescriptionBlock({required String content}) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(Strings.companyDescriptionTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
@@ -244,11 +229,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       children: [
         Text(Strings.skillsTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
-        for (final skill in skills)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: Text("· ${skill.description}", style: TextStyles.textSmRegular()),
-          ),
+        for (final skill in skills) _setRequiredElement(element: skill.description, criteria: skill.requirement),
         _separator(20, 20),
       ],
     );
@@ -279,10 +260,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         Text(Strings.educationTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
         for (final education in educations)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: Text("· $education", style: TextStyles.textSmRegular()),
-          ),
+          _setRequiredElement(element: education.label, criteria: education.requirement),
         _separator(20, 20),
       ],
     );
@@ -295,11 +273,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       children: [
         Text(Strings.languageTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
-        for (final language in languages)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: Text("· ${language.type}", style: TextStyles.textSmRegular()),
-          ),
+        for (final language in languages) _setRequiredElement(element: language.type, criteria: language.requirement),
         _separator(20, 20),
       ],
     );
@@ -313,10 +287,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         Text(Strings.driverLicenceTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
         for (final licence in driverLicences)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 12),
-            child: Text("· ${licence.category}", style: TextStyles.textSmRegular()),
-          ),
+          _setRequiredElement(element: licence.category, criteria: licence.requirement),
         _separator(20, 20),
       ],
     );
@@ -330,6 +301,79 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         lightBlueTag(label: tagTitle),
       ],
     );
+  }
+
+  Widget _setRequiredElement({required String element, required String? criteria}) {
+    return _require(criteria) ? _requiredElement(element) : _listItem(element);
+  }
+
+  bool _require(String? criteria) => (criteria != null && criteria == "E");
+
+  Widget _listItem(String text) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Text("· $text", style: TextStyles.textSmRegular()),
+    );
+  }
+
+  Widget _requiredElement(String requiredText) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Flexible(child: _listItem(requiredText)),
+          Padding(
+            padding: const EdgeInsets.only(left: 8, bottom: 12),
+            child: Tooltip(
+              message: Strings.requiredIcon,
+              triggerMode: TooltipTriggerMode.tap,
+              showDuration: Duration(seconds: 3),
+              verticalOffset: 10,
+              textStyle: TextStyles.textSmRegular(),
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: const BorderRadius.all(Radius.circular(4)),
+                border: Border.all(
+                  color: AppColors.nightBlue,
+                ),
+              ),
+              child: SvgPicture.asset("assets/ic_info.svg"),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _companyName({required String companyName, required String? companyUrl}) {
+    return (companyUrl == null || companyUrl.isEmpty)
+        ? Text(companyName, style: TextStyles.textMdMedium)
+        : _companyNameWithUrl(companyName: companyName, url: companyUrl);
+  }
+
+  Widget _companyNameWithUrl({required String companyName, required String url}) {
+    return InkWell(
+        onTap: () => launch(url),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 4),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Flexible(child: Text(companyName, style: TextStyles.textMdMediumUnderline)),
+              Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: SvgPicture.asset("assets/ic_redirection.svg"),
+              ),
+            ],
+          ),
+        ));
+  }
+
+  Widget _subscribeButton(OffreEmploiDetailsPageViewModel viewModel) {
+    return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+      actionButtonWithIcon(label: Strings.subscribeButtonTitle, onPressed: () {}, icon: 'ic_send_mail.svg'),
+    ]);
   }
 
   Widget _postulerButton(String url) {
