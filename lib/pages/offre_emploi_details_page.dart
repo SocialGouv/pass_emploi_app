@@ -335,7 +335,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
                 color: Colors.transparent,
                 borderRadius: const BorderRadius.all(Radius.circular(4)),
                 border: Border.all(
-                  color: AppColors.nightBlue, // red as border color
+                  color: AppColors.nightBlue,
                 ),
               ),
               child: SvgPicture.asset("assets/ic_info.svg"),
