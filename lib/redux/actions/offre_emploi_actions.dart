@@ -22,5 +22,3 @@ class OffreEmploiSearchSuccessAction extends OffreEmploiAction {
 class OffreEmploiSearchFailureAction extends OffreEmploiAction {}
 
 class RequestMoreOffreEmploiSearchResultsAction extends OffreEmploiAction {}
-
-class ResetOffreEmploiSearchResultsAction extends OffreEmploiAction {}

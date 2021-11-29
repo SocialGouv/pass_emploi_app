@@ -12,14 +12,12 @@ class OffreEmploiSearchResultsViewModel {
   final List<OffreEmploiItemViewModel> items;
   final bool displayLoaderAtBottomOfList;
   final Function() onLoadMore;
-  final Function() onQuit;
 
   OffreEmploiSearchResultsViewModel({
     required this.displayState,
     required this.items,
     required this.displayLoaderAtBottomOfList,
     required this.onLoadMore,
-    required this.onQuit,
   });
 
   factory OffreEmploiSearchResultsViewModel.create(Store<AppState> store) {
@@ -30,7 +28,6 @@ class OffreEmploiSearchResultsViewModel {
       items: _items(store.state.offreEmploiSearchResultsState),
       displayLoaderAtBottomOfList: _displayLoader(store.state.offreEmploiSearchResultsState),
       onLoadMore: () => store.dispatch(RequestMoreOffreEmploiSearchResultsAction()),
-      onQuit: () => store.dispatch(ResetOffreEmploiSearchResultsAction()),
     );
   }
 }

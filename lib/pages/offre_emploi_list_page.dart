@@ -47,7 +47,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     return StoreConnector<AppState, OffreEmploiSearchResultsViewModel>(
       converter: (store) => OffreEmploiSearchResultsViewModel.create(store),
       onInitialBuild: (viewModel) => _currentViewModel = viewModel,
-      builder: (context, viewModel) => _willPopScope(context, viewModel),
+      builder: (context, viewModel) => _scaffold(context, viewModel),
       onDidChange: (_, viewModel) => {
         _currentViewModel = viewModel,
         _scrollController.jumpTo(_offsetBeforeLoading),
@@ -57,22 +57,11 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     );
   }
 
-  WillPopScope _willPopScope(BuildContext context, OffreEmploiSearchResultsViewModel viewModel) {
-    return WillPopScope(
-      child: _scaffold(context, viewModel),
-      onWillPop: () {
-        viewModel.onQuit();
-        return Future.value(false);
-      },
-    );
-  }
-
   Widget _scaffold(BuildContext context, OffreEmploiSearchResultsViewModel viewModel) {
     return Scaffold(
       backgroundColor: AppColors.lightBlue,
       appBar: FlatDefaultAppBar(
         title: Text(Strings.offresEmploiTitle, style: TextStyles.textLgMedium),
-        leading: BackButton(onPressed: () => viewModel.onQuit()),
       ),
       body: ListView.separated(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),

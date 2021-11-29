@@ -10,7 +10,8 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/button.dart';
-import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+
+import 'offre_emploi_list_page.dart';
 
 class OffreEmploiSearchPage extends TraceableStatefulWidget {
   OffreEmploiSearchPage() : super(name: AnalyticsScreenNames.offreEmploiResearch);
@@ -27,17 +28,16 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, OffreEmploiSearchViewModel>(
         converter: (store) => OffreEmploiSearchViewModel.create(store),
+        onWillChange: (_, newViewModel) {
+          if (newViewModel.displayState == OffreEmploiSearchDisplayState.SHOW_CONTENT)
+            Navigator.push(context, MaterialPageRoute(builder: (context) => OffreEmploiListPage()));
+        },
         distinct: true,
         builder: (context, viewModel) {
-          return Scaffold(appBar: _appBar(Strings.searchingPageTitle), body: _body(viewModel));
+          return _body(viewModel);
         });
   }
 
-  AppBar _appBar(String title) {
-    return DefaultAppBar(
-      title: Text(title, style: TextStyles.h3Semi),
-    );
-  }
 
   Widget _body(OffreEmploiSearchViewModel viewModel) {
     return ListView(
@@ -55,10 +55,12 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
         _separator(),
         Center(
           child: primaryActionButton(
-              onPressed: _isLoading(viewModel) ? null : () {
-                _searchingRequest(viewModel);
-                FocusScope.of(context).unfocus();
-              },
+              onPressed: _isLoading(viewModel)
+                  ? null
+                  : () {
+                      _searchingRequest(viewModel);
+                      FocusScope.of(context).unfocus();
+                    },
               label: Strings.searchButton),
         ),
         _separator(),
