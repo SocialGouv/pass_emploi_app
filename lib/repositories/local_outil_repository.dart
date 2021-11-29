@@ -28,7 +28,7 @@ class LocalOutilRepository {
         imagePath: "aides.png",
       ),
       Outil(
-        title: "Trouver un mentor avec 1 jeune 1 mentor",
+        title: "Trouver un mentor avec 1jeune1mentor",
         description:
             "Expliquez nous votre situation et vos besoins. Nous vous mettrons en relation avec une association qui vous proposera un mentor.",
         actionLabel: "Me faire accompagner",
@@ -73,7 +73,7 @@ class LocalOutilRepository {
         imagePath: null,
       ),
       Outil(
-        title: "Alternance avec 1 jeune 1 solution",
+        title: "Alternance avec 1jeune1solution",
         description: "Trouver la formation et l’entreprise pour réaliser votre projet d’alternance.",
         actionLabel: "Je recherche une altenance",
         urlRedirect: "https://www.1jeune1solution.gouv.fr/apprentissage",
