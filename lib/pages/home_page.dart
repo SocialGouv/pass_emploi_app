@@ -29,7 +29,10 @@ class HomePage extends TraceableStatelessWidget {
       converter: (store) => HomePageViewModel.create(store),
       builder: (context, viewModel) {
         return AnimatedSwitcher(
-          duration: Duration(milliseconds: 200),
+          duration: Duration(milliseconds: 400),
+          transitionBuilder: (child, animation) => ScaleTransition(child: child, scale: animation),
+          switchInCurve: Curves.fastLinearToSlowEaseIn,
+          switchOutCurve: Curves.easeInOutBack,
           child: _body(context, viewModel),
         );
       },
