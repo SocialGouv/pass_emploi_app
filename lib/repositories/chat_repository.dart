@@ -8,11 +8,14 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:redux/redux.dart';
 
 class ChatRepository {
-  static String _firebaseEnv = dotenv.get('FIREBASE_ENVIRONMENT_PREFIX', fallback: 'prod');
-  static String _collectionPath = _firebaseEnv + "-chat";
+  String _collectionPath = '';
   StreamSubscription<QuerySnapshot>? _messagesSubscription;
   StreamSubscription<DocumentSnapshot>? _chatStatusSubscription;
   String? _chatDocumentId;
+
+  ChatRepository(String firebaseEnvironmentPrefix) {
+    this._collectionPath = firebaseEnvironmentPrefix + "-chat";
+  }
 
   // TODO unsubscribe depending on app lifecycle
   subscribeToMessages(String userId, Store<AppState> store) async {
