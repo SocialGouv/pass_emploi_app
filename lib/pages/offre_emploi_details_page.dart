@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/actionButtons.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/tags.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   final String _offreId;
@@ -55,6 +56,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Widget _content(BuildContext context, OffreEmploiDetailsPageViewModel viewModel) {
     final id = viewModel.id;
     final title = viewModel.title;
+    final url = viewModel.urlRedirectPourPostulation;
     final companyName = viewModel.companyName;
     final lastUpdate = viewModel.lastUpdate;
     return Stack(
@@ -155,7 +157,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         _separator(8, 20),
         Text(Strings.experienceTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
-        if (experience != null) _checkIsRequired(element: experience, criteria: viewModel.requiredExperience),
+        if (experience != null) _setRequiredElement(element: experience, criteria: viewModel.requiredExperience),
         _separator(20, 20),
         if (skills != null) skills,
         if (softSkills != null) softSkills,
@@ -176,7 +178,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       children: [
         _descriptionTitle(title: Strings.companyTitle, icon: SvgPicture.asset("assets/ic_three_points.svg")),
         _separator(8, 30),
-        if (companyName != null) Text(companyName, style: TextStyles.textMdMedium),
+        if (companyName != null) _companyName(companyName: companyName, companyUrl: viewModel.companyUrl),
         if (companyAdapted) _blueTag(tagTitle: Strings.companyAdaptedTitle),
         if (companyAccessibility) _blueTag(tagTitle: Strings.companyAccessibilityTitle),
         _spacer(20),
@@ -226,7 +228,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       children: [
         Text(Strings.skillsTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
-        for (final skill in skills) _checkIsRequired(element: skill.description, criteria: skill.requirement),
+        for (final skill in skills) _setRequiredElement(element: skill.description, criteria: skill.requirement),
         _separator(20, 20),
       ],
     );
@@ -256,7 +258,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       children: [
         Text(Strings.educationTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
-        for (final education in educations) _checkIsRequired(element: education.label, criteria: education.requirement),
+        for (final education in educations) _setRequiredElement(element: education.label, criteria: education.requirement),
         _separator(20, 20),
       ],
     );
@@ -269,7 +271,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       children: [
         Text(Strings.languageTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
-        for (final language in languages) _checkIsRequired(element: language.type, criteria: language.requirement),
+        for (final language in languages) _setRequiredElement(element: language.type, criteria: language.requirement),
         _separator(20, 20),
       ],
     );
@@ -358,11 +360,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       actionButtonWithIcon(label: Strings.subscribeButtonTitle, onPressed: () {}, icon: 'ic_send_mail.svg'),
     ]);
   }
-
-  Widget _applyButton() {
-    return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      actionButton(onPressed: () => null, label: Strings.applyButtonTitle),
-    ]);
+  
   Widget _postulerButton(String url) {
     return Container(
       color: Colors.white,
