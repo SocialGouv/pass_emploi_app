@@ -13,6 +13,7 @@ class OffreEmploiDetailsPageViewModel {
   final String errorMessage;
   final String? id;
   final String? title;
+  final String? urlRedirectPourPostulation;
   final String? companyName;
   final String? contractType;
   final String? duration;
@@ -36,6 +37,7 @@ class OffreEmploiDetailsPageViewModel {
     required this.displayState,
     required this.id,
     required this.title,
+    required this.urlRedirectPourPostulation,
     required this.companyName,
     required this.contractType,
     required this.duration,
@@ -64,6 +66,7 @@ class OffreEmploiDetailsPageViewModel {
       displayState: _displayState(offreEmploiDetailsState),
       id: offre?.id,
       title: offre?.title,
+      urlRedirectPourPostulation: offre?.urlRedirectPourPostulation,
       companyName: offre?.companyName,
       contractType: offre?.contractType,
       duration: offre?.duration,

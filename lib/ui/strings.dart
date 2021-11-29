@@ -127,7 +127,7 @@ class Strings {
   static String educationTitle = "Formation";
   static String driverLicenceTitle = "Permis";
   static String subscribeButtonTitle = "Recevoir l'offre par mail";
-  static String applyButtonTitle = "Je postule";
+  static String postulerButtonTitle = "Je postule";
 
   static String offreDetailNumber(String offreId) => "Offre n°$offreId";
 
