@@ -74,17 +74,12 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
         title: Text(Strings.offresEmploiTitle, style: TextStyles.textLgMedium),
         leading: BackButton(onPressed: () => viewModel.onQuit()),
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-        child: ClipRRect(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(16), bottom: Radius.zero),
-          child: ListView.separated(
-              controller: _scrollController,
-              itemBuilder: (context, index) => _buildItem(context, index, viewModel),
-              separatorBuilder: (context, index) => _listSeparator(),
-              itemCount: _itemCount(viewModel)),
-        ),
-      ),
+      body: ListView.separated(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+          controller: _scrollController,
+          itemBuilder: (context, index) => _buildItem(context, index, viewModel),
+          separatorBuilder: (context, index) => _listSeparator(),
+          itemCount: _itemCount(viewModel)),
     );
   }
 
@@ -93,18 +88,43 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     int index,
     OffreEmploiSearchResultsViewModel resultsViewModel,
   ) {
-    return Material(
-      type: MaterialType.transparency,
-      child: InkWell(
-        onTap: () => _showOffreEmploiDetailsPage(context, resultsViewModel.items[index].id),
-        splashColor: AppColors.bluePurple,
-        child: _buildOffreItem(resultsViewModel, index),
+    return Container(
+      color: Colors.white,
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          onTap: () => _showOffreEmploiDetailsPage(context, resultsViewModel.items[index].id),
+          splashColor: AppColors.bluePurple,
+          child: _buildOffreItem(resultsViewModel, index),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFirstItem(
+    BuildContext context,
+    OffreEmploiSearchResultsViewModel resultsViewModel,
+  ) {
+    return ClipRRect(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(16), bottom: Radius.zero),
+      child: Container(
+        color: Colors.white,
+        child: Material(
+          type: MaterialType.transparency,
+          child: InkWell(
+            onTap: () => _showOffreEmploiDetailsPage(context, resultsViewModel.items[0].id),
+            splashColor: AppColors.bluePurple,
+            child: _buildOffreItem(resultsViewModel, 0),
+          ),
+        ),
       ),
     );
   }
 
   Widget _buildItem(BuildContext context, int index, OffreEmploiSearchResultsViewModel resultsViewModel) {
-    if (index == resultsViewModel.items.length) {
+    if (index == 0) {
+      return _buildFirstItem(context, resultsViewModel);
+    } else if (index == resultsViewModel.items.length) {
       return _buildLastItem(resultsViewModel);
     } else {
       return __buildOffreItemWithListener(context, index, resultsViewModel);
@@ -114,7 +134,6 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
   Widget _buildOffreItem(OffreEmploiSearchResultsViewModel resultsViewModel, int index) {
     final itemViewModel = resultsViewModel.items[index];
     return Container(
-      color: Colors.white,
       child: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(

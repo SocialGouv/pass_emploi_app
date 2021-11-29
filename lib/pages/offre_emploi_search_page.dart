@@ -29,13 +29,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
         converter: (store) => OffreEmploiSearchViewModel.create(store),
         distinct: true,
         builder: (context, viewModel) {
-          return Scaffold(
-              appBar: _appBar(Strings.searchingPageTitle),
-              body: Container(
-                margin: EdgeInsets.only(left: 16, right: 16),
-                padding: EdgeInsets.all(16),
-                child: _body(viewModel),
-              ));
+          return Scaffold(appBar: _appBar(Strings.searchingPageTitle), body: _body(viewModel));
         });
   }
 
@@ -47,7 +41,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
 
   Widget _body(OffreEmploiSearchViewModel viewModel) {
     return ListView(
-      padding: EdgeInsets.all(0.0),
+      padding: EdgeInsets.fromLTRB(32, 16, 32, 16),
       shrinkWrap: true,
       children: [
         _separator(),

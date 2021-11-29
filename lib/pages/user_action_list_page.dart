@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/user_action_details_bottom_sheet.dart';
@@ -39,10 +40,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
     return StoreConnector<AppState, UserActionListPageViewModel>(
       onInit: (store) => store.dispatch(RequestUserActionsAction(widget.userId)),
       builder: (context, viewModel) {
-        return AnimatedSwitcher(
-          duration: Duration(milliseconds: 200),
-          child: _scaffold(context, viewModel, _body(context, viewModel)),
-        );
+        return _scaffold(context, viewModel, DefaultAnimatedSwitcher(child: _body(context, viewModel)));
       },
       converter: (store) => UserActionListPageViewModel.create(store),
     );
@@ -84,10 +82,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
     if (viewModel.withLoading) return _loader();
     if (viewModel.withFailure) return _failure(viewModel);
     if (viewModel.withEmptyMessage) return _empty();
-    return Container(
-      child: _userActions(context, viewModel),
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-    );
+    return _userActions(context, viewModel);
   }
 
   _loader() => Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
@@ -107,29 +102,29 @@ class _UserActionListPageState extends State<UserActionListPage> {
   _empty() => Center(child: Text(Strings.noActionsYet, style: TextStyles.textSmRegular()));
 
   Widget _userActions(BuildContext context, UserActionListPageViewModel viewModel) {
-    return Container(
-      color: Colors.white,
-      child: ListView.separated(
-        shrinkWrap: true,
-        itemCount: viewModel.items.length,
-        itemBuilder: (context, i) => _tapListener(context, viewModel.items[i], viewModel),
-        separatorBuilder: (context, i) => _listSeparator(),
-      ),
+    return ListView.separated(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+      itemCount: viewModel.items.length,
+      itemBuilder: (context, i) => _tapListener(context, viewModel.items[i], viewModel),
+      separatorBuilder: (context, i) => _listSeparator(),
     );
   }
 
   Container _listSeparator() => Container(height: 1, color: AppColors.bluePurpleAlpha20);
 
   Widget _tapListener(BuildContext context, UserActionViewModel item, UserActionListPageViewModel viewModel) {
-    return Material(
-      type: MaterialType.transparency,
-      child: InkWell(
-        onTap: () => showUserActionBottomSheet(
-          context: context,
-          builder: (context) => UserActionDetailsBottomSheet(item),
-        ).then((value) => _onUserActionDetailsDismissed(context, value, viewModel)),
-        splashColor: AppColors.bluePurple,
-        child: _listItem(item, viewModel),
+    return Container(
+      color: Colors.white,
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          onTap: () => showUserActionBottomSheet(
+            context: context,
+            builder: (context) => UserActionDetailsBottomSheet(item),
+          ).then((value) => _onUserActionDetailsDismissed(context, value, viewModel)),
+          splashColor: AppColors.bluePurple,
+          child: _listItem(item, viewModel),
+        ),
       ),
     );
   }
