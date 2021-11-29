@@ -128,6 +128,7 @@ class Strings {
   static String driverLicenceTitle = "Permis";
   static String subscribeButtonTitle = "Recevoir l'offre par mail";
   static String postulerButtonTitle = "Je postule";
+  static String requiredIcon = "Obligatoire";
 
   static String offreDetailNumber(String offreId) => "Offre n°$offreId";
 

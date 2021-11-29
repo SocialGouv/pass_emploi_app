@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -258,7 +259,8 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       children: [
         Text(Strings.educationTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
-        for (final education in educations) _setRequiredElement(element: education.label, criteria: education.requirement),
+        for (final education in educations)
+          _setRequiredElement(element: education.label, criteria: education.requirement),
         _separator(20, 20),
       ],
     );
@@ -323,14 +325,27 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
           Flexible(child: _listItem(requiredText)),
           Padding(
             padding: const EdgeInsets.only(left: 8, bottom: 12),
-            child: SvgPicture.asset("assets/ic_info.svg"),
+            child: Tooltip(
+              message: Strings.requiredIcon,
+              triggerMode: TooltipTriggerMode.tap,
+              showDuration: Duration(seconds: 3),
+              verticalOffset: 10,
+              textStyle: TextStyles.textSmRegular(),
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: const BorderRadius.all(Radius.circular(4)),
+                border: Border.all(
+                  color: AppColors.nightBlue, // red as border color
+                ),
+              ),
+              child: SvgPicture.asset("assets/ic_info.svg"),
+            ),
           ),
         ],
       ),
     );
   }
 
-  //TODO-98 : Check if url is valid
   Widget _companyName({required String companyName, required String? companyUrl}) {
     return (companyUrl == null || companyUrl.isEmpty)
         ? Text(companyName, style: TextStyles.textMdMedium)
@@ -360,7 +375,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       actionButtonWithIcon(label: Strings.subscribeButtonTitle, onPressed: () {}, icon: 'ic_send_mail.svg'),
     ]);
   }
-  
+
   Widget _postulerButton(String url) {
     return Container(
       color: Colors.white,
