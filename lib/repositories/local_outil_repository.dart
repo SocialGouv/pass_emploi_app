@@ -9,7 +9,7 @@ class LocalOutilRepository {
             "Engagement volontaire au service de l'intérêt général, accessible sans condition de diplôme, le Service Civique est indemnisé et s'effectue en France ou à l'étranger.",
         actionLabel: "En savoir plus",
         urlRedirect: "https://www.service-civique.gouv.fr/missions/",
-        imagePath: null,
+        imagePath: "civique.png",
       ),
       Outil(
         title: "Diagoriente",
@@ -17,7 +17,7 @@ class LocalOutilRepository {
             "Diagoriente est une application numérique qui propose aux jeunes d'explorer leurs expériences, d'analyser leurs compétences transversales et d'identifier leurs intérêts personnels pour faciliter leur orientation.",
         actionLabel: "Créer mon compte Diagoriente",
         urlRedirect: "https://app.diagoriente.beta.gouv.fr/register",
-        imagePath: null,
+        imagePath: "diagoriente.png",
       ),
       Outil(
         title: "J'accède à mes aides",
@@ -25,7 +25,7 @@ class LocalOutilRepository {
             "Trouvez en quelques clics les aides auxquelles vous avez droit : logement, santé, mobilité, emploi, culture, etc.",
         actionLabel: "Lancer ma simulation",
         urlRedirect: "https://mes-aides.1jeune1solution.beta.gouv.fr/simulation/individu/demandeur/date_naissance",
-        imagePath: null,
+        imagePath: "aides.png",
       ),
       Outil(
         title: "Trouver un mentor avec 1 jeune 1 mentor",
@@ -33,7 +33,7 @@ class LocalOutilRepository {
             "Expliquez nous votre situation et vos besoins. Nous vous mettrons en relation avec une association qui vous proposera un mentor.",
         actionLabel: "Me faire accompagner",
         urlRedirect: "https://www.1jeune1mentor.fr/formulaire?1jeune1solution",
-        imagePath: null,
+        imagePath: "mentor.png",
       ),
       Outil(
         title: "Trouver une formation",
