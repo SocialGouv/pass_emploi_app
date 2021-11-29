@@ -1,7 +1,7 @@
 import 'package:pass_emploi_app/models/outil.dart';
 
 class LocalOutilRepository {
-  List<Outil> getBoiteAOutils() {
+  static List<Outil> getBoiteAOutils() {
     return [
       Outil(
         title: "Missions de Service Civique",
