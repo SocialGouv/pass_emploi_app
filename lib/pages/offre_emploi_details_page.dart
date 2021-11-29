@@ -334,12 +334,12 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Widget _companyName({required String companyName, required String? companyUrl}) {
     return (companyUrl == null || companyUrl.isEmpty)
         ? Text(companyName, style: TextStyles.textMdMedium)
-        : _companyNameWithUrl(companyName: companyName);
+        : _companyNameWithUrl(companyName: companyName, url: companyUrl);
   }
 
-  Widget _companyNameWithUrl({required String companyName}) {
+  Widget _companyNameWithUrl({required String companyName, required String url}) {
     return InkWell(
-        onTap: () => {},
+        onTap: () => launch(url),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 4),
           child: Row(
