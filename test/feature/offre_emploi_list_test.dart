@@ -168,29 +168,6 @@ main() {
       });
     });
   });
-
-  test("all offre emplois state should reset on ResetOffreEmploiSearchResultsAction", () async {
-    // Given
-    final testStoreFactory = TestStoreFactory();
-    final store = testStoreFactory.initializeReduxStore(
-      initialState: _loggedInState().copyWith(
-        offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
-        offreEmploiSearchParametersState:
-            OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", department: "92"),
-      ),
-    );
-    final dataNotInitializedState = store.onChange
-        .firstWhere((element) => element.offreEmploiSearchResultsState is OffreEmploiSearchResultsNotInitializedState);
-
-    // When
-    store.dispatch(ResetOffreEmploiSearchResultsAction());
-
-    // Then
-    final resetAppState = await dataNotInitializedState;
-    expect(resetAppState.offreEmploiSearchResultsState is OffreEmploiSearchResultsNotInitializedState, true);
-    expect(resetAppState.offreEmploiSearchParametersState is OffreEmploiSearchParametersStateNotInitializedState, true);
-    expect(resetAppState.offreEmploiSearchState is OffreEmploiSearchNotInitializedState, true);
-  });
 }
 
 OffreEmploiSearchResultsState _pageOneLoadedAndMoreDataAvailable() {

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/home_page.dart';
-import 'package:pass_emploi_app/pages/offre_emploi_router_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous_list_page.dart';
+import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/pages/user_action_list_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -16,7 +16,7 @@ const int _indexOfHomePage = 0;
 const int _indexOfUserActionListPage = 1;
 const int _indexOfChatPage = 2;
 const int _indexOfRendezvousListPage = 3;
-const int _indexOfOffreEmploiRouterPage = 4;
+const int _indexOfSolutionsPage = 4;
 
 class MainPage extends StatefulWidget {
   final String userId;
@@ -95,8 +95,8 @@ class _MainPageState extends State<MainPage> {
         return ChatPage();
       case _indexOfRendezvousListPage:
         return RendezvousListPage();
-      case _indexOfOffreEmploiRouterPage:
-        return OffreEmploiRouterPage();
+      case _indexOfSolutionsPage:
+        return SolutionsTabPage();
       default:
         return HomePage(widget.userId);
     }

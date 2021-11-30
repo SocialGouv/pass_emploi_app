@@ -18,12 +18,6 @@ AppState offreEmploiReducer(AppState currentState, dynamic action) {
     }
   } else if (action is OffreEmploiSearchFailureAction) {
     return currentState.copyWith(offreEmploiSearchState: OffreEmploiSearchState.failure());
-  } else if (action is ResetOffreEmploiSearchResultsAction) {
-    return currentState.copyWith(
-      offreEmploiSearchParametersState: OffreEmploiSearchParametersState.notInitialized(),
-      offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
-      offreEmploiSearchResultsState: OffreEmploiSearchResultsState.notInitialized(),
-    );
   } else {
     return currentState;
   }
