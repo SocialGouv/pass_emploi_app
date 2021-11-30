@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/redux/actions/home_actions.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_details_actions.dart';
+import 'package:pass_emploi_app/redux/actions/offre_emploi_favoris_actions.dart';
 import 'package:pass_emploi_app/redux/actions/rendezvous_actions.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
@@ -17,6 +18,7 @@ import 'package:pass_emploi_app/redux/reducers/user_action_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 
 import 'home_action_reducer.dart';
+import 'offre_emploi_favoris_reducer.dart';
 import 'offre_emploi_reducer.dart';
 
 AppState reducer(AppState currentState, dynamic action) {
@@ -38,6 +40,8 @@ AppState reducer(AppState currentState, dynamic action) {
     return chatActionReducer(currentState, action);
   } else if (action is OffreEmploiDetailsAction) {
     return offreEmploiDetailsReducer(currentState, action);
+  } else if (action is OffreEmploiFavorisAction) {
+    return offreEmploiFavorisReducer(currentState, action);
   } else {
     return currentState;
   }
