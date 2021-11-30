@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BoiteAOutilsPage extends StatelessWidget {
-  final _outils = LocalOutilRepository.getBoiteAOutils();
+  final _outils = LocalOutilRepository().getOutils();
 
   @override
   Widget build(BuildContext context) {
