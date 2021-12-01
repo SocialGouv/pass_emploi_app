@@ -55,6 +55,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
         _shouldLoadAtBottom = viewModel.displayLoaderAtBottomOfList &&
             viewModel.displayState != OffreEmploiSearchResultsDisplayState.SHOW_ERROR
       },
+      distinct: true,
       onDispose: (store) => store.dispatch(OffreEmploiResetResultsAction()),
     );
   }
