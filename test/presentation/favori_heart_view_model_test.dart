@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/presentation/favori_heart_view_model.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_id_state.dart';
 import 'package:redux/redux.dart';
 
 main() {
