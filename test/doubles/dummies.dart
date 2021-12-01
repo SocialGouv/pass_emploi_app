@@ -1,12 +1,14 @@
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/models/home.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/home_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
+import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
@@ -42,6 +44,11 @@ class DummyUserRepository extends UserRepository {
 
 class DummyHomeRepository extends HomeRepository {
   DummyHomeRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+
+  @override
+  Future<Home?> getHome(String userId) async {
+    return null;
+  }
 }
 
 class DummyUserActionRepository extends UserActionRepository {
@@ -54,6 +61,9 @@ class DummyRendezvousRepository extends RendezvousRepository {
 
 class DummyChatRepository extends ChatRepository {
   DummyChatRepository(String firebaseEnvironmentPrefix) : super(firebaseEnvironmentPrefix);
+
+  @override
+  subscribeToMessages(String userId, Store<AppState> store) async {}
 }
 
 class DummyCrashlytics extends Crashlytics {
@@ -67,4 +77,8 @@ class DummyOffreEmploiRepository extends OffreEmploiRepository {
 
 class DummyDetailedRepository extends OffreEmploiDetailsRepository {
   DummyDetailedRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+}
+
+class DummyOffreEmploiFavorisRepository extends OffreEmploiFavorisRepository {
+  DummyOffreEmploiFavorisRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
 }

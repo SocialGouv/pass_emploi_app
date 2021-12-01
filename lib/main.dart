@@ -21,6 +21,7 @@ import 'package:pass_emploi_app/redux/store/store_factory.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/home_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
+import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
@@ -102,6 +103,7 @@ Store<AppState> _initializeReduxStore(Configuration configuration, PushNotificat
     ),
     CrashlyticsWithFirebase(FirebaseCrashlytics.instance),
     OffreEmploiDetailsRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
+    OffreEmploiFavorisRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
   ).initializeReduxStore(initialState: AppState.initialState());
 }
 

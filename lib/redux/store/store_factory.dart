@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/redux/middlewares/animation_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/api_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/crashlytics_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_details_middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/offre_emploi_favoris_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/rendezvous_middleware.dart';
@@ -15,6 +16,7 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/home_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
+import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
@@ -32,6 +34,7 @@ class StoreFactory {
   final RegisterTokenRepository registerTokenRepository;
   final Crashlytics crashlytics;
   final OffreEmploiDetailsRepository offreEmploiDetailsRepository;
+  final OffreEmploiFavorisRepository offreEmploiFavorisRepository;
 
   StoreFactory(
     this.userRepository,
@@ -43,6 +46,7 @@ class StoreFactory {
     this.registerTokenRepository,
     this.crashlytics,
     this.offreEmploiDetailsRepository,
+    this.offreEmploiFavorisRepository,
   );
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -62,6 +66,7 @@ class StoreFactory {
         RegisterPushNotificationTokenMiddleware(registerTokenRepository),
         OffreEmploiMiddleware(offreEmploiRepository),
         OffreEmploiDetailsMiddleware(offreEmploiDetailsRepository),
+        OffreEmploiFavorisMiddleware(offreEmploiFavorisRepository),
         RegisterPushNotificationTokenMiddleware(
           registerTokenRepository,
         ),
