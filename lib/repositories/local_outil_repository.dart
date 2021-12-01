@@ -4,7 +4,7 @@ class LocalOutilRepository {
   List<Outil> getOutils() {
     return [
       Outil(
-        title: "Missions de Service Civique",
+        title: "Mission de Service Civique",
         description:
             "Engagement volontaire au service de l'intérêt général, accessible sans condition de diplôme, le Service Civique est indemnisé et s'effectue en France ou à l'étranger.",
         actionLabel: "En savoir plus",
@@ -44,22 +44,22 @@ class LocalOutilRepository {
       ),
       Outil(
         title: "Bénévolat",
-        description: "Trouvez des missions de bénévolat prêt de chez vous ou à distance.",
+        description: "Trouvez des missions de bénévolat près de chez vous ou à distance.",
         actionLabel: "Je recherche une mission",
         urlRedirect: "https://www.1jeune1solution.gouv.fr/benevolat",
         imagePath: null,
       ),
       Outil(
         title: "Événements de recrutement",
-        description: "Trouvez des centaines d’évéments de recrutement pour tous les jeunes partout en France.",
-        actionLabel: "Me diriger vers l'Emploi-Store",
+        description: "Trouvez des centaines d’événements de recrutement pour tous les jeunes partout en France.",
+        actionLabel: "Je recherche un événement",
         urlRedirect: "https://www.1jeune1solution.gouv.fr/evenements",
         imagePath: null,
       ),
       Outil(
         title: "Emploi-Store",
         description:
-            "Une plateforme pour trouver les sites et applications dédiés à la recherche d'emploi en France et à l'étranger, à la formation et à la création d'entreprise",
+            "Une plateforme pour trouver les sites et applications dédiés à la recherche d'emploi ainsi qu’à la formation et à la création d'entreprise en France et à l'international.",
         actionLabel: "Me diriger vers l’Emploi-Store",
         urlRedirect: "https://www.emploi-store.fr/portail/accueil",
         imagePath: null,
@@ -67,14 +67,14 @@ class LocalOutilRepository {
       Outil(
         title: "La bonne boîte",
         description:
-            "Envoyez votre CV à la bonne entreprise ! Découvrez en un clic les entreprises qui recrutent dans votre métier prêt de chez vous.",
+            "Envoyez votre CV à la bonne entreprise ! Découvrez en un clic les entreprises qui recrutent dans votre métier près de chez vous.",
         actionLabel: "Trouver la bonne boîte",
         urlRedirect: "https://labonneboite.pole-emploi.fr/",
         imagePath: null,
       ),
       Outil(
         title: "Alternance avec 1 jeune, 1 solution",
-        description: "Trouver la formation et l’entreprise pour réaliser votre projet d’alternance.",
+        description: "Trouvez la formation et l’entreprise pour réaliser votre projet d’alternance.",
         actionLabel: "Je recherche une altenance",
         urlRedirect: "https://www.1jeune1solution.gouv.fr/apprentissage",
         imagePath: null,

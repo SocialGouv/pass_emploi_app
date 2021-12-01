@@ -106,9 +106,9 @@ class Strings {
   static String jobLocationHint = "Département";
   static String searchButton = "RECHERCHER";
   static String offreDetails = "Détails de l'offre";
-  static String offresTabTitle = "Offres";
+  static String offresTabTitle = "Recherche";
   static String boiteAOutilsTabTitle = "Boîte à outils";
-  static String solutionsAppBarTitle = "Recherche";
+  static String solutionsAppBarTitle = "Solutions";
 
   // Solutions Errors
   static String noContentError = "Aucune offre ne correspond à votre recherche";
