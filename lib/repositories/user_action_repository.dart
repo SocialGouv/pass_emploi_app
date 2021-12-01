@@ -1,24 +1,25 @@
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
-import 'package:pass_emploi_app/network/patch_user_action_request.dart';
 import 'package:pass_emploi_app/network/post_user_action_request.dart';
+import 'package:pass_emploi_app/network/put_user_action_request.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
 
 class UserActionRepository {
-  final String baseUrl;
-  final HeadersBuilder headerBuilder;
+  final String _baseUrl;
+  final Client _httpClient;
+  final HeadersBuilder _headerBuilder;
 
-  UserActionRepository(this.baseUrl, this.headerBuilder);
+  UserActionRepository(this._baseUrl, this._httpClient, this._headerBuilder);
 
   Future<List<UserAction>?> getUserActions(String userId) async {
-    final url = Uri.parse(baseUrl + "/jeunes/$userId/actions");
+    final url = Uri.parse(_baseUrl + "/jeunes/$userId/actions");
     try {
-      final response = await http.get(
+      final response = await _httpClient.get(
         url,
-        headers: await headerBuilder.headers(userId: userId),
+        headers: await _headerBuilder.headers(userId: userId),
       );
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes);
@@ -31,12 +32,12 @@ class UserActionRepository {
   }
 
   Future<void> updateActionStatus(String userId, String actionId, UserActionStatus newStatus) async {
-    var url = Uri.parse(baseUrl + "/actions/$actionId");
+    final url = Uri.parse(_baseUrl + "/actions/$actionId");
     try {
-      http.patch(
+      _httpClient.put(
         url,
-        headers: await headerBuilder.headers(userId: userId, contentType: 'application/json'),
-        body: customJsonEncode(PatchUserActionRequest(status: newStatus)),
+        headers: await _headerBuilder.headers(userId: userId, contentType: 'application/json'),
+        body: customJsonEncode(PutUserActionRequest(status: newStatus)),
       );
     } catch (e) {
       print('Exception on ${url.toString()}: ' + e.toString());
@@ -44,12 +45,26 @@ class UserActionRepository {
   }
 
   Future<bool> createUserAction(String userId, String? content, String? comment, UserActionStatus status) async {
-    var url = Uri.parse(baseUrl + "/jeunes/$userId/action");
+    final url = Uri.parse(_baseUrl + "/jeunes/$userId/action");
     try {
-      final response = await http.post(
+      final response = await _httpClient.post(
         url,
-        headers: await headerBuilder.headers(userId: userId, contentType: 'application/json'),
+        headers: await _headerBuilder.headers(userId: userId, contentType: 'application/json'),
         body: customJsonEncode(PostUserActionRequest(content: content!, comment: comment, status: status)),
+      );
+      if (response.statusCode.isValid()) return true;
+    } catch (e) {
+      print('Exception on ${url.toString()}: ' + e.toString());
+    }
+    return false;
+  }
+
+  Future<bool> deleteUserAction(String actionId) async {
+    final url = Uri.parse(_baseUrl + "/actions/$actionId");
+    try {
+      final response = await _httpClient.delete(
+        url,
+        headers: await _headerBuilder.headers(),
       );
       if (response.statusCode.isValid()) return true;
     } catch (e) {

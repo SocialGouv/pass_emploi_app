@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
+import 'package:pass_emploi_app/redux/states/user_action_delete_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 import 'package:redux/redux.dart';
@@ -55,18 +56,46 @@ main() {
     expect(viewModel.displayState, UserActionDetailsDisplayState.TO_DISMISS);
   });
 
-  test("create when action is no update needed should dismiss details", () {
+  test("create when delete action succeeds should dismiss details", () {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: AppState.initialState().copyWith(userActionUpdateState: UserActionUpdateState.noUpdateNeeded()),
+      initialState: AppState.initialState().copyWith(userActionDeleteState: UserActionDeleteState.success()),
     );
 
     // When
     final viewModel = UserActionDetailsViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, UserActionDetailsDisplayState.TO_DISMISS);
+    expect(viewModel.displayState, UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION);
+  });
+
+  test("create when delete action loads should display loading", () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(userActionDeleteState: UserActionDeleteState.loading()),
+    );
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, UserActionDetailsDisplayState.SHOW_LOADING);
+  });
+
+  test("create when delete action fails should display error", () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(userActionDeleteState: UserActionDeleteState.failure()),
+    );
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, UserActionDetailsDisplayState.SHOW_DELETE_ERROR);
   });
 
 

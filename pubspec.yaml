@@ -2,10 +2,11 @@ name: pass_emploi_app
 description: Pass Emploi iOS and Android app.
 
 publish_to: 'none'
-version: 0.6.0+23
+version: 0.7.0+100
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: "2.14.4" # Dart version
+  flutter: 2.5.3
 
 dependencies:
   # Flutter
@@ -16,8 +17,11 @@ dependencies:
   flutter_redux: 0.8.2
   package_info: 2.0.2
   flutter_local_notifications: 9.0.0
+  flutter_dotenv: 5.0.2
+  url_launcher: 6.0.15
   # Dart
   http: 0.13.3
+  http_interceptor: 1.0.1
   intl: 0.17.0
   collection: 1.15.0
   equatable: 2.0.3
@@ -25,11 +29,12 @@ dependencies:
   firebase_core: 1.7.0
   firebase_crashlytics: 2.2.1
   firebase_remote_config: 0.10.0+5
-  firebase_analytics: 8.3.2
   firebase_messaging: 10.0.8
   cloud_firestore: 2.5.3
   # UI
   google_fonts: 2.1.0
+  # Analytics
+  matomo: 1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -41,3 +46,4 @@ flutter:
 
   assets:
     - assets/
+    - env/

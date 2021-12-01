@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/home_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous_list_page.dart';
+import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/pages/user_action_list_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -12,21 +12,41 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/menu_item.dart';
 
+const int _indexOfHomePage = 0;
+const int _indexOfUserActionListPage = 1;
+const int _indexOfChatPage = 2;
+const int _indexOfRendezvousListPage = 3;
+const int _indexOfSolutionsPage = 4;
+
 class MainPage extends StatefulWidget {
   final String userId;
+  final MainPageDisplayState displayState;
+  final int deepLinkKey;
 
-  MainPage._(this.userId);
-
-  static MaterialPageRoute materialPageRoute(String userId) {
-    return MaterialPageRoute(builder: (context) => MainPage._(userId), settings: AnalyticsRouteSettings.main());
-  }
+  MainPage(this.userId, {this.displayState = MainPageDisplayState.DEFAULT, this.deepLinkKey = 0})
+      : super(key: ValueKey(displayState.hashCode + deepLinkKey));
 
   @override
-  _MainPageState createState() => _MainPageState();
+  _MainPageState createState() => _MainPageState(_getIndexOfDisplayState(displayState));
+
+  int _getIndexOfDisplayState(MainPageDisplayState displayState) {
+    switch (displayState) {
+      case MainPageDisplayState.DEFAULT:
+        return _indexOfHomePage;
+      case MainPageDisplayState.ACTIONS_LIST:
+        return _indexOfUserActionListPage;
+      case MainPageDisplayState.CHAT:
+        return _indexOfChatPage;
+      case MainPageDisplayState.RENDEZVOUS_LIST:
+        return _indexOfRendezvousListPage;
+    }
+  }
 }
 
 class _MainPageState extends State<MainPage> {
-  int _selectedIndex = 0;
+  int _selectedIndex;
+
+  _MainPageState(this._selectedIndex);
 
   @override
   Widget build(BuildContext context) {
@@ -53,6 +73,7 @@ class _MainPageState extends State<MainPage> {
           MenuItem(drawableRes: Drawables.icMenuAction, label: Strings.menuActions),
           MenuItem(drawableRes: Drawables.icMenuChat, label: Strings.menuChat, withBadge: viewModel.withChatBadge),
           MenuItem(drawableRes: Drawables.icMenuRendezvous, label: Strings.menuRendezvous),
+          MenuItem(drawableRes: Drawables.icSearchingBar, label: Strings.menuSolutions),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
@@ -68,14 +89,14 @@ class _MainPageState extends State<MainPage> {
 
   Widget _content(int index) {
     switch (index) {
-      case 0:
-        return HomePage(widget.userId);
-      case 1:
+      case _indexOfUserActionListPage:
         return UserActionListPage(widget.userId);
-      case 2:
+      case _indexOfChatPage:
         return ChatPage();
-      case 3:
+      case _indexOfRendezvousListPage:
         return RendezvousListPage();
+      case _indexOfSolutionsPage:
+        return SolutionsTabPage();
       default:
         return HomePage(widget.userId);
     }

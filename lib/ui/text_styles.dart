@@ -52,6 +52,14 @@ class TextStyles {
     letterSpacing: -0.3,
   );
 
+  static final textMdMediumUnderline = GoogleFonts.rubik(
+    color: AppColors.nightBlue,
+    fontSize: FontSizes.medium,
+    fontWeight: FontWeight.w500,
+    letterSpacing: -0.3,
+    decoration: TextDecoration.underline,
+  );
+
   static textMenuRegular(Color color) {
     return GoogleFonts.rubik(
       color: color,

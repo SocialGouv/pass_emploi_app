@@ -14,6 +14,7 @@ class Strings {
   static String menuActions = "Actions";
   static String menuChat = "Messages";
   static String menuRendezvous = "Rendez-vous";
+  static String menuSolutions = "Solutions";
 
   // Chat
   static String yourMessage = "Votre message…";
@@ -28,21 +29,21 @@ class Strings {
 
   // Force Update
   static String update = "Mise à jour";
-  static String forceUpdateExplanation = "Votre application nécessite d\'être mise à jour pour son bon fonctionnement.";
+  static String forceUpdateExplanation = "Votre application nécessite d\'être mise à jour pour son bon fonctionnement";
 
   // Home
-  static String dashboardError = "Erreur lors de la récupérations de votre tableau de bord.";
+  static String dashboardError = "Erreur lors de la récupérations de votre tableau de bord";
   static String reconnect = "Me reconnecter";
   static String dashboardWelcome = "Bienvenue sur votre tableau de bord";
   static String refresh = "Rafraîchir";
   static String seeAllActions = "Voir toutes les actions";
   static String noActionsYetContactConseiller =
-      "Vous n’avez pas encore d’actions en cours.\nContactez votre conseiller pour les définir avec lui.";
+      "Vous n’avez pas encore d’actions en cours.\nContactez votre conseiller pour les définir avec lui";
   static String noMoreActionsContactConseiller =
-      "Bravo :) Vous n’avez plus d’actions en cours.\nContactez votre conseiller pour obtenir de nouvelles actions.";
+      "Bravo :) Vous n’avez plus d’actions en cours.\nContactez votre conseiller pour obtenir de nouvelles actions";
   static String upcomingRendezVous = "Mes rendez-vous à venir";
   static String noUpcomingRendezVous =
-      "Vous n’avez pas de rendez-vous prévus.\nContactez votre conseiller pour prendre rendez-vous.";
+      "Vous n’avez pas de rendez-vous prévus.\nContactez votre conseiller pour prendre rendez-vous";
 
   static String hello(firstName) => "Bonjour $firstName";
 
@@ -60,14 +61,14 @@ class Strings {
   // Rendez-Vous
   static String myRendezVous = "Mon rendez-vous";
   static String rendezVousConseillerCommentLabel = "Commentaire de mon conseiller";
-  static String cantMakeItNoBigDeal = "Un imprévu ? Ce n’est pas grave, mais…";
+  static String cantMakeItNoBigDeal = "Vous n’êtes pas disponible sur ce créneau ?";
   static String shouldInformConseiller =
-      "En cas d’imprévu, il est impératif de prévenir votre conseiller. Pour cela, n’hésitez pas à le contacter via la messagerie de Pass emploi.";
+      "Il est impératif de prévenir votre conseiller et de justifier votre absence. Pour cela, contactez-le grâce à la messagerie.";
 
-  static String rendezVousModalityMessage(modality) => "Le rendez-vous se fera $modality.";
+  static String rendezVousModalityMessage(modality) => "Le rendez-vous se fera $modality";
 
   // User Action
-  static String actionsError = "Erreur lors de la récupérations de vos actions.";
+  static String actionsError = "Erreur lors de la récupération de vos actions";
   static String actionDone = "Terminée";
   static String aboutThisAction = "À propos de cette action";
   static String actionDetails = "Détail de l'action";
@@ -83,14 +84,56 @@ class Strings {
   static String mandatoryActionLabelError = "L'intitulé de l'action doit être renseigné";
   static String defineActionStatus = "Définir le statut";
   static String actionCreatedBy = "Créée par";
-  static String actionCreationError = "Erreur lors de la création de l'action. Veuillez réessayer.";
+  static String actionCreationError = "Erreur lors de la création de l'action. Veuillez réessayer";
   static String you = "Vous";
   static String congratulationsActionUpdated =
-      "Félicitations !\n\nLa mise à jour de votre action a bien été prise en compte.";
+      "Félicitations !\n\nLa mise à jour de votre action a bien été prise en compte";
   static String conseillerNotifiedActionUpdated =
-      "Votre conseiller a reçu une notification de la mise à jour de votre action.";
+      "Votre conseiller a reçu une notification de la mise à jour de votre action";
   static String understood = "Bien compris";
+  static String deleteAction = "Supprimer l'action";
+  static String deleteActionError = "Erreur lors de la suppression de l'action. Veuillez réessayer";
+  static String deleteActionSuccess = "L’action a bien été supprimée";
 
   // Offres Emploi
   static String offresEmploiTitle = "Résultats offres d'emploi";
+
+  //Solutions
+  static String searchingPageTitle = "Recherche de solutions";
+  static String keyWordsTitle = "Mots clés";
+  static String keyWordsTextField = "Métier, compétence...";
+  static String jobLocationTitle = "Lieu de travail";
+  static String jobLocationHint = "Département";
+  static String searchButton = "RECHERCHER";
+  static String offreDetails = "Détails de l'offre";
+  static String offresTabTitle = "Offres";
+  static String boiteAOutilsTabTitle = "Boîte à outils";
+  static String solutionsAppBarTitle = "Recherche";
+
+  // Solutions Errors
+  static String noContentError = "Aucune offre ne correspond à votre recherche";
+  static String genericError = "Erreur lors de la recherche. Veuillez réessayer";
+  static String loadMoreOffresError = "Erreur lors du chargement des offres";
+
+  // Offre emploi details
+  static String offreDetailsError = "Erreur lors de la récupération de l'offre";
+  static String offreDetailsTitle = "Détail de l'offre";
+  static String profileTitle = "Profil souhaité";
+  static String experienceTitle = "Expérience";
+  static String companyDescriptionTitle = "Détail de l'entreprise";
+  static String companyAdaptedTitle = "Entreprise adaptée";
+  static String companyAccessibilityTitle = "Entreprise handi-bienveillante";
+  static String companyTitle = "Entreprise";
+  static String skillsTitle = "Savoirs et savoir-faire";
+  static String softSkillsTitle = "Savoir-être professionnels";
+  static String languageTitle = "Langue";
+  static String educationTitle = "Formation";
+  static String driverLicenceTitle = "Permis";
+  static String subscribeButtonTitle = "Recevoir l'offre par mail";
+  static String postulerButtonTitle = "Je postule";
+  static String requiredIcon = "Obligatoire";
+
+  static String offreDetailNumber(String offreId) => "Offre n°$offreId";
+
+  static String offreDetailLastUpdate(String lastUpdate) => "Actualisée le $lastUpdate";
 }

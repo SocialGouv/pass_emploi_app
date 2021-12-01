@@ -1,89 +1,198 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/presentation/offre_emploi_list_page_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
+import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
+import 'package:pass_emploi_app/presentation/offre_emploi_search_results_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
-class OffreEmploiListPage extends StatelessWidget {
-  OffreEmploiListPage._();
+class OffreEmploiListPage extends TraceableStatefulWidget {
+  OffreEmploiListPage() : super(name: AnalyticsScreenNames.offreEmploiResults);
 
-  static MaterialPageRoute materialPageRoute() {
-    return MaterialPageRoute(
-        builder: (context) => OffreEmploiListPage._(), settings: AnalyticsRouteSettings.offreEmploiList());
+  @override
+  State<OffreEmploiListPage> createState() => _OffreEmploiListPageState();
+}
+
+class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
+  late ScrollController _scrollController;
+  OffreEmploiSearchResultsViewModel? _currentViewModel;
+  double _offsetBeforeLoading = 0;
+  bool _shouldLoadAtBottom = true;
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      if (_shouldLoadAtBottom && _scrollController.offset >= _scrollController.position.maxScrollExtent) {
+        _offsetBeforeLoading = _scrollController.offset;
+        _currentViewModel?.onLoadMore();
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, OffreEmploiListPageViewModel>(
-      onInit: (store) => store.dispatch(SearchOffreEmploiAction(keywords: "developpeur mobile", department: "75")),
-      builder: (context, vm) => _scaffold(context, vm),
-      converter: (store) => OffreEmploiListPageViewModel.create(store),
+    return StoreConnector<AppState, OffreEmploiSearchResultsViewModel>(
+      converter: (store) => OffreEmploiSearchResultsViewModel.create(store),
+      onInitialBuild: (viewModel) => _currentViewModel = viewModel,
+      builder: (context, viewModel) => _scaffold(context, viewModel),
+      onDidChange: (_, viewModel) => {
+        _currentViewModel = viewModel,
+        _scrollController.jumpTo(_offsetBeforeLoading),
+        _shouldLoadAtBottom = viewModel.displayLoaderAtBottomOfList &&
+            viewModel.displayState != OffreEmploiSearchResultsDisplayState.SHOW_ERROR
+      },
     );
   }
 
-  Widget _scaffold(BuildContext context, OffreEmploiListPageViewModel listViewModel) {
+  Widget _scaffold(BuildContext context, OffreEmploiSearchResultsViewModel viewModel) {
     return Scaffold(
       backgroundColor: AppColors.lightBlue,
       appBar: FlatDefaultAppBar(
         title: Text(Strings.offresEmploiTitle, style: TextStyles.textLgMedium),
       ),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-        child: ClipRRect(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(16), bottom: Radius.zero),
-          child: Container(
-            color: Colors.white,
-            child: ListView.separated(
-              itemBuilder: (context, index) => _buildItem(context, listViewModel.items[index]),
-              separatorBuilder: (context, index) => _listSeparator(),
-              itemCount: listViewModel.items.length,
-            ),
+      body: ListView.separated(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+          controller: _scrollController,
+          itemBuilder: (context, index) => _buildItem(context, index, viewModel),
+          separatorBuilder: (context, index) => _listSeparator(),
+          itemCount: _itemCount(viewModel)),
+    );
+  }
+
+  Widget __buildOffreItemWithListener(
+    BuildContext context,
+    int index,
+    OffreEmploiSearchResultsViewModel resultsViewModel,
+  ) {
+    return Container(
+      color: Colors.white,
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          onTap: () => _showOffreEmploiDetailsPage(context, resultsViewModel.items[index].id),
+          splashColor: AppColors.bluePurple,
+          child: _buildOffreItem(resultsViewModel, index),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFirstItem(
+    BuildContext context,
+    OffreEmploiSearchResultsViewModel resultsViewModel,
+  ) {
+    return ClipRRect(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(16), bottom: Radius.zero),
+      child: Container(
+        color: Colors.white,
+        child: Material(
+          type: MaterialType.transparency,
+          child: InkWell(
+            onTap: () => _showOffreEmploiDetailsPage(context, resultsViewModel.items[0].id),
+            splashColor: AppColors.bluePurple,
+            child: _buildOffreItem(resultsViewModel, 0),
           ),
         ),
       ),
     );
   }
 
-  Widget _buildItem(BuildContext context, OffreEmploiItemViewModel itemViewModel) {
+  Widget _buildItem(BuildContext context, int index, OffreEmploiSearchResultsViewModel resultsViewModel) {
+    if (index == 0) {
+      return _buildFirstItem(context, resultsViewModel);
+    } else if (index == resultsViewModel.items.length) {
+      return _buildLastItem(resultsViewModel);
+    } else {
+      return __buildOffreItemWithListener(context, index, resultsViewModel);
+    }
+  }
+
+  Widget _buildOffreItem(OffreEmploiSearchResultsViewModel resultsViewModel, int index) {
+    final itemViewModel = resultsViewModel.items[index];
+    return Container(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Text(
+              itemViewModel.title,
+              style: TextStyles.textSmMedium(),
+            ),
+            if (itemViewModel.companyName != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 8.0),
+                child: Text(
+                  itemViewModel.companyName!,
+                  style: TextStyles.textSmRegular(color: AppColors.bluePurple),
+                ),
+              ),
+            SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                _lightBlueTag(label: itemViewModel.contractType),
+                if (itemViewModel.duration != null) _lightBlueTag(label: itemViewModel.duration!),
+                if (itemViewModel.location != null)
+                  _lightBlueTag(label: itemViewModel.location!, icon: SvgPicture.asset("assets/ic_place.svg")),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Padding _buildLastItem(OffreEmploiSearchResultsViewModel resultsViewModel) {
+    if (resultsViewModel.displayState == OffreEmploiSearchResultsDisplayState.SHOW_ERROR) {
+      return _buildErrorItem();
+    } else {
+      return _buildLoaderItem();
+    }
+  }
+
+  Padding _buildErrorItem() {
     return Padding(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.fromLTRB(0, 24, 0, 16),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            itemViewModel.title,
-            style: TextStyles.textSmMedium(),
+            Strings.loadMoreOffresError,
+            textAlign: TextAlign.center,
+            style: TextStyles.textSmRegular(color: AppColors.bluePurple),
           ),
-          if (itemViewModel.companyName != null)
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0),
-              child: Text(
-                itemViewModel.companyName!,
-                style: TextStyles.textSmRegular(color: AppColors.bluePurple),
-              ),
-            ),
-          SizedBox(height: 8),
-          Row(
-            children: [
-              _tag(label: itemViewModel.contractType),
-              SizedBox(width: 8),
-              _tag(label: itemViewModel.location, icon: SvgPicture.asset("assets/ic_place.svg")),
-            ],
-          )
+          TextButton(
+              onPressed: () => _currentViewModel?.onLoadMore(),
+              child: Text(Strings.retry, style: TextStyles.textMdMedium)),
         ],
       ),
     );
   }
 
+  Padding _buildLoaderItem() {
+    return Padding(
+      padding: const EdgeInsets.all(24),
+      child: Center(child: CircularProgressIndicator(color: AppColors.nightBlue)),
+    );
+  }
+
   Widget _listSeparator() => Container(height: 1, color: AppColors.bluePurpleAlpha20);
 
-  Container _tag({required String label, SvgPicture? icon}) {
+  Container _lightBlueTag({required String label, SvgPicture? icon}) {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.lightBlue,
@@ -92,18 +201,32 @@ class OffreEmploiListPage extends StatelessWidget {
       child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
           child: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               if (icon != null)
                 Padding(
                   padding: const EdgeInsets.only(right: 6),
                   child: icon,
                 ),
-              Text(
-                label,
-                style: TextStyles.textSmRegular(),
+              Flexible(
+                child: Text(
+                  label,
+                  style: TextStyles.textSmRegular(),
+                ),
               ),
             ],
           )),
     );
+  }
+
+  void _showOffreEmploiDetailsPage(BuildContext context, String offreId) {
+    Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(offreId));
+  }
+
+  int _itemCount(OffreEmploiSearchResultsViewModel viewModel) {
+    if (viewModel.displayLoaderAtBottomOfList)
+      return viewModel.items.length + 1;
+    else
+      return viewModel.items.length;
   }
 }

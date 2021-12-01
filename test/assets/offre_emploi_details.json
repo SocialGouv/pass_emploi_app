@@ -1,0 +1,126 @@
+{
+  "id": "123TZKB",
+  "urlRedirectPourPostulation": "https://candidat.pole-emploi.fr/offres/recherche/detail/123TZKB",
+  "data": {
+    "id": "123TZKB",
+    "intitule": "Technicien / Technicienne d'installation de réseaux câblés  (H/F)",
+    "description": "Vos Missions :\n\nRéaliser du tirage de câbles,\nEffectuer des raccordements en fibre optique et câble coaxial,\n\nLe permis B est requis pour ce poste car vous vous déplacerez à bord d'un véhicule de service mis à votre disposition.",
+    "dateCreation": "2021-11-22T14:47:29.000Z",
+    "dateActualisation": "2021-11-22T14:47:29.000Z",
+    "lieuTravail": {
+      "libelle": "59 - Nord"
+    },
+    "romeCode": "I1307",
+    "romeLibelle": "Installation et maintenance télécoms et courants faibles",
+    "appellationlibelle": "Technicien(ne) installation réseaux câblés fibre optique",
+    "entreprise": {
+      "nom": "LTD INTERNATIONAL",
+      "description": "LTD international est à la fois un cabinet de recrutement et une agence de travail temporaire spécialisé dans le tertiaire haut de gamme et le luxe.",
+      "logo": "https://entreprise.pole-emploi.fr/static/img/logos/k9vB1gBaz0JyAmkEx4vjpU1BAsOwMOTr.png",
+      "url": "http://www.ltd-international.com/",
+      "entrepriseAdaptee": false
+    },
+    "typeContrat": "CDI",
+    "typeContratLibelle": "Contrat à durée indéterminée",
+    "natureContrat": "Contrat travail",
+    "experienceExige": "D",
+    "experienceLibelle": "Débutant accepté - Expérience électricité/VRD appréciée",
+    "experienceCommentaire": "Expérience électricité/VRD appréciée",
+    "formations": [
+      {
+        "codeFormation": "31606",
+        "domaineLibelle": "conduite projet industriel",
+        "niveauLibelle": "Bac+5 et plus ou équivalents",
+        "exigence": "E"
+      }
+    ],
+    "permis": [
+      {
+        "libelle": "B - Véhicule léger",
+        "exigence": "E"
+      }
+    ],
+    "langues": [
+      {
+        "libelle": "Anglais",
+        "exigence": "E"
+      },
+      {
+        "libelle": "Espagnol",
+        "exigence": "S"
+      }
+    ],
+    "competences": [
+      {
+        "code": "100038",
+        "libelle": "Chiffrage/calcul de coût",
+        "exigence": "S"
+      },
+      {
+        "code": "106761",
+        "libelle": "Installer l'équipement sur le site et le connecter aux réseaux extérieurs",
+        "exigence": "E"
+      },
+      {
+        "code": "117370",
+        "libelle": "Identifier les matériels à intégrer",
+        "exigence": "E"
+      },
+      {
+        "code": "117371",
+        "libelle": "Assembler les éléments de l'équipement",
+        "exigence": "E"
+      },
+      {
+        "code": "125415",
+        "libelle": "Connecter une boîte de raccordements",
+        "exigence": "E"
+      }
+    ],
+    "salaire": {
+      "libelle": "Mensuel de 1590 Euros sur 12 mois",
+      "commentaire": "Panier repas",
+      "complement1": "Primes",
+      "complement2": "Autre"
+    },
+    "dureeTravailLibelle": "35H Horaires normaux",
+    "dureeTravailLibelleConverti": "Temps plein",
+    "complementExercice": "Déplacements géographiques",
+    "alternance": false,
+    "contact": {
+      "nom": "Pôle Emploi LILLE REPUBLIQUE",
+      "coordonnees1": "121 BD DE LA LIBERTE\nCS10005",
+      "coordonnees2": "59800 LILLE",
+      "coordonnees3": "Pour postuler, utiliser le lien suivant : https://candidat.pole-emploi.fr/offres/recherche/detail/123TZKB"
+    },
+    "agence": {
+      "courriel": "Pour postuler, utiliser le lien suivant : https://candidat.pole-emploi.fr/offres/recherche/detail/123TZKB"
+    },
+    "nombrePostes": 1,
+    "accessibleTH": false,
+    "deplacementCode": "3",
+    "deplacementLibelle": "Fréquents Régional",
+    "qualificationCode": "2",
+    "qualificationLibelle": "Ouvrier spécialisé",
+    "secteurActivite": "43",
+    "secteurActiviteLibelle": "Travaux d'installation électrique dans tous locaux",
+    "qualitesProfessionnelles": [
+      {
+        "libelle": "Autonomie",
+        "description": "Capacité à prendre en charge son activité sans devoir être encadré de façon continue. Exemple : travailler efficacement sans responsable"
+      },
+      {
+        "libelle": "Capacité de décision",
+        "description": "Capacité à faire des choix pour agir, à prendre en charge son activité et à rendre compte, sans devoir être encadré de façon continue. Exemple : savoir faire des choix"
+      },
+      {
+        "libelle": "Persévérance",
+        "description": "Capacité à maintenir son effort jusqu'à l'achèvement complet d'une tâche, quels que soient les imprévus et les obstacles de réalisation rencontrés. Exemple : faire preuve de volonté, d'assiduité, de régularité, rebondir après une erreur"
+      }
+    ],
+    "origineOffre": {
+      "origine": "1",
+      "urlOrigine": "https://candidat.pole-emploi.fr/offres/recherche/detail/123TZKB"
+    }
+  }
+}

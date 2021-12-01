@@ -1,8 +1,10 @@
-import 'package:pass_emploi_app/crashlytics/Crashlytics.dart';
+import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/store/store_factory.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/home_repository.dart';
+import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
+import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
@@ -17,10 +19,12 @@ class TestStoreFactory {
   HomeRepository homeRepository = DummyHomeRepository();
   UserActionRepository userActionRepository = DummyUserActionRepository();
   RendezvousRepository rendezvousRepository = DummyRendezvousRepository();
-  ChatRepository chatRepository = DummyChatRepository();
+  ChatRepository chatRepository = DummyChatRepository('firebaseEnvironmentPrefix');
   OffreEmploiRepository offreEmploiRepository = DummyOffreEmploiRepository();
+  OffreEmploiDetailsRepository detailedOfferRepository = DummyDetailedRepository();
   RegisterTokenRepository registerTokenRepository = DummyRegisterTokenRepository();
   Crashlytics crashlytics = DummyCrashlytics();
+  OffreEmploiFavorisRepository offreEmploiFavorisRepository = DummyOffreEmploiFavorisRepository();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
@@ -32,6 +36,8 @@ class TestStoreFactory {
       chatRepository,
       registerTokenRepository,
       crashlytics,
+      detailedOfferRepository,
+      offreEmploiFavorisRepository,
     ).initializeReduxStore(initialState: initialState);
   }
 }

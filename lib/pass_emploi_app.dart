@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/analytics/analytics.dart';
 import 'package:pass_emploi_app/pages/router_page.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
-import 'analytics/analytics_observer.dart';
-
 class PassEmploiApp extends StatelessWidget {
   final Store<AppState> _store;
-  final Analytics analytics;
 
-  PassEmploiApp(this._store, this.analytics);
+  PassEmploiApp(this._store);
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +25,6 @@ class PassEmploiApp extends StatelessWidget {
               },
             )),
         home: RouterPage(),
-        navigatorObservers: [
-          AnalyticsObserver(analytics),
-        ],
       ),
     );
   }

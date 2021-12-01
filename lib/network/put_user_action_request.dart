@@ -2,10 +2,10 @@ import 'package:pass_emploi_app/models/user_action.dart';
 
 import 'json_serializable.dart';
 
-class PatchUserActionRequest implements JsonSerializable {
+class PutUserActionRequest implements JsonSerializable {
   final UserActionStatus status;
 
-  PatchUserActionRequest({required this.status});
+  PutUserActionRequest({required this.status});
 
   @override
   Map<String, dynamic> toJson() => {"status": _toString(status)};

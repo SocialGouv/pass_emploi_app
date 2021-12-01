@@ -1,17 +1,21 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:redux/redux.dart';
 
 class ChatRepository {
-  static const _FIREBASE_ENV = String.fromEnvironment('FIREBASE_ENVIRONMENT_PREFIX');
-  static const _COLLECTION_PATH = _FIREBASE_ENV + "-chat";
+  String _collectionPath = '';
   StreamSubscription<QuerySnapshot>? _messagesSubscription;
   StreamSubscription<DocumentSnapshot>? _chatStatusSubscription;
   String? _chatDocumentId;
+
+  ChatRepository(String firebaseEnvironmentPrefix) {
+    this._collectionPath = firebaseEnvironmentPrefix + "-chat";
+  }
 
   // TODO unsubscribe depending on app lifecycle
   subscribeToMessages(String userId, Store<AppState> store) async {
@@ -19,7 +23,7 @@ class ChatRepository {
     store.dispatch(ChatLoadingAction());
 
     final chats =
-        await FirebaseFirestore.instance.collection(_COLLECTION_PATH).where('jeuneId', isEqualTo: userId).get();
+        await FirebaseFirestore.instance.collection(_collectionPath).where('jeuneId', isEqualTo: userId).get();
     _chatDocumentId = chats.docs.first.id;
 
     final Stream<QuerySnapshot> messageStream = _messagesCollection().orderBy('creationDate').snapshots();
@@ -90,7 +94,7 @@ class ChatRepository {
   }
 
   _messagesCollection() =>
-      FirebaseFirestore.instance.collection(_COLLECTION_PATH).doc(_chatDocumentId).collection('messages');
+      FirebaseFirestore.instance.collection(_collectionPath).doc(_chatDocumentId).collection('messages');
 
-  _chatStatusCollection() => FirebaseFirestore.instance.collection(_COLLECTION_PATH).doc(_chatDocumentId);
+  _chatStatusCollection() => FirebaseFirestore.instance.collection(_collectionPath).doc(_chatDocumentId);
 }

@@ -2,15 +2,16 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:http_interceptor/http/intercepted_client.dart';
+import 'package:matomo/matomo.dart';
 import 'package:package_info/package_info.dart';
-import 'package:pass_emploi_app/crashlytics/Crashlytics.dart';
 import 'package:pass_emploi_app/network/headers.dart';
+import 'package:pass_emploi_app/network/logging_interceptor.dart';
 import 'package:pass_emploi_app/pages/force_update_page.dart';
 import 'package:pass_emploi_app/pass_emploi_app.dart';
 import 'package:pass_emploi_app/push/firebase_push_notification_manager.dart';
@@ -19,6 +20,8 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/store/store_factory.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/home_repository.dart';
+import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
+import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
@@ -26,9 +29,9 @@ import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
 
-import 'analytics/analytics.dart';
-import 'analytics/analytics_constants.dart';
 import 'configuration/app_version_checker.dart';
+import 'configuration/configuration.dart';
+import 'crashlytics/crashlytics.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,38 +40,26 @@ main() async {
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
   FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
 
-  final baseUrl = _baseUrl();
+  final configuration = await Configuration.build();
+  await _initializeMatomoTracker(configuration);
   final remoteConfig = await _remoteConfig();
   final forceUpdate = await _shouldForceUpdate(remoteConfig);
-
   final PushNotificationManager pushManager = FirebasePushNotificationManager();
-  final Analytics analytics = AnalyticsLoggerDecorator(decorated: AnalyticsWithFirebase(FirebaseAnalytics()));
-
-  final store = _initializeReduxStore(baseUrl, pushManager);
+  final store = _initializeReduxStore(configuration, pushManager);
 
   await pushManager.init(store);
 
   runZonedGuarded<Future<void>>(() async {
-    if (forceUpdate) {
-      analytics.setCurrentScreen(AnalyticsScreenNames.forceUpdate);
-      runApp(ForceUpdatePage());
-    } else {
-      runApp(PassEmploiApp(store, analytics));
-    }
+    runApp(forceUpdate ? ForceUpdatePage() : PassEmploiApp(store));
   }, FirebaseCrashlytics.instance.recordError);
 
   await _handleErrorsOutsideFlutter();
 }
 
-String _baseUrl() {
-  // Must be declared as const https://github.com/flutter/flutter/issues/55870
-  const baseUrl = String.fromEnvironment('SERVER_BASE_URL');
-  if (baseUrl.isEmpty && Platform.environment['FLUTTER_TEST'] == "false") {
-    throw ("A server base URL must be set in build arguments --dart-define=SERVER_BASE_URL=<YOUR_SERVER_BASE_URL>."
-        "For more details, please refer to the project README.md.");
-  }
-  print("SERVER BASE URL = $baseUrl");
-  return baseUrl;
+Future<void> _initializeMatomoTracker(Configuration configuration) async {
+  final siteId = configuration.matomoSiteId;
+  final url = configuration.matomoBaseUrl;
+  await MatomoTracker().initialize(siteId: int.parse(siteId), url: url);
 }
 
 Future<RemoteConfig?> _remoteConfig() async {
@@ -94,22 +85,25 @@ Future<bool> _shouldForceUpdate(RemoteConfig? remoteConfig) async {
   return AppVersionChecker().shouldForceUpdate(currentVersion: currentVersion, minimumVersion: minimumVersion);
 }
 
-Store<AppState> _initializeReduxStore(String baseUrl, PushNotificationManager pushNotificationManager) {
+Store<AppState> _initializeReduxStore(Configuration configuration, PushNotificationManager pushNotificationManager) {
   final headersBuilder = HeadersBuilder();
-  final userRepository = UserRepository(baseUrl, headersBuilder);
+  final httpClient = InterceptedClient.build(interceptors: [LoggingInterceptor()]);
   return StoreFactory(
-    userRepository,
-    HomeRepository(baseUrl, headersBuilder),
-    UserActionRepository(baseUrl, headersBuilder),
-    RendezvousRepository(baseUrl, headersBuilder),
-    OffreEmploiRepository(baseUrl, headersBuilder),
-    ChatRepository(),
+    UserRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
+    HomeRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
+    UserActionRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
+    RendezvousRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
+    OffreEmploiRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
+    ChatRepository(configuration.firebaseEnvironmentPrefix),
     RegisterTokenRepository(
-      baseUrl,
+      configuration.serverBaseUrl,
+      httpClient,
       headersBuilder,
       pushNotificationManager,
     ),
     CrashlyticsWithFirebase(FirebaseCrashlytics.instance),
+    OffreEmploiDetailsRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
+    OffreEmploiFavorisRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
   ).initializeReduxStore(initialState: AppState.initialState());
 }
 

@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 
-import '../../models/offre_emploi_test.dart';
+import '../../doubles/fixtures.dart';
 
 main() {
   group("reducer with offre emploi actions modifying offre emploi search state", () {
@@ -21,7 +21,9 @@ main() {
 
     assertState(OffreEmploiSearchLoadingAction(), OffreEmploiSearchState.loading());
     assertState(OffreEmploiSearchFailureAction(), OffreEmploiSearchState.failure());
-    final offres = offreEmploiData();
-    assertState(OffreEmploiSearchSuccessAction(offres), OffreEmploiSearchState.success(offres));
+    assertState(
+      OffreEmploiSearchSuccessAction(offres: [mockOffreEmploi()], page: 1, isMoreDataAvailable: true),
+      OffreEmploiSearchState.success(),
+    );
   });
 }

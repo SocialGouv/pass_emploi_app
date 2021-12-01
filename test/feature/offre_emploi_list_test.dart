@@ -1,82 +1,181 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 
 import '../doubles/dummies.dart';
-import '../models/offre_emploi_test.dart';
+import '../doubles/fixtures.dart';
+import '../doubles/stubs.dart';
 import '../utils/test_setup.dart';
 
 main() {
-  test("offre emplois should be fetched and displayed when screen loads", () async {
-    // Given
-    final testStoreFactory = TestStoreFactory();
-    testStoreFactory.offreEmploiRepository = OffreEmploiRepositorySuccessStub();
-    final store = testStoreFactory.initializeReduxStore(initialState: _loggedInState());
+  group("offre emplois when data has already been loaded ...", () {
+    test("and new call succeeds should append newly loaded data to existing list and set new page number", () async {
+      // Given
+      final testStoreFactory = TestStoreFactory();
+      testStoreFactory.offreEmploiRepository = OffreEmploiRepositorySuccessWithMoreDataStub();
+      final store = testStoreFactory.initializeReduxStore(
+        initialState: _loggedInState().copyWith(
+          offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
+          offreEmploiSearchParametersState:
+              OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", department: "92"),
+        ),
+      );
 
-    final displayedLoading =
-        store.onChange.any((element) => element.offreEmploiSearchState is OffreEmploiSearchLoadingState);
-    final successState =
-        store.onChange.firstWhere((element) => element.offreEmploiSearchState is OffreEmploiSearchSuccessState);
+      final displayedLoading =
+          store.onChange.any((element) => element.offreEmploiSearchState is OffreEmploiSearchLoadingState);
+      final successState =
+          store.onChange.firstWhere((element) => element.offreEmploiSearchState is OffreEmploiSearchSuccessState);
 
-    // When
-    store.dispatch(SearchOffreEmploiAction(keywords: "boulanger patissier", department: "02"));
+      // When
+      store.dispatch(RequestMoreOffreEmploiSearchResultsAction());
 
-    // Then
-    expect(await displayedLoading, true);
-    final appState = await successState;
-    var searchState = (appState.offreEmploiSearchState as OffreEmploiSearchSuccessState);
-    expect(searchState.offres.length, 5);
-  });
+      // Then
+      expect(await displayedLoading, true);
+      final appState = await successState;
+      expect(appState.offreEmploiSearchState is OffreEmploiSearchSuccessState, true);
 
-  test("offre emplois should be fetched and an error must be displayed if something wrong happens", () async {
-    // Given
-    final testStoreFactory = TestStoreFactory();
-    testStoreFactory.offreEmploiRepository = OffreEmploiRepositoryFailureStub();
-    final store = testStoreFactory.initializeReduxStore(initialState: _loggedInState());
+      var searchResultsState = (appState.offreEmploiSearchResultsState as OffreEmploiSearchResultsDataState);
+      expect(searchResultsState.offres.length, 2);
+      expect(searchResultsState.loadedPage, 2);
+    });
 
-    final displayedLoading =
-        store.onChange.any((element) => element.offreEmploiSearchState is OffreEmploiSearchLoadingState);
-    final displayedError =
-        store.onChange.any((element) => element.offreEmploiSearchState is OffreEmploiSearchFailureState);
+    test("and new call fails should display an error and keep previously loaded data to display it", () async {
+      // Given
+      final testStoreFactory = TestStoreFactory();
+      testStoreFactory.offreEmploiRepository = OffreEmploiRepositoryFailureStub();
+      final store = testStoreFactory.initializeReduxStore(
+        initialState: _loggedInState().copyWith(
+          offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
+          offreEmploiSearchParametersState:
+              OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", department: "92"),
+        ),
+      );
 
-    // When
-    store.dispatch(SearchOffreEmploiAction(keywords: "boulanger patissier", department: "02"));
+      final displayedLoading =
+          store.onChange.any((element) => element.offreEmploiSearchState is OffreEmploiSearchLoadingState);
+      final errorState =
+          store.onChange.firstWhere((element) => element.offreEmploiSearchState is OffreEmploiSearchFailureState);
 
-    // Then
-    expect(await displayedLoading, true);
-    expect(await displayedError, true);
+      // When
+      store.dispatch(RequestMoreOffreEmploiSearchResultsAction());
+
+      // Then
+      expect(await displayedLoading, true);
+      final appState = await errorState;
+      expect(appState.offreEmploiSearchState is OffreEmploiSearchFailureState, true);
+
+      var searchResultsState = (appState.offreEmploiSearchResultsState as OffreEmploiSearchResultsDataState);
+      expect(searchResultsState.offres.length, 1);
+      expect(searchResultsState.loadedPage, 1);
+      expect(searchResultsState.isMoreDataAvailable, true);
+    });
+
+    test("and new call succeeds but states that no more data will be loaded should set state accordingly", () async {
+      // Given
+      final testStoreFactory = TestStoreFactory();
+      testStoreFactory.offreEmploiRepository = OffreEmploiRepositorySuccessWithNoMoreDataStub();
+      final store = testStoreFactory.initializeReduxStore(
+        initialState: _loggedInState().copyWith(
+          offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
+          offreEmploiSearchParametersState:
+              OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", department: "92"),
+        ),
+      );
+
+      final successState =
+          store.onChange.firstWhere((element) => element.offreEmploiSearchState is OffreEmploiSearchSuccessState);
+
+      // When
+      store.dispatch(RequestMoreOffreEmploiSearchResultsAction());
+
+      // Then
+      final appState = await successState;
+      expect(appState.offreEmploiSearchState is OffreEmploiSearchSuccessState, true);
+
+      var searchResultsState = (appState.offreEmploiSearchResultsState as OffreEmploiSearchResultsDataState);
+      expect(searchResultsState.offres.length, 2);
+      expect(searchResultsState.loadedPage, 2);
+      expect(searchResultsState.isMoreDataAvailable, false);
+    });
+
+    group("and last call was an error ", () {
+      test("and new call fails again should display an error and keep previously loaded data to display it", () async {
+        // Given
+        final testStoreFactory = TestStoreFactory();
+        testStoreFactory.offreEmploiRepository = OffreEmploiRepositoryFailureStub();
+        final store = testStoreFactory.initializeReduxStore(
+          initialState: _loggedInState().copyWith(
+            offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
+            offreEmploiSearchState: OffreEmploiSearchState.failure(),
+            offreEmploiSearchParametersState:
+                OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", department: "92"),
+          ),
+        );
+
+        final displayedLoading =
+            store.onChange.any((element) => element.offreEmploiSearchState is OffreEmploiSearchLoadingState);
+        final errorState =
+            store.onChange.firstWhere((element) => element.offreEmploiSearchState is OffreEmploiSearchFailureState);
+
+        // When
+        store.dispatch(RequestMoreOffreEmploiSearchResultsAction());
+
+        // Then
+        expect(await displayedLoading, true);
+        final appState = await errorState;
+        expect(appState.offreEmploiSearchState is OffreEmploiSearchFailureState, true);
+
+        var searchResultsState = (appState.offreEmploiSearchResultsState as OffreEmploiSearchResultsDataState);
+        expect(searchResultsState.offres.length, 1);
+        expect(searchResultsState.loadedPage, 1);
+      });
+
+      test("and new call succeeds should append newly loaded data to existing list and set new page number", () async {
+        // Given
+        final testStoreFactory = TestStoreFactory();
+        testStoreFactory.offreEmploiRepository = OffreEmploiRepositorySuccessWithMoreDataStub();
+        final store = testStoreFactory.initializeReduxStore(
+          initialState: _loggedInState().copyWith(
+            offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
+            offreEmploiSearchState: OffreEmploiSearchState.failure(),
+            offreEmploiSearchParametersState:
+                OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", department: "92"),
+          ),
+        );
+
+        final displayedLoading =
+            store.onChange.any((element) => element.offreEmploiSearchState is OffreEmploiSearchLoadingState);
+        final successState =
+            store.onChange.firstWhere((element) => element.offreEmploiSearchState is OffreEmploiSearchSuccessState);
+
+        // When
+        store.dispatch(RequestMoreOffreEmploiSearchResultsAction());
+
+        // Then
+        expect(await displayedLoading, true);
+        final appState = await successState;
+        expect(appState.offreEmploiSearchState is OffreEmploiSearchSuccessState, true);
+
+        var searchResultsState = (appState.offreEmploiSearchResultsState as OffreEmploiSearchResultsDataState);
+        expect(searchResultsState.offres.length, 2);
+        expect(searchResultsState.loadedPage, 2);
+      });
+    });
   });
 }
 
-class OffreEmploiRepositorySuccessStub extends OffreEmploiRepository {
-  OffreEmploiRepositorySuccessStub() : super("", DummyHeadersBuilder());
-
-  @override
-  Future<List<OffreEmploi>?> search({
-    required String userId,
-    required String keywords,
-    required String department,
-  }) async {
-    return offreEmploiData();
-  }
-}
-
-class OffreEmploiRepositoryFailureStub extends OffreEmploiRepository {
-  OffreEmploiRepositoryFailureStub() : super("", DummyHeadersBuilder());
-
-  @override
-  Future<List<OffreEmploi>?> search({
-    required String userId,
-    required String keywords,
-    required String department,
-  }) async {
-    return null;
-  }
+OffreEmploiSearchResultsState _pageOneLoadedAndMoreDataAvailable() {
+  return OffreEmploiSearchResultsState.data(
+    offres: [mockOffreEmploi()],
+    loadedPage: 1,
+    isMoreDataAvailable: true,
+  );
 }
 
 AppState _loggedInState() {
@@ -87,4 +186,18 @@ AppState _loggedInState() {
       lastName: "L",
     )),
   );
+}
+
+class OffreEmploiRepositorySuccessWithNoMoreDataStub extends OffreEmploiRepository {
+  OffreEmploiRepositorySuccessWithNoMoreDataStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+
+  @override
+  Future<OffreEmploiSearchResponse?> search({
+    required String userId,
+    required String keywords,
+    required String department,
+    required int page,
+  }) async {
+    return OffreEmploiSearchResponse(isMoreDataAvailable: false, offres: [mockOffreEmploi()]);
+  }
 }

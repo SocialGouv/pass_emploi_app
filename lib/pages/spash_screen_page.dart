@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
-class SplashScreenPage extends StatelessWidget {
-
-  SplashScreenPage._();
-
-  static MaterialPageRoute materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => SplashScreenPage._(), settings: AnalyticsRouteSettings.splash());
-  }
+class SplashScreenPage extends TraceableStatelessWidget {
+  SplashScreenPage() : super(name: AnalyticsScreenNames.splash);
 
   @override
   Widget build(BuildContext context) {

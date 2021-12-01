@@ -5,7 +5,8 @@ class OffreEmploi extends Equatable {
   final String title;
   final String? companyName;
   final String contractType;
-  final String location;
+  final String? location;
+  final String? duration;
 
   OffreEmploi({
     required this.id,
@@ -13,6 +14,7 @@ class OffreEmploi extends Equatable {
     required this.companyName,
     required this.contractType,
     required this.location,
+    required this.duration,
   });
 
   factory OffreEmploi.fromJson(dynamic json) {
@@ -22,9 +24,10 @@ class OffreEmploi extends Equatable {
       companyName: json["nomEntreprise"] as String?,
       contractType: json["typeContrat"] as String,
       location: json["localisation"]["nom"] as String,
+      duration: json["duree"] as String?,
     );
   }
 
   @override
-  List<Object?> get props => [id, title, companyName, contractType, location];
+  List<Object?> get props => [id, title, companyName, contractType, location, duration];
 }

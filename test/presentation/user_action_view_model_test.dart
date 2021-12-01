@@ -23,6 +23,7 @@ main() {
 
     // Then
     expect(viewModel.creator, Strings.you);
+    expect(viewModel.withDeleteOption, true);
   });
 
   test("UserActionViewModel.create when creator is conseiller should create view model properly", () {
@@ -41,6 +42,7 @@ main() {
 
     // Then
     expect(viewModel.creator, "Nils Tavernier");
+    expect(viewModel.withDeleteOption, false);
   });
 
   test("UserActionViewModel.create when status is done should create view model properly", () {

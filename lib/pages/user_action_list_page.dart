@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/presentation/user_action_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
@@ -10,22 +12,20 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/user_action_details_bottom_sheet.dart';
 
 enum UserActionListPageResult { UPDATED, UNCHANGED }
 
-class UserActionListPage extends StatefulWidget {
+class UserActionListPage extends TraceableStatefulWidget {
   final String userId;
 
-  UserActionListPage(this.userId) : super();
+  UserActionListPage(this.userId) : super(name: AnalyticsScreenNames.userActionList);
 
   static MaterialPageRoute materialPageRoute(String userId) {
-    return MaterialPageRoute(
-      builder: (context) => UserActionListPage(userId),
-      settings: AnalyticsRouteSettings.userAction(),
-    );
+    return MaterialPageRoute(builder: (context) => UserActionListPage(userId));
   }
 
   @override
@@ -40,10 +40,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
     return StoreConnector<AppState, UserActionListPageViewModel>(
       onInit: (store) => store.dispatch(RequestUserActionsAction(widget.userId)),
       builder: (context, viewModel) {
-        return AnimatedSwitcher(
-          duration: Duration(milliseconds: 200),
-          child: _scaffold(context, viewModel, _body(context, viewModel)),
-        );
+        return _scaffold(context, viewModel, DefaultAnimatedSwitcher(child: _body(context, viewModel)));
       },
       converter: (store) => UserActionListPageViewModel.create(store),
     );
@@ -73,7 +70,6 @@ class _UserActionListPageState extends State<UserActionListPage> {
               onPressed: () => showUserActionBottomSheet(
                 context: context,
                 builder: (context) => CreateUserActionBottomSheet(),
-                routeSettings: AnalyticsRouteSettings.createUserAction(),
               ).then((value) => _onCreateUserActionDismissed(value, viewModel)),
               tooltip: Strings.addAnAction,
               icon: SvgPicture.asset("assets/ic_add_circle.svg"),
@@ -86,10 +82,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
     if (viewModel.withLoading) return _loader();
     if (viewModel.withFailure) return _failure(viewModel);
     if (viewModel.withEmptyMessage) return _empty();
-    return Container(
-      child: _userActions(context, viewModel),
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-    );
+    return _userActions(context, viewModel);
   }
 
   _loader() => Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
@@ -109,30 +102,29 @@ class _UserActionListPageState extends State<UserActionListPage> {
   _empty() => Center(child: Text(Strings.noActionsYet, style: TextStyles.textSmRegular()));
 
   Widget _userActions(BuildContext context, UserActionListPageViewModel viewModel) {
-    return Container(
-      color: Colors.white,
-      child: ListView.separated(
-        shrinkWrap: true,
-        itemCount: viewModel.items.length,
-        itemBuilder: (context, i) => _tapListener(context, viewModel.items[i], viewModel),
-        separatorBuilder: (context, i) => _listSeparator(),
-      ),
+    return ListView.separated(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+      itemCount: viewModel.items.length,
+      itemBuilder: (context, i) => _tapListener(context, viewModel.items[i], viewModel),
+      separatorBuilder: (context, i) => _listSeparator(),
     );
   }
 
   Container _listSeparator() => Container(height: 1, color: AppColors.bluePurpleAlpha20);
 
   Widget _tapListener(BuildContext context, UserActionViewModel item, UserActionListPageViewModel viewModel) {
-    return Material(
-      type: MaterialType.transparency,
-      child: InkWell(
-        onTap: () => showUserActionBottomSheet(
-          context: context,
-          builder: (context) => UserActionDetailsBottomSheet(item),
-          routeSettings: AnalyticsRouteSettings.userActionDetails(),
-        ).then((value) => _onUserActionDetailsDismissed(value, viewModel)),
-        splashColor: AppColors.bluePurple,
-        child: _listItem(item, viewModel),
+    return Container(
+      color: Colors.white,
+      child: Material(
+        type: MaterialType.transparency,
+        child: InkWell(
+          onTap: () => showUserActionBottomSheet(
+            context: context,
+            builder: (context) => UserActionDetailsBottomSheet(item),
+          ).then((value) => _onUserActionDetailsDismissed(context, value, viewModel)),
+          splashColor: AppColors.bluePurple,
+          child: _listItem(item, viewModel),
+        ),
       ),
     );
   }
@@ -183,9 +175,12 @@ class _UserActionListPageState extends State<UserActionListPage> {
     );
   }
 
-  _onUserActionDetailsDismissed(dynamic value, UserActionListPageViewModel viewModel) {
+  _onUserActionDetailsDismissed(BuildContext context, dynamic value, UserActionListPageViewModel viewModel) {
     if (value != null) {
       _result = UserActionListPageResult.UPDATED;
+      if (value == UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(Strings.deleteActionSuccess)));
+      }
     }
     viewModel.onUserActionDetailsDismissed();
   }

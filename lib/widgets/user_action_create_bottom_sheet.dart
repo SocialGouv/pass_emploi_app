@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/create_user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -9,9 +11,10 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
 import 'bottom_sheets.dart';
+import 'button.dart';
 
-class CreateUserActionBottomSheet extends StatefulWidget {
-  CreateUserActionBottomSheet() : super();
+class CreateUserActionBottomSheet extends TraceableStatefulWidget {
+  CreateUserActionBottomSheet() : super(name: AnalyticsScreenNames.createUserAction);
 
   @override
   State<CreateUserActionBottomSheet> createState() => _CreateUserActionBottomSheetState();
@@ -163,7 +166,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          userActionBottomSheetActionButton(
+          primaryActionButton(
             label: Strings.create,
             onPressed: _isLoading(viewModel) && _isFormValid()
                 ? () => {viewModel.createUserAction(_actionContent!, _actionComment, _initialStatus)}

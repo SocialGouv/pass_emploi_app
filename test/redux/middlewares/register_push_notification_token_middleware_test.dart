@@ -46,7 +46,7 @@ void main() {
 class RegisterTokenRepositorySpy extends RegisterTokenRepository {
   bool wasCalled = false;
 
-  RegisterTokenRepositorySpy() : super("", DummyHeadersBuilder(), DummyPushNotificationManager());
+  RegisterTokenRepositorySpy() : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPushNotificationManager());
 
   Future<void> registerToken(String userId) async {
     expect(userId, "1");
