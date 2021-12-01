@@ -5,6 +5,7 @@ import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_results_view_model.dart';
+import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -54,6 +55,8 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
         _shouldLoadAtBottom = viewModel.displayLoaderAtBottomOfList &&
             viewModel.displayState != OffreEmploiSearchResultsDisplayState.SHOW_ERROR
       },
+      distinct: true,
+      onDispose: (store) => store.dispatch(OffreEmploiResetResultsAction()),
     );
   }
 

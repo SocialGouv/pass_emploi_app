@@ -23,14 +23,19 @@ class OffreEmploiSearchPage extends TraceableStatefulWidget {
 class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
   var _keyWord = "";
   var _department = "";
+  var _shouldNavigate = true;
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, OffreEmploiSearchViewModel>(
         converter: (store) => OffreEmploiSearchViewModel.create(store),
         onWillChange: (_, newViewModel) {
-          if (newViewModel.displayState == OffreEmploiSearchDisplayState.SHOW_CONTENT)
-            Navigator.push(context, MaterialPageRoute(builder: (context) => OffreEmploiListPage()));
+          if (newViewModel.displayState == OffreEmploiSearchDisplayState.SHOW_CONTENT && _shouldNavigate) {
+            _shouldNavigate = false;
+            Navigator.push(context, MaterialPageRoute(builder: (context) => OffreEmploiListPage())).then((value) {
+              _shouldNavigate = true;
+            });
+          }
         },
         distinct: true,
         builder: (context, viewModel) {
