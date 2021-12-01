@@ -48,11 +48,6 @@ Si besoin de la mettre à jour, il faut le faire dans le fichier `ios/Podfile` :
 `pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => 'X.X.X'` 
 
 ## Déployer une app sur Firebase
-### Prérequis
-1. Se mettre à jour sur develop
-2. Mettre à jour le build name dans le fichier `staging_release.sh`
-3. Commiter le changement 
-
 ### Spécificités Android
 1. Vérifier que le fichier `passemploi.jks` (fichier privé) est bien situé dans le repertoire `android/keystore` 
 2. Créer un fichier `key.properties` dans le repertoire `android` à partir du même modèle que 
@@ -65,6 +60,16 @@ Si besoin de la mettre à jour, il faut le faire dans le fichier `ios/Podfile` :
 3. Configurer XCode, notamment sur la partie `Signing & Capabilities` [https://flutter.dev/docs/deployment/ios] 
 en renseignant le bon provisioning profile de l'app `fr.fabrique.socialgouv.passemploi.staging`
 4. Récupérer le fichier `StagingOptionsPlist.plist` dans le Drive du projet, et le placer dans le dossier `ios`.
+5. Récupérer le fichier `DistCert_47M2TN7F3J.p12` dans le Drive du projet, et le placer dans le dossier `ios` en le nommant `cert.p12`.
+6. Récupérer le fichier `frfabriquesocialgouvpassemploistaging.mobileprovision` dans le Drive du projet, et le placer dans le dossier `ci`.
+
+### Avec les github actions
+A chaque push sur la branche develop, un build et un déploiement est fait sur firebase.
+Lorsque des variables d'environnement sont modifiées/ajoutées, il faut les ajouter dans les secrets github.
+Le fichier `ci/.env.template` permet de lister les variables nécessaires.
+
+Afin de générer le fichier de staging un script permet d'encoder les variables en utilisant les fichiers locaux:
+`bash scripts/generate_env_ci.sh`
 
 ### En local
 #### Lancement du script
@@ -75,17 +80,8 @@ pas être nécessaire d'être connecté, le script utilisant un token "ci".
 
 1. S'assurer que le fichier `scripts/build.env` est bien rempli, à partir du même modèle que `scripts/build.env.template`.
    Ce fichier contient notamment la release note qui apparaîtra dans la description des builds.
-2. S'assurer que le script `scripts/staging_release.sh` est bien executable : `chmod u+x scripts/staging_release.sh`    
-3. En se plaçant à la racine du projet, lancer le script `scripts/staging_release.sh`.
-
-### Avec les github actions
-A chaque push sur la branche develop, un build et un déploiement est fait sur firebase.
-Lorsque des variables d'environnement sont modifiées/ajoutées, il faut les ajouter dans les secrets github.
-Le fichier `ci/.env.template` permet de lister les variables nécessaires.
-
-Les variables finissant en B64 sont à encoder en base 64.
-Afin de générer le fichier de staging un script permet d'encoder les variables :
-`bash scripts/generate_env_ci.sh`
+2. S'assurer que le script `scripts/staging_release_when_github_is_down.sh` est bien executable : `chmod u+x scripts/staging_release_when_github_is_down.sh`    
+3. En se plaçant à la racine du projet, lancer le script `scripts/staging_release_when_github_is_down.sh`.
 
 ## Déployer une app en bêta test sur les stores publics
 ### Prérequis
