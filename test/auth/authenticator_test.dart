@@ -21,21 +21,19 @@ final _configuration = Configuration(
 );
 
 void main() {
+  late AuthWrapperStub authWrapperStub;
+  late SharedPreferencesSpy prefs;
+  late Authenticator authenticator;
+
+  setUp(() {
+    authWrapperStub = AuthWrapperStub();
+    prefs = SharedPreferencesSpy();
+    authenticator = Authenticator(authWrapperStub, _configuration, prefs);
+  });
+
   test('token is saved and returned when login is successful', () async {
     // Given
-    final authWrapperStub = AuthWrapperStub();
-    final prefs = SharedPreferencesSpy();
-    final authenticator = Authenticator(authWrapperStub, _configuration, prefs);
-
-    final AuthTokenRequest parameters = AuthTokenRequest(
-      _configuration.authClientId,
-      _configuration.authLoginRedirectUrl,
-      _configuration.authIssuer,
-      _configuration.authScopes,
-      _configuration.authClientSecret,
-    );
-
-    authWrapperStub.withArgsResolves(parameters, authTokenResponse());
+    authWrapperStub.withArgsResolves(_authTokenRequest(), authTokenResponse());
 
     // When
     final AuthTokenResponse? token = await authenticator.login();
@@ -49,10 +47,6 @@ void main() {
 
   test('token is null when login has failed', () async {
     // Given
-    final authWrapperStub = AuthWrapperStub();
-    final prefs = SharedPreferencesSpy();
-    final authenticator = Authenticator(authWrapperStub, _configuration, prefs);
-
     authWrapperStub.withArgsThrows();
 
     // When
@@ -61,4 +55,36 @@ void main() {
     // Then
     expect(token, isNull);
   });
+
+  test('isLoggedIn is TRUE when login is successful', () async {
+    // Given
+    authWrapperStub.withArgsResolves(_authTokenRequest(), authTokenResponse());
+
+    // When
+    await authenticator.login();
+
+    // Then
+    expect(authenticator.isLoggedIn(), true);
+  });
+
+  test('isLoggedIn is FALSE when login failed', () async {
+    // Given
+    authWrapperStub.withArgsThrows();
+
+    // When
+    await authenticator.login();
+
+    // Then
+    expect(authenticator.isLoggedIn(), false);
+  });
+}
+
+AuthTokenRequest _authTokenRequest() {
+  return AuthTokenRequest(
+    _configuration.authClientId,
+    _configuration.authLoginRedirectUrl,
+    _configuration.authIssuer,
+    _configuration.authScopes,
+    _configuration.authClientSecret,
+  );
 }

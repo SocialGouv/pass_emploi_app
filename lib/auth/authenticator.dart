@@ -39,4 +39,7 @@ class Authenticator {
     preferences.setString(_accessTokenKey, response.accessToken);
     preferences.setString(_refreshTokenKey, response.refreshToken);
   }
+
+  bool isLoggedIn() => preferences.containsKey(_idTokenKey);
+
 }
