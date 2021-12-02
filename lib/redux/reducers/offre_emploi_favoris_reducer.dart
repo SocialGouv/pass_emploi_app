@@ -7,37 +7,49 @@ AppState offreEmploiFavorisReducer(AppState currentState, dynamic action) {
   if (action is OffreEmploisFavorisIdLoadedAction) {
     return currentState.copyWith(offreEmploiFavorisIdState: OffreEmploiFavorisIdState.idsLoaded(action.favorisId));
   } else if (action is OffreEmploiUpdateFavoriLoadingAction) {
-    return currentState.copyWith(
-      offreEmploiFavorisUpdateState: _updateState(
-        currentState,
-        action.offreId,
-        OffreEmploiFavorisUpdateStatus.LOADING,
-      ),
-    );
+    return _updateLoadingState(currentState, action);
   } else if (action is OffreEmploiUpdateFavoriSuccessAction) {
-    return currentState.copyWith(
-      offreEmploiFavorisIdState: _updateFavorisList(
-        currentState,
-        action.offreId,
-        action.confirmedNewStatus,
-      ),
-      offreEmploiFavorisUpdateState: _updateState(
-        currentState,
-        action.offreId,
-        OffreEmploiFavorisUpdateStatus.SUCCESS,
-      ),
-    );
+    return _updateSuccessState(currentState, action);
   } else if (action is OffreEmploiUpdateFavoriFailureAction) {
-    return currentState.copyWith(
-      offreEmploiFavorisUpdateState: _updateState(
-        currentState,
-        action.offreId,
-        OffreEmploiFavorisUpdateStatus.ERROR,
-      ),
-    );
+    return _updateFailureState(currentState, action);
   } else {
     return currentState;
   }
+}
+
+AppState _updateFailureState(AppState currentState, OffreEmploiUpdateFavoriFailureAction action) {
+  return currentState.copyWith(
+    offreEmploiFavorisUpdateState: _updateState(
+      currentState,
+      action.offreId,
+      OffreEmploiFavorisUpdateStatus.ERROR,
+    ),
+  );
+}
+
+AppState _updateSuccessState(AppState currentState, OffreEmploiUpdateFavoriSuccessAction action) {
+  return currentState.copyWith(
+    offreEmploiFavorisIdState: _updateFavorisList(
+      currentState,
+      action.offreId,
+      action.confirmedNewStatus,
+    ),
+    offreEmploiFavorisUpdateState: _updateState(
+      currentState,
+      action.offreId,
+      OffreEmploiFavorisUpdateStatus.SUCCESS,
+    ),
+  );
+}
+
+AppState _updateLoadingState(AppState currentState, OffreEmploiUpdateFavoriLoadingAction action) {
+  return currentState.copyWith(
+    offreEmploiFavorisUpdateState: _updateState(
+      currentState,
+      action.offreId,
+      OffreEmploiFavorisUpdateStatus.LOADING,
+    ),
+  );
 }
 
 OffreEmploiFavorisUpdateState _updateState(
