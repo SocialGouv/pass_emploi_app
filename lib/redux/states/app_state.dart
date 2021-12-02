@@ -132,6 +132,7 @@ class AppState extends Equatable {
         offreEmploiSearchResultsState,
         offreEmploiSearchParametersState,
         offreEmploiFavorisIdState,
+        offreEmploiFavorisUpdateState,
       ];
 
   @override
