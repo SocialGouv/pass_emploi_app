@@ -36,7 +36,7 @@ class SharedPreferencesSpy implements SharedPreferences {
 
   @override
   bool containsKey(String key) {
-    throw UnimplementedError();
+    return storedValues.containsKey(key);
   }
 
   @override
