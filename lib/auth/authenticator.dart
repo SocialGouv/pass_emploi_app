@@ -11,6 +11,8 @@ const String _idTokenKey = "idToken";
 const String _accessTokenKey = "accessToken";
 const String _refreshTokenKey = "refreshToken";
 
+enum RefreshTokenStatus { SUCCESSFUL, GENERIC_ERROR, USER_NOT_LOGGED_IN, NETWORK_UNREACHABLE, EXPIRED_REFRESH_TOKEN }
+
 class Authenticator {
   final AuthWrapper _authWrapper;
   final Configuration _configuration;
@@ -52,18 +54,28 @@ class Authenticator {
 
   String? accessToken() => _preferences.getString(_accessTokenKey);
 
-  Future<bool> refreshToken() async {
-    final String refreshToken = _preferences.getString(_refreshTokenKey)!;
-    AuthTokenResponse? response = await _authWrapper.refreshToken(
-      AuthRefreshTokenRequest(
-        _configuration.authClientId,
-        _configuration.authLoginRedirectUrl,
-        _configuration.authIssuer,
-        refreshToken,
-        _configuration.authClientSecret,
-      ),
-    );
-    storeResponse(response);
-    return true;
+  Future<RefreshTokenStatus> refreshToken() async {
+    final String? refreshToken = _preferences.getString(_refreshTokenKey);
+    if (refreshToken == null) return RefreshTokenStatus.USER_NOT_LOGGED_IN;
+
+    try {
+      AuthTokenResponse response = await _authWrapper.refreshToken(
+        AuthRefreshTokenRequest(
+          _configuration.authClientId,
+          _configuration.authLoginRedirectUrl,
+          _configuration.authIssuer,
+          refreshToken,
+          _configuration.authClientSecret,
+        ),
+      );
+      storeResponse(response);
+      return RefreshTokenStatus.SUCCESSFUL;
+    } on AuthWrapperNetworkException {
+      return RefreshTokenStatus.NETWORK_UNREACHABLE;
+    } on AuthWrapperRefreshTokenExpiredException {
+      return RefreshTokenStatus.EXPIRED_REFRESH_TOKEN;
+    } on AuthWrapperRefreshTokenException {
+      return RefreshTokenStatus.GENERIC_ERROR;
+    }
   }
 }
