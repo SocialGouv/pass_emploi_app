@@ -1,6 +1,9 @@
 import 'package:http/http.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/network/headers.dart';
+import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
+import 'package:pass_emploi_app/network/post_offre_emploi_favori.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
 
 class OffreEmploiFavorisRepository {
@@ -25,7 +28,53 @@ class OffreEmploiFavorisRepository {
     return null;
   }
 
-  Future<bool> updateOffreEmploiFavoriStatus(String userId, String offreId, bool newStatus) async {
+  Future<bool> updateOffreEmploiFavoriStatus(String userId, OffreEmploi offre, bool newStatus) async {
+    if (newStatus) {
+      return _postFavori(userId, offre);
+    } else {
+      return _deleteFavori(userId, offre.id);
+    }
+  }
+
+  Future<bool> _postFavori(String userId, OffreEmploi offre) async {
+    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favori");
+    try {
+      final response = await _httpClient.post(
+        url,
+        headers: await _headersBuilder.headers(contentType: 'application/json'),
+        body: customJsonEncode(
+          PostOffreEmploiFavori(
+            offre.id,
+            offre.title,
+            offre.companyName,
+            offre.contractType,
+            offre.location,
+            offre.duration,
+          ),
+        ),
+      );
+      if (response.statusCode.isValid()) {
+        return true;
+      }
+    } catch (e) {
+      print('Exception on ${url.toString()}: ' + e.toString());
+    }
+    return false;
+  }
+
+  Future<bool> _deleteFavori(String userId, String offreId) async {
+    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favori/$offreId");
+    try {
+      final response = await _httpClient.delete(
+        url,
+        headers: await _headersBuilder.headers(),
+      );
+      if (response.statusCode.isValid()) {
+        return true;
+      }
+    } catch (e) {
+      print('Exception on ${url.toString()}: ' + e.toString());
+    }
     return false;
   }
 }
