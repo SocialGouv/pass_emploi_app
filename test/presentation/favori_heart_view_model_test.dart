@@ -11,7 +11,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiFavorisState: OffreEmploiFavorisIdLoadedState(["offreId"]),
+        offreEmploiFavorisIdState: OffreEmploiFavorisIdLoadedState(["offreId"]),
       ),
     );
 
@@ -26,7 +26,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiFavorisState: OffreEmploiFavorisIdLoadedState(["notOffreId"]),
+        offreEmploiFavorisIdState: OffreEmploiFavorisIdLoadedState(["notOffreId"]),
       ),
     );
 

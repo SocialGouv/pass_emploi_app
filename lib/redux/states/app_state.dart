@@ -31,7 +31,7 @@ class AppState extends Equatable {
   final OffreEmploiDetailsState offreEmploiDetailsState;
   final OffreEmploiSearchResultsState offreEmploiSearchResultsState;
   final OffreEmploiSearchParametersState offreEmploiSearchParametersState;
-  final OffreEmploiFavorisIdState offreEmploiFavorisState;
+  final OffreEmploiFavorisIdState offreEmploiFavorisIdState;
 
   AppState({
     required this.deepLinkState,
@@ -48,7 +48,7 @@ class AppState extends Equatable {
     required this.offreEmploiDetailsState,
     required this.offreEmploiSearchResultsState,
     required this.offreEmploiSearchParametersState,
-    required this.offreEmploiFavorisState,
+    required this.offreEmploiFavorisIdState,
   });
 
   AppState copyWith({
@@ -66,7 +66,7 @@ class AppState extends Equatable {
     final DeepLinkState? deepLinkState,
     final OffreEmploiSearchResultsState? offreEmploiSearchResultsState,
     final OffreEmploiSearchParametersState? offreEmploiSearchParametersState,
-    final OffreEmploiFavorisIdState? offreEmploiFavorisState,
+    final OffreEmploiFavorisIdState? offreEmploiFavorisIdState,
   }) {
     return AppState(
       deepLinkState: deepLinkState ?? this.deepLinkState,
@@ -83,7 +83,7 @@ class AppState extends Equatable {
       offreEmploiDetailsState: offreEmploiDetailsState ?? this.offreEmploiDetailsState,
       offreEmploiSearchResultsState: offreEmploiSearchResultsState ?? this.offreEmploiSearchResultsState,
       offreEmploiSearchParametersState: offreEmploiSearchParametersState ?? this.offreEmploiSearchParametersState,
-      offreEmploiFavorisState: offreEmploiFavorisState ?? this.offreEmploiFavorisState,
+      offreEmploiFavorisIdState: offreEmploiFavorisIdState ?? this.offreEmploiFavorisIdState,
     );
   }
 
@@ -103,7 +103,7 @@ class AppState extends Equatable {
       offreEmploiDetailsState: OffreEmploiDetailsState.notInitialized(),
       offreEmploiSearchResultsState: OffreEmploiSearchResultsState.notInitialized(),
       offreEmploiSearchParametersState: OffreEmploiSearchParametersState.notInitialized(),
-      offreEmploiFavorisState: OffreEmploiFavorisIdState.notInitialized(),
+      offreEmploiFavorisIdState: OffreEmploiFavorisIdState.notInitialized(),
     );
   }
 
@@ -125,7 +125,7 @@ class AppState extends Equatable {
         offreEmploiSearchState,
         offreEmploiSearchResultsState,
         offreEmploiSearchParametersState,
-        offreEmploiFavorisState,
+        offreEmploiFavorisIdState,
       ];
 
   @override

@@ -11,7 +11,7 @@ class FavoriHeartViewModel extends Equatable {
 
   factory FavoriHeartViewModel.create(String offreId, Store<AppState> store) {
     return FavoriHeartViewModel._(
-      isFavori: _isFavori(offreId, store.state.offreEmploiFavorisState),
+      isFavori: _isFavori(offreId, store.state.offreEmploiFavorisIdState),
       withError: false,
     );
   }

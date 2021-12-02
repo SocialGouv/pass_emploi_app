@@ -16,14 +16,14 @@ main() {
     Store<AppState> store = _successStore();
 
     final successState =
-        store.onChange.firstWhere((element) => element.offreEmploiFavorisState is OffreEmploiFavorisIdLoadedState);
+        store.onChange.firstWhere((element) => element.offreEmploiFavorisIdState is OffreEmploiFavorisIdLoadedState);
 
     // When
     store.dispatch(BootstrapAction());
 
     // Then
     final loadedFavoris = await successState;
-    final favorisState = (loadedFavoris.offreEmploiFavorisState as OffreEmploiFavorisIdLoadedState);
+    final favorisState = (loadedFavoris.offreEmploiFavorisIdState as OffreEmploiFavorisIdLoadedState);
     expect(favorisState.offreEmploiFavorisListId, ["1", "2", "4"]);
   });
 
@@ -32,7 +32,7 @@ main() {
     Store<AppState> store = _successStore();
 
     final successState =
-    store.onChange.firstWhere((element) => element.offreEmploiFavorisState is OffreEmploiFavorisIdLoadedState);
+    store.onChange.firstWhere((element) => element.offreEmploiFavorisIdState is OffreEmploiFavorisIdLoadedState);
 
     // When
 
