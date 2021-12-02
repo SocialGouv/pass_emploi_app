@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
@@ -77,6 +78,68 @@ void main() {
     // Then
     expect(authenticator.isLoggedIn(), false);
   });
+
+  test('ID token is properly returned and deserialized  when login is successful', () async {
+    // Given
+    authWrapperStub.withArgsResolves(
+      _authTokenRequest(),
+      AuthTokenResponse(
+        idToken: realIdToken,
+        accessToken: 'accessToken',
+        refreshToken: 'refreshToken',
+      ),
+    );
+    await authenticator.login();
+
+    // When
+    final token = authenticator.idToken();
+
+    // Then
+    expect(
+        token,
+        AuthIdToken(
+          userId: "448092da-4ad7-4fcf-8ff5-a303f30ea109",
+          firstName: "toto",
+          lastName: "tata",
+          expiresAt: 1638446993,
+        ));
+  });
+
+  test('ID token is null when login failed', () async {
+    // Given
+    authWrapperStub.withArgsThrows();
+    await authenticator.login();
+
+    // When
+    final token = authenticator.idToken();
+
+    // Then
+    expect(token, isNull);
+  });
+
+  test('Access token is returned when login is successful', () async {
+    // Given
+    authWrapperStub.withArgsResolves(_authTokenRequest(), authTokenResponse());
+    await authenticator.login();
+
+    // When
+    final token = authenticator.accessToken();
+
+    // Then
+    expect(token, "accessToken");
+  });
+
+  test('Access token is null when login failed', () async {
+    // Given
+    authWrapperStub.withArgsThrows();
+    await authenticator.login();
+
+    // When
+    final token = authenticator.accessToken();
+
+    // Then
+    expect(token, isNull);
+  });
 }
 
 AuthTokenRequest _authTokenRequest() {
@@ -88,3 +151,6 @@ AuthTokenRequest _authTokenRequest() {
     _configuration.authClientSecret,
   );
 }
+
+const String realIdToken =
+    "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJnMG4zdi1lV2pLZVdjSXdSTlljQ2dSaHJTVkdBSXdpLWYxRnlOOVk1R1ZZIn0.eyJleHAiOjE2Mzg0NDY5OTMsImlhdCI6MTYzODQ0NjY5MywiYXV0aF90aW1lIjoxNjM4NDQ2NjkzLCJqdGkiOiIxODdjMDIzNy03OTY2LTQ0ZTYtOWRiOC0xMzBjY2ZlZjBjNjYiLCJpc3MiOiJodHRwczovL3BhLWF1dGgtc3RhZ2luZy5vc2Mtc2VjbnVtLWZyMS5zY2FsaW5nby5pby9hdXRoL3JlYWxtcy9wYXNzLWVtcGxvaSIsImF1ZCI6InBhc3MtZW1wbG9pLWFwcCIsInN1YiI6IjQ0ODA5MmRhLTRhZDctNGZjZi04ZmY1LWEzMDNmMzBlYTEwOSIsInR5cCI6IklEIiwiYXpwIjoicGFzcy1lbXBsb2ktYXBwIiwibm9uY2UiOiJRVDBQYUdBdVFhZFNPR3NlMngwOElBIiwic2Vzc2lvbl9zdGF0ZSI6ImMzYTk2ZDg4LWY0ZWUtNDAwYS05M2E5LTk4MjA0YzkyNWQyYSIsImF0X2hhc2giOiJVY2JweEoycS1JS0FodnI3dlFMTFpBIiwiYWNyIjoiMSIsInNpZCI6ImMzYTk2ZDg4LWY0ZWUtNDAwYS05M2E5LTk4MjA0YzkyNWQyYSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwibmFtZSI6InRvdG8gdGF0YSIsInByZWZlcnJlZF91c2VybmFtZSI6InRvdG8iLCJnaXZlbl9uYW1lIjoidG90byIsImZhbWlseV9uYW1lIjoidGF0YSJ9";
