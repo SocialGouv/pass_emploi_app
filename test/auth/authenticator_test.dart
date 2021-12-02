@@ -49,7 +49,7 @@ void main() {
 
   test('token is null when login has failed', () async {
     // Given
-    authWrapperStub.withArgsThrows();
+    authWrapperStub.withLoginArgsThrows();
 
     // When
     final AuthTokenResponse? token = await authenticator.login();
@@ -71,7 +71,7 @@ void main() {
 
   test('isLoggedIn is FALSE when login failed', () async {
     // Given
-    authWrapperStub.withArgsThrows();
+    authWrapperStub.withLoginArgsThrows();
 
     // When
     await authenticator.login();
@@ -108,7 +108,7 @@ void main() {
 
   test('ID token is null when login failed', () async {
     // Given
-    authWrapperStub.withArgsThrows();
+    authWrapperStub.withLoginArgsThrows();
     await authenticator.login();
 
     // When
@@ -132,7 +132,7 @@ void main() {
 
   test('Access token is null when login failed', () async {
     // Given
-    authWrapperStub.withArgsThrows();
+    authWrapperStub.withLoginArgsThrows();
     await authenticator.login();
 
     // When
@@ -156,10 +156,63 @@ void main() {
     final result = await authenticator.refreshToken();
 
     // Then
-    expect(result, true);
+    expect(result, RefreshTokenStatus.SUCCESSFUL);
     expect(prefs.storedValues["idToken"], "idToken2");
     expect(prefs.storedValues["accessToken"], "accessToken2");
     expect(prefs.storedValues["refreshToken"], "refreshToken2");
+  });
+
+  test('refresh token returns NETWORK_UNREACHABLE when user is logged in but network is unreachable', () async {
+    // Given
+    authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
+    authWrapperStub.withRefreshArgsThrowsNetwork();
+
+    await authenticator.login();
+
+    // When
+    final result = await authenticator.refreshToken();
+
+    // Then
+    expect(result, RefreshTokenStatus.NETWORK_UNREACHABLE);
+  });
+
+  test('refresh token returns EXPIRED_REFRESH_TOKEN when user is logged in but refresh token is expired', () async {
+    // Given
+    authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
+    authWrapperStub.withRefreshArgsThrowsExpired();
+
+    await authenticator.login();
+
+    // When
+    final result = await authenticator.refreshToken();
+
+    // Then
+    expect(result, RefreshTokenStatus.EXPIRED_REFRESH_TOKEN);
+  });
+
+  test('refresh token returns GENERIC_ERROR when user is logged in but refresh token fails on generic exception',
+      () async {
+    // Given
+    authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
+    authWrapperStub.withRefreshArgsThrowsGeneric();
+
+    await authenticator.login();
+
+    // When
+    final result = await authenticator.refreshToken();
+
+    // Then
+    expect(result, RefreshTokenStatus.GENERIC_ERROR);
+  });
+
+  test('refresh token returns USER_NOT_LOGGED_IN when user is not logged in', () async {
+    // Given user not logged in
+
+    // When
+    final result = await authenticator.refreshToken();
+
+    // Then
+    expect(result, RefreshTokenStatus.USER_NOT_LOGGED_IN);
   });
 }
 

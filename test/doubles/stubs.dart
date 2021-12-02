@@ -96,36 +96,59 @@ class AuthWrapperStub extends AuthWrapper {
   late AuthTokenResponse _loginResult;
   late AuthRefreshTokenRequest _refreshParameters;
   late AuthTokenResponse _refreshResult;
-  late bool _throwsException;
+  late bool _throwsLoginException;
+  late bool _throwsRefreshNetworkException;
+  late bool _throwsRefreshExpiredException;
+  late bool _throwsRefreshGenericException;
 
   AuthWrapperStub() : super(DummyFlutterAppAuth());
 
   withLoginArgsResolves(AuthTokenRequest parameters, AuthTokenResponse result) {
     _loginParameters = parameters;
     _loginResult = result;
-    _throwsException = false;
+    _throwsLoginException = false;
   }
 
-  withArgsThrows() {
-    _throwsException = true;
+  withLoginArgsThrows() {
+    _throwsLoginException = true;
+  }
+
+  withRefreshArgsThrowsNetwork() {
+    _throwsRefreshNetworkException = true;
+  }
+
+  withRefreshArgsThrowsExpired() {
+    _throwsRefreshNetworkException = false;
+    _throwsRefreshExpiredException = true;
+  }
+
+  withRefreshArgsThrowsGeneric() {
+    _throwsRefreshNetworkException = false;
+    _throwsRefreshExpiredException = false;
+    _throwsRefreshGenericException = true;
   }
 
   withRefreshArgsResolves(AuthRefreshTokenRequest parameters, AuthTokenResponse result) {
     _refreshParameters = parameters;
     _refreshResult = result;
+    _throwsRefreshNetworkException = false;
+    _throwsRefreshExpiredException = false;
+    _throwsRefreshGenericException = false;
   }
 
   @override
   Future<AuthTokenResponse> login(AuthTokenRequest request) async {
-    if (_throwsException) throw Exception();
+    if (_throwsLoginException) throw Exception();
     if (request == _loginParameters) return _loginResult;
     throw Exception("Wrong parameters for login stub");
   }
 
   @override
   Future<AuthTokenResponse> refreshToken(AuthRefreshTokenRequest request) async {
+    if (_throwsRefreshNetworkException) throw AuthWrapperNetworkException();
+    if (_throwsRefreshExpiredException) throw AuthWrapperRefreshTokenExpiredException();
+    if (_throwsRefreshGenericException) throw AuthWrapperRefreshTokenException();
     if (request == _refreshParameters) return _refreshResult;
     throw Exception("Wrong parameters for refresh stub");
   }
-
 }
