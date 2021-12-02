@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_favoris_actions.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
@@ -6,6 +7,7 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_id_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/src/store.dart';
@@ -134,7 +136,29 @@ Store<AppState> _successStoreWithFavorisLoaded() {
           firstName: "F",
           lastName: "L",
         )),
-        offreEmploiFavorisIdState: OffreEmploiFavorisIdState.idsLoaded(["1", "2", "4"])),
+        offreEmploiFavorisIdState: OffreEmploiFavorisIdState.idsLoaded(["1", "2", "4"]),
+        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
+          offres: [
+            OffreEmploi(
+              id: "1",
+              title: "Technicien / Technicienne en froid et climatisation",
+              companyName: "RH TT INTERIM",
+              contractType: "MIS",
+              location: "77 - LOGNES",
+              duration: "Temps plein",
+            ),
+            OffreEmploi(
+              id: "17",
+              title: "Technicien / Technicienne en froid et climatisation",
+              companyName: "RH TT INTERIM",
+              contractType: "MIS",
+              location: "77 - LOGNES",
+              duration: "Temps plein",
+            ),
+          ],
+          loadedPage: 1,
+          isMoreDataAvailable: false,
+        )),
   );
   return store;
 }
@@ -150,7 +174,29 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
           firstName: "F",
           lastName: "L",
         )),
-        offreEmploiFavorisIdState: OffreEmploiFavorisIdState.idsLoaded(["1", "2", "4"])),
+        offreEmploiFavorisIdState: OffreEmploiFavorisIdState.idsLoaded(["1", "2", "4"]),
+        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
+          offres: [
+            OffreEmploi(
+              id: "1",
+              title: "Technicien / Technicienne en froid et climatisation",
+              companyName: "RH TT INTERIM",
+              contractType: "MIS",
+              location: "77 - LOGNES",
+              duration: "Temps plein",
+            ),
+            OffreEmploi(
+              id: "17",
+              title: "Technicien / Technicienne en froid et climatisation",
+              companyName: "RH TT INTERIM",
+              contractType: "MIS",
+              location: "77 - LOGNES",
+              duration: "Temps plein",
+            ),
+          ],
+          loadedPage: 1,
+          isMoreDataAvailable: false,
+        )),
   );
   return store;
 }
@@ -162,7 +208,7 @@ class OffreEmploiFavorisRepositorySuccessStub extends OffreEmploiFavorisReposito
     return ["1", "2", "4"];
   }
 
-  Future<bool> updateOffreEmploiFavoriStatus(String userId, String offreId, bool newStatus) async {
+  Future<bool> updateOffreEmploiFavoriStatus(String userId, OffreEmploi offre, bool newStatus) async {
     return true;
   }
 }
@@ -174,7 +220,7 @@ class OffreEmploiFavorisRepositoryFailureStub extends OffreEmploiFavorisReposito
     return ["1", "2", "4"];
   }
 
-  Future<bool> updateOffreEmploiFavoriStatus(String userId, String offreId, bool newStatus) async {
+  Future<bool> updateOffreEmploiFavoriStatus(String userId, OffreEmploi offre, bool newStatus) async {
     return false;
   }
 }
