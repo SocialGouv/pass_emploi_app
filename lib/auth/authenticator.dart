@@ -11,14 +11,18 @@ class Authenticator {
   Authenticator(this.authWrapper, this.configuration);
 
   Future<AuthTokenResponse?> login() async {
-    return authWrapper.login(
-      AuthTokenRequest(
-        configuration.authClientId,
-        configuration.authLoginRedirectUrl,
-        configuration.authIssuer,
-        configuration.authScopes,
-        configuration.authClientSecret,
-      ),
-    );
+    try {
+      return await authWrapper.login(
+        AuthTokenRequest(
+          configuration.authClientId,
+          configuration.authLoginRedirectUrl,
+          configuration.authIssuer,
+          configuration.authScopes,
+          configuration.authClientSecret,
+        ),
+      );
+    } catch (e) {
+      return null;
+    }
   }
 }

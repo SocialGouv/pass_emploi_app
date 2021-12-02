@@ -93,18 +93,24 @@ class HeadersBuilderStub extends HeadersBuilder {
 class AuthWrapperStub extends AuthWrapper {
   late AuthTokenRequest parameters;
   late AuthTokenResponse result;
+  late bool throwsException;
 
   AuthWrapperStub() : super(DummyFlutterAppAuth());
 
   withArgsResolves(AuthTokenRequest parameters, result) {
-    this.parameters = parameters;
-    this.result = result;
+    parameters = parameters;
+    result = result;
+    throwsException = false;
+  }
+
+  withArgsThrows() {
+    throwsException = true;
   }
 
   @override
-  Future<AuthTokenResponse?> login(AuthTokenRequest request) async {
-    if (request == this.parameters) {
-      return this.result;
-    }
+  Future<AuthTokenResponse> login(AuthTokenRequest request) async {
+    if (throwsException) throw Exception();
+    if (request == this.parameters) return this.result;
+    throw Exception("Wrong parameters for stub");
   }
 }

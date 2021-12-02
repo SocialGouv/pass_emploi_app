@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:pass_emploi_app/auth/auth_refresh_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_request.dart';
@@ -8,22 +10,37 @@ class AuthWrapper {
 
   AuthWrapper(this._appAuth);
 
-  Future<AuthTokenResponse?> login(AuthTokenRequest request) async {
-    final response = await _appAuth.authorizeAndExchangeCode(AuthorizationTokenRequest(
-      request.clientId,
-      request.loginRedirectUrl,
-      issuer: request.issuer,
-      scopes: request.scopes,
-      clientSecret: request.clientSecret,
-    ));
-    if (response != null && response.idToken != null && response.accessToken != null && response.refreshToken != null) {
-      return AuthTokenResponse(
-        idToken: response.idToken!,
-        accessToken: response.accessToken!,
-        refreshToken: response.refreshToken!,
-      );
+  Future<AuthTokenResponse> login(AuthTokenRequest request) async {
+    try {
+      final response = await _appAuth.authorizeAndExchangeCode(AuthorizationTokenRequest(
+        request.clientId,
+        request.loginRedirectUrl,
+        issuer: request.issuer,
+        scopes: request.scopes,
+        clientSecret: request.clientSecret,
+      ));
+      if (response != null &&
+          response.idToken != null &&
+          response.accessToken != null &&
+          response.refreshToken != null) {
+        return AuthTokenResponse(
+          idToken: response.idToken!,
+          accessToken: response.accessToken!,
+          refreshToken: response.refreshToken!,
+        );
+      } else {
+        throw AuthWrapperLoginException();
+      }
+    } on PlatformException catch (e) {
+      if (e.code == "discovery_failed") {
+        throw AuthWrapperNetworkException();
+      } else if (e.code == "authorize_and_exchange_code_failed") {
+        throw AuthWrapperCalledCancelException();
+      } else {
+        debugPrint(e.toString());
+        throw e;
+      }
     }
-    return null;
   }
 
   Future<AuthTokenResponse?> refreshToken(AuthRefreshTokenRequest request) async {
@@ -44,3 +61,8 @@ class AuthWrapper {
     return null;
   }
 }
+class AuthWrapperLoginException implements Exception {}
+
+class AuthWrapperNetworkException implements AuthWrapperLoginException {}
+
+class AuthWrapperCalledCancelException implements AuthWrapperLoginException {}
