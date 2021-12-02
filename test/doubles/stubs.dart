@@ -1,3 +1,6 @@
+import 'package:pass_emploi_app/auth/auth_token_request.dart';
+import 'package:pass_emploi_app/auth/auth_token_response.dart';
+import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/network/headers.dart';
@@ -84,5 +87,24 @@ class HeadersBuilderStub extends HeadersBuilder {
     return {
       if (contentType != null) 'Content-Type': contentType,
     };
+  }
+}
+
+class AuthWrapperStub extends AuthWrapper {
+  late AuthTokenRequest parameters;
+  late AuthTokenResponse result;
+
+  AuthWrapperStub() : super(DummyFlutterAppAuth());
+
+  withArgsResolves(AuthTokenRequest parameters, result) {
+    this.parameters = parameters;
+    this.result = result;
+  }
+
+  @override
+  Future<AuthTokenResponse?> login(AuthTokenRequest request) async {
+    if (request == this.parameters) {
+      return this.result;
+    }
   }
 }
