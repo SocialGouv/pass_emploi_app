@@ -385,7 +385,10 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         children: [
           Expanded(child: actionButton(onPressed: () => launch(url), label: Strings.postulerButtonTitle)),
           SizedBox(width: 8),
-          FavoriHeart(offreId),
+          FavoriHeart(
+            offreId: offreId,
+            withBorder: true,
+          ),
         ],
       ),
     );

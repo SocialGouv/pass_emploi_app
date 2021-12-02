@@ -6,22 +6,16 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
-class FavoriHeart extends StatefulWidget {
+class FavoriHeart extends StatelessWidget {
   final String offreId;
+  final bool withBorder;
 
-  FavoriHeart(this.offreId) : super();
-
-  @override
-  State<FavoriHeart> createState() => _FavoriHeartState();
-}
-
-class _FavoriHeartState extends State<FavoriHeart> {
-  final withBorder = true;
+  FavoriHeart({required this.offreId, required this.withBorder}) : super();
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, FavoriHeartViewModel>(
-      converter: (store) => FavoriHeartViewModel.create(widget.offreId, store),
+      converter: (store) => FavoriHeartViewModel.create(offreId, store),
       builder: (context, viewModel) => _buildHeart(context, viewModel),
       distinct: true,
       onDidChange: (_, viewModel) {
@@ -45,11 +39,9 @@ class _FavoriHeartState extends State<FavoriHeart> {
           child: SizedBox(
             width: 48,
             height: 48,
-            child: viewModel.withLoading
-                ? Icon(Icons.map)
-                : viewModel.isFavori
-                    ? Icon(Icons.favorite_border_rounded, color: AppColors.nightBlue, size: 18)
-                    : Icon(Icons.favorite_rounded, color: AppColors.nightBlue, size: 18),
+            child: viewModel.isFavori
+                ? Icon(Icons.favorite_border_rounded, color: AppColors.nightBlue, size: 18)
+                : Icon(Icons.favorite_rounded, color: AppColors.nightBlue, size: 18),
           ),
         ),
       ),
