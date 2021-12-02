@@ -24,4 +24,8 @@ class OffreEmploiFavorisRepository {
     }
     return null;
   }
+
+  Future<bool> updateOffreEmploiFavoriStatus(String userId, String offreId, bool newStatus) async {
+    return false;
+  }
 }

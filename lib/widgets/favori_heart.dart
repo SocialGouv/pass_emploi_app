@@ -16,8 +16,7 @@ class FavoriHeart extends StatefulWidget {
 }
 
 class _FavoriHeartState extends State<FavoriHeart> {
-  var isFavori = false;
-  var withBorder = true;
+  final withBorder = true;
 
   @override
   Widget build(BuildContext context) {
@@ -42,15 +41,15 @@ class _FavoriHeartState extends State<FavoriHeart> {
         color: Colors.transparent,
         shape: withBorder ? CircleBorder(side: BorderSide(color: AppColors.nightBlue)) : null,
         child: InkWell(
-          onTap: () => setState(() {
-            isFavori = !isFavori;
-          }),
+          onTap: () => viewModel.update(!viewModel.isFavori),
           child: SizedBox(
             width: 48,
             height: 48,
-            child: isFavori
-                ? Icon(Icons.favorite_border_rounded, color: AppColors.nightBlue, size: 18)
-                : Icon(Icons.favorite_rounded, color: AppColors.nightBlue, size: 18),
+            child: viewModel.withLoading
+                ? Icon(Icons.map)
+                : viewModel.isFavori
+                    ? Icon(Icons.favorite_border_rounded, color: AppColors.nightBlue, size: 18)
+                    : Icon(Icons.favorite_rounded, color: AppColors.nightBlue, size: 18),
           ),
         ),
       ),

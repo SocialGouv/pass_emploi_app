@@ -13,6 +13,7 @@ import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 
 import 'login_state.dart';
 import 'offre_emploi_favoris_id_state.dart';
+import 'offre_emploi_favoris_update_state.dart';
 import 'offre_emploi_search_results_state.dart';
 import 'offre_emploi_search_state.dart';
 
@@ -32,6 +33,7 @@ class AppState extends Equatable {
   final OffreEmploiSearchResultsState offreEmploiSearchResultsState;
   final OffreEmploiSearchParametersState offreEmploiSearchParametersState;
   final OffreEmploiFavorisIdState offreEmploiFavorisIdState;
+  final OffreEmploiFavorisUpdateState offreEmploiFavorisUpdateState;
 
   AppState({
     required this.deepLinkState,
@@ -49,6 +51,7 @@ class AppState extends Equatable {
     required this.offreEmploiSearchResultsState,
     required this.offreEmploiSearchParametersState,
     required this.offreEmploiFavorisIdState,
+    required this.offreEmploiFavorisUpdateState,
   });
 
   AppState copyWith({
@@ -67,6 +70,7 @@ class AppState extends Equatable {
     final OffreEmploiSearchResultsState? offreEmploiSearchResultsState,
     final OffreEmploiSearchParametersState? offreEmploiSearchParametersState,
     final OffreEmploiFavorisIdState? offreEmploiFavorisIdState,
+    final OffreEmploiFavorisUpdateState? offreEmploiFavorisUpdateState,
   }) {
     return AppState(
       deepLinkState: deepLinkState ?? this.deepLinkState,
@@ -84,6 +88,7 @@ class AppState extends Equatable {
       offreEmploiSearchResultsState: offreEmploiSearchResultsState ?? this.offreEmploiSearchResultsState,
       offreEmploiSearchParametersState: offreEmploiSearchParametersState ?? this.offreEmploiSearchParametersState,
       offreEmploiFavorisIdState: offreEmploiFavorisIdState ?? this.offreEmploiFavorisIdState,
+      offreEmploiFavorisUpdateState: offreEmploiFavorisUpdateState ?? this.offreEmploiFavorisUpdateState,
     );
   }
 
@@ -104,6 +109,7 @@ class AppState extends Equatable {
       offreEmploiSearchResultsState: OffreEmploiSearchResultsState.notInitialized(),
       offreEmploiSearchParametersState: OffreEmploiSearchParametersState.notInitialized(),
       offreEmploiFavorisIdState: OffreEmploiFavorisIdState.notInitialized(),
+      offreEmploiFavorisUpdateState: OffreEmploiFavorisUpdateState({}),
     );
   }
 
