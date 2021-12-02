@@ -65,9 +65,7 @@ class SharedPreferencesSpy implements SharedPreferences {
   }
 
   @override
-  String? getString(String key) {
-    throw UnimplementedError();
-  }
+  String? getString(String key) => storedValues[key];
 
   @override
   List<String>? getStringList(String key) {
