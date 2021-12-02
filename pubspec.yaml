@@ -19,6 +19,7 @@ dependencies:
   flutter_local_notifications: 9.0.0
   flutter_dotenv: 5.0.2
   url_launcher: 6.0.15
+  flutter_appauth: 2.1.0+1
   # Dart
   http: 0.13.3
   http_interceptor: 1.0.1
