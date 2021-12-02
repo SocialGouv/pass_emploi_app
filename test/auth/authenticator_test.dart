@@ -20,7 +20,7 @@ final _configuration = Configuration(
 );
 
 void main() {
-  test('login', () async {
+  test('login successful', () async {
     // Given
     final authWrapperStub = AuthWrapperStub();
     final authenticator = Authenticator(authWrapperStub, _configuration);
@@ -40,5 +40,19 @@ void main() {
 
     // Then
     expect(token, authTokenResponse());
+  });
+
+  test('login failed', () async {
+    // Given
+    final authWrapperStub = AuthWrapperStub();
+    final authenticator = Authenticator(authWrapperStub, _configuration);
+
+    authWrapperStub.withArgsThrows();
+
+    // When
+    final AuthTokenResponse? token = await authenticator.login();
+
+    // Then
+    expect(token, isNull);
   });
 }
