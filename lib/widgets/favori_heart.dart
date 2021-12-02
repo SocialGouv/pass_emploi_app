@@ -40,8 +40,8 @@ class FavoriHeart extends StatelessWidget {
             width: 48,
             height: 48,
             child: viewModel.isFavori
-                ? Icon(Icons.favorite_border_rounded, color: AppColors.nightBlue, size: 18)
-                : Icon(Icons.favorite_rounded, color: AppColors.nightBlue, size: 18),
+                ? Icon(Icons.favorite_rounded, color: AppColors.nightBlue, size: 18)
+                : Icon(Icons.favorite_border_rounded, color: AppColors.nightBlue, size: 18),
           ),
         ),
       ),
