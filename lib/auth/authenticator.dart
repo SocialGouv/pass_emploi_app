@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'auth_refresh_token_request.dart';
 import 'auth_wrapper.dart';
 
 const String _idTokenKey = "idToken";
@@ -50,4 +51,19 @@ class Authenticator {
   }
 
   String? accessToken() => _preferences.getString(_accessTokenKey);
+
+  Future<bool> refreshToken() async {
+    final String refreshToken = _preferences.getString(_refreshTokenKey)!;
+    AuthTokenResponse? response = await _authWrapper.refreshToken(
+      AuthRefreshTokenRequest(
+        _configuration.authClientId,
+        _configuration.authLoginRedirectUrl,
+        _configuration.authIssuer,
+        refreshToken,
+        _configuration.authClientSecret,
+      ),
+    );
+    storeResponse(response);
+    return true;
+  }
 }

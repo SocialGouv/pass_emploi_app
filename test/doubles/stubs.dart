@@ -1,3 +1,4 @@
+import 'package:pass_emploi_app/auth/auth_refresh_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
@@ -91,15 +92,17 @@ class HeadersBuilderStub extends HeadersBuilder {
 }
 
 class AuthWrapperStub extends AuthWrapper {
-  late AuthTokenRequest _parameters;
-  late AuthTokenResponse _result;
+  late AuthTokenRequest _loginParameters;
+  late AuthTokenResponse _loginResult;
+  late AuthRefreshTokenRequest _refreshParameters;
+  late AuthTokenResponse _refreshResult;
   late bool _throwsException;
 
   AuthWrapperStub() : super(DummyFlutterAppAuth());
 
-  withArgsResolves(AuthTokenRequest parameters, result) {
-    _parameters = parameters;
-    _result = result;
+  withLoginArgsResolves(AuthTokenRequest parameters, AuthTokenResponse result) {
+    _loginParameters = parameters;
+    _loginResult = result;
     _throwsException = false;
   }
 
@@ -107,10 +110,22 @@ class AuthWrapperStub extends AuthWrapper {
     _throwsException = true;
   }
 
+  withRefreshArgsResolves(AuthRefreshTokenRequest parameters, AuthTokenResponse result) {
+    _refreshParameters = parameters;
+    _refreshResult = result;
+  }
+
   @override
   Future<AuthTokenResponse> login(AuthTokenRequest request) async {
     if (_throwsException) throw Exception();
-    if (request == _parameters) return this._result;
-    throw Exception("Wrong parameters for stub");
+    if (request == _loginParameters) return _loginResult;
+    throw Exception("Wrong parameters for login stub");
   }
+
+  @override
+  Future<AuthTokenResponse> refreshToken(AuthRefreshTokenRequest request) async {
+    if (request == _refreshParameters) return _refreshResult;
+    throw Exception("Wrong parameters for refresh stub");
+  }
+
 }

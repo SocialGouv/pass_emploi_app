@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
+import 'package:pass_emploi_app/auth/auth_refresh_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
@@ -34,7 +35,7 @@ void main() {
 
   test('token is saved and returned when login is successful', () async {
     // Given
-    authWrapperStub.withArgsResolves(_authTokenRequest(), authTokenResponse());
+    authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
 
     // When
     final AuthTokenResponse? token = await authenticator.login();
@@ -59,7 +60,7 @@ void main() {
 
   test('isLoggedIn is TRUE when login is successful', () async {
     // Given
-    authWrapperStub.withArgsResolves(_authTokenRequest(), authTokenResponse());
+    authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
 
     // When
     await authenticator.login();
@@ -81,7 +82,7 @@ void main() {
 
   test('ID token is properly returned and deserialized  when login is successful', () async {
     // Given
-    authWrapperStub.withArgsResolves(
+    authWrapperStub.withLoginArgsResolves(
       _authTokenRequest(),
       AuthTokenResponse(
         idToken: realIdToken,
@@ -119,7 +120,7 @@ void main() {
 
   test('Access token is returned when login is successful', () async {
     // Given
-    authWrapperStub.withArgsResolves(_authTokenRequest(), authTokenResponse());
+    authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
     await authenticator.login();
 
     // When
@@ -140,6 +141,26 @@ void main() {
     // Then
     expect(token, isNull);
   });
+
+  test('token is saved when refresh token is successful and user is logged in', () async {
+    // Given
+    authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
+    authWrapperStub.withRefreshArgsResolves(
+      _refreshTokenRequest(),
+      AuthTokenResponse(accessToken: 'accessToken2', idToken: 'idToken2', refreshToken: 'refreshToken2'),
+    );
+
+    await authenticator.login();
+
+    // When
+    final result = await authenticator.refreshToken();
+
+    // Then
+    expect(result, true);
+    expect(prefs.storedValues["idToken"], "idToken2");
+    expect(prefs.storedValues["accessToken"], "accessToken2");
+    expect(prefs.storedValues["refreshToken"], "refreshToken2");
+  });
 }
 
 AuthTokenRequest _authTokenRequest() {
@@ -148,6 +169,16 @@ AuthTokenRequest _authTokenRequest() {
     _configuration.authLoginRedirectUrl,
     _configuration.authIssuer,
     _configuration.authScopes,
+    _configuration.authClientSecret,
+  );
+}
+
+AuthRefreshTokenRequest _refreshTokenRequest() {
+  return AuthRefreshTokenRequest(
+    _configuration.authClientId,
+    _configuration.authLoginRedirectUrl,
+    _configuration.authIssuer,
+    'refreshToken',
     _configuration.authClientSecret,
   );
 }
