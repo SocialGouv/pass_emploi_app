@@ -1,3 +1,4 @@
+import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
@@ -19,6 +20,8 @@ class DummyHeadersBuilder extends HeadersBuilder {}
 class DummyHttpClient extends MockClient {
   DummyHttpClient() : super((request) async => Response("", 200));
 }
+
+class DummyFlutterAppAuth extends FlutterAppAuth {}
 
 class DummyPushNotificationManager extends PushNotificationManager {
   @override
