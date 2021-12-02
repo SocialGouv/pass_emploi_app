@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 
 import '../doubles/fixtures.dart';
+import '../doubles/spies.dart';
 import '../doubles/stubs.dart';
 
 final _configuration = Configuration(
@@ -20,10 +21,11 @@ final _configuration = Configuration(
 );
 
 void main() {
-  test('login successful', () async {
+  test('token is saved and returned when login is successful', () async {
     // Given
     final authWrapperStub = AuthWrapperStub();
-    final authenticator = Authenticator(authWrapperStub, _configuration);
+    final prefs = SharedPreferencesSpy();
+    final authenticator = Authenticator(authWrapperStub, _configuration, prefs);
 
     final AuthTokenRequest parameters = AuthTokenRequest(
       _configuration.authClientId,
@@ -39,13 +41,17 @@ void main() {
     final AuthTokenResponse? token = await authenticator.login();
 
     // Then
-    expect(token, authTokenResponse());
+    expect(token!, authTokenResponse());
+    expect(prefs.storedValues["idToken"], token.idToken);
+    expect(prefs.storedValues["accessToken"], token.accessToken);
+    expect(prefs.storedValues["refreshToken"], token.refreshToken);
   });
 
-  test('login failed', () async {
+  test('token is null when login has failed', () async {
     // Given
     final authWrapperStub = AuthWrapperStub();
-    final authenticator = Authenticator(authWrapperStub, _configuration);
+    final prefs = SharedPreferencesSpy();
+    final authenticator = Authenticator(authWrapperStub, _configuration, prefs);
 
     authWrapperStub.withArgsThrows();
 
