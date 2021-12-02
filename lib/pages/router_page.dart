@@ -40,6 +40,8 @@ class _RouterPageState extends State<RouterPage> {
       case RouterPageDisplayState.SPLASH:
         return SplashScreenPage();
       case RouterPageDisplayState.LOGIN:
+        // TODO-115 LoginPageV2() => un background + un bouton unique (action > LoginMiddleware à créeer > authenticator.login());
+        // TODO-115 : supprimer avec le navigator tous les écrans par dessus (Navigort.popUntil ????)
         return LoginPage();
       case RouterPageDisplayState.MAIN:
         return MainPage(
