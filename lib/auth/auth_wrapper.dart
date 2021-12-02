@@ -43,26 +43,46 @@ class AuthWrapper {
     }
   }
 
-  Future<AuthTokenResponse?> refreshToken(AuthRefreshTokenRequest request) async {
-    final response = await _appAuth.token(TokenRequest(
-      request.clientId,
-      request.loginRedirectUrl,
-      issuer: request.issuer,
-      clientSecret: request.clientSecret,
-      refreshToken: request.refreshToken,
-    ));
-    if (response != null && response.idToken != null && response.accessToken != null && response.refreshToken != null) {
-      return AuthTokenResponse(
-        idToken: response.idToken!,
-        accessToken: response.accessToken!,
-        refreshToken: response.refreshToken!,
-      );
+  Future<AuthTokenResponse> refreshToken(AuthRefreshTokenRequest request) async {
+    try {
+      final response = await _appAuth.token(TokenRequest(
+        request.clientId,
+        request.loginRedirectUrl,
+        issuer: request.issuer,
+        clientSecret: request.clientSecret,
+        refreshToken: request.refreshToken,
+      ));
+      if (response != null &&
+          response.idToken != null &&
+          response.accessToken != null &&
+          response.refreshToken != null) {
+        return AuthTokenResponse(
+          idToken: response.idToken!,
+          accessToken: response.accessToken!,
+          refreshToken: response.refreshToken!,
+        );
+      } else {
+        throw AuthWrapperRefreshTokenException();
+      }
+    } on PlatformException catch (e) {
+      if (e.code == "network") {
+        throw AuthWrapperNetworkException();
+      } else if (e.code == "token_failed") {
+        throw AuthWrapperRefreshTokenExpiredException();
+      } else {
+        debugPrint(e.toString());
+        throw e;
+      }
     }
-    return null;
   }
 }
+
 class AuthWrapperLoginException implements Exception {}
 
-class AuthWrapperNetworkException implements AuthWrapperLoginException {}
+class AuthWrapperRefreshTokenException implements Exception {}
+
+class AuthWrapperNetworkException implements Exception {}
+
+class AuthWrapperRefreshTokenExpiredException implements AuthWrapperRefreshTokenException {}
 
 class AuthWrapperCalledCancelException implements AuthWrapperLoginException {}
