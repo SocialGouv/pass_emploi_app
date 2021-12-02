@@ -20,6 +20,9 @@ class RouterMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _checkIfUserIsLoggedIn(Store<AppState> store) async {
+    // TODO-115 Check with authenticator if user is logged in
+    // if logged in : convert AuthIdToken to User and forward action (tu devrais pouvoir garder le même dispatch)
+
     final user = await repository.getUser();
     store.dispatch(user != null ? LoggedInAction(user) : NotLoggedInAction());
   }
