@@ -223,7 +223,9 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
   }
 
   void _showOffreEmploiDetailsPage(BuildContext context, String offreId) {
-    Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(offreId));
+    _offsetBeforeLoading = _scrollController.offset;
+    Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(offreId))
+        .then((value) => _scrollController.jumpTo(_offsetBeforeLoading));
   }
 
   int _itemCount(OffreEmploiSearchResultsViewModel viewModel) {
