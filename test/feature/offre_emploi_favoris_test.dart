@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/models/user.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
+import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_favoris_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
@@ -8,11 +9,11 @@ import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
-import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/src/store.dart';
 
 import '../doubles/dummies.dart';
 import '../doubles/fixtures.dart';
+import '../doubles/spies.dart';
 import '../utils/test_setup.dart';
 
 main() {
@@ -301,10 +302,12 @@ class OffreEmploiFavorisRepositoryFailureStub extends OffreEmploiFavorisReposito
   }
 }
 
-class UserRepositoryLoggedInStub extends UserRepository {
-  UserRepositoryLoggedInStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+class AuthenticatorLoggedInStub extends Authenticator {
+  AuthenticatorLoggedInStub() : super(DummyAuthWrapper(), configuration(), SharedPreferencesSpy());
 
-  Future<User?> getUser() async {
-    return User(id: "1", firstName: "F", lastName: "L");
-  }
+  @override
+  bool isLoggedIn() => true;
+
+  @override
+  AuthIdToken? idToken() => AuthIdToken(userId: "1", firstName: "F", lastName: "L", expiresAt: 100000000);
 }
