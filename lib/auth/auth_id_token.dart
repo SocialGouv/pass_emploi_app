@@ -31,7 +31,7 @@ class AuthIdToken extends Equatable {
 
   factory AuthIdToken._fromJson(Map<String, dynamic> json) {
     return AuthIdToken(
-      userId: json["sub"],
+      userId: json["sub"], // TODO-115 : parse "userId" rather than "sub" + update unit test
       firstName: json["given_name"],
       lastName: json["family_name"],
       expiresAt: json["exp"] as int,

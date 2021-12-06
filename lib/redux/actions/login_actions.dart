@@ -12,12 +12,14 @@ class NotLoggedInAction extends LoginAction {}
 
 class RequestLoginActionV2 extends LoginAction {}
 
+// TOD0-115 remove accesscode
 class LoginLoadingAction extends LoginAction {
   final String accessCode;
 
   LoginLoadingAction(this.accessCode);
 }
 
+// TOD0-115 remove accesscode
 class LoginFailureAction extends LoginAction {
   final String accessCode;
 
