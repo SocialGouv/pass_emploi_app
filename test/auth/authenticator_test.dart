@@ -80,7 +80,7 @@ void main() {
     expect(authenticator.isLoggedIn(), false);
   });
 
-  test('ID token is properly returned and deserialized  when login is successful', () async {
+  test('ID token is properly returned and deserialized when login is successful', () async {
     // Given
     authWrapperStub.withLoginArgsResolves(
       _authTokenRequest(),
@@ -188,6 +188,7 @@ void main() {
 
     // Then
     expect(result, RefreshTokenStatus.EXPIRED_REFRESH_TOKEN);
+    expect(authenticator.isLoggedIn(), false);
   });
 
   test('refresh token returns GENERIC_ERROR when user is logged in but refresh token fails on generic exception',
@@ -213,7 +214,14 @@ void main() {
 
     // Then
     expect(result, RefreshTokenStatus.USER_NOT_LOGGED_IN);
+    expect(authenticator.isLoggedIn(), false);
   });
+
+  // TODO-115 : Test Interceptor
+  // 1. AccessToken is Valid - logged - OK
+  // 2. Access token is not valid - logged - KO
+  // 2.1. Refresh is ok - logged OK
+  // 2.2 refresh is ko - logged KO
 }
 
 AuthTokenRequest _authTokenRequest() {
