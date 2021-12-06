@@ -40,8 +40,7 @@ class _RouterPageState extends State<RouterPage> {
       case RouterPageDisplayState.SPLASH:
         return SplashScreenPage();
       case RouterPageDisplayState.LOGIN:
-        // TODO-115 pop all stack but RouterPage
-        // if (Navigator.canPop(context)) Navigator.popUntil(context, (route) => false);
+        _removeAllScreensAboveRouterPage();
         return LoginPageV2();
       case RouterPageDisplayState.MAIN:
         return MainPage(
@@ -49,6 +48,12 @@ class _RouterPageState extends State<RouterPage> {
           displayState: viewModel.mainPageDisplayState,
           deepLinkKey: viewModel.deepLinkKey,
         );
+    }
+  }
+
+  void _removeAllScreensAboveRouterPage() {
+    if (Navigator.canPop(context)) {
+      Navigator.popUntil(context, (route) => route.settings.name?.contains("/") ?? false);
     }
   }
 
