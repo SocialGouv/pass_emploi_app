@@ -23,6 +23,7 @@ class SendMessageAction extends UiAction {
 
 class LastMessageSeenAction extends UiAction {}
 
+// TODO-115 remove
 class RequestLoginAction extends UiAction {
   final String accessCode;
 
