@@ -7,9 +7,14 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:http_interceptor/http/intercepted_client.dart';
 import 'package:matomo/matomo.dart';
 import 'package:package_info/package_info.dart';
+import 'package:pass_emploi_app/auth/auth_access_token_retriever.dart';
+import 'package:pass_emploi_app/auth/auth_wrapper.dart';
+import 'package:pass_emploi_app/auth/authenticator.dart';
+import 'package:pass_emploi_app/network/access_token_interceptor.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/logging_interceptor.dart';
 import 'package:pass_emploi_app/pages/force_update_page.dart';
@@ -27,6 +32,7 @@ import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'configuration/app_version_checker.dart';
 import 'configuration/configuration.dart';
@@ -44,7 +50,7 @@ main() async {
   final remoteConfig = await _remoteConfig();
   final forceUpdate = await _shouldForceUpdate(remoteConfig);
   final PushNotificationManager pushManager = FirebasePushNotificationManager();
-  final store = _initializeReduxStore(configuration, pushManager);
+  final store = await _initializeReduxStore(configuration, pushManager);
 
   await pushManager.init(store);
 
@@ -84,10 +90,19 @@ Future<bool> _shouldForceUpdate(RemoteConfig? remoteConfig) async {
   return AppVersionChecker().shouldForceUpdate(currentVersion: currentVersion, minimumVersion: minimumVersion);
 }
 
-Store<AppState> _initializeReduxStore(Configuration configuration, PushNotificationManager pushNotificationManager) {
+Future<Store<AppState>> _initializeReduxStore(
+  Configuration configuration,
+  PushNotificationManager pushNotificationManager,
+) async {
   final headersBuilder = HeadersBuilder();
-  final httpClient = InterceptedClient.build(interceptors: [LoggingInterceptor()]);
-  return StoreFactory(
+  final preferences = await SharedPreferences.getInstance();
+  final authenticator = Authenticator(AuthWrapper(FlutterAppAuth()), configuration, preferences);
+  final accessTokenRetriever = AuthAccessTokenRetriever(authenticator);
+  final httpClient = InterceptedClient.build(
+    interceptors: [AccessTokenInterceptor(accessTokenRetriever), LoggingInterceptor()],
+  );
+  final reduxStore = StoreFactory(
+    authenticator,
     UserRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
     UserActionRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
     RendezvousRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
@@ -103,6 +118,8 @@ Store<AppState> _initializeReduxStore(Configuration configuration, PushNotificat
     OffreEmploiDetailsRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
     OffreEmploiFavorisRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
   ).initializeReduxStore(initialState: AppState.initialState());
+  accessTokenRetriever.setStore(reduxStore);
+  return reduxStore;
 }
 
 Future _handleErrorsOutsideFlutter() async {

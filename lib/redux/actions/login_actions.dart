@@ -10,6 +10,8 @@ class LoggedInAction extends LoginAction {
 
 class NotLoggedInAction extends LoginAction {}
 
+class RequestLoginActionV2 extends LoginAction {}
+
 class LoginLoadingAction extends LoginAction {
   final String accessCode;
 

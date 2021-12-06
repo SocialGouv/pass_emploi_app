@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/redux/middlewares/action_logging_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/api_middleware.dart';
@@ -24,6 +25,7 @@ import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
 
 class StoreFactory {
+  final Authenticator authenticator;
   final UserRepository userRepository;
   final UserActionRepository userActionRepository;
   final RendezvousRepository rendezvousRepository;
@@ -34,24 +36,24 @@ class StoreFactory {
   final OffreEmploiDetailsRepository offreEmploiDetailsRepository;
   final OffreEmploiFavorisRepository offreEmploiFavorisRepository;
 
-  StoreFactory(
-    this.userRepository,
-    this.userActionRepository,
-    this.rendezvousRepository,
-    this.offreEmploiRepository,
-    this.chatRepository,
-    this.registerTokenRepository,
-    this.crashlytics,
-    this.offreEmploiDetailsRepository,
-    this.offreEmploiFavorisRepository,
-  );
+  StoreFactory(this.authenticator,
+      this.userRepository,
+
+      this.userActionRepository,
+      this.rendezvousRepository,
+      this.offreEmploiRepository,
+      this.chatRepository,
+      this.registerTokenRepository,
+      this.crashlytics,
+      this.offreEmploiDetailsRepository,
+      this.offreEmploiFavorisRepository,);
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return Store<AppState>(
       reducer,
       initialState: initialState,
       middleware: [
-        RouterMiddleware(userRepository),
+        RouterMiddleware(userRepository, authenticator),
         ApiMiddleware(
           userRepository,
           userActionRepository,

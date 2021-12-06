@@ -6,9 +6,9 @@ import 'package:redux/redux.dart';
 // TODO-115 : test
 class AuthAccessTokenRetriever {
   final Authenticator _authenticator;
-  final Store<AppState> _store;
+  late Store<AppState> _store;
 
-  AuthAccessTokenRetriever(this._authenticator, this._store);
+  AuthAccessTokenRetriever(this._authenticator);
 
   Future<String> accessToken() async {
     final idToken = _authenticator.idToken();
@@ -24,4 +24,6 @@ class AuthAccessTokenRetriever {
         throw Exception(await _authenticator.refreshToken());
     }
   }
+
+  void setStore(Store<AppState> store) => _store = store;
 }

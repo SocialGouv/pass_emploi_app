@@ -33,6 +33,7 @@ class UserRepository {
     prefs.remove(USER_KEY);
   }
 
+  // TODO-115: still required for the backend ???
   Future<User?> logUser(String accessCode) async {
     final url = Uri.parse(_baseUrl + "/jeunes/$accessCode/login");
     try {

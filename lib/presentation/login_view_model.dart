@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:redux/redux.dart';
 
+// TODO-115 : Delete
 class LoginViewModel extends Equatable {
   final bool withLoading;
   final bool withFailure;
