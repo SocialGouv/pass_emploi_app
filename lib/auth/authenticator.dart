@@ -31,17 +31,11 @@ class Authenticator {
           _configuration.authClientSecret,
         ),
       );
-      storeResponse(response);
+      _saveToken(response);
       return response;
     } catch (e) {
       return null;
     }
-  }
-
-  void storeResponse(AuthTokenResponse response) {
-    _preferences.setString(_idTokenKey, response.idToken);
-    _preferences.setString(_accessTokenKey, response.accessToken);
-    _preferences.setString(_refreshTokenKey, response.refreshToken);
   }
 
   bool isLoggedIn() => _preferences.containsKey(_idTokenKey);
@@ -68,14 +62,27 @@ class Authenticator {
           _configuration.authClientSecret,
         ),
       );
-      storeResponse(response);
+      _saveToken(response);
       return RefreshTokenStatus.SUCCESSFUL;
     } on AuthWrapperNetworkException {
       return RefreshTokenStatus.NETWORK_UNREACHABLE;
     } on AuthWrapperRefreshTokenExpiredException {
+      _deleteToken();
       return RefreshTokenStatus.EXPIRED_REFRESH_TOKEN;
     } on AuthWrapperRefreshTokenException {
       return RefreshTokenStatus.GENERIC_ERROR;
     }
+  }
+
+  void _saveToken(AuthTokenResponse response) {
+    _preferences.setString(_idTokenKey, response.idToken);
+    _preferences.setString(_accessTokenKey, response.accessToken);
+    _preferences.setString(_refreshTokenKey, response.refreshToken);
+  }
+
+  void _deleteToken() {
+    _preferences.remove(_idTokenKey);
+    _preferences.remove(_accessTokenKey);
+    _preferences.remove(_refreshTokenKey);
   }
 }

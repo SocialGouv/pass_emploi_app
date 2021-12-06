@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
+const int _additionalExpirationSecurityIsSeconds = 15;
+
 class AuthIdToken extends Equatable {
   final String userId;
   final String firstName;
@@ -36,9 +38,7 @@ class AuthIdToken extends Equatable {
     );
   }
 
-  bool isValid() => expiresAt > DateTime.now().millisecondsSinceEpoch / 1000;
-
-  int expiresInMillis() => expiresAt - DateTime.now().millisecondsSinceEpoch ~/ 1000;
+  bool isValid() => (expiresAt - _additionalExpirationSecurityIsSeconds) > DateTime.now().millisecondsSinceEpoch / 1000;
 
   @override
   List<Object?> get props => [userId, firstName, lastName, expiresAt];
