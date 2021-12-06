@@ -7,17 +7,25 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
-// TODO-115 : add loader and failure
 class LoginPageV2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, LoginViewModelV2>(
       converter: (store) => LoginViewModelV2.create(store),
       distinct: true,
-      builder: (context, viewModel) => Scaffold(
-        body: Center(child: _loginButton(viewModel)),
-      ),
+      builder: (context, viewModel) => Scaffold(body: _body(viewModel)),
     );
+  }
+
+  Widget _body(LoginViewModelV2 viewModel) {
+    switch (viewModel.displayState) {
+      case LoginViewModelDisplayState.LOADER:
+        return Center(child: CircularProgressIndicator());
+      case LoginViewModelDisplayState.FAILURE:
+        return _failure(viewModel);
+      default:
+        return Center(child: _loginButton(viewModel));
+    }
   }
 
   ClipRRect _loginButton(LoginViewModelV2 viewModel) {
@@ -31,15 +39,24 @@ class LoginPageV2 extends StatelessWidget {
             child: Center(
               child: Row(
                 mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(Strings.login, style: TextStyles.textSmMedium(color: Colors.white)),
-                ],
+                children: [Text(Strings.login, style: TextStyles.textSmMedium(color: Colors.white))],
               ),
             ),
           ),
         ),
         color: AppColors.nightBlue,
       ),
+    );
+  }
+
+  Column _failure(LoginViewModelV2 viewModel) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(Strings.loginError, style: TextStyles.textSmMedium(color: AppColors.errorRed)),
+        SizedBox(height: 8),
+        _loginButton(viewModel),
+      ],
     );
   }
 }

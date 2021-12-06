@@ -36,10 +36,11 @@ class RouterMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _logUser(Store<AppState> store) async {
+    store.dispatch(LoginLoadingAction(""));
     if (await _authenticator.login() != null) {
       _dispatchLoggedInAction(store);
     } else {
-      store.dispatch(NotLoggedInAction());
+      store.dispatch(LoginFailureAction(""));
     }
   }
 
@@ -48,8 +49,6 @@ class RouterMiddleware extends MiddlewareClass<AppState> {
     // TODO-115 : hardcoded user ID until backend route is not merged
     //final user = User(id: idToken.userId, firstName: idToken.firstName, lastName: idToken.lastName);
     final user = User(id: "KAYUF", firstName: idToken.firstName, lastName: idToken.lastName);
-    // TODO-115: required to init chat on server side. Ask later to backend team if we wan remove it. Await required?
-    repository.logUser(user.id);
     store.dispatch(LoggedInAction(user));
   }
 
