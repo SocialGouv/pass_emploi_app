@@ -13,14 +13,14 @@ class OffreEmploiFavorisRepository {
 
   OffreEmploiFavorisRepository(this._baseUrl, this._httpClient, this._headersBuilder);
 
-  Future<List<String>?> getOffreEmploiFavorisId(String userId) async {
+  Future<Set<String>?> getOffreEmploiFavorisId(String userId) async {
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris");
     try {
       final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
 
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes) as List;
-        return json.map((favori) => favori["id"] as String).toList();
+        return json.map((favori) => favori["id"] as String).toSet();
       }
     } catch (e) {
       print('Exception on ${url.toString()}: ' + e.toString());
@@ -53,7 +53,7 @@ class OffreEmploiFavorisRepository {
           ),
         ),
       );
-      if (response.statusCode.isValid()) {
+      if (response.statusCode.isValid() || response.statusCode == 409) {
         return true;
       }
     } catch (e) {
@@ -69,7 +69,7 @@ class OffreEmploiFavorisRepository {
         url,
         headers: await _headersBuilder.headers(),
       );
-      if (response.statusCode.isValid()) {
+      if (response.statusCode.isValid() || response.statusCode == 404) {
         return true;
       }
     } catch (e) {

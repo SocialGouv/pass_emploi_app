@@ -12,7 +12,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiFavorisIdState: OffreEmploiFavorisIdLoadedState(["offreId"]),
+        offreEmploiFavorisIdState: OffreEmploiFavorisIdLoadedState({"offreId"}),
       ),
     );
 
@@ -27,7 +27,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiFavorisIdState: OffreEmploiFavorisIdLoadedState(["notOffreId"]),
+        offreEmploiFavorisIdState: OffreEmploiFavorisIdLoadedState({"notOffreId"}),
       ),
     );
 
@@ -43,7 +43,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiFavorisIdState: OffreEmploiFavorisIdLoadedState(["offreId"]),
+        offreEmploiFavorisIdState: OffreEmploiFavorisIdLoadedState({"offreId"}),
         offreEmploiFavorisUpdateState: OffreEmploiFavorisUpdateState({"offreId": OffreEmploiFavorisUpdateStatus.ERROR}),
       ),
     );
@@ -60,7 +60,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiFavorisIdState: OffreEmploiFavorisIdLoadedState(["toto"]),
+        offreEmploiFavorisIdState: OffreEmploiFavorisIdLoadedState({"toto"}),
         offreEmploiFavorisUpdateState: OffreEmploiFavorisUpdateState({"offreId": OffreEmploiFavorisUpdateStatus.ERROR}),
       ),
     );

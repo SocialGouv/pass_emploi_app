@@ -3,11 +3,11 @@ abstract class OffreEmploiFavorisIdState {
 
   factory OffreEmploiFavorisIdState.notInitialized() = OffreEmploiFavorisIdNotInitialized;
 
-  factory OffreEmploiFavorisIdState.idsLoaded(List<String> offreEmploiFavorisListId) = OffreEmploiFavorisIdLoadedState;
+  factory OffreEmploiFavorisIdState.idsLoaded(Set<String> offreEmploiFavorisListId) = OffreEmploiFavorisIdLoadedState;
 }
 
 class OffreEmploiFavorisIdLoadedState extends OffreEmploiFavorisIdState {
-  final List<String> offreEmploiFavorisListId;
+  final Set<String> offreEmploiFavorisListId;
 
   OffreEmploiFavorisIdLoadedState(this.offreEmploiFavorisListId) : super._();
 }

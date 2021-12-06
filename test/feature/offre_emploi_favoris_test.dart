@@ -89,7 +89,7 @@ main() {
     expect(favorisState.offreEmploiFavorisListId, ["1", "2", "4", "17"]);
   });
 
-  test("favori state should be updated when favori is added and api call fails", () async {
+  test("favori state should not be updated when favori is added and api call fails", () async {
     // Given
     final Store<AppState> store = _failureStoreWithFavorisLoaded();
 
@@ -136,7 +136,7 @@ Store<AppState> _successStoreWithFavorisLoaded() {
           firstName: "F",
           lastName: "L",
         )),
-        offreEmploiFavorisIdState: OffreEmploiFavorisIdState.idsLoaded(["1", "2", "4"]),
+        offreEmploiFavorisIdState: OffreEmploiFavorisIdState.idsLoaded({"1", "2", "4"}),
         offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
           offres: [
             OffreEmploi(
@@ -174,7 +174,7 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
           firstName: "F",
           lastName: "L",
         )),
-        offreEmploiFavorisIdState: OffreEmploiFavorisIdState.idsLoaded(["1", "2", "4"]),
+        offreEmploiFavorisIdState: OffreEmploiFavorisIdState.idsLoaded({"1", "2", "4"}),
         offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
           offres: [
             OffreEmploi(
@@ -204,8 +204,8 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
 class OffreEmploiFavorisRepositorySuccessStub extends OffreEmploiFavorisRepository {
   OffreEmploiFavorisRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
-  Future<List<String>?> getOffreEmploiFavorisId(String userId) async {
-    return ["1", "2", "4"];
+  Future<Set<String>?> getOffreEmploiFavorisId(String userId) async {
+    return {"1", "2", "4"};
   }
 
   Future<bool> updateOffreEmploiFavoriStatus(String userId, OffreEmploi offre, bool newStatus) async {
@@ -216,8 +216,8 @@ class OffreEmploiFavorisRepositorySuccessStub extends OffreEmploiFavorisReposito
 class OffreEmploiFavorisRepositoryFailureStub extends OffreEmploiFavorisRepository {
   OffreEmploiFavorisRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
-  Future<List<String>?> getOffreEmploiFavorisId(String userId) async {
-    return ["1", "2", "4"];
+  Future<Set<String>?> getOffreEmploiFavorisId(String userId) async {
+    return {"1", "2", "4"};
   }
 
   Future<bool> updateOffreEmploiFavoriStatus(String userId, OffreEmploi offre, bool newStatus) async {
