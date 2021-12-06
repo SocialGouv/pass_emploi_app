@@ -133,6 +133,9 @@ class Strings {
   static String postulerButtonTitle = "Je postule";
   static String requiredIcon = "Obligatoire";
 
+  // favoris
+  static String miscellaneousErrorRetry = "Une erreur est survenue. Veuillez réessayer";
+
   static String offreDetailNumber(String offreId) => "Offre n°$offreId";
 
   static String offreDetailLastUpdate(String lastUpdate) => "Actualisée le $lastUpdate";

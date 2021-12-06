@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/models/user.dart';
 
 User mockUser() => User(id: "", firstName: "", lastName: "");
 
-Response invalidHttpResponse() => Response("", 404);
+Response invalidHttpResponse({String message = ""}) => Response(message, 404);
 
 OffreEmploiDetails mockOffreEmploiDetails() => OffreEmploiDetails(
       id: "123TZKB",

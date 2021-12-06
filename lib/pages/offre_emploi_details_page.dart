@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/actionButtons.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/tags.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -96,9 +97,9 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
             ),
           ),
         ),
-        if (url != null)
+        if (url != null && id != null)
           Align(
-            child: _postulerButton(url),
+            child: _footer(url, id),
             alignment: Alignment.bottomCenter,
           ),
       ],
@@ -376,15 +377,18 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     ]);
   }
 
-  Widget _postulerButton(String url) {
+  Widget _footer(String url, String offreId) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.all(16),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      child: Row(
         children: [
-          actionButton(onPressed: () => launch(url), label: Strings.postulerButtonTitle),
+          Expanded(child: actionButton(onPressed: () => launch(url), label: Strings.postulerButtonTitle)),
+          SizedBox(width: 8),
+          FavoriHeart(
+            offreId: offreId,
+            withBorder: true,
+          ),
         ],
       ),
     );

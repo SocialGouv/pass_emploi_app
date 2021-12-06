@@ -10,14 +10,16 @@ set +a
 
 flutter test
 
+date=`echo "$(date +%s)"`
+
 flutter build ipa \
     --flavor staging \
-    --export-options-plist=ios/StagingOptionsPlist.plist
+    --export-options-plist=ios/StagingOptionsPlist.plist \
+    --build-number=$date
 
-date = echo "$(date +%s)"
 
 flutter build apk \
-    --flavor staging
+    --flavor staging \
     --build-number=$date
 
 firebase appdistribution:distribute build/app/outputs/flutter-apk/app-staging-release.apk \
