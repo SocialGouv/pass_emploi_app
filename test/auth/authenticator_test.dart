@@ -176,7 +176,9 @@ void main() {
     expect(result, RefreshTokenStatus.NETWORK_UNREACHABLE);
   });
 
-  test('refresh token returns EXPIRED_REFRESH_TOKEN when user is logged in but refresh token is expired', () async {
+  test(
+      'refresh token returns EXPIRED_REFRESH_TOKEN and delete token when user is logged in but refresh token is expired',
+      () async {
     // Given
     authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
     authWrapperStub.withRefreshArgsThrowsExpired();

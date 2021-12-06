@@ -25,80 +25,53 @@ class SharedPreferencesSpy implements SharedPreferences {
   }
 
   @override
-  Future<bool> clear() {
-    throw UnimplementedError();
-  }
+  Future<bool> clear() => throw UnimplementedError();
 
   @override
-  Future<bool> commit() {
-    throw UnimplementedError();
-  }
+  Future<bool> commit() => throw UnimplementedError();
 
   @override
-  bool containsKey(String key) {
-    return storedValues.containsKey(key);
-  }
+  bool containsKey(String key) => storedValues.containsKey(key);
 
   @override
-  Object? get(String key) {
-    throw UnimplementedError();
-  }
+  Object? get(String key) => throw UnimplementedError();
 
   @override
-  bool? getBool(String key) {
-    throw UnimplementedError();
-  }
+  bool? getBool(String key) => throw UnimplementedError();
 
   @override
-  double? getDouble(String key) {
-    throw UnimplementedError();
-  }
+  double? getDouble(String key) => throw UnimplementedError();
 
   @override
-  int? getInt(String key) {
-    throw UnimplementedError();
-  }
+  int? getInt(String key) => throw UnimplementedError();
 
   @override
-  Set<String> getKeys() {
-    throw UnimplementedError();
-  }
+  Set<String> getKeys() => throw UnimplementedError();
 
   @override
   String? getString(String key) => storedValues[key];
 
   @override
-  List<String>? getStringList(String key) {
-    throw UnimplementedError();
+  List<String>? getStringList(String key) => throw UnimplementedError();
+
+  @override
+  Future<void> reload() => throw UnimplementedError();
+
+  @override
+  Future<bool> remove(String key) async {
+    storedValues.remove(key);
+    return true;
   }
 
   @override
-  Future<void> reload() {
-    throw UnimplementedError();
-  }
+  Future<bool> setBool(String key, bool value) => throw UnimplementedError();
 
   @override
-  Future<bool> remove(String key) {
-    throw UnimplementedError();
-  }
+  Future<bool> setDouble(String key, double value) => throw UnimplementedError();
 
   @override
-  Future<bool> setBool(String key, bool value) {
-    throw UnimplementedError();
-  }
+  Future<bool> setInt(String key, int value) => throw UnimplementedError();
 
   @override
-  Future<bool> setDouble(String key, double value) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> setInt(String key, int value) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<bool> setStringList(String key, List<String> value) {
-    throw UnimplementedError();
-  }
+  Future<bool> setStringList(String key, List<String> value) => throw UnimplementedError();
 }

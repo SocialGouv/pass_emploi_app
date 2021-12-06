@@ -4,6 +4,7 @@ abstract class UiAction {}
 
 class BootstrapAction extends UiAction {}
 
+// TODO-115 move to LoginAction
 class LogoutAction extends UiAction {}
 
 class UpdateActionStatus extends UiAction {
