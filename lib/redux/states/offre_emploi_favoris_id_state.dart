@@ -5,14 +5,17 @@ abstract class OffreEmploiFavorisIdState {
 
   factory OffreEmploiFavorisIdState.notInitialized() = OffreEmploiFavorisIdNotInitialized;
 
-  factory OffreEmploiFavorisIdState.idsLoaded(Set<String> offreEmploiFavorisListId) => OffreEmploiFavorisLoadedState(
+  factory OffreEmploiFavorisIdState.withoutData(Set<String> offreEmploiFavorisListId) => OffreEmploiFavorisLoadedState._(
       Map.fromIterable(offreEmploiFavorisListId, key: (offreId) => offreId, value: (_) => null));
+
+  factory OffreEmploiFavorisIdState.withMap(Map<String, OffreEmploi?> offreEmploiFavoris) =>
+      OffreEmploiFavorisLoadedState._(offreEmploiFavoris);
 }
 
 class OffreEmploiFavorisLoadedState extends OffreEmploiFavorisIdState {
   final Map<String, OffreEmploi?> offreEmploiFavoris;
 
-  OffreEmploiFavorisLoadedState(this.offreEmploiFavoris) : super._();
+  OffreEmploiFavorisLoadedState._(this.offreEmploiFavoris) : super._();
 }
 
 class OffreEmploiFavorisIdNotInitialized extends OffreEmploiFavorisIdState {

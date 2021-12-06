@@ -5,15 +5,26 @@ import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.d
 
 AppState offreEmploiFavorisReducer(AppState currentState, dynamic action) {
   if (action is OffreEmploisFavorisIdLoadedAction) {
-    return currentState.copyWith(offreEmploiFavorisIdState: OffreEmploiFavorisIdState.idsLoaded(action.favorisId));
+    return currentState.copyWith(offreEmploiFavorisIdState: OffreEmploiFavorisIdState.withoutData(action.favorisId));
   } else if (action is OffreEmploiUpdateFavoriLoadingAction) {
     return _updateLoadingState(currentState, action);
   } else if (action is OffreEmploiUpdateFavoriSuccessAction) {
     return _updateSuccessState(currentState, action);
   } else if (action is OffreEmploiUpdateFavoriFailureAction) {
     return _updateFailureState(currentState, action);
+  } else if (action is OffreEmploisFavorisLoadedAction) {
+    return currentState.copyWith(offreEmploiFavorisIdState: _updateWithData(currentState, action));
   } else {
     return currentState;
+  }
+}
+
+OffreEmploiFavorisIdState _updateWithData(AppState currentState, OffreEmploisFavorisLoadedAction action) {
+  final favorisIdState = currentState.offreEmploiFavorisIdState;
+  if (favorisIdState is OffreEmploiFavorisLoadedState) {
+    return OffreEmploiFavorisIdState.withMap(action.favoris);
+  } else {
+    return favorisIdState;
   }
 }
 
@@ -69,7 +80,7 @@ OffreEmploiFavorisIdState _updateFavorisList(AppState currentState, String offre
     } else {
       oldList.remove(offreId);
     }
-    return OffreEmploiFavorisLoadedState(oldList);
+    return OffreEmploiFavorisIdState.withMap(oldList);
   } else {
     return favorisIdState;
   }

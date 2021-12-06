@@ -30,7 +30,7 @@ main() {
     // Then
     final loadedFavoris = await successState;
     final favorisState = (loadedFavoris.offreEmploiFavorisIdState as OffreEmploiFavorisLoadedState);
-    expect(favorisState.offreEmploiFavoris, ["1", "2", "4"]);
+    expect(favorisState.offreEmploiFavoris, {"1": null, "2": null, "4": null});
   });
 
   test("favori state should be updated when favori is removed and api call succeeds", () async {
@@ -49,7 +49,7 @@ main() {
     expect(await loadingState, true);
     final updatedFavoris = await successState;
     final favorisState = (updatedFavoris.offreEmploiFavorisIdState as OffreEmploiFavorisLoadedState);
-    expect(favorisState.offreEmploiFavoris, ["2", "4"]);
+    expect(favorisState.offreEmploiFavoris, {"2": null, "4": null});
   });
 
   test("favori state should not be updated when favori is removed and api call fails", () async {
@@ -68,7 +68,7 @@ main() {
     expect(await loadingState, true);
     final updatedFavoris = await failureState;
     final favorisState = (updatedFavoris.offreEmploiFavorisIdState as OffreEmploiFavorisLoadedState);
-    expect(favorisState.offreEmploiFavoris, ["1", "2", "4"]);
+    expect(favorisState.offreEmploiFavoris, {"1": null, "2": null, "4": null});
   });
 
   test("favori state should be updated when favori is added and api call succeeds", () async {
@@ -87,7 +87,7 @@ main() {
     expect(await loadingState, true);
     final updatedFavoris = await successState;
     final favorisState = (updatedFavoris.offreEmploiFavorisIdState as OffreEmploiFavorisLoadedState);
-    expect(favorisState.offreEmploiFavoris, ["1", "2", "4", "17"]);
+    expect(favorisState.offreEmploiFavoris, {"1": null, "2": null, "4": null, "17": null});
   });
 
   test("favori state should not be updated when favori is added and api call fails", () async {
@@ -106,15 +106,18 @@ main() {
     expect(await loadingState, true);
     final updatedFavoris = await failureState;
     final favorisState = (updatedFavoris.offreEmploiFavorisIdState as OffreEmploiFavorisLoadedState);
-    expect(favorisState.offreEmploiFavoris, ["1", "2", "4"]);
+    expect(favorisState.offreEmploiFavoris, {"1": null, "2": null, "4": null});
   });
 
   test("favori state should be updated with offre details when retrieved", () async {
     // Given
     final store = _successStoreWithFavorisIdLoaded();
 
-    final successState =
-        store.onChange.firstWhere((element) => element.offreEmploiFavorisIdState is OffreEmploiFavorisLoadedState);
+    // Skip first state, because it is initially in this OffreEmploiFavorisLoadedState.
+    final successState = store.onChange
+        .where((element) => element.offreEmploiFavorisIdState is OffreEmploiFavorisLoadedState)
+        .skip(1)
+        .first;
 
     // When
     store.dispatch(RequestOffreEmploiFavorisAction());
@@ -157,7 +160,7 @@ Store<AppState> _successStoreWithFavorisIdAndSearchResultsLoaded() {
           firstName: "F",
           lastName: "L",
         )),
-        offreEmploiFavorisIdState: OffreEmploiFavorisIdState.idsLoaded({"1", "2", "4"}),
+        offreEmploiFavorisIdState: OffreEmploiFavorisIdState.withoutData({"1", "2", "4"}),
         offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
           offres: [
             OffreEmploi(
@@ -195,7 +198,7 @@ Store<AppState> _successStoreWithFavorisIdLoaded() {
         firstName: "F",
         lastName: "L",
       )),
-      offreEmploiFavorisIdState: OffreEmploiFavorisIdState.idsLoaded({"1", "2", "4"}),
+      offreEmploiFavorisIdState: OffreEmploiFavorisIdState.withoutData({"1", "2", "4"}),
     ),
   );
   return store;
@@ -212,7 +215,7 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
           firstName: "F",
           lastName: "L",
         )),
-        offreEmploiFavorisIdState: OffreEmploiFavorisIdState.idsLoaded({"1", "2", "4"}),
+        offreEmploiFavorisIdState: OffreEmploiFavorisIdState.withoutData({"1", "2", "4"}),
         offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
           offres: [
             OffreEmploi(
