@@ -1,3 +1,4 @@
+import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/store/store_factory.dart';
@@ -14,6 +15,7 @@ import 'package:redux/redux.dart';
 import '../doubles/dummies.dart';
 
 class TestStoreFactory {
+  Authenticator authenticator = DummyAuthenticator();
   UserRepository userRepository = DummyUserRepository();
   UserActionRepository userActionRepository = DummyUserActionRepository();
   RendezvousRepository rendezvousRepository = DummyRendezvousRepository();
@@ -26,6 +28,7 @@ class TestStoreFactory {
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
+      authenticator,
       userRepository,
       userActionRepository,
       rendezvousRepository,

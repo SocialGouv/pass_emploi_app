@@ -4,23 +4,10 @@ import 'package:pass_emploi_app/auth/auth_refresh_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
-import 'package:pass_emploi_app/configuration/configuration.dart';
 
 import '../doubles/fixtures.dart';
 import '../doubles/spies.dart';
 import '../doubles/stubs.dart';
-
-final _configuration = Configuration(
-  'serverBaseUrl',
-  'firebaseEnvironmentPrefix',
-  'matomoBaseUrl',
-  'matomoSiteId',
-  'authClientId',
-  'authLoginRedirectUrl',
-  'authIssuer',
-  ['scope1', 'scope2', 'scope3'],
-  'authClientSecret',
-);
 
 void main() {
   late AuthWrapperStub authWrapperStub;
@@ -30,7 +17,7 @@ void main() {
   setUp(() {
     authWrapperStub = AuthWrapperStub();
     prefs = SharedPreferencesSpy();
-    authenticator = Authenticator(authWrapperStub, _configuration, prefs);
+    authenticator = Authenticator(authWrapperStub, configuration(), prefs);
   });
 
   test('token is saved and returned when login is successful', () async {
@@ -228,21 +215,21 @@ void main() {
 
 AuthTokenRequest _authTokenRequest() {
   return AuthTokenRequest(
-    _configuration.authClientId,
-    _configuration.authLoginRedirectUrl,
-    _configuration.authIssuer,
-    _configuration.authScopes,
-    _configuration.authClientSecret,
+    configuration().authClientId,
+    configuration().authLoginRedirectUrl,
+    configuration().authIssuer,
+    configuration().authScopes,
+    configuration().authClientSecret,
   );
 }
 
 AuthRefreshTokenRequest _refreshTokenRequest() {
   return AuthRefreshTokenRequest(
-    _configuration.authClientId,
-    _configuration.authLoginRedirectUrl,
-    _configuration.authIssuer,
+    configuration().authClientId,
+    configuration().authLoginRedirectUrl,
+    configuration().authIssuer,
     'refreshToken',
-    _configuration.authClientSecret,
+    configuration().authClientSecret,
   );
 }
 

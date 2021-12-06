@@ -1,6 +1,8 @@
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
+import 'package:pass_emploi_app/auth/auth_wrapper.dart';
+import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
@@ -15,13 +17,14 @@ import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
 
+import 'fixtures.dart';
+import 'spies.dart';
+
 class DummyHeadersBuilder extends HeadersBuilder {}
 
 class DummyHttpClient extends MockClient {
   DummyHttpClient() : super((request) async => Response("", 200));
 }
-
-class DummyFlutterAppAuth extends FlutterAppAuth {}
 
 class DummyPushNotificationManager extends PushNotificationManager {
   @override
@@ -38,6 +41,16 @@ class DummyRegisterTokenRepository extends RegisterTokenRepository {
 
   Future<void> registerToken(String userId) async {}
 }
+
+class DummyAuthenticator extends Authenticator {
+  DummyAuthenticator() : super(DummyAuthWrapper(), configuration(), SharedPreferencesSpy());
+}
+
+class DummyAuthWrapper extends AuthWrapper {
+  DummyAuthWrapper() : super(DummyFlutterAppAuth());
+}
+
+class DummyFlutterAppAuth extends FlutterAppAuth {}
 
 class DummyUserRepository extends UserRepository {
   DummyUserRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());

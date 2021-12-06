@@ -1,5 +1,6 @@
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
+import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/user.dart';
@@ -57,7 +58,19 @@ OffreEmploi mockOffreEmploi({id = "123DXPM"}) => OffreEmploi(
     );
 
 AuthTokenResponse authTokenResponse() => AuthTokenResponse(
-  accessToken: 'accessToken',
-  idToken: 'idToken',
-  refreshToken: 'refreshToken'
-);
+      accessToken: 'accessToken',
+      idToken: 'idToken',
+      refreshToken: 'refreshToken',
+    );
+
+Configuration configuration() => Configuration(
+      'serverBaseUrl',
+      'firebaseEnvironmentPrefix',
+      'matomoBaseUrl',
+      'matomoSiteId',
+      'authClientId',
+      'authLoginRedirectUrl',
+      'authIssuer',
+      ['scope1', 'scope2', 'scope3'],
+      'authClientSecret',
+    );
