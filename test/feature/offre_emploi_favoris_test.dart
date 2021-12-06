@@ -22,14 +22,14 @@ main() {
     final Store<AppState> store = _successStore();
 
     final successState =
-        store.onChange.firstWhere((element) => element.offreEmploiFavorisIdState is OffreEmploiFavorisLoadedState);
+        store.onChange.firstWhere((element) => element.offreEmploiFavorisState is OffreEmploiFavorisLoadedState);
 
     // When
     store.dispatch(BootstrapAction());
 
     // Then
     final loadedFavoris = await successState;
-    final favorisState = (loadedFavoris.offreEmploiFavorisIdState as OffreEmploiFavorisLoadedState);
+    final favorisState = (loadedFavoris.offreEmploiFavorisState as OffreEmploiFavorisLoadedState);
     expect(favorisState.offreEmploiFavoris, {"1": null, "2": null, "4": null});
   });
 
@@ -48,7 +48,7 @@ main() {
     // Then
     expect(await loadingState, true);
     final updatedFavoris = await successState;
-    final favorisState = (updatedFavoris.offreEmploiFavorisIdState as OffreEmploiFavorisLoadedState);
+    final favorisState = (updatedFavoris.offreEmploiFavorisState as OffreEmploiFavorisLoadedState);
     expect(favorisState.offreEmploiFavoris, {"2": null, "4": null});
   });
 
@@ -67,7 +67,7 @@ main() {
     // Then
     expect(await loadingState, true);
     final updatedFavoris = await failureState;
-    final favorisState = (updatedFavoris.offreEmploiFavorisIdState as OffreEmploiFavorisLoadedState);
+    final favorisState = (updatedFavoris.offreEmploiFavorisState as OffreEmploiFavorisLoadedState);
     expect(favorisState.offreEmploiFavoris, {"1": null, "2": null, "4": null});
   });
 
@@ -86,7 +86,7 @@ main() {
     // Then
     expect(await loadingState, true);
     final updatedFavoris = await successState;
-    final favorisState = (updatedFavoris.offreEmploiFavorisIdState as OffreEmploiFavorisLoadedState);
+    final favorisState = (updatedFavoris.offreEmploiFavorisState as OffreEmploiFavorisLoadedState);
     expect(favorisState.offreEmploiFavoris, {"1": null, "2": null, "4": null, "17": null});
   });
 
@@ -105,7 +105,7 @@ main() {
     // Then
     expect(await loadingState, true);
     final updatedFavoris = await failureState;
-    final favorisState = (updatedFavoris.offreEmploiFavorisIdState as OffreEmploiFavorisLoadedState);
+    final favorisState = (updatedFavoris.offreEmploiFavorisState as OffreEmploiFavorisLoadedState);
     expect(favorisState.offreEmploiFavoris, {"1": null, "2": null, "4": null});
   });
 
@@ -115,7 +115,7 @@ main() {
 
     // Skip first state, because it is initially in this OffreEmploiFavorisLoadedState.
     final successState = store.onChange
-        .where((element) => element.offreEmploiFavorisIdState is OffreEmploiFavorisLoadedState)
+        .where((element) => element.offreEmploiFavorisState is OffreEmploiFavorisLoadedState)
         .skip(1)
         .first;
 
@@ -124,7 +124,7 @@ main() {
 
     // Then
     final loadedFavoris = await successState;
-    final favorisState = (loadedFavoris.offreEmploiFavorisIdState as OffreEmploiFavorisLoadedState);
+    final favorisState = (loadedFavoris.offreEmploiFavorisState as OffreEmploiFavorisLoadedState);
     expect(favorisState.offreEmploiFavoris, {
       "1": mockOffreEmploi(id: "1"),
       "2": mockOffreEmploi(id: "2"),
@@ -160,7 +160,7 @@ Store<AppState> _successStoreWithFavorisIdAndSearchResultsLoaded() {
           firstName: "F",
           lastName: "L",
         )),
-        offreEmploiFavorisIdState: OffreEmploiFavorisIdState.withoutData({"1", "2", "4"}),
+        offreEmploiFavorisState: OffreEmploiFavorisState.withoutData({"1", "2", "4"}),
         offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
           offres: [
             OffreEmploi(
@@ -198,7 +198,7 @@ Store<AppState> _successStoreWithFavorisIdLoaded() {
         firstName: "F",
         lastName: "L",
       )),
-      offreEmploiFavorisIdState: OffreEmploiFavorisIdState.withoutData({"1", "2", "4"}),
+      offreEmploiFavorisState: OffreEmploiFavorisState.withoutData({"1", "2", "4"}),
     ),
   );
   return store;
@@ -215,7 +215,7 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
           firstName: "F",
           lastName: "L",
         )),
-        offreEmploiFavorisIdState: OffreEmploiFavorisIdState.withoutData({"1", "2", "4"}),
+        offreEmploiFavorisState: OffreEmploiFavorisState.withoutData({"1", "2", "4"}),
         offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
           offres: [
             OffreEmploi(

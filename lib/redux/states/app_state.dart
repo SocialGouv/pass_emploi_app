@@ -32,7 +32,7 @@ class AppState extends Equatable {
   final OffreEmploiDetailsState offreEmploiDetailsState;
   final OffreEmploiSearchResultsState offreEmploiSearchResultsState;
   final OffreEmploiSearchParametersState offreEmploiSearchParametersState;
-  final OffreEmploiFavorisIdState offreEmploiFavorisIdState;
+  final OffreEmploiFavorisState offreEmploiFavorisState;
   final OffreEmploiFavorisUpdateState offreEmploiFavorisUpdateState;
 
   AppState({
@@ -50,7 +50,7 @@ class AppState extends Equatable {
     required this.offreEmploiDetailsState,
     required this.offreEmploiSearchResultsState,
     required this.offreEmploiSearchParametersState,
-    required this.offreEmploiFavorisIdState,
+    required this.offreEmploiFavorisState,
     required this.offreEmploiFavorisUpdateState,
   });
 
@@ -69,7 +69,7 @@ class AppState extends Equatable {
     final DeepLinkState? deepLinkState,
     final OffreEmploiSearchResultsState? offreEmploiSearchResultsState,
     final OffreEmploiSearchParametersState? offreEmploiSearchParametersState,
-    final OffreEmploiFavorisIdState? offreEmploiFavorisIdState,
+    final OffreEmploiFavorisState? offreEmploiFavorisState,
     final OffreEmploiFavorisUpdateState? offreEmploiFavorisUpdateState,
   }) {
     return AppState(
@@ -87,7 +87,7 @@ class AppState extends Equatable {
       offreEmploiDetailsState: offreEmploiDetailsState ?? this.offreEmploiDetailsState,
       offreEmploiSearchResultsState: offreEmploiSearchResultsState ?? this.offreEmploiSearchResultsState,
       offreEmploiSearchParametersState: offreEmploiSearchParametersState ?? this.offreEmploiSearchParametersState,
-      offreEmploiFavorisIdState: offreEmploiFavorisIdState ?? this.offreEmploiFavorisIdState,
+      offreEmploiFavorisState: offreEmploiFavorisState ?? this.offreEmploiFavorisState,
       offreEmploiFavorisUpdateState: offreEmploiFavorisUpdateState ?? this.offreEmploiFavorisUpdateState,
     );
   }
@@ -108,7 +108,7 @@ class AppState extends Equatable {
       offreEmploiDetailsState: OffreEmploiDetailsState.notInitialized(),
       offreEmploiSearchResultsState: OffreEmploiSearchResultsState.notInitialized(),
       offreEmploiSearchParametersState: OffreEmploiSearchParametersState.notInitialized(),
-      offreEmploiFavorisIdState: OffreEmploiFavorisIdState.notInitialized(),
+      offreEmploiFavorisState: OffreEmploiFavorisState.notInitialized(),
       offreEmploiFavorisUpdateState: OffreEmploiFavorisUpdateState({}),
     );
   }
@@ -131,7 +131,7 @@ class AppState extends Equatable {
         offreEmploiSearchState,
         offreEmploiSearchResultsState,
         offreEmploiSearchParametersState,
-        offreEmploiFavorisIdState,
+        offreEmploiFavorisState,
         offreEmploiFavorisUpdateState,
       ];
 

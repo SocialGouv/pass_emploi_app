@@ -20,7 +20,7 @@ class FavoriHeartViewModel extends Equatable {
 
   factory FavoriHeartViewModel.create(String offreId, Store<AppState> store) {
     return FavoriHeartViewModel._(
-      isFavori: _isFavori(offreId, store.state.offreEmploiFavorisIdState),
+      isFavori: _isFavori(offreId, store.state.offreEmploiFavorisState),
       withError: _withError(offreId, store.state.offreEmploiFavorisUpdateState),
       withLoading: _withLoading(offreId, store.state.offreEmploiFavorisUpdateState),
       update: (newStatus) => store.dispatch(OffreEmploiRequestUpdateFavoriAction(offreId, newStatus)),
@@ -31,7 +31,7 @@ class FavoriHeartViewModel extends Equatable {
   List<Object?> get props => [isFavori, withError, withLoading];
 }
 
-bool _isFavori(String offreId, OffreEmploiFavorisIdState offreEmploiFavorisState) {
+bool _isFavori(String offreId, OffreEmploiFavorisState offreEmploiFavorisState) {
   if (offreEmploiFavorisState is OffreEmploiFavorisLoadedState) {
     return offreEmploiFavorisState.offreEmploiFavoris.containsKey(offreId);
   } else {
