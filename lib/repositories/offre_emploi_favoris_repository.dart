@@ -28,6 +28,11 @@ class OffreEmploiFavorisRepository {
     return null;
   }
 
+  Future<Map<String, OffreEmploi>?> getOffreEmploiFavoris(String userId) async {
+    // TODO BON
+    return null;
+  }
+
   Future<bool> updateOffreEmploiFavoriStatus(String userId, OffreEmploi offre, bool newStatus) async {
     if (newStatus) {
       return _postFavori(userId, offre);

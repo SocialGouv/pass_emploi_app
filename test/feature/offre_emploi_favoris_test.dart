@@ -13,6 +13,7 @@ import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/src/store.dart';
 
 import '../doubles/dummies.dart';
+import '../doubles/fixtures.dart';
 import '../utils/test_setup.dart';
 
 main() {
@@ -21,20 +22,20 @@ main() {
     final Store<AppState> store = _successStore();
 
     final successState =
-        store.onChange.firstWhere((element) => element.offreEmploiFavorisIdState is OffreEmploiFavorisIdLoadedState);
+        store.onChange.firstWhere((element) => element.offreEmploiFavorisIdState is OffreEmploiFavorisLoadedState);
 
     // When
     store.dispatch(BootstrapAction());
 
     // Then
     final loadedFavoris = await successState;
-    final favorisState = (loadedFavoris.offreEmploiFavorisIdState as OffreEmploiFavorisIdLoadedState);
-    expect(favorisState.offreEmploiFavorisListId, ["1", "2", "4"]);
+    final favorisState = (loadedFavoris.offreEmploiFavorisIdState as OffreEmploiFavorisLoadedState);
+    expect(favorisState.offreEmploiFavoris, ["1", "2", "4"]);
   });
 
   test("favori state should be updated when favori is removed and api call succeeds", () async {
     // Given
-    final Store<AppState> store = _successStoreWithFavorisLoaded();
+    final Store<AppState> store = _successStoreWithFavorisIdAndSearchResultsLoaded();
 
     final loadingState = store.onChange.any((element) =>
         element.offreEmploiFavorisUpdateState.requestStatus["1"] == OffreEmploiFavorisUpdateStatus.LOADING);
@@ -47,8 +48,8 @@ main() {
     // Then
     expect(await loadingState, true);
     final updatedFavoris = await successState;
-    final favorisState = (updatedFavoris.offreEmploiFavorisIdState as OffreEmploiFavorisIdLoadedState);
-    expect(favorisState.offreEmploiFavorisListId, ["2", "4"]);
+    final favorisState = (updatedFavoris.offreEmploiFavorisIdState as OffreEmploiFavorisLoadedState);
+    expect(favorisState.offreEmploiFavoris, ["2", "4"]);
   });
 
   test("favori state should not be updated when favori is removed and api call fails", () async {
@@ -57,8 +58,8 @@ main() {
 
     final loadingState = store.onChange.any((element) =>
         element.offreEmploiFavorisUpdateState.requestStatus["1"] == OffreEmploiFavorisUpdateStatus.LOADING);
-    final failureState = store.onChange.firstWhere((element) =>
-        element.offreEmploiFavorisUpdateState.requestStatus["1"] == OffreEmploiFavorisUpdateStatus.ERROR);
+    final failureState = store.onChange.firstWhere(
+        (element) => element.offreEmploiFavorisUpdateState.requestStatus["1"] == OffreEmploiFavorisUpdateStatus.ERROR);
 
     // When
     store.dispatch(OffreEmploiRequestUpdateFavoriAction("1", false));
@@ -66,13 +67,13 @@ main() {
     // Then
     expect(await loadingState, true);
     final updatedFavoris = await failureState;
-    final favorisState = (updatedFavoris.offreEmploiFavorisIdState as OffreEmploiFavorisIdLoadedState);
-    expect(favorisState.offreEmploiFavorisListId, ["1", "2", "4"]);
+    final favorisState = (updatedFavoris.offreEmploiFavorisIdState as OffreEmploiFavorisLoadedState);
+    expect(favorisState.offreEmploiFavoris, ["1", "2", "4"]);
   });
 
   test("favori state should be updated when favori is added and api call succeeds", () async {
     // Given
-    Store<AppState> store = _successStoreWithFavorisLoaded();
+    Store<AppState> store = _successStoreWithFavorisIdAndSearchResultsLoaded();
 
     final loadingState = store.onChange.any((element) =>
         element.offreEmploiFavorisUpdateState.requestStatus["17"] == OffreEmploiFavorisUpdateStatus.LOADING);
@@ -85,8 +86,8 @@ main() {
     // Then
     expect(await loadingState, true);
     final updatedFavoris = await successState;
-    final favorisState = (updatedFavoris.offreEmploiFavorisIdState as OffreEmploiFavorisIdLoadedState);
-    expect(favorisState.offreEmploiFavorisListId, ["1", "2", "4", "17"]);
+    final favorisState = (updatedFavoris.offreEmploiFavorisIdState as OffreEmploiFavorisLoadedState);
+    expect(favorisState.offreEmploiFavoris, ["1", "2", "4", "17"]);
   });
 
   test("favori state should not be updated when favori is added and api call fails", () async {
@@ -95,8 +96,8 @@ main() {
 
     final loadingState = store.onChange.any((element) =>
         element.offreEmploiFavorisUpdateState.requestStatus["17"] == OffreEmploiFavorisUpdateStatus.LOADING);
-    final failureState = store.onChange.firstWhere((element) =>
-        element.offreEmploiFavorisUpdateState.requestStatus["17"] == OffreEmploiFavorisUpdateStatus.ERROR);
+    final failureState = store.onChange.firstWhere(
+        (element) => element.offreEmploiFavorisUpdateState.requestStatus["17"] == OffreEmploiFavorisUpdateStatus.ERROR);
 
     // When
     store.dispatch(OffreEmploiRequestUpdateFavoriAction("17", true));
@@ -104,8 +105,28 @@ main() {
     // Then
     expect(await loadingState, true);
     final updatedFavoris = await failureState;
-    final favorisState = (updatedFavoris.offreEmploiFavorisIdState as OffreEmploiFavorisIdLoadedState);
-    expect(favorisState.offreEmploiFavorisListId, ["1", "2", "4"]);
+    final favorisState = (updatedFavoris.offreEmploiFavorisIdState as OffreEmploiFavorisLoadedState);
+    expect(favorisState.offreEmploiFavoris, ["1", "2", "4"]);
+  });
+
+  test("favori state should be updated with offre details when retrieved", () async {
+    // Given
+    final store = _successStoreWithFavorisIdLoaded();
+
+    final successState =
+        store.onChange.firstWhere((element) => element.offreEmploiFavorisIdState is OffreEmploiFavorisLoadedState);
+
+    // When
+    store.dispatch(RequestOffreEmploiFavorisAction());
+
+    // Then
+    final loadedFavoris = await successState;
+    final favorisState = (loadedFavoris.offreEmploiFavorisIdState as OffreEmploiFavorisLoadedState);
+    expect(favorisState.offreEmploiFavoris, {
+      "1": mockOffreEmploi(id: "1"),
+      "2": mockOffreEmploi(id: "2"),
+      "4": mockOffreEmploi(id: "4"),
+    });
   });
 }
 
@@ -125,7 +146,7 @@ Store<AppState> _successStore() {
   return store;
 }
 
-Store<AppState> _successStoreWithFavorisLoaded() {
+Store<AppState> _successStoreWithFavorisIdAndSearchResultsLoaded() {
   final testStoreFactory = TestStoreFactory();
   testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositorySuccessStub();
   testStoreFactory.userRepository = UserRepositoryLoggedInStub();
@@ -159,6 +180,23 @@ Store<AppState> _successStoreWithFavorisLoaded() {
           loadedPage: 1,
           isMoreDataAvailable: false,
         )),
+  );
+  return store;
+}
+
+Store<AppState> _successStoreWithFavorisIdLoaded() {
+  final testStoreFactory = TestStoreFactory();
+  testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositorySuccessStub();
+  testStoreFactory.userRepository = UserRepositoryLoggedInStub();
+  final store = testStoreFactory.initializeReduxStore(
+    initialState: AppState.initialState().copyWith(
+      loginState: LoginState.loggedIn(User(
+        id: "id",
+        firstName: "F",
+        lastName: "L",
+      )),
+      offreEmploiFavorisIdState: OffreEmploiFavorisIdState.idsLoaded({"1", "2", "4"}),
+    ),
   );
   return store;
 }
@@ -208,6 +246,14 @@ class OffreEmploiFavorisRepositorySuccessStub extends OffreEmploiFavorisReposito
     return {"1", "2", "4"};
   }
 
+  Future<Map<String, OffreEmploi>?> getOffreEmploiFavoris(String userId) async {
+    return {
+      "1": mockOffreEmploi(id: "1"),
+      "2": mockOffreEmploi(id: "2"),
+      "4": mockOffreEmploi(id: "4"),
+    };
+  }
+
   Future<bool> updateOffreEmploiFavoriStatus(String userId, OffreEmploi offre, bool newStatus) async {
     return true;
   }
@@ -218,6 +264,10 @@ class OffreEmploiFavorisRepositoryFailureStub extends OffreEmploiFavorisReposito
 
   Future<Set<String>?> getOffreEmploiFavorisId(String userId) async {
     return {"1", "2", "4"};
+  }
+
+  Future<Map<String, OffreEmploi>?> getOffreEmploiFavoris(String userId) async {
+    return null;
   }
 
   Future<bool> updateOffreEmploiFavoriStatus(String userId, OffreEmploi offre, bool newStatus) async {

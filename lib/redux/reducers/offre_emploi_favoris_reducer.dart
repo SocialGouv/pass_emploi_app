@@ -62,14 +62,14 @@ OffreEmploiFavorisUpdateState _updateState(
 
 OffreEmploiFavorisIdState _updateFavorisList(AppState currentState, String offreId, bool newStatus) {
   final favorisIdState = currentState.offreEmploiFavorisIdState;
-  if (favorisIdState is OffreEmploiFavorisIdLoadedState) {
-    final oldList = favorisIdState.offreEmploiFavorisListId;
+  if (favorisIdState is OffreEmploiFavorisLoadedState) {
+    final oldList = favorisIdState.offreEmploiFavoris;
     if (newStatus) {
-      oldList.add(offreId);
+      oldList[offreId] = null;
     } else {
       oldList.remove(offreId);
     }
-    return OffreEmploiFavorisIdLoadedState(oldList);
+    return OffreEmploiFavorisLoadedState(oldList);
   } else {
     return favorisIdState;
   }

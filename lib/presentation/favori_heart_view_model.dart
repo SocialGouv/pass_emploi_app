@@ -32,8 +32,8 @@ class FavoriHeartViewModel extends Equatable {
 }
 
 bool _isFavori(String offreId, OffreEmploiFavorisIdState offreEmploiFavorisState) {
-  if (offreEmploiFavorisState is OffreEmploiFavorisIdLoadedState) {
-    return offreEmploiFavorisState.offreEmploiFavorisListId.contains(offreId);
+  if (offreEmploiFavorisState is OffreEmploiFavorisLoadedState) {
+    return offreEmploiFavorisState.offreEmploiFavoris.containsKey(offreId);
   } else {
     return false;
   }

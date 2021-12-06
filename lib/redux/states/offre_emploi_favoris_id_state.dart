@@ -1,15 +1,18 @@
+import 'package:pass_emploi_app/models/offre_emploi.dart';
+
 abstract class OffreEmploiFavorisIdState {
   OffreEmploiFavorisIdState._();
 
   factory OffreEmploiFavorisIdState.notInitialized() = OffreEmploiFavorisIdNotInitialized;
 
-  factory OffreEmploiFavorisIdState.idsLoaded(Set<String> offreEmploiFavorisListId) = OffreEmploiFavorisIdLoadedState;
+  factory OffreEmploiFavorisIdState.idsLoaded(Set<String> offreEmploiFavorisListId) => OffreEmploiFavorisLoadedState(
+      Map.fromIterable(offreEmploiFavorisListId, key: (offreId) => offreId, value: (_) => null));
 }
 
-class OffreEmploiFavorisIdLoadedState extends OffreEmploiFavorisIdState {
-  final Set<String> offreEmploiFavorisListId;
+class OffreEmploiFavorisLoadedState extends OffreEmploiFavorisIdState {
+  final Map<String, OffreEmploi?> offreEmploiFavoris;
 
-  OffreEmploiFavorisIdLoadedState(this.offreEmploiFavorisListId) : super._();
+  OffreEmploiFavorisLoadedState(this.offreEmploiFavoris) : super._();
 }
 
 class OffreEmploiFavorisIdNotInitialized extends OffreEmploiFavorisIdState {
