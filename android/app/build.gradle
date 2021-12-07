@@ -44,6 +44,9 @@ android {
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'fr.fabrique.social.gouv.passemploi'
+        ]
     }
 
     signingConfigs {
@@ -69,16 +72,10 @@ android {
             applicationIdSuffix ".staging"
             versionNameSuffix "-staging"
             resValue "string", "app_name", "Pass Emploi Staging"
-            manifestPlaceholders = [
-                    'appAuthRedirectScheme': 'fr.fabrique.social.gouv.passemploi.staging'
-            ]
         }
         prod {
             dimension "app"
             resValue "string", "app_name", "Pass Emploi"
-            manifestPlaceholders = [
-                    'appAuthRedirectScheme': 'fr.fabrique.social.gouv.passemploi'
-            ]
         }
     }
 
