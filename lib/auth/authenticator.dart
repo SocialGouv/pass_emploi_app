@@ -20,7 +20,7 @@ class Authenticator {
 
   Authenticator(this._authWrapper, this._configuration, this._preferences);
 
-  Future<AuthTokenResponse?> login() async {
+  Future<bool> login() async {
     try {
       final response = await _authWrapper.login(
         AuthTokenRequest(
@@ -32,9 +32,9 @@ class Authenticator {
         ),
       );
       _saveToken(response);
-      return response;
+      return true;
     } catch (e) {
-      return null;
+      return false;
     }
   }
 

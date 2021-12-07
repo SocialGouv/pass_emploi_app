@@ -37,7 +37,7 @@ class RouterMiddleware extends MiddlewareClass<AppState> {
 
   void _logUser(Store<AppState> store) async {
     store.dispatch(LoginLoadingAction(""));
-    if (await _authenticator.login() != null) {
+    if (await _authenticator.login()) {
       _dispatchLoggedInAction(store);
     } else {
       store.dispatch(LoginFailureAction(""));
