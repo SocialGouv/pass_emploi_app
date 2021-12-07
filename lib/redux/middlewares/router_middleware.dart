@@ -46,9 +46,7 @@ class RouterMiddleware extends MiddlewareClass<AppState> {
 
   void _dispatchLoggedInAction(Store<AppState> store) {
     final AuthIdToken idToken = _authenticator.idToken()!;
-    // TODO-115 : hardcoded user ID until backend route is not merged
-    //final user = User(id: idToken.userId, firstName: idToken.firstName, lastName: idToken.lastName);
-    final user = User(id: "KAYUF", firstName: idToken.firstName, lastName: idToken.lastName);
+    final user = User(id: idToken.userId, firstName: idToken.firstName, lastName: idToken.lastName);
     store.dispatch(LoggedInAction(user));
   }
 
