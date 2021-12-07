@@ -60,7 +60,7 @@
             <string>Editor</string>
             <key>CFBundleURLSchemes</key>
             <array>
-             <string>fr.fabrique.social.gouv.passemploi.staging</string>
+             <string>fr.fabrique.social.gouv.passemploi</string>
             </array>
         </dict>
     </array>
