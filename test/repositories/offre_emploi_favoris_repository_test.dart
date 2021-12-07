@@ -218,7 +218,7 @@ main() {
 MockClient _successfulClientForQuery() {
   return MockClient((request) async {
     if (request.method != "GET") return invalidHttpResponse();
-    if (request.url.queryParameters["query"] != "true") return invalidHttpResponse(message: "query KO");
+    if (request.url.queryParameters["detail"] != "true") return invalidHttpResponse(message: "query KO");
     if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris")) return invalidHttpResponse();
     return Response.bytes(loadTestAssetsAsBytes("offre_emploi_favoris_data.json"), 200);
   });

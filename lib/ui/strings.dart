@@ -98,7 +98,7 @@ class Strings {
   // Offres Emploi
   static String offresEmploiTitle = "Résultats offres d'emploi";
 
-  //Solutions
+  // Solutions
   static String searchingPageTitle = "Recherche de solutions";
   static String keyWordsTitle = "Mots clés";
   static String keyWordsTextField = "Métier, compétence...";
@@ -139,4 +139,6 @@ class Strings {
   static String offreDetailNumber(String offreId) => "Offre n°$offreId";
 
   static String offreDetailLastUpdate(String lastUpdate) => "Actualisée le $lastUpdate";
+  static String noFavoris = "Aucun favori";
+  static String favorisError = "Erreur lors de la récupération de vos favoris";
 }

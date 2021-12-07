@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/redux/actions/offre_emploi_favoris_actions.dart'
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_id_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
@@ -109,7 +109,7 @@ main() {
     expect(favorisState.offreEmploiFavoris, {"1": null, "2": null, "4": null});
   });
 
-  test("favori state should be updated with offre details when retrieved", () async {
+  test("favori state should be updated with offres details when retrieved", () async {
     // Given
     final store = _successStoreWithFavorisIdLoaded();
 
@@ -130,6 +130,20 @@ main() {
       "2": mockOffreEmploi(id: "2"),
       "4": mockOffreEmploi(id: "4"),
     });
+  });
+
+  test("favori state should be reset when offres details fetching fails", () async {
+    // Given
+    final store = _failureStoreWithFavorisIdLoaded();
+
+    final failureState =
+        store.onChange.any((element) => element.offreEmploiFavorisState is OffreEmploiFavorisNotInitialized);
+
+    // When
+    store.dispatch(RequestOffreEmploiFavorisAction());
+
+    // Then
+    expect(await failureState, true);
   });
 }
 
@@ -160,7 +174,7 @@ Store<AppState> _successStoreWithFavorisIdAndSearchResultsLoaded() {
           firstName: "F",
           lastName: "L",
         )),
-        offreEmploiFavorisState: OffreEmploiFavorisState.withoutData({"1", "2", "4"}),
+        offreEmploiFavorisState: OffreEmploiFavorisState.onlyIds({"1", "2", "4"}),
         offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
           offres: [
             OffreEmploi(
@@ -198,7 +212,24 @@ Store<AppState> _successStoreWithFavorisIdLoaded() {
         firstName: "F",
         lastName: "L",
       )),
-      offreEmploiFavorisState: OffreEmploiFavorisState.withoutData({"1", "2", "4"}),
+      offreEmploiFavorisState: OffreEmploiFavorisState.onlyIds({"1", "2", "4"}),
+    ),
+  );
+  return store;
+}
+
+Store<AppState> _failureStoreWithFavorisIdLoaded() {
+  final testStoreFactory = TestStoreFactory();
+  testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositoryFailureStub();
+  testStoreFactory.userRepository = UserRepositoryLoggedInStub();
+  final store = testStoreFactory.initializeReduxStore(
+    initialState: AppState.initialState().copyWith(
+      loginState: LoginState.loggedIn(User(
+        id: "id",
+        firstName: "F",
+        lastName: "L",
+      )),
+      offreEmploiFavorisState: OffreEmploiFavorisState.onlyIds({"1", "2", "4"}),
     ),
   );
   return store;
@@ -215,7 +246,7 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
           firstName: "F",
           lastName: "L",
         )),
-        offreEmploiFavorisState: OffreEmploiFavorisState.withoutData({"1", "2", "4"}),
+        offreEmploiFavorisState: OffreEmploiFavorisState.onlyIds({"1", "2", "4"}),
         offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
           offres: [
             OffreEmploi(

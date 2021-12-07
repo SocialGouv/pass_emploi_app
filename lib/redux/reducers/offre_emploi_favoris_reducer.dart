@@ -1,11 +1,12 @@
 import 'package:pass_emploi_app/redux/actions/offre_emploi_favoris_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_id_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.dart';
 
 AppState offreEmploiFavorisReducer(AppState currentState, dynamic action) {
   if (action is OffreEmploisFavorisIdLoadedAction) {
-    return currentState.copyWith(offreEmploiFavorisState: OffreEmploiFavorisState.withoutData(action.favorisId));
+    var newState = OffreEmploiFavorisState.onlyIds(action.favorisId);
+    return currentState.copyWith(offreEmploiFavorisState: newState);
   } else if (action is OffreEmploiUpdateFavoriLoadingAction) {
     return _updateLoadingState(currentState, action);
   } else if (action is OffreEmploiUpdateFavoriSuccessAction) {
@@ -14,6 +15,8 @@ AppState offreEmploiFavorisReducer(AppState currentState, dynamic action) {
     return _updateFailureState(currentState, action);
   } else if (action is OffreEmploisFavorisLoadedAction) {
     return currentState.copyWith(offreEmploiFavorisState: _updateWithData(currentState, action));
+  } else if (action is OffreEmploisFavorisFailureAction) {
+    return currentState.copyWith(offreEmploiFavorisState: OffreEmploiFavorisState.notInitialized());
   } else {
     return currentState;
   }

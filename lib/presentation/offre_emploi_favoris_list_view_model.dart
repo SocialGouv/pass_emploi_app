@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_favoris_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
 import 'package:redux/redux.dart';
 
 import 'offre_emploi_item_view_model.dart';
@@ -19,9 +21,41 @@ class OffreEmploiFavorisListViewModel extends Equatable {
 
   factory OffreEmploiFavorisListViewModel.create(Store<AppState> store) {
     return OffreEmploiFavorisListViewModel._(
-      items: [],
-      displayState: OffreEmploiFavorisListDisplayState.SHOW_CONTENT,
+      items: _items(store.state.offreEmploiFavorisState),
+      displayState: _displayState(store.state.offreEmploiFavorisState),
       onRetry: () => store.dispatch(RequestOffreEmploiFavorisAction()),
     );
+  }
+}
+
+List<OffreEmploiItemViewModel> _items(OffreEmploiFavorisState favorisState) {
+  if (favorisState is OffreEmploiFavorisLoadedState) {
+    return favorisState.offreEmploiFavoris.values
+        .whereType<OffreEmploi>()
+        .map((e) => OffreEmploiItemViewModel(
+              e.id,
+              e.title,
+              e.companyName,
+              e.contractType,
+              e.duration,
+              e.location,
+            ))
+        .toList();
+  } else {
+    return [];
+  }
+}
+
+OffreEmploiFavorisListDisplayState _displayState(OffreEmploiFavorisState favorisState) {
+  if (favorisState is OffreEmploiFavorisLoadedState) {
+    if (favorisState.offreEmploiFavoris.isEmpty) {
+      return OffreEmploiFavorisListDisplayState.SHOW_EMPTY_ERROR;
+    } else if (favorisState.offreEmploiFavoris.values.any((element) => element != null)) {
+      return OffreEmploiFavorisListDisplayState.SHOW_CONTENT;
+    } else {
+      return OffreEmploiFavorisListDisplayState.SHOW_LOADER;
+    }
+  } else {
+    return OffreEmploiFavorisListDisplayState.SHOW_ERROR;
   }
 }

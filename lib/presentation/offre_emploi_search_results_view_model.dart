@@ -1,9 +1,10 @@
-import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:redux/redux.dart';
+
+import 'offre_emploi_item_view_model.dart';
 
 enum OffreEmploiSearchResultsDisplayState { SHOW_CONTENT, SHOW_LOADER, SHOW_ERROR }
 
@@ -48,27 +49,6 @@ List<OffreEmploiItemViewModel> _items(OffreEmploiSearchResultsState resultsState
               ))
           .toList()
       : [];
-}
-
-class OffreEmploiItemViewModel extends Equatable {
-  final String id;
-  final String title;
-  final String? companyName;
-  final String contractType;
-  final String? duration;
-  final String? location;
-
-  OffreEmploiItemViewModel(this.id, this.title, this.companyName, this.contractType, this.duration, this.location);
-
-  @override
-  List<Object?> get props => [
-        id,
-        title,
-        companyName,
-        contractType,
-        location,
-        duration,
-      ];
 }
 
 OffreEmploiSearchResultsDisplayState _displayState(

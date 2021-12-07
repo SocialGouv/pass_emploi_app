@@ -29,7 +29,7 @@ class OffreEmploiFavorisRepository {
   }
 
   Future<Map<String, OffreEmploi>?> getOffreEmploiFavoris(String userId) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris").replace(queryParameters: {"query": "true"});
+    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris").replace(queryParameters: {"detail": "true"});
     try {
       final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
       if (response.statusCode.isValid()) {

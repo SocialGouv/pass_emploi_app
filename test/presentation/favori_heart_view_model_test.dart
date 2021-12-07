@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/presentation/favori_heart_view_model.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_id_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.dart';
 import 'package:redux/redux.dart';
 
@@ -12,7 +12,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiFavorisState: OffreEmploiFavorisState.withoutData({"offreId"}),
+        offreEmploiFavorisState: OffreEmploiFavorisState.onlyIds({"offreId"}),
       ),
     );
 
@@ -27,7 +27,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiFavorisState: OffreEmploiFavorisState.withoutData({"notOffreId"}),
+        offreEmploiFavorisState: OffreEmploiFavorisState.onlyIds({"notOffreId"}),
       ),
     );
 
@@ -43,7 +43,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiFavorisState: OffreEmploiFavorisState.withoutData({"offreId"}),
+        offreEmploiFavorisState: OffreEmploiFavorisState.onlyIds({"offreId"}),
         offreEmploiFavorisUpdateState: OffreEmploiFavorisUpdateState({"offreId": OffreEmploiFavorisUpdateStatus.ERROR}),
       ),
     );
@@ -60,7 +60,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiFavorisState: OffreEmploiFavorisState.withoutData({"toto"}),
+        offreEmploiFavorisState: OffreEmploiFavorisState.onlyIds({"toto"}),
         offreEmploiFavorisUpdateState: OffreEmploiFavorisUpdateState({"offreId": OffreEmploiFavorisUpdateStatus.ERROR}),
       ),
     );

@@ -43,3 +43,5 @@ class OffreEmploisFavorisLoadedAction extends OffreEmploiFavorisAction {
 
   OffreEmploisFavorisLoadedAction(this.favoris);
 }
+
+class OffreEmploisFavorisFailureAction extends OffreEmploiFavorisAction {}
