@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_favoris_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
@@ -300,14 +300,4 @@ class OffreEmploiFavorisRepositoryFailureStub extends OffreEmploiFavorisReposito
   Future<bool> deleteFavori(String userId, String offreId) async {
     return false;
   }
-}
-
-class AuthenticatorLoggedInStub extends Authenticator {
-  AuthenticatorLoggedInStub() : super(DummyAuthWrapper(), configuration(), SharedPreferencesSpy());
-
-  @override
-  bool isLoggedIn() => true;
-
-  @override
-  AuthIdToken? idToken() => AuthIdToken(userId: "1", firstName: "F", lastName: "L", expiresAt: 100000000);
 }

@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import '../doubles/dummies.dart';
 import '../doubles/fixtures.dart';
 import '../doubles/spies.dart';
+import '../doubles/stubs.dart';
 
 void main() {
   test("Throws an exception when id token is null", () async {
@@ -83,15 +84,8 @@ void main() {
     } catch (e) {}
 
     // Then
-    expect(store.dispatchedAction, isA<LogoutAction>());
+    expect(store.dispatchedAction, isA<RequestLogoutAction>());
   });
-}
-
-class AuthenticatorNotLoggedInStub extends Authenticator {
-  AuthenticatorNotLoggedInStub() : super(DummyAuthWrapper(), configuration(), SharedPreferencesSpy());
-
-  @override
-  AuthIdToken? idToken() => null;
 }
 
 class AuthenticatorLoggedInAndValidIdTokenStub extends Authenticator {

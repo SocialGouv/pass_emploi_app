@@ -10,20 +10,10 @@ class LoggedInAction extends LoginAction {
 
 class NotLoggedInAction extends LoginAction {}
 
-class RequestLoginActionV2 extends LoginAction {}
+class LoginLoadingAction extends LoginAction {}
 
-// TOD0-115 remove accesscode
-class LoginLoadingAction extends LoginAction {
-  final String accessCode;
+class LoginFailureAction extends LoginAction {}
 
-  LoginLoadingAction(this.accessCode);
-}
+class RequestLoginAction extends LoginAction {}
 
-// TOD0-115 remove accesscode
-class LoginFailureAction extends LoginAction {
-  final String accessCode;
-
-  LoginFailureAction(this.accessCode);
-}
-
-class LogoutAction extends LoginAction {}
+class RequestLogoutAction extends LoginAction {}

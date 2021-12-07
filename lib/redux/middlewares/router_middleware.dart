@@ -18,9 +18,9 @@ class RouterMiddleware extends MiddlewareClass<AppState> {
       _checkIfUserIsLoggedIn(store);
     } else if (action is LoggedInAction) {
       store.dispatch(RequestHomeAction(action.user.id));
-    } else if (action is RequestLoginActionV2) {
+    } else if (action is RequestLoginAction) {
       _logUser(store);
-    } else if (action is LogoutAction) {
+    } else if (action is RequestLogoutAction) {
       _logout(store);
     }
   }
@@ -34,11 +34,11 @@ class RouterMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _logUser(Store<AppState> store) async {
-    store.dispatch(LoginLoadingAction(""));
+    store.dispatch(LoginLoadingAction());
     if (await _authenticator.login()) {
       _dispatchLoggedInAction(store);
     } else {
-      store.dispatch(LoginFailureAction(""));
+      store.dispatch(LoginFailureAction());
     }
   }
 

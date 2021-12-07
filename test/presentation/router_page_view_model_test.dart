@@ -30,7 +30,7 @@ void main() {
     });
 
     test('…with login loading state should display login page', () {
-      final state = AppState.initialState().copyWith(loginState: LoginState.loading(""));
+      final state = AppState.initialState().copyWith(loginState: LoginState.loading());
       final store = Store<AppState>(reducer, initialState: state);
 
       final viewModel = RouterPageViewModel.create(store);
@@ -39,7 +39,7 @@ void main() {
     });
 
     test('…with login failure state should display login page', () {
-      final state = AppState.initialState().copyWith(loginState: LoginState.failure(""));
+      final state = AppState.initialState().copyWith(loginState: LoginState.failure());
       final store = Store<AppState>(reducer, initialState: state);
 
       final viewModel = RouterPageViewModel.create(store);
