@@ -11,7 +11,7 @@ import '../doubles/spies.dart';
 
 void main() {
   test('View model displays LOADER when login state is loading', () {
-    final state = AppState.initialState().copyWith(loginState: LoginLoadingState(""));
+    final state = AppState.initialState().copyWith(loginState: LoginLoadingState());
     final store = Store<AppState>(reducer, initialState: state);
 
     final viewModel = LoginViewModel.create(store);
@@ -20,7 +20,7 @@ void main() {
   });
 
   test('View model displays FAILURE when login state is failure', () {
-    final state = AppState.initialState().copyWith(loginState: LoginFailureState(""));
+    final state = AppState.initialState().copyWith(loginState: LoginFailureState());
     final store = Store<AppState>(reducer, initialState: state);
 
     final viewModel = LoginViewModel.create(store);
@@ -45,6 +45,6 @@ void main() {
 
     viewModel.onLoginAction();
 
-    expect(store.dispatchedAction, isA<RequestLoginActionV2>());
+    expect(store.dispatchedAction, isA<RequestLoginAction>());
   });
 }

@@ -1,7 +1,9 @@
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/auth_refresh_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
+import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/network/headers.dart';
@@ -10,6 +12,7 @@ import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 
 import 'dummies.dart';
 import 'fixtures.dart';
+import 'spies.dart';
 
 class UserActionRepositorySuccessStub extends UserActionRepository {
   UserActionRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
@@ -89,6 +92,32 @@ class HeadersBuilderStub extends HeadersBuilder {
       if (contentType != null) 'Content-Type': contentType,
     };
   }
+}
+
+class AuthenticatorLoggedInStub extends Authenticator {
+  AuthenticatorLoggedInStub() : super(DummyAuthWrapper(), configuration(), SharedPreferencesSpy());
+
+  @override
+  Future<bool> login() => Future.value(true);
+
+  @override
+  bool isLoggedIn() => true;
+
+  @override
+  AuthIdToken? idToken() => AuthIdToken(userId: "id", firstName: "F", lastName: "L", expiresAt: 100000000);
+}
+
+class AuthenticatorNotLoggedInStub extends Authenticator {
+  AuthenticatorNotLoggedInStub() : super(DummyAuthWrapper(), configuration(), SharedPreferencesSpy());
+
+  @override
+  Future<bool> login() => Future.value(false);
+
+  @override
+  bool isLoggedIn() => false;
+
+  @override
+  AuthIdToken? idToken() => null;
 }
 
 class AuthWrapperStub extends AuthWrapper {
