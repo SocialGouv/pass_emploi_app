@@ -43,19 +43,20 @@ _displayLoader(OffreEmploiSearchResultsState resultsState) =>
 List<OffreEmploiItemViewModel> _items(OffreEmploiSearchResultsState resultsState) {
   return resultsState is OffreEmploiSearchResultsDataState
       ? resultsState.offres
-      .map((e) => OffreEmploiItemViewModel(
-    e.id,
-    e.title,
-    e.companyName,
-    e.contractType,
-    e.duration,
-    e.location,
-  ))
-      .toList()
+          .map((e) => OffreEmploiItemViewModel(
+                e.id,
+                e.title,
+                e.companyName,
+                e.contractType,
+                e.duration,
+                e.location,
+              ))
+          .toList()
       : [];
 }
 
-OffreEmploiSearchResultsDisplayState _displayState(OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
+OffreEmploiSearchResultsDisplayState _displayState(
+    OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
   if (searchState is OffreEmploiSearchSuccessState && searchResultsState is OffreEmploiSearchResultsDataState) {
     return OffreEmploiSearchResultsDisplayState.SHOW_CONTENT;
   } else if (searchState is OffreEmploiSearchLoadingState) {
