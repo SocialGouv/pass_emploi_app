@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
-import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
+import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_favoris_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
@@ -142,7 +141,7 @@ main() {
 Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
   final testStoreFactory = TestStoreFactory();
   testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositorySuccessStub();
-  testStoreFactory.userRepository = UserRepositoryLoggedInStub();
+  testStoreFactory.authenticator = AuthenticatorLoggedInStub();
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState().copyWith(
         loginState: LoginState.loggedIn(User(
@@ -220,7 +219,7 @@ Store<AppState> _failureStoreWithFavorisIdLoaded() {
 Store<AppState> _failureStoreWithFavorisLoaded() {
   final testStoreFactory = TestStoreFactory();
   testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositoryFailureStub();
-  testStoreFactory.userRepository = UserRepositoryLoggedInStub();
+  testStoreFactory.authenticator = AuthenticatorLoggedInStub();
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState().copyWith(
         loginState: LoginState.loggedIn(User(
