@@ -8,7 +8,9 @@ import '../doubles/stubs.dart';
 import '../utils/test_assets.dart';
 
 void main() {
-  test('getOffreEmploiDetails when response is valid with all parameters should return offres', () async {
+  test(
+      'getOffreEmploiDetails when response is valid with all parameters should return offres and flag response as error-free',
+      () async {
     // Given
     final httpClient = MockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
@@ -21,11 +23,13 @@ void main() {
     final offre = await repository.getOffreEmploiDetails(offreId: "ID");
 
     // Then
-    expect(offre!, isNotNull);
-    expect(offre, mockOffreEmploiDetails());
+    expect(offre.offreEmploiDetails, isNotNull);
+    expect(offre.offreEmploiDetails, mockOffreEmploiDetails());
+    expect(offre.isGenericFailure, isFalse);
+    expect(offre.isOffreNotFound, isFalse);
   });
 
-  test('getOffreEmploiDetails when response is invalid should return null', () async {
+  test('getOffreEmploiDetails when response is invalid should flag response as generic failure', () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
     final repository = OffreEmploiDetailsRepository("BASE_URL", httpClient, HeadersBuilderStub());
@@ -34,6 +38,22 @@ void main() {
     final offre = await repository.getOffreEmploiDetails(offreId: "ID");
 
     // Then
-    expect(offre, isNull);
+    expect(offre.offreEmploiDetails, isNull);
+    expect(offre.isGenericFailure, isTrue);
+    expect(offre.isOffreNotFound, isFalse);
+  });
+
+  test('getOffreEmploiDetails when response is not found should flag response as not found', () async {
+    // Given
+    final httpClient = MockClient((request) async => Response("not found", 404));
+    final repository = OffreEmploiDetailsRepository("BASE_URL", httpClient, HeadersBuilderStub());
+
+    // When
+    final offre = await repository.getOffreEmploiDetails(offreId: "ID");
+
+    // Then
+    expect(offre.offreEmploiDetails, isNull);
+    expect(offre.isGenericFailure, isFalse);
+    expect(offre.isOffreNotFound, isTrue);
   });
 }

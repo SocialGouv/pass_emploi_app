@@ -9,6 +9,8 @@ AppState offreEmploiDetailsReducer(AppState currentState, dynamic action) {
     return currentState.copyWith(offreEmploiDetailsState: OffreEmploiDetailsState.success(action.offre));
   } else if (action is OffreEmploiDetailsFailureAction) {
     return currentState.copyWith(offreEmploiDetailsState: OffreEmploiDetailsState.failure());
+  } else if (action is OffreEmploiDetailsIncompleteDataAction) {
+    return currentState.copyWith(offreEmploiDetailsState: OffreEmploiDetailsState.incompleteData(action.offre));
   } else {
     return currentState;
   }
