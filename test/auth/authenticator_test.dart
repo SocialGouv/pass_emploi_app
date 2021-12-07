@@ -25,13 +25,13 @@ void main() {
     authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
 
     // When
-    final AuthTokenResponse? token = await authenticator.login();
+    final bool result = await authenticator.login();
 
     // Then
-    expect(token!, authTokenResponse());
-    expect(prefs.storedValues["idToken"], token.idToken);
-    expect(prefs.storedValues["accessToken"], token.accessToken);
-    expect(prefs.storedValues["refreshToken"], token.refreshToken);
+    expect(result, isTrue);
+    expect(prefs.storedValues["idToken"], authTokenResponse().idToken);
+    expect(prefs.storedValues["accessToken"], authTokenResponse().accessToken);
+    expect(prefs.storedValues["refreshToken"], authTokenResponse().refreshToken);
   });
 
   test('token is null when login has failed', () async {
@@ -39,10 +39,10 @@ void main() {
     authWrapperStub.withLoginArgsThrows();
 
     // When
-    final AuthTokenResponse? token = await authenticator.login();
+    final bool result = await authenticator.login();
 
     // Then
-    expect(token, isNull);
+    expect(result, isFalse);
   });
 
   test('isLoggedIn is TRUE when login is successful', () async {
