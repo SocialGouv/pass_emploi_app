@@ -14,7 +14,6 @@ import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
-import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
 
 import 'fixtures.dart';
@@ -51,10 +50,6 @@ class DummyAuthWrapper extends AuthWrapper {
 }
 
 class DummyFlutterAppAuth extends FlutterAppAuth {}
-
-class DummyUserRepository extends UserRepository {
-  DummyUserRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
-}
 
 class DummyUserActionRepository extends UserActionRepository {
   DummyUserActionRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());

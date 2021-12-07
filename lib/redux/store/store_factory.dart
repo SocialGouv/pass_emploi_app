@@ -21,12 +21,10 @@ import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
-import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
 
 class StoreFactory {
   final Authenticator authenticator;
-  final UserRepository userRepository;
   final UserActionRepository userActionRepository;
   final RendezvousRepository rendezvousRepository;
   final OffreEmploiRepository offreEmploiRepository;
@@ -36,38 +34,32 @@ class StoreFactory {
   final OffreEmploiDetailsRepository offreEmploiDetailsRepository;
   final OffreEmploiFavorisRepository offreEmploiFavorisRepository;
 
-  StoreFactory(this.authenticator,
-      this.userRepository,
-
-      this.userActionRepository,
-      this.rendezvousRepository,
-      this.offreEmploiRepository,
-      this.chatRepository,
-      this.registerTokenRepository,
-      this.crashlytics,
-      this.offreEmploiDetailsRepository,
-      this.offreEmploiFavorisRepository,);
+  StoreFactory(
+    this.authenticator,
+    this.userActionRepository,
+    this.rendezvousRepository,
+    this.offreEmploiRepository,
+    this.chatRepository,
+    this.registerTokenRepository,
+    this.crashlytics,
+    this.offreEmploiDetailsRepository,
+    this.offreEmploiFavorisRepository,
+  );
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return Store<AppState>(
       reducer,
       initialState: initialState,
       middleware: [
-        RouterMiddleware(userRepository, authenticator),
-        ApiMiddleware(
-          userRepository,
-          userActionRepository,
-          chatRepository,
-        ),
+        RouterMiddleware(authenticator),
+        ApiMiddleware(userActionRepository, chatRepository),
         UserActionMiddleware(userActionRepository),
         RendezvousMiddleware(rendezvousRepository),
         RegisterPushNotificationTokenMiddleware(registerTokenRepository),
         OffreEmploiMiddleware(offreEmploiRepository),
         OffreEmploiDetailsMiddleware(offreEmploiDetailsRepository),
         OffreEmploiFavorisMiddleware(offreEmploiFavorisRepository),
-        RegisterPushNotificationTokenMiddleware(
-          registerTokenRepository,
-        ),
+        RegisterPushNotificationTokenMiddleware(registerTokenRepository),
         ChatSubscriptionMiddleware(chatRepository),
         CrashlyticsMiddleware(crashlytics),
         ..._debugMiddleware(),

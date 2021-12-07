@@ -4,14 +4,12 @@ import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
 
 class RouterMiddleware extends MiddlewareClass<AppState> {
-  final UserRepository repository; // TODO-115 remove ?
   final Authenticator _authenticator;
 
-  RouterMiddleware(this.repository, this._authenticator);
+  RouterMiddleware(this._authenticator);
 
   @override
   call(Store<AppState> store, action, NextDispatcher next) async {
