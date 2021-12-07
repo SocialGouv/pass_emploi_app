@@ -10,11 +10,11 @@ class Strings {
   static String close = "Fermer";
 
   // Menu
-  static String menuHome = "Accueil";
   static String menuActions = "Actions";
   static String menuChat = "Messages";
-  static String menuRendezvous = "Rendez-vous";
   static String menuSolutions = "Solutions";
+  static String menuFavoris = "Favoris";
+  static String menuRendezvous = "Rendez-vous";
 
   // Chat
   static String yourMessage = "Votre message…";

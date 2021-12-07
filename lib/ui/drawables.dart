@@ -11,4 +11,5 @@ class Drawables {
   static String icSearchingBar = _assets + "ic_searching" + _svg;
 
   static String icBadge = _assets + "ic_badge" + _svg;
+  static String icHeart = _assets + "ic_heart" + _svg;
 }
