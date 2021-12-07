@@ -49,7 +49,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
       converter: (store) => OffreEmploiSearchResultsViewModel.create(store),
       onInitialBuild: (viewModel) => _currentViewModel = viewModel,
       builder: (context, viewModel) => _scaffold(context, viewModel),
-      onDidChange: (_, viewModel) => {
+      onDidChange: (previousViewModel, viewModel) => {
         _currentViewModel = viewModel,
         _scrollController.jumpTo(_offsetBeforeLoading),
         _shouldLoadAtBottom = viewModel.displayLoaderAtBottomOfList &&
