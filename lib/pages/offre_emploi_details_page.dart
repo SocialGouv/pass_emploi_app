@@ -39,6 +39,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Widget _body(BuildContext context, OffreEmploiDetailsPageViewModel viewModel) {
     switch (viewModel.displayState) {
       case OffreEmploiDetailsPageDisplayState.SHOW_DETAILS:
+      case OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS:
         return _content(context, viewModel);
       case OffreEmploiDetailsPageDisplayState.SHOW_LOADER:
         return _loading();

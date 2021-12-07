@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_details_state.dart';
@@ -6,11 +7,11 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
 
-enum OffreEmploiDetailsPageDisplayState { SHOW_DETAILS, SHOW_LOADER, SHOW_ERROR }
+enum OffreEmploiDetailsPageDisplayState { SHOW_DETAILS, SHOW_INCOMPLETE_DETAILS, SHOW_LOADER, SHOW_ERROR }
 
 class OffreEmploiDetailsPageViewModel {
   final OffreEmploiDetailsPageDisplayState displayState;
-  final String errorMessage;
+  final String? errorMessage;
   final String? id;
   final String? title;
   final String? urlRedirectPourPostulation;
@@ -35,58 +36,39 @@ class OffreEmploiDetailsPageViewModel {
 
   OffreEmploiDetailsPageViewModel._({
     required this.displayState,
-    required this.id,
-    required this.title,
-    required this.urlRedirectPourPostulation,
-    required this.companyName,
-    required this.contractType,
-    required this.duration,
-    required this.location,
-    required this.salary,
-    required this.description,
-    required this.experience,
-    required this.requiredExperience,
-    required this.companyUrl,
-    required this.companyAdapted,
-    required this.companyAccessibility,
-    required this.companyDescription,
-    required this.lastUpdate,
-    required this.skills,
-    required this.softSkills,
-    required this.educations,
-    required this.languages,
-    required this.driverLicences,
-    required this.errorMessage,
+    this.errorMessage,
+    this.id,
+    this.title,
+    this.urlRedirectPourPostulation,
+    this.companyName,
+    this.contractType,
+    this.duration,
+    this.location,
+    this.salary,
+    this.description,
+    this.experience,
+    this.requiredExperience,
+    this.companyUrl,
+    this.companyAdapted,
+    this.companyAccessibility,
+    this.companyDescription,
+    this.lastUpdate,
+    this.skills,
+    this.softSkills,
+    this.educations,
+    this.languages,
+    this.driverLicences,
   });
 
   factory OffreEmploiDetailsPageViewModel.getDetails(Store<AppState> store) {
     final offreEmploiDetailsState = store.state.offreEmploiDetailsState;
-    final offre = _offreEmploiDetails(offreEmploiDetailsState);
-    return OffreEmploiDetailsPageViewModel._(
-      displayState: _displayState(offreEmploiDetailsState),
-      id: offre?.id,
-      title: offre?.title,
-      urlRedirectPourPostulation: offre?.urlRedirectPourPostulation,
-      companyName: offre?.companyName,
-      contractType: offre?.contractType,
-      duration: offre?.duration,
-      location: offre?.location,
-      salary: offre?.salary,
-      description: offre?.description,
-      experience: offre?.experience,
-      requiredExperience: offre?.requiredExperience,
-      companyUrl: offre?.companyUrl,
-      companyAdapted: offre?.companyAdapted,
-      companyAccessibility: offre?.companyAccessibility,
-      companyDescription: offre?.companyDescription,
-      lastUpdate: offre?.lastUpdate?.toDayWithFullMonth(),
-      skills: offre?.skills,
-      softSkills: offre?.softSkills,
-      educations: offre?.educations?.map((e) => _toViewModel(e)).toList(),
-      languages: offre?.languages,
-      driverLicences: offre?.driverLicences,
-      errorMessage: Strings.genericError,
-    );
+    if (offreEmploiDetailsState is OffreEmploiDetailsSuccessState) {
+      return _viewModelFromDetails(offreEmploiDetailsState, offreEmploiDetailsState.offre);
+    } else if (offreEmploiDetailsState is OffreEmploiDetailsIncompleteDataState) {
+      return _viewModelFromIncompleteData(offreEmploiDetailsState.offreEmploi);
+    } else {
+      return _viewModelForOtherCases(offreEmploiDetailsState);
+    }
   }
 }
 
@@ -98,10 +80,6 @@ OffreEmploiDetailsPageDisplayState _displayState(OffreEmploiDetailsState offreEm
   } else {
     return OffreEmploiDetailsPageDisplayState.SHOW_ERROR;
   }
-}
-
-OffreEmploiDetails? _offreEmploiDetails(OffreEmploiDetailsState searchState) {
-  return searchState is OffreEmploiDetailsSuccessState ? searchState.offre : null;
 }
 
 EducationViewModel _toViewModel(Education education) {
@@ -117,4 +95,55 @@ class EducationViewModel extends Equatable {
 
   @override
   List<Object?> get props => [label, requirement];
+}
+
+OffreEmploiDetailsPageViewModel _viewModelFromDetails(
+  OffreEmploiDetailsState offreEmploiDetailsState,
+  OffreEmploiDetails? offreDetails,
+) {
+  return OffreEmploiDetailsPageViewModel._(
+    displayState: OffreEmploiDetailsPageDisplayState.SHOW_DETAILS,
+    id: offreDetails?.id,
+    title: offreDetails?.title,
+    urlRedirectPourPostulation: offreDetails?.urlRedirectPourPostulation,
+    companyName: offreDetails?.companyName,
+    contractType: offreDetails?.contractType,
+    duration: offreDetails?.duration,
+    location: offreDetails?.location,
+    salary: offreDetails?.salary,
+    description: offreDetails?.description,
+    experience: offreDetails?.experience,
+    requiredExperience: offreDetails?.requiredExperience,
+    companyUrl: offreDetails?.companyUrl,
+    companyAdapted: offreDetails?.companyAdapted,
+    companyAccessibility: offreDetails?.companyAccessibility,
+    companyDescription: offreDetails?.companyDescription,
+    lastUpdate: offreDetails?.lastUpdate?.toDayWithFullMonth(),
+    skills: offreDetails?.skills,
+    softSkills: offreDetails?.softSkills,
+    educations: offreDetails?.educations?.map((e) => _toViewModel(e)).toList(),
+    languages: offreDetails?.languages,
+    driverLicences: offreDetails?.driverLicences,
+    errorMessage: Strings.genericError,
+  );
+}
+
+OffreEmploiDetailsPageViewModel _viewModelFromIncompleteData(OffreEmploi offreEmploi) {
+  return OffreEmploiDetailsPageViewModel._(
+    displayState: OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS,
+    errorMessage: Strings.genericError,
+    title: offreEmploi.title,
+    location: offreEmploi.location,
+    id: offreEmploi.id,
+    duration: offreEmploi.duration,
+    companyName: offreEmploi.companyName,
+    contractType: offreEmploi.contractType,
+  );
+}
+
+OffreEmploiDetailsPageViewModel _viewModelForOtherCases(OffreEmploiDetailsState offreEmploiDetailsState) {
+  return OffreEmploiDetailsPageViewModel._(
+    displayState: _displayState(offreEmploiDetailsState),
+    errorMessage: Strings.genericError,
+  );
 }

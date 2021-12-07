@@ -10,6 +10,8 @@ import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/offre_emploi_list_item.dart';
 
+import 'offre_emploi_details_page.dart';
+
 class FavorisPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -63,7 +65,7 @@ class FavorisPage extends StatelessWidget {
         type: MaterialType.transparency,
         child: InkWell(
           onTap: () {
-            // Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(viewModel.items[index].id));
+            Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(viewModel.items[index].id));
           },
           splashColor: AppColors.bluePurple,
           child: OffreEmploiListItem(itemViewModel: viewModel.items[index]),
