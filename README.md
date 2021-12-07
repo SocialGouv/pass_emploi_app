@@ -67,9 +67,17 @@ en renseignant le bon provisioning profile de l'app `fr.fabrique.socialgouv.pass
 A chaque push sur la branche develop, un build et un déploiement est fait sur firebase.
 Lorsque des variables d'environnement sont modifiées/ajoutées, il faut les ajouter dans les secrets github.
 Le fichier `ci/.env.template` permet de lister les variables nécessaires.
-
-Afin de générer le fichier de staging un script permet d'encoder les variables en utilisant les fichiers locaux:
-`bash scripts/generate_env_ci.sh`
+ 
+#### Mettre à jour ou insérer de nouvelle variable d'environnement dans Github Action
+1. Lancer le script `bash scripts/generate_env_ci.sh`
+2. Récupérer la valeur de STAGING_RUNTIME_ENV_B64 dans le fichier  `ci/.env.ci`.
+3. Mettre à jour le secret de Github action 'STAGING_RUNTIME_ENV_B64' (Github > Settings > Secrets).
+ 
+#### Mettre à jour le provisioning profile dans Github Action
+1. Récupérer la dernière version du fichier `frfabriquesocialgouvpassemploistaging.mobileprovision` sur App Store Connect et le placer dans le répertoire `ci`.
+2. Lancer le script `bash scripts/generate_env_ci.sh`
+3. Récupérer la valeur de STAGING_IOS_PROVISIONING_PROFILE_B64 dans le fichier  `ci/.env.ci`.
+4. Mettre à jour le secret de Github action 'STAGING_IOS_PROVISIONING_PROFILE_B64' (Github > Settings > Secrets).
 
 ### En local
 #### Lancement du script
