@@ -5,12 +5,12 @@ import 'package:pass_emploi_app/redux/middlewares/action_logging_middleware.dart
 import 'package:pass_emploi_app/redux/middlewares/api_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/chat_subscription_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/crashlytics_middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/login_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_details_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_favoris_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/rendezvous_middleware.dart';
-import 'package:pass_emploi_app/redux/middlewares/router_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/user_action_middleware.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -51,7 +51,7 @@ class StoreFactory {
       reducer,
       initialState: initialState,
       middleware: [
-        RouterMiddleware(authenticator),
+        LoginMiddleware(authenticator),
         ApiMiddleware(userActionRepository, chatRepository),
         UserActionMiddleware(userActionRepository),
         RendezvousMiddleware(rendezvousRepository),

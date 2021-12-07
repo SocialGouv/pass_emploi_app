@@ -6,10 +6,10 @@ import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:redux/redux.dart';
 
-class RouterMiddleware extends MiddlewareClass<AppState> {
+class LoginMiddleware extends MiddlewareClass<AppState> {
   final Authenticator _authenticator;
 
-  RouterMiddleware(this._authenticator);
+  LoginMiddleware(this._authenticator);
 
   @override
   call(Store<AppState> store, action, NextDispatcher next) async {
