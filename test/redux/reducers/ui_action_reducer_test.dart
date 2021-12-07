@@ -9,17 +9,6 @@ import 'package:pass_emploi_app/redux/states/user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 
 main() {
-  test("uiActionReducer when action is not handled should leave state untouched", () {
-    // Given
-    final initialState = AppState.initialState();
-
-    // When
-    final updatedState = uiActionReducer(initialState, LogoutAction());
-
-    // Then
-    expect(updatedState, initialState);
-  });
-
   test(
       "uiActionReducer when action is UpdateActionStatus with different status should update action and actionUpdate states",
       () {

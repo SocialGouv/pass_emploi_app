@@ -25,3 +25,5 @@ class LoginFailureAction extends LoginAction {
 
   LoginFailureAction(this.accessCode);
 }
+
+class LogoutAction extends LoginAction {}
