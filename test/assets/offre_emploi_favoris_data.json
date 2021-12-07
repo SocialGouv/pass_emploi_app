@@ -1,0 +1,46 @@
+[
+  {
+    "id": "124PSHL",
+    "alternance": false,
+    "duree": "Temps partiel",
+    "localisation": {
+      "nom": "974 - STE MARIE"
+    },
+    "typeContrat": "CDD",
+    "nomEntreprise": "SARL HAYA",
+    "titre": "Cuisinier / Cuisinière"
+  },
+  {
+    "id": "124PSJW",
+    "alternance": false,
+    "duree": "Temps partiel",
+    "localisation": {
+      "nom": "07 - LEMPS"
+    },
+    "typeContrat": "CDD",
+    "nomEntreprise": "ATALIAN PROPRETE",
+    "titre": "Agent de nettoyage chez un particulier H/F"
+  },
+  {
+    "id": "124PSJS",
+    "alternance": false,
+    "duree": "Temps partiel",
+    "localisation": {
+      "nom": "80 - AMIENS"
+    },
+    "typeContrat": "CDI",
+    "nomEntreprise": "CHARPENTE MENUISERIE ROUSSEAU",
+    "titre": "Vendeur / Vendeuse de fruits et légumes"
+  },
+  {
+    "id": "124PSJR",
+    "alternance": false,
+    "duree": "Temps plein",
+    "localisation": {
+      "nom": "63 - ISSOIRE"
+    },
+    "typeContrat": "CDI",
+    "nomEntreprise": "SERVICES MAINTENANCE INDUSTRIELLE",
+    "titre": "Serrurier(ère) métallier(ère) industriel(le)                (H/F)"
+  }
+]

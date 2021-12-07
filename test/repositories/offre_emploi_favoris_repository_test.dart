@@ -156,6 +156,72 @@ main() {
     // Then
     expect(result, isTrue);
   });
+
+  test('getOffreEmploiFavoris when response is valid with all parameters should return offres', () async {
+    // Given
+    final httpClient = _successfulClientForQuery();
+    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+
+    // When
+    final favoris = await repository.getOffreEmploiFavoris("jeuneId");
+
+    // Then
+    expect(favoris, {
+      "124PSHL": OffreEmploi(
+        id: "124PSHL",
+        duration: "Temps partiel",
+        location: "974 - STE MARIE",
+        contractType: "CDD",
+        companyName: "SARL HAYA",
+        title: "Cuisinier / Cuisinière",
+      ),
+      "124PSJW": OffreEmploi(
+        id: "124PSJW",
+        duration: "Temps partiel",
+        location: "07 - LEMPS",
+        contractType: "CDD",
+        companyName: "ATALIAN PROPRETE",
+        title: "Agent de nettoyage chez un particulier H/F",
+      ),
+      "124PSJS": OffreEmploi(
+        id: "124PSJS",
+        duration: "Temps partiel",
+        location: "80 - AMIENS",
+        contractType: "CDI",
+        companyName: "CHARPENTE MENUISERIE ROUSSEAU",
+        title: "Vendeur / Vendeuse de fruits et légumes",
+      ),
+      "124PSJR": OffreEmploi(
+        id: "124PSJR",
+        duration: "Temps plein",
+        location: "63 - ISSOIRE",
+        contractType: "CDI",
+        companyName: "SERVICES MAINTENANCE INDUSTRIELLE",
+        title: "Serrurier(ère) métallier(ère) industriel(le)                (H/F)",
+      )
+    });
+  });
+
+  test('getOffreEmploiFavoris when response is invalid should return null', () async {
+    // Given
+    final httpClient = MockClient((request) async => invalidHttpResponse());
+    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+
+    // When
+    final favoris = await repository.getOffreEmploiFavoris("jeuneId");
+
+    // Then
+    expect(favoris, isNull);
+  });
+}
+
+MockClient _successfulClientForQuery() {
+  return MockClient((request) async {
+    if (request.method != "GET") return invalidHttpResponse();
+    if (request.url.queryParameters["query"] != "true") return invalidHttpResponse(message: "query KO");
+    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris")) return invalidHttpResponse();
+    return Response.bytes(loadTestAssetsAsBytes("offre_emploi_favoris_data.json"), 200);
+  });
 }
 
 MockClient _failureClient() {

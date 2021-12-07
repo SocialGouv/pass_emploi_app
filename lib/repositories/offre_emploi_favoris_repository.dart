@@ -29,7 +29,20 @@ class OffreEmploiFavorisRepository {
   }
 
   Future<Map<String, OffreEmploi>?> getOffreEmploiFavoris(String userId) async {
-    // TODO BON
+    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris").replace(queryParameters: {"query": "true"});
+    try {
+      final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
+      if (response.statusCode.isValid()) {
+        final json = jsonUtf8Decode(response.bodyBytes) as List;
+        return Map.fromIterable(
+          json,
+          key: (element) => element["id"],
+          value: (element) => OffreEmploi.fromJson(element),
+        );
+      }
+    } catch (e) {
+      print('Exception on ${url.toString()}: ' + e.toString());
+    }
     return null;
   }
 
