@@ -31,11 +31,12 @@ main() {
     final loadedFavoris = await successState;
     final favorisState = (loadedFavoris.offreEmploiFavorisState as OffreEmploiFavorisLoadedState);
     expect(favorisState.offreEmploiFavorisId, {"1", "2", "4"});
+    expect(favorisState.data, null);
   });
 
   test("favori state should be updated when favori is removed and api call succeeds", () async {
     // Given
-    final Store<AppState> store = _successStoreWithFavorisIdAndSearchResultsLoaded();
+    final Store<AppState> store = _successStoreWithFavorisAndSearchResultsLoaded();
 
     final loadingState = store.onChange.any((element) =>
         element.offreEmploiFavorisUpdateState.requestStatus["1"] == OffreEmploiFavorisUpdateStatus.LOADING);
@@ -50,6 +51,7 @@ main() {
     final updatedFavoris = await successState;
     final favorisState = (updatedFavoris.offreEmploiFavorisState as OffreEmploiFavorisLoadedState);
     expect(favorisState.offreEmploiFavorisId, {"2", "4"});
+    expect(favorisState.data, {"2": mockOffreEmploi(), "4": mockOffreEmploi()});
   });
 
   test("favori state should not be updated when favori is removed and api call fails", () async {
@@ -69,11 +71,12 @@ main() {
     final updatedFavoris = await failureState;
     final favorisState = (updatedFavoris.offreEmploiFavorisState as OffreEmploiFavorisLoadedState);
     expect(favorisState.offreEmploiFavorisId, {"1", "2", "4"});
+    expect(favorisState.data, {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()});
   });
 
-  test("favori state should be updated when favori is added and api call succeeds", () async {
+  test("favori id list should be updated when favori is added and api call succeeds", () async {
     // Given
-    Store<AppState> store = _successStoreWithFavorisIdAndSearchResultsLoaded();
+    Store<AppState> store = _successStoreWithFavorisAndSearchResultsLoaded();
 
     final loadingState = store.onChange.any((element) =>
         element.offreEmploiFavorisUpdateState.requestStatus["17"] == OffreEmploiFavorisUpdateStatus.LOADING);
@@ -88,6 +91,10 @@ main() {
     final updatedFavoris = await successState;
     final favorisState = (updatedFavoris.offreEmploiFavorisState as OffreEmploiFavorisLoadedState);
     expect(favorisState.offreEmploiFavorisId, {"1", "2", "4", "17"});
+    expect(
+      favorisState.data,
+      {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()},
+    );
   });
 
   test("favori state should not be updated when favori is added and api call fails", () async {
@@ -107,6 +114,7 @@ main() {
     final updatedFavoris = await failureState;
     final favorisState = (updatedFavoris.offreEmploiFavorisState as OffreEmploiFavorisLoadedState);
     expect(favorisState.offreEmploiFavorisId, {"1", "2", "4"});
+    expect(favorisState.data, {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()});
   });
 
   test("favori state should be updated with offres details when retrieved", () async {
@@ -164,7 +172,7 @@ Store<AppState> _successStore() {
   return store;
 }
 
-Store<AppState> _successStoreWithFavorisIdAndSearchResultsLoaded() {
+Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
   final testStoreFactory = TestStoreFactory();
   testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositorySuccessStub();
   testStoreFactory.userRepository = UserRepositoryLoggedInStub();
@@ -175,7 +183,10 @@ Store<AppState> _successStoreWithFavorisIdAndSearchResultsLoaded() {
           firstName: "F",
           lastName: "L",
         )),
-        offreEmploiFavorisState: OffreEmploiFavorisState.idsLoaded({"1", "2", "4"}),
+        offreEmploiFavorisState: OffreEmploiFavorisState.withMap(
+          {"1", "2", "4"},
+          {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()},
+        ),
         offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
           offres: [
             OffreEmploi(
@@ -230,7 +241,10 @@ Store<AppState> _failureStoreWithFavorisIdLoaded() {
         firstName: "F",
         lastName: "L",
       )),
-      offreEmploiFavorisState: OffreEmploiFavorisState.idsLoaded({"1", "2", "4"}),
+      offreEmploiFavorisState: OffreEmploiFavorisState.withMap(
+        {"1", "2", "4"},
+        {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()},
+      ),
     ),
   );
   return store;
@@ -247,7 +261,10 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
           firstName: "F",
           lastName: "L",
         )),
-        offreEmploiFavorisState: OffreEmploiFavorisState.idsLoaded({"1", "2", "4"}),
+        offreEmploiFavorisState: OffreEmploiFavorisState.withMap(
+          {"1", "2", "4"},
+          {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()},
+        ),
         offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
           offres: [
             OffreEmploi(
