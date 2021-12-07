@@ -28,7 +28,7 @@ class FavorisPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.lightBlue,
       appBar: FlatDefaultAppBar(
-        title: Text(Strings.menuFavoris, style: TextStyles.textLgMedium),
+        title: Text(Strings.menuFavoris, style: TextStyles.h3Semi),
       ),
       body: DefaultAnimatedSwitcher(child: _switch(viewModel)),
     );
