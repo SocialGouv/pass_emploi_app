@@ -13,7 +13,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiFavorisState: OffreEmploiFavorisState.withMap({"1": mockOffreEmploi()}),
+        offreEmploiFavorisState: OffreEmploiFavorisState.withMap({"1"}, {"1": mockOffreEmploi()}),
       ),
     );
 
@@ -45,7 +45,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiFavorisState: OffreEmploiFavorisState.withMap(Map()),
+        offreEmploiFavorisState: OffreEmploiFavorisState.withMap({}, Map()),
       ),
     );
 

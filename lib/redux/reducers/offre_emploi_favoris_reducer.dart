@@ -1,4 +1,3 @@
-import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_favoris_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
@@ -26,7 +25,7 @@ AppState offreEmploiFavorisReducer(AppState currentState, dynamic action) {
 OffreEmploiFavorisState _updateWithData(AppState currentState, OffreEmploisFavorisLoadedAction action) {
   final favorisIdState = currentState.offreEmploiFavorisState;
   if (favorisIdState is OffreEmploiFavorisLoadedState) {
-    return OffreEmploiFavorisState.withMap(action.favoris);
+    return OffreEmploiFavorisState.withMap(action.favoris.keys.toSet(), action.favoris);
   } else {
     return favorisIdState;
   }
@@ -78,13 +77,15 @@ OffreEmploiFavorisUpdateState _updateState(
 OffreEmploiFavorisState _updateFavorisList(AppState currentState, String offreId, bool newStatus) {
   final favorisIdState = currentState.offreEmploiFavorisState;
   if (favorisIdState is OffreEmploiFavorisLoadedState) {
-    final oldList = favorisIdState.offreEmploiFavoris;
+    final idList = favorisIdState.offreEmploiFavorisId;
+    final data = favorisIdState.data;
     if (newStatus) {
-      oldList[offreId] = null;
+      idList.add(offreId);
     } else {
-      oldList.remove(offreId);
+      idList.remove(offreId);
+      data?.remove(offreId);
     }
-    return OffreEmploiFavorisState.withMap(oldList);
+    return OffreEmploiFavorisState.withMap(idList, data);
   } else {
     return favorisIdState;
   }
