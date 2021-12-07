@@ -1,4 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
+import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:redux/redux.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class NextDispatcherSpy {
@@ -13,6 +16,15 @@ class NextDispatcherSpy {
     expect(action, _expectedAction);
     wasCalled = true;
   }
+}
+
+class StoreSpy extends Store<AppState> {
+  late Object dispatchedAction;
+
+  StoreSpy() : super(reducer, initialState: AppState.initialState());
+
+  @override
+  dispatch(action) => dispatchedAction = action;
 }
 
 class SharedPreferencesSpy implements SharedPreferences {

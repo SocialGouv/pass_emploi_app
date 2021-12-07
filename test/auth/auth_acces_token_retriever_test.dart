@@ -3,9 +3,6 @@ import 'package:pass_emploi_app/auth/auth_access_token_retriever.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
-import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:redux/redux.dart';
 
 import '../doubles/dummies.dart';
 import '../doubles/fixtures.dart';
@@ -64,7 +61,7 @@ void main() {
 
   test("Throws an exception when id token is invalid and refresh token returns EXPIRED_REFRESH_TOKEN", () async {
     // Given
-    final store = SpyStore();
+    final store = StoreSpy();
     final authenticator = AuthenticatorLoggedInAndInvalidIdTokenStub(RefreshTokenStatus.EXPIRED_REFRESH_TOKEN);
     final tokenRetriever = AuthAccessTokenRetriever(authenticator);
     tokenRetriever.setStore(store);
@@ -75,7 +72,7 @@ void main() {
 
   test("Logout user when id token is invalid and refresh token returns EXPIRED_REFRESH_TOKEN", () async {
     // Given
-    final store = SpyStore();
+    final store = StoreSpy();
     final authenticator = AuthenticatorLoggedInAndInvalidIdTokenStub(RefreshTokenStatus.EXPIRED_REFRESH_TOKEN);
     final tokenRetriever = AuthAccessTokenRetriever(authenticator);
     tokenRetriever.setStore(store);
@@ -126,15 +123,4 @@ class AuthenticatorLoggedInAndInvalidIdTokenStub extends Authenticator {
 
   @override
   Future<RefreshTokenStatus> refreshToken() => Future.value(refreshTokenStatus);
-}
-
-class SpyStore extends Store<AppState> {
-  late Object dispatchedAction;
-
-  SpyStore() : super(reducer, initialState: AppState.initialState());
-
-  @override
-  dispatch(action) {
-    dispatchedAction = action;
-  }
 }

@@ -205,12 +205,6 @@ void main() {
     expect(result, RefreshTokenStatus.USER_NOT_LOGGED_IN);
     expect(authenticator.isLoggedIn(), false);
   });
-
-  // TODO-115 : Test Interceptor
-  // 1. AccessToken is Valid - logged - OK
-  // 2. Access token is not valid - logged - KO
-  // 2.1. Refresh is ok - logged OK
-  // 2.2 refresh is ko - logged KO
 }
 
 AuthTokenRequest _authTokenRequest() {
