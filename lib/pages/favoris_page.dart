@@ -20,6 +20,7 @@ class FavorisPage extends StatelessWidget {
       onInit: (store) => store.dispatch(RequestOffreEmploiFavorisAction()),
       builder: (context, viewModel) => _scaffold(context, viewModel),
       converter: (store) => OffreEmploiFavorisListViewModel.create(store),
+      distinct: true,
     );
   }
 
@@ -85,19 +86,18 @@ class FavorisPage extends StatelessWidget {
   Widget _loading() => Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
 
   Widget _errorWithRetry(OffreEmploiFavorisListViewModel viewModel) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(Strings.actionsError),
-        TextButton(onPressed: () => viewModel.onRetry(), child: Text(Strings.retry, style: TextStyles.textLgMedium)),
-      ],
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(Strings.actionsError),
+          TextButton(onPressed: () => viewModel.onRetry(), child: Text(Strings.retry, style: TextStyles.textLgMedium)),
+        ],
+      ),
     );
   }
 
   Widget _empty() {
-    return Padding(
-      padding: const EdgeInsets.all(Margins.medium),
-      child: Text(Strings.noFavoris, style: TextStyles.textSmRegular()),
-    );
+    return Center(child: Text(Strings.noFavoris, style: TextStyles.textSmRegular()));
   }
 }
