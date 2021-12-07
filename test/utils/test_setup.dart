@@ -9,14 +9,12 @@ import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
-import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/dummies.dart';
 
 class TestStoreFactory {
   Authenticator authenticator = DummyAuthenticator();
-  UserRepository userRepository = DummyUserRepository();
   UserActionRepository userActionRepository = DummyUserActionRepository();
   RendezvousRepository rendezvousRepository = DummyRendezvousRepository();
   ChatRepository chatRepository = DummyChatRepository('firebaseEnvironmentPrefix');
@@ -29,7 +27,6 @@ class TestStoreFactory {
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
       authenticator,
-      userRepository,
       userActionRepository,
       rendezvousRepository,
       offreEmploiRepository,

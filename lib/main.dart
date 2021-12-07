@@ -30,7 +30,6 @@ import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
-import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -103,7 +102,6 @@ Future<Store<AppState>> _initializeReduxStore(
   );
   final reduxStore = StoreFactory(
     authenticator,
-    UserRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
     UserActionRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
     RendezvousRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
     OffreEmploiRepository(configuration.serverBaseUrl, httpClient, headersBuilder),

@@ -3,16 +3,13 @@ import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
-import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
 
 class ApiMiddleware extends MiddlewareClass<AppState> {
-  final UserRepository _userRepository;
   final UserActionRepository _userActionRepository;
   final ChatRepository _chatRepository;
 
   ApiMiddleware(
-    this._userRepository,
     this._userActionRepository,
     this._chatRepository,
   );
