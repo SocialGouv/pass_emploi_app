@@ -4,9 +4,6 @@ abstract class UiAction {}
 
 class BootstrapAction extends UiAction {}
 
-// TODO-115 move to LoginAction
-class LogoutAction extends UiAction {}
-
 class UpdateActionStatus extends UiAction {
   final String userId;
   final String actionId;
@@ -22,13 +19,6 @@ class SendMessageAction extends UiAction {
 }
 
 class LastMessageSeenAction extends UiAction {}
-
-// TODO-115 remove
-class RequestLoginAction extends UiAction {
-  final String accessCode;
-
-  RequestLoginAction(this.accessCode);
-}
 
 class RequestUserActionsAction extends UiAction {
   final String userId;

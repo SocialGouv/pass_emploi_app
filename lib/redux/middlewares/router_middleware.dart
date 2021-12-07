@@ -53,7 +53,6 @@ class RouterMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _logout(Store<AppState> store) async {
-    await repository.deleteUser();
     store.dispatch(BootstrapAction());
   }
 }

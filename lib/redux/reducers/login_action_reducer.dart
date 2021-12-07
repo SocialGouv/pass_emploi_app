@@ -11,6 +11,8 @@ AppState loginReducer(AppState currentState, dynamic action) {
     return currentState.copyWith(loginState: LoginState.loading(action.accessCode));
   } else if (action is LoginFailureAction) {
     return currentState.copyWith(loginState: LoginState.failure(action.accessCode));
+  } else if (action is LogoutAction) {
+    return AppState.initialState();
   } else {
     return currentState;
   }

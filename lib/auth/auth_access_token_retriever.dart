@@ -1,9 +1,8 @@
 import 'package:pass_emploi_app/auth/authenticator.dart';
-import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
+import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:redux/redux.dart';
 
-// TODO-115 : test
 class AuthAccessTokenRetriever {
   final Authenticator _authenticator;
   late Store<AppState> _store;
