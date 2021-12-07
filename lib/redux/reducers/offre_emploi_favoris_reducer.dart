@@ -23,12 +23,7 @@ AppState offreEmploiFavorisReducer(AppState currentState, dynamic action) {
 }
 
 OffreEmploiFavorisState _updateWithData(AppState currentState, OffreEmploisFavorisLoadedAction action) {
-  final favorisIdState = currentState.offreEmploiFavorisState;
-  if (favorisIdState is OffreEmploiFavorisLoadedState) {
-    return OffreEmploiFavorisState.withMap(action.favoris.keys.toSet(), action.favoris);
-  } else {
-    return favorisIdState;
-  }
+  return OffreEmploiFavorisState.withMap(action.favoris.keys.toSet(), action.favoris);
 }
 
 AppState _updateFailureState(AppState currentState, OffreEmploiUpdateFavoriFailureAction action) {
