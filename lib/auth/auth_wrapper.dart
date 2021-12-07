@@ -37,8 +37,7 @@ class AuthWrapper {
       } else if (e.code == "authorize_and_exchange_code_failed") {
         throw AuthWrapperCalledCancelException();
       } else {
-        debugPrint(e.toString());
-        throw e;
+        throw AuthWrapperLoginException();
       }
     }
   }
