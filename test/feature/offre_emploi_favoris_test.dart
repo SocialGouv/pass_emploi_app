@@ -175,7 +175,7 @@ Store<AppState> _successStoreWithFavorisIdAndSearchResultsLoaded() {
           firstName: "F",
           lastName: "L",
         )),
-        offreEmploiFavorisState: OffreEmploiFavorisState.onlyIds({"1", "2", "4"}),
+        offreEmploiFavorisState: OffreEmploiFavorisState.idsLoaded({"1", "2", "4"}),
         offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
           offres: [
             OffreEmploi(
@@ -213,7 +213,7 @@ Store<AppState> _successStoreWithFavorisIdLoaded() {
         firstName: "F",
         lastName: "L",
       )),
-      offreEmploiFavorisState: OffreEmploiFavorisState.onlyIds({"1", "2", "4"}),
+      offreEmploiFavorisState: OffreEmploiFavorisState.idsLoaded({"1", "2", "4"}),
     ),
   );
   return store;
@@ -230,7 +230,7 @@ Store<AppState> _failureStoreWithFavorisIdLoaded() {
         firstName: "F",
         lastName: "L",
       )),
-      offreEmploiFavorisState: OffreEmploiFavorisState.onlyIds({"1", "2", "4"}),
+      offreEmploiFavorisState: OffreEmploiFavorisState.idsLoaded({"1", "2", "4"}),
     ),
   );
   return store;
@@ -247,7 +247,7 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
           firstName: "F",
           lastName: "L",
         )),
-        offreEmploiFavorisState: OffreEmploiFavorisState.onlyIds({"1", "2", "4"}),
+        offreEmploiFavorisState: OffreEmploiFavorisState.idsLoaded({"1", "2", "4"}),
         offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
           offres: [
             OffreEmploi(

@@ -29,7 +29,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiFavorisState: OffreEmploiFavorisState.onlyIds({"1"}),
+        offreEmploiFavorisState: OffreEmploiFavorisState.idsLoaded({"1"}),
       ),
     );
 

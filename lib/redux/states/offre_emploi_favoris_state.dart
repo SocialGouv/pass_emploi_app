@@ -5,7 +5,7 @@ abstract class OffreEmploiFavorisState {
 
   factory OffreEmploiFavorisState.notInitialized() = OffreEmploiFavorisNotInitialized;
 
-  factory OffreEmploiFavorisState.onlyIds(Set<String> offreEmploiFavorisListId) =>
+  factory OffreEmploiFavorisState.idsLoaded(Set<String> offreEmploiFavorisListId) =>
       OffreEmploiFavorisLoadedState._(null, offreEmploiFavorisListId);
 
   factory OffreEmploiFavorisState.withMap(

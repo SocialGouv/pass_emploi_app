@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.d
 
 AppState offreEmploiFavorisReducer(AppState currentState, dynamic action) {
   if (action is OffreEmploisFavorisIdLoadedAction) {
-    var newState = OffreEmploiFavorisState.onlyIds(action.favorisId);
+    var newState = OffreEmploiFavorisState.idsLoaded(action.favorisId);
     return currentState.copyWith(offreEmploiFavorisState: newState);
   } else if (action is OffreEmploiUpdateFavoriLoadingAction) {
     return _updateLoadingState(currentState, action);
