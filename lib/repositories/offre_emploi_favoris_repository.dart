@@ -46,15 +46,7 @@ class OffreEmploiFavorisRepository {
     return null;
   }
 
-  Future<bool> updateOffreEmploiFavoriStatus(String userId, OffreEmploi offre, bool newStatus) async {
-    if (newStatus) {
-      return _postFavori(userId, offre);
-    } else {
-      return _deleteFavori(userId, offre.id);
-    }
-  }
-
-  Future<bool> _postFavori(String userId, OffreEmploi offre) async {
+  Future<bool> postFavori(String userId, OffreEmploi offre) async {
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/favori");
     try {
       final response = await _httpClient.post(
@@ -80,7 +72,7 @@ class OffreEmploiFavorisRepository {
     return false;
   }
 
-  Future<bool> _deleteFavori(String userId, String offreId) async {
+  Future<bool> deleteFavori(String userId, String offreId) async {
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/favori/$offreId");
     try {
       final response = await _httpClient.delete(

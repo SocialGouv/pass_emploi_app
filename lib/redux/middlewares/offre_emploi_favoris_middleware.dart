@@ -18,10 +18,12 @@ class OffreEmploiFavorisMiddleware extends MiddlewareClass<AppState> {
     final offreEmploiResultsState = store.state.offreEmploiSearchResultsState;
     if (action is LoggedInAction) {
       await _fetchFavorisId(action, store);
-    } else if (action is OffreEmploiRequestUpdateFavoriAction &&
-        loginState is LoggedInState &&
-        offreEmploiResultsState is OffreEmploiSearchResultsDataState) {
-      await _updateFavori(store, action, loginState, offreEmploiResultsState);
+    } else if (action is OffreEmploiRequestUpdateFavoriAction && loginState is LoggedInState) {
+      if (action.newStatus && offreEmploiResultsState is OffreEmploiSearchResultsDataState) {
+        await _addFavori(store, action, loginState, offreEmploiResultsState);
+      } else if (!action.newStatus) {
+        await _removeFavori(store, action, loginState);
+      }
     } else if (action is RequestOffreEmploiFavorisAction && loginState is LoggedInState) {
       await _fetchFavoris(store, action, loginState);
     }
@@ -47,17 +49,16 @@ class OffreEmploiFavorisMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
-  Future<void> _updateFavori(
+  Future<void> _addFavori(
     Store<AppState> store,
     OffreEmploiRequestUpdateFavoriAction action,
     LoggedInState loginState,
     OffreEmploiSearchResultsDataState offreEmploiResultsState,
   ) async {
     store.dispatch(OffreEmploiUpdateFavoriLoadingAction(action.offreId));
-    final result = await _repository.updateOffreEmploiFavoriStatus(
+    final result = await _repository.postFavori(
       loginState.user.id,
       offreEmploiResultsState.offres.firstWhere((element) => element.id == action.offreId),
-      action.newStatus,
     );
     if (result) {
       store.dispatch(OffreEmploiUpdateFavoriSuccessAction(action.offreId, action.newStatus));
@@ -66,4 +67,20 @@ class OffreEmploiFavorisMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
+  Future<void> _removeFavori(
+    Store<AppState> store,
+    OffreEmploiRequestUpdateFavoriAction action,
+    LoggedInState loginState,
+  ) async {
+    store.dispatch(OffreEmploiUpdateFavoriLoadingAction(action.offreId));
+    final result = await _repository.deleteFavori(
+      loginState.user.id,
+      action.offreId,
+    );
+    if (result) {
+      store.dispatch(OffreEmploiUpdateFavoriSuccessAction(action.offreId, action.newStatus));
+    } else {
+      store.dispatch(OffreEmploiUpdateFavoriFailureAction(action.offreId));
+    }
+  }
 }

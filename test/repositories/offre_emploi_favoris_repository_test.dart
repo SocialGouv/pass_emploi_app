@@ -46,10 +46,9 @@ main() {
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final result = await repository.updateOffreEmploiFavoriStatus(
+    final result = await repository.postFavori(
       "jeuneId",
       _offreWithPartialData(),
-      true,
     );
 
     // Then
@@ -65,10 +64,9 @@ main() {
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final result = await repository.updateOffreEmploiFavoriStatus(
+    final result = await repository.postFavori(
       "jeuneId",
       _offreWithFullData(),
-      true,
     );
 
     // Then
@@ -83,10 +81,9 @@ main() {
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final result = await repository.updateOffreEmploiFavoriStatus(
+    final result = await repository.deleteFavori(
       "jeuneId",
-      _offreWithPartialData(),
-      false,
+      "offreId",
     );
 
     // Then
@@ -99,10 +96,9 @@ main() {
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final result = await repository.updateOffreEmploiFavoriStatus(
+    final result = await repository.deleteFavori(
       "jeuneId",
-      _offreWithPartialData(),
-      false,
+      "offreId",
     );
 
     // Then
@@ -115,10 +111,9 @@ main() {
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final result = await repository.updateOffreEmploiFavoriStatus(
+    final result = await repository.deleteFavori(
       "jeuneId",
-      _offreWithPartialData(),
-      false,
+      "offreId",
     );
 
     // Then
@@ -131,10 +126,9 @@ main() {
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final result = await repository.updateOffreEmploiFavoriStatus(
+    final result = await repository.postFavori(
       "jeuneId",
       _offreWithPartialData(),
-      true,
     );
 
     // Then
@@ -147,10 +141,9 @@ main() {
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final result = await repository.updateOffreEmploiFavoriStatus(
+    final result = await repository.postFavori(
       "jeuneId",
       _offreWithPartialData(),
-      true,
     );
 
     // Then

@@ -288,7 +288,11 @@ class OffreEmploiFavorisRepositorySuccessStub extends OffreEmploiFavorisReposito
     };
   }
 
-  Future<bool> updateOffreEmploiFavoriStatus(String userId, OffreEmploi offre, bool newStatus) async {
+  Future<bool> postFavori(String userId, OffreEmploi offre) async {
+    return true;
+  }
+
+  Future<bool> deleteFavori(String userId, String offreId) async {
     return true;
   }
 }
@@ -304,9 +308,14 @@ class OffreEmploiFavorisRepositoryFailureStub extends OffreEmploiFavorisReposito
     return null;
   }
 
-  Future<bool> updateOffreEmploiFavoriStatus(String userId, OffreEmploi offre, bool newStatus) async {
+  Future<bool> postFavori(String userId, OffreEmploi offre) async {
     return false;
   }
+
+  Future<bool> deleteFavori(String userId, String offreId) async {
+    return false;
+  }
+
 }
 
 class UserRepositoryLoggedInStub extends UserRepository {
