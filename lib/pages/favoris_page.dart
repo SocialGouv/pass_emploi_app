@@ -4,14 +4,11 @@ import 'package:pass_emploi_app/presentation/offre_emploi_favoris_list_view_mode
 import 'package:pass_emploi_app/redux/actions/offre_emploi_favoris_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/offre_emploi_list_item.dart';
-
-import 'offre_emploi_details_page.dart';
 
 class FavorisPage extends StatelessWidget {
   @override
@@ -65,7 +62,9 @@ class FavorisPage extends StatelessWidget {
       child: Material(
         type: MaterialType.transparency,
         child: InkWell(
-          onTap: () => Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(viewModel.items[index].id)),
+          onTap: () {
+            // Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(viewModel.items[index].id));
+          },
           splashColor: AppColors.bluePurple,
           child: OffreEmploiListItem(itemViewModel: viewModel.items[index]),
         ),
