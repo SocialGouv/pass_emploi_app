@@ -3,7 +3,6 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_details_state.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
 
@@ -11,7 +10,6 @@ enum OffreEmploiDetailsPageDisplayState { SHOW_DETAILS, SHOW_INCOMPLETE_DETAILS,
 
 class OffreEmploiDetailsPageViewModel {
   final OffreEmploiDetailsPageDisplayState displayState;
-  final String? errorMessage;
   final String? id;
   final String? title;
   final String? urlRedirectPourPostulation;
@@ -36,7 +34,6 @@ class OffreEmploiDetailsPageViewModel {
 
   OffreEmploiDetailsPageViewModel._({
     required this.displayState,
-    this.errorMessage,
     this.id,
     this.title,
     this.urlRedirectPourPostulation,
@@ -124,14 +121,12 @@ OffreEmploiDetailsPageViewModel _viewModelFromDetails(
     educations: offreDetails?.educations?.map((e) => _toViewModel(e)).toList(),
     languages: offreDetails?.languages,
     driverLicences: offreDetails?.driverLicences,
-    errorMessage: Strings.genericError,
   );
 }
 
 OffreEmploiDetailsPageViewModel _viewModelFromIncompleteData(OffreEmploi offreEmploi) {
   return OffreEmploiDetailsPageViewModel._(
     displayState: OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS,
-    errorMessage: Strings.genericError,
     title: offreEmploi.title,
     location: offreEmploi.location,
     id: offreEmploi.id,
@@ -144,6 +139,5 @@ OffreEmploiDetailsPageViewModel _viewModelFromIncompleteData(OffreEmploi offreEm
 OffreEmploiDetailsPageViewModel _viewModelForOtherCases(OffreEmploiDetailsState offreEmploiDetailsState) {
   return OffreEmploiDetailsPageViewModel._(
     displayState: _displayState(offreEmploiDetailsState),
-    errorMessage: Strings.genericError,
   );
 }

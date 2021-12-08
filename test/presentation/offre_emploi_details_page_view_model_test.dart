@@ -38,7 +38,6 @@ main() {
 
     // Then
     expect(viewModel.displayState, OffreEmploiDetailsPageDisplayState.SHOW_ERROR);
-    expect(viewModel.errorMessage, "Erreur lors de la recherche. Veuillez réessayer");
   });
 
   test("getDetails when state is success should set display state properly and convert data to view model", () {
