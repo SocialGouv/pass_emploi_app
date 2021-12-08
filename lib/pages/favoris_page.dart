@@ -89,7 +89,7 @@ class FavorisPage extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(Strings.actionsError),
+          Text(Strings.favorisError),
           TextButton(onPressed: () => viewModel.onRetry(), child: Text(Strings.retry, style: TextStyles.textLgMedium)),
         ],
       ),

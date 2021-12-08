@@ -14,8 +14,6 @@ class RouterMiddleware extends MiddlewareClass<AppState> {
     next(action);
     if (action is BootstrapAction) {
       _checkIfUserIsLoggedIn(store);
-    } else if (action is LoggedInAction) {
-      store.dispatch(RequestHomeAction(action.user.id));
     } else if (action is LogoutAction) {
       _logout(store);
     }

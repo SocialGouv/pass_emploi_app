@@ -1,6 +1,5 @@
 import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
 import 'package:pass_emploi_app/redux/actions/deep_link_action.dart';
-import 'package:pass_emploi_app/redux/actions/home_actions.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_details_actions.dart';
@@ -17,7 +16,6 @@ import 'package:pass_emploi_app/redux/reducers/ui_action_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/user_action_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 
-import 'home_action_reducer.dart';
 import 'offre_emploi_favoris_reducer.dart';
 import 'offre_emploi_reducer.dart';
 
@@ -26,8 +24,6 @@ AppState reducer(AppState currentState, dynamic action) {
     return deepLinkReducer(currentState, action);
   } else if (action is LoginAction) {
     return loginReducer(currentState, action);
-  } else if (action is HomeAction) {
-    return homeActionReducer(currentState, action);
   } else if (action is UserActionAction) {
     return userActionReducer(currentState, action);
   } else if (action is RendezvousAction) {

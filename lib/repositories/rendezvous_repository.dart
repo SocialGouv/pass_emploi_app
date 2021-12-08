@@ -1,5 +1,4 @@
 import 'package:http/http.dart';
-import 'package:pass_emploi_app/models/home.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
@@ -16,7 +15,10 @@ class RendezvousRepository {
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/home");
     try {
       final response = await _httpClient.get(url, headers: await _headerBuilder.headers(userId: userId));
-      if (response.statusCode.isValid()) return Home.fromJson(jsonUtf8Decode(response.bodyBytes)).rendezvous;
+      if (response.statusCode.isValid()) {
+        final json = jsonUtf8Decode(response.bodyBytes);
+        return (json['rendezvous'] as List).map((rdv) => Rendezvous.fromJson(rdv)).toList();
+      }
     } catch (e) {
       print('Exception on ${url.toString()}: ' + e.toString());
     }

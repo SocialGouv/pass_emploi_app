@@ -28,12 +28,6 @@ class RequestLoginAction extends UiAction {
   RequestLoginAction(this.accessCode);
 }
 
-class RequestHomeAction extends UiAction {
-  final String userId;
-
-  RequestHomeAction(this.userId);
-}
-
 class RequestUserActionsAction extends UiAction {
   final String userId;
 

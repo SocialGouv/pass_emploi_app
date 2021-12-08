@@ -3,7 +3,6 @@ import 'package:pass_emploi_app/redux/states/chat_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
 import 'package:pass_emploi_app/redux/states/create_user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
-import 'package:pass_emploi_app/redux/states/home_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/rendezvous_state.dart';
@@ -20,7 +19,6 @@ import 'offre_emploi_search_state.dart';
 class AppState extends Equatable {
   final DeepLinkState deepLinkState;
   final LoginState loginState;
-  final HomeState homeState;
   final UserActionState userActionState;
   final CreateUserActionState createUserActionState;
   final UserActionUpdateState userActionUpdateState;
@@ -38,7 +36,6 @@ class AppState extends Equatable {
   AppState({
     required this.deepLinkState,
     required this.loginState,
-    required this.homeState,
     required this.userActionState,
     required this.createUserActionState,
     required this.userActionUpdateState,
@@ -56,7 +53,6 @@ class AppState extends Equatable {
 
   AppState copyWith({
     final LoginState? loginState,
-    final HomeState? homeState,
     final UserActionState? userActionState,
     final CreateUserActionState? createUserActionState,
     final UserActionUpdateState? userActionUpdateState,
@@ -75,7 +71,6 @@ class AppState extends Equatable {
     return AppState(
       deepLinkState: deepLinkState ?? this.deepLinkState,
       loginState: loginState ?? this.loginState,
-      homeState: homeState ?? this.homeState,
       userActionState: userActionState ?? this.userActionState,
       createUserActionState: createUserActionState ?? this.createUserActionState,
       userActionUpdateState: userActionUpdateState ?? this.userActionUpdateState,
@@ -96,7 +91,6 @@ class AppState extends Equatable {
     return AppState(
       deepLinkState: DeepLinkState.notInitialized(),
       loginState: LoginState.notInitialized(),
-      homeState: HomeState.notInitialized(),
       userActionState: UserActionState.notInitialized(),
       createUserActionState: CreateUserActionState.notInitialized(),
       userActionUpdateState: UserActionUpdateState.notUpdating(),
@@ -118,7 +112,6 @@ class AppState extends Equatable {
       [
         deepLinkState,
         loginState,
-        homeState,
         userActionState,
         createUserActionState,
         userActionUpdateState,

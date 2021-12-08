@@ -31,20 +31,6 @@ class Strings {
   static String update = "Mise à jour";
   static String forceUpdateExplanation = "Votre application nécessite d\'être mise à jour pour son bon fonctionnement";
 
-  // Home
-  static String dashboardError = "Erreur lors de la récupérations de votre tableau de bord";
-  static String reconnect = "Me reconnecter";
-  static String dashboardWelcome = "Bienvenue sur votre tableau de bord";
-  static String refresh = "Rafraîchir";
-  static String seeAllActions = "Voir toutes les actions";
-  static String noActionsYetContactConseiller =
-      "Vous n’avez pas encore d’actions en cours.\nContactez votre conseiller pour les définir avec lui";
-  static String noMoreActionsContactConseiller =
-      "Bravo :) Vous n’avez plus d’actions en cours.\nContactez votre conseiller pour obtenir de nouvelles actions";
-  static String upcomingRendezVous = "Mes rendez-vous à venir";
-  static String noUpcomingRendezVous =
-      "Vous n’avez pas de rendez-vous prévus.\nContactez votre conseiller pour prendre rendez-vous";
-
   static String hello(firstName) => "Bonjour $firstName";
 
   // Loader (Splash)
@@ -66,6 +52,9 @@ class Strings {
       "Il est impératif de prévenir votre conseiller et de justifier votre absence. Pour cela, contactez-le grâce à la messagerie.";
 
   static String rendezVousModalityMessage(modality) => "Le rendez-vous se fera $modality";
+  static String noUpcomingRendezVous =
+      "Vous n’avez pas de rendez-vous prévus.\nContactez votre conseiller pour prendre rendez-vous";
+  static String rendezVousError = "Erreur lors de la récupération de vos rendez-vous";
 
   // User Action
   static String actionsError = "Erreur lors de la récupération de vos actions";
