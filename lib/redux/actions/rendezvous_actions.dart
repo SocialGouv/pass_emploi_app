@@ -2,6 +2,8 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 
 abstract class RendezvousAction {}
 
+class RequestRendezvousAction extends RendezvousAction {}
+
 class RendezvousLoadingAction extends RendezvousAction {}
 
 class RendezvousSuccessAction extends RendezvousAction {
