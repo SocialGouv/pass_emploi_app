@@ -3,7 +3,7 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/user.dart';
 
-User mockUser() => User(id: "", firstName: "", lastName: "");
+User mockUser({id : ""}) => User(id: id, firstName: "", lastName: "");
 
 Response invalidHttpResponse({String message = ""}) => Response(message, 404);
 

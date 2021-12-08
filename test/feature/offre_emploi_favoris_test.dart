@@ -17,23 +17,6 @@ import '../doubles/fixtures.dart';
 import '../utils/test_setup.dart';
 
 main() {
-  test("favoris id should be loaded at app startup when logged in", () async {
-    // Given
-    final Store<AppState> store = _successStore();
-
-    final successState =
-        store.onChange.firstWhere((element) => element.offreEmploiFavorisState is OffreEmploiFavorisLoadedState);
-
-    // When
-    store.dispatch(BootstrapAction());
-
-    // Then
-    final loadedFavoris = await successState;
-    final favorisState = (loadedFavoris.offreEmploiFavorisState as OffreEmploiFavorisLoadedState);
-    expect(favorisState.offreEmploiFavorisId, {"1", "2", "4"});
-    expect(favorisState.data, null);
-  });
-
   test("favori state should be updated when favori is removed and api call succeeds", () async {
     // Given
     final Store<AppState> store = _successStoreWithFavorisAndSearchResultsLoaded();
@@ -154,22 +137,6 @@ main() {
     // Then
     expect(await failureState, true);
   });
-}
-
-Store<AppState> _successStore() {
-  final testStoreFactory = TestStoreFactory();
-  testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositorySuccessStub();
-  testStoreFactory.userRepository = UserRepositoryLoggedInStub();
-  final store = testStoreFactory.initializeReduxStore(
-    initialState: AppState.initialState().copyWith(
-      loginState: LoginState.loggedIn(User(
-        id: "id",
-        firstName: "F",
-        lastName: "L",
-      )),
-    ),
-  );
-  return store;
 }
 
 Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
@@ -339,6 +306,6 @@ class UserRepositoryLoggedInStub extends UserRepository {
   UserRepositoryLoggedInStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   Future<User?> getUser() async {
-    return User(id: "id", firstName: "F", lastName: "L");
+    return User(id: "1", firstName: "F", lastName: "L");
   }
 }
