@@ -18,16 +18,24 @@ class OffreEmploiDetailsMiddleware extends MiddlewareClass<AppState> {
       if (result.offreEmploiDetails != null) {
         store.dispatch(OffreEmploiDetailsSuccessAction(result.offreEmploiDetails!));
       } else {
-        var favorisState = store.state.offreEmploiFavorisState;
-        if (result.isOffreNotFound &&
-            favorisState is OffreEmploiFavorisLoadedState &&
-            favorisState.data != null &&
-            favorisState.data![action.offreId] != null) {
-          store.dispatch(OffreEmploiDetailsIncompleteDataAction(favorisState.data![action.offreId]!));
-        } else {
-          store.dispatch(OffreEmploiDetailsFailureAction());
-        }
+        _dispatchIncompleteDataOrError(store, result, action);
       }
+    }
+  }
+
+  void _dispatchIncompleteDataOrError(
+    Store<AppState> store,
+    OffreEmploiDetailsResponse result,
+    GetOffreEmploiDetailsAction action,
+  ) {
+    var favorisState = store.state.offreEmploiFavorisState;
+    if (result.isOffreNotFound &&
+        favorisState is OffreEmploiFavorisLoadedState &&
+        favorisState.data != null &&
+        favorisState.data![action.offreId] != null) {
+      store.dispatch(OffreEmploiDetailsIncompleteDataAction(favorisState.data![action.offreId]!));
+    } else {
+      store.dispatch(OffreEmploiDetailsFailureAction());
     }
   }
 }

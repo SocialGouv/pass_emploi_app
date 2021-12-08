@@ -114,15 +114,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
           )
         else if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS && id != null)
           Align(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Row(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  Expanded(child: _deleteFavoriStoreConnector(context, id)),
-                ],
-              ),
-            ),
+            child: _incompleteDataFooter(context, id),
             alignment: Alignment.bottomCenter,
           )
       ],
@@ -434,6 +426,18 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
             withBorder: true,
             onFavoriRemoved: shouldPopPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
           ),
+        ],
+      ),
+    );
+  }
+
+  Padding _incompleteDataFooter(BuildContext context, String id) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Expanded(child: _deleteFavoriStoreConnector(context, id)),
         ],
       ),
     );
