@@ -65,6 +65,74 @@ main() {
 
     expect(updatedState.userActionUpdateState is UserActionUpdatedState, true);
   });
+
+  test("userActionReducer when action is DismissUserActionDetailsAction should reset actionUpdate state", () {
+    // Given
+    final initialState = AppState.initialState().copyWith(
+      userActionState: UserActionState.success(
+        [_notStartedAction()],
+      ),
+      userActionUpdateState: UserActionUpdateState.updated(),
+    );
+
+    // When
+    final updatedState = userActionReducer(
+      initialState,
+      DismissUserActionDetailsAction(),
+    );
+
+    // Then
+    expect(updatedState.userActionUpdateState is UserActionNotUpdatingState, true);
+  });
+
+  test("userActionReducer when action is UserActionNoUpdateNeededAction should set update action update state", () {
+    // Given
+    final initialState = AppState.initialState().copyWith(
+      userActionState: UserActionState.success(
+        [_notStartedAction()],
+      ),
+      userActionUpdateState: UserActionUpdateState.updated(),
+    );
+
+    // When
+    final updatedState = userActionReducer(
+      initialState,
+      UserActionNoUpdateNeededAction(),
+    );
+
+    // Then
+    expect(updatedState.userActionUpdateState is UserActionNoUpdateNeeded, true);
+  });
+
+  test("userActionReducer when action is CreateUserAction should set CreateActionState to loading", () {
+    // Given
+    final initialState = AppState.initialState();
+
+    // When
+    final updatedState = userActionReducer(
+      initialState,
+      CreateUserAction("content", "comment", UserActionStatus.DONE),
+    );
+
+    // Then
+    expect(updatedState.createUserActionState is CreateUserActionLoadingState, true);
+  });
+
+  test("userActionReducer when action is DismissCreateUserAction should reset actionCreate state", () {
+    // Given
+    final initialState = AppState.initialState().copyWith(
+      createUserActionState: CreateUserActionState.success(),
+    );
+
+    // When
+    final updatedState = userActionReducer(
+      initialState,
+      DismissCreateUserAction(),
+    );
+
+    // Then
+    expect(updatedState.createUserActionState is CreateUserActionNotInitializedState, true);
+  });
 }
 
 UserAction _notStartedAction() {
