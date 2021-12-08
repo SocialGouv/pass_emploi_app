@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/redux/middlewares/action_logging_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/animation_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/api_middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/chat_subscription_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/crashlytics_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_details_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_favoris_middleware.dart';
@@ -70,6 +71,7 @@ class StoreFactory {
         RegisterPushNotificationTokenMiddleware(
           registerTokenRepository,
         ),
+        ChatSubscriptionMiddleware(chatRepository),
         AnimationMiddleware(),
         CrashlyticsMiddleware(crashlytics),
         ..._debugMiddleware(),
