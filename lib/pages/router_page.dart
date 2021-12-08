@@ -5,8 +5,8 @@ import 'package:pass_emploi_app/pages/login_page.dart';
 import 'package:pass_emploi_app/pages/main_page.dart';
 import 'package:pass_emploi_app/pages/spash_screen_page.dart';
 import 'package:pass_emploi_app/presentation/router_page_view_model.dart';
+import 'package:pass_emploi_app/redux/actions/bootstrap_action.dart';
 import 'package:pass_emploi_app/redux/actions/deep_link_action.dart';
-import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 
 class RouterPage extends StatefulWidget {
