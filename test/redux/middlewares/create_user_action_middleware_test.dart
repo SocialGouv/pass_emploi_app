@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
-import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/middlewares/user_action_middleware.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -47,7 +46,6 @@ main() {
     expect(repository.wasCalled, true);
     expect(storeSpy.calledWithFailure, true);
   });
-
 }
 
 class StoreSpy {
