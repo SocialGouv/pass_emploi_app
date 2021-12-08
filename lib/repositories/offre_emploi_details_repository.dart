@@ -32,7 +32,6 @@ class OffreEmploiDetailsRepository {
             offreEmploiDetails: OffreEmploiDetails.fromJson(json["data"], json["urlRedirectPourPostulation"]),
           );
         }
-        // TODO BON else if (response.statusCode == 404) { ?
       } else {
         return OffreEmploiDetailsResponse(
           isGenericFailure: false,
