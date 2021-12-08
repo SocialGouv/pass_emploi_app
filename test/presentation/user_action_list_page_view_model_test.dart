@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
+import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
@@ -202,7 +203,7 @@ class StoreSpy {
     if (action is RequestUserActionsAction) {
       calledWithRetry = true;
     }
-    if (action is UpdateActionStatus) {
+    if (action is UserActionUpdateStatusAction) {
       calledWithUpdate = true;
     }
     if (action is DismissUserActionDetailsAction) {

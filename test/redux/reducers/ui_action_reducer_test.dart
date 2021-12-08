@@ -9,34 +9,6 @@ import 'package:pass_emploi_app/redux/states/user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 
 main() {
-  test(
-      "uiActionReducer when action is UpdateActionStatus with different status should update action and actionUpdate states",
-      () {
-    // Given
-    final initialState = AppState.initialState().copyWith(
-      userActionState: UserActionState.success(
-        [_notStartedAction()],
-      ),
-    );
-
-    // When
-    final updatedState = uiActionReducer(
-      initialState,
-      UpdateActionStatus(
-        userId: "userId",
-        actionId: "actionId",
-        newStatus: UserActionStatus.DONE,
-      ),
-    );
-
-    // Then
-    final actionState = updatedState.userActionState as UserActionSuccessState;
-    expect(actionState.actions[0].id, "actionId");
-    expect(actionState.actions[0].status, UserActionStatus.DONE);
-
-    expect(updatedState.userActionUpdateState is UserActionUpdatedState, true);
-  });
-
   test("uiActionReducer when action is DismissUserActionDetailsAction should reset actionUpdate state", () {
     // Given
     final initialState = AppState.initialState().copyWith(

@@ -31,6 +31,8 @@ class UserActionMiddleware extends MiddlewareClass<AppState> {
       } else {
         store.dispatch(UserActionDeleteFailureAction());
       }
+    } else if (action is UserActionUpdateStatusAction) {
+      _repository.updateActionStatus(action.userId, action.actionId, action.newStatus);
     }
   }
 

@@ -68,7 +68,7 @@ _refreshStatus(Store<AppState> store, String actionId, UserActionStatus newStatu
     if (loginState is LoggedInState) {
       final action = userActionState.actions.firstWhere((element) => element.id == actionId);
       if (action.status != newStatus) {
-        store.dispatch(UpdateActionStatus(
+        store.dispatch(UserActionUpdateStatusAction(
           userId: loginState.user.id,
           actionId: actionId,
           newStatus: newStatus,
