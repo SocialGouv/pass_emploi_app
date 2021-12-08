@@ -4,14 +4,6 @@ abstract class UiAction {}
 
 class BootstrapAction extends UiAction {}
 
-class UpdateActionStatus extends UiAction {
-  final String userId;
-  final String actionId;
-  final UserActionStatus newStatus;
-
-  UpdateActionStatus({required this.userId, required this.actionId, required this.newStatus});
-}
-
 class SendMessageAction extends UiAction {
   final String message;
 
