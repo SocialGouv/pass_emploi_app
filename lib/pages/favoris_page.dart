@@ -65,7 +65,12 @@ class FavorisPage extends StatelessWidget {
         type: MaterialType.transparency,
         child: InkWell(
           onTap: () {
-            Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(viewModel.items[index].id));
+            Navigator.push(
+                context,
+                OffreEmploiDetailsPage.materialPageRoute(
+                  viewModel.items[index].id,
+                  shouldPopPageWhenFavoriIsRemoved: true,
+                ));
           },
           splashColor: AppColors.bluePurple,
           child: OffreEmploiListItem(itemViewModel: viewModel.items[index]),

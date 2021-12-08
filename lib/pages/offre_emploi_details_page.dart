@@ -20,11 +20,15 @@ import 'package:url_launcher/url_launcher.dart';
 
 class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   final String _offreId;
+  final bool shouldPopPageWhenFavoriIsRemoved;
 
-  OffreEmploiDetailsPage._(this._offreId) : super(name: AnalyticsScreenNames.detailsOffreEmploi);
+  OffreEmploiDetailsPage._(this._offreId, {this.shouldPopPageWhenFavoriIsRemoved = false})
+      : super(name: AnalyticsScreenNames.detailsOffreEmploi);
 
-  static MaterialPageRoute materialPageRoute(String id) {
-    return MaterialPageRoute(builder: (context) => OffreEmploiDetailsPage._(id));
+  static MaterialPageRoute materialPageRoute(String id, {bool shouldPopPageWhenFavoriIsRemoved = false}) {
+    return MaterialPageRoute(
+        builder: (context) =>
+            OffreEmploiDetailsPage._(id, shouldPopPageWhenFavoriIsRemoved: shouldPopPageWhenFavoriIsRemoved));
   }
 
   @override
@@ -100,7 +104,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         ),
         if (url != null && id != null)
           Align(
-            child: _footer(url, id),
+            child: _footer(context, url, id),
             alignment: Alignment.bottomCenter,
           ),
       ],
@@ -372,13 +376,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         ));
   }
 
-  Widget _subscribeButton(OffreEmploiDetailsPageViewModel viewModel) {
-    return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      actionButtonWithIcon(label: Strings.subscribeButtonTitle, onPressed: () {}, icon: 'ic_send_mail.svg'),
-    ]);
-  }
-
-  Widget _footer(String url, String offreId) {
+  Widget _footer(BuildContext context, String url, String offreId) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.all(16),
@@ -389,6 +387,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
           FavoriHeart(
             offreId: offreId,
             withBorder: true,
+            onFavoriRemoved: shouldPopPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
           ),
         ],
       ),
