@@ -12,7 +12,7 @@ import 'package:redux/src/store.dart';
 
 import '../doubles/dummies.dart';
 import '../doubles/fixtures.dart';
-import '../doubles/spies.dart';
+import '../doubles/stubs.dart';
 import '../utils/test_setup.dart';
 
 main() {
@@ -182,7 +182,7 @@ Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
 Store<AppState> _successStoreWithFavorisIdLoaded() {
   final testStoreFactory = TestStoreFactory();
   testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositorySuccessStub();
-  testStoreFactory.userRepository = UserRepositoryLoggedInStub();
+  testStoreFactory.authenticator = AuthenticatorLoggedInStub();
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState().copyWith(
       loginState: LoginState.loggedIn(User(
@@ -199,7 +199,7 @@ Store<AppState> _successStoreWithFavorisIdLoaded() {
 Store<AppState> _failureStoreWithFavorisIdLoaded() {
   final testStoreFactory = TestStoreFactory();
   testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositoryFailureStub();
-  testStoreFactory.userRepository = UserRepositoryLoggedInStub();
+  testStoreFactory.authenticator = AuthenticatorLoggedInStub();
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState().copyWith(
       loginState: LoginState.loggedIn(User(
