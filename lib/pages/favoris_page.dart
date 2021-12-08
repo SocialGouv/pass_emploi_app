@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_favoris_list_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_favoris_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -10,7 +12,11 @@ import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/offre_emploi_list_item.dart';
 
-class FavorisPage extends StatelessWidget {
+import 'offre_emploi_details_page.dart';
+
+class FavorisPage extends TraceableStatelessWidget {
+  FavorisPage() : super(name: AnalyticsScreenNames.favoris);
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, OffreEmploiFavorisListViewModel>(
@@ -63,7 +69,12 @@ class FavorisPage extends StatelessWidget {
         type: MaterialType.transparency,
         child: InkWell(
           onTap: () {
-            // Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(viewModel.items[index].id));
+            Navigator.push(
+                context,
+                OffreEmploiDetailsPage.materialPageRoute(
+                  viewModel.items[index].id,
+                  shouldPopPageWhenFavoriIsRemoved: true,
+                ));
           },
           splashColor: AppColors.bluePurple,
           child: OffreEmploiListItem(itemViewModel: viewModel.items[index]),

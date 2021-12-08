@@ -38,7 +38,6 @@ main() {
 
     // Then
     expect(viewModel.displayState, OffreEmploiDetailsPageDisplayState.SHOW_ERROR);
-    expect(viewModel.errorMessage, "Erreur lors de la recherche. Veuillez réessayer");
   });
 
   test("getDetails when state is success should set display state properly and convert data to view model", () {
@@ -77,5 +76,42 @@ main() {
     expect(viewModel.educations, [EducationViewModel("Bac+5 et plus ou équivalents conduite projet industriel", "E")]);
     expect(viewModel.languages, detailedOffer.languages);
     expect(viewModel.driverLicences, detailedOffer.driverLicences);
+  });
+
+  test("getDetails when state is incomplete data should set display state properly and convert data to view model", () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(
+        offreEmploiDetailsState: OffreEmploiDetailsState.incompleteData(mockOffreEmploi()),
+      ),
+    );
+
+    // When
+    final viewModel = OffreEmploiDetailsPageViewModel.getDetails(store);
+
+    // Then
+    expect(viewModel.displayState, OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS);
+    expect(viewModel.id, "123DXPM");
+    expect(viewModel.title, "Technicien / Technicienne en froid et climatisation");
+    expect(viewModel.urlRedirectPourPostulation, null);
+    expect(viewModel.companyName, "RH TT INTERIM");
+    expect(viewModel.contractType, "MIS");
+    expect(viewModel.duration, "Temps plein");
+    expect(viewModel.location, "77 - LOGNES");
+    expect(viewModel.salary, null);
+    expect(viewModel.description, null);
+    expect(viewModel.experience, null);
+    expect(viewModel.requiredExperience, null);
+    expect(viewModel.companyUrl, null);
+    expect(viewModel.companyAdapted, null);
+    expect(viewModel.companyAccessibility, null);
+    expect(viewModel.companyDescription, null);
+    expect(viewModel.lastUpdate, null);
+    expect(viewModel.skills, null);
+    expect(viewModel.softSkills, null);
+    expect(viewModel.educations, null);
+    expect(viewModel.languages, null);
+    expect(viewModel.driverLicences, null);
   });
 }

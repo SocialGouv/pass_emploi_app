@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
+import 'package:pass_emploi_app/presentation/favori_heart_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_details_page_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_details_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -20,11 +21,15 @@ import 'package:url_launcher/url_launcher.dart';
 
 class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   final String _offreId;
+  final bool shouldPopPageWhenFavoriIsRemoved;
 
-  OffreEmploiDetailsPage._(this._offreId) : super(name: AnalyticsScreenNames.detailsOffreEmploi);
+  OffreEmploiDetailsPage._(this._offreId, {this.shouldPopPageWhenFavoriIsRemoved = false})
+      : super(name: AnalyticsScreenNames.detailsOffreEmploi);
 
-  static MaterialPageRoute materialPageRoute(String id) {
-    return MaterialPageRoute(builder: (context) => OffreEmploiDetailsPage._(id));
+  static MaterialPageRoute materialPageRoute(String id, {bool shouldPopPageWhenFavoriIsRemoved = false}) {
+    return MaterialPageRoute(
+        builder: (context) =>
+            OffreEmploiDetailsPage._(id, shouldPopPageWhenFavoriIsRemoved: shouldPopPageWhenFavoriIsRemoved));
   }
 
   @override
@@ -39,6 +44,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Widget _body(BuildContext context, OffreEmploiDetailsPageViewModel viewModel) {
     switch (viewModel.displayState) {
       case OffreEmploiDetailsPageDisplayState.SHOW_DETAILS:
+      case OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS:
         return _content(context, viewModel);
       case OffreEmploiDetailsPageDisplayState.SHOW_LOADER:
         return _loading();
@@ -90,18 +96,27 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
                     child: Text(companyName, style: TextStyles.textMdRegular),
                   ),
                 _tags(viewModel),
-                _description(viewModel),
-                _profileDescription(viewModel),
-                _companyDescription(viewModel),
+                if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS) _description(viewModel),
+                if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
+                  _profileDescription(viewModel),
+                if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
+                  if (viewModel.companyName != null) _companyDescription(viewModel),
+                if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS)
+                  _offreNotFoundError()
               ],
             ),
           ),
         ),
         if (url != null && id != null)
           Align(
-            child: _footer(url, id),
+            child: _footer(context, url, id),
             alignment: Alignment.bottomCenter,
-          ),
+          )
+        else if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS && id != null)
+          Align(
+            child: _incompleteDataFooter(context, id),
+            alignment: Alignment.bottomCenter,
+          )
       ],
     );
   }
@@ -371,13 +386,34 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         ));
   }
 
-  Widget _subscribeButton(OffreEmploiDetailsPageViewModel viewModel) {
-    return Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-      actionButtonWithIcon(label: Strings.subscribeButtonTitle, onPressed: () {}, icon: 'ic_send_mail.svg'),
-    ]);
+  Widget _offreNotFoundError() {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        color: AppColors.franceRedAlpha05,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Text(
+                Strings.offreNotFoundError,
+                style: TextStyles.textSmMedium(
+                  color: AppColors.franceRed,
+                ),
+              ),
+              SizedBox(height: 8),
+              Text(
+                Strings.offreNotFoundExplaination,
+                style: TextStyles.textSmRegular(color: AppColors.franceRed),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
-  Widget _footer(String url, String offreId) {
+  Widget _footer(BuildContext context, String url, String offreId) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.all(16),
@@ -388,9 +424,38 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
           FavoriHeart(
             offreId: offreId,
             withBorder: true,
+            onFavoriRemoved: shouldPopPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
           ),
         ],
       ),
+    );
+  }
+
+  Padding _incompleteDataFooter(BuildContext context, String id) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Expanded(child: _deleteFavoriStoreConnector(context, id)),
+        ],
+      ),
+    );
+  }
+
+  Widget _deleteFavoriStoreConnector(BuildContext context, String offreId) {
+    return StoreConnector<AppState, FavoriHeartViewModel>(
+      builder: (context, vm) {
+        return actionButton(
+            label: Strings.deleteOffreFromFavori, onPressed: vm.withLoading ? null : () => vm.update(false));
+      },
+      converter: (store) => FavoriHeartViewModel.create(offreId, store),
+      distinct: true,
+      onDidChange: (_, viewModel) {
+        if (!viewModel.isFavori) {
+          Navigator.pop(context);
+        }
+      },
     );
   }
 }

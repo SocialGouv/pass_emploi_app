@@ -121,6 +121,9 @@ class Strings {
   static String subscribeButtonTitle = "Recevoir l'offre par mail";
   static String postulerButtonTitle = "Je postule";
   static String requiredIcon = "Obligatoire";
+  static String offreNotFoundError = "Cette offre n’existe plus ou est momentanément suspendue";
+  static String offreNotFoundExplaination = "Vous pouvez décider de la supprimer ou bien de la conserver dans vos favoris.";
+  static String deleteOffreFromFavori = "Supprimer des favoris";
 
   // favoris
   static String miscellaneousErrorRetry = "Une erreur est survenue. Veuillez réessayer";

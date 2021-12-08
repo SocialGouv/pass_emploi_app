@@ -9,8 +9,9 @@ import 'package:pass_emploi_app/ui/strings.dart';
 class FavoriHeart extends StatelessWidget {
   final String offreId;
   final bool withBorder;
+  final Function()? onFavoriRemoved;
 
-  FavoriHeart({required this.offreId, required this.withBorder}) : super();
+  FavoriHeart({required this.offreId, required this.withBorder, this.onFavoriRemoved}) : super();
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +25,9 @@ class FavoriHeart extends StatelessWidget {
             content: Text(Strings.miscellaneousErrorRetry),
             duration: Duration(seconds: 2),
           ));
+        }
+        if (!viewModel.isFavori) {
+          onFavoriRemoved?.call();
         }
       },
     );
