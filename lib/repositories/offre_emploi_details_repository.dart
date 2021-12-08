@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/network/headers.dart';
@@ -40,7 +41,7 @@ class OffreEmploiDetailsRepository {
         );
       }
     } catch (e) {
-      print('Exception on ${url.toString()}: ' + e.toString());
+      debugPrint('Exception on ${url.toString()}: ' + e.toString());
     }
     return OffreEmploiDetailsResponse(
       isGenericFailure: true,
