@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/network/headers.dart';
@@ -23,7 +24,7 @@ class OffreEmploiFavorisRepository {
         return json.map((favori) => favori["id"] as String).toSet();
       }
     } catch (e) {
-      print('Exception on ${url.toString()}: ' + e.toString());
+      debugPrint('Exception on ${url.toString()}: ' + e.toString());
     }
     return null;
   }
