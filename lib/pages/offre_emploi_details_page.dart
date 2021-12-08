@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
+import 'package:pass_emploi_app/presentation/favori_heart_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_details_page_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_details_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -95,9 +96,13 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
                     child: Text(companyName, style: TextStyles.textMdRegular),
                   ),
                 _tags(viewModel),
-                _description(viewModel),
-                _profileDescription(viewModel),
-                _companyDescription(viewModel),
+                if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS) _description(viewModel),
+                if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
+                  _profileDescription(viewModel),
+                if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
+                  _companyDescription(viewModel),
+                if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS)
+                  _offreNotFoundError()
               ],
             ),
           ),
@@ -106,7 +111,20 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
           Align(
             child: _footer(context, url, id),
             alignment: Alignment.bottomCenter,
-          ),
+          )
+        else if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS && id != null)
+          Align(
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Expanded(child: _deleteFavoriStoreConnector(context, id)),
+                ],
+              ),
+            ),
+            alignment: Alignment.bottomCenter,
+          )
       ],
     );
   }
@@ -376,6 +394,33 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         ));
   }
 
+  Widget _offreNotFoundError() {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        color: AppColors.franceRedAlpha05,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Text(
+                Strings.offreNotFoundError,
+                style: TextStyles.textSmMedium(
+                  color: AppColors.franceRed,
+                ),
+              ),
+              SizedBox(height: 8),
+              Text(
+                Strings.offreNotFoundExplaination,
+                style: TextStyles.textSmRegular(color: AppColors.franceRed),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget _footer(BuildContext context, String url, String offreId) {
     return Container(
       color: Colors.white,
@@ -391,6 +436,22 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _deleteFavoriStoreConnector(BuildContext context, String offreId) {
+    return StoreConnector<AppState, FavoriHeartViewModel>(
+      builder: (context, vm) {
+        return actionButton(
+            label: Strings.deleteOffreFromFavori, onPressed: vm.withLoading ? null : () => vm.update(false));
+      },
+      converter: (store) => FavoriHeartViewModel.create(offreId, store),
+      distinct: true,
+      onDidChange: (_, viewModel) {
+        if (!viewModel.isFavori) {
+          Navigator.pop(context);
+        }
+      },
     );
   }
 }
