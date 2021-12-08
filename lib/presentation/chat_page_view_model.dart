@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
-import 'package:pass_emploi_app/redux/states/home_state.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
 
@@ -31,13 +30,10 @@ class ChatPageViewModel extends Equatable {
 
   factory ChatPageViewModel.create(Store<AppState> store) {
     final chatState = store.state.chatState;
-    final homeState = store.state.homeState;
     final statusState = store.state.chatStatusState;
     final lastReading = (statusState is ChatStatusSuccessState) ? statusState.lastConseillerReading : minDateTime;
     return ChatPageViewModel(
-      title: homeState is HomeSuccessState
-          ? Strings.chatWith(homeState.home.conseiller.firstName)
-          : Strings.yourConseiller,
+      title: Strings.yourConseiller,
       withLoading: chatState is ChatLoadingState,
       withFailure: chatState is ChatFailureState,
       withContent: chatState is ChatSuccessState,

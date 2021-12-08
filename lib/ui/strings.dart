@@ -10,11 +10,11 @@ class Strings {
   static String close = "Fermer";
 
   // Menu
-  static String menuHome = "Accueil";
   static String menuActions = "Actions";
   static String menuChat = "Messages";
-  static String menuRendezvous = "Rendez-vous";
   static String menuSolutions = "Solutions";
+  static String menuFavoris = "Favoris";
+  static String menuRendezvous = "Rendez-vous";
 
   // Chat
   static String yourMessage = "Votre message…";
@@ -30,20 +30,6 @@ class Strings {
   // Force Update
   static String update = "Mise à jour";
   static String forceUpdateExplanation = "Votre application nécessite d\'être mise à jour pour son bon fonctionnement";
-
-  // Home
-  static String dashboardError = "Erreur lors de la récupérations de votre tableau de bord";
-  static String reconnect = "Me reconnecter";
-  static String dashboardWelcome = "Bienvenue sur votre tableau de bord";
-  static String refresh = "Rafraîchir";
-  static String seeAllActions = "Voir toutes les actions";
-  static String noActionsYetContactConseiller =
-      "Vous n’avez pas encore d’actions en cours.\nContactez votre conseiller pour les définir avec lui";
-  static String noMoreActionsContactConseiller =
-      "Bravo :) Vous n’avez plus d’actions en cours.\nContactez votre conseiller pour obtenir de nouvelles actions";
-  static String upcomingRendezVous = "Mes rendez-vous à venir";
-  static String noUpcomingRendezVous =
-      "Vous n’avez pas de rendez-vous prévus.\nContactez votre conseiller pour prendre rendez-vous";
 
   static String hello(firstName) => "Bonjour $firstName";
 
@@ -66,6 +52,9 @@ class Strings {
       "Il est impératif de prévenir votre conseiller et de justifier votre absence. Pour cela, contactez-le grâce à la messagerie.";
 
   static String rendezVousModalityMessage(modality) => "Le rendez-vous se fera $modality";
+  static String noUpcomingRendezVous =
+      "Vous n’avez pas de rendez-vous prévus.\nContactez votre conseiller pour prendre rendez-vous";
+  static String rendezVousError = "Erreur lors de la récupération de vos rendez-vous";
 
   // User Action
   static String actionsError = "Erreur lors de la récupération de vos actions";
@@ -98,7 +87,7 @@ class Strings {
   // Offres Emploi
   static String offresEmploiTitle = "Résultats offres d'emploi";
 
-  //Solutions
+  // Solutions
   static String searchingPageTitle = "Recherche de solutions";
   static String keyWordsTitle = "Mots clés";
   static String keyWordsTextField = "Métier, compétence...";
@@ -139,4 +128,6 @@ class Strings {
   static String offreDetailNumber(String offreId) => "Offre n°$offreId";
 
   static String offreDetailLastUpdate(String lastUpdate) => "Actualisée le $lastUpdate";
+  static String noFavoris = "Aucun favori";
+  static String favorisError = "Erreur lors de la récupération de vos favoris";
 }

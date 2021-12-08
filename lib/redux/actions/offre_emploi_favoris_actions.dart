@@ -1,3 +1,5 @@
+import 'package:pass_emploi_app/models/offre_emploi.dart';
+
 abstract class OffreEmploiFavorisAction {}
 
 class OffreEmploisFavorisIdLoadedAction extends OffreEmploiFavorisAction {
@@ -33,3 +35,13 @@ class OffreEmploiUpdateFavoriFailureAction extends OffreEmploiFavorisAction {
 
   OffreEmploiUpdateFavoriFailureAction(this.offreId);
 }
+
+class RequestOffreEmploiFavorisAction extends OffreEmploiFavorisAction {}
+
+class OffreEmploisFavorisLoadedAction extends OffreEmploiFavorisAction {
+  final Map<String, OffreEmploi> favoris;
+
+  OffreEmploisFavorisLoadedAction(this.favoris);
+}
+
+class OffreEmploisFavorisFailureAction extends OffreEmploiFavorisAction {}

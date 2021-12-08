@@ -4,7 +4,6 @@ class AnalyticsScreenNames {
   static const splash = "splash";
   static const forceUpdate = "force_update";
   static const login = "login";
-  static const home = "home";
   static const rendezvousList = "rendezvous_list";
   static const rendezvousDetails = "rendezvous_details";
   static const userActionList = "actions_list";

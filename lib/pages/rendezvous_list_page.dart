@@ -61,7 +61,7 @@ class RendezvousListPage extends TraceableStatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(Strings.actionsError),
+        Text(Strings.rendezVousError),
         TextButton(onPressed: () => viewModel.onRetry(), child: Text(Strings.retry, style: TextStyles.textLgMedium)),
       ],
     );

@@ -1,20 +1,29 @@
 import 'package:pass_emploi_app/redux/actions/offre_emploi_favoris_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_id_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.dart';
 
 AppState offreEmploiFavorisReducer(AppState currentState, dynamic action) {
   if (action is OffreEmploisFavorisIdLoadedAction) {
-    return currentState.copyWith(offreEmploiFavorisIdState: OffreEmploiFavorisIdState.idsLoaded(action.favorisId));
+    var newState = OffreEmploiFavorisState.idsLoaded(action.favorisId);
+    return currentState.copyWith(offreEmploiFavorisState: newState);
   } else if (action is OffreEmploiUpdateFavoriLoadingAction) {
     return _updateLoadingState(currentState, action);
   } else if (action is OffreEmploiUpdateFavoriSuccessAction) {
     return _updateSuccessState(currentState, action);
   } else if (action is OffreEmploiUpdateFavoriFailureAction) {
     return _updateFailureState(currentState, action);
+  } else if (action is OffreEmploisFavorisLoadedAction) {
+    return currentState.copyWith(offreEmploiFavorisState: _updateWithData(currentState, action));
+  } else if (action is OffreEmploisFavorisFailureAction) {
+    return currentState.copyWith(offreEmploiFavorisState: OffreEmploiFavorisState.notInitialized());
   } else {
     return currentState;
   }
+}
+
+OffreEmploiFavorisState _updateWithData(AppState currentState, OffreEmploisFavorisLoadedAction action) {
+  return OffreEmploiFavorisState.withMap(action.favoris.keys.toSet(), action.favoris);
 }
 
 AppState _updateFailureState(AppState currentState, OffreEmploiUpdateFavoriFailureAction action) {
@@ -29,7 +38,7 @@ AppState _updateFailureState(AppState currentState, OffreEmploiUpdateFavoriFailu
 
 AppState _updateSuccessState(AppState currentState, OffreEmploiUpdateFavoriSuccessAction action) {
   return currentState.copyWith(
-    offreEmploiFavorisIdState: _updateFavorisList(
+    offreEmploiFavorisState: _updateFavorisList(
       currentState,
       action.offreId,
       action.confirmedNewStatus,
@@ -60,16 +69,18 @@ OffreEmploiFavorisUpdateState _updateState(
   return OffreEmploiFavorisUpdateState(newStatusMap);
 }
 
-OffreEmploiFavorisIdState _updateFavorisList(AppState currentState, String offreId, bool newStatus) {
-  final favorisIdState = currentState.offreEmploiFavorisIdState;
-  if (favorisIdState is OffreEmploiFavorisIdLoadedState) {
-    final oldList = favorisIdState.offreEmploiFavorisListId;
+OffreEmploiFavorisState _updateFavorisList(AppState currentState, String offreId, bool newStatus) {
+  final favorisIdState = currentState.offreEmploiFavorisState;
+  if (favorisIdState is OffreEmploiFavorisLoadedState) {
+    final idList = favorisIdState.offreEmploiFavorisId;
+    final data = favorisIdState.data;
     if (newStatus) {
-      oldList.add(offreId);
+      idList.add(offreId);
     } else {
-      oldList.remove(offreId);
+      idList.remove(offreId);
+      data?.remove(offreId);
     }
-    return OffreEmploiFavorisIdLoadedState(oldList);
+    return OffreEmploiFavorisState.withMap(idList, data);
   } else {
     return favorisIdState;
   }

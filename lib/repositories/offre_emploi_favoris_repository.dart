@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/network/headers.dart';
@@ -23,20 +24,30 @@ class OffreEmploiFavorisRepository {
         return json.map((favori) => favori["id"] as String).toSet();
       }
     } catch (e) {
+      debugPrint('Exception on ${url.toString()}: ' + e.toString());
+    }
+    return null;
+  }
+
+  Future<Map<String, OffreEmploi>?> getOffreEmploiFavoris(String userId) async {
+    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris").replace(queryParameters: {"detail": "true"});
+    try {
+      final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
+      if (response.statusCode.isValid()) {
+        final json = jsonUtf8Decode(response.bodyBytes) as List;
+        return Map.fromIterable(
+          json,
+          key: (element) => element["id"],
+          value: (element) => OffreEmploi.fromJson(element),
+        );
+      }
+    } catch (e) {
       print('Exception on ${url.toString()}: ' + e.toString());
     }
     return null;
   }
 
-  Future<bool> updateOffreEmploiFavoriStatus(String userId, OffreEmploi offre, bool newStatus) async {
-    if (newStatus) {
-      return _postFavori(userId, offre);
-    } else {
-      return _deleteFavori(userId, offre.id);
-    }
-  }
-
-  Future<bool> _postFavori(String userId, OffreEmploi offre) async {
+  Future<bool> postFavori(String userId, OffreEmploi offre) async {
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/favori");
     try {
       final response = await _httpClient.post(
@@ -62,7 +73,7 @@ class OffreEmploiFavorisRepository {
     return false;
   }
 
-  Future<bool> _deleteFavori(String userId, String offreId) async {
+  Future<bool> deleteFavori(String userId, String offreId) async {
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/favori/$offreId");
     try {
       final response = await _httpClient.delete(
