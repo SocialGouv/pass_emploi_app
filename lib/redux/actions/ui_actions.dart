@@ -10,5 +10,3 @@ class SendMessageAction extends UiAction {
 }
 
 class LastMessageSeenAction extends UiAction {}
-
-class RequestRendezvousAction extends UiAction {}
