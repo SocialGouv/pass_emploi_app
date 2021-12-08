@@ -100,7 +100,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
                   _profileDescription(viewModel),
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
-                  _companyDescription(viewModel),
+                  if (viewModel.companyName != null) _companyDescription(viewModel),
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS)
                   _offreNotFoundError()
               ],
