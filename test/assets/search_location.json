@@ -1,0 +1,37 @@
+[
+  {
+    "libelle": "PAU",
+    "code": "64445",
+    "codePostal": "64000",
+    "type": "COMMUNE",
+    "score": 0.4
+  },
+  {
+    "libelle": "PABU",
+    "code": "22161",
+    "codePostal": "22200",
+    "type": "COMMUNE",
+    "score": 0.33333334
+  },
+  {
+    "libelle": "PACT",
+    "code": "38290",
+    "codePostal": "38270",
+    "type": "COMMUNE",
+    "score": 0.33333334
+  },
+  {
+    "libelle": "PACE",
+    "code": "61321",
+    "codePostal": "61250",
+    "type": "COMMUNE",
+    "score": 0.33333334
+  },
+  {
+    "libelle": "PAEA",
+    "code": "98733",
+    "codePostal": "98711",
+    "type": "COMMUNE",
+    "score": 0.33333334
+  }
+]
