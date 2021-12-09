@@ -3,9 +3,9 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/user.dart';
 
-User mockUser() => User(id: "", firstName: "", lastName: "");
+User mockUser({id : ""}) => User(id: id, firstName: "", lastName: "");
 
-Response invalidHttpResponse() => Response("", 404);
+Response invalidHttpResponse({String message = ""}) => Response(message, 500);
 
 OffreEmploiDetails mockOffreEmploiDetails() => OffreEmploiDetails(
       id: "123TZKB",
@@ -46,8 +46,8 @@ OffreEmploiDetails mockOffreEmploiDetails() => OffreEmploiDetails(
       lastUpdate: DateTime(2021, 11, 22, 14, 47, 29),
     );
 
-OffreEmploi mockOffreEmploi() => OffreEmploi(
-      id: "123DXPM",
+OffreEmploi mockOffreEmploi({id = "123DXPM"}) => OffreEmploi(
+      id: id,
       title: "Technicien / Technicienne en froid et climatisation",
       companyName: "RH TT INTERIM",
       contractType: "MIS",

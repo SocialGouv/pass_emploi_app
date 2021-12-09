@@ -1,4 +1,6 @@
-class Department {
+import 'package:equatable/equatable.dart';
+
+class Department extends Equatable {
   static final List<Department> values = [
     Department._("01", "Ain"),
     Department._("02", "Aisne"),
@@ -112,4 +114,7 @@ class Department {
   String toString() {
     return name.toString();
   }
+
+  @override
+  List<Object?> get props => [number, name];
 }

@@ -14,3 +14,23 @@ cat android/key.properties | base64 >> ci/env.ci
 
 echo -e "\nSTAGING_RUNTIME_ENV_B64=" >> ci/env.ci
 cat env/.env.staging | base64 >> ci/env.ci
+
+echo -e "\nSTAGING_GOOGLE_SERVICE_IOS_B64=" >> ci/env.ci
+cat ios/firebase-config/staging/GoogleService-Info.plist | base64 >> ci/env.ci
+
+echo -e "\nSTAGING_OPTIONS_PLIST_B64=" >> ci/env.ci
+cat ios/StagingOptionsPlist.plist | base64 >> ci/env.ci
+
+echo -e "\nP12_B64=" >> ci/env.ci
+cat ios/cert.p12 | base64 >> ci/env.ci
+
+echo -e "\nP12_PASSWORD=A_DEMANDER_A_LA_TEAM" >> ci/env.ci
+
+echo -e "\nSTAGING_IOS_PROVISIONING_PROFILE_B64=" >> ci/env.ci
+cat ci/frfabriquesocialgouvpassemploistaging.mobileprovision | base64 >> ci/env.ci
+
+echo -e "\nAPPLE_STAGING_PROVISIONNING_PROFILE_ID=76GBKHVK25.fr.fabrique.social.gouv.passemploi.staging" >> ci/env.ci
+
+echo -e "\nAPPLE_TEAM_ID=76GBKHVK25" >> ci/env.ci
+
+echo -e "\nAPPLE_CODE_SIGN_IDENTITY=iPhone Distribution: Fabrique numerique des ministeres sociaux" >> ci/env.ci

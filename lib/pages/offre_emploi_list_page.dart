@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_results_view_model.dart';
+import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/offre_emploi_list_item.dart';
 
 class OffreEmploiListPage extends TraceableStatefulWidget {
   OffreEmploiListPage() : super(name: AnalyticsScreenNames.offreEmploiResults);
@@ -48,12 +49,14 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
       converter: (store) => OffreEmploiSearchResultsViewModel.create(store),
       onInitialBuild: (viewModel) => _currentViewModel = viewModel,
       builder: (context, viewModel) => _scaffold(context, viewModel),
-      onDidChange: (_, viewModel) => {
+      onDidChange: (previousViewModel, viewModel) => {
         _currentViewModel = viewModel,
         _scrollController.jumpTo(_offsetBeforeLoading),
         _shouldLoadAtBottom = viewModel.displayLoaderAtBottomOfList &&
             viewModel.displayState != OffreEmploiSearchResultsDisplayState.SHOW_ERROR
       },
+      distinct: true,
+      onDispose: (store) => store.dispatch(OffreEmploiResetResultsAction()),
     );
   }
 
@@ -72,7 +75,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     );
   }
 
-  Widget __buildOffreItemWithListener(
+  Widget _buildOffreItemWithListener(
     BuildContext context,
     int index,
     OffreEmploiSearchResultsViewModel resultsViewModel,
@@ -84,7 +87,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
         child: InkWell(
           onTap: () => _showOffreEmploiDetailsPage(context, resultsViewModel.items[index].id),
           splashColor: AppColors.bluePurple,
-          child: _buildOffreItem(resultsViewModel, index),
+          child: OffreEmploiListItem(itemViewModel: resultsViewModel.items[index]),
         ),
       ),
     );
@@ -103,7 +106,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
           child: InkWell(
             onTap: () => _showOffreEmploiDetailsPage(context, resultsViewModel.items[0].id),
             splashColor: AppColors.bluePurple,
-            child: _buildOffreItem(resultsViewModel, 0),
+            child: OffreEmploiListItem(itemViewModel: resultsViewModel.items[0]),
           ),
         ),
       ),
@@ -116,45 +119,8 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     } else if (index == resultsViewModel.items.length) {
       return _buildLastItem(resultsViewModel);
     } else {
-      return __buildOffreItemWithListener(context, index, resultsViewModel);
+      return _buildOffreItemWithListener(context, index, resultsViewModel);
     }
-  }
-
-  Widget _buildOffreItem(OffreEmploiSearchResultsViewModel resultsViewModel, int index) {
-    final itemViewModel = resultsViewModel.items[index];
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Text(
-              itemViewModel.title,
-              style: TextStyles.textSmMedium(),
-            ),
-            if (itemViewModel.companyName != null)
-              Padding(
-                padding: const EdgeInsets.only(top: 8.0),
-                child: Text(
-                  itemViewModel.companyName!,
-                  style: TextStyles.textSmRegular(color: AppColors.bluePurple),
-                ),
-              ),
-            SizedBox(height: 8),
-            Wrap(
-              spacing: 8,
-              runSpacing: 8,
-              children: [
-                _lightBlueTag(label: itemViewModel.contractType),
-                if (itemViewModel.duration != null) _lightBlueTag(label: itemViewModel.duration!),
-                if (itemViewModel.location != null)
-                  _lightBlueTag(label: itemViewModel.location!, icon: SvgPicture.asset("assets/ic_place.svg")),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
   }
 
   Padding _buildLastItem(OffreEmploiSearchResultsViewModel resultsViewModel) {
@@ -192,35 +158,10 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
 
   Widget _listSeparator() => Container(height: 1, color: AppColors.bluePurpleAlpha20);
 
-  Container _lightBlueTag({required String label, SvgPicture? icon}) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.lightBlue,
-        borderRadius: BorderRadius.all(Radius.circular(8)),
-      ),
-      child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (icon != null)
-                Padding(
-                  padding: const EdgeInsets.only(right: 6),
-                  child: icon,
-                ),
-              Flexible(
-                child: Text(
-                  label,
-                  style: TextStyles.textSmRegular(),
-                ),
-              ),
-            ],
-          )),
-    );
-  }
-
   void _showOffreEmploiDetailsPage(BuildContext context, String offreId) {
-    Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(offreId));
+    _offsetBeforeLoading = _scrollController.offset;
+    Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(offreId))
+        .then((value) => _scrollController.jumpTo(_offsetBeforeLoading));
   }
 
   int _itemCount(OffreEmploiSearchResultsViewModel viewModel) {

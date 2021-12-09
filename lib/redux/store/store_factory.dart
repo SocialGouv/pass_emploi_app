@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/redux/middlewares/action_logging_middleware.dart';
-import 'package:pass_emploi_app/redux/middlewares/animation_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/api_middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/chat_subscription_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/crashlytics_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_details_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_favoris_middleware.dart';
@@ -14,7 +14,6 @@ import 'package:pass_emploi_app/redux/middlewares/user_action_middleware.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
-import 'package:pass_emploi_app/repositories/home_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
@@ -26,7 +25,6 @@ import 'package:redux/redux.dart';
 
 class StoreFactory {
   final UserRepository userRepository;
-  final HomeRepository homeRepository;
   final UserActionRepository userActionRepository;
   final RendezvousRepository rendezvousRepository;
   final OffreEmploiRepository offreEmploiRepository;
@@ -38,7 +36,6 @@ class StoreFactory {
 
   StoreFactory(
     this.userRepository,
-    this.homeRepository,
     this.userActionRepository,
     this.rendezvousRepository,
     this.offreEmploiRepository,
@@ -57,7 +54,6 @@ class StoreFactory {
         RouterMiddleware(userRepository),
         ApiMiddleware(
           userRepository,
-          homeRepository,
           userActionRepository,
           chatRepository,
         ),
@@ -70,7 +66,7 @@ class StoreFactory {
         RegisterPushNotificationTokenMiddleware(
           registerTokenRepository,
         ),
-        AnimationMiddleware(),
+        ChatSubscriptionMiddleware(chatRepository),
         CrashlyticsMiddleware(crashlytics),
         ..._debugMiddleware(),
       ],

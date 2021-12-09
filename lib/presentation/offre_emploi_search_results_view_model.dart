@@ -5,9 +5,11 @@ import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.d
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:redux/redux.dart';
 
+import 'offre_emploi_item_view_model.dart';
+
 enum OffreEmploiSearchResultsDisplayState { SHOW_CONTENT, SHOW_LOADER, SHOW_ERROR }
 
-class OffreEmploiSearchResultsViewModel {
+class OffreEmploiSearchResultsViewModel extends Equatable {
   final OffreEmploiSearchResultsDisplayState displayState;
   final List<OffreEmploiItemViewModel> items;
   final bool displayLoaderAtBottomOfList;
@@ -30,6 +32,9 @@ class OffreEmploiSearchResultsViewModel {
       onLoadMore: () => store.dispatch(RequestMoreOffreEmploiSearchResultsAction()),
     );
   }
+
+  @override
+  List<Object?> get props => [displayState, items, displayLoaderAtBottomOfList];
 }
 
 _displayLoader(OffreEmploiSearchResultsState resultsState) =>
@@ -48,27 +53,6 @@ List<OffreEmploiItemViewModel> _items(OffreEmploiSearchResultsState resultsState
               ))
           .toList()
       : [];
-}
-
-class OffreEmploiItemViewModel extends Equatable {
-  final String id;
-  final String title;
-  final String? companyName;
-  final String contractType;
-  final String? duration;
-  final String? location;
-
-  OffreEmploiItemViewModel(this.id, this.title, this.companyName, this.contractType, this.duration, this.location);
-
-  @override
-  List<Object?> get props => [
-        id,
-        title,
-        companyName,
-        contractType,
-        location,
-        duration,
-      ];
 }
 
 OffreEmploiSearchResultsDisplayState _displayState(

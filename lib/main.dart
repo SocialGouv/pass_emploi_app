@@ -19,7 +19,6 @@ import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/store/store_factory.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
-import 'package:pass_emploi_app/repositories/home_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
@@ -90,7 +89,6 @@ Store<AppState> _initializeReduxStore(Configuration configuration, PushNotificat
   final httpClient = InterceptedClient.build(interceptors: [LoggingInterceptor()]);
   return StoreFactory(
     UserRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
-    HomeRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
     UserActionRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
     RendezvousRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
     OffreEmploiRepository(configuration.serverBaseUrl, httpClient, headersBuilder),

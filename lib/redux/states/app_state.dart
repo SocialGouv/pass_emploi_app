@@ -3,7 +3,6 @@ import 'package:pass_emploi_app/redux/states/chat_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
 import 'package:pass_emploi_app/redux/states/create_user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
-import 'package:pass_emploi_app/redux/states/home_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/rendezvous_state.dart';
@@ -13,13 +12,13 @@ import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 
 import 'login_state.dart';
 import 'offre_emploi_favoris_state.dart';
+import 'offre_emploi_favoris_update_state.dart';
 import 'offre_emploi_search_results_state.dart';
 import 'offre_emploi_search_state.dart';
 
 class AppState extends Equatable {
   final DeepLinkState deepLinkState;
   final LoginState loginState;
-  final HomeState homeState;
   final UserActionState userActionState;
   final CreateUserActionState createUserActionState;
   final UserActionUpdateState userActionUpdateState;
@@ -31,12 +30,12 @@ class AppState extends Equatable {
   final OffreEmploiDetailsState offreEmploiDetailsState;
   final OffreEmploiSearchResultsState offreEmploiSearchResultsState;
   final OffreEmploiSearchParametersState offreEmploiSearchParametersState;
-  final OffreEmploiFavorisIdState offreEmploiFavorisState;
+  final OffreEmploiFavorisState offreEmploiFavorisState;
+  final OffreEmploiFavorisUpdateState offreEmploiFavorisUpdateState;
 
   AppState({
     required this.deepLinkState,
     required this.loginState,
-    required this.homeState,
     required this.userActionState,
     required this.createUserActionState,
     required this.userActionUpdateState,
@@ -49,11 +48,11 @@ class AppState extends Equatable {
     required this.offreEmploiSearchResultsState,
     required this.offreEmploiSearchParametersState,
     required this.offreEmploiFavorisState,
+    required this.offreEmploiFavorisUpdateState,
   });
 
   AppState copyWith({
     final LoginState? loginState,
-    final HomeState? homeState,
     final UserActionState? userActionState,
     final CreateUserActionState? createUserActionState,
     final UserActionUpdateState? userActionUpdateState,
@@ -66,12 +65,12 @@ class AppState extends Equatable {
     final DeepLinkState? deepLinkState,
     final OffreEmploiSearchResultsState? offreEmploiSearchResultsState,
     final OffreEmploiSearchParametersState? offreEmploiSearchParametersState,
-    final OffreEmploiFavorisIdState? offreEmploiFavorisState,
+    final OffreEmploiFavorisState? offreEmploiFavorisState,
+    final OffreEmploiFavorisUpdateState? offreEmploiFavorisUpdateState,
   }) {
     return AppState(
       deepLinkState: deepLinkState ?? this.deepLinkState,
       loginState: loginState ?? this.loginState,
-      homeState: homeState ?? this.homeState,
       userActionState: userActionState ?? this.userActionState,
       createUserActionState: createUserActionState ?? this.createUserActionState,
       userActionUpdateState: userActionUpdateState ?? this.userActionUpdateState,
@@ -84,6 +83,7 @@ class AppState extends Equatable {
       offreEmploiSearchResultsState: offreEmploiSearchResultsState ?? this.offreEmploiSearchResultsState,
       offreEmploiSearchParametersState: offreEmploiSearchParametersState ?? this.offreEmploiSearchParametersState,
       offreEmploiFavorisState: offreEmploiFavorisState ?? this.offreEmploiFavorisState,
+      offreEmploiFavorisUpdateState: offreEmploiFavorisUpdateState ?? this.offreEmploiFavorisUpdateState,
     );
   }
 
@@ -91,7 +91,6 @@ class AppState extends Equatable {
     return AppState(
       deepLinkState: DeepLinkState.notInitialized(),
       loginState: LoginState.notInitialized(),
-      homeState: HomeState.notInitialized(),
       userActionState: UserActionState.notInitialized(),
       createUserActionState: CreateUserActionState.notInitialized(),
       userActionUpdateState: UserActionUpdateState.notUpdating(),
@@ -103,7 +102,8 @@ class AppState extends Equatable {
       offreEmploiDetailsState: OffreEmploiDetailsState.notInitialized(),
       offreEmploiSearchResultsState: OffreEmploiSearchResultsState.notInitialized(),
       offreEmploiSearchParametersState: OffreEmploiSearchParametersState.notInitialized(),
-      offreEmploiFavorisState: OffreEmploiFavorisIdState.notInitialized(),
+      offreEmploiFavorisState: OffreEmploiFavorisState.notInitialized(),
+      offreEmploiFavorisUpdateState: OffreEmploiFavorisUpdateState({}),
     );
   }
 
@@ -112,7 +112,6 @@ class AppState extends Equatable {
       [
         deepLinkState,
         loginState,
-        homeState,
         userActionState,
         createUserActionState,
         userActionUpdateState,
@@ -126,6 +125,7 @@ class AppState extends Equatable {
         offreEmploiSearchResultsState,
         offreEmploiSearchParametersState,
         offreEmploiFavorisState,
+        offreEmploiFavorisUpdateState,
       ];
 
   @override

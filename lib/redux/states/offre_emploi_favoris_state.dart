@@ -1,17 +1,27 @@
-abstract class OffreEmploiFavorisIdState {
-  OffreEmploiFavorisIdState._();
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 
-  factory OffreEmploiFavorisIdState.notInitialized() = OffreEmploiFavorisIdNotInitialized;
+abstract class OffreEmploiFavorisState {
+  OffreEmploiFavorisState._();
 
-  factory OffreEmploiFavorisIdState.idsLoaded(List<String> offreEmploiFavorisListId) = OffreEmploiFavorisIdLoadedState;
+  factory OffreEmploiFavorisState.notInitialized() = OffreEmploiFavorisNotInitialized;
+
+  factory OffreEmploiFavorisState.idsLoaded(Set<String> offreEmploiFavorisListId) =>
+      OffreEmploiFavorisLoadedState._(null, offreEmploiFavorisListId);
+
+  factory OffreEmploiFavorisState.withMap(
+    Set<String> offreEmploiFavorisListId,
+    Map<String, OffreEmploi>? offreEmploiFavoris,
+  ) =>
+      OffreEmploiFavorisLoadedState._(offreEmploiFavoris, offreEmploiFavorisListId);
 }
 
-class OffreEmploiFavorisIdLoadedState extends OffreEmploiFavorisIdState {
-  final List<String> offreEmploiFavorisListId;
+class OffreEmploiFavorisLoadedState extends OffreEmploiFavorisState {
+  final Map<String, OffreEmploi>? data;
+  final Set<String> offreEmploiFavorisId;
 
-  OffreEmploiFavorisIdLoadedState(this.offreEmploiFavorisListId) : super._();
+  OffreEmploiFavorisLoadedState._(this.data, this.offreEmploiFavorisId) : super._();
 }
 
-class OffreEmploiFavorisIdNotInitialized extends OffreEmploiFavorisIdState {
-  OffreEmploiFavorisIdNotInitialized() : super._();
+class OffreEmploiFavorisNotInitialized extends OffreEmploiFavorisState {
+  OffreEmploiFavorisNotInitialized() : super._();
 }

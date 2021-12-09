@@ -1,3 +1,4 @@
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 
 abstract class OffreEmploiDetailsAction {}
@@ -17,3 +18,9 @@ class OffreEmploiDetailsSuccessAction extends OffreEmploiDetailsAction {
 }
 
 class OffreEmploiDetailsFailureAction extends OffreEmploiDetailsAction {}
+
+class OffreEmploiDetailsIncompleteDataAction extends OffreEmploiDetailsAction {
+  final OffreEmploi offre;
+
+  OffreEmploiDetailsIncompleteDataAction(this.offre);
+}
