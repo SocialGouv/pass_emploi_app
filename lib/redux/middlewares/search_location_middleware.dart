@@ -13,9 +13,11 @@ class SearchLocationMiddleware extends MiddlewareClass<AppState> {
   call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     if (action is RequestLocationAction) {
+      final input = action.input;
+      if (input == null || input.length < 2) return;
       final loginState = store.state.loginState;
       if (loginState is LoggedInState) {
-        final locations = await _repository.getLocations(userId: loginState.user.id, query: action.input ?? "");
+        final locations = await _repository.getLocations(userId: loginState.user.id, query: input);
         store.dispatch(SearchLocationsSuccessAction(locations));
       }
     }

@@ -24,21 +24,19 @@ main() {
     expect(locationState.locations, _location());
   });
 
-  test("Returns locations empty list when user search input is empty", () async {
+  test("Does not call repository user search input is less than 2 characters", () async {
     // Given
     final factory = TestStoreFactory();
-    factory.searchLocationRepository = SearchLocationRepositorySuccessStub();
+    final repositorySpy = SearchLocationRepositorySpy();
+    factory.searchLocationRepository = repositorySpy;
     final store = factory.initializeReduxStore(initialState: loggedInAppState());
-    store.dispatch(RequestLocationAction(""));
 
     // When
-    final AppState resultState = await store.onChange.first;
+    store.dispatch(RequestLocationAction("i"));
 
     // Then
-    final locationState = resultState.searchLocationState;
-    expect(locationState.locations, []);
+    expect(repositorySpy.getLocationsHasBeenCalled, isFalse);
   });
-
 }
 
 class SearchLocationRepositorySuccessStub extends SearchLocationRepository {
@@ -47,6 +45,18 @@ class SearchLocationRepositorySuccessStub extends SearchLocationRepository {
   @override
   Future<List<Location>> getLocations({required String userId, required String query}) async {
     if (userId == "id" && query == "input") return _location();
+    return [];
+  }
+}
+
+class SearchLocationRepositorySpy extends SearchLocationRepository {
+  bool getLocationsHasBeenCalled = false;
+
+  SearchLocationRepositorySpy() : super("", DummyHttpClient(), DummyHeadersBuilder());
+
+  @override
+  Future<List<Location>> getLocations({required String userId, required String query}) async {
+    getLocationsHasBeenCalled = true;
     return [];
   }
 }
