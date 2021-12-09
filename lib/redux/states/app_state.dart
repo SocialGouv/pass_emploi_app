@@ -121,7 +121,6 @@ class AppState extends Equatable {
         chatState,
         offreEmploiSearchState,
         offreEmploiDetailsState,
-        offreEmploiSearchState,
         offreEmploiSearchResultsState,
         offreEmploiSearchParametersState,
         offreEmploiFavorisState,

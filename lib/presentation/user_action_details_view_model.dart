@@ -1,5 +1,4 @@
 import 'package:pass_emploi_app/models/user_action.dart';
-import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
 import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
@@ -68,7 +67,7 @@ _refreshStatus(Store<AppState> store, String actionId, UserActionStatus newStatu
     if (loginState is LoggedInState) {
       final action = userActionState.actions.firstWhere((element) => element.id == actionId);
       if (action.status != newStatus) {
-        store.dispatch(UpdateActionStatus(
+        store.dispatch(UserActionUpdateStatusAction(
           userId: loginState.user.id,
           actionId: actionId,
           newStatus: newStatus,

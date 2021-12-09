@@ -10,14 +10,10 @@ class LoggedInAction extends LoginAction {
 
 class NotLoggedInAction extends LoginAction {}
 
-class LoginLoadingAction extends LoginAction {
-  final String accessCode;
+class LoginLoadingAction extends LoginAction {}
 
-  LoginLoadingAction(this.accessCode);
-}
+class LoginFailureAction extends LoginAction {}
 
-class LoginFailureAction extends LoginAction {
-  final String accessCode;
+class RequestLoginAction extends LoginAction {}
 
-  LoginFailureAction(this.accessCode);
-}
+class RequestLogoutAction extends LoginAction {}

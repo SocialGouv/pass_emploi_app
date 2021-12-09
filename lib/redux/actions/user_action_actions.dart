@@ -31,3 +31,31 @@ class UserActionDeleteSuccessAction extends UserActionAction {
 }
 
 class UserActionDeleteFailureAction extends UserActionAction {}
+
+class UserActionUpdateStatusAction extends UserActionAction {
+  final String userId;
+  final String actionId;
+  final UserActionStatus newStatus;
+
+  UserActionUpdateStatusAction({required this.userId, required this.actionId, required this.newStatus});
+}
+
+class RequestUserActionsAction extends UserActionAction {
+  final String userId;
+
+  RequestUserActionsAction(this.userId);
+}
+
+class DismissUserActionDetailsAction extends UserActionAction {}
+
+class UserActionNoUpdateNeededAction extends UserActionAction {}
+
+class CreateUserAction extends UserActionAction {
+  final String content;
+  final String? comment;
+  final UserActionStatus initialStatus;
+
+  CreateUserAction(this.content, this.comment, this.initialStatus);
+}
+
+class DismissCreateUserAction extends UserActionAction {}

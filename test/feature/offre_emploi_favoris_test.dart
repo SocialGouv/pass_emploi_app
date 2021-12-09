@@ -8,11 +8,11 @@ import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
-import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/src/store.dart';
 
 import '../doubles/dummies.dart';
 import '../doubles/fixtures.dart';
+import '../doubles/stubs.dart';
 import '../utils/test_setup.dart';
 
 main() {
@@ -141,7 +141,7 @@ main() {
 Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
   final testStoreFactory = TestStoreFactory();
   testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositorySuccessStub();
-  testStoreFactory.userRepository = UserRepositoryLoggedInStub();
+  testStoreFactory.authenticator = AuthenticatorLoggedInStub();
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState().copyWith(
         loginState: LoginState.loggedIn(User(
@@ -182,7 +182,7 @@ Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
 Store<AppState> _successStoreWithFavorisIdLoaded() {
   final testStoreFactory = TestStoreFactory();
   testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositorySuccessStub();
-  testStoreFactory.userRepository = UserRepositoryLoggedInStub();
+  testStoreFactory.authenticator = AuthenticatorLoggedInStub();
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState().copyWith(
       loginState: LoginState.loggedIn(User(
@@ -199,7 +199,7 @@ Store<AppState> _successStoreWithFavorisIdLoaded() {
 Store<AppState> _failureStoreWithFavorisIdLoaded() {
   final testStoreFactory = TestStoreFactory();
   testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositoryFailureStub();
-  testStoreFactory.userRepository = UserRepositoryLoggedInStub();
+  testStoreFactory.authenticator = AuthenticatorLoggedInStub();
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState().copyWith(
       loginState: LoginState.loggedIn(User(
@@ -219,7 +219,7 @@ Store<AppState> _failureStoreWithFavorisIdLoaded() {
 Store<AppState> _failureStoreWithFavorisLoaded() {
   final testStoreFactory = TestStoreFactory();
   testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositoryFailureStub();
-  testStoreFactory.userRepository = UserRepositoryLoggedInStub();
+  testStoreFactory.authenticator = AuthenticatorLoggedInStub();
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState().copyWith(
         loginState: LoginState.loggedIn(User(
@@ -298,13 +298,5 @@ class OffreEmploiFavorisRepositoryFailureStub extends OffreEmploiFavorisReposito
 
   Future<bool> deleteFavori(String userId, String offreId) async {
     return false;
-  }
-}
-
-class UserRepositoryLoggedInStub extends UserRepository {
-  UserRepositoryLoggedInStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
-
-  Future<User?> getUser() async {
-    return User(id: "1", firstName: "F", lastName: "L");
   }
 }

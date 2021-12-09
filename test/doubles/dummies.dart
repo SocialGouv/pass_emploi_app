@@ -1,5 +1,8 @@
+import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
+import 'package:pass_emploi_app/auth/auth_wrapper.dart';
+import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
@@ -11,8 +14,10 @@ import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
-import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
+
+import 'fixtures.dart';
+import 'spies.dart';
 
 class DummyHeadersBuilder extends HeadersBuilder {}
 
@@ -36,9 +41,15 @@ class DummyRegisterTokenRepository extends RegisterTokenRepository {
   Future<void> registerToken(String userId) async {}
 }
 
-class DummyUserRepository extends UserRepository {
-  DummyUserRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+class DummyAuthenticator extends Authenticator {
+  DummyAuthenticator() : super(DummyAuthWrapper(), configuration(), SharedPreferencesSpy());
 }
+
+class DummyAuthWrapper extends AuthWrapper {
+  DummyAuthWrapper() : super(DummyFlutterAppAuth());
+}
+
+class DummyFlutterAppAuth extends FlutterAppAuth {}
 
 class DummyUserActionRepository extends UserActionRepository {
   DummyUserActionRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());

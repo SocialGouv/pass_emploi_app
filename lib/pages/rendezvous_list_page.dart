@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/rendezvous_page.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
+import 'package:pass_emploi_app/redux/actions/rendezvous_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';

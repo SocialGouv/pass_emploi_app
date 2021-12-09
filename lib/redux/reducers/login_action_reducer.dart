@@ -8,9 +8,11 @@ AppState loginReducer(AppState currentState, dynamic action) {
   } else if (action is NotLoggedInAction) {
     return currentState.copyWith(loginState: LoginState.notLoggedIn());
   } else if (action is LoginLoadingAction) {
-    return currentState.copyWith(loginState: LoginState.loading(action.accessCode));
+    return currentState.copyWith(loginState: LoginState.loading());
   } else if (action is LoginFailureAction) {
-    return currentState.copyWith(loginState: LoginState.failure(action.accessCode));
+    return currentState.copyWith(loginState: LoginState.failure());
+  } else if (action is RequestLogoutAction) {
+    return AppState.initialState();
   } else {
     return currentState;
   }
