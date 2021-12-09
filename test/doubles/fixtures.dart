@@ -4,8 +4,10 @@ import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/user.dart';
+import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/login_state.dart';
 
-User mockUser({id : ""}) => User(id: id, firstName: "", lastName: "");
+User mockUser({id: ""}) => User(id: id, firstName: "", lastName: "");
 
 Response invalidHttpResponse({String message = ""}) => Response(message, 500);
 
@@ -74,3 +76,9 @@ Configuration configuration() => Configuration(
       ['scope1', 'scope2', 'scope3'],
       'authClientSecret',
     );
+
+AppState loggedInAppState() {
+  return AppState.initialState().copyWith(
+    loginState: LoginState.loggedIn(User(id: "id", firstName: "F", lastName: "L")),
+  );
+}

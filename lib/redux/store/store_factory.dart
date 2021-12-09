@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/redux/middlewares/offre_emploi_favoris_middlewar
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/rendezvous_middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/search_location_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/user_action_middleware.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -20,6 +21,7 @@ import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dar
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
+import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
 
@@ -33,6 +35,7 @@ class StoreFactory {
   final Crashlytics crashlytics;
   final OffreEmploiDetailsRepository offreEmploiDetailsRepository;
   final OffreEmploiFavorisRepository offreEmploiFavorisRepository;
+  final SearchLocationRepository searchLocationRepository;
 
   StoreFactory(
     this.authenticator,
@@ -44,6 +47,7 @@ class StoreFactory {
     this.crashlytics,
     this.offreEmploiDetailsRepository,
     this.offreEmploiFavorisRepository,
+    this.searchLocationRepository,
   );
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -62,6 +66,7 @@ class StoreFactory {
         RegisterPushNotificationTokenMiddleware(registerTokenRepository),
         ChatSubscriptionMiddleware(chatRepository),
         CrashlyticsMiddleware(crashlytics),
+        SearchLocationMiddleware(searchLocationRepository),
         ..._debugMiddleware(),
       ],
     );
