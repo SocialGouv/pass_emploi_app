@@ -95,8 +95,8 @@ pas être nécessaire d'être connecté, le script utilisant un token "ci".
 ### Prérequis
 1. Se mettre à jour sur develop
 2. Vérifier que les tests sont au vert : `$ flutter test`
-3. Mettre à jour le version name et incrementer le version code dans le fichier `pubspec.yaml` (variable `version`)
-4. Commiter le changement
+3. Mettre à jour le version name dans le fichier `pubspec.yaml` (variable `version`)
+4. Commiter et push le changement
 5. Merger develop sur master :
 ```shell script
 $ git checkout master
@@ -106,10 +106,9 @@ $ git push
 ```
 6. Tagger la release
 ```shell script
-$ git tag -a major.minor.patch -m "major.minor.patch"
+$ git tag -a major.minor.patch -m "major.minor.patch" #major.minor.patch étant le version name de l'étape 3
 $ git push --tags 
 ```
-
 
 ### Pour Android
 1. Vérifier que le fichier `passemploi.jks` (fichier privé) est bien situé dans le repertoire `android/keystore` 
