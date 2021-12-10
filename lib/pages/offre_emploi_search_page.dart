@@ -105,7 +105,6 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
         optionsBuilder: (textEditingValue) {
           viewModel.onInputLocation(textEditingValue.text);
           return viewModel.getLocations();
-          // return  [Location(libelle: "Paris", code: "75", codePostal: "75", type: LocationType.COMMUNE)];
         },
 
         onSelected: (location) {
