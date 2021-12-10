@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/models/department.dart';
+import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -22,7 +22,7 @@ class OffreEmploiSearchPage extends TraceableStatefulWidget {
 
 class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
   var _keyWord = "";
-  var _department = "";
+  var _location = "";
   var _shouldNavigate = true;
 
   @override
@@ -101,15 +101,18 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
 
   LayoutBuilder _autocomplete(OffreEmploiSearchViewModel viewModel) {
     return LayoutBuilder(
-      builder: (context, constraints) => Autocomplete<Department>(
+      builder: (context, constraints) => Autocomplete<Location>(
         optionsBuilder: (textEditingValue) {
-          return viewModel.filterDepartments(textEditingValue.text);
+          viewModel.onInputLocation(textEditingValue.text);
+          return viewModel.getLocations();
+          // return  [Location(libelle: "Paris", code: "75", codePostal: "75", type: LocationType.COMMUNE)];
         },
-        onSelected: (department) {
-          _department = department.number;
+
+        onSelected: (location) {
+          _location = location.libelle;
         },
         optionsViewBuilder:
-            (BuildContext context, AutocompleteOnSelected<Department> onSelected, Iterable<Department> options) {
+            (BuildContext context, AutocompleteOnSelected<Location> onSelected, Iterable<Location> options) {
           return Align(
               alignment: Alignment.topLeft,
               child: Material(
@@ -123,14 +126,14 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
                     shrinkWrap: true,
                     itemCount: options.length,
                     itemBuilder: (BuildContext context, int index) {
-                      final Department option = options.elementAt(index);
+                      final Location option = options.elementAt(index);
 
                       return GestureDetector(
                         onTap: () {
                           onSelected(option);
                         },
                         child: ListTile(
-                          title: Text(option.name, style: const TextStyle(color: AppColors.nightBlue)),
+                          title: Text(option.toString(), style: const TextStyle(color: AppColors.nightBlue)),
                         ),
                       );
                     },
@@ -150,7 +153,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
               onFieldSubmitted();
             },
             onChanged: (value) {
-              if (value == "") _department = "";
+              if (value == "") _location = "";
             },
           );
         },
@@ -178,7 +181,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
       viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_LOADER;
 
   void _searchingRequest(OffreEmploiSearchViewModel viewModel) {
-    viewModel.searchingRequest(_keyWord, _department);
+    viewModel.searchingRequest(_keyWord, _location);
   }
 
   Widget _errorTextField(OffreEmploiSearchViewModel viewModel) {

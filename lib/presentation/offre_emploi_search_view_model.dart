@@ -1,6 +1,9 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:pass_emploi_app/models/department.dart';
+import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
+import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
@@ -11,8 +14,10 @@ enum OffreEmploiSearchDisplayState { SHOW_CONTENT, SHOW_LOADER, SHOW_ERROR, SHOW
 
 class OffreEmploiSearchViewModel extends Equatable {
   final OffreEmploiSearchDisplayState displayState;
+  final Function(String? input) onInputLocation;
   final List<Department> departments;
   final Function(String keyWord, String department) searchingRequest;
+  final Function() getLocations;
   final String errorMessage;
 
   OffreEmploiSearchViewModel._({
@@ -20,6 +25,8 @@ class OffreEmploiSearchViewModel extends Equatable {
     required this.departments,
     required this.searchingRequest,
     required this.errorMessage,
+    required this.onInputLocation,
+    required this.getLocations,
   });
 
   factory OffreEmploiSearchViewModel.create(Store<AppState> store) {
@@ -27,11 +34,14 @@ class OffreEmploiSearchViewModel extends Equatable {
     final searchResultsState = store.state.offreEmploiSearchResultsState;
     return OffreEmploiSearchViewModel._(
       displayState: _displayState(searchState, searchResultsState),
-      searchingRequest: (keyWord, department) => _searchingRequest(store, keyWord, department),
+      searchingRequest: (keyWord, location) => _searchingRequest(store, keyWord, location),
+      getLocations: () => store.state.searchLocationState.locations,
       departments: Department.values,
+      onInputLocation: (input) => store.dispatch(RequestLocationAction(input)),
       errorMessage: _setErrorMessage(searchState, searchResultsState),
     );
   }
+
 
   List<Department> filterDepartments(String userInput) {
     if (userInput.length < 2 || userInput.isEmpty) return [];
@@ -59,8 +69,8 @@ class OffreEmploiSearchViewModel extends Equatable {
   List<Object?> get props => [displayState, errorMessage];
 }
 
-void _searchingRequest(Store<AppState> store, String keyWord, String department) {
-  store.dispatch(SearchOffreEmploiAction(keywords: keyWord, department: department));
+void _searchingRequest(Store<AppState> store, String keyWord, String location) {
+  store.dispatch(SearchOffreEmploiAction(keywords: keyWord, department: location));
 }
 
 String _setErrorMessage(OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {

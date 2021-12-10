@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-enum LocationType { COMMUNE }
+enum LocationType { COMMUNE, DEPARTMENT }
 
 class Location extends Equatable {
   final String libelle;
@@ -20,10 +20,19 @@ class Location extends Equatable {
       libelle: json['libelle'] as String,
       code: json['code'] as String,
       codePostal: json['codePostal'] as String,
-      type: LocationType.COMMUNE,
+      type: _extractLocationType(json),
     );
   }
 
   @override
+  String toString() {
+    return '$libelle ($code)';
+  }
+
+  @override
   List<Object?> get props => [libelle, code, codePostal, type];
+}
+
+LocationType _extractLocationType(json) {
+  return (json["type"] as String) == "DEPARTEMENT" ? LocationType.DEPARTMENT : LocationType.COMMUNE;
 }
