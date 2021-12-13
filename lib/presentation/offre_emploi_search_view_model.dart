@@ -8,20 +8,9 @@ import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
+import 'location_view_model.dart';
+
 enum OffreEmploiSearchDisplayState { SHOW_CONTENT, SHOW_LOADER, SHOW_ERROR, SHOW_EMPTY_ERROR }
-
-class LocationViewModel extends Equatable {
-  final String title;
-  final Location location;
-
-  LocationViewModel(this.title, this.location);
-
-  @override
-  List<Object?> get props => [title, location];
-
-  @override
-  String toString() => title;
-}
 
 class OffreEmploiSearchViewModel extends Equatable {
   final OffreEmploiSearchDisplayState displayState;
