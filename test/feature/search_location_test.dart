@@ -21,7 +21,7 @@ main() {
 
     // Then
     final locationState = resultState.searchLocationState;
-    expect(locationState.locations, _location());
+    expect(locationState.locations, _locations());
   });
 
   test("Does not call repository user search input is less than 2 characters", () async {
@@ -44,7 +44,7 @@ class SearchLocationRepositorySuccessStub extends SearchLocationRepository {
 
   @override
   Future<List<Location>> getLocations({required String userId, required String query}) async {
-    if (userId == "id" && query == "input") return _location();
+    if (userId == "id" && query == "input") return _locations();
     return [];
   }
 }
@@ -61,5 +61,5 @@ class SearchLocationRepositorySpy extends SearchLocationRepository {
   }
 }
 
-List<Location> _location() =>
+List<Location> _locations() =>
     [Location(libelle: "Marseille", code: "13002", codePostal: "13002", type: LocationType.COMMUNE)];
