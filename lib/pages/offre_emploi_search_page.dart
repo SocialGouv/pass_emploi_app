@@ -5,6 +5,7 @@ import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart';
+import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -40,6 +41,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
       },
       distinct: true,
       builder: (context, viewModel) => _body(viewModel),
+      onDispose: (store) => store.dispatch(ResetLocationAction()),
     );
   }
 

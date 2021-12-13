@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/search_location_state.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 
 import '../doubles/dummies.dart';
@@ -14,28 +15,51 @@ main() {
     final factory = TestStoreFactory();
     factory.searchLocationRepository = SearchLocationRepositorySuccessStub();
     final store = factory.initializeReduxStore(initialState: loggedInAppState());
-    store.dispatch(RequestLocationAction("input"));
+    final Future<AppState> newStateFuture =
+        store.onChange.firstWhere((state) => state.searchLocationState.locations.isNotEmpty);
 
     // When
-    final AppState resultState = await store.onChange.first;
+    store.dispatch(RequestLocationAction("input"));
 
     // Then
-    final locationState = resultState.searchLocationState;
-    expect(locationState.locations, _locations());
+    final newState = await newStateFuture;
+    expect(newState.searchLocationState.locations, _locations());
   });
 
-  test("Does not call repository user search input is less than 2 characters", () async {
+  test("Does not call repository user search input is less than 2 characters… and return empty locations result",
+      () async {
     // Given
     final factory = TestStoreFactory();
     final repositorySpy = SearchLocationRepositorySpy();
     factory.searchLocationRepository = repositorySpy;
     final store = factory.initializeReduxStore(initialState: loggedInAppState());
+    final Future<AppState> newStateFuture = store.onChange.first;
 
     // When
     store.dispatch(RequestLocationAction("i"));
 
     // Then
+    final newState = await newStateFuture;
+    expect(newState.searchLocationState.locations, isEmpty);
     expect(repositorySpy.getLocationsHasBeenCalled, isFalse);
+  });
+
+  test("Reset search locations remove previous location results", () async {
+    // Given
+    final factory = TestStoreFactory();
+    final store = factory.initializeReduxStore(
+      initialState: AppState.initialState().copyWith(
+        searchLocationState: SearchLocationState(_locations()),
+      ),
+    );
+    final Future<AppState> newStateFuture = store.onChange.first;
+
+    // When
+    store.dispatch(ResetLocationAction());
+
+    // Then
+    final newState = await newStateFuture;
+    expect(newState.searchLocationState.locations, isEmpty);
   });
 }
 

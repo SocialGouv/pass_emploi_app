@@ -12,7 +12,7 @@ import 'package:pass_emploi_app/redux/reducers/deep_link_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/login_action_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/offre_emploi_details_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/rendezvous_reducer.dart';
-import 'package:pass_emploi_app/redux/reducers/search_action_reducer.dart';
+import 'package:pass_emploi_app/redux/reducers/search_location_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/user_action_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 
