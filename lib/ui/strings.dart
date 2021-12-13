@@ -93,7 +93,7 @@ class Strings {
   static String keyWordsTitle = "Mots clés";
   static String keyWordsTextField = "Métier, compétence...";
   static String jobLocationTitle = "Lieu de travail";
-  static String jobLocationHint = "Département";
+  static String jobLocationHint = "Ville, département…";
   static String searchButton = "RECHERCHER";
   static String offreDetails = "Détails de l'offre";
   static String offresTabTitle = "Recherche";
