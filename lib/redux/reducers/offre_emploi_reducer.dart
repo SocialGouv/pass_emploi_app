@@ -20,8 +20,8 @@ AppState offreEmploiReducer(AppState currentState, dynamic action) {
     return currentState.copyWith(offreEmploiSearchState: OffreEmploiSearchState.failure());
   } else if (action is OffreEmploiResetResultsAction) {
     return currentState.copyWith(
-        offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
-        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.notInitialized(),
+      offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
+      offreEmploiSearchResultsState: OffreEmploiSearchResultsState.notInitialized(),
     );
   } else {
     return currentState;
@@ -54,5 +54,5 @@ AppState _appendNewOffres(AppState currentState, OffreEmploiSearchResultsDataSta
 AppState _storeSearchParameters(AppState currentState, SearchOffreEmploiAction action) {
   return currentState.copyWith(
       offreEmploiSearchParametersState:
-          OffreEmploiSearchParametersInitializedState(keyWords: action.keywords, department: action.department));
+          OffreEmploiSearchParametersInitializedState(keyWords: action.keywords, location: action.location));
 }

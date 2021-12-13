@@ -1,4 +1,5 @@
 import 'package:http/http.dart';
+import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
@@ -16,12 +17,13 @@ class OffreEmploiRepository {
   Future<OffreEmploiSearchResponse?> search({
     required String userId,
     required String keywords,
-    required String department,
+    required Location? location,
     required int page,
   }) async {
     final url = Uri.parse(_baseUrl + "/offres-emploi").replace(queryParameters: {
       if (keywords.isNotEmpty) "q": keywords,
-      if (department.isNotEmpty) "departement": department,
+      if (location?.type == LocationType.DEPARTMENT) "departement": location!.code,
+      if (location?.type == LocationType.COMMUNE) "commune": location!.code,
       "page": page.toString(),
       "limit": PAGE_SIZE.toString(),
     });

@@ -1,3 +1,4 @@
+import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
@@ -24,7 +25,7 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
           store: store,
           userId: userId,
           keyWords: action.keywords,
-          department: action.department,
+          location: action.location,
           pageToLoad: 1,
         );
       } else if (action is RequestMoreOffreEmploiSearchResultsAction &&
@@ -34,7 +35,7 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
           store: store,
           userId: userId,
           keyWords: parametersState.keyWords,
-          department: parametersState.department,
+          location: parametersState.location,
           pageToLoad: previousResultsState.loadedPage + 1,
         );
       }
@@ -45,14 +46,14 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
     required Store<AppState> store,
     required String userId,
     required String keyWords,
-    required String department,
+    required Location? location,
     required int pageToLoad,
   }) async {
     store.dispatch(OffreEmploiSearchLoadingAction());
     final result = await _repository.search(
       userId: userId,
       keywords: keyWords,
-      department: department,
+      location: location,
       page: pageToLoad,
     );
     if (result != null) {

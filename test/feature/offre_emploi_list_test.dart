@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -23,7 +24,7 @@ main() {
         initialState: _loggedInState().copyWith(
           offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
           offreEmploiSearchParametersState:
-              OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", department: "92"),
+              OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", location: null),
         ),
       );
 
@@ -53,7 +54,7 @@ main() {
         initialState: _loggedInState().copyWith(
           offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
           offreEmploiSearchParametersState:
-              OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", department: "92"),
+              OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", location: null),
         ),
       );
 
@@ -84,7 +85,7 @@ main() {
         initialState: _loggedInState().copyWith(
           offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
           offreEmploiSearchParametersState:
-              OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", department: "92"),
+              OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", location: null),
         ),
       );
 
@@ -114,7 +115,7 @@ main() {
             offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
             offreEmploiSearchState: OffreEmploiSearchState.failure(),
             offreEmploiSearchParametersState:
-                OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", department: "92"),
+                OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", location: null),
           ),
         );
 
@@ -145,7 +146,7 @@ main() {
             offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
             offreEmploiSearchState: OffreEmploiSearchState.failure(),
             offreEmploiSearchParametersState:
-                OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", department: "92"),
+                OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", location: null),
           ),
         );
 
@@ -195,7 +196,7 @@ class OffreEmploiRepositorySuccessWithNoMoreDataStub extends OffreEmploiReposito
   Future<OffreEmploiSearchResponse?> search({
     required String userId,
     required String keywords,
-    required String department,
+    required Location? location,
     required int page,
   }) async {
     return OffreEmploiSearchResponse(isMoreDataAvailable: false, offres: [mockOffreEmploi()]);

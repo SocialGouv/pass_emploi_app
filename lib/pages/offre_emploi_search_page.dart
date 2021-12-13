@@ -175,7 +175,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
       viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_LOADER;
 
   void _searchingRequest(OffreEmploiSearchViewModel viewModel) {
-    viewModel.searchingRequest(_keyWord, _selectedLocation!.libelle);
+    viewModel.searchingRequest(_keyWord, _selectedLocation);
   }
 
   Widget _errorTextField(OffreEmploiSearchViewModel viewModel) {

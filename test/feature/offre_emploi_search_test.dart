@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -25,7 +26,7 @@ main() {
         (element) => element.offreEmploiSearchParametersState is OffreEmploiSearchParametersInitializedState);
 
     // When
-    store.dispatch(SearchOffreEmploiAction(keywords: "boulanger patissier", department: "02"));
+    store.dispatch(SearchOffreEmploiAction(keywords: "boulanger patissier", location: _location()));
 
     // Then
     expect(await displayedLoading, true);
@@ -38,7 +39,7 @@ main() {
     final savedSearchAppState = await savedSearch;
     final initializedSearchParametersState =
         (savedSearchAppState.offreEmploiSearchParametersState as OffreEmploiSearchParametersInitializedState);
-    expect(initializedSearchParametersState.department, "02");
+    expect(initializedSearchParametersState.location, _location());
     expect(initializedSearchParametersState.keyWords, "boulanger patissier");
   });
 
@@ -54,7 +55,7 @@ main() {
         store.onChange.any((element) => element.offreEmploiSearchState is OffreEmploiSearchFailureState);
 
     // When
-    store.dispatch(SearchOffreEmploiAction(keywords: "boulanger patissier", department: "02"));
+    store.dispatch(SearchOffreEmploiAction(keywords: "boulanger patissier", location: _location()));
 
     // Then
     expect(await displayedLoading, true);
@@ -71,3 +72,5 @@ AppState _loggedInState() {
     )),
   );
 }
+
+Location _location() => Location(libelle: "Paris", code: "75", codePostal: null, type: LocationType.DEPARTMENT);

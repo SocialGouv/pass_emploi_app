@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
+import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/network/headers.dart';
@@ -64,7 +65,7 @@ class OffreEmploiRepositorySuccessWithMoreDataStub extends OffreEmploiRepository
   Future<OffreEmploiSearchResponse?> search({
     required String userId,
     required String keywords,
-    required String department,
+    required Location? location,
     required int page,
   }) async {
     return OffreEmploiSearchResponse(isMoreDataAvailable: true, offres: [mockOffreEmploi()]);
@@ -78,7 +79,7 @@ class OffreEmploiRepositoryFailureStub extends OffreEmploiRepository {
   Future<OffreEmploiSearchResponse?> search({
     required String userId,
     required String keywords,
-    required String department,
+    required Location? location,
     required int page,
   }) async {
     return null;
