@@ -25,11 +25,6 @@ class Location extends Equatable {
   }
 
   @override
-  String toString() {
-    return '$libelle ($code)';
-  }
-
-  @override
   List<Object?> get props => [libelle, code, codePostal, type];
 }
 

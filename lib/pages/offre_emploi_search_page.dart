@@ -64,9 +64,9 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
               onPressed: _isLoading(viewModel)
                   ? null
                   : () {
-                _searchingRequest(viewModel);
-                FocusScope.of(context).unfocus();
-              },
+                      _searchingRequest(viewModel);
+                      FocusScope.of(context).unfocus();
+                    },
               label: Strings.searchButton),
         ),
         _separator(),
@@ -96,7 +96,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
 
   LayoutBuilder _autocomplete(OffreEmploiSearchViewModel viewModel) {
     return LayoutBuilder(
-      builder: (context, constraints) => Autocomplete<Location>(
+      builder: (context, constraints) => Autocomplete<LocationViewModel>(
         optionsBuilder: (textEditingValue) {
           final newLocationQuery = textEditingValue.text;
           if (newLocationQuery != _currentLocationQuery) {
@@ -105,8 +105,12 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
           }
           return [_fakeLocationRequiredByAutocompleteToCallOptionsViewBuilderMethod()];
         },
-        onSelected: (location) => _selectedLocation = location,
-        optionsViewBuilder: (BuildContext context, AutocompleteOnSelected<Location> onSelected, Iterable<Location> _) {
+        onSelected: (locationViewModel) => _selectedLocation = locationViewModel.location,
+        optionsViewBuilder: (
+          BuildContext _,
+          AutocompleteOnSelected<LocationViewModel> onSelected,
+          Iterable<LocationViewModel> __,
+        ) {
           return Align(
               alignment: Alignment.topLeft,
               child: Material(
@@ -120,11 +124,11 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
                     shrinkWrap: true,
                     itemCount: viewModel.locations.length,
                     itemBuilder: (BuildContext context, int index) {
-                      final Location option = viewModel.locations.elementAt(index);
+                      final LocationViewModel locationViewModel = viewModel.locations.elementAt(index);
                       return GestureDetector(
-                        onTap: () => onSelected(option),
+                        onTap: () => onSelected(locationViewModel),
                         child: ListTile(
-                          title: Text(option.toString(), style: const TextStyle(color: AppColors.nightBlue)),
+                          title: Text(locationViewModel.title, style: const TextStyle(color: AppColors.nightBlue)),
                         ),
                       );
                     },
@@ -134,15 +138,17 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
                 color: Colors.white,
               ));
         },
-        fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode,
-            VoidCallback onFieldSubmitted) {
+        fieldViewBuilder: (
+          BuildContext context,
+          TextEditingController textEditingController,
+          FocusNode focusNode,
+          VoidCallback onFieldSubmitted,
+        ) {
           return TextFormField(
             controller: textEditingController,
             decoration: _inputDecoration(Strings.jobLocationHint),
             focusNode: focusNode,
-            onFieldSubmitted: (String value) {
-              onFieldSubmitted();
-            },
+            onFieldSubmitted: (String value) => onFieldSubmitted(),
           );
         },
       ),
@@ -185,7 +191,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
     );
   }
 
-  Location _fakeLocationRequiredByAutocompleteToCallOptionsViewBuilderMethod() {
-    return Location(libelle: "", code: "", codePostal: "", type: LocationType.COMMUNE);
+  LocationViewModel _fakeLocationRequiredByAutocompleteToCallOptionsViewBuilderMethod() {
+    return LocationViewModel("", Location(libelle: "", code: "", codePostal: "", type: LocationType.COMMUNE));
   }
 }

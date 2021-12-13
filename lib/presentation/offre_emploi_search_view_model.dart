@@ -10,9 +10,22 @@ import 'package:redux/redux.dart';
 
 enum OffreEmploiSearchDisplayState { SHOW_CONTENT, SHOW_LOADER, SHOW_ERROR, SHOW_EMPTY_ERROR }
 
+class LocationViewModel extends Equatable {
+  final String title;
+  final Location location;
+
+  LocationViewModel(this.title, this.location);
+
+  @override
+  List<Object?> get props => [title, location];
+
+  @override
+  String toString() => title;
+}
+
 class OffreEmploiSearchViewModel extends Equatable {
   final OffreEmploiSearchDisplayState displayState;
-  final List<Location> locations;
+  final List<LocationViewModel> locations;
   final String errorMessage;
   final Function(String? input) onInputLocation;
   final Function(String keyWord, String department) searchingRequest;
@@ -30,7 +43,7 @@ class OffreEmploiSearchViewModel extends Equatable {
     final searchResultsState = store.state.offreEmploiSearchResultsState;
     return OffreEmploiSearchViewModel._(
       displayState: _displayState(searchState, searchResultsState),
-      locations: store.state.searchLocationState.locations,
+      locations: store.state.searchLocationState.locations.map((location) => _toViewModel(location)).toList(),
       errorMessage: _setErrorMessage(searchState, searchResultsState),
       onInputLocation: (input) => store.dispatch(RequestLocationAction(input)),
       searchingRequest: (keyWord, location) => _searchingRequest(store, keyWord, location),
@@ -39,6 +52,19 @@ class OffreEmploiSearchViewModel extends Equatable {
 
   @override
   List<Object?> get props => [displayState, errorMessage, locations];
+}
+
+LocationViewModel _toViewModel(Location location) {
+  final String title;
+  switch (location.type) {
+    case LocationType.COMMUNE:
+      title = '${location.libelle} (${location.codePostal})';
+      break;
+    case LocationType.DEPARTMENT:
+      title = '${location.libelle} (${location.code})';
+      break;
+  }
+  return LocationViewModel(title, location);
 }
 
 void _searchingRequest(Store<AppState> store, String keyWord, String location) {
