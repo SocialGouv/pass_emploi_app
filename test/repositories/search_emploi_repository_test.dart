@@ -13,7 +13,7 @@ void main() {
     // Given
     final httpClient = MockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
-      if (!request.url.toString().startsWith("BASE_URL/referentiels/communes-et-departements?recherche=pa")) {
+      if (!request.url.toString().startsWith("BASE_URL/referentiels/communes-et-departements?recherche=pari")) {
         return invalidHttpResponse();
       }
       return Response.bytes(loadTestAssetsAsBytes("search_location.json"), 200);
@@ -21,14 +21,12 @@ void main() {
     final repository = SearchLocationRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final List<Location> locations = await repository.getLocations(userId: "ID", query: "pa");
+    final List<Location> locations = await repository.getLocations(userId: "ID", query: "pari");
 
     // Then
     expect(locations.length, 5);
-    expect(
-      locations.first,
-      Location(libelle: "PAU", code: "64445", codePostal: "64000", type: LocationType.COMMUNE),
-    );
+    expect(locations.first, Location(libelle: "Paris", code: "75", codePostal: null, type: LocationType.DEPARTMENT));
+    expect(locations[1], Location(libelle: "PARIGNY", code: "42166", codePostal: "42120", type: LocationType.COMMUNE));
   });
 
   test('getLocations when response is invalid should return empty list', () async {
@@ -37,7 +35,7 @@ void main() {
     final repository = SearchLocationRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final List<Location> locations = await repository.getLocations(userId: "ID", query: "pa");
+    final List<Location> locations = await repository.getLocations(userId: "ID", query: "pari");
 
     // Then
     expect(locations, isEmpty);
@@ -49,7 +47,7 @@ void main() {
     final repository = SearchLocationRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final List<Location> locations = await repository.getLocations(userId: "ID", query: "pa");
+    final List<Location> locations = await repository.getLocations(userId: "ID", query: "pari");
 
     // Then
     expect(locations, isEmpty);

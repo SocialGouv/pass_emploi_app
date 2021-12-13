@@ -5,7 +5,7 @@ enum LocationType { COMMUNE, DEPARTMENT }
 class Location extends Equatable {
   final String libelle;
   final String code;
-  final String codePostal;
+  final String? codePostal;
   final LocationType type;
 
   Location({
@@ -17,9 +17,9 @@ class Location extends Equatable {
 
   factory Location.fromJson(dynamic json) {
     return Location(
-      libelle: json['libelle'] as String,
-      code: json['code'] as String,
-      codePostal: json['codePostal'] as String,
+      libelle: json['libelle'],
+      code: json['code'],
+      codePostal: json['codePostal'],
       type: _extractLocationType(json),
     );
   }
@@ -34,5 +34,5 @@ class Location extends Equatable {
 }
 
 LocationType _extractLocationType(json) {
-  return (json["type"] as String) == "DEPARTEMENT" ? LocationType.DEPARTMENT : LocationType.COMMUNE;
+  return (json["type"]) == "DEPARTEMENT" ? LocationType.DEPARTMENT : LocationType.COMMUNE;
 }

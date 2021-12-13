@@ -1,37 +1,36 @@
 [
   {
-    "libelle": "PAU",
-    "code": "64445",
-    "codePostal": "64000",
-    "type": "COMMUNE",
-    "score": 0.4
+    "libelle": "Paris",
+    "code": "75",
+    "type": "DEPARTEMENT",
+    "score": 0.5714286
   },
   {
-    "libelle": "PABU",
-    "code": "22161",
-    "codePostal": "22200",
+    "libelle": "PARIGNY",
+    "code": "42166",
+    "codePostal": "42120",
     "type": "COMMUNE",
-    "score": 0.33333334
+    "score": 0.44444445
   },
   {
-    "libelle": "PACT",
-    "code": "38290",
-    "codePostal": "38270",
+    "libelle": "PARIGNE",
+    "code": "35215",
+    "codePostal": "35133",
     "type": "COMMUNE",
-    "score": 0.33333334
+    "score": 0.44444445
   },
   {
-    "libelle": "PACE",
-    "code": "61321",
-    "codePostal": "61250",
+    "libelle": "PARISOT",
+    "code": "81202",
+    "codePostal": "81310",
     "type": "COMMUNE",
-    "score": 0.33333334
+    "score": 0.44444445
   },
   {
-    "libelle": "PAEA",
-    "code": "98733",
-    "codePostal": "98711",
+    "libelle": "PARISOT",
+    "code": "82137",
+    "codePostal": "82160",
     "type": "COMMUNE",
-    "score": 0.33333334
+    "score": 0.44444445
   }
 ]
