@@ -44,7 +44,6 @@ class _RouterPageState extends State<RouterPage> {
         return LoginPage();
       case RouterPageDisplayState.MAIN:
         return MainPage(
-          viewModel.userId,
           displayState: viewModel.mainPageDisplayState,
           deepLinkKey: viewModel.deepLinkKey,
         );

@@ -1,20 +1,20 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
-import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_list_page_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/rendezvous_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/redux/states/rendezvous_state.dart';
 import 'package:redux/redux.dart';
+
+import '../doubles/fixtures.dart';
 
 main() {
   test('create when rendezvous state is loading should display loader', () {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: _loggedInState().copyWith(rendezvousState: RendezvousState.loading()),
+      initialState: loggedInState().copyWith(rendezvousState: RendezvousState.loading()),
     );
 
     // When
@@ -29,7 +29,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: _loggedInState().copyWith(rendezvousState: RendezvousState.notInitialized()),
+      initialState: loggedInState().copyWith(rendezvousState: RendezvousState.notInitialized()),
     );
 
     // When
@@ -44,7 +44,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: _loggedInState().copyWith(rendezvousState: RendezvousState.failure()),
+      initialState: loggedInState().copyWith(rendezvousState: RendezvousState.failure()),
     );
 
     // When
@@ -60,7 +60,7 @@ main() {
     var storeSpy = StoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
-      initialState: _loggedInState().copyWith(rendezvousState: RendezvousState.failure()),
+      initialState: loggedInState().copyWith(rendezvousState: RendezvousState.failure()),
     );
     final viewModel = RendezvousListPageViewModel.create(store);
 
@@ -75,7 +75,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: _loggedInState().copyWith(
+      initialState: loggedInState().copyWith(
         rendezvousState: RendezvousState.success([
           Rendezvous(
             id: '1',
@@ -130,7 +130,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: _loggedInState().copyWith(rendezvousState: RendezvousState.success([])),
+      initialState: loggedInState().copyWith(rendezvousState: RendezvousState.success([])),
     );
 
     // When
@@ -142,16 +142,6 @@ main() {
     expect(viewModel.withEmptyMessage, true);
     expect(viewModel.items.length, 0);
   });
-}
-
-AppState _loggedInState() {
-  return AppState.initialState().copyWith(
-    loginState: LoginState.loggedIn(User(
-      id: "id",
-      firstName: "F",
-      lastName: "L",
-    )),
-  );
 }
 
 class StoreSpy {

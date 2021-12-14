@@ -5,18 +5,19 @@ import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:redux/redux.dart';
 
+import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
 import '../../doubles/stubs.dart';
 
 main() {
   final repository = UserActionRepositorySuccessStub();
   final middleware = UserActionMiddleware(repository);
-  final action = RequestUserActionsAction("userId");
+  final action = RequestUserActionsAction();
 
   test("call should send action untouched to next middleware", () {
     // Given
     final nextActionSpy = NextDispatcherSpy(expectedAction: action);
-    final store = Store<AppState>(reducer, initialState: AppState.initialState());
+    final store = Store<AppState>(reducer, initialState: loggedInState());
 
     // When
     middleware.call(store, action, nextActionSpy.performAction);
@@ -28,7 +29,7 @@ main() {
   test("call when repository returns action list should dispatch loading and then success", () async {
     // Given
     final storeSpy = StoreSpy();
-    final store = Store<AppState>(storeSpy.reducer, initialState: AppState.initialState());
+    final store = Store<AppState>(storeSpy.reducer, initialState: loggedInState());
 
     // When
     await middleware.call(store, action, (action) => {});
@@ -43,7 +44,7 @@ main() {
     // Given
     final middleware = UserActionMiddleware(UserActionRepositoryFailureStub());
     final storeSpy = StoreSpy();
-    final store = Store<AppState>(storeSpy.reducer, initialState: AppState.initialState());
+    final store = Store<AppState>(storeSpy.reducer, initialState: loggedInState());
 
     // When
     await middleware.call(store, action, (action) => {});

@@ -20,12 +20,10 @@ import 'package:pass_emploi_app/widgets/user_action_details_bottom_sheet.dart';
 enum UserActionListPageResult { UPDATED, UNCHANGED }
 
 class UserActionListPage extends TraceableStatefulWidget {
-  final String userId;
-
-  UserActionListPage(this.userId) : super(name: AnalyticsScreenNames.userActionList);
+  UserActionListPage() : super(name: AnalyticsScreenNames.userActionList);
 
   static MaterialPageRoute materialPageRoute(String userId) {
-    return MaterialPageRoute(builder: (context) => UserActionListPage(userId));
+    return MaterialPageRoute(builder: (context) => UserActionListPage());
   }
 
   @override
@@ -38,7 +36,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, UserActionListPageViewModel>(
-      onInit: (store) => store.dispatch(RequestUserActionsAction(widget.userId)),
+      onInit: (store) => store.dispatch(RequestUserActionsAction()),
       builder: (context, viewModel) {
         return _scaffold(context, viewModel, DefaultAnimatedSwitcher(child: _body(context, viewModel)));
       },

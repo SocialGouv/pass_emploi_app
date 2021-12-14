@@ -23,7 +23,7 @@ class MonSuiviTabPage extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            UserActionListPage("HARD_CODED_ID"),
+            UserActionListPage(),
             RendezvousListPage(),
           ],
         ),

@@ -20,11 +20,10 @@ const int _indexOfFavorisPage = 3;
 const int _indexOfRendezvousListPage = 4;
 
 class MainPage extends StatefulWidget {
-  final String userId;
   final MainPageDisplayState displayState;
   final int deepLinkKey;
 
-  MainPage(this.userId, {this.displayState = MainPageDisplayState.DEFAULT, this.deepLinkKey = 0})
+  MainPage({this.displayState = MainPageDisplayState.DEFAULT, this.deepLinkKey = 0})
       : super(key: ValueKey(displayState.hashCode + deepLinkKey));
 
   @override

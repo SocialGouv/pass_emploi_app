@@ -1,7 +1,6 @@
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_state.dart';
 import 'package:redux/redux.dart';
 
@@ -25,16 +24,12 @@ class UserActionListPageViewModel {
   });
 
   factory UserActionListPageViewModel.create(Store<AppState> store) {
-    if (!(store.state.loginState is LoggedInState)) {
-      throw Exception("User should be logged in to access user action list page");
-    }
-    final user = (store.state.loginState as LoggedInState).user;
     return UserActionListPageViewModel(
       withLoading: _isLoading(store.state.userActionState),
       withFailure: _isFailure(store.state.userActionState),
       withEmptyMessage: _isEmpty(store.state.userActionState),
       items: _items(state: store.state.userActionState),
-      onRetry: () => store.dispatch(RequestUserActionsAction(user.id)),
+      onRetry: () => store.dispatch(RequestUserActionsAction()),
       onUserActionDetailsDismissed: () => store.dispatch(DismissUserActionDetailsAction()),
       onCreateUserActionDismissed: () => store.dispatch(DismissCreateUserAction()),
     );
