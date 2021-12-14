@@ -18,7 +18,7 @@ class AuthWrapper {
         issuer: request.issuer,
         scopes: request.scopes,
         clientSecret: request.clientSecret,
-      ));
+        additionalParameters: request.additionalParameters));
       if (response != null &&
           response.idToken != null &&
           response.accessToken != null &&

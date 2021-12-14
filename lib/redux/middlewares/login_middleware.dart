@@ -33,7 +33,7 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
 
   void _logUser(Store<AppState> store) async {
     store.dispatch(LoginLoadingAction());
-    if (await _authenticator.login()) {
+    if (await _authenticator.login(AuthenticationMode.GENERIC)) {
       _dispatchLoggedInAction(store);
     } else {
       store.dispatch(LoginFailureAction());

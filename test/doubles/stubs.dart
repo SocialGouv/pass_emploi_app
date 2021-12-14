@@ -98,7 +98,7 @@ class AuthenticatorLoggedInStub extends Authenticator {
   AuthenticatorLoggedInStub() : super(DummyAuthWrapper(), configuration(), SharedPreferencesSpy());
 
   @override
-  Future<bool> login() => Future.value(true);
+  Future<bool> login(AuthenticationMode mode) => Future.value(true);
 
   @override
   bool isLoggedIn() => true;
@@ -111,7 +111,7 @@ class AuthenticatorNotLoggedInStub extends Authenticator {
   AuthenticatorNotLoggedInStub() : super(DummyAuthWrapper(), configuration(), SharedPreferencesSpy());
 
   @override
-  Future<bool> login() => Future.value(false);
+  Future<bool> login(AuthenticationMode mode) => Future.value(false);
 
   @override
   bool isLoggedIn() => false;

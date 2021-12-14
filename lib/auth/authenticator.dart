@@ -13,6 +13,10 @@ const String _refreshTokenKey = "refreshToken";
 
 enum RefreshTokenStatus { SUCCESSFUL, GENERIC_ERROR, USER_NOT_LOGGED_IN, NETWORK_UNREACHABLE, EXPIRED_REFRESH_TOKEN }
 
+enum AuthenticationMode { GENERIC, SIMILO }
+
+const Map<String, String> similoAdditionalParameters = {"kc_idp_hint": "similo-jeune"};
+
 class Authenticator {
   final AuthWrapper _authWrapper;
   final Configuration _configuration;
@@ -20,7 +24,7 @@ class Authenticator {
 
   Authenticator(this._authWrapper, this._configuration, this._preferences);
 
-  Future<bool> login() async {
+  Future<bool> login(AuthenticationMode mode) async {
     try {
       final response = await _authWrapper.login(
         AuthTokenRequest(
@@ -29,6 +33,7 @@ class Authenticator {
           _configuration.authIssuer,
           _configuration.authScopes,
           _configuration.authClientSecret,
+          mode == AuthenticationMode.SIMILO ? similoAdditionalParameters : null,
         ),
       );
       _saveToken(response);
