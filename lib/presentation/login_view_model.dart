@@ -16,7 +16,7 @@ class LoginViewModel extends Equatable {
     final state = store.state.loginState;
     return LoginViewModel(
       displayState: _displayState(state),
-      onLoginAction: () => store.dispatch(RequestLoginAction()),
+      onLoginAction: () => store.dispatch(RequestLoginAction(RequestLoginMode.GENERIC)),
     );
   }
 

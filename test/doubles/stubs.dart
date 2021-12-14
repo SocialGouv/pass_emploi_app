@@ -95,10 +95,20 @@ class HeadersBuilderStub extends HeadersBuilder {
 }
 
 class AuthenticatorLoggedInStub extends Authenticator {
-  AuthenticatorLoggedInStub() : super(DummyAuthWrapper(), configuration(), SharedPreferencesSpy());
+  final AuthenticationMode? expectedMode;
+
+  AuthenticatorLoggedInStub({this.expectedMode})
+      : super(
+          DummyAuthWrapper(),
+          configuration(),
+          SharedPreferencesSpy(),
+        );
 
   @override
-  Future<bool> login(AuthenticationMode mode) => Future.value(true);
+  Future<bool> login(AuthenticationMode mode) {
+    if (expectedMode == null) return Future.value(true);
+    return Future.value(expectedMode == mode);
+  }
 
   @override
   bool isLoggedIn() => true;
