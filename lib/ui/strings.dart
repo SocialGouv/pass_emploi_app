@@ -41,7 +41,8 @@ class Strings {
   static String mandatoryAccessCodeError = "Votre code d\'accès doit être renseigné";
   static String yourAccessCode = "Votre code d\'accès";
   static String loginError = "Erreur lors de la connexion";
-  static String login = "Connexion";
+  static String loginGeneric = "Connexion (autres)";
+  static String loginMissionLocale = "Connexion Mission locale";
   static String loginAction = "Se connecter";
 
   // Rendez-Vous
