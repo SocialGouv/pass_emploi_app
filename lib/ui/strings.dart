@@ -10,7 +10,7 @@ class Strings {
   static String close = "Fermer";
 
   // Menu
-  static String menuActions = "Actions";
+  static String menuMonSuivi = "Mon suivi";
   static String menuChat = "Messages";
   static String menuSolutions = "Solutions";
   static String menuFavoris = "Favoris";
@@ -44,6 +44,11 @@ class Strings {
   static String loginGeneric = "Connexion (autres)";
   static String loginMissionLocale = "Connexion Mission locale";
   static String loginAction = "Se connecter";
+
+  // Mon Suivi
+  static String monSuiviAppBarTitle = "Mon suivi";
+  static String actionsTabTitle = "Actions";
+  static String rendezvousTabTitle = "Rendez-vous";
 
   // Rendez-Vous
   static String myRendezVous = "Mon rendez-vous";

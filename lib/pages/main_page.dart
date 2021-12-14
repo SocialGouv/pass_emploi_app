@@ -4,13 +4,14 @@ import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/favoris_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous_list_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
-import 'package:pass_emploi_app/pages/user_action_list_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/menu_item.dart';
+
+import 'mon_suivi_tabs_page.dart';
 
 const int _indexOfUserActionListPage = 0;
 const int _indexOfChatPage = 1;
@@ -69,7 +70,7 @@ class _MainPageState extends State<MainPage> {
         showSelectedLabels: false,
         showUnselectedLabels: false,
         items: <BottomNavigationBarItem>[
-          MenuItem(drawableRes: Drawables.icMenuAction, label: Strings.menuActions),
+          MenuItem(drawableRes: Drawables.icMenuAction, label: Strings.menuMonSuivi),
           MenuItem(drawableRes: Drawables.icMenuChat, label: Strings.menuChat, withBadge: viewModel.withChatBadge),
           MenuItem(drawableRes: Drawables.icSearchingBar, label: Strings.menuSolutions),
           MenuItem(drawableRes: Drawables.icHeart, label: Strings.menuFavoris),
@@ -90,7 +91,7 @@ class _MainPageState extends State<MainPage> {
   Widget _content(int index) {
     switch (index) {
       case _indexOfUserActionListPage:
-        return UserActionListPage(widget.userId);
+        return MonSuiviTabPage();
       case _indexOfChatPage:
         return ChatPage();
       case _indexOfRendezvousListPage:
@@ -100,7 +101,7 @@ class _MainPageState extends State<MainPage> {
       case _indexOfFavorisPage:
         return FavorisPage();
       default:
-        return UserActionListPage(widget.userId);
+        return MonSuiviTabPage();
     }
   }
 }
