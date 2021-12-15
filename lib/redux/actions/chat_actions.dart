@@ -26,3 +26,8 @@ class SendMessageAction extends ChatAction {
 }
 
 class LastMessageSeenAction extends ChatAction {}
+
+class SubscribeToChatAction extends ChatAction {}
+
+class UnsubscribeFromChatAction extends ChatAction {}
+

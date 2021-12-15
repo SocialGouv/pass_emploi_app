@@ -3,7 +3,6 @@ import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/redux/middlewares/action_logging_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/chat_middleware.dart';
-import 'package:pass_emploi_app/redux/middlewares/chat_subscription_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/crashlytics_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/login_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_details_middleware.dart';
@@ -64,7 +63,6 @@ class StoreFactory {
         OffreEmploiDetailsMiddleware(offreEmploiDetailsRepository),
         OffreEmploiFavorisMiddleware(offreEmploiFavorisRepository),
         RegisterPushNotificationTokenMiddleware(registerTokenRepository),
-        ChatSubscriptionMiddleware(chatRepository),
         CrashlyticsMiddleware(crashlytics),
         SearchLocationMiddleware(searchLocationRepository),
         ..._debugMiddleware(),

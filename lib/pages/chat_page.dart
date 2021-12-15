@@ -39,10 +39,11 @@ class _ChatPageState extends State<ChatPage> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ChatPageViewModel>(
+      onInit: (store) => store.dispatch(SubscribeToChatAction()),
+      onDispose: (store) => store.dispatch(UnsubscribeFromChatAction()),
       converter: (store) => ChatPageViewModel.create(store),
       builder: (context, viewModel) => _body(context, viewModel),
       distinct: true,
-      onInit: (store) => sendLastMessageSeenAction(store),
       onDidChange: (previousVm, newVm) => sendLastMessageSeenAction(StoreProvider.of<AppState>(context)),
     );
   }
