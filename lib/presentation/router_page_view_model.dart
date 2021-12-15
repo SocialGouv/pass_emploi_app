@@ -40,11 +40,11 @@ RouterPageDisplayState _routerPageDisplayState(Store<AppState> store) {
 MainPageDisplayState _toMainPageDisplayState(DeepLinkState deepLinkState) {
   switch (deepLinkState.deepLink) {
     case DeepLink.ROUTE_TO_RENDEZVOUS:
-      return MainPageDisplayState.RENDEZVOUS_LIST;
+      return MainPageDisplayState.RENDEZVOUS_TAB;
     case DeepLink.ROUTE_TO_CHAT:
       return MainPageDisplayState.CHAT;
     case DeepLink.ROUTE_TO_ACTION:
-      return MainPageDisplayState.ACTIONS_LIST;
+      return MainPageDisplayState.ACTIONS_TAB;
     case DeepLink.NOT_SET:
       return MainPageDisplayState.DEFAULT;
   }

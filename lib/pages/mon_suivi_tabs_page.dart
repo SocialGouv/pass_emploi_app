@@ -6,7 +6,13 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
+enum MonSuiviTab { ACTIONS, RENDEZVOUS }
+
 class MonSuiviTabPage extends StatelessWidget {
+  final MonSuiviTab initialTab;
+
+  MonSuiviTabPage({required this.initialTab}) : super();
+
   final List<Tab> monSuiviTabs = <Tab>[
     Tab(child: Text(Strings.actionsTabTitle, style: TextStyles.textMdMedium)),
     Tab(child: Text(Strings.rendezvousTabTitle, style: TextStyles.textMdMedium)),
@@ -15,6 +21,7 @@ class MonSuiviTabPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+      initialIndex: initialTab == MonSuiviTab.ACTIONS ? 0 : 1,
       length: monSuiviTabs.length,
       child: Scaffold(
         appBar: FlatDefaultAppBar(
