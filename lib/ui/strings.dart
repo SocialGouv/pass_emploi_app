@@ -21,6 +21,7 @@ class Strings {
   static String today = "Aujourd'hui";
   static String read = "Lu";
   static String sent = "Envoyé";
+  static String chatError = "Erreur lors de la récupération de votre messagerie";
 
   static String chatWith(firstName) => "Discuter avec $firstName";
 

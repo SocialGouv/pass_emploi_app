@@ -22,7 +22,7 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
       } else if (action is LastMessageSeenAction) {
         _repository.setLastMessageSeen();
       } else if (action is UnsubscribeFromChatAction) {
-        _repository.unsubscribeToMessages();
+        _repository.unsubscribeFromMessages();
       }
     }
   }
