@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/chat_message_widget.dart';
+import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:redux/redux.dart';
 
@@ -53,7 +54,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget _scaffold(ChatPageViewModel viewModel, Widget body) {
     return Scaffold(
       appBar: DefaultAppBar(title: Text(viewModel.title, style: TextStyles.h3Semi)),
-      body: body,
+      body: DefaultAnimatedSwitcher(child: body),
     );
   }
 
