@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/redux/actions/login_actions.dart';
+import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -11,15 +13,9 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 class PlusPage extends TraceableStatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return _body();
-  }
-
-  Widget _body() {
     return Scaffold(
       backgroundColor: AppColors.lightBlue,
-      appBar: FlatDefaultAppBar(
-        title: Text(Strings.menuPlus, style: TextStyles.h3Semi),
-      ),
+      appBar: FlatDefaultAppBar(title: Text(Strings.menuPlus, style: TextStyles.h3Semi)),
       body: Stack(
         children: [
           Align(
@@ -30,7 +26,9 @@ class PlusPage extends TraceableStatelessWidget {
                 children: [
                   Expanded(
                     child: primaryActionButton(
-                      onPressed: () => debugPrint("Clicked !!"),
+                      onPressed: () {
+                        StoreProvider.of<AppState>(context).dispatch(RequestLogoutAction(LogoutRequester.USER));
+                      },
                       label: Strings.logoutAction,
                       textColor: AppColors.franceRed,
                       backgroundColor: AppColors.franceRedAlpha05,
