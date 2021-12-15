@@ -1,6 +1,7 @@
 import 'package:pass_emploi_app/models/user.dart';
 
 enum RequestLoginMode { GENERIC, SIMILO }
+enum LogoutRequester { SYSTEM, USER }
 
 abstract class LoginAction {}
 
@@ -22,4 +23,8 @@ class RequestLoginAction extends LoginAction {
   RequestLoginAction(this.mode);
 }
 
-class RequestLogoutAction extends LoginAction {}
+class RequestLogoutAction extends LoginAction {
+  final LogoutRequester logoutRequester;
+
+  RequestLogoutAction(this.logoutRequester);
+}
