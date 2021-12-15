@@ -14,40 +14,46 @@ class UserActionMiddleware extends MiddlewareClass<AppState> {
   call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     if (action is RequestUserActionsAction) {
-      store.dispatch(UserActionLoadingAction());
-      final actions = await _repository.getUserActions(action.userId);
-      store.dispatch(actions != null ? UserActionSuccessAction(actions) : UserActionFailureAction());
+      _requestUserActions(store);
     } else if (action is CreateUserAction) {
-      final loginState = store.state.loginState;
-      if (loginState is LoggedInState) {
-        _createUserAction(store, loginState.user.id, action.content, action.comment, action.initialStatus);
-      }
+      _createUserAction(store, action.content, action.comment, action.initialStatus);
     } else if (action is UserActionDeleteAction) {
-      store.dispatch(UserActionDeleteLoadingAction());
-      final result = await _repository.deleteUserAction(action.actionId);
-      if (result) {
-        store.dispatch(UserActionDeleteSuccessAction(action.actionId));
-      } else {
-        store.dispatch(UserActionDeleteFailureAction());
-      }
+      deleteUserAction(store, action);
     } else if (action is UserActionUpdateStatusAction) {
       _repository.updateActionStatus(action.userId, action.actionId, action.newStatus);
     }
   }
 
-  _createUserAction(
-    Store<AppState> store,
-    String userId,
-    String? content,
-    String? comment,
-    UserActionStatus status,
-  ) async {
-    final response = await _repository.createUserAction(userId, content, comment, status);
-    if (response) {
-      store.dispatch(UserActionCreatedWithSuccessAction());
-      store.dispatch(RequestUserActionsAction(userId));
+  Future<void> _requestUserActions(Store<AppState> store) async {
+    final loginState = store.state.loginState;
+    if (loginState is LoggedInState) {
+      store.dispatch(UserActionLoadingAction());
+      final actions = await _repository.getUserActions(loginState.user.id);
+      store.dispatch(actions != null ? UserActionSuccessAction(actions) : UserActionFailureAction());
+    }
+  }
+
+  Future<void> _createUserAction(
+      Store<AppState> store, String? content, String? comment, UserActionStatus status) async {
+    final loginState = store.state.loginState;
+    if (loginState is LoggedInState) {
+      final response = await _repository.createUserAction(loginState.user.id, content, comment, status);
+      if (response) {
+        store.dispatch(UserActionCreatedWithSuccessAction());
+        store.dispatch(RequestUserActionsAction());
+      } else {
+        store.dispatch(UserActionCreationFailed());
+      }
+    }
+  }
+
+  Future<void> deleteUserAction(Store<AppState> store, UserActionDeleteAction action) async {
+    store.dispatch(UserActionDeleteLoadingAction());
+    final result = await _repository.deleteUserAction(action.actionId);
+    if (result) {
+      store.dispatch(UserActionDeleteSuccessAction(action.actionId));
     } else {
-      store.dispatch(UserActionCreationFailed());
+      store.dispatch(UserActionDeleteFailureAction());
     }
   }
 }

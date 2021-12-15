@@ -40,11 +40,7 @@ class UserActionUpdateStatusAction extends UserActionAction {
   UserActionUpdateStatusAction({required this.userId, required this.actionId, required this.newStatus});
 }
 
-class RequestUserActionsAction extends UserActionAction {
-  final String userId;
-
-  RequestUserActionsAction(this.userId);
-}
+class RequestUserActionsAction extends UserActionAction {}
 
 class DismissUserActionDetailsAction extends UserActionAction {}
 

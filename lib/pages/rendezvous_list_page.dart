@@ -12,7 +12,6 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
-import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/rendezvous_card.dart';
 
 class RendezvousListPage extends TraceableStatelessWidget {
@@ -70,10 +69,7 @@ class RendezvousListPage extends TraceableStatelessWidget {
   Scaffold _scaffold(Widget body) {
     return Scaffold(
       backgroundColor: AppColors.lightBlue,
-      appBar: _appBar(),
       body: Center(child: DefaultAnimatedSwitcher(child: body)),
     );
   }
-
-  AppBar _appBar() => FlatDefaultAppBar(title: Text(Strings.rendezvousListPageTitle, style: TextStyles.h3Semi));
 }

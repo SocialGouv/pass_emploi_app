@@ -72,7 +72,7 @@ void main() {
       final viewModel = RouterPageViewModel.create(store);
 
       expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
-      expect(viewModel.mainPageDisplayState, MainPageDisplayState.RENDEZVOUS_LIST);
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.RENDEZVOUS_TAB);
     });
 
     test('…and deep link is set to actions should display main page with actions display state', () {
@@ -85,7 +85,7 @@ void main() {
       final viewModel = RouterPageViewModel.create(store);
 
       expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
-      expect(viewModel.mainPageDisplayState, MainPageDisplayState.ACTIONS_LIST);
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.ACTIONS_TAB);
     });
 
     test('…and deep link is set to chat should display main page with chat display state', () {

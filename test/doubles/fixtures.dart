@@ -9,6 +9,12 @@ import 'package:pass_emploi_app/redux/states/login_state.dart';
 
 User mockUser({id: ""}) => User(id: id, firstName: "", lastName: "");
 
+AppState loggedInState() {
+  return AppState.initialState().copyWith(
+    loginState: LoginState.loggedIn(User(id: "id", firstName: "F", lastName: "L")),
+  );
+}
+
 Response invalidHttpResponse({String message = ""}) => Response(message, 500);
 
 OffreEmploiDetails mockOffreEmploiDetails() => OffreEmploiDetails(

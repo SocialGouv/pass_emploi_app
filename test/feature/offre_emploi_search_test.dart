@@ -3,11 +3,11 @@ import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 
+import '../doubles/fixtures.dart';
 import '../doubles/stubs.dart';
 import '../utils/test_setup.dart';
 
@@ -16,7 +16,7 @@ main() {
     // Given
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.offreEmploiRepository = OffreEmploiRepositorySuccessWithMoreDataStub();
-    final store = testStoreFactory.initializeReduxStore(initialState: _loggedInState());
+    final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
 
     final Future<bool> displayedLoading =
         store.onChange.any((element) => element.offreEmploiSearchState is OffreEmploiSearchLoadingState);
@@ -47,7 +47,7 @@ main() {
     // Given
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.offreEmploiRepository = OffreEmploiRepositoryFailureStub();
-    final store = testStoreFactory.initializeReduxStore(initialState: _loggedInState());
+    final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
 
     final displayedLoading =
         store.onChange.any((element) => element.offreEmploiSearchState is OffreEmploiSearchLoadingState);
@@ -61,16 +61,6 @@ main() {
     expect(await displayedLoading, true);
     expect(await displayedError, true);
   });
-}
-
-AppState _loggedInState() {
-  return AppState.initialState().copyWith(
-    loginState: LoginState.loggedIn(User(
-      id: "id",
-      firstName: "F",
-      lastName: "L",
-    )),
-  );
 }
 
 Location _location() => Location(libelle: "Paris", code: "75", codePostal: null, type: LocationType.DEPARTMENT);
