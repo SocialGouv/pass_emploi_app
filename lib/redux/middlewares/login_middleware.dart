@@ -17,7 +17,7 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
     if (action is BootstrapAction) {
       _checkIfUserIsLoggedIn(store);
     } else if (action is RequestLoginAction) {
-      _logUser(store);
+      _logUser(store, action.mode);
     } else if (action is RequestLogoutAction) {
       _logout(store);
     }
@@ -31,9 +31,9 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
-  void _logUser(Store<AppState> store) async {
+  void _logUser(Store<AppState> store, RequestLoginMode mode) async {
     store.dispatch(LoginLoadingAction());
-    if (await _authenticator.login()) {
+    if (await _authenticator.login(_getAuthenticationMode(mode))) {
       _dispatchLoggedInAction(store);
     } else {
       store.dispatch(LoginFailureAction());
@@ -46,7 +46,14 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(LoggedInAction(user));
   }
 
-  void _logout(Store<AppState> store) async {
-    store.dispatch(BootstrapAction());
+  void _logout(Store<AppState> store) async => store.dispatch(BootstrapAction());
+
+  AuthenticationMode _getAuthenticationMode(RequestLoginMode mode) {
+    switch (mode) {
+      case RequestLoginMode.GENERIC:
+        return AuthenticationMode.GENERIC;
+      case RequestLoginMode.SIMILO:
+        return AuthenticationMode.SIMILO;
+    }
   }
 }

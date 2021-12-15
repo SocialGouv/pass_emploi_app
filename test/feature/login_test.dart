@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/bootstrap_action.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
@@ -51,13 +52,31 @@ void main() {
   });
 
   group('On request login…', () {
-    test('user is properly logged in when login successes', () async {
+    test('user is properly logged in when login successes in GENERIC authentication mode', () async {
       // Given
-      factory.authenticator = AuthenticatorLoggedInStub();
+      factory.authenticator = AuthenticatorLoggedInStub(expectedMode: AuthenticationMode.GENERIC);
       final store = factory.initializeReduxStore(initialState: AppState.initialState());
       final displayedLoading = store.onChange.any((element) => element.loginState is LoginLoadingState);
       final result = store.onChange.firstWhere((element) => element.loginState is LoggedInState);
-      store.dispatch(RequestLoginAction());
+      store.dispatch(RequestLoginAction(RequestLoginMode.GENERIC));
+
+      // When
+      final AppState resultState = await result;
+
+      // Then
+      expect(await displayedLoading, true);
+      final loginState = resultState.loginState;
+      expect(loginState, isA<LoggedInState>());
+      expect((loginState as LoggedInState).user, User(id: "id", firstName: "F", lastName: "L"));
+    });
+
+    test('user is properly logged in when login successes in SIMILO authentication mode', () async {
+      // Given
+      factory.authenticator = AuthenticatorLoggedInStub(expectedMode: AuthenticationMode.SIMILO);
+      final store = factory.initializeReduxStore(initialState: AppState.initialState());
+      final displayedLoading = store.onChange.any((element) => element.loginState is LoginLoadingState);
+      final result = store.onChange.firstWhere((element) => element.loginState is LoggedInState);
+      store.dispatch(RequestLoginAction(RequestLoginMode.SIMILO));
 
       // When
       final AppState resultState = await result;
@@ -75,7 +94,7 @@ void main() {
       final store = factory.initializeReduxStore(initialState: AppState.initialState());
       final displayedLoading = store.onChange.any((element) => element.loginState is LoginLoadingState);
       final result = store.onChange.firstWhere((element) => element.loginState is LoginFailureState);
-      store.dispatch(RequestLoginAction());
+      store.dispatch(RequestLoginAction(RequestLoginMode.GENERIC));
 
       // When
       final AppState resultState = await result;

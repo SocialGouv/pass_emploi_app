@@ -8,15 +8,17 @@ enum LoginViewModelDisplayState { CONTENT, LOADER, FAILURE }
 
 class LoginViewModel extends Equatable {
   final LoginViewModelDisplayState displayState;
-  final Function() onLoginAction;
+  final Function() onGenericLoginAction;
+  final Function() onSimiloLoginAction;
 
-  LoginViewModel({required this.displayState, required this.onLoginAction});
+  LoginViewModel({required this.displayState, required this.onGenericLoginAction, required this.onSimiloLoginAction});
 
   factory LoginViewModel.create(Store<AppState> store) {
     final state = store.state.loginState;
     return LoginViewModel(
       displayState: _displayState(state),
-      onLoginAction: () => store.dispatch(RequestLoginAction()),
+      onGenericLoginAction: () => store.dispatch(RequestLoginAction(RequestLoginMode.GENERIC)),
+      onSimiloLoginAction: () => store.dispatch(RequestLoginAction(RequestLoginMode.SIMILO)),
     );
   }
 

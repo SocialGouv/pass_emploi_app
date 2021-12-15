@@ -20,12 +20,29 @@ void main() {
     authenticator = Authenticator(authWrapperStub, configuration(), prefs);
   });
 
-  test('token is saved and returned when login is successful', () async {
+  test('token is saved and returned when login in GENERIC mode is successful', () async {
     // Given
     authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
 
     // When
-    final bool result = await authenticator.login();
+    final bool result = await authenticator.login(AuthenticationMode.GENERIC);
+
+    // Then
+    expect(result, isTrue);
+    expect(prefs.storedValues["idToken"], authTokenResponse().idToken);
+    expect(prefs.storedValues["accessToken"], authTokenResponse().accessToken);
+    expect(prefs.storedValues["refreshToken"], authTokenResponse().refreshToken);
+  });
+
+  test('token is saved and returned when login in SIMILO mode is successful', () async {
+    // Given
+    authWrapperStub.withLoginArgsResolves(
+      _authTokenRequest(additionalParameters: {"kc_idp_hint": "similo-jeune"}),
+      authTokenResponse(),
+    );
+
+    // When
+    final bool result = await authenticator.login(AuthenticationMode.SIMILO);
 
     // Then
     expect(result, isTrue);
@@ -39,7 +56,7 @@ void main() {
     authWrapperStub.withLoginArgsThrows();
 
     // When
-    final bool result = await authenticator.login();
+    final bool result = await authenticator.login(AuthenticationMode.GENERIC);
 
     // Then
     expect(result, isFalse);
@@ -50,7 +67,7 @@ void main() {
     authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
 
     // When
-    await authenticator.login();
+    await authenticator.login(AuthenticationMode.GENERIC);
 
     // Then
     expect(authenticator.isLoggedIn(), true);
@@ -61,7 +78,7 @@ void main() {
     authWrapperStub.withLoginArgsThrows();
 
     // When
-    await authenticator.login();
+    await authenticator.login(AuthenticationMode.GENERIC);
 
     // Then
     expect(authenticator.isLoggedIn(), false);
@@ -77,7 +94,7 @@ void main() {
         refreshToken: 'refreshToken',
       ),
     );
-    await authenticator.login();
+    await authenticator.login(AuthenticationMode.GENERIC);
 
     // When
     final token = authenticator.idToken();
@@ -96,7 +113,7 @@ void main() {
   test('ID token is null when login failed', () async {
     // Given
     authWrapperStub.withLoginArgsThrows();
-    await authenticator.login();
+    await authenticator.login(AuthenticationMode.GENERIC);
 
     // When
     final token = authenticator.idToken();
@@ -108,7 +125,7 @@ void main() {
   test('Access token is returned when login is successful', () async {
     // Given
     authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
-    await authenticator.login();
+    await authenticator.login(AuthenticationMode.GENERIC);
 
     // When
     final token = authenticator.accessToken();
@@ -120,7 +137,7 @@ void main() {
   test('Access token is null when login failed', () async {
     // Given
     authWrapperStub.withLoginArgsThrows();
-    await authenticator.login();
+    await authenticator.login(AuthenticationMode.GENERIC);
 
     // When
     final token = authenticator.accessToken();
@@ -137,7 +154,7 @@ void main() {
       AuthTokenResponse(accessToken: 'accessToken2', idToken: 'idToken2', refreshToken: 'refreshToken2'),
     );
 
-    await authenticator.login();
+    await authenticator.login(AuthenticationMode.GENERIC);
 
     // When
     final result = await authenticator.refreshToken();
@@ -154,7 +171,7 @@ void main() {
     authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
     authWrapperStub.withRefreshArgsThrowsNetwork();
 
-    await authenticator.login();
+    await authenticator.login(AuthenticationMode.GENERIC);
 
     // When
     final result = await authenticator.refreshToken();
@@ -167,10 +184,10 @@ void main() {
       'refresh token returns EXPIRED_REFRESH_TOKEN and delete token when user is logged in but refresh token is expired',
       () async {
     // Given
-    authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
+        authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
     authWrapperStub.withRefreshArgsThrowsExpired();
 
-    await authenticator.login();
+    await authenticator.login(AuthenticationMode.GENERIC);
 
     // When
     final result = await authenticator.refreshToken();
@@ -183,10 +200,10 @@ void main() {
   test('refresh token returns GENERIC_ERROR when user is logged in but refresh token fails on generic exception',
       () async {
     // Given
-    authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
+        authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
     authWrapperStub.withRefreshArgsThrowsGeneric();
 
-    await authenticator.login();
+    await authenticator.login(AuthenticationMode.GENERIC);
 
     // When
     final result = await authenticator.refreshToken();
@@ -207,13 +224,14 @@ void main() {
   });
 }
 
-AuthTokenRequest _authTokenRequest() {
+AuthTokenRequest _authTokenRequest({Map<String, String>? additionalParameters}) {
   return AuthTokenRequest(
     configuration().authClientId,
     configuration().authLoginRedirectUrl,
     configuration().authIssuer,
     configuration().authScopes,
     configuration().authClientSecret,
+    additionalParameters,
   );
 }
 

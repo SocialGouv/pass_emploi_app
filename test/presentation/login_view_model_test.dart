@@ -39,12 +39,23 @@ void main() {
     expect(viewModel.displayState, LoginViewModelDisplayState.CONTENT);
   });
 
-  test('View model triggers RequestLoginAction when login is performed', () {
+  test('View model triggers RequestLoginAction with GENERIC mode when generic login is performed', () {
     final store = StoreSpy();
     final viewModel = LoginViewModel.create(store);
 
-    viewModel.onLoginAction();
+    viewModel.onGenericLoginAction();
 
     expect(store.dispatchedAction, isA<RequestLoginAction>());
+    expect((store.dispatchedAction as RequestLoginAction).mode, RequestLoginMode.GENERIC);
+  });
+
+  test('View model triggers RequestLoginAction with SIMILO mode when generic login is performed', () {
+    final store = StoreSpy();
+    final viewModel = LoginViewModel.create(store);
+
+    viewModel.onSimiloLoginAction();
+
+    expect(store.dispatchedAction, isA<RequestLoginAction>());
+    expect((store.dispatchedAction as RequestLoginAction).mode, RequestLoginMode.SIMILO);
   });
 }

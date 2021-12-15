@@ -39,9 +39,11 @@ class LoginPage extends TraceableStatelessWidget {
           Column(
             children: [
               Expanded(
+                flex: 1,
                 child: SvgPicture.asset(Drawables.icLogo, width: 145, semanticsLabel: Strings.logoTextDescription),
               ),
               Expanded(
+                flex: 2,
                 child: Container(
                   width: double.infinity,
                   margin: EdgeInsets.only(left: 16, right: 16),
@@ -61,7 +63,7 @@ class LoginPage extends TraceableStatelessWidget {
                   ),
                 ),
               ),
-              Flexible(child: SizedBox()),
+              Flexible(child: SizedBox(), flex: 1),
             ],
           ),
         ],
@@ -76,32 +78,8 @@ class LoginPage extends TraceableStatelessWidget {
       case LoginViewModelDisplayState.FAILURE:
         return _failure(viewModel);
       default:
-        return Center(child: _loginButton(viewModel));
+        return Column(children: [..._loginButtons(viewModel)]);
     }
-  }
-
-  Widget _loginButton(LoginViewModel viewModel) {
-    return Container(
-      margin: EdgeInsets.only(left: 16, right: 16),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: Material(
-          child: InkWell(
-            onTap: () => viewModel.onLoginAction(),
-            child: Container(
-              height: 56,
-              child: Center(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [Text(Strings.login, style: TextStyles.textSmMedium(color: Colors.white))],
-                ),
-              ),
-            ),
-          ),
-          color: AppColors.nightBlue,
-        ),
-      ),
-    );
   }
 
   Column _failure(LoginViewModel viewModel) {
@@ -110,8 +88,40 @@ class LoginPage extends TraceableStatelessWidget {
       children: [
         Text(Strings.loginError, style: TextStyles.textSmMedium(color: AppColors.errorRed)),
         SizedBox(height: 8),
-        _loginButton(viewModel),
+        ..._loginButtons(viewModel),
       ],
+    );
+  }
+
+  List<Widget> _loginButtons(LoginViewModel viewModel) {
+    return [
+      _loginButton(viewModel, Strings.loginMissionLocale, () => viewModel.onSimiloLoginAction()),
+      SizedBox(height: 16),
+      _loginButton(viewModel, Strings.loginGeneric, () => viewModel.onGenericLoginAction()),
+    ];
+  }
+
+  Widget _loginButton(LoginViewModel viewModel, String text, GestureTapCallback onTap) {
+    return Container(
+      margin: EdgeInsets.only(left: 16, right: 16),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
+        child: Material(
+          child: InkWell(
+            onTap: () => onTap(),
+            child: Container(
+              height: 56,
+              child: Center(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [Text(text, style: TextStyles.textSmMedium(color: Colors.white))],
+                ),
+              ),
+            ),
+          ),
+          color: AppColors.nightBlue,
+        ),
+      ),
     );
   }
 }
