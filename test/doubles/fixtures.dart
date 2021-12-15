@@ -78,6 +78,7 @@ Configuration configuration() => Configuration(
       'matomoSiteId',
       'authClientId',
       'authLoginRedirectUrl',
+      'authLogoutRedirectUrl',
       'authIssuer',
       ['scope1', 'scope2', 'scope3'],
       'authClientSecret',

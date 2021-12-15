@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
+import 'package:pass_emploi_app/auth/auth_logout_request.dart';
 import 'package:pass_emploi_app/auth/auth_refresh_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
@@ -20,68 +21,189 @@ void main() {
     authenticator = Authenticator(authWrapperStub, configuration(), prefs);
   });
 
-  test('token is saved and returned when login in GENERIC mode is successful', () async {
-    // Given
-    authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
+  group('Login tests', () {
+    test('token is saved and returned when login in GENERIC mode is successful', () async {
+      // Given
+      authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
 
-    // When
-    final bool result = await authenticator.login(AuthenticationMode.GENERIC);
+      // When
+      final bool result = await authenticator.login(AuthenticationMode.GENERIC);
 
-    // Then
-    expect(result, isTrue);
-    expect(prefs.storedValues["idToken"], authTokenResponse().idToken);
-    expect(prefs.storedValues["accessToken"], authTokenResponse().accessToken);
-    expect(prefs.storedValues["refreshToken"], authTokenResponse().refreshToken);
+      // Then
+      expect(result, isTrue);
+      expect(prefs.storedValues["idToken"], authTokenResponse().idToken);
+      expect(prefs.storedValues["accessToken"], authTokenResponse().accessToken);
+      expect(prefs.storedValues["refreshToken"], authTokenResponse().refreshToken);
+    });
+
+    test('token is saved and returned when login in SIMILO mode is successful', () async {
+      // Given
+      authWrapperStub.withLoginArgsResolves(
+        _authTokenRequest(additionalParameters: {"kc_idp_hint": "similo-jeune"}),
+        authTokenResponse(),
+      );
+
+      // When
+      final bool result = await authenticator.login(AuthenticationMode.SIMILO);
+
+      // Then
+      expect(result, isTrue);
+      expect(prefs.storedValues["idToken"], authTokenResponse().idToken);
+      expect(prefs.storedValues["accessToken"], authTokenResponse().accessToken);
+      expect(prefs.storedValues["refreshToken"], authTokenResponse().refreshToken);
+    });
+
+    test('token is null when login has failed', () async {
+      // Given
+      authWrapperStub.withLoginArgsThrows();
+
+      // When
+      final bool result = await authenticator.login(AuthenticationMode.GENERIC);
+
+      // Then
+      expect(result, isFalse);
+    });
+
+    test('isLoggedIn is TRUE when login is successful', () async {
+      // Given
+      authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
+
+      // When
+      await authenticator.login(AuthenticationMode.GENERIC);
+
+      // Then
+      expect(authenticator.isLoggedIn(), true);
+    });
+
+    test('isLoggedIn is FALSE when login failed', () async {
+      // Given
+      authWrapperStub.withLoginArgsThrows();
+
+      // When
+      await authenticator.login(AuthenticationMode.GENERIC);
+
+      // Then
+      expect(authenticator.isLoggedIn(), false);
+    });
   });
 
-  test('token is saved and returned when login in SIMILO mode is successful', () async {
-    // Given
-    authWrapperStub.withLoginArgsResolves(
-      _authTokenRequest(additionalParameters: {"kc_idp_hint": "similo-jeune"}),
-      authTokenResponse(),
-    );
+  group('Refresh token tests', () {
+    test('token is saved when refresh token is successful and user is logged in', () async {
+      // Given
+      authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
+      authWrapperStub.withRefreshArgsResolves(
+        _authRefreshTokenRequest(),
+        AuthTokenResponse(accessToken: 'accessToken2', idToken: 'idToken2', refreshToken: 'refreshToken2'),
+      );
 
-    // When
-    final bool result = await authenticator.login(AuthenticationMode.SIMILO);
+      await authenticator.login(AuthenticationMode.GENERIC);
 
-    // Then
-    expect(result, isTrue);
-    expect(prefs.storedValues["idToken"], authTokenResponse().idToken);
-    expect(prefs.storedValues["accessToken"], authTokenResponse().accessToken);
-    expect(prefs.storedValues["refreshToken"], authTokenResponse().refreshToken);
+      // When
+      final result = await authenticator.refreshToken();
+
+      // Then
+      expect(result, RefreshTokenStatus.SUCCESSFUL);
+      expect(prefs.storedValues["idToken"], "idToken2");
+      expect(prefs.storedValues["accessToken"], "accessToken2");
+      expect(prefs.storedValues["refreshToken"], "refreshToken2");
+    });
+
+    test('refresh token returns NETWORK_UNREACHABLE when user is logged in but network is unreachable', () async {
+      // Given
+      authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
+      authWrapperStub.withRefreshArgsThrowsNetwork();
+
+      await authenticator.login(AuthenticationMode.GENERIC);
+
+      // When
+      final result = await authenticator.refreshToken();
+
+      // Then
+      expect(result, RefreshTokenStatus.NETWORK_UNREACHABLE);
+    });
+
+    test(
+        'refresh token returns EXPIRED_REFRESH_TOKEN and delete tokens when user is logged in but refresh token is expired',
+        () async {
+      // Given
+      authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
+      authWrapperStub.withRefreshArgsThrowsExpired();
+
+      await authenticator.login(AuthenticationMode.GENERIC);
+
+      // When
+      final result = await authenticator.refreshToken();
+
+      // Then
+      expect(result, RefreshTokenStatus.EXPIRED_REFRESH_TOKEN);
+      expect(authenticator.isLoggedIn(), false);
+    });
+
+    test('refresh token returns GENERIC_ERROR when user is logged in but refresh token fails on generic exception',
+        () async {
+      // Given
+      authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
+      authWrapperStub.withRefreshArgsThrowsGeneric();
+
+      await authenticator.login(AuthenticationMode.GENERIC);
+
+      // When
+      final result = await authenticator.refreshToken();
+
+      // Then
+      expect(result, RefreshTokenStatus.GENERIC_ERROR);
+    });
+
+    test('refresh token returns USER_NOT_LOGGED_IN when user is not logged in', () async {
+      // Given user not logged in
+
+      // When
+      final result = await authenticator.refreshToken();
+
+      // Then
+      expect(result, RefreshTokenStatus.USER_NOT_LOGGED_IN);
+      expect(authenticator.isLoggedIn(), false);
+    });
   });
 
-  test('token is null when login has failed', () async {
-    // Given
-    authWrapperStub.withLoginArgsThrows();
+  group('Logout tests', () {
+    test('TRUE is returned and tokens are deleted when user was logged in and logout is successful', () async {
+      // Given
+      authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
+      authWrapperStub.withLogoutArgsResolves(_authLogoutRequest());
+      await authenticator.login(AuthenticationMode.GENERIC);
 
-    // When
-    final bool result = await authenticator.login(AuthenticationMode.GENERIC);
+      // When
+      final result = await authenticator.logout();
 
-    // Then
-    expect(result, isFalse);
-  });
+      // Then
+      expect(result, isTrue);
+      expect(authenticator.isLoggedIn(), false);
+    });
 
-  test('isLoggedIn is TRUE when login is successful', () async {
-    // Given
-    authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
+    test('FALSE is returned if user was logged in but logout fails', () async {
+      // Given user not logged in and…
+      authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
+      authWrapperStub.withLogoutArgsThrows();
+      await authenticator.login(AuthenticationMode.GENERIC);
 
-    // When
-    await authenticator.login(AuthenticationMode.GENERIC);
+      // When
+      final result = await authenticator.logout();
 
-    // Then
-    expect(authenticator.isLoggedIn(), true);
-  });
+      // Then
+      expect(result, isFalse);
+    });
 
-  test('isLoggedIn is FALSE when login failed', () async {
-    // Given
-    authWrapperStub.withLoginArgsThrows();
+    test('FALSE is returned if user was not logged in', () async {
+      // Given user not logged in and…
+      authWrapperStub.withLogoutArgsResolves(_authLogoutRequest());
 
-    // When
-    await authenticator.login(AuthenticationMode.GENERIC);
+      // When
+      final result = await authenticator.logout();
 
-    // Then
-    expect(authenticator.isLoggedIn(), false);
+      // Then
+      expect(result, isFalse);
+    });
   });
 
   test('ID token is properly returned and deserialized when login is successful', () async {
@@ -145,83 +267,6 @@ void main() {
     // Then
     expect(token, isNull);
   });
-
-  test('token is saved when refresh token is successful and user is logged in', () async {
-    // Given
-    authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
-    authWrapperStub.withRefreshArgsResolves(
-      _refreshTokenRequest(),
-      AuthTokenResponse(accessToken: 'accessToken2', idToken: 'idToken2', refreshToken: 'refreshToken2'),
-    );
-
-    await authenticator.login(AuthenticationMode.GENERIC);
-
-    // When
-    final result = await authenticator.refreshToken();
-
-    // Then
-    expect(result, RefreshTokenStatus.SUCCESSFUL);
-    expect(prefs.storedValues["idToken"], "idToken2");
-    expect(prefs.storedValues["accessToken"], "accessToken2");
-    expect(prefs.storedValues["refreshToken"], "refreshToken2");
-  });
-
-  test('refresh token returns NETWORK_UNREACHABLE when user is logged in but network is unreachable', () async {
-    // Given
-    authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
-    authWrapperStub.withRefreshArgsThrowsNetwork();
-
-    await authenticator.login(AuthenticationMode.GENERIC);
-
-    // When
-    final result = await authenticator.refreshToken();
-
-    // Then
-    expect(result, RefreshTokenStatus.NETWORK_UNREACHABLE);
-  });
-
-  test(
-      'refresh token returns EXPIRED_REFRESH_TOKEN and delete token when user is logged in but refresh token is expired',
-      () async {
-    // Given
-        authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
-    authWrapperStub.withRefreshArgsThrowsExpired();
-
-    await authenticator.login(AuthenticationMode.GENERIC);
-
-    // When
-    final result = await authenticator.refreshToken();
-
-    // Then
-    expect(result, RefreshTokenStatus.EXPIRED_REFRESH_TOKEN);
-    expect(authenticator.isLoggedIn(), false);
-  });
-
-  test('refresh token returns GENERIC_ERROR when user is logged in but refresh token fails on generic exception',
-      () async {
-    // Given
-        authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
-    authWrapperStub.withRefreshArgsThrowsGeneric();
-
-    await authenticator.login(AuthenticationMode.GENERIC);
-
-    // When
-    final result = await authenticator.refreshToken();
-
-    // Then
-    expect(result, RefreshTokenStatus.GENERIC_ERROR);
-  });
-
-  test('refresh token returns USER_NOT_LOGGED_IN when user is not logged in', () async {
-    // Given user not logged in
-
-    // When
-    final result = await authenticator.refreshToken();
-
-    // Then
-    expect(result, RefreshTokenStatus.USER_NOT_LOGGED_IN);
-    expect(authenticator.isLoggedIn(), false);
-  });
 }
 
 AuthTokenRequest _authTokenRequest({Map<String, String>? additionalParameters}) {
@@ -235,13 +280,21 @@ AuthTokenRequest _authTokenRequest({Map<String, String>? additionalParameters}) 
   );
 }
 
-AuthRefreshTokenRequest _refreshTokenRequest() {
+AuthRefreshTokenRequest _authRefreshTokenRequest() {
   return AuthRefreshTokenRequest(
     configuration().authClientId,
     configuration().authLoginRedirectUrl,
     configuration().authIssuer,
     'refreshToken',
     configuration().authClientSecret,
+  );
+}
+
+AuthLogoutRequest _authLogoutRequest() {
+  return AuthLogoutRequest(
+    "idToken",
+    configuration().authLogoutRedirectUrl,
+    configuration().authIssuer,
   );
 }
 
