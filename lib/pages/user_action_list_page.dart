@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets.dart';
@@ -160,9 +161,9 @@ class _UserActionListPageState extends State<UserActionListPage> {
   }
 
   Widget _createUserActionButton(UserActionListPageViewModel viewModel) {
-    // TODO-147 : SvgPicture.asset("assets/ic_add_circle.svg"),
     return primaryActionButton(
       label: Strings.addAnAction,
+      drawableRes: Drawables.icAdd,
       onPressed: () => showUserActionBottomSheet(
         context: context,
         builder: (context) => CreateUserActionBottomSheet(),
