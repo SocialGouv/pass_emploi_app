@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/rendezvous_state.dart';
+import 'package:pass_emploi_app/redux/states/search_location_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_delete_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
@@ -32,6 +33,7 @@ class AppState extends Equatable {
   final OffreEmploiSearchParametersState offreEmploiSearchParametersState;
   final OffreEmploiFavorisState offreEmploiFavorisState;
   final OffreEmploiFavorisUpdateState offreEmploiFavorisUpdateState;
+  final SearchLocationState searchLocationState;
 
   AppState({
     required this.deepLinkState,
@@ -49,6 +51,7 @@ class AppState extends Equatable {
     required this.offreEmploiSearchParametersState,
     required this.offreEmploiFavorisState,
     required this.offreEmploiFavorisUpdateState,
+    required this.searchLocationState,
   });
 
   AppState copyWith({
@@ -67,6 +70,7 @@ class AppState extends Equatable {
     final OffreEmploiSearchParametersState? offreEmploiSearchParametersState,
     final OffreEmploiFavorisState? offreEmploiFavorisState,
     final OffreEmploiFavorisUpdateState? offreEmploiFavorisUpdateState,
+    final SearchLocationState? searchLocationState,
   }) {
     return AppState(
       deepLinkState: deepLinkState ?? this.deepLinkState,
@@ -84,6 +88,7 @@ class AppState extends Equatable {
       offreEmploiSearchParametersState: offreEmploiSearchParametersState ?? this.offreEmploiSearchParametersState,
       offreEmploiFavorisState: offreEmploiFavorisState ?? this.offreEmploiFavorisState,
       offreEmploiFavorisUpdateState: offreEmploiFavorisUpdateState ?? this.offreEmploiFavorisUpdateState,
+      searchLocationState: searchLocationState ?? this.searchLocationState,
     );
   }
 
@@ -104,6 +109,7 @@ class AppState extends Equatable {
       offreEmploiSearchParametersState: OffreEmploiSearchParametersState.notInitialized(),
       offreEmploiFavorisState: OffreEmploiFavorisState.notInitialized(),
       offreEmploiFavorisUpdateState: OffreEmploiFavorisUpdateState({}),
+      searchLocationState: SearchLocationState([]),
     );
   }
 
@@ -125,6 +131,7 @@ class AppState extends Equatable {
         offreEmploiSearchParametersState,
         offreEmploiFavorisState,
         offreEmploiFavorisUpdateState,
+        searchLocationState,
       ];
 
   @override

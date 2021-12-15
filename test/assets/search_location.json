@@ -1,0 +1,36 @@
+[
+  {
+    "libelle": "Paris",
+    "code": "75",
+    "type": "DEPARTEMENT",
+    "score": 0.5714286
+  },
+  {
+    "libelle": "PARIGNY",
+    "code": "42166",
+    "codePostal": "42120",
+    "type": "COMMUNE",
+    "score": 0.44444445
+  },
+  {
+    "libelle": "PARIGNE",
+    "code": "35215",
+    "codePostal": "35133",
+    "type": "COMMUNE",
+    "score": 0.44444445
+  },
+  {
+    "libelle": "PARISOT",
+    "code": "81202",
+    "codePostal": "81310",
+    "type": "COMMUNE",
+    "score": 0.44444445
+  },
+  {
+    "libelle": "PARISOT",
+    "code": "82137",
+    "codePostal": "82160",
+    "type": "COMMUNE",
+    "score": 0.44444445
+  }
+]

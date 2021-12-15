@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dar
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
+import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
 
@@ -23,6 +24,7 @@ class TestStoreFactory {
   RegisterTokenRepository registerTokenRepository = DummyRegisterTokenRepository();
   Crashlytics crashlytics = DummyCrashlytics();
   OffreEmploiFavorisRepository offreEmploiFavorisRepository = DummyOffreEmploiFavorisRepository();
+  SearchLocationRepository searchLocationRepository = DummySearchLocationRepository();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
@@ -35,6 +37,7 @@ class TestStoreFactory {
       crashlytics,
       detailedOfferRepository,
       offreEmploiFavorisRepository,
+      searchLocationRepository,
     ).initializeReduxStore(initialState: initialState);
   }
 }

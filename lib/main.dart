@@ -29,6 +29,7 @@ import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dar
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
+import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -115,6 +116,7 @@ Future<Store<AppState>> _initializeReduxStore(
     CrashlyticsWithFirebase(FirebaseCrashlytics.instance),
     OffreEmploiDetailsRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
     OffreEmploiFavorisRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
+    SearchLocationRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
   ).initializeReduxStore(initialState: AppState.initialState());
   accessTokenRetriever.setStore(reduxStore);
   return reduxStore;

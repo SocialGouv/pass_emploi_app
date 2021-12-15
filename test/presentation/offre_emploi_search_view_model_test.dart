@@ -1,10 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/department.dart';
+import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
+import 'package:pass_emploi_app/redux/states/search_location_state.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
@@ -82,51 +84,37 @@ main() {
     expect(viewModel.errorMessage, "");
   });
 
-  group("_filterDepartments should return ...", () {
-    late OffreEmploiSearchViewModel viewModel;
+  test("create returns location result properly formatted", () {
+    // Given
+    final department = Location(libelle: "Paris", code: "75", codePostal: null, type: LocationType.DEPARTMENT);
+    final commune = Location(libelle: "Paris 1", code: "75111", codePostal: "75001", type: LocationType.COMMUNE);
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(searchLocationState: SearchLocationState([department, commune])),
+    );
 
-    setUp(() {
-      final store = Store<AppState>(
-        reducer,
-        initialState: AppState.initialState(),
-      );
-      viewModel = OffreEmploiSearchViewModel.create(store);
-    });
+    // When
+    final viewModel = OffreEmploiSearchViewModel.create(store);
 
-    test("filtered list of departments when user input match to department name", () {
-      expect(viewModel.filterDepartments("Paris"), Department.values.where((d) => d.number == "75"));
-    });
+    // Then
+    expect(viewModel.locations, [
+      LocationViewModel("Paris (75)", department),
+      LocationViewModel("Paris 1 (75001)", commune),
+    ]);
+  });
 
-    test("filtered list of departments when user input has different cases in the department name", () {
-      expect(viewModel.filterDepartments("paris"), Department.values.where((d) => d.number == "75"));
-      expect(viewModel.filterDepartments("paRis"), Department.values.where((d) => d.number == "75"));
-      expect(viewModel.filterDepartments("pariS"), Department.values.where((d) => d.number == "75"));
-    });
+  test("create returns location result with proper toString value for autocomplete widget onSelected", () {
+    // Given
+    final department = Location(libelle: "Paris", code: "75", codePostal: null, type: LocationType.DEPARTMENT);
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(searchLocationState: SearchLocationState([department])),
+    );
 
-    test("filtered list of departments when user input not complete", () {
-      expect(viewModel.filterDepartments("par"), Department.values.where((d) => d.number == "75"));
-      expect(viewModel.filterDepartments("ris"), Department.values.where((d) => d.number == "75"));
-    });
+    // When
+    final viewModel = OffreEmploiSearchViewModel.create(store);
 
-    test("empty list when user input is empty", () {
-      expect(viewModel.filterDepartments(""), []);
-    });
-
-    test("empty list when user input contains only one character", () {
-      expect(viewModel.filterDepartments("p"), []);
-    });
-
-    test("filtered list of departments when user input contains diacritics in the department name", () {
-      expect(
-          viewModel.filterDepartments("Rhône"), Department.values.where((d) => d.number == "69" || d.number == "13"));
-      expect(
-          viewModel.filterDepartments("Rhone"), Department.values.where((d) => d.number == "69" || d.number == "13"));
-    });
-
-    test("filtered list of departments when user input contains spaces in the department name", () {
-      expect(viewModel.filterDepartments("Ille et Vilaine"), Department.values.where((d) => d.number == "35"));
-      expect(viewModel.filterDepartments("Val d Oise"), Department.values.where((d) => d.number == "95"));
-      expect(viewModel.filterDepartments("           Val d Oise   "), Department.values.where((d) => d.number == "95"));
-    });
+    // Then
+    expect(viewModel.locations.first.toString(), "Paris (75)");
   });
 }

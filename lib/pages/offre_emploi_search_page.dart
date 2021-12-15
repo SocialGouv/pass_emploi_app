@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/models/department.dart';
+import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart';
+import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -21,28 +23,28 @@ class OffreEmploiSearchPage extends TraceableStatefulWidget {
 }
 
 class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
+  Location? _selectedLocation;
+  var _currentLocationQuery = "";
   var _keyWord = "";
-  var _department = "";
   var _shouldNavigate = true;
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, OffreEmploiSearchViewModel>(
-        converter: (store) => OffreEmploiSearchViewModel.create(store),
-        onWillChange: (_, newViewModel) {
-          if (newViewModel.displayState == OffreEmploiSearchDisplayState.SHOW_CONTENT && _shouldNavigate) {
-            _shouldNavigate = false;
-            Navigator.push(context, MaterialPageRoute(builder: (context) => OffreEmploiListPage())).then((value) {
-              _shouldNavigate = true;
-            });
-          }
-        },
-        distinct: true,
-        builder: (context, viewModel) {
-          return _body(viewModel);
-        });
+      converter: (store) => OffreEmploiSearchViewModel.create(store),
+      onWillChange: (_, newViewModel) {
+        if (newViewModel.displayState == OffreEmploiSearchDisplayState.SHOW_CONTENT && _shouldNavigate) {
+          _shouldNavigate = false;
+          Navigator.push(context, MaterialPageRoute(builder: (context) => OffreEmploiListPage())).then((value) {
+            _shouldNavigate = true;
+          });
+        }
+      },
+      distinct: true,
+      builder: (context, viewModel) => _body(viewModel),
+      onDispose: (store) => store.dispatch(ResetLocationAction()),
+    );
   }
-
 
   Widget _body(OffreEmploiSearchViewModel viewModel) {
     return ListView(
@@ -76,11 +78,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
     );
   }
 
-  SizedBox _separator() {
-    return SizedBox(
-      height: 24,
-    );
-  }
+  SizedBox _separator() => SizedBox(height: 24);
 
   TextFormField _keywordTextFormField() {
     return TextFormField(
@@ -93,23 +91,27 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
         return null;
       },
       decoration: _inputDecoration(Strings.keyWordsTextField),
-      onChanged: (keyword) {
-        _keyWord = keyword;
-      },
+      onChanged: (keyword) => _keyWord = keyword,
     );
   }
 
   LayoutBuilder _autocomplete(OffreEmploiSearchViewModel viewModel) {
     return LayoutBuilder(
-      builder: (context, constraints) => Autocomplete<Department>(
+      builder: (context, constraints) => Autocomplete<LocationViewModel>(
         optionsBuilder: (textEditingValue) {
-          return viewModel.filterDepartments(textEditingValue.text);
+          final newLocationQuery = textEditingValue.text;
+          if (newLocationQuery != _currentLocationQuery) {
+            viewModel.onInputLocation(newLocationQuery);
+            _currentLocationQuery = newLocationQuery;
+          }
+          return [_fakeLocationRequiredByAutocompleteToCallOptionsViewBuilderMethod()];
         },
-        onSelected: (department) {
-          _department = department.number;
-        },
-        optionsViewBuilder:
-            (BuildContext context, AutocompleteOnSelected<Department> onSelected, Iterable<Department> options) {
+        onSelected: (locationViewModel) => _selectedLocation = locationViewModel.location,
+        optionsViewBuilder: (
+          BuildContext _,
+          AutocompleteOnSelected<LocationViewModel> onSelected,
+          Iterable<LocationViewModel> __,
+        ) {
           return Align(
               alignment: Alignment.topLeft,
               child: Material(
@@ -121,16 +123,13 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
                   child: ListView.builder(
                     padding: EdgeInsets.zero,
                     shrinkWrap: true,
-                    itemCount: options.length,
+                    itemCount: viewModel.locations.length,
                     itemBuilder: (BuildContext context, int index) {
-                      final Department option = options.elementAt(index);
-
+                      final LocationViewModel locationViewModel = viewModel.locations.elementAt(index);
                       return GestureDetector(
-                        onTap: () {
-                          onSelected(option);
-                        },
+                        onTap: () => onSelected(locationViewModel),
                         child: ListTile(
-                          title: Text(option.name, style: const TextStyle(color: AppColors.nightBlue)),
+                          title: Text(locationViewModel.title, style: const TextStyle(color: AppColors.nightBlue)),
                         ),
                       );
                     },
@@ -140,18 +139,17 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
                 color: Colors.white,
               ));
         },
-        fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode,
-            VoidCallback onFieldSubmitted) {
+        fieldViewBuilder: (
+          BuildContext context,
+          TextEditingController textEditingController,
+          FocusNode focusNode,
+          VoidCallback onFieldSubmitted,
+        ) {
           return TextFormField(
             controller: textEditingController,
             decoration: _inputDecoration(Strings.jobLocationHint),
             focusNode: focusNode,
-            onFieldSubmitted: (String value) {
-              onFieldSubmitted();
-            },
-            onChanged: (value) {
-              if (value == "") _department = "";
-            },
+            onFieldSubmitted: (String value) => onFieldSubmitted(),
           );
         },
       ),
@@ -178,7 +176,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
       viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_LOADER;
 
   void _searchingRequest(OffreEmploiSearchViewModel viewModel) {
-    viewModel.searchingRequest(_keyWord, _department);
+    viewModel.searchingRequest(_keyWord, _selectedLocation);
   }
 
   Widget _errorTextField(OffreEmploiSearchViewModel viewModel) {
@@ -192,5 +190,9 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
         ),
       ),
     );
+  }
+
+  LocationViewModel _fakeLocationRequiredByAutocompleteToCallOptionsViewBuilderMethod() {
+    return LocationViewModel("", Location(libelle: "", code: "", codePostal: "", type: LocationType.COMMUNE));
   }
 }

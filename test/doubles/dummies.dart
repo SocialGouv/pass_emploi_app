@@ -13,6 +13,7 @@ import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dar
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
+import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
 
@@ -81,4 +82,9 @@ class DummyDetailedRepository extends OffreEmploiDetailsRepository {
 
 class DummyOffreEmploiFavorisRepository extends OffreEmploiFavorisRepository {
   DummyOffreEmploiFavorisRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+}
+
+class DummySearchLocationRepository extends SearchLocationRepository {
+  DummySearchLocationRepository()
+      : super("", DummyHttpClient(), DummyHeadersBuilder());
 }
