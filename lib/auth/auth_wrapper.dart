@@ -14,11 +14,13 @@ class AuthWrapper {
   Future<AuthTokenResponse> login(AuthTokenRequest request) async {
     try {
       final response = await _appAuth.authorizeAndExchangeCode(AuthorizationTokenRequest(
-          request.clientId, request.loginRedirectUrl,
-          issuer: request.issuer,
-          scopes: request.scopes,
-          clientSecret: request.clientSecret,
-          additionalParameters: request.additionalParameters));
+        request.clientId,
+        request.loginRedirectUrl,
+        issuer: request.issuer,
+        scopes: request.scopes,
+        clientSecret: request.clientSecret,
+        additionalParameters: request.additionalParameters,
+      ));
       if (response != null &&
           response.idToken != null &&
           response.accessToken != null &&
