@@ -69,14 +69,15 @@ Lorsque des variables d'environnement sont modifiées/ajoutées, il faut les ajo
 Le fichier `ci/.env.template` permet de lister les variables nécessaires.
  
 #### Mettre à jour ou insérer de nouvelle variable d'environnement dans Github Action
-1. Lancer le script `bash scripts/generate_env_ci.sh`
-2. Récupérer la valeur de STAGING_RUNTIME_ENV_B64 dans le fichier  `ci/.env.ci`.
-3. Mettre à jour le secret de Github action 'STAGING_RUNTIME_ENV_B64' (Github > Settings > Secrets).
+1. Assurer vous d'avoir mis la nouvelle variable d'environnement dans le fichier local `env/.env.staging`.
+2. Lancer le script `bash scripts/generate_env_ci.sh`
+3. Récupérer la valeur de STAGING_RUNTIME_ENV_B64 dans le fichier  `ci/env.ci`.
+4. Mettre à jour le secret de Github action 'STAGING_RUNTIME_ENV_B64' (Github > Settings > Secrets).
  
 #### Mettre à jour le provisioning profile dans Github Action
 1. Récupérer la dernière version du fichier `frfabriquesocialgouvpassemploistaging.mobileprovision` sur App Store Connect et le placer dans le répertoire `ci`.
 2. Lancer le script `bash scripts/generate_env_ci.sh`
-3. Récupérer la valeur de STAGING_IOS_PROVISIONING_PROFILE_B64 dans le fichier  `ci/.env.ci`.
+3. Récupérer la valeur de STAGING_IOS_PROVISIONING_PROFILE_B64 dans le fichier  `ci/env.ci`.
 4. Mettre à jour le secret de Github action 'STAGING_IOS_PROVISIONING_PROFILE_B64' (Github > Settings > Secrets).
 
 ### En local
