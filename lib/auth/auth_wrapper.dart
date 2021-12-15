@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
+import 'package:pass_emploi_app/auth/auth_logout_request.dart';
 import 'package:pass_emploi_app/auth/auth_refresh_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
@@ -18,7 +19,8 @@ class AuthWrapper {
         issuer: request.issuer,
         scopes: request.scopes,
         clientSecret: request.clientSecret,
-        additionalParameters: request.additionalParameters));
+        additionalParameters: request.additionalParameters,
+      ));
       if (response != null &&
           response.idToken != null &&
           response.accessToken != null &&
@@ -74,11 +76,26 @@ class AuthWrapper {
       }
     }
   }
+
+  Future<void> logout(AuthLogoutRequest request) async {
+    try {
+      await _appAuth.endSession(EndSessionRequest(
+        idTokenHint: request.idToken,
+        postLogoutRedirectUrl: request.logoutRedirectUrl,
+        issuer: request.issuer,
+      ));
+    } catch (e) {
+      debugPrint(e.toString());
+      throw AuthWrapperLogoutException();
+    }
+  }
 }
 
 class AuthWrapperLoginException implements Exception {}
 
 class AuthWrapperRefreshTokenException implements Exception {}
+
+class AuthWrapperLogoutException implements Exception {}
 
 class AuthWrapperNetworkException implements Exception {}
 

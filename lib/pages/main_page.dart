@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/favoris_page.dart';
+import 'package:pass_emploi_app/pages/plus_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -16,6 +17,7 @@ const int _indexOfMonSuiviPage = 0;
 const int _indexOfChatPage = 1;
 const int _indexOfSolutionsPage = 2;
 const int _indexOfFavorisPage = 3;
+const int _indexOfPlusPage = 4;
 
 class MainPage extends StatefulWidget {
   final MainPageDisplayState displayState;
@@ -64,6 +66,7 @@ class _MainPageState extends State<MainPage> {
           MenuItem(drawableRes: Drawables.icMenuChat, label: Strings.menuChat, withBadge: viewModel.withChatBadge),
           MenuItem(drawableRes: Drawables.icSearchingBar, label: Strings.menuSolutions),
           MenuItem(drawableRes: Drawables.icHeart, label: Strings.menuFavoris),
+          MenuItem(drawableRes: Drawables.icMenuPlus, label: Strings.menuPlus),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
@@ -85,6 +88,8 @@ class _MainPageState extends State<MainPage> {
         return SolutionsTabPage();
       case _indexOfFavorisPage:
         return FavorisPage();
+      case _indexOfPlusPage:
+        return PlusPage();
       default:
         return MonSuiviTabPage(initialTab: MonSuiviTab.ACTIONS);
     }

@@ -8,6 +8,7 @@ class Configuration {
   String matomoSiteId;
   String authClientId;
   String authLoginRedirectUrl;
+  String authLogoutRedirectUrl;
   String authIssuer;
   List<String> authScopes;
   String authClientSecret;
@@ -19,6 +20,7 @@ class Configuration {
       this.matomoSiteId,
       this.authClientId,
       this.authLoginRedirectUrl,
+      this.authLogoutRedirectUrl,
       this.authIssuer,
       this.authScopes,
       this.authClientSecret);
@@ -31,20 +33,12 @@ class Configuration {
     final matomoSiteId = getOrThrow('MATOMO_SITE_ID');
     final authClientId = getOrThrow('AUTH_CLIENT_ID');
     final authLoginRedirectUrl = getOrThrow('AUTH_LOGIN_URL');
+    final authLogoutRedirectUrl = getOrThrow('AUTH_LOGOUT_URL');
     final authIssuer = getOrThrow('AUTH_ISSUER');
     final authScopes = getArrayOrThrow('AUTH_SCOPE');
     final authClientSecret = getOrThrow('AUTH_CLIENT_SECRET');
-    return Configuration(
-        serverBaseUrl,
-        firebaseEnvironmentPrefix,
-        matomoBaseUrl,
-        matomoSiteId,
-        authClientId,
-        authLoginRedirectUrl,
-        authIssuer,
-        authScopes,
-        authClientSecret
-    );
+    return Configuration(serverBaseUrl, firebaseEnvironmentPrefix, matomoBaseUrl, matomoSiteId, authClientId,
+        authLoginRedirectUrl, authLogoutRedirectUrl, authIssuer, authScopes, authClientSecret);
   }
 
   static Future<void> loadEnvironmentVariables() async {

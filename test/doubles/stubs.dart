@@ -1,4 +1,5 @@
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
+import 'package:pass_emploi_app/auth/auth_logout_request.dart';
 import 'package:pass_emploi_app/auth/auth_refresh_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
@@ -133,10 +134,12 @@ class AuthenticatorNotLoggedInStub extends Authenticator {
 
 class AuthWrapperStub extends AuthWrapper {
   late AuthTokenRequest _loginParameters;
+  late AuthLogoutRequest _logoutParameters;
   late AuthTokenResponse _loginResult;
   late AuthRefreshTokenRequest _refreshParameters;
   late AuthTokenResponse _refreshResult;
   late bool _throwsLoginException;
+  late bool _throwsLogoutException;
   late bool _throwsRefreshNetworkException;
   late bool _throwsRefreshExpiredException;
   late bool _throwsRefreshGenericException;
@@ -149,8 +152,17 @@ class AuthWrapperStub extends AuthWrapper {
     _throwsLoginException = false;
   }
 
+  withLogoutArgsResolves(AuthLogoutRequest parameters) {
+    _logoutParameters = parameters;
+    _throwsLogoutException = false;
+  }
+
   withLoginArgsThrows() {
     _throwsLoginException = true;
+  }
+
+  withLogoutArgsThrows() {
+    _throwsLogoutException = true;
   }
 
   withRefreshArgsThrowsNetwork() {
@@ -191,6 +203,11 @@ class AuthWrapperStub extends AuthWrapper {
     if (request == _refreshParameters) return _refreshResult;
     throw Exception("Wrong parameters for refresh stub");
   }
+
+  @override
+  Future<void> logout(AuthLogoutRequest request) async {
+    if (_throwsLogoutException) throw AuthWrapperLogoutException();
+    if (request == _logoutParameters) return Future.value(true);
+    return Future.value(false);
+  }
 }
-
-

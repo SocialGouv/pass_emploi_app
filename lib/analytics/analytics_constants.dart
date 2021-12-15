@@ -14,4 +14,5 @@ class AnalyticsScreenNames {
   static const offreEmploiResults = "resultats_offres_emploi";
   static const detailsOffreEmploi = "offre_details";
   static const favoris = "favoris";
+  static const plus = "plus";
 }

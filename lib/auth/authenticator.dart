@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'auth_logout_request.dart';
 import 'auth_refresh_token_request.dart';
 import 'auth_wrapper.dart';
 
@@ -76,6 +77,22 @@ class Authenticator {
       return RefreshTokenStatus.EXPIRED_REFRESH_TOKEN;
     } on AuthWrapperRefreshTokenException {
       return RefreshTokenStatus.GENERIC_ERROR;
+    }
+  }
+
+  Future<bool> logout() async {
+    final String? idToken = _preferences.getString(_idTokenKey);
+    if (idToken == null) return false;
+    try {
+      await _authWrapper.logout(AuthLogoutRequest(
+        idToken,
+        _configuration.authLogoutRedirectUrl,
+        _configuration.authIssuer,
+      ));
+      _deleteToken();
+      return true;
+    } catch (e) {
+      return false;
     }
   }
 

@@ -7,6 +7,9 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/redux/states/rendezvous_state.dart';
 
+import '../doubles/dummies.dart';
+import '../doubles/fixtures.dart';
+import '../doubles/spies.dart';
 import '../doubles/stubs.dart';
 import '../utils/test_setup.dart';
 import 'offre_emploi_favoris_test.dart';
@@ -105,22 +108,59 @@ void main() {
     });
   });
 
-  test("On logout, state is fully reset", () async {
+  test("On SYSTEM logout, state is fully reset", () async {
     // Given
+    final authenticatorSpy = AuthenticatorSpy();
+    factory.authenticator = authenticatorSpy;
     final store = factory.initializeReduxStore(
       initialState: AppState.initialState().copyWith(
         loginState: LoginState.notLoggedIn(),
         rendezvousState: RendezvousState.loading(),
       ),
     );
-    final result = store.onChange.firstWhere((element) => element is AppState);
-    store.dispatch(RequestLogoutAction());
+    final Future<AppState> newStateFuture = store.onChange.first;
 
     // When
-    final AppState resultState = await result;
+    store.dispatch(RequestLogoutAction(LogoutRequester.SYSTEM));
 
     // Then
-    expect(resultState.loginState, isA<LoginNotInitializedState>());
-    expect(resultState.rendezvousState, isA<RendezvousNotInitializedState>());
+    final newState = await newStateFuture;
+    expect(newState.loginState, isA<LoginNotInitializedState>());
+    expect(newState.rendezvousState, isA<RendezvousNotInitializedState>());
+    expect(authenticatorSpy.logoutCalled, isFalse);
   });
+
+  test("On USER logout, user is logged out from authenticator and state is fully reset", () async {
+    // Given
+    final authenticatorSpy = AuthenticatorSpy();
+    factory.authenticator = authenticatorSpy;
+    final store = factory.initializeReduxStore(
+      initialState: AppState.initialState().copyWith(
+        loginState: LoginState.notLoggedIn(),
+        rendezvousState: RendezvousState.loading(),
+      ),
+    );
+    final Future<AppState> newStateFuture = store.onChange.first;
+
+    // When
+    store.dispatch(RequestLogoutAction(LogoutRequester.USER));
+
+    // Then
+    final newState = await newStateFuture;
+    expect(newState.loginState, isA<LoginNotInitializedState>());
+    expect(newState.rendezvousState, isA<RendezvousNotInitializedState>());
+    expect(authenticatorSpy.logoutCalled, isTrue);
+  });
+}
+
+class AuthenticatorSpy extends Authenticator {
+  bool logoutCalled = false;
+
+  AuthenticatorSpy() : super(DummyAuthWrapper(), configuration(), SharedPreferencesSpy());
+
+  @override
+  Future<bool> logout() {
+    logoutCalled = true;
+    return Future.value(true);
+  }
 }
