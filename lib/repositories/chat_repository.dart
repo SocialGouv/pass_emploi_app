@@ -16,13 +16,12 @@ class ChatRepository {
   }
 
   Future<void> subscribeToMessages(String userId, Store<AppState> store) async {
-    store.dispatch(ChatLoadingAction()); //TODO: Sortir les actions
+    store.dispatch(ChatLoadingAction()); // TODO:  Extract Redux action out of Repository
     final chatDocumentId = await _getChatDocumentId(userId);
-    if (chatDocumentId == null) return;
-    final messageCollection =
-        FirebaseFirestore.instance.collection(_collectionPath).doc(chatDocumentId).collection('messages');
-    final Stream<QuerySnapshot> messageStream = messageCollection.orderBy('creationDate').snapshots();
+    if (chatDocumentId == null) return; // TODO: handle else
 
+    final Stream<QuerySnapshot> messageStream =
+        _chatCollection(chatDocumentId).collection('messages').orderBy('creationDate').snapshots();
     _messagesSubscription = messageStream.listen(
       (QuerySnapshot snapshot) {
         final messages = snapshot.docs.map((DocumentSnapshot document) => Message.fromJson(document)).toList();
@@ -36,8 +35,8 @@ class ChatRepository {
   Future<void> subscribeToChatStatus(String userId, Store<AppState> store) async {
     final chatDocumentId = await _getChatDocumentId(userId);
     if (chatDocumentId == null) return;
-    final chatStatusCollection = FirebaseFirestore.instance.collection(_collectionPath).doc(chatDocumentId);
-    final Stream<DocumentSnapshot> chatStatusStream = chatStatusCollection.snapshots();
+
+    final Stream<DocumentSnapshot> chatStatusStream = _chatCollection(chatDocumentId).snapshots();
     _chatStatusSubscription = chatStatusStream.listen(
       (DocumentSnapshot snapshot) {
         final Map<String, dynamic> data = snapshot.data()! as Map<String, dynamic>;
@@ -62,11 +61,10 @@ class ChatRepository {
   Future<void> sendMessage(String userId, String message) async {
     final chatDocumentId = await _getChatDocumentId(userId);
     if (chatDocumentId == null) return;
-    final messageCollection =
-        FirebaseFirestore.instance.collection(_collectionPath).doc(chatDocumentId).collection('messages');
-    final chatStatusCollection = FirebaseFirestore.instance.collection(_collectionPath).doc(chatDocumentId);
+
     final messageCreationDate = FieldValue.serverTimestamp();
-    messageCollection
+    _chatCollection(chatDocumentId)
+        .collection('messages')
         .add({
           'content': message,
           'sentBy': "jeune",
@@ -75,7 +73,7 @@ class ChatRepository {
         .then((value) => print("New message sent $message"))
         .catchError((error) => print("Failed to send message: $error"));
 
-    chatStatusCollection
+    _chatCollection(chatDocumentId)
         .update({
           'lastMessageContent': message,
           'lastMessageSentBy': "jeune",
@@ -89,9 +87,9 @@ class ChatRepository {
   Future<void> setLastMessageSeen(String userId) async {
     final chatDocumentId = await _getChatDocumentId(userId);
     if (chatDocumentId == null) return;
-    final chatStatusCollection = FirebaseFirestore.instance.collection(_collectionPath).doc(chatDocumentId);
+
     final seenByJeuneAt = FieldValue.serverTimestamp();
-    chatStatusCollection
+    _chatCollection(chatDocumentId)
         .update({
           'newConseillerMessageCount': 0,
           'lastJeuneReading': seenByJeuneAt,
@@ -104,5 +102,9 @@ class ChatRepository {
     final chats =
         await FirebaseFirestore.instance.collection(_collectionPath).where('jeuneId', isEqualTo: userId).get();
     return chats.docs.first.id;
+  }
+
+  DocumentReference<Map<String, dynamic>> _chatCollection(String chatDocumentId) {
+    return FirebaseFirestore.instance.collection(_collectionPath).doc(chatDocumentId);
   }
 }
