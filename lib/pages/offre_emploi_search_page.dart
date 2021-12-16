@@ -100,6 +100,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
       builder: (context, constraints) => Autocomplete<LocationViewModel>(
         optionsBuilder: (textEditingValue) {
           final newLocationQuery = textEditingValue.text;
+          _deleteSelectedLocationOnTextDeletion(newLocationQuery);
           if (newLocationQuery != _currentLocationQuery) {
             viewModel.onInputLocation(newLocationQuery);
             _currentLocationQuery = newLocationQuery;
@@ -166,6 +167,10 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
     if (!hasFocus && selectedLocationViewModel != null) {
       textEditingController.text = selectedLocationViewModel.title;
     }
+  }
+
+  void _deleteSelectedLocationOnTextDeletion(String newLocationQuery) {
+    if (newLocationQuery.isEmpty) _selectedLocationViewModel = null;
   }
 
   InputDecoration _inputDecoration(String textFieldString) {
