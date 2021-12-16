@@ -1,61 +1,40 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
+import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/message.dart';
-import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:redux/redux.dart';
 
 class ChatRepository {
   late final String _collectionPath;
-  StreamSubscription<QuerySnapshot>? _messagesSubscription;
-  StreamSubscription<DocumentSnapshot>? _chatStatusSubscription;
 
   ChatRepository(String firebaseEnvironmentPrefix) {
     this._collectionPath = firebaseEnvironmentPrefix + "-chat";
   }
 
-  Future<void> subscribeToMessages(String userId, Store<AppState> store) async {
-    store.dispatch(ChatLoadingAction()); // TODO:  Extract Redux action out of Repository
-    final chatDocumentId = await _getChatDocumentId(userId);
-    if (chatDocumentId == null) return; // TODO: handle else
-
-    final Stream<QuerySnapshot> messageStream =
-        _chatCollection(chatDocumentId).collection('messages').orderBy('creationDate').snapshots();
-    _messagesSubscription = messageStream.listen(
-      (QuerySnapshot snapshot) {
-        final messages = snapshot.docs.map((DocumentSnapshot document) => Message.fromJson(document)).toList();
-        store.dispatch(ChatSuccessAction(messages));
-      },
-      onError: (Object error, StackTrace stackTrace) => store.dispatch(ChatFailureAction()),
-      cancelOnError: false, // TODO : EVEN if true, no error triggered
-    );
-  }
-
-  Future<void> subscribeToChatStatus(String userId, Store<AppState> store) async {
+  Stream<List<Message>> messagesStream(String userId) async* {
     final chatDocumentId = await _getChatDocumentId(userId);
     if (chatDocumentId == null) return;
 
-    final Stream<DocumentSnapshot> chatStatusStream = _chatCollection(chatDocumentId).snapshots();
-    _chatStatusSubscription = chatStatusStream.listen(
-      (DocumentSnapshot snapshot) {
-        final Map<String, dynamic> data = snapshot.data()! as Map<String, dynamic>;
-        final unreadMessageCount = data['newConseillerMessageCount'];
-        final lastConseillerReading = data['lastConseillerReading'];
-        final DateTime? dateTime = lastConseillerReading != null ? (lastConseillerReading as Timestamp).toDate() : null;
-        store.dispatch(ChatConseillerMessageAction(unreadMessageCount, dateTime));
-      },
-      onError: (Object error, StackTrace stackTrace) => print("Chat status error"),
-      cancelOnError: false,
-    );
+    final Stream<List<Message>> stream = _chatCollection(chatDocumentId)
+        .collection('messages')
+        .orderBy('creationDate')
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((document) => Message.fromJson(document)).toList())
+        .distinct();
+
+    await for (final messages in stream) yield messages;
   }
 
-  void unsubscribeFromMessages() {
-    _messagesSubscription?.cancel();
-  }
+  Stream<ConseillerMessageInfo> chatStatusStream(String userId) async* {
+    final chatDocumentId = await _getChatDocumentId(userId);
+    if (chatDocumentId == null) return;
 
-  void unsubscribeFromChatStatus() {
-    _chatStatusSubscription?.cancel();
+    final Stream<ConseillerMessageInfo> stream = _chatCollection(chatDocumentId)
+        .snapshots() //
+        .map((snapshot) => _toConseillerMessageInfo(snapshot));
+
+    await for (final info in stream) yield info;
   }
 
   Future<void> sendMessage(String userId, String message) async {
@@ -70,8 +49,8 @@ class ChatRepository {
           'sentBy': "jeune",
           'creationDate': messageCreationDate,
         })
-        .then((value) => print("New message sent $message"))
-        .catchError((error) => print("Failed to send message: $error"));
+        .then((value) => debugPrint("New message sent $message"))
+        .catchError((error) => debugPrint("Failed to send message: $error"));
 
     _chatCollection(chatDocumentId)
         .update({
@@ -80,8 +59,8 @@ class ChatRepository {
           'lastMessageSentAt': messageCreationDate,
           'seenByConseiller': false,
         })
-        .then((value) => print("Chat status updated"))
-        .catchError((error) => print("Failed to update chat status: $error"));
+        .then((value) => debugPrint("Chat status updated"))
+        .catchError((error) => debugPrint("Failed to update chat status: $error"));
   }
 
   Future<void> setLastMessageSeen(String userId) async {
@@ -94,8 +73,8 @@ class ChatRepository {
           'newConseillerMessageCount': 0,
           'lastJeuneReading': seenByJeuneAt,
         })
-        .then((value) => print("Last message seen updated"))
-        .catchError((error) => print("Failed to update last message seen: $error"));
+        .then((value) => debugPrint("Last message seen updated"))
+        .catchError((error) => debugPrint("Failed to update last message seen: $error"));
   }
 
   Future<String?> _getChatDocumentId(String userId) async {
@@ -106,5 +85,14 @@ class ChatRepository {
 
   DocumentReference<Map<String, dynamic>> _chatCollection(String chatDocumentId) {
     return FirebaseFirestore.instance.collection(_collectionPath).doc(chatDocumentId);
+  }
+
+  ConseillerMessageInfo _toConseillerMessageInfo(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+    final Map<String, dynamic> data = snapshot.data()!;
+    final lastConseillerReading = data['lastConseillerReading'];
+    return ConseillerMessageInfo(
+      data['newConseillerMessageCount'],
+      lastConseillerReading != null ? (lastConseillerReading as Timestamp).toDate() : null,
+    );
   }
 }

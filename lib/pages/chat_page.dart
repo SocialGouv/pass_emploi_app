@@ -52,7 +52,10 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ChatPageViewModel>(
-      onInit: (store) => store.dispatch(SubscribeToChatAction()),
+      onInit: (store) {
+        store.dispatch(LastMessageSeenAction());
+        store.dispatch(SubscribeToChatAction());
+      },
       onDispose: (store) => store.dispatch(UnsubscribeFromChatAction()),
       converter: (store) => ChatPageViewModel.create(store),
       builder: (context, viewModel) => _scaffold(viewModel, _body(context, viewModel)),
