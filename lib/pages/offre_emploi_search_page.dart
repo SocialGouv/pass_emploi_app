@@ -145,17 +145,27 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
           FocusNode focusNode,
           VoidCallback onFieldSubmitted,
         ) {
-          return TextFormField(
-            style: TextStyles.textSmMedium(color: AppColors.nightBlue),
-            scrollPadding: const EdgeInsets.only(bottom: 130.0),
-            controller: textEditingController,
-            decoration: _inputDecoration(Strings.jobLocationHint),
-            focusNode: focusNode,
-            onFieldSubmitted: (String value) => onFieldSubmitted(),
+          return Focus(
+            onFocusChange: (hasFocus) => _putBackLastLocationSetOnFocusLost(hasFocus, textEditingController),
+            child: TextFormField(
+              style: TextStyles.textSmMedium(color: AppColors.nightBlue),
+              scrollPadding: const EdgeInsets.only(bottom: 130.0),
+              controller: textEditingController,
+              decoration: _inputDecoration(Strings.jobLocationHint),
+              focusNode: focusNode,
+              onFieldSubmitted: (String value) => onFieldSubmitted(),
+            ),
           );
         },
       ),
     );
+  }
+
+  void _putBackLastLocationSetOnFocusLost(bool hasFocus, TextEditingController textEditingController) {
+    final selectedLocation = _selectedLocation;
+    if (!hasFocus && selectedLocation != null) {
+      textEditingController.text = selectedLocation.libelle;
+    }
   }
 
   InputDecoration _inputDecoration(String textFieldString) {
