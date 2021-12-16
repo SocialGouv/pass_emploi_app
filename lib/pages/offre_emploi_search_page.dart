@@ -23,7 +23,7 @@ class OffreEmploiSearchPage extends TraceableStatefulWidget {
 }
 
 class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
-  Location? _selectedLocation;
+  LocationViewModel? _selectedLocationViewModel;
   var _currentLocationQuery = "";
   var _keyWord = "";
   var _shouldNavigate = true;
@@ -66,7 +66,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
                   ? null
                   : () {
                       _searchingRequest(viewModel);
-                      FocusScope.of(context).unfocus();
+                      _dismissKeyboard(context);
                     },
               label: Strings.searchButton),
         ),
@@ -100,13 +100,17 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
       builder: (context, constraints) => Autocomplete<LocationViewModel>(
         optionsBuilder: (textEditingValue) {
           final newLocationQuery = textEditingValue.text;
+          _deleteSelectedLocationOnTextDeletion(newLocationQuery);
           if (newLocationQuery != _currentLocationQuery) {
             viewModel.onInputLocation(newLocationQuery);
             _currentLocationQuery = newLocationQuery;
           }
           return [_fakeLocationRequiredByAutocompleteToCallOptionsViewBuilderMethod()];
         },
-        onSelected: (locationViewModel) => _selectedLocation = locationViewModel.location,
+        onSelected: (locationViewModel) {
+          _selectedLocationViewModel = locationViewModel;
+          _dismissKeyboard(context);
+        },
         optionsViewBuilder: (
           BuildContext _,
           AutocompleteOnSelected<LocationViewModel> onSelected,
@@ -145,15 +149,32 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
           FocusNode focusNode,
           VoidCallback onFieldSubmitted,
         ) {
-          return TextFormField(
-            controller: textEditingController,
-            decoration: _inputDecoration(Strings.jobLocationHint),
-            focusNode: focusNode,
-            onFieldSubmitted: (String value) => onFieldSubmitted(),
+          return Focus(
+            onFocusChange: (hasFocus) => _putBackLastLocationSetOnFocusLost(hasFocus, textEditingController),
+            child: TextFormField(
+              style: TextStyles.textSmMedium(color: AppColors.nightBlue),
+              scrollPadding: const EdgeInsets.only(bottom: 130.0),
+              controller: textEditingController,
+              decoration: _inputDecoration(Strings.jobLocationHint),
+              focusNode: focusNode,
+            ),
           );
         },
       ),
     );
+  }
+
+  void _dismissKeyboard(BuildContext context) => FocusScope.of(context).unfocus();
+
+  void _putBackLastLocationSetOnFocusLost(bool hasFocus, TextEditingController textEditingController) {
+    final selectedLocationViewModel = _selectedLocationViewModel;
+    if (!hasFocus && selectedLocationViewModel != null) {
+      textEditingController.text = selectedLocationViewModel.title;
+    }
+  }
+
+  void _deleteSelectedLocationOnTextDeletion(String newLocationQuery) {
+    if (newLocationQuery.isEmpty) _selectedLocationViewModel = null;
   }
 
   InputDecoration _inputDecoration(String textFieldString) {
@@ -176,7 +197,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
       viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_LOADER;
 
   void _searchingRequest(OffreEmploiSearchViewModel viewModel) {
-    viewModel.searchingRequest(_keyWord, _selectedLocation);
+    viewModel.searchingRequest(_keyWord, _selectedLocationViewModel?.location);
   }
 
   Widget _errorTextField(OffreEmploiSearchViewModel viewModel) {
