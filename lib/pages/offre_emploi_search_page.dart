@@ -146,6 +146,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
           VoidCallback onFieldSubmitted,
         ) {
           return TextFormField(
+            style: TextStyles.textSmMedium(color: AppColors.nightBlue),
             scrollPadding: const EdgeInsets.only(bottom: 130.0),
             controller: textEditingController,
             decoration: _inputDecoration(Strings.jobLocationHint),
