@@ -66,7 +66,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
                   ? null
                   : () {
                       _searchingRequest(viewModel);
-                      FocusScope.of(context).unfocus();
+                      _dismissKeyboard(context);
                     },
               label: Strings.searchButton),
         ),
@@ -107,7 +107,10 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
           }
           return [_fakeLocationRequiredByAutocompleteToCallOptionsViewBuilderMethod()];
         },
-        onSelected: (locationViewModel) => _selectedLocationViewModel = locationViewModel,
+        onSelected: (locationViewModel) {
+          _selectedLocationViewModel = locationViewModel;
+          _dismissKeyboard(context);
+        },
         optionsViewBuilder: (
           BuildContext _,
           AutocompleteOnSelected<LocationViewModel> onSelected,
@@ -154,13 +157,14 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
               controller: textEditingController,
               decoration: _inputDecoration(Strings.jobLocationHint),
               focusNode: focusNode,
-              onFieldSubmitted: (String value) => onFieldSubmitted(),
             ),
           );
         },
       ),
     );
   }
+
+  void _dismissKeyboard(BuildContext context) => FocusScope.of(context).unfocus();
 
   void _putBackLastLocationSetOnFocusLost(bool hasFocus, TextEditingController textEditingController) {
     final selectedLocationViewModel = _selectedLocationViewModel;
