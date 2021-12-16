@@ -23,7 +23,7 @@ class OffreEmploiSearchPage extends TraceableStatefulWidget {
 }
 
 class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
-  Location? _selectedLocation;
+  LocationViewModel? _selectedLocationViewModel;
   var _currentLocationQuery = "";
   var _keyWord = "";
   var _shouldNavigate = true;
@@ -106,7 +106,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
           }
           return [_fakeLocationRequiredByAutocompleteToCallOptionsViewBuilderMethod()];
         },
-        onSelected: (locationViewModel) => _selectedLocation = locationViewModel.location,
+        onSelected: (locationViewModel) => _selectedLocationViewModel = locationViewModel,
         optionsViewBuilder: (
           BuildContext _,
           AutocompleteOnSelected<LocationViewModel> onSelected,
@@ -162,9 +162,9 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
   }
 
   void _putBackLastLocationSetOnFocusLost(bool hasFocus, TextEditingController textEditingController) {
-    final selectedLocation = _selectedLocation;
-    if (!hasFocus && selectedLocation != null) {
-      textEditingController.text = selectedLocation.libelle;
+    final selectedLocationViewModel = _selectedLocationViewModel;
+    if (!hasFocus && selectedLocationViewModel != null) {
+      textEditingController.text = selectedLocationViewModel.title;
     }
   }
 
@@ -188,7 +188,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
       viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_LOADER;
 
   void _searchingRequest(OffreEmploiSearchViewModel viewModel) {
-    viewModel.searchingRequest(_keyWord, _selectedLocation);
+    viewModel.searchingRequest(_keyWord, _selectedLocationViewModel?.location);
   }
 
   Widget _errorTextField(OffreEmploiSearchViewModel viewModel) {
