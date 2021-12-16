@@ -13,7 +13,6 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/chat_message_widget.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
-import 'package:redux/redux.dart';
 
 class ChatPage extends TraceableStatefulWidget {
   ChatPage() : super(name: AnalyticsScreenNames.chat);
@@ -57,12 +56,10 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
       onDispose: (store) => store.dispatch(UnsubscribeFromChatAction()),
       converter: (store) => ChatPageViewModel.create(store),
       builder: (context, viewModel) => _scaffold(viewModel, _body(context, viewModel)),
-      onDidChange: (previousVm, newVm) => _sendLastMessageSeenAction(StoreProvider.of<AppState>(context)),
+      onDidChange: (previousVm, newVm) => StoreProvider.of<AppState>(context).dispatch(LastMessageSeenAction()),
       distinct: true,
     );
   }
-
-  void _sendLastMessageSeenAction(Store<AppState> store) => store.dispatch(LastMessageSeenAction());
 
   Widget _scaffold(ChatPageViewModel viewModel, Widget body) {
     return Scaffold(
