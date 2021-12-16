@@ -17,8 +17,6 @@ import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/user_action_details_bottom_sheet.dart';
 
-enum UserActionListPageResult { UPDATED, UNCHANGED }
-
 class UserActionListPage extends TraceableStatefulWidget {
   UserActionListPage() : super(name: AnalyticsScreenNames.userActionList);
 
@@ -31,7 +29,6 @@ class UserActionListPage extends TraceableStatefulWidget {
 }
 
 class _UserActionListPageState extends State<UserActionListPage> {
-  var _result = UserActionListPageResult.UNCHANGED;
 
   @override
   Widget build(BuildContext context) {
@@ -43,22 +40,16 @@ class _UserActionListPageState extends State<UserActionListPage> {
   }
 
   Widget _scaffold(BuildContext context, UserActionListPageViewModel viewModel, Widget body) {
-    return WillPopScope(
-      onWillPop: () {
-        Navigator.pop(context, _result);
-        return Future.value(true);
-      },
-      child: Scaffold(
-        backgroundColor: AppColors.lightBlue,
-        body: Stack(
-          children: [
-            DefaultAnimatedSwitcher(child: body),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _createUserActionButton(viewModel)),
-            ),
-          ],
-        ),
+    return Scaffold(
+      backgroundColor: AppColors.lightBlue,
+      body: Stack(
+        children: [
+          DefaultAnimatedSwitcher(child: body),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _createUserActionButton(viewModel)),
+          ),
+        ],
       ),
     );
   }
@@ -167,13 +158,12 @@ class _UserActionListPageState extends State<UserActionListPage> {
       onPressed: () => showUserActionBottomSheet(
         context: context,
         builder: (context) => CreateUserActionBottomSheet(),
-      ).then((value) => _onCreateUserActionDismissed(value, viewModel)),
+      ).then((value) => _onCreateUserActionDismissed(viewModel)),
     );
   }
 
   void _onUserActionDetailsDismissed(BuildContext context, dynamic value, UserActionListPageViewModel viewModel) {
     if (value != null) {
-      _result = UserActionListPageResult.UPDATED;
       if (value == UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(Strings.deleteActionSuccess)));
       }
@@ -181,10 +171,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
     viewModel.onUserActionDetailsDismissed();
   }
 
-  void _onCreateUserActionDismissed(dynamic value, UserActionListPageViewModel viewModel) {
-    if (value != null) {
-      _result = UserActionListPageResult.UPDATED;
-    }
+  void _onCreateUserActionDismissed(UserActionListPageViewModel viewModel) {
     viewModel.onCreateUserActionDismissed();
   }
 }
