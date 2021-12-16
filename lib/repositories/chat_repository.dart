@@ -10,22 +10,20 @@ class ChatRepository {
   String _collectionPath = '';
   StreamSubscription<QuerySnapshot>? _messagesSubscription;
   StreamSubscription<DocumentSnapshot>? _chatStatusSubscription;
-  String? _chatDocumentId;
 
   ChatRepository(String firebaseEnvironmentPrefix) {
     this._collectionPath = firebaseEnvironmentPrefix + "-chat";
   }
 
-  // TODO unsubscribe depending on app lifecycle
   subscribeToMessages(String userId, Store<AppState> store) async {
-    unsubscribeFromMessages();
-    store.dispatch(ChatLoadingAction());
+    store.dispatch(ChatLoadingAction()); //TODO: Sortir les actions
 
     final chats =
         await FirebaseFirestore.instance.collection(_collectionPath).where('jeuneId', isEqualTo: userId).get();
-    _chatDocumentId = chats.docs.first.id;
+    final chatDocumentId = chats.docs.first.id;
+    final messageCollection = FirebaseFirestore.instance.collection(_collectionPath).doc(chatDocumentId).collection('messages');
+    final Stream<QuerySnapshot> messageStream = messageCollection.orderBy('creationDate').snapshots();
 
-    final Stream<QuerySnapshot> messageStream = _messagesCollection().orderBy('creationDate').snapshots();
     _messagesSubscription = messageStream.listen(
       (QuerySnapshot snapshot) {
         final messages = snapshot.docs.map((DocumentSnapshot document) => Message.fromJson(document)).toList();
@@ -34,9 +32,14 @@ class ChatRepository {
       onError: (Object error, StackTrace stackTrace) => store.dispatch(ChatFailureAction()),
       cancelOnError: false, // TODO : EVEN if true, no error triggered
     );
+  }
 
-    // TODO-refacto chat : extract to specific method called with specific REDUX ACTION
-    final Stream<DocumentSnapshot> chatStatusStream = _chatStatusCollection().snapshots();
+  void subscribeToChatStatus(String userId, Store<AppState> store) async {
+    final chats =
+        await FirebaseFirestore.instance.collection(_collectionPath).where('jeuneId', isEqualTo: userId).get();
+    final chatDocumentId = chats.docs.first.id;
+    final chatStatusCollection = FirebaseFirestore.instance.collection(_collectionPath).doc(chatDocumentId);
+    final Stream<DocumentSnapshot> chatStatusStream = chatStatusCollection.snapshots();
     _chatStatusSubscription = chatStatusStream.listen(
           (DocumentSnapshot snapshot) {
         final Map<String, dynamic> data = snapshot.data()! as Map<String, dynamic>;
@@ -52,14 +55,21 @@ class ChatRepository {
 
   unsubscribeFromMessages() {
     _messagesSubscription?.cancel();
-    // TODO-refacto chat : extract to specific method called with specific REDUX ACTION
+  }
+
+  void unsubscribeFromChatStatus() {
     _chatStatusSubscription?.cancel();
   }
 
-  sendMessage(String message) async {
+  sendMessage(String userId, String message) async {
     final messageCreationDate = FieldValue.serverTimestamp();
+    final chats =
+    await FirebaseFirestore.instance.collection(_collectionPath).where('jeuneId', isEqualTo: userId).get();
+    final chatDocumentId = chats.docs.first.id;
+    final messageCollection = FirebaseFirestore.instance.collection(_collectionPath).doc(chatDocumentId).collection('messages');
+    final chatStatusCollection = FirebaseFirestore.instance.collection(_collectionPath).doc(chatDocumentId);
 
-    _messagesCollection()
+    messageCollection
         .add({
           'content': message,
           'sentBy': "jeune",
@@ -68,7 +78,7 @@ class ChatRepository {
         .then((value) => print("New message sent $message"))
         .catchError((error) => print("Failed to send message: $error"));
 
-    _chatStatusCollection()
+    chatStatusCollection
         .update({
           'lastMessageContent': message,
           'lastMessageSentBy': "jeune",
@@ -79,9 +89,13 @@ class ChatRepository {
         .catchError((error) => print("Failed to update chat status: $error"));
   }
 
-  setLastMessageSeen() {
+  setLastMessageSeen(String userId) async {
     final seenByJeuneAt = FieldValue.serverTimestamp();
-    _chatStatusCollection()
+    final chats =
+        await FirebaseFirestore.instance.collection(_collectionPath).where('jeuneId', isEqualTo: userId).get();
+    final chatDocumentId = chats.docs.first.id;
+    final chatStatusCollection = FirebaseFirestore.instance.collection(_collectionPath).doc(chatDocumentId);
+    chatStatusCollection
         .update({
           'newConseillerMessageCount': 0,
           'lastJeuneReading': seenByJeuneAt,
@@ -90,8 +104,4 @@ class ChatRepository {
         .catchError((error) => print("Failed to update last message seen: $error"));
   }
 
-  _messagesCollection() =>
-      FirebaseFirestore.instance.collection(_collectionPath).doc(_chatDocumentId).collection('messages');
-
-  _chatStatusCollection() => FirebaseFirestore.instance.collection(_collectionPath).doc(_chatDocumentId);
 }

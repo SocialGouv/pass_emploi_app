@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/pages/favoris_page.dart';
 import 'package:pass_emploi_app/pages/plus_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
+import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -45,6 +46,8 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, MainPageViewModel>(
       converter: (store) => MainPageViewModel.create(store),
+      onInit: (store) => store.dispatch(SubscribeToChatStatusAction()),
+      onDispose: (store) => store.dispatch(UnsubscribeFromChatStatusAction()),
       builder: (context, viewModel) => _body(viewModel),
       distinct: true,
     );

@@ -16,13 +16,17 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
     if (loginState is LoggedInState) {
       if (action is SubscribeToChatAction) {
         _repository.subscribeToMessages(loginState.user.id, store);
-        _repository.setLastMessageSeen();
+        _repository.setLastMessageSeen(loginState.user.id);
+      } else if (action is SubscribeToChatStatusAction) {
+        _repository.subscribeToChatStatus(loginState.user.id, store);
       } else if (action is SendMessageAction) {
-        _repository.sendMessage(action.message);
+        _repository.sendMessage(loginState.user.id, action.message);
       } else if (action is LastMessageSeenAction) {
-        _repository.setLastMessageSeen();
+        _repository.setLastMessageSeen(loginState.user.id);
       } else if (action is UnsubscribeFromChatAction) {
         _repository.unsubscribeFromMessages();
+      } else if (action is UnsubscribeFromChatStatusAction) {
+        _repository.unsubscribeFromChatStatus();
       }
     }
   }
