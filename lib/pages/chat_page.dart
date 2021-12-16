@@ -22,19 +22,32 @@ class ChatPage extends TraceableStatefulWidget {
   _ChatPageState createState() => _ChatPageState();
 }
 
-class _ChatPageState extends State<ChatPage> {
+class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
   late TextEditingController _controller;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance?.addObserver(this);
     _controller = TextEditingController();
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    WidgetsBinding.instance?.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.paused) {
+      StoreProvider.of<AppState>(context).dispatch(UnsubscribeFromChatAction());
+    }
+    if (state == AppLifecycleState.resumed) {
+      StoreProvider.of<AppState>(context).dispatch(SubscribeToChatAction());
+    }
   }
 
   @override

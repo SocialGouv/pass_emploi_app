@@ -31,15 +31,33 @@ class MainPage extends StatefulWidget {
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   late int _selectedIndex;
   late bool _displayMonSuiviOnRendezvousTab;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance?.addObserver(this);
     _selectedIndex = widget.displayState == MainPageDisplayState.CHAT ? _indexOfChatPage : _indexOfMonSuiviPage;
     _displayMonSuiviOnRendezvousTab = widget.displayState == MainPageDisplayState.RENDEZVOUS_TAB;
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.paused) {
+      StoreProvider.of<AppState>(context).dispatch(UnsubscribeFromChatStatusAction());
+    }
+    if (state == AppLifecycleState.resumed) {
+      StoreProvider.of<AppState>(context).dispatch(SubscribeToChatStatusAction());
+    }
   }
 
   @override
