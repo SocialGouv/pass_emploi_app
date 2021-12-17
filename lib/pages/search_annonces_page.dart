@@ -12,23 +12,25 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/button.dart';
+import 'package:pass_emploi_app/widgets/carouselButton.dart';
 
 import 'offre_emploi_list_page.dart';
 
 const int _fakeItemsAddedToLeverageAdditionalScrollInAutocomplete = 20;
 
-class OffreEmploiSearchPage extends TraceableStatefulWidget {
-  OffreEmploiSearchPage() : super(name: AnalyticsScreenNames.offreEmploiResearch);
+class SearchAnnoncesPage extends TraceableStatefulWidget {
+  SearchAnnoncesPage() : super(name: AnalyticsScreenNames.offreEmploiResearch);
 
   @override
-  State<OffreEmploiSearchPage> createState() => _OffreEmploiSearchPageState();
+  State<SearchAnnoncesPage> createState() => _OffreEmploiSearchPageState();
 }
 
-class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
+class _OffreEmploiSearchPageState extends State<SearchAnnoncesPage> {
   LocationViewModel? _selectedLocationViewModel;
   var _currentLocationQuery = "";
   var _keyWord = "";
   var _shouldNavigate = true;
+  var activeButton = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -53,15 +55,25 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
       padding: EdgeInsets.fromLTRB(32, 16, 32, 16),
       shrinkWrap: true,
       children: [
-        _separator(),
+        _verticalSeparator(),
+        Row(
+          children: [
+            carouselButton(isActive: activeButton == 1 ? true : false, onPressed: () => plop(1), label: Strings.offresEmploiButton),
+            _horizontalSeparator(),
+            carouselButton(isActive: activeButton == 2 ? true : false, onPressed: () => plop(2), label: Strings.immersionButton),
+            _horizontalSeparator(),
+            carouselButton(isActive: activeButton == 3 ? true : false, onPressed: () => plop(3), label: Strings.immersionButton),
+          ],
+        ),
+        _verticalSeparator(),
         Text(Strings.keyWordsTitle, style: TextStyles.textLgMedium),
-        _separator(),
+        _verticalSeparator(),
         _keywordTextFormField(),
-        _separator(),
+        _verticalSeparator(),
         Text(Strings.jobLocationTitle, style: TextStyles.textLgMedium),
-        _separator(),
+        _verticalSeparator(),
         _autocomplete(viewModel),
-        _separator(),
+        _verticalSeparator(),
         Center(
           child: primaryActionButton(
               onPressed: _isLoading(viewModel)
@@ -72,7 +84,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
                     },
               label: Strings.searchButton),
         ),
-        _separator(),
+        _verticalSeparator(),
         if (viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_ERROR ||
             viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_EMPTY_ERROR)
           _errorTextField(viewModel),
@@ -80,7 +92,12 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
     );
   }
 
-  SizedBox _separator() => SizedBox(height: 24);
+  void plop(int index) {
+    setState(() { activeButton = index; });
+  }
+
+  SizedBox _verticalSeparator() => SizedBox(height: 24);
+  SizedBox _horizontalSeparator() => SizedBox(width: 12);
 
   TextFormField _keywordTextFormField() {
     return TextFormField(

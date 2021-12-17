@@ -5,26 +5,26 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
 import 'boite_a_outils_page.dart';
-import 'offre_emploi_search_page.dart';
+import 'search_annonces_page.dart';
 
-class SolutionsTabPage extends StatelessWidget {
-  final List<Tab> solutionTabs = <Tab>[
-    Tab(child: Text(Strings.offresTabTitle, style: TextStyles.textMdMedium)),
+class SearchTabPage extends StatelessWidget {
+  final List<Tab> searchTabs = <Tab>[
+    Tab(child: Text(Strings.annoncesTabTitle, style: TextStyles.textMdMedium)),
     Tab(child: Text(Strings.boiteAOutilsTabTitle, style: TextStyles.textMdMedium)),
   ];
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: solutionTabs.length,
+      length: searchTabs.length,
       child: Scaffold(
         appBar: FlatDefaultAppBar(
-          title: Text(Strings.solutionsAppBarTitle, style: TextStyles.h3Semi),
-          bottom: TabBar(tabs: solutionTabs),
+          title: Text(Strings.searchAppBarTitle, style: TextStyles.h3Semi),
+          bottom: TabBar(tabs: searchTabs),
         ),
         body: TabBarView(
           children: [
-            OffreEmploiSearchPage(),
+            SearchAnnoncesPage(),
             BoiteAOutilsPage(),
           ],
         ),
