@@ -56,14 +56,15 @@ class _OffreEmploiSearchPageState extends State<SearchAnnoncesPage> {
       shrinkWrap: true,
       children: [
         _verticalSeparator(),
-        Row(
-          children: [
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(children: [
             carouselButton(isActive: activeButton == 1 ? true : false, onPressed: () => plop(1), label: Strings.offresEmploiButton),
-            _horizontalSeparator(),
-            carouselButton(isActive: activeButton == 2 ? true : false, onPressed: () => plop(2), label: Strings.immersionButton),
-            _horizontalSeparator(),
-            carouselButton(isActive: activeButton == 3 ? true : false, onPressed: () => plop(3), label: Strings.immersionButton),
-          ],
+                _horizontalSeparator(),
+                carouselButton(isActive: activeButton == 2 ? true : false, onPressed: () => plop(2), label: Strings.immersionButton),
+                _horizontalSeparator(),
+                carouselButton(isActive: activeButton == 3 ? true : false, onPressed: () => plop(3), label: Strings.serviceCiviqueButton),
+          ]),
         ),
         _verticalSeparator(),
         Text(Strings.keyWordsTitle, style: TextStyles.textLgMedium),
@@ -93,10 +94,13 @@ class _OffreEmploiSearchPageState extends State<SearchAnnoncesPage> {
   }
 
   void plop(int index) {
-    setState(() { activeButton = index; });
+    setState(() {
+      activeButton = index;
+    });
   }
 
   SizedBox _verticalSeparator() => SizedBox(height: 24);
+
   SizedBox _horizontalSeparator() => SizedBox(width: 12);
 
   TextFormField _keywordTextFormField() {

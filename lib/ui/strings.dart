@@ -102,6 +102,7 @@ class Strings {
   static String jobLocationHint = "Ville, département…";
   static String searchButton = "RECHERCHER";
   static String immersionButton = "Immersion";
+  static String serviceCiviqueButton = "Service civique";
   static String offresEmploiButton = "Offres d'emploi";
   static String offreDetails = "Détails de l'offre";
   static String annoncesTabTitle = "Annonces";
