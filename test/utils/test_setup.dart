@@ -18,7 +18,7 @@ class TestStoreFactory {
   Authenticator authenticator = DummyAuthenticator();
   UserActionRepository userActionRepository = DummyUserActionRepository();
   RendezvousRepository rendezvousRepository = DummyRendezvousRepository();
-  ChatRepository chatRepository = DummyChatRepository('firebaseEnvironmentPrefix');
+  ChatRepository chatRepository = DummyChatRepository();
   OffreEmploiRepository offreEmploiRepository = DummyOffreEmploiRepository();
   OffreEmploiDetailsRepository detailedOfferRepository = DummyDetailedRepository();
   RegisterTokenRepository registerTokenRepository = DummyRegisterTokenRepository();

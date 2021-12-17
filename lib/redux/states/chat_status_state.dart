@@ -8,7 +8,7 @@ abstract class ChatStatusState extends Equatable {
     required DateTime lastConseillerReading,
   }) = ChatStatusSuccessState;
 
-  factory ChatStatusState.empty() = ChatStatusNotInitializedState;
+  factory ChatStatusState.empty() = ChatStatusEmptyState;
 
   factory ChatStatusState.notInitialized() = ChatStatusNotInitializedState;
 }

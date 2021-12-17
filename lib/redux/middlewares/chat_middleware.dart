@@ -43,7 +43,7 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
     if (currentChatState is ChatSuccessState) {
       store.dispatch(ChatSuccessAction(currentChatState.messages));
     } else {
-      store.dispatch(ChatLoadingState());
+      store.dispatch(ChatLoadingAction());
     }
   }
 
