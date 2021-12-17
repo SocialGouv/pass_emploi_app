@@ -16,6 +16,8 @@ import 'package:pass_emploi_app/widgets/carouselButton.dart';
 
 import 'offre_emploi_list_page.dart';
 
+enum SearchAnnoncesDisplayState { JOB_OFFERS, ALTERNATION, IMMERSION, CIVIL_SERVICE }
+
 const int _fakeItemsAddedToLeverageAdditionalScrollInAutocomplete = 20;
 enum SearchAnnoncesDisplayState { JOB_OFFERS, ALTERNATION, IMMERSION, CIVIL_SERVICE }
 
