@@ -348,7 +348,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
               verticalOffset: 10,
               textStyle: TextStyles.textSmRegular(),
               decoration: BoxDecoration(
-                color: Colors.transparent,
+                color: Colors.white,
                 borderRadius: const BorderRadius.all(Radius.circular(4)),
                 border: Border.all(
                   color: AppColors.nightBlue,
