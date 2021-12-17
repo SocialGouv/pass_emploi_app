@@ -104,10 +104,15 @@ class Strings {
   static String immersionButton = "Immersion";
   static String serviceCiviqueButton = "Service civique";
   static String offresEmploiButton = "Offres d'emploi";
+  static String alternanceButton = "Alternance";
   static String offreDetails = "Détails de l'offre";
   static String annoncesTabTitle = "Annonces";
   static String boiteAOutilsTabTitle = "Boîte à outils";
   static String searchAppBarTitle = "Recherche";
+
+  //Immersion
+  static String immersionLabel =
+      "Passez quelques jours dans une entreprise pour découvrir un métier en conditions réelles."; //TODO-145 find complete text
 
   // Solutions Errors
   static String noContentError = "Aucune offre ne correspond à votre recherche";
@@ -132,7 +137,8 @@ class Strings {
   static String postulerButtonTitle = "Je postule";
   static String requiredIcon = "Obligatoire";
   static String offreNotFoundError = "Cette offre n’existe plus ou est momentanément suspendue";
-  static String offreNotFoundExplaination = "Vous pouvez décider de la supprimer ou bien de la conserver dans vos favoris.";
+  static String offreNotFoundExplaination =
+      "Vous pouvez décider de la supprimer ou bien de la conserver dans vos favoris.";
   static String deleteOffreFromFavori = "Supprimer des favoris";
 
   // favoris

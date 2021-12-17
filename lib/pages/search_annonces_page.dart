@@ -17,6 +17,7 @@ import 'package:pass_emploi_app/widgets/carouselButton.dart';
 import 'offre_emploi_list_page.dart';
 
 const int _fakeItemsAddedToLeverageAdditionalScrollInAutocomplete = 20;
+enum SearchAnnoncesDisplayState { JOB_OFFERS, ALTERNATION, IMMERSION, CIVIL_SERVICE }
 
 class SearchAnnoncesPage extends TraceableStatefulWidget {
   SearchAnnoncesPage() : super(name: AnalyticsScreenNames.offreEmploiResearch);
@@ -30,7 +31,8 @@ class _OffreEmploiSearchPageState extends State<SearchAnnoncesPage> {
   var _currentLocationQuery = "";
   var _keyWord = "";
   var _shouldNavigate = true;
-  var activeButton = 1;
+  var _activeButton = 1;
+  var _annonceDisplayState = SearchAnnoncesDisplayState.JOB_OFFERS;
 
   @override
   Widget build(BuildContext context) {
@@ -59,14 +61,29 @@ class _OffreEmploiSearchPageState extends State<SearchAnnoncesPage> {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(children: [
-            carouselButton(isActive: activeButton == 1 ? true : false, onPressed: () => plop(1), label: Strings.offresEmploiButton),
-                _horizontalSeparator(),
-                carouselButton(isActive: activeButton == 2 ? true : false, onPressed: () => plop(2), label: Strings.immersionButton),
-                _horizontalSeparator(),
-                carouselButton(isActive: activeButton == 3 ? true : false, onPressed: () => plop(3), label: Strings.serviceCiviqueButton),
+            carouselButton(
+                isActive: _activeButton == 1 ? true : false,
+                onPressed: () => plop(1, SearchAnnoncesDisplayState.JOB_OFFERS),
+                label: Strings.offresEmploiButton),
+            _horizontalSeparator(),
+            carouselButton(
+                isActive: _activeButton == 2 ? true : false,
+                onPressed: () => plop(2, SearchAnnoncesDisplayState.ALTERNATION),
+                label: Strings.alternanceButton),
+            _horizontalSeparator(),
+            carouselButton(
+                isActive: _activeButton == 3 ? true : false,
+                onPressed: () => plop(3, SearchAnnoncesDisplayState.IMMERSION),
+                label: Strings.immersionButton),
+            _horizontalSeparator(),
+            carouselButton(
+                isActive: _activeButton == 4 ? true : false,
+                onPressed: () => plop(4, SearchAnnoncesDisplayState.CIVIL_SERVICE),
+                label: Strings.serviceCiviqueButton),
           ]),
         ),
         _verticalSeparator(),
+        if (_annonceDisplayState == SearchAnnoncesDisplayState.IMMERSION) _immersionLabel(),
         Text(Strings.keyWordsTitle, style: TextStyles.textLgMedium),
         _verticalSeparator(),
         _keywordTextFormField(),
@@ -93,15 +110,27 @@ class _OffreEmploiSearchPageState extends State<SearchAnnoncesPage> {
     );
   }
 
-  void plop(int index) {
+  Widget _immersionLabel() {
+    return Column(
+      children: [
+        Text(Strings.immersionLabel, style: TextStyles.textSmMedium()),
+        _verticalSeparator(),
+      ],
+    );
+  }
+
+  void plop(int index, SearchAnnoncesDisplayState state) {
+    _setDisplayState(state);
     setState(() {
-      activeButton = index;
+      _activeButton = index;
     });
   }
 
   SizedBox _verticalSeparator() => SizedBox(height: 24);
 
   SizedBox _horizontalSeparator() => SizedBox(width: 12);
+
+  _setDisplayState(SearchAnnoncesDisplayState state) => _annonceDisplayState = state;
 
   TextFormField _keywordTextFormField() {
     return TextFormField(
