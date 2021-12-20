@@ -91,4 +91,9 @@ class DummyFirebaseAuthRepository extends FirebaseAuthRepository {
   DummyFirebaseAuthRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
 }
 
-class DummyFirebaseAuthWrapper extends FirebaseAuthWrapper {}
+class DummyFirebaseAuthWrapper extends FirebaseAuthWrapper {
+  @override
+  Future<void> signOut() async {
+    return;
+  }
+}
