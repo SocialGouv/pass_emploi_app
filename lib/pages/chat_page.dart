@@ -161,12 +161,14 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
   Widget _loader() => Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
 
   Widget _failure(ChatPageViewModel viewModel) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(Strings.chatError),
-        TextButton(onPressed: () => viewModel.onRetry(), child: Text(Strings.retry, style: TextStyles.textLgMedium)),
-      ],
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(Strings.chatError),
+          TextButton(onPressed: () => viewModel.onRetry(), child: Text(Strings.retry, style: TextStyles.textLgMedium)),
+        ],
+      ),
     );
   }
 }
