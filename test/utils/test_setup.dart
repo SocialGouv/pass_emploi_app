@@ -1,8 +1,10 @@
 import 'package:pass_emploi_app/auth/authenticator.dart';
+import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/store/store_factory.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
@@ -25,19 +27,22 @@ class TestStoreFactory {
   Crashlytics crashlytics = DummyCrashlytics();
   OffreEmploiFavorisRepository offreEmploiFavorisRepository = DummyOffreEmploiFavorisRepository();
   SearchLocationRepository searchLocationRepository = DummySearchLocationRepository();
+  FirebaseAuthRepository firebaseAuthRepository = DummyFirebaseAuthRepository();
+  FirebaseAuthWrapper firebaseAuthWrapper = DummyFirebaseAuthWrapper();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
-      authenticator,
-      userActionRepository,
-      rendezvousRepository,
-      offreEmploiRepository,
-      chatRepository,
-      registerTokenRepository,
-      crashlytics,
-      detailedOfferRepository,
-      offreEmploiFavorisRepository,
-      searchLocationRepository,
-    ).initializeReduxStore(initialState: initialState);
+            authenticator,
+            userActionRepository,
+            rendezvousRepository,
+            offreEmploiRepository,
+            chatRepository,
+            registerTokenRepository,
+            crashlytics,
+            detailedOfferRepository,
+            offreEmploiFavorisRepository,
+            searchLocationRepository,
+            firebaseAuthRepository,
+            firebaseAuthWrapper).initializeReduxStore(initialState: initialState);
   }
 }

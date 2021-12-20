@@ -1,10 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
+import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:redux/src/store.dart';
 
+import '../doubles/dummies.dart';
 import '../doubles/fixtures.dart';
 import '../redux/middlewares/register_push_notification_token_middleware_test.dart';
 import '../utils/test_setup.dart';
@@ -33,9 +36,7 @@ main() {
       // Given
       final testStoreFactory = TestStoreFactory();
       testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositorySuccessStub();
-      final Store<AppState> store = testStoreFactory.initializeReduxStore(
-        initialState: initialState,
-      );
+      final Store<AppState> store = testStoreFactory.initializeReduxStore(initialState: initialState);
 
       final successState =
           store.onChange.firstWhere((element) => element.offreEmploiFavorisState is OffreEmploiFavorisLoadedState);
@@ -49,5 +50,43 @@ main() {
       expect(favorisState.offreEmploiFavorisId, {"1", "2", "4"});
       expect(favorisState.data, null);
     });
+
+    test("Firebase Auth token should be fetched and set", () async {
+      // Given
+      final testStoreFactory = TestStoreFactory();
+      final firebaseAuthWrapperSpy = FirebaseAuthWrapperSpy();
+      testStoreFactory.firebaseAuthWrapper = firebaseAuthWrapperSpy;
+      testStoreFactory.firebaseAuthRepository = FirebaseAuthRepositorySuccessStub();
+      final Store<AppState> store = testStoreFactory.initializeReduxStore(initialState: initialState);
+
+      // When
+      await store.dispatch(LoggedInAction(mockUser(id: "id")));
+
+      // Then
+      expect(firebaseAuthWrapperSpy.signInWithCustomTokenHasBeenCalled, isTrue);
+    });
   });
+}
+
+class FirebaseAuthRepositorySuccessStub extends FirebaseAuthRepository {
+  FirebaseAuthRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+
+  @override
+  Future<String?> getFirebaseToken(String userId) async {
+    if (userId == "id") return "FIREBASE-TOKEN";
+    return null;
+  }
+}
+
+class FirebaseAuthWrapperSpy extends FirebaseAuthWrapper {
+  bool signInWithCustomTokenHasBeenCalled = false;
+
+  @override
+  Future<bool> signInWithCustomToken(String token) async {
+    if (token == "FIREBASE-TOKEN") {
+      signInWithCustomTokenHasBeenCalled = true;
+      return true;
+    }
+    return false;
+  }
 }
