@@ -12,7 +12,5 @@ class FirebaseAuthWrapper {
     return false;
   }
 
-  Future<void> signOut() async {
-    await FirebaseAuth.instance.signOut();
-  }
+  Future<void> signOut() async => await FirebaseAuth.instance.signOut();
 }
