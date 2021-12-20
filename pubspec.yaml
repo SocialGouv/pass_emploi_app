@@ -28,11 +28,12 @@ dependencies:
   collection: 1.15.0
   equatable: 2.0.3
   # Firebase
-  firebase_core: 1.7.0
+  firebase_core: 1.10.6
   firebase_crashlytics: 2.2.1
   firebase_remote_config: 0.10.0+5
   firebase_messaging: 10.0.8
   cloud_firestore: 2.5.3
+  firebase_auth: 3.3.4
   # UI
   google_fonts: 2.1.0
   # Analytics
