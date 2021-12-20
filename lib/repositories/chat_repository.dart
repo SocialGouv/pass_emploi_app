@@ -42,25 +42,24 @@ class ChatRepository {
     if (chatDocumentId == null) return;
 
     final messageCreationDate = FieldValue.serverTimestamp();
-    _chatCollection(chatDocumentId)
-        .collection('messages')
-        .add({
-          'content': message,
-          'sentBy': "jeune",
-          'creationDate': messageCreationDate,
+    FirebaseFirestore.instance
+        .runTransaction((transaction) async {
+          final newDocId = _chatCollection(chatDocumentId).collection('messages').doc(null);
+          transaction
+            ..set(newDocId, {
+              'content': message,
+              'sentBy': "jeune",
+              'creationDate': messageCreationDate,
+            })
+            ..update(_chatCollection(chatDocumentId), {
+              'lastMessageContent': message,
+              'lastMessageSentBy': "jeune",
+              'lastMessageSentAt': messageCreationDate,
+              'seenByConseiller': false,
+            });
         })
-        .then((value) => debugPrint("New message sent $message"))
-        .catchError((error) => debugPrint("Failed to send message: $error"));
-
-    _chatCollection(chatDocumentId)
-        .update({
-          'lastMessageContent': message,
-          'lastMessageSentBy': "jeune",
-          'lastMessageSentAt': messageCreationDate,
-          'seenByConseiller': false,
-        })
-        .then((value) => debugPrint("Chat status updated"))
-        .catchError((error) => debugPrint("Failed to update chat status: $error"));
+        .then((value) => debugPrint("New message sent $message && chat status updated"))
+        .catchError((error) => debugPrint("Failed to send message or update chat status: $error "));
   }
 
   Future<void> setLastMessageSeen(String userId) async {

@@ -50,7 +50,7 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
   void _subscribeToChatStream(LoggedInState loginState, Store<AppState> store) {
     _messagesSubscription = _repository.messagesStream(loginState.user.id).listen(
           (messages) => store.dispatch(ChatSuccessAction(messages)),
-          onError: (Object error, StackTrace stackTrace) => store.dispatch(ChatFailureAction()),
+          onError: (Object error) => store.dispatch(ChatFailureAction()),
         );
   }
 
