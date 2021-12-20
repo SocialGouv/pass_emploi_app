@@ -32,17 +32,18 @@ class TestStoreFactory {
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
-            authenticator,
-            userActionRepository,
-            rendezvousRepository,
-            offreEmploiRepository,
-            chatRepository,
-            registerTokenRepository,
-            crashlytics,
-            detailedOfferRepository,
-            offreEmploiFavorisRepository,
-            searchLocationRepository,
-            firebaseAuthRepository,
-            firebaseAuthWrapper).initializeReduxStore(initialState: initialState);
+      authenticator,
+      userActionRepository,
+      rendezvousRepository,
+      offreEmploiRepository,
+      chatRepository,
+      registerTokenRepository,
+      crashlytics,
+      detailedOfferRepository,
+      offreEmploiFavorisRepository,
+      searchLocationRepository,
+      firebaseAuthRepository,
+      firebaseAuthWrapper,
+    ).initializeReduxStore(initialState: initialState);
   }
 }
