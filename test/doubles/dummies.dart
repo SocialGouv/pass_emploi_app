@@ -3,11 +3,13 @@ import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
+import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
@@ -82,6 +84,16 @@ class DummyOffreEmploiFavorisRepository extends OffreEmploiFavorisRepository {
 }
 
 class DummySearchLocationRepository extends SearchLocationRepository {
-  DummySearchLocationRepository()
-      : super("", DummyHttpClient(), DummyHeadersBuilder());
+  DummySearchLocationRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+}
+
+class DummyFirebaseAuthRepository extends FirebaseAuthRepository {
+  DummyFirebaseAuthRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+}
+
+class DummyFirebaseAuthWrapper extends FirebaseAuthWrapper {
+  @override
+  Future<void> signOut() async {
+    return;
+  }
 }

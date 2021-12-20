@@ -1,16 +1,20 @@
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
+import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/bootstrap_action.dart';
 import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:redux/redux.dart';
 
 class LoginMiddleware extends MiddlewareClass<AppState> {
   final Authenticator _authenticator;
+  final FirebaseAuthRepository _firebaseAuthRepository;
+  final FirebaseAuthWrapper _firebaseAuthWrapper;
 
-  LoginMiddleware(this._authenticator);
+  LoginMiddleware(this._authenticator, this._firebaseAuthRepository, this._firebaseAuthWrapper);
 
   @override
   call(Store<AppState> store, action, NextDispatcher next) async {
@@ -21,6 +25,9 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
       _logUser(store, action.mode);
     } else if (action is RequestLogoutAction) {
       _logout(store, action.logoutRequester);
+      _firebaseAuthWrapper.signOut();
+    } else if (action is LoggedInAction) {
+      _loginToFirebase(action);
     }
   }
 
@@ -60,5 +67,10 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
       case RequestLoginMode.SIMILO:
         return AuthenticationMode.SIMILO;
     }
+  }
+
+  Future<void> _loginToFirebase(LoggedInAction action) async {
+    final token = await _firebaseAuthRepository.getFirebaseToken(action.user.id);
+    if (token != null) _firebaseAuthWrapper.signInWithCustomToken(token);
   }
 }

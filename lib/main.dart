@@ -14,6 +14,7 @@ import 'package:package_info/package_info.dart';
 import 'package:pass_emploi_app/auth/auth_access_token_retriever.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
+import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/network/access_token_interceptor.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/logging_interceptor.dart';
@@ -24,6 +25,7 @@ import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/store/store_factory.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
@@ -117,6 +119,8 @@ Future<Store<AppState>> _initializeReduxStore(
     OffreEmploiDetailsRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
     OffreEmploiFavorisRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
     SearchLocationRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
+    FirebaseAuthRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
+    FirebaseAuthWrapper(),
   ).initializeReduxStore(initialState: AppState.initialState());
   accessTokenRetriever.setStore(reduxStore);
   return reduxStore;
