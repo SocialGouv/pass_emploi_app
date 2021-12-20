@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/pages/favoris_page.dart';
 import 'package:pass_emploi_app/pages/plus_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
+import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -30,21 +31,41 @@ class MainPage extends StatefulWidget {
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   late int _selectedIndex;
   late bool _displayMonSuiviOnRendezvousTab;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance?.addObserver(this);
     _selectedIndex = widget.displayState == MainPageDisplayState.CHAT ? _indexOfChatPage : _indexOfMonSuiviPage;
     _displayMonSuiviOnRendezvousTab = widget.displayState == MainPageDisplayState.RENDEZVOUS_TAB;
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.paused) {
+      StoreProvider.of<AppState>(context).dispatch(UnsubscribeFromChatStatusAction());
+    }
+    if (state == AppLifecycleState.resumed) {
+      StoreProvider.of<AppState>(context).dispatch(SubscribeToChatStatusAction());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, MainPageViewModel>(
       converter: (store) => MainPageViewModel.create(store),
+      onInit: (store) => store.dispatch(SubscribeToChatStatusAction()),
+      onDispose: (store) => store.dispatch(UnsubscribeFromChatStatusAction()),
       builder: (context, viewModel) => _body(viewModel),
       distinct: true,
     );

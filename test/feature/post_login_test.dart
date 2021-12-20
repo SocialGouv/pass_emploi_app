@@ -3,7 +3,6 @@ import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
-import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:redux/src/store.dart';
 
 import '../doubles/fixtures.dart';
@@ -15,24 +14,19 @@ main() {
   group("after login ...", () {
     final initialState = AppState.initialState().copyWith(loginState: LoginState.notLoggedIn());
 
-    test("multiple repositories should be called", () {
+    test("push notification token should be registered", () {
       // Given
       final tokenRepositorySpy = RegisterTokenRepositorySpy();
-      final chatRepositorySpy = ChatRepositorySpy();
       final testStoreFactory = TestStoreFactory();
       testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositorySuccessStub();
       testStoreFactory.registerTokenRepository = tokenRepositorySpy;
-      testStoreFactory.chatRepository = chatRepositorySpy;
-      final Store<AppState> store = testStoreFactory.initializeReduxStore(
-        initialState: initialState,
-      );
+      final Store<AppState> store = testStoreFactory.initializeReduxStore(initialState: initialState);
 
       // When
       store.dispatch(LoggedInAction(mockUser(id: "1")));
 
       // Then
       expect(tokenRepositorySpy.wasCalled, true);
-      expect(chatRepositorySpy.wasCalled, true);
     });
 
     test("favoris id should be loaded", () async {
@@ -56,15 +50,4 @@ main() {
       expect(favorisState.data, null);
     });
   });
-}
-
-class ChatRepositorySpy extends ChatRepository {
-  bool wasCalled = false;
-  ChatRepositorySpy() : super("");
-
-  @override
-  subscribeToMessages(String userId, Store<AppState> store) async {
-    expect(userId, "1");
-    wasCalled = true;
-  }
 }

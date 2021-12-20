@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:equatable/equatable.dart';
 
 enum Sender { jeune, conseiller }
 
-class Message {
+class Message extends Equatable {
   final String content;
   final DateTime creationDate;
   final Sender sentBy;
@@ -18,4 +19,7 @@ class Message {
       json['sentBy'] as String == 'jeune' ? Sender.jeune : Sender.conseiller,
     );
   }
+
+  @override
+  List<Object?> get props => [content, creationDate, sentBy];
 }

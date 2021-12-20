@@ -61,10 +61,7 @@ class DummyRendezvousRepository extends RendezvousRepository {
 }
 
 class DummyChatRepository extends ChatRepository {
-  DummyChatRepository(String firebaseEnvironmentPrefix) : super(firebaseEnvironmentPrefix);
-
-  @override
-  subscribeToMessages(String userId, Store<AppState> store) async {}
+  DummyChatRepository() : super("");
 }
 
 class DummyCrashlytics extends Crashlytics {

@@ -1,100 +1,97 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter/foundation.dart';
+import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/message.dart';
-import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:redux/redux.dart';
 
 class ChatRepository {
-  String _collectionPath = '';
-  StreamSubscription<QuerySnapshot>? _messagesSubscription;
-  StreamSubscription<DocumentSnapshot>? _chatStatusSubscription;
-  String? _chatDocumentId;
+  late final String _collectionPath;
 
   ChatRepository(String firebaseEnvironmentPrefix) {
     this._collectionPath = firebaseEnvironmentPrefix + "-chat";
   }
 
-  // TODO unsubscribe depending on app lifecycle
-  subscribeToMessages(String userId, Store<AppState> store) async {
-    unsubscribeToMessages();
-    store.dispatch(ChatLoadingAction());
+  Stream<List<Message>> messagesStream(String userId) async* {
+    final chatDocumentId = await _getChatDocumentId(userId);
+    if (chatDocumentId == null) return;
 
-    final chats =
-        await FirebaseFirestore.instance.collection(_collectionPath).where('jeuneId', isEqualTo: userId).get();
-    _chatDocumentId = chats.docs.first.id;
+    final Stream<List<Message>> stream = _chatCollection(chatDocumentId)
+        .collection('messages')
+        .orderBy('creationDate')
+        .snapshots()
+        .map((snapshot) => snapshot.docs.map((document) => Message.fromJson(document)).toList())
+        .distinct();
 
-    final Stream<QuerySnapshot> messageStream = _messagesCollection().orderBy('creationDate').snapshots();
-    _messagesSubscription = messageStream.listen(
-      (QuerySnapshot snapshot) {
-        final messages = snapshot.docs.map((DocumentSnapshot document) => Message.fromJson(document)).toList();
-        store.dispatch(ChatSuccessAction(messages));
-      },
-      onError: (Object error, StackTrace stackTrace) {
-        store.dispatch(ChatFailureAction());
-      },
-      cancelOnError: false,
-    );
-
-    final Stream<DocumentSnapshot> chatStatusStream = _chatStatusCollection().snapshots();
-    _chatStatusSubscription = chatStatusStream.listen(
-      (DocumentSnapshot snapshot) {
-        final Map<String, dynamic> data = snapshot.data()! as Map<String, dynamic>;
-        final unreadMessageCount = data['newConseillerMessageCount'];
-        final lastConseillerReading = data['lastConseillerReading'];
-        final DateTime? dateTime = lastConseillerReading != null ? (lastConseillerReading as Timestamp).toDate() : null;
-        store.dispatch(ChatConseillerMessageAction(unreadMessageCount, dateTime));
-      },
-      onError: (Object error, StackTrace stackTrace) {
-        print("Chat status error");
-      },
-      cancelOnError: false,
-    );
+    await for (final messages in stream) yield messages;
   }
 
-  unsubscribeToMessages() {
-    _messagesSubscription?.cancel();
-    _chatStatusSubscription?.cancel();
+  Stream<ConseillerMessageInfo> chatStatusStream(String userId) async* {
+    final chatDocumentId = await _getChatDocumentId(userId);
+    if (chatDocumentId == null) return;
+
+    final Stream<ConseillerMessageInfo> stream = _chatCollection(chatDocumentId)
+        .snapshots() //
+        .map((snapshot) => _toConseillerMessageInfo(snapshot));
+
+    await for (final info in stream) yield info;
   }
 
-  sendMessage(String message) async {
+  Future<void> sendMessage(String userId, String message) async {
+    final chatDocumentId = await _getChatDocumentId(userId);
+    if (chatDocumentId == null) return;
+
     final messageCreationDate = FieldValue.serverTimestamp();
-
-    _messagesCollection()
-        .add({
-          'content': message,
-          'sentBy': "jeune",
-          'creationDate': messageCreationDate,
+    FirebaseFirestore.instance
+        .runTransaction((transaction) async {
+          final newDocId = _chatCollection(chatDocumentId).collection('messages').doc(null);
+          transaction
+            ..set(newDocId, {
+              'content': message,
+              'sentBy': "jeune",
+              'creationDate': messageCreationDate,
+            })
+            ..update(_chatCollection(chatDocumentId), {
+              'lastMessageContent': message,
+              'lastMessageSentBy': "jeune",
+              'lastMessageSentAt': messageCreationDate,
+              'seenByConseiller': false,
+            });
         })
-        .then((value) => print("New message sent $message"))
-        .catchError((error) => print("Failed to send message: $error"));
-
-    _chatStatusCollection()
-        .update({
-          'lastMessageContent': message,
-          'lastMessageSentBy': "jeune",
-          'lastMessageSentAt': messageCreationDate,
-          'seenByConseiller': false,
-        })
-        .then((value) => print("Chat status updated"))
-        .catchError((error) => print("Failed to update chat status: $error"));
+        .then((value) => debugPrint("New message sent $message && chat status updated"))
+        .catchError((error) => debugPrint("Failed to send message or update chat status: $error "));
   }
 
-  setLastMessageSeen() {
+  Future<void> setLastMessageSeen(String userId) async {
+    final chatDocumentId = await _getChatDocumentId(userId);
+    if (chatDocumentId == null) return;
+
     final seenByJeuneAt = FieldValue.serverTimestamp();
-    _chatStatusCollection()
+    _chatCollection(chatDocumentId)
         .update({
           'newConseillerMessageCount': 0,
           'lastJeuneReading': seenByJeuneAt,
         })
-        .then((value) => print("Last message seen updated"))
-        .catchError((error) => print("Failed to update last message seen: $error"));
+        .then((value) => debugPrint("Last message seen updated"))
+        .catchError((error) => debugPrint("Failed to update last message seen: $error"));
   }
 
-  _messagesCollection() =>
-      FirebaseFirestore.instance.collection(_collectionPath).doc(_chatDocumentId).collection('messages');
+  Future<String?> _getChatDocumentId(String userId) async {
+    final chats =
+        await FirebaseFirestore.instance.collection(_collectionPath).where('jeuneId', isEqualTo: userId).get();
+    return chats.docs.first.id;
+  }
 
-  _chatStatusCollection() => FirebaseFirestore.instance.collection(_collectionPath).doc(_chatDocumentId);
+  DocumentReference<Map<String, dynamic>> _chatCollection(String chatDocumentId) {
+    return FirebaseFirestore.instance.collection(_collectionPath).doc(chatDocumentId);
+  }
+
+  ConseillerMessageInfo _toConseillerMessageInfo(DocumentSnapshot<Map<String, dynamic>> snapshot) {
+    final Map<String, dynamic> data = snapshot.data()!;
+    final lastConseillerReading = data['lastConseillerReading'];
+    return ConseillerMessageInfo(
+      data['newConseillerMessageCount'],
+      lastConseillerReading != null ? (lastConseillerReading as Timestamp).toDate() : null,
+    );
+  }
 }
