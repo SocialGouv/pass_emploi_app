@@ -15,6 +15,8 @@ import 'package:pass_emploi_app/widgets/button.dart';
 
 import 'offre_emploi_list_page.dart';
 
+const int _fakeItemsAddedToLeverageAdditionalScrollInAutocomplete = 20;
+
 class OffreEmploiSearchPage extends TraceableStatefulWidget {
   OffreEmploiSearchPage() : super(name: AnalyticsScreenNames.offreEmploiResearch);
 
@@ -127,16 +129,8 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
                   child: ListView.builder(
                     padding: EdgeInsets.zero,
                     shrinkWrap: true,
-                    itemCount: viewModel.locations.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final LocationViewModel locationViewModel = viewModel.locations.elementAt(index);
-                      return GestureDetector(
-                        onTap: () => onSelected(locationViewModel),
-                        child: ListTile(
-                          title: Text(locationViewModel.title, style: const TextStyle(color: AppColors.nightBlue)),
-                        ),
-                      );
-                    },
+                    itemCount: viewModel.locations.length + _fakeItemsAddedToLeverageAdditionalScrollInAutocomplete,
+                    itemBuilder: (BuildContext context, int index) => _listTile(viewModel, onSelected, index),
                   ),
                   color: Colors.white,
                 ),
@@ -215,5 +209,32 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
 
   LocationViewModel _fakeLocationRequiredByAutocompleteToCallOptionsViewBuilderMethod() {
     return LocationViewModel("", Location(libelle: "", code: "", codePostal: "", type: LocationType.COMMUNE));
+  }
+
+  Widget _listTile(
+    OffreEmploiSearchViewModel viewModel,
+    AutocompleteOnSelected<LocationViewModel> onSelected,
+    int index,
+  ) {
+    if (index + 1 > viewModel.locations.length) {
+      return _fakeListTileToLeverageAdditionalScrollInAutocompleteWidget();
+    } else {
+      return _realListTile(viewModel, onSelected, index);
+    }
+  }
+
+  Widget _fakeListTileToLeverageAdditionalScrollInAutocompleteWidget() {
+    return Container(height: 48, color: AppColors.lightBlue);
+  }
+
+  Widget _realListTile(
+      OffreEmploiSearchViewModel viewModel, AutocompleteOnSelected<LocationViewModel> onSelected, int index) {
+    final LocationViewModel locationViewModel = viewModel.locations.elementAt(index);
+    return GestureDetector(
+      onTap: () => onSelected(locationViewModel),
+      child: ListTile(
+        title: Text(locationViewModel.title, style: const TextStyle(color: AppColors.nightBlue)),
+      ),
+    );
   }
 }
