@@ -25,6 +25,7 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
       _logUser(store, action.mode);
     } else if (action is RequestLogoutAction) {
       _logout(store, action.logoutRequester);
+      _firebaseAuthWrapper.signOut();
     } else if (action is LoggedInAction) {
       _loginToFirebase(action);
     }
