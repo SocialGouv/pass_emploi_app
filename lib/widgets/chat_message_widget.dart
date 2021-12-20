@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 
 class ChatMessageWidget extends StatelessWidget {
   final MessageItem item;
@@ -25,7 +26,7 @@ class ChatMessageWidget extends StatelessWidget {
               color: item is ConseillerMessageItem ? AppColors.lightBlue : AppColors.nightBlue,
               borderRadius: BorderRadius.all(Radius.circular(16)),
             ),
-            child: Text(
+            child: TextWithClickableLinks(
               item.content,
               style: TextStyles.textSmRegular(
                 color: item is ConseillerMessageItem ? AppColors.nightBlue : Colors.white,
