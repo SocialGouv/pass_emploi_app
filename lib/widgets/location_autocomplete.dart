@@ -9,14 +9,14 @@ const int _fakeItemsAddedToLeverageAdditionalScrollInAutocomplete = 20;
 
 class LocationAutocomplete extends StatefulWidget {
   final Function(String newLocationQuery) _onInputLocation;
-  final int _resultsCount;
-  final Widget Function(int index) _createListTile;
+  final Function(LocationViewModel? locationViewModel) _onSelected;
+  final List<LocationViewModel> _locationViewModels;
   final String _hint;
 
   LocationAutocomplete(
     this._onInputLocation,
-    this._resultsCount,
-    this._createListTile,
+    this._onSelected,
+    this._locationViewModels,
     this._hint,
   ) : super();
 
@@ -26,7 +26,6 @@ class LocationAutocomplete extends StatefulWidget {
 
 class _LocationAutocompleteState extends State<LocationAutocomplete> {
   LocationViewModel? _selectedLocationViewModel;
-  var _currentLocationQuery = "";
 
   @override
   Widget build(BuildContext context) {
@@ -35,15 +34,13 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
         optionsBuilder: (textEditingValue) {
           final newLocationQuery = textEditingValue.text;
           _deleteSelectedLocationOnTextDeletion(newLocationQuery);
-          if (newLocationQuery != _currentLocationQuery) {
-            this.widget._onInputLocation(newLocationQuery);
-            _currentLocationQuery = newLocationQuery;
-          }
+          widget._onInputLocation(newLocationQuery);
           return [_fakeLocationRequiredByAutocompleteToCallOptionsViewBuilderMethod()];
         },
         onSelected: (locationViewModel) {
           _selectedLocationViewModel = locationViewModel;
           _dismissKeyboard(context);
+          widget._onSelected(locationViewModel);
         },
         optionsViewBuilder: (
           BuildContext _,
@@ -61,7 +58,8 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
                   child: ListView.builder(
                     padding: EdgeInsets.zero,
                     shrinkWrap: true,
-                    itemCount: this.widget._resultsCount + _fakeItemsAddedToLeverageAdditionalScrollInAutocomplete,
+                    itemCount:
+                        widget._locationViewModels.length + _fakeItemsAddedToLeverageAdditionalScrollInAutocomplete,
                     itemBuilder: (BuildContext context, int index) => _listTile(index, onSelected),
                   ),
                   color: Colors.white,
@@ -81,7 +79,7 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
               style: TextStyles.textSmMedium(color: AppColors.nightBlue),
               scrollPadding: const EdgeInsets.only(bottom: 130.0),
               controller: textEditingController,
-              decoration: _inputDecoration(this.widget._hint),
+              decoration: _inputDecoration(widget._hint),
               focusNode: focusNode,
             ),
           );
@@ -91,7 +89,12 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
   }
 
   void _deleteSelectedLocationOnTextDeletion(String newLocationQuery) {
-    if (newLocationQuery.isEmpty) _selectedLocationViewModel = null;
+    if (newLocationQuery.isEmpty) {
+      setState(() {
+        _selectedLocationViewModel = null;
+        widget._onSelected(null);
+      });
+    }
   }
 
   LocationViewModel _fakeLocationRequiredByAutocompleteToCallOptionsViewBuilderMethod() {
@@ -101,23 +104,28 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
   void _dismissKeyboard(BuildContext context) => FocusScope.of(context).unfocus();
 
   Widget _listTile(int index, AutocompleteOnSelected<LocationViewModel> onSelected) {
-    if (index + 1 > this.widget._resultsCount) {
+    if (index + 1 > widget._locationViewModels.length) {
       return _fakeListTileToLeverageAdditionalScrollInAutocompleteWidget();
     } else {
-      return this.widget._createListTile(index);
+      return _realListTile(onSelected, index);
     }
   }
 
   Widget _realListTile(AutocompleteOnSelected<LocationViewModel> onSelected, int index) {
-    // TODO GAD
+    final viewModel = widget._locationViewModels.elementAt(index);
     return GestureDetector(
-      onTap: () => onSelected(locationViewModel),
-      child: this.widget._createListTile(index),
+      onTap: () {
+        onSelected(viewModel);
+        widget._onSelected(viewModel);
+      },
+      child: ListTile(
+        title: Text(viewModel.title, style: const TextStyle(color: AppColors.nightBlue)),
+      ),
     );
   }
 
   Widget _fakeListTileToLeverageAdditionalScrollInAutocompleteWidget() {
-    return Container(height: 48, color: Colors.transparent);
+    return Container(height: 48, color: AppColors.lightBlue);
   }
 
   void _putBackLastLocationSetOnFocusLost(bool hasFocus, TextEditingController textEditingController) {
