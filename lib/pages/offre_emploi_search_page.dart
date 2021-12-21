@@ -59,10 +59,11 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
           Text(Strings.jobLocationTitle, style: TextStyles.textLgMedium),
           _separator(),
           LocationAutocomplete(
-            (String newLocationQuery) => viewModel.onInputLocation(newLocationQuery),
-            (LocationViewModel? locationViewModel) => _selectedLocationViewModel = locationViewModel,
-            viewModel.locations,
-            Strings.jobLocationHint,
+            onInputLocation: (newLocationQuery) => viewModel.onInputLocation(newLocationQuery),
+            onSelectLocationViewModel: (locationViewModel) => _selectedLocationViewModel = locationViewModel,
+            locationViewModels: viewModel.locations,
+            hint: Strings.jobLocationHint,
+            getPreviouslySelectedTitle: () => _selectedLocationViewModel?.title,
           ),
           _separator(),
           Center(

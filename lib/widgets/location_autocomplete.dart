@@ -7,25 +7,20 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 
 const int _fakeItemsAddedToLeverageAdditionalScrollInAutocomplete = 20;
 
-class LocationAutocomplete extends StatefulWidget {
-  final Function(String newLocationQuery) _onInputLocation;
-  final Function(LocationViewModel? locationViewModel) _onSelected;
-  final List<LocationViewModel> _locationViewModels;
-  final String _hint;
+class LocationAutocomplete extends StatelessWidget {
+  final Function(String newLocationQuery) onInputLocation;
+  final Function(LocationViewModel? locationViewModel) onSelectLocationViewModel;
+  final String? Function() getPreviouslySelectedTitle;
+  final List<LocationViewModel> locationViewModels;
+  final String hint;
 
-  LocationAutocomplete(
-    this._onInputLocation,
-    this._onSelected,
-    this._locationViewModels,
-    this._hint,
-  ) : super();
-
-  @override
-  _LocationAutocompleteState createState() => _LocationAutocompleteState();
-}
-
-class _LocationAutocompleteState extends State<LocationAutocomplete> {
-  LocationViewModel? _selectedLocationViewModel;
+  LocationAutocomplete({
+    required this.onInputLocation,
+    required this.onSelectLocationViewModel,
+    required this.locationViewModels,
+    required this.hint,
+    required this.getPreviouslySelectedTitle,
+  }) : super();
 
   @override
   Widget build(BuildContext context) {
@@ -34,13 +29,12 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
         optionsBuilder: (textEditingValue) {
           final newLocationQuery = textEditingValue.text;
           _deleteSelectedLocationOnTextDeletion(newLocationQuery);
-          widget._onInputLocation(newLocationQuery);
+          onInputLocation(newLocationQuery);
           return [_fakeLocationRequiredByAutocompleteToCallOptionsViewBuilderMethod()];
         },
         onSelected: (locationViewModel) {
-          _selectedLocationViewModel = locationViewModel;
           _dismissKeyboard(context);
-          widget._onSelected(locationViewModel);
+          onSelectLocationViewModel(locationViewModel);
         },
         optionsViewBuilder: (
           BuildContext _,
@@ -58,8 +52,7 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
                   child: ListView.builder(
                     padding: EdgeInsets.zero,
                     shrinkWrap: true,
-                    itemCount:
-                        widget._locationViewModels.length + _fakeItemsAddedToLeverageAdditionalScrollInAutocomplete,
+                    itemCount: locationViewModels.length + _fakeItemsAddedToLeverageAdditionalScrollInAutocomplete,
                     itemBuilder: (BuildContext context, int index) => _listTile(index, onSelected),
                   ),
                   color: Colors.white,
@@ -79,7 +72,7 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
               style: TextStyles.textSmMedium(color: AppColors.nightBlue),
               scrollPadding: const EdgeInsets.only(bottom: 130.0),
               controller: textEditingController,
-              decoration: _inputDecoration(widget._hint),
+              decoration: _inputDecoration(hint),
               focusNode: focusNode,
             ),
           );
@@ -90,10 +83,7 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
 
   void _deleteSelectedLocationOnTextDeletion(String newLocationQuery) {
     if (newLocationQuery.isEmpty) {
-      setState(() {
-        _selectedLocationViewModel = null;
-        widget._onSelected(null);
-      });
+      onSelectLocationViewModel(null);
     }
   }
 
@@ -104,7 +94,7 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
   void _dismissKeyboard(BuildContext context) => FocusScope.of(context).unfocus();
 
   Widget _listTile(int index, AutocompleteOnSelected<LocationViewModel> onSelected) {
-    if (index + 1 > widget._locationViewModels.length) {
+    if (index + 1 > locationViewModels.length) {
       return _fakeListTileToLeverageAdditionalScrollInAutocompleteWidget();
     } else {
       return _realListTile(onSelected, index);
@@ -112,11 +102,11 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
   }
 
   Widget _realListTile(AutocompleteOnSelected<LocationViewModel> onSelected, int index) {
-    final viewModel = widget._locationViewModels.elementAt(index);
+    final viewModel = locationViewModels.elementAt(index);
     return GestureDetector(
       onTap: () {
         onSelected(viewModel);
-        widget._onSelected(viewModel);
+        onSelectLocationViewModel(viewModel);
       },
       child: ListTile(
         title: Text(viewModel.title, style: const TextStyle(color: AppColors.nightBlue)),
@@ -129,9 +119,9 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
   }
 
   void _putBackLastLocationSetOnFocusLost(bool hasFocus, TextEditingController textEditingController) {
-    final selectedLocationViewModel = _selectedLocationViewModel;
-    if (!hasFocus && selectedLocationViewModel != null) {
-      textEditingController.text = selectedLocationViewModel.title;
+    var title = getPreviouslySelectedTitle();
+    if (!hasFocus && title != null) {
+      textEditingController.text = title;
     }
   }
 
