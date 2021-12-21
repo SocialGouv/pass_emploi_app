@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/pages/offre_emploi_search_page.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/carousel_button.dart';
 
@@ -22,7 +23,7 @@ class _SearchAnnoncesPageState extends State<SearchAnnoncesPage> {
         children: [
           SizedBox(height: 24),
           _carousel(),
-          // contenu
+          _content(),
         ],
       ),
     );
@@ -43,6 +44,14 @@ class _SearchAnnoncesPageState extends State<SearchAnnoncesPage> {
         label: Strings.immersionButton,
       ),
     ]);
+  }
+
+  Widget _content() {
+    if (_selectedIndex == _indexOfOffresEmploi) {
+      return OffreEmploiSearchPage();
+    } else {
+      return Center(child: Text("immersion"));
+    }
   }
 
   void _updateIndex(int index) {

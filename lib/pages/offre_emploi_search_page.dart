@@ -49,34 +49,36 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
   }
 
   Widget _body(OffreEmploiSearchViewModel viewModel) {
-    return ListView(
-      padding: EdgeInsets.fromLTRB(32, 16, 32, 16),
-      shrinkWrap: true,
-      children: [
-        _separator(),
-        Text(Strings.keyWordsTitle, style: TextStyles.textLgMedium),
-        _separator(),
-        _keywordTextFormField(),
-        _separator(),
-        Text(Strings.jobLocationTitle, style: TextStyles.textLgMedium),
-        _separator(),
-        _autocomplete(viewModel),
-        _separator(),
-        Center(
-          child: primaryActionButton(
-              onPressed: _isLoading(viewModel)
-                  ? null
-                  : () {
-                      _searchingRequest(viewModel);
-                      _dismissKeyboard(context);
-                    },
-              label: Strings.searchButton),
-        ),
-        _separator(),
-        if (viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_ERROR ||
-            viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_EMPTY_ERROR)
-          _errorTextField(viewModel),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _separator(),
+          Text(Strings.keyWordsTitle, style: TextStyles.textLgMedium),
+          _separator(),
+          _keywordTextFormField(),
+          _separator(),
+          Text(Strings.jobLocationTitle, style: TextStyles.textLgMedium),
+          _separator(),
+          _autocomplete(viewModel),
+          _separator(),
+          Center(
+            child: primaryActionButton(
+                onPressed: _isLoading(viewModel)
+                    ? null
+                    : () {
+                        _searchingRequest(viewModel);
+                        _dismissKeyboard(context);
+                      },
+                label: Strings.searchButton),
+          ),
+          _separator(),
+          if (viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_ERROR ||
+              viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_EMPTY_ERROR)
+            _errorTextField(viewModel),
+        ],
+      ),
     );
   }
 
