@@ -107,6 +107,21 @@ class Strings {
   static String solutionsAppBarTitle = "Solutions";
   static String immersionButton = "Immersion";
   static String offresEmploiButton = "Offres d'emploi";
+  static String immersionLabel = "Découvrez un métier en immersion dans une entreprise.";
+  static String metierCompulsoryLabel = "*Métier";
+  static String villeCompulsoryLabel = "*Ville";
+
+  // Immersion
+  static String immersionExpansionTileTitle = "En savoir plus sur l’immersion";
+  static String immersionObjectifTitle = "Objectif poursuivi ?";
+  static String immersionObjectifContent =
+      "Passer quelques jours dans une entreprise pour découvrir un métier, en conditions réelles. Ainsi, vous pouvez vérifier que ce métier vous plaît et que vous vous sentirez à l'aise pour le pratiquer. Le professionnel qui vous guidera pendant cette immersion pourra vous dire si vous avez besoin d'une formation avant de pouvoir être recruté.";
+  static String immersionDemarchesTitle = "Quelles démarches ?";
+  static String immersionDemarchesContent =
+      "Une fois que vous avez trouvé une entreprise pour vous accueillir, prévenez votre conseiller et complétez la convention qu'il vous transmettra. Cette convention devra être validée par vous, par l'entreprise d'accueil et par votre conseiller.";
+  static String immersionStatutTitle = "Quel statut ?";
+  static String immersionStatutContent =
+      "Votre statut ne change pas. Si vous êtes inscrit à Pôle emploi, actualisez-vous comme d'habitude !";
 
   // Solutions Errors
   static String noContentError = "Aucune offre ne correspond à votre recherche";
@@ -131,7 +146,8 @@ class Strings {
   static String postulerButtonTitle = "Je postule";
   static String requiredIcon = "Obligatoire";
   static String offreNotFoundError = "Cette offre n’existe plus ou est momentanément suspendue";
-  static String offreNotFoundExplaination = "Vous pouvez décider de la supprimer ou bien de la conserver dans vos favoris.";
+  static String offreNotFoundExplaination =
+      "Vous pouvez décider de la supprimer ou bien de la conserver dans vos favoris.";
   static String deleteOffreFromFavori = "Supprimer des favoris";
 
   // favoris
