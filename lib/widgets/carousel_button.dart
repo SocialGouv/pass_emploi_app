@@ -19,10 +19,11 @@ OutlinedButton carouselButton({
             ? MaterialStateProperty.all(activatedBackgroundColor)
             : MaterialStateProperty.all(disabledBackgroundColor),
         shape: MaterialStateProperty.all(StadiumBorder()),
+        side: MaterialStateProperty.all(BorderSide(color: AppColors.nightBlue, width: 1)),
       ),
       onPressed: onPressed,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
