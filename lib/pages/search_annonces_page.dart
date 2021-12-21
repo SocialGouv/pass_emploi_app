@@ -12,7 +12,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/button.dart';
-import 'package:pass_emploi_app/widgets/carouselButton.dart';
+import 'package:pass_emploi_app/widgets/carousel_button.dart';
 
 import 'offre_emploi_list_page.dart';
 
