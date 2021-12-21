@@ -1,13 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/presentation/immersion_search_view_model.dart';
+import 'package:pass_emploi_app/presentation/location_view_model.dart';
+import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
+import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/button.dart';
+import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
 
-class ImmersionSearchPage extends StatelessWidget {
+class ImmersionSearchPage extends StatefulWidget {
   const ImmersionSearchPage() : super();
 
   @override
+  State<ImmersionSearchPage> createState() => _ImmersionSearchPageState();
+}
+
+class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
+  LocationViewModel? _selectedLocationViewModel;
+
+  @override
   Widget build(BuildContext context) {
+    return StoreConnector<AppState, ImmersionSearchViewModel>(
+      converter: (store) => ImmersionSearchViewModel.create(store),
+      builder: (context, vm) => _content(context, vm),
+      distinct: true,
+      onDispose: (store) => store.dispatch(ResetLocationAction()),
+    );
+  }
+
+  Padding _content(BuildContext context, ImmersionSearchViewModel viewModel) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
       child: Column(
@@ -22,7 +44,13 @@ class ImmersionSearchPage extends StatelessWidget {
           SizedBox(height: 24),
           Text(Strings.villeCompulsoryLabel, style: TextStyles.textLgMedium),
           SizedBox(height: 24),
-          Text("Ceci est un 2e text input", style: TextStyles.textSmRegular(color: Colors.green)),
+          LocationAutocomplete(
+            onInputLocation: (newLocationQuery) => viewModel.onInputLocation(newLocationQuery),
+            onSelectLocationViewModel: (locationViewModel) => _selectedLocationViewModel = locationViewModel,
+            locationViewModels: viewModel.locations,
+            hint: Strings.immersionLocationHint,
+            getPreviouslySelectedTitle: () => _selectedLocationViewModel?.title,
+          ),
           SizedBox(height: 24),
           _stretchedButton(),
           SizedBox(height: 24),

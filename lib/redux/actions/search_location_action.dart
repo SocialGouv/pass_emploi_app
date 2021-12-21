@@ -4,8 +4,9 @@ abstract class SearchLocationAction {}
 
 class RequestLocationAction extends SearchLocationAction {
   final String? input;
+  final bool villesOnly;
 
-  RequestLocationAction(this.input);
+  RequestLocationAction(this.input, {this.villesOnly = false});
 }
 
 class SearchLocationsSuccessAction extends SearchLocationAction {
