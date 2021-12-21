@@ -44,8 +44,8 @@ main() {
 }
 
 Iterable<Metier> _matchesHotellerieMetiers() =>
-    Metier.values.where((m) => m.codeRome == "G1502" || m.codeRome == "G1701" || m.codeRome == "G1703");
+    Metier.values.where((m) => ["G1502", "G1701", "G1703"].contains(m.codeRome));
 
 Iterable<Metier> _matchesBtpEtPaysageMetier() => Metier.values.where((m) => m.codeRome == "F1104");
 
-Iterable<Metier> _matchesBtpEtPaysageMetiers() => Metier.values.where((m) => m.codeRome == "F1104" || m.codeRome == "F1101" || m.codeRome == "F1201");
+Iterable<Metier> _matchesBtpEtPaysageMetiers() => Metier.values.where((m) => ["F1104", "F1101", "F1201"].contains(m.codeRome));
