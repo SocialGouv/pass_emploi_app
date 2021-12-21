@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:pass_emploi_app/pages/search_annonces_page.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -24,7 +25,7 @@ class SolutionsTabPage extends StatelessWidget {
         ),
         body: TabBarView(
           children: [
-            OffreEmploiSearchPage(),
+            SearchAnnoncesPage(),
             BoiteAOutilsPage(),
           ],
         ),

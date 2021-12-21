@@ -105,6 +105,8 @@ class Strings {
   static String offresTabTitle = "Recherche";
   static String boiteAOutilsTabTitle = "Boîte à outils";
   static String solutionsAppBarTitle = "Solutions";
+  static String immersionButton = "Immersion";
+  static String offresEmploiButton = "Offres d'emploi";
 
   // Solutions Errors
   static String noContentError = "Aucune offre ne correspond à votre recherche";
