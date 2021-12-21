@@ -122,7 +122,7 @@ class Strings {
   static String immersionStatutTitle = "Quel statut ?";
   static String immersionStatutContent =
       "Votre statut ne change pas. Si vous êtes inscrit à Pôle emploi, actualisez-vous comme d'habitude !";
-  static String immersionLocationHint = "Rechercher";
+  static String immersionFieldHint = "Rechercher";
 
   // Solutions Errors
   static String noContentError = "Aucune offre ne correspond à votre recherche";

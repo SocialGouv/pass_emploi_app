@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/button.dart';
 import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
+import 'package:pass_emploi_app/widgets/metier_autocomplete.dart';
 
 class ImmersionSearchPage extends StatefulWidget {
   const ImmersionSearchPage() : super();
@@ -18,6 +19,7 @@ class ImmersionSearchPage extends StatefulWidget {
 
 class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
   LocationViewModel? _selectedLocationViewModel;
+  String? _selectedMetier;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,7 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
           SizedBox(height: 24),
           Text(Strings.metierCompulsoryLabel, style: TextStyles.textLgMedium),
           SizedBox(height: 24),
-          Text("Ceci est un text input", style: TextStyles.textSmRegular(color: Colors.red)),
+          MetierAutocomplete(onSelectMetier: (selectedMetierRome) => _selectedMetier = selectedMetierRome),
           SizedBox(height: 24),
           Text(Strings.villeCompulsoryLabel, style: TextStyles.textLgMedium),
           SizedBox(height: 24),
@@ -48,7 +50,7 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
             onInputLocation: (newLocationQuery) => viewModel.onInputLocation(newLocationQuery),
             onSelectLocationViewModel: (locationViewModel) => _selectedLocationViewModel = locationViewModel,
             locationViewModels: viewModel.locations,
-            hint: Strings.immersionLocationHint,
+            hint: Strings.immersionFieldHint,
             getPreviouslySelectedTitle: () => _selectedLocationViewModel?.title,
           ),
           SizedBox(height: 24),
