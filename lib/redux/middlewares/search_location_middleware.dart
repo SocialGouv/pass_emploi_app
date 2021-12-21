@@ -19,7 +19,11 @@ class SearchLocationMiddleware extends MiddlewareClass<AppState> {
       if (input != null && input.length > 1) {
         final loginState = store.state.loginState;
         if (loginState is LoggedInState) {
-          locations.addAll(await _repository.getLocations(userId: loginState.user.id, query: input));
+          locations.addAll(await _repository.getLocations(
+            userId: loginState.user.id,
+            query: input,
+            villesOnly: action.villesOnly,
+          ));
         }
       }
       store.dispatch(SearchLocationsSuccessAction(locations));

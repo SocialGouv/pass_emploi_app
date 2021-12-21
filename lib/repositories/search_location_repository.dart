@@ -12,8 +12,8 @@ class SearchLocationRepository {
 
   SearchLocationRepository(this._baseUrl, this._httpClient, this._headersBuilder);
 
-  Future<List<Location>> getLocations({required String userId, required String query}) async {
-    final url = Uri.parse(_baseUrl + "/referentiels/communes-et-departements?recherche=$query");
+  Future<List<Location>> getLocations({required String userId, required String query, bool villesOnly = false}) async {
+    final url = Uri.parse(_baseUrl + "/referentiels/communes-et-departements?recherche=$query&villesOnly=$villesOnly");
     try {
       final response = await _httpClient.get(url, headers: await _headersBuilder.headers(userId: userId));
       if (response.statusCode.isValid()) {

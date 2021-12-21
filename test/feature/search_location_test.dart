@@ -26,6 +26,24 @@ main() {
     expect(newState.searchLocationState.locations, _locations());
   });
 
+  test("Returns locations list when user search only villes", () async {
+    // Given
+    final factory = TestStoreFactory();
+    final repositorySpy = SearchLocationRepositorySpy();
+    factory.searchLocationRepository = repositorySpy;
+    final store = factory.initializeReduxStore(initialState: loggedInAppState());
+    final Future<AppState> newStateFuture =
+        store.onChange.firstWhere((state) => state.searchLocationState.locations.isNotEmpty);
+
+    // When
+    store.dispatch(RequestLocationAction("input", villesOnly: true));
+
+    // Then
+    final newState = await newStateFuture;
+    expect(newState.searchLocationState.locations, _locations());
+    expect(repositorySpy.getLocationsHasBeenCalledWithVillesOnly, isTrue);
+  });
+
   test("Does not call repository user search input is less than 2 characters… and return empty locations result",
       () async {
     // Given
@@ -67,7 +85,7 @@ class SearchLocationRepositorySuccessStub extends SearchLocationRepository {
   SearchLocationRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<List<Location>> getLocations({required String userId, required String query}) async {
+  Future<List<Location>> getLocations({required String userId, required String query, bool villesOnly = false}) async {
     if (userId == "id" && query == "input") return _locations();
     return [];
   }
@@ -75,13 +93,15 @@ class SearchLocationRepositorySuccessStub extends SearchLocationRepository {
 
 class SearchLocationRepositorySpy extends SearchLocationRepository {
   bool getLocationsHasBeenCalled = false;
+  bool getLocationsHasBeenCalledWithVillesOnly = false;
 
   SearchLocationRepositorySpy() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<List<Location>> getLocations({required String userId, required String query}) async {
+  Future<List<Location>> getLocations({required String userId, required String query, bool villesOnly = false}) async {
     getLocationsHasBeenCalled = true;
-    return [];
+    getLocationsHasBeenCalledWithVillesOnly = villesOnly;
+    return _locations();
   }
 }
 

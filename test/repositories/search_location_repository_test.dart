@@ -13,7 +13,7 @@ void main() {
     // Given
     final httpClient = MockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
-      if (!request.url.toString().startsWith("BASE_URL/referentiels/communes-et-departements?recherche=pari")) {
+      if (request.url.toString() != "BASE_URL/referentiels/communes-et-departements?recherche=pari&villesOnly=false") {
         return invalidHttpResponse();
       }
       return Response.bytes(loadTestAssetsAsBytes("search_location.json"), 200);
@@ -51,5 +51,23 @@ void main() {
 
     // Then
     expect(locations, isEmpty);
+  });
+
+  test('getLocations when villesOnlyParameter is true should set it in query parameters', () async {
+    // Given
+    final httpClient = MockClient((request) async {
+      if (request.method != "GET") throw Exception();
+      if (request.url.toString() != "BASE_URL/referentiels/communes-et-departements?recherche=pari&villesOnly=true") {
+        throw Exception();
+      }
+      return Response.bytes(loadTestAssetsAsBytes("search_location.json"), 200);
+    });
+    final repository = SearchLocationRepository("BASE_URL", httpClient, HeadersBuilderStub());
+
+    // When
+    final result = await repository.getLocations(userId: "ID", query: "pari", villesOnly: true);
+
+    // Then
+    expect(result, isNotEmpty);
   });
 }

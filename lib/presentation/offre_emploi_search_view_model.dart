@@ -32,7 +32,9 @@ class OffreEmploiSearchViewModel extends Equatable {
     final searchResultsState = store.state.offreEmploiSearchResultsState;
     return OffreEmploiSearchViewModel._(
       displayState: _displayState(searchState, searchResultsState),
-      locations: store.state.searchLocationState.locations.map((location) => _toViewModel(location)).toList(),
+      locations: store.state.searchLocationState.locations
+          .map((location) => LocationViewModel.fromLocation(location))
+          .toList(),
       errorMessage: _setErrorMessage(searchState, searchResultsState),
       onInputLocation: (input) => store.dispatch(RequestLocationAction(input)),
       searchingRequest: (keywords, location) =>
@@ -42,19 +44,6 @@ class OffreEmploiSearchViewModel extends Equatable {
 
   @override
   List<Object?> get props => [displayState, errorMessage, locations];
-}
-
-LocationViewModel _toViewModel(Location location) {
-  final String title;
-  switch (location.type) {
-    case LocationType.COMMUNE:
-      title = '${location.libelle} (${location.codePostal})';
-      break;
-    case LocationType.DEPARTMENT:
-      title = '${location.libelle} (${location.code})';
-      break;
-  }
-  return LocationViewModel(title, location);
 }
 
 String _setErrorMessage(OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
@@ -12,10 +11,9 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/button.dart';
+import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
 
 import 'offre_emploi_list_page.dart';
-
-const int _fakeItemsAddedToLeverageAdditionalScrollInAutocomplete = 20;
 
 class OffreEmploiSearchPage extends TraceableStatefulWidget {
   OffreEmploiSearchPage() : super(name: AnalyticsScreenNames.offreEmploiResearch);
@@ -26,7 +24,6 @@ class OffreEmploiSearchPage extends TraceableStatefulWidget {
 
 class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
   LocationViewModel? _selectedLocationViewModel;
-  var _currentLocationQuery = "";
   var _keyWord = "";
   var _shouldNavigate = true;
 
@@ -49,34 +46,43 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
   }
 
   Widget _body(OffreEmploiSearchViewModel viewModel) {
-    return ListView(
-      padding: EdgeInsets.fromLTRB(32, 16, 32, 16),
-      shrinkWrap: true,
-      children: [
-        _separator(),
-        Text(Strings.keyWordsTitle, style: TextStyles.textLgMedium),
-        _separator(),
-        _keywordTextFormField(),
-        _separator(),
-        Text(Strings.jobLocationTitle, style: TextStyles.textLgMedium),
-        _separator(),
-        _autocomplete(viewModel),
-        _separator(),
-        Center(
-          child: primaryActionButton(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _separator(),
+          Text(Strings.keyWordsTitle, style: TextStyles.textLgMedium),
+          _separator(),
+          _keywordTextFormField(),
+          _separator(),
+          Text(Strings.jobLocationTitle, style: TextStyles.textLgMedium),
+          _separator(),
+          LocationAutocomplete(
+            onInputLocation: (newLocationQuery) => viewModel.onInputLocation(newLocationQuery),
+            onSelectLocationViewModel: (locationViewModel) => _selectedLocationViewModel = locationViewModel,
+            locationViewModels: viewModel.locations,
+            hint: Strings.jobLocationHint,
+            getPreviouslySelectedTitle: () => _selectedLocationViewModel?.title,
+          ),
+          _separator(),
+          Center(
+            child: primaryActionButton(
               onPressed: _isLoading(viewModel)
                   ? null
                   : () {
                       _searchingRequest(viewModel);
                       _dismissKeyboard(context);
                     },
-              label: Strings.searchButton),
-        ),
-        _separator(),
-        if (viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_ERROR ||
-            viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_EMPTY_ERROR)
-          _errorTextField(viewModel),
-      ],
+              label: Strings.searchButton,
+            ),
+          ),
+          _separator(),
+          if (viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_ERROR ||
+              viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_EMPTY_ERROR)
+            _errorTextField(viewModel),
+        ],
+      ),
     );
   }
 
@@ -97,79 +103,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
     );
   }
 
-  LayoutBuilder _autocomplete(OffreEmploiSearchViewModel viewModel) {
-    return LayoutBuilder(
-      builder: (context, constraints) => Autocomplete<LocationViewModel>(
-        optionsBuilder: (textEditingValue) {
-          final newLocationQuery = textEditingValue.text;
-          _deleteSelectedLocationOnTextDeletion(newLocationQuery);
-          if (newLocationQuery != _currentLocationQuery) {
-            viewModel.onInputLocation(newLocationQuery);
-            _currentLocationQuery = newLocationQuery;
-          }
-          return [_fakeLocationRequiredByAutocompleteToCallOptionsViewBuilderMethod()];
-        },
-        onSelected: (locationViewModel) {
-          _selectedLocationViewModel = locationViewModel;
-          _dismissKeyboard(context);
-        },
-        optionsViewBuilder: (
-          BuildContext _,
-          AutocompleteOnSelected<LocationViewModel> onSelected,
-          Iterable<LocationViewModel> __,
-        ) {
-          return Align(
-              alignment: Alignment.topLeft,
-              child: Material(
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.vertical(bottom: Radius.circular(4.0)),
-                ),
-                child: Container(
-                  width: constraints.biggest.width,
-                  child: ListView.builder(
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    itemCount: viewModel.locations.length + _fakeItemsAddedToLeverageAdditionalScrollInAutocomplete,
-                    itemBuilder: (BuildContext context, int index) => _listTile(viewModel, onSelected, index),
-                  ),
-                  color: Colors.white,
-                ),
-                color: Colors.white,
-              ));
-        },
-        fieldViewBuilder: (
-          BuildContext context,
-          TextEditingController textEditingController,
-          FocusNode focusNode,
-          VoidCallback onFieldSubmitted,
-        ) {
-          return Focus(
-            onFocusChange: (hasFocus) => _putBackLastLocationSetOnFocusLost(hasFocus, textEditingController),
-            child: TextFormField(
-              style: TextStyles.textSmMedium(color: AppColors.nightBlue),
-              scrollPadding: const EdgeInsets.only(bottom: 130.0),
-              controller: textEditingController,
-              decoration: _inputDecoration(Strings.jobLocationHint),
-              focusNode: focusNode,
-            ),
-          );
-        },
-      ),
-    );
-  }
-
   void _dismissKeyboard(BuildContext context) => FocusScope.of(context).unfocus();
-
-  void _putBackLastLocationSetOnFocusLost(bool hasFocus, TextEditingController textEditingController) {
-    final selectedLocationViewModel = _selectedLocationViewModel;
-    if (!hasFocus && selectedLocationViewModel != null) {
-      textEditingController.text = selectedLocationViewModel.title;
-    }
-  }
-
-  void _deleteSelectedLocationOnTextDeletion(String newLocationQuery) {
-    if (newLocationQuery.isEmpty) _selectedLocationViewModel = null;
-  }
 
   InputDecoration _inputDecoration(String textFieldString) {
     return InputDecoration(
@@ -203,37 +137,6 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
           textAlign: TextAlign.center,
           style: TextStyles.textSmRegular(color: AppColors.errorRed),
         ),
-      ),
-    );
-  }
-
-  LocationViewModel _fakeLocationRequiredByAutocompleteToCallOptionsViewBuilderMethod() {
-    return LocationViewModel("", Location(libelle: "", code: "", codePostal: "", type: LocationType.COMMUNE));
-  }
-
-  Widget _listTile(
-    OffreEmploiSearchViewModel viewModel,
-    AutocompleteOnSelected<LocationViewModel> onSelected,
-    int index,
-  ) {
-    if (index + 1 > viewModel.locations.length) {
-      return _fakeListTileToLeverageAdditionalScrollInAutocompleteWidget();
-    } else {
-      return _realListTile(viewModel, onSelected, index);
-    }
-  }
-
-  Widget _fakeListTileToLeverageAdditionalScrollInAutocompleteWidget() {
-    return Container(height: 48, color: AppColors.lightBlue);
-  }
-
-  Widget _realListTile(
-      OffreEmploiSearchViewModel viewModel, AutocompleteOnSelected<LocationViewModel> onSelected, int index) {
-    final LocationViewModel locationViewModel = viewModel.locations.elementAt(index);
-    return GestureDetector(
-      onTap: () => onSelected(locationViewModel),
-      child: ListTile(
-        title: Text(locationViewModel.title, style: const TextStyle(color: AppColors.nightBlue)),
       ),
     );
   }

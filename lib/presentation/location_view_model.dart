@@ -12,4 +12,17 @@ class LocationViewModel extends Equatable {
 
   @override
   String toString() => title;
+
+  static LocationViewModel fromLocation(Location location) {
+    final String title;
+    switch (location.type) {
+      case LocationType.COMMUNE:
+        title = '${location.libelle} (${location.codePostal})';
+        break;
+      case LocationType.DEPARTMENT:
+        title = '${location.libelle} (${location.code})';
+        break;
+    }
+    return LocationViewModel(title, location);
+  }
 }
