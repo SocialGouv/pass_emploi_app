@@ -22,7 +22,7 @@ OutlinedButton carouselButton({
       ),
       onPressed: onPressed,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+        padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
