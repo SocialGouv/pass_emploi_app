@@ -3,20 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/utils/keyboard.dart';
 import 'package:pass_emploi_app/utils/debouncer.dart';
+import 'package:pass_emploi_app/utils/keyboard.dart';
 
 const int _fakeItemsAddedToLeverageAdditionalScrollInAutocomplete = 20;
 
-class LocationAutocomplete extends StatelessWidget {
+class LocationAutocomplete extends StatefulWidget {
   final Function(String newLocationQuery) onInputLocation;
   final Function(LocationViewModel? locationViewModel) onSelectLocationViewModel;
   final String? Function() getPreviouslySelectedTitle;
   final List<LocationViewModel> locationViewModels;
   final String hint;
-
-  final Debouncer _debouncer = Debouncer(duration: Duration(milliseconds: 200));
 
   LocationAutocomplete({
     required this.onInputLocation,
@@ -27,6 +26,16 @@ class LocationAutocomplete extends StatelessWidget {
   }) : super();
 
   @override
+  State<LocationAutocomplete> createState() => _LocationAutocompleteState();
+}
+
+class _LocationAutocompleteState extends State<LocationAutocomplete> {
+  var _invalidField = false;
+  var _locationName = "";
+
+  final Debouncer _debouncer = Debouncer(duration: Duration(milliseconds: 200));
+
+  @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) => Autocomplete<LocationViewModel>(
@@ -34,13 +43,20 @@ class LocationAutocomplete extends StatelessWidget {
           _debouncer.run(() {
             final newLocationQuery = textEditingValue.text;
             _deleteSelectedLocationOnTextDeletion(newLocationQuery);
-            onInputLocation(newLocationQuery);
+            widget.onInputLocation(newLocationQuery);
+          });
+          setState(() {
+            if (_locationName.isEmpty) _invalidField = true;
           });
           return [_fakeLocationRequiredByAutocompleteToCallOptionsViewBuilderMethod()];
         },
         onSelected: (locationViewModel) {
           Keyboard.dismiss(context);
-          onSelectLocationViewModel(locationViewModel);
+          setState(() {
+            _locationName = locationViewModel.location.libelle;
+            _invalidField = false;
+          });
+          widget.onSelectLocationViewModel(locationViewModel);
         },
         optionsViewBuilder: (
           BuildContext _,
@@ -58,7 +74,8 @@ class LocationAutocomplete extends StatelessWidget {
                   child: ListView.builder(
                     padding: EdgeInsets.zero,
                     shrinkWrap: true,
-                    itemCount: locationViewModels.length + _fakeItemsAddedToLeverageAdditionalScrollInAutocomplete,
+                    itemCount:
+                        widget.locationViewModels.length + _fakeItemsAddedToLeverageAdditionalScrollInAutocomplete,
                     itemBuilder: (BuildContext context, int index) => _listTile(index, onSelected),
                   ),
                   color: Colors.white,
@@ -78,8 +95,16 @@ class LocationAutocomplete extends StatelessWidget {
               style: TextStyles.textSmMedium(color: AppColors.nightBlue),
               scrollPadding: const EdgeInsets.only(bottom: 130.0),
               controller: textEditingController,
-              decoration: _inputDecoration(hint),
+              decoration: _inputDecoration(widget.hint),
               focusNode: focusNode,
+              onChanged: (value) {
+                if (value.isEmpty) {
+                  setState(() {
+                    _locationName = "";
+                    _invalidField = true;
+                  });
+                }
+              },
             ),
           );
         },
@@ -89,7 +114,7 @@ class LocationAutocomplete extends StatelessWidget {
 
   void _deleteSelectedLocationOnTextDeletion(String newLocationQuery) {
     if (newLocationQuery.isEmpty) {
-      onSelectLocationViewModel(null);
+      widget.onSelectLocationViewModel(null);
     }
   }
 
@@ -98,7 +123,7 @@ class LocationAutocomplete extends StatelessWidget {
   }
 
   Widget _listTile(int index, AutocompleteOnSelected<LocationViewModel> onSelected) {
-    if (index + 1 > locationViewModels.length) {
+    if (index + 1 > widget.locationViewModels.length) {
       return _fakeListTileToLeverageAdditionalScrollInAutocompleteWidget();
     } else {
       return _realListTile(onSelected, index);
@@ -106,11 +131,11 @@ class LocationAutocomplete extends StatelessWidget {
   }
 
   Widget _realListTile(AutocompleteOnSelected<LocationViewModel> onSelected, int index) {
-    final viewModel = locationViewModels.elementAt(index);
+    final viewModel = widget.locationViewModels.elementAt(index);
     return GestureDetector(
       onTap: () {
         onSelected(viewModel);
-        onSelectLocationViewModel(viewModel);
+        widget.onSelectLocationViewModel(viewModel);
       },
       child: ListTile(
         title: Text(viewModel.title, style: TextStyles.textSmRegular()),
@@ -123,7 +148,7 @@ class LocationAutocomplete extends StatelessWidget {
   }
 
   void _putBackLastLocationSetOnFocusLost(bool hasFocus, TextEditingController textEditingController) {
-    var title = getPreviouslySelectedTitle();
+    var title = widget.getPreviouslySelectedTitle();
     if (!hasFocus && title != null) {
       textEditingController.text = title;
     }
@@ -142,6 +167,16 @@ class LocationAutocomplete extends StatelessWidget {
         borderRadius: BorderRadius.circular(8.0),
         borderSide: BorderSide(color: AppColors.nightBlue, width: 1.0),
       ),
+      errorText: (_invalidField) ? Strings.immersionMetierError : null,
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: BorderSide(color: AppColors.errorRed, width: 1.0),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: BorderSide(color: AppColors.errorRed, width: 1.0),
+      ),
+      errorStyle:
     );
   }
 }
