@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/user_action_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/create_user_action_state.dart';
-import 'package:pass_emploi_app/redux/states/user_action_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 
 main() {
@@ -43,7 +43,7 @@ main() {
       () {
     // Given
     final initialState = AppState.initialState().copyWith(
-      userActionState: UserActionState.success(
+      userActionState: State<List<UserAction>>.success(
         [_notStartedAction()],
       ),
     );
@@ -59,9 +59,9 @@ main() {
     );
 
     // Then
-    final actionState = updatedState.userActionState as UserActionSuccessState;
-    expect(actionState.actions[0].id, "actionId");
-    expect(actionState.actions[0].status, UserActionStatus.DONE);
+    final actionState = updatedState.userActionState as SuccessState<List<UserAction>>;
+    expect(actionState.data[0].id, "actionId");
+    expect(actionState.data[0].status, UserActionStatus.DONE);
 
     expect(updatedState.userActionUpdateState is UserActionUpdatedState, true);
   });
@@ -69,7 +69,7 @@ main() {
   test("userActionReducer when action is DismissUserActionDetailsAction should reset actionUpdate state", () {
     // Given
     final initialState = AppState.initialState().copyWith(
-      userActionState: UserActionState.success(
+      userActionState: State<List<UserAction>>.success(
         [_notStartedAction()],
       ),
       userActionUpdateState: UserActionUpdateState.updated(),
@@ -88,7 +88,7 @@ main() {
   test("userActionReducer when action is UserActionNoUpdateNeededAction should set update action update state", () {
     // Given
     final initialState = AppState.initialState().copyWith(
-      userActionState: UserActionState.success(
+      userActionState: State<List<UserAction>>.success(
         [_notStartedAction()],
       ),
       userActionUpdateState: UserActionUpdateState.updated(),

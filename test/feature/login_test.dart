@@ -1,11 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
+import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/bootstrap_action.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
-import 'package:pass_emploi_app/redux/states/rendezvous_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 
 import '../doubles/dummies.dart';
 import '../doubles/fixtures.dart';
@@ -115,7 +116,7 @@ void main() {
     final store = factory.initializeReduxStore(
       initialState: AppState.initialState().copyWith(
         loginState: LoginState.notLoggedIn(),
-        rendezvousState: RendezvousState.loading(),
+        rendezvousState: State<List<Rendezvous>>.loading(),
       ),
     );
     final Future<AppState> newStateFuture = store.onChange.first;
@@ -126,7 +127,7 @@ void main() {
     // Then
     final newState = await newStateFuture;
     expect(newState.loginState, isA<LoginNotInitializedState>());
-    expect(newState.rendezvousState, isA<RendezvousNotInitializedState>());
+    expect(newState.rendezvousState, isA<NotInitializedState<List<Rendezvous>>>());
     expect(authenticatorSpy.logoutCalled, isFalse);
   });
 
@@ -137,7 +138,7 @@ void main() {
     final store = factory.initializeReduxStore(
       initialState: AppState.initialState().copyWith(
         loginState: LoginState.notLoggedIn(),
-        rendezvousState: RendezvousState.loading(),
+        rendezvousState: State<List<Rendezvous>>.loading(),
       ),
     );
     final Future<AppState> newStateFuture = store.onChange.first;
@@ -148,7 +149,7 @@ void main() {
     // Then
     final newState = await newStateFuture;
     expect(newState.loginState, isA<LoginNotInitializedState>());
-    expect(newState.rendezvousState, isA<RendezvousNotInitializedState>());
+    expect(newState.rendezvousState, isA<NotInitializedState<List<Rendezvous>>>());
     expect(authenticatorSpy.logoutCalled, isTrue);
   });
 }

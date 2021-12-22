@@ -3,7 +3,7 @@ import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/user_action_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 
@@ -18,7 +18,7 @@ void main() {
     testStoreFactory.userActionRepository = repositorySpy;
     final store = testStoreFactory.initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        userActionState: UserActionState.success(
+        userActionState: State<List<UserAction>>.success(
           [_notStartedAction()],
         ),
       ),
@@ -35,11 +35,11 @@ void main() {
 
     // Then
     final appState = await changedState;
-    final actionState = appState.userActionState as UserActionSuccessState;
+    final actionState = appState.userActionState as SuccessState<List<UserAction>>;
     expect(repositorySpy.isActionUpdated, true);
 
-    expect(actionState.actions[0].id, "actionId");
-    expect(actionState.actions[0].status, UserActionStatus.DONE);
+    expect(actionState.data[0].id, "actionId");
+    expect(actionState.data[0].status, UserActionStatus.DONE);
 
     expect(appState.userActionUpdateState is UserActionUpdatedState, true);
   });

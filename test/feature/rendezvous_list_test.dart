@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/rendezvous_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
-import 'package:pass_emploi_app/redux/states/rendezvous_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
 
 import '../doubles/dummies.dart';
@@ -20,7 +20,7 @@ void main() {
       );
 
       final unchangedRendezvousState =
-          store.onChange.any((element) => element.rendezvousState is RendezvousNotInitializedState);
+          store.onChange.any((element) => element.rendezvousState is NotInitializedState<List<Rendezvous>>);
 
       // When
       store.dispatch(RequestRendezvousAction());
@@ -40,9 +40,10 @@ void main() {
           initialState: AppState.initialState().copyWith(loginState: LoginState.loggedIn(_user)),
         );
 
-        final displayedLoading = store.onChange.any((element) => element.rendezvousState is RendezvousLoadingState);
+        final displayedLoading =
+            store.onChange.any((element) => element.rendezvousState is LoadingState<List<Rendezvous>>);
         final successAppState =
-            store.onChange.firstWhere((element) => element.rendezvousState is RendezvousSuccessState);
+            store.onChange.firstWhere((element) => element.rendezvousState is SuccessState<List<Rendezvous>>);
 
         // When
         store.dispatch(RequestRendezvousAction());
@@ -50,8 +51,8 @@ void main() {
         // Then
         expect(await displayedLoading, true);
         final appState = await successAppState;
-        expect((appState.rendezvousState as RendezvousSuccessState).rendezvous.length, 1);
-        expect((appState.rendezvousState as RendezvousSuccessState).rendezvous[0].date, DateTime(2022));
+        expect((appState.rendezvousState as SuccessState<List<Rendezvous>>).data.length, 1);
+        expect((appState.rendezvousState as SuccessState<List<Rendezvous>>).data[0].date, DateTime(2022));
       });
 
       test("update state with failure if repository returns nothing", () async {
@@ -62,9 +63,10 @@ void main() {
           initialState: AppState.initialState().copyWith(loginState: LoginState.loggedIn(_user)),
         );
 
-        final displayedLoading = store.onChange.any((element) => element.rendezvousState is RendezvousLoadingState);
+        final displayedLoading =
+            store.onChange.any((element) => element.rendezvousState is LoadingState<List<Rendezvous>>);
         final failureAppState =
-            store.onChange.firstWhere((element) => element.rendezvousState is RendezvousFailureState);
+            store.onChange.firstWhere((element) => element.rendezvousState is FailureState<List<Rendezvous>>);
 
         // When
         store.dispatch(RequestRendezvousAction());
@@ -72,7 +74,7 @@ void main() {
         // Then
         expect(await displayedLoading, true);
         final appState = await failureAppState;
-        expect(appState.rendezvousState is RendezvousFailureState, true);
+        expect(appState.rendezvousState.isFailure(), isTrue);
       });
     });
   });

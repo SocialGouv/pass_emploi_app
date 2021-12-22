@@ -3,11 +3,11 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/redux/actions/rendezvous_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/rendezvous_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 
 main() {
   group("reducer with rendezvous actions modifying rendezvous state", () {
-    void assertState(dynamic action, RendezvousState expectedState) {
+    void assertState(dynamic action, State<List<Rendezvous>> expectedState) {
       test("$action -> $expectedState", () {
         // Given
         final initialState = AppState.initialState();
@@ -18,9 +18,9 @@ main() {
       });
     }
 
-    assertState(RendezvousLoadingAction(), RendezvousState.loading());
-    assertState(RendezvousFailureAction(), RendezvousState.failure());
-    assertState(RendezvousSuccessAction([rendezvous]), RendezvousState.success([rendezvous]));
+    assertState(RendezvousLoadingAction(), State<List<Rendezvous>>.loading());
+    assertState(RendezvousFailureAction(), State<List<Rendezvous>>.failure());
+    assertState(RendezvousSuccessAction([rendezvous]), State<List<Rendezvous>>.success([rendezvous]));
   });
 }
 

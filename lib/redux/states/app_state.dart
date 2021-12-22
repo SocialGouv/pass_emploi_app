@@ -1,4 +1,6 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/states/chat_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
 import 'package:pass_emploi_app/redux/states/create_user_action_state.dart';
@@ -6,10 +8,9 @@ import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
 import 'package:pass_emploi_app/redux/states/immersion_search_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
-import 'package:pass_emploi_app/redux/states/rendezvous_state.dart';
 import 'package:pass_emploi_app/redux/states/search_location_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_delete_state.dart';
-import 'package:pass_emploi_app/redux/states/user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 
 import 'login_state.dart';
@@ -21,11 +22,11 @@ import 'offre_emploi_search_state.dart';
 class AppState extends Equatable {
   final DeepLinkState deepLinkState;
   final LoginState loginState;
-  final UserActionState userActionState;
+  final State<List<UserAction>> userActionState;
   final CreateUserActionState createUserActionState;
   final UserActionUpdateState userActionUpdateState;
   final UserActionDeleteState userActionDeleteState;
-  final RendezvousState rendezvousState;
+  final State<List<Rendezvous>> rendezvousState;
   final ChatStatusState chatStatusState;
   final ChatState chatState;
   final OffreEmploiSearchState offreEmploiSearchState;
@@ -59,11 +60,11 @@ class AppState extends Equatable {
 
   AppState copyWith({
     final LoginState? loginState,
-    final UserActionState? userActionState,
+    final State<List<UserAction>>? userActionState,
     final CreateUserActionState? createUserActionState,
     final UserActionUpdateState? userActionUpdateState,
     final UserActionDeleteState? userActionDeleteState,
-    final RendezvousState? rendezvousState,
+    final State<List<Rendezvous>>? rendezvousState,
     final ChatStatusState? chatStatusState,
     final ChatState? chatState,
     final OffreEmploiSearchState? offreEmploiSearchState,
@@ -101,11 +102,11 @@ class AppState extends Equatable {
     return AppState(
       deepLinkState: DeepLinkState.notInitialized(),
       loginState: LoginState.notInitialized(),
-      userActionState: UserActionState.notInitialized(),
+      userActionState: State<List<UserAction>>.notInitialized(),
       createUserActionState: CreateUserActionState.notInitialized(),
       userActionUpdateState: UserActionUpdateState.notUpdating(),
       userActionDeleteState: UserActionDeleteState.notInitialized(),
-      rendezvousState: RendezvousState.notInitialized(),
+      rendezvousState: State<List<Rendezvous>>.notInitialized(),
       chatStatusState: ChatStatusState.notInitialized(),
       chatState: ChatState.notInitialized(),
       offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),

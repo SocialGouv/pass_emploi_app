@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/presentation/user_action_list_page_view_model.da
 import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/user_action_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
@@ -16,7 +16,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: loggedInState().copyWith(userActionState: UserActionState.loading()),
+      initialState: loggedInState().copyWith(userActionState: State<List<UserAction>>.loading()),
     );
 
     // When
@@ -31,7 +31,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: loggedInState().copyWith(userActionState: UserActionState.notInitialized()),
+      initialState: loggedInState().copyWith(userActionState: State<List<UserAction>>.notInitialized()),
     );
 
     // When
@@ -46,7 +46,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: loggedInState().copyWith(userActionState: UserActionState.failure()),
+      initialState: loggedInState().copyWith(userActionState: State<List<UserAction>>.failure()),
     );
 
     // When
@@ -62,7 +62,7 @@ main() {
     var storeSpy = StoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
-      initialState: loggedInState().copyWith(userActionState: UserActionState.failure()),
+      initialState: loggedInState().copyWith(userActionState: State<List<UserAction>>.failure()),
     );
     final viewModel = UserActionListPageViewModel.create(store);
 
@@ -78,7 +78,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: loggedInState().copyWith(
-          userActionState: UserActionState.success([
+          userActionState: State<List<UserAction>>.success([
         UserAction(
           id: "id",
           content: "content",
@@ -125,7 +125,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: loggedInState().copyWith(userActionState: UserActionState.success([])),
+      initialState: loggedInState().copyWith(userActionState: State<List<UserAction>>.success([])),
     );
 
     // When

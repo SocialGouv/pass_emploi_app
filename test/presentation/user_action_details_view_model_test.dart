@@ -5,8 +5,8 @@ import 'package:pass_emploi_app/presentation/user_action_details_view_model.dart
 import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_delete_state.dart';
-import 'package:pass_emploi_app/redux/states/user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 import 'package:redux/redux.dart';
 
@@ -103,7 +103,7 @@ main() {
     final store = Store<AppState>(
       storeSpy.reducer,
       initialState: loggedInState().copyWith(
-          userActionState: UserActionState.success([
+          userActionState: State<List<UserAction>>.success([
         UserAction(
           id: "id",
           content: "content",
@@ -137,7 +137,7 @@ main() {
     final store = Store<AppState>(
       storeSpy.reducer,
       initialState: loggedInState().copyWith(
-          userActionState: UserActionState.success([
+          userActionState: State<List<UserAction>>.success([
         UserAction(
           id: "id",
           content: "content",
