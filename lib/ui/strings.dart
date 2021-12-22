@@ -94,6 +94,9 @@ class Strings {
   // Offres Emploi
   static String offresEmploiTitle = "Résultats offres d'emploi";
 
+  // Immersions
+  static String immersionsTitle = "Offres d'immersion";
+
   // Solutions
   static String searchingPageTitle = "Recherche de solutions";
   static String keyWordsTitle = "Mots clés";
