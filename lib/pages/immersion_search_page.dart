@@ -110,7 +110,7 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         primaryActionButton(
-          onPressed: _isLoading(viewModel) ? null : _onSearchButtonPressed(viewModel),
+          onPressed: _isLoading(viewModel) ? null : () => _onSearchButtonPressed(viewModel),
           label: Strings.searchButton,
         ),
       ],
@@ -126,10 +126,8 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
         viewModel.displayState == ImmersionSearchDisplayState.SHOW_EMPTY_ERROR;
   }
 
-  VoidCallback _onSearchButtonPressed(ImmersionSearchViewModel viewModel) {
-    return () {
-      viewModel.onSearchingRequest(_selectedMetier, _selectedLocationViewModel?.location);
-      Keyboard.dismiss(context);
-    };
+  void _onSearchButtonPressed(ImmersionSearchViewModel viewModel) {
+    viewModel.onSearchingRequest(_selectedMetier, _selectedLocationViewModel?.location);
+    Keyboard.dismiss(context);
   }
 }

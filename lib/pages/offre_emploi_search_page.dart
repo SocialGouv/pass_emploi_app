@@ -70,7 +70,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
           _separator(),
           Center(
             child: primaryActionButton(
-              onPressed: _isLoading(viewModel) ? null : _onSearchButtonPressed(viewModel),
+              onPressed: _isLoading(viewModel) ? null : () => _onSearchButtonPressed(viewModel),
               label: Strings.searchButton,
             ),
           ),
@@ -123,10 +123,8 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
         viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_EMPTY_ERROR;
   }
 
-  VoidCallback _onSearchButtonPressed(OffreEmploiSearchViewModel viewModel) {
-    return () {
-      viewModel.onSearchingRequest(_keyWord, _selectedLocationViewModel?.location);
-      Keyboard.dismiss(context);
-    };
+  void _onSearchButtonPressed(OffreEmploiSearchViewModel viewModel) {
+    viewModel.onSearchingRequest(_keyWord, _selectedLocationViewModel?.location);
+    Keyboard.dismiss(context);
   }
 }

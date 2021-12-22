@@ -18,10 +18,8 @@ class ImmersionListItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(immersion.metier, style: TextStyles.textSmMedium()),
-          Padding(
-            padding: const EdgeInsets.only(top: 8.0),
-            child: Text(immersion.nomEtablissement, style: TextStyles.textSmRegular(color: AppColors.bluePurple)),
-          ),
+          SizedBox(height: 8),
+          Text(immersion.nomEtablissement, style: TextStyles.textSmRegular(color: AppColors.bluePurple)),
           SizedBox(height: 8),
           Wrap(
             spacing: 8,
