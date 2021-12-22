@@ -15,8 +15,8 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/action_buttons.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
+import 'package:pass_emploi_app/widgets/share_button.dart';
 import 'package:pass_emploi_app/widgets/tags.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OffreEmploiDetailsPage extends TraceableStatelessWidget {
@@ -109,7 +109,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         ),
         if (url != null && id != null)
           Align(
-            child: _footer(context, url, id),
+            child: _footer(context, url, id, viewModel.title),
             alignment: Alignment.bottomCenter,
           )
         else if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS && id != null)
@@ -413,20 +413,21 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     );
   }
 
-  Widget _footer(BuildContext context, String url, String offreId) {
+  Widget _footer(BuildContext context, String url, String offreId, String? title) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [
-          //Expanded(child: actionButton(onPressed: () => launch(url), label: Strings.postulerButtonTitle)),
-          Expanded(child: actionButton(onPressed: () => Share.share(url), label: Strings.postulerButtonTitle)),
+          Expanded(child: actionButton(onPressed: () => launch(url), label: Strings.postulerButtonTitle)),
           SizedBox(width: 8),
           FavoriHeart(
             offreId: offreId,
             withBorder: true,
             onFavoriRemoved: shouldPopPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
           ),
+          SizedBox(width: 8),
+          ShareButton(url, title),
         ],
       ),
     );
