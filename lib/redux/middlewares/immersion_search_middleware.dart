@@ -1,3 +1,5 @@
+import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/redux/actions/actions.dart';
 import 'package:pass_emploi_app/redux/actions/immersion_search_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
@@ -15,13 +17,15 @@ class ImmersionSearchMiddleware extends MiddlewareClass<AppState> {
     if (action is SearchImmersionAction) {
       final loginState = store.state.loginState;
       if (loginState is LoggedInState) {
-        store.dispatch(ImmersionSearchLoadingAction());
+        store.dispatch(LoadingAction<List<Immersion>>());
         final immersions = await _repository.getImmersions(
           userId: loginState.user.id,
           codeRome: action.codeRome,
           location: action.location,
         );
-        store.dispatch(immersions != null ? ImmersionSearchSuccessAction(immersions) : ImmersionSearchFailureAction());
+        store.dispatch(
+          immersions != null ? SuccessAction<List<Immersion>>(immersions) : FailureAction<List<Immersion>>(),
+        );
       }
     }
   }

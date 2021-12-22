@@ -1,8 +1,8 @@
+import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/redux/actions/actions.dart';
 import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
 import 'package:pass_emploi_app/redux/actions/deep_link_action.dart';
-import 'package:pass_emploi_app/redux/actions/immersion_search_actions.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_details_actions.dart';
@@ -11,7 +11,7 @@ import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/chat_action_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/deep_link_reducer.dart';
-import 'package:pass_emploi_app/redux/reducers/immersion_search_reducer.dart';
+import 'package:pass_emploi_app/redux/reducers/immersion_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/login_action_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/offre_emploi_details_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/rendezvous_reducer.dart';
@@ -30,7 +30,7 @@ AppState reducer(AppState currentState, dynamic action) {
   } else if (action is UserActionAction) {
     return userActionReducer(currentState, action);
   } else if (action is Action<List<Rendezvous>>) {
-    return rendezvousReducer(currentState, action);
+    return RendezvousReducer().reduce(currentState, action);
   } else if (action is OffreEmploiAction) {
     return offreEmploiReducer(currentState, action);
   } else if (action is ChatAction) {
@@ -41,8 +41,8 @@ AppState reducer(AppState currentState, dynamic action) {
     return offreEmploiFavorisReducer(currentState, action);
   } else if (action is SearchLocationAction) {
     return searchLocationReducer(currentState, action);
-  } else if (action is ImmersionSearchAction) {
-    return immersionSearchReducer(currentState, action);
+  } else if (action is Action<List<Immersion>>) {
+    return ImmersionReducer().reduce(currentState, action);
   } else {
     return currentState;
   }

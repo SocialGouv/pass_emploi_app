@@ -11,9 +11,6 @@ abstract class State<T> extends Equatable {
 
   factory State.notInitialized() = NotInitializedState;
 
-  @override
-  List<Object?> get props => [];
-
   bool isLoading() => this is LoadingState<T>;
 
   bool isSuccess() => this is SuccessState<T>;
@@ -21,6 +18,11 @@ abstract class State<T> extends Equatable {
   bool isFailure() => this is FailureState<T>;
 
   bool isNotInitialized() => this is NotInitializedState<T>;
+
+  T getDataOrThrow() => (this as SuccessState<T>).data;
+
+  @override
+  List<Object?> get props => [];
 }
 
 class LoadingState<T> extends State<T> {

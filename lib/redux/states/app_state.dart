@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/states/chat_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
 import 'package:pass_emploi_app/redux/states/create_user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
-import 'package:pass_emploi_app/redux/states/immersion_search_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/search_location_state.dart';
@@ -36,7 +36,7 @@ class AppState extends Equatable {
   final OffreEmploiFavorisState offreEmploiFavorisState;
   final OffreEmploiFavorisUpdateState offreEmploiFavorisUpdateState;
   final SearchLocationState searchLocationState;
-  final ImmersionSearchState immersionSearchState;
+  final State<List<Immersion>> immersionSearchState;
 
   AppState({
     required this.deepLinkState,
@@ -75,7 +75,7 @@ class AppState extends Equatable {
     final OffreEmploiFavorisState? offreEmploiFavorisState,
     final OffreEmploiFavorisUpdateState? offreEmploiFavorisUpdateState,
     final SearchLocationState? searchLocationState,
-    final ImmersionSearchState? immersionSearchState,
+    final State<List<Immersion>>? immersionSearchState,
   }) {
     return AppState(
       deepLinkState: deepLinkState ?? this.deepLinkState,
@@ -116,7 +116,7 @@ class AppState extends Equatable {
       offreEmploiFavorisState: OffreEmploiFavorisState.notInitialized(),
       offreEmploiFavorisUpdateState: OffreEmploiFavorisUpdateState({}),
       searchLocationState: SearchLocationState([]),
-      immersionSearchState: ImmersionSearchState.notInitialized(),
+      immersionSearchState: State<List<Immersion>>.notInitialized(),
     );
   }
 
