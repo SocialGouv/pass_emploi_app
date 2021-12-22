@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/store/store_factory.dart';
+import 'package:pass_emploi_app/repositories/Immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
@@ -27,6 +28,7 @@ class TestStoreFactory {
   Crashlytics crashlytics = DummyCrashlytics();
   OffreEmploiFavorisRepository offreEmploiFavorisRepository = DummyOffreEmploiFavorisRepository();
   SearchLocationRepository searchLocationRepository = DummySearchLocationRepository();
+  ImmersionRepository immersionRepository = DummyImmersionRepository();
   FirebaseAuthRepository firebaseAuthRepository = DummyFirebaseAuthRepository();
   FirebaseAuthWrapper firebaseAuthWrapper = DummyFirebaseAuthWrapper();
 
@@ -42,6 +44,7 @@ class TestStoreFactory {
       detailedOfferRepository,
       offreEmploiFavorisRepository,
       searchLocationRepository,
+      immersionRepository,
       firebaseAuthRepository,
       firebaseAuthWrapper,
     ).initializeReduxStore(initialState: initialState);

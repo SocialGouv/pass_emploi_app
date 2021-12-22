@@ -94,6 +94,9 @@ class Strings {
   // Offres Emploi
   static String offresEmploiTitle = "Résultats offres d'emploi";
 
+  // Immersions
+  static String immersionsTitle = "Offres d'immersion";
+
   // Solutions
   static String searchingPageTitle = "Recherche de solutions";
   static String keyWordsTitle = "Mots clés";
@@ -108,8 +111,8 @@ class Strings {
   static String immersionButton = "Immersion";
   static String offresEmploiButton = "Offres d'emploi";
   static String immersionLabel = "Découvrez un métier en immersion dans une entreprise.";
-  static String metierCompulsoryLabel = "*Métier";
-  static String villeCompulsoryLabel = "*Ville";
+  static String metierCompulsoryLabel = "Secteur d'activité*";
+  static String villeCompulsoryLabel = "Ville*";
 
   // Immersion
   static String immersionExpansionTileTitle = "En savoir plus sur l’immersion";

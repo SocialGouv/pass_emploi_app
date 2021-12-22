@@ -17,14 +17,14 @@ class OffreEmploiSearchViewModel extends Equatable {
   final List<LocationViewModel> locations;
   final String errorMessage;
   final Function(String? input) onInputLocation;
-  final Function(String keyWord, Location? location) searchingRequest;
+  final Function(String keyWord, Location? location) onSearchingRequest;
 
   OffreEmploiSearchViewModel._({
     required this.displayState,
     required this.locations,
     required this.errorMessage,
     required this.onInputLocation,
-    required this.searchingRequest,
+    required this.onSearchingRequest,
   });
 
   factory OffreEmploiSearchViewModel.create(Store<AppState> store) {
@@ -37,7 +37,7 @@ class OffreEmploiSearchViewModel extends Equatable {
           .toList(),
       errorMessage: _setErrorMessage(searchState, searchResultsState),
       onInputLocation: (input) => store.dispatch(RequestLocationAction(input)),
-      searchingRequest: (keywords, location) =>
+      onSearchingRequest: (keywords, location) =>
           store.dispatch(SearchOffreEmploiAction(keywords: keywords, location: location)),
     );
   }

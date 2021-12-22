@@ -13,7 +13,7 @@ void main() {
     // Given
     final httpClient = MockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
-      if (request.url.toString() != "BASE_URL/referentiels/communes-et-departements?recherche=pari&villesOnly=false") {
+      if (request.url.toString() != "BASE_URL/referentiels/communes-et-departements?recherche=paris&villesOnly=false") {
         return invalidHttpResponse();
       }
       return Response.bytes(loadTestAssetsAsBytes("search_location.json"), 200);
@@ -21,12 +21,22 @@ void main() {
     final repository = SearchLocationRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final List<Location> locations = await repository.getLocations(userId: "ID", query: "pari");
+    final List<Location> locations = await repository.getLocations(userId: "ID", query: "paris");
 
     // Then
     expect(locations.length, 5);
-    expect(locations.first, Location(libelle: "Paris", code: "75", codePostal: null, type: LocationType.DEPARTMENT));
-    expect(locations[1], Location(libelle: "PARIGNY", code: "42166", codePostal: "42120", type: LocationType.COMMUNE));
+    expect(locations.first, Location(libelle: "Paris", code: "75", type: LocationType.DEPARTMENT));
+    expect(
+      locations[1],
+      Location(
+        libelle: "PARIS 14",
+        code: "75114",
+        codePostal: "75014",
+        type: LocationType.COMMUNE,
+        latitude: 48.830108,
+        longitude: 2.323026,
+      ),
+    );
   });
 
   test('getLocations when response is invalid should return empty list', () async {

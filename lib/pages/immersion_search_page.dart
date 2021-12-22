@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/pages/immersion_list_page.dart';
 import 'package:pass_emploi_app/presentation/immersion_search_view_model.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
+import 'package:pass_emploi_app/redux/actions/immersion_search_actions.dart';
 import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/keyboard.dart';
 import 'package:pass_emploi_app/widgets/button.dart';
+import 'package:pass_emploi_app/widgets/error_text.dart';
 import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
 import 'package:pass_emploi_app/widgets/metier_autocomplete.dart';
 
-class ImmersionSearchPage extends StatefulWidget {
-  const ImmersionSearchPage() : super();
+class ImmersionSearchPage extends TraceableStatefulWidget {
+  const ImmersionSearchPage() : super(name: AnalyticsScreenNames.immersionResearch);
 
   @override
   State<ImmersionSearchPage> createState() => _ImmersionSearchPageState();
@@ -27,7 +33,15 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
       converter: (store) => ImmersionSearchViewModel.create(store),
       builder: (context, vm) => _content(context, vm),
       distinct: true,
-      onDispose: (store) => store.dispatch(ResetLocationAction()),
+      onWillChange: (_, viewModel) {
+        if (viewModel.displayState == ImmersionSearchDisplayState.SHOW_RESULTS) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ImmersionListPage(viewModel.immersions)));
+        }
+      },
+      onDispose: (store) {
+        store.dispatch(ImmersionSearchResetResultsAction());
+        store.dispatch(ResetLocationAction());
+      },
     );
   }
 
@@ -54,7 +68,8 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
             getPreviouslySelectedTitle: () => _selectedLocationViewModel?.title,
           ),
           SizedBox(height: 24),
-          _stretchedButton(),
+          _stretchedButton(viewModel),
+          if (_isError(viewModel)) ErrorText(viewModel.errorMessage),
           SizedBox(height: 24),
           Theme(
             data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
@@ -90,12 +105,29 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
     ];
   }
 
-  Column _stretchedButton() {
+  Column _stretchedButton(ImmersionSearchViewModel viewModel) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        primaryActionButton(onPressed: null, label: Strings.searchButton),
+        primaryActionButton(
+          onPressed: _isLoading(viewModel) ? null : () => _onSearchButtonPressed(viewModel),
+          label: Strings.searchButton,
+        ),
       ],
     );
+  }
+
+  bool _isLoading(ImmersionSearchViewModel viewModel) {
+    return viewModel.displayState == ImmersionSearchDisplayState.SHOW_LOADER;
+  }
+
+  bool _isError(ImmersionSearchViewModel viewModel) {
+    return viewModel.displayState == ImmersionSearchDisplayState.SHOW_ERROR ||
+        viewModel.displayState == ImmersionSearchDisplayState.SHOW_EMPTY_ERROR;
+  }
+
+  void _onSearchButtonPressed(ImmersionSearchViewModel viewModel) {
+    viewModel.onSearchingRequest(_selectedMetier, _selectedLocationViewModel?.location);
+    Keyboard.dismiss(context);
   }
 }

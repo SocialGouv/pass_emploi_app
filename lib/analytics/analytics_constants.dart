@@ -13,6 +13,8 @@ class AnalyticsScreenNames {
   static const offreEmploiResearch = "recherche_offres_list";
   static const offreEmploiResults = "resultats_offres_emploi";
   static const detailsOffreEmploi = "offre_details";
+  static const immersionResearch = "recherche_immersions_list";
+  static const immersionResults = "resultats_immersions";
   static const favoris = "favoris";
   static const plus = "plus";
 }

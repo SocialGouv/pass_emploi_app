@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/redux/middlewares/action_logging_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/chat_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/crashlytics_middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/immersion_search_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/login_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_details_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_favoris_middleware.dart';
@@ -15,6 +16,7 @@ import 'package:pass_emploi_app/redux/middlewares/search_location_middleware.dar
 import 'package:pass_emploi_app/redux/middlewares/user_action_middleware.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/repositories/Immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
@@ -37,6 +39,7 @@ class StoreFactory {
   final OffreEmploiDetailsRepository offreEmploiDetailsRepository;
   final OffreEmploiFavorisRepository offreEmploiFavorisRepository;
   final SearchLocationRepository searchLocationRepository;
+  final ImmersionRepository immersionRepository;
   final FirebaseAuthRepository firebaseAuthRepository;
   final FirebaseAuthWrapper firebaseAuthWrapper;
 
@@ -51,6 +54,7 @@ class StoreFactory {
     this.offreEmploiDetailsRepository,
     this.offreEmploiFavorisRepository,
     this.searchLocationRepository,
+    this.immersionRepository,
     this.firebaseAuthRepository,
     this.firebaseAuthWrapper,
   );
@@ -71,6 +75,7 @@ class StoreFactory {
         RegisterPushNotificationTokenMiddleware(registerTokenRepository),
         CrashlyticsMiddleware(crashlytics),
         SearchLocationMiddleware(searchLocationRepository),
+        ImmersionSearchMiddleware(immersionRepository),
         ..._debugMiddleware(),
       ],
     );
