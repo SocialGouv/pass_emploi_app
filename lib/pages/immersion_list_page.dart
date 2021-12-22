@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -6,10 +8,10 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/immersion_list_item.dart';
 
-class ImmersionListPage extends StatelessWidget {
+class ImmersionListPage extends TraceableStatelessWidget {
   final List<Immersion> immersions;
 
-  const ImmersionListPage(this.immersions) : super();
+  const ImmersionListPage(this.immersions) : super(name: AnalyticsScreenNames.immersionResults);
 
   @override
   Widget build(BuildContext context) {

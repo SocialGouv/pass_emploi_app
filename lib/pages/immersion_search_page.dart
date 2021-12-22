@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/immersion_list_page.dart';
 import 'package:pass_emploi_app/presentation/immersion_search_view_model.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
@@ -14,8 +16,8 @@ import 'package:pass_emploi_app/widgets/error_text.dart';
 import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
 import 'package:pass_emploi_app/widgets/metier_autocomplete.dart';
 
-class ImmersionSearchPage extends StatefulWidget {
-  const ImmersionSearchPage() : super();
+class ImmersionSearchPage extends TraceableStatefulWidget {
+  const ImmersionSearchPage() : super(name: AnalyticsScreenNames.immersionResearch);
 
   @override
   State<ImmersionSearchPage> createState() => _ImmersionSearchPageState();
