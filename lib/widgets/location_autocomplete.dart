@@ -176,7 +176,6 @@ class _LocationAutocompleteState extends State<LocationAutocomplete> {
         borderRadius: BorderRadius.circular(8.0),
         borderSide: BorderSide(color: AppColors.errorRed, width: 1.0),
       ),
-      errorStyle:
     );
   }
 }
