@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -17,6 +16,7 @@ import 'package:pass_emploi_app/widgets/action_buttons.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/tags.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OffreEmploiDetailsPage extends TraceableStatelessWidget {
@@ -419,7 +419,8 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [
-          Expanded(child: actionButton(onPressed: () => launch(url), label: Strings.postulerButtonTitle)),
+          //Expanded(child: actionButton(onPressed: () => launch(url), label: Strings.postulerButtonTitle)),
+          Expanded(child: actionButton(onPressed: () => Share.share(url), label: Strings.postulerButtonTitle)),
           SizedBox(width: 8),
           FavoriHeart(
             offreId: offreId,

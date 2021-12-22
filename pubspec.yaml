@@ -21,6 +21,7 @@ dependencies:
   url_launcher: 6.0.15
   flutter_appauth: 2.1.0+1
   flutter_linkify: 5.0.2
+  share_plus: 3.0.4
   # Dart
   http: 0.13.3
   http_interceptor: 1.0.1

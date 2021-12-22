@@ -14,4 +14,5 @@ class Drawables {
   static String icBadge = _assets + "ic_badge" + _svg;
   static String icHeart = _assets + "ic_heart" + _svg;
   static String icAdd = _assets + "ic_add" + _svg;
+  static String icShare = _assets + "ic_share" + _svg;
 }
