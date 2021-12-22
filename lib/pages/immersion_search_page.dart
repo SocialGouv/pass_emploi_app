@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/pages/immersion_list_page.dart';
 import 'package:pass_emploi_app/presentation/immersion_search_view_model.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/immersion_search_actions.dart';
@@ -30,6 +31,11 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
       converter: (store) => ImmersionSearchViewModel.create(store),
       builder: (context, vm) => _content(context, vm),
       distinct: true,
+      onWillChange: (_, viewModel) {
+        if (viewModel.displayState == ImmersionSearchDisplayState.SHOW_RESULTS) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ImmersionListPage(viewModel.immersions)));
+        }
+      },
       onDispose: (store) {
         store.dispatch(ImmersionSearchResetResultsAction());
         store.dispatch(ResetLocationAction());

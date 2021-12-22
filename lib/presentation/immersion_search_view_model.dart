@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/immersion_search_actions.dart';
@@ -13,6 +14,7 @@ enum ImmersionSearchDisplayState { SHOW_SEARCH_FORM, SHOW_RESULTS, SHOW_LOADER, 
 class ImmersionSearchViewModel extends Equatable {
   final ImmersionSearchDisplayState displayState;
   final List<LocationViewModel> locations;
+  final List<Immersion> immersions;
   final String errorMessage;
   final Function(String? input) onInputLocation;
   final Function(String? codeRome, Location? location) onSearchingRequest;
@@ -20,6 +22,7 @@ class ImmersionSearchViewModel extends Equatable {
   ImmersionSearchViewModel._({
     required this.displayState,
     required this.locations,
+    required this.immersions,
     required this.errorMessage,
     required this.onInputLocation,
     required this.onSearchingRequest,
@@ -32,6 +35,7 @@ class ImmersionSearchViewModel extends Equatable {
       locations: store.state.searchLocationState.locations
           .map((location) => LocationViewModel.fromLocation(location))
           .toList(),
+      immersions: _immersions(immersionSearchState),
       errorMessage: _errorMessage(immersionSearchState),
       onInputLocation: (input) => store.dispatch(RequestLocationAction(input, villesOnly: true)),
       onSearchingRequest: (codeRome, location) {
@@ -58,6 +62,13 @@ ImmersionSearchDisplayState _displayState(ImmersionSearchState immersionSearchSt
   } else {
     return ImmersionSearchDisplayState.SHOW_SEARCH_FORM;
   }
+}
+
+List<Immersion> _immersions(ImmersionSearchState immersionSearchState) {
+  if (immersionSearchState is ImmersionSearchSuccessState) {
+    return immersionSearchState.immersions;
+  }
+  return [];
 }
 
 String _errorMessage(ImmersionSearchState immersionSearchState) {

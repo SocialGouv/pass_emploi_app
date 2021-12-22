@@ -93,23 +93,10 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     );
   }
 
-  Widget _buildFirstItem(
-    BuildContext context,
-    OffreEmploiSearchResultsViewModel resultsViewModel,
-  ) {
+  Widget _buildFirstItem(BuildContext context, OffreEmploiSearchResultsViewModel resultsViewModel) {
     return ClipRRect(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16), bottom: Radius.zero),
-      child: Container(
-        color: Colors.white,
-        child: Material(
-          type: MaterialType.transparency,
-          child: InkWell(
-            onTap: () => _showOffreEmploiDetailsPage(context, resultsViewModel.items[0].id),
-            splashColor: AppColors.bluePurple,
-            child: OffreEmploiListItem(itemViewModel: resultsViewModel.items[0]),
-          ),
-        ),
-      ),
+      child: _buildOffreItemWithListener(context, 0, resultsViewModel),
     );
   }
 
