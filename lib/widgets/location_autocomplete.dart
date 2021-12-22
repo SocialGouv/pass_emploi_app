@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/keyboard.dart';
+import 'package:pass_emploi_app/utils/debouncer.dart';
 
 const int _fakeItemsAddedToLeverageAdditionalScrollInAutocomplete = 20;
 
@@ -14,6 +15,8 @@ class LocationAutocomplete extends StatelessWidget {
   final String? Function() getPreviouslySelectedTitle;
   final List<LocationViewModel> locationViewModels;
   final String hint;
+
+  final Debouncer _debouncer = Debouncer(duration: Duration(milliseconds: 200));
 
   LocationAutocomplete({
     required this.onInputLocation,
@@ -28,9 +31,11 @@ class LocationAutocomplete extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) => Autocomplete<LocationViewModel>(
         optionsBuilder: (textEditingValue) {
-          final newLocationQuery = textEditingValue.text;
-          _deleteSelectedLocationOnTextDeletion(newLocationQuery);
-          onInputLocation(newLocationQuery);
+          _debouncer.run(() {
+            final newLocationQuery = textEditingValue.text;
+            _deleteSelectedLocationOnTextDeletion(newLocationQuery);
+            onInputLocation(newLocationQuery);
+          });
           return [_fakeLocationRequiredByAutocompleteToCallOptionsViewBuilderMethod()];
         },
         onSelected: (locationViewModel) {
