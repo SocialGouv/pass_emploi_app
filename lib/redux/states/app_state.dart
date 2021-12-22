@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/redux/states/chat_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
 import 'package:pass_emploi_app/redux/states/create_user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
+import 'package:pass_emploi_app/redux/states/immersion_search_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/rendezvous_state.dart';
@@ -34,6 +35,7 @@ class AppState extends Equatable {
   final OffreEmploiFavorisState offreEmploiFavorisState;
   final OffreEmploiFavorisUpdateState offreEmploiFavorisUpdateState;
   final SearchLocationState searchLocationState;
+  final ImmersionSearchState immersionSearchState;
 
   AppState({
     required this.deepLinkState,
@@ -52,6 +54,7 @@ class AppState extends Equatable {
     required this.offreEmploiFavorisState,
     required this.offreEmploiFavorisUpdateState,
     required this.searchLocationState,
+    required this.immersionSearchState,
   });
 
   AppState copyWith({
@@ -71,6 +74,7 @@ class AppState extends Equatable {
     final OffreEmploiFavorisState? offreEmploiFavorisState,
     final OffreEmploiFavorisUpdateState? offreEmploiFavorisUpdateState,
     final SearchLocationState? searchLocationState,
+    final ImmersionSearchState? immersionSearchState,
   }) {
     return AppState(
       deepLinkState: deepLinkState ?? this.deepLinkState,
@@ -89,6 +93,7 @@ class AppState extends Equatable {
       offreEmploiFavorisState: offreEmploiFavorisState ?? this.offreEmploiFavorisState,
       offreEmploiFavorisUpdateState: offreEmploiFavorisUpdateState ?? this.offreEmploiFavorisUpdateState,
       searchLocationState: searchLocationState ?? this.searchLocationState,
+      immersionSearchState: immersionSearchState ?? this.immersionSearchState,
     );
   }
 
@@ -110,12 +115,12 @@ class AppState extends Equatable {
       offreEmploiFavorisState: OffreEmploiFavorisState.notInitialized(),
       offreEmploiFavorisUpdateState: OffreEmploiFavorisUpdateState({}),
       searchLocationState: SearchLocationState([]),
+      immersionSearchState: ImmersionSearchState.notInitialized(),
     );
   }
 
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         deepLinkState,
         loginState,
         userActionState,
@@ -132,6 +137,7 @@ class AppState extends Equatable {
         offreEmploiFavorisState,
         offreEmploiFavorisUpdateState,
         searchLocationState,
+        immersionSearchState,
       ];
 
   @override

@@ -1,6 +1,8 @@
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
+import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/user.dart';
@@ -89,3 +91,7 @@ AppState loggedInAppState() {
     loginState: LoginState.loggedIn(User(id: "id", firstName: "F", lastName: "L")),
   );
 }
+
+Location mockLocation() => Location(libelle: "", code: "", type: LocationType.DEPARTMENT);
+
+Immersion mockImmersion() => Immersion(id: "", metier: "", nomEtablissement: "", secteurActivite: "", ville: "");
