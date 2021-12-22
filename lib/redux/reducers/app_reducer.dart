@@ -1,3 +1,5 @@
+import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/redux/actions/actions.dart';
 import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
 import 'package:pass_emploi_app/redux/actions/deep_link_action.dart';
 import 'package:pass_emploi_app/redux/actions/immersion_search_actions.dart';
@@ -5,7 +7,6 @@ import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_details_actions.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_favoris_actions.dart';
-import 'package:pass_emploi_app/redux/actions/rendezvous_actions.dart';
 import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/chat_action_reducer.dart';
@@ -28,7 +29,7 @@ AppState reducer(AppState currentState, dynamic action) {
     return loginReducer(currentState, action);
   } else if (action is UserActionAction) {
     return userActionReducer(currentState, action);
-  } else if (action is RendezvousAction) {
+  } else if (action is Action<List<Rendezvous>>) {
     return rendezvousReducer(currentState, action);
   } else if (action is OffreEmploiAction) {
     return offreEmploiReducer(currentState, action);
