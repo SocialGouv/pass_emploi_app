@@ -32,8 +32,8 @@ AppState userActionReducer(AppState currentState, dynamic action) {
     return currentState.copyWith(userActionDeleteState: UserActionDeleteState.failure());
   } else if (action is UserActionUpdateStatusAction) {
     final currentActionState = currentState.userActionState;
-    if (currentActionState is SuccessState<List<UserAction>>) {
-      final currentActions = currentActionState.data;
+    if (currentActionState.isSuccess()) {
+      final currentActions = currentActionState.getDataOrThrow();
       final actionToUpdate = currentActions.firstWhere((a) => a.id == action.actionId);
       return _updateActionStatus(actionToUpdate, action, currentActions, currentState);
     } else {
