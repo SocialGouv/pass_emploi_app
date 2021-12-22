@@ -68,12 +68,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
           _separator(),
           Center(
             child: primaryActionButton(
-              onPressed: _isLoading(viewModel)
-                  ? null
-                  : () {
-                      _searchingRequest(viewModel);
-                      _dismissKeyboard(context);
-                    },
+              onPressed: _isLoading(viewModel) ? null : _onSearchButtonPressed(viewModel),
               label: Strings.searchButton,
             ),
           ),
@@ -124,8 +119,11 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
   bool _isLoading(OffreEmploiSearchViewModel viewModel) =>
       viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_LOADER;
 
-  void _searchingRequest(OffreEmploiSearchViewModel viewModel) {
-    viewModel.searchingRequest(_keyWord, _selectedLocationViewModel?.location);
+  VoidCallback _onSearchButtonPressed(OffreEmploiSearchViewModel viewModel) {
+    return () {
+      viewModel.searchingRequest(_keyWord, _selectedLocationViewModel?.location);
+      _dismissKeyboard(context);
+    };
   }
 
   Widget _errorTextField(OffreEmploiSearchViewModel viewModel) {
