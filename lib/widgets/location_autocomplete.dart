@@ -88,7 +88,7 @@ class LocationAutocomplete extends StatelessWidget {
   }
 
   LocationViewModel _fakeLocationRequiredByAutocompleteToCallOptionsViewBuilderMethod() {
-    return LocationViewModel("", Location(libelle: "", code: "", codePostal: "", type: LocationType.COMMUNE));
+    return LocationViewModel("", Location(libelle: "", code: "", type: LocationType.COMMUNE));
   }
 
   void _dismissKeyboard(BuildContext context) => FocusScope.of(context).unfocus();

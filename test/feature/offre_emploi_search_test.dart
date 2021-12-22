@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
@@ -63,4 +62,4 @@ main() {
   });
 }
 
-Location _location() => Location(libelle: "Paris", code: "75", codePostal: null, type: LocationType.DEPARTMENT);
+Location _location() => Location(libelle: "Paris", code: "75", type: LocationType.DEPARTMENT);

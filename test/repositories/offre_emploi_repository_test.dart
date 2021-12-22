@@ -24,7 +24,7 @@ void main() {
     final repository = OffreEmploiRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final location = Location(libelle: "Paris", code: "75", codePostal: null, type: LocationType.DEPARTMENT);
+    final location = Location(libelle: "Paris", code: "75", type: LocationType.DEPARTMENT);
     final search = await repository.search(userId: "ID", keywords: "keywords", location: location, page: 1);
 
     // Then

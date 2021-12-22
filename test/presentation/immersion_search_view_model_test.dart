@@ -10,7 +10,7 @@ import 'package:redux/redux.dart';
 main () {
   test("create returns location result properly formatted", () {
     // Given
-    final department = Location(libelle: "Paris", code: "75", codePostal: null, type: LocationType.DEPARTMENT);
+    final department = Location(libelle: "Paris", code: "75", type: LocationType.DEPARTMENT);
     final commune = Location(libelle: "Paris 1", code: "75111", codePostal: "75001", type: LocationType.COMMUNE);
     final store = Store<AppState>(
       reducer,
@@ -29,7 +29,7 @@ main () {
 
   test("create returns location result with proper toString value for autocomplete widget onSelected", () {
     // Given
-    final department = Location(libelle: "Paris", code: "75", codePostal: null, type: LocationType.DEPARTMENT);
+    final department = Location(libelle: "Paris", code: "75", type: LocationType.DEPARTMENT);
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(searchLocationState: SearchLocationState([department])),
