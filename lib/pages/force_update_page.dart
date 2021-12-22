@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -22,7 +23,7 @@ class ForceUpdatePage extends TraceableStatelessWidget {
           padding: const EdgeInsets.all(Margins.medium),
           child: Column(
             children: [
-              Expanded(child: SvgPicture.asset("assets/ic_logo.svg", semanticsLabel: Strings.logoTextDescription)),
+              Expanded(child: SvgPicture.asset(Drawables.icLogo, semanticsLabel: Strings.logoTextDescription)),
               Text(
                 Strings.forceUpdateExplanation,
                 style: TextStyles.textMdRegular,

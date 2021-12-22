@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
@@ -27,7 +28,7 @@ Padding userActionBottomSheetHeader(BuildContext context, {required String title
             iconSize: 48,
             onPressed: () => Navigator.pop(context),
             tooltip: Strings.close,
-            icon: SvgPicture.asset("assets/ic_close.svg"),
+            icon: SvgPicture.asset(Drawables.icClose),
           ),
         ),
       ],

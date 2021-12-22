@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class LoaderPage extends StatefulWidget {
@@ -80,7 +81,7 @@ class AnimatedLogo extends AnimatedWidget {
     final animation = listenable as Animation<double>;
     return Positioned(
       top: animation.value,
-      child: SvgPicture.asset("assets/ic_logo.svg", semanticsLabel: Strings.logoTextDescription),
+      child: SvgPicture.asset(Drawables.icLogo, semanticsLabel: Strings.logoTextDescription),
     );
   }
 }
