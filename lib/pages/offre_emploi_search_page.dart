@@ -121,7 +121,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
 
   VoidCallback _onSearchButtonPressed(OffreEmploiSearchViewModel viewModel) {
     return () {
-      viewModel.searchingRequest(_keyWord, _selectedLocationViewModel?.location);
+      viewModel.onSearchingRequest(_keyWord, _selectedLocationViewModel?.location);
       _dismissKeyboard(context);
     };
   }
