@@ -36,11 +36,13 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
       onWillChange: (_, viewModel) {
         if (viewModel.displayState == ImmersionSearchDisplayState.SHOW_RESULTS) {
           Navigator.push(context, MaterialPageRoute(builder: (context) => ImmersionListPage(viewModel.immersions)));
+          // Reset state to avoid unexpected SHOW_RESULTS while coming back from ImmersionListPage
+          StoreProvider.of<AppState>(context).dispatch(ImmersionSearchResetResultsAction());
         }
       },
       onDispose: (store) {
-        store.dispatch(ImmersionSearchResetResultsAction());
         store.dispatch(ResetLocationAction());
+        store.dispatch(ImmersionSearchResetResultsAction());
       },
     );
   }
