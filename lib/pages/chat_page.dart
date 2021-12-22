@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/presentation/chat_page_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/chat_message_widget.dart';
@@ -142,7 +143,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                 SizedBox(width: 10),
                 FloatingActionButton(
                   backgroundColor: AppColors.nightBlue,
-                  child: SvgPicture.asset("assets/ic_paper_plane.svg"),
+                  child: SvgPicture.asset(Drawables.icPaperPlane),
                   onPressed: () {
                     if (_controller.value.text.isNotEmpty) {
                       viewModel.onSendMessage(_controller.value.text);

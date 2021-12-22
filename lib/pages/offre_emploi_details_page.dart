@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/presentation/offre_emploi_details_page_view_mode
 import 'package:pass_emploi_app/redux/actions/offre_emploi_details_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -130,22 +131,22 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       if (location != null)
         Padding(
           padding: const EdgeInsets.only(bottom: 12),
-          child: lightBlueTag(label: location, icon: SvgPicture.asset("assets/ic_place.svg")),
+          child: lightBlueTag(label: location, icon: SvgPicture.asset(Drawables.icPlace)),
         ),
       if (contractType != null)
         Padding(
           padding: const EdgeInsets.only(bottom: 12),
-          child: lightBlueTag(label: contractType, icon: SvgPicture.asset("assets/ic_contract.svg")),
+          child: lightBlueTag(label: contractType, icon: SvgPicture.asset(Drawables.icContract)),
         ),
       if (salary != null)
         Padding(
           padding: const EdgeInsets.only(bottom: 12),
-          child: lightBlueTag(label: salary, icon: SvgPicture.asset("assets/ic_salary.svg")),
+          child: lightBlueTag(label: salary, icon: SvgPicture.asset(Drawables.icSalary)),
         ),
       if (duration != null)
         Padding(
           padding: const EdgeInsets.only(bottom: 12),
-          child: lightBlueTag(label: duration, icon: SvgPicture.asset("assets/ic_time.svg")),
+          child: lightBlueTag(label: duration, icon: SvgPicture.asset(Drawables.icTime)),
         ),
     ]);
   }
@@ -153,7 +154,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Widget _description(OffreEmploiDetailsPageViewModel viewModel) {
     final description = viewModel.description;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      _descriptionTitle(title: Strings.offreDetailsTitle, icon: SvgPicture.asset("assets/ic_one_point.svg")),
+      _descriptionTitle(title: Strings.offreDetailsTitle, icon: SvgPicture.asset(Drawables.icOnePoint)),
       _separator(8, 12),
       if (description != null) Text(description, style: TextStyles.textSmRegular()),
       _spacer(30),
@@ -170,7 +171,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _descriptionTitle(title: Strings.profileTitle, icon: SvgPicture.asset("assets/ic_two_points.svg")),
+        _descriptionTitle(title: Strings.profileTitle, icon: SvgPicture.asset(Drawables.icTwoPoints)),
         _separator(8, 20),
         Text(Strings.experienceTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
@@ -193,7 +194,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _descriptionTitle(title: Strings.companyTitle, icon: SvgPicture.asset("assets/ic_three_points.svg")),
+        _descriptionTitle(title: Strings.companyTitle, icon: SvgPicture.asset(Drawables.icThreePoints)),
         _separator(8, 30),
         if (companyName != null) _companyName(companyName: companyName, companyUrl: viewModel.companyUrl),
         if (companyAdapted) _blueTag(tagTitle: Strings.companyAdaptedTitle),
@@ -354,7 +355,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
                   color: AppColors.nightBlue,
                 ),
               ),
-              child: SvgPicture.asset("assets/ic_info.svg"),
+              child: SvgPicture.asset(Drawables.icInfo),
             ),
           ),
         ],
@@ -379,7 +380,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
               Flexible(child: Text(companyName, style: TextStyles.textMdMediumUnderline)),
               Padding(
                 padding: const EdgeInsets.only(left: 8),
-                child: SvgPicture.asset("assets/ic_redirection.svg"),
+                child: SvgPicture.asset(Drawables.icRedirection),
               ),
             ],
           ),

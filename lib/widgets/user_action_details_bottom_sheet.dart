@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/presentation/user_action_details_view_model.dart
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
@@ -82,7 +83,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(height: 16),
-          Expanded(child: SvgPicture.asset("assets/ic_congratulations.svg", excludeFromSemantics: true)),
+          Expanded(child: SvgPicture.asset(Drawables.icCongratulations, excludeFromSemantics: true)),
           Expanded(
             child: Container(
               alignment: Alignment.bottomCenter,

@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
 class SplashScreenPage extends TraceableStatelessWidget {
@@ -20,7 +21,7 @@ class SplashScreenPage extends TraceableStatelessWidget {
           colors: [AppColors.lightBlue, AppColors.lightPurple],
         ),
       ),
-      child: Center(child: SvgPicture.asset("assets/ic_logo.svg", semanticsLabel: Strings.logoTextDescription)),
+      child: Center(child: SvgPicture.asset(Drawables.icLogo, semanticsLabel: Strings.logoTextDescription)),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -34,11 +35,11 @@ class RendezvousPage extends TraceableStatelessWidget {
               SizedBox(height: 20),
               Row(
                 children: [
-                  SvgPicture.asset("assets/ic_calendar.svg"),
+                  SvgPicture.asset(Drawables.icCalendar),
                   SizedBox(width: 8),
                   Text(rendezvous.dateWithoutHour, style: TextStyles.textMdMedium),
                   Expanded(child: SizedBox()),
-                  SvgPicture.asset("assets/ic_clock.svg"),
+                  SvgPicture.asset(Drawables.icClock),
                   SizedBox(width: 8),
                   Text(rendezvous.hourAndDuration, style: TextStyles.textMdMedium),
                 ],
