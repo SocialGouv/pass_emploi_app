@@ -33,7 +33,7 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _checkIfUserIsLoggedIn(Store<AppState> store) async {
-    if (_authenticator.isLoggedIn()) {
+    if (await _authenticator.isLoggedIn()) {
       _dispatchLoginSuccess(store);
     } else {
       store.dispatch(NotLoggedInAction());
@@ -49,8 +49,8 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
-  void _dispatchLoginSuccess(Store<AppState> store) {
-    final AuthIdToken idToken = _authenticator.idToken()!;
+  void _dispatchLoginSuccess(Store<AppState> store) async {
+    final AuthIdToken idToken = (await _authenticator.idToken())!;
     final user = User(id: idToken.userId, firstName: idToken.firstName, lastName: idToken.lastName);
     store.dispatch(LoginAction.success(user));
   }

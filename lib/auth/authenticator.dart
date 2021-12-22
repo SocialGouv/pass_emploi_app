@@ -1,8 +1,8 @@
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'auth_logout_request.dart';
 import 'auth_refresh_token_request.dart';
@@ -21,7 +21,7 @@ const Map<String, String> similoAdditionalParameters = {"kc_idp_hint": "similo-j
 class Authenticator {
   final AuthWrapper _authWrapper;
   final Configuration _configuration;
-  final SharedPreferences _preferences;
+  final FlutterSecureStorage _preferences;
 
   Authenticator(this._authWrapper, this._configuration, this._preferences);
 
@@ -44,18 +44,18 @@ class Authenticator {
     }
   }
 
-  bool isLoggedIn() => _preferences.containsKey(_idTokenKey);
+  Future<bool> isLoggedIn() => _preferences.containsKey(key: _idTokenKey);
 
-  AuthIdToken? idToken() {
-    final String? idToken = _preferences.getString(_idTokenKey);
+  Future<AuthIdToken?> idToken() async {
+    final String? idToken = await _preferences.read(key: _idTokenKey);
     if (idToken != null) return AuthIdToken.parse(idToken);
     return null;
   }
 
-  String? accessToken() => _preferences.getString(_accessTokenKey);
+  Future<String?> accessToken() async => _preferences.read(key: _accessTokenKey);
 
   Future<RefreshTokenStatus> refreshToken() async {
-    final String? refreshToken = _preferences.getString(_refreshTokenKey);
+    final String? refreshToken = await _preferences.read(key: _refreshTokenKey);
     if (refreshToken == null) return RefreshTokenStatus.USER_NOT_LOGGED_IN;
 
     try {
@@ -81,7 +81,7 @@ class Authenticator {
   }
 
   Future<bool> logout() async {
-    final String? idToken = _preferences.getString(_idTokenKey);
+    final String? idToken = await _preferences.read(key: _idTokenKey);
     if (idToken == null) return false;
     try {
       await _authWrapper.logout(AuthLogoutRequest(
@@ -97,14 +97,14 @@ class Authenticator {
   }
 
   void _saveToken(AuthTokenResponse response) {
-    _preferences.setString(_idTokenKey, response.idToken);
-    _preferences.setString(_accessTokenKey, response.accessToken);
-    _preferences.setString(_refreshTokenKey, response.refreshToken);
+    _preferences.write(key: _idTokenKey, value: response.idToken);
+    _preferences.write(key: _accessTokenKey, value: response.accessToken);
+    _preferences.write(key: _refreshTokenKey, value: response.refreshToken);
   }
 
   void _deleteToken() {
-    _preferences.remove(_idTokenKey);
-    _preferences.remove(_accessTokenKey);
-    _preferences.remove(_refreshTokenKey);
+    _preferences.delete(key: _idTokenKey);
+    _preferences.delete(key: _accessTokenKey);
+    _preferences.delete(key: _refreshTokenKey);
   }
 }

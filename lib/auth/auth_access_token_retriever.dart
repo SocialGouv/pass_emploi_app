@@ -10,13 +10,13 @@ class AuthAccessTokenRetriever {
   AuthAccessTokenRetriever(this._authenticator);
 
   Future<String> accessToken() async {
-    final idToken = _authenticator.idToken();
+    final idToken = await _authenticator.idToken();
     if (idToken == null) throw Exception("ID Token is null");
-    if (idToken.isValid()) return _authenticator.accessToken()!;
+    if (idToken.isValid()) return (await _authenticator.accessToken())!;
     final refreshTokenStatus = await _authenticator.refreshToken();
     switch (refreshTokenStatus) {
       case RefreshTokenStatus.SUCCESSFUL:
-        return _authenticator.accessToken()!;
+        return (await _authenticator.accessToken())!;
       case RefreshTokenStatus.EXPIRED_REFRESH_TOKEN:
         _store.dispatch(RequestLogoutAction(LogoutRequester.SYSTEM));
         throw Exception("ID Token is null");

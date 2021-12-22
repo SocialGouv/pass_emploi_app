@@ -1,8 +1,8 @@
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:redux/redux.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class NextDispatcherSpy {
   bool wasCalled = false;
@@ -27,63 +27,56 @@ class StoreSpy extends Store<AppState> {
   dispatch(action) => dispatchedAction = action;
 }
 
-class SharedPreferencesSpy implements SharedPreferences {
+class SharedPreferencesSpy extends FlutterSecureStorage {
   final Map<String, String> storedValues = Map();
 
   @override
-  Future<bool> setString(String key, String value) {
-    storedValues[key] = value;
+  Future<void> write({
+    required String key,
+    required String? value,
+    IOSOptions? iOptions,
+    AndroidOptions? aOptions,
+    LinuxOptions? lOptions,
+    WebOptions? webOptions,
+    MacOsOptions? mOptions,
+    WindowsOptions? wOptions,
+  }) {
+    storedValues[key] = value!;
     return Future.value(true);
   }
 
   @override
-  Future<bool> clear() => throw UnimplementedError();
+  Future<bool> containsKey({
+    required String key,
+    IOSOptions? iOptions,
+    AndroidOptions? aOptions,
+    LinuxOptions? lOptions,
+    WebOptions? webOptions,
+    MacOsOptions? mOptions,
+    WindowsOptions? wOptions,
+  }) async => storedValues.containsKey(key);
 
   @override
-  Future<bool> commit() => throw UnimplementedError();
+  Future<String?> read({
+    required String key,
+    IOSOptions? iOptions,
+    AndroidOptions? aOptions,
+    LinuxOptions? lOptions,
+    WebOptions? webOptions,
+    MacOsOptions? mOptions,
+    WindowsOptions? wOptions,
+  }) async => storedValues[key];
 
   @override
-  bool containsKey(String key) => storedValues.containsKey(key);
-
-  @override
-  Object? get(String key) => throw UnimplementedError();
-
-  @override
-  bool? getBool(String key) => throw UnimplementedError();
-
-  @override
-  double? getDouble(String key) => throw UnimplementedError();
-
-  @override
-  int? getInt(String key) => throw UnimplementedError();
-
-  @override
-  Set<String> getKeys() => throw UnimplementedError();
-
-  @override
-  String? getString(String key) => storedValues[key];
-
-  @override
-  List<String>? getStringList(String key) => throw UnimplementedError();
-
-  @override
-  Future<void> reload() => throw UnimplementedError();
-
-  @override
-  Future<bool> remove(String key) async {
+  Future<void> delete({
+    required String key,
+    IOSOptions? iOptions,
+    AndroidOptions? aOptions,
+    LinuxOptions? lOptions,
+    WebOptions? webOptions,
+    MacOsOptions? mOptions,
+    WindowsOptions? wOptions,
+  }) async {
     storedValues.remove(key);
-    return true;
   }
-
-  @override
-  Future<bool> setBool(String key, bool value) => throw UnimplementedError();
-
-  @override
-  Future<bool> setDouble(String key, double value) => throw UnimplementedError();
-
-  @override
-  Future<bool> setInt(String key, int value) => throw UnimplementedError();
-
-  @override
-  Future<bool> setStringList(String key, List<String> value) => throw UnimplementedError();
 }
