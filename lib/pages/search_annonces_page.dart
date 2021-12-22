@@ -32,20 +32,25 @@ class _SearchAnnoncesPageState extends State<SearchAnnoncesPage> {
   }
 
   Widget _carousel() {
-    return Row(children: [
-      SizedBox(width: 12),
-      carouselButton(
-        isActive: _selectedIndex == _indexOfOffresEmploi,
-        onPressed: () => _updateIndex(_indexOfOffresEmploi),
-        label: Strings.offresEmploiButton,
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          SizedBox(width: 12),
+          carouselButton(
+            isActive: _selectedIndex == _indexOfOffresEmploi,
+            onPressed: () => _updateIndex(_indexOfOffresEmploi),
+            label: Strings.offresEmploiButton,
+          ),
+          SizedBox(width: 12),
+          carouselButton(
+            isActive: _selectedIndex == _indexOfImmersion,
+            onPressed: () => _updateIndex(_indexOfImmersion),
+            label: Strings.immersionButton,
+          ),
+        ],
       ),
-      SizedBox(width: 12),
-      carouselButton(
-        isActive: _selectedIndex == _indexOfImmersion,
-        onPressed: () => _updateIndex(_indexOfImmersion),
-        label: Strings.immersionButton,
-      ),
-    ]);
+    );
   }
 
   Widget _content() {

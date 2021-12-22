@@ -33,6 +33,7 @@ class MetierAutocomplete extends StatelessWidget {
       scrollPadding: const EdgeInsets.only(bottom: 200.0),
       maxLines: null,
       keyboardType: TextInputType.multiline,
+      textInputAction: TextInputAction.done,
       style: TextStyles.textSmMedium(color: AppColors.nightBlue),
       controller: textEditingController,
       decoration: _inputDecoration(Strings.immersionFieldHint),
