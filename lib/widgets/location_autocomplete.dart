@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/keyboard.dart';
 
 const int _fakeItemsAddedToLeverageAdditionalScrollInAutocomplete = 20;
 
@@ -33,7 +34,7 @@ class LocationAutocomplete extends StatelessWidget {
           return [_fakeLocationRequiredByAutocompleteToCallOptionsViewBuilderMethod()];
         },
         onSelected: (locationViewModel) {
-          _dismissKeyboard(context);
+          Keyboard.dismiss(context);
           onSelectLocationViewModel(locationViewModel);
         },
         optionsViewBuilder: (
@@ -90,8 +91,6 @@ class LocationAutocomplete extends StatelessWidget {
   LocationViewModel _fakeLocationRequiredByAutocompleteToCallOptionsViewBuilderMethod() {
     return LocationViewModel("", Location(libelle: "", code: "", type: LocationType.COMMUNE));
   }
-
-  void _dismissKeyboard(BuildContext context) => FocusScope.of(context).unfocus();
 
   Widget _listTile(int index, AutocompleteOnSelected<LocationViewModel> onSelected) {
     if (index + 1 > locationViewModels.length) {

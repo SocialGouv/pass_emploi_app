@@ -10,7 +10,9 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/keyboard.dart';
 import 'package:pass_emploi_app/widgets/button.dart';
+import 'package:pass_emploi_app/widgets/error_text.dart';
 import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
 
 import 'offre_emploi_list_page.dart';
@@ -73,9 +75,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
             ),
           ),
           _separator(),
-          if (viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_ERROR ||
-              viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_EMPTY_ERROR)
-            _errorTextField(viewModel),
+          if (_isError(viewModel)) ErrorText(viewModel.errorMessage),
         ],
       ),
     );
@@ -98,8 +98,6 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
     );
   }
 
-  void _dismissKeyboard(BuildContext context) => FocusScope.of(context).unfocus();
-
   InputDecoration _inputDecoration(String textFieldString) {
     return InputDecoration(
       contentPadding: const EdgeInsets.only(left: 24, top: 18, bottom: 18),
@@ -116,26 +114,19 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
     );
   }
 
-  bool _isLoading(OffreEmploiSearchViewModel viewModel) =>
-      viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_LOADER;
+  bool _isLoading(OffreEmploiSearchViewModel viewModel) {
+    return viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_LOADER;
+  }
+
+  bool _isError(OffreEmploiSearchViewModel viewModel) {
+    return viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_ERROR ||
+        viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_EMPTY_ERROR;
+  }
 
   VoidCallback _onSearchButtonPressed(OffreEmploiSearchViewModel viewModel) {
     return () {
       viewModel.onSearchingRequest(_keyWord, _selectedLocationViewModel?.location);
-      _dismissKeyboard(context);
+      Keyboard.dismiss(context);
     };
-  }
-
-  Widget _errorTextField(OffreEmploiSearchViewModel viewModel) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Text(
-          viewModel.errorMessage,
-          textAlign: TextAlign.center,
-          style: TextStyles.textSmRegular(color: AppColors.errorRed),
-        ),
-      ),
-    );
   }
 }
