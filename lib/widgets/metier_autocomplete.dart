@@ -7,9 +7,10 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class MetierAutocomplete extends StatelessWidget {
   final Function(String selectedMetierRome) onSelectMetier;
+  final GlobalKey<FormState> formKey;
   final _metierRepository = MetierRepository();
 
-  MetierAutocomplete({required this.onSelectMetier}) : super();
+  MetierAutocomplete({required this.onSelectMetier, required this.formKey}) : super();
 
   @override
   Widget build(BuildContext context) {
@@ -29,21 +30,31 @@ class MetierAutocomplete extends StatelessWidget {
     FocusNode focusNode,
     VoidCallback onFieldSubmitted,
   ) {
-    return TextFormField(
-      scrollPadding: const EdgeInsets.only(bottom: 200.0),
-      maxLines: null,
-      keyboardType: TextInputType.multiline,
-      textInputAction: TextInputAction.done,
-      style: TextStyles.textSmMedium(color: AppColors.nightBlue),
-      controller: textEditingController,
-      decoration: _inputDecoration(Strings.immersionFieldHint),
-      focusNode: focusNode,
-      onFieldSubmitted: (String value) {
-        onFieldSubmitted();
-      },
-      onChanged: (value) {
-        if (value.isEmpty) onSelectMetier("");
-      },
+    return Form(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      key: formKey,
+      child: TextFormField(
+        scrollPadding: const EdgeInsets.only(bottom: 200.0),
+        maxLines: null,
+        keyboardType: TextInputType.multiline,
+        textInputAction: TextInputAction.done,
+        style: TextStyles.textSmMedium(color: AppColors.nightBlue),
+        controller: textEditingController,
+        decoration: _inputDecoration(Strings.immersionFieldHint),
+        focusNode: focusNode,
+        onFieldSubmitted: (String value) {
+          onFieldSubmitted();
+        },
+        onChanged: (value) {
+          if (value.isEmpty) onSelectMetier("");
+        },
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return Strings.immersionMetierError;
+          }
+          return null;
+        },
+      ),
     );
   }
 
@@ -95,6 +106,14 @@ class MetierAutocomplete extends StatelessWidget {
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
         borderSide: BorderSide(color: AppColors.nightBlue, width: 1.0),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: BorderSide(color: AppColors.errorRed, width: 1.0),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: BorderSide(color: AppColors.errorRed, width: 1.0),
       ),
     );
   }

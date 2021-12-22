@@ -110,11 +110,11 @@ class Strings {
   static String solutionsAppBarTitle = "Solutions";
   static String immersionButton = "Immersion";
   static String offresEmploiButton = "Offres d'emploi";
+
+  // Immersion
   static String immersionLabel = "Découvrez un métier en immersion dans une entreprise.";
   static String metierCompulsoryLabel = "Secteur d'activité*";
   static String villeCompulsoryLabel = "Ville*";
-
-  // Immersion
   static String immersionExpansionTileTitle = "En savoir plus sur l’immersion";
   static String immersionObjectifTitle = "Objectif poursuivi ?";
   static String immersionObjectifContent =
@@ -126,6 +126,10 @@ class Strings {
   static String immersionStatutContent =
       "Votre statut ne change pas. Si vous êtes inscrit à Pôle emploi, actualisez-vous comme d'habitude !";
   static String immersionFieldHint = "Rechercher";
+
+  // Immersion Errors
+  static String immersionMetierError = "Renseignez un métier de la liste";
+  static String immersionVilleError = "Renseignez une ville de la liste";
 
   // Solutions Errors
   static String noContentError = "Aucune offre ne correspond à votre recherche";

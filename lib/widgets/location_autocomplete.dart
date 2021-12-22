@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/utils/keyboard.dart';
 import 'package:pass_emploi_app/utils/debouncer.dart';
+import 'package:pass_emploi_app/utils/keyboard.dart';
 
 const int _fakeItemsAddedToLeverageAdditionalScrollInAutocomplete = 20;
 
@@ -15,6 +16,7 @@ class LocationAutocomplete extends StatelessWidget {
   final String? Function() getPreviouslySelectedTitle;
   final List<LocationViewModel> locationViewModels;
   final String hint;
+  final GlobalKey<FormState> formKey;
 
   final Debouncer _debouncer = Debouncer(duration: Duration(milliseconds: 200));
 
@@ -24,6 +26,7 @@ class LocationAutocomplete extends StatelessWidget {
     required this.locationViewModels,
     required this.hint,
     required this.getPreviouslySelectedTitle,
+    required this.formKey,
   }) : super();
 
   @override
@@ -74,12 +77,22 @@ class LocationAutocomplete extends StatelessWidget {
         ) {
           return Focus(
             onFocusChange: (hasFocus) => _putBackLastLocationSetOnFocusLost(hasFocus, textEditingController),
-            child: TextFormField(
-              style: TextStyles.textSmMedium(color: AppColors.nightBlue),
-              scrollPadding: const EdgeInsets.only(bottom: 130.0),
-              controller: textEditingController,
-              decoration: _inputDecoration(hint),
-              focusNode: focusNode,
+            child: Form(
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              key: formKey,
+              child: TextFormField(
+                style: TextStyles.textSmMedium(color: AppColors.nightBlue),
+                scrollPadding: const EdgeInsets.only(bottom: 130.0),
+                controller: textEditingController,
+                decoration: _inputDecoration(hint),
+                focusNode: focusNode,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return Strings.immersionVilleError;
+                  }
+                  return null;
+                },
+              ),
             ),
           );
         },
@@ -141,6 +154,14 @@ class LocationAutocomplete extends StatelessWidget {
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
         borderSide: BorderSide(color: AppColors.nightBlue, width: 1.0),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: BorderSide(color: AppColors.errorRed, width: 1.0),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: BorderSide(color: AppColors.errorRed, width: 1.0),
       ),
     );
   }

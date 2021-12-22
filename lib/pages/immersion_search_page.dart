@@ -26,6 +26,8 @@ class ImmersionSearchPage extends TraceableStatefulWidget {
 class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
   LocationViewModel? _selectedLocationViewModel;
   String? _selectedMetier;
+  final _metierFormKey = GlobalKey<FormState>();
+  final _locationFormKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +60,8 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
           SizedBox(height: 24),
           Text(Strings.metierCompulsoryLabel, style: TextStyles.textLgMedium),
           SizedBox(height: 24),
-          MetierAutocomplete(onSelectMetier: (selectedMetierRome) => _selectedMetier = selectedMetierRome),
+          MetierAutocomplete(
+              onSelectMetier: (selectedMetierRome) => _selectedMetier = selectedMetierRome, formKey: _metierFormKey),
           SizedBox(height: 24),
           Text(Strings.villeCompulsoryLabel, style: TextStyles.textLgMedium),
           SizedBox(height: 24),
@@ -68,6 +71,7 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
             locationViewModels: viewModel.locations,
             hint: Strings.immersionFieldHint,
             getPreviouslySelectedTitle: () => _selectedLocationViewModel?.title,
+            formKey: _locationFormKey,
           ),
           SizedBox(height: 24),
           _stretchedButton(viewModel),
@@ -112,7 +116,11 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         primaryActionButton(
-          onPressed: _isLoading(viewModel) ? null : () => _onSearchButtonPressed(viewModel),
+          onPressed: (_isLoading(viewModel) &&
+                  !_metierFormKey.currentState!.validate() &&
+                  !_locationFormKey.currentState!.validate())
+              ? null
+              : () => _onSearchButtonPressed(viewModel),
           label: Strings.searchButton,
         ),
       ],
