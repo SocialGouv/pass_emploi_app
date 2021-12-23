@@ -17,7 +17,6 @@ import 'package:pass_emploi_app/redux/middlewares/search_location_middleware.dar
 import 'package:pass_emploi_app/redux/middlewares/user_action_middleware.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
-import 'package:pass_emploi_app/redux/requests/rendezvous_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
@@ -77,7 +76,7 @@ class StoreFactory {
         RegisterPushNotificationTokenMiddleware(registerTokenRepository),
         CrashlyticsMiddleware(crashlytics),
         SearchLocationMiddleware(searchLocationRepository),
-        Middleware<RendezvousRequest, List<Rendezvous>>(rendezvousRepository),
+        Middleware<void, List<Rendezvous>>(rendezvousRepository),
         Middleware<ImmersionRequest, List<Immersion>>(immersionRepository),
         ..._debugMiddleware(),
       ],
