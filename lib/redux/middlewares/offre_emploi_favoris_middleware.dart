@@ -43,9 +43,9 @@ class OffreEmploiFavorisMiddleware extends MiddlewareClass<AppState> {
   ) async {
     final result = await _repository.getOffreEmploiFavoris(loginState.user.id);
     if (result != null) {
-      store.dispatch(OffreEmploisFavorisLoadedAction(result));
+      store.dispatch(OffreEmploiFavorisLoadedAction(result));
     } else {
-      store.dispatch(OffreEmploisFavorisFailureAction());
+      store.dispatch(OffreEmploiFavorisFailureAction());
     }
   }
 

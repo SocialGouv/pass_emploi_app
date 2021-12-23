@@ -13,16 +13,16 @@ AppState offreEmploiFavorisReducer(AppState currentState, OffreEmploiFavorisActi
     return _updateSuccessState(currentState, action);
   } else if (action is OffreEmploiUpdateFavoriFailureAction) {
     return _updateFailureState(currentState, action);
-  } else if (action is OffreEmploisFavorisLoadedAction) {
+  } else if (action is OffreEmploiFavorisLoadedAction) {
     return currentState.copyWith(offreEmploiFavorisState: _updateWithData(currentState, action));
-  } else if (action is OffreEmploisFavorisFailureAction) {
+  } else if (action is OffreEmploiFavorisFailureAction) {
     return currentState.copyWith(offreEmploiFavorisState: OffreEmploiFavorisState.notInitialized());
   } else {
     return currentState;
   }
 }
 
-OffreEmploiFavorisState _updateWithData(AppState currentState, OffreEmploisFavorisLoadedAction action) {
+OffreEmploiFavorisState _updateWithData(AppState currentState, OffreEmploiFavorisLoadedAction action) {
   return OffreEmploiFavorisState.withMap(action.favoris.keys.toSet(), action.favoris);
 }
 

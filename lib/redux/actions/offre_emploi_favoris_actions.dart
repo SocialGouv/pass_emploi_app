@@ -38,10 +38,10 @@ class OffreEmploiUpdateFavoriFailureAction extends OffreEmploiFavorisAction {
 
 class RequestOffreEmploiFavorisAction extends OffreEmploiFavorisAction {}
 
-class OffreEmploisFavorisLoadedAction extends OffreEmploiFavorisAction {
+class OffreEmploiFavorisLoadedAction extends OffreEmploiFavorisAction {
   final Map<String, OffreEmploi> favoris;
 
-  OffreEmploisFavorisLoadedAction(this.favoris);
+  OffreEmploiFavorisLoadedAction(this.favoris);
 }
 
-class OffreEmploisFavorisFailureAction extends OffreEmploiFavorisAction {}
+class OffreEmploiFavorisFailureAction extends OffreEmploiFavorisAction {}
