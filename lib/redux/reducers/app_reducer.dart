@@ -11,43 +11,43 @@ import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/chat_action_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/deep_link_reducer.dart';
-import 'package:pass_emploi_app/redux/reducers/immersion_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/login_action_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/offre_emploi_details_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/reducer.dart';
-import 'package:pass_emploi_app/redux/reducers/rendezvous_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/search_location_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/user_action_reducer.dart';
+import 'package:pass_emploi_app/redux/requests/Immersion_request.dart';
+import 'package:pass_emploi_app/redux/requests/rendezvous_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 
 import 'offre_emploi_favoris_reducer.dart';
 import 'offre_emploi_reducer.dart';
 
-final Reducer<List<Rendezvous>> rendezvousReducer = Reducer<List<Rendezvous>>();
-final Reducer<List<Immersion>> immersionReducer = Reducer<List<Immersion>>();
+final Reducer<RendezvousRequest, List<Rendezvous>> rendezvousReducer = Reducer<RendezvousRequest, List<Rendezvous>>();
+final Reducer<ImmersionRequest, List<Immersion>> immersionReducer = Reducer<ImmersionRequest, List<Immersion>>();
 
 AppState reducer(AppState current, dynamic action) {
   if (action is DeepLinkAction) {
-    return deepLinkReducer(currentState, action);
+    return deepLinkReducer(current, action);
   } else if (action is LoginAction) {
-    return loginReducer(currentState, action);
+    return loginReducer(current, action);
   } else if (action is UserActionAction) {
-    return userActionReducer(currentState, action);
+    return userActionReducer(current, action);
   } else if (action is Action<RendezvousRequest, List<Rendezvous>>) {
     return current.copyWith(rendezvousState: rendezvousReducer.reduce(current.rendezvousState, action));
   } else if (action is OffreEmploiAction) {
-    return offreEmploiReducer(currentState, action);
+    return offreEmploiReducer(current, action);
   } else if (action is ChatAction) {
-    return chatActionReducer(currentState, action);
+    return chatActionReducer(current, action);
   } else if (action is OffreEmploiDetailsAction) {
-    return offreEmploiDetailsReducer(currentState, action);
+    return offreEmploiDetailsReducer(current, action);
   } else if (action is OffreEmploiFavorisAction) {
-    return offreEmploiFavorisReducer(currentState, action);
+    return offreEmploiFavorisReducer(current, action);
   } else if (action is SearchLocationAction) {
-    return searchLocationReducer(currentState, action);
+    return searchLocationReducer(current, action);
   } else if (action is Action<ImmersionRequest, List<Immersion>>) {
     return current.copyWith(immersionSearchState: immersionReducer.reduce(current.immersionSearchState, action));
   } else {
-    return currentState;
+    return current;
   }
 }
