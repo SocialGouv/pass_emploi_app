@@ -3,8 +3,8 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.dart';
 
-AppState offreEmploiFavorisReducer(AppState currentState, dynamic action) {
-  if (action is OffreEmploisFavorisIdLoadedAction) {
+AppState offreEmploiFavorisReducer(AppState currentState, OffreEmploiFavorisAction action) {
+  if (action is OffreEmploiFavorisIdLoadedAction) {
     var newState = OffreEmploiFavorisState.idsLoaded(action.favorisId);
     return currentState.copyWith(offreEmploiFavorisState: newState);
   } else if (action is OffreEmploiUpdateFavoriLoadingAction) {

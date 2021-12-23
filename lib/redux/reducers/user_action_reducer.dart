@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_delete_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 
-AppState userActionReducer(AppState currentState, dynamic action) {
+AppState userActionReducer(AppState currentState, UserActionAction action) {
   if (action is UserActionLoadingAction) {
     return currentState.copyWith(userActionState: State<List<UserAction>>.loading());
   } else if (action is UserActionSuccessAction) {
