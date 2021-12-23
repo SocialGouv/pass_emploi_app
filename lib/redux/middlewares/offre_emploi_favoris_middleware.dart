@@ -32,7 +32,7 @@ class OffreEmploiFavorisMiddleware extends MiddlewareClass<AppState> {
   Future<void> _fetchFavorisId(LoggedInAction action, Store<AppState> store) async {
     final result = await _repository.getOffreEmploiFavorisId(action.user.id);
     if (result != null) {
-      store.dispatch(OffreEmploisFavorisIdLoadedAction(result));
+      store.dispatch(OffreEmploiFavorisIdLoadedAction(result));
     }
   }
 
