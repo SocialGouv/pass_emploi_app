@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/pages/immersion_list_page.dart';
 import 'package:pass_emploi_app/presentation/immersion_search_view_model.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/actions.dart';
+import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
-import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -39,12 +37,12 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
         if (viewModel.displayState == ImmersionSearchDisplayState.SHOW_RESULTS) {
           Navigator.push(context, MaterialPageRoute(builder: (context) => ImmersionListPage(viewModel.immersions)));
           // Reset state to avoid unexpected SHOW_RESULTS while coming back from ImmersionListPage
-          StoreProvider.of<AppState>(context).dispatch(ResetAction<ImmersionRequest, List<Immersion>>());
+          StoreProvider.of<AppState>(context).dispatch(ImmersionAction.reset());
         }
       },
       onDispose: (store) {
         store.dispatch(ResetLocationAction());
-        store.dispatch(ResetAction<ImmersionRequest, List<Immersion>>());
+        store.dispatch(ImmersionAction.reset());
       },
     );
   }

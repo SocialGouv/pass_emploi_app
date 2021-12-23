@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/redux/actions/actions.dart';
+import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
@@ -21,7 +21,7 @@ main() {
     final Future<AppState> successStateFuture = store.onChange.firstWhere((e) => e.immersionSearchState.isSuccess());
 
     // When
-    store.dispatch(RequestAction<ImmersionRequest, List<Immersion>>(ImmersionRequest("code-rome", mockLocation())));
+    store.dispatch(ImmersionAction.request(ImmersionRequest("code-rome", mockLocation())));
 
     // Then
     expect(await displayedLoading, isTrue);
@@ -39,7 +39,7 @@ main() {
     final Future<bool> displayedError = store.onChange.any((e) => e.immersionSearchState.isFailure());
 
     // When
-    store.dispatch(RequestAction<ImmersionRequest, List<Immersion>>(ImmersionRequest("code-rome", mockLocation())));
+    store.dispatch(ImmersionAction.request(ImmersionRequest("code-rome", mockLocation())));
 
     // Then
     expect(await displayedLoading, true);
@@ -56,7 +56,7 @@ main() {
     final Future<AppState> resultStateFuture = store.onChange.first;
 
     // When
-    store.dispatch(ResetAction<ImmersionRequest, List<Immersion>>());
+    store.dispatch(ImmersionAction.reset());
 
     // Then
     final resultState = await resultStateFuture;

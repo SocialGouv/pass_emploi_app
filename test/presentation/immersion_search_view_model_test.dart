@@ -3,10 +3,9 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/presentation/immersion_search_view_model.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/actions.dart';
+import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
-import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/search_location_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
@@ -132,10 +131,9 @@ main() {
 
     viewModel.onSearchingRequest("code-rome", mockLocation());
 
-    expect(store.dispatchedAction, isA<RequestAction<ImmersionRequest, List<Immersion>>>());
-    final action = (store.dispatchedAction as RequestAction<ImmersionRequest, List<Immersion>>);
-    expect(action.request.codeRome, "code-rome");
-    expect(action.request.location, mockLocation());
+    expect((store.dispatchedAction as ImmersionAction).isRequest(), isTrue);
+    expect((store.dispatchedAction as ImmersionAction).getRequestOrThrow().codeRome, "code-rome");
+    expect((store.dispatchedAction as ImmersionAction).getRequestOrThrow().location, mockLocation());
   });
 
   test('View model triggers ImmersionSearchFailureAction when onSearchingRequest is performed with null params', () {
@@ -144,6 +142,6 @@ main() {
 
     viewModel.onSearchingRequest(null, null);
 
-    expect(store.dispatchedAction, isA<FailureAction<ImmersionRequest, List<Immersion>>>());
+    expect((store.dispatchedAction as ImmersionAction).isFailure(), isTrue);
   });
 }

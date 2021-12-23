@@ -1,13 +1,17 @@
 abstract class Action<REQUEST, RESULT> {
-  static Action<REQUEST, RESULT> loading<REQUEST, RESULT>() => LoadingAction<REQUEST, RESULT>();
+  Action._();
 
-  static Action<REQUEST, RESULT> failure<REQUEST, RESULT>() => FailureAction<REQUEST, RESULT>();
+  factory Action.request(REQUEST request) = RequestAction;
 
-  static Action<REQUEST, RESULT> reset<REQUEST, RESULT>() => ResetAction<REQUEST, RESULT>();
+  factory Action.loading() = LoadingAction;
 
-  static Action<REQUEST, RESULT> request<REQUEST, RESULT>(REQUEST request) => RequestAction<REQUEST, RESULT>(request);
+  factory Action.success(RESULT result) = SuccessAction;
 
-  static Action<REQUEST, RESULT> success<REQUEST, RESULT>(RESULT result) => SuccessAction<REQUEST, RESULT>(result);
+  factory Action.failure() = FailureAction;
+
+  factory Action.reset() = ResetAction;
+
+  bool isRequest() => this is RequestAction<REQUEST, RESULT>;
 
   bool isLoading() => this is LoadingAction<REQUEST, RESULT>;
 
@@ -17,23 +21,31 @@ abstract class Action<REQUEST, RESULT> {
 
   bool isReset() => this is ResetAction<REQUEST, RESULT>;
 
+  REQUEST getRequestOrThrow() => (this as RequestAction<REQUEST, RESULT>).request;
+
   RESULT getDataOrThrow() => (this as SuccessAction<REQUEST, RESULT>).data;
 }
 
 class RequestAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {
   final REQUEST request;
 
-  RequestAction(this.request);
+  RequestAction(this.request) : super._();
 }
 
-class LoadingAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {}
+class LoadingAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {
+  LoadingAction() : super._();
+}
 
 class SuccessAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {
   final RESULT data;
 
-  SuccessAction(this.data);
+  SuccessAction(this.data) : super._();
 }
 
-class FailureAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {}
+class FailureAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {
+  FailureAction() : super._();
+}
 
-class ResetAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {}
+class ResetAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {
+  ResetAction() : super._();
+}

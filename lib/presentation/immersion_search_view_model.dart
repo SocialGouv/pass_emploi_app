@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/actions.dart';
+import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -41,8 +41,8 @@ class ImmersionSearchViewModel extends Equatable {
       onInputLocation: (input) => store.dispatch(RequestLocationAction(input, villesOnly: true)),
       onSearchingRequest: (codeRome, location) {
         store.dispatch(codeRome != null && location != null
-            ? Action.request<ImmersionRequest, List<Immersion>>(ImmersionRequest(codeRome, location))
-            : Action.failure<ImmersionRequest, List<Immersion>>());
+            ? ImmersionAction.request(ImmersionRequest(codeRome, location))
+            : ImmersionAction.failure());
       },
     );
   }

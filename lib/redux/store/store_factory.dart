@@ -8,10 +8,10 @@ import 'package:pass_emploi_app/redux/middlewares/action_logging_middleware.dart
 import 'package:pass_emploi_app/redux/middlewares/chat_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/crashlytics_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/login_middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_details_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_favoris_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_middleware.dart';
-import 'package:pass_emploi_app/redux/middlewares/pass_emploi_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/search_location_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/user_action_middleware.dart';
@@ -29,7 +29,7 @@ import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
-import 'package:redux/redux.dart';
+import 'package:redux/redux.dart' as redux;
 
 class StoreFactory {
   final Authenticator authenticator;
@@ -62,8 +62,8 @@ class StoreFactory {
     this.firebaseAuthWrapper,
   );
 
-  Store<AppState> initializeReduxStore({required AppState initialState}) {
-    return Store<AppState>(
+  redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
+    return redux.Store<AppState>(
       reducer,
       initialState: initialState,
       middleware: [
@@ -77,14 +77,14 @@ class StoreFactory {
         RegisterPushNotificationTokenMiddleware(registerTokenRepository),
         CrashlyticsMiddleware(crashlytics),
         SearchLocationMiddleware(searchLocationRepository),
-        PassEmploiMiddleware<RendezvousRequest, List<Rendezvous>>(rendezvousRepository),
-        PassEmploiMiddleware<ImmersionRequest, List<Immersion>>(immersionRepository),
+        Middleware<RendezvousRequest, List<Rendezvous>>(rendezvousRepository),
+        Middleware<ImmersionRequest, List<Immersion>>(immersionRepository),
         ..._debugMiddleware(),
       ],
     );
   }
 
-  List<Middleware<AppState>> _debugMiddleware() {
+  List<redux.Middleware<AppState>> _debugMiddleware() {
     if (kReleaseMode) return [];
     return [ActionLoggingMiddleware()];
   }

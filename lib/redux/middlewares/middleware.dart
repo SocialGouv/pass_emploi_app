@@ -4,10 +4,10 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:redux/redux.dart';
 
-class PassEmploiMiddleware<REQUEST, RESULT> extends MiddlewareClass<AppState> {
+class Middleware<REQUEST, RESULT> extends MiddlewareClass<AppState> {
   final Repository<REQUEST, RESULT> _repository;
 
-  PassEmploiMiddleware(this._repository);
+  Middleware(this._repository);
 
   @override
   call(Store<AppState> store, action, NextDispatcher next) async {
@@ -17,7 +17,7 @@ class PassEmploiMiddleware<REQUEST, RESULT> extends MiddlewareClass<AppState> {
       if (loginState is LoggedInState) {
         store.dispatch(LoadingAction<REQUEST, RESULT>());
         final result = await _repository.fetch(loginState.user.id, action.request);
-        store.dispatch(result != null ? Action.success<REQUEST, RESULT>(result) : Action.failure<REQUEST, RESULT>());
+        store.dispatch(result != null ? Action<REQUEST, RESULT>.success(result) : Action<REQUEST, RESULT>.failure());
       }
     }
   }

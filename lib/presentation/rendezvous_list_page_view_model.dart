@@ -1,6 +1,6 @@
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/actions.dart';
+import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/requests/rendezvous_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
@@ -28,7 +28,7 @@ class RendezvousListPageViewModel {
       withFailure: rendezvousState.isFailure(),
       withEmptyMessage: _isEmpty(rendezvousState),
       items: _items(state: rendezvousState),
-      onRetry: () => store.dispatch(RequestAction<RendezvousRequest, List<Rendezvous>>(RendezvousRequest())),
+      onRetry: () => store.dispatch(RendezvousAction.request(RendezvousRequest())),
     );
   }
 }
