@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/redux/actions/actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
+import 'package:pass_emploi_app/redux/requests/rendezvous_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 
@@ -18,9 +19,10 @@ main() {
       });
     }
 
-    assertState(LoadingAction<List<Rendezvous>>(), State<List<Rendezvous>>.loading());
-    assertState(FailureAction<List<Rendezvous>>(), State<List<Rendezvous>>.failure());
-    assertState(SuccessAction<List<Rendezvous>>([rendezvous]), State<List<Rendezvous>>.success([rendezvous]));
+    assertState(LoadingAction<RendezvousRequest, List<Rendezvous>>(), State<List<Rendezvous>>.loading());
+    assertState(FailureAction<RendezvousRequest, List<Rendezvous>>(), State<List<Rendezvous>>.failure());
+    assertState(SuccessAction<RendezvousRequest, List<Rendezvous>>([rendezvous]),
+        State<List<Rendezvous>>.success([rendezvous]));
   });
 }
 

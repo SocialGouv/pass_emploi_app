@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/actions.dart';
+import 'package:pass_emploi_app/redux/requests/rendezvous_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
@@ -23,7 +24,7 @@ void main() {
           store.onChange.any((element) => element.rendezvousState is NotInitializedState<List<Rendezvous>>);
 
       // When
-      store.dispatch(RequestAction<List<Rendezvous>>());
+      store.dispatch(RequestAction<RendezvousRequest, List<Rendezvous>>(RendezvousRequest()));
 
       // Then
       expect(await unchangedRendezvousState, true);
@@ -46,7 +47,7 @@ void main() {
             store.onChange.firstWhere((element) => element.rendezvousState is SuccessState<List<Rendezvous>>);
 
         // When
-        store.dispatch(RequestAction<List<Rendezvous>>());
+        store.dispatch(RequestAction<RendezvousRequest, List<Rendezvous>>(RendezvousRequest()));
 
         // Then
         expect(await displayedLoading, true);
@@ -69,7 +70,7 @@ void main() {
             store.onChange.firstWhere((element) => element.rendezvousState is FailureState<List<Rendezvous>>);
 
         // When
-        store.dispatch(RequestAction<List<Rendezvous>>());
+        store.dispatch(RequestAction<RendezvousRequest, List<Rendezvous>>(RendezvousRequest()));
 
         // Then
         expect(await displayedLoading, true);

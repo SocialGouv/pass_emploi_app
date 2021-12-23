@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/pages/rendezvous_page.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/actions.dart';
+import 'package:pass_emploi_app/redux/requests/rendezvous_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -21,7 +22,7 @@ class RendezvousListPage extends TraceableStatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RendezvousListPageViewModel>(
-      onInit: (store) => store.dispatch(RequestAction<List<Rendezvous>>()),
+      onInit: (store) => store.dispatch(RequestAction<RendezvousRequest, List<Rendezvous>>(RendezvousRequest())),
       converter: (store) => RendezvousListPageViewModel.create(store),
       builder: (context, viewModel) => _scaffold(_body(context, viewModel)),
     );

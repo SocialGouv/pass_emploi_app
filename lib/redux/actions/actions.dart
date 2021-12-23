@@ -1,25 +1,29 @@
-abstract class Action<T> {
-  bool isLoading() => this is LoadingAction<T>;
+abstract class Action<REQUEST, RESULT> {
+  bool isLoading() => this is LoadingAction<REQUEST, RESULT>;
 
-  bool isSuccess() => this is SuccessAction<T>;
+  bool isSuccess() => this is SuccessAction<REQUEST, RESULT>;
 
-  bool isFailure() => this is FailureAction<T>;
+  bool isFailure() => this is FailureAction<REQUEST, RESULT>;
 
-  bool isReset() => this is ResetAction<T>;
+  bool isReset() => this is ResetAction<REQUEST, RESULT>;
 
-  T getDataOrThrow() => (this as SuccessAction<T>).data;
+  RESULT getDataOrThrow() => (this as SuccessAction<REQUEST, RESULT>).data;
 }
 
-class RequestAction<T> extends Action<T> {}
+class RequestAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {
+  final REQUEST request;
 
-class LoadingAction<T> extends Action<T> {}
+  RequestAction(this.request);
+}
 
-class SuccessAction<T> extends Action<T> {
-  final T data;
+class LoadingAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {}
+
+class SuccessAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {
+  final RESULT data;
 
   SuccessAction(this.data);
 }
 
-class FailureAction<T> extends Action<T> {}
+class FailureAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {}
 
-class ResetAction<T> extends Action<T> {}
+class ResetAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {}

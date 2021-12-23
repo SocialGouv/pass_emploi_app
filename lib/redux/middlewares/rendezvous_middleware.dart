@@ -1,5 +1,6 @@
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/redux/actions/actions.dart';
+import 'package:pass_emploi_app/redux/requests/rendezvous_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
@@ -13,13 +14,14 @@ class RendezvousMiddleware extends MiddlewareClass<AppState> {
   @override
   call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
-    if (action is RequestAction<List<Rendezvous>>) {
+    if (action is RequestAction<RendezvousRequest, List<Rendezvous>>) {
       final loginState = store.state.loginState;
       if (loginState is LoggedInState) {
-        store.dispatch(LoadingAction<List<Rendezvous>>());
+        store.dispatch(LoadingAction<RendezvousRequest, List<Rendezvous>>());
         final rendezvous = await _repository.getRendezvous(loginState.user.id);
-        store.dispatch(
-            rendezvous != null ? SuccessAction<List<Rendezvous>>(rendezvous) : FailureAction<List<Rendezvous>>());
+        store.dispatch(rendezvous != null
+            ? SuccessAction<RendezvousRequest, List<Rendezvous>>(rendezvous)
+            : FailureAction<RendezvousRequest, List<Rendezvous>>());
       }
     }
   }

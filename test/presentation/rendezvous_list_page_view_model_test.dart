@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_list_page_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
+import 'package:pass_emploi_app/redux/requests/rendezvous_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:redux/redux.dart';
@@ -148,7 +149,7 @@ class StoreSpy {
   var calledWithRetry = false;
 
   AppState reducer(AppState currentState, dynamic action) {
-    if (action is RequestAction<List<Rendezvous>>) {
+    if (action is RequestAction<RendezvousRequest, List<Rendezvous>>) {
       calledWithRetry = true;
     }
     return currentState;
