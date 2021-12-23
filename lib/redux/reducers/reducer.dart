@@ -1,21 +1,12 @@
 import 'package:pass_emploi_app/redux/actions/actions.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 
-abstract class Reducer<T> {
-  AppState reduce<T>(AppState currentState, Action<T> action) {
-    if (action.isLoading()) {
-      return stateToUpdate(currentState, State<T>.loading());
-    } else if (action.isSuccess()) {
-      return stateToUpdate(currentState, State<T>.success(action.getDataOrThrow()));
-    } else if (action.isFailure()) {
-      return stateToUpdate(currentState, State<T>.failure());
-    } else if (action.isReset()) {
-      return stateToUpdate(currentState, State<T>.notInitialized());
-    } else {
-      return currentState;
-    }
+class Reducer<T> {
+  State<T> reduce<T>(State<T> currentState, Action<T> action) {
+    if (action.isLoading()) return State<T>.loading();
+    if (action.isSuccess()) return State<T>.success(action.getDataOrThrow());
+    if (action.isFailure()) return State<T>.failure();
+    if (action.isReset()) return State<T>.notInitialized();
+    return currentState;
   }
-
-  AppState stateToUpdate<T>(AppState currentState, State<T> toUpdate);
 }
