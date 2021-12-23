@@ -16,7 +16,7 @@ import 'package:pass_emploi_app/redux/reducers/offre_emploi_details_reducer.dart
 import 'package:pass_emploi_app/redux/reducers/reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/search_location_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/user_action_reducer.dart';
-import 'package:pass_emploi_app/redux/requests/Immersion_request.dart';
+import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 import 'package:pass_emploi_app/redux/requests/rendezvous_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 
@@ -33,8 +33,6 @@ AppState reducer(AppState current, dynamic action) {
     return loginReducer(current, action);
   } else if (action is UserActionAction) {
     return userActionReducer(current, action);
-  } else if (action is Action<RendezvousRequest, List<Rendezvous>>) {
-    return current.copyWith(rendezvousState: rendezvousReducer.reduce(current.rendezvousState, action));
   } else if (action is OffreEmploiAction) {
     return offreEmploiReducer(current, action);
   } else if (action is ChatAction) {
@@ -45,6 +43,8 @@ AppState reducer(AppState current, dynamic action) {
     return offreEmploiFavorisReducer(current, action);
   } else if (action is SearchLocationAction) {
     return searchLocationReducer(current, action);
+  } else if (action is Action<RendezvousRequest, List<Rendezvous>>) {
+    return current.copyWith(rendezvousState: rendezvousReducer.reduce(current.rendezvousState, action));
   } else if (action is Action<ImmersionRequest, List<Immersion>>) {
     return current.copyWith(immersionSearchState: immersionReducer.reduce(current.immersionSearchState, action));
   } else {

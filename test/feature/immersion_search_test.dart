@@ -1,11 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/redux/actions/actions.dart';
-import 'package:pass_emploi_app/redux/requests/Immersion_request.dart';
+import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
-import 'package:pass_emploi_app/repositories/Immersion_repository.dart';
+import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 
 import '../doubles/dummies.dart';
 import '../doubles/fixtures.dart';
@@ -68,23 +67,17 @@ main() {
 class ImmersionRepositorySuccessStub extends ImmersionRepository {
   ImmersionRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
-  Future<List<Immersion>?> getImmersions({
-    required String userId,
-    required String codeRome,
-    required Location location,
-  }) async {
-    return codeRome == "code-rome" ? [mockImmersion()] : [];
+  @override
+  Future<List<Immersion>?> fetch(String userId, ImmersionRequest request) async {
+    return request.codeRome == "code-rome" ? [mockImmersion()] : [];
   }
 }
 
 class ImmersionRepositoryFailureStub extends ImmersionRepository {
   ImmersionRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
-  Future<List<Immersion>?> getImmersions({
-    required String userId,
-    required String codeRome,
-    required Location location,
-  }) async {
+  @override
+  Future<List<Immersion>?> fetch(String userId, ImmersionRequest request) async {
     return null;
   }
 }

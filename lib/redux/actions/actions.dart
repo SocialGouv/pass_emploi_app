@@ -1,4 +1,14 @@
 abstract class Action<REQUEST, RESULT> {
+  static Action<REQUEST, RESULT> loading<REQUEST, RESULT>() => LoadingAction<REQUEST, RESULT>();
+
+  static Action<REQUEST, RESULT> failure<REQUEST, RESULT>() => FailureAction<REQUEST, RESULT>();
+
+  static Action<REQUEST, RESULT> reset<REQUEST, RESULT>() => ResetAction<REQUEST, RESULT>();
+
+  static Action<REQUEST, RESULT> request<REQUEST, RESULT>(REQUEST request) => RequestAction<REQUEST, RESULT>(request);
+
+  static Action<REQUEST, RESULT> success<REQUEST, RESULT>(RESULT result) => SuccessAction<REQUEST, RESULT>(result);
+
   bool isLoading() => this is LoadingAction<REQUEST, RESULT>;
 
   bool isSuccess() => this is SuccessAction<REQUEST, RESULT>;

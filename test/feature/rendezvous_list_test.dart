@@ -20,8 +20,7 @@ void main() {
         initialState: AppState.initialState().copyWith(loginState: LoginState.notLoggedIn()),
       );
 
-      final unchangedRendezvousState =
-          store.onChange.any((element) => element.rendezvousState is NotInitializedState<List<Rendezvous>>);
+      final unchangedRendezvousState = store.onChange.any((element) => element.rendezvousState.isNotInitialized());
 
       // When
       store.dispatch(RequestAction<RendezvousRequest, List<Rendezvous>>(RendezvousRequest()));
@@ -41,10 +40,8 @@ void main() {
           initialState: AppState.initialState().copyWith(loginState: LoginState.loggedIn(_user)),
         );
 
-        final displayedLoading =
-            store.onChange.any((element) => element.rendezvousState is LoadingState<List<Rendezvous>>);
-        final successAppState =
-            store.onChange.firstWhere((element) => element.rendezvousState is SuccessState<List<Rendezvous>>);
+        final displayedLoading = store.onChange.any((element) => element.rendezvousState.isLoading());
+        final successAppState = store.onChange.firstWhere((element) => element.rendezvousState.isSuccess());
 
         // When
         store.dispatch(RequestAction<RendezvousRequest, List<Rendezvous>>(RendezvousRequest()));
@@ -64,10 +61,8 @@ void main() {
           initialState: AppState.initialState().copyWith(loginState: LoginState.loggedIn(_user)),
         );
 
-        final displayedLoading =
-            store.onChange.any((element) => element.rendezvousState is LoadingState<List<Rendezvous>>);
-        final failureAppState =
-            store.onChange.firstWhere((element) => element.rendezvousState is FailureState<List<Rendezvous>>);
+        final displayedLoading = store.onChange.any((element) => element.rendezvousState.isLoading());
+        final failureAppState = store.onChange.firstWhere((element) => element.rendezvousState.isFailure());
 
         // When
         store.dispatch(RequestAction<RendezvousRequest, List<Rendezvous>>(RendezvousRequest()));
@@ -87,7 +82,7 @@ class RendezvousRepositorySuccessStub extends RendezvousRepository {
   RendezvousRepositorySuccessStub({required this.expectedUserId}) : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<List<Rendezvous>?> getRendezvous(String userId) async {
+  Future<List<Rendezvous>?> fetch(String userId, RendezvousRequest _) async {
     if (userId != expectedUserId) throw Exception("Unexpected user ID: $userId");
     return [Rendezvous(id: '', date: DateTime(2022), title: '', subtitle: '', comment: '', duration: '', modality: '')];
   }
@@ -99,7 +94,7 @@ class RendezvousRepositoryFailureStub extends RendezvousRepository {
   RendezvousRepositoryFailureStub({required this.expectedUserId}) : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<List<Rendezvous>?> getRendezvous(String userId) async {
+  Future<List<Rendezvous>?> fetch(String userId, RendezvousRequest _) async {
     if (userId != expectedUserId) throw Exception("Unexpected user ID: $userId");
     return null;
   }
