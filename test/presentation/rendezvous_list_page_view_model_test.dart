@@ -148,7 +148,7 @@ class StoreSpy {
   var calledWithRetry = false;
 
   AppState reducer(AppState currentState, dynamic action) {
-    if (action is RequestAction<void, List<Rendezvous>>) calledWithRetry = true;
+    if (action is Action<void, List<Rendezvous>> && action.isRequest()) calledWithRetry = true;
     return currentState;
   }
 }

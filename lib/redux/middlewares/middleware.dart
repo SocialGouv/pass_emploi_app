@@ -12,11 +12,11 @@ class Middleware<REQUEST, RESULT> extends MiddlewareClass<AppState> {
   @override
   call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
-    if (action is RequestAction<REQUEST, RESULT>) {
+    if (action is Action<REQUEST, RESULT> && action.isRequest()) {
       final loginState = store.state.loginState;
       if (loginState is LoggedInState) {
-        store.dispatch(LoadingAction<REQUEST, RESULT>());
-        final result = await _repository.fetch(loginState.user.id, action.request);
+        store.dispatch(Action<REQUEST, RESULT>.loading());
+        final result = await _repository.fetch(loginState.user.id, action.getRequestOrThrow());
         store.dispatch(result != null ? Action<REQUEST, RESULT>.success(result) : Action<REQUEST, RESULT>.failure());
       }
     }

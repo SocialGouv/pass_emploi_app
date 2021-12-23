@@ -1,51 +1,51 @@
 abstract class Action<REQUEST, RESULT> {
   Action._();
 
-  factory Action.request(REQUEST request) = RequestAction;
+  factory Action.request(REQUEST request) = _RequestAction;
 
-  factory Action.loading() = LoadingAction;
+  factory Action.loading() = _LoadingAction;
 
-  factory Action.success(RESULT result) = SuccessAction;
+  factory Action.success(RESULT result) = _SuccessAction;
 
-  factory Action.failure() = FailureAction;
+  factory Action.failure() = _FailureAction;
 
-  factory Action.reset() = ResetAction;
+  factory Action.reset() = _ResetAction;
 
-  bool isRequest() => this is RequestAction<REQUEST, RESULT>;
+  bool isRequest() => this is _RequestAction<REQUEST, RESULT>;
 
-  bool isLoading() => this is LoadingAction<REQUEST, RESULT>;
+  bool isLoading() => this is _LoadingAction<REQUEST, RESULT>;
 
-  bool isSuccess() => this is SuccessAction<REQUEST, RESULT>;
+  bool isSuccess() => this is _SuccessAction<REQUEST, RESULT>;
 
-  bool isFailure() => this is FailureAction<REQUEST, RESULT>;
+  bool isFailure() => this is _FailureAction<REQUEST, RESULT>;
 
-  bool isReset() => this is ResetAction<REQUEST, RESULT>;
+  bool isReset() => this is _ResetAction<REQUEST, RESULT>;
 
-  REQUEST getRequestOrThrow() => (this as RequestAction<REQUEST, RESULT>).request;
+  REQUEST getRequestOrThrow() => (this as _RequestAction<REQUEST, RESULT>).request;
 
-  RESULT getDataOrThrow() => (this as SuccessAction<REQUEST, RESULT>).data;
+  RESULT getDataOrThrow() => (this as _SuccessAction<REQUEST, RESULT>).data;
 }
 
-class RequestAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {
+class _RequestAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {
   final REQUEST request;
 
-  RequestAction(this.request) : super._();
+  _RequestAction(this.request) : super._();
 }
 
-class LoadingAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {
-  LoadingAction() : super._();
+class _LoadingAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {
+  _LoadingAction() : super._();
 }
 
-class SuccessAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {
+class _SuccessAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {
   final RESULT data;
 
-  SuccessAction(this.data) : super._();
+  _SuccessAction(this.data) : super._();
 }
 
-class FailureAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {
-  FailureAction() : super._();
+class _FailureAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {
+  _FailureAction() : super._();
 }
 
-class ResetAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {
-  ResetAction() : super._();
+class _ResetAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {
+  _ResetAction() : super._();
 }
