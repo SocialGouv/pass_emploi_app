@@ -23,8 +23,8 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'offre_emploi_favoris_reducer.dart';
 import 'offre_emploi_reducer.dart';
 
-final Reducer<RendezvousRequest, List<Rendezvous>> rendezvousReducer = Reducer<RendezvousRequest, List<Rendezvous>>();
-final Reducer<ImmersionRequest, List<Immersion>> immersionReducer = Reducer<ImmersionRequest, List<Immersion>>();
+final Reducer<List<Rendezvous>> rendezvousReducer = Reducer<List<Rendezvous>>();
+final Reducer<List<Immersion>> immersionReducer = Reducer<List<Immersion>>();
 
 AppState reducer(AppState current, dynamic action) {
   if (action is DeepLinkAction) {
