@@ -29,7 +29,7 @@ main() {
     // Then
     expect(await displayedLoading, true);
     final successAppState = await success;
-    expect((successAppState.userActionState as SuccessState<List<UserAction>>).data.length, 1);
+    expect(successAppState.userActionState.getDataOrThrow().length, 1);
   });
 
   test("delete user action when repo fails should display loading and keep user action", () async {
@@ -51,7 +51,7 @@ main() {
     // Then
     expect(await displayedLoading, true);
     final successAppState = await failure;
-    expect((successAppState.userActionState as SuccessState<List<UserAction>>).data.length, 2);
+    expect(successAppState.userActionState.getDataOrThrow().length, 2);
   });
 }
 

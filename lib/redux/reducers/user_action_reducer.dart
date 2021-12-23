@@ -21,10 +21,10 @@ AppState userActionReducer(AppState currentState, dynamic action) {
     return currentState.copyWith(userActionDeleteState: UserActionDeleteState.loading());
   } else if (action is UserActionDeleteSuccessAction) {
     final previousUserActionState = currentState.userActionState;
-    if (previousUserActionState is SuccessState<List<UserAction>>) {
+    if (previousUserActionState.isSuccess()) {
       return currentState.copyWith(
           userActionDeleteState: UserActionDeleteState.success(),
-          userActionState: _removeDeletedUserAction(previousUserActionState, action));
+          userActionState: _removeDeletedUserAction(previousUserActionState.getDataOrThrow(), action));
     } else {
       return currentState;
     }
@@ -53,11 +53,11 @@ AppState userActionReducer(AppState currentState, dynamic action) {
 }
 
 State<List<UserAction>> _removeDeletedUserAction(
-  SuccessState<List<UserAction>> previousUserActionState,
+  List<UserAction> previousUserActions,
   UserActionDeleteSuccessAction action,
 ) {
   return State<List<UserAction>>.success(
-    previousUserActionState.data.where((element) => element.id != action.actionId).toList(),
+    previousUserActions.where((element) => element.id != action.actionId).toList(),
   );
 }
 

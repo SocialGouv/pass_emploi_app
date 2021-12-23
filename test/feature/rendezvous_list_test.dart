@@ -6,7 +6,6 @@ import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
 
 import '../doubles/dummies.dart';
@@ -50,8 +49,8 @@ void main() {
         // Then
         expect(await displayedLoading, true);
         final appState = await successAppState;
-        expect((appState.rendezvousState as SuccessState<List<Rendezvous>>).data.length, 1);
-        expect((appState.rendezvousState as SuccessState<List<Rendezvous>>).data[0].date, DateTime(2022));
+        expect(appState.rendezvousState.getDataOrThrow().length, 1);
+        expect(appState.rendezvousState.getDataOrThrow()[0].date, DateTime(2022));
       });
 
       test("update state with failure if repository returns nothing", () async {

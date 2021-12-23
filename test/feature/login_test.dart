@@ -127,7 +127,7 @@ void main() {
     // Then
     final newState = await newStateFuture;
     expect(newState.loginState, isA<LoginNotInitializedState>());
-    expect(newState.rendezvousState, isA<NotInitializedState<List<Rendezvous>>>());
+    expect(newState.rendezvousState.isNotInitialized(), isTrue);
     expect(authenticatorSpy.logoutCalled, isFalse);
   });
 
@@ -149,7 +149,7 @@ void main() {
     // Then
     final newState = await newStateFuture;
     expect(newState.loginState, isA<LoginNotInitializedState>());
-    expect(newState.rendezvousState, isA<NotInitializedState<List<Rendezvous>>>());
+    expect(newState.rendezvousState.isNotInitialized(), isTrue);
     expect(authenticatorSpy.logoutCalled, isTrue);
   });
 }
