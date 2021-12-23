@@ -35,11 +35,10 @@ void main() {
 
     // Then
     final appState = await changedState;
-    final actionState = appState.userActionState as SuccessState<List<UserAction>>;
     expect(repositorySpy.isActionUpdated, true);
 
-    expect(actionState.data[0].id, "actionId");
-    expect(actionState.data[0].status, UserActionStatus.DONE);
+    expect(appState.userActionState.getDataOrThrow()[0].id, "actionId");
+    expect(appState.userActionState.getDataOrThrow()[0].status, UserActionStatus.DONE);
 
     expect(appState.userActionUpdateState is UserActionUpdatedState, true);
   });
@@ -62,9 +61,7 @@ class UserActionRepositorySpy extends UserActionRepository {
   UserActionRepositorySpy() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<List<UserAction>?> getUserActions(String userId) async {
-    return [];
-  }
+  Future<List<UserAction>?> getUserActions(String userId) async => [];
 
   @override
   Future<void> updateActionStatus(String userId, String actionId, UserActionStatus newStatus) async {

@@ -15,10 +15,7 @@ main() {
     final initialState = AppState.initialState();
 
     // When
-    final updatedState = userActionReducer(
-      initialState,
-      UserActionCreatedWithSuccessAction(),
-    );
+    final updatedState = userActionReducer(initialState, UserActionCreatedWithSuccessAction());
 
     // Then
     expect(updatedState.createUserActionState is CreateUserActionSuccessState, true);
@@ -29,10 +26,7 @@ main() {
     final initialState = AppState.initialState();
 
     // When
-    final updatedState = userActionReducer(
-      initialState,
-      UserActionCreationFailed(),
-    );
+    final updatedState = userActionReducer(initialState, UserActionCreationFailed());
 
     // Then
     expect(updatedState.createUserActionState is CreateUserActionErrorState, true);
@@ -59,9 +53,8 @@ main() {
     );
 
     // Then
-    final actionState = updatedState.userActionState as SuccessState<List<UserAction>>;
-    expect(actionState.data[0].id, "actionId");
-    expect(actionState.data[0].status, UserActionStatus.DONE);
+    expect(updatedState.userActionState.getDataOrThrow()[0].id, "actionId");
+    expect(updatedState.userActionState.getDataOrThrow()[0].status, UserActionStatus.DONE);
 
     expect(updatedState.userActionUpdateState is UserActionUpdatedState, true);
   });
@@ -76,10 +69,7 @@ main() {
     );
 
     // When
-    final updatedState = userActionReducer(
-      initialState,
-      DismissUserActionDetailsAction(),
-    );
+    final updatedState = userActionReducer(initialState, DismissUserActionDetailsAction());
 
     // Then
     expect(updatedState.userActionUpdateState is UserActionNotUpdatingState, true);
@@ -95,10 +85,7 @@ main() {
     );
 
     // When
-    final updatedState = userActionReducer(
-      initialState,
-      UserActionNoUpdateNeededAction(),
-    );
+    final updatedState = userActionReducer(initialState, UserActionNoUpdateNeededAction());
 
     // Then
     expect(updatedState.userActionUpdateState is UserActionNoUpdateNeeded, true);
@@ -109,10 +96,7 @@ main() {
     final initialState = AppState.initialState();
 
     // When
-    final updatedState = userActionReducer(
-      initialState,
-      CreateUserAction("content", "comment", UserActionStatus.DONE),
-    );
+    final updatedState = userActionReducer(initialState, CreateUserAction("content", "comment", UserActionStatus.DONE));
 
     // Then
     expect(updatedState.createUserActionState is CreateUserActionLoadingState, true);
@@ -125,10 +109,7 @@ main() {
     );
 
     // When
-    final updatedState = userActionReducer(
-      initialState,
-      DismissCreateUserAction(),
-    );
+    final updatedState = userActionReducer(initialState, DismissCreateUserAction());
 
     // Then
     expect(updatedState.createUserActionState is CreateUserActionNotInitializedState, true);

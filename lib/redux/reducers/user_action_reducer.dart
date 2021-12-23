@@ -52,11 +52,11 @@ AppState userActionReducer(AppState currentState, dynamic action) {
   }
 }
 
-SuccessState<List<UserAction>> _removeDeletedUserAction(
+State<List<UserAction>> _removeDeletedUserAction(
   SuccessState<List<UserAction>> previousUserActionState,
   UserActionDeleteSuccessAction action,
 ) {
-  return SuccessState<List<UserAction>>(
+  return State<List<UserAction>>.success(
     previousUserActionState.data.where((element) => element.id != action.actionId).toList(),
   );
 }
