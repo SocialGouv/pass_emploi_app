@@ -1,5 +1,5 @@
 abstract class Action<REQUEST, RESULT> {
-  Action._();
+  Action();
 
   factory Action.request(REQUEST request) = _RequestAction;
 
@@ -29,23 +29,17 @@ abstract class Action<REQUEST, RESULT> {
 class _RequestAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {
   final REQUEST request;
 
-  _RequestAction(this.request) : super._();
+  _RequestAction(this.request);
 }
 
-class _LoadingAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {
-  _LoadingAction() : super._();
-}
+class _LoadingAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {}
 
 class _SuccessAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {
   final RESULT data;
 
-  _SuccessAction(this.data) : super._();
+  _SuccessAction(this.data);
 }
 
-class _FailureAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {
-  _FailureAction() : super._();
-}
+class _FailureAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {}
 
-class _ResetAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {
-  _ResetAction() : super._();
-}
+class _ResetAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {}

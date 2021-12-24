@@ -1,4 +1,4 @@
-import 'package:pass_emploi_app/redux/actions/login_actions.dart';
+import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_favoris_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
@@ -15,8 +15,8 @@ class OffreEmploiFavorisMiddleware extends MiddlewareClass<AppState> {
     next(action);
     final loginState = store.state.loginState;
     final offreEmploiResultsState = store.state.offreEmploiSearchResultsState;
-    if (action is LoggedInAction) {
-      await _fetchFavorisId(action, store);
+    if (action is LoginAction && action.isSuccess()) {
+      await _fetchFavorisId(action.getDataOrThrow().id, store);
     } else if (action is OffreEmploiRequestUpdateFavoriAction && loginState.isSuccess()) {
       if (action.newStatus && offreEmploiResultsState is OffreEmploiSearchResultsDataState) {
         await _addFavori(store, action, loginState.getDataOrThrow().id, offreEmploiResultsState);
@@ -28,8 +28,8 @@ class OffreEmploiFavorisMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
-  Future<void> _fetchFavorisId(LoggedInAction action, Store<AppState> store) async {
-    final result = await _repository.getOffreEmploiFavorisId(action.user.id);
+  Future<void> _fetchFavorisId(String userId, Store<AppState> store) async {
+    final result = await _repository.getOffreEmploiFavorisId(userId);
     if (result != null) {
       store.dispatch(OffreEmploiFavorisIdLoadedAction(result));
     }

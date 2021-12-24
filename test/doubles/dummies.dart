@@ -31,9 +31,7 @@ class DummyHttpClient extends MockClient {
 
 class DummyPushNotificationManager extends PushNotificationManager {
   @override
-  Future<String?> getToken() async {
-    return "";
-  }
+  Future<String?> getToken() async => "";
 
   @override
   Future<void> init(Store<AppState> store) async {}

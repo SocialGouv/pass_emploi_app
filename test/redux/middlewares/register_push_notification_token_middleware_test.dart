@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
+import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -21,7 +22,7 @@ void main() {
   });
 
   test('call should send action untouched to next middleware', () {
-    var initialAction = NotLoggedInAction();
+    final initialAction = NotLoggedInAction();
 
     final middleware = RegisterPushNotificationTokenMiddleware(_repositoryStub);
     final nextActionSpy = NextDispatcherSpy(expectedAction: initialAction);
@@ -31,9 +32,9 @@ void main() {
     expect(nextActionSpy.wasCalled, true);
   });
 
-  test('call when action is LoggedInAction should call repository to register token', () {
+  test('call when action is LoginAction.success should call repository to register token', () {
     final user = User(id: "1", firstName: "first-name", lastName: "last-name");
-    var action = LoggedInAction(user);
+    final action = LoginAction.success(user);
 
     final middleware = RegisterPushNotificationTokenMiddleware(_repositorySpy);
 

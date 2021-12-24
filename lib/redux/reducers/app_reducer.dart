@@ -2,7 +2,6 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
 import 'package:pass_emploi_app/redux/actions/deep_link_action.dart';
-import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_details_actions.dart';
@@ -21,14 +20,15 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'offre_emploi_favoris_reducer.dart';
 import 'offre_emploi_reducer.dart';
 
-final Reducer<List<Rendezvous>> rendezvousReducer = Reducer<List<Rendezvous>>();
-final Reducer<List<Immersion>> immersionReducer = Reducer<List<Immersion>>();
+final Reducer<List<Rendezvous>> _rendezvousReducer = Reducer<List<Rendezvous>>();
+final Reducer<List<Immersion>> _immersionReducer = Reducer<List<Immersion>>();
+final LoginReducer _loginReducer = LoginReducer();
 
 AppState reducer(AppState current, dynamic action) {
   if (action is DeepLinkAction) {
     return deepLinkReducer(current, action);
   } else if (action is LoginAction) {
-    return loginReducer(current, action);
+    return _loginReducer.reduce(current, action);
   } else if (action is UserActionAction) {
     return userActionReducer(current, action);
   } else if (action is OffreEmploiAction) {
@@ -42,9 +42,9 @@ AppState reducer(AppState current, dynamic action) {
   } else if (action is SearchLocationAction) {
     return searchLocationReducer(current, action);
   } else if (action is RendezvousAction) {
-    return current.copyWith(rendezvousState: rendezvousReducer.reduce(current.rendezvousState, action));
+    return current.copyWith(rendezvousState: _rendezvousReducer.reduce(current.rendezvousState, action));
   } else if (action is ImmersionAction) {
-    return current.copyWith(immersionSearchState: immersionReducer.reduce(current.immersionSearchState, action));
+    return current.copyWith(immersionSearchState: _immersionReducer.reduce(current.immersionSearchState, action));
   } else {
     return current;
   }

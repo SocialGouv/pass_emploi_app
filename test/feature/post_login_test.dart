@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/models/user.dart';
-import 'package:pass_emploi_app/redux/actions/login_actions.dart';
+import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
@@ -27,7 +27,7 @@ main() {
       final Store<AppState> store = testStoreFactory.initializeReduxStore(initialState: initialState);
 
       // When
-      store.dispatch(LoggedInAction(mockUser(id: "1")));
+      store.dispatch(LoginAction.success(mockUser(id: "1")));
 
       // Then
       expect(tokenRepositorySpy.wasCalled, true);
@@ -43,7 +43,7 @@ main() {
           store.onChange.firstWhere((element) => element.offreEmploiFavorisState is OffreEmploiFavorisLoadedState);
 
       // When
-      store.dispatch(LoggedInAction(mockUser()));
+      store.dispatch(LoginAction.success(mockUser()));
 
       // Then
       final loadedFavoris = await successState;
@@ -61,7 +61,7 @@ main() {
       final Store<AppState> store = testStoreFactory.initializeReduxStore(initialState: initialState);
 
       // When
-      await store.dispatch(LoggedInAction(mockUser(id: "id")));
+      await store.dispatch(LoginAction.success(mockUser(id: "id")));
 
       // Then
       expect(firebaseAuthWrapperSpy.signInWithCustomTokenHasBeenCalled, isTrue);
