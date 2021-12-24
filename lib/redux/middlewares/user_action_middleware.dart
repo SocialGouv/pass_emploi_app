@@ -1,7 +1,6 @@
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
 
@@ -26,9 +25,9 @@ class UserActionMiddleware extends MiddlewareClass<AppState> {
 
   Future<void> _requestUserActions(Store<AppState> store) async {
     final loginState = store.state.loginState;
-    if (loginState is LoggedInState) {
+    if (loginState.isSuccess()) {
       store.dispatch(UserActionLoadingAction());
-      final actions = await _repository.getUserActions(loginState.user.id);
+      final actions = await _repository.getUserActions(loginState.getDataOrThrow().id);
       store.dispatch(actions != null ? UserActionSuccessAction(actions) : UserActionFailureAction());
     }
   }
@@ -36,8 +35,8 @@ class UserActionMiddleware extends MiddlewareClass<AppState> {
   Future<void> _createUserAction(
       Store<AppState> store, String? content, String? comment, UserActionStatus status) async {
     final loginState = store.state.loginState;
-    if (loginState is LoggedInState) {
-      final response = await _repository.createUserAction(loginState.user.id, content, comment, status);
+    if (loginState.isSuccess()) {
+      final response = await _repository.createUserAction(loginState.getDataOrThrow().id, content, comment, status);
       if (response) {
         store.dispatch(UserActionCreatedWithSuccessAction());
         store.dispatch(RequestUserActionsAction());

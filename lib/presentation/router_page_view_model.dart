@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:redux/redux.dart';
 
 enum RouterPageDisplayState { SPLASH, LOGIN, MAIN }
@@ -32,8 +31,8 @@ class RouterPageViewModel extends Equatable {
 
 RouterPageDisplayState _routerPageDisplayState(Store<AppState> store) {
   final loginState = store.state.loginState;
-  if (loginState is LoginNotInitializedState) return RouterPageDisplayState.SPLASH;
-  if (loginState is LoggedInState) return RouterPageDisplayState.MAIN;
+  if (loginState.isNotInitialized()) return RouterPageDisplayState.SPLASH;
+  if (loginState.isSuccess()) return RouterPageDisplayState.MAIN;
   return RouterPageDisplayState.LOGIN;
 }
 

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 abstract class State<T> extends Equatable {
-  State._();
+  State();
 
   factory State.loading() = _LoadingState;
 
@@ -25,23 +25,17 @@ abstract class State<T> extends Equatable {
   List<Object?> get props => [];
 }
 
-class _LoadingState<T> extends State<T> {
-  _LoadingState() : super._();
-}
+class _LoadingState<T> extends State<T> {}
 
 class _SuccessState<T> extends State<T> {
   final T data;
 
-  _SuccessState(this.data) : super._();
+  _SuccessState(this.data);
 
   @override
   List<Object?> get props => [data];
 }
 
-class _FailureState<T> extends State<T> {
-  _FailureState() : super._();
-}
+class _FailureState<T> extends State<T> {}
 
-class _NotInitializedState<T> extends State<T> {
-  _NotInitializedState() : super._();
-}
+class _NotInitializedState<T> extends State<T> {}

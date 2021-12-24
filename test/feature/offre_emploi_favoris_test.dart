@@ -1,9 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_favoris_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
@@ -144,11 +142,7 @@ Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
   testStoreFactory.authenticator = AuthenticatorLoggedInStub();
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState().copyWith(
-        loginState: LoginState.loggedIn(User(
-          id: "id",
-          firstName: "F",
-          lastName: "L",
-        )),
+        loginState: successUserState(),
         offreEmploiFavorisState: OffreEmploiFavorisState.withMap(
           {"1", "2", "4"},
           {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()},
@@ -185,11 +179,7 @@ Store<AppState> _successStoreWithFavorisIdLoaded() {
   testStoreFactory.authenticator = AuthenticatorLoggedInStub();
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState().copyWith(
-      loginState: LoginState.loggedIn(User(
-        id: "id",
-        firstName: "F",
-        lastName: "L",
-      )),
+      loginState: successUserState(),
       offreEmploiFavorisState: OffreEmploiFavorisState.idsLoaded({"1", "2", "4"}),
     ),
   );
@@ -202,11 +192,7 @@ Store<AppState> _failureStoreWithFavorisIdLoaded() {
   testStoreFactory.authenticator = AuthenticatorLoggedInStub();
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState().copyWith(
-      loginState: LoginState.loggedIn(User(
-        id: "id",
-        firstName: "F",
-        lastName: "L",
-      )),
+      loginState: successUserState(),
       offreEmploiFavorisState: OffreEmploiFavorisState.withMap(
         {"1", "2", "4"},
         {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()},
@@ -222,11 +208,7 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
   testStoreFactory.authenticator = AuthenticatorLoggedInStub();
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState().copyWith(
-        loginState: LoginState.loggedIn(User(
-          id: "id",
-          firstName: "F",
-          lastName: "L",
-        )),
+        loginState: successUserState(),
         offreEmploiFavorisState: OffreEmploiFavorisState.withMap(
           {"1", "2", "4"},
           {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()},

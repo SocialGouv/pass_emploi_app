@@ -28,7 +28,7 @@ void main() {
       // Given
       factory.authenticator = AuthenticatorLoggedInStub();
       final store = factory.initializeReduxStore(initialState: AppState.initialState());
-      final result = store.onChange.firstWhere((element) => element.loginState is LoggedInState);
+      final result = store.onChange.firstWhere((element) => element.loginState.isSuccess());
       store.dispatch(BootstrapAction());
 
       // When
@@ -36,22 +36,22 @@ void main() {
 
       // Then
       final loginState = resultState.loginState;
-      expect(loginState, isA<LoggedInState>());
-      expect((loginState as LoggedInState).user, User(id: "id", firstName: "F", lastName: "L"));
+      expect(loginState.isSuccess(), isTrue);
+      expect(loginState.getDataOrThrow(), User(id: "id", firstName: "F", lastName: "L"));
     });
 
     test('user is not logged in if she was not previously logged in', () async {
       // Given
       factory.authenticator = AuthenticatorNotLoggedInStub();
       final store = factory.initializeReduxStore(initialState: AppState.initialState());
-      final result = store.onChange.firstWhere((element) => element.loginState is NotLoggedInState);
+      final result = store.onChange.firstWhere((element) => element.loginState is UserNotLoggedInState);
       store.dispatch(BootstrapAction());
 
       // When
       final AppState resultState = await result;
 
       // Then
-      expect(resultState.loginState, isA<NotLoggedInState>());
+      expect(resultState.loginState, isA<UserNotLoggedInState>());
     });
   });
 
@@ -60,8 +60,8 @@ void main() {
       // Given
       factory.authenticator = AuthenticatorLoggedInStub(expectedMode: AuthenticationMode.GENERIC);
       final store = factory.initializeReduxStore(initialState: AppState.initialState());
-      final displayedLoading = store.onChange.any((element) => element.loginState is LoginLoadingState);
-      final result = store.onChange.firstWhere((element) => element.loginState is LoggedInState);
+      final displayedLoading = store.onChange.any((element) => element.loginState.isLoading());
+      final result = store.onChange.firstWhere((element) => element.loginState.isSuccess());
       store.dispatch(RequestLoginAction(RequestLoginMode.GENERIC));
 
       // When
@@ -70,16 +70,15 @@ void main() {
       // Then
       expect(await displayedLoading, true);
       final loginState = resultState.loginState;
-      expect(loginState, isA<LoggedInState>());
-      expect((loginState as LoggedInState).user, User(id: "id", firstName: "F", lastName: "L"));
+      expect(loginState.getDataOrThrow(), User(id: "id", firstName: "F", lastName: "L"));
     });
 
     test('user is properly logged in when login successes in SIMILO authentication mode', () async {
       // Given
       factory.authenticator = AuthenticatorLoggedInStub(expectedMode: AuthenticationMode.SIMILO);
       final store = factory.initializeReduxStore(initialState: AppState.initialState());
-      final displayedLoading = store.onChange.any((element) => element.loginState is LoginLoadingState);
-      final result = store.onChange.firstWhere((element) => element.loginState is LoggedInState);
+      final displayedLoading = store.onChange.any((element) => element.loginState.isLoading());
+      final result = store.onChange.firstWhere((element) => element.loginState.isSuccess());
       store.dispatch(RequestLoginAction(RequestLoginMode.SIMILO));
 
       // When
@@ -88,16 +87,15 @@ void main() {
       // Then
       expect(await displayedLoading, true);
       final loginState = resultState.loginState;
-      expect(loginState, isA<LoggedInState>());
-      expect((loginState as LoggedInState).user, User(id: "id", firstName: "F", lastName: "L"));
+      expect(loginState.getDataOrThrow(), User(id: "id", firstName: "F", lastName: "L"));
     });
 
     test('user is not logged in when login fails', () async {
       // Given
       factory.authenticator = AuthenticatorNotLoggedInStub();
       final store = factory.initializeReduxStore(initialState: AppState.initialState());
-      final displayedLoading = store.onChange.any((element) => element.loginState is LoginLoadingState);
-      final result = store.onChange.firstWhere((element) => element.loginState is LoginFailureState);
+      final displayedLoading = store.onChange.any((element) => element.loginState.isLoading());
+      final result = store.onChange.firstWhere((element) => element.loginState.isFailure());
       store.dispatch(RequestLoginAction(RequestLoginMode.GENERIC));
 
       // When
@@ -105,7 +103,7 @@ void main() {
 
       // Then
       expect(await displayedLoading, true);
-      expect(resultState.loginState, isA<LoginFailureState>());
+      expect(resultState.loginState.isFailure(), isTrue);
     });
   });
 
@@ -115,7 +113,7 @@ void main() {
     factory.authenticator = authenticatorSpy;
     final store = factory.initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        loginState: LoginState.notLoggedIn(),
+        loginState: UserNotLoggedInState(),
         rendezvousState: State<List<Rendezvous>>.loading(),
       ),
     );
@@ -126,7 +124,7 @@ void main() {
 
     // Then
     final newState = await newStateFuture;
-    expect(newState.loginState, isA<LoginNotInitializedState>());
+    expect(newState.loginState.isNotInitialized(), isTrue);
     expect(newState.rendezvousState.isNotInitialized(), isTrue);
     expect(authenticatorSpy.logoutCalled, isFalse);
   });
@@ -137,7 +135,7 @@ void main() {
     factory.authenticator = authenticatorSpy;
     final store = factory.initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        loginState: LoginState.notLoggedIn(),
+        loginState: UserNotLoggedInState(),
         rendezvousState: State<List<Rendezvous>>.loading(),
       ),
     );
@@ -148,7 +146,7 @@ void main() {
 
     // Then
     final newState = await newStateFuture;
-    expect(newState.loginState, isA<LoginNotInitializedState>());
+    expect(newState.loginState.isNotInitialized(), isTrue);
     expect(newState.rendezvousState.isNotInitialized(), isTrue);
     expect(authenticatorSpy.logoutCalled, isTrue);
   });

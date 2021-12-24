@@ -14,7 +14,7 @@ main() {
     // Given
     final factory = TestStoreFactory();
     factory.searchLocationRepository = SearchLocationRepositorySuccessStub();
-    final store = factory.initializeReduxStore(initialState: loggedInAppState());
+    final store = factory.initializeReduxStore(initialState: loggedInState());
     final Future<AppState> newStateFuture =
         store.onChange.firstWhere((state) => state.searchLocationState.locations.isNotEmpty);
 
@@ -31,7 +31,7 @@ main() {
     final factory = TestStoreFactory();
     final repositorySpy = SearchLocationRepositorySpy();
     factory.searchLocationRepository = repositorySpy;
-    final store = factory.initializeReduxStore(initialState: loggedInAppState());
+    final store = factory.initializeReduxStore(initialState: loggedInState());
     final Future<AppState> newStateFuture =
         store.onChange.firstWhere((state) => state.searchLocationState.locations.isNotEmpty);
 
@@ -47,10 +47,10 @@ main() {
   test("Does not call repository user search input is less than 2 characters… and return empty locations result",
       () async {
     // Given
-    final factory = TestStoreFactory();
+        final factory = TestStoreFactory();
     final repositorySpy = SearchLocationRepositorySpy();
     factory.searchLocationRepository = repositorySpy;
-    final store = factory.initializeReduxStore(initialState: loggedInAppState());
+    final store = factory.initializeReduxStore(initialState: loggedInState());
     final Future<AppState> newStateFuture = store.onChange.first;
 
     // When

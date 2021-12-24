@@ -1,9 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_details_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 
 import '../doubles/dummies.dart';
@@ -16,7 +17,7 @@ main() {
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.detailedOfferRepository = OffreEmploiDetailsRepositorySuccessStub();
     final store = testStoreFactory.initializeReduxStore(
-      initialState: AppState.initialState().copyWith(loginState: LoginState.notLoggedIn()),
+      initialState: AppState.initialState().copyWith(loginState: State<User>.failure()),
     );
 
     final displayedLoading =
@@ -40,7 +41,7 @@ main() {
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.detailedOfferRepository = OffreEmploiDetailsRepositoryGenericFailureStub();
     final store = testStoreFactory.initializeReduxStore(
-      initialState: AppState.initialState().copyWith(loginState: LoginState.notLoggedIn()),
+      initialState: AppState.initialState().copyWith(loginState: State<User>.failure()),
     );
 
     final displayedLoading =
@@ -62,7 +63,7 @@ main() {
     testStoreFactory.detailedOfferRepository = OffreEmploiDetailsRepositoryNotFoundFailureStub();
     final store = testStoreFactory.initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-          loginState: LoginState.loggedIn(mockUser()),
+          loginState: State<User>.success(mockUser()),
           offreEmploiFavorisState: OffreEmploiFavorisState.withMap({"offerId"}, {"offerId": mockOffreEmploi()})),
     );
 

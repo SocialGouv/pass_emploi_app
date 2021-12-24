@@ -4,11 +4,12 @@ import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/middlewares/user_action_middleware.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
 
 import '../../doubles/dummies.dart';
+import '../../doubles/fixtures.dart';
 
 main() {
   final repository = UserActionRepositoryMock();
@@ -18,9 +19,10 @@ main() {
     // Given
     final storeSpy = StoreSpy();
     final createUserAction = CreateUserAction("content", "comment", UserActionStatus.DONE);
-    final store = Store<AppState>(storeSpy.reducer,
-        initialState: AppState.initialState()
-            .copyWith(loginState: LoggedInState(User(id: "id", firstName: "firstName", lastName: "lastName"))));
+    final store = Store<AppState>(
+      storeSpy.reducer,
+      initialState: AppState.initialState().copyWith(loginState: successUserState()),
+    );
 
     // When
     await middleware.call(store, createUserAction, (action) => {});
@@ -35,9 +37,11 @@ main() {
     // Given
     final storeSpy = StoreSpy();
     final createUserAction = CreateUserAction("content", "comment", UserActionStatus.DONE);
-    final store = Store<AppState>(storeSpy.reducer,
-        initialState: AppState.initialState()
-            .copyWith(loginState: LoggedInState(User(id: "error", firstName: "firstName", lastName: "lastName"))));
+    final store = Store<AppState>(
+      storeSpy.reducer,
+      initialState: AppState.initialState()
+          .copyWith(loginState: State<User>.success(User(id: "error", firstName: "F", lastName: "L"))),
+    );
 
     // When
     await middleware.call(store, createUserAction, (action) => {});

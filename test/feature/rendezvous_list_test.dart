@@ -5,10 +5,11 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
 
 import '../doubles/dummies.dart';
+import '../doubles/fixtures.dart';
 import '../utils/test_setup.dart';
 
 void main() {
@@ -17,7 +18,7 @@ void main() {
       // Given
       final testStoreFactory = TestStoreFactory();
       final store = testStoreFactory.initializeReduxStore(
-        initialState: AppState.initialState().copyWith(loginState: LoginState.notLoggedIn()),
+        initialState: AppState.initialState().copyWith(loginState: State<User>.failure()),
       );
 
       final unchangedRendezvousState = store.onChange.any((element) => element.rendezvousState.isNotInitialized());
@@ -30,15 +31,11 @@ void main() {
     });
 
     group("if user is logged in should fetch rendezvous and…", () {
-      final _user = User(id: "id", firstName: "f", lastName: "l");
-
       test("update state with success if repository returns something", () async {
         // Given
         final testStoreFactory = TestStoreFactory();
         testStoreFactory.rendezvousRepository = RendezvousRepositorySuccessStub(expectedUserId: "id");
-        final store = testStoreFactory.initializeReduxStore(
-          initialState: AppState.initialState().copyWith(loginState: LoginState.loggedIn(_user)),
-        );
+        final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
 
         final displayedLoading = store.onChange.any((element) => element.rendezvousState.isLoading());
         final successAppState = store.onChange.firstWhere((element) => element.rendezvousState.isSuccess());
@@ -57,9 +54,7 @@ void main() {
         // Given
         final testStoreFactory = TestStoreFactory();
         testStoreFactory.rendezvousRepository = RendezvousRepositoryFailureStub(expectedUserId: "id");
-        final store = testStoreFactory.initializeReduxStore(
-          initialState: AppState.initialState().copyWith(loginState: LoginState.loggedIn(_user)),
-        );
+        final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
 
         final displayedLoading = store.onChange.any((element) => element.rendezvousState.isLoading());
         final failureAppState = store.onChange.firstWhere((element) => element.rendezvousState.isFailure());

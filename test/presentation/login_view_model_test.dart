@@ -4,14 +4,15 @@ import 'package:pass_emploi_app/presentation/login_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:redux/redux.dart';
 
+import '../doubles/fixtures.dart';
 import '../doubles/spies.dart';
 
 void main() {
   test('View model displays LOADER when login state is loading', () {
-    final state = AppState.initialState().copyWith(loginState: LoginLoadingState());
+    final state = AppState.initialState().copyWith(loginState: State<User>.loading());
     final store = Store<AppState>(reducer, initialState: state);
 
     final viewModel = LoginViewModel.create(store);
@@ -20,7 +21,7 @@ void main() {
   });
 
   test('View model displays FAILURE when login state is failure', () {
-    final state = AppState.initialState().copyWith(loginState: LoginFailureState());
+    final state = AppState.initialState().copyWith(loginState: State<User>.failure());
     final store = Store<AppState>(reducer, initialState: state);
 
     final viewModel = LoginViewModel.create(store);
@@ -29,10 +30,7 @@ void main() {
   });
 
   test('View model displays CONTENT when login state is logged in', () {
-    final state = AppState.initialState().copyWith(
-      loginState: LoginState.loggedIn(User(id: "i", firstName: "F", lastName: "L")),
-    );
-    final store = Store<AppState>(reducer, initialState: state);
+    final store = Store<AppState>(reducer, initialState: loggedInState());
 
     final viewModel = LoginViewModel.create(store);
 

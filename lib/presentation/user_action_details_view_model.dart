@@ -1,7 +1,6 @@
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_delete_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 import 'package:redux/redux.dart';
@@ -63,11 +62,11 @@ _refreshStatus(Store<AppState> store, String actionId, UserActionStatus newStatu
   final loginState = store.state.loginState;
   final userActionState = store.state.userActionState;
   if (userActionState.isSuccess()) {
-    if (loginState is LoggedInState) {
+    if (loginState.isSuccess()) {
       final action = userActionState.getDataOrThrow().firstWhere((element) => element.id == actionId);
       if (action.status != newStatus) {
         store.dispatch(UserActionUpdateStatusAction(
-          userId: loginState.user.id,
+          userId: loginState.getDataOrThrow().id,
           actionId: actionId,
           newStatus: newStatus,
         ));
