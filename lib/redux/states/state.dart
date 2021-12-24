@@ -19,7 +19,7 @@ abstract class State<T> extends Equatable {
 
   bool isNotInitialized() => this is _NotInitializedState<T>;
 
-  T getDataOrThrow() => (this as _SuccessState<T>).data;
+  T getResultOrThrow() => (this as _SuccessState<T>).result;
 
   @override
   List<Object?> get props => [];
@@ -28,12 +28,12 @@ abstract class State<T> extends Equatable {
 class _LoadingState<T> extends State<T> {}
 
 class _SuccessState<T> extends State<T> {
-  final T data;
+  final T result;
 
-  _SuccessState(this.data);
+  _SuccessState(this.result);
 
   @override
-  List<Object?> get props => [data];
+  List<Object?> get props => [result];
 }
 
 class _FailureState<T> extends State<T> {}

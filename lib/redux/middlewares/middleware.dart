@@ -15,7 +15,7 @@ class Middleware<REQUEST, RESULT> extends MiddlewareClass<AppState> {
       final loginState = store.state.loginState;
       if (loginState.isSuccess()) {
         store.dispatch(Action<REQUEST, RESULT>.loading());
-        final result = await _repository.fetch(loginState.getDataOrThrow().id, action.getRequestOrThrow());
+        final result = await _repository.fetch(loginState.getResultOrThrow().id, action.getRequestOrThrow());
         store.dispatch(result != null ? Action<REQUEST, RESULT>.success(result) : Action<REQUEST, RESULT>.failure());
       }
     }

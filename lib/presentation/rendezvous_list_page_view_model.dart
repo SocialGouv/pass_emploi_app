@@ -34,9 +34,9 @@ class RendezvousListPageViewModel {
   }
 }
 
-bool _isEmpty(State<List<Rendezvous>> state) => state.isSuccess() && state.getDataOrThrow().isEmpty;
+bool _isEmpty(State<List<Rendezvous>> state) => state.isSuccess() && state.getResultOrThrow().isEmpty;
 
 List<RendezvousViewModel> _items({required State<List<Rendezvous>> state}) {
-  if (state.isSuccess()) return state.getDataOrThrow().map((rdv) => RendezvousViewModel.create(rdv)).toList();
+  if (state.isSuccess()) return state.getResultOrThrow().map((rdv) => RendezvousViewModel.create(rdv)).toList();
   return [];
 }

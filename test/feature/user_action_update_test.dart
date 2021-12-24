@@ -37,8 +37,8 @@ void main() {
     final appState = await changedState;
     expect(repositorySpy.isActionUpdated, true);
 
-    expect(appState.userActionState.getDataOrThrow()[0].id, "actionId");
-    expect(appState.userActionState.getDataOrThrow()[0].status, UserActionStatus.DONE);
+    expect(appState.userActionState.getResultOrThrow()[0].id, "actionId");
+    expect(appState.userActionState.getResultOrThrow()[0].status, UserActionStatus.DONE);
 
     expect(appState.userActionUpdateState is UserActionUpdatedState, true);
   });

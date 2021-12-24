@@ -63,10 +63,10 @@ _refreshStatus(Store<AppState> store, String actionId, UserActionStatus newStatu
   final userActionState = store.state.userActionState;
   if (userActionState.isSuccess()) {
     if (loginState.isSuccess()) {
-      final action = userActionState.getDataOrThrow().firstWhere((element) => element.id == actionId);
+      final action = userActionState.getResultOrThrow().firstWhere((element) => element.id == actionId);
       if (action.status != newStatus) {
         store.dispatch(UserActionUpdateStatusAction(
-          userId: loginState.getDataOrThrow().id,
+          userId: loginState.getResultOrThrow().id,
           actionId: actionId,
           newStatus: newStatus,
         ));

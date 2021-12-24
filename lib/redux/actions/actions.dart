@@ -23,7 +23,7 @@ abstract class Action<REQUEST, RESULT> {
 
   REQUEST getRequestOrThrow() => (this as _RequestAction<REQUEST, RESULT>).request;
 
-  RESULT getDataOrThrow() => (this as _SuccessAction<REQUEST, RESULT>).data;
+  RESULT getResultOrThrow() => (this as _SuccessAction<REQUEST, RESULT>).result;
 }
 
 class _RequestAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {
@@ -35,9 +35,9 @@ class _RequestAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {
 class _LoadingAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {}
 
 class _SuccessAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {
-  final RESULT data;
+  final RESULT result;
 
-  _SuccessAction(this.data);
+  _SuccessAction(this.result);
 }
 
 class _FailureAction<REQUEST, RESULT> extends Action<REQUEST, RESULT> {}

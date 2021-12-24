@@ -24,7 +24,7 @@ AppState userActionReducer(AppState currentState, UserActionAction action) {
     if (previousUserActionState.isSuccess()) {
       return currentState.copyWith(
           userActionDeleteState: UserActionDeleteState.success(),
-          userActionState: _removeDeletedUserAction(previousUserActionState.getDataOrThrow(), action));
+          userActionState: _removeDeletedUserAction(previousUserActionState.getResultOrThrow(), action));
     } else {
       return currentState;
     }
@@ -33,7 +33,7 @@ AppState userActionReducer(AppState currentState, UserActionAction action) {
   } else if (action is UserActionUpdateStatusAction) {
     final currentActionState = currentState.userActionState;
     if (currentActionState.isSuccess()) {
-      final currentActions = currentActionState.getDataOrThrow();
+      final currentActions = currentActionState.getResultOrThrow();
       final actionToUpdate = currentActions.firstWhere((a) => a.id == action.actionId);
       return _updateActionStatus(actionToUpdate, action, currentActions, currentState);
     } else {

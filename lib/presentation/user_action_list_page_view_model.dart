@@ -38,9 +38,9 @@ class UserActionListPageViewModel {
   }
 }
 
-bool _isEmpty(State<List<UserAction>> state) => state.isSuccess() && state.getDataOrThrow().isEmpty;
+bool _isEmpty(State<List<UserAction>> state) => state.isSuccess() && state.getResultOrThrow().isEmpty;
 
 List<UserActionViewModel> _items({required State<List<UserAction>> state}) {
-  if (state.isSuccess()) return state.getDataOrThrow().map((action) => UserActionViewModel.create(action)).toList();
+  if (state.isSuccess()) return state.getResultOrThrow().map((action) => UserActionViewModel.create(action)).toList();
   return [];
 }

@@ -21,7 +21,7 @@ void main() {
     // Then
     expect(await displayedLoading, true);
     final appState = await successAppState;
-    expect(appState.userActionState.getDataOrThrow().length, 1);
-    expect(appState.userActionState.getDataOrThrow()[0].id, "id");
+    expect(appState.userActionState.getResultOrThrow().length, 1);
+    expect(appState.userActionState.getResultOrThrow()[0].id, "id");
   });
 }

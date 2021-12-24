@@ -53,8 +53,8 @@ main() {
     );
 
     // Then
-    expect(updatedState.userActionState.getDataOrThrow()[0].id, "actionId");
-    expect(updatedState.userActionState.getDataOrThrow()[0].status, UserActionStatus.DONE);
+    expect(updatedState.userActionState.getResultOrThrow()[0].id, "actionId");
+    expect(updatedState.userActionState.getResultOrThrow()[0].status, UserActionStatus.DONE);
 
     expect(updatedState.userActionUpdateState is UserActionUpdatedState, true);
   });

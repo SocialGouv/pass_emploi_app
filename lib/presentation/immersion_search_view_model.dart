@@ -52,9 +52,9 @@ class ImmersionSearchViewModel extends Equatable {
 }
 
 ImmersionSearchDisplayState _displayState(State<List<Immersion>> immersionSearchState) {
-  if (immersionSearchState.isSuccess() && immersionSearchState.getDataOrThrow().isNotEmpty) {
+  if (immersionSearchState.isSuccess() && immersionSearchState.getResultOrThrow().isNotEmpty) {
     return ImmersionSearchDisplayState.SHOW_RESULTS;
-  } else if (immersionSearchState.isSuccess() && immersionSearchState.getDataOrThrow().isEmpty) {
+  } else if (immersionSearchState.isSuccess() && immersionSearchState.getResultOrThrow().isEmpty) {
     return ImmersionSearchDisplayState.SHOW_EMPTY_ERROR;
   } else if (immersionSearchState.isLoading()) {
     return ImmersionSearchDisplayState.SHOW_LOADER;
@@ -66,12 +66,12 @@ ImmersionSearchDisplayState _displayState(State<List<Immersion>> immersionSearch
 }
 
 List<Immersion> _immersions(State<List<Immersion>> immersionSearchState) {
-  if (immersionSearchState.isSuccess()) return immersionSearchState.getDataOrThrow();
+  if (immersionSearchState.isSuccess()) return immersionSearchState.getResultOrThrow();
   return [];
 }
 
 String _errorMessage(State<List<Immersion>> immersionSearchState) {
-  if (immersionSearchState.isSuccess() && immersionSearchState.getDataOrThrow().isEmpty) {
+  if (immersionSearchState.isSuccess() && immersionSearchState.getResultOrThrow().isEmpty) {
     return Strings.noContentError;
   } else if (immersionSearchState.isFailure()) {
     return Strings.genericError;

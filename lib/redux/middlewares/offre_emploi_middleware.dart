@@ -18,7 +18,7 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
     final parametersState = store.state.offreEmploiSearchParametersState;
     final previousResultsState = store.state.offreEmploiSearchResultsState;
     if (loginState.isSuccess()) {
-      var userId = loginState.getDataOrThrow().id;
+      var userId = loginState.getResultOrThrow().id;
       if (action is SearchOffreEmploiAction) {
         _search(
           store: store,

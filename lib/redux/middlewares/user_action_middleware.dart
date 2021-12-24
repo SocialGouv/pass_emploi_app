@@ -27,7 +27,7 @@ class UserActionMiddleware extends MiddlewareClass<AppState> {
     final loginState = store.state.loginState;
     if (loginState.isSuccess()) {
       store.dispatch(UserActionLoadingAction());
-      final actions = await _repository.getUserActions(loginState.getDataOrThrow().id);
+      final actions = await _repository.getUserActions(loginState.getResultOrThrow().id);
       store.dispatch(actions != null ? UserActionSuccessAction(actions) : UserActionFailureAction());
     }
   }
@@ -36,7 +36,7 @@ class UserActionMiddleware extends MiddlewareClass<AppState> {
       Store<AppState> store, String? content, String? comment, UserActionStatus status) async {
     final loginState = store.state.loginState;
     if (loginState.isSuccess()) {
-      final response = await _repository.createUserAction(loginState.getDataOrThrow().id, content, comment, status);
+      final response = await _repository.createUserAction(loginState.getResultOrThrow().id, content, comment, status);
       if (response) {
         store.dispatch(UserActionCreatedWithSuccessAction());
         store.dispatch(RequestUserActionsAction());

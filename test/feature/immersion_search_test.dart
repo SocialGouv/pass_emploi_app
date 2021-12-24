@@ -26,7 +26,7 @@ main() {
     // Then
     expect(await displayedLoading, isTrue);
     final successState = await successStateFuture;
-    expect(successState.immersionSearchState.getDataOrThrow(), [mockImmersion()]);
+    expect(successState.immersionSearchState.getResultOrThrow(), [mockImmersion()]);
   });
 
   test("immersions should be loaded and error displayed when repository returns null", () async {

@@ -37,7 +37,7 @@ void main() {
       // Then
       final loginState = resultState.loginState;
       expect(loginState.isSuccess(), isTrue);
-      expect(loginState.getDataOrThrow(), User(id: "id", firstName: "F", lastName: "L"));
+      expect(loginState.getResultOrThrow(), User(id: "id", firstName: "F", lastName: "L"));
     });
 
     test('user is not logged in if she was not previously logged in', () async {
@@ -70,7 +70,7 @@ void main() {
       // Then
       expect(await displayedLoading, true);
       final loginState = resultState.loginState;
-      expect(loginState.getDataOrThrow(), User(id: "id", firstName: "F", lastName: "L"));
+      expect(loginState.getResultOrThrow(), User(id: "id", firstName: "F", lastName: "L"));
     });
 
     test('user is properly logged in when login successes in SIMILO authentication mode', () async {
@@ -87,7 +87,7 @@ void main() {
       // Then
       expect(await displayedLoading, true);
       final loginState = resultState.loginState;
-      expect(loginState.getDataOrThrow(), User(id: "id", firstName: "F", lastName: "L"));
+      expect(loginState.getResultOrThrow(), User(id: "id", firstName: "F", lastName: "L"));
     });
 
     test('user is not logged in when login fails', () async {

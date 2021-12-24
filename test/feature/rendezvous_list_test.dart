@@ -46,8 +46,8 @@ void main() {
         // Then
         expect(await displayedLoading, true);
         final appState = await successAppState;
-        expect(appState.rendezvousState.getDataOrThrow().length, 1);
-        expect(appState.rendezvousState.getDataOrThrow()[0].date, DateTime(2022));
+        expect(appState.rendezvousState.getResultOrThrow().length, 1);
+        expect(appState.rendezvousState.getResultOrThrow()[0].date, DateTime(2022));
       });
 
       test("update state with failure if repository returns nothing", () async {

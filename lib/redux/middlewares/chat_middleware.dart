@@ -20,7 +20,7 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
     next(action);
     final loginState = store.state.loginState;
     if (loginState.isSuccess()) {
-      final userId = loginState.getDataOrThrow().id;
+      final userId = loginState.getResultOrThrow().id;
       if (action is SubscribeToChatAction) {
         _displayLoaderOnFirstTimeAndCurrentMessagesAfter(store);
         _subscribeToChatStream(userId, store);

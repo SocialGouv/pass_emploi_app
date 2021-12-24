@@ -12,7 +12,7 @@ class RegisterPushNotificationTokenMiddleware extends MiddlewareClass<AppState> 
   call(Store<AppState> store, action, NextDispatcher next) {
     next(action);
     if (action is LoginAction && action.isSuccess()) {
-      _repository.registerToken(action.getDataOrThrow().id);
+      _repository.registerToken(action.getResultOrThrow().id);
     }
   }
 }

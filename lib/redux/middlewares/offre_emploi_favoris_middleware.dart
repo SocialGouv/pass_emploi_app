@@ -16,15 +16,15 @@ class OffreEmploiFavorisMiddleware extends MiddlewareClass<AppState> {
     final loginState = store.state.loginState;
     final offreEmploiResultsState = store.state.offreEmploiSearchResultsState;
     if (action is LoginAction && action.isSuccess()) {
-      await _fetchFavorisId(action.getDataOrThrow().id, store);
+      await _fetchFavorisId(action.getResultOrThrow().id, store);
     } else if (action is OffreEmploiRequestUpdateFavoriAction && loginState.isSuccess()) {
       if (action.newStatus && offreEmploiResultsState is OffreEmploiSearchResultsDataState) {
-        await _addFavori(store, action, loginState.getDataOrThrow().id, offreEmploiResultsState);
+        await _addFavori(store, action, loginState.getResultOrThrow().id, offreEmploiResultsState);
       } else if (!action.newStatus) {
-        await _removeFavori(store, action, loginState.getDataOrThrow().id);
+        await _removeFavori(store, action, loginState.getResultOrThrow().id);
       }
     } else if (action is RequestOffreEmploiFavorisAction && loginState.isSuccess()) {
-      await _fetchFavoris(store, action, loginState.getDataOrThrow().id);
+      await _fetchFavoris(store, action, loginState.getResultOrThrow().id);
     }
   }
 
