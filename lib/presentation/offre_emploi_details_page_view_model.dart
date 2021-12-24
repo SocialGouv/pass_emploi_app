@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_details_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
 
@@ -59,8 +60,8 @@ class OffreEmploiDetailsPageViewModel {
 
   factory OffreEmploiDetailsPageViewModel.getDetails(Store<AppState> store) {
     final offreEmploiDetailsState = store.state.offreEmploiDetailsState;
-    if (offreEmploiDetailsState is OffreEmploiDetailsSuccessState) {
-      return _viewModelFromDetails(offreEmploiDetailsState, offreEmploiDetailsState.offre);
+    if (offreEmploiDetailsState.isSuccess()) {
+      return _viewModelFromDetails(offreEmploiDetailsState, offreEmploiDetailsState.getResultOrThrow());
     } else if (offreEmploiDetailsState is OffreEmploiDetailsIncompleteDataState) {
       return _viewModelFromIncompleteData(offreEmploiDetailsState.offreEmploi);
     } else {
@@ -69,10 +70,10 @@ class OffreEmploiDetailsPageViewModel {
   }
 }
 
-OffreEmploiDetailsPageDisplayState _displayState(OffreEmploiDetailsState offreEmploiDetailsState) {
-  if (offreEmploiDetailsState is OffreEmploiDetailsSuccessState) {
+OffreEmploiDetailsPageDisplayState _displayState(State<OffreEmploiDetails> offreEmploiDetailsState) {
+  if (offreEmploiDetailsState.isSuccess()) {
     return OffreEmploiDetailsPageDisplayState.SHOW_DETAILS;
-  } else if (offreEmploiDetailsState is OffreEmploiDetailsLoadingState) {
+  } else if (offreEmploiDetailsState.isLoading()) {
     return OffreEmploiDetailsPageDisplayState.SHOW_LOADER;
   } else {
     return OffreEmploiDetailsPageDisplayState.SHOW_ERROR;
@@ -95,7 +96,7 @@ class EducationViewModel extends Equatable {
 }
 
 OffreEmploiDetailsPageViewModel _viewModelFromDetails(
-  OffreEmploiDetailsState offreEmploiDetailsState,
+  State<OffreEmploiDetails> offreEmploiDetailsState,
   OffreEmploiDetails? offreDetails,
 ) {
   return OffreEmploiDetailsPageViewModel._(
@@ -136,7 +137,7 @@ OffreEmploiDetailsPageViewModel _viewModelFromIncompleteData(OffreEmploi offreEm
   );
 }
 
-OffreEmploiDetailsPageViewModel _viewModelForOtherCases(OffreEmploiDetailsState offreEmploiDetailsState) {
+OffreEmploiDetailsPageViewModel _viewModelForOtherCases(State<OffreEmploiDetails> offreEmploiDetailsState) {
   return OffreEmploiDetailsPageViewModel._(
     displayState: _displayState(offreEmploiDetailsState),
   );

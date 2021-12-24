@@ -20,10 +20,8 @@ main() {
       initialState: AppState.initialState().copyWith(loginState: State<User>.failure()),
     );
 
-    final displayedLoading =
-        store.onChange.any((element) => element.offreEmploiDetailsState is OffreEmploiDetailsLoadingState);
-    final successState =
-        store.onChange.firstWhere((element) => element.offreEmploiDetailsState is OffreEmploiDetailsSuccessState);
+    final displayedLoading = store.onChange.any((element) => element.offreEmploiDetailsState.isLoading());
+    final successState = store.onChange.firstWhere((element) => element.offreEmploiDetailsState.isSuccess());
 
     // When
     store.dispatch(GetOffreEmploiDetailsAction(offreId: "offerId"));
@@ -32,8 +30,7 @@ main() {
 
     expect(await displayedLoading, true);
     final appState = await successState;
-    final searchState = (appState.offreEmploiDetailsState as OffreEmploiDetailsSuccessState);
-    expect(searchState.offre.id, "123TZKB");
+    expect(appState.offreEmploiDetailsState.getResultOrThrow().id, "123TZKB");
   });
 
   test("detailed offer should be fetched and an error must be displayed if something wrong happens", () async {
@@ -44,10 +41,8 @@ main() {
       initialState: AppState.initialState().copyWith(loginState: State<User>.failure()),
     );
 
-    final displayedLoading =
-        store.onChange.any((element) => element.offreEmploiDetailsState is OffreEmploiDetailsLoadingState);
-    final displayedError =
-        store.onChange.any((element) => element.offreEmploiDetailsState is OffreEmploiDetailsFailureState);
+    final displayedLoading = store.onChange.any((element) => element.offreEmploiDetailsState.isLoading());
+    final displayedError = store.onChange.any((element) => element.offreEmploiDetailsState.isFailure());
 
     // When
     store.dispatch(GetOffreEmploiDetailsAction(offreId: "offerId"));
@@ -67,8 +62,7 @@ main() {
           offreEmploiFavorisState: OffreEmploiFavorisState.withMap({"offerId"}, {"offerId": mockOffreEmploi()})),
     );
 
-    final displayedLoading =
-        store.onChange.any((element) => element.offreEmploiDetailsState is OffreEmploiDetailsLoadingState);
+    final displayedLoading = store.onChange.any((element) => element.offreEmploiDetailsState.isLoading());
     final displayedIncompleteData = store.onChange
         .firstWhere((element) => element.offreEmploiDetailsState is OffreEmploiDetailsIncompleteDataState);
 

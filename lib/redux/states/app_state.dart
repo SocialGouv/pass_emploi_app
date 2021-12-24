@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
@@ -7,7 +8,6 @@ import 'package:pass_emploi_app/redux/states/chat_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
 import 'package:pass_emploi_app/redux/states/create_user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/search_location_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
@@ -27,7 +27,7 @@ class AppState extends Equatable {
   final ChatStatusState chatStatusState;
   final ChatState chatState;
   final OffreEmploiSearchState offreEmploiSearchState;
-  final OffreEmploiDetailsState offreEmploiDetailsState;
+  final State<OffreEmploiDetails> offreEmploiDetailsState;
   final OffreEmploiSearchResultsState offreEmploiSearchResultsState;
   final OffreEmploiSearchParametersState offreEmploiSearchParametersState;
   final OffreEmploiFavorisState offreEmploiFavorisState;
@@ -65,7 +65,6 @@ class AppState extends Equatable {
     final ChatStatusState? chatStatusState,
     final ChatState? chatState,
     final OffreEmploiSearchState? offreEmploiSearchState,
-    final OffreEmploiDetailsState? offreEmploiDetailsState,
     final DeepLinkState? deepLinkState,
     final OffreEmploiSearchResultsState? offreEmploiSearchResultsState,
     final OffreEmploiSearchParametersState? offreEmploiSearchParametersState,
@@ -75,6 +74,7 @@ class AppState extends Equatable {
     final State<User>? loginState,
     final State<List<UserAction>>? userActionState,
     final State<List<Rendezvous>>? rendezvousState,
+    final State<OffreEmploiDetails>? offreEmploiDetailsState,
     final State<List<Immersion>>? immersionSearchState,
   }) {
     return AppState(
@@ -107,7 +107,7 @@ class AppState extends Equatable {
       chatStatusState: ChatStatusState.notInitialized(),
       chatState: ChatState.notInitialized(),
       offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
-      offreEmploiDetailsState: OffreEmploiDetailsState.notInitialized(),
+      offreEmploiDetailsState: State<OffreEmploiDetails>.notInitialized(),
       offreEmploiSearchResultsState: OffreEmploiSearchResultsState.notInitialized(),
       offreEmploiSearchParametersState: OffreEmploiSearchParametersState.notInitialized(),
       offreEmploiFavorisState: OffreEmploiFavorisState.notInitialized(),
