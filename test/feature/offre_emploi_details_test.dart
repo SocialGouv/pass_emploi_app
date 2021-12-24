@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/user.dart';
-import 'package:pass_emploi_app/redux/actions/offre_emploi_details_actions.dart';
+import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
@@ -24,7 +24,7 @@ main() {
     final successState = store.onChange.firstWhere((element) => element.offreEmploiDetailsState.isSuccess());
 
     // When
-    store.dispatch(GetOffreEmploiDetailsAction(offreId: "offerId"));
+    store.dispatch(OffreEmploiDetailsAction.request("offerId"));
 
     // Then
 
@@ -45,7 +45,7 @@ main() {
     final displayedError = store.onChange.any((element) => element.offreEmploiDetailsState.isFailure());
 
     // When
-    store.dispatch(GetOffreEmploiDetailsAction(offreId: "offerId"));
+    store.dispatch(OffreEmploiDetailsAction.request("offerId"));
 
     // Then
     expect(await displayedLoading, true);
@@ -67,7 +67,7 @@ main() {
         .firstWhere((element) => element.offreEmploiDetailsState is OffreEmploiDetailsIncompleteDataState);
 
     // When
-    store.dispatch(GetOffreEmploiDetailsAction(offreId: "offerId"));
+    store.dispatch(OffreEmploiDetailsAction.request("offerId"));
 
     // Then
     expect(await displayedLoading, true);

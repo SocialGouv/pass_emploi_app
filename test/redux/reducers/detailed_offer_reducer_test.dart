@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
-import 'package:pass_emploi_app/redux/actions/offre_emploi_details_actions.dart';
+import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
@@ -20,9 +20,9 @@ main() {
       });
     }
 
-    assertState(OffreEmploiDetailsLoadingAction(), State<OffreEmploiDetails>.loading());
-    assertState(OffreEmploiDetailsFailureAction(), State<OffreEmploiDetails>.failure());
+    assertState(OffreEmploiDetailsAction.loading(), State<OffreEmploiDetails>.loading());
+    assertState(OffreEmploiDetailsAction.failure(), State<OffreEmploiDetails>.failure());
     final offre = mockOffreEmploiDetails();
-    assertState(OffreEmploiDetailsSuccessAction(offre), State<OffreEmploiDetails>.success(offre));
+    assertState(OffreEmploiDetailsAction.success(offre), State<OffreEmploiDetails>.success(offre));
   });
 }
