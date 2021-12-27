@@ -12,7 +12,8 @@ class ImmersionDetailsViewModel {
   final String secteurActivite;
   final String ville;
   final String address;
-  final String explanationText;
+  final String explanationLabel;
+  final String contactLabel;
 
   ImmersionDetailsViewModel._({
     required this.displayState,
@@ -21,7 +22,8 @@ class ImmersionDetailsViewModel {
     required this.secteurActivite,
     required this.ville,
     required this.address,
-    required this.explanationText,
+    required this.explanationLabel,
+    required this.contactLabel,
   });
 
   factory ImmersionDetailsViewModel.create(Store<AppState> store) {
@@ -34,19 +36,20 @@ class ImmersionDetailsViewModel {
       secteurActivite: immersion?.secteurActivite ?? '',
       ville: immersion?.ville ?? '',
       address: immersion?.address ?? '',
-      explanationText: immersion != null ? _explanationText(immersion) : '',
+      explanationLabel: immersion != null ? _explanationLabel(immersion) : '',
+      contactLabel: immersion != null ? _contractLabel(immersion) : '',
     );
   }
 }
 
-String _explanationText(ImmersionDetails immersion) {
+String _explanationLabel(ImmersionDetails immersion) {
   if (immersion.isVolontaire) {
-    return Strings.immersionVolontaireExplanation + ' ' + _contractModeDetails(immersion.contact?.mode);
+    return Strings.immersionVolontaireExplanation + ' ' + _contractModeLabel(immersion.contact?.mode);
   }
   return Strings.immersionNonVolontaireExplanation;
 }
 
-String _contractModeDetails(ImmersionContactMode? mode) {
+String _contractModeLabel(ImmersionContactMode? mode) {
   switch (mode) {
     case ImmersionContactMode.MAIL:
       return Strings.immersionMailContactModeExplanation;
@@ -58,4 +61,12 @@ String _contractModeDetails(ImmersionContactMode? mode) {
     case null:
       return Strings.immersionUnknownContactModeExplanation;
   }
+}
+
+String _contractLabel(ImmersionDetails immersion) {
+  final contact = immersion.contact;
+  if (contact == null) return '';
+  final nameLabel = (contact.firstName + ' ' + contact.lastName).trim();
+  if (contact.role.isEmpty) return nameLabel;
+  return nameLabel + '\n' + contact.role;
 }
