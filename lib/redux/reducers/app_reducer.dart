@@ -1,4 +1,5 @@
 import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
 import 'package:pass_emploi_app/redux/actions/deep_link_action.dart';
@@ -21,6 +22,7 @@ import 'offre_emploi_reducer.dart';
 
 final Reducer<List<Rendezvous>> _rendezvousReducer = Reducer<List<Rendezvous>>();
 final Reducer<List<Immersion>> _immersionReducer = Reducer<List<Immersion>>();
+final Reducer<ImmersionDetails> _immersionDetailsReducer = Reducer<ImmersionDetails>();
 final LoginReducer _loginReducer = LoginReducer();
 final OffreEmploiDetailsReducer _offreEmploiDetailsReducer = OffreEmploiDetailsReducer();
 
@@ -47,6 +49,10 @@ AppState reducer(AppState current, dynamic action) {
     return current.copyWith(rendezvousState: _rendezvousReducer.reduce(current.rendezvousState, action));
   } else if (action is ImmersionAction) {
     return current.copyWith(immersionSearchState: _immersionReducer.reduce(current.immersionSearchState, action));
+  } else if (action is ImmersionDetailsAction) {
+    return current.copyWith(
+      immersionDetailsState: _immersionDetailsReducer.reduce(current.immersionDetailsState, action),
+    );
   } else {
     return current;
   }
