@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
@@ -34,7 +35,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
     return StoreConnector<AppState, OffreEmploiSearchViewModel>(
       converter: (store) => OffreEmploiSearchViewModel.create(store),
       onWillChange: (_, newViewModel) {
-        if (newViewModel.displayState == OffreEmploiSearchDisplayState.SHOW_CONTENT && _shouldNavigate) {
+        if (newViewModel.displayState == DisplayState.CONTENT && _shouldNavigate) {
           _shouldNavigate = false;
           Navigator.push(context, MaterialPageRoute(builder: (context) => OffreEmploiListPage())).then((value) {
             _shouldNavigate = true;
@@ -117,12 +118,11 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
   }
 
   bool _isLoading(OffreEmploiSearchViewModel viewModel) {
-    return viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_LOADER;
+    return viewModel.displayState == DisplayState.LOADING;
   }
 
   bool _isError(OffreEmploiSearchViewModel viewModel) {
-    return viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_ERROR ||
-        viewModel.displayState == OffreEmploiSearchDisplayState.SHOW_EMPTY_ERROR;
+    return viewModel.displayState == DisplayState.FAILURE || viewModel.displayState == DisplayState.EMPTY;
   }
 
   void _onSearchButtonPressed(OffreEmploiSearchViewModel viewModel) {

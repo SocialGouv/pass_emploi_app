@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
@@ -25,7 +26,7 @@ main() {
     final viewModel = OffreEmploiSearchViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, OffreEmploiSearchDisplayState.SHOW_LOADER);
+    expect(viewModel.displayState, DisplayState.LOADING);
     expect(viewModel.errorMessage, "");
   });
 
@@ -42,7 +43,7 @@ main() {
     final viewModel = OffreEmploiSearchViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, OffreEmploiSearchDisplayState.SHOW_ERROR);
+    expect(viewModel.displayState, DisplayState.FAILURE);
     expect(viewModel.errorMessage, "Erreur lors de la recherche. Veuillez réessayer");
   });
 
@@ -61,7 +62,7 @@ main() {
     final viewModel = OffreEmploiSearchViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, OffreEmploiSearchDisplayState.SHOW_EMPTY_ERROR);
+    expect(viewModel.displayState, DisplayState.EMPTY);
     expect(viewModel.errorMessage, "Aucune offre ne correspond à votre recherche");
   });
 
@@ -80,7 +81,7 @@ main() {
     final viewModel = OffreEmploiSearchViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, OffreEmploiSearchDisplayState.SHOW_CONTENT);
+    expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.errorMessage, "");
   });
 
