@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_favoris_list_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_favoris_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -39,13 +40,13 @@ class FavorisPage extends TraceableStatelessWidget {
 
   Widget _switch(OffreEmploiFavorisListViewModel viewModel) {
     switch (viewModel.displayState) {
-      case OffreEmploiFavorisListDisplayState.SHOW_CONTENT:
+      case DisplayState.CONTENT:
         return _listView(viewModel);
-      case OffreEmploiFavorisListDisplayState.SHOW_LOADER:
+      case DisplayState.LOADING:
         return _loading();
-      case OffreEmploiFavorisListDisplayState.SHOW_ERROR:
+      case DisplayState.FAILURE:
         return _errorWithRetry(viewModel);
-      case OffreEmploiFavorisListDisplayState.SHOW_EMPTY_ERROR:
+      case DisplayState.EMPTY:
         return _empty();
     }
   }
