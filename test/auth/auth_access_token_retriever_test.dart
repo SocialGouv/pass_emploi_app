@@ -93,7 +93,7 @@ class AuthenticatorLoggedInAndValidIdTokenStub extends Authenticator {
   AuthenticatorLoggedInAndValidIdTokenStub() : super(DummyAuthWrapper(), configuration(), SharedPreferencesSpy());
 
   @override
-  AuthIdToken? idToken() => AuthIdToken(
+  Future<AuthIdToken?> idToken() async => AuthIdToken(
         userId: "id",
         firstName: "F",
         lastName: "L",
@@ -101,7 +101,7 @@ class AuthenticatorLoggedInAndValidIdTokenStub extends Authenticator {
       );
 
   @override
-  String? accessToken() => "Access token";
+  Future<String?> accessToken() async => "Access token";
 }
 
 class AuthenticatorLoggedInAndInvalidIdTokenStub extends Authenticator {
@@ -111,10 +111,10 @@ class AuthenticatorLoggedInAndInvalidIdTokenStub extends Authenticator {
       : super(DummyAuthWrapper(), configuration(), SharedPreferencesSpy());
 
   @override
-  AuthIdToken? idToken() => AuthIdToken(userId: "id", firstName: "F", lastName: "L", expiresAt: 0);
+  Future<AuthIdToken?> idToken() async => AuthIdToken(userId: "id", firstName: "F", lastName: "L", expiresAt: 0);
 
   @override
-  String? accessToken() => "Access token";
+  Future<String?> accessToken() async => "Access token";
 
   @override
   Future<RefreshTokenStatus> refreshToken() => Future.value(refreshTokenStatus);

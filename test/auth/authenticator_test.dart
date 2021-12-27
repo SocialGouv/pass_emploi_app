@@ -72,7 +72,7 @@ void main() {
       await authenticator.login(AuthenticationMode.GENERIC);
 
       // Then
-      expect(authenticator.isLoggedIn(), true);
+      expect(await authenticator.isLoggedIn(), true);
     });
 
     test('isLoggedIn is FALSE when login failed', () async {
@@ -83,7 +83,7 @@ void main() {
       await authenticator.login(AuthenticationMode.GENERIC);
 
       // Then
-      expect(authenticator.isLoggedIn(), false);
+      expect(await authenticator.isLoggedIn(), false);
     });
   });
 
@@ -136,7 +136,7 @@ void main() {
 
       // Then
       expect(result, RefreshTokenStatus.EXPIRED_REFRESH_TOKEN);
-      expect(authenticator.isLoggedIn(), false);
+      expect(await authenticator.isLoggedIn(), false);
     });
 
     test('refresh token returns GENERIC_ERROR when user is logged in but refresh token fails on generic exception',
@@ -162,7 +162,7 @@ void main() {
 
       // Then
       expect(result, RefreshTokenStatus.USER_NOT_LOGGED_IN);
-      expect(authenticator.isLoggedIn(), false);
+      expect(await authenticator.isLoggedIn(), false);
     });
   });
 
@@ -178,7 +178,7 @@ void main() {
 
       // Then
       expect(result, isTrue);
-      expect(authenticator.isLoggedIn(), false);
+      expect(await authenticator.isLoggedIn(), false);
     });
 
     test('FALSE is returned if user was logged in but logout fails', () async {
@@ -219,7 +219,7 @@ void main() {
     await authenticator.login(AuthenticationMode.GENERIC);
 
     // When
-    final token = authenticator.idToken();
+    final token = await authenticator.idToken();
 
     // Then
     expect(
@@ -238,7 +238,7 @@ void main() {
     await authenticator.login(AuthenticationMode.GENERIC);
 
     // When
-    final token = authenticator.idToken();
+    final token = await authenticator.idToken();
 
     // Then
     expect(token, isNull);
@@ -250,7 +250,7 @@ void main() {
     await authenticator.login(AuthenticationMode.GENERIC);
 
     // When
-    final token = authenticator.accessToken();
+    final token = await authenticator.accessToken();
 
     // Then
     expect(token, "accessToken");
@@ -262,7 +262,7 @@ void main() {
     await authenticator.login(AuthenticationMode.GENERIC);
 
     // When
-    final token = authenticator.accessToken();
+    final token = await authenticator.accessToken();
 
     // Then
     expect(token, isNull);

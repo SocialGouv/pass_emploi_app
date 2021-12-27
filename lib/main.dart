@@ -8,6 +8,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http_interceptor/http/intercepted_client.dart';
 import 'package:matomo/matomo.dart';
 import 'package:package_info/package_info.dart';
@@ -35,7 +36,6 @@ import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'configuration/app_version_checker.dart';
 import 'configuration/configuration.dart';
@@ -98,8 +98,8 @@ Future<Store<AppState>> _initializeReduxStore(
   PushNotificationManager pushNotificationManager,
 ) async {
   final headersBuilder = HeadersBuilder();
-  final preferences = await SharedPreferences.getInstance();
-  final authenticator = Authenticator(AuthWrapper(FlutterAppAuth()), configuration, preferences);
+  final securedPreferences = FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true));
+  final authenticator = Authenticator(AuthWrapper(FlutterAppAuth()), configuration, securedPreferences);
   final accessTokenRetriever = AuthAccessTokenRetriever(authenticator);
   final httpClient = InterceptedClient.build(
     interceptors: [AccessTokenInterceptor(accessTokenRetriever), LoggingInterceptor()],
