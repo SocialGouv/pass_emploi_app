@@ -26,6 +26,7 @@ import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/store/store_factory.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
@@ -111,7 +112,7 @@ Future<Store<AppState>> _initializeReduxStore(
     UserActionRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     RendezvousRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     OffreEmploiRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
-    ChatRepository(configuration.firebaseEnvironmentPrefix, crashlytics),
+    ChatRepository(ChatCrypto(), configuration.firebaseEnvironmentPrefix, crashlytics),
     RegisterTokenRepository(
       configuration.serverBaseUrl,
       httpClient,

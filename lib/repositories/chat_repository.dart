@@ -5,12 +5,14 @@ import 'package:flutter/foundation.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/message.dart';
+import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 
 class ChatRepository {
   final Crashlytics? _crashlytics;
   late final String _collectionPath;
+  final ChatCrypto _chatCrypto;
 
-  ChatRepository(String firebaseEnvironmentPrefix, [this._crashlytics]) {
+  ChatRepository(this._chatCrypto, String firebaseEnvironmentPrefix, [this._crashlytics]) {
     this._collectionPath = firebaseEnvironmentPrefix + "-chat";
   }
 
@@ -22,9 +24,8 @@ class ChatRepository {
         .collection('messages')
         .orderBy('creationDate')
         .snapshots()
-        .map((snapshot) => snapshot.docs.map((document) => Message.fromJson(document)).toList())
+        .map((snapshot) => snapshot.docs.map((document) => Message.fromJson(document, _chatCrypto)).toList())
         .distinct();
-
     await for (final messages in stream) yield messages;
   }
 
@@ -44,17 +45,20 @@ class ChatRepository {
     if (chatDocumentId == null) return;
 
     final messageCreationDate = FieldValue.serverTimestamp();
+    final encryptedMessage = _chatCrypto.encrypt(message);
+    debugPrint("➡️ sending $encryptedMessage");
     FirebaseFirestore.instance
         .runTransaction((transaction) async {
       final newDocId = _chatCollection(chatDocumentId).collection('messages').doc(null);
       transaction
         ..set(newDocId, {
-          'content': message,
+          'iv': encryptedMessage.base64InitializationVector,
+              'content': encryptedMessage.base64Message,
           'sentBy': "jeune",
               'creationDate': messageCreationDate,
             })
             ..update(_chatCollection(chatDocumentId), {
-              'lastMessageContent': message,
+              'lastMessageContent': encryptedMessage.base64Message,
               'lastMessageSentBy': "jeune",
               'lastMessageSentAt': messageCreationDate,
               'seenByConseiller': false,
