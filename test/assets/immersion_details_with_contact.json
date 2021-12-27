@@ -1,0 +1,18 @@
+{
+  "id": "0e32e7bd-b1dd-468d-8faa-d82ae6f5a939",
+  "metier": "xxxx",
+  "nomEtablissement": "GSF SATURNE",
+  "secteurActivite": "xxxx",
+  "ville": "xxxx",
+  "adresse": "4 RUE DES FRERES LUMIERE 67170 BRUMATH",
+  "estVolontaire": true,
+  "contact": {
+    "id": "9c6ca7f3-9598-479c-a745-c227691b0cb3",
+    "nom": "PHILIPPE",
+    "prenom": "LAUREAU",
+    "telephone": null,
+    "email": "gsf-responsables@ch-bischwiller.fr",
+    "role": "Responsable Nettoyage",
+    "modeDeContact": "EMAIL"
+  }
+}
