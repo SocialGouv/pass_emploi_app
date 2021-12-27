@@ -4,6 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/login_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -73,9 +74,9 @@ class LoginPage extends TraceableStatelessWidget {
 
   Widget _body(LoginViewModel viewModel) {
     switch (viewModel.displayState) {
-      case LoginViewModelDisplayState.LOADER:
+      case DisplayState.LOADING:
         return Center(child: CircularProgressIndicator());
-      case LoginViewModelDisplayState.FAILURE:
+      case DisplayState.FAILURE:
         return _failure(viewModel);
       default:
         return Column(children: [..._loginButtons(viewModel)]);
