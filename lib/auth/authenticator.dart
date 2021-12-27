@@ -44,7 +44,7 @@ class Authenticator {
     }
   }
 
-  Future<bool> isLoggedIn() => _preferences.containsKey(key: _idTokenKey);
+  Future<bool> isLoggedIn() async => await _preferences.read(key: _idTokenKey) != null;
 
   Future<AuthIdToken?> idToken() async {
     final String? idToken = await _preferences.read(key: _idTokenKey);

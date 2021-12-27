@@ -46,17 +46,6 @@ class SharedPreferencesSpy extends FlutterSecureStorage {
   }
 
   @override
-  Future<bool> containsKey({
-    required String key,
-    IOSOptions? iOptions,
-    AndroidOptions? aOptions,
-    LinuxOptions? lOptions,
-    WebOptions? webOptions,
-    MacOsOptions? mOptions,
-    WindowsOptions? wOptions,
-  }) async => storedValues.containsKey(key);
-
-  @override
   Future<String?> read({
     required String key,
     IOSOptions? iOptions,
