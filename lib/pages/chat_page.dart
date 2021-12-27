@@ -5,6 +5,7 @@ import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/presentation/chat_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -74,11 +75,11 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
 
   _body(BuildContext context, ChatPageViewModel viewModel) {
     switch (viewModel.displayState) {
-      case ChatPageDisplayState.CONTENT:
+      case DisplayState.CONTENT:
         return _content(context, viewModel);
-      case ChatPageDisplayState.LOADING:
+      case DisplayState.LOADING:
         return _loader();
-      case ChatPageDisplayState.FAILURE:
+      default:
         return _failure(viewModel);
     }
   }
