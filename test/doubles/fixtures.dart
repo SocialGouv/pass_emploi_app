@@ -7,15 +7,13 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 
 User mockUser({id: ""}) => User(id: id, firstName: "", lastName: "");
 
-AppState loggedInState() {
-  return AppState.initialState().copyWith(
-    loginState: LoginState.loggedIn(User(id: "id", firstName: "F", lastName: "L")),
-  );
-}
+State<User> successUserState() => State<User>.success(User(id: "id", firstName: "F", lastName: "L"));
+
+AppState loggedInState() => AppState.initialState().copyWith(loginState: successUserState());
 
 Response invalidHttpResponse({String message = ""}) => Response(message, 500);
 
@@ -85,12 +83,6 @@ Configuration configuration() => Configuration(
       ['scope1', 'scope2', 'scope3'],
       'authClientSecret',
     );
-
-AppState loggedInAppState() {
-  return AppState.initialState().copyWith(
-    loginState: LoginState.loggedIn(User(id: "id", firstName: "F", lastName: "L")),
-  );
-}
 
 Location mockLocation() => Location(libelle: "", code: "", type: LocationType.DEPARTMENT);
 

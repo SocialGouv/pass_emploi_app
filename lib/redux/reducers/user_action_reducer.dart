@@ -2,17 +2,17 @@ import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/create_user_action_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_delete_state.dart';
-import 'package:pass_emploi_app/redux/states/user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 
-AppState userActionReducer(AppState currentState, dynamic action) {
+AppState userActionReducer(AppState currentState, UserActionAction action) {
   if (action is UserActionLoadingAction) {
-    return currentState.copyWith(userActionState: UserActionState.loading());
+    return currentState.copyWith(userActionState: State<List<UserAction>>.loading());
   } else if (action is UserActionSuccessAction) {
-    return currentState.copyWith(userActionState: UserActionState.success(action.actions));
+    return currentState.copyWith(userActionState: State<List<UserAction>>.success(action.actions));
   } else if (action is UserActionFailureAction) {
-    return currentState.copyWith(userActionState: UserActionState.failure());
+    return currentState.copyWith(userActionState: State<List<UserAction>>.failure());
   } else if (action is UserActionCreatedWithSuccessAction) {
     return currentState.copyWith(createUserActionState: CreateUserActionState.success());
   } else if (action is UserActionCreationFailed) {
@@ -21,10 +21,10 @@ AppState userActionReducer(AppState currentState, dynamic action) {
     return currentState.copyWith(userActionDeleteState: UserActionDeleteState.loading());
   } else if (action is UserActionDeleteSuccessAction) {
     final previousUserActionState = currentState.userActionState;
-    if (previousUserActionState is UserActionSuccessState) {
+    if (previousUserActionState.isSuccess()) {
       return currentState.copyWith(
           userActionDeleteState: UserActionDeleteState.success(),
-          userActionState: _removeDeletedUserAction(previousUserActionState, action));
+          userActionState: _removeDeletedUserAction(previousUserActionState.getResultOrThrow(), action));
     } else {
       return currentState;
     }
@@ -32,8 +32,8 @@ AppState userActionReducer(AppState currentState, dynamic action) {
     return currentState.copyWith(userActionDeleteState: UserActionDeleteState.failure());
   } else if (action is UserActionUpdateStatusAction) {
     final currentActionState = currentState.userActionState;
-    if (currentActionState is UserActionSuccessState) {
-      final currentActions = currentActionState.actions;
+    if (currentActionState.isSuccess()) {
+      final currentActions = currentActionState.getResultOrThrow();
       final actionToUpdate = currentActions.firstWhere((a) => a.id == action.actionId);
       return _updateActionStatus(actionToUpdate, action, currentActions, currentState);
     } else {
@@ -52,12 +52,12 @@ AppState userActionReducer(AppState currentState, dynamic action) {
   }
 }
 
-UserActionSuccessState _removeDeletedUserAction(
-  UserActionSuccessState previousUserActionState,
+State<List<UserAction>> _removeDeletedUserAction(
+  List<UserAction> previousUserActions,
   UserActionDeleteSuccessAction action,
 ) {
-  return UserActionSuccessState(
-    previousUserActionState.actions.where((element) => element.id != action.actionId).toList(),
+  return State<List<UserAction>>.success(
+    previousUserActions.where((element) => element.id != action.actionId).toList(),
   );
 }
 
@@ -78,7 +78,7 @@ AppState _updateActionStatus(
   final newActions = List<UserAction>.from(currentActions).where((a) => a.id != updateActionStatus.actionId).toList()
     ..add(updatedAction);
   return currentState.copyWith(
-    userActionState: UserActionState.success(newActions),
+    userActionState: State<List<UserAction>>.success(newActions),
     userActionUpdateState: UserActionUpdateState.updated(),
   );
 }

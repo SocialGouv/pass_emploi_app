@@ -1,7 +1,6 @@
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
@@ -18,8 +17,8 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
     final loginState = store.state.loginState;
     final parametersState = store.state.offreEmploiSearchParametersState;
     final previousResultsState = store.state.offreEmploiSearchResultsState;
-    if (loginState is LoggedInState) {
-      var userId = loginState.user.id;
+    if (loginState.isSuccess()) {
+      var userId = loginState.getResultOrThrow().id;
       if (action is SearchOffreEmploiAction) {
         _search(
           store: store,

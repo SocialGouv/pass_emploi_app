@@ -1,7 +1,10 @@
+import 'dart:ffi';
+
+import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/rendezvous_actions.dart';
+import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/rendezvous_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:redux/redux.dart';
 
 class RendezvousListPageViewModel {
@@ -20,25 +23,20 @@ class RendezvousListPageViewModel {
   });
 
   factory RendezvousListPageViewModel.create(Store<AppState> store) {
+    final rendezvousState = store.state.rendezvousState;
     return RendezvousListPageViewModel(
-      withLoading: _isLoading(store.state.rendezvousState),
-      withFailure: _isFailure(store.state.rendezvousState),
-      withEmptyMessage: _isEmpty(store.state.rendezvousState),
-      items: _items(state: store.state.rendezvousState),
-      onRetry: () => store.dispatch(RequestRendezvousAction()),
+      withLoading: rendezvousState.isLoading() || rendezvousState.isNotInitialized(),
+      withFailure: rendezvousState.isFailure(),
+      withEmptyMessage: _isEmpty(rendezvousState),
+      items: _items(state: rendezvousState),
+      onRetry: () => store.dispatch(RendezvousAction.request(Void)),
     );
   }
 }
 
-bool _isLoading(RendezvousState state) => state is RendezvousLoadingState || state is RendezvousNotInitializedState;
+bool _isEmpty(State<List<Rendezvous>> state) => state.isSuccess() && state.getResultOrThrow().isEmpty;
 
-bool _isFailure(RendezvousState state) => state is RendezvousFailureState;
-
-bool _isEmpty(RendezvousState state) => state is RendezvousSuccessState && state.rendezvous.isEmpty;
-
-List<RendezvousViewModel> _items({required RendezvousState state}) {
-  if (state is RendezvousSuccessState) {
-    return state.rendezvous.map((rdv) => RendezvousViewModel.create(rdv)).toList();
-  }
+List<RendezvousViewModel> _items({required State<List<Rendezvous>> state}) {
+  if (state.isSuccess()) return state.getResultOrThrow().map((rdv) => RendezvousViewModel.create(rdv)).toList();
   return [];
 }

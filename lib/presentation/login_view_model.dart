@@ -1,7 +1,8 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:redux/redux.dart';
 
 enum LoginViewModelDisplayState { CONTENT, LOADER, FAILURE }
@@ -26,8 +27,8 @@ class LoginViewModel extends Equatable {
   List<Object?> get props => [displayState];
 }
 
-LoginViewModelDisplayState _displayState(LoginState state) {
-  if (state is LoginLoadingState) return LoginViewModelDisplayState.LOADER;
-  if (state is LoginFailureState) return LoginViewModelDisplayState.FAILURE;
+LoginViewModelDisplayState _displayState(State<User> state) {
+  if (state.isLoading()) return LoginViewModelDisplayState.LOADER;
+  if (state.isFailure()) return LoginViewModelDisplayState.FAILURE;
   return LoginViewModelDisplayState.CONTENT;
 }

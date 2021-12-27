@@ -1,17 +1,18 @@
+import 'package:pass_emploi_app/models/offre_emploi_details.dart';
+import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_details_actions.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/reducers/reducer.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_details_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 
-AppState offreEmploiDetailsReducer(AppState currentState, dynamic action) {
-  if (action is OffreEmploiDetailsLoadingAction) {
-    return currentState.copyWith(offreEmploiDetailsState: OffreEmploiDetailsState.loading());
-  } else if (action is OffreEmploiDetailsSuccessAction) {
-    return currentState.copyWith(offreEmploiDetailsState: OffreEmploiDetailsState.success(action.offre));
-  } else if (action is OffreEmploiDetailsFailureAction) {
-    return currentState.copyWith(offreEmploiDetailsState: OffreEmploiDetailsState.failure());
-  } else if (action is OffreEmploiDetailsIncompleteDataAction) {
-    return currentState.copyWith(offreEmploiDetailsState: OffreEmploiDetailsState.incompleteData(action.offre));
-  } else {
-    return currentState;
+class OffreEmploiDetailsReducer {
+  final Reducer<OffreEmploiDetails> offreEmploiDetailsReducer = Reducer<OffreEmploiDetails>();
+
+  State<OffreEmploiDetails> reduce(State<OffreEmploiDetails> currentState, OffreEmploiDetailsAction action) {
+    if (action is OffreEmploiDetailsIncompleteDataAction) {
+      return OffreEmploiDetailsIncompleteDataState(action.offre);
+    } else {
+      return offreEmploiDetailsReducer.reduce(currentState, action);
+    }
   }
 }

@@ -1,11 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
+import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/bootstrap_action.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
-import 'package:pass_emploi_app/redux/states/rendezvous_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 
 import '../doubles/dummies.dart';
 import '../doubles/fixtures.dart';
@@ -27,7 +28,7 @@ void main() {
       // Given
       factory.authenticator = AuthenticatorLoggedInStub();
       final store = factory.initializeReduxStore(initialState: AppState.initialState());
-      final result = store.onChange.firstWhere((element) => element.loginState is LoggedInState);
+      final result = store.onChange.firstWhere((element) => element.loginState.isSuccess());
       store.dispatch(BootstrapAction());
 
       // When
@@ -35,22 +36,22 @@ void main() {
 
       // Then
       final loginState = resultState.loginState;
-      expect(loginState, isA<LoggedInState>());
-      expect((loginState as LoggedInState).user, User(id: "id", firstName: "F", lastName: "L"));
+      expect(loginState.isSuccess(), isTrue);
+      expect(loginState.getResultOrThrow(), User(id: "id", firstName: "F", lastName: "L"));
     });
 
     test('user is not logged in if she was not previously logged in', () async {
       // Given
       factory.authenticator = AuthenticatorNotLoggedInStub();
       final store = factory.initializeReduxStore(initialState: AppState.initialState());
-      final result = store.onChange.firstWhere((element) => element.loginState is NotLoggedInState);
+      final result = store.onChange.firstWhere((element) => element.loginState is UserNotLoggedInState);
       store.dispatch(BootstrapAction());
 
       // When
       final AppState resultState = await result;
 
       // Then
-      expect(resultState.loginState, isA<NotLoggedInState>());
+      expect(resultState.loginState, isA<UserNotLoggedInState>());
     });
   });
 
@@ -59,8 +60,8 @@ void main() {
       // Given
       factory.authenticator = AuthenticatorLoggedInStub(expectedMode: AuthenticationMode.GENERIC);
       final store = factory.initializeReduxStore(initialState: AppState.initialState());
-      final displayedLoading = store.onChange.any((element) => element.loginState is LoginLoadingState);
-      final result = store.onChange.firstWhere((element) => element.loginState is LoggedInState);
+      final displayedLoading = store.onChange.any((element) => element.loginState.isLoading());
+      final result = store.onChange.firstWhere((element) => element.loginState.isSuccess());
       store.dispatch(RequestLoginAction(RequestLoginMode.GENERIC));
 
       // When
@@ -69,16 +70,15 @@ void main() {
       // Then
       expect(await displayedLoading, true);
       final loginState = resultState.loginState;
-      expect(loginState, isA<LoggedInState>());
-      expect((loginState as LoggedInState).user, User(id: "id", firstName: "F", lastName: "L"));
+      expect(loginState.getResultOrThrow(), User(id: "id", firstName: "F", lastName: "L"));
     });
 
     test('user is properly logged in when login successes in SIMILO authentication mode', () async {
       // Given
       factory.authenticator = AuthenticatorLoggedInStub(expectedMode: AuthenticationMode.SIMILO);
       final store = factory.initializeReduxStore(initialState: AppState.initialState());
-      final displayedLoading = store.onChange.any((element) => element.loginState is LoginLoadingState);
-      final result = store.onChange.firstWhere((element) => element.loginState is LoggedInState);
+      final displayedLoading = store.onChange.any((element) => element.loginState.isLoading());
+      final result = store.onChange.firstWhere((element) => element.loginState.isSuccess());
       store.dispatch(RequestLoginAction(RequestLoginMode.SIMILO));
 
       // When
@@ -87,16 +87,15 @@ void main() {
       // Then
       expect(await displayedLoading, true);
       final loginState = resultState.loginState;
-      expect(loginState, isA<LoggedInState>());
-      expect((loginState as LoggedInState).user, User(id: "id", firstName: "F", lastName: "L"));
+      expect(loginState.getResultOrThrow(), User(id: "id", firstName: "F", lastName: "L"));
     });
 
     test('user is not logged in when login fails', () async {
       // Given
       factory.authenticator = AuthenticatorNotLoggedInStub();
       final store = factory.initializeReduxStore(initialState: AppState.initialState());
-      final displayedLoading = store.onChange.any((element) => element.loginState is LoginLoadingState);
-      final result = store.onChange.firstWhere((element) => element.loginState is LoginFailureState);
+      final displayedLoading = store.onChange.any((element) => element.loginState.isLoading());
+      final result = store.onChange.firstWhere((element) => element.loginState.isFailure());
       store.dispatch(RequestLoginAction(RequestLoginMode.GENERIC));
 
       // When
@@ -104,7 +103,7 @@ void main() {
 
       // Then
       expect(await displayedLoading, true);
-      expect(resultState.loginState, isA<LoginFailureState>());
+      expect(resultState.loginState.isFailure(), isTrue);
     });
   });
 
@@ -114,8 +113,8 @@ void main() {
     factory.authenticator = authenticatorSpy;
     final store = factory.initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        loginState: LoginState.notLoggedIn(),
-        rendezvousState: RendezvousState.loading(),
+        loginState: UserNotLoggedInState(),
+        rendezvousState: State<List<Rendezvous>>.loading(),
       ),
     );
     final Future<AppState> newStateFuture = store.onChange.first;
@@ -125,8 +124,8 @@ void main() {
 
     // Then
     final newState = await newStateFuture;
-    expect(newState.loginState, isA<LoginNotInitializedState>());
-    expect(newState.rendezvousState, isA<RendezvousNotInitializedState>());
+    expect(newState.loginState.isNotInitialized(), isTrue);
+    expect(newState.rendezvousState.isNotInitialized(), isTrue);
     expect(authenticatorSpy.logoutCalled, isFalse);
   });
 
@@ -136,8 +135,8 @@ void main() {
     factory.authenticator = authenticatorSpy;
     final store = factory.initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        loginState: LoginState.notLoggedIn(),
-        rendezvousState: RendezvousState.loading(),
+        loginState: UserNotLoggedInState(),
+        rendezvousState: State<List<Rendezvous>>.loading(),
       ),
     );
     final Future<AppState> newStateFuture = store.onChange.first;
@@ -147,8 +146,8 @@ void main() {
 
     // Then
     final newState = await newStateFuture;
-    expect(newState.loginState, isA<LoginNotInitializedState>());
-    expect(newState.rendezvousState, isA<RendezvousNotInitializedState>());
+    expect(newState.loginState.isNotInitialized(), isTrue);
+    expect(newState.rendezvousState.isNotInitialized(), isTrue);
     expect(authenticatorSpy.logoutCalled, isTrue);
   });
 }

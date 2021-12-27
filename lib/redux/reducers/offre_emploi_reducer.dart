@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_stat
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 
-AppState offreEmploiReducer(AppState currentState, dynamic action) {
+AppState offreEmploiReducer(AppState currentState, OffreEmploiAction action) {
   if (action is SearchOffreEmploiAction) {
     return _storeSearchParameters(currentState, action);
   } else if (action is OffreEmploiSearchLoadingAction) {

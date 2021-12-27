@@ -1,11 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/message.dart';
+import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 
 import '../doubles/fixtures.dart';
@@ -18,7 +19,7 @@ void main() {
     final repository = ChatRepositoryStub();
     repository.onMessageStreamReturns([_mockMessage()]);
     factory.chatRepository = repository;
-    final store = factory.initializeReduxStore(initialState: loggedInAppState());
+    final store = factory.initializeReduxStore(initialState: loggedInState());
     final displayedLoading = store.onChange.any((element) => element.chatState is ChatLoadingState);
     final newState = store.onChange.firstWhere((element) => element.chatState is ChatSuccessState);
 
@@ -39,7 +40,7 @@ void main() {
     factory.chatRepository = repository;
     final store = factory.initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        loginState: LoginState.loggedIn(mockUser()),
+        loginState: State<User>.success(mockUser()),
         chatState: ChatSuccessState([_mockMessage('1')]),
       ),
     );
@@ -62,7 +63,7 @@ void main() {
         final repository = ChatRepositoryStub();
         repository.onChatStatusStreamReturns(info);
         factory.chatRepository = repository;
-        final store = factory.initializeReduxStore(initialState: loggedInAppState());
+        final store = factory.initializeReduxStore(initialState: loggedInState());
         final newStateFuture = store.onChange.firstWhere((e) => !(e.chatStatusState is ChatStatusNotInitializedState));
 
         // When

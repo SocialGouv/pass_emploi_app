@@ -1,13 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/presentation/immersion_search_view_model.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/immersion_search_actions.dart';
+import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/immersion_search_state.dart';
 import 'package:pass_emploi_app/redux/states/search_location_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
@@ -18,7 +19,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: AppState.initialState().copyWith(immersionSearchState: ImmersionSearchState.loading()),
+      initialState: AppState.initialState().copyWith(immersionSearchState: State<List<Immersion>>.loading()),
     );
 
     // When
@@ -32,7 +33,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: AppState.initialState().copyWith(immersionSearchState: ImmersionSearchState.failure()),
+      initialState: AppState.initialState().copyWith(immersionSearchState: State<List<Immersion>>.failure()),
     );
 
     // When
@@ -47,7 +48,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: AppState.initialState().copyWith(immersionSearchState: ImmersionSearchState.success([])),
+      initialState: AppState.initialState().copyWith(immersionSearchState: State<List<Immersion>>.success([])),
     );
 
     // When
@@ -63,7 +64,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        immersionSearchState: ImmersionSearchState.success([mockImmersion()]),
+        immersionSearchState: State<List<Immersion>>.success([mockImmersion()]),
       ),
     );
 
@@ -130,10 +131,9 @@ main() {
 
     viewModel.onSearchingRequest("code-rome", mockLocation());
 
-    expect(store.dispatchedAction, isA<SearchImmersionAction>());
-    final action = (store.dispatchedAction as SearchImmersionAction);
-    expect(action.codeRome, "code-rome");
-    expect(action.location, mockLocation());
+    expect((store.dispatchedAction as ImmersionAction).isRequest(), isTrue);
+    expect((store.dispatchedAction as ImmersionAction).getRequestOrThrow().codeRome, "code-rome");
+    expect((store.dispatchedAction as ImmersionAction).getRequestOrThrow().location, mockLocation());
   });
 
   test('View model triggers ImmersionSearchFailureAction when onSearchingRequest is performed with null params', () {
@@ -142,6 +142,6 @@ main() {
 
     viewModel.onSearchingRequest(null, null);
 
-    expect(store.dispatchedAction, isA<ImmersionSearchFailureAction>());
+    expect((store.dispatchedAction as ImmersionAction).isFailure(), isTrue);
   });
 }

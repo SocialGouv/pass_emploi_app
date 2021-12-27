@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/bootstrap_action.dart';
 import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
+import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:redux/redux.dart';
@@ -26,32 +27,32 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
     } else if (action is RequestLogoutAction) {
       _logout(store, action.logoutRequester);
       _firebaseAuthWrapper.signOut();
-    } else if (action is LoggedInAction) {
-      _loginToFirebase(action);
+    } else if (action is LoginAction && action.isSuccess()) {
+      _loginToFirebase(action.getResultOrThrow().id);
     }
   }
 
   void _checkIfUserIsLoggedIn(Store<AppState> store) async {
     if (_authenticator.isLoggedIn()) {
-      _dispatchLoggedInAction(store);
+      _dispatchLoginSuccess(store);
     } else {
       store.dispatch(NotLoggedInAction());
     }
   }
 
   void _logUser(Store<AppState> store, RequestLoginMode mode) async {
-    store.dispatch(LoginLoadingAction());
+    store.dispatch(LoginAction.loading());
     if (await _authenticator.login(_getAuthenticationMode(mode))) {
-      _dispatchLoggedInAction(store);
+      _dispatchLoginSuccess(store);
     } else {
-      store.dispatch(LoginFailureAction());
+      store.dispatch(LoginAction.failure());
     }
   }
 
-  void _dispatchLoggedInAction(Store<AppState> store) {
+  void _dispatchLoginSuccess(Store<AppState> store) {
     final AuthIdToken idToken = _authenticator.idToken()!;
     final user = User(id: idToken.userId, firstName: idToken.firstName, lastName: idToken.lastName);
-    store.dispatch(LoggedInAction(user));
+    store.dispatch(LoginAction.success(user));
   }
 
   void _logout(Store<AppState> store, LogoutRequester logoutRequester) async {
@@ -69,8 +70,8 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
-  Future<void> _loginToFirebase(LoggedInAction action) async {
-    final token = await _firebaseAuthRepository.getFirebaseToken(action.user.id);
+  Future<void> _loginToFirebase(String userId) async {
+    final token = await _firebaseAuthRepository.getFirebaseToken(userId);
     if (token != null) _firebaseAuthWrapper.signInWithCustomToken(token);
   }
 }

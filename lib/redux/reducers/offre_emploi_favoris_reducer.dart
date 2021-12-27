@@ -3,8 +3,8 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.dart';
 
-AppState offreEmploiFavorisReducer(AppState currentState, dynamic action) {
-  if (action is OffreEmploisFavorisIdLoadedAction) {
+AppState offreEmploiFavorisReducer(AppState currentState, OffreEmploiFavorisAction action) {
+  if (action is OffreEmploiFavorisIdLoadedAction) {
     var newState = OffreEmploiFavorisState.idsLoaded(action.favorisId);
     return currentState.copyWith(offreEmploiFavorisState: newState);
   } else if (action is OffreEmploiUpdateFavoriLoadingAction) {
@@ -13,16 +13,16 @@ AppState offreEmploiFavorisReducer(AppState currentState, dynamic action) {
     return _updateSuccessState(currentState, action);
   } else if (action is OffreEmploiUpdateFavoriFailureAction) {
     return _updateFailureState(currentState, action);
-  } else if (action is OffreEmploisFavorisLoadedAction) {
+  } else if (action is OffreEmploiFavorisLoadedAction) {
     return currentState.copyWith(offreEmploiFavorisState: _updateWithData(currentState, action));
-  } else if (action is OffreEmploisFavorisFailureAction) {
+  } else if (action is OffreEmploiFavorisFailureAction) {
     return currentState.copyWith(offreEmploiFavorisState: OffreEmploiFavorisState.notInitialized());
   } else {
     return currentState;
   }
 }
 
-OffreEmploiFavorisState _updateWithData(AppState currentState, OffreEmploisFavorisLoadedAction action) {
+OffreEmploiFavorisState _updateWithData(AppState currentState, OffreEmploiFavorisLoadedAction action) {
   return OffreEmploiFavorisState.withMap(action.favoris.keys.toSet(), action.favoris);
 }
 

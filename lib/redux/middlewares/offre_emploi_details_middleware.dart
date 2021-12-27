@@ -1,3 +1,4 @@
+import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_details_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
@@ -12,30 +13,27 @@ class OffreEmploiDetailsMiddleware extends MiddlewareClass<AppState> {
   @override
   call(Store<AppState> store, dynamic action, NextDispatcher next) async {
     next(action);
-    if (action is GetOffreEmploiDetailsAction) {
-      store.dispatch(OffreEmploiDetailsLoadingAction());
-      final result = await _repository.getOffreEmploiDetails(offreId: action.offreId);
+    if (action is OffreEmploiDetailsAction && action.isRequest()) {
+      final offreId = action.getRequestOrThrow();
+      store.dispatch(OffreEmploiDetailsAction.loading());
+      final result = await _repository.getOffreEmploiDetails(offreId: offreId);
       if (result.offreEmploiDetails != null) {
-        store.dispatch(OffreEmploiDetailsSuccessAction(result.offreEmploiDetails!));
+        store.dispatch(OffreEmploiDetailsAction.success(result.offreEmploiDetails!));
       } else {
-        _dispatchIncompleteDataOrError(store, result, action);
+        _dispatchIncompleteDataOrError(store, result, offreId);
       }
     }
   }
 
-  void _dispatchIncompleteDataOrError(
-    Store<AppState> store,
-    OffreEmploiDetailsResponse result,
-    GetOffreEmploiDetailsAction action,
-  ) {
+  void _dispatchIncompleteDataOrError(Store<AppState> store, OffreEmploiDetailsResponse result, String offreId) {
     var favorisState = store.state.offreEmploiFavorisState;
     if (result.isOffreNotFound &&
         favorisState is OffreEmploiFavorisLoadedState &&
         favorisState.data != null &&
-        favorisState.data![action.offreId] != null) {
-      store.dispatch(OffreEmploiDetailsIncompleteDataAction(favorisState.data![action.offreId]!));
+        favorisState.data![offreId] != null) {
+      store.dispatch(OffreEmploiDetailsIncompleteDataAction(favorisState.data![offreId]!));
     } else {
-      store.dispatch(OffreEmploiDetailsFailureAction());
+      store.dispatch(OffreEmploiDetailsAction.failure());
     }
   }
 }
