@@ -96,6 +96,18 @@ class Strings {
 
   // Immersions
   static String immersionsTitle = "Offres d'immersion";
+  static String immersionError = "Erreur lors de la récupération de l'offre d'immersion. Veuillez réessayer";
+  static String immersionNonVolontaireExplanation =
+      "Cette entreprise peut recruter sur ce métier et être intéressée pour vous vous recevoir en immersion.";
+  static String immersionVolontaireExplanation = "Cette entreprise recherche activement des candidats à l’immersion.";
+  static String immersionUnknownContactModeExplanation =
+      "Contactez-la en expliquant votre projet professionnel et vos motivations.";
+  static String immersionPhoneContactModeExplanation =
+      "Contactez-la par téléphone en expliquant votre projet professionnel et vos motivations.";
+  static String immersionMailContactModeExplanation =
+      "Contactez-la par e-mail en expliquant votre projet professionnel et vos motivations. Vous n’avez pas besoin d’envoyer un CV.";
+  static String immersionInPersonContactModeExplanation =
+      "Rendez-vous directement sur place pour expliquer votre projet professionnel et vos motivations.";
 
   // Solutions
   static String searchingPageTitle = "Recherche de solutions";

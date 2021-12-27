@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-enum ImmersionContactMode { EMAIL, PHONE, IN_PERSON, UNKNOWN }
+enum ImmersionContactMode { MAIL, PHONE, IN_PERSON, UNKNOWN }
 
 class ImmersionContact extends Equatable {
   final String firstName;
@@ -35,7 +35,7 @@ class ImmersionContact extends Equatable {
 }
 
 ImmersionContactMode _getContractMode(String json) {
-  if (json == 'EMAIL') return ImmersionContactMode.EMAIL;
+  if (json == 'EMAIL') return ImmersionContactMode.MAIL;
   if (json == 'PHONE') return ImmersionContactMode.PHONE;
   if (json == 'IN_PERSON') return ImmersionContactMode.IN_PERSON;
   return ImmersionContactMode.UNKNOWN;

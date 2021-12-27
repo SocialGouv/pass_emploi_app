@@ -7,7 +7,7 @@ class ImmersionDetails extends Equatable {
   final String nomEtablissement;
   final String secteurActivite;
   final String ville;
-  final String adresse;
+  final String address;
   final bool isVolontaire;
   final ImmersionContact? contact;
 
@@ -17,7 +17,7 @@ class ImmersionDetails extends Equatable {
     required this.nomEtablissement,
     required this.secteurActivite,
     required this.ville,
-    required this.adresse,
+    required this.address,
     required this.isVolontaire,
     required this.contact,
   });
@@ -29,12 +29,12 @@ class ImmersionDetails extends Equatable {
       nomEtablissement: json['nomEtablissement'],
       secteurActivite: json['secteurActivite'],
       ville: json['ville'],
-      adresse: json['adresse'],
+      address: json['adresse'],
       isVolontaire: json['estVolontaire'] as bool,
       contact: json['contact'] != null ? ImmersionContact.fromJson(json['contact']) : null,
     );
   }
 
   @override
-  List<Object?> get props => [id, metier, nomEtablissement, secteurActivite, ville, adresse, isVolontaire, contact];
+  List<Object?> get props => [id, metier, nomEtablissement, secteurActivite, ville, address, isVolontaire, contact];
 }

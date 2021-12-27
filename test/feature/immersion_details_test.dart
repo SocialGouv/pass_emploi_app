@@ -25,7 +25,7 @@ main() {
     // Then
     expect(await displayedLoading, isTrue);
     final successState = await successStateFuture;
-    expect(successState.immersionDetailsState.getResultOrThrow(), mockImmersionDetails());
+    expect(successState.immersionDetailsState.getResultOrThrow(), _mockImmersionDetails());
   });
 
   test("immersion should be loaded and error displayed when repository returns null", () async {
@@ -68,7 +68,7 @@ class ImmersionDetailsRepositorySuccessStub extends ImmersionDetailsRepository {
 
   @override
   Future<ImmersionDetails?> fetch(String userId, String request) async {
-    return request == "immersion-id" ? mockImmersionDetails() : null;
+    return request == "immersion-id" ? _mockImmersionDetails() : null;
   }
 }
 
@@ -79,4 +79,17 @@ class ImmersionDetailsRepositoryFailureStub extends ImmersionDetailsRepository {
   Future<ImmersionDetails?> fetch(String userId, String request) async {
     return null;
   }
+}
+
+ImmersionDetails _mockImmersionDetails() {
+  return ImmersionDetails(
+    id: "",
+    metier: "",
+    nomEtablissement: "",
+    secteurActivite: "",
+    ville: "",
+    address: "",
+    isVolontaire: true,
+    contact: null,
+  );
 }

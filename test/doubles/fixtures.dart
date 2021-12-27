@@ -2,7 +2,6 @@ import 'package:http/http.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
@@ -88,14 +87,3 @@ Configuration configuration() => Configuration(
 Location mockLocation() => Location(libelle: "", code: "", type: LocationType.DEPARTMENT);
 
 Immersion mockImmersion() => Immersion(id: "", metier: "", nomEtablissement: "", secteurActivite: "", ville: "");
-
-ImmersionDetails mockImmersionDetails() => ImmersionDetails(
-      id: "",
-      metier: "",
-      nomEtablissement: "",
-      secteurActivite: "",
-      ville: "",
-      adresse: "",
-      isVolontaire: true,
-      contact: null,
-    );

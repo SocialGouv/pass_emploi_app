@@ -31,7 +31,7 @@ void main() {
         nomEtablissement: "CTRE SOINS SUITE ET READAPTAT EN ADDICTO",
         secteurActivite: "xxxx",
         ville: "xxxx",
-        adresse: "Service des ressources humaines, 40 RUE DU DEPUTE HALLEZ, 67500 HAGUENAU",
+        address: "Service des ressources humaines, 40 RUE DU DEPUTE HALLEZ, 67500 HAGUENAU",
         isVolontaire: false,
         contact: null,
       ),
@@ -59,7 +59,7 @@ void main() {
         nomEtablissement: "GSF SATURNE",
         secteurActivite: "xxxx",
         ville: "xxxx",
-        adresse: "4 RUE DES FRERES LUMIERE 67170 BRUMATH",
+        address: "4 RUE DES FRERES LUMIERE 67170 BRUMATH",
         isVolontaire: true,
         contact: ImmersionContact(
           lastName: "PHILIPPE",
@@ -67,7 +67,7 @@ void main() {
           phone: "",
           mail: "gsf-responsables@ch-bischwiller.fr",
           role: "Responsable Nettoyage",
-          mode: ImmersionContactMode.EMAIL,
+          mode: ImmersionContactMode.MAIL,
         ),
       ),
     );
