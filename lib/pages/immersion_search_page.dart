@@ -116,16 +116,15 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         primaryActionButton(
-          onPressed: (_isLoading(viewModel) &&
-                  !_metierFormKey.currentState!.validate() &&
-                  !_locationFormKey.currentState!.validate())
-              ? null
-              : () => _onSearchButtonPressed(viewModel),
           label: Strings.searchButton,
+          onPressed: !_isLoading(viewModel) && _isFormValid() ? () => _onSearchButtonPressed(viewModel) : null,
         ),
       ],
     );
   }
+
+  bool _isFormValid() =>
+      (_metierFormKey.currentState?.validate() == true) && (_locationFormKey.currentState?.validate() == true);
 
   bool _isLoading(ImmersionSearchViewModel viewModel) {
     return viewModel.displayState == ImmersionSearchDisplayState.SHOW_LOADER;

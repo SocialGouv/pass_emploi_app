@@ -49,7 +49,7 @@ class MetierAutocomplete extends StatelessWidget {
           if (value.isEmpty) onSelectMetier("");
         },
         validator: (value) {
-          if (value == null || value.isEmpty) {
+          if (value == null || value.isEmpty || _metierRepository.getMetiers(value).isEmpty) {
             return Strings.immersionMetierError;
           }
           return null;

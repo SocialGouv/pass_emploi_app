@@ -16,7 +16,7 @@ class LocationAutocomplete extends StatelessWidget {
   final String? Function() getPreviouslySelectedTitle;
   final List<LocationViewModel> locationViewModels;
   final String hint;
-  final GlobalKey<FormState> formKey;
+  final GlobalKey<FormState>? formKey;
 
   final Debouncer _debouncer = Debouncer(duration: Duration(milliseconds: 200));
 
@@ -87,7 +87,7 @@ class LocationAutocomplete extends StatelessWidget {
                 decoration: _inputDecoration(hint),
                 focusNode: focusNode,
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
+                  if (formKey != null && (value == null || value.isEmpty)) {
                     return Strings.immersionVilleError;
                   }
                   return null;

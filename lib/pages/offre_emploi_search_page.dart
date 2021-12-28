@@ -66,7 +66,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
             locationViewModels: viewModel.locations,
             hint: Strings.jobLocationHint,
             getPreviouslySelectedTitle: () => _selectedLocationViewModel?.title,
-            formKey: GlobalKey<FormState>(),
+            formKey: null,
           ),
           _separator(),
           Center(
