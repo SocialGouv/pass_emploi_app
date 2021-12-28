@@ -59,6 +59,7 @@ class ChatRepository {
             })
             ..update(_chatCollection(chatDocumentId), {
               'lastMessageContent': encryptedMessage.base64Message,
+              'lastMessageIv': encryptedMessage.base64InitializationVector,
               'lastMessageSentBy': "jeune",
               'lastMessageSentAt': messageCreationDate,
               'seenByConseiller': false,
