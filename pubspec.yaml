@@ -12,7 +12,6 @@ dependencies:
   # Flutter
   flutter:
     sdk: flutter
-  shared_preferences: '2.0.7'
   flutter_svg: '0.22.0'
   flutter_redux: '0.8.2'
   package_info: '2.0.2'
