@@ -10,11 +10,13 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/action_buttons.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/immersion_tags.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ImmersionDetailsPage extends TraceableStatelessWidget {
   final String _immersionId;
@@ -80,6 +82,10 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
             ),
           ),
         ),
+        Align(
+          child: _footer(context, "url"),
+          alignment: Alignment.bottomCenter,
+        )
       ],
     );
   }
@@ -97,6 +103,32 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
           ),
         Text(viewModel.contactInformation, style: TextStyles.textSmRegular()),
       ],
+    );
+  }
+
+  //geo:0,0?q=my+street+address
+  //Service des ressources humaines, 40 RUE DU DEPUTE HALLEZ, 67500 HAGUENAU
+
+  String? encodeQueryParameters(Map<String, String> params) {
+    return params.entries.map((e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}').join('&');
+  }
+
+  Widget _footer(BuildContext context, String url) {
+    final Uri uri = Uri(
+      scheme: 'geo',
+      path: '0,0',
+      query: encodeQueryParameters(
+          <String, String>{'q': 'Service des ressources humaines, 40 RUE DU DEPUTE HALLEZ, 67500 HAGUENAU'}),
+    );
+
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        children: [
+          Expanded(child: actionButton(onPressed: () => launch(uri.toString()), label: Strings.postulerButtonTitle)),
+        ],
+      ),
     );
   }
 }
