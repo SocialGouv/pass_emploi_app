@@ -26,6 +26,7 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
           keyWords: action.keywords,
           location: action.location,
           pageToLoad: 1,
+          filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
         );
       } else if (action is RequestMoreOffreEmploiSearchResultsAction &&
           parametersState is OffreEmploiSearchParametersInitializedState &&
@@ -36,6 +37,17 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
           keyWords: parametersState.keyWords,
           location: parametersState.location,
           pageToLoad: previousResultsState.loadedPage + 1,
+          filtres: parametersState.filtres,
+        );
+      } else if (action is OffreEmploiSearchUpdateFiltresAction &&
+          parametersState is OffreEmploiSearchParametersInitializedState) {
+        _resetSearchWithUpdatedFiltres(
+          store: store,
+          userId: userId,
+          keyWords: parametersState.keyWords,
+          location: parametersState.location,
+          pageToLoad: 1,
+          filtres: action.updatedFiltres,
         );
       }
     }
@@ -47,14 +59,11 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
     required String keyWords,
     required Location? location,
     required int pageToLoad,
+    required OffreEmploiSearchParametersFiltres filtres,
   }) async {
     store.dispatch(OffreEmploiSearchLoadingAction());
     final result = await _repository.search(
-      userId: userId,
-      keywords: keyWords,
-      location: location,
-      page: pageToLoad,
-    );
+        userId: userId, keywords: keyWords, location: location, page: pageToLoad, filtres: filtres);
     if (result != null) {
       store.dispatch(OffreEmploiSearchSuccessAction(
         offres: result.offres,
@@ -63,6 +72,28 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
       ));
     } else {
       store.dispatch(OffreEmploiSearchFailureAction());
+    }
+  }
+
+  Future<void> _resetSearchWithUpdatedFiltres({
+    required Store<AppState> store,
+    required String userId,
+    required String keyWords,
+    required Location? location,
+    required int pageToLoad,
+    required OffreEmploiSearchParametersFiltres filtres,
+  }) async {
+    store.dispatch(OffreEmploiSearchLoadingAction());
+    final result = await _repository.search(
+        userId: userId, keywords: keyWords, location: location, page: pageToLoad, filtres: filtres);
+    if (result != null) {
+      store.dispatch(OffreEmploiSearchWithUpdateFiltresSuccessAction(
+        offres: result.offres,
+        page: pageToLoad,
+        isMoreDataAvailable: result.isMoreDataAvailable,
+      ));
+    } else {
+      store.dispatch(OffreEmploiSearchWithUpdateFiltresFailureAction());
     }
   }
 }

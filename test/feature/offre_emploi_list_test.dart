@@ -200,6 +200,7 @@ class OffreEmploiRepositorySuccessWithNoMoreDataStub extends OffreEmploiReposito
     required String keywords,
     required Location? location,
     required int page,
+    required OffreEmploiSearchParametersFiltres filtres,
   }) async {
     return OffreEmploiSearchResponse(isMoreDataAvailable: false, offres: [mockOffreEmploi()]);
   }

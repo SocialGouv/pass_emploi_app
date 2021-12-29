@@ -32,3 +32,17 @@ class OffreEmploiSearchUpdateFiltresAction extends OffreEmploiAction {
 
   OffreEmploiSearchUpdateFiltresAction(this.updatedFiltres);
 }
+
+class OffreEmploiSearchWithUpdateFiltresSuccessAction extends OffreEmploiAction {
+  final List<OffreEmploi> offres;
+  final int page;
+  final bool isMoreDataAvailable;
+
+  OffreEmploiSearchWithUpdateFiltresSuccessAction({
+    required this.offres,
+    required this.page,
+    required this.isMoreDataAvailable,
+  });
+}
+
+class OffreEmploiSearchWithUpdateFiltresFailureAction extends OffreEmploiAction {}

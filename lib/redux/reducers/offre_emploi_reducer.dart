@@ -23,6 +23,17 @@ AppState offreEmploiReducer(AppState currentState, OffreEmploiAction action) {
       offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
       offreEmploiSearchResultsState: OffreEmploiSearchResultsState.notInitialized(),
     );
+  } else if (action is OffreEmploiSearchWithUpdateFiltresSuccessAction) {
+    return _storeOffresWithUpdatedFiltres(currentState, action);
+  } else if (action is OffreEmploiSearchUpdateFiltresAction) {
+    var parametersState = currentState.offreEmploiSearchParametersState;
+    if (parametersState is OffreEmploiSearchParametersInitializedState) {
+      return _storeUpdatedFiltresSearchParameters(currentState, parametersState, action);
+    } else {
+      return currentState;
+    }
+  } else if (action is OffreEmploiSearchWithUpdateFiltresFailureAction) {
+    return _treatFilterFailureAsSuccessSoThatDataIsDisplayed(currentState);
   } else {
     return currentState;
   }
@@ -59,3 +70,27 @@ AppState _storeInitialSearchParameters(AppState currentState, SearchOffreEmploiA
     filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
   ));
 }
+
+AppState _storeUpdatedFiltresSearchParameters(AppState currentState,
+    OffreEmploiSearchParametersInitializedState parametersState, OffreEmploiSearchUpdateFiltresAction action) {
+  return currentState.copyWith(
+      offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
+    keyWords: parametersState.keyWords,
+    location: parametersState.location,
+    filtres: action.updatedFiltres,
+  ));
+}
+
+AppState _storeOffresWithUpdatedFiltres(AppState currentState, OffreEmploiSearchWithUpdateFiltresSuccessAction action) {
+  return currentState.copyWith(
+    offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
+      offres: action.offres,
+      loadedPage: action.page,
+      isMoreDataAvailable: action.isMoreDataAvailable,
+    ),
+    offreEmploiSearchState: OffreEmploiSearchState.success(),
+  );
+}
+
+AppState _treatFilterFailureAsSuccessSoThatDataIsDisplayed(AppState currentState) =>
+    currentState.copyWith(offreEmploiSearchState: OffreEmploiSearchState.success());
