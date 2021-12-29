@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
@@ -79,7 +80,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
             itemCount: _itemCount(viewModel)),
         Align(
           alignment: Alignment.bottomCenter,
-          child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _filterButton()),
+          child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _filterButton(viewModel)),
         ),
       ]),
     );
@@ -168,10 +169,30 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
       return viewModel.items.length;
   }
 
-  Widget _filterButton() {
-    return primaryActionButton(
-      label: Strings.filter,
-      drawableRes: Drawables.icFilter,
+  Widget _filterButton(OffreEmploiSearchResultsViewModel viewModel) {
+    return primaryActionButtonWithCustomChild(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(Strings.filter),
+          SizedBox(width: 12),
+          SvgPicture.asset(Drawables.icFilter),
+          SizedBox(width: 12),
+          if (viewModel.filtresCount != null)
+            ClipRRect(
+              borderRadius: BorderRadius.circular(22),
+              child: Container(
+                width: 22,
+                height: 22,
+                color: AppColors.bluePurple,
+                alignment: Alignment.center,
+                child: Text(viewModel.filtresCount!.toString()),
+              ),
+            ),
+        ],
+      ),
+      //label: Strings.filter,
+      //drawableRes: Drawables.icFilter,
       onPressed: () => Navigator.push(context, OffreEmploiFiltresPage.materialPageRoute()),
     );
   }

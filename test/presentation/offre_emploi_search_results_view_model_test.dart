@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_results_view_model.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:redux/redux.dart';
@@ -90,6 +91,46 @@ main() {
     // Then
     expect(viewModel.displayState, DisplayState.FAILURE);
     expect(viewModel.items, _expectedViewModels());
+  });
+
+  test("create when state has no active filtre should not display a filtre number", () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(
+        offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
+          "keyWords",
+          mockLocation(),
+          OffreEmploiSearchParametersFiltres.noFiltres(),
+        ),
+      ),
+    );
+
+    // When
+    final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+    // Then
+    expect(viewModel.filtresCount, isNull);
+  });
+
+  test("create when state has no active filtre should not display a filtre number", () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(
+        offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
+          "keyWords",
+          mockLocation(),
+          OffreEmploiSearchParametersFiltres.withFiltres(distance: 40),
+        ),
+      ),
+    );
+
+    // When
+    final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+    // Then
+    expect(viewModel.filtresCount, 1);
   });
 }
 
