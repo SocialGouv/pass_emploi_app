@@ -106,27 +106,17 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
     );
   }
 
-  //geo:0,0?q=my+street+address
-  //Service des ressources humaines, 40 RUE DU DEPUTE HALLEZ, 67500 HAGUENAU
-
   String? encodeQueryParameters(Map<String, String> params) {
     return params.entries.map((e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}').join('&');
   }
 
   Widget _footer(BuildContext context, String url) {
-    final Uri uri = Uri(
-      scheme: 'geo',
-      path: '0,0',
-      query: encodeQueryParameters(
-          <String, String>{'q': 'Service des ressources humaines, 40 RUE DU DEPUTE HALLEZ, 67500 HAGUENAU'}),
-    );
-
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [
-          Expanded(child: actionButton(onPressed: () => launch(uri.toString()), label: Strings.postulerButtonTitle)),
+          Expanded(child: actionButton(onPressed: () => launch(url), label: Strings.postulerButtonTitle)),
         ],
       ),
     );
