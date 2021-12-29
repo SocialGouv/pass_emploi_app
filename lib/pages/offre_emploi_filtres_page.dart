@@ -51,26 +51,34 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
       child: Column(
         children: [
           SizedBox(height: 32),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
-            child: _sliderValue(viewModel),
-          ),
-          _slider(viewModel),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: _sliderLegende(),
-          ),
-          SizedBox(height: 32),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Container(height: 1, color: AppColors.bluePurple),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(24),
-            child: _stretchedButton(context, viewModel),
-          ),
+          if (viewModel.shouldDisplayDistanceFiltre) _distanceSlider(context, viewModel)
         ],
       ),
+    );
+  }
+
+  Column _distanceSlider(BuildContext context, OffreEmploiFiltresViewModel viewModel) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: _sliderValue(viewModel),
+        ),
+        _slider(viewModel),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: _sliderLegende(),
+        ),
+        SizedBox(height: 32),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Container(height: 1, color: AppColors.bluePurple),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(24),
+          child: _stretchedButton(context, viewModel),
+        ),
+      ],
     );
   }
 

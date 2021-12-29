@@ -64,7 +64,7 @@ main() {
       initialState: AppState.initialState().copyWith(
         offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
           "mots clés",
-          mockVilleLocation(),
+          mockCommuneLocation(),
           OffreEmploiSearchParametersFiltres.noFiltres(),
         ),
       ),
@@ -84,7 +84,7 @@ main() {
       initialState: AppState.initialState().copyWith(
         offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
           "mots clés",
-          mockVilleLocation(),
+          mockCommuneLocation(),
           OffreEmploiSearchParametersFiltres.withFiltres(distance: 20),
         ),
       ),
@@ -95,5 +95,45 @@ main() {
 
     // Then
     expect(viewModel.initialDistanceValue, 20);
+  });
+
+  test("create when search location is a departement should not display distance filter", () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(
+        offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
+          "mots clés",
+          mockLocation(),
+          OffreEmploiSearchParametersFiltres.noFiltres(),
+        ),
+      ),
+    );
+
+    // When
+    final viewModel = OffreEmploiFiltresViewModel.create(store);
+
+    // Then
+    expect(viewModel.shouldDisplayDistanceFiltre, isFalse);
+  });
+
+  test("create when search location is a commune should display distance filter", () {
+// Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(
+        offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
+          "mots clés",
+          mockCommuneLocation(),
+          OffreEmploiSearchParametersFiltres.noFiltres(),
+        ),
+      ),
+    );
+
+    // When
+    final viewModel = OffreEmploiFiltresViewModel.create(store);
+
+    // Then
+    expect(viewModel.shouldDisplayDistanceFiltre, isTrue);
   });
 }
