@@ -28,6 +28,7 @@ class OffreEmploiRepository {
       if (location?.type == LocationType.COMMUNE) "commune": location!.code,
       "page": page.toString(),
       "limit": PAGE_SIZE.toString(),
+      if (filtres.distance != null) "rayon": filtres.distance.toString(),
     });
     try {
       final response = await _httpClient.get(url, headers: await _headerBuilder.headers(userId: userId));
