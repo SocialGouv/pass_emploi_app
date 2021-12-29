@@ -3,8 +3,12 @@ import 'package:pass_emploi_app/models/location.dart';
 abstract class OffreEmploiSearchParametersState {
   OffreEmploiSearchParametersState._();
 
-  factory OffreEmploiSearchParametersState.initialized(String keyWords, Location? location) =>
-      OffreEmploiSearchParametersInitializedState(keyWords: keyWords, location: location);
+  factory OffreEmploiSearchParametersState.initialized(
+    String keyWords,
+    Location? location, {
+    Map<String, String> filters = const {},
+  }) =>
+      OffreEmploiSearchParametersInitializedState(keyWords: keyWords, location: location, filters: filters);
 
   factory OffreEmploiSearchParametersState.notInitialized() = OffreEmploiSearchParametersStateNotInitializedState;
 }

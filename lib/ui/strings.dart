@@ -100,7 +100,7 @@ class Strings {
   static String keyWordsTextField = "Métier, compétence...";
   static String jobLocationTitle = "Lieu de travail";
   static String jobLocationHint = "Ville, département…";
-  static String searchButton = "RECHERCHER";
+  static String searchButton = "Rechercher";
   static String offreDetails = "Détails de l'offre";
   static String offresTabTitle = "Recherche";
   static String boiteAOutilsTabTitle = "Boîte à outils";
