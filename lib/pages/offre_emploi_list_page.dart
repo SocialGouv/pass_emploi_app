@@ -191,8 +191,6 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
             ),
         ],
       ),
-      //label: Strings.filter,
-      //drawableRes: Drawables.icFilter,
       onPressed: () => Navigator.push(context, OffreEmploiFiltresPage.materialPageRoute()),
     );
   }

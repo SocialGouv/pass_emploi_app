@@ -76,7 +76,7 @@ TextButton primaryActionButtonWithCustomChild({
         }),
         shape: MaterialStateProperty.all(StadiumBorder()),
         overlayColor: MaterialStateProperty.resolveWith(
-          (states) {
+              (states) {
             return states.contains(MaterialState.pressed) ? rippleColor : null;
           },
         ),

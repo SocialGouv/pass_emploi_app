@@ -165,6 +165,9 @@ class Strings {
   // Offre emploi filtres
   static var filter = "Filtrer";
   static var offresEmploiFiltresTitle = "Filtrer les annonces";
+  static String searchRadius = "Dans un rayon de : ";
+  static var applyFiltres = "Appliquer les filtres";
+  static String kmFormat(int int) => "${int} km";
 
   // Offre emploi details
   static String offreDetailsError = "Erreur lors de la récupération de l'offre";

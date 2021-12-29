@@ -37,7 +37,7 @@ class OffreEmploiFiltresViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [displayState, initialDistanceValue];
+  List<Object?> get props => [displayState, shouldDisplayDistanceFiltre, initialDistanceValue];
 }
 
 bool _shouldDisplayDistanceFiltre(OffreEmploiSearchParametersState parametersState) {

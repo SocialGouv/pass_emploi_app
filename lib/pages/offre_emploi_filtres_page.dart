@@ -57,6 +57,12 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
     );
   }
 
+  FlatDefaultAppBar _appBar() {
+    return FlatDefaultAppBar(
+      title: Text(Strings.offresEmploiFiltresTitle, style: TextStyles.textLgMedium),
+    );
+  }
+
   Column _distanceSlider(BuildContext context, OffreEmploiFiltresViewModel viewModel) {
     return Column(
       children: [
@@ -82,17 +88,11 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
     );
   }
 
-  FlatDefaultAppBar _appBar() {
-    return FlatDefaultAppBar(
-      title: Text(Strings.offresEmploiFiltresTitle, style: TextStyles.textLgMedium),
-    );
-  }
-
   Widget _sliderValue(OffreEmploiFiltresViewModel viewModel) {
     return Row(
       children: [
-        Text("Dans un rayon de : ", style: TextStyles.textMdRegular),
-        Text("${_sliderValueToDisplay(viewModel).toInt()} km", style: TextStyles.textMdMedium),
+        Text(Strings.searchRadius, style: TextStyles.textMdRegular),
+        Text(Strings.kmFormat(_sliderValueToDisplay(viewModel).toInt()), style: TextStyles.textMdMedium),
       ],
     );
   }
@@ -130,8 +130,8 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text("0km", style: TextStyles.textSmMedium()),
-        Text("100km", style: TextStyles.textSmMedium()),
+        Text(Strings.kmFormat(0), style: TextStyles.textSmMedium()),
+        Text(Strings.kmFormat(100), style: TextStyles.textSmMedium()),
       ],
     );
   }
@@ -144,7 +144,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
           onPressed: _hasFormChanged && viewModel.displayState == OffreEmploiFiltresDisplayState.SUCCESS
               ? () => viewModel.updateFiltres(_sliderValueToDisplay(viewModel).toInt())
               : null,
-          label: "Appliquer les filtres",
+          label: Strings.applyFiltres,
         ),
       ],
     );

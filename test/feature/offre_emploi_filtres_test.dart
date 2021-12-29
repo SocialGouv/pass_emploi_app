@@ -70,7 +70,6 @@ main() {
 
     final displayedLoading =
         store.onChange.any((element) => element.offreEmploiSearchState is OffreEmploiSearchLoadingState);
-    // TODO BON EST-CE QU'ON FAIT VRAIMENT CA ?
     final failureButStillSuccessState =
         store.onChange.firstWhere((element) => element.offreEmploiSearchState is OffreEmploiSearchSuccessState);
 
