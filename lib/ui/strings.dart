@@ -141,6 +141,10 @@ class Strings {
       "· Prévenez votre conseiller\n"
       "· Remplissez une convention d’immersion avec lui";
   static String immersionContactTitle = "· Contact";
+  static String immersionPhoneButton = "Appeler";
+  static String immersionLocationButton = "Localiser l\'entreprise";
+  static String immersionEmailButton = "Envoyer un e-mail";
+  static String immersionEmailSubject = "Prise de contact au sujet de votre offre d'immersion";
 
   // Civic Service
   static String serviceCiviqueTitle = "Qu’est-ce que le service civique ?";

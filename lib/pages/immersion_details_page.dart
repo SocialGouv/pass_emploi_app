@@ -1,3 +1,5 @@
+import 'dart:io' as io;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
@@ -10,6 +12,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:pass_emploi_app/widgets/action_buttons.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -29,10 +32,11 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final platform = io.Platform.isAndroid ? Platform.ANDROID : Platform.IOS;
     return StoreConnector<AppState, ImmersionDetailsViewModel>(
       onInit: (store) => store.dispatch(ImmersionDetailsAction.request(_immersionId)),
       onDispose: (store) => store.dispatch(ImmersionDetailsAction.reset()),
-      converter: (store) => ImmersionDetailsViewModel.create(store),
+      converter: (store) => ImmersionDetailsViewModel.create(store, platform),
       builder: (context, viewModel) => _scaffold(_body(context, viewModel)),
       distinct: true,
     );

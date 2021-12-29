@@ -24,7 +24,7 @@ void main() {
   test('maps iOS', () {
     expect(
       UriHandler().mapsUri("55 Rue du Faubourg Saint-Honoré, 75008 Paris", Platform.IOS).toString(),
-      "https:////maps.apple.com/maps?q=55%20Rue%20du%20Faubourg%20Saint-Honor%C3%A9%2C%2075008%20Paris",
+      "https://maps.apple.com/maps?q=55+Rue+du+Faubourg+Saint-Honor%C3%A9%2C+75008+Paris",
     );
   });
 }

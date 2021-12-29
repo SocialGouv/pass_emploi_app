@@ -28,4 +28,5 @@ class Drawables {
   static String icClose = _assets + "ic_close" + _svg;
   static String icCalendar = _assets + "ic_calendar" + _svg;
   static String icClock = _assets + "ic_clock" + _svg;
+  static String icMail = _assets + "ic_mail" + _svg;
 }

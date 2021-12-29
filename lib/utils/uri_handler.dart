@@ -12,11 +12,11 @@ class UriHandler {
   }
 
   Uri mapsUri(String address, Platform platform) {
-    return Uri(
-      scheme: platform == Platform.ANDROID ? 'geo' : 'https',
-      path: platform == Platform.ANDROID ? '0,0' : '//maps.apple.com/maps',
-      query: _encodeQueryParameters({'q': address}),
-    );
+    if (platform == Platform.ANDROID) {
+      return Uri(scheme: 'geo', path: '0,0', query: _encodeQueryParameters({'q': address}));
+    } else {
+      return Uri.https('maps.apple.com', '/maps', {'q': address});
+    }
   }
 
   String? _encodeQueryParameters(Map<String, String> params) {
