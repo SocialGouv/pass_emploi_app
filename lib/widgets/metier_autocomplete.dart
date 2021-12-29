@@ -6,17 +6,25 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class MetierAutocomplete extends StatelessWidget {
-  final Function(String selectedMetierRome) onSelectMetier;
+  final Function(Metier? selectedMetier) onSelectMetier;
+  final String? Function() getPreviouslySelectedTitle;
+  final String? Function(String? input) validator;
+  final GlobalKey<FormState> formKey;
   final _metierRepository = MetierRepository();
 
-  MetierAutocomplete({required this.onSelectMetier}) : super();
+  MetierAutocomplete({
+    required this.onSelectMetier,
+    required this.validator,
+    required this.formKey,
+    required this.getPreviouslySelectedTitle,
+  }) : super();
 
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) => Autocomplete<Metier>(
         optionsBuilder: (textEditingValue) => _metierRepository.getMetiers(textEditingValue.text),
-        onSelected: (option) => onSelectMetier(option.codeRome),
+        onSelected: (option) => onSelectMetier(option),
         optionsViewBuilder: (context, onSelected, options) => _optionsView(constraints, options, onSelected),
         fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) =>
             _fieldView(textEditingController, focusNode, onFieldSubmitted),
@@ -29,21 +37,29 @@ class MetierAutocomplete extends StatelessWidget {
     FocusNode focusNode,
     VoidCallback onFieldSubmitted,
   ) {
-    return TextFormField(
-      scrollPadding: const EdgeInsets.only(bottom: 200.0),
-      maxLines: null,
-      keyboardType: TextInputType.multiline,
-      textInputAction: TextInputAction.done,
-      style: TextStyles.textSmMedium(color: AppColors.nightBlue),
-      controller: textEditingController,
-      decoration: _inputDecoration(Strings.immersionFieldHint),
-      focusNode: focusNode,
-      onFieldSubmitted: (String value) {
-        onFieldSubmitted();
-      },
-      onChanged: (value) {
-        if (value.isEmpty) onSelectMetier("");
-      },
+    return Focus(
+      onFocusChange: (hasFocus) => _putBackLastLocationSetOnFocusLost(hasFocus, textEditingController),
+      child: Form(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        key: formKey,
+        child: TextFormField(
+          scrollPadding: const EdgeInsets.only(bottom: 200.0),
+          maxLines: null,
+          keyboardType: TextInputType.multiline,
+          textInputAction: TextInputAction.done,
+          style: TextStyles.textSmMedium(color: AppColors.nightBlue),
+          controller: textEditingController,
+          decoration: _inputDecoration(Strings.immersionFieldHint),
+          focusNode: focusNode,
+          onFieldSubmitted: (String value) {
+            onFieldSubmitted();
+          },
+          onChanged: (value) {
+            if (value.isEmpty) onSelectMetier(null);
+          },
+          validator: validator,
+        ),
+      ),
     );
   }
 
@@ -83,6 +99,13 @@ class MetierAutocomplete extends StatelessWidget {
         ));
   }
 
+  void _putBackLastLocationSetOnFocusLost(bool hasFocus, TextEditingController textEditingController) {
+    var title = getPreviouslySelectedTitle();
+    if (!hasFocus && title != null) {
+      textEditingController.text = title;
+    }
+  }
+
   InputDecoration _inputDecoration(String textFieldString) {
     return InputDecoration(
       contentPadding: const EdgeInsets.only(left: 24, top: 18, bottom: 18),
@@ -95,6 +118,14 @@ class MetierAutocomplete extends StatelessWidget {
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
         borderSide: BorderSide(color: AppColors.nightBlue, width: 1.0),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: BorderSide(color: AppColors.errorRed, width: 1.0),
+      ),
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: BorderSide(color: AppColors.errorRed, width: 1.0),
       ),
     );
   }
