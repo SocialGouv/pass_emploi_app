@@ -85,7 +85,7 @@ ImmersionDetails _mockImmersionDetails() {
   return ImmersionDetails(
     id: "",
     metier: "",
-    nomEtablissement: "",
+    companyName: "",
     secteurActivite: "",
     ville: "",
     address: "",

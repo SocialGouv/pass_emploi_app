@@ -3,10 +3,13 @@ import 'package:pass_emploi_app/models/immersion_contact.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/immersion_details_view_model.dart';
+import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:redux/redux.dart';
+
+import '../doubles/spies.dart';
 
 main() {
   test('create when state is loading should set display state properly', () {
@@ -40,8 +43,8 @@ main() {
 
     // Then
     expect(viewModel.displayState, DisplayState.CONTENT);
-    expect(viewModel.metier, 'Métier');
-    expect(viewModel.nomEtablissement, 'Nom établissement');
+    expect(viewModel.title, 'Métier');
+    expect(viewModel.companyName, 'Nom établissement');
     expect(viewModel.secteurActivite, 'Secteur');
     expect(viewModel.ville, 'Ville');
     expect(viewModel.address, 'Adresse');
@@ -121,7 +124,7 @@ main() {
     });
   });
 
-  group('Contact label', () {
+  group('Contact label…', () {
     test('when contact is not set', () {
       // Given
       final store = _successStore(_mockImmersionWithContact(_mockContact(firstName: '', lastName: '', role: '')));
@@ -156,7 +159,7 @@ main() {
     });
   });
 
-  group('Contact information', () {
+  group('Contact information…', () {
     test('when contact is not set', () {
       // Given
       final store = _successStore(_mockImmersionWithContact(null, address: "Address"));
@@ -216,6 +219,16 @@ main() {
       expect(viewModel.contactInformation, 'Address\nMail\nPhone');
     });
   });
+
+  test('View model triggers ImmersionDetailsAction.request() when onRetry is performed', () {
+    final store = StoreSpy();
+    final viewModel = ImmersionDetailsViewModel.create(store);
+
+    viewModel.onRetry("immersion-id");
+
+    expect((store.dispatchedAction as ImmersionDetailsAction).isRequest(), isTrue);
+    expect((store.dispatchedAction as ImmersionDetailsAction).getRequestOrThrow(), "immersion-id");
+  });
 }
 
 Store<AppState> _store(State<ImmersionDetails> immersionDetailsState) {
@@ -234,7 +247,7 @@ ImmersionDetails _mockImmersion({
   return ImmersionDetails(
     id: '',
     metier: 'Métier',
-    nomEtablissement: 'Nom établissement',
+    companyName: 'Nom établissement',
     secteurActivite: 'Secteur',
     ville: 'Ville',
     address: 'Adresse',
@@ -254,7 +267,7 @@ ImmersionDetails _mockImmersionWithContact(ImmersionContact? contact, {String? a
   return ImmersionDetails(
     id: '',
     metier: '',
-    nomEtablissement: '',
+    companyName: '',
     secteurActivite: '',
     ville: '',
     address: address ?? '',

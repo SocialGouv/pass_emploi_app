@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/chat_message_widget.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/retry.dart';
 
 class ChatPage extends TraceableStatefulWidget {
   ChatPage() : super(name: AnalyticsScreenNames.chat);
@@ -80,7 +81,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
       case DisplayState.LOADING:
         return _loader();
       default:
-        return _failure(viewModel);
+        return Center(child: Retry(Strings.chatError, () => viewModel.onRetry()));
     }
   }
 
@@ -161,16 +162,4 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
   }
 
   Widget _loader() => Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
-
-  Widget _failure(ChatPageViewModel viewModel) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(Strings.chatError),
-          TextButton(onPressed: () => viewModel.onRetry(), child: Text(Strings.retry, style: TextStyles.textLgMedium)),
-        ],
-      ),
-    );
-  }
 }

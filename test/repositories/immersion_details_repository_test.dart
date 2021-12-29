@@ -28,7 +28,7 @@ void main() {
       ImmersionDetails(
         id: "3eaa17fb-a912-4610-863d-93c5db29ea0c",
         metier: "xxxx",
-        nomEtablissement: "CTRE SOINS SUITE ET READAPTAT EN ADDICTO",
+        companyName: "CTRE SOINS SUITE ET READAPTAT EN ADDICTO",
         secteurActivite: "xxxx",
         ville: "xxxx",
         address: "Service des ressources humaines, 40 RUE DU DEPUTE HALLEZ, 67500 HAGUENAU",
@@ -56,7 +56,7 @@ void main() {
       ImmersionDetails(
         id: "0e32e7bd-b1dd-468d-8faa-d82ae6f5a939",
         metier: "xxxx",
-        nomEtablissement: "GSF SATURNE",
+        companyName: "GSF SATURNE",
         secteurActivite: "xxxx",
         ville: "xxxx",
         address: "4 RUE DES FRERES LUMIERE 67170 BRUMATH",

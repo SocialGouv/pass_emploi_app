@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/models/immersion_contact.dart';
 class ImmersionDetails extends Equatable {
   final String id;
   final String metier;
-  final String nomEtablissement;
+  final String companyName;
   final String secteurActivite;
   final String ville;
   final String address;
@@ -14,7 +14,7 @@ class ImmersionDetails extends Equatable {
   ImmersionDetails({
     required this.id,
     required this.metier,
-    required this.nomEtablissement,
+    required this.companyName,
     required this.secteurActivite,
     required this.ville,
     required this.address,
@@ -26,7 +26,7 @@ class ImmersionDetails extends Equatable {
     return ImmersionDetails(
       id: json['id'],
       metier: json['metier'],
-      nomEtablissement: json['nomEtablissement'],
+      companyName: json['nomEtablissement'],
       secteurActivite: json['secteurActivite'],
       ville: json['ville'],
       address: json['adresse'],
@@ -36,5 +36,5 @@ class ImmersionDetails extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, metier, nomEtablissement, secteurActivite, ville, address, isVolontaire, contact];
+  List<Object?> get props => [id, metier, companyName, secteurActivite, ville, address, isVolontaire, contact];
 }

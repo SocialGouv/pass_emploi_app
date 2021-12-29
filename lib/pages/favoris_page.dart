@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/offre_emploi_list_item.dart';
+import 'package:pass_emploi_app/widgets/retry.dart';
 
 import 'offre_emploi_details_page.dart';
 
@@ -45,7 +46,7 @@ class FavorisPage extends TraceableStatelessWidget {
       case DisplayState.LOADING:
         return _loading();
       case DisplayState.FAILURE:
-        return _errorWithRetry(viewModel);
+        return Center(child: Retry(Strings.favorisError, () => viewModel.onRetry()));
       case DisplayState.EMPTY:
         return _empty();
     }
@@ -95,18 +96,6 @@ class FavorisPage extends TraceableStatelessWidget {
   }
 
   Widget _loading() => Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
-
-  Widget _errorWithRetry(OffreEmploiFavorisListViewModel viewModel) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(Strings.favorisError),
-          TextButton(onPressed: () => viewModel.onRetry(), child: Text(Strings.retry, style: TextStyles.textLgMedium)),
-        ],
-      ),
-    );
-  }
 
   Widget _empty() {
     return Center(child: Text(Strings.noFavoris, style: TextStyles.textSmRegular()));

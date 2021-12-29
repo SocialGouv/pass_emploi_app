@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/button.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
+import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/user_action_details_bottom_sheet.dart';
 
@@ -56,24 +57,13 @@ class _UserActionListPageState extends State<UserActionListPage> {
 
   Widget _body(BuildContext context, UserActionListPageViewModel viewModel) {
     if (viewModel.withLoading) return _loader();
-    if (viewModel.withFailure) return _failure(viewModel);
+    if (viewModel.withFailure) return Center(child: Retry(Strings.actionsError, () => viewModel.onRetry()));
+    ;
     if (viewModel.withEmptyMessage) return _empty();
     return _userActionsList(context, viewModel);
   }
 
   Widget _loader() => Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
-
-  Widget _failure(UserActionListPageViewModel viewModel) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(Strings.actionsError),
-          TextButton(onPressed: () => viewModel.onRetry(), child: Text(Strings.retry, style: TextStyles.textLgMedium)),
-        ],
-      ),
-    );
-  }
 
   Widget _empty() => Center(child: Text(Strings.noActionsYet, style: TextStyles.textSmRegular()));
 

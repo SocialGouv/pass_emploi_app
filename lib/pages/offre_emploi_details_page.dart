@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/action_buttons.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
+import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/share_button.dart';
 import 'package:pass_emploi_app/widgets/tags.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -25,12 +26,12 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   final bool shouldPopPageWhenFavoriIsRemoved;
 
   OffreEmploiDetailsPage._(this._offreId, {this.shouldPopPageWhenFavoriIsRemoved = false})
-      : super(name: AnalyticsScreenNames.detailsOffreEmploi);
+      : super(name: AnalyticsScreenNames.offreEmploiDetails);
 
   static MaterialPageRoute materialPageRoute(String id, {bool shouldPopPageWhenFavoriIsRemoved = false}) {
-    return MaterialPageRoute(
-        builder: (context) =>
-            OffreEmploiDetailsPage._(id, shouldPopPageWhenFavoriIsRemoved: shouldPopPageWhenFavoriIsRemoved));
+    return MaterialPageRoute(builder: (context) {
+      return OffreEmploiDetailsPage._(id, shouldPopPageWhenFavoriIsRemoved: shouldPopPageWhenFavoriIsRemoved);
+    });
   }
 
   @override
@@ -155,7 +156,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     final description = viewModel.description;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       _descriptionTitle(title: Strings.offreDetailsTitle, icon: SvgPicture.asset(Drawables.icOnePoint)),
-      _separator(8, 12),
+      SepLine(8, 12),
       if (description != null) Text(description, style: TextStyles.textSmRegular()),
       _spacer(30),
     ]);
@@ -172,11 +173,11 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _descriptionTitle(title: Strings.profileTitle, icon: SvgPicture.asset(Drawables.icTwoPoints)),
-        _separator(8, 20),
+        SepLine(8, 20),
         Text(Strings.experienceTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
         if (experience != null) _setRequiredElement(element: experience, criteria: viewModel.requiredExperience),
-        _separator(20, 20),
+        SepLine(20, 20),
         if (skills != null) skills,
         if (softSkills != null) softSkills,
         if (educations != null) educations,
@@ -195,7 +196,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _descriptionTitle(title: Strings.companyTitle, icon: SvgPicture.asset(Drawables.icThreePoints)),
-        _separator(8, 30),
+        SepLine(8, 30),
         if (companyName != null) _companyName(companyName: companyName, companyUrl: viewModel.companyUrl),
         if (companyAdapted) _blueTag(tagTitle: Strings.companyAdaptedTitle),
         if (companyAccessibility) _blueTag(tagTitle: Strings.companyAccessibilityTitle),
@@ -206,14 +207,6 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   }
 
   Widget _spacer(double _height) => SizedBox(height: _height);
-
-  Widget _separator(double spacerBefore, double spacerAfter) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      SizedBox(height: spacerBefore),
-      Container(height: 1, color: AppColors.borderGrey),
-      SizedBox(height: spacerAfter),
-    ]);
-  }
 
   Container _descriptionTitle({required String title, SvgPicture? icon}) {
     return Container(
@@ -235,7 +228,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       Text(Strings.companyDescriptionTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
       _spacer(12),
       Text(content, style: TextStyles.textSmRegular()),
-      _separator(12, 20),
+      SepLine(12, 20),
     ]);
   }
 
@@ -247,7 +240,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         Text(Strings.skillsTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
         for (final skill in skills) _setRequiredElement(element: skill.description, criteria: skill.requirement),
-        _separator(20, 20),
+        SepLine(20, 20),
       ],
     );
   }
@@ -264,7 +257,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
             padding: const EdgeInsets.only(bottom: 20),
             child: Text("· $soft", style: TextStyles.textSmRegular()),
           ),
-        _separator(20, 20),
+        SepLine(20, 20),
       ],
     );
   }
@@ -278,7 +271,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         _spacer(12),
         for (final education in educations)
           _setRequiredElement(element: education.label, criteria: education.requirement),
-        _separator(20, 20),
+        SepLine(20, 20),
       ],
     );
   }
@@ -291,7 +284,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         Text(Strings.languageTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
         for (final language in languages) _setRequiredElement(element: language.type, criteria: language.requirement),
-        _separator(20, 20),
+        SepLine(20, 20),
       ],
     );
   }
@@ -305,7 +298,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         _spacer(12),
         for (final licence in driverLicences)
           _setRequiredElement(element: licence.category, criteria: licence.requirement),
-        _separator(20, 20),
+        SepLine(20, 20),
       ],
     );
   }
