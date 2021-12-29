@@ -12,8 +12,13 @@ abstract class OffreEmploiSearchParametersState {
 class OffreEmploiSearchParametersInitializedState extends OffreEmploiSearchParametersState {
   final String keyWords;
   final Location? location;
+  final Map<String, String> filters;
 
-  OffreEmploiSearchParametersInitializedState({required this.keyWords, required this.location}) : super._();
+  OffreEmploiSearchParametersInitializedState({
+    required this.keyWords,
+    required this.location,
+    this.filters = const {},
+  }) : super._();
 }
 
 class OffreEmploiSearchParametersStateNotInitializedState extends OffreEmploiSearchParametersState {
