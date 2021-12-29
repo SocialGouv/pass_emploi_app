@@ -61,7 +61,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
           ),
           Padding(
             padding: const EdgeInsets.all(24),
-            child: _stretchedButton(context),
+            child: _stretchedButton(context, viewModel),
           ),
         ],
       ),
@@ -110,7 +110,8 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
     );
   }
 
-  double _sliderValueToDisplay(OffreEmploiFiltresViewModel viewModel) => _currentSliderValue != null ? _currentSliderValue! : viewModel.initialDistanceValue.toDouble();
+  double _sliderValueToDisplay(OffreEmploiFiltresViewModel viewModel) =>
+      _currentSliderValue != null ? _currentSliderValue! : viewModel.initialDistanceValue.toDouble();
 
   Widget _sliderLegende() {
     return Row(
@@ -122,12 +123,12 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
     );
   }
 
-  Widget _stretchedButton(BuildContext context) {
+  Widget _stretchedButton(BuildContext context, OffreEmploiFiltresViewModel viewModel) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         primaryActionButton(
-          onPressed: _hasFormChanged ? () => Navigator.pop(context) : null,
+          onPressed: _hasFormChanged ? () => viewModel.updateFiltres(_sliderValueToDisplay(viewModel).toInt()) : null,
           label: "Appliquer les filtres",
         ),
       ],
