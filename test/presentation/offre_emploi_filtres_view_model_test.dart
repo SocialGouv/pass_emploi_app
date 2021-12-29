@@ -3,11 +3,60 @@ import 'package:pass_emploi_app/presentation/offre_emploi_filtres_view_model.dar
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
 
 main() {
+  test("create when search state is success should display success", () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(
+        offreEmploiSearchState: OffreEmploiSearchState.success(),
+      ),
+    );
+
+    // When
+    final viewModel = OffreEmploiFiltresViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, OffreEmploiFiltresDisplayState.SUCCESS);
+  });
+
+  test("create when search state is loading should display loading", () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(
+        offreEmploiSearchState: OffreEmploiSearchState.loading(),
+      ),
+    );
+
+    // When
+    final viewModel = OffreEmploiFiltresViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, OffreEmploiFiltresDisplayState.LOADING);
+  });
+
+  test("create when search state is failure should display success", () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(
+        offreEmploiSearchState: OffreEmploiSearchState.failure(),
+      ),
+    );
+
+    // When
+    final viewModel = OffreEmploiFiltresViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, OffreEmploiFiltresDisplayState.FAILURE);
+  });
+
   test("create when state has no filter should set distance to 10km", () {
     // Given
     final store = Store<AppState>(

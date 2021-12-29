@@ -29,6 +29,12 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
       converter: (store) => OffreEmploiFiltresViewModel.create(store),
       builder: (context, viewModel) => _scaffold(context, viewModel),
       distinct: true,
+      onWillChange: (previousViewModel, newViewModel) {
+        if (previousViewModel?.displayState == OffreEmploiFiltresDisplayState.LOADING &&
+            newViewModel.displayState == OffreEmploiFiltresDisplayState.SUCCESS) {
+          Navigator.pop(context);
+        }
+      },
     );
   }
 
@@ -92,7 +98,6 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
         thumbColor: AppColors.nightBlue,
         activeTickMarkColor: AppColors.nightBlue,
         inactiveTickMarkColor: AppColors.bluePurple,
-        //overlayShape: SliderComponentShape.noThumb,
       ),
       child: Slider(
         value: _sliderValueToDisplay(viewModel),
@@ -128,7 +133,9 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         primaryActionButton(
-          onPressed: _hasFormChanged ? () => viewModel.updateFiltres(_sliderValueToDisplay(viewModel).toInt()) : null,
+          onPressed: _hasFormChanged && viewModel.displayState == OffreEmploiFiltresDisplayState.SUCCESS
+              ? () => viewModel.updateFiltres(_sliderValueToDisplay(viewModel).toInt())
+              : null,
           label: "Appliquer les filtres",
         ),
       ],
