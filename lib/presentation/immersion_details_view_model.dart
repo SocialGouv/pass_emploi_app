@@ -14,6 +14,7 @@ class ImmersionDetailsViewModel {
   final String address;
   final String explanationLabel;
   final String contactLabel;
+  final String contactInformation;
 
   ImmersionDetailsViewModel._({
     required this.displayState,
@@ -24,6 +25,7 @@ class ImmersionDetailsViewModel {
     required this.address,
     required this.explanationLabel,
     required this.contactLabel,
+    required this.contactInformation,
   });
 
   factory ImmersionDetailsViewModel.create(Store<AppState> store) {
@@ -37,19 +39,20 @@ class ImmersionDetailsViewModel {
       ville: immersion?.ville ?? '',
       address: immersion?.address ?? '',
       explanationLabel: immersion != null ? _explanationLabel(immersion) : '',
-      contactLabel: immersion != null ? _contractLabel(immersion) : '',
+      contactLabel: immersion != null ? _contactLabel(immersion) : '',
+      contactInformation: immersion != null ? _contactInformation(immersion) : '',
     );
   }
 }
 
 String _explanationLabel(ImmersionDetails immersion) {
   if (immersion.isVolontaire) {
-    return Strings.immersionVolontaireExplanation + ' ' + _contractModeLabel(immersion.contact?.mode);
+    return Strings.immersionVolontaireExplanation + ' ' + _contactModeLabel(immersion.contact?.mode);
   }
   return Strings.immersionNonVolontaireExplanation;
 }
 
-String _contractModeLabel(ImmersionContactMode? mode) {
+String _contactModeLabel(ImmersionContactMode? mode) {
   switch (mode) {
     case ImmersionContactMode.MAIL:
       return Strings.immersionMailContactModeExplanation;
@@ -63,10 +66,17 @@ String _contractModeLabel(ImmersionContactMode? mode) {
   }
 }
 
-String _contractLabel(ImmersionDetails immersion) {
+String _contactLabel(ImmersionDetails immersion) {
   final contact = immersion.contact;
   if (contact == null) return '';
   final nameLabel = (contact.firstName + ' ' + contact.lastName).trim();
   if (contact.role.isEmpty) return nameLabel;
   return nameLabel + '\n' + contact.role;
+}
+
+String _contactInformation(ImmersionDetails immersion) {
+  var contractInformation = immersion.address;
+  if (immersion.contact?.mail.isNotEmpty == true) contractInformation += "\n" + immersion.contact!.mail;
+  if (immersion.contact?.phone.isNotEmpty == true) contractInformation += "\n" + immersion.contact!.phone;
+  return contractInformation;
 }

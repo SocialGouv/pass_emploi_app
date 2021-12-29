@@ -155,6 +155,67 @@ main() {
       expect(viewModel.contactLabel, 'F L\nR');
     });
   });
+
+  group('Contact information', () {
+    test('when contact is not set', () {
+      // Given
+      final store = _successStore(_mockImmersionWithContact(null, address: "Address"));
+
+      // When
+      final viewModel = ImmersionDetailsViewModel.create(store);
+
+      // Then
+      expect(viewModel.contactInformation, 'Address');
+    });
+
+    test('when contact is set without mail and phone', () {
+      // Given
+      final store = _successStore(_mockImmersionWithContact(_mockContact(mail: '', phone: ''), address: "Address"));
+
+      // When
+      final viewModel = ImmersionDetailsViewModel.create(store);
+
+      // Then
+      expect(viewModel.contactInformation, 'Address');
+    });
+
+    test('when contact is set with mail', () {
+      // Given
+      final store = _successStore(_mockImmersionWithContact(_mockContact(mail: 'Mail', phone: ''), address: "Address"));
+
+      // When
+      final viewModel = ImmersionDetailsViewModel.create(store);
+
+      // Then
+      expect(viewModel.contactInformation, 'Address\nMail');
+    });
+
+    test('when contact is set with phone', () {
+      // Given
+      final store = _successStore(
+        _mockImmersionWithContact(_mockContact(mail: '', phone: 'Phone'), address: "Address"),
+      );
+
+      // When
+      final viewModel = ImmersionDetailsViewModel.create(store);
+
+      // Then
+      expect(viewModel.contactInformation, 'Address\nPhone');
+    });
+
+    test('when contact is set with mail and phone', () {
+      // Given
+      final store = _successStore(
+        _mockImmersionWithContact(_mockContact(mail: 'Mail', phone: 'Phone'), address: "Address"),
+      );
+
+      // When
+      final viewModel = ImmersionDetailsViewModel.create(store);
+
+      // Then
+      expect(viewModel.contactInformation, 'Address\nMail\nPhone');
+    });
+  });
 }
 
 Store<AppState> _store(State<ImmersionDetails> immersionDetailsState) {
@@ -189,26 +250,32 @@ ImmersionDetails _mockImmersion({
   );
 }
 
-ImmersionDetails _mockImmersionWithContact(ImmersionContact contact) {
+ImmersionDetails _mockImmersionWithContact(ImmersionContact? contact, {String? address}) {
   return ImmersionDetails(
     id: '',
     metier: '',
     nomEtablissement: '',
     secteurActivite: '',
     ville: '',
-    address: '',
+    address: address ?? '',
     isVolontaire: true,
     contact: contact,
   );
 }
 
-ImmersionContact _mockContact({required String firstName, required String lastName, required String role}) {
+ImmersionContact _mockContact({
+  String? firstName,
+  String? lastName,
+  String? role,
+  String? mail,
+  String? phone,
+}) {
   return ImmersionContact(
-    firstName: firstName,
-    lastName: lastName,
-    phone: '',
-    mail: '',
-    role: role,
+    firstName: firstName ?? '',
+    lastName: lastName ?? '',
+    phone: phone ?? '',
+    mail: mail ?? '',
+    role: role ?? '',
     mode: ImmersionContactMode.UNKNOWN,
   );
 }
