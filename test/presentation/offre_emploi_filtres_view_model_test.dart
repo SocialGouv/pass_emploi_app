@@ -16,7 +16,7 @@ main() {
         offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
           "mots clés",
           mockVilleLocation(),
-          filters: Map<String, String>(),
+          OffreEmploiSearchParametersFiltres.noFiltres(),
         ),
       ),
     );
@@ -36,7 +36,7 @@ main() {
         offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
           "mots clés",
           mockVilleLocation(),
-          filters: {"distance": "20"},
+          OffreEmploiSearchParametersFiltres.withFiltres(distance: 20),
         ),
       ),
     );

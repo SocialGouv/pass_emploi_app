@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 
 AppState offreEmploiReducer(AppState currentState, OffreEmploiAction action) {
   if (action is SearchOffreEmploiAction) {
-    return _storeSearchParameters(currentState, action);
+    return _storeInitialSearchParameters(currentState, action);
   } else if (action is OffreEmploiSearchLoadingAction) {
     return currentState.copyWith(offreEmploiSearchState: OffreEmploiSearchState.loading());
   } else if (action is OffreEmploiSearchSuccessAction) {
@@ -51,8 +51,11 @@ AppState _appendNewOffres(AppState currentState, OffreEmploiSearchResultsDataSta
   );
 }
 
-AppState _storeSearchParameters(AppState currentState, SearchOffreEmploiAction action) {
+AppState _storeInitialSearchParameters(AppState currentState, SearchOffreEmploiAction action) {
   return currentState.copyWith(
-      offreEmploiSearchParametersState:
-          OffreEmploiSearchParametersInitializedState(keyWords: action.keywords, location: action.location));
+      offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
+    keyWords: action.keywords,
+    location: action.location,
+    filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+  ));
 }

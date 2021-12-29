@@ -5,10 +5,10 @@ abstract class OffreEmploiSearchParametersState {
 
   factory OffreEmploiSearchParametersState.initialized(
     String keyWords,
-    Location? location, {
-    Map<String, String> filters = const {},
-  }) =>
-      OffreEmploiSearchParametersInitializedState(keyWords: keyWords, location: location, filters: filters);
+    Location? location,
+    OffreEmploiSearchParametersFiltres filtres,
+  ) =>
+      OffreEmploiSearchParametersInitializedState(keyWords: keyWords, location: location, filtres: filtres);
 
   factory OffreEmploiSearchParametersState.notInitialized() = OffreEmploiSearchParametersStateNotInitializedState;
 }
@@ -16,15 +16,37 @@ abstract class OffreEmploiSearchParametersState {
 class OffreEmploiSearchParametersInitializedState extends OffreEmploiSearchParametersState {
   final String keyWords;
   final Location? location;
-  final Map<String, String> filters;
+  final OffreEmploiSearchParametersFiltres filtres;
 
   OffreEmploiSearchParametersInitializedState({
     required this.keyWords,
     required this.location,
-    this.filters = const {},
+    required this.filtres,
   }) : super._();
 }
 
 class OffreEmploiSearchParametersStateNotInitializedState extends OffreEmploiSearchParametersState {
   OffreEmploiSearchParametersStateNotInitializedState() : super._();
+}
+
+class OffreEmploiSearchParametersFiltres {
+  final int? distance;
+
+  OffreEmploiSearchParametersFiltres._({
+    this.distance,
+  });
+
+  factory OffreEmploiSearchParametersFiltres.withFiltres({
+    int? distance,
+  }) {
+    return OffreEmploiSearchParametersFiltres._(
+      distance: distance,
+    );
+  }
+
+  factory OffreEmploiSearchParametersFiltres.noFiltres() {
+    return OffreEmploiSearchParametersFiltres._(
+      distance: null,
+    );
+  }
 }

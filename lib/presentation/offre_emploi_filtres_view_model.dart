@@ -20,8 +20,7 @@ class OffreEmploiFiltresViewModel extends Equatable {
 _distance(OffreEmploiSearchParametersState parametersState) {
   const defaultValue = 10;
   if (parametersState is OffreEmploiSearchParametersInitializedState) {
-    var distanceString = parametersState.filters["distance"];
-    return distanceString != null ? int.parse(distanceString) : defaultValue;
+    return parametersState.filtres.distance ?? defaultValue;
   } else {
     return defaultValue;
   }

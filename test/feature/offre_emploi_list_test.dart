@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
@@ -21,8 +20,11 @@ main() {
       final store = testStoreFactory.initializeReduxStore(
         initialState: loggedInState().copyWith(
           offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
-          offreEmploiSearchParametersState:
-              OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", location: null),
+          offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
+            keyWords: "boulanger patissier",
+            location: null,
+            filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+          ),
         ),
       );
 
@@ -51,8 +53,11 @@ main() {
       final store = testStoreFactory.initializeReduxStore(
         initialState: loggedInState().copyWith(
           offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
-          offreEmploiSearchParametersState:
-              OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", location: null),
+          offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
+            keyWords: "boulanger patissier",
+            location: null,
+            filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+          ),
         ),
       );
 
@@ -82,8 +87,11 @@ main() {
       final store = testStoreFactory.initializeReduxStore(
         initialState: loggedInState().copyWith(
           offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
-          offreEmploiSearchParametersState:
-              OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", location: null),
+          offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
+            keyWords: "boulanger patissier",
+            location: null,
+            filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+          ),
         ),
       );
 
@@ -112,8 +120,11 @@ main() {
           initialState: loggedInState().copyWith(
             offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
             offreEmploiSearchState: OffreEmploiSearchState.failure(),
-            offreEmploiSearchParametersState:
-                OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", location: null),
+            offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
+              keyWords: "boulanger patissier",
+              location: null,
+              filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+            ),
           ),
         );
 
@@ -143,8 +154,11 @@ main() {
           initialState: loggedInState().copyWith(
             offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
             offreEmploiSearchState: OffreEmploiSearchState.failure(),
-            offreEmploiSearchParametersState:
-                OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", location: null),
+            offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
+              keyWords: "boulanger patissier",
+              location: null,
+              filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+            ),
           ),
         );
 
