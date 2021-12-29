@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/pages/immersion_list_page.dart';
 import 'package:pass_emploi_app/presentation/immersion_search_view_model.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
@@ -25,7 +26,8 @@ class ImmersionSearchPage extends TraceableStatefulWidget {
 
 class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
   LocationViewModel? _selectedLocationViewModel;
-  String? _selectedMetier;
+  String? _selectedMetierCodeRome;
+  String? _selectedMetierTitle;
   final _metierFormKey = GlobalKey<FormState>();
   final _locationFormKey = GlobalKey<FormState>();
 
@@ -61,7 +63,16 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
           Text(Strings.metierCompulsoryLabel, style: TextStyles.textLgMedium),
           SizedBox(height: 24),
           MetierAutocomplete(
-              onSelectMetier: (selectedMetierRome) => _selectedMetier = selectedMetierRome, formKey: _metierFormKey),
+            onSelectMetier: (selectedMetier) => _setSelectedMetier(selectedMetier),
+            formKey: _metierFormKey,
+            getPreviouslySelectedTitle: () => _selectedMetierTitle,
+            validator: (value) {
+              if (value == null || value.isEmpty || _selectedMetierCodeRome == null) {
+                return Strings.immersionMetierError;
+              }
+              return null;
+            },
+          ),
           SizedBox(height: 24),
           Text(Strings.villeCompulsoryLabel, style: TextStyles.textLgMedium),
           SizedBox(height: 24),
@@ -72,6 +83,12 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
             hint: Strings.immersionFieldHint,
             getPreviouslySelectedTitle: () => _selectedLocationViewModel?.title,
             formKey: _locationFormKey,
+            validator: (value) {
+              if (value == null || value.isEmpty || _selectedLocationViewModel == null) {
+                return Strings.immersionVilleError;
+              }
+              return null;
+            },
           ),
           SizedBox(height: 24),
           _stretchedButton(viewModel),
@@ -93,6 +110,16 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
         ],
       ),
     );
+  }
+
+  _setSelectedMetier(Metier? selectedMetier) {
+    if (selectedMetier != null) {
+      _selectedMetierCodeRome = selectedMetier.codeRome;
+      _selectedMetierTitle = selectedMetier.libelle;
+    } else {
+      _selectedMetierCodeRome = null;
+      _selectedMetierTitle = null;
+    }
   }
 
   List<Widget> _collapsableContent() {
@@ -123,8 +150,9 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
     );
   }
 
-  bool _isFormValid() =>
-      (_metierFormKey.currentState?.validate() == true) && (_locationFormKey.currentState?.validate() == true);
+  bool _isFormValid() => _isMetierFormValid() && _locationFormKey.currentState?.validate() == true;
+
+  bool _isMetierFormValid() => _selectedMetierCodeRome != null && _metierFormKey.currentState?.validate() == true;
 
   bool _isLoading(ImmersionSearchViewModel viewModel) {
     return viewModel.displayState == ImmersionSearchDisplayState.SHOW_LOADER;
@@ -136,7 +164,7 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
   }
 
   void _onSearchButtonPressed(ImmersionSearchViewModel viewModel) {
-    viewModel.onSearchingRequest(_selectedMetier, _selectedLocationViewModel?.location);
+    viewModel.onSearchingRequest(_selectedMetierCodeRome, _selectedLocationViewModel?.location);
     Keyboard.dismiss(context);
   }
 }

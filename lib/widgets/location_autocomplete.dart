@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/debouncer.dart';
 import 'package:pass_emploi_app/utils/keyboard.dart';
@@ -14,6 +13,7 @@ class LocationAutocomplete extends StatelessWidget {
   final Function(String newLocationQuery) onInputLocation;
   final Function(LocationViewModel? locationViewModel) onSelectLocationViewModel;
   final String? Function() getPreviouslySelectedTitle;
+  final String? Function(String? input) validator;
   final List<LocationViewModel> locationViewModels;
   final String hint;
   final GlobalKey<FormState>? formKey;
@@ -27,6 +27,7 @@ class LocationAutocomplete extends StatelessWidget {
     required this.hint,
     required this.getPreviouslySelectedTitle,
     required this.formKey,
+    required this.validator,
   }) : super();
 
   @override
@@ -86,12 +87,7 @@ class LocationAutocomplete extends StatelessWidget {
                 controller: textEditingController,
                 decoration: _inputDecoration(hint),
                 focusNode: focusNode,
-                validator: (value) {
-                  if (formKey != null && (value == null || value.isEmpty)) {
-                    return Strings.immersionVilleError;
-                  }
-                  return null;
-                },
+                validator: validator,
               ),
             ),
           );

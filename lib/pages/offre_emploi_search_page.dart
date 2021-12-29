@@ -67,6 +67,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
             hint: Strings.jobLocationHint,
             getPreviouslySelectedTitle: () => _selectedLocationViewModel?.title,
             formKey: null,
+            validator: (value) => null,
           ),
           _separator(),
           Center(
