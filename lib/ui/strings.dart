@@ -162,6 +162,10 @@ class Strings {
   static String genericError = "Erreur lors de la recherche. Veuillez réessayer";
   static String loadMoreOffresError = "Erreur lors du chargement des offres";
 
+  // Offre emploi filtres
+  static var filter = "Filtrer";
+  static var offresEmploiFiltresTitle = "Filtrer les annonces";
+
   // Offre emploi details
   static String offreDetailsError = "Erreur lors de la récupération de l'offre";
   static String offreDetailsTitle = "Détail de l'offre";

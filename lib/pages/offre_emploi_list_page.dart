@@ -4,12 +4,15 @@ import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/pages/offre_emploi_filtres_page.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_results_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/offre_emploi_list_item.dart';
 
@@ -67,12 +70,18 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
       appBar: FlatDefaultAppBar(
         title: Text(Strings.offresEmploiTitle, style: TextStyles.textLgMedium),
       ),
-      body: ListView.separated(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-          controller: _scrollController,
-          itemBuilder: (context, index) => _buildItem(context, index, viewModel),
-          separatorBuilder: (context, index) => _listSeparator(),
-          itemCount: _itemCount(viewModel)),
+      body: Stack(children: [
+        ListView.separated(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+            controller: _scrollController,
+            itemBuilder: (context, index) => _buildItem(context, index, viewModel),
+            separatorBuilder: (context, index) => _listSeparator(),
+            itemCount: _itemCount(viewModel)),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _filterButton()),
+        ),
+      ]),
     );
   }
 
@@ -157,5 +166,13 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
       return viewModel.items.length + 1;
     else
       return viewModel.items.length;
+  }
+
+  Widget _filterButton() {
+    return primaryActionButton(
+      label: Strings.filter,
+      drawableRes: Drawables.icFilter,
+      onPressed: () => Navigator.push(context, OffreEmploiFiltresPage.materialPageRoute()),
+    );
   }
 }
