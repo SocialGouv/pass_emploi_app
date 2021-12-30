@@ -51,7 +51,7 @@ class _SearchAnnoncesPageState extends State<SearchAnnoncesPage> {
             label: Strings.immersionButton,
           ),
           SizedBox(width: 12),
-          carouselButton(
+          CarouselButton(
             isActive: _selectedIndex == _indexOfServiceCivique,
             onPressed: () => _updateIndex(_indexOfServiceCivique),
             label: Strings.serviceCiviqueButton,
