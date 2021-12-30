@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/user.dart';
@@ -37,6 +38,7 @@ class AppState extends Equatable {
   final State<List<UserAction>> userActionState;
   final State<List<Rendezvous>> rendezvousState;
   final State<List<Immersion>> immersionSearchState;
+  final State<ImmersionDetails> immersionDetailsState;
 
   AppState({
     required this.deepLinkState,
@@ -56,6 +58,7 @@ class AppState extends Equatable {
     required this.userActionState,
     required this.rendezvousState,
     required this.immersionSearchState,
+    required this.immersionDetailsState,
   });
 
   AppState copyWith({
@@ -76,6 +79,7 @@ class AppState extends Equatable {
     final State<List<Rendezvous>>? rendezvousState,
     final State<OffreEmploiDetails>? offreEmploiDetailsState,
     final State<List<Immersion>>? immersionSearchState,
+    final State<ImmersionDetails>? immersionDetailsState,
   }) {
     return AppState(
       deepLinkState: deepLinkState ?? this.deepLinkState,
@@ -95,6 +99,7 @@ class AppState extends Equatable {
       userActionState: userActionState ?? this.userActionState,
       rendezvousState: rendezvousState ?? this.rendezvousState,
       immersionSearchState: immersionSearchState ?? this.immersionSearchState,
+      immersionDetailsState: immersionDetailsState ?? this.immersionDetailsState,
     );
   }
 
@@ -117,6 +122,7 @@ class AppState extends Equatable {
       userActionState: State<List<UserAction>>.notInitialized(),
       rendezvousState: State<List<Rendezvous>>.notInitialized(),
       immersionSearchState: State<List<Immersion>>.notInitialized(),
+      immersionDetailsState: State<ImmersionDetails>.notInitialized(),
     );
   }
 
@@ -139,6 +145,7 @@ class AppState extends Equatable {
         userActionState,
         rendezvousState,
         immersionSearchState,
+        immersionDetailsState,
       ];
 
   @override

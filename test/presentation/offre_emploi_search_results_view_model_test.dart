@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_results_view_model.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
@@ -31,7 +32,7 @@ main() {
       final viewModel = OffreEmploiSearchResultsViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, OffreEmploiSearchResultsDisplayState.SHOW_CONTENT);
+      expect(viewModel.displayState, DisplayState.CONTENT);
       expect(viewModel.items, _expectedViewModels());
       expect(viewModel.displayLoaderAtBottomOfList, true);
     });
@@ -44,7 +45,7 @@ main() {
       final viewModel = OffreEmploiSearchResultsViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, OffreEmploiSearchResultsDisplayState.SHOW_CONTENT);
+      expect(viewModel.displayState, DisplayState.CONTENT);
       expect(viewModel.items, _expectedViewModels());
       expect(viewModel.displayLoaderAtBottomOfList, false);
     });
@@ -65,7 +66,7 @@ main() {
     final viewModel = OffreEmploiSearchResultsViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, OffreEmploiSearchResultsDisplayState.SHOW_LOADER);
+    expect(viewModel.displayState, DisplayState.LOADING);
     expect(viewModel.items, _expectedViewModels());
   });
 
@@ -87,7 +88,7 @@ main() {
     final viewModel = OffreEmploiSearchResultsViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, OffreEmploiSearchResultsDisplayState.SHOW_ERROR);
+    expect(viewModel.displayState, DisplayState.FAILURE);
     expect(viewModel.items, _expectedViewModels());
   });
 }

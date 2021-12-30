@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/redux/middlewares/action_logging_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/chat_middleware.dart';
@@ -20,6 +21,7 @@ import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
@@ -42,6 +44,7 @@ class StoreFactory {
   final OffreEmploiFavorisRepository offreEmploiFavorisRepository;
   final SearchLocationRepository searchLocationRepository;
   final ImmersionRepository immersionRepository;
+  final ImmersionDetailsRepository immersionDetailsRepository;
   final FirebaseAuthRepository firebaseAuthRepository;
   final FirebaseAuthWrapper firebaseAuthWrapper;
 
@@ -57,6 +60,7 @@ class StoreFactory {
     this.offreEmploiFavorisRepository,
     this.searchLocationRepository,
     this.immersionRepository,
+    this.immersionDetailsRepository,
     this.firebaseAuthRepository,
     this.firebaseAuthWrapper,
   );
@@ -78,6 +82,7 @@ class StoreFactory {
         SearchLocationMiddleware(searchLocationRepository),
         Middleware<void, List<Rendezvous>>(rendezvousRepository),
         Middleware<ImmersionRequest, List<Immersion>>(immersionRepository),
+        Middleware<String, ImmersionDetails>(immersionDetailsRepository),
         ..._debugMiddleware(),
       ],
     );

@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/user.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/login_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
@@ -17,7 +18,7 @@ void main() {
 
     final viewModel = LoginViewModel.create(store);
 
-    expect(viewModel.displayState, LoginViewModelDisplayState.LOADER);
+    expect(viewModel.displayState, DisplayState.LOADING);
   });
 
   test('View model displays FAILURE when login state is failure', () {
@@ -26,7 +27,7 @@ void main() {
 
     final viewModel = LoginViewModel.create(store);
 
-    expect(viewModel.displayState, LoginViewModelDisplayState.FAILURE);
+    expect(viewModel.displayState, DisplayState.FAILURE);
   });
 
   test('View model displays CONTENT when login state is logged in', () {
@@ -34,7 +35,7 @@ void main() {
 
     final viewModel = LoginViewModel.create(store);
 
-    expect(viewModel.displayState, LoginViewModelDisplayState.CONTENT);
+    expect(viewModel.displayState, DisplayState.CONTENT);
   });
 
   test('View model triggers RequestLoginAction with GENERIC mode when generic login is performed', () {

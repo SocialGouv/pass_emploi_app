@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/rendezvous_card.dart';
+import 'package:pass_emploi_app/widgets/retry.dart';
 
 class RendezvousListPage extends TraceableStatelessWidget {
   RendezvousListPage() : super(name: AnalyticsScreenNames.rendezvousList);
@@ -30,7 +31,7 @@ class RendezvousListPage extends TraceableStatelessWidget {
 
   Widget _body(BuildContext context, RendezvousListPageViewModel viewModel) {
     if (viewModel.withLoading) return _loader();
-    if (viewModel.withFailure) return _failure(viewModel);
+    if (viewModel.withFailure) return Retry(Strings.rendezVousError, () => viewModel.onRetry());
     if (viewModel.withEmptyMessage) return _empty();
     return _content(context, viewModel);
   }
@@ -55,16 +56,6 @@ class RendezvousListPage extends TraceableStatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(Margins.medium),
       child: Text(Strings.noUpcomingRendezVous, style: TextStyles.textSmRegular()),
-    );
-  }
-
-  Widget _failure(RendezvousListPageViewModel viewModel) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(Strings.rendezVousError),
-        TextButton(onPressed: () => viewModel.onRetry(), child: Text(Strings.retry, style: TextStyles.textLgMedium)),
-      ],
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
@@ -7,10 +8,8 @@ import 'package:redux/redux.dart';
 
 import 'offre_emploi_item_view_model.dart';
 
-enum OffreEmploiSearchResultsDisplayState { SHOW_CONTENT, SHOW_LOADER, SHOW_ERROR }
-
 class OffreEmploiSearchResultsViewModel extends Equatable {
-  final OffreEmploiSearchResultsDisplayState displayState;
+  final DisplayState displayState;
   final List<OffreEmploiItemViewModel> items;
   final bool displayLoaderAtBottomOfList;
   final Function() onLoadMore;
@@ -55,13 +54,12 @@ List<OffreEmploiItemViewModel> _items(OffreEmploiSearchResultsState resultsState
       : [];
 }
 
-OffreEmploiSearchResultsDisplayState _displayState(
-    OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
+DisplayState _displayState(OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
   if (searchState is OffreEmploiSearchSuccessState && searchResultsState is OffreEmploiSearchResultsDataState) {
-    return OffreEmploiSearchResultsDisplayState.SHOW_CONTENT;
+    return DisplayState.CONTENT;
   } else if (searchState is OffreEmploiSearchLoadingState) {
-    return OffreEmploiSearchResultsDisplayState.SHOW_LOADER;
+    return DisplayState.LOADING;
   } else {
-    return OffreEmploiSearchResultsDisplayState.SHOW_ERROR;
+    return DisplayState.FAILURE;
   }
 }

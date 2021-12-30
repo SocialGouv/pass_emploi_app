@@ -3,25 +3,34 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
-TextButton primaryActionButton({
-  required String label,
-  required VoidCallback? onPressed,
-  Color backgroundColor = AppColors.nightBlue,
-  Color disabledBackgroundColor = AppColors.blueGrey,
-  Color textColor = Colors.white,
-  Color? rippleColor = AppColors.bluePurple,
-  String? drawableRes,
-}) =>
-    TextButton(
+class PrimaryActionButton extends StatelessWidget {
+  final String label;
+  final Color backgroundColor;
+  final Color disabledBackgroundColor;
+  final Color textColor;
+  final Color? rippleColor;
+  final String? drawableRes;
+  final VoidCallback? onPressed;
+
+  const PrimaryActionButton({
+    Key? key,
+    required this.label,
+    this.backgroundColor = AppColors.nightBlue,
+    this.disabledBackgroundColor = AppColors.blueGrey,
+    this.textColor = Colors.white,
+    this.rippleColor = AppColors.bluePurple,
+    this.drawableRes,
+    this.onPressed,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
       style: ButtonStyle(
         foregroundColor: MaterialStateProperty.all(textColor),
         textStyle: MaterialStateProperty.all(TextStyles.textSmMedium()),
         backgroundColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
-          if (states.contains(MaterialState.disabled)) {
-            return disabledBackgroundColor;
-          } else {
-            return backgroundColor;
-          }
+          return states.contains(MaterialState.disabled) ? disabledBackgroundColor : backgroundColor;
         }),
         shape: MaterialStateProperty.all(StadiumBorder()),
         overlayColor: MaterialStateProperty.resolveWith(
@@ -37,9 +46,11 @@ TextButton primaryActionButton({
           mainAxisSize: MainAxisSize.min,
           children: [
             if (drawableRes != null)
-              Padding(padding: const EdgeInsets.only(right: 12), child: SvgPicture.asset(drawableRes)),
+              Padding(padding: const EdgeInsets.only(right: 12), child: SvgPicture.asset(drawableRes!)),
             Text(label),
           ],
         ),
       ),
     );
+  }
+}

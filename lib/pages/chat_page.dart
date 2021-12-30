@@ -5,6 +5,7 @@ import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/presentation/chat_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -14,6 +15,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/chat_message_widget.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/retry.dart';
 
 class ChatPage extends TraceableStatefulWidget {
   ChatPage() : super(name: AnalyticsScreenNames.chat);
@@ -74,12 +76,12 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
 
   _body(BuildContext context, ChatPageViewModel viewModel) {
     switch (viewModel.displayState) {
-      case ChatPageDisplayState.CONTENT:
+      case DisplayState.CONTENT:
         return _content(context, viewModel);
-      case ChatPageDisplayState.LOADING:
+      case DisplayState.LOADING:
         return _loader();
-      case ChatPageDisplayState.FAILURE:
-        return _failure(viewModel);
+      default:
+        return Center(child: Retry(Strings.chatError, () => viewModel.onRetry()));
     }
   }
 
@@ -160,16 +162,4 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
   }
 
   Widget _loader() => Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
-
-  Widget _failure(ChatPageViewModel viewModel) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(Strings.chatError),
-          TextButton(onPressed: () => viewModel.onRetry(), child: Text(Strings.retry, style: TextStyles.textLgMedium)),
-        ],
-      ),
-    );
-  }
 }

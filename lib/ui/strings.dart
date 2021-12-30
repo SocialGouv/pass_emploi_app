@@ -94,9 +94,6 @@ class Strings {
   // Offres Emploi
   static String offresEmploiTitle = "Résultats offres d'emploi";
 
-  // Immersions
-  static String immersionsTitle = "Offres d'immersion";
-
   // Solutions
   static String searchingPageTitle = "Recherche de solutions";
   static String keyWordsTitle = "Mots clés";
@@ -127,6 +124,27 @@ class Strings {
   static String immersionStatutContent =
       "Votre statut ne change pas. Si vous êtes inscrit à Pôle emploi, actualisez-vous comme d'habitude !";
   static String immersionFieldHint = "Rechercher";
+  static String immersionsTitle = "Offres d'immersion";
+  static String immersionError = "Erreur lors de la récupération de l'offre d'immersion. Veuillez réessayer";
+  static String immersionNonVolontaireExplanation =
+      "Cette entreprise peut recruter sur ce métier et être intéressée pour vous vous recevoir en immersion.";
+  static String immersionVolontaireExplanation = "Cette entreprise recherche activement des candidats à l’immersion.";
+  static String immersionUnknownContactModeExplanation =
+      "Contactez-la en expliquant votre projet professionnel et vos motivations.";
+  static String immersionPhoneContactModeExplanation =
+      "Contactez-la par téléphone en expliquant votre projet professionnel et vos motivations.";
+  static String immersionMailContactModeExplanation =
+      "Contactez-la par e-mail en expliquant votre projet professionnel et vos motivations. Vous n’avez pas besoin d’envoyer un CV.";
+  static String immersionInPersonContactModeExplanation =
+      "Rendez-vous directement sur place pour expliquer votre projet professionnel et vos motivations.";
+  static String immersionDescriptionLabel = "Si l’entreprise est d’accord pour vous accueillir :\n\n"
+      "· Prévenez votre conseiller\n"
+      "· Remplissez une convention d’immersion avec lui";
+  static String immersionContactTitle = "· Contact";
+  static String immersionPhoneButton = "Appeler";
+  static String immersionLocationButton = "Localiser l\'entreprise";
+  static String immersionEmailButton = "Envoyer un e-mail";
+  static String immersionEmailSubject = "Prise de contact au sujet de votre offre d'immersion";
 
   // Civic Service
   static String serviceCiviqueTitle = "Qu’est-ce que le service civique ?";

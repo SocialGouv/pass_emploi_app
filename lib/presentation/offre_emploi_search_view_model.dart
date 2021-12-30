@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -10,10 +11,8 @@ import 'package:redux/redux.dart';
 
 import 'location_view_model.dart';
 
-enum OffreEmploiSearchDisplayState { SHOW_CONTENT, SHOW_LOADER, SHOW_ERROR, SHOW_EMPTY_ERROR }
-
 class OffreEmploiSearchViewModel extends Equatable {
-  final OffreEmploiSearchDisplayState displayState;
+  final DisplayState displayState;
   final List<LocationViewModel> locations;
   final String errorMessage;
   final Function(String? input) onInputLocation;
@@ -56,15 +55,12 @@ String _setErrorMessage(OffreEmploiSearchState searchState, OffreEmploiSearchRes
   }
 }
 
-OffreEmploiSearchDisplayState _displayState(
-    OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
+DisplayState _displayState(OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
   if (searchState is OffreEmploiSearchSuccessState && searchResultsState is OffreEmploiSearchResultsDataState) {
-    return searchResultsState.offres.isNotEmpty
-        ? OffreEmploiSearchDisplayState.SHOW_CONTENT
-        : OffreEmploiSearchDisplayState.SHOW_EMPTY_ERROR;
+    return searchResultsState.offres.isNotEmpty ? DisplayState.CONTENT : DisplayState.EMPTY;
   } else if (searchState is OffreEmploiSearchLoadingState) {
-    return OffreEmploiSearchDisplayState.SHOW_LOADER;
+    return DisplayState.LOADING;
   } else {
-    return OffreEmploiSearchDisplayState.SHOW_ERROR;
+    return DisplayState.FAILURE;
   }
 }

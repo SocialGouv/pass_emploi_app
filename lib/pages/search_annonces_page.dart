@@ -39,19 +39,19 @@ class _SearchAnnoncesPageState extends State<SearchAnnoncesPage> {
       child: Row(
         children: [
           SizedBox(width: 12),
-          carouselButton(
+          CarouselButton(
             isActive: _selectedIndex == _indexOfOffresEmploi,
             onPressed: () => _updateIndex(_indexOfOffresEmploi),
             label: Strings.offresEmploiButton,
           ),
           SizedBox(width: 12),
-          carouselButton(
+          CarouselButton(
             isActive: _selectedIndex == _indexOfImmersion,
             onPressed: () => _updateIndex(_indexOfImmersion),
             label: Strings.immersionButton,
           ),
           SizedBox(width: 12),
-          carouselButton(
+          CarouselButton(
             isActive: _selectedIndex == _indexOfServiceCivique,
             onPressed: () => _updateIndex(_indexOfServiceCivique),
             label: Strings.serviceCiviqueButton,

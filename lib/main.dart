@@ -27,6 +27,7 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/store/store_factory.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
@@ -121,6 +122,7 @@ Future<Store<AppState>> _initializeReduxStore(
     OffreEmploiFavorisRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
     SearchLocationRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
     ImmersionRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
+    ImmersionDetailsRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
     FirebaseAuthRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
     FirebaseAuthWrapper(),
   ).initializeReduxStore(initialState: AppState.initialState());
