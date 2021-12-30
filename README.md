@@ -1,9 +1,7 @@
 L'application iOS et Android Pass Emploi
 
-## Code style
-A date, nous utilisons le code style par défaut de l'IDE Android Studio pour le langage Dart. La 
-seule spécificité est de mettre le nombre de caractère par ligne à 120 : dans les préférences de 
-l'IDE `Editor > Code Style > Dart > Line length`
+## Pratiques de dev et conventions
+Celles-ci sont spécifiées dans le fichier [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Renseigner les variables d'environnement
 Créer un repertoire `env` à la racine du projet.
