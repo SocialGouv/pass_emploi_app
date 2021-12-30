@@ -35,7 +35,6 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     _scrollController = ScrollController();
     _scrollController.addListener(() {
       if (_shouldLoadAtBottom && _scrollController.offset >= _scrollController.position.maxScrollExtent) {
-        debugPrint("🪁🪁🪁 ⚽⚽⚽⚽️ load more");
         _offsetBeforeLoading = _scrollController.offset;
         _currentViewModel?.onLoadMore();
       }
