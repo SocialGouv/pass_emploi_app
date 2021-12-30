@@ -10,11 +10,11 @@ Ce document liste les différentes pratiques de dev mises en place sur le projet
 # Sommaire
 * [Les conventions de code](#les-conventions-de-code)
     * [Code style du projet](#code-style-du-projet)
-    * [L'usage du français et de l'anglais](#l-usage-du-français-et-de-l-anglais)
+    * [L'usage du français et de l'anglais](#lusage-du-français-et-de-langlais)
     * [Nommage des variables](#nommage-des-variables)
     * [Forcer le typage](#forcer-le-typage)
     * [Réduire la visibilité par défaut](#réduire-la-visibilité-par-défaut)
-    * [L'immutabilité par défaut](#l-immutabilité-par-défaut)
+    * [L'immutabilité par défaut](#limmutabilité-par-défaut)
     * [Expression body vs block body](#expression-body-vs-block-body)
 * [Gestion des cas non nominaux](#gestion-des-cas-non-nominaux)
 * L'usage de Redux
