@@ -13,7 +13,7 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/action_buttons.dart';
+import 'package:pass_emploi_app/widgets/action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
@@ -413,7 +413,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [
-          Expanded(child: actionButton(onPressed: () => launch(url), label: Strings.postulerButtonTitle)),
+          Expanded(child: ActionButton(onPressed: () => launch(url), label: Strings.postulerButtonTitle)),
           SizedBox(width: 8),
           FavoriHeart(
             offreId: offreId,
@@ -442,8 +442,10 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Widget _deleteFavoriStoreConnector(BuildContext context, String offreId) {
     return StoreConnector<AppState, FavoriHeartViewModel>(
       builder: (context, vm) {
-        return actionButton(
-            label: Strings.deleteOffreFromFavori, onPressed: vm.withLoading ? null : () => vm.update(false));
+        return ActionButton(
+          label: Strings.deleteOffreFromFavori,
+          onPressed: vm.withLoading ? null : () => vm.update(false),
+        );
       },
       converter: (store) => FavoriHeartViewModel.create(offreId, store),
       distinct: true,

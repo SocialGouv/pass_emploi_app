@@ -14,7 +14,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
-import 'package:pass_emploi_app/widgets/action_buttons.dart';
+import 'package:pass_emploi_app/widgets/action_button.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/immersion_tags.dart';
@@ -121,7 +121,7 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
       padding: const EdgeInsets.all(16),
       child: ConstrainedBox(
         constraints: const BoxConstraints(minWidth: double.infinity),
-        child: actionButton(onPressed: () => launch(callToAction.uri.toString()), label: callToAction.label),
+        child: ActionButton(onPressed: () => launch(callToAction.uri.toString()), label: callToAction.label),
       ),
     );
   }
