@@ -4,6 +4,7 @@ Ce document liste les différentes pratiques de dev mises en place sur le projet
 * Gestion des cas non nominaux
 * L'usage de Redux
 * Les tests automatisés
+* Les conventions Git
 
 
 
@@ -31,6 +32,10 @@ Ce document liste les différentes pratiques de dev mises en place sur le projet
     * [Les tests de la couche ViewModel](#les-tests-de-la-couche-viewmodel)
     * [Les tests doubles](#les-tests-doubles)
     * [Les autres tests](#les-autres-tests)
+* [Les conventions Git](#les-conventions-git)
+    * [Lien entre le code source et le Trello](#lien-entre-le-code-source-et-le-trello)
+    * [Nommage des branches](#nommage-des-branches)
+    * [Nommage des commits](#nommage-des-commits)
 
 
 
@@ -191,5 +196,35 @@ tests doubles sont donc fait à la main comme suit :
 ## Les autres tests
 En dehors des cas mentionné ci-dessus, il est à l'entière liberté du contributeur de tester de manière automatisé un 
 composant qui lui semble nécessaire de l'être.
+
+
+
+# Les conventions Git
+Les conventions Git du projet sont basées sur [Git Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+qui décrit de manières exhaustive les types commits suivants : `feat, fix,build, chore, ci, docs, style, refactor, perf, 
+test`.
+
+## Lien entre le code source et le Trello
+Pour faciliter le lien entre le Trello du projet et le projet lui-même, nous utilisons l'identifiant des tickets générés 
+par Trello que l'on peut voir dans leurs URL.
+
+Ex : pour ce ticket, l'URL est `https://trello.com/c/lAC2Ykzp/204-doc-initier-le-contributingmd-du-projet-flutter`, 
+l'identifiant est donc `204`. À noter que dans Trello, l'URL `https://trello.com/c/lAC2Ykzp/204` redirige bien vers le 
+bon ticket.
+
+## Nommage des branches
+En se basant sur les prefixes de Git Conventional Commits, les branches sont nommées comme suit :
+`<type>/<path-de-l'url-Trello-du-ticket>`.
+
+Ex : `feat/204-doc-initier-le-contributingmd-du-projet-flutter`
+
+## Nommage des commits
+En se basant sur les prefixes de Git Conventional Commits, les commit sont nommées comme suit :
+`<type>: <id-de-l'url-Trello-du-ticket> - <description en anglais>`.
+
+Ex : `docs: 204 - initialize CONTRIBUTING.md`
+
+
+
  
  
