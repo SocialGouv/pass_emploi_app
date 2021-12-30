@@ -26,7 +26,7 @@ class ImmersionContact extends Equatable {
       phone: json['telephone'] ?? '',
       mail: json['email'] ?? '',
       role: json['role'] ?? '',
-      mode: _getContractMode(json['modeDeContact']),
+      mode: _getContactMode(json['modeDeContact']),
     );
   }
 
@@ -34,7 +34,7 @@ class ImmersionContact extends Equatable {
   List<Object?> get props => [lastName, firstName, phone, mail, role, mode];
 }
 
-ImmersionContactMode _getContractMode(String json) {
+ImmersionContactMode _getContactMode(String json) {
   if (json == 'EMAIL') return ImmersionContactMode.MAIL;
   if (json == 'PHONE') return ImmersionContactMode.PHONE;
   if (json == 'IN_PERSON') return ImmersionContactMode.IN_PERSON;

@@ -111,10 +111,10 @@ String _contactLabel(ImmersionDetails immersion) {
 }
 
 String _contactInformation(ImmersionDetails immersion) {
-  var contractInformation = immersion.address;
-  if (immersion.contact?.mail.isNotEmpty == true) contractInformation += "\n" + immersion.contact!.mail;
-  if (immersion.contact?.phone.isNotEmpty == true) contractInformation += "\n" + immersion.contact!.phone;
-  return contractInformation;
+  var contactInformation = immersion.address;
+  if (immersion.contact?.mail.isNotEmpty == true) contactInformation += "\n" + immersion.contact!.mail;
+  if (immersion.contact?.phone.isNotEmpty == true) contactInformation += "\n" + immersion.contact!.phone;
+  return contactInformation;
 }
 
 CallToAction? _mainCallToAction(ImmersionDetails immersion, Platform platform) {

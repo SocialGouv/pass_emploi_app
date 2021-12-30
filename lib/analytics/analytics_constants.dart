@@ -15,7 +15,7 @@ class AnalyticsScreenNames {
   static const offreEmploiDetails = "offre_details";
   static const immersionResearch = "recherche_immersions_list";
   static const immersionResults = "resultats_immersions";
-  static const immersionDetails = "offre_details";
+  static const immersionDetails = "immersion_details";
   static const serviceCiviqueResearch = "service_civique";
   static const favoris = "favoris";
   static const plus = "plus";
