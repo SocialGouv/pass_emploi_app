@@ -40,9 +40,9 @@ Ce document liste les différentes pratiques de dev mises en place sur le projet
 
 
 # Les conventions de code
-Il n'est pas question ici d'être exhaustif sur le code style d'un projet Flutter / Dart. À cet effet, le [wiki de Flutter]
-(https://github.com/flutter/flutter/wiki/Style-guide-for-Flutter-repo) propose tout un ensemble de convention bien plus 
-détaillées.
+Il n'est pas question ici d'être exhaustif sur le code style d'un projet Flutter / Dart. À cet effet, le 
+[wiki de Flutter](https://github.com/flutter/flutter/wiki/Style-guide-for-Flutter-repo) propose tout un ensemble de 
+convention bien plus détaillées.
 
 ## Code style du projet
 À date, c'est le code style par défaut de l'IDE Android Studio pour le langage Dart qui est utilisé. La seule spécificité 
@@ -180,14 +180,14 @@ lieu de 30.
 
 
 ## Les tests de la couche ViewModel
-L'essentiel du fonctionnel de l'application est porté dans la couche ViewModel. Il est dès lors attendu que 100% de la 
+L'essentiel du fonctionnel de l'application est porté dans la couche ViewModel. Il est dès lors attendu que 100 % de la 
 couche ViewModel soit testée unitairement.
 
 
 ## Les tests doubles
-Les dernières versions des librairies de tests doubles à l'état de l'art en Dart (ex : `mockito`) fonctionne par de la 
-génération de classe et offrent une developer experience bien moindre que leur pendant du monde Java. Pour l'heure, les 
-tests doubles sont donc fait à la main comme suit :
+Les dernières versions des librairies de tests doubles à l'état de l'art en Dart (ex : [mockito](https://pub.dev/packages/mockito)) 
+fonctionne par de la génération de classe et offrent une developer experience bien moindre que leur pendant du monde 
+Java. Pour l'heure, les tests doubles sont donc fait à la main comme suit :
 * Dummy : à créer pour un objet qui renvoie toujours une valeur vide ou nulle.
 * Mock : à créer pour un objet qui renvoie une valeur spécifique.
 * Stub : à créer pour un objet qui renvoie une valeur spécifique en fonction de comment il est appelé.
@@ -200,8 +200,8 @@ composant qui lui semble nécessaire de l'être.
 
 
 # Les conventions Git
-Les conventions Git du projet sont basées sur [Git Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
-qui décrit de manières exhaustive les types commits suivants : `feat, fix,build, chore, ci, docs, style, refactor, perf, 
+Les conventions Git du projet sont basées sur [Git Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0)
+qui décrit de manières exhaustive les types commits suivants : `feat, fix, build, chore, ci, docs, style, refactor, perf, 
 test`.
 
 ## Lien entre le code source et le Trello
