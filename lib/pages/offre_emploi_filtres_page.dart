@@ -32,7 +32,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
       onWillChange: (previousViewModel, newViewModel) {
         if (previousViewModel?.displayState == OffreEmploiFiltresDisplayState.LOADING &&
             newViewModel.displayState == OffreEmploiFiltresDisplayState.SUCCESS) {
-          Navigator.pop(context);
+          Navigator.pop(context, true);
         }
       },
     );

@@ -35,6 +35,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     _scrollController = ScrollController();
     _scrollController.addListener(() {
       if (_shouldLoadAtBottom && _scrollController.offset >= _scrollController.position.maxScrollExtent) {
+        debugPrint("🪁🪁🪁 ⚽⚽⚽⚽️ load more");
         _offsetBeforeLoading = _scrollController.offset;
         _currentViewModel?.onLoadMore();
       }
@@ -54,11 +55,11 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
       converter: (store) => OffreEmploiSearchResultsViewModel.create(store),
       onInitialBuild: (viewModel) => _currentViewModel = viewModel,
       builder: (context, viewModel) => _scaffold(context, viewModel),
-      onDidChange: (previousViewModel, viewModel) =>
-      {
-        _currentViewModel = viewModel,
-        _scrollController.jumpTo(_offsetBeforeLoading),
-        _shouldLoadAtBottom = viewModel.displayLoaderAtBottomOfList && viewModel.displayState != DisplayState.FAILURE,
+      onDidChange: (previousViewModel, viewModel) {
+        _currentViewModel = viewModel;
+        _scrollController.jumpTo(_offsetBeforeLoading);
+        _shouldLoadAtBottom = viewModel.displayLoaderAtBottomOfList &&
+            viewModel.displayState != OffreEmploiSearchResultsDisplayState.viewModel.displayState != DisplayState.FAILURE;
       },
       distinct: true,
       onDispose: (store) => store.dispatch(OffreEmploiResetResultsAction()),
@@ -171,27 +172,28 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
 
   Widget _filterButton(OffreEmploiSearchResultsViewModel viewModel) {
     return primaryActionButtonWithCustomChild(
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(Strings.filter),
-          SizedBox(width: 12),
-          SvgPicture.asset(Drawables.icFilter),
-          SizedBox(width: 12),
-          if (viewModel.filtresCount != null)
-            ClipRRect(
-              borderRadius: BorderRadius.circular(22),
-              child: Container(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(Strings.filter),
+            SizedBox(width: 12),
+            SvgPicture.asset(Drawables.icFilter),
+            SizedBox(width: 12),
+            if (viewModel.filtresCount != null)
+              Container(
+                decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.bluePurple),
                 width: 22,
                 height: 22,
-                color: AppColors.bluePurple,
                 alignment: Alignment.center,
                 child: Text(viewModel.filtresCount!.toString()),
               ),
-            ),
-        ],
-      ),
-      onPressed: () => Navigator.push(context, OffreEmploiFiltresPage.materialPageRoute()),
-    );
+          ],
+        ),
+        onPressed: () => Navigator.push(context, OffreEmploiFiltresPage.materialPageRoute()).then((value) {
+              if (value == true) {
+                _offsetBeforeLoading = 0;
+                _scrollController.jumpTo(_offsetBeforeLoading);
+              }
+            }));
   }
 }
