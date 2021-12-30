@@ -1,15 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:redux/redux.dart';
 
-enum OffreEmploiFiltresDisplayState { LOADING, FAILURE, SUCCESS }
-
 class OffreEmploiFiltresViewModel extends Equatable {
-  final OffreEmploiFiltresDisplayState displayState;
+  final DisplayState displayState;
   final bool shouldDisplayDistanceFiltre;
   final int initialDistanceValue;
   final Function(int updatedDistanceValue) updateFiltres;
@@ -48,13 +47,13 @@ bool _shouldDisplayDistanceFiltre(OffreEmploiSearchParametersState parametersSta
   }
 }
 
-OffreEmploiFiltresDisplayState _displayState(OffreEmploiSearchState searchState) {
+DisplayState _displayState(OffreEmploiSearchState searchState) {
   if (searchState is OffreEmploiSearchSuccessState) {
-    return OffreEmploiFiltresDisplayState.SUCCESS;
+    return DisplayState.CONTENT;
   } else if (searchState is OffreEmploiSearchLoadingState) {
-    return OffreEmploiFiltresDisplayState.LOADING;
+    return DisplayState.LOADING;
   } else {
-    return OffreEmploiFiltresDisplayState.FAILURE;
+    return DisplayState.FAILURE;
   }
 }
 

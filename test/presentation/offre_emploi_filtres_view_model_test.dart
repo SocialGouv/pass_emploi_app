@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_filtres_view_model.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -22,7 +23,7 @@ main() {
     final viewModel = OffreEmploiFiltresViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, OffreEmploiFiltresDisplayState.SUCCESS);
+    expect(viewModel.displayState, DisplayState.CONTENT);
   });
 
   test("create when search state is loading should display loading", () {
@@ -38,7 +39,7 @@ main() {
     final viewModel = OffreEmploiFiltresViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, OffreEmploiFiltresDisplayState.LOADING);
+    expect(viewModel.displayState, DisplayState.LOADING);
   });
 
   test("create when search state is failure should display success", () {
@@ -54,7 +55,7 @@ main() {
     final viewModel = OffreEmploiFiltresViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, OffreEmploiFiltresDisplayState.FAILURE);
+    expect(viewModel.displayState, DisplayState.FAILURE);
   });
 
   test("create when state has no filter should set distance to 10km", () {

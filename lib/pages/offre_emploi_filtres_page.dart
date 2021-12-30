@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_filtres_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -30,8 +31,8 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
       builder: (context, viewModel) => _scaffold(context, viewModel),
       distinct: true,
       onWillChange: (previousViewModel, newViewModel) {
-        if (previousViewModel?.displayState == OffreEmploiFiltresDisplayState.LOADING &&
-            newViewModel.displayState == OffreEmploiFiltresDisplayState.SUCCESS) {
+        if (previousViewModel?.displayState == DisplayState.LOADING &&
+            newViewModel.displayState == DisplayState.CONTENT) {
           Navigator.pop(context, true);
         }
       },
@@ -134,7 +135,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
     return ConstrainedBox(
       constraints: const BoxConstraints(minWidth: double.infinity),
       child: PrimaryActionButton.simple(
-        onPressed: _hasFormChanged && viewModel.displayState == OffreEmploiFiltresDisplayState.SUCCESS
+        onPressed: _hasFormChanged && viewModel.displayState == DisplayState.CONTENT
             ? () => viewModel.updateFiltres(_sliderValueToDisplay(viewModel).toInt())
             : null,
         label: Strings.applyFiltres,
