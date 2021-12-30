@@ -12,8 +12,8 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets.dart';
-import 'package:pass_emploi_app/widgets/button.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
+import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/user_action_details_bottom_sheet.dart';
@@ -142,7 +142,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
   }
 
   Widget _createUserActionButton(UserActionListPageViewModel viewModel) {
-    return primaryActionButton(
+    return PrimaryActionButton(
       label: Strings.addAnAction,
       drawableRes: Drawables.icAdd,
       onPressed: () => showUserActionBottomSheet(

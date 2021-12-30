@@ -8,8 +8,8 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 
 class PlusPage extends TraceableStatelessWidget {
   PlusPage() : super(name: AnalyticsScreenNames.plus);
@@ -28,7 +28,7 @@ class PlusPage extends TraceableStatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: primaryActionButton(
+                    child: PrimaryActionButton(
                       onPressed: () {
                         StoreProvider.of<AppState>(context).dispatch(RequestLogoutAction(LogoutRequester.USER));
                       },

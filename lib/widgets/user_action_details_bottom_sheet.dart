@@ -14,7 +14,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
 import 'bottom_sheets.dart';
-import 'button.dart';
+import 'primary_action_button.dart';
 
 class UserActionDetailsBottomSheet extends TraceableStatefulWidget {
   final UserActionViewModel actionViewModel;
@@ -112,7 +112,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
   Widget _understood(BuildContext context) {
     return Padding(
       padding: userActionBottomSheetContentPadding(),
-      child: primaryActionButton(
+      child: PrimaryActionButton(
         label: Strings.understood,
         onPressed: () => Navigator.pop(context),
       ),
@@ -206,7 +206,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
               update: (newStatus) => _update(newStatus),
             ),
           ),
-          primaryActionButton(
+          PrimaryActionButton(
             onPressed: () => {detailsViewModel.onRefreshStatus(widget.actionViewModel.id, actionStatus)},
             label: Strings.refreshActionStatus,
           ),
@@ -221,7 +221,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          primaryActionButton(
+          PrimaryActionButton(
             onPressed: detailsViewModel.displayState == UserActionDetailsDisplayState.SHOW_LOADING
                 ? null
                 : () => detailsViewModel.onDelete(widget.actionViewModel.id),

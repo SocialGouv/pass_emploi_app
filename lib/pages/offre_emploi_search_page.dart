@@ -12,9 +12,9 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/keyboard.dart';
-import 'package:pass_emploi_app/widgets/button.dart';
 import 'package:pass_emploi_app/widgets/error_text.dart';
 import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
+import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 
 import 'offre_emploi_list_page.dart';
 
@@ -72,7 +72,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
           ),
           _separator(),
           Center(
-            child: primaryActionButton(
+            child: PrimaryActionButton(
               onPressed: _isLoading(viewModel) ? null : () => _onSearchButtonPressed(viewModel),
               label: Strings.searchButton,
             ),
