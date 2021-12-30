@@ -7,8 +7,8 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 
 class OffreEmploiFiltresPage extends TraceableStatefulWidget {
   OffreEmploiFiltresPage() : super(name: AnalyticsScreenNames.offreEmploiFiltres);
@@ -133,7 +133,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
   Widget _stretchedButton(BuildContext context, OffreEmploiFiltresViewModel viewModel) {
     return ConstrainedBox(
       constraints: const BoxConstraints(minWidth: double.infinity),
-      child: primaryActionButton(
+      child: PrimaryActionButton.simple(
         onPressed: _hasFormChanged && viewModel.displayState == OffreEmploiFiltresDisplayState.SUCCESS
             ? () => viewModel.updateFiltres(_sliderValueToDisplay(viewModel).toInt())
             : null,

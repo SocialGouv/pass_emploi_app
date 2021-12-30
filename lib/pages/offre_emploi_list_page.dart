@@ -4,8 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
-import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_filtres_page.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_results_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -13,9 +13,9 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/offre_emploi_list_item.dart';
+import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 
 class OffreEmploiListPage extends TraceableStatefulWidget {
   OffreEmploiListPage() : super(name: AnalyticsScreenNames.offreEmploiResults);
@@ -57,8 +57,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
       onDidChange: (previousViewModel, viewModel) {
         _currentViewModel = viewModel;
         _scrollController.jumpTo(_offsetBeforeLoading);
-        _shouldLoadAtBottom = viewModel.displayLoaderAtBottomOfList &&
-            viewModel.displayState != OffreEmploiSearchResultsDisplayState.viewModel.displayState != DisplayState.FAILURE;
+        _shouldLoadAtBottom = viewModel.displayLoaderAtBottomOfList && viewModel.displayState != DisplayState.FAILURE;
       },
       distinct: true,
       onDispose: (store) => store.dispatch(OffreEmploiResetResultsAction()),
@@ -170,7 +169,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
   }
 
   Widget _filterButton(OffreEmploiSearchResultsViewModel viewModel) {
-    return primaryActionButtonWithCustomChild(
+    return PrimaryActionButton(
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

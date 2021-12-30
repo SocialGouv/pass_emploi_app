@@ -28,7 +28,7 @@ class PlusPage extends TraceableStatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: PrimaryActionButton(
+                    child: PrimaryActionButton.simple(
                       onPressed: () {
                         StoreProvider.of<AppState>(context).dispatch(RequestLogoutAction(LogoutRequester.USER));
                       },
