@@ -6,8 +6,8 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/action_buttons.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class CivicServiceSearchPage extends TraceableStatelessWidget {
-  CivicServiceSearchPage() : super(name: AnalyticsScreenNames.civicService);
+class ServiceCiviqueSearchPage extends TraceableStatelessWidget {
+  ServiceCiviqueSearchPage() : super(name: AnalyticsScreenNames.serviceCiviqueResearch);
 
   @override
   Widget build(BuildContext context) {
@@ -17,15 +17,15 @@ class CivicServiceSearchPage extends TraceableStatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 36),
-          Text(Strings.civicServiceTitle, style: TextStyles.textSmMedium()),
+          Text(Strings.serviceCiviqueTitle, style: TextStyles.textSmMedium()),
           SizedBox(height: 24),
-          Text(Strings.civicServiceContent, style: TextStyles.textSmRegular()),
+          Text(Strings.serviceCiviqueContent, style: TextStyles.textSmRegular()),
           SizedBox(height: 36),
           Row(
             children: [
               Expanded(
                   child: actionButton(
-                      onPressed: () => launch(Strings.civicServiceUrl), label: Strings.civicServiceButtonAction)),
+                      onPressed: () => launch(Strings.serviceCiviqueUrl), label: Strings.serviceCiviqueButtonAction)),
             ],
           ),
         ],
