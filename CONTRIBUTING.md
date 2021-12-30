@@ -216,7 +216,7 @@ bon ticket.
 En se basant sur les prefixes de Git Conventional Commits, les branches sont nommées comme suit :
 `<type>/<path-de-l'url-Trello-du-ticket>`.
 
-Ex : `feat/204-doc-initier-le-contributingmd-du-projet-flutter`
+Ex : `docs/204-doc-initier-le-contributingmd-du-projet-flutter`
 
 ## Nommage des commits
 En se basant sur les prefixes de Git Conventional Commits, les commit sont nommées comme suit :
