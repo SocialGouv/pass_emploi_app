@@ -166,7 +166,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          PrimaryActionButton(
+          PrimaryActionButton.simple(
             label: Strings.create,
             onPressed: _isLoading(viewModel) && _isFormValid()
                 ? () => {viewModel.createUserAction(_actionContent!, _actionComment, _initialStatus)}

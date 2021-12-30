@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/network/headers.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 
@@ -68,6 +69,7 @@ class OffreEmploiRepositorySuccessWithMoreDataStub extends OffreEmploiRepository
     required String keywords,
     required Location? location,
     required int page,
+    required OffreEmploiSearchParametersFiltres filtres,
   }) async {
     return OffreEmploiSearchResponse(isMoreDataAvailable: true, offres: [mockOffreEmploi()]);
   }
@@ -82,6 +84,7 @@ class OffreEmploiRepositoryFailureStub extends OffreEmploiRepository {
     required String keywords,
     required Location? location,
     required int page,
+    required OffreEmploiSearchParametersFiltres filtres,
   }) async {
     return null;
   }

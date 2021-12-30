@@ -100,7 +100,7 @@ class Strings {
   static String keyWordsTextField = "Métier, compétence...";
   static String jobLocationTitle = "Lieu de travail";
   static String jobLocationHint = "Ville, département…";
-  static String searchButton = "RECHERCHER";
+  static String searchButton = "Rechercher";
   static String offreDetails = "Détails de l'offre";
   static String offresTabTitle = "Recherche";
   static String boiteAOutilsTabTitle = "Boîte à outils";
@@ -161,6 +161,13 @@ class Strings {
   static String noContentError = "Aucune offre ne correspond à votre recherche";
   static String genericError = "Erreur lors de la recherche. Veuillez réessayer";
   static String loadMoreOffresError = "Erreur lors du chargement des offres";
+
+  // Offre emploi filtres
+  static String filtrer = "Filtrer";
+  static String offresEmploiFiltresTitle = "Filtrer les annonces";
+  static String searchRadius = "Dans un rayon de : ";
+  static String applyFiltres = "Appliquer les filtres";
+  static String kmFormat(int int) => "${int} km";
 
   // Offre emploi details
   static String offreDetailsError = "Erreur lors de la récupération de l'offre";

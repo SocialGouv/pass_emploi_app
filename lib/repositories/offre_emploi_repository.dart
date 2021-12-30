@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 
 class OffreEmploiRepository {
   static const PAGE_SIZE = 50;
@@ -19,6 +20,7 @@ class OffreEmploiRepository {
     required String keywords,
     required Location? location,
     required int page,
+    required OffreEmploiSearchParametersFiltres filtres,
   }) async {
     final url = Uri.parse(_baseUrl + "/offres-emploi").replace(queryParameters: {
       if (keywords.isNotEmpty) "q": keywords,
@@ -26,6 +28,7 @@ class OffreEmploiRepository {
       if (location?.type == LocationType.COMMUNE) "commune": location!.code,
       "page": page.toString(),
       "limit": PAGE_SIZE.toString(),
+      if (filtres.distance != null) "rayon": filtres.distance.toString(),
     });
     try {
       final response = await _httpClient.get(url, headers: await _headerBuilder.headers(userId: userId));

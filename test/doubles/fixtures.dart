@@ -86,4 +86,6 @@ Configuration configuration() => Configuration(
 
 Location mockLocation() => Location(libelle: "", code: "", type: LocationType.DEPARTMENT);
 
+Location mockCommuneLocation() => Location(libelle: "", code: "", type: LocationType.COMMUNE);
+
 Immersion mockImmersion() => Immersion(id: "", metier: "", nomEtablissement: "", secteurActivite: "", ville: "");

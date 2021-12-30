@@ -4,24 +4,41 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class PrimaryActionButton extends StatelessWidget {
-  final String label;
+  final Row child;
   final Color backgroundColor;
   final Color disabledBackgroundColor;
   final Color textColor;
   final Color? rippleColor;
-  final String? drawableRes;
   final VoidCallback? onPressed;
 
   const PrimaryActionButton({
     Key? key,
-    required this.label,
+    required this.child,
     this.backgroundColor = AppColors.nightBlue,
     this.disabledBackgroundColor = AppColors.blueGrey,
     this.textColor = Colors.white,
     this.rippleColor = AppColors.bluePurple,
-    this.drawableRes,
     this.onPressed,
   }) : super(key: key);
+
+  PrimaryActionButton.simple({
+    Key? key,
+    required String label,
+    String? drawableRes,
+    this.backgroundColor = AppColors.nightBlue,
+    this.disabledBackgroundColor = AppColors.blueGrey,
+    this.textColor = Colors.white,
+    this.rippleColor = AppColors.bluePurple,
+    this.onPressed,
+  })  : child = Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (drawableRes != null)
+              Padding(padding: const EdgeInsets.only(right: 12), child: SvgPicture.asset(drawableRes)),
+            Text(label),
+          ],
+        ),
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,17 +57,7 @@ class PrimaryActionButton extends StatelessWidget {
         ),
       ),
       onPressed: onPressed,
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (drawableRes != null)
-              Padding(padding: const EdgeInsets.only(right: 12), child: SvgPicture.asset(drawableRes!)),
-            Text(label),
-          ],
-        ),
-      ),
+      child: Padding(padding: const EdgeInsets.fromLTRB(16, 8, 16, 8), child: this.child),
     );
   }
 }

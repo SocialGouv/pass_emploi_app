@@ -142,7 +142,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
   }
 
   Widget _createUserActionButton(UserActionListPageViewModel viewModel) {
-    return PrimaryActionButton(
+    return PrimaryActionButton.simple(
       label: Strings.addAnAction,
       drawableRes: Drawables.icAdd,
       onPressed: () => showUserActionBottomSheet(
