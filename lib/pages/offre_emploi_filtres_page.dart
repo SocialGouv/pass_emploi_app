@@ -41,7 +41,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
   Widget _scaffold(BuildContext context, OffreEmploiFiltresViewModel viewModel) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: _appBar(),
+      appBar: FlatDefaultAppBar(title: Text(Strings.offresEmploiFiltresTitle, style: TextStyles.textLgMedium)),
       body: _content(context, viewModel),
     );
   }
@@ -57,12 +57,6 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
     );
   }
 
-  FlatDefaultAppBar _appBar() {
-    return FlatDefaultAppBar(
-      title: Text(Strings.offresEmploiFiltresTitle, style: TextStyles.textLgMedium),
-    );
-  }
-
   Column _distanceSlider(BuildContext context, OffreEmploiFiltresViewModel viewModel) {
     return Column(
       children: [
@@ -73,7 +67,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
         _slider(viewModel),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: _sliderLegende(),
+          child: _sliderCaption(),
         ),
         SizedBox(height: 32),
         Padding(
@@ -126,7 +120,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
   double _sliderValueToDisplay(OffreEmploiFiltresViewModel viewModel) =>
       _currentSliderValue != null ? _currentSliderValue! : viewModel.initialDistanceValue.toDouble();
 
-  Widget _sliderLegende() {
+  Widget _sliderCaption() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -137,16 +131,14 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
   }
 
   Widget _stretchedButton(BuildContext context, OffreEmploiFiltresViewModel viewModel) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        primaryActionButton(
-          onPressed: _hasFormChanged && viewModel.displayState == OffreEmploiFiltresDisplayState.SUCCESS
-              ? () => viewModel.updateFiltres(_sliderValueToDisplay(viewModel).toInt())
-              : null,
-          label: Strings.applyFiltres,
-        ),
-      ],
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minWidth: double.infinity),
+      child: primaryActionButton(
+        onPressed: _hasFormChanged && viewModel.displayState == OffreEmploiFiltresDisplayState.SUCCESS
+            ? () => viewModel.updateFiltres(_sliderValueToDisplay(viewModel).toInt())
+            : null,
+        label: Strings.applyFiltres,
+      ),
     );
   }
 }

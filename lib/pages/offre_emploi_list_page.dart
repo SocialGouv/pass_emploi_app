@@ -174,7 +174,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(Strings.filter),
+            Text(Strings.filtrer),
             SizedBox(width: 12),
             SvgPicture.asset(Drawables.icFilter),
             SizedBox(width: 12),

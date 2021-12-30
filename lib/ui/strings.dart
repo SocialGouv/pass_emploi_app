@@ -163,10 +163,10 @@ class Strings {
   static String loadMoreOffresError = "Erreur lors du chargement des offres";
 
   // Offre emploi filtres
-  static var filter = "Filtrer";
-  static var offresEmploiFiltresTitle = "Filtrer les annonces";
+  static String filtrer = "Filtrer";
+  static String offresEmploiFiltresTitle = "Filtrer les annonces";
   static String searchRadius = "Dans un rayon de : ";
-  static var applyFiltres = "Appliquer les filtres";
+  static String applyFiltres = "Appliquer les filtres";
   static String kmFormat(int int) => "${int} km";
 
   // Offre emploi details

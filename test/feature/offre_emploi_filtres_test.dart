@@ -1,10 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
+import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
+import 'package:redux/src/store.dart';
 
 import '../doubles/dummies.dart';
 import '../doubles/fixtures.dart';
@@ -18,16 +20,7 @@ main() {
     final testStoreFactory = TestStoreFactory();
     final repositoryMock = OffreEmploiRepositorySuccessWithMoreDataMock();
     testStoreFactory.offreEmploiRepository = repositoryMock;
-    final store = testStoreFactory.initializeReduxStore(
-      initialState: loggedInState().copyWith(
-        offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
-        offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
-          keyWords: "boulanger patissier",
-          location: null,
-          filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
-        ),
-      ),
-    );
+    final store = _initializeReduxStore(testStoreFactory);
 
     final displayedLoading =
         store.onChange.any((element) => element.offreEmploiSearchState is OffreEmploiSearchLoadingState);
@@ -57,16 +50,7 @@ main() {
     // Given
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.offreEmploiRepository = OffreEmploiRepositoryFailureStub();
-    final store = testStoreFactory.initializeReduxStore(
-      initialState: loggedInState().copyWith(
-        offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
-        offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
-          keyWords: "boulanger patissier",
-          location: null,
-          filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
-        ),
-      ),
-    );
+    final store = _initializeReduxStore(testStoreFactory);
 
     final displayedLoading =
         store.onChange.any((element) => element.offreEmploiSearchState is OffreEmploiSearchLoadingState);
@@ -88,6 +72,19 @@ main() {
     final paramsState = (appState.offreEmploiSearchParametersState as OffreEmploiSearchParametersInitializedState);
     expect(paramsState.filtres.distance, 40);
   });
+}
+
+Store<AppState> _initializeReduxStore(TestStoreFactory testStoreFactory) {
+  return testStoreFactory.initializeReduxStore(
+    initialState: loggedInState().copyWith(
+      offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
+      offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
+        keyWords: "boulanger patissier",
+        location: null,
+        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      ),
+    ),
+  );
 }
 
 OffreEmploiSearchResultsState _pageOneLoadedAndMoreDataAvailable() {

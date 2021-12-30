@@ -33,7 +33,7 @@ AppState offreEmploiReducer(AppState currentState, OffreEmploiAction action) {
       return currentState;
     }
   } else if (action is OffreEmploiSearchWithUpdateFiltresFailureAction) {
-    return _treatFilterFailureAsSuccessSoThatDataIsDisplayed(currentState);
+    return _treatFiltreFailureAsSuccessSoThatDataIsDisplayed(currentState);
   } else {
     return currentState;
   }
@@ -92,5 +92,5 @@ AppState _storeOffresWithUpdatedFiltres(AppState currentState, OffreEmploiSearch
   );
 }
 
-AppState _treatFilterFailureAsSuccessSoThatDataIsDisplayed(AppState currentState) =>
+AppState _treatFiltreFailureAsSuccessSoThatDataIsDisplayed(AppState currentState) =>
     currentState.copyWith(offreEmploiSearchState: OffreEmploiSearchState.success());

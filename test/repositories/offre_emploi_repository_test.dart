@@ -156,7 +156,7 @@ void main() {
     );
 
     // Then
-    expect(search!, isNotNull);
+    expect(search, isNotNull);
   });
 
   test('search when response is invalid should return null', () async {
