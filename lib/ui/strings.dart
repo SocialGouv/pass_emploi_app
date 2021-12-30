@@ -110,6 +110,7 @@ class Strings {
   static String solutionsAppBarTitle = "Solutions";
   static String immersionButton = "Immersion";
   static String offresEmploiButton = "Offres d'emploi";
+  static String serviceCiviqueButton = "Service civique";
 
   // Immersion
   static String immersionLabel = "Découvrez un métier en immersion dans une entreprise.";
@@ -126,6 +127,13 @@ class Strings {
   static String immersionStatutContent =
       "Votre statut ne change pas. Si vous êtes inscrit à Pôle emploi, actualisez-vous comme d'habitude !";
   static String immersionFieldHint = "Rechercher";
+
+  // Civic Service
+  static String serviceCiviqueTitle = "Qu’est-ce que le service civique ?";
+  static String serviceCiviqueContent =
+      "Le service civique est un engagement volontaire au service de l'intérêt général, accessible sans condition de diplôme. Il est indemnisé et s'effectue en France ou à l'étranger.";
+  static String serviceCiviqueButtonAction = "Rechercher un service civique";
+  static String serviceCiviqueUrl = "https://www.service-civique.gouv.fr/missions/";
 
   // Immersion Errors
   static String immersionMetierError = "Renseignez un métier de la liste";

@@ -4,9 +4,11 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/carousel_button.dart';
 
 import 'immersion_search_page.dart';
+import 'service_civique_search_page.dart';
 
 const int _indexOfOffresEmploi = 0;
 const int _indexOfImmersion = 1;
+const int _indexOfServiceCivique = 2;
 
 class SearchAnnoncesPage extends StatefulWidget {
   const SearchAnnoncesPage() : super();
@@ -48,6 +50,13 @@ class _SearchAnnoncesPageState extends State<SearchAnnoncesPage> {
             onPressed: () => _updateIndex(_indexOfImmersion),
             label: Strings.immersionButton,
           ),
+          SizedBox(width: 12),
+          carouselButton(
+            isActive: _selectedIndex == _indexOfServiceCivique,
+            onPressed: () => _updateIndex(_indexOfServiceCivique),
+            label: Strings.serviceCiviqueButton,
+          ),
+          SizedBox(width: 12),
         ],
       ),
     );
@@ -56,8 +65,10 @@ class _SearchAnnoncesPageState extends State<SearchAnnoncesPage> {
   Widget _content() {
     if (_selectedIndex == _indexOfOffresEmploi) {
       return OffreEmploiSearchPage();
-    } else {
+    } else if (_selectedIndex == _indexOfImmersion) {
       return ImmersionSearchPage();
+    } else {
+      return ServiceCiviqueSearchPage();
     }
   }
 

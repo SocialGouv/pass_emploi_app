@@ -4,14 +4,6 @@ class LocalOutilRepository {
   List<Outil> getOutils() {
     return [
       Outil(
-        title: "Mission de Service Civique",
-        description:
-            "Engagement volontaire au service de l'intérêt général, accessible sans condition de diplôme, le Service Civique est indemnisé et s'effectue en France ou à l'étranger.",
-        actionLabel: "En savoir plus",
-        urlRedirect: "https://www.service-civique.gouv.fr/missions/",
-        imagePath: "civique.png",
-      ),
-      Outil(
         title: "Diagoriente",
         description:
             "Diagoriente est une application numérique qui propose aux jeunes d'explorer leurs expériences, d'analyser leurs compétences transversales et d'identifier leurs intérêts personnels pour faciliter leur orientation.",
