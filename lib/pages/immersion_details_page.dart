@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/presentation/call_to_action.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/immersion_details_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
@@ -18,6 +19,7 @@ import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/immersion_tags.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
+import 'package:pass_emploi_app/widgets/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -82,14 +84,13 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
                 Text(Strings.immersionDescriptionLabel, style: TextStyles.textMdRegular),
                 SizedBox(height: 20),
                 _contactBlock(viewModel),
+                if (viewModel.withSecondaryCallToActions) ..._secondaryCallToActions(viewModel),
               ],
             ),
           ),
         ),
-        Align(
-          child: _footer(context, "url"),
-          alignment: Alignment.bottomCenter,
-        )
+        if (viewModel.withMainCallToAction)
+          Align(child: _footer(context, viewModel.mainCallToAction!), alignment: Alignment.bottomCenter)
       ],
     );
   }
@@ -114,15 +115,28 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
     return params.entries.map((e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}').join('&');
   }
 
-  Widget _footer(BuildContext context, String url) {
+  Widget _footer(BuildContext context, CallToAction callToAction) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.all(16),
-      child: Row(
-        children: [
-          Expanded(child: actionButton(onPressed: () => launch(url), label: Strings.postulerButtonTitle)),
-        ],
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minWidth: double.infinity),
+        child: actionButton(onPressed: () => launch(callToAction.uri.toString()), label: callToAction.label),
       ),
     );
+  }
+
+  List<Widget> _secondaryCallToActions(ImmersionDetailsViewModel viewModel) {
+    final buttons = viewModel.secondaryCallToActions.map((cta) {
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 20),
+        child: SecondaryButton(
+          label: cta.label,
+          drawableRes: cta.drawableRes,
+          onPressed: () => launch(cta.uri.toString()),
+        ),
+      );
+    }).toList();
+    return [SepLine(24, 20), ...buttons];
   }
 }

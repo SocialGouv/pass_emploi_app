@@ -302,7 +302,7 @@ main() {
           CallToAction(
             'Envoyer un e-mail',
             Uri.parse("mailto:mail?subject=Prise%20de%20contact%20au%20sujet%20de%20votre%20offre%20d'immersion"),
-            drawableId: Drawables.icMail,
+            drawableRes: Drawables.icMail,
           ),
           CallToAction('Localiser l\'entreprise', Uri.parse("geo:0,0?q=Address%201")),
         ]);

@@ -145,7 +145,7 @@ List<CallToAction> _secondaryCallToActions(ImmersionDetails immersion, Platform 
         CallToAction(
           Strings.immersionEmailButton,
           UriHandler().mailUri(to: mail, subject: Strings.immersionEmailSubject),
-          drawableId: Drawables.icMail,
+          drawableRes: Drawables.icMail,
         ),
       CallToAction(Strings.immersionLocationButton, UriHandler().mapsUri(immersion.address, platform)),
     ];

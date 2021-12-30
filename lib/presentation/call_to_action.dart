@@ -3,10 +3,10 @@ import 'package:equatable/equatable.dart';
 class CallToAction extends Equatable {
   final String label;
   final Uri uri;
-  final String? drawableId;
+  final String? drawableRes;
 
-  CallToAction(this.label, this.uri, {this.drawableId});
+  CallToAction(this.label, this.uri, {this.drawableRes});
 
   @override
-  List<Object?> get props => [label, uri.toString(), drawableId];
+  List<Object?> get props => [label, uri.toString(), drawableRes];
 }
