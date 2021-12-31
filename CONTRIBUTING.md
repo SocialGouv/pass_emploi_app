@@ -1,5 +1,5 @@
 # Introduction
-Ce document liste les différentes pratiques de dev mises en place sur le projet, articulées autour de domaines suivants :
+Ce document liste les différentes pratiques de dev mises en place sur le projet, articulées autour des domaines suivants :
 * Les conventions de code
 * Gestion des cas non nominaux
 * L'usage de Redux
@@ -52,7 +52,7 @@ est de mettre le nombre de caractères par ligne à 120 : dans les préférences
 ## L'usage du français et de l'anglais
 Contrairement au projet backend, le choix est fait ici de n'utiliser le français que pour les termes fonctionnels, 
 et ce même si la traduction du terme fonctionnel est évidente. Par exemple, il y a une classe `Jeune` et non pas 
-`Young/Youth`, et `Offre` plutôt que `Offer`. Pour ce qui est des verbes, même associés à des termes français, name les 
+`Young/Youth`, et `Offre` plutôt que `Offer`. Pour ce qui est des verbes, même associés à des termes français, nous les 
 conservons en anglais s'ils ne sont pas fonctionnels. Ex : `isVolontaire` plutôt que `estVolontaire`.
 
 ## Nommage des variables
@@ -89,10 +89,10 @@ Les `expression body` (ex : `void method() => print('');`) ne sont utilisés que
 Dès qu'un objet prend en paramètre plusieurs autres objets de même type, l'usage des paramètres nommés s'impose. 
 
 ## Déclarations des resources
-Afin de conserver à part toutes les resources du projet (wordings, assets…) :
-* Tous les strings affichés dans l'application doivent être déclarés dans le fichier `strings.dart`. Les messages de 
+Afin de conserver à part toutes les ressources du projet (wordings, assets…) :
+* Tous les strings affichés dans l'application doivent être déclarées dans le fichier `strings.dart`. Les messages de 
 logging ne sont pas concernés. 
-* Toutes les images affichées dans l'application doivent être déclarés dans le fichier `drawables.dart`.
+* Toutes les images affichées dans l'application doivent être déclarées dans le fichier `drawables.dart`.
 
 
 
@@ -109,7 +109,7 @@ retours de types `List` : si `null` est retourné, c'est qu'il y a une erreur. S
 le cas nominal ne renvoie aucun résultat.
 
 ## Utiliser des objets pour les cas plus complexe
-Quand il y a une différentiation applicative des cas non nominaux, c'est alors il est nécessaire d'utiliser une classe
+Quand il y a une différentiation applicative des cas non nominaux, il est alors nécessaire d'utiliser une classe
 de retour dédiée (façon `sealed class` Kotlin) qui porte les retours nominaux et les différents cas d'erreur.
 
 
@@ -120,12 +120,12 @@ Dès qu'un des objets du projet interagit avec un objet (du projet ou d'une dép
 
 
 # L'usage de Redux
-Il n'est pas question ici de définir le mécanisme de Redux, mais plutôt de partager les pratiques qui y sont lié dans le 
+Il n'est pas question ici de définir le mécanisme de Redux, mais plutôt de partager les pratiques qui y sont liées dans le 
 projet.
 
 ## Pour les cas d'usage génériques, utiliser les classes dédiées
 Avec les `actions`, les `reducers`, les `middlewares` et les `states`, Redux peut s'avérer assez verbeux. Aussi, pour les 
-cas d'usage nominaux, à savoir à un repository, affichage du chargement, du succès ou d'une erreur, il est préconisé 
+cas d'usage nominaux, à savoir l'appel à un repository, affichage du chargement, du succès ou d'une erreur, il est préconisé 
 d'utiliser les classes génériques et les fichiers suivant :
  * `Action<REQUEST, RESULT>`
  * Le fichier `named_actions.dart`, qui définit une liste de `typedef` pour ces actions génériques, afin de ne pas avoir 
@@ -149,15 +149,15 @@ d'utiliser les classes génériques et les fichiers suivant :
     
 # Les tests automatisés
 Afin d'assurer la stabilité et la documentation du code source, plusieurs types des tests automatisés doivent être 
-systématiquement ajouté à chaque nouvelle fonctionnalité.
+systématiquement ajoutés à chaque nouvelle fonctionnalité.
 
 ## Les tests de la couche repository
 La couche repository est testée "en boîte noire" à la façon d'un test d'intégration. L'usage d'un `MockHttpClient` permet
-de tester les repositories de la sorte. Il est possible de s'inspirer sur ce qui est notamment fait dans le fichier 
+de tester les repositories de la sorte. Il est possible de s'inspirer de ce qui est notamment fait dans le fichier 
 [`immersion_repository_test.dart`](test/repositories/immersion_repository_test.dart).
 
 ### Le cas nominal
-Le test du cas nominal doit permettre de s'assurer que les bons paramètres sont passées, et que le parsing est bien fait.
+Le test du cas nominal doit permettre de s'assurer que les bons paramètres sont passés, et que le parsing est bien fait.
 À cet effet, un payload nominal peut être ajouté en tant que fichier `.json` au repertoire `test/assets`.
 
 ### Le cas d'un code retour HTTP invalide
@@ -171,9 +171,9 @@ Ce cas doit être également testé pour s'assurer qu'aucune exception ne soit p
 Afin de s'assurer que toute la boucle Redux fonctionne bien dans son ensemble (action > middleware > reducer > state), 
 la couche Redux est testée "en boîte noire" à la façon d'un test d'intégration. Les tests correspondants se trouvent 
 dans le répertoire `test/feature`, et permettent de s'assurer qu'une action modifie bien le state comme attendu. 
-Des tests unitaires isolé de chacun des composants ne semble pour l'heure pas pertinents.
+Des tests unitaires isolés de chacun des composants ne semblent pour l'heure pas pertinents.
 
-Il est à noté que ces tests qui sont de natures asynchrones peuvent échouer à cause d'un timeout qui est dépassé. Par
+Il est à noter que ces tests qui sont de natures asynchrones peuvent échouer à cause d'un timeout qui est dépassé. Par
 défaut, le timeout est de 30 secondes. Pour raccourcir cette durée, il est possible de passer cette commande en 
 argument additionnel au test (en CLI ou via l'IDE) : `--timeout 0.1x`. Dès lors, le test échouera après 3 secondes au 
 lieu de 30.
@@ -186,22 +186,22 @@ couche ViewModel soit testée unitairement.
 
 ## Les tests doubles
 Les dernières versions des librairies de tests doubles à l'état de l'art en Dart (ex : [mockito](https://pub.dev/packages/mockito)) 
-fonctionne par de la génération de classe et offrent une developer experience bien moindre que leur pendant du monde 
-Java. Pour l'heure, les tests doubles sont donc fait à la main comme suit :
+fonctionnent par de la génération de classe et offrent une developer experience bien moindre que leur pendant du monde 
+Java. Pour l'heure, les tests doubles sont donc faits à la main comme suit :
 * Dummy : à créer pour un objet qui renvoie toujours une valeur vide ou nulle.
 * Mock : à créer pour un objet qui renvoie une valeur spécifique.
 * Stub : à créer pour un objet qui renvoie une valeur spécifique en fonction de comment il est appelé.
-* Spy : à créer pour un objet qui renvoie dont il est nécessaire de vérifier qu'il est bien appelé.
+* Spy : à créer pour un objet dont il est nécessaire de vérifier qu'il est bien appelé.
 
 ## Les autres tests
-En dehors des cas mentionné ci-dessus, il est à l'entière liberté du contributeur de tester de manière automatisé un 
+En dehors des cas mentionnés ci-dessus, il est à l'entière liberté du contributeur de tester de manière automatisée un 
 composant qui lui semble nécessaire de l'être.
 
 
 
 # Les conventions Git
 Les conventions Git du projet sont basées sur [Git Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0)
-qui décrit de manières exhaustive les types commits suivants : `feat, fix, build, chore, ci, docs, style, refactor, perf, 
+qui décrit de manière exhaustive les types de commits suivants : `feat, fix, build, chore, ci, docs, style, refactor, perf, 
 test`.
 
 ## Lien entre le code source et le Trello
@@ -219,7 +219,7 @@ En se basant sur les prefixes de Git Conventional Commits, les branches sont nom
 Ex : `docs/204-doc-initier-le-contributingmd-du-projet-flutter`
 
 ## Nommage des commits
-En se basant sur les prefixes de Git Conventional Commits, les commit sont nommées comme suit :
+En se basant sur les prefixes de Git Conventional Commits, les commit sont nommés comme suit :
 `<type>: <id-de-l'url-Trello-du-ticket> - <description en anglais>`.
 
 Ex : `docs: 204 - initialize CONTRIBUTING.md`
