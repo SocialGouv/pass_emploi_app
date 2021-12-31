@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/checkbox_group.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 
@@ -52,7 +53,22 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
       child: Column(
         children: [
           SizedBox(height: 32),
-          if (viewModel.shouldDisplayDistanceFiltre) _distanceSlider(context, viewModel)
+          if (viewModel.shouldDisplayDistanceFiltre) _distanceSlider(context, viewModel),
+          CheckBoxGroup(
+            title: "Expérience",
+            options: ["De 0 à 1 an", "De 1 an à 3 ans", "3 ans et +"],
+            onSelectedOptionsUpdated: (selectedOptions) => debugPrint("🥏 ${selectedOptions.length}"),
+          ),
+          CheckBoxGroup(
+            title: "Type de contrat",
+            options: ["CDI", "CDD - intérim - saisonnier", "Autres"],
+            onSelectedOptionsUpdated: (selectedOptions) => debugPrint("🏓 ${selectedOptions.length}"),
+          ),
+          CheckBoxGroup(
+            title: "Temps de travail",
+            options: ["Temps plein", "Temps partiel"],
+            onSelectedOptionsUpdated: (selectedOptions) => debugPrint("🛷 ${selectedOptions.length}"),
+          ),
         ],
       ),
     );
@@ -93,28 +109,18 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
   }
 
   Widget _slider(OffreEmploiFiltresViewModel viewModel) {
-    return SliderTheme(
-      data: SliderThemeData(
-        trackHeight: 6.0,
-        activeTrackColor: AppColors.nightBlue,
-        inactiveTrackColor: AppColors.bluePurple,
-        thumbColor: AppColors.nightBlue,
-        activeTickMarkColor: AppColors.nightBlue,
-        inactiveTickMarkColor: AppColors.bluePurple,
-      ),
-      child: Slider(
-        value: _sliderValueToDisplay(viewModel),
-        min: 0,
-        max: 100,
-        divisions: 10,
-        onChanged: (value) {
-          if (value > 0)
-            setState(() {
-              _currentSliderValue = value;
-              _hasFormChanged = true;
-            });
-        },
-      ),
+    return Slider(
+      value: _sliderValueToDisplay(viewModel),
+      min: 0,
+      max: 100,
+      divisions: 10,
+      onChanged: (value) {
+        if (value > 0)
+          setState(() {
+            _currentSliderValue = value;
+            _hasFormChanged = true;
+          });
+      },
     );
   }
 
