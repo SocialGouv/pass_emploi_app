@@ -9,6 +9,8 @@ import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:redux/redux.dart';
 
 class OffreEmploiFiltresViewModel extends Equatable {
+  static const defaultDistanceValue = 10;
+
   final DisplayState displayState;
   final bool shouldDisplayDistanceFiltre;
   final int initialDistanceValue;
@@ -37,7 +39,11 @@ class OffreEmploiFiltresViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [displayState, shouldDisplayDistanceFiltre, initialDistanceValue];
+  List<Object?> get props => [
+        displayState,
+        shouldDisplayDistanceFiltre,
+        initialDistanceValue,
+      ];
 }
 
 bool _shouldDisplayDistanceFiltre(OffreEmploiSearchParametersState parametersState) {
@@ -59,10 +65,9 @@ DisplayState _displayState(OffreEmploiSearchState searchState) {
 }
 
 int _distance(OffreEmploiSearchParametersState parametersState) {
-  const defaultValue = 10;
   if (parametersState is OffreEmploiSearchParametersInitializedState) {
-    return parametersState.filtres.distance ?? defaultValue;
+    return parametersState.filtres.distance ?? OffreEmploiFiltresViewModel.defaultDistanceValue;
   } else {
-    return defaultValue;
+    return OffreEmploiFiltresViewModel.defaultDistanceValue;
   }
 }
