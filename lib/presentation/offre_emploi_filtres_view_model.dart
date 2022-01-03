@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
@@ -25,6 +26,8 @@ class OffreEmploiFiltresViewModel extends Equatable {
   final List<CheckboxValueViewModel<ContratFiltre>> contratFiltres;
   final List<CheckboxValueViewModel<DureeFiltre>> dureeFiltres;
 
+  final String errorMessage;
+
   OffreEmploiFiltresViewModel._({
     required this.displayState,
     required this.shouldDisplayDistanceFiltre,
@@ -33,13 +36,15 @@ class OffreEmploiFiltresViewModel extends Equatable {
     required this.experienceFiltres,
     required this.contratFiltres,
     required this.dureeFiltres,
+    required this.errorMessage,
   });
 
   factory OffreEmploiFiltresViewModel.create(Store<AppState> store) {
     final parametersState = store.state.offreEmploiSearchParametersState;
     final searchState = store.state.offreEmploiSearchState;
+    final searchResultsState = store.state.offreEmploiSearchResultsState;
     return OffreEmploiFiltresViewModel._(
-      displayState: _displayState(searchState),
+      displayState: _displayState(searchState, searchResultsState),
       shouldDisplayDistanceFiltre: _shouldDisplayDistanceFiltre(parametersState),
       initialDistanceValue: _distance(parametersState),
       updateFiltres: (
@@ -62,6 +67,7 @@ class OffreEmploiFiltresViewModel extends Equatable {
       experienceFiltres: _experience(parametersState),
       contratFiltres: _contrat(parametersState),
       dureeFiltres: _duree(parametersState),
+      errorMessage: _errorMessage(searchState, searchResultsState),
     );
   }
 
@@ -71,6 +77,16 @@ class OffreEmploiFiltresViewModel extends Equatable {
         shouldDisplayDistanceFiltre,
         initialDistanceValue,
       ];
+}
+
+String _errorMessage(OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
+  if (searchState is OffreEmploiSearchSuccessState && searchResultsState is OffreEmploiSearchResultsDataState) {
+    return searchResultsState.offres.isNotEmpty ? "" : Strings.noContentError;
+  } else if (searchState is OffreEmploiSearchFailureState) {
+    return Strings.genericError;
+  } else {
+    return "";
+  }
 }
 
 List<CheckboxValueViewModel<DureeFiltre>> _duree(OffreEmploiSearchParametersState parametersState) {
@@ -139,9 +155,9 @@ bool _shouldDisplayDistanceFiltre(OffreEmploiSearchParametersState parametersSta
   }
 }
 
-DisplayState _displayState(OffreEmploiSearchState searchState) {
-  if (searchState is OffreEmploiSearchSuccessState) {
-    return DisplayState.CONTENT;
+DisplayState _displayState(OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
+  if (searchState is OffreEmploiSearchSuccessState && searchResultsState is OffreEmploiSearchResultsDataState) {
+    return searchResultsState.offres.isNotEmpty ? DisplayState.CONTENT : DisplayState.EMPTY;
   } else if (searchState is OffreEmploiSearchLoadingState) {
     return DisplayState.LOADING;
   } else {

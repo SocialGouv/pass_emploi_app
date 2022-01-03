@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/checkbox_group.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/error_text.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
@@ -99,6 +100,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
             },
           ),
           _sepLine(),
+          if (_isError(viewModel)) ErrorText(viewModel.errorMessage),
           Padding(
             padding: const EdgeInsets.all(24),
             child: _stretchedButton(context, viewModel),
@@ -166,7 +168,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
     return ConstrainedBox(
       constraints: const BoxConstraints(minWidth: double.infinity),
       child: PrimaryActionButton.simple(
-        onPressed: _hasFormChanged && viewModel.displayState == DisplayState.CONTENT
+        onPressed: _hasFormChanged && viewModel.displayState != DisplayState.LOADING
             ? () => viewModel.updateFiltres(
                   _sliderValueToDisplay(viewModel).toInt(),
                   _currentExperiencefiltres ?? [],
@@ -184,5 +186,9 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: SepLine(24, 24, lineColor: AppColors.bluePurple),
     );
+  }
+
+  bool _isError(OffreEmploiFiltresViewModel viewModel) {
+    return viewModel.displayState == DisplayState.FAILURE || viewModel.displayState == DisplayState.EMPTY;
   }
 }

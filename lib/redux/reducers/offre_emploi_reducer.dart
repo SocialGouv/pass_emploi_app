@@ -18,7 +18,7 @@ AppState offreEmploiReducer(AppState currentState, OffreEmploiAction action) {
       return _storeOffres(currentState, action);
     }
   } else if (action is OffreEmploiSearchFailureAction) {
-    return currentState.copyWith(offreEmploiSearchState: OffreEmploiSearchState.failure());
+    return _searchStateFailure(currentState);
   } else if (action is OffreEmploiResetResultsAction) {
     return currentState.copyWith(
       offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
@@ -34,7 +34,7 @@ AppState offreEmploiReducer(AppState currentState, OffreEmploiAction action) {
       return currentState;
     }
   } else if (action is OffreEmploiSearchWithUpdateFiltresFailureAction) {
-    return _treatFiltreFailureAsSuccessSoThatDataIsDisplayed(currentState);
+    return _searchStateFailure(currentState);
   } else {
     return currentState;
   }
@@ -93,5 +93,6 @@ AppState _storeOffresWithUpdatedFiltres(AppState currentState, OffreEmploiSearch
   );
 }
 
-AppState _treatFiltreFailureAsSuccessSoThatDataIsDisplayed(AppState currentState) =>
-    currentState.copyWith(offreEmploiSearchState: OffreEmploiSearchState.success());
+AppState _searchStateFailure(AppState currentState) {
+  return currentState.copyWith(offreEmploiSearchState: OffreEmploiSearchState.failure());
+}

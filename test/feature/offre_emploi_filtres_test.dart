@@ -46,8 +46,7 @@ main() {
     expect(repositoryMock.wasCalledWithFiltres, isTrue);
   });
 
-  test("applying new filtres when call fails should leave all existing data alone but filtres should be stored",
-      () async {
+  test("applying new filtres when call fails should erase existing data and filtres should be stored", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.offreEmploiRepository = OffreEmploiRepositoryFailureStub();
@@ -55,20 +54,16 @@ main() {
 
     final displayedLoading =
         store.onChange.any((element) => element.offreEmploiSearchState is OffreEmploiSearchLoadingState);
-    final failureButStillSuccessState =
-        store.onChange.firstWhere((element) => element.offreEmploiSearchState is OffreEmploiSearchSuccessState);
+    final failureState =
+        store.onChange.firstWhere((element) => element.offreEmploiSearchState is OffreEmploiSearchFailureState);
 
     // When
     store.dispatch(OffreEmploiSearchUpdateFiltresAction(OffreEmploiSearchParametersFiltres.withFiltres(distance: 40)));
 
     // Then
     expect(await displayedLoading, true);
-    final appState = await failureButStillSuccessState;
-    expect(appState.offreEmploiSearchState is OffreEmploiSearchSuccessState, true);
-
-    final searchResultsState = (appState.offreEmploiSearchResultsState as OffreEmploiSearchResultsDataState);
-    expect(searchResultsState.offres.length, 1);
-    expect(searchResultsState.loadedPage, 1);
+    final appState = await failureState;
+    expect(appState.offreEmploiSearchState is OffreEmploiSearchFailureState, true);
 
     final paramsState = (appState.offreEmploiSearchParametersState as OffreEmploiSearchParametersInitializedState);
     expect(paramsState.filtres.distance, 40);

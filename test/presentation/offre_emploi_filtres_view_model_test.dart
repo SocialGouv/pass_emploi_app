@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:redux/redux.dart';
 
@@ -20,6 +21,8 @@ main() {
       reducer,
       initialState: AppState.initialState().copyWith(
         offreEmploiSearchState: OffreEmploiSearchState.success(),
+        offreEmploiSearchResultsState:
+            OffreEmploiSearchResultsState.data(offres: [mockOffreEmploi()], loadedPage: 1, isMoreDataAvailable: true),
       ),
     );
 
@@ -46,7 +49,7 @@ main() {
     expect(viewModel.displayState, DisplayState.LOADING);
   });
 
-  test("create when search state is failure should display success", () {
+  test("create when search state is failure should display failure", () {
     // Given
     final store = Store<AppState>(
       reducer,
@@ -60,6 +63,25 @@ main() {
 
     // Then
     expect(viewModel.displayState, DisplayState.FAILURE);
+    expect(viewModel.errorMessage, "Erreur lors de la recherche. Veuillez réessayer");
+  });
+
+  test("create when search state is success but empty should display empty message", () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(
+          offreEmploiSearchState: OffreEmploiSearchState.success(),
+          offreEmploiSearchResultsState:
+              OffreEmploiSearchResultsState.data(offres: [], loadedPage: 1, isMoreDataAvailable: false)),
+    );
+
+    // When
+    final viewModel = OffreEmploiFiltresViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.EMPTY);
+    expect(viewModel.errorMessage, "Aucune offre ne correspond à votre recherche");
   });
 
   test("create when state has no filter should set distance to 10km", () {
