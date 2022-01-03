@@ -42,7 +42,7 @@ class Strings {
   static String yourAccessCode = "Votre code d\'accès";
   static String loginError = "Erreur lors de la connexion";
   static String loginGeneric = "Je suis suivi(e) par Pôle emploi";
-  static String loginMissionLocale = "Je suis suivi(e) par Mission Locale";
+  static String loginMissionLocale = "Je suis suivi(e) par la Mission Locale";
   static String loginAction = "Se connecter";
   static String logoutAction = "Me déconnecter";
 
