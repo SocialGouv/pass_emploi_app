@@ -63,7 +63,11 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
           Text(Strings.metierCompulsoryLabel, style: TextStyles.textLgMedium),
           SizedBox(height: 24),
           MetierAutocomplete(
-            onSelectMetier: (selectedMetier) => _setSelectedMetier(selectedMetier),
+            onSelectMetier: (selectedMetier){
+              setState(() {
+                _setSelectedMetier(selectedMetier);
+              });
+            },
             formKey: _metierFormKey,
             getPreviouslySelectedTitle: () => _selectedMetierTitle,
             validator: (value) {
