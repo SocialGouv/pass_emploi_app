@@ -71,7 +71,7 @@ main() {
     group('when enterprise is volontaire…', () {
       test('… and contact mode is unknown', () {
         // Given
-        final store = _successStore(_mockImmersion(isVolontaire: true, mode: ImmersionContactMode.UNKNOWN));
+        final store = _successStore(_mockImmersion(isVolontaire: true, mode: ImmersionContactMode.INCONNU));
 
         // When
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
@@ -113,7 +113,7 @@ main() {
 
       test('… and contact mode is in person', () {
         // Given
-        final store = _successStore(_mockImmersion(isVolontaire: true, mode: ImmersionContactMode.IN_PERSON));
+        final store = _successStore(_mockImmersion(isVolontaire: true, mode: ImmersionContactMode.PRESENTIEL));
 
         // When
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
@@ -174,10 +174,10 @@ main() {
       expect(viewModel.contactInformation, 'Address');
     });
 
-    test('when contact mode is UNKNOWN should display all info', () {
+    test('when contact mode is INCONNU should display all info', () {
       // Given
       final store = _successStore(_mockImmersionWithContact(
-        _mockContact(mail: 'Mail', phone: 'Phone', mode: ImmersionContactMode.UNKNOWN),
+        _mockContact(mail: 'Mail', phone: 'Phone', mode: ImmersionContactMode.INCONNU),
         address: "Address",
       ));
 
@@ -216,10 +216,10 @@ main() {
       expect(viewModel.contactInformation, 'Address\n\nPhone');
     });
 
-    test('when contact mode is IN_PERSON should only display address', () {
+    test('when contact mode is PRESENTIEL should only display address', () {
       // Given
       final store = _successStore(_mockImmersionWithContact(
-        _mockContact(mail: 'Mail', phone: 'Phone', mode: ImmersionContactMode.IN_PERSON),
+        _mockContact(mail: 'Mail', phone: 'Phone', mode: ImmersionContactMode.PRESENTIEL),
         address: "Address",
       ));
 
@@ -266,11 +266,11 @@ main() {
       });
     });
 
-    group('when contact mode is UNKNOWN…', () {
+    group('when contact mode is INCONNU…', () {
       test('but neither phone neither mail is set > does not have main CTA, only secondary address CTA', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(
-          _mockContact(mode: ImmersionContactMode.UNKNOWN, phone: '', mail: ''),
+          _mockContact(mode: ImmersionContactMode.INCONNU, phone: '', mail: ''),
           address: "Address 1",
         ));
 
@@ -289,7 +289,7 @@ main() {
       test('but phone is unset > does not have main CTA, only secondary mail & address CTAs', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(
-          _mockContact(mode: ImmersionContactMode.UNKNOWN, phone: '', mail: 'mail'),
+          _mockContact(mode: ImmersionContactMode.INCONNU, phone: '', mail: 'mail'),
           address: "Address 1",
         ));
 
@@ -312,7 +312,7 @@ main() {
       test('but phone is set > does have a main phone CTA, and secondary CTAs', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(
-          _mockContact(mode: ImmersionContactMode.UNKNOWN, phone: '0701020304', mail: 'mail'),
+          _mockContact(mode: ImmersionContactMode.INCONNU, phone: '0701020304', mail: 'mail'),
           address: "Address 1",
         ));
 
@@ -373,7 +373,7 @@ main() {
       test('does have a main location CTA, but secondary CTAs', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(
-          _mockContact(mode: ImmersionContactMode.IN_PERSON, phone: '0701020304', mail: 'mail'),
+          _mockContact(mode: ImmersionContactMode.PRESENTIEL, phone: '0701020304', mail: 'mail'),
           address: "Address 1",
         ));
 
@@ -410,7 +410,7 @@ Store<AppState> _successStore(ImmersionDetails immersion) => _store(State<Immers
 
 ImmersionDetails _mockImmersion({
   bool isVolontaire = false,
-  ImmersionContactMode mode = ImmersionContactMode.UNKNOWN,
+  ImmersionContactMode mode = ImmersionContactMode.INCONNU,
 }) {
   return ImmersionDetails(
     id: '',
@@ -458,6 +458,6 @@ ImmersionContact _mockContact({
     phone: phone ?? '',
     mail: mail ?? '',
     role: role ?? '',
-    mode: mode ?? ImmersionContactMode.UNKNOWN,
+    mode: mode ?? ImmersionContactMode.INCONNU,
   );
 }
