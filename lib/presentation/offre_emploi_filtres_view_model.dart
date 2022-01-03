@@ -11,8 +11,6 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
 class OffreEmploiFiltresViewModel extends Equatable {
-  static const defaultDistanceValue = 10;
-
   final DisplayState displayState;
   final bool shouldDisplayDistanceFiltre;
   final int initialDistanceValue;
@@ -49,17 +47,18 @@ class OffreEmploiFiltresViewModel extends Equatable {
         experienceFiltres,
         contratFiltres,
         dureeFiltres,
-      ) =>
-          store.dispatch(
-        OffreEmploiSearchUpdateFiltresAction(
-          OffreEmploiSearchParametersFiltres.withFiltres(
-            distance: updatedDistanceValue,
-            experience: experienceFiltres?.map((e) => e.value).toList(),
-            contrat: contratFiltres?.map((e) => e.value).toList(),
-            duree: dureeFiltres?.map((e) => e.value).toList(),
+      ) {
+        return store.dispatch(
+          OffreEmploiSearchUpdateFiltresAction(
+            OffreEmploiSearchParametersFiltres.withFiltres(
+              distance: updatedDistanceValue,
+              experience: experienceFiltres?.map((e) => e.value).toList(),
+              contrat: contratFiltres?.map((e) => e.value).toList(),
+              duree: dureeFiltres?.map((e) => e.value).toList(),
+            ),
           ),
-        ),
-      ),
+        );
+      },
       experienceFiltres: _experience(parametersState),
       contratFiltres: _contrat(parametersState),
       dureeFiltres: _duree(parametersState),
@@ -75,50 +74,59 @@ class OffreEmploiFiltresViewModel extends Equatable {
 }
 
 List<CheckboxValueViewModel<DureeFiltre>> _duree(OffreEmploiSearchParametersState parametersState) {
+  final filtres = _appliedFiltres(parametersState);
   return [
     CheckboxValueViewModel(
-        label: Strings.dureeTempsPleinLabel, value: DureeFiltre.temps_plein, isInitiallyChecked: false),
+      label: Strings.dureeTempsPleinLabel,
+      value: DureeFiltre.temps_plein,
+      isInitiallyChecked: filtres?.duree?.contains(DureeFiltre.temps_plein) ?? false,
+    ),
     CheckboxValueViewModel(
-        label: Strings.dureeTempsPartielLabel, value: DureeFiltre.temps_partiel, isInitiallyChecked: false),
+      label: Strings.dureeTempsPartielLabel,
+      value: DureeFiltre.temps_partiel,
+      isInitiallyChecked: filtres?.duree?.contains(DureeFiltre.temps_partiel) ?? false,
+    ),
   ];
 }
 
 List<CheckboxValueViewModel<ContratFiltre>> _contrat(OffreEmploiSearchParametersState parametersState) {
+  final filtres = _appliedFiltres(parametersState);
   return [
     CheckboxValueViewModel(
       label: Strings.contratCdiLabel,
       value: ContratFiltre.cdi,
-      isInitiallyChecked: false,
+      isInitiallyChecked: filtres?.contrat?.contains(ContratFiltre.cdi) ?? false,
     ),
     CheckboxValueViewModel(
       label: Strings.contratCddInterimSaisonnierLabel,
       value: ContratFiltre.cdd_interim_saisonnier,
-      isInitiallyChecked: false,
+      isInitiallyChecked: filtres?.contrat?.contains(ContratFiltre.cdd_interim_saisonnier) ?? false,
     ),
     CheckboxValueViewModel(
       label: Strings.contratAutreLabel,
       value: ContratFiltre.autre,
-      isInitiallyChecked: false,
+      isInitiallyChecked: filtres?.contrat?.contains(ContratFiltre.autre) ?? false,
     ),
   ];
 }
 
 List<CheckboxValueViewModel<ExperienceFiltre>> _experience(OffreEmploiSearchParametersState parametersState) {
+  final filtres = _appliedFiltres(parametersState);
   return [
     CheckboxValueViewModel(
       label: Strings.experienceDeZeroAUnAnLabel,
       value: ExperienceFiltre.de_zero_a_un_an,
-      isInitiallyChecked: false,
+      isInitiallyChecked: filtres?.experience?.contains(ExperienceFiltre.de_zero_a_un_an) ?? false,
     ),
     CheckboxValueViewModel(
       label: Strings.experienceDeUnATroisAnsLabel,
       value: ExperienceFiltre.de_un_a_trois_ans,
-      isInitiallyChecked: false,
+      isInitiallyChecked: filtres?.experience?.contains(ExperienceFiltre.de_un_a_trois_ans) ?? false,
     ),
     CheckboxValueViewModel(
       label: Strings.experienceTroisAnsEtPlusLabel,
       value: ExperienceFiltre.trois_ans_et_plus,
-      isInitiallyChecked: false,
+      isInitiallyChecked: filtres?.experience?.contains(ExperienceFiltre.trois_ans_et_plus) ?? false,
     ),
   ];
 }
@@ -143,8 +151,16 @@ DisplayState _displayState(OffreEmploiSearchState searchState) {
 
 int _distance(OffreEmploiSearchParametersState parametersState) {
   if (parametersState is OffreEmploiSearchParametersInitializedState) {
-    return parametersState.filtres.distance ?? OffreEmploiFiltresViewModel.defaultDistanceValue;
+    return parametersState.filtres.distance ?? OffreEmploiSearchParametersFiltres.defaultDistanceValue;
   } else {
-    return OffreEmploiFiltresViewModel.defaultDistanceValue;
+    return OffreEmploiSearchParametersFiltres.defaultDistanceValue;
   }
+}
+
+OffreEmploiSearchParametersFiltres? _appliedFiltres(OffreEmploiSearchParametersState parametersState) {
+  OffreEmploiSearchParametersFiltres? filtres;
+  if (parametersState is OffreEmploiSearchParametersInitializedState) {
+    filtres = parametersState.filtres;
+  }
+  return filtres;
 }

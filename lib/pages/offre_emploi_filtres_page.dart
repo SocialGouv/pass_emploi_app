@@ -34,6 +34,11 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, OffreEmploiFiltresViewModel>(
+      onInitialBuild: (viewModel) {
+        _currentExperiencefiltres = viewModel.experienceFiltres.where((element) => element.isInitiallyChecked).toList();
+        _currentContratfiltres = viewModel.contratFiltres.where((element) => element.isInitiallyChecked).toList();
+        _currentDureefiltres = viewModel.dureeFiltres.where((element) => element.isInitiallyChecked).toList();
+      },
       converter: (store) => OffreEmploiFiltresViewModel.create(store),
       builder: (context, viewModel) => _scaffold(context, viewModel),
       distinct: true,

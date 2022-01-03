@@ -139,6 +139,50 @@ main() {
     expect(viewModel.dureeFiltres, _allDureesInitiallyUnchecked());
   });
 
+  test("create when state has all checkboxes filtres selected should pre-check every filtres", () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(
+        offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
+          "mots clés",
+          mockCommuneLocation(),
+          OffreEmploiSearchParametersFiltres.withFiltres(
+            experience: [
+              ExperienceFiltre.de_zero_a_un_an,
+              ExperienceFiltre.de_un_a_trois_ans,
+              ExperienceFiltre.trois_ans_et_plus
+            ],
+            contrat: [ContratFiltre.cdi, ContratFiltre.cdd_interim_saisonnier, ContratFiltre.autre],
+            duree: [DureeFiltre.temps_plein, DureeFiltre.temps_partiel],
+          ),
+        ),
+      ),
+    );
+
+    // When
+    final viewModel = OffreEmploiFiltresViewModel.create(store);
+
+    // Then
+    expect(
+        viewModel.experienceFiltres,
+        _allExperiencesInitiallyUnchecked()
+            .map((e) => CheckboxValueViewModel(label: e.label, value: e.value, isInitiallyChecked: true))
+            .toList());
+
+    expect(
+        viewModel.contratFiltres,
+        _allContratsInitiallyUnchecked()
+            .map((e) => CheckboxValueViewModel(label: e.label, value: e.value, isInitiallyChecked: true))
+            .toList());
+
+    expect(
+        viewModel.dureeFiltres,
+        _allDureesInitiallyUnchecked()
+            .map((e) => CheckboxValueViewModel(label: e.label, value: e.value, isInitiallyChecked: true))
+            .toList());
+  });
+
   test("updateFiltres should map view model input into action", () {
     // Given
     final store = StoreSpy();

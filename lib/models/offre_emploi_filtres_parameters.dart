@@ -1,4 +1,7 @@
 class OffreEmploiSearchParametersFiltres {
+
+  static const defaultDistanceValue = 10;
+
   final int? distance;
   final List<ExperienceFiltre>? experience;
   final List<ContratFiltre>? contrat;

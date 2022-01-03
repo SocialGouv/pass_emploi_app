@@ -117,6 +117,17 @@ main() {
       expect(viewModel.filtresCount, 1);
     });
 
+    test("when state has active distance filtre but value is default it should not display a filtre number", () {
+      // Given
+      final store = _storeWithFiltres(OffreEmploiSearchParametersFiltres.withFiltres(distance: 10));
+
+      // When
+      final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+      // Then
+      expect(viewModel.filtresCount, isNull);
+    });
+
     test("when state has active experience filtre it should display 1 as filtre number", () {
       // Given
       final store = _storeWithFiltres(
