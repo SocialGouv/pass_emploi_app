@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/checkbox_group.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/sepline.dart';
 
 class OffreEmploiFiltresPage extends TraceableStatefulWidget {
   OffreEmploiFiltresPage() : super(name: AnalyticsScreenNames.offreEmploiFiltres);
@@ -54,20 +55,28 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
         children: [
           SizedBox(height: 32),
           if (viewModel.shouldDisplayDistanceFiltre) _distanceSlider(context, viewModel),
+          if (viewModel.shouldDisplayDistanceFiltre) _sepLine(),
           CheckBoxGroup(
             title: "Expérience",
             options: ["De 0 à 1 an", "De 1 an à 3 ans", "3 ans et +"],
             onSelectedOptionsUpdated: (selectedOptions) => debugPrint("🥏 ${selectedOptions.length}"),
           ),
+          _sepLine(),
           CheckBoxGroup(
             title: "Type de contrat",
             options: ["CDI", "CDD - intérim - saisonnier", "Autres"],
             onSelectedOptionsUpdated: (selectedOptions) => debugPrint("🏓 ${selectedOptions.length}"),
           ),
+          _sepLine(),
           CheckBoxGroup(
             title: "Temps de travail",
             options: ["Temps plein", "Temps partiel"],
             onSelectedOptionsUpdated: (selectedOptions) => debugPrint("🛷 ${selectedOptions.length}"),
+          ),
+          _sepLine(),
+          Padding(
+            padding: const EdgeInsets.all(24),
+            child: _stretchedButton(context, viewModel),
           ),
         ],
       ),
@@ -85,15 +94,6 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: _sliderCaption(),
-        ),
-        SizedBox(height: 32),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Container(height: 1, color: AppColors.bluePurple),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(24),
-          child: _stretchedButton(context, viewModel),
         ),
       ],
     );
@@ -146,6 +146,13 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
             : null,
         label: Strings.applyFiltres,
       ),
+    );
+  }
+
+  Widget _sepLine() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: SepLine(24, 24, lineColor: AppColors.bluePurple),
     );
   }
 }

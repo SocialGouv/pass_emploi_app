@@ -32,7 +32,7 @@ class _CheckBoxGroupState extends State<CheckBoxGroup> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(left: 16),
+            padding: const EdgeInsets.only(left: 24),
             child: Text(widget.title, style: TextStyles.textMdMedium),
           ),
           SizedBox(height: 12),
@@ -42,17 +42,20 @@ class _CheckBoxGroupState extends State<CheckBoxGroup> {
   }
 
   Widget _createCheckBox(String key, bool isSelected) {
-    return CheckboxListTile(
-      title: Text(key, style: TextStyles.textMdRegular),
-      value: isSelected,
-      onChanged: (value) {
-        setState(() {
-          if (value != null) {
-            _optionsSelectionStatus[key] = value;
-            widget.onSelectedOptionsUpdated(_listOfSelectedOptions());
-          }
-        });
-      },
+    return Padding(
+      padding: const EdgeInsets.only(left: 8),
+      child: CheckboxListTile(
+        title: Text(key, style: TextStyles.textMdRegular),
+        value: isSelected,
+        onChanged: (value) {
+          setState(() {
+            if (value != null) {
+              _optionsSelectionStatus[key] = value;
+              widget.onSelectedOptionsUpdated(_listOfSelectedOptions());
+            }
+          });
+        },
+      ),
     );
   }
 
