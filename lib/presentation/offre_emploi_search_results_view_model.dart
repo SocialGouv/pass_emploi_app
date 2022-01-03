@@ -45,7 +45,16 @@ int? _filtresCount(OffreEmploiSearchParametersState searchParamsState) {
   if (searchParamsState is OffreEmploiSearchParametersInitializedState) {
     var activeFiltresCount = [
       searchParamsState.filtres.distance,
-    ].where((element) => element != null).length;
+      searchParamsState.filtres.experience,
+      searchParamsState.filtres.contrat,
+      searchParamsState.filtres.duree,
+    ].where((element) {
+      if (element is Iterable) {
+        return element.isNotEmpty;
+      } else {
+        return element != null;
+      }
+    }).length;
     if (activeFiltresCount == 0) {
       return null;
     } else {
