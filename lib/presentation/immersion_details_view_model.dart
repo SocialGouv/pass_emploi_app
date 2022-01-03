@@ -94,9 +94,9 @@ String _contactModeLabel(ImmersionContactMode? mode) {
       return Strings.immersionMailContactModeExplanation;
     case ImmersionContactMode.PHONE:
       return Strings.immersionPhoneContactModeExplanation;
-    case ImmersionContactMode.IN_PERSON:
+    case ImmersionContactMode.PRESENTIEL:
       return Strings.immersionInPersonContactModeExplanation;
-    case ImmersionContactMode.UNKNOWN:
+    case ImmersionContactMode.INCONNU:
     case null:
       return Strings.immersionUnknownContactModeExplanation;
   }
@@ -112,15 +112,22 @@ String _contactLabel(ImmersionDetails immersion) {
 
 String _contactInformation(ImmersionDetails immersion) {
   var contactInformation = immersion.address;
-  if (immersion.contact?.mail.isNotEmpty == true) contactInformation += "\n" + immersion.contact!.mail;
-  if (immersion.contact?.phone.isNotEmpty == true) contactInformation += "\n" + immersion.contact!.phone;
+  final mode = immersion.contact?.mode;
+  final mail = immersion.contact != null ? immersion.contact!.mail : '';
+  final phone = immersion.contact != null ? immersion.contact!.phone : '';
+  if (mail.isNotEmpty && ([ImmersionContactMode.INCONNU, ImmersionContactMode.MAIL].contains(mode))) {
+    contactInformation += "\n\n" + mail;
+  }
+  if (phone.isNotEmpty && ([ImmersionContactMode.INCONNU, ImmersionContactMode.PHONE].contains(mode))) {
+    contactInformation += "\n\n" + phone;
+  }
   return contactInformation;
 }
 
 CallToAction? _mainCallToAction(ImmersionDetails immersion, Platform platform) {
   final contact = immersion.contact;
   if (contact != null) {
-    if (contact.mode == ImmersionContactMode.UNKNOWN && contact.phone.isNotEmpty) {
+    if (contact.mode == ImmersionContactMode.INCONNU && contact.phone.isNotEmpty) {
       return CallToAction(Strings.immersionPhoneButton, UriHandler().phoneUri(contact.phone));
     } else if (contact.mode == ImmersionContactMode.PHONE) {
       return CallToAction(Strings.immersionPhoneButton, UriHandler().phoneUri(contact.phone));
@@ -129,7 +136,7 @@ CallToAction? _mainCallToAction(ImmersionDetails immersion, Platform platform) {
         Strings.immersionEmailButton,
         UriHandler().mailUri(to: contact.mail, subject: Strings.immersionEmailSubject),
       );
-    } else if (contact.mode == ImmersionContactMode.IN_PERSON) {
+    } else if (contact.mode == ImmersionContactMode.PRESENTIEL) {
       return CallToAction(Strings.immersionLocationButton, UriHandler().mapsUri(immersion.address, platform));
     }
   }
@@ -138,7 +145,7 @@ CallToAction? _mainCallToAction(ImmersionDetails immersion, Platform platform) {
 
 List<CallToAction> _secondaryCallToActions(ImmersionDetails immersion, Platform platform) {
   final mode = immersion.contact?.mode;
-  if (mode == null || mode == ImmersionContactMode.UNKNOWN) {
+  if (mode == null || mode == ImmersionContactMode.INCONNU) {
     final mail = immersion.contact?.mail;
     return [
       if (mail != null && mail.isNotEmpty)
