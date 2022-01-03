@@ -167,7 +167,19 @@ class Strings {
   static String offresEmploiFiltresTitle = "Filtrer les annonces";
   static String searchRadius = "Dans un rayon de : ";
   static String applyFiltres = "Appliquer les filtres";
+
   static String kmFormat(int int) => "${int} km";
+  static String experienceSectionTitle = "Expérience";
+  static String experienceDeZeroAUnAnLabel = "De 0 à 1 an";
+  static String experienceDeUnATroisAnsLabel = "De 1 an à 3 ans";
+  static String experienceTroisAnsEtPlusLabel = "3 ans et +";
+  static String contratSectionTitle = "Type de contrat";
+  static String contratCdiLabel = "CDI";
+  static String contratCddInterimSaisonnierLabel = "CDD - intérim - saisonnier";
+  static String contratAutreLabel = "Autres";
+  static String dureeSectionTitle = "Temps de travail";
+  static String dureeTempsPleinLabel = "Temps plein";
+  static String dureeTempsPartielLabel = "Temps partiel";
 
   // Offre emploi details
   static String offreDetailsError = "Erreur lors de la récupération de l'offre";

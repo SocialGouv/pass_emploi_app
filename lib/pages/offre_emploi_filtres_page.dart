@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/presentation/checkbox_value_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_filtres_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -24,6 +26,9 @@ class OffreEmploiFiltresPage extends TraceableStatefulWidget {
 
 class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
   double? _currentSliderValue;
+  List<CheckboxValueViewModel<ExperienceFiltre>>? _currentExperiencefiltres;
+  List<CheckboxValueViewModel<ContratFiltre>>? _currentContratfiltres;
+  List<CheckboxValueViewModel<DureeFiltre>>? _currentDureefiltres;
   var _hasFormChanged = false;
 
   @override
@@ -56,22 +61,37 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
           SizedBox(height: 32),
           if (viewModel.shouldDisplayDistanceFiltre) _distanceSlider(context, viewModel),
           if (viewModel.shouldDisplayDistanceFiltre) _sepLine(),
-          CheckBoxGroup(
-            title: "Expérience",
-            options: ["De 0 à 1 an", "De 1 an à 3 ans", "3 ans et +"],
-            onSelectedOptionsUpdated: (selectedOptions) => debugPrint("🥏 ${selectedOptions.length}"),
+          CheckBoxGroup<ExperienceFiltre>(
+            title: Strings.experienceSectionTitle,
+            options: viewModel.experienceFiltres,
+            onSelectedOptionsUpdated: (selectedOptions) {
+              setState(() {
+                _hasFormChanged = true;
+                _currentExperiencefiltres = selectedOptions as List<CheckboxValueViewModel<ExperienceFiltre>>;
+              });
+            },
           ),
           _sepLine(),
-          CheckBoxGroup(
-            title: "Type de contrat",
-            options: ["CDI", "CDD - intérim - saisonnier", "Autres"],
-            onSelectedOptionsUpdated: (selectedOptions) => debugPrint("🏓 ${selectedOptions.length}"),
+          CheckBoxGroup<ContratFiltre>(
+            title: Strings.contratSectionTitle,
+            options: viewModel.contratFiltres,
+            onSelectedOptionsUpdated: (selectedOptions) {
+              setState(() {
+                _hasFormChanged = true;
+                _currentContratfiltres = selectedOptions as List<CheckboxValueViewModel<ContratFiltre>>;
+              });
+            },
           ),
           _sepLine(),
-          CheckBoxGroup(
-            title: "Temps de travail",
-            options: ["Temps plein", "Temps partiel"],
-            onSelectedOptionsUpdated: (selectedOptions) => debugPrint("🛷 ${selectedOptions.length}"),
+          CheckBoxGroup<DureeFiltre>(
+            title: Strings.dureeSectionTitle,
+            options: viewModel.dureeFiltres,
+            onSelectedOptionsUpdated: (selectedOptions) {
+              setState(() {
+                _hasFormChanged = true;
+                _currentDureefiltres = selectedOptions as List<CheckboxValueViewModel<DureeFiltre>>;
+              });
+            },
           ),
           _sepLine(),
           Padding(
@@ -142,7 +162,12 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
       constraints: const BoxConstraints(minWidth: double.infinity),
       child: PrimaryActionButton.simple(
         onPressed: _hasFormChanged && viewModel.displayState == DisplayState.CONTENT
-            ? () => viewModel.updateFiltres(_sliderValueToDisplay(viewModel).toInt())
+            ? () => viewModel.updateFiltres(
+                  _sliderValueToDisplay(viewModel).toInt(),
+                  _currentExperiencefiltres ?? [],
+                  _currentContratfiltres ?? [],
+                  _currentDureefiltres ?? [],
+                )
             : null,
         label: Strings.applyFiltres,
       ),
