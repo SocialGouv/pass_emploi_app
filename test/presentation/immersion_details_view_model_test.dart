@@ -64,7 +64,7 @@ main() {
       // Then
       expect(
         viewModel.explanationLabel,
-        'Cette entreprise peut recruter sur ce métier et être intéressée pour vous vous recevoir en immersion.',
+        'Cette entreprise peut recruter sur ce métier et être intéressée pour vous recevoir en immersion. Contactez-la en expliquant votre projet professionnel et vos motivations.',
       );
     });
 
@@ -107,7 +107,7 @@ main() {
         // Then
         expect(
           viewModel.explanationLabel,
-          'Cette entreprise recherche activement des candidats à l’immersion. Contactez-la par e-mail en expliquant votre projet professionnel et vos motivations. Vous n’avez pas besoin d’envoyer un CV.',
+          'Cette entreprise recherche activement des candidats à l’immersion. Contactez-la par e-mail en expliquant votre projet professionnel et vos motivations.\n\nVous n’avez pas besoin d’envoyer un CV.',
         );
       });
 
@@ -174,9 +174,54 @@ main() {
       expect(viewModel.contactInformation, 'Address');
     });
 
-    test('when contact is set without mail and phone', () {
+    test('when contact mode is UNKNOWN should display all info', () {
       // Given
-      final store = _successStore(_mockImmersionWithContact(_mockContact(mail: '', phone: ''), address: "Address"));
+      final store = _successStore(_mockImmersionWithContact(
+        _mockContact(mail: 'Mail', phone: 'Phone', mode: ImmersionContactMode.UNKNOWN),
+        address: "Address",
+      ));
+
+      // When
+      final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+
+      // Then
+      expect(viewModel.contactInformation, 'Address\n\nMail\n\nPhone');
+    });
+
+    test('when contact mode is MAIL should only display address + mail', () {
+      // Given
+      final store = _successStore(_mockImmersionWithContact(
+        _mockContact(mail: 'Mail', phone: 'Phone', mode: ImmersionContactMode.MAIL),
+        address: "Address",
+      ));
+
+      // When
+      final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+
+      // Then
+      expect(viewModel.contactInformation, 'Address\n\nMail');
+    });
+
+    test('when contact mode is PHONE should only display address + phone', () {
+      // Given
+      final store = _successStore(_mockImmersionWithContact(
+        _mockContact(mail: 'Mail', phone: 'Phone', mode: ImmersionContactMode.PHONE),
+        address: "Address",
+      ));
+
+      // When
+      final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+
+      // Then
+      expect(viewModel.contactInformation, 'Address\n\nPhone');
+    });
+
+    test('when contact mode is IN_PERSON should only display address', () {
+      // Given
+      final store = _successStore(_mockImmersionWithContact(
+        _mockContact(mail: 'Mail', phone: 'Phone', mode: ImmersionContactMode.IN_PERSON),
+        address: "Address",
+      ));
 
       // When
       final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
@@ -184,51 +229,7 @@ main() {
       // Then
       expect(viewModel.contactInformation, 'Address');
     });
-
-    test('when contact is set with mail', () {
-      // Given
-      final store = _successStore(_mockImmersionWithContact(_mockContact(mail: 'Mail', phone: ''), address: "Address"));
-
-      // When
-      final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
-
-      // Then
-      expect(viewModel.contactInformation, 'Address\nMail');
-    });
-
-    test('when contact is set with phone', () {
-      // Given
-      final store = _successStore(
-        _mockImmersionWithContact(_mockContact(mail: '', phone: 'Phone'), address: "Address"),
-      );
-
-      // When
-      final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
-
-      // Then
-      expect(viewModel.contactInformation, 'Address\nPhone');
-    });
-
-    test('when contact is set with mail and phone', () {
-      // Given
-      final store = _successStore(
-        _mockImmersionWithContact(_mockContact(mail: 'Mail', phone: 'Phone'), address: "Address"),
-      );
-
-      // When
-      final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
-
-      // Then
-      expect(viewModel.contactInformation, 'Address\nMail\nPhone');
-    });
   });
-  // MODE DE CONTACT : PHONE
-  // PRINCIPAL : APPELER
-  // SECONDAIRE : RIEN
-
-  // MODE DE CONTACT : EN PERSONNE
-  // PRINCIPAL : MAPS
-  // SECONDAIRE : RIEN
 
   group('Call to actions…', () {
     group('when contact is null…', () {

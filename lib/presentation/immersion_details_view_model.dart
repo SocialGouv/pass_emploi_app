@@ -112,8 +112,15 @@ String _contactLabel(ImmersionDetails immersion) {
 
 String _contactInformation(ImmersionDetails immersion) {
   var contactInformation = immersion.address;
-  if (immersion.contact?.mail.isNotEmpty == true) contactInformation += "\n" + immersion.contact!.mail;
-  if (immersion.contact?.phone.isNotEmpty == true) contactInformation += "\n" + immersion.contact!.phone;
+  final mode = immersion.contact?.mode;
+  final mail = immersion.contact != null ? immersion.contact!.mail : '';
+  final phone = immersion.contact != null ? immersion.contact!.phone : '';
+  if (mail.isNotEmpty && ([ImmersionContactMode.UNKNOWN, ImmersionContactMode.MAIL].contains(mode))) {
+    contactInformation += "\n\n" + mail;
+  }
+  if (phone.isNotEmpty && ([ImmersionContactMode.UNKNOWN, ImmersionContactMode.PHONE].contains(mode))) {
+    contactInformation += "\n\n" + phone;
+  }
   return contactInformation;
 }
 
