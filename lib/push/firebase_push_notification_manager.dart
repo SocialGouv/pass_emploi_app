@@ -2,13 +2,14 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:redux/redux.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print("Handling a background message: ${message.messageId}");
+  debugPrint("Handling a background message: ${message.messageId}");
 }
 
 class FirebasePushNotificationManager extends PushNotificationManager {
@@ -24,7 +25,7 @@ class FirebasePushNotificationManager extends PushNotificationManager {
   @override
   Future<String?> getToken() async {
     String? token = await _firebaseMessaging.getToken();
-    print("FirebaseMessaging token: $token");
+    debugPrint("FirebaseMessaging token: $token");
     return token;
   }
 
@@ -34,7 +35,7 @@ class FirebasePushNotificationManager extends PushNotificationManager {
       badge: true,
       sound: true,
     );
-    print('User granted permission: ${settings.authorizationStatus}');
+    debugPrint('User granted permission: ${settings.authorizationStatus}');
   }
 
   Future<void> _createHighImportanceAndroidChannel() async {
