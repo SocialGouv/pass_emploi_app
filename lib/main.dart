@@ -105,25 +105,27 @@ Future<Store<AppState>> _initializeReduxStore(
   final httpClient = InterceptedClient.build(
     interceptors: [AccessTokenInterceptor(accessTokenRetriever), LoggingInterceptor()],
   );
+  final crashlytics = CrashlyticsWithFirebase(FirebaseCrashlytics.instance);
   final reduxStore = StoreFactory(
     authenticator,
-    UserActionRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
-    RendezvousRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
-    OffreEmploiRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
+    UserActionRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+    RendezvousRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+    OffreEmploiRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     ChatRepository(configuration.firebaseEnvironmentPrefix),
     RegisterTokenRepository(
       configuration.serverBaseUrl,
       httpClient,
       headersBuilder,
       pushNotificationManager,
+      crashlytics,
     ),
-    CrashlyticsWithFirebase(FirebaseCrashlytics.instance),
-    OffreEmploiDetailsRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
-    OffreEmploiFavorisRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
-    SearchLocationRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
-    ImmersionRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
-    ImmersionDetailsRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
-    FirebaseAuthRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
+    crashlytics,
+    OffreEmploiDetailsRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+    OffreEmploiFavorisRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+    SearchLocationRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+    ImmersionRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+    ImmersionDetailsRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+    FirebaseAuthRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     FirebaseAuthWrapper(),
   ).initializeReduxStore(initialState: AppState.initialState());
   accessTokenRetriever.setStore(reduxStore);

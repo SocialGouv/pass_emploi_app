@@ -1,5 +1,5 @@
-import 'package:flutter/widgets.dart';
 import 'package:http/http.dart';
+import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
@@ -11,8 +11,9 @@ class OffreEmploiFavorisRepository {
   final String _baseUrl;
   final Client _httpClient;
   final HeadersBuilder _headersBuilder;
+  final Crashlytics? _crashlytics;
 
-  OffreEmploiFavorisRepository(this._baseUrl, this._httpClient, this._headersBuilder);
+  OffreEmploiFavorisRepository(this._baseUrl, this._httpClient, this._headersBuilder, [this._crashlytics]);
 
   Future<Set<String>?> getOffreEmploiFavorisId(String userId) async {
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris");
@@ -23,8 +24,8 @@ class OffreEmploiFavorisRepository {
         final json = jsonUtf8Decode(response.bodyBytes) as List;
         return json.map((favori) => favori["id"] as String).toSet();
       }
-    } catch (e) {
-      debugPrint('Exception on ${url.toString()}: ' + e.toString());
+    } catch (e, stack) {
+      _crashlytics?.recordNonNetworkException(e, stack, url);
     }
     return null;
   }
@@ -41,8 +42,8 @@ class OffreEmploiFavorisRepository {
           value: (element) => OffreEmploi.fromJson(element),
         );
       }
-    } catch (e) {
-      print('Exception on ${url.toString()}: ' + e.toString());
+    } catch (e, stack) {
+      _crashlytics?.recordNonNetworkException(e, stack, url);
     }
     return null;
   }
@@ -67,8 +68,8 @@ class OffreEmploiFavorisRepository {
       if (response.statusCode.isValid() || response.statusCode == 409) {
         return true;
       }
-    } catch (e) {
-      print('Exception on ${url.toString()}: ' + e.toString());
+    } catch (e, stack) {
+      _crashlytics?.recordNonNetworkException(e, stack, url);
     }
     return false;
   }
@@ -83,8 +84,8 @@ class OffreEmploiFavorisRepository {
       if (response.statusCode.isValid() || response.statusCode == 404) {
         return true;
       }
-    } catch (e) {
-      print('Exception on ${url.toString()}: ' + e.toString());
+    } catch (e, stack) {
+      _crashlytics?.recordNonNetworkException(e, stack, url);
     }
     return false;
   }
