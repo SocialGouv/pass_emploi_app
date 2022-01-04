@@ -141,6 +141,21 @@ main() {
       expect(viewModel.filtresCount, 1);
     });
 
+    test("when state has 2 active experience filtres it should display 2 as filtre number", () {
+      // Given
+      final store = _storeWithFiltres(
+        OffreEmploiSearchParametersFiltres.withFiltres(
+          experience: [ExperienceFiltre.de_un_a_trois_ans, ExperienceFiltre.trois_ans_et_plus],
+        ),
+      );
+
+      // When
+      final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+      // Then
+      expect(viewModel.filtresCount, 2);
+    });
+
     test("when state has empty experience filtre it should not display a filtre number", () {
       // Given
       final store = _storeWithFiltres(
@@ -157,13 +172,28 @@ main() {
     test("when state has active contrat filtre it should display 1 as filtre number", () {
       // Given
       final store = _storeWithFiltres(OffreEmploiSearchParametersFiltres.withFiltres(
-          contrat: [ContratFiltre.autre, ContratFiltre.cdd_interim_saisonnier]));
+          contrat: [ContratFiltre.autre]));
 
       // When
       final viewModel = OffreEmploiSearchResultsViewModel.create(store);
 
       // Then
       expect(viewModel.filtresCount, 1);
+    });
+
+    test("when state has 3 active contrat filtres it should display 3 as filtre number", () {
+      // Given
+      final store = _storeWithFiltres(OffreEmploiSearchParametersFiltres.withFiltres(contrat: [
+        ContratFiltre.autre,
+        ContratFiltre.cdd_interim_saisonnier,
+        ContratFiltre.cdi,
+      ]));
+
+      // When
+      final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+      // Then
+      expect(viewModel.filtresCount, 3);
     });
 
     test("when state has active duree filtre it should display 1 as filtre number", () {
@@ -179,6 +209,19 @@ main() {
       expect(viewModel.filtresCount, 1);
     });
 
+    test("when state has multiple active duree filtres it should display 2 as filtre number", () {
+      // Given
+      final store = _storeWithFiltres(
+        OffreEmploiSearchParametersFiltres.withFiltres(duree: [DureeFiltre.temps_plein, DureeFiltre.temps_partiel]),
+      );
+
+      // When
+      final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+      // Then
+      expect(viewModel.filtresCount, 2);
+    });
+
     test(
         "when state has multiple filtres active at the same time it should display the total count of active filtre as filtre number",
         () {
@@ -186,7 +229,7 @@ main() {
       final store = _storeWithFiltres(
         OffreEmploiSearchParametersFiltres.withFiltres(
             distance: 40,
-            contrat: [],
+            contrat: [ContratFiltre.cdi],
             experience: [ExperienceFiltre.trois_ans_et_plus, ExperienceFiltre.de_un_a_trois_ans],
             duree: [DureeFiltre.temps_plein]),
       );
@@ -195,7 +238,7 @@ main() {
       final viewModel = OffreEmploiSearchResultsViewModel.create(store);
 
       // Then
-      expect(viewModel.filtresCount, 3);
+      expect(viewModel.filtresCount, 5);
     });
   });
 }

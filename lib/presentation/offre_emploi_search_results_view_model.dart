@@ -91,11 +91,9 @@ int _distanceCount(OffreEmploiSearchParametersInitializedState searchParamsState
 
 int _otherFiltresCount(OffreEmploiSearchParametersInitializedState searchParamsState) {
   return [
-    searchParamsState.filtres.experience,
-    searchParamsState.filtres.contrat,
-    searchParamsState.filtres.duree,
-  ].where((element) {
-    return element?.isNotEmpty ?? false;
-  }).length;
+    searchParamsState.filtres.experience?.length ?? 0,
+    searchParamsState.filtres.contrat?.length ?? 0,
+    searchParamsState.filtres.duree?.length ?? 0,
+  ].fold(0, (previousValue, element) => previousValue + element);
 }
 
