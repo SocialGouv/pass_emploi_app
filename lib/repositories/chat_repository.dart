@@ -2,13 +2,15 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
+import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/message.dart';
 
 class ChatRepository {
+  final Crashlytics? _crashlytics;
   late final String _collectionPath;
 
-  ChatRepository(String firebaseEnvironmentPrefix) {
+  ChatRepository(String firebaseEnvironmentPrefix, [this._crashlytics]) {
     this._collectionPath = firebaseEnvironmentPrefix + "-chat";
   }
 
@@ -44,11 +46,11 @@ class ChatRepository {
     final messageCreationDate = FieldValue.serverTimestamp();
     FirebaseFirestore.instance
         .runTransaction((transaction) async {
-          final newDocId = _chatCollection(chatDocumentId).collection('messages').doc(null);
-          transaction
-            ..set(newDocId, {
-              'content': message,
-              'sentBy': "jeune",
+      final newDocId = _chatCollection(chatDocumentId).collection('messages').doc(null);
+      transaction
+        ..set(newDocId, {
+          'content': message,
+          'sentBy': "jeune",
               'creationDate': messageCreationDate,
             })
             ..update(_chatCollection(chatDocumentId), {
@@ -59,7 +61,7 @@ class ChatRepository {
             });
         })
         .then((value) => debugPrint("New message sent $message && chat status updated"))
-        .catchError((error) => debugPrint("Failed to send message or update chat status: $error "));
+        .catchError((e, stack) => _crashlytics?.recordNonNetworkException(e, stack));
   }
 
   Future<void> setLastMessageSeen(String userId) async {
@@ -73,12 +75,12 @@ class ChatRepository {
           'lastJeuneReading': seenByJeuneAt,
         })
         .then((value) => debugPrint("Last message seen updated"))
-        .catchError((error) => debugPrint("Failed to update last message seen: $error"));
+        .catchError((e, stack) => _crashlytics?.recordNonNetworkException(e, stack));
   }
 
   Future<String?> _getChatDocumentId(String userId) async {
     final chats =
-        await FirebaseFirestore.instance.collection(_collectionPath).where('jeuneId', isEqualTo: userId).get();
+    await FirebaseFirestore.instance.collection(_collectionPath).where('jeuneId', isEqualTo: userId).get();
     return chats.docs.first.id;
   }
 

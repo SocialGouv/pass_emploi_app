@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 abstract class Crashlytics {
   void setCustomKey(String key, dynamic value);
 
-  void recordNonNetworkException(dynamic exception, StackTrace stack, Uri failingEndpoint);
+  void recordNonNetworkException(dynamic exception, StackTrace stack, [Uri? failingEndpoint]);
 }
 
 class CrashlyticsWithFirebase extends Crashlytics {
@@ -20,9 +20,13 @@ class CrashlyticsWithFirebase extends Crashlytics {
   }
 
   @override
-  void recordNonNetworkException(dynamic exception, StackTrace stack, Uri failingEndpoint) {
+  void recordNonNetworkException(dynamic exception, StackTrace stack, [Uri? failingEndpoint]) {
     debugPrint('Exception on $failingEndpoint : ' + exception.toString());
     if (exception is SocketException) return;
-    FirebaseCrashlytics.instance.recordError(exception, stack, reason: 'Exception on $failingEndpoint');
+    FirebaseCrashlytics.instance.recordError(
+      exception,
+      stack,
+      reason: failingEndpoint != null ? 'Exception on $failingEndpoint' : null,
+    );
   }
 }

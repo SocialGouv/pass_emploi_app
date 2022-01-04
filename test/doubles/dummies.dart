@@ -71,7 +71,7 @@ class DummyCrashlytics extends Crashlytics {
   void setCustomKey(String key, value) {}
 
   @override
-  void recordNonNetworkException(dynamic exception, StackTrace stack, Uri failingEndpoint) {}
+  void recordNonNetworkException(dynamic exception, StackTrace stack, [Uri? failingEndpoint]) {}
 }
 
 class DummyOffreEmploiRepository extends OffreEmploiRepository {
