@@ -52,18 +52,8 @@ class OffreEmploiFiltresViewModel extends Equatable {
         experienceFiltres,
         contratFiltres,
         dureeFiltres,
-      ) {
-        return store.dispatch(
-          OffreEmploiSearchUpdateFiltresAction(
-            OffreEmploiSearchParametersFiltres.withFiltres(
-              distance: updatedDistanceValue,
-              experience: experienceFiltres?.map((e) => e.value).toList(),
-              contrat: contratFiltres?.map((e) => e.value).toList(),
-              duree: dureeFiltres?.map((e) => e.value).toList(),
-            ),
-          ),
-        );
-      },
+      ) =>
+          _dispatchUpdateFiltresAction(store, updatedDistanceValue, experienceFiltres, contratFiltres, dureeFiltres),
       experienceFiltres: _experience(parametersState),
       contratFiltres: _contrat(parametersState),
       dureeFiltres: _duree(parametersState),
@@ -181,4 +171,22 @@ OffreEmploiSearchParametersFiltres? _appliedFiltres(OffreEmploiSearchParametersS
     filtres = parametersState.filtres;
   }
   return filtres;
+}
+
+_dispatchUpdateFiltresAction(
+    Store<AppState> store,
+    int? updatedDistanceValue,
+    List<CheckboxValueViewModel<ExperienceFiltre>>? experienceFiltres,
+    List<CheckboxValueViewModel<ContratFiltre>>? contratFiltres,
+    List<CheckboxValueViewModel<DureeFiltre>>? dureeFiltres) {
+  store.dispatch(
+    OffreEmploiSearchUpdateFiltresAction(
+      OffreEmploiSearchParametersFiltres.withFiltres(
+        distance: updatedDistanceValue,
+        experience: experienceFiltres?.map((e) => e.value).toList(),
+        contrat: contratFiltres?.map((e) => e.value).toList(),
+        duree: dureeFiltres?.map((e) => e.value).toList(),
+      ),
+    ),
+  );
 }
