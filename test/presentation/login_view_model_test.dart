@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/presentation/login_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:redux/redux.dart';
 
@@ -28,6 +29,15 @@ void main() {
     final viewModel = LoginViewModel.create(store);
 
     expect(viewModel.displayState, DisplayState.FAILURE);
+  });
+
+  test('View model displays CONTENT when login state is not logged in', () {
+    final state = AppState.initialState().copyWith(loginState: UserNotLoggedInState());
+    final store = Store<AppState>(reducer, initialState: state);
+
+    final viewModel = LoginViewModel.create(store);
+
+    expect(viewModel.displayState, DisplayState.CONTENT);
   });
 
   test('View model displays CONTENT when login state is logged in', () {
