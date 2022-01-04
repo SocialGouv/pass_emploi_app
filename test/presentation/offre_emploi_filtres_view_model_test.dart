@@ -248,13 +248,20 @@ List<CheckboxValueViewModel<DureeFiltre>> _allDureesInitiallyUnchecked() {
 
 List<CheckboxValueViewModel<ContratFiltre>> _allContratsInitiallyUnchecked() {
   return [
-    CheckboxValueViewModel(label: "CDI", value: ContratFiltre.cdi, isInitiallyChecked: false),
+    CheckboxValueViewModel(
+        label: "CDI", helpText: "CDI et CDI intérimaire", value: ContratFiltre.cdi, isInitiallyChecked: false),
     CheckboxValueViewModel(
       label: "CDD - intérim - saisonnier",
       value: ContratFiltre.cdd_interim_saisonnier,
       isInitiallyChecked: false,
     ),
-    CheckboxValueViewModel(label: "Autres", value: ContratFiltre.autre, isInitiallyChecked: false),
+    CheckboxValueViewModel(
+      label: "Autres",
+      helpText:
+          "Profession commerciale, Franchise, Profession Libérale, Reprise d’entreprise, Contrat travail temporaire insertion",
+      value: ContratFiltre.autre,
+      isInitiallyChecked: false,
+    ),
   ];
 }
 

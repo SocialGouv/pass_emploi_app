@@ -175,8 +175,10 @@ class Strings {
   static String experienceTroisAnsEtPlusLabel = "3 ans et +";
   static String contratSectionTitle = "Type de contrat";
   static String contratCdiLabel = "CDI";
+  static String contratCdiTooltip = "CDI et CDI Intérimaire";
   static String contratCddInterimSaisonnierLabel = "CDD - intérim - saisonnier";
   static String contratAutreLabel = "Autres";
+  static String contratAutreTooltip = "Profession commerciale, Franchise, Profession libérale, Reprise d’entreprise, Contrat travail temporaire insertion";
   static String dureeSectionTitle = "Temps de travail";
   static String dureeTempsPleinLabel = "Temps plein";
   static String dureeTempsPartielLabel = "Temps partiel";

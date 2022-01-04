@@ -111,6 +111,7 @@ List<CheckboxValueViewModel<ContratFiltre>> _contrat(OffreEmploiSearchParameters
     CheckboxValueViewModel(
       label: Strings.contratCdiLabel,
       value: ContratFiltre.cdi,
+      helpText: Strings.contratCdiTooltip,
       isInitiallyChecked: filtres?.contrat?.contains(ContratFiltre.cdi) ?? false,
     ),
     CheckboxValueViewModel(
@@ -121,6 +122,7 @@ List<CheckboxValueViewModel<ContratFiltre>> _contrat(OffreEmploiSearchParameters
     CheckboxValueViewModel(
       label: Strings.contratAutreLabel,
       value: ContratFiltre.autre,
+      helpText: Strings.contratAutreTooltip,
       isInitiallyChecked: filtres?.contrat?.contains(ContratFiltre.autre) ?? false,
     ),
   ];
