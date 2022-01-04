@@ -302,7 +302,7 @@ main() {
         expect(viewModel.secondaryCallToActions, [
           CallToAction(
             'Envoyer un e-mail',
-            Uri.parse("mailto:mail?subject=Prise%20de%20contact%20au%20sujet%20de%20votre%20offre%20d'immersion"),
+            Uri.parse("mailto:mail?subject=Candidature%20pour%20une%20p%C3%A9riode%20d'immersion"),
             drawableRes: Drawables.icMail,
           ),
           CallToAction('Localiser l\'entreprise', Uri.parse("geo:0,0?q=Address%201")),
@@ -345,7 +345,7 @@ main() {
           viewModel.mainCallToAction,
           CallToAction(
             'Envoyer un e-mail',
-            Uri.parse("mailto:mail?subject=Prise%20de%20contact%20au%20sujet%20de%20votre%20offre%20d'immersion"),
+            Uri.parse("mailto:mail?subject=Candidature%20pour%20une%20p%C3%A9riode%20d'immersion"),
           ),
         );
       });
