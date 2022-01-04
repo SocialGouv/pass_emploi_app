@@ -189,19 +189,22 @@ main() {
     expect(
         viewModel.experienceFiltres,
         _allExperiencesInitiallyUnchecked()
-            .map((e) => CheckboxValueViewModel(label: e.label, value: e.value, isInitiallyChecked: true))
+            .map((e) =>
+                CheckboxValueViewModel(label: e.label, helpText: e.helpText, value: e.value, isInitiallyChecked: true))
             .toList());
 
     expect(
         viewModel.contratFiltres,
         _allContratsInitiallyUnchecked()
-            .map((e) => CheckboxValueViewModel(label: e.label, value: e.value, isInitiallyChecked: true))
+            .map((e) =>
+                CheckboxValueViewModel(label: e.label, helpText: e.helpText, value: e.value, isInitiallyChecked: true))
             .toList());
 
     expect(
         viewModel.dureeFiltres,
         _allDureesInitiallyUnchecked()
-            .map((e) => CheckboxValueViewModel(label: e.label, value: e.value, isInitiallyChecked: true))
+            .map((e) =>
+                CheckboxValueViewModel(label: e.label, helpText: e.helpText, value: e.value, isInitiallyChecked: true))
             .toList());
   });
 
@@ -249,7 +252,7 @@ List<CheckboxValueViewModel<DureeFiltre>> _allDureesInitiallyUnchecked() {
 List<CheckboxValueViewModel<ContratFiltre>> _allContratsInitiallyUnchecked() {
   return [
     CheckboxValueViewModel(
-        label: "CDI", helpText: "CDI et CDI intérimaire", value: ContratFiltre.cdi, isInitiallyChecked: false),
+        label: "CDI", helpText: "CDI et CDI Intérimaire", value: ContratFiltre.cdi, isInitiallyChecked: false),
     CheckboxValueViewModel(
       label: "CDD - intérim - saisonnier",
       value: ContratFiltre.cdd_interim_saisonnier,
@@ -258,7 +261,7 @@ List<CheckboxValueViewModel<ContratFiltre>> _allContratsInitiallyUnchecked() {
     CheckboxValueViewModel(
       label: "Autres",
       helpText:
-          "Profession commerciale, Franchise, Profession Libérale, Reprise d’entreprise, Contrat travail temporaire insertion",
+          "Profession commerciale, Franchise, Profession libérale, Reprise d’entreprise, Contrat travail temporaire insertion",
       value: ContratFiltre.autre,
       isInitiallyChecked: false,
     ),
