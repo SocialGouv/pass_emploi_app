@@ -107,12 +107,13 @@ Future<Store<AppState>> _initializeReduxStore(
     interceptors: [AccessTokenInterceptor(accessTokenRetriever), LoggingInterceptor()],
   );
   final crashlytics = CrashlyticsWithFirebase(FirebaseCrashlytics.instance);
+  final chatCrypto = ChatCrypto();
   final reduxStore = StoreFactory(
     authenticator,
     UserActionRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     RendezvousRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     OffreEmploiRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
-    ChatRepository(ChatCrypto("LOL"), configuration.firebaseEnvironmentPrefix, crashlytics),
+    ChatRepository(chatCrypto, crashlytics),
     RegisterTokenRepository(
       configuration.serverBaseUrl,
       httpClient,
@@ -128,6 +129,7 @@ Future<Store<AppState>> _initializeReduxStore(
     ImmersionDetailsRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     FirebaseAuthRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     FirebaseAuthWrapper(),
+    chatCrypto,
   ).initializeReduxStore(initialState: AppState.initialState());
   accessTokenRetriever.setStore(reduxStore);
   return reduxStore;

@@ -12,8 +12,8 @@ class ChatRepository {
   late final String _collectionPath;
   final ChatCrypto _chatCrypto;
 
-  ChatRepository(this._chatCrypto, String firebaseEnvironmentPrefix, this._crashlytics) {
-    this._collectionPath = firebaseEnvironmentPrefix + "-chat";
+  ChatRepository(this._chatCrypto, this._crashlytics) {
+    this._collectionPath = "chat";
   }
 
   Stream<List<Message>> messagesStream(String userId) async* {

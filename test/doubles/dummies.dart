@@ -64,7 +64,7 @@ class DummyRendezvousRepository extends RendezvousRepository {
 }
 
 class DummyChatRepository extends ChatRepository {
-  DummyChatRepository() : super(DummyChatCrypto(), "", DummyCrashlytics());
+  DummyChatRepository() : super(DummyChatCrypto(), DummyCrashlytics());
 }
 
 class DummyCrashlytics extends Crashlytics {
@@ -111,5 +111,5 @@ class DummyImmersionDetailsRepository extends ImmersionDetailsRepository {
 }
 
 class DummyChatCrypto extends ChatCrypto {
-  DummyChatCrypto() : super("");
+  DummyChatCrypto() : super();
 }

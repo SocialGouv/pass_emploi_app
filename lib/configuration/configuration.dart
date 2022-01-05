@@ -7,7 +7,6 @@ enum Flavor { STAGING, PROD }
 class Configuration {
   Flavor flavor;
   String serverBaseUrl;
-  String firebaseEnvironmentPrefix;
   String matomoBaseUrl;
   String matomoSiteId;
   String authClientId;
@@ -18,17 +17,15 @@ class Configuration {
   String authClientSecret;
 
   Configuration(
-    this.flavor,
-    this.serverBaseUrl,
-    this.firebaseEnvironmentPrefix,
-    this.matomoBaseUrl,
-    this.matomoSiteId,
-    this.authClientId,
-    this.authLoginRedirectUrl,
-    this.authLogoutRedirectUrl,
-    this.authIssuer,
-    this.authScopes,
-    this.authClientSecret,
+    this.flavor,this.serverBaseUrl,
+      this.matomoBaseUrl,
+      this.matomoSiteId,
+      this.authClientId,
+      this.authLoginRedirectUrl,
+      this.authLogoutRedirectUrl,
+      this.authIssuer,
+      this.authScopes,
+      this.authClientSecret,
   );
 
   static Future<Configuration> build() async {
@@ -37,7 +34,6 @@ class Configuration {
     debugPrint("FLAVOR = $flavor");
     await loadEnvironmentVariables(flavor);
     final serverBaseUrl = getOrThrow('SERVER_BASE_URL');
-    final firebaseEnvironmentPrefix = getOrThrow('FIREBASE_ENVIRONMENT_PREFIX');
     final matomoBaseUrl = getOrThrow('MATOMO_BASE_URL');
     final matomoSiteId = getOrThrow('MATOMO_SITE_ID');
     final authClientId = getOrThrow('AUTH_CLIENT_ID');
@@ -47,9 +43,7 @@ class Configuration {
     final authScopes = getArrayOrThrow('AUTH_SCOPE');
     final authClientSecret = getOrThrow('AUTH_CLIENT_SECRET');
     return Configuration(
-      flavor,
-      serverBaseUrl,
-      firebaseEnvironmentPrefix,
+      flavor,serverBaseUrl,
       matomoBaseUrl,
       matomoSiteId,
       authClientId,

@@ -74,7 +74,6 @@ AuthTokenResponse authTokenResponse() => AuthTokenResponse(
 Configuration configuration() => Configuration(
   Flavor.STAGING,
       'serverBaseUrl',
-      'firebaseEnvironmentPrefix',
       'matomoBaseUrl',
       'matomoSiteId',
       'authClientId',
