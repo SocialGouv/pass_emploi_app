@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:package_info/package_info.dart';
 
@@ -13,8 +14,7 @@ class Configuration {
   List<String> authScopes;
   String authClientSecret;
 
-  Configuration(
-      this.serverBaseUrl,
+  Configuration(this.serverBaseUrl,
       this.firebaseEnvironmentPrefix,
       this.matomoBaseUrl,
       this.matomoSiteId,
@@ -46,7 +46,7 @@ class Configuration {
     final String prodEnvFilePath = "env/.env.prod";
     final packageName = (await PackageInfo.fromPlatform()).packageName;
     final isStagingFlavor = packageName.contains("staging");
-    print("FLAVOR = ${isStagingFlavor ? "staging" : "prod"}");
+    debugPrint("FLAVOR = ${isStagingFlavor ? "staging" : "prod"}");
     return await dotenv.load(fileName: isStagingFlavor ? stagingEnvFilePath : prodEnvFilePath);
   }
 

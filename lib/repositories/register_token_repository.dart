@@ -1,4 +1,5 @@
 import 'package:http/http.dart';
+import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/put_register_token_request.dart';
@@ -9,13 +10,15 @@ class RegisterTokenRepository {
   final Client _httpClient;
   final HeadersBuilder _headersBuilder;
   final PushNotificationManager _pushNotificationManager;
+  final Crashlytics? _crashlytics;
 
   RegisterTokenRepository(
     this._baseUrl,
     this._httpClient,
     this._headersBuilder,
-    this._pushNotificationManager,
-  );
+    this._pushNotificationManager, [
+    this._crashlytics,
+  ]);
 
   Future<void> registerToken(String userId) async {
     final token = await _pushNotificationManager.getToken();
@@ -27,8 +30,8 @@ class RegisterTokenRepository {
           headers: await _headersBuilder.headers(userId: userId, contentType: 'application/json'),
           body: customJsonEncode(PutRegisterTokenRequest(token: token)),
         );
-      } catch (e) {
-        print('Exception on ${url.toString()}: ' + e.toString());
+      } catch (e, stack) {
+        _crashlytics?.recordNonNetworkException(e, stack, url);
       }
     }
   }

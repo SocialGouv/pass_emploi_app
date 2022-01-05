@@ -1,4 +1,5 @@
 import 'package:http/http.dart';
+import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
@@ -13,8 +14,9 @@ class OffreEmploiRepository {
   final String _baseUrl;
   final Client _httpClient;
   final HeadersBuilder _headerBuilder;
+  final Crashlytics? _crashlytics;
 
-  OffreEmploiRepository(this._baseUrl, this._httpClient, this._headerBuilder);
+  OffreEmploiRepository(this._baseUrl, this._httpClient, this._headerBuilder, [this._crashlytics]);
 
   Future<OffreEmploiSearchResponse?> search({
     required String userId,
@@ -31,8 +33,8 @@ class OffreEmploiRepository {
         final list = (json["results"] as List).map((offre) => OffreEmploi.fromJson(offre)).toList();
         return OffreEmploiSearchResponse(isMoreDataAvailable: list.length == PAGE_SIZE, offres: list);
       }
-    } catch (e) {
-      print('Exception on ${url.toString()}: ' + e.toString());
+    } catch (e, stack) {
+      _crashlytics?.recordNonNetworkException(e, stack, url);
     }
     return null;
   }
