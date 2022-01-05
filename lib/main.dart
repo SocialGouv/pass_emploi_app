@@ -112,7 +112,7 @@ Future<Store<AppState>> _initializeReduxStore(
     UserActionRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     RendezvousRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     OffreEmploiRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
-    ChatRepository(ChatCrypto(), configuration.firebaseEnvironmentPrefix, crashlytics),
+    ChatRepository(ChatCrypto("LOL"), configuration.firebaseEnvironmentPrefix, crashlytics),
     RegisterTokenRepository(
       configuration.serverBaseUrl,
       httpClient,

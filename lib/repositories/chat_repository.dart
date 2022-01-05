@@ -8,11 +8,11 @@ import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 
 class ChatRepository {
-  final Crashlytics? _crashlytics;
+  final Crashlytics _crashlytics;
   late final String _collectionPath;
   final ChatCrypto _chatCrypto;
 
-  ChatRepository(this._chatCrypto, String firebaseEnvironmentPrefix, [this._crashlytics]) {
+  ChatRepository(this._chatCrypto, String firebaseEnvironmentPrefix, this._crashlytics) {
     this._collectionPath = firebaseEnvironmentPrefix + "-chat";
   }
 
@@ -24,7 +24,7 @@ class ChatRepository {
         .collection('messages')
         .orderBy('creationDate')
         .snapshots()
-        .map((snapshot) => snapshot.docs.map((document) => Message.fromJson(document, _chatCrypto)).toList())
+        .map((snapshot) => _getMessageList(snapshot))
         .distinct();
     await for (final messages in stream) yield messages;
   }
@@ -46,7 +46,6 @@ class ChatRepository {
 
     final messageCreationDate = FieldValue.serverTimestamp();
     final encryptedMessage = _chatCrypto.encrypt(message);
-    debugPrint("➡️ sending $encryptedMessage");
     FirebaseFirestore.instance
         .runTransaction((transaction) async {
       final newDocId = _chatCollection(chatDocumentId).collection('messages').doc(null);
@@ -66,7 +65,7 @@ class ChatRepository {
             });
         })
         .then((value) => debugPrint("New message sent $message && chat status updated"))
-        .catchError((e, stack) => _crashlytics?.recordNonNetworkException(e, stack));
+        .catchError((e, stack) => _crashlytics.recordNonNetworkException(e, stack));
   }
 
   Future<void> setLastMessageSeen(String userId) async {
@@ -80,7 +79,7 @@ class ChatRepository {
           'lastJeuneReading': seenByJeuneAt,
         })
         .then((value) => debugPrint("Last message seen updated"))
-        .catchError((e, stack) => _crashlytics?.recordNonNetworkException(e, stack));
+        .catchError((e, stack) => _crashlytics.recordNonNetworkException(e, stack));
   }
 
   Future<String?> _getChatDocumentId(String userId) async {
@@ -100,5 +99,12 @@ class ChatRepository {
       data['newConseillerMessageCount'],
       lastConseillerReading != null ? (lastConseillerReading as Timestamp).toDate() : null,
     );
+  }
+
+  List<Message> _getMessageList(QuerySnapshot<Map<String, dynamic>> snapshot) {
+    return snapshot.docs
+        .map((document) => Message.fromJson(document, _chatCrypto, _crashlytics))
+        .whereType<Message>()
+        .toList();
   }
 }

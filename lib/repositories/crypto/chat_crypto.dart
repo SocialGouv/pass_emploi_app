@@ -2,8 +2,9 @@ import 'package:encrypt/encrypt.dart';
 import 'package:equatable/equatable.dart';
 
 class ChatCrypto {
-  // TODO INSERT KEY HERE !
-  final _encrypter = Encrypter(AES(Key.fromUtf8("INSERT_KEY_HERE"), mode: AESMode.cbc));
+  final _encrypter;
+
+  ChatCrypto(String key) : this._encrypter = Encrypter(AES(Key.fromUtf8(key), mode: AESMode.cbc));
 
   EncryptedTextWithIv encrypt(String plainText) {
     final initializationVector = IV.fromSecureRandom(16);
