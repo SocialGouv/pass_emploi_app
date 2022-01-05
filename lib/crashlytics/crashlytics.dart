@@ -21,7 +21,8 @@ class CrashlyticsWithFirebase extends Crashlytics {
 
   @override
   void recordNonNetworkException(dynamic exception, StackTrace stack, [Uri? failingEndpoint]) {
-    debugPrint('Exception on $failingEndpoint : ' + exception.toString());
+    final logPrefix = failingEndpoint != null ? 'Exception on $failingEndpoint' : 'Exception';
+    debugPrint('$logPrefix: $exception');
     if (exception is SocketException) return;
     FirebaseCrashlytics.instance.recordError(
       exception,
