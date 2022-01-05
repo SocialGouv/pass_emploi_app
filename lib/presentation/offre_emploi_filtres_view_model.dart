@@ -173,7 +173,7 @@ OffreEmploiSearchParametersFiltres? _appliedFiltres(OffreEmploiSearchParametersS
   return filtres;
 }
 
-_dispatchUpdateFiltresAction(
+void _dispatchUpdateFiltresAction(
     Store<AppState> store,
     int? updatedDistanceValue,
     List<CheckboxValueViewModel<ExperienceFiltre>>? experienceFiltres,

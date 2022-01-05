@@ -65,8 +65,10 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
       child: Column(
         children: [
           SizedBox(height: 32),
-          if (viewModel.shouldDisplayDistanceFiltre) _distanceSlider(context, viewModel),
-          if (viewModel.shouldDisplayDistanceFiltre) _sepLine(),
+          if (viewModel.shouldDisplayDistanceFiltre) ...[
+            _distanceSlider(context, viewModel),
+            _sepLine(),
+          ],
           CheckBoxGroup<ExperienceFiltre>(
             title: Strings.experienceSectionTitle,
             options: viewModel.experienceFiltres,
