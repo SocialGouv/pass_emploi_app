@@ -8,7 +8,8 @@ main() {
   test("chat crypto should encrypt message and then decrypt it", () {
     // Given
     final String message = "mon super message";
-    final chatCrypto = ChatCrypto("7x!A%C*F-JaNdRgUkXp2s5v8y/B?E(G+");
+    final chatCrypto = ChatCrypto();
+    chatCrypto.setKey("7x!A%C*F-JaNdRgUkXp2s5v8y/B?E(G+");
 
     // When
     final encrypted = chatCrypto.encrypt(message);
@@ -19,4 +20,27 @@ main() {
     expect(message, decrypted);
   });
 
+  test("chat crypto should throw exception when trying to decrypt without a key", () {
+    // Given
+    final chatCrypto = ChatCrypto();
+
+    // When
+    expect(
+      () => chatCrypto.decrypt(EncryptedTextWithIv("", "")),
+      // Then
+      throwsException,
+    );
+  });
+
+  test("chat crypto should throw exception when trying to encrypt without a key", () {
+    // Given
+    final chatCrypto = ChatCrypto();
+
+    // When
+    expect(
+          () => chatCrypto.encrypt("toto"),
+      // Then
+      throwsException,
+    );
+  });
 }

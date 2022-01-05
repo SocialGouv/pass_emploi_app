@@ -2,23 +2,35 @@ import 'package:encrypt/encrypt.dart';
 import 'package:equatable/equatable.dart';
 
 class ChatCrypto {
-  final _encrypter;
+  Encrypter? _encrypter;
 
-  ChatCrypto(String key) : this._encrypter = Encrypter(AES(Key.fromUtf8(key), mode: AESMode.cbc));
+  ChatCrypto();
 
   EncryptedTextWithIv encrypt(String plainText) {
+    final encrypter = _encrypter;
+    if (encrypter == null) {
+      throw Exception("Trying to encrypt without a key.");
+    }
     final initializationVector = IV.fromSecureRandom(16);
     return EncryptedTextWithIv(
       initializationVector.base64,
-      _encrypter.encrypt(plainText, iv: initializationVector).base64,
+      encrypter.encrypt(plainText, iv: initializationVector).base64,
     );
   }
 
   String decrypt(EncryptedTextWithIv encrypted) {
-    return _encrypter.decrypt(
+    final encrypter = _encrypter;
+    if (encrypter == null) {
+      throw Exception("Trying to decrypt without a key.");
+    }
+    return encrypter.decrypt(
       Encrypted.fromBase64(encrypted.base64Message),
       iv: IV.fromBase64(encrypted.base64InitializationVector),
     );
+  }
+
+  void setKey(String key) {
+    this._encrypter = Encrypter(AES(Key.fromUtf8(key), mode: AESMode.cbc));
   }
 }
 

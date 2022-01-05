@@ -8,7 +8,7 @@ import '../doubles/dummies.dart';
 main() {
   test("toJson when message has encrypted content should decrypt it", () {
     // Given
-    final chatCryptoSpy = ChatCryptoSpy();
+    final chatCryptoSpy = _ChatCryptoSpy();
 
     // When
     final message = Message.fromJson(
@@ -30,7 +30,7 @@ main() {
 
   test("toJson when message has no iv should return null", () {
     // Given
-    final chatCryptoSpy = ChatCryptoSpy();
+    final chatCryptoSpy = _ChatCryptoSpy();
 
     // When
     final message = Message.fromJson(
@@ -67,11 +67,11 @@ main() {
   });
 }
 
-class ChatCryptoSpy extends ChatCrypto {
+class _ChatCryptoSpy extends ChatCrypto {
   var content;
   var iv;
 
-  ChatCryptoSpy() : super("");
+  _ChatCryptoSpy() : super("");
 
   @override
   String decrypt(EncryptedTextWithIv encrypted) {
