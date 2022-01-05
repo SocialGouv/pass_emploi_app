@@ -28,8 +28,11 @@ class Strings {
   static String simpleDayFormat(day) => "Le $day";
 
   // Force Update
-  static String update = "Mise à jour";
-  static String forceUpdateExplanation = "Votre application nécessite d\'être mise à jour pour son bon fonctionnement";
+  static String updateTitle = "Mise à jour";
+  static String updateButton = "Mettre à jour";
+  static String forceUpdateOnStoreLabel = "Votre application nécessite d\'être mise à jour pour son bon fonctionnement";
+  static String forceUpdateOnFirebaseLabel =
+      "Votre application nécessite d\'être mise à jour sur Firebase pour son bon fonctionnement";
 
   static String hello(firstName) => "Bonjour $firstName";
 

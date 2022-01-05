@@ -2,7 +2,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:package_info/package_info.dart';
 
+enum Flavor { STAGING, PROD }
+
 class Configuration {
+  Flavor flavor;
   String serverBaseUrl;
   String firebaseEnvironmentPrefix;
   String matomoBaseUrl;
@@ -14,19 +17,25 @@ class Configuration {
   List<String> authScopes;
   String authClientSecret;
 
-  Configuration(this.serverBaseUrl,
-      this.firebaseEnvironmentPrefix,
-      this.matomoBaseUrl,
-      this.matomoSiteId,
-      this.authClientId,
-      this.authLoginRedirectUrl,
-      this.authLogoutRedirectUrl,
-      this.authIssuer,
-      this.authScopes,
-      this.authClientSecret);
+  Configuration(
+    this.flavor,
+    this.serverBaseUrl,
+    this.firebaseEnvironmentPrefix,
+    this.matomoBaseUrl,
+    this.matomoSiteId,
+    this.authClientId,
+    this.authLoginRedirectUrl,
+    this.authLogoutRedirectUrl,
+    this.authIssuer,
+    this.authScopes,
+    this.authClientSecret,
+  );
 
   static Future<Configuration> build() async {
-    await loadEnvironmentVariables();
+    final packageName = (await PackageInfo.fromPlatform()).packageName;
+    final flavor = packageName.contains("staging") ? Flavor.STAGING : Flavor.PROD;
+    debugPrint("FLAVOR = $flavor");
+    await loadEnvironmentVariables(flavor);
     final serverBaseUrl = getOrThrow('SERVER_BASE_URL');
     final firebaseEnvironmentPrefix = getOrThrow('FIREBASE_ENVIRONMENT_PREFIX');
     final matomoBaseUrl = getOrThrow('MATOMO_BASE_URL');
@@ -37,21 +46,27 @@ class Configuration {
     final authIssuer = getOrThrow('AUTH_ISSUER');
     final authScopes = getArrayOrThrow('AUTH_SCOPE');
     final authClientSecret = getOrThrow('AUTH_CLIENT_SECRET');
-    return Configuration(serverBaseUrl, firebaseEnvironmentPrefix, matomoBaseUrl, matomoSiteId, authClientId,
-        authLoginRedirectUrl, authLogoutRedirectUrl, authIssuer, authScopes, authClientSecret);
+    return Configuration(
+      flavor,
+      serverBaseUrl,
+      firebaseEnvironmentPrefix,
+      matomoBaseUrl,
+      matomoSiteId,
+      authClientId,
+      authLoginRedirectUrl,
+      authLogoutRedirectUrl,
+      authIssuer,
+      authScopes,
+      authClientSecret,
+    );
   }
 
-  static Future<void> loadEnvironmentVariables() async {
-    final String stagingEnvFilePath = "env/.env.staging";
-    final String prodEnvFilePath = "env/.env.prod";
-    final packageName = (await PackageInfo.fromPlatform()).packageName;
-    final isStagingFlavor = packageName.contains("staging");
-    debugPrint("FLAVOR = ${isStagingFlavor ? "staging" : "prod"}");
-    return await dotenv.load(fileName: isStagingFlavor ? stagingEnvFilePath : prodEnvFilePath);
+  static Future<void> loadEnvironmentVariables(Flavor flavor) async {
+    return await dotenv.load(fileName: flavor == Flavor.STAGING ? "env/.env.staging" : "env/.env.prod");
   }
 
   static String getOrThrow(String key) {
-    final value =  dotenv.get(key, fallback: "");
+    final value = dotenv.get(key, fallback: "");
     if (value == "") {
       throw (key + " must be set in .env file");
     }
@@ -59,7 +74,7 @@ class Configuration {
   }
 
   static List<String> getArrayOrThrow(String key) {
-    final value =  dotenv.get(key, fallback: "");
+    final value = dotenv.get(key, fallback: "");
     if (value == "") {
       throw (key + " must be set in .env file");
     }
