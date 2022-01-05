@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -43,9 +44,7 @@ class OffreEmploiSearchResultsViewModel extends Equatable {
 
 int? _filtresCount(OffreEmploiSearchParametersState searchParamsState) {
   if (searchParamsState is OffreEmploiSearchParametersInitializedState) {
-    var activeFiltresCount = [
-      searchParamsState.filtres.distance,
-    ].where((element) => element != null).length;
+    final activeFiltresCount = _distanceCount(searchParamsState) + _otherFiltresCount(searchParamsState);
     if (activeFiltresCount == 0) {
       return null;
     } else {
@@ -83,3 +82,18 @@ DisplayState _displayState(OffreEmploiSearchState searchState, OffreEmploiSearch
     return DisplayState.FAILURE;
   }
 }
+
+
+int _distanceCount(OffreEmploiSearchParametersInitializedState searchParamsState) {
+  final distanceFiltre = searchParamsState.filtres.distance;
+  return distanceFiltre != null && distanceFiltre != OffreEmploiSearchParametersFiltres.defaultDistanceValue ? 1 : 0;
+}
+
+int _otherFiltresCount(OffreEmploiSearchParametersInitializedState searchParamsState) {
+  return [
+    searchParamsState.filtres.experience?.length ?? 0,
+    searchParamsState.filtres.contrat?.length ?? 0,
+    searchParamsState.filtres.duree?.length ?? 0,
+  ].fold(0, (previousValue, element) => previousValue + element);
+}
+

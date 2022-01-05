@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_results_view_model.dart';
@@ -93,45 +94,166 @@ main() {
     expect(viewModel.items, _expectedViewModels());
   });
 
-  test("create when state has no active filtre should not display a filtre number", () {
-    // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(
-        offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
-          "keyWords",
-          mockLocation(),
-          OffreEmploiSearchParametersFiltres.noFiltres(),
+  group("create should properly set filtre number ...", () {
+    test("when state has no active filtre it should not display a filtre number", () {
+      // Given
+      final store = _storeWithFiltres(OffreEmploiSearchParametersFiltres.noFiltres());
+
+      // When
+      final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+      // Then
+      expect(viewModel.filtresCount, isNull);
+    });
+
+    test("when state has active distance filtre it should display 1 as filtre number", () {
+      // Given
+      final store = _storeWithFiltres(OffreEmploiSearchParametersFiltres.withFiltres(distance: 40));
+
+      // When
+      final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+      // Then
+      expect(viewModel.filtresCount, 1);
+    });
+
+    test("when state has active distance filtre but value is default it should not display a filtre number", () {
+      // Given
+      final store = _storeWithFiltres(OffreEmploiSearchParametersFiltres.withFiltres(distance: 10));
+
+      // When
+      final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+      // Then
+      expect(viewModel.filtresCount, isNull);
+    });
+
+    test("when state has active experience filtre it should display 1 as filtre number", () {
+      // Given
+      final store = _storeWithFiltres(
+        OffreEmploiSearchParametersFiltres.withFiltres(experience: [ExperienceFiltre.trois_ans_et_plus]),
+      );
+
+      // When
+      final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+      // Then
+      expect(viewModel.filtresCount, 1);
+    });
+
+    test("when state has 2 active experience filtres it should display 2 as filtre number", () {
+      // Given
+      final store = _storeWithFiltres(
+        OffreEmploiSearchParametersFiltres.withFiltres(
+          experience: [ExperienceFiltre.de_un_a_trois_ans, ExperienceFiltre.trois_ans_et_plus],
         ),
-      ),
-    );
+      );
 
-    // When
-    final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+      // When
+      final viewModel = OffreEmploiSearchResultsViewModel.create(store);
 
-    // Then
-    expect(viewModel.filtresCount, isNull);
+      // Then
+      expect(viewModel.filtresCount, 2);
+    });
+
+    test("when state has empty experience filtre it should not display a filtre number", () {
+      // Given
+      final store = _storeWithFiltres(
+        OffreEmploiSearchParametersFiltres.withFiltres(experience: []),
+      );
+
+      // When
+      final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+      // Then
+      expect(viewModel.filtresCount, isNull);
+    });
+
+    test("when state has active contrat filtre it should display 1 as filtre number", () {
+      // Given
+      final store = _storeWithFiltres(OffreEmploiSearchParametersFiltres.withFiltres(
+          contrat: [ContratFiltre.autre]));
+
+      // When
+      final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+      // Then
+      expect(viewModel.filtresCount, 1);
+    });
+
+    test("when state has 3 active contrat filtres it should display 3 as filtre number", () {
+      // Given
+      final store = _storeWithFiltres(OffreEmploiSearchParametersFiltres.withFiltres(contrat: [
+        ContratFiltre.autre,
+        ContratFiltre.cdd_interim_saisonnier,
+        ContratFiltre.cdi,
+      ]));
+
+      // When
+      final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+      // Then
+      expect(viewModel.filtresCount, 3);
+    });
+
+    test("when state has active duree filtre it should display 1 as filtre number", () {
+      // Given
+      final store = _storeWithFiltres(
+        OffreEmploiSearchParametersFiltres.withFiltres(duree: [DureeFiltre.temps_plein]),
+      );
+
+      // When
+      final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+      // Then
+      expect(viewModel.filtresCount, 1);
+    });
+
+    test("when state has multiple active duree filtres it should display 2 as filtre number", () {
+      // Given
+      final store = _storeWithFiltres(
+        OffreEmploiSearchParametersFiltres.withFiltres(duree: [DureeFiltre.temps_plein, DureeFiltre.temps_partiel]),
+      );
+
+      // When
+      final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+      // Then
+      expect(viewModel.filtresCount, 2);
+    });
+
+    test(
+        "when state has multiple filtres active at the same time it should display the total count of active filtre as filtre number",
+        () {
+      // Given
+      final store = _storeWithFiltres(
+        OffreEmploiSearchParametersFiltres.withFiltres(
+            distance: 40,
+            contrat: [ContratFiltre.cdi],
+            experience: [ExperienceFiltre.trois_ans_et_plus, ExperienceFiltre.de_un_a_trois_ans],
+            duree: [DureeFiltre.temps_plein]),
+      );
+
+      // When
+      final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+      // Then
+      expect(viewModel.filtresCount, 5);
+    });
   });
+}
 
-  test("create when state has no active filtre should not display a filtre number", () {
-    // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(
-        offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
-          "keyWords",
-          mockLocation(),
-          OffreEmploiSearchParametersFiltres.withFiltres(distance: 40),
-        ),
+Store<AppState> _storeWithFiltres(OffreEmploiSearchParametersFiltres filtres) {
+  return Store<AppState>(
+    reducer,
+    initialState: AppState.initialState().copyWith(
+      offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
+        "keyWords",
+        mockLocation(),
+        filtres,
       ),
-    );
-
-    // When
-    final viewModel = OffreEmploiSearchResultsViewModel.create(store);
-
-    // Then
-    expect(viewModel.filtresCount, 1);
-  });
+    ),
+  );
 }
 
 List<OffreEmploiItemViewModel> _expectedViewModels() {

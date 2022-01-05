@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/pages/router_page.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/ui/theme.dart';
 import 'package:redux/redux.dart';
 
 class PassEmploiApp extends StatelessWidget {
@@ -16,14 +17,7 @@ class PassEmploiApp extends StatelessWidget {
       store: _store,
       child: MaterialApp(
         title: Strings.appName,
-        theme: ThemeData(
-            primarySwatch: Colors.indigo,
-            pageTransitionsTheme: PageTransitionsTheme(
-              builders: {
-                TargetPlatform.android: ZoomPageTransitionsBuilder(),
-                TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-              },
-            )),
+        theme: PassEmploiTheme.data,
         home: RouterPage(),
       ),
     );

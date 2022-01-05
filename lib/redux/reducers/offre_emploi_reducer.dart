@@ -1,3 +1,4 @@
+import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
@@ -17,7 +18,7 @@ AppState offreEmploiReducer(AppState currentState, OffreEmploiAction action) {
       return _storeOffres(currentState, action);
     }
   } else if (action is OffreEmploiSearchFailureAction) {
-    return currentState.copyWith(offreEmploiSearchState: OffreEmploiSearchState.failure());
+    return _searchStateFailure(currentState);
   } else if (action is OffreEmploiResetResultsAction) {
     return currentState.copyWith(
       offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
@@ -33,7 +34,7 @@ AppState offreEmploiReducer(AppState currentState, OffreEmploiAction action) {
       return currentState;
     }
   } else if (action is OffreEmploiSearchWithUpdateFiltresFailureAction) {
-    return _treatFiltreFailureAsSuccessSoThatDataIsDisplayed(currentState);
+    return _searchStateFailure(currentState);
   } else {
     return currentState;
   }
@@ -92,5 +93,6 @@ AppState _storeOffresWithUpdatedFiltres(AppState currentState, OffreEmploiSearch
   );
 }
 
-AppState _treatFiltreFailureAsSuccessSoThatDataIsDisplayed(AppState currentState) =>
-    currentState.copyWith(offreEmploiSearchState: OffreEmploiSearchState.success());
+AppState _searchStateFailure(AppState currentState) {
+  return currentState.copyWith(offreEmploiSearchState: OffreEmploiSearchState.failure());
+}

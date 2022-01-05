@@ -58,7 +58,6 @@ class _UserActionListPageState extends State<UserActionListPage> {
   Widget _body(BuildContext context, UserActionListPageViewModel viewModel) {
     if (viewModel.withLoading) return _loader();
     if (viewModel.withFailure) return Center(child: Retry(Strings.actionsError, () => viewModel.onRetry()));
-    ;
     if (viewModel.withEmptyMessage) return _empty();
     return _userActionsList(context, viewModel);
   }

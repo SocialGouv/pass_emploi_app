@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
+import 'package:pass_emploi_app/widgets/help_tooltip.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/share_button.dart';
 import 'package:pass_emploi_app/widgets/tags.dart';
@@ -335,21 +336,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
           Flexible(child: _listItem(requiredText)),
           Padding(
             padding: const EdgeInsets.only(left: 8, bottom: 12),
-            child: Tooltip(
-              message: Strings.requiredIcon,
-              triggerMode: TooltipTriggerMode.tap,
-              showDuration: Duration(seconds: 3),
-              verticalOffset: 10,
-              textStyle: TextStyles.textSmRegular(),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: const BorderRadius.all(Radius.circular(4)),
-                border: Border.all(
-                  color: AppColors.nightBlue,
-                ),
-              ),
-              child: SvgPicture.asset(Drawables.icInfo),
-            ),
+            child: HelpTooltip(message: Strings.requiredIcon, iconRes: Drawables.icImportant),
           ),
         ],
       ),
