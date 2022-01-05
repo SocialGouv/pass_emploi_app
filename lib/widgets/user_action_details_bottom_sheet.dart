@@ -59,6 +59,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
   }
 
   Widget _congratulations(BuildContext context) {
+    MatomoTracker.trackScreen(context, AnalyticsScreenNames.updateUserAction);
     return FractionallySizedBox(
       heightFactor: 0.90,
       child: Column(
