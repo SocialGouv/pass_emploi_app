@@ -1,42 +1,26 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:redux/redux.dart';
 
 class LoginViewModel extends Equatable {
-  final bool withLoading;
-  final bool withFailure;
-  final bool withAlreadyEnteredValues;
-  final String accessCode;
-  final Function(String accessCode) onLoginAction;
+  final DisplayState displayState;
+  final Function() onGenericLoginAction;
+  final Function() onSimiloLoginAction;
 
-  LoginViewModel({
-    required this.withLoading,
-    required this.withFailure,
-    required this.withAlreadyEnteredValues,
-    required this.accessCode,
-    required this.onLoginAction,
-  });
+  LoginViewModel({required this.displayState, required this.onGenericLoginAction, required this.onSimiloLoginAction});
 
   factory LoginViewModel.create(Store<AppState> store) {
     final state = store.state.loginState;
     return LoginViewModel(
-      withLoading: state is LoginLoadingState,
-      withFailure: state is LoginFailureState,
-      withAlreadyEnteredValues: state is LoginLoadingState,
-      accessCode: _accessCode(state),
-      onLoginAction: (String accessCode) => store.dispatch(RequestLoginAction(accessCode)),
+      displayState: state is UserNotLoggedInState ? DisplayState.CONTENT : displayStateFromState(state),
+      onGenericLoginAction: () => store.dispatch(RequestLoginAction(RequestLoginMode.GENERIC)),
+      onSimiloLoginAction: () => store.dispatch(RequestLoginAction(RequestLoginMode.SIMILO)),
     );
   }
 
   @override
-  List<Object?> get props => [withLoading, withFailure, withAlreadyEnteredValues, accessCode];
-}
-
-String _accessCode(LoginState state) {
-  if (state is LoginLoadingState) return state.accessCode;
-  if (state is LoginFailureState) return state.accessCode;
-  if (state is LoggedInState) return state.user.id;
-  return "";
+  List<Object?> get props => [displayState];
 }

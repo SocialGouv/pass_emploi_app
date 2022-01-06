@@ -1,33 +1,22 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/user_action_list_page_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
+import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
-import 'package:pass_emploi_app/redux/states/user_action_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
+import '../doubles/fixtures.dart';
+
 main() {
-  test('create when user is not logged in should throw exception', () {
-    // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(loginState: LoginState.notLoggedIn()),
-    );
-
-    // When / Then
-    expect(() => UserActionListPageViewModel.create(store), throwsException);
-  });
-
   test('create when action state is loading should display loader', () {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: _loggedInState().copyWith(userActionState: UserActionState.loading()),
+      initialState: loggedInState().copyWith(userActionState: State<List<UserAction>>.loading()),
     );
 
     // When
@@ -42,7 +31,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: _loggedInState().copyWith(userActionState: UserActionState.notInitialized()),
+      initialState: loggedInState().copyWith(userActionState: State<List<UserAction>>.notInitialized()),
     );
 
     // When
@@ -57,7 +46,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: _loggedInState().copyWith(userActionState: UserActionState.failure()),
+      initialState: loggedInState().copyWith(userActionState: State<List<UserAction>>.failure()),
     );
 
     // When
@@ -73,7 +62,7 @@ main() {
     var storeSpy = StoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
-      initialState: _loggedInState().copyWith(userActionState: UserActionState.failure()),
+      initialState: loggedInState().copyWith(userActionState: State<List<UserAction>>.failure()),
     );
     final viewModel = UserActionListPageViewModel.create(store);
 
@@ -88,8 +77,8 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: _loggedInState().copyWith(
-          userActionState: UserActionState.success([
+      initialState: loggedInState().copyWith(
+          userActionState: State<List<UserAction>>.success([
         UserAction(
           id: "id",
           content: "content",
@@ -136,7 +125,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: _loggedInState().copyWith(userActionState: UserActionState.success([])),
+      initialState: loggedInState().copyWith(userActionState: State<List<UserAction>>.success([])),
     );
 
     // When
@@ -154,7 +143,7 @@ main() {
     var storeSpy = StoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
-      initialState: _loggedInState(),
+      initialState: loggedInState(),
     );
 
     // When
@@ -170,7 +159,7 @@ main() {
     var storeSpy = StoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
-      initialState: _loggedInState(),
+      initialState: loggedInState(),
     );
 
     // When
@@ -180,16 +169,6 @@ main() {
     // Then
     expect(storeSpy.calledWithDismissCreate, true);
   });
-}
-
-AppState _loggedInState() {
-  return AppState.initialState().copyWith(
-    loginState: LoginState.loggedIn(User(
-      id: "id",
-      firstName: "F",
-      lastName: "L",
-    )),
-  );
 }
 
 class StoreSpy {
@@ -202,7 +181,7 @@ class StoreSpy {
     if (action is RequestUserActionsAction) {
       calledWithRetry = true;
     }
-    if (action is UpdateActionStatus) {
+    if (action is UserActionUpdateStatusAction) {
       calledWithUpdate = true;
     }
     if (action is DismissUserActionDetailsAction) {

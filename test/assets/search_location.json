@@ -1,0 +1,44 @@
+[
+  {
+    "libelle": "Paris",
+    "code": "75",
+    "type": "DEPARTEMENT",
+    "score": 1
+  },
+  {
+    "libelle": "PARIS 14",
+    "code": "75114",
+    "codePostal": "75014",
+    "type": "COMMUNE",
+    "score": 0.6666667,
+    "longitude": 2.323026,
+    "latitude": 48.830108
+  },
+  {
+    "libelle": "PARIS 19",
+    "code": "75119",
+    "codePostal": "75019",
+    "type": "COMMUNE",
+    "score": 0.6666667,
+    "longitude": 2.387708,
+    "latitude": 48.887252
+  },
+  {
+    "libelle": "PARIS 07",
+    "code": "75107",
+    "codePostal": "75007",
+    "type": "COMMUNE",
+    "score": 0.6666667,
+    "longitude": 2.347,
+    "latitude": 48.859
+  },
+  {
+    "libelle": "PARIS 09",
+    "code": "75109",
+    "codePostal": "75009",
+    "type": "COMMUNE",
+    "score": 0.6666667,
+    "longitude": 2.347,
+    "latitude": 48.859
+  }
+]

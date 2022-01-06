@@ -1,7 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/message.dart';
-import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
@@ -13,19 +14,17 @@ import 'chat_item.dart';
 
 class ChatPageViewModel extends Equatable {
   final String title;
-  final bool withLoading;
-  final bool withFailure;
-  final bool withContent;
+  final DisplayState displayState;
   final List<ChatItem> items;
   final Function(String message) onSendMessage;
+  final Function() onRetry;
 
   ChatPageViewModel({
     required this.title,
-    required this.withLoading,
-    required this.withFailure,
-    required this.withContent,
+    required this.displayState,
     required this.items,
     required this.onSendMessage,
+    required this.onRetry,
   });
 
   factory ChatPageViewModel.create(Store<AppState> store) {
@@ -34,16 +33,21 @@ class ChatPageViewModel extends Equatable {
     final lastReading = (statusState is ChatStatusSuccessState) ? statusState.lastConseillerReading : minDateTime;
     return ChatPageViewModel(
       title: Strings.yourConseiller,
-      withLoading: chatState is ChatLoadingState,
-      withFailure: chatState is ChatFailureState,
-      withContent: chatState is ChatSuccessState,
+      displayState: _displayState(chatState),
       items: chatState is ChatSuccessState ? _messagesToChatItems(chatState.messages, lastReading) : [],
       onSendMessage: (String message) => store.dispatch(SendMessageAction(message)),
+      onRetry: () => store.dispatch(SubscribeToChatAction()),
     );
   }
 
   @override
-  List<Object?> get props => [title, withLoading, withFailure, withContent, items];
+  List<Object?> get props => [title, displayState, items];
+}
+
+_displayState(ChatState state) {
+  if (state is ChatLoadingState) return DisplayState.LOADING;
+  if (state is ChatFailureState) return DisplayState.FAILURE;
+  return DisplayState.CONTENT;
 }
 
 _messagesToChatItems(List<Message> messages, DateTime lastConseillerReading) {

@@ -1,9 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/redux/actions/offre_emploi_details_actions.dart';
+import 'package:pass_emploi_app/models/user.dart';
+import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 
 import '../doubles/dummies.dart';
@@ -16,23 +17,20 @@ main() {
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.detailedOfferRepository = OffreEmploiDetailsRepositorySuccessStub();
     final store = testStoreFactory.initializeReduxStore(
-      initialState: AppState.initialState().copyWith(loginState: LoginState.notLoggedIn()),
+      initialState: AppState.initialState().copyWith(loginState: State<User>.failure()),
     );
 
-    final displayedLoading =
-        store.onChange.any((element) => element.offreEmploiDetailsState is OffreEmploiDetailsLoadingState);
-    final successState =
-        store.onChange.firstWhere((element) => element.offreEmploiDetailsState is OffreEmploiDetailsSuccessState);
+    final displayedLoading = store.onChange.any((element) => element.offreEmploiDetailsState.isLoading());
+    final successState = store.onChange.firstWhere((element) => element.offreEmploiDetailsState.isSuccess());
 
     // When
-    store.dispatch(GetOffreEmploiDetailsAction(offreId: "offerId"));
+    store.dispatch(OffreEmploiDetailsAction.request("offerId"));
 
     // Then
 
     expect(await displayedLoading, true);
     final appState = await successState;
-    final searchState = (appState.offreEmploiDetailsState as OffreEmploiDetailsSuccessState);
-    expect(searchState.offre.id, "123TZKB");
+    expect(appState.offreEmploiDetailsState.getResultOrThrow().id, "123TZKB");
   });
 
   test("detailed offer should be fetched and an error must be displayed if something wrong happens", () async {
@@ -40,16 +38,14 @@ main() {
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.detailedOfferRepository = OffreEmploiDetailsRepositoryGenericFailureStub();
     final store = testStoreFactory.initializeReduxStore(
-      initialState: AppState.initialState().copyWith(loginState: LoginState.notLoggedIn()),
+      initialState: AppState.initialState().copyWith(loginState: State<User>.failure()),
     );
 
-    final displayedLoading =
-        store.onChange.any((element) => element.offreEmploiDetailsState is OffreEmploiDetailsLoadingState);
-    final displayedError =
-        store.onChange.any((element) => element.offreEmploiDetailsState is OffreEmploiDetailsFailureState);
+    final displayedLoading = store.onChange.any((element) => element.offreEmploiDetailsState.isLoading());
+    final displayedError = store.onChange.any((element) => element.offreEmploiDetailsState.isFailure());
 
     // When
-    store.dispatch(GetOffreEmploiDetailsAction(offreId: "offerId"));
+    store.dispatch(OffreEmploiDetailsAction.request("offerId"));
 
     // Then
     expect(await displayedLoading, true);
@@ -62,17 +58,16 @@ main() {
     testStoreFactory.detailedOfferRepository = OffreEmploiDetailsRepositoryNotFoundFailureStub();
     final store = testStoreFactory.initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-          loginState: LoginState.loggedIn(mockUser()),
+          loginState: State<User>.success(mockUser()),
           offreEmploiFavorisState: OffreEmploiFavorisState.withMap({"offerId"}, {"offerId": mockOffreEmploi()})),
     );
 
-    final displayedLoading =
-        store.onChange.any((element) => element.offreEmploiDetailsState is OffreEmploiDetailsLoadingState);
+    final displayedLoading = store.onChange.any((element) => element.offreEmploiDetailsState.isLoading());
     final displayedIncompleteData = store.onChange
         .firstWhere((element) => element.offreEmploiDetailsState is OffreEmploiDetailsIncompleteDataState);
 
     // When
-    store.dispatch(GetOffreEmploiDetailsAction(offreId: "offerId"));
+    store.dispatch(OffreEmploiDetailsAction.request("offerId"));
 
     // Then
     expect(await displayedLoading, true);

@@ -1,24 +1,23 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/user_action_details_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
+import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_delete_state.dart';
-import 'package:pass_emploi_app/redux/states/user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 import 'package:redux/redux.dart';
+
+import '../doubles/fixtures.dart';
 
 main() {
   test("create when action has been updated should show success", () {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState:
-          AppState.initialState().copyWith(userActionUpdateState: UserActionUpdateState.updated()),
+      initialState: AppState.initialState().copyWith(userActionUpdateState: UserActionUpdateState.updated()),
     );
 
     // When
@@ -98,31 +97,30 @@ main() {
     expect(viewModel.displayState, UserActionDetailsDisplayState.SHOW_DELETE_ERROR);
   });
 
-
   test('refreshStatus when update status has changed should dispatch a UpdateActionStatus', () {
     // Given
     var storeSpy = StoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
-      initialState: _loggedInState().copyWith(
-          userActionState: UserActionState.success([
-            UserAction(
-              id: "id",
-              content: "content",
-              comment: "comment",
-              status: UserActionStatus.DONE,
-              lastUpdate: DateTime(2022, 12, 23, 0, 0, 0),
-              creator: JeuneActionCreator(),
-            ),
-            UserAction(
-              id: "id2",
-              content: "content2",
-              comment: "",
-              status: UserActionStatus.NOT_STARTED,
-              lastUpdate: DateTime(2022, 11, 13, 0, 0, 0),
-              creator: JeuneActionCreator(),
-            ),
-          ])),
+      initialState: loggedInState().copyWith(
+          userActionState: State<List<UserAction>>.success([
+        UserAction(
+          id: "id",
+          content: "content",
+          comment: "comment",
+          status: UserActionStatus.DONE,
+          lastUpdate: DateTime(2022, 12, 23, 0, 0, 0),
+          creator: JeuneActionCreator(),
+        ),
+        UserAction(
+          id: "id2",
+          content: "content2",
+          comment: "",
+          status: UserActionStatus.NOT_STARTED,
+          lastUpdate: DateTime(2022, 11, 13, 0, 0, 0),
+          creator: JeuneActionCreator(),
+        ),
+      ])),
     );
 
     // When
@@ -138,25 +136,25 @@ main() {
     var storeSpy = StoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
-      initialState: _loggedInState().copyWith(
-          userActionState: UserActionState.success([
-            UserAction(
-              id: "id",
-              content: "content",
-              comment: "comment",
-              status: UserActionStatus.DONE,
-              lastUpdate: DateTime(2022, 12, 23, 0, 0, 0),
-              creator: JeuneActionCreator(),
-            ),
-            UserAction(
-              id: "id2",
-              content: "content2",
-              comment: "",
-              status: UserActionStatus.NOT_STARTED,
-              lastUpdate: DateTime(2022, 11, 13, 0, 0, 0),
-              creator: JeuneActionCreator(),
-            ),
-          ])),
+      initialState: loggedInState().copyWith(
+          userActionState: State<List<UserAction>>.success([
+        UserAction(
+          id: "id",
+          content: "content",
+          comment: "comment",
+          status: UserActionStatus.DONE,
+          lastUpdate: DateTime(2022, 12, 23, 0, 0, 0),
+          creator: JeuneActionCreator(),
+        ),
+        UserAction(
+          id: "id2",
+          content: "content2",
+          comment: "",
+          status: UserActionStatus.NOT_STARTED,
+          lastUpdate: DateTime(2022, 11, 13, 0, 0, 0),
+          creator: JeuneActionCreator(),
+        ),
+      ])),
     );
 
     // When
@@ -177,19 +175,9 @@ class StoreSpy {
     if (action is UserActionNoUpdateNeededAction) {
       calledWithNoUpdateNeeded = true;
     }
-    if (action is UpdateActionStatus) {
+    if (action is UserActionUpdateStatusAction) {
       calledWithUpdate = true;
     }
     return currentState;
   }
-}
-
-AppState _loggedInState() {
-  return AppState.initialState().copyWith(
-    loginState: LoginState.loggedIn(User(
-      id: "id",
-      firstName: "F",
-      lastName: "L",
-    )),
-  );
 }

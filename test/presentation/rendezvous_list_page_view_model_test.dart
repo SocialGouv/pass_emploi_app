@@ -1,20 +1,20 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
-import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_list_page_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
+import 'package:pass_emploi_app/redux/actions/actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
-import 'package:pass_emploi_app/redux/states/rendezvous_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:redux/redux.dart';
+
+import '../doubles/fixtures.dart';
 
 main() {
   test('create when rendezvous state is loading should display loader', () {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: _loggedInState().copyWith(rendezvousState: RendezvousState.loading()),
+      initialState: loggedInState().copyWith(rendezvousState: State<List<Rendezvous>>.loading()),
     );
 
     // When
@@ -29,7 +29,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: _loggedInState().copyWith(rendezvousState: RendezvousState.notInitialized()),
+      initialState: loggedInState().copyWith(rendezvousState: State<List<Rendezvous>>.notInitialized()),
     );
 
     // When
@@ -44,7 +44,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: _loggedInState().copyWith(rendezvousState: RendezvousState.failure()),
+      initialState: loggedInState().copyWith(rendezvousState: State<List<Rendezvous>>.failure()),
     );
 
     // When
@@ -60,7 +60,7 @@ main() {
     var storeSpy = StoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
-      initialState: _loggedInState().copyWith(rendezvousState: RendezvousState.failure()),
+      initialState: loggedInState().copyWith(rendezvousState: State<List<Rendezvous>>.failure()),
     );
     final viewModel = RendezvousListPageViewModel.create(store);
 
@@ -75,8 +75,8 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: _loggedInState().copyWith(
-        rendezvousState: RendezvousState.success([
+      initialState: loggedInState().copyWith(
+        rendezvousState: State<List<Rendezvous>>.success([
           Rendezvous(
             id: '1',
             date: DateTime(2022, 12, 23, 10, 20),
@@ -130,7 +130,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: _loggedInState().copyWith(rendezvousState: RendezvousState.success([])),
+      initialState: loggedInState().copyWith(rendezvousState: State<List<Rendezvous>>.success([])),
     );
 
     // When
@@ -144,23 +144,11 @@ main() {
   });
 }
 
-AppState _loggedInState() {
-  return AppState.initialState().copyWith(
-    loginState: LoginState.loggedIn(User(
-      id: "id",
-      firstName: "F",
-      lastName: "L",
-    )),
-  );
-}
-
 class StoreSpy {
   var calledWithRetry = false;
 
   AppState reducer(AppState currentState, dynamic action) {
-    if (action is RequestRendezvousAction) {
-      calledWithRetry = true;
-    }
+    if (action is Action<void, List<Rendezvous>> && action.isRequest()) calledWithRetry = true;
     return currentState;
   }
 }

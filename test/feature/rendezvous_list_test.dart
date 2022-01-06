@@ -1,13 +1,15 @@
+import 'dart:ffi';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/user.dart';
-import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
+import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
-import 'package:pass_emploi_app/redux/states/rendezvous_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
 
 import '../doubles/dummies.dart';
+import '../doubles/fixtures.dart';
 import '../utils/test_setup.dart';
 
 void main() {
@@ -16,63 +18,54 @@ void main() {
       // Given
       final testStoreFactory = TestStoreFactory();
       final store = testStoreFactory.initializeReduxStore(
-        initialState: AppState.initialState().copyWith(loginState: LoginState.notLoggedIn()),
+        initialState: AppState.initialState().copyWith(loginState: State<User>.failure()),
       );
 
-      final unchangedRendezvousState =
-          store.onChange.any((element) => element.rendezvousState is RendezvousNotInitializedState);
+      final unchangedRendezvousState = store.onChange.any((element) => element.rendezvousState.isNotInitialized());
 
       // When
-      store.dispatch(RequestRendezvousAction());
+      store.dispatch(RendezvousAction.request(Void));
 
       // Then
       expect(await unchangedRendezvousState, true);
     });
 
     group("if user is logged in should fetch rendezvous and…", () {
-      final _user = User(id: "id", firstName: "f", lastName: "l");
-
       test("update state with success if repository returns something", () async {
         // Given
         final testStoreFactory = TestStoreFactory();
         testStoreFactory.rendezvousRepository = RendezvousRepositorySuccessStub(expectedUserId: "id");
-        final store = testStoreFactory.initializeReduxStore(
-          initialState: AppState.initialState().copyWith(loginState: LoginState.loggedIn(_user)),
-        );
+        final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
 
-        final displayedLoading = store.onChange.any((element) => element.rendezvousState is RendezvousLoadingState);
-        final successAppState =
-            store.onChange.firstWhere((element) => element.rendezvousState is RendezvousSuccessState);
+        final displayedLoading = store.onChange.any((element) => element.rendezvousState.isLoading());
+        final successAppState = store.onChange.firstWhere((element) => element.rendezvousState.isSuccess());
 
         // When
-        store.dispatch(RequestRendezvousAction());
+        store.dispatch(RendezvousAction.request(Void));
 
         // Then
         expect(await displayedLoading, true);
         final appState = await successAppState;
-        expect((appState.rendezvousState as RendezvousSuccessState).rendezvous.length, 1);
-        expect((appState.rendezvousState as RendezvousSuccessState).rendezvous[0].date, DateTime(2022));
+        expect(appState.rendezvousState.getResultOrThrow().length, 1);
+        expect(appState.rendezvousState.getResultOrThrow()[0].date, DateTime(2022));
       });
 
       test("update state with failure if repository returns nothing", () async {
         // Given
         final testStoreFactory = TestStoreFactory();
         testStoreFactory.rendezvousRepository = RendezvousRepositoryFailureStub(expectedUserId: "id");
-        final store = testStoreFactory.initializeReduxStore(
-          initialState: AppState.initialState().copyWith(loginState: LoginState.loggedIn(_user)),
-        );
+        final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
 
-        final displayedLoading = store.onChange.any((element) => element.rendezvousState is RendezvousLoadingState);
-        final failureAppState =
-            store.onChange.firstWhere((element) => element.rendezvousState is RendezvousFailureState);
+        final displayedLoading = store.onChange.any((element) => element.rendezvousState.isLoading());
+        final failureAppState = store.onChange.firstWhere((element) => element.rendezvousState.isFailure());
 
         // When
-        store.dispatch(RequestRendezvousAction());
+        store.dispatch(RendezvousAction.request(Void));
 
         // Then
         expect(await displayedLoading, true);
         final appState = await failureAppState;
-        expect(appState.rendezvousState is RendezvousFailureState, true);
+        expect(appState.rendezvousState.isFailure(), isTrue);
       });
     });
   });
@@ -84,7 +77,7 @@ class RendezvousRepositorySuccessStub extends RendezvousRepository {
   RendezvousRepositorySuccessStub({required this.expectedUserId}) : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<List<Rendezvous>?> getRendezvous(String userId) async {
+  Future<List<Rendezvous>?> fetch(String userId, void request) async {
     if (userId != expectedUserId) throw Exception("Unexpected user ID: $userId");
     return [Rendezvous(id: '', date: DateTime(2022), title: '', subtitle: '', comment: '', duration: '', modality: '')];
   }
@@ -96,7 +89,7 @@ class RendezvousRepositoryFailureStub extends RendezvousRepository {
   RendezvousRepositoryFailureStub({required this.expectedUserId}) : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<List<Rendezvous>?> getRendezvous(String userId) async {
+  Future<List<Rendezvous>?> fetch(String userId, void request) async {
     if (userId != expectedUserId) throw Exception("Unexpected user ID: $userId");
     return null;
   }

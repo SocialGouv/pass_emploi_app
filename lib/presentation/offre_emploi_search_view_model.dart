@@ -1,25 +1,29 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/models/department.dart';
+import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
+import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
-enum OffreEmploiSearchDisplayState { SHOW_CONTENT, SHOW_LOADER, SHOW_ERROR, SHOW_EMPTY_ERROR }
+import 'location_view_model.dart';
 
 class OffreEmploiSearchViewModel extends Equatable {
-  final OffreEmploiSearchDisplayState displayState;
-  final List<Department> departments;
-  final Function(String keyWord, String department) searchingRequest;
+  final DisplayState displayState;
+  final List<LocationViewModel> locations;
   final String errorMessage;
+  final Function(String? input) onInputLocation;
+  final Function(String keyWord, Location? location) onSearchingRequest;
 
   OffreEmploiSearchViewModel._({
     required this.displayState,
-    required this.departments,
-    required this.searchingRequest,
+    required this.locations,
     required this.errorMessage,
+    required this.onInputLocation,
+    required this.onSearchingRequest,
   });
 
   factory OffreEmploiSearchViewModel.create(Store<AppState> store) {
@@ -27,40 +31,18 @@ class OffreEmploiSearchViewModel extends Equatable {
     final searchResultsState = store.state.offreEmploiSearchResultsState;
     return OffreEmploiSearchViewModel._(
       displayState: _displayState(searchState, searchResultsState),
-      searchingRequest: (keyWord, department) => _searchingRequest(store, keyWord, department),
-      departments: Department.values,
+      locations: store.state.searchLocationState.locations
+          .map((location) => LocationViewModel.fromLocation(location))
+          .toList(),
       errorMessage: _setErrorMessage(searchState, searchResultsState),
+      onInputLocation: (input) => store.dispatch(RequestLocationAction(input)),
+      onSearchingRequest: (keywords, location) =>
+          store.dispatch(SearchOffreEmploiAction(keywords: keywords, location: location)),
     );
   }
 
-  List<Department> filterDepartments(String userInput) {
-    if (userInput.length < 2 || userInput.isEmpty) return [];
-    return departments.where((department) {
-      return sanitizeString(department.name).contains(sanitizeString(userInput));
-    }).toList();
-  }
-
-  String sanitizeString(String str) {
-    return removeDiacritics(str).replaceAll(RegExp("[-'`]"), " ").trim().toUpperCase();
-  }
-
-  String removeDiacritics(String str) {
-    var withDia = 'ÀÁÂÃÄàáâäÒÓÔÕÕÖòóôõöÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûü';
-    var withoutDia = 'AAAAAaaaaOOOOOOoooooEEEEeeeeCcIIIIiiiiUUUUuuuu';
-
-    for (int i = 0; i < withDia.length; i++) {
-      str = str.replaceAll(withDia[i], withoutDia[i]);
-    }
-
-    return str;
-  }
-
   @override
-  List<Object?> get props => [displayState, errorMessage];
-}
-
-void _searchingRequest(Store<AppState> store, String keyWord, String department) {
-  store.dispatch(SearchOffreEmploiAction(keywords: keyWord, department: department));
+  List<Object?> get props => [displayState, errorMessage, locations];
 }
 
 String _setErrorMessage(OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
@@ -73,15 +55,12 @@ String _setErrorMessage(OffreEmploiSearchState searchState, OffreEmploiSearchRes
   }
 }
 
-OffreEmploiSearchDisplayState _displayState(
-    OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
+DisplayState _displayState(OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
   if (searchState is OffreEmploiSearchSuccessState && searchResultsState is OffreEmploiSearchResultsDataState) {
-    return searchResultsState.offres.isNotEmpty
-        ? OffreEmploiSearchDisplayState.SHOW_CONTENT
-        : OffreEmploiSearchDisplayState.SHOW_EMPTY_ERROR;
+    return searchResultsState.offres.isNotEmpty ? DisplayState.CONTENT : DisplayState.EMPTY;
   } else if (searchState is OffreEmploiSearchLoadingState) {
-    return OffreEmploiSearchDisplayState.SHOW_LOADER;
+    return DisplayState.LOADING;
   } else {
-    return OffreEmploiSearchDisplayState.SHOW_ERROR;
+    return DisplayState.FAILURE;
   }
 }

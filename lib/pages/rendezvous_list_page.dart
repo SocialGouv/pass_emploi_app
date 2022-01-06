@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
@@ -5,15 +7,15 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/rendezvous_page.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
+import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
-import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/rendezvous_card.dart';
+import 'package:pass_emploi_app/widgets/retry.dart';
 
 class RendezvousListPage extends TraceableStatelessWidget {
   RendezvousListPage() : super(name: AnalyticsScreenNames.rendezvousList);
@@ -21,7 +23,7 @@ class RendezvousListPage extends TraceableStatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RendezvousListPageViewModel>(
-      onInit: (store) => store.dispatch(RequestRendezvousAction()),
+      onInit: (store) => store.dispatch(RendezvousAction.request(Void)),
       converter: (store) => RendezvousListPageViewModel.create(store),
       builder: (context, viewModel) => _scaffold(_body(context, viewModel)),
     );
@@ -29,7 +31,7 @@ class RendezvousListPage extends TraceableStatelessWidget {
 
   Widget _body(BuildContext context, RendezvousListPageViewModel viewModel) {
     if (viewModel.withLoading) return _loader();
-    if (viewModel.withFailure) return _failure(viewModel);
+    if (viewModel.withFailure) return Retry(Strings.rendezVousError, () => viewModel.onRetry());
     if (viewModel.withEmptyMessage) return _empty();
     return _content(context, viewModel);
   }
@@ -57,23 +59,10 @@ class RendezvousListPage extends TraceableStatelessWidget {
     );
   }
 
-  Widget _failure(RendezvousListPageViewModel viewModel) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(Strings.rendezVousError),
-        TextButton(onPressed: () => viewModel.onRetry(), child: Text(Strings.retry, style: TextStyles.textLgMedium)),
-      ],
-    );
-  }
-
   Scaffold _scaffold(Widget body) {
     return Scaffold(
       backgroundColor: AppColors.lightBlue,
-      appBar: _appBar(),
       body: Center(child: DefaultAnimatedSwitcher(child: body)),
     );
   }
-
-  AppBar _appBar() => FlatDefaultAppBar(title: Text(Strings.rendezvousListPageTitle, style: TextStyles.h3Semi));
 }

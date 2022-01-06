@@ -1,23 +1,18 @@
-import 'package:pass_emploi_app/models/user.dart';
+import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 
-abstract class LoginAction {}
-
-class LoggedInAction extends LoginAction {
-  final User user;
-
-  LoggedInAction(this.user);
-}
+enum RequestLoginMode { GENERIC, SIMILO }
+enum LogoutRequester { SYSTEM, USER }
 
 class NotLoggedInAction extends LoginAction {}
 
-class LoginLoadingAction extends LoginAction {
-  final String accessCode;
+class RequestLoginAction extends LoginAction {
+  final RequestLoginMode mode;
 
-  LoginLoadingAction(this.accessCode);
+  RequestLoginAction(this.mode);
 }
 
-class LoginFailureAction extends LoginAction {
-  final String accessCode;
+class RequestLogoutAction extends LoginAction {
+  final LogoutRequester logoutRequester;
 
-  LoginFailureAction(this.accessCode);
+  RequestLogoutAction(this.logoutRequester);
 }

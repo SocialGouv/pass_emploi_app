@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
-import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
+import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/user_action_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 
@@ -18,7 +18,7 @@ void main() {
     testStoreFactory.userActionRepository = repositorySpy;
     final store = testStoreFactory.initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        userActionState: UserActionState.success(
+        userActionState: State<List<UserAction>>.success(
           [_notStartedAction()],
         ),
       ),
@@ -27,7 +27,7 @@ void main() {
     final changedState = store.onChange.first;
 
     // When
-    await store.dispatch(UpdateActionStatus(
+    await store.dispatch(UserActionUpdateStatusAction(
       userId: "userId",
       actionId: "actionId",
       newStatus: UserActionStatus.DONE,
@@ -35,11 +35,10 @@ void main() {
 
     // Then
     final appState = await changedState;
-    final actionState = appState.userActionState as UserActionSuccessState;
     expect(repositorySpy.isActionUpdated, true);
 
-    expect(actionState.actions[0].id, "actionId");
-    expect(actionState.actions[0].status, UserActionStatus.DONE);
+    expect(appState.userActionState.getResultOrThrow()[0].id, "actionId");
+    expect(appState.userActionState.getResultOrThrow()[0].status, UserActionStatus.DONE);
 
     expect(appState.userActionUpdateState is UserActionUpdatedState, true);
   });
@@ -62,9 +61,7 @@ class UserActionRepositorySpy extends UserActionRepository {
   UserActionRepositorySpy() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<List<UserAction>?> getUserActions(String userId) async {
-    return [];
-  }
+  Future<List<UserAction>?> getUserActions(String userId) async => [];
 
   @override
   Future<void> updateActionStatus(String userId, String actionId, UserActionStatus newStatus) async {

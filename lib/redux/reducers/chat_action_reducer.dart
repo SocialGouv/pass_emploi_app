@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/redux/states/chat_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
-AppState chatActionReducer(AppState currentState, dynamic action) {
+AppState chatActionReducer(AppState currentState, ChatAction action) {
   if (action is ChatLoadingAction) {
     return currentState.copyWith(chatState: ChatState.loading());
   } else if (action is ChatSuccessAction) {

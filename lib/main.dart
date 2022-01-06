@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 
@@ -7,9 +8,18 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_appauth/flutter_appauth.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart';
+import 'package:http/io_client.dart';
 import 'package:http_interceptor/http/intercepted_client.dart';
 import 'package:matomo/matomo.dart';
 import 'package:package_info/package_info.dart';
+import 'package:pass_emploi_app/auth/auth_access_token_retriever.dart';
+import 'package:pass_emploi_app/auth/auth_wrapper.dart';
+import 'package:pass_emploi_app/auth/authenticator.dart';
+import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
+import 'package:pass_emploi_app/network/access_token_interceptor.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/logging_interceptor.dart';
 import 'package:pass_emploi_app/pages/force_update_page.dart';
@@ -19,13 +29,17 @@ import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/store/store_factory.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
+import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
+import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
-import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
 
 import 'configuration/app_version_checker.dart';
@@ -44,12 +58,12 @@ main() async {
   final remoteConfig = await _remoteConfig();
   final forceUpdate = await _shouldForceUpdate(remoteConfig);
   final PushNotificationManager pushManager = FirebasePushNotificationManager();
-  final store = _initializeReduxStore(configuration, pushManager);
+  final store = await _initializeReduxStore(configuration, pushManager);
 
   await pushManager.init(store);
 
   runZonedGuarded<Future<void>>(() async {
-    runApp(forceUpdate ? ForceUpdatePage() : PassEmploiApp(store));
+    runApp(forceUpdate ? ForceUpdatePage(configuration.flavor) : PassEmploiApp(store));
   }, FirebaseCrashlytics.instance.recordError);
 
   await _handleErrorsOutsideFlutter();
@@ -84,25 +98,50 @@ Future<bool> _shouldForceUpdate(RemoteConfig? remoteConfig) async {
   return AppVersionChecker().shouldForceUpdate(currentVersion: currentVersion, minimumVersion: minimumVersion);
 }
 
-Store<AppState> _initializeReduxStore(Configuration configuration, PushNotificationManager pushNotificationManager) {
+Future<Store<AppState>> _initializeReduxStore(Configuration configuration,
+    PushNotificationManager pushNotificationManager,) async {
   final headersBuilder = HeadersBuilder();
-  final httpClient = InterceptedClient.build(interceptors: [LoggingInterceptor()]);
-  return StoreFactory(
-    UserRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
-    UserActionRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
-    RendezvousRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
-    OffreEmploiRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
-    ChatRepository(configuration.firebaseEnvironmentPrefix),
+  final securedPreferences = FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true));
+  final authenticator = Authenticator(AuthWrapper(FlutterAppAuth()), configuration, securedPreferences);
+  final accessTokenRetriever = AuthAccessTokenRetriever(authenticator);
+  final crashlytics = CrashlyticsWithFirebase(FirebaseCrashlytics.instance);
+  var defaultContext = SecurityContext.defaultContext;
+  try {
+    defaultContext.setTrustedCertificatesBytes(utf8.encode(configuration.iSRGX1CertificateForOldDevices));
+  } catch (e, stack) {
+    crashlytics.recordNonNetworkException(e, stack);
+  }
+  Client clientWithCertificate = IOClient(HttpClient(context: defaultContext));
+  final httpClient = InterceptedClient.build(
+    client: clientWithCertificate,
+    interceptors: [AccessTokenInterceptor(accessTokenRetriever), LoggingInterceptor()],
+  );
+  final chatCrypto = ChatCrypto();
+  final reduxStore = StoreFactory(
+    authenticator,
+    UserActionRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+    RendezvousRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+    OffreEmploiRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+    ChatRepository(chatCrypto, crashlytics),
     RegisterTokenRepository(
       configuration.serverBaseUrl,
       httpClient,
       headersBuilder,
       pushNotificationManager,
+      crashlytics,
     ),
-    CrashlyticsWithFirebase(FirebaseCrashlytics.instance),
-    OffreEmploiDetailsRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
-    OffreEmploiFavorisRepository(configuration.serverBaseUrl, httpClient, headersBuilder),
+    crashlytics,
+    OffreEmploiDetailsRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+    OffreEmploiFavorisRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+    SearchLocationRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+    ImmersionRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+    ImmersionDetailsRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+    FirebaseAuthRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+    FirebaseAuthWrapper(),
+    chatCrypto,
   ).initializeReduxStore(initialState: AppState.initialState());
+  accessTokenRetriever.setStore(reduxStore);
+  return reduxStore;
 }
 
 Future _handleErrorsOutsideFlutter() async {

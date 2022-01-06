@@ -18,3 +18,19 @@ class ChatConseillerMessageAction extends ChatAction {
 
   ChatConseillerMessageAction(this.unreadMessageCount, this.lastConseillerReading);
 }
+
+class SendMessageAction extends ChatAction {
+  final String message;
+
+  SendMessageAction(this.message);
+}
+
+class LastMessageSeenAction extends ChatAction {}
+
+class SubscribeToChatAction extends ChatAction {}
+
+class SubscribeToChatStatusAction extends ChatAction {}
+
+class UnsubscribeFromChatAction extends ChatAction {}
+
+class UnsubscribeFromChatStatusAction extends ChatAction {}

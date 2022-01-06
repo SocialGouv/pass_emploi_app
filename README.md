@@ -1,9 +1,7 @@
 L'application iOS et Android Pass Emploi
 
-## Code style
-A date, nous utilisons le code style par défaut de l'IDE Android Studio pour le langage Dart. La 
-seule spécificité est de mettre le nombre de caractère par ligne à 120 : dans les préférences de 
-l'IDE `Editor > Code Style > Dart > Line length`
+## Pratiques de dev et conventions
+Celles-ci sont spécifiées dans le fichier [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Renseigner les variables d'environnement
 Créer un repertoire `env` à la racine du projet.
@@ -69,14 +67,15 @@ Lorsque des variables d'environnement sont modifiées/ajoutées, il faut les ajo
 Le fichier `ci/.env.template` permet de lister les variables nécessaires.
  
 #### Mettre à jour ou insérer de nouvelle variable d'environnement dans Github Action
-1. Lancer le script `bash scripts/generate_env_ci.sh`
-2. Récupérer la valeur de STAGING_RUNTIME_ENV_B64 dans le fichier  `ci/.env.ci`.
-3. Mettre à jour le secret de Github action 'STAGING_RUNTIME_ENV_B64' (Github > Settings > Secrets).
+1. Assurer vous d'avoir mis la nouvelle variable d'environnement dans le fichier local `env/.env.staging`.
+2. Lancer le script `bash scripts/generate_env_ci.sh`
+3. Récupérer la valeur de STAGING_RUNTIME_ENV_B64 dans le fichier  `ci/env.ci`.
+4. Mettre à jour le secret de Github action 'STAGING_RUNTIME_ENV_B64' (Github > Settings > Secrets).
  
 #### Mettre à jour le provisioning profile dans Github Action
 1. Récupérer la dernière version du fichier `frfabriquesocialgouvpassemploistaging.mobileprovision` sur App Store Connect et le placer dans le répertoire `ci`.
 2. Lancer le script `bash scripts/generate_env_ci.sh`
-3. Récupérer la valeur de STAGING_IOS_PROVISIONING_PROFILE_B64 dans le fichier  `ci/.env.ci`.
+3. Récupérer la valeur de STAGING_IOS_PROVISIONING_PROFILE_B64 dans le fichier  `ci/env.ci`.
 4. Mettre à jour le secret de Github action 'STAGING_IOS_PROVISIONING_PROFILE_B64' (Github > Settings > Secrets).
 
 ### En local
@@ -95,8 +94,8 @@ pas être nécessaire d'être connecté, le script utilisant un token "ci".
 ### Prérequis
 1. Se mettre à jour sur develop
 2. Vérifier que les tests sont au vert : `$ flutter test`
-3. Mettre à jour le version name et incrementer le version code dans le fichier `pubspec.yaml` (variable `version`)
-4. Commiter le changement
+3. Mettre à jour le version name dans le fichier `pubspec.yaml` (variable `version`)
+4. Commiter et push le changement
 5. Merger develop sur master :
 ```shell script
 $ git checkout master
@@ -106,16 +105,15 @@ $ git push
 ```
 6. Tagger la release
 ```shell script
-$ git tag -a major.minor.patch -m "major.minor.patch"
+$ git tag -a major.minor.patch -m "major.minor.patch" #major.minor.patch étant le version name de l'étape 3
 $ git push --tags 
 ```
-
 
 ### Pour Android
 1. Vérifier que le fichier `passemploi.jks` (fichier privé) est bien situé dans le repertoire `android/keystore` 
 2. Créer un fichier `key.properties` dans le repertoire `android` à partir du même modèle que `key.properties.template`. Ce fichier ne doit JAMAIS être versionné.
 3. Renseigner les valeurs demandées (valeurs présentes dans le Drive du projet) dans ce fichier.
-4. Construire l'APK en release : `$ flutter build appbundle --flavor prod`
+4. Construire l'APK en release : `$ flutter build appbundle --build-number=XXX --flavor prod` #XXX étant un numéro de version strictement supérieur à la version précédente
 5. Récupérer l'AAB  `build/app/outputs/bundle/prodRelease/app-prod-release.aab`
 6. Aller sur la console Google Play de l'application.
 7. Dans le pannel de gauche, aller sur `Tests ouverts`, puis `Créer une release`
@@ -125,23 +123,24 @@ $ git push --tags
 
 ### Pour iOS
 1. Vérifier que votre compte Apple Dev ait bien accès au compte Apple "Fabrique numérique des ministères sociaux"
-2. Lancer le build iOS release : `flutter build ipa --flavor prod`
-3. Ouvrir le projet dans Xcode
-4. Configurer XCode, notamment sur la partie `Signing & Capabilities` [https://flutter.dev/docs/deployment/ios] en renseignant le bon provisioning profile de l'app `fr.fabrique.socialgouv.passemploi.distribution`
-5. Selectionner Product > Scheme > Runner.
-6. Selectionner Product > Destination > Any iOS Device.
-7. Selectionner Product > Archive.
-8. Une fois l'archive réalisée, cliquer sur Distribute App > App Store Connect> Upload
-9. Garder les checkbox `Strip Swift symbols` et `Upload your app symbols…` et `Manage version` cochées, puis Next
-10. Dans `Runner.app, choisir `fr.fabrique.socialgouv.passemploi.distribution`, puis Next puis Upload
-11. /!\ Attention : l'étape précédente peut prendre plusieurs minutes. Mais si au bout de 10 minutes 
+2. Ouvrir le projet dans Xcode
+3. Configurer XCode, notamment sur la partie `Signing & Capabilities` [https://flutter.dev/docs/deployment/ios] en renseignant le bon provisioning profile de l'app `fr.fabrique.socialgouv.passemploi.distribution`
+4. Selectionner Product > Scheme > prod.
+5. Selectionner Product > Destination > Any iOS Device.
+6. Lancer le build iOS release : `flutter build ipa --build-number=XXX --flavor prod` #XXX étant un numéro de version strictement supérieur à la version précédente
+7. Ouvrir le projet dans Xcode
+8. Selectionner Product > Archive.
+9. Une fois l'archive réalisée, cliquer sur Distribute App > App Store Connect> Upload
+10. Garder les checkbox `Strip Swift symbols` et `Upload your app symbols…` et `Manage version` cochées, puis Next
+11. Dans `Runner.app, choisir `fr.fabrique.socialgouv.passemploi.distribution`, puis Next puis Upload
+12. /!\ Attention : l'étape précédente peut prendre plusieurs minutes. Mais si au bout de 10 minutes 
 il ne se passe rien, c'est potentiellement dû à un mauvais réseau sur votre poste. Dans ce cas là, 
-il faut annuler, et recommencer à l'étape 8. 
-12. Aller sur [https://appstoreconnect.apple.com/apps](App Store Connect)
-13. Dans l'onglet `Test flight` de l'app `Pass Emploi`, attendre que la version tout juste uploadée 
+il faut annuler, et recommencer à l'étape 9. 
+13. Aller sur [https://appstoreconnect.apple.com/apps](App Store Connect)
+14. Dans l'onglet `Test flight` de l'app `Pass Emploi`, attendre que la version tout juste uploadée 
 soit bien présente. Il ne faut pas hésiter à rafraichir la page régulièrement.
-14. Par défaut, un warning apparaît `Attestation manquantes`. Indiquez que *non*, il n'y a pas 
+15. Par défaut, un warning apparaît `Attestation manquantes`. Indiquez que *non*, il n'y a pas 
 d'algorithme de chiffrement dans l'app.
-15. Dans le pannel de gauche, Test externes > Ambassadeurs, rajoutez le build tout juste uplpoadé 
+16. Dans le pannel de gauche, Test externes > Ambassadeurs, rajoutez le build tout juste uplpoadé 
 (section `Build` en bas de la page).
-16. La vérification peut prendre *jusqu'à 72h*.
+17. La vérification peut prendre *jusqu'à 72h*.

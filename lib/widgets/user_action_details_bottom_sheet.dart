@@ -8,12 +8,13 @@ import 'package:pass_emploi_app/presentation/user_action_details_view_model.dart
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
 import 'bottom_sheets.dart';
-import 'button.dart';
+import 'primary_action_button.dart';
 
 class UserActionDetailsBottomSheet extends TraceableStatefulWidget {
   final UserActionViewModel actionViewModel;
@@ -58,6 +59,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
   }
 
   Widget _congratulations(BuildContext context) {
+    MatomoTracker.trackScreenWithName(AnalyticsScreenNames.updateUserAction, AnalyticsScreenNames.userActionDetails);
     return FractionallySizedBox(
       heightFactor: 0.90,
       child: Column(
@@ -82,7 +84,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(height: 16),
-          Expanded(child: SvgPicture.asset("assets/ic_congratulations.svg", excludeFromSemantics: true)),
+          Expanded(child: SvgPicture.asset(Drawables.icCongratulations, excludeFromSemantics: true)),
           Expanded(
             child: Container(
               alignment: Alignment.bottomCenter,
@@ -111,7 +113,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
   Widget _understood(BuildContext context) {
     return Padding(
       padding: userActionBottomSheetContentPadding(),
-      child: primaryActionButton(
+      child: PrimaryActionButton.simple(
         label: Strings.understood,
         onPressed: () => Navigator.pop(context),
       ),
@@ -205,7 +207,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
               update: (newStatus) => _update(newStatus),
             ),
           ),
-          primaryActionButton(
+          PrimaryActionButton.simple(
             onPressed: () => {detailsViewModel.onRefreshStatus(widget.actionViewModel.id, actionStatus)},
             label: Strings.refreshActionStatus,
           ),
@@ -220,7 +222,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          primaryActionButton(
+          PrimaryActionButton.simple(
             onPressed: detailsViewModel.displayState == UserActionDetailsDisplayState.SHOW_LOADING
                 ? null
                 : () => detailsViewModel.onDelete(widget.actionViewModel.id),

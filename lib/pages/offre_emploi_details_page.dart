@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,15 +6,19 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/presentation/favori_heart_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_details_page_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/offre_emploi_details_actions.dart';
+import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/actionButtons.dart';
+import 'package:pass_emploi_app/widgets/action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
+import 'package:pass_emploi_app/widgets/help_tooltip.dart';
+import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/share_button.dart';
 import 'package:pass_emploi_app/widgets/tags.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -24,18 +27,18 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   final bool shouldPopPageWhenFavoriIsRemoved;
 
   OffreEmploiDetailsPage._(this._offreId, {this.shouldPopPageWhenFavoriIsRemoved = false})
-      : super(name: AnalyticsScreenNames.detailsOffreEmploi);
+      : super(name: AnalyticsScreenNames.offreEmploiDetails);
 
   static MaterialPageRoute materialPageRoute(String id, {bool shouldPopPageWhenFavoriIsRemoved = false}) {
-    return MaterialPageRoute(
-        builder: (context) =>
-            OffreEmploiDetailsPage._(id, shouldPopPageWhenFavoriIsRemoved: shouldPopPageWhenFavoriIsRemoved));
+    return MaterialPageRoute(builder: (context) {
+      return OffreEmploiDetailsPage._(id, shouldPopPageWhenFavoriIsRemoved: shouldPopPageWhenFavoriIsRemoved);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, OffreEmploiDetailsPageViewModel>(
-      onInit: (store) => store.dispatch(GetOffreEmploiDetailsAction(offreId: _offreId)),
+      onInit: (store) => store.dispatch(OffreEmploiDetailsAction.request(_offreId)),
       converter: (store) => OffreEmploiDetailsPageViewModel.getDetails(store),
       builder: (context, viewModel) => _scaffold(_body(context, viewModel)),
     );
@@ -109,7 +112,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         ),
         if (url != null && id != null)
           Align(
-            child: _footer(context, url, id),
+            child: _footer(context, url, id, viewModel.title),
             alignment: Alignment.bottomCenter,
           )
         else if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS && id != null)
@@ -130,22 +133,22 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       if (location != null)
         Padding(
           padding: const EdgeInsets.only(bottom: 12),
-          child: lightBlueTag(label: location, icon: SvgPicture.asset("assets/ic_place.svg")),
+          child: lightBlueTag(label: location, icon: SvgPicture.asset(Drawables.icPlace)),
         ),
       if (contractType != null)
         Padding(
           padding: const EdgeInsets.only(bottom: 12),
-          child: lightBlueTag(label: contractType, icon: SvgPicture.asset("assets/ic_contract.svg")),
+          child: lightBlueTag(label: contractType, icon: SvgPicture.asset(Drawables.icContract)),
         ),
       if (salary != null)
         Padding(
           padding: const EdgeInsets.only(bottom: 12),
-          child: lightBlueTag(label: salary, icon: SvgPicture.asset("assets/ic_salary.svg")),
+          child: lightBlueTag(label: salary, icon: SvgPicture.asset(Drawables.icSalary)),
         ),
       if (duration != null)
         Padding(
           padding: const EdgeInsets.only(bottom: 12),
-          child: lightBlueTag(label: duration, icon: SvgPicture.asset("assets/ic_time.svg")),
+          child: lightBlueTag(label: duration, icon: SvgPicture.asset(Drawables.icTime)),
         ),
     ]);
   }
@@ -153,8 +156,8 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Widget _description(OffreEmploiDetailsPageViewModel viewModel) {
     final description = viewModel.description;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      _descriptionTitle(title: Strings.offreDetailsTitle, icon: SvgPicture.asset("assets/ic_one_point.svg")),
-      _separator(8, 12),
+      _descriptionTitle(title: Strings.offreDetailsTitle, icon: SvgPicture.asset(Drawables.icOnePoint)),
+      SepLine(8, 12),
       if (description != null) Text(description, style: TextStyles.textSmRegular()),
       _spacer(30),
     ]);
@@ -170,12 +173,12 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _descriptionTitle(title: Strings.profileTitle, icon: SvgPicture.asset("assets/ic_two_points.svg")),
-        _separator(8, 20),
+        _descriptionTitle(title: Strings.profileTitle, icon: SvgPicture.asset(Drawables.icTwoPoints)),
+        SepLine(8, 20),
         Text(Strings.experienceTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
         if (experience != null) _setRequiredElement(element: experience, criteria: viewModel.requiredExperience),
-        _separator(20, 20),
+        SepLine(20, 20),
         if (skills != null) skills,
         if (softSkills != null) softSkills,
         if (educations != null) educations,
@@ -193,8 +196,8 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _descriptionTitle(title: Strings.companyTitle, icon: SvgPicture.asset("assets/ic_three_points.svg")),
-        _separator(8, 30),
+        _descriptionTitle(title: Strings.companyTitle, icon: SvgPicture.asset(Drawables.icThreePoints)),
+        SepLine(8, 30),
         if (companyName != null) _companyName(companyName: companyName, companyUrl: viewModel.companyUrl),
         if (companyAdapted) _blueTag(tagTitle: Strings.companyAdaptedTitle),
         if (companyAccessibility) _blueTag(tagTitle: Strings.companyAccessibilityTitle),
@@ -205,14 +208,6 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   }
 
   Widget _spacer(double _height) => SizedBox(height: _height);
-
-  Widget _separator(double spacerBefore, double spacerAfter) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      SizedBox(height: spacerBefore),
-      Container(height: 1, color: AppColors.borderGrey),
-      SizedBox(height: spacerAfter),
-    ]);
-  }
 
   Container _descriptionTitle({required String title, SvgPicture? icon}) {
     return Container(
@@ -234,7 +229,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       Text(Strings.companyDescriptionTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
       _spacer(12),
       Text(content, style: TextStyles.textSmRegular()),
-      _separator(12, 20),
+      SepLine(12, 20),
     ]);
   }
 
@@ -246,7 +241,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         Text(Strings.skillsTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
         for (final skill in skills) _setRequiredElement(element: skill.description, criteria: skill.requirement),
-        _separator(20, 20),
+        SepLine(20, 20),
       ],
     );
   }
@@ -263,7 +258,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
             padding: const EdgeInsets.only(bottom: 20),
             child: Text("· $soft", style: TextStyles.textSmRegular()),
           ),
-        _separator(20, 20),
+        SepLine(20, 20),
       ],
     );
   }
@@ -277,7 +272,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         _spacer(12),
         for (final education in educations)
           _setRequiredElement(element: education.label, criteria: education.requirement),
-        _separator(20, 20),
+        SepLine(20, 20),
       ],
     );
   }
@@ -290,7 +285,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         Text(Strings.languageTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
         _spacer(12),
         for (final language in languages) _setRequiredElement(element: language.type, criteria: language.requirement),
-        _separator(20, 20),
+        SepLine(20, 20),
       ],
     );
   }
@@ -304,7 +299,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         _spacer(12),
         for (final licence in driverLicences)
           _setRequiredElement(element: licence.category, criteria: licence.requirement),
-        _separator(20, 20),
+        SepLine(20, 20),
       ],
     );
   }
@@ -341,21 +336,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
           Flexible(child: _listItem(requiredText)),
           Padding(
             padding: const EdgeInsets.only(left: 8, bottom: 12),
-            child: Tooltip(
-              message: Strings.requiredIcon,
-              triggerMode: TooltipTriggerMode.tap,
-              showDuration: Duration(seconds: 3),
-              verticalOffset: 10,
-              textStyle: TextStyles.textSmRegular(),
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                borderRadius: const BorderRadius.all(Radius.circular(4)),
-                border: Border.all(
-                  color: AppColors.nightBlue,
-                ),
-              ),
-              child: SvgPicture.asset("assets/ic_info.svg"),
-            ),
+            child: HelpTooltip(message: Strings.requiredIcon, iconRes: Drawables.icImportant),
           ),
         ],
       ),
@@ -379,7 +360,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
               Flexible(child: Text(companyName, style: TextStyles.textMdMediumUnderline)),
               Padding(
                 padding: const EdgeInsets.only(left: 8),
-                child: SvgPicture.asset("assets/ic_redirection.svg"),
+                child: SvgPicture.asset(Drawables.icRedirection),
               ),
             ],
           ),
@@ -413,19 +394,21 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     );
   }
 
-  Widget _footer(BuildContext context, String url, String offreId) {
+  Widget _footer(BuildContext context, String url, String offreId, String? title) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [
-          Expanded(child: actionButton(onPressed: () => launch(url), label: Strings.postulerButtonTitle)),
+          Expanded(child: ActionButton(onPressed: () => launch(url), label: Strings.postulerButtonTitle)),
           SizedBox(width: 8),
           FavoriHeart(
             offreId: offreId,
             withBorder: true,
             onFavoriRemoved: shouldPopPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
           ),
+          SizedBox(width: 8),
+          ShareButton(url, title),
         ],
       ),
     );
@@ -446,8 +429,10 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Widget _deleteFavoriStoreConnector(BuildContext context, String offreId) {
     return StoreConnector<AppState, FavoriHeartViewModel>(
       builder: (context, vm) {
-        return actionButton(
-            label: Strings.deleteOffreFromFavori, onPressed: vm.withLoading ? null : () => vm.update(false));
+        return ActionButton(
+          label: Strings.deleteOffreFromFavori,
+          onPressed: vm.withLoading ? null : () => vm.update(false),
+        );
       },
       converter: (store) => FavoriHeartViewModel.create(offreId, store),
       distinct: true,

@@ -1,0 +1,93 @@
+[
+  {
+    "id": "036383f3-85ca-4dbd-b636-ae2657164439",
+    "metier": "xxxx",
+    "nomEtablissement": "ACCUEIL DE JOUR POUR PERSONNES AGEES",
+    "secteurActivite": "xxxx",
+    "ville": "xxxx"
+  },
+  {
+    "id": "c92290c1-1586-4e97-b6e7-4933756fc406",
+    "metier": "xxxx",
+    "nomEtablissement": "EHPAD SAINT FRANCOIS",
+    "secteurActivite": "xxxx",
+    "ville": "xxxx"
+  },
+  {
+    "id": "3eaa17fb-a912-4610-863d-93c5db29ea0c",
+    "metier": "xxxx",
+    "nomEtablissement": "CTRE SOINS SUITE ET READAPTAT EN ADDICTO",
+    "secteurActivite": "xxxx",
+    "ville": "xxxx"
+  },
+  {
+    "id": "dc0b84ec-c746-4e01-bf78-bbab5d8db3d9",
+    "metier": "xxxx",
+    "nomEtablissement": "CENTRE HOSPITALIER GENERAL",
+    "secteurActivite": "xxxx",
+    "ville": "xxxx"
+  },
+  {
+    "id": "4e9fd80d-af21-4e72-b936-4d323fcf5683",
+    "metier": "xxxx",
+    "nomEtablissement": "ASSOCIATION EMMAUS DIACONESSES",
+    "secteurActivite": "xxxx",
+    "ville": "xxxx"
+  },
+  {
+    "id": "8b8b9de9-9e68-498f-9018-ec14af7a953b",
+    "metier": "xxxx",
+    "nomEtablissement": "HOPITAL LA GRAFENBOURG MAISON ST JOSEPH",
+    "secteurActivite": "xxxx",
+    "ville": "xxxx"
+  },
+  {
+    "id": "3a08c91d-8832-441c-80f7-a73f5bf89c5b",
+    "metier": "xxxx",
+    "nomEtablissement": "EHPAD L'ARC-EN-CIEL",
+    "secteurActivite": "xxxx",
+    "ville": "xxxx"
+  },
+  {
+    "id": "98286f66-2a8e-4a22-80a8-c6fda3a52980",
+    "metier": "xxxx",
+    "nomEtablissement": "O2 BRUMATH",
+    "secteurActivite": "xxxx",
+    "ville": "xxxx"
+  },
+  {
+    "id": "4f44d3ec-6568-41f0-b66e-e53a9e1fe904",
+    "metier": "xxxx",
+    "nomEtablissement": "EPSAN",
+    "secteurActivite": "xxxx",
+    "ville": "xxxx"
+  },
+  {
+    "id": "4277d7b7-3d86-453d-9375-14aee8fde94d",
+    "metier": "xxxx",
+    "nomEtablissement": "LES FOURMIS DE L AJPA",
+    "secteurActivite": "xxxx",
+    "ville": "xxxx"
+  },
+  {
+    "id": "b2d70bb3-ba69-4dd8-880a-62171b48ecbc",
+    "metier": "xxxx",
+    "nomEtablissement": "CENTRE SERVICES",
+    "secteurActivite": "xxxx",
+    "ville": "xxxx"
+  },
+  {
+    "id": "3e69c342-9307-45ec-aa99-8fcb63f88a4a",
+    "metier": "xxxx",
+    "nomEtablissement": "MAISON D ACCUEIL LA SOLIDARITE",
+    "secteurActivite": "xxxx",
+    "ville": "xxxx"
+  },
+  {
+    "id": "0e32e7bd-b1dd-468d-8faa-d82ae6f5a939",
+    "metier": "xxxx",
+    "nomEtablissement": "GSF SATURNE",
+    "secteurActivite": "xxxx",
+    "ville": "xxxx"
+  }
+]

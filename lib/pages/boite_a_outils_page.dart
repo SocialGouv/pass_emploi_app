@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/outil.dart';
 import 'package:pass_emploi_app/repositories/local_outil_repository.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class BoiteAOutilsPage extends StatelessWidget {
+class BoiteAOutilsPage extends TraceableStatelessWidget {
   final _outils = LocalOutilRepository().getOutils();
+
+  BoiteAOutilsPage() : super(name: AnalyticsScreenNames.toolbox);
 
   @override
   Widget build(BuildContext context) {

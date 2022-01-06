@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/favori_heart_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -39,7 +41,10 @@ class FavoriHeart extends StatelessWidget {
         color: Colors.transparent,
         shape: withBorder ? CircleBorder(side: BorderSide(color: AppColors.nightBlue)) : null,
         child: InkWell(
-          onTap: () => viewModel.update(!viewModel.isFavori),
+          onTap: () {
+            viewModel.update(!viewModel.isFavori);
+            _sendTracking(viewModel.isFavori);
+          },
           child: SizedBox(
             width: 48,
             height: 48,
@@ -50,5 +55,11 @@ class FavoriHeart extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _sendTracking(bool isFavori) {
+    MatomoTracker.trackScreenWithName(
+        isFavori ? AnalyticsActionNames.offreEmploiAddFavori : AnalyticsActionNames.offreEmploiRemoveFavori,
+        AnalyticsScreenNames.favoris);
   }
 }

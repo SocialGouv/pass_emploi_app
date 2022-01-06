@@ -1,18 +1,29 @@
+import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
+import 'package:pass_emploi_app/auth/auth_wrapper.dart';
+import 'package:pass_emploi_app/auth/authenticator.dart';
+import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
+import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
+import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
-import 'package:pass_emploi_app/repositories/user_repository.dart';
 import 'package:redux/redux.dart';
+
+import 'fixtures.dart';
+import 'spies.dart';
 
 class DummyHeadersBuilder extends HeadersBuilder {}
 
@@ -22,9 +33,7 @@ class DummyHttpClient extends MockClient {
 
 class DummyPushNotificationManager extends PushNotificationManager {
   @override
-  Future<String?> getToken() async {
-    return "";
-  }
+  Future<String?> getToken() async => "";
 
   @override
   Future<void> init(Store<AppState> store) async {}
@@ -36,9 +45,15 @@ class DummyRegisterTokenRepository extends RegisterTokenRepository {
   Future<void> registerToken(String userId) async {}
 }
 
-class DummyUserRepository extends UserRepository {
-  DummyUserRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+class DummyAuthenticator extends Authenticator {
+  DummyAuthenticator() : super(DummyAuthWrapper(), configuration(), SharedPreferencesSpy());
 }
+
+class DummyAuthWrapper extends AuthWrapper {
+  DummyAuthWrapper() : super(DummyFlutterAppAuth());
+}
+
+class DummyFlutterAppAuth extends FlutterAppAuth {}
 
 class DummyUserActionRepository extends UserActionRepository {
   DummyUserActionRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
@@ -49,15 +64,15 @@ class DummyRendezvousRepository extends RendezvousRepository {
 }
 
 class DummyChatRepository extends ChatRepository {
-  DummyChatRepository(String firebaseEnvironmentPrefix) : super(firebaseEnvironmentPrefix);
-
-  @override
-  subscribeToMessages(String userId, Store<AppState> store) async {}
+  DummyChatRepository() : super(DummyChatCrypto(), DummyCrashlytics());
 }
 
 class DummyCrashlytics extends Crashlytics {
   @override
   void setCustomKey(String key, value) {}
+
+  @override
+  void recordNonNetworkException(dynamic exception, StackTrace stack, [Uri? failingEndpoint]) {}
 }
 
 class DummyOffreEmploiRepository extends OffreEmploiRepository {
@@ -70,4 +85,36 @@ class DummyDetailedRepository extends OffreEmploiDetailsRepository {
 
 class DummyOffreEmploiFavorisRepository extends OffreEmploiFavorisRepository {
   DummyOffreEmploiFavorisRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+}
+
+class DummySearchLocationRepository extends SearchLocationRepository {
+  DummySearchLocationRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+}
+
+class DummyFirebaseAuthRepository extends FirebaseAuthRepository {
+  DummyFirebaseAuthRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+}
+
+class DummyFirebaseAuthWrapper extends FirebaseAuthWrapper {
+  @override
+  Future<bool> signInWithCustomToken(String token) async {
+    return true;
+  }
+
+  @override
+  Future<void> signOut() async {
+    return;
+  }
+}
+
+class DummyImmersionRepository extends ImmersionRepository {
+  DummyImmersionRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+}
+
+class DummyImmersionDetailsRepository extends ImmersionDetailsRepository {
+  DummyImmersionDetailsRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+}
+
+class DummyChatCrypto extends ChatCrypto {
+  DummyChatCrypto() : super();
 }

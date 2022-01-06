@@ -1,12 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 
+import '../doubles/fixtures.dart';
 import '../doubles/stubs.dart';
 import '../utils/test_setup.dart';
 
@@ -15,7 +14,7 @@ main() {
     // Given
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.offreEmploiRepository = OffreEmploiRepositorySuccessWithMoreDataStub();
-    final store = testStoreFactory.initializeReduxStore(initialState: _loggedInState());
+    final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
 
     final Future<bool> displayedLoading =
         store.onChange.any((element) => element.offreEmploiSearchState is OffreEmploiSearchLoadingState);
@@ -25,7 +24,7 @@ main() {
         (element) => element.offreEmploiSearchParametersState is OffreEmploiSearchParametersInitializedState);
 
     // When
-    store.dispatch(SearchOffreEmploiAction(keywords: "boulanger patissier", department: "02"));
+    store.dispatch(SearchOffreEmploiAction(keywords: "boulanger patissier", location: mockLocation()));
 
     // Then
     expect(await displayedLoading, true);
@@ -38,7 +37,7 @@ main() {
     final savedSearchAppState = await savedSearch;
     final initializedSearchParametersState =
         (savedSearchAppState.offreEmploiSearchParametersState as OffreEmploiSearchParametersInitializedState);
-    expect(initializedSearchParametersState.department, "02");
+    expect(initializedSearchParametersState.location, mockLocation());
     expect(initializedSearchParametersState.keyWords, "boulanger patissier");
   });
 
@@ -46,7 +45,7 @@ main() {
     // Given
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.offreEmploiRepository = OffreEmploiRepositoryFailureStub();
-    final store = testStoreFactory.initializeReduxStore(initialState: _loggedInState());
+    final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
 
     final displayedLoading =
         store.onChange.any((element) => element.offreEmploiSearchState is OffreEmploiSearchLoadingState);
@@ -54,20 +53,10 @@ main() {
         store.onChange.any((element) => element.offreEmploiSearchState is OffreEmploiSearchFailureState);
 
     // When
-    store.dispatch(SearchOffreEmploiAction(keywords: "boulanger patissier", department: "02"));
+    store.dispatch(SearchOffreEmploiAction(keywords: "boulanger patissier", location: mockLocation()));
 
     // Then
     expect(await displayedLoading, true);
     expect(await displayedError, true);
   });
-}
-
-AppState _loggedInState() {
-  return AppState.initialState().copyWith(
-    loginState: LoginState.loggedIn(User(
-      id: "id",
-      firstName: "F",
-      lastName: "L",
-    )),
-  );
 }

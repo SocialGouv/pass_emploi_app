@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/tags.dart';
@@ -58,7 +59,7 @@ class OffreEmploiListItem extends StatelessWidget {
               lightBlueTag(label: itemViewModel.contractType),
               if (itemViewModel.duration != null) lightBlueTag(label: itemViewModel.duration!),
               if (itemViewModel.location != null)
-                lightBlueTag(label: itemViewModel.location!, icon: SvgPicture.asset("assets/ic_place.svg")),
+                lightBlueTag(label: itemViewModel.location!, icon: SvgPicture.asset(Drawables.icPlace)),
             ],
           )
         ],

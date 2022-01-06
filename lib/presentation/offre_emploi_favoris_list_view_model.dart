@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_favoris_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
@@ -6,10 +7,8 @@ import 'package:redux/redux.dart';
 
 import 'offre_emploi_item_view_model.dart';
 
-enum OffreEmploiFavorisListDisplayState { SHOW_CONTENT, SHOW_LOADER, SHOW_ERROR, SHOW_EMPTY_ERROR }
-
 class OffreEmploiFavorisListViewModel extends Equatable {
-  final OffreEmploiFavorisListDisplayState displayState;
+  final DisplayState displayState;
   final List<OffreEmploiItemViewModel> items;
   final Function() onRetry;
 
@@ -45,16 +44,16 @@ List<OffreEmploiItemViewModel> _items(OffreEmploiFavorisState favorisState) {
   }
 }
 
-OffreEmploiFavorisListDisplayState _displayState(OffreEmploiFavorisState favorisState) {
+DisplayState _displayState(OffreEmploiFavorisState favorisState) {
   if (favorisState is OffreEmploiFavorisLoadedState) {
     if (favorisState.data?.isEmpty == true) {
-      return OffreEmploiFavorisListDisplayState.SHOW_EMPTY_ERROR;
+      return DisplayState.EMPTY;
     } else if (favorisState.data != null) {
-      return OffreEmploiFavorisListDisplayState.SHOW_CONTENT;
+      return DisplayState.CONTENT;
     } else {
-      return OffreEmploiFavorisListDisplayState.SHOW_LOADER;
+      return DisplayState.LOADING;
     }
   } else {
-    return OffreEmploiFavorisListDisplayState.SHOW_ERROR;
+    return DisplayState.FAILURE;
   }
 }

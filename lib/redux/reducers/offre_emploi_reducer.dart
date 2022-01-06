@@ -1,12 +1,13 @@
+import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 
-AppState offreEmploiReducer(AppState currentState, dynamic action) {
+AppState offreEmploiReducer(AppState currentState, OffreEmploiAction action) {
   if (action is SearchOffreEmploiAction) {
-    return _storeSearchParameters(currentState, action);
+    return _storeInitialSearchParameters(currentState, action);
   } else if (action is OffreEmploiSearchLoadingAction) {
     return currentState.copyWith(offreEmploiSearchState: OffreEmploiSearchState.loading());
   } else if (action is OffreEmploiSearchSuccessAction) {
@@ -17,12 +18,23 @@ AppState offreEmploiReducer(AppState currentState, dynamic action) {
       return _storeOffres(currentState, action);
     }
   } else if (action is OffreEmploiSearchFailureAction) {
-    return currentState.copyWith(offreEmploiSearchState: OffreEmploiSearchState.failure());
+    return _searchStateFailure(currentState);
   } else if (action is OffreEmploiResetResultsAction) {
     return currentState.copyWith(
-        offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
-        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.notInitialized(),
+      offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
+      offreEmploiSearchResultsState: OffreEmploiSearchResultsState.notInitialized(),
     );
+  } else if (action is OffreEmploiSearchWithUpdateFiltresSuccessAction) {
+    return _storeOffresWithUpdatedFiltres(currentState, action);
+  } else if (action is OffreEmploiSearchUpdateFiltresAction) {
+    var parametersState = currentState.offreEmploiSearchParametersState;
+    if (parametersState is OffreEmploiSearchParametersInitializedState) {
+      return _storeUpdatedFiltresSearchParameters(currentState, parametersState, action);
+    } else {
+      return currentState;
+    }
+  } else if (action is OffreEmploiSearchWithUpdateFiltresFailureAction) {
+    return _searchStateFailure(currentState);
   } else {
     return currentState;
   }
@@ -51,8 +63,36 @@ AppState _appendNewOffres(AppState currentState, OffreEmploiSearchResultsDataSta
   );
 }
 
-AppState _storeSearchParameters(AppState currentState, SearchOffreEmploiAction action) {
+AppState _storeInitialSearchParameters(AppState currentState, SearchOffreEmploiAction action) {
   return currentState.copyWith(
-      offreEmploiSearchParametersState:
-          OffreEmploiSearchParametersInitializedState(keyWords: action.keywords, department: action.department));
+      offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
+    keyWords: action.keywords,
+    location: action.location,
+    filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+  ));
+}
+
+AppState _storeUpdatedFiltresSearchParameters(AppState currentState,
+    OffreEmploiSearchParametersInitializedState parametersState, OffreEmploiSearchUpdateFiltresAction action) {
+  return currentState.copyWith(
+      offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
+    keyWords: parametersState.keyWords,
+    location: parametersState.location,
+    filtres: action.updatedFiltres,
+  ));
+}
+
+AppState _storeOffresWithUpdatedFiltres(AppState currentState, OffreEmploiSearchWithUpdateFiltresSuccessAction action) {
+  return currentState.copyWith(
+    offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
+      offres: action.offres,
+      loadedPage: action.page,
+      isMoreDataAvailable: action.isMoreDataAvailable,
+    ),
+    offreEmploiSearchState: OffreEmploiSearchState.success(),
+  );
+}
+
+AppState _searchStateFailure(AppState currentState) {
+  return currentState.copyWith(offreEmploiSearchState: OffreEmploiSearchState.failure());
 }

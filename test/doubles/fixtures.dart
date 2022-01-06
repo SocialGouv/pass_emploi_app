@@ -1,9 +1,19 @@
 import 'package:http/http.dart';
+import 'package:pass_emploi_app/auth/auth_token_response.dart';
+import 'package:pass_emploi_app/configuration/configuration.dart';
+import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/user.dart';
+import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 
-User mockUser({id : ""}) => User(id: id, firstName: "", lastName: "");
+User mockUser({id: ""}) => User(id: id, firstName: "", lastName: "");
+
+State<User> successUserState() => State<User>.success(User(id: "id", firstName: "F", lastName: "L"));
+
+AppState loggedInState() => AppState.initialState().copyWith(loginState: successUserState());
 
 Response invalidHttpResponse({String message = ""}) => Response(message, 500);
 
@@ -54,3 +64,29 @@ OffreEmploi mockOffreEmploi({id = "123DXPM"}) => OffreEmploi(
       location: "77 - LOGNES",
       duration: "Temps plein",
     );
+
+AuthTokenResponse authTokenResponse() => AuthTokenResponse(
+      accessToken: 'accessToken',
+      idToken: 'idToken',
+      refreshToken: 'refreshToken',
+    );
+
+Configuration configuration() => Configuration(
+      Flavor.STAGING,
+      'serverBaseUrl',
+      'matomoBaseUrl',
+      'matomoSiteId',
+      'authClientId',
+      'authLoginRedirectUrl',
+      'authLogoutRedirectUrl',
+      'authIssuer',
+      ['scope1', 'scope2', 'scope3'],
+      'authClientSecret',
+      'someKey',
+    );
+
+Location mockLocation() => Location(libelle: "", code: "", type: LocationType.DEPARTMENT);
+
+Location mockCommuneLocation() => Location(libelle: "", code: "", type: LocationType.COMMUNE);
+
+Immersion mockImmersion() => Immersion(id: "", metier: "", nomEtablissement: "", secteurActivite: "", ville: "");

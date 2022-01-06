@@ -1,8 +1,8 @@
+import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/ui_actions.dart';
+import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
-import 'package:pass_emploi_app/redux/states/user_action_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:redux/redux.dart';
 
 class UserActionListPageViewModel {
@@ -25,31 +25,22 @@ class UserActionListPageViewModel {
   });
 
   factory UserActionListPageViewModel.create(Store<AppState> store) {
-    if (!(store.state.loginState is LoggedInState)) {
-      throw Exception("User should be logged in to access user action list page");
-    }
-    final user = (store.state.loginState as LoggedInState).user;
+    final userActionState = store.state.userActionState;
     return UserActionListPageViewModel(
-      withLoading: _isLoading(store.state.userActionState),
-      withFailure: _isFailure(store.state.userActionState),
-      withEmptyMessage: _isEmpty(store.state.userActionState),
-      items: _items(state: store.state.userActionState),
-      onRetry: () => store.dispatch(RequestUserActionsAction(user.id)),
+      withLoading: userActionState.isLoading() || userActionState.isNotInitialized(),
+      withFailure: userActionState.isFailure(),
+      withEmptyMessage: _isEmpty(userActionState),
+      items: _items(state: userActionState),
+      onRetry: () => store.dispatch(RequestUserActionsAction()),
       onUserActionDetailsDismissed: () => store.dispatch(DismissUserActionDetailsAction()),
       onCreateUserActionDismissed: () => store.dispatch(DismissCreateUserAction()),
     );
   }
 }
 
-bool _isLoading(UserActionState state) => state is UserActionLoadingState || state is UserActionNotInitializedState;
+bool _isEmpty(State<List<UserAction>> state) => state.isSuccess() && state.getResultOrThrow().isEmpty;
 
-bool _isFailure(UserActionState state) => state is UserActionFailureState;
-
-bool _isEmpty(UserActionState state) => state is UserActionSuccessState && state.actions.isEmpty;
-
-List<UserActionViewModel> _items({required UserActionState state}) {
-  if (state is! UserActionSuccessState) {
-    return [];
-  }
-  return state.actions.map((userAction) => UserActionViewModel.create(userAction)).toList();
+List<UserActionViewModel> _items({required State<List<UserAction>> state}) {
+  if (state.isSuccess()) return state.getResultOrThrow().map((action) => UserActionViewModel.create(action)).toList();
+  return [];
 }

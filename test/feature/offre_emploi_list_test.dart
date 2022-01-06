@@ -1,8 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/user.dart';
+import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
@@ -20,10 +19,13 @@ main() {
       final testStoreFactory = TestStoreFactory();
       testStoreFactory.offreEmploiRepository = OffreEmploiRepositorySuccessWithMoreDataStub();
       final store = testStoreFactory.initializeReduxStore(
-        initialState: _loggedInState().copyWith(
+        initialState: loggedInState().copyWith(
           offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
-          offreEmploiSearchParametersState:
-              OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", department: "92"),
+          offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
+            keyWords: "boulanger patissier",
+            location: null,
+            filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+          ),
         ),
       );
 
@@ -50,10 +52,13 @@ main() {
       final testStoreFactory = TestStoreFactory();
       testStoreFactory.offreEmploiRepository = OffreEmploiRepositoryFailureStub();
       final store = testStoreFactory.initializeReduxStore(
-        initialState: _loggedInState().copyWith(
+        initialState: loggedInState().copyWith(
           offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
-          offreEmploiSearchParametersState:
-              OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", department: "92"),
+          offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
+            keyWords: "boulanger patissier",
+            location: null,
+            filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+          ),
         ),
       );
 
@@ -81,10 +86,13 @@ main() {
       final testStoreFactory = TestStoreFactory();
       testStoreFactory.offreEmploiRepository = OffreEmploiRepositorySuccessWithNoMoreDataStub();
       final store = testStoreFactory.initializeReduxStore(
-        initialState: _loggedInState().copyWith(
+        initialState: loggedInState().copyWith(
           offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
-          offreEmploiSearchParametersState:
-              OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", department: "92"),
+          offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
+            keyWords: "boulanger patissier",
+            location: null,
+            filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+          ),
         ),
       );
 
@@ -110,11 +118,14 @@ main() {
         final testStoreFactory = TestStoreFactory();
         testStoreFactory.offreEmploiRepository = OffreEmploiRepositoryFailureStub();
         final store = testStoreFactory.initializeReduxStore(
-          initialState: _loggedInState().copyWith(
+          initialState: loggedInState().copyWith(
             offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
             offreEmploiSearchState: OffreEmploiSearchState.failure(),
-            offreEmploiSearchParametersState:
-                OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", department: "92"),
+            offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
+              keyWords: "boulanger patissier",
+              location: null,
+              filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+            ),
           ),
         );
 
@@ -141,11 +152,14 @@ main() {
         final testStoreFactory = TestStoreFactory();
         testStoreFactory.offreEmploiRepository = OffreEmploiRepositorySuccessWithMoreDataStub();
         final store = testStoreFactory.initializeReduxStore(
-          initialState: _loggedInState().copyWith(
+          initialState: loggedInState().copyWith(
             offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
             offreEmploiSearchState: OffreEmploiSearchState.failure(),
-            offreEmploiSearchParametersState:
-                OffreEmploiSearchParametersInitializedState(keyWords: "boulanger patissier", department: "92"),
+            offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
+              keyWords: "boulanger patissier",
+              location: null,
+              filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+            ),
           ),
         );
 
@@ -178,16 +192,6 @@ OffreEmploiSearchResultsState _pageOneLoadedAndMoreDataAvailable() {
   );
 }
 
-AppState _loggedInState() {
-  return AppState.initialState().copyWith(
-    loginState: LoginState.loggedIn(User(
-      id: "id",
-      firstName: "F",
-      lastName: "L",
-    )),
-  );
-}
-
 class OffreEmploiRepositorySuccessWithNoMoreDataStub extends OffreEmploiRepository {
   OffreEmploiRepositorySuccessWithNoMoreDataStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
@@ -195,8 +199,9 @@ class OffreEmploiRepositorySuccessWithNoMoreDataStub extends OffreEmploiReposito
   Future<OffreEmploiSearchResponse?> search({
     required String userId,
     required String keywords,
-    required String department,
+    required Location? location,
     required int page,
+    required OffreEmploiSearchParametersFiltres filtres,
   }) async {
     return OffreEmploiSearchResponse(isMoreDataAvailable: false, offres: [mockOffreEmploi()]);
   }
