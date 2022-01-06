@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
@@ -63,7 +64,7 @@ class DummyRendezvousRepository extends RendezvousRepository {
 }
 
 class DummyChatRepository extends ChatRepository {
-  DummyChatRepository() : super("");
+  DummyChatRepository() : super(DummyChatCrypto(), DummyCrashlytics());
 }
 
 class DummyCrashlytics extends Crashlytics {
@@ -96,6 +97,11 @@ class DummyFirebaseAuthRepository extends FirebaseAuthRepository {
 
 class DummyFirebaseAuthWrapper extends FirebaseAuthWrapper {
   @override
+  Future<bool> signInWithCustomToken(String token) async {
+    return true;
+  }
+
+  @override
   Future<void> signOut() async {
     return;
   }
@@ -107,4 +113,8 @@ class DummyImmersionRepository extends ImmersionRepository {
 
 class DummyImmersionDetailsRepository extends ImmersionDetailsRepository {
   DummyImmersionDetailsRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+}
+
+class DummyChatCrypto extends ChatCrypto {
+  DummyChatCrypto() : super();
 }

@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
+import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:redux/src/store.dart';
 
@@ -66,6 +67,22 @@ main() {
       // Then
       expect(firebaseAuthWrapperSpy.signInWithCustomTokenHasBeenCalled, isTrue);
     });
+
+    test("chat crypto key should be fetched and set", () async {
+      // Given
+      final testStoreFactory = TestStoreFactory();
+      final chatCryptoSpy = _ChatCryptoSpy();
+      testStoreFactory.chatCrypto = chatCryptoSpy;
+      testStoreFactory.firebaseAuthRepository = FirebaseAuthRepositorySuccessStub();
+
+      final Store<AppState> store = testStoreFactory.initializeReduxStore(initialState: initialState);
+
+      // When
+      await store.dispatch(LoginAction.success(mockUser(id: "id")));
+
+      // Then
+      expect(chatCryptoSpy.keyWasSet, isTrue);
+    });
   });
 }
 
@@ -73,8 +90,8 @@ class FirebaseAuthRepositorySuccessStub extends FirebaseAuthRepository {
   FirebaseAuthRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<String?> getFirebaseToken(String userId) async {
-    if (userId == "id") return "FIREBASE-TOKEN";
+  Future<FirebaseAuthResponse?> getFirebaseAuth(String userId) async {
+    if (userId == "id") return FirebaseAuthResponse("FIREBASE-TOKEN", "CLE");
     return null;
   }
 }
@@ -89,5 +106,16 @@ class FirebaseAuthWrapperSpy extends FirebaseAuthWrapper {
       return true;
     }
     return false;
+  }
+
+  Future<void> signOut() async {}
+}
+
+class _ChatCryptoSpy extends ChatCrypto {
+  bool keyWasSet = false;
+
+  @override
+  void setKey(String key) {
+    keyWasSet = true;
   }
 }

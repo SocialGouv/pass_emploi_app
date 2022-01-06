@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/store/store_factory.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
@@ -33,6 +34,7 @@ class TestStoreFactory {
   ImmersionDetailsRepository immersionDetailsRepository = DummyImmersionDetailsRepository();
   FirebaseAuthRepository firebaseAuthRepository = DummyFirebaseAuthRepository();
   FirebaseAuthWrapper firebaseAuthWrapper = DummyFirebaseAuthWrapper();
+  ChatCrypto chatCrypto = DummyChatCrypto();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
@@ -50,6 +52,7 @@ class TestStoreFactory {
       immersionDetailsRepository,
       firebaseAuthRepository,
       firebaseAuthWrapper,
+      chatCrypto,
     ).initializeReduxStore(initialState: initialState);
   }
 }

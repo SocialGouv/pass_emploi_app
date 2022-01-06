@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:redux/redux.dart';
 
@@ -14,8 +15,9 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
   final Authenticator _authenticator;
   final FirebaseAuthRepository _firebaseAuthRepository;
   final FirebaseAuthWrapper _firebaseAuthWrapper;
+  final ChatCrypto _chatCrypto;
 
-  LoginMiddleware(this._authenticator, this._firebaseAuthRepository, this._firebaseAuthWrapper);
+  LoginMiddleware(this._authenticator, this._firebaseAuthRepository, this._firebaseAuthWrapper, this._chatCrypto);
 
   @override
   call(Store<AppState> store, action, NextDispatcher next) async {
@@ -71,7 +73,10 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _loginToFirebase(String userId) async {
-    final token = await _firebaseAuthRepository.getFirebaseToken(userId);
-    if (token != null) _firebaseAuthWrapper.signInWithCustomToken(token);
+    final response = await _firebaseAuthRepository.getFirebaseAuth(userId);
+    if (response != null) {
+      _firebaseAuthWrapper.signInWithCustomToken(response.token);
+      _chatCrypto.setKey(response.key);
+    }
   }
 }

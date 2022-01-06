@@ -39,6 +39,7 @@ dependencies:
   google_fonts: '2.1.0'
   # Analytics
   matomo: '1.1.0'
+  encrypt: '5.0.1'
 
 dev_dependencies:
   flutter_test:

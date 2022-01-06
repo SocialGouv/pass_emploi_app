@@ -7,7 +7,6 @@ enum Flavor { STAGING, PROD }
 class Configuration {
   Flavor flavor;
   String serverBaseUrl;
-  String firebaseEnvironmentPrefix;
   String matomoBaseUrl;
   String matomoSiteId;
   String authClientId;
@@ -20,7 +19,6 @@ class Configuration {
   Configuration(
     this.flavor,
     this.serverBaseUrl,
-    this.firebaseEnvironmentPrefix,
     this.matomoBaseUrl,
     this.matomoSiteId,
     this.authClientId,
@@ -37,7 +35,6 @@ class Configuration {
     debugPrint("FLAVOR = $flavor");
     await loadEnvironmentVariables(flavor);
     final serverBaseUrl = getOrThrow('SERVER_BASE_URL');
-    final firebaseEnvironmentPrefix = getOrThrow('FIREBASE_ENVIRONMENT_PREFIX');
     final matomoBaseUrl = getOrThrow('MATOMO_BASE_URL');
     final matomoSiteId = getOrThrow('MATOMO_SITE_ID');
     final authClientId = getOrThrow('AUTH_CLIENT_ID');
@@ -49,7 +46,6 @@ class Configuration {
     return Configuration(
       flavor,
       serverBaseUrl,
-      firebaseEnvironmentPrefix,
       matomoBaseUrl,
       matomoSiteId,
       authClientId,

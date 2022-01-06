@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 
+import '../doubles/dummies.dart';
 import '../doubles/fixtures.dart';
 import '../utils/test_setup.dart';
 
@@ -98,7 +99,7 @@ class ChatRepositoryStub extends ChatRepository {
   List<Message> _messages = [];
   ConseillerMessageInfo _info = ConseillerMessageInfo(null, null);
 
-  ChatRepositoryStub() : super("");
+  ChatRepositoryStub() : super(DummyChatCrypto(), DummyCrashlytics());
 
   void onMessageStreamReturns(List<Message> messages) => _messages = messages;
 

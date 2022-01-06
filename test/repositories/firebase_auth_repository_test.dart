@@ -8,7 +8,7 @@ import '../doubles/stubs.dart';
 import '../utils/test_assets.dart';
 
 void main() {
-  test('getFirebaseToken when response is valid with all parameters should return token', () async {
+  test('getFirebaseToken when response is valid with all parameters should return token and key', () async {
     // Given
     final httpClient = MockClient((request) async {
       if (request.method != "POST") return invalidHttpResponse();
@@ -18,10 +18,10 @@ void main() {
     final repository = FirebaseAuthRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final token = await repository.getFirebaseToken("ID");
+    final token = await repository.getFirebaseAuth("ID");
 
     // Then
-    expect(token, "FIREBASE-TOKEN");
+    expect(token, FirebaseAuthResponse("FIREBASE-TOKEN", "CLE"));
   });
 
   test('getFirebaseToken when response is invalid should return null', () async {
@@ -30,7 +30,7 @@ void main() {
     final repository = FirebaseAuthRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final token = await repository.getFirebaseToken("ID");
+    final token = await repository.getFirebaseAuth("ID");
 
     // Then
     expect(token, isNull);
@@ -42,7 +42,7 @@ void main() {
     final repository = FirebaseAuthRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final token = await repository.getFirebaseToken("ID");
+    final token = await repository.getFirebaseAuth("ID");
 
     // Then
     expect(token, isNull);

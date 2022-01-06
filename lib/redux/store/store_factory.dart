@@ -20,6 +20,7 @@ import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
@@ -47,6 +48,7 @@ class StoreFactory {
   final ImmersionDetailsRepository immersionDetailsRepository;
   final FirebaseAuthRepository firebaseAuthRepository;
   final FirebaseAuthWrapper firebaseAuthWrapper;
+  final ChatCrypto chatCrypto;
 
   StoreFactory(
     this.authenticator,
@@ -63,6 +65,7 @@ class StoreFactory {
     this.immersionDetailsRepository,
     this.firebaseAuthRepository,
     this.firebaseAuthWrapper,
+    this.chatCrypto,
   );
 
   redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -70,7 +73,7 @@ class StoreFactory {
       reducer,
       initialState: initialState,
       middleware: [
-        LoginMiddleware(authenticator, firebaseAuthRepository, firebaseAuthWrapper),
+        LoginMiddleware(authenticator, firebaseAuthRepository, firebaseAuthWrapper, chatCrypto),
         ChatMiddleware(chatRepository),
         UserActionMiddleware(userActionRepository),
         RegisterPushNotificationTokenMiddleware(registerTokenRepository),
