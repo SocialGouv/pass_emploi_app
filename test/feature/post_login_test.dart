@@ -68,7 +68,7 @@ main() {
       expect(firebaseAuthWrapperSpy.signInWithCustomTokenHasBeenCalled, isTrue);
     });
 
-    test("chat crypto keu should be fetched and set", () async {
+    test("chat crypto key should be fetched and set", () async {
       // Given
       final testStoreFactory = TestStoreFactory();
       final chatCryptoSpy = _ChatCryptoSpy();

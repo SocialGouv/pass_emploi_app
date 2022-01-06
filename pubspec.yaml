@@ -21,6 +21,7 @@ dependencies:
   flutter_appauth: '2.1.0+1'
   flutter_linkify: '5.0.2'
   share_plus: '3.0.4'
+  flutter_secure_storage: '5.0.2'
   # Dart
   http: '0.13.3'
   http_interceptor: '1.0.1'
@@ -38,7 +39,6 @@ dependencies:
   google_fonts: '2.1.0'
   # Analytics
   matomo: '1.1.0'
-  flutter_secure_storage: '5.0.2'
   encrypt: '5.0.1'
 
 dev_dependencies:

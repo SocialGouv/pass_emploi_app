@@ -48,12 +48,12 @@ class ChatRepository {
     final encryptedMessage = _chatCrypto.encrypt(message);
     FirebaseFirestore.instance
         .runTransaction((transaction) async {
-      final newDocId = _chatCollection(chatDocumentId).collection('messages').doc(null);
-      transaction
-        ..set(newDocId, {
-          'iv': encryptedMessage.base64InitializationVector,
+          final newDocId = _chatCollection(chatDocumentId).collection('messages').doc(null);
+          transaction
+            ..set(newDocId, {
+              'iv': encryptedMessage.base64InitializationVector,
               'content': encryptedMessage.base64Message,
-          'sentBy': "jeune",
+              'sentBy': "jeune",
               'creationDate': messageCreationDate,
             })
             ..update(_chatCollection(chatDocumentId), {
@@ -84,7 +84,7 @@ class ChatRepository {
 
   Future<String?> _getChatDocumentId(String userId) async {
     final chats =
-    await FirebaseFirestore.instance.collection(_collectionPath).where('jeuneId', isEqualTo: userId).get();
+        await FirebaseFirestore.instance.collection(_collectionPath).where('jeuneId', isEqualTo: userId).get();
     return chats.docs.first.id;
   }
 
