@@ -7,14 +7,13 @@ import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 
+const String _collectionPath = "chat";
+
 class ChatRepository {
   final Crashlytics _crashlytics;
-  late final String _collectionPath;
   final ChatCrypto _chatCrypto;
 
-  ChatRepository(this._chatCrypto, this._crashlytics) {
-    this._collectionPath = "chat";
-  }
+  ChatRepository(this._chatCrypto, this._crashlytics);
 
   Stream<List<Message>> messagesStream(String userId) async* {
     final chatDocumentId = await _getChatDocumentId(userId);
