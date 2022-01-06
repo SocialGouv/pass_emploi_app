@@ -107,12 +107,12 @@ class FirebaseAuthWrapperSpy extends FirebaseAuthWrapper {
     }
     return false;
   }
+
+  Future<void> signOut() async {}
 }
 
 class _ChatCryptoSpy extends ChatCrypto {
   bool keyWasSet = false;
-
-  _ChatCryptoSpy() : super("");
 
   @override
   void setKey(String key) {

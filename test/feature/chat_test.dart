@@ -99,7 +99,7 @@ class ChatRepositoryStub extends ChatRepository {
   List<Message> _messages = [];
   ConseillerMessageInfo _info = ConseillerMessageInfo(null, null);
 
-  ChatRepositoryStub() : super(DummyChatCrypto(), "", DummyCrashlytics());
+  ChatRepositoryStub() : super(DummyChatCrypto(), DummyCrashlytics());
 
   void onMessageStreamReturns(List<Message> messages) => _messages = messages;
 

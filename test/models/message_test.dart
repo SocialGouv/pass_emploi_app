@@ -71,8 +71,6 @@ class _ChatCryptoSpy extends ChatCrypto {
   var content;
   var iv;
 
-  _ChatCryptoSpy() : super("");
-
   @override
   String decrypt(EncryptedTextWithIv encrypted) {
     content = encrypted.base64Message;
@@ -82,8 +80,6 @@ class _ChatCryptoSpy extends ChatCrypto {
 }
 
 class ChatCryptoFailureStub extends ChatCrypto {
-  ChatCryptoFailureStub() : super("");
-
   @override
   String decrypt(EncryptedTextWithIv encrypted) {
     throw Exception("");

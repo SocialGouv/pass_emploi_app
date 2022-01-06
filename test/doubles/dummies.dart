@@ -97,6 +97,11 @@ class DummyFirebaseAuthRepository extends FirebaseAuthRepository {
 
 class DummyFirebaseAuthWrapper extends FirebaseAuthWrapper {
   @override
+  Future<bool> signInWithCustomToken(String token) async {
+    return true;
+  }
+
+  @override
   Future<void> signOut() async {
     return;
   }
