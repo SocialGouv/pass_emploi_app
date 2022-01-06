@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 
@@ -9,6 +10,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart';
+import 'package:http/io_client.dart';
 import 'package:http_interceptor/http/intercepted_client.dart';
 import 'package:matomo/matomo.dart';
 import 'package:package_info/package_info.dart';
@@ -95,18 +98,24 @@ Future<bool> _shouldForceUpdate(RemoteConfig? remoteConfig) async {
   return AppVersionChecker().shouldForceUpdate(currentVersion: currentVersion, minimumVersion: minimumVersion);
 }
 
-Future<Store<AppState>> _initializeReduxStore(
-  Configuration configuration,
-  PushNotificationManager pushNotificationManager,
-) async {
+Future<Store<AppState>> _initializeReduxStore(Configuration configuration,
+    PushNotificationManager pushNotificationManager,) async {
   final headersBuilder = HeadersBuilder();
   final securedPreferences = FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true));
   final authenticator = Authenticator(AuthWrapper(FlutterAppAuth()), configuration, securedPreferences);
   final accessTokenRetriever = AuthAccessTokenRetriever(authenticator);
+  final crashlytics = CrashlyticsWithFirebase(FirebaseCrashlytics.instance);
+  var defaultContext = SecurityContext.defaultContext;
+  try {
+    defaultContext.setTrustedCertificatesBytes(utf8.encode(configuration.iSRGX1CertificateForOldDevices));
+  } catch (e, stack) {
+    crashlytics.recordNonNetworkException(e, stack);
+  }
+  Client clientWithCertificate = IOClient(HttpClient(context: defaultContext));
   final httpClient = InterceptedClient.build(
+    client: clientWithCertificate,
     interceptors: [AccessTokenInterceptor(accessTokenRetriever), LoggingInterceptor()],
   );
-  final crashlytics = CrashlyticsWithFirebase(FirebaseCrashlytics.instance);
   final chatCrypto = ChatCrypto();
   final reduxStore = StoreFactory(
     authenticator,

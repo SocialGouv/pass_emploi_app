@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:package_info/package_info.dart';
@@ -15,6 +17,7 @@ class Configuration {
   String authIssuer;
   List<String> authScopes;
   String authClientSecret;
+  String iSRGX1CertificateForOldDevices;
 
   Configuration(
     this.flavor,
@@ -27,6 +30,7 @@ class Configuration {
     this.authIssuer,
     this.authScopes,
     this.authClientSecret,
+    this.iSRGX1CertificateForOldDevices,
   );
 
   static Future<Configuration> build() async {
@@ -43,6 +47,7 @@ class Configuration {
     final authIssuer = getOrThrow('AUTH_ISSUER');
     final authScopes = getArrayOrThrow('AUTH_SCOPE');
     final authClientSecret = getOrThrow('AUTH_CLIENT_SECRET');
+    final iSRGX1CertificateForOldDevices = utf8.decode(base64Decode(getOrThrow('ISRGX1_CERT_FOR_OLD_DEVICES')));
     return Configuration(
       flavor,
       serverBaseUrl,
@@ -54,6 +59,7 @@ class Configuration {
       authIssuer,
       authScopes,
       authClientSecret,
+      iSRGX1CertificateForOldDevices,
     );
   }
 
