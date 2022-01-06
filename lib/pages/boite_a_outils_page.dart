@@ -11,7 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 class BoiteAOutilsPage extends TraceableStatelessWidget {
   final _outils = LocalOutilRepository().getOutils();
 
-  BoiteAOutilsPage() : super(name: AnalyticsScreenNames.immersionDetails);
+  BoiteAOutilsPage() : super(name: AnalyticsScreenNames.toolbox);
 
   @override
   Widget build(BuildContext context) {

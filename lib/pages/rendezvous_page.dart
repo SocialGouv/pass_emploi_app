@@ -13,7 +13,7 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 class RendezvousPage extends TraceableStatelessWidget {
   final RendezvousViewModel rendezvous;
 
-  RendezvousPage._(this.rendezvous) : super(name: AnalyticsScreenNames.rendezvousList);
+  RendezvousPage._(this.rendezvous) : super(name: AnalyticsScreenNames.rendezvousDetails);
 
   static MaterialPageRoute materialPageRoute(RendezvousViewModel rendezvous) {
     return MaterialPageRoute(builder: (context) => RendezvousPage._(rendezvous));

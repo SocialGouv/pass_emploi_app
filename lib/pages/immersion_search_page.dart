@@ -163,6 +163,10 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
   }
 
   bool _isError(ImmersionSearchViewModel viewModel) {
+    if (viewModel.displayState == ImmersionSearchDisplayState.SHOW_EMPTY_ERROR)
+      MatomoTracker.trackScreenWithName(
+          AnalyticsScreenNames.immersionNoResults, AnalyticsScreenNames.immersionResearch);
+
     return viewModel.displayState == ImmersionSearchDisplayState.SHOW_ERROR ||
         viewModel.displayState == ImmersionSearchDisplayState.SHOW_EMPTY_ERROR;
   }

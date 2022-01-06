@@ -122,6 +122,10 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
   }
 
   bool _isError(OffreEmploiSearchViewModel viewModel) {
+    if (viewModel.displayState == DisplayState.EMPTY)
+      MatomoTracker.trackScreenWithName(
+          AnalyticsScreenNames.offreEmploiNoResults, AnalyticsScreenNames.offreEmploiResearch);
+
     return viewModel.displayState == DisplayState.FAILURE || viewModel.displayState == DisplayState.EMPTY;
   }
 
