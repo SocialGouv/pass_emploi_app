@@ -59,7 +59,7 @@ main() async {
   await pushManager.init(store);
 
   runZonedGuarded<Future<void>>(() async {
-    runApp(forceUpdate ? ForceUpdatePage() : PassEmploiApp(store));
+    runApp(forceUpdate ? ForceUpdatePage(configuration.flavor) : PassEmploiApp(store));
   }, FirebaseCrashlytics.instance.recordError);
 
   await _handleErrorsOutsideFlutter();
