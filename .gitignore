@@ -55,8 +55,13 @@ GoogleService-Info.plist
 
 # staging build
 build.env
+# prod build
+build.prod.env
+
 ios/StagingOptionsPlist.plist
+ios/ProdOptionsPlist.plist
 ios/StagingExportOptions.plist
+ios/ProdExportOptions.plist
 ios/cert.p12
 
 *.mobileprovision
