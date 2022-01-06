@@ -72,7 +72,7 @@ AuthTokenResponse authTokenResponse() => AuthTokenResponse(
     );
 
 Configuration configuration() => Configuration(
-  Flavor.STAGING,
+      Flavor.STAGING,
       'serverBaseUrl',
       'matomoBaseUrl',
       'matomoSiteId',
@@ -82,6 +82,7 @@ Configuration configuration() => Configuration(
       'authIssuer',
       ['scope1', 'scope2', 'scope3'],
       'authClientSecret',
+      'someKey',
     );
 
 Location mockLocation() => Location(libelle: "", code: "", type: LocationType.DEPARTMENT);
