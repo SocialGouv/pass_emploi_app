@@ -17,15 +17,16 @@ class Configuration {
   String authClientSecret;
 
   Configuration(
-    this.flavor,this.serverBaseUrl,
-      this.matomoBaseUrl,
-      this.matomoSiteId,
-      this.authClientId,
-      this.authLoginRedirectUrl,
-      this.authLogoutRedirectUrl,
-      this.authIssuer,
-      this.authScopes,
-      this.authClientSecret,
+    this.flavor,
+    this.serverBaseUrl,
+    this.matomoBaseUrl,
+    this.matomoSiteId,
+    this.authClientId,
+    this.authLoginRedirectUrl,
+    this.authLogoutRedirectUrl,
+    this.authIssuer,
+    this.authScopes,
+    this.authClientSecret,
   );
 
   static Future<Configuration> build() async {
@@ -43,7 +44,8 @@ class Configuration {
     final authScopes = getArrayOrThrow('AUTH_SCOPE');
     final authClientSecret = getOrThrow('AUTH_CLIENT_SECRET');
     return Configuration(
-      flavor,serverBaseUrl,
+      flavor,
+      serverBaseUrl,
       matomoBaseUrl,
       matomoSiteId,
       authClientId,
