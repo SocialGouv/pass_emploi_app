@@ -5,7 +5,7 @@ set -e
 set -o pipefail
 
 set -a
-source scripts/build.env
+source scripts/build.prod.env
 set +a
 
 flutter test
