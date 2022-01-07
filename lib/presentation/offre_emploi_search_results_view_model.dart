@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
 import 'offre_emploi_item_view_model.dart';
@@ -15,6 +16,7 @@ class OffreEmploiSearchResultsViewModel extends Equatable {
   final List<OffreEmploiItemViewModel> items;
   final bool displayLoaderAtBottomOfList;
   final int? filtresCount;
+  final String errorMessage;
   final Function() onLoadMore;
 
   OffreEmploiSearchResultsViewModel({
@@ -22,6 +24,7 @@ class OffreEmploiSearchResultsViewModel extends Equatable {
     required this.items,
     required this.displayLoaderAtBottomOfList,
     required this.filtresCount,
+    required this.errorMessage,
     required this.onLoadMore,
   });
 
@@ -34,6 +37,7 @@ class OffreEmploiSearchResultsViewModel extends Equatable {
       items: _items(store.state.offreEmploiSearchResultsState),
       displayLoaderAtBottomOfList: _displayLoader(store.state.offreEmploiSearchResultsState),
       filtresCount: _filtresCount(searchParamsState),
+      errorMessage: _errorMessage(searchState, searchResultsState),
       onLoadMore: () => store.dispatch(RequestMoreOffreEmploiSearchResultsAction()),
     );
   }
@@ -75,14 +79,13 @@ List<OffreEmploiItemViewModel> _items(OffreEmploiSearchResultsState resultsState
 
 DisplayState _displayState(OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
   if (searchState is OffreEmploiSearchSuccessState && searchResultsState is OffreEmploiSearchResultsDataState) {
-    return DisplayState.CONTENT;
+    return searchResultsState.offres.isNotEmpty ? DisplayState.CONTENT : DisplayState.EMPTY;
   } else if (searchState is OffreEmploiSearchLoadingState) {
     return DisplayState.LOADING;
   } else {
     return DisplayState.FAILURE;
   }
 }
-
 
 int _distanceCount(OffreEmploiSearchParametersInitializedState searchParamsState) {
   final distanceFiltre = searchParamsState.filtres.distance;
@@ -96,4 +99,15 @@ int _otherFiltresCount(OffreEmploiSearchParametersInitializedState searchParamsS
     searchParamsState.filtres.duree?.length ?? 0,
   ].fold(0, (previousValue, element) => previousValue + element);
 }
+
+String _errorMessage(OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
+  if (searchState is OffreEmploiSearchSuccessState && searchResultsState is OffreEmploiSearchResultsDataState) {
+    return searchResultsState.offres.isNotEmpty ? "" : Strings.noContentError;
+  } else if (searchState is OffreEmploiSearchFailureState) {
+    return Strings.genericError;
+  } else {
+    return "";
+  }
+}
+
 

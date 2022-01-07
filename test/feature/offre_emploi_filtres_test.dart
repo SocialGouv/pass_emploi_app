@@ -46,7 +46,7 @@ main() {
     expect(repositoryMock.wasCalledWithFiltres, isTrue);
   });
 
-  test("applying new filtres when call fails should erase existing data and filtres should be stored", () async {
+  test("applying new filtres when call fails should erase existing data and filtres should be erased", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.offreEmploiRepository = OffreEmploiRepositoryFailureStub();
@@ -58,15 +58,27 @@ main() {
         store.onChange.firstWhere((element) => element.offreEmploiSearchState is OffreEmploiSearchFailureState);
 
     // When
-    store.dispatch(OffreEmploiSearchUpdateFiltresAction(OffreEmploiSearchParametersFiltres.withFiltres(distance: 40)));
+    store.dispatch(
+      OffreEmploiSearchUpdateFiltresAction(
+        OffreEmploiSearchParametersFiltres.withFiltres(
+          distance: 40,
+          duree: [DureeFiltre.temps_plein],
+          contrat: [ContratFiltre.cdi],
+          experience: [ExperienceFiltre.de_un_a_trois_ans],
+        ),
+      ),
+    );
 
     // Then
     expect(await displayedLoading, true);
     final appState = await failureState;
     expect(appState.offreEmploiSearchState is OffreEmploiSearchFailureState, true);
 
-    final paramsState = (appState.offreEmploiSearchParametersState as OffreEmploiSearchParametersInitializedState);
-    expect(paramsState.filtres.distance, 40);
+    final parametersState = appState.offreEmploiSearchParametersState as OffreEmploiSearchParametersInitializedState;
+    expect(parametersState.filtres.distance, null);
+    expect(parametersState.filtres.duree, null);
+    expect(parametersState.filtres.contrat, null);
+    expect(parametersState.filtres.experience, null);
   });
 }
 
