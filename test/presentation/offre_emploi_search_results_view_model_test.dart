@@ -241,6 +241,41 @@ main() {
       expect(viewModel.filtresCount, 5);
     });
   });
+
+  test("create when search state is failure should display failure", () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(
+        offreEmploiSearchState: OffreEmploiSearchState.failure(),
+      ),
+    );
+
+    // When
+    final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.FAILURE);
+    expect(viewModel.errorMessage, "Erreur lors de la recherche. Veuillez réessayer");
+  });
+
+  test("create when search state is success but empty should display empty message", () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(
+          offreEmploiSearchState: OffreEmploiSearchState.success(),
+          offreEmploiSearchResultsState:
+          OffreEmploiSearchResultsState.data(offres: [], loadedPage: 1, isMoreDataAvailable: false)),
+    );
+
+    // When
+    final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.EMPTY);
+    expect(viewModel.errorMessage, "Aucune offre ne correspond à votre recherche");
+  });
 }
 
 Store<AppState> _storeWithFiltres(OffreEmploiSearchParametersFiltres filtres) {

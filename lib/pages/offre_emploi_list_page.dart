@@ -56,7 +56,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
       builder: (context, viewModel) => _scaffold(context, viewModel),
       onDidChange: (previousViewModel, viewModel) {
         _currentViewModel = viewModel;
-        _scrollController.jumpTo(_offsetBeforeLoading);
+        if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
         _shouldLoadAtBottom = viewModel.displayLoaderAtBottomOfList && viewModel.displayState != DisplayState.FAILURE;
       },
       distinct: true,
@@ -71,12 +71,15 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
         title: Text(Strings.offresEmploiTitle, style: TextStyles.textLgMedium),
       ),
       body: Stack(children: [
-        ListView.separated(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-            controller: _scrollController,
-            itemBuilder: (context, index) => _buildItem(context, index, viewModel),
-            separatorBuilder: (context, index) => _listSeparator(),
-            itemCount: _itemCount(viewModel)),
+        if (viewModel.displayState == DisplayState.CONTENT)
+          ListView.separated(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+              controller: _scrollController,
+              itemBuilder: (context, index) => _buildItem(context, index, viewModel),
+              separatorBuilder: (context, index) => _listSeparator(),
+              itemCount: _itemCount(viewModel))
+        else if (viewModel.displayState == DisplayState.EMPTY || viewModel.displayState == DisplayState.FAILURE)
+          Center(child: Text(viewModel.errorMessage, style: TextStyles.textSmRegular())),
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _filterButton(viewModel)),
@@ -190,7 +193,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
         onPressed: () => Navigator.push(context, OffreEmploiFiltresPage.materialPageRoute()).then((value) {
               if (value == true) {
                 _offsetBeforeLoading = 0;
-                _scrollController.jumpTo(_offsetBeforeLoading);
+                if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
               }
             }));
   }
