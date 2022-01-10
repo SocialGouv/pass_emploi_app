@@ -4,9 +4,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
+import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/presentation/favori_heart_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_details_page_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
+import 'package:pass_emploi_app/redux/actions/tracking_event_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -400,7 +402,8 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [
-          Expanded(child: ActionButton(onPressed: () => launch(url), label: Strings.postulerButtonTitle)),
+          Expanded(
+              child: ActionButton(onPressed: () => _applyToOffer(context, url), label: Strings.postulerButtonTitle)),
           SizedBox(width: 8),
           FavoriHeart(
             offreId: offreId,
@@ -408,7 +411,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
             onFavoriRemoved: shouldPopPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
           ),
           SizedBox(width: 8),
-          ShareButton(url, title),
+          ShareButton(url, title, () =>_shareOffer(context)),
         ],
       ),
     );
@@ -442,5 +445,14 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         }
       },
     );
+  }
+
+  void _applyToOffer(BuildContext context, String url) {
+    launch(url);
+    StoreProvider.of<AppState>(context).dispatch(RequestTrackingEventAction(EventType.OFFRE_POSTULEE));
+  }
+
+  void _shareOffer(BuildContext context) {
+    StoreProvider.of<AppState>(context).dispatch(RequestTrackingEventAction(EventType.OFFRE_PARTAGEE));
   }
 }

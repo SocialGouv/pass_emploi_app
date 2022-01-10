@@ -229,6 +229,7 @@ void main() {
           firstName: "Gabriel",
           lastName: "Android",
           expiresAt: 1638874410,
+          loginStructure: 'PASS_EMPLOI',
         ));
   });
 

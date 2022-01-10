@@ -119,7 +119,13 @@ class AuthenticatorLoggedInStub extends Authenticator {
   Future<bool> isLoggedIn() async => true;
 
   @override
-  Future<AuthIdToken?> idToken() async=> AuthIdToken(userId: "id", firstName: "F", lastName: "L", expiresAt: 100000000);
+  Future<AuthIdToken?> idToken() async => AuthIdToken(
+        userId: "id",
+        firstName: "F",
+        lastName: "L",
+        expiresAt: 100000000,
+        loginStructure: "MILO",
+      );
 }
 
 class AuthenticatorNotLoggedInStub extends Authenticator {

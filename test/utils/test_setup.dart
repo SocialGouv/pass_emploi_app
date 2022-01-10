@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/store/store_factory.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
-import 'package:pass_emploi_app/repositories/event_tracker_repository.dart';
+import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
@@ -36,7 +36,7 @@ class TestStoreFactory {
   FirebaseAuthRepository firebaseAuthRepository = DummyFirebaseAuthRepository();
   FirebaseAuthWrapper firebaseAuthWrapper = DummyFirebaseAuthWrapper();
   ChatCrypto chatCrypto = DummyChatCrypto();
-  EventTrackerRepository eventTrackerRepository = DummyEventTrackerRepositoryextends();
+  TrackingEventRepository trackingEventRepository = DummyTrackingEventRepository();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
@@ -55,7 +55,7 @@ class TestStoreFactory {
       firebaseAuthRepository,
       firebaseAuthWrapper,
       chatCrypto,
-      eventTrackerRepository,
+      trackingEventRepository,
     ).initializeReduxStore(initialState: initialState);
   }
 }
