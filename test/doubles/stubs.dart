@@ -59,11 +59,17 @@ class UserActionRepositoryFailureStub extends UserActionRepository {
 }
 
 class OffreEmploiRepositorySuccessWithMoreDataStub extends OffreEmploiRepository {
+  bool? _onlyAlternance;
+
   OffreEmploiRepositorySuccessWithMoreDataStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+
+  void withOnlyAlternanceResolves(bool onlyAlternance) => _onlyAlternance = onlyAlternance;
 
   @override
   Future<OffreEmploiSearchResponse?> search({required String userId, required SearchOffreEmploiRequest request}) async {
-    return OffreEmploiSearchResponse(isMoreDataAvailable: true, offres: [mockOffreEmploi()]);
+    final response = OffreEmploiSearchResponse(isMoreDataAvailable: true, offres: [mockOffreEmploi()]);
+    if (_onlyAlternance == null) return response;
+    return request.onlyAlternance == _onlyAlternance ? response : null;
   }
 }
 

@@ -136,11 +136,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
   }
 
   void _onSearchButtonPressed(OffreEmploiSearchViewModel viewModel) {
-    if (widget.onlyAlternance) {
-      viewModel.onAlternanceSearchingRequest(_keyWord, _selectedLocationViewModel?.location);
-    } else {
-      viewModel.onFullSearchingRequest(_keyWord, _selectedLocationViewModel?.location);
-    }
+    viewModel.onSearchingRequest(_keyWord, _selectedLocationViewModel?.location, widget.onlyAlternance);
     Keyboard.dismiss(context);
   }
 }
