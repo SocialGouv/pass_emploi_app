@@ -5,8 +5,6 @@ import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
-import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/network/headers.dart';
@@ -64,13 +62,7 @@ class OffreEmploiRepositorySuccessWithMoreDataStub extends OffreEmploiRepository
   OffreEmploiRepositorySuccessWithMoreDataStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<OffreEmploiSearchResponse?> search({
-    required String userId,
-    required String keywords,
-    required Location? location,
-    required int page,
-    required OffreEmploiSearchParametersFiltres filtres,
-  }) async {
+  Future<OffreEmploiSearchResponse?> search({required String userId, required SearchOffreEmploiRequest request}) async {
     return OffreEmploiSearchResponse(isMoreDataAvailable: true, offres: [mockOffreEmploi()]);
   }
 }
@@ -79,13 +71,7 @@ class OffreEmploiRepositoryFailureStub extends OffreEmploiRepository {
   OffreEmploiRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<OffreEmploiSearchResponse?> search({
-    required String userId,
-    required String keywords,
-    required Location? location,
-    required int page,
-    required OffreEmploiSearchParametersFiltres filtres,
-  }) async {
+  Future<OffreEmploiSearchResponse?> search({required String userId, required SearchOffreEmploiRequest request}) async {
     return null;
   }
 }
@@ -120,7 +106,8 @@ class AuthenticatorLoggedInStub extends Authenticator {
   Future<bool> isLoggedIn() async => true;
 
   @override
-  Future<AuthIdToken?> idToken() async => AuthIdToken(
+  Future<AuthIdToken?> idToken() async =>
+      AuthIdToken(
     userId: "id",
         firstName: "F",
         lastName: "L",

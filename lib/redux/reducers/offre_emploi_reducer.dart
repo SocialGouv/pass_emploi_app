@@ -71,8 +71,9 @@ AppState _appendNewOffres(AppState currentState, OffreEmploiSearchResultsDataSta
 AppState _storeInitialSearchParameters(AppState currentState, SearchOffreEmploiAction action) {
   return currentState.copyWith(
       offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
-    keyWords: action.keywords,
+    keywords: action.keywords,
     location: action.location,
+    onlyAlternance: action.onlyAlternance,
     filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
   ));
 }
@@ -81,8 +82,9 @@ AppState _storeUpdatedFiltresSearchParameters(AppState currentState,
     OffreEmploiSearchParametersInitializedState parametersState, OffreEmploiSearchUpdateFiltresAction action) {
   return currentState.copyWith(
       offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
-    keyWords: parametersState.keyWords,
+        keywords: parametersState.keywords,
     location: parametersState.location,
+    onlyAlternance: parametersState.onlyAlternance,
     filtres: action.updatedFiltres,
   ));
 }
@@ -102,14 +104,15 @@ AppState _searchStateFailure(AppState currentState) {
   return currentState.copyWith(offreEmploiSearchState: OffreEmploiSearchState.failure());
 }
 
-
-AppState _resetSearchAndFiltresState(AppState currentState, OffreEmploiSearchParametersInitializedState parametersState) {
+AppState _resetSearchAndFiltresState(
+    AppState currentState, OffreEmploiSearchParametersInitializedState parametersState) {
   return currentState.copyWith(
     offreEmploiSearchState: OffreEmploiSearchState.failure(),
     offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
-      parametersState.keyWords,
-      parametersState.location,
-      OffreEmploiSearchParametersFiltres.noFiltres(),
+      keywords: parametersState.keywords,
+      location: parametersState.location,
+      onlyAlternance: parametersState.onlyAlternance,
+      filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
     ),
   );
 }

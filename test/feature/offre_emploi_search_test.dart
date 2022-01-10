@@ -10,7 +10,7 @@ import '../doubles/stubs.dart';
 import '../utils/test_setup.dart';
 
 main() {
-  test("offre emplois should be loaded, results displayed, and parameters saved", () async {
+  test("offres emploi should be loaded, results displayed, and parameters saved", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.offreEmploiRepository = OffreEmploiRepositorySuccessWithMoreDataStub();
@@ -24,7 +24,11 @@ main() {
         (element) => element.offreEmploiSearchParametersState is OffreEmploiSearchParametersInitializedState);
 
     // When
-    store.dispatch(SearchOffreEmploiAction(keywords: "boulanger patissier", location: mockLocation()));
+    store.dispatch(SearchOffreEmploiAction(
+      keywords: "boulanger patissier",
+      location: mockLocation(),
+      onlyAlternance: false,
+    ));
 
     // Then
     expect(await displayedLoading, true);
@@ -38,10 +42,10 @@ main() {
     final initializedSearchParametersState =
         (savedSearchAppState.offreEmploiSearchParametersState as OffreEmploiSearchParametersInitializedState);
     expect(initializedSearchParametersState.location, mockLocation());
-    expect(initializedSearchParametersState.keyWords, "boulanger patissier");
+    expect(initializedSearchParametersState.keywords, "boulanger patissier");
   });
 
-  test("offre emplois should be fetched and an error be displayed if something wrong happens", () async {
+  test("offres emploi should be fetched and an error be displayed if something wrong happens", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.offreEmploiRepository = OffreEmploiRepositoryFailureStub();
@@ -53,7 +57,11 @@ main() {
         store.onChange.any((element) => element.offreEmploiSearchState is OffreEmploiSearchFailureState);
 
     // When
-    store.dispatch(SearchOffreEmploiAction(keywords: "boulanger patissier", location: mockLocation()));
+    store.dispatch(SearchOffreEmploiAction(
+      keywords: "boulanger patissier",
+      location: mockLocation(),
+      onlyAlternance: false,
+    ));
 
     // Then
     expect(await displayedLoading, true);

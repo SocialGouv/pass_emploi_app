@@ -171,8 +171,7 @@ main() {
 
     test("when state has active contrat filtre it should display 1 as filtre number", () {
       // Given
-      final store = _storeWithFiltres(OffreEmploiSearchParametersFiltres.withFiltres(
-          contrat: [ContratFiltre.autre]));
+      final store = _storeWithFiltres(OffreEmploiSearchParametersFiltres.withFiltres(contrat: [ContratFiltre.autre]));
 
       // When
       final viewModel = OffreEmploiSearchResultsViewModel.create(store);
@@ -266,7 +265,7 @@ main() {
       initialState: AppState.initialState().copyWith(
           offreEmploiSearchState: OffreEmploiSearchState.success(),
           offreEmploiSearchResultsState:
-          OffreEmploiSearchResultsState.data(offres: [], loadedPage: 1, isMoreDataAvailable: false)),
+              OffreEmploiSearchResultsState.data(offres: [], loadedPage: 1, isMoreDataAvailable: false)),
     );
 
     // When
@@ -283,9 +282,10 @@ Store<AppState> _storeWithFiltres(OffreEmploiSearchParametersFiltres filtres) {
     reducer,
     initialState: AppState.initialState().copyWith(
       offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
-        "keyWords",
-        mockLocation(),
-        filtres,
+        keywords: "keyWords",
+        location: mockLocation(),
+        onlyAlternance: false,
+        filtres: filtres,
       ),
     ),
   );

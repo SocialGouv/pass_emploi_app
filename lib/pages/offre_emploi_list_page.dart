@@ -18,7 +18,9 @@ import 'package:pass_emploi_app/widgets/offre_emploi_list_item.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 
 class OffreEmploiListPage extends TraceableStatefulWidget {
-  OffreEmploiListPage() : super(name: AnalyticsScreenNames.offreEmploiResults);
+  final bool onlyAlternance;
+
+  OffreEmploiListPage({required this.onlyAlternance}) : super(name: AnalyticsScreenNames.offreEmploiResults);
 
   @override
   State<OffreEmploiListPage> createState() => _OffreEmploiListPageState();
@@ -68,7 +70,10 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     return Scaffold(
       backgroundColor: AppColors.lightBlue,
       appBar: FlatDefaultAppBar(
-        title: Text(Strings.offresEmploiTitle, style: TextStyles.textLgMedium),
+        title: Text(
+          widget.onlyAlternance ? Strings.alternanceTitle : Strings.offresEmploiTitle,
+          style: TextStyles.textLgMedium,
+        ),
       ),
       body: Stack(children: [
         if (viewModel.displayState == DisplayState.CONTENT)

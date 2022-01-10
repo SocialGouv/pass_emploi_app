@@ -101,9 +101,10 @@ main() {
       reducer,
       initialState: AppState.initialState().copyWith(
         offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
-          "mots clés",
-          mockCommuneLocation(),
-          OffreEmploiSearchParametersFiltres.withFiltres(distance: 20),
+          keywords: "mots clés",
+          location: mockCommuneLocation(),
+          onlyAlternance: false,
+          filtres: OffreEmploiSearchParametersFiltres.withFiltres(distance: 20),
         ),
       ),
     );
@@ -121,9 +122,10 @@ main() {
       reducer,
       initialState: AppState.initialState().copyWith(
         offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
-          "mots clés",
-          mockLocation(),
-          OffreEmploiSearchParametersFiltres.noFiltres(),
+          keywords: "mots clés",
+          location: mockLocation(),
+          onlyAlternance: false,
+          filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
         ),
       ),
     );
@@ -167,9 +169,10 @@ main() {
       reducer,
       initialState: AppState.initialState().copyWith(
         offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
-          "mots clés",
-          mockCommuneLocation(),
-          OffreEmploiSearchParametersFiltres.withFiltres(
+          keywords: "mots clés",
+          location: mockCommuneLocation(),
+          onlyAlternance: false,
+          filtres: OffreEmploiSearchParametersFiltres.withFiltres(
             experience: [
               ExperienceFiltre.de_zero_a_un_an,
               ExperienceFiltre.de_un_a_trois_ans,
@@ -282,9 +285,10 @@ Store<AppState> _mockStoreWithCommuneSearchAndNoFiltres({customReducer = reducer
     customReducer,
     initialState: AppState.initialState().copyWith(
       offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
-        "mots clés",
-        mockCommuneLocation(),
-        OffreEmploiSearchParametersFiltres.noFiltres(),
+        keywords: "mots clés",
+        location: mockCommuneLocation(),
+        onlyAlternance: false,
+        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
       ),
     ),
   );

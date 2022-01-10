@@ -29,10 +29,13 @@ void main() {
     final location = Location(libelle: "Paris", code: "75", type: LocationType.DEPARTMENT);
     final search = await repository.search(
       userId: "ID",
-      keywords: "keywords",
-      location: location,
-      page: 1,
-      filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      request: SearchOffreEmploiRequest(
+        keywords: "keywords",
+        location: location,
+        onlyAlternance: false,
+        page: 1,
+        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      ),
     );
 
     // Then
@@ -69,10 +72,13 @@ void main() {
     final location = Location(libelle: "Marseille 02", code: "13202", codePostal: "13002", type: LocationType.COMMUNE);
     final search = await repository.search(
       userId: "ID",
-      keywords: "keywords",
-      location: location,
-      page: 1,
-      filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      request: SearchOffreEmploiRequest(
+        keywords: "keywords",
+        location: location,
+        onlyAlternance: false,
+        page: 1,
+        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      ),
     );
 
     // Then
@@ -109,10 +115,13 @@ void main() {
 
     final search = await repository.search(
       userId: "ID",
-      keywords: "",
-      location: null,
-      page: 1,
-      filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      request: SearchOffreEmploiRequest(
+        keywords: "",
+        location: null,
+        onlyAlternance: false,
+        page: 1,
+        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      ),
     );
 
     // Then
@@ -152,10 +161,13 @@ void main() {
             Location(libelle: "Issy-les-Moulineaux", code: "03129", codePostal: "92130", type: LocationType.COMMUNE);
         final search = await repository.search(
           userId: "ID",
-          keywords: "keywords",
-          location: location,
-          page: 1,
-          filtres: filtres,
+          request: SearchOffreEmploiRequest(
+            keywords: "keywords",
+            location: location,
+            onlyAlternance: false,
+            page: 1,
+            filtres: filtres,
+          ),
         );
 
         // Then
@@ -290,19 +302,19 @@ void main() {
       assertFiltres(
         "when duree is temps partiel",
         OffreEmploiSearchParametersFiltres.withFiltres(duree: [DureeFiltre.temps_partiel]),
-            (query) => query.contains("duree=2"),
+        (query) => query.contains("duree=2"),
       );
 
       assertFiltres(
         "when duree is both",
         OffreEmploiSearchParametersFiltres.withFiltres(duree: [DureeFiltre.temps_plein, DureeFiltre.temps_partiel]),
-            (query) => query.contains("duree=1") && query.contains("duree=2"),
+        (query) => query.contains("duree=1") && query.contains("duree=2"),
       );
 
       assertFiltres(
         "when no duree is selected",
-        OffreEmploiSearchParametersFiltres.withFiltres(duree : []),
-            (query) => !query.contains("duree"),
+        OffreEmploiSearchParametersFiltres.withFiltres(duree: []),
+        (query) => !query.contains("duree"),
       );
 
       assertFiltres(
@@ -321,10 +333,13 @@ void main() {
     // When
     final search = await repository.search(
       userId: "ID",
-      keywords: "keywords",
-      location: null,
-      page: 1,
-      filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      request: SearchOffreEmploiRequest(
+        keywords: "keywords",
+        location: null,
+        onlyAlternance: false,
+        page: 1,
+        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      ),
     );
 
     // Then
