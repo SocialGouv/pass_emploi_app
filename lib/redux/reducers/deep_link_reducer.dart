@@ -17,6 +17,7 @@ DeepLink _extractDeepLinkFromMessage(RemoteMessage message) {
       return DeepLink.ROUTE_TO_CHAT;
     case "NEW_RENDEZVOUS":
     case "DELETED_RENDEZVOUS":
+    case "RAPPEL_RENDEZVOUS":
       return DeepLink.ROUTE_TO_RENDEZVOUS;
     default:
       return DeepLink.NOT_SET;
