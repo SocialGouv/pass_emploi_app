@@ -29,4 +29,30 @@ void main() {
     expect(checker.shouldForceUpdate(currentVersion: '3.1.1', minimumVersion: '1.1.2'), false);
     expect(checker.shouldForceUpdate(currentVersion: '1.4.1', minimumVersion: '1.1.3'), false);
   });
+
+  test("shouldForceUpdate when version has staging suffix", () {
+    expect(checker.shouldForceUpdate(currentVersion: null, minimumVersion: null), false);
+    expect(checker.shouldForceUpdate(currentVersion: '1.0.0-staging', minimumVersion: null), false);
+    expect(checker.shouldForceUpdate(currentVersion: null, minimumVersion: '1.0.0'), false);
+    expect(checker.shouldForceUpdate(currentVersion: '', minimumVersion: ''), false);
+    expect(checker.shouldForceUpdate(currentVersion: 'badFormat', minimumVersion: 'badFormat'), false);
+    expect(checker.shouldForceUpdate(currentVersion: '1.0-staging', minimumVersion: '2.0'), false);
+    expect(checker.shouldForceUpdate(currentVersion: '1.0.0-staging', minimumVersion: '2.0'), false);
+    expect(checker.shouldForceUpdate(currentVersion: '1.0-staging', minimumVersion: '2.0.0'), false);
+
+    expect(checker.shouldForceUpdate(currentVersion: '1.0.0-staging', minimumVersion: '1.0.0'), false);
+    expect(checker.shouldForceUpdate(currentVersion: '2.0.0-staging', minimumVersion: '1.0.0'), false);
+    expect(checker.shouldForceUpdate(currentVersion: '1.0.1-staging', minimumVersion: '1.0.0'), false);
+    expect(checker.shouldForceUpdate(currentVersion: '1.1.0-staging', minimumVersion: '1.0.0'), false);
+    expect(checker.shouldForceUpdate(currentVersion: '1.1.1-staging', minimumVersion: '1.0.0'), false);
+    expect(checker.shouldForceUpdate(currentVersion: '0.0.0-staging', minimumVersion: '1.0.0'), true);
+    expect(checker.shouldForceUpdate(currentVersion: '0.0.1-staging', minimumVersion: '1.0.0'), true);
+    expect(checker.shouldForceUpdate(currentVersion: '0.1.1-staging', minimumVersion: '1.0.0'), true);
+    expect(checker.shouldForceUpdate(currentVersion: '0.999.999-staging', minimumVersion: '1.0.0'), true);
+    expect(checker.shouldForceUpdate(currentVersion: '999.999.999-staging', minimumVersion: '999.999.1000'), true);
+
+    expect(checker.shouldForceUpdate(currentVersion: '3.1.1-staging', minimumVersion: '1.2.0'), false);
+    expect(checker.shouldForceUpdate(currentVersion: '3.1.1-staging', minimumVersion: '1.1.2'), false);
+    expect(checker.shouldForceUpdate(currentVersion: '1.4.1-staging', minimumVersion: '1.1.3'), false);
+  });
 }
