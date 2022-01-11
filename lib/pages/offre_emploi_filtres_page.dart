@@ -69,39 +69,41 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
             _distanceSlider(context, viewModel),
             _sepLine(),
           ],
-          CheckBoxGroup<ExperienceFiltre>(
-            title: Strings.experienceSectionTitle,
-            options: viewModel.experienceFiltres,
-            onSelectedOptionsUpdated: (selectedOptions) {
-              setState(() {
-                _hasFormChanged = true;
-                _currentExperiencefiltres = selectedOptions as List<CheckboxValueViewModel<ExperienceFiltre>>;
-              });
-            },
-          ),
-          _sepLine(),
-          CheckBoxGroup<ContratFiltre>(
-            title: Strings.contratSectionTitle,
-            options: viewModel.contratFiltres,
-            onSelectedOptionsUpdated: (selectedOptions) {
-              setState(() {
-                _hasFormChanged = true;
-                _currentContratfiltres = selectedOptions as List<CheckboxValueViewModel<ContratFiltre>>;
-              });
-            },
-          ),
-          _sepLine(),
-          CheckBoxGroup<DureeFiltre>(
-            title: Strings.dureeSectionTitle,
-            options: viewModel.dureeFiltres,
-            onSelectedOptionsUpdated: (selectedOptions) {
-              setState(() {
-                _hasFormChanged = true;
-                _currentDureefiltres = selectedOptions as List<CheckboxValueViewModel<DureeFiltre>>;
-              });
-            },
-          ),
-          _sepLine(),
+          if (viewModel.shouldDisplayNonDistanceFiltres) ...[
+            CheckBoxGroup<ExperienceFiltre>(
+              title: Strings.experienceSectionTitle,
+              options: viewModel.experienceFiltres,
+              onSelectedOptionsUpdated: (selectedOptions) {
+                setState(() {
+                  _hasFormChanged = true;
+                  _currentExperiencefiltres = selectedOptions as List<CheckboxValueViewModel<ExperienceFiltre>>;
+                });
+              },
+            ),
+            _sepLine(),
+            CheckBoxGroup<ContratFiltre>(
+              title: Strings.contratSectionTitle,
+              options: viewModel.contratFiltres,
+              onSelectedOptionsUpdated: (selectedOptions) {
+                setState(() {
+                  _hasFormChanged = true;
+                  _currentContratfiltres = selectedOptions as List<CheckboxValueViewModel<ContratFiltre>>;
+                });
+              },
+            ),
+            _sepLine(),
+            CheckBoxGroup<DureeFiltre>(
+              title: Strings.dureeSectionTitle,
+              options: viewModel.dureeFiltres,
+              onSelectedOptionsUpdated: (selectedOptions) {
+                setState(() {
+                  _hasFormChanged = true;
+                  _currentDureefiltres = selectedOptions as List<CheckboxValueViewModel<DureeFiltre>>;
+                });
+              },
+            ),
+            _sepLine(),
+          ],
           if (_isError(viewModel)) ErrorText(viewModel.errorMessage),
           Padding(
             padding: const EdgeInsets.all(24),

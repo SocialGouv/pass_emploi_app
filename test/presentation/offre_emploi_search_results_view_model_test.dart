@@ -277,7 +277,7 @@ main() {
     expect(viewModel.errorMessage, "Aucune offre ne correspond à votre recherche");
   });
 
-  group("Filter button…", () {
+  group("Filtre button…", () {
     test('when search is not only for alternance should be displayed', () {
       // Given
       Store<AppState> store = _storeWithParams(onlyAlternance: false, location: null);
@@ -286,7 +286,7 @@ main() {
       final viewModel = OffreEmploiSearchResultsViewModel.create(store);
 
       // Then
-      expect(viewModel.withFilterButton, true);
+      expect(viewModel.withFiltreButton, true);
     });
 
     group('when search is only for alternance…', () {
@@ -298,7 +298,7 @@ main() {
         final viewModel = OffreEmploiSearchResultsViewModel.create(store);
 
         // Then
-        expect(viewModel.withFilterButton, false);
+        expect(viewModel.withFiltreButton, false);
       });
 
       test('and location is DEPARTMENT should not be displayed', () {
@@ -312,7 +312,7 @@ main() {
         final viewModel = OffreEmploiSearchResultsViewModel.create(store);
 
         // Then
-        expect(viewModel.withFilterButton, false);
+        expect(viewModel.withFiltreButton, false);
       });
 
       test('and location is COMMUNE should be displayed', () {
@@ -326,7 +326,7 @@ main() {
         final viewModel = OffreEmploiSearchResultsViewModel.create(store);
 
         // Then
-        expect(viewModel.withFilterButton, true);
+        expect(viewModel.withFiltreButton, true);
       });
     });
   });

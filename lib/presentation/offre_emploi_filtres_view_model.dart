@@ -14,6 +14,7 @@ import 'package:redux/redux.dart';
 class OffreEmploiFiltresViewModel extends Equatable {
   final DisplayState displayState;
   final bool shouldDisplayDistanceFiltre;
+  final bool shouldDisplayNonDistanceFiltres;
   final int initialDistanceValue;
   final Function(
     int? updatedDistanceValue,
@@ -31,6 +32,7 @@ class OffreEmploiFiltresViewModel extends Equatable {
   OffreEmploiFiltresViewModel._({
     required this.displayState,
     required this.shouldDisplayDistanceFiltre,
+    required this.shouldDisplayNonDistanceFiltres,
     required this.initialDistanceValue,
     required this.updateFiltres,
     required this.experienceFiltres,
@@ -46,6 +48,7 @@ class OffreEmploiFiltresViewModel extends Equatable {
     return OffreEmploiFiltresViewModel._(
       displayState: _displayState(searchState, searchResultsState),
       shouldDisplayDistanceFiltre: _shouldDisplayDistanceFiltre(parametersState),
+      shouldDisplayNonDistanceFiltres: _shouldDisplayNonDistanceFiltres(parametersState),
       initialDistanceValue: _distance(parametersState),
       updateFiltres: (
         updatedDistanceValue,
@@ -145,6 +148,13 @@ bool _shouldDisplayDistanceFiltre(OffreEmploiSearchParametersState parametersSta
   } else {
     return false;
   }
+}
+
+bool _shouldDisplayNonDistanceFiltres(OffreEmploiSearchParametersState parametersState) {
+  if (parametersState is OffreEmploiSearchParametersInitializedState) {
+    return !parametersState.onlyAlternance;
+  }
+  return true;
 }
 
 DisplayState _displayState(OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {

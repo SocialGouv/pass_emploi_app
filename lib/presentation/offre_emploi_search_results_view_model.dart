@@ -16,7 +16,7 @@ class OffreEmploiSearchResultsViewModel extends Equatable {
   final DisplayState displayState;
   final List<OffreEmploiItemViewModel> items;
   final bool displayLoaderAtBottomOfList;
-  final bool withFilterButton;
+  final bool withFiltreButton;
   final int? filtresCount;
   final String errorMessage;
   final Function() onLoadMore;
@@ -25,7 +25,7 @@ class OffreEmploiSearchResultsViewModel extends Equatable {
     required this.displayState,
     required this.items,
     required this.displayLoaderAtBottomOfList,
-    required this.withFilterButton,
+    required this.withFiltreButton,
     required this.filtresCount,
     required this.errorMessage,
     required this.onLoadMore,
@@ -39,7 +39,7 @@ class OffreEmploiSearchResultsViewModel extends Equatable {
       displayState: _displayState(searchState, searchResultsState),
       items: _items(store.state.offreEmploiSearchResultsState),
       displayLoaderAtBottomOfList: _displayLoader(store.state.offreEmploiSearchResultsState),
-      withFilterButton: _withFilterButton(searchParamsState),
+      withFiltreButton: _withFilterButton(searchParamsState),
       filtresCount: _filtresCount(searchParamsState),
       errorMessage: _errorMessage(searchState, searchResultsState),
       onLoadMore: () => store.dispatch(RequestMoreOffreEmploiSearchResultsAction()),

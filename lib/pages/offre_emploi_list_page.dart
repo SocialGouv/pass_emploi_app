@@ -85,10 +85,10 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
               itemCount: _itemCount(viewModel))
         else if (viewModel.displayState == DisplayState.EMPTY || viewModel.displayState == DisplayState.FAILURE)
           Center(child: Text(viewModel.errorMessage, style: TextStyles.textSmRegular())),
-        if (viewModel.withFilterButton)
+        if (viewModel.withFiltreButton)
           Align(
             alignment: Alignment.bottomCenter,
-            child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _filterButton(viewModel)),
+            child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _filtreButton(viewModel)),
           ),
       ]),
     );
@@ -177,7 +177,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
       return viewModel.items.length;
   }
 
-  Widget _filterButton(OffreEmploiSearchResultsViewModel viewModel) {
+  Widget _filtreButton(OffreEmploiSearchResultsViewModel viewModel) {
     return PrimaryActionButton(
         child: Row(
           mainAxisSize: MainAxisSize.min,
