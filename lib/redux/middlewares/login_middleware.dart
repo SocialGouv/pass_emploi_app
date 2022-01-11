@@ -73,6 +73,8 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
         return AuthenticationMode.GENERIC;
       case RequestLoginMode.SIMILO:
         return AuthenticationMode.SIMILO;
+      case RequestLoginMode.POLE_EMPLOI:
+        return AuthenticationMode.POLE_EMPLOI;
     }
   }
 

@@ -112,6 +112,24 @@ void main() {
           ));
     });
 
+    test('user is properly logged in when login successes in POLE_EMPLOI authentication mode', () async {
+      // Given
+      factory.authenticator = AuthenticatorLoggedInStub(expectedMode: AuthenticationMode.POLE_EMPLOI);
+      final store = factory.initializeReduxStore(initialState: AppState.initialState());
+      final displayedLoading = store.onChange.any((element) => element.loginState.isLoading());
+      final result = store.onChange.firstWhere((element) => element.loginState.isSuccess());
+      store.dispatch(RequestLoginAction(RequestLoginMode.POLE_EMPLOI));
+
+      // When
+      final AppState resultState = await result;
+
+      // Then
+      expect(await displayedLoading, true);
+      final loginState = resultState.loginState;
+      expect(loginState.getResultOrThrow(), User(id: "id", firstName: "F", lastName: "L"));
+    });
+
+
     test('user is not logged in when login fails', () async {
       // Given
       factory.authenticator = AuthenticatorNotLoggedInStub();

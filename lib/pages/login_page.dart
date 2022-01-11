@@ -104,7 +104,7 @@ class LoginPage extends TraceableStatelessWidget {
         SizedBox(height: 16),
       ],
     );
-    return buttonsWithSpaces.take(buttonsWithSpaces.length - 1).toList();
+    return buttonsWithSpaces.toList();
   }
 
   Widget _loginButton(String text, GestureTapCallback onTap) {
