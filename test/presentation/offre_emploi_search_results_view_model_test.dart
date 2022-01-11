@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
@@ -275,6 +276,60 @@ main() {
     expect(viewModel.displayState, DisplayState.EMPTY);
     expect(viewModel.errorMessage, "Aucune offre ne correspond à votre recherche");
   });
+
+  group("Filter button…", () {
+    test('when search is not only for alternance should be displayed', () {
+      // Given
+      Store<AppState> store = _storeWithParams(onlyAlternance: false, location: null);
+
+      // When
+      final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+      // Then
+      expect(viewModel.withFilterButton, true);
+    });
+
+    group('when search is only for alternance…', () {
+      test('and location is null should not be displayed', () {
+        // Given
+        Store<AppState> store = _storeWithParams(onlyAlternance: true, location: null);
+
+        // When
+        final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+        // Then
+        expect(viewModel.withFilterButton, false);
+      });
+
+      test('and location is DEPARTMENT should not be displayed', () {
+        // Given
+        Store<AppState> store = _storeWithParams(
+          onlyAlternance: true,
+          location: Location(libelle: '', code: '', type: LocationType.DEPARTMENT),
+        );
+
+        // When
+        final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+        // Then
+        expect(viewModel.withFilterButton, false);
+      });
+
+      test('and location is COMMUNE should be displayed', () {
+        // Given
+        Store<AppState> store = _storeWithParams(
+          onlyAlternance: true,
+          location: Location(libelle: '', code: '', type: LocationType.COMMUNE),
+        );
+
+        // When
+        final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+        // Then
+        expect(viewModel.withFilterButton, true);
+      });
+    });
+  });
 }
 
 Store<AppState> _storeWithFiltres(OffreEmploiSearchParametersFiltres filtres) {
@@ -286,6 +341,20 @@ Store<AppState> _storeWithFiltres(OffreEmploiSearchParametersFiltres filtres) {
         location: mockLocation(),
         onlyAlternance: false,
         filtres: filtres,
+      ),
+    ),
+  );
+}
+
+Store<AppState> _storeWithParams({required bool onlyAlternance, required Location? location}) {
+  return Store<AppState>(
+    reducer,
+    initialState: AppState.initialState().copyWith(
+      offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
+        keywords: "",
+        location: location,
+        onlyAlternance: onlyAlternance,
+        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
       ),
     ),
   );

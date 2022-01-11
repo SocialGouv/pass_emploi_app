@@ -85,10 +85,11 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
               itemCount: _itemCount(viewModel))
         else if (viewModel.displayState == DisplayState.EMPTY || viewModel.displayState == DisplayState.FAILURE)
           Center(child: Text(viewModel.errorMessage, style: TextStyles.textSmRegular())),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _filterButton(viewModel)),
-        ),
+        if (viewModel.withFilterButton)
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _filterButton(viewModel)),
+          ),
       ]),
     );
   }
