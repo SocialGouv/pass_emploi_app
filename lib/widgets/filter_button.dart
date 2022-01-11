@@ -1,3 +1,4 @@
+/*
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 
@@ -29,3 +30,4 @@ class PrimaryActionButton extends StatelessWidget {
     // TODO: implement build
     throw UnimplementedError();
   }}
+*/
