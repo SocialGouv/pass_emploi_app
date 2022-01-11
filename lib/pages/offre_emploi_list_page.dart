@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -176,17 +177,22 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(Strings.filtrer),
+            Text(Strings.filtrer, style: TextStyles.textPrimaryButton.copyWith(fontSize: FontSizes.medium),),
             SizedBox(width: 12),
-            SvgPicture.asset(Drawables.icFilter),
-            SizedBox(width: 12),
+            SvgPicture.asset(Drawables.icFilter, height: 18, width: 18,),
+            SizedBox(width: 16),
             if (viewModel.filtresCount != null)
               Container(
-                decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.bluePurple),
-                width: 22,
-                height: 22,
+                decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+                width: 24,
+                height: 24,
                 alignment: Alignment.center,
-                child: Text(viewModel.filtresCount!.toString()),
+                child: Text(viewModel.filtresCount!.toString(), style: TextStyle(
+                  color: Colors.black,
+                  fontSize: FontSizes.normal,
+                  fontWeight: FontWeight.w700,
+                  fontFamily: 'Marianne',
+                ),),
               ),
           ],
         ),

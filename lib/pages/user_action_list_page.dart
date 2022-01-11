@@ -144,6 +144,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
     return PrimaryActionButton.simple(
       label: Strings.addAnAction,
       drawableRes: Drawables.icAdd,
+      rippleColor: AppColors.primaryDarken,
       onPressed: () => showUserActionBottomSheet(
         context: context,
         builder: (context) => CreateUserActionBottomSheet(),

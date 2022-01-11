@@ -17,6 +17,7 @@ import 'package:pass_emploi_app/widgets/action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/help_tooltip.dart';
+import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/share_button.dart';
 import 'package:pass_emploi_app/widgets/tags.dart';
@@ -400,7 +401,12 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       padding: const EdgeInsets.all(16),
       child: Row(
         children: [
-          Expanded(child: ActionButton(onPressed: () => launch(url), label: Strings.postulerButtonTitle)),
+          Expanded(
+            child: PrimaryActionButton.simple(
+              onPressed: () => launch(url),
+              label: Strings.postulerButtonTitle,
+            ),
+          ),
           SizedBox(width: 8),
           FavoriHeart(
             offreId: offreId,
