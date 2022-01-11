@@ -38,7 +38,7 @@ void main() {
       id: "1",
       firstName: "first-name",
       lastName: "last-name",
-      loginMode: LoginStructure.MILO,
+      loginMode: LoginMode.MILO,
     );
     final action = LoginAction.success(user);
 

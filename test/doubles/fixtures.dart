@@ -14,14 +14,14 @@ User mockUser({id: ""}) => User(
       id: id,
       firstName: "",
       lastName: "",
-      loginMode: LoginStructure.MILO,
+      loginMode: LoginMode.MILO,
     );
 
 State<User> successUserState() => State<User>.success(User(
       id: "id",
       firstName: "F",
       lastName: "L",
-      loginMode: LoginStructure.MILO,
+      loginMode: LoginMode.MILO,
     ));
 
 AppState loggedInState() => AppState.initialState().copyWith(loginState: successUserState());

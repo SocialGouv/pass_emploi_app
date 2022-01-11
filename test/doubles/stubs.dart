@@ -124,7 +124,7 @@ class AuthenticatorLoggedInStub extends Authenticator {
         firstName: "F",
         lastName: "L",
         expiresAt: 100000000,
-        loginStructure: "MILO",
+        loginMode: "MILO",
       );
 }
 

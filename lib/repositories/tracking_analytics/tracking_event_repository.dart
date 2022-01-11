@@ -14,13 +14,13 @@ class TrackingEventRepository {
 
   TrackingEventRepository(this._baseUrl, this._httpClient, this._headersBuilder, [this._crashlytics]);
 
-  Future<bool> sendEvent({required String userId, required EventType event, required LoginStructure structure}) async {
+  Future<bool> sendEvent({required String userId, required EventType event, required LoginMode loginMode}) async {
     final url = Uri.parse(_baseUrl + "/evenements");
     try {
       final response = await _httpClient.post(
         url,
         headers: await _headersBuilder.headers(userId: userId, contentType: 'application/json'),
-        body: customJsonEncode(PostTrackingEvent(event: event, structure: structure, id: userId)),
+        body: customJsonEncode(PostTrackingEvent(event: event, loginMode: loginMode, id: userId)),
       );
       if (response.statusCode.isValid()) return true;
     } catch (e, stack) {

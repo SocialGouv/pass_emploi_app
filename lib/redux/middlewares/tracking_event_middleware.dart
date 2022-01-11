@@ -9,19 +9,15 @@ class TrackingEventMiddleware extends MiddlewareClass<AppState> {
   TrackingEventMiddleware(this._repository);
 
   @override
-  call(Store<AppState> store, action, NextDispatcher next) async {
+  call(Store<AppState> store, action, NextDispatcher next) {
     next(action);
     if (action is RequestTrackingEventAction) {
-        final loginState = store.state.loginState;
-        if (loginState.isSuccess()) {
-          final userId = loginState.getResultOrThrow().id;
-          final loginMode = loginState.getResultOrThrow().loginMode;
-          final result = await _repository.sendEvent(userId: userId, event: action.event, structure: loginMode);
-          if (result)
-            store.dispatch(TrackingEventWithSuccessAction());
-          else
-            store.dispatch(TrackingEventFailed());
-        }
+      final loginState = store.state.loginState;
+      if (loginState.isSuccess()) {
+        final userId = loginState.getResultOrThrow().id;
+        final loginMode = loginState.getResultOrThrow().loginMode;
+        _repository.sendEvent(userId: userId, event: action.event, loginMode: loginMode);
+      }
     }
   }
 }

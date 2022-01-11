@@ -22,7 +22,7 @@ void main() {
     final isEventSentWithSuccess = await repository.sendEvent(
       userId: "userId",
       event: EventType.MESSAGE_ENVOYE,
-      structure: LoginStructure.MILO,
+      loginMode: LoginMode.MILO,
     );
 
     // Then
@@ -38,7 +38,7 @@ void main() {
     final isEventSentWithSuccess = await repository.sendEvent(
       userId: "userId",
       event: EventType.MESSAGE_ENVOYE,
-      structure: LoginStructure.MILO,
+      loginMode: LoginMode.MILO,
     );
 
     // Then
@@ -54,7 +54,7 @@ void main() {
     final isEventSentWithSuccess = await repository.sendEvent(
       userId: "userId",
       event: EventType.MESSAGE_ENVOYE,
-      structure: LoginStructure.MILO,
+      loginMode: LoginMode.MILO,
     );
 
     // Then

@@ -98,7 +98,7 @@ class AuthenticatorLoggedInAndValidIdTokenStub extends Authenticator {
         firstName: "F",
         lastName: "L",
         expiresAt: (DateTime.now().millisecondsSinceEpoch ~/ 1000) + 1000,
-        loginStructure: 'MILO',
+        loginMode: 'MILO',
       );
 
   @override
@@ -117,7 +117,7 @@ class AuthenticatorLoggedInAndInvalidIdTokenStub extends Authenticator {
         firstName: "F",
         lastName: "L",
         expiresAt: 0,
-        loginStructure: 'MILO',
+        loginMode: 'MILO',
       );
 
   @override

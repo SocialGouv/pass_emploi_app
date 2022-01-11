@@ -17,12 +17,13 @@ void main() {
 
 void _assertIsValid(int expiresAt, bool expected) {
   expect(
-      AuthIdToken(
-        userId: "",
-        lastName: "",
-        firstName: "",
-        expiresAt: expiresAt,
-        loginStructure: 'MILO',
-      ).isValid(),
-      expected);
+    AuthIdToken(
+      userId: "",
+      lastName: "",
+      firstName: "",
+      expiresAt: expiresAt,
+      loginMode: 'MILO',
+    ).isValid(),
+    expected,
+  );
 }

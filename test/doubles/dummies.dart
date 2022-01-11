@@ -119,6 +119,7 @@ class DummyImmersionDetailsRepository extends ImmersionDetailsRepository {
 class DummyChatCrypto extends ChatCrypto {
   DummyChatCrypto() : super();
 }
+
 class DummyTrackingEventRepository extends TrackingEventRepository {
   DummyTrackingEventRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
 }

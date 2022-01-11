@@ -4,21 +4,21 @@ import 'package:equatable/equatable.dart';
 
 const int _additionalExpirationSecurityIsSeconds = 15;
 
-enum LoginStructure { MILO, POLE_EMPLOI, PASS_EMPLOI }
+enum LoginMode { MILO, POLE_EMPLOI, PASS_EMPLOI }
 
 class AuthIdToken extends Equatable {
   final String userId;
   final String firstName;
   final String lastName;
   final int expiresAt;
-  final String loginStructure;
+  final String loginMode;
 
   AuthIdToken({
     required this.userId,
     required this.firstName,
     required this.lastName,
     required this.expiresAt,
-    required this.loginStructure,
+    required this.loginMode,
   });
 
   factory AuthIdToken.parse(String idToken) {
@@ -39,7 +39,7 @@ class AuthIdToken extends Equatable {
       firstName: json["given_name"],
       lastName: json["family_name"],
       expiresAt: json["exp"] as int,
-      loginStructure: json["userStructure"],
+      loginMode: json["userStructure"],
     );
   }
 
@@ -48,13 +48,13 @@ class AuthIdToken extends Equatable {
   @override
   List<Object?> get props => [userId, firstName, lastName, expiresAt];
 
-  LoginStructure getLoginMode() {
-    if (loginStructure == "MILO") {
-      return LoginStructure.MILO;
-    } else if (loginStructure == "POLE_EMPLOI") {
-      return LoginStructure.POLE_EMPLOI;
+  LoginMode getLoginMode() {
+    if (loginMode == "MILO") {
+      return LoginMode.MILO;
+    } else if (loginMode == "POLE_EMPLOI") {
+      return LoginMode.POLE_EMPLOI;
     } else {
-      return LoginStructure.PASS_EMPLOI;
+      return LoginMode.PASS_EMPLOI;
     }
   }
 }

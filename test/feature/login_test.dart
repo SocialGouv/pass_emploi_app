@@ -44,7 +44,7 @@ void main() {
             id: "id",
             firstName: "F",
             lastName: "L",
-            loginMode: LoginStructure.MILO,
+            loginMode: LoginMode.MILO,
           ));
     });
 
@@ -84,7 +84,7 @@ void main() {
             id: "id",
             firstName: "F",
             lastName: "L",
-            loginMode: LoginStructure.MILO,
+            loginMode: LoginMode.MILO,
           ));
     });
 
@@ -108,7 +108,7 @@ void main() {
             id: "id",
             firstName: "F",
             lastName: "L",
-            loginMode: LoginStructure.MILO,
+            loginMode: LoginMode.MILO,
           ));
     });
 

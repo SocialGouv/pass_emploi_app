@@ -7,7 +7,3 @@ class RequestTrackingEventAction extends TrackingEventAction {
 
   RequestTrackingEventAction(this.event);
 }
-
-class TrackingEventWithSuccessAction extends TrackingEventAction {}
-
-class TrackingEventFailed extends TrackingEventAction {}

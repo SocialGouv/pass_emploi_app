@@ -45,7 +45,7 @@ main() {
         id: "error",
         firstName: "F",
         lastName: "L",
-        loginMode: LoginStructure.MILO,
+        loginMode: LoginMode.MILO,
       ))),
     );
 
