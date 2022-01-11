@@ -105,11 +105,11 @@ class Strings {
   static String jobLocationHint = "Ville, département…";
   static String searchButton = "Rechercher";
   static String offreDetails = "Détails de l'offre";
-  static String offresTabTitle = "Recherche";
+  static String offresTabTitle = "Offres";
   static String boiteAOutilsTabTitle = "Boîte à outils";
-  static String solutionsAppBarTitle = "Solutions";
+  static String solutionsAppBarTitle = "Recherche";
   static String immersionButton = "Immersion";
-  static String offresEmploiButton = "Offres d'emploi";
+  static String offresEmploiButton = "Emploi";
   static String serviceCiviqueButton = "Service civique";
 
   // Immersion
