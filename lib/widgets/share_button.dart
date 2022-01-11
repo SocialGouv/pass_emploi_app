@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/widgets/secondary_icon_button.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ShareButton extends StatelessWidget {
@@ -13,22 +12,12 @@ class ShareButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipOval(
-      child: Material(
-        color: Colors.transparent,
-        shape: CircleBorder(side: BorderSide(color: AppColors.nightBlue)),
-        child: InkWell(
-          onTap: () {
+    return SecondaryIconButton(
+      drawableRes: Drawables.icShare,
+      onTap: () {
             if (onPressed != null) onPressed!();
             Share.share(textToShare, subject: subjectForEmail);
           },
-          child: Container(
-            width: 48,
-            height: 48,
-            child: Center(child: SvgPicture.asset(Drawables.icShare, width: 18, color: AppColors.nightBlue)),
-          ),
-        ),
-      ),
     );
   }
 }
