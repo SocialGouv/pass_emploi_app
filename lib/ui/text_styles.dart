@@ -69,6 +69,13 @@ class TextStyles {
     );
   }
 
+  static final textPrimaryButton = TextStyle(
+    color: Colors.white,
+    fontSize: FontSizes.normal,
+    fontWeight: FontWeight.w700,
+    fontFamily: 'Marianne',
+  );
+
   static textSmMedium({Color color = AppColors.nightBlue}) {
     return GoogleFonts.rubik(
       color: color,
