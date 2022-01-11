@@ -17,6 +17,7 @@ import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/user_action_details_bottom_sheet.dart';
+import 'package:pass_emploi_app/widgets/user_action_list_item.dart';
 
 class UserActionListPage extends TraceableStatefulWidget {
   UserActionListPage() : super(name: AnalyticsScreenNames.userActionList);
@@ -30,7 +31,6 @@ class UserActionListPage extends TraceableStatefulWidget {
 }
 
 class _UserActionListPageState extends State<UserActionListPage> {
-
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, UserActionListPageViewModel>(
@@ -88,55 +88,9 @@ class _UserActionListPageState extends State<UserActionListPage> {
             builder: (context) => UserActionDetailsBottomSheet(item),
           ).then((value) => _onUserActionDetailsDismissed(context, value, viewModel)),
           splashColor: AppColors.bluePurple,
-          child: _listItem(item, viewModel),
+          child: UserActionListItem(item: item),
         ),
       ),
-    );
-  }
-
-  Widget _listItem(UserActionViewModel item, UserActionListPageViewModel viewModel) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (item.tag != null)
-            _tagPadding(
-              tag: _tag(
-                  title: item.tag!.title, backgroundColor: item.tag!.backgroundColor, textColor: item.tag!.textColor),
-            ),
-          if (item.tag != null) SizedBox(height: 4),
-          Text(
-            item.content,
-            style: TextStyles.textSmMedium(),
-          ),
-          SizedBox(height: 4),
-          if (item.withComment) Text(item.comment, style: TextStyles.textSmRegular())
-        ],
-      ),
-    );
-  }
-
-  Padding _tagPadding({required Widget tag}) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
-      child: Align(alignment: Alignment.centerLeft, child: tag),
-    );
-  }
-
-  Container _tag({required String title, required Color backgroundColor, required Color textColor}) {
-    return Container(
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.all(Radius.circular(16)),
-      ),
-      child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
-          child: Text(
-            title,
-            style: TextStyles.textSmMedium(color: textColor),
-          )),
     );
   }
 

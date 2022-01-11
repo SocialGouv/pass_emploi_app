@@ -15,8 +15,8 @@ class ImmersionTags extends StatelessWidget {
       spacing: 8,
       runSpacing: 8,
       children: [
-        lightBlueTag(label: secteurActivite),
-        lightBlueTag(label: ville, icon: SvgPicture.asset(Drawables.icPlace)),
+        Tag(label: secteurActivite),
+        Tag(label: ville, icon: SvgPicture.asset(Drawables.icPlace)),
       ],
     );
   }

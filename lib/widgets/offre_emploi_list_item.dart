@@ -56,10 +56,10 @@ class OffreEmploiListItem extends StatelessWidget {
             spacing: 8,
             runSpacing: 8,
             children: [
-              lightBlueTag(label: itemViewModel.contractType),
-              if (itemViewModel.duration != null) lightBlueTag(label: itemViewModel.duration!),
+              Tag(label: itemViewModel.contractType),
+              if (itemViewModel.duration != null) Tag(label: itemViewModel.duration!),
               if (itemViewModel.location != null)
-                lightBlueTag(label: itemViewModel.location!, icon: SvgPicture.asset(Drawables.icPlace)),
+                Tag(label: itemViewModel.location!, icon: SvgPicture.asset(Drawables.icPlace)),
             ],
           )
         ],
