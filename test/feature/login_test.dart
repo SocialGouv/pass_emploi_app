@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/user.dart';
@@ -37,7 +38,14 @@ void main() {
       // Then
       final loginState = resultState.loginState;
       expect(loginState.isSuccess(), isTrue);
-      expect(loginState.getResultOrThrow(), User(id: "id", firstName: "F", lastName: "L"));
+      expect(
+          loginState.getResultOrThrow(),
+          User(
+            id: "id",
+            firstName: "F",
+            lastName: "L",
+            loginMode: LoginMode.MILO,
+          ));
     });
 
     test('user is not logged in if she was not previously logged in', () async {
@@ -70,7 +78,14 @@ void main() {
       // Then
       expect(await displayedLoading, true);
       final loginState = resultState.loginState;
-      expect(loginState.getResultOrThrow(), User(id: "id", firstName: "F", lastName: "L"));
+      expect(
+          loginState.getResultOrThrow(),
+          User(
+            id: "id",
+            firstName: "F",
+            lastName: "L",
+            loginMode: LoginMode.MILO,
+          ));
     });
 
     test('user is properly logged in when login successes in SIMILO authentication mode', () async {
@@ -87,7 +102,14 @@ void main() {
       // Then
       expect(await displayedLoading, true);
       final loginState = resultState.loginState;
-      expect(loginState.getResultOrThrow(), User(id: "id", firstName: "F", lastName: "L"));
+      expect(
+          loginState.getResultOrThrow(),
+          User(
+            id: "id",
+            firstName: "F",
+            lastName: "L",
+            loginMode: LoginMode.MILO,
+          ));
     });
 
     test('user is not logged in when login fails', () async {

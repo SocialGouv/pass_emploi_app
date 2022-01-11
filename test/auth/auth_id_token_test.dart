@@ -16,5 +16,14 @@ void main() {
 }
 
 void _assertIsValid(int expiresAt, bool expected) {
-  expect(AuthIdToken(userId: "", lastName: "", firstName: "", expiresAt: expiresAt).isValid(), expected);
+  expect(
+    AuthIdToken(
+      userId: "",
+      lastName: "",
+      firstName: "",
+      expiresAt: expiresAt,
+      loginMode: 'MILO',
+    ).isValid(),
+    expected,
+  );
 }

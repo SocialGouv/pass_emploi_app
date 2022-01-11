@@ -223,9 +223,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           PrimaryActionButton.simple(
-            onPressed: detailsViewModel.displayState == UserActionDetailsDisplayState.SHOW_LOADING
-                ? null
-                : () => detailsViewModel.onDelete(widget.actionViewModel.id),
+            onPressed: () => _onDeleteAction(detailsViewModel),
             label: Strings.deleteAction,
             textColor: AppColors.franceRed,
             backgroundColor: AppColors.franceRedAlpha05,
@@ -246,7 +244,14 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
     );
   }
 
-  _dismissBottomSheetIfNeeded(BuildContext context, UserActionDetailsViewModel viewModel) {
+  void _onDeleteAction(UserActionDetailsViewModel detailsViewModel) {
+    if (detailsViewModel.displayState != UserActionDetailsDisplayState.SHOW_LOADING) {
+      detailsViewModel.onDelete(widget.actionViewModel.id);
+      MatomoTracker.trackScreenWithName(AnalyticsActionNames.deleteUserAction, AnalyticsScreenNames.userActionDetails);
+    }
+  }
+
+  void _dismissBottomSheetIfNeeded(BuildContext context, UserActionDetailsViewModel viewModel) {
     if (viewModel.displayState == UserActionDetailsDisplayState.TO_DISMISS)
       Navigator.pop(context);
     else if (viewModel.displayState == UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION)

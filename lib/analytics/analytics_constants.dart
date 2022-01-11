@@ -33,4 +33,5 @@ class AnalyticsActionNames {
   static const offreEmploiAddFavori = "recherche/emploi/detail?favori=true";
   static const offreEmploiRemoveFavori = "recherche/emploi/detail?favori=false";
 
+  static const deleteUserAction = "actions/list?deleteSuccess=true";
 }

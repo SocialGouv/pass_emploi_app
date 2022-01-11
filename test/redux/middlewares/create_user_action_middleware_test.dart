@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
@@ -39,8 +40,13 @@ main() {
     final createUserAction = CreateUserAction("content", "comment", UserActionStatus.DONE);
     final store = Store<AppState>(
       storeSpy.reducer,
-      initialState: AppState.initialState()
-          .copyWith(loginState: State<User>.success(User(id: "error", firstName: "F", lastName: "L"))),
+      initialState: AppState.initialState().copyWith(
+          loginState: State<User>.success(User(
+        id: "error",
+        firstName: "F",
+        lastName: "L",
+        loginMode: LoginMode.MILO,
+      ))),
     );
 
     // When

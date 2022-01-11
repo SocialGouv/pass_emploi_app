@@ -4,17 +4,21 @@ import 'package:equatable/equatable.dart';
 
 const int _additionalExpirationSecurityIsSeconds = 15;
 
+enum LoginMode { MILO, POLE_EMPLOI, PASS_EMPLOI }
+
 class AuthIdToken extends Equatable {
   final String userId;
   final String firstName;
   final String lastName;
   final int expiresAt;
+  final String loginMode;
 
   AuthIdToken({
     required this.userId,
     required this.firstName,
     required this.lastName,
     required this.expiresAt,
+    required this.loginMode,
   });
 
   factory AuthIdToken.parse(String idToken) {
@@ -35,6 +39,7 @@ class AuthIdToken extends Equatable {
       firstName: json["given_name"],
       lastName: json["family_name"],
       expiresAt: json["exp"] as int,
+      loginMode: json["userStructure"],
     );
   }
 
@@ -42,4 +47,14 @@ class AuthIdToken extends Equatable {
 
   @override
   List<Object?> get props => [userId, firstName, lastName, expiresAt];
+
+  LoginMode getLoginMode() {
+    if (loginMode == "MILO") {
+      return LoginMode.MILO;
+    } else if (loginMode == "POLE_EMPLOI") {
+      return LoginMode.POLE_EMPLOI;
+    } else {
+      return LoginMode.PASS_EMPLOI;
+    }
+  }
 }

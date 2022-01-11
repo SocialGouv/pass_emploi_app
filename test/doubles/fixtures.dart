@@ -1,4 +1,5 @@
 import 'package:http/http.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
@@ -9,9 +10,19 @@ import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 
-User mockUser({id: ""}) => User(id: id, firstName: "", lastName: "");
+User mockUser({id: ""}) => User(
+      id: id,
+      firstName: "",
+      lastName: "",
+      loginMode: LoginMode.MILO,
+    );
 
-State<User> successUserState() => State<User>.success(User(id: "id", firstName: "F", lastName: "L"));
+State<User> successUserState() => State<User>.success(User(
+      id: "id",
+      firstName: "F",
+      lastName: "L",
+      loginMode: LoginMode.MILO,
+    ));
 
 AppState loggedInState() => AppState.initialState().copyWith(loginState: successUserState());
 
