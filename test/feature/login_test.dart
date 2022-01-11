@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
+import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/bootstrap_action.dart';
@@ -129,7 +130,6 @@ void main() {
       expect(loginState.getResultOrThrow(), User(id: "id", firstName: "F", lastName: "L"));
     });
 
-
     test('user is not logged in when login fails', () async {
       // Given
       factory.authenticator = AuthenticatorNotLoggedInStub();
@@ -147,12 +147,12 @@ void main() {
     });
   });
 
-  test("On SYSTEM logout, state is fully reset", () async {
+  test("On SYSTEM logout, state is fully reset except for configuration", () async {
     // Given
     final authenticatorSpy = AuthenticatorSpy();
     factory.authenticator = authenticatorSpy;
     final store = factory.initializeReduxStore(
-      initialState: AppState.initialState().copyWith(
+      initialState: AppState.initialState(configuration: configuration(flavor: Flavor.PROD)).copyWith(
         loginState: UserNotLoggedInState(),
         rendezvousState: State<List<Rendezvous>>.loading(),
       ),
@@ -166,15 +166,17 @@ void main() {
     final newState = await newStateFuture;
     expect(newState.loginState.isNotInitialized(), isTrue);
     expect(newState.rendezvousState.isNotInitialized(), isTrue);
+    expect(newState.configurationState.getFlavor(), Flavor.PROD);
     expect(authenticatorSpy.logoutCalled, isFalse);
   });
 
-  test("On USER logout, user is logged out from authenticator and state is fully reset", () async {
+  test("On USER logout, user is logged out from authenticator and state is fully reset except for configuration",
+      () async {
     // Given
     final authenticatorSpy = AuthenticatorSpy();
     factory.authenticator = authenticatorSpy;
     final store = factory.initializeReduxStore(
-      initialState: AppState.initialState().copyWith(
+      initialState: AppState.initialState(configuration: configuration(flavor: Flavor.PROD)).copyWith(
         loginState: UserNotLoggedInState(),
         rendezvousState: State<List<Rendezvous>>.loading(),
       ),
@@ -188,6 +190,7 @@ void main() {
     final newState = await newStateFuture;
     expect(newState.loginState.isNotInitialized(), isTrue);
     expect(newState.rendezvousState.isNotInitialized(), isTrue);
+    expect(newState.configurationState.getFlavor(), Flavor.PROD);
     expect(authenticatorSpy.logoutCalled, isTrue);
   });
 }

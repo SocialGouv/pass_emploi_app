@@ -82,8 +82,8 @@ AuthTokenResponse authTokenResponse() => AuthTokenResponse(
       refreshToken: 'refreshToken',
     );
 
-Configuration configuration() => Configuration(
-      Flavor.STAGING,
+Configuration configuration({flavor = Flavor.STAGING}) => Configuration(
+      flavor,
       'serverBaseUrl',
       'matomoBaseUrl',
       'matomoSiteId',

@@ -143,7 +143,7 @@ Future<Store<AppState>> _initializeReduxStore(
     FirebaseAuthWrapper(),
     chatCrypto,
     TrackingEventRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
-  ).initializeReduxStore(initialState: AppState.initialState());
+  ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
   accessTokenRetriever.setStore(reduxStore);
   return reduxStore;
 }

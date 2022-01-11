@@ -18,7 +18,7 @@ void main() {
     final state = AppState.initialState().copyWith(loginState: State<User>.loading());
     final store = Store<AppState>(reducer, initialState: state);
 
-    final viewModel = LoginViewModel.create(Flavor.PROD, store);
+    final viewModel = LoginViewModel.create(store);
 
     expect(viewModel.displayState, DisplayState.LOADING);
   });
@@ -27,7 +27,7 @@ void main() {
     final state = AppState.initialState().copyWith(loginState: State<User>.failure());
     final store = Store<AppState>(reducer, initialState: state);
 
-    final viewModel = LoginViewModel.create(Flavor.PROD, store);
+    final viewModel = LoginViewModel.create(store);
 
     expect(viewModel.displayState, DisplayState.FAILURE);
   });
@@ -36,7 +36,7 @@ void main() {
     final state = AppState.initialState().copyWith(loginState: UserNotLoggedInState());
     final store = Store<AppState>(reducer, initialState: state);
 
-    final viewModel = LoginViewModel.create(Flavor.PROD, store);
+    final viewModel = LoginViewModel.create(store);
 
     expect(viewModel.displayState, DisplayState.CONTENT);
   });
@@ -44,7 +44,7 @@ void main() {
   test('View model displays CONTENT when login state is logged in', () {
     final store = Store<AppState>(reducer, initialState: loggedInState());
 
-    final viewModel = LoginViewModel.create(Flavor.PROD, store);
+    final viewModel = LoginViewModel.create(store);
 
     expect(viewModel.displayState, DisplayState.CONTENT);
   });
@@ -52,7 +52,7 @@ void main() {
   test('View model triggers RequestLoginAction with GENERIC mode when generic login is performed', () {
     // Given
     final store = StoreSpy();
-    final viewModel = LoginViewModel.create(Flavor.STAGING, store);
+    final viewModel = LoginViewModel.create(store);
 
     // When
     viewModel.loginButtons[2].action();
@@ -65,7 +65,7 @@ void main() {
   test('View model triggers RequestLoginAction with SIMILO mode when generic login is performed', () {
     // Given
     final store = StoreSpy();
-    final viewModel = LoginViewModel.create(Flavor.PROD, store);
+    final viewModel = LoginViewModel.create(store);
 
     // When
     viewModel.loginButtons[1].action();
@@ -78,7 +78,7 @@ void main() {
   test('View model triggers RequestLoginAction with SIMILO mode when generic login is performed', () {
     // Given
     final store = StoreSpy();
-    final viewModel = LoginViewModel.create(Flavor.PROD, store);
+    final viewModel = LoginViewModel.create(store);
 
     // When
     viewModel.loginButtons[0].action();
@@ -90,11 +90,12 @@ void main() {
 
   test("view model when build is staging should show 3 buttons : mission locale, pole emploi and pass emploi", () {
     // Given
-    final state = AppState.initialState().copyWith(loginState: UserNotLoggedInState());
+    final state = AppState.initialState(configuration: configuration(flavor: Flavor.STAGING))
+        .copyWith(loginState: UserNotLoggedInState());
     final store = Store<AppState>(reducer, initialState: state);
 
     // When
-    final viewModel = LoginViewModel.create(Flavor.STAGING, store);
+    final viewModel = LoginViewModel.create(store);
 
     // Then
     expect(viewModel.loginButtons, [
@@ -106,11 +107,12 @@ void main() {
 
   test("view model when build is prod should show 2 buttons : mission locale and pole emploi", () {
     // Given
-    final state = AppState.initialState().copyWith(loginState: UserNotLoggedInState());
+    final state = AppState.initialState(configuration: configuration(flavor: Flavor.PROD))
+        .copyWith(loginState: UserNotLoggedInState());
     final store = Store<AppState>(reducer, initialState: state);
 
     // When
-    final viewModel = LoginViewModel.create(Flavor.PROD, store);
+    final viewModel = LoginViewModel.create(store);
 
     // Then
     expect(viewModel.loginButtons, [

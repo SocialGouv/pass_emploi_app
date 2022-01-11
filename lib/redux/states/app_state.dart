@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
@@ -7,6 +8,7 @@ import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/states/chat_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
+import 'package:pass_emploi_app/redux/states/configuration_state.dart';
 import 'package:pass_emploi_app/redux/states/create_user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
@@ -39,6 +41,7 @@ class AppState extends Equatable {
   final State<List<Rendezvous>> rendezvousState;
   final State<List<Immersion>> immersionSearchState;
   final State<ImmersionDetails> immersionDetailsState;
+  final ConfigurationState configurationState;
 
   AppState({
     required this.deepLinkState,
@@ -59,6 +62,7 @@ class AppState extends Equatable {
     required this.rendezvousState,
     required this.immersionSearchState,
     required this.immersionDetailsState,
+    required this.configurationState,
   });
 
   AppState copyWith({
@@ -80,6 +84,7 @@ class AppState extends Equatable {
     final State<OffreEmploiDetails>? offreEmploiDetailsState,
     final State<List<Immersion>>? immersionSearchState,
     final State<ImmersionDetails>? immersionDetailsState,
+    final ConfigurationState? configurationState,
   }) {
     return AppState(
       deepLinkState: deepLinkState ?? this.deepLinkState,
@@ -100,21 +105,22 @@ class AppState extends Equatable {
       rendezvousState: rendezvousState ?? this.rendezvousState,
       immersionSearchState: immersionSearchState ?? this.immersionSearchState,
       immersionDetailsState: immersionDetailsState ?? this.immersionDetailsState,
+      configurationState: configurationState ?? this.configurationState,
     );
   }
 
-  factory AppState.initialState() {
+  factory AppState.initialState({Configuration? configuration}) {
     return AppState(
-      deepLinkState: DeepLinkState.notInitialized(),
-      createUserActionState: CreateUserActionState.notInitialized(),
-      userActionUpdateState: UserActionUpdateState.notUpdating(),
-      userActionDeleteState: UserActionDeleteState.notInitialized(),
-      chatStatusState: ChatStatusState.notInitialized(),
-      chatState: ChatState.notInitialized(),
-      offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
-      offreEmploiDetailsState: State<OffreEmploiDetails>.notInitialized(),
-      offreEmploiSearchResultsState: OffreEmploiSearchResultsState.notInitialized(),
-      offreEmploiSearchParametersState: OffreEmploiSearchParametersState.notInitialized(),
+        deepLinkState: DeepLinkState.notInitialized(),
+        createUserActionState: CreateUserActionState.notInitialized(),
+        userActionUpdateState: UserActionUpdateState.notUpdating(),
+        userActionDeleteState: UserActionDeleteState.notInitialized(),
+        chatStatusState: ChatStatusState.notInitialized(),
+        chatState: ChatState.notInitialized(),
+        offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
+        offreEmploiDetailsState: State<OffreEmploiDetails>.notInitialized(),
+        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.notInitialized(),
+        offreEmploiSearchParametersState: OffreEmploiSearchParametersState.notInitialized(),
       offreEmploiFavorisState: OffreEmploiFavorisState.notInitialized(),
       offreEmploiFavorisUpdateState: OffreEmploiFavorisUpdateState({}),
       searchLocationState: SearchLocationState([]),
@@ -123,7 +129,7 @@ class AppState extends Equatable {
       rendezvousState: State<List<Rendezvous>>.notInitialized(),
       immersionSearchState: State<List<Immersion>>.notInitialized(),
       immersionDetailsState: State<ImmersionDetails>.notInitialized(),
-    );
+        configurationState: ConfigurationState(configuration));
   }
 
   @override

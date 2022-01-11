@@ -16,11 +16,11 @@ class LoginViewModel extends Equatable {
     required this.loginButtons,
   });
 
-  factory LoginViewModel.create(Flavor flavor, Store<AppState> store) {
+  factory LoginViewModel.create(Store<AppState> store) {
     final state = store.state.loginState;
     return LoginViewModel(
       displayState: state is UserNotLoggedInState ? DisplayState.CONTENT : displayStateFromState(state),
-      loginButtons: _loginButtons(store, flavor),
+      loginButtons: _loginButtons(store, store.state.configurationState.getFlavor()),
     );
   }
 
