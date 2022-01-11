@@ -81,12 +81,13 @@ AppState _storeInitialSearchParameters(AppState currentState, SearchOffreEmploiA
 AppState _storeUpdatedFiltresSearchParameters(AppState currentState,
     OffreEmploiSearchParametersInitializedState parametersState, OffreEmploiSearchUpdateFiltresAction action) {
   return currentState.copyWith(
-      offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
-        keywords: parametersState.keywords,
-    location: parametersState.location,
-    onlyAlternance: parametersState.onlyAlternance,
-    filtres: action.updatedFiltres,
-  ));
+    offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
+      keywords: parametersState.keywords,
+      location: parametersState.location,
+      onlyAlternance: parametersState.onlyAlternance,
+      filtres: action.updatedFiltres,
+    ),
+  );
 }
 
 AppState _storeOffresWithUpdatedFiltres(AppState currentState, OffreEmploiSearchWithUpdateFiltresSuccessAction action) {
