@@ -4,6 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/login_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -13,12 +14,14 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class LoginPage extends TraceableStatelessWidget {
+  final Flavor _flavor = Flavor.STAGING;
+
   LoginPage() : super(name: AnalyticsScreenNames.login);
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, LoginViewModel>(
-      converter: (store) => LoginViewModel.create(store),
+      converter: (store) => LoginViewModel.create(_flavor, store),
       distinct: true,
       builder: (context, viewModel) => _content(viewModel),
     );
@@ -95,14 +98,16 @@ class LoginPage extends TraceableStatelessWidget {
   }
 
   List<Widget> _loginButtons(LoginViewModel viewModel) {
-    return [
-      _loginButton(viewModel, Strings.loginMissionLocale, () => viewModel.onSimiloLoginAction()),
-      SizedBox(height: 16),
-      _loginButton(viewModel, Strings.loginGeneric, () => viewModel.onGenericLoginAction()),
-    ];
+    final buttonsWithSpaces = viewModel.loginButtons.expand(
+      (e) => [
+        _loginButton(e.label, e.action),
+        SizedBox(height: 16),
+      ],
+    );
+    return buttonsWithSpaces.take(buttonsWithSpaces.length - 1).toList();
   }
 
-  Widget _loginButton(LoginViewModel viewModel, String text, GestureTapCallback onTap) {
+  Widget _loginButton(String text, GestureTapCallback onTap) {
     return Container(
       margin: EdgeInsets.only(left: 16, right: 16),
       child: ClipRRect(

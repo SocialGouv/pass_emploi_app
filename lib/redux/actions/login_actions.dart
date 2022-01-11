@@ -1,6 +1,6 @@
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 
-enum RequestLoginMode { GENERIC, SIMILO }
+enum RequestLoginMode { GENERIC, SIMILO, POLE_EMPLOI }
 enum LogoutRequester { SYSTEM, USER }
 
 class NotLoggedInAction extends LoginAction {}
