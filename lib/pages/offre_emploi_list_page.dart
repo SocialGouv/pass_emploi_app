@@ -20,7 +20,8 @@ import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 class OffreEmploiListPage extends TraceableStatefulWidget {
   final bool onlyAlternance;
 
-  OffreEmploiListPage({required this.onlyAlternance}) : super(name: AnalyticsScreenNames.offreEmploiResults);
+  OffreEmploiListPage({required this.onlyAlternance})
+      : super(name: onlyAlternance ? AnalyticsScreenNames.alternanceResults : AnalyticsScreenNames.offreEmploiResults);
 
   @override
   State<OffreEmploiListPage> createState() => _OffreEmploiListPageState();
@@ -179,28 +180,32 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
 
   Widget _filtreButton(OffreEmploiSearchResultsViewModel viewModel) {
     return PrimaryActionButton(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(Strings.filtrer),
-            SizedBox(width: 12),
-            SvgPicture.asset(Drawables.icFilter),
-            SizedBox(width: 12),
-            if (viewModel.filtresCount != null)
-              Container(
-                decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.bluePurple),
-                width: 22,
-                height: 22,
-                alignment: Alignment.center,
-                child: Text(viewModel.filtresCount!.toString()),
-              ),
-          ],
-        ),
-        onPressed: () => Navigator.push(context, OffreEmploiFiltresPage.materialPageRoute()).then((value) {
-              if (value == true) {
-                _offsetBeforeLoading = 0;
-                if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
-              }
-            }));
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(Strings.filtrer),
+          SizedBox(width: 12),
+          SvgPicture.asset(Drawables.icFilter),
+          SizedBox(width: 12),
+          if (viewModel.filtresCount != null)
+            Container(
+              decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.bluePurple),
+              width: 22,
+              height: 22,
+              alignment: Alignment.center,
+              child: Text(viewModel.filtresCount!.toString()),
+            ),
+        ],
+      ),
+      onPressed: () => Navigator.push(
+        context,
+        OffreEmploiFiltresPage.materialPageRoute(widget.onlyAlternance),
+      ).then((value) {
+        if (value == true) {
+          _offsetBeforeLoading = 0;
+          if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
+        }
+      }),
+    );
   }
 }

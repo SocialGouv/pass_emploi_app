@@ -28,12 +28,23 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   final String _offreId;
   final bool shouldPopPageWhenFavoriIsRemoved;
 
-  OffreEmploiDetailsPage._(this._offreId, {this.shouldPopPageWhenFavoriIsRemoved = false})
-      : super(name: AnalyticsScreenNames.offreEmploiDetails);
+  OffreEmploiDetailsPage._(
+    this._offreId,
+    bool fromAlternance, {
+    this.shouldPopPageWhenFavoriIsRemoved = false,
+  }) : super(name: fromAlternance ? AnalyticsScreenNames.alternanceDetails : AnalyticsScreenNames.offreEmploiDetails);
 
-  static MaterialPageRoute materialPageRoute(String id, {bool shouldPopPageWhenFavoriIsRemoved = false}) {
+  static MaterialPageRoute materialPageRoute(
+    String id, {
+    bool fromAlternance = false,
+    bool shouldPopPageWhenFavoriIsRemoved = false,
+  }) {
     return MaterialPageRoute(builder: (context) {
-      return OffreEmploiDetailsPage._(id, shouldPopPageWhenFavoriIsRemoved: shouldPopPageWhenFavoriIsRemoved);
+      return OffreEmploiDetailsPage._(
+        id,
+        fromAlternance,
+        shouldPopPageWhenFavoriIsRemoved: shouldPopPageWhenFavoriIsRemoved,
+      );
     });
   }
 

@@ -17,9 +17,12 @@ import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
 class OffreEmploiFiltresPage extends TraceableStatefulWidget {
-  OffreEmploiFiltresPage() : super(name: AnalyticsScreenNames.offreEmploiFiltres);
+  OffreEmploiFiltresPage(bool fromAlternance)
+      : super(name: fromAlternance ? AnalyticsScreenNames.alternanceFiltres : AnalyticsScreenNames.offreEmploiFiltres);
 
-  static MaterialPageRoute materialPageRoute() => MaterialPageRoute(builder: (_) => OffreEmploiFiltresPage());
+  static MaterialPageRoute materialPageRoute(bool fromAlternance) {
+    return MaterialPageRoute(builder: (_) => OffreEmploiFiltresPage(fromAlternance));
+  }
 
   @override
   State<OffreEmploiFiltresPage> createState() => _OffreEmploiFiltresPageState();
@@ -27,18 +30,18 @@ class OffreEmploiFiltresPage extends TraceableStatefulWidget {
 
 class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
   double? _currentSliderValue;
-  List<CheckboxValueViewModel<ExperienceFiltre>>? _currentExperiencefiltres;
-  List<CheckboxValueViewModel<ContratFiltre>>? _currentContratfiltres;
-  List<CheckboxValueViewModel<DureeFiltre>>? _currentDureefiltres;
+  List<CheckboxValueViewModel<ExperienceFiltre>>? _currentExperienceFiltres;
+  List<CheckboxValueViewModel<ContratFiltre>>? _currentContratFiltres;
+  List<CheckboxValueViewModel<DureeFiltre>>? _currentDureeFiltres;
   var _hasFormChanged = false;
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, OffreEmploiFiltresViewModel>(
       onInitialBuild: (viewModel) {
-        _currentExperiencefiltres = viewModel.experienceFiltres.where((element) => element.isInitiallyChecked).toList();
-        _currentContratfiltres = viewModel.contratFiltres.where((element) => element.isInitiallyChecked).toList();
-        _currentDureefiltres = viewModel.dureeFiltres.where((element) => element.isInitiallyChecked).toList();
+        _currentExperienceFiltres = viewModel.experienceFiltres.where((element) => element.isInitiallyChecked).toList();
+        _currentContratFiltres = viewModel.contratFiltres.where((element) => element.isInitiallyChecked).toList();
+        _currentDureeFiltres = viewModel.dureeFiltres.where((element) => element.isInitiallyChecked).toList();
       },
       converter: (store) => OffreEmploiFiltresViewModel.create(store),
       builder: (context, viewModel) => _scaffold(context, viewModel),
@@ -76,7 +79,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
               onSelectedOptionsUpdated: (selectedOptions) {
                 setState(() {
                   _hasFormChanged = true;
-                  _currentExperiencefiltres = selectedOptions as List<CheckboxValueViewModel<ExperienceFiltre>>;
+                  _currentExperienceFiltres = selectedOptions as List<CheckboxValueViewModel<ExperienceFiltre>>;
                 });
               },
             ),
@@ -87,7 +90,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
               onSelectedOptionsUpdated: (selectedOptions) {
                 setState(() {
                   _hasFormChanged = true;
-                  _currentContratfiltres = selectedOptions as List<CheckboxValueViewModel<ContratFiltre>>;
+                  _currentContratFiltres = selectedOptions as List<CheckboxValueViewModel<ContratFiltre>>;
                 });
               },
             ),
@@ -98,7 +101,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
               onSelectedOptionsUpdated: (selectedOptions) {
                 setState(() {
                   _hasFormChanged = true;
-                  _currentDureefiltres = selectedOptions as List<CheckboxValueViewModel<DureeFiltre>>;
+                  _currentDureeFiltres = selectedOptions as List<CheckboxValueViewModel<DureeFiltre>>;
                 });
               },
             ),
@@ -174,10 +177,10 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
       child: PrimaryActionButton.simple(
         onPressed: _hasFormChanged && viewModel.displayState != DisplayState.LOADING
             ? () => viewModel.updateFiltres(
-                  _sliderValueToDisplay(viewModel).toInt(),
-                  _currentExperiencefiltres ?? [],
-                  _currentContratfiltres ?? [],
-                  _currentDureefiltres ?? [],
+          _sliderValueToDisplay(viewModel).toInt(),
+                  _currentExperienceFiltres ?? [],
+                  _currentContratFiltres ?? [],
+                  _currentDureeFiltres ?? [],
                 )
             : null,
         label: Strings.applyFiltres,
