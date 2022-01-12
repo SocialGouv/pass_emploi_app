@@ -44,7 +44,8 @@ class Strings {
   static String mandatoryAccessCodeError = "Votre code d\'accès doit être renseigné";
   static String yourAccessCode = "Votre code d\'accès";
   static String loginError = "Erreur lors de la connexion";
-  static String loginGeneric = "Je suis suivi(e) par Pôle emploi";
+  static String loginPassEmploi = "Connexion pass emploi";
+  static String loginPoleEmploi = "Je suis suivi(e) par Pôle emploi";
   static String loginMissionLocale = "Je suis suivi(e) par la Mission Locale";
   static String loginAction = "Se connecter";
   static String logoutAction = "Me déconnecter";

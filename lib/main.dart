@@ -99,8 +99,10 @@ Future<bool> _shouldForceUpdate(RemoteConfig? remoteConfig) async {
   return AppVersionChecker().shouldForceUpdate(currentVersion: currentVersion, minimumVersion: minimumVersion);
 }
 
-Future<Store<AppState>> _initializeReduxStore(Configuration configuration,
-    PushNotificationManager pushNotificationManager,) async {
+Future<Store<AppState>> _initializeReduxStore(
+  Configuration configuration,
+  PushNotificationManager pushNotificationManager,
+) async {
   final headersBuilder = HeadersBuilder();
   final securedPreferences = FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true));
   final authenticator = Authenticator(AuthWrapper(FlutterAppAuth()), configuration, securedPreferences);
@@ -141,7 +143,7 @@ Future<Store<AppState>> _initializeReduxStore(Configuration configuration,
     FirebaseAuthWrapper(),
     chatCrypto,
     TrackingEventRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
-  ).initializeReduxStore(initialState: AppState.initialState());
+  ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
   accessTokenRetriever.setStore(reduxStore);
   return reduxStore;
 }

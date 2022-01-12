@@ -4,6 +4,8 @@ import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:redux/redux.dart';
 
+import 'fixtures.dart';
+
 class NextDispatcherSpy {
   bool wasCalled = false;
   late final dynamic _expectedAction;
@@ -21,7 +23,7 @@ class NextDispatcherSpy {
 class StoreSpy extends Store<AppState> {
   late Object dispatchedAction;
 
-  StoreSpy() : super(reducer, initialState: AppState.initialState());
+  StoreSpy() : super(reducer, initialState: AppState.initialState(configuration: configuration()));
 
   @override
   dispatch(action) => dispatchedAction = action;

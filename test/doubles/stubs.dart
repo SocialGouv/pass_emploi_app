@@ -101,8 +101,9 @@ class HeadersBuilderStub extends HeadersBuilder {
 
 class AuthenticatorLoggedInStub extends Authenticator {
   final AuthenticationMode? expectedMode;
+  final String? authIdTokenLoginMode;
 
-  AuthenticatorLoggedInStub({this.expectedMode})
+  AuthenticatorLoggedInStub({this.expectedMode, this.authIdTokenLoginMode})
       : super(
           DummyAuthWrapper(),
           configuration(),
@@ -120,11 +121,11 @@ class AuthenticatorLoggedInStub extends Authenticator {
 
   @override
   Future<AuthIdToken?> idToken() async => AuthIdToken(
-        userId: "id",
+    userId: "id",
         firstName: "F",
         lastName: "L",
         expiresAt: 100000000,
-        loginMode: "MILO",
+        loginMode: authIdTokenLoginMode ?? "MILO",
       );
 }
 
