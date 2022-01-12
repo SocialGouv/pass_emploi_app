@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/filter_button.dart';
 import 'package:pass_emploi_app/widgets/offre_emploi_list_item.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 
@@ -173,29 +174,8 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
   }
 
   Widget _filterButton(OffreEmploiSearchResultsViewModel viewModel) {
-    return PrimaryActionButton(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(Strings.filtrer, style: TextStyles.textPrimaryButton.copyWith(fontSize: FontSizes.medium),),
-            SizedBox(width: 12),
-            SvgPicture.asset(Drawables.icFilter, height: 18, width: 18,),
-            SizedBox(width: 16),
-            if (viewModel.filtresCount != null)
-              Container(
-                decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
-                width: 24,
-                height: 24,
-                alignment: Alignment.center,
-                child: Text(viewModel.filtresCount!.toString(), style: TextStyle(
-                  color: Colors.black,
-                  fontSize: FontSizes.normal,
-                  fontWeight: FontWeight.w700,
-                  fontFamily: 'Marianne',
-                ),),
-              ),
-          ],
-        ),
+    return FilterButton.simple(
+      filtresCount: viewModel.filtresCount,
         onPressed: () => Navigator.push(context, OffreEmploiFiltresPage.materialPageRoute()).then((value) {
               if (value == true) {
                 _offsetBeforeLoading = 0;

@@ -5,6 +5,7 @@ import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/favori_heart_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/secondary_icon_button.dart';
@@ -39,6 +40,7 @@ class FavoriHeart extends StatelessWidget {
   Widget _buildHeart(BuildContext context, FavoriHeartViewModel viewModel) {
     return SecondaryIconButton(
       drawableRes: viewModel.isFavori ? Drawables.icHeartFull : Drawables.icHeart,
+      iconColor: AppColors.favoriteHeartColor,
       onTap: () {
         viewModel.update(!viewModel.isFavori);
         _sendTracking(viewModel.isFavori);
