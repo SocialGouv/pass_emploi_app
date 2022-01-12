@@ -55,9 +55,9 @@ _displayName(UserActionCreator creator) {
 
 UserActionTagViewModel? _userActionTagViewModel(userAction) {
   switch (userAction.status) {
-    case UserActionStatus.DONE:
+    case UserActionStatus.NOT_STARTED:
       return UserActionTagViewModel(
-        title: Strings.actionDone,
+        title: Strings.actionToDo,
         backgroundColor: AppColors.blueGrey,
         textColor: AppColors.nightBlue,
       );
@@ -67,7 +67,7 @@ UserActionTagViewModel? _userActionTagViewModel(userAction) {
         backgroundColor: AppColors.purple,
         textColor: Colors.white,
       );
-    case UserActionStatus.NOT_STARTED:
+    case UserActionStatus.DONE:
       return null;
   }
 }

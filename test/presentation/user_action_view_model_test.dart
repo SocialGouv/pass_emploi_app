@@ -61,13 +61,7 @@ main() {
 
     // Then
     expect(viewModel.status, UserActionStatus.DONE);
-    expect(
-        viewModel.tag,
-        UserActionTagViewModel(
-          title: Strings.actionDone,
-          backgroundColor: AppColors.blueGrey,
-          textColor: AppColors.nightBlue,
-        ));
+    expect(viewModel.tag, null);
   });
 
   test("UserActionViewModel.create when status is not started should create view model properly", () {
@@ -86,7 +80,13 @@ main() {
 
     // Then
     expect(viewModel.status, UserActionStatus.NOT_STARTED);
-    expect(viewModel.tag, null);
+    expect(
+        viewModel.tag,
+        UserActionTagViewModel(
+          title: Strings.actionToDo,
+          backgroundColor: AppColors.blueGrey,
+          textColor: AppColors.nightBlue,
+        ));
   });
 
   test("UserActionViewModel.create when status is in progress should create view model properly", () {
