@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -6,11 +5,13 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 class SecondaryIconButton extends StatelessWidget {
   final String drawableRes;
   final VoidCallback? onTap;
+  final Color iconColor;
 
   const SecondaryIconButton({
     Key? key,
     required this.drawableRes,
     required this.onTap,
+    this.iconColor = AppColors.primary,
   }) : super(key: key);
 
   @override
@@ -30,7 +31,7 @@ class SecondaryIconButton extends StatelessWidget {
               child: SvgPicture.asset(
                 drawableRes,
                 width: 18,
-                color: AppColors.primary,
+                color: this.iconColor,
               ),
             ),
           ),
