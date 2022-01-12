@@ -5,6 +5,7 @@ class PostOffreEmploiFavori implements JsonSerializable {
   final String title;
   final String? companyName;
   final String contractType;
+  final bool isAlternance;
   final String? location;
   final String? duration;
 
@@ -13,12 +14,14 @@ class PostOffreEmploiFavori implements JsonSerializable {
     this.title,
     this.companyName,
     this.contractType,
+    this.isAlternance,
     this.location,
     this.duration,
   );
 
   @override
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() =>
+      {
         "idOffre": id,
         "titre": title,
         "typeContrat": contractType,
@@ -26,7 +29,7 @@ class PostOffreEmploiFavori implements JsonSerializable {
         "localisation": {
           "nom": location,
         },
-        "alternance": false,
+        "alternance": isAlternance,
         "duree": duration,
       };
 }

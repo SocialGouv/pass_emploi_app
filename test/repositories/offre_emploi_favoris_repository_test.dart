@@ -39,112 +39,103 @@ main() {
   });
 
   test(
-      "updateOffreEmploiFavoriStatus when adding favori should post correct data when most fields are null and return true when response is valid",
+      "postFavori when adding favori should post correct data when most fields are null and return true when response is valid",
       () async {
     // Given
     final httpClient = _mockClientForPartialData();
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final result = await repository.postFavori(
-      "jeuneId",
-      _offreWithPartialData(),
-    );
+    final result = await repository.postFavori("jeuneId", _offreWithPartialData());
 
     // Then
     expect(result, isTrue);
   });
 
   test(
-      "updateOffreEmploiFavoriStatus when adding favori should post correct data when all fields are not null and return true when response is valid",
+      "postFavori when adding favori should post correct data when all fields are not null and return true when response is valid",
       () async {
     // Given
-    final httpClient = _mockClientForFullData();
+    final httpClient = _mockClientForFullData(expectedAlternance: false);
 
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final result = await repository.postFavori(
-      "jeuneId",
-      _offreWithFullData(),
-    );
+    final result = await repository.postFavori("jeuneId", _offreWithFullData(isAlternance: false));
 
     // Then
     expect(result, isTrue);
   });
 
-  test(
-      "updateOffreEmploiFavoriStatus when removing favori should delete with correct id and return true when response is valid",
+  test("postFavori when adding alternance favori should post correct data and return true", () async {
+    // Given
+    final httpClient = _mockClientForFullData(expectedAlternance: true);
+
+    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+
+    // When
+    final result = await repository.postFavori("jeuneId", _offreWithFullData(isAlternance: true));
+
+    // Then
+    expect(result, isTrue);
+  });
+
+  test("deleteFavori when removing favori should delete with correct id and return true when response is valid",
       () async {
     // Given
     final httpClient = _successfulClientForDelete();
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final result = await repository.deleteFavori(
-      "jeuneId",
-      "offreId",
-    );
+    final result = await repository.deleteFavori("jeuneId", "offreId");
 
     // Then
     expect(result, isTrue);
   });
 
-  test("updateOffreEmploiFavoriStatus when removing favori should return true when response is a 404", () async {
+  test("deleteFavori when removing favori should return true when response is a 404", () async {
     // Given
     final httpClient = _notFoundClient();
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final result = await repository.deleteFavori(
-      "jeuneId",
-      "offreId",
-    );
+    final result = await repository.deleteFavori("jeuneId", "offreId");
 
     // Then
     expect(result, true);
   });
 
-  test("updateOffreEmploiFavoriStatus when removing favori should return false when response is invalid", () async {
+  test("deleteFavori when removing favori should return false when response is invalid", () async {
     // Given
     final httpClient = _failureClient();
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final result = await repository.deleteFavori(
-      "jeuneId",
-      "offreId",
-    );
+    final result = await repository.deleteFavori("jeuneId", "offreId");
 
     // Then
     expect(result, isFalse);
   });
 
-  test("updateOffreEmploiFavoriStatus when adding favori should return false when response is invalid", () async {
+  test("postFavori when adding favori should return false when response is invalid", () async {
     // Given
     final httpClient = _failureClient();
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final result = await repository.postFavori(
-      "jeuneId",
-      _offreWithPartialData(),
-    );
+    final result = await repository.postFavori("jeuneId", _offreWithPartialData());
 
     // Then
     expect(result, isFalse);
   });
 
-  test("updateOffreEmploiFavoriStatus when adding favori should return true when response is 409", () async {
+  test("postFavori when adding favori should return true when response is 409", () async {
     // Given
     final httpClient = _alreadyExistsClient();
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final result = await repository.postFavori(
-      "jeuneId",
-      _offreWithPartialData(),
-    );
+    final result = await repository.postFavori("jeuneId", _offreWithPartialData());
 
     // Then
     expect(result, isTrue);
@@ -247,7 +238,7 @@ MockClient _successfulClientForDelete() {
   });
 }
 
-MockClient _mockClientForFullData() {
+MockClient _mockClientForFullData({required bool expectedAlternance}) {
   return MockClient((request) async {
     if (request.method != "POST") return invalidHttpResponse();
     if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favori")) return invalidHttpResponse();
@@ -258,7 +249,7 @@ MockClient _mockClientForFullData() {
     if (requestJson["nomEntreprise"] != "companyName") return invalidHttpResponse(message: "titre KO");
     if (requestJson["typeContrat"] != "otherContractType") return invalidHttpResponse(message: "typeContrat KO");
     if (requestJson["localisation"]["nom"] != "Marseille") return invalidHttpResponse(message: "alternance KO");
-    if (requestJson["alternance"] != false) return invalidHttpResponse(message: "alternance KO");
+    if (requestJson["alternance"] != expectedAlternance) return invalidHttpResponse(message: "alternance KO");
     return Response("", 201);
   });
 }
@@ -289,13 +280,13 @@ OffreEmploi _offreWithPartialData() {
   );
 }
 
-OffreEmploi _offreWithFullData() {
+OffreEmploi _offreWithFullData({required bool isAlternance}) {
   return OffreEmploi(
     id: "offreId2",
     duration: "duration",
     contractType: "otherContractType",
     companyName: "companyName",
-    isAlternance: false,
+    isAlternance: isAlternance,
     location: "Marseille",
     title: "otherTitle",
   );
