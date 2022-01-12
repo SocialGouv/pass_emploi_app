@@ -33,9 +33,8 @@ class PlusPage extends TraceableStatelessWidget {
                         StoreProvider.of<AppState>(context).dispatch(RequestLogoutAction(LogoutRequester.USER));
                       },
                       label: Strings.logoutAction,
-                      textColor: AppColors.franceRed,
-                      backgroundColor: AppColors.franceRedAlpha05,
-                      disabledBackgroundColor: AppColors.redGrey,
+                      textColor: AppColors.warning,
+                      backgroundColor: AppColors.warningLighten,
                       rippleColor: AppColors.redGrey,
                     ),
                   ),
