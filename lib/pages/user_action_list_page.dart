@@ -70,12 +70,23 @@ class _UserActionListPageState extends State<UserActionListPage> {
     return ListView.separated(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
       itemCount: viewModel.items.length,
-      itemBuilder: (context, i) => _tapListener(context, viewModel.items[i], viewModel),
+      itemBuilder: (context, i) => _listItem(context, viewModel.items[i], viewModel),
       separatorBuilder: (context, i) => _listSeparator(),
     );
   }
 
   Container _listSeparator() => Container(height: 1, color: AppColors.bluePurpleAlpha20);
+
+  Widget _listItem(BuildContext context, UserActionListPageItem item, UserActionListPageViewModel viewModel) {
+    if (item is UserActionListSubtitle) {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(0, 40, 0, 16),
+        child: Text(item.title, style: TextStyles.textMdMedium),
+      );
+    } else {
+      return _tapListener(context, (item as UserActionListItemViewModel).viewModel, viewModel);
+    }
+  }
 
   Widget _tapListener(BuildContext context, UserActionViewModel item, UserActionListPageViewModel viewModel) {
     return Container(
