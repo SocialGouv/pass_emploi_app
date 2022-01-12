@@ -17,7 +17,7 @@ enum RefreshTokenStatus { SUCCESSFUL, GENERIC_ERROR, USER_NOT_LOGGED_IN, NETWORK
 enum AuthenticationMode { GENERIC, SIMILO, POLE_EMPLOI }
 
 const Map<String, String> similoAdditionalParameters = {"kc_idp_hint": "similo-jeune"};
-const Map<String, String> poleEmploiAdditionalParameters = {"kc_idp_hint": "pole-emploi-jeune"};
+const Map<String, String> poleEmploiAdditionalParameters = {"kc_idp_hint": "pe-jeune"};
 
 class Authenticator {
   final AuthWrapper _authWrapper;

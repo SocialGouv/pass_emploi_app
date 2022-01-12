@@ -56,7 +56,7 @@ void main() {
     test('token is saved and returned when login in POLE_EMPLOI mode is successful', () async {
       // Given
       authWrapperStub.withLoginArgsResolves(
-        _authTokenRequest(additionalParameters: {"kc_idp_hint": "pole-emploi-jeune"}),
+        _authTokenRequest(additionalParameters: {"kc_idp_hint": "pe-jeune"}),
         authTokenResponse(),
       );
 
