@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
@@ -7,7 +8,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
-class UserActionViewModel {
+class UserActionViewModel extends Equatable {
   final String id;
   final String content;
   final String comment;
@@ -43,6 +44,9 @@ class UserActionViewModel {
       withDeleteOption: userAction.creator is! ConseillerActionCreator,
     );
   }
+
+  @override
+  List<Object?> get props => [id, content, comment, withComment, status, lastUpdate, creator, tag, withDeleteOption];
 }
 
 _displayName(UserActionCreator creator) {
@@ -72,7 +76,7 @@ UserActionTagViewModel? _userActionTagViewModel(userAction) {
   }
 }
 
-class UserActionTagViewModel {
+class UserActionTagViewModel extends Equatable {
   final String title;
   final Color backgroundColor;
   final Color textColor;
@@ -94,4 +98,7 @@ class UserActionTagViewModel {
 
   @override
   int get hashCode => title.hashCode ^ backgroundColor.hashCode ^ textColor.hashCode;
+
+  @override
+  List<Object?> get props => [title, backgroundColor, textColor];
 }

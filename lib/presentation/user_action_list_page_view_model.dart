@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
@@ -6,7 +7,7 @@ import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
-class UserActionListPageViewModel {
+class UserActionListPageViewModel extends Equatable {
   final bool withLoading;
   final bool withFailure;
   final bool withEmptyMessage;
@@ -40,6 +41,9 @@ class UserActionListPageViewModel {
       onCreateUserActionDismissed: () => store.dispatch(DismissCreateUserAction()),
     );
   }
+
+  @override
+  List<Object?> get props => [withLoading, withFailure, withEmptyMessage, items];
 }
 
 bool _isEmpty(State<List<UserAction>> state) => state.isSuccess() && state.getResultOrThrow().isEmpty;
@@ -77,16 +81,22 @@ List<UserActionListPageItem> _listItems({
   ];
 }
 
-abstract class UserActionListPageItem {}
+abstract class UserActionListPageItem extends Equatable {}
 
 class UserActionListSubtitle extends UserActionListPageItem {
   final String title;
 
   UserActionListSubtitle(this.title);
+
+  @override
+  List<Object?> get props => [title];
 }
 
 class UserActionListItemViewModel extends UserActionListPageItem {
   final UserActionViewModel viewModel;
 
   UserActionListItemViewModel(this.viewModel);
+
+  @override
+  List<Object?> get props => [viewModel];
 }
