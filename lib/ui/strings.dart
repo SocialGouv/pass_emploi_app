@@ -95,6 +95,9 @@ class Strings {
   static String deleteActionError = "Erreur lors de la suppression de l'action. Veuillez réessayer";
   static String deleteActionSuccess = "L’action a bien été supprimée";
 
+  static String lastUpdateFormat(String formattedDate) => "Modifiée le $formattedDate";
+  static String doneActionsTitle = "Actions terminées";
+
   // Solutions
   static String searchingPageTitle = "Recherche de solutions";
   static String keyWordsTitle = "Mots clés";

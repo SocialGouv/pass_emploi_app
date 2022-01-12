@@ -6,7 +6,6 @@ import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
@@ -73,28 +72,22 @@ main() {
     expect(storeSpy.calledWithRetry, true);
   });
 
-  test('create when action state is success with actions should display them', () {
+  test(
+      "create when action state is success with active and done actions should display them separated by done actions title",
+      () {
     // Given
     final store = Store<AppState>(
       reducer,
       initialState: loggedInState().copyWith(
           userActionState: State<List<UserAction>>.success([
-        UserAction(
-          id: "id",
-          content: "content",
-          comment: "comment",
-          status: UserActionStatus.DONE,
-          lastUpdate: DateTime(2022, 12, 23, 0, 0, 0),
-          creator: JeuneActionCreator(),
-        ),
-        UserAction(
-          id: "id2",
-          content: "content2",
-          comment: "",
-          status: UserActionStatus.NOT_STARTED,
-          lastUpdate: DateTime(2022, 11, 13, 0, 0, 0),
-          creator: ConseillerActionCreator(name: "Nils Tavernier"),
-        ),
+        _userAction(status: UserActionStatus.DONE),
+        _userAction(status: UserActionStatus.IN_PROGRESS),
+        _userAction(status: UserActionStatus.DONE),
+        _userAction(status: UserActionStatus.NOT_STARTED),
+        _userAction(status: UserActionStatus.IN_PROGRESS),
+        _userAction(status: UserActionStatus.NOT_STARTED),
+        _userAction(status: UserActionStatus.DONE),
+        _userAction(status: UserActionStatus.IN_PROGRESS),
       ])),
     );
 
@@ -102,23 +95,17 @@ main() {
     final viewModel = UserActionListPageViewModel.create(store);
 
     // Then
-    expect(viewModel.withLoading, false);
-    expect(viewModel.withFailure, false);
-    expect(viewModel.items.length, 2);
-    expect(viewModel.items[0].id, "id");
-    expect(viewModel.items[0].content, "content");
-    expect(viewModel.items[0].comment, "comment");
-    expect(viewModel.items[0].withComment, true);
-    expect(viewModel.items[0].status, UserActionStatus.DONE);
-    expect(viewModel.items[0].lastUpdate, DateTime(2022, 12, 23, 0, 0, 0));
-    expect(viewModel.items[0].creator, Strings.you);
-    expect(viewModel.items[1].id, "id2");
-    expect(viewModel.items[1].content, "content2");
-    expect(viewModel.items[1].comment, "");
-    expect(viewModel.items[1].withComment, false);
-    expect(viewModel.items[1].status, UserActionStatus.NOT_STARTED);
-    expect(viewModel.items[1].lastUpdate, DateTime(2022, 11, 13, 0, 0, 0));
-    expect(viewModel.items[1].creator, "Nils Tavernier");
+    expect(viewModel.items.length, 9);
+    for (var i = 0; i < 5; ++i) {
+      expect(viewModel.items[i] is UserActionListItemViewModel, isTrue);
+      expect((viewModel.items[i] as UserActionListItemViewModel).viewModel.status != UserActionStatus.DONE, isTrue);
+    }
+    expect(viewModel.items[5] is UserActionListSubtitle, isTrue);
+    expect((viewModel.items[5] as UserActionListSubtitle).title, "Actions terminées");
+    for (var i = 6; i < 9; ++i) {
+      expect(viewModel.items[i] is UserActionListItemViewModel, isTrue);
+      expect((viewModel.items[i] as UserActionListItemViewModel).viewModel.status == UserActionStatus.DONE, isTrue);
+    }
   });
 
   test('create when action state is success but there are no actions should display an empty message', () {
@@ -136,6 +123,55 @@ main() {
     expect(viewModel.withFailure, false);
     expect(viewModel.withEmptyMessage, true);
     expect(viewModel.items.length, 0);
+  });
+
+  test("create when action state is success with only active actions should display them", () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: loggedInState().copyWith(
+          userActionState: State<List<UserAction>>.success([
+        _userAction(status: UserActionStatus.IN_PROGRESS),
+        _userAction(status: UserActionStatus.NOT_STARTED),
+        _userAction(status: UserActionStatus.IN_PROGRESS),
+        _userAction(status: UserActionStatus.NOT_STARTED),
+        _userAction(status: UserActionStatus.IN_PROGRESS),
+      ])),
+    );
+
+    // When
+    final viewModel = UserActionListPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.items.length, 5);
+    for (var i = 0; i < 5; ++i) {
+      expect(viewModel.items[i] is UserActionListItemViewModel, isTrue);
+      expect((viewModel.items[i] as UserActionListItemViewModel).viewModel.status != UserActionStatus.DONE, isTrue);
+    }
+  });
+
+  test("create when all actions are done should set item count to actions count + 1 to display title", () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: loggedInState().copyWith(
+          userActionState: State<List<UserAction>>.success([
+        _userAction(status: UserActionStatus.DONE),
+        _userAction(status: UserActionStatus.DONE),
+      ])),
+    );
+
+    // When
+    final viewModel = UserActionListPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.items.length, 3);
+    expect(viewModel.items[0] is UserActionListSubtitle, isTrue);
+    expect((viewModel.items[0] as UserActionListSubtitle).title, "Actions terminées");
+    for (var i = 1; i < 3; ++i) {
+      expect(viewModel.items[i] is UserActionListItemViewModel, isTrue);
+      expect((viewModel.items[i] as UserActionListItemViewModel).viewModel.status == UserActionStatus.DONE, isTrue);
+    }
   });
 
   test('onUserActionDetailsDismissed should dispatch DismissUserActionDetailsAction', () {
@@ -169,6 +205,17 @@ main() {
     // Then
     expect(storeSpy.calledWithDismissCreate, true);
   });
+}
+
+UserAction _userAction({required UserActionStatus status}) {
+  return UserAction(
+    id: "id",
+    content: "content",
+    comment: "comment",
+    status: status,
+    lastUpdate: DateTime(2022, 12, 23, 0, 0, 0),
+    creator: JeuneActionCreator(),
+  );
 }
 
 class StoreSpy {

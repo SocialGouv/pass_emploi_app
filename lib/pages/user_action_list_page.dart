@@ -17,6 +17,7 @@ import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/user_action_details_bottom_sheet.dart';
+import 'package:pass_emploi_app/widgets/user_action_list_item.dart';
 
 class UserActionListPage extends TraceableStatefulWidget {
   UserActionListPage() : super(name: AnalyticsScreenNames.userActionList);
@@ -30,22 +31,41 @@ class UserActionListPage extends TraceableStatefulWidget {
 }
 
 class _UserActionListPageState extends State<UserActionListPage> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, UserActionListPageViewModel>(
       onInit: (store) => store.dispatch(RequestUserActionsAction()),
-      builder: (context, viewModel) => _scaffold(context, viewModel, _body(context, viewModel)),
+      builder: (context, viewModel) => _scaffold(context, viewModel),
       converter: (store) => UserActionListPageViewModel.create(store),
+      distinct: true,
+      onDidChange: (previousViewModel, viewModel) {
+        if (_scrollController.hasClients) {
+          _scrollController.jumpTo(0);
+        }
+      },
     );
   }
 
-  Widget _scaffold(BuildContext context, UserActionListPageViewModel viewModel, Widget body) {
+  Widget _scaffold(BuildContext context, UserActionListPageViewModel viewModel) {
     return Scaffold(
       backgroundColor: AppColors.lightBlue,
       body: Stack(
         children: [
-          DefaultAnimatedSwitcher(child: body),
+          DefaultAnimatedSwitcher(child: _animatedBody(context, viewModel)),
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _createUserActionButton(viewModel)),
@@ -55,7 +75,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
     );
   }
 
-  Widget _body(BuildContext context, UserActionListPageViewModel viewModel) {
+  Widget _animatedBody(BuildContext context, UserActionListPageViewModel viewModel) {
     if (viewModel.withLoading) return _loader();
     if (viewModel.withFailure) return Center(child: Retry(Strings.actionsError, () => viewModel.onRetry()));
     if (viewModel.withEmptyMessage) return _empty();
@@ -68,14 +88,26 @@ class _UserActionListPageState extends State<UserActionListPage> {
 
   Widget _userActionsList(BuildContext context, UserActionListPageViewModel viewModel) {
     return ListView.separated(
+      controller: _scrollController,
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
       itemCount: viewModel.items.length,
-      itemBuilder: (context, i) => _tapListener(context, viewModel.items[i], viewModel),
+      itemBuilder: (context, i) => _listItem(context, viewModel.items[i], viewModel),
       separatorBuilder: (context, i) => _listSeparator(),
     );
   }
 
   Container _listSeparator() => Container(height: 1, color: AppColors.bluePurpleAlpha20);
+
+  Widget _listItem(BuildContext context, UserActionListPageItem item, UserActionListPageViewModel viewModel) {
+    if (item is UserActionListSubtitle) {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(0, 40, 0, 16),
+        child: Text(item.title, style: TextStyles.textMdMedium),
+      );
+    } else {
+      return _tapListener(context, (item as UserActionListItemViewModel).viewModel, viewModel);
+    }
+  }
 
   Widget _tapListener(BuildContext context, UserActionViewModel item, UserActionListPageViewModel viewModel) {
     return Container(
@@ -88,55 +120,9 @@ class _UserActionListPageState extends State<UserActionListPage> {
             builder: (context) => UserActionDetailsBottomSheet(item),
           ).then((value) => _onUserActionDetailsDismissed(context, value, viewModel)),
           splashColor: AppColors.bluePurple,
-          child: _listItem(item, viewModel),
+          child: UserActionListItem(item: item),
         ),
       ),
-    );
-  }
-
-  Widget _listItem(UserActionViewModel item, UserActionListPageViewModel viewModel) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (item.tag != null)
-            _tagPadding(
-              tag: _tag(
-                  title: item.tag!.title, backgroundColor: item.tag!.backgroundColor, textColor: item.tag!.textColor),
-            ),
-          if (item.tag != null) SizedBox(height: 4),
-          Text(
-            item.content,
-            style: TextStyles.textSmMedium(),
-          ),
-          SizedBox(height: 4),
-          if (item.withComment) Text(item.comment, style: TextStyles.textSmRegular())
-        ],
-      ),
-    );
-  }
-
-  Padding _tagPadding({required Widget tag}) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
-      child: Align(alignment: Alignment.centerLeft, child: tag),
-    );
-  }
-
-  Container _tag({required String title, required Color backgroundColor, required Color textColor}) {
-    return Container(
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.all(Radius.circular(16)),
-      ),
-      child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
-          child: Text(
-            title,
-            style: TextStyles.textSmMedium(color: textColor),
-          )),
     );
   }
 
