@@ -68,16 +68,7 @@ _displayLoader(OffreEmploiSearchResultsState resultsState) =>
 
 List<OffreEmploiItemViewModel> _items(OffreEmploiSearchResultsState resultsState) {
   return resultsState is OffreEmploiSearchResultsDataState
-      ? resultsState.offres
-          .map((e) => OffreEmploiItemViewModel(
-                id: e.id,
-                title: e.title,
-                companyName: e.companyName,
-                contractType: e.contractType,
-                duration: e.duration,
-                location: e.location,
-              ))
-          .toList()
+      ? resultsState.offres.map((e) => OffreEmploiItemViewModel.create(e)).toList()
       : [];
 }
 

@@ -19,48 +19,28 @@ class OffreEmploiFavorisListViewModel extends Equatable {
   OffreEmploiFavorisListViewModel._({required this.items, required this.displayState, required this.onRetry});
 
   factory OffreEmploiFavorisListViewModel.create(Store<AppState> store, {required bool onlyAlternance}) {
-    final relevantFavoris = _relevantFavoris(store.state.offreEmploiFavorisState, onlyAlternance);
-    return OffreEmploiFavorisListViewModel._(
-      items: _items(relevantFavoris),
-      displayState: _displayState(store.state.offreEmploiFavorisState, relevantFavoris),
-      onRetry: () => store.dispatch(RequestOffreEmploiFavorisAction()),
-    );
+    final state = store.state.offreEmploiFavorisState;
+    final retry = store.dispatch(RequestOffreEmploiFavorisAction());
+    if (state is OffreEmploiFavorisLoadedState) {
+      final favoris = _relevantFavoris(state.data, onlyAlternance);
+      return OffreEmploiFavorisListViewModel._(
+        items: favoris?.map((e) => OffreEmploiItemViewModel.create(e)).toList() ?? [],
+        displayState: _displayState(favoris),
+        onRetry: () => retry(),
+      );
+    } else {
+      return OffreEmploiFavorisListViewModel._(items: [], displayState: DisplayState.FAILURE, onRetry: () => retry());
+    }
   }
 }
 
-List<OffreEmploi>? _relevantFavoris(OffreEmploiFavorisState favorisState, onlyAlternance) {
-  if (favorisState is OffreEmploiFavorisLoadedState) {
-    final data = favorisState.data;
-    if (data == null) return null;
-    return onlyAlternance ? data.values.where((e) => e.isAlternance).toList() : data.values.toList();
-  }
+List<OffreEmploi>? _relevantFavoris(Map<String, OffreEmploi>? data, onlyAlternance) {
+  if (data != null) return onlyAlternance ? data.values.where((e) => e.isAlternance).toList() : data.values.toList();
   return null;
 }
 
-List<OffreEmploiItemViewModel> _items(List<OffreEmploi>? favoris) {
-  if (favoris == null) return [];
-  return favoris
-      .map((e) => OffreEmploiItemViewModel(
-            id: e.id,
-            title: e.title,
-            companyName: e.companyName,
-            contractType: e.contractType,
-            duration: e.duration,
-            location: e.location,
-          ))
-      .toList();
-}
-
-DisplayState _displayState(OffreEmploiFavorisState favorisState, List<OffreEmploi>? favoris) {
-  if (favorisState is OffreEmploiFavorisLoadedState) {
-    if (favoris?.isEmpty == true) {
-      return DisplayState.EMPTY;
-    } else if (favoris != null) {
-      return DisplayState.CONTENT;
-    } else {
-      return DisplayState.LOADING;
-    }
-  } else {
-    return DisplayState.FAILURE;
-  }
+DisplayState _displayState(List<OffreEmploi>? favoris) {
+  if (favoris?.isEmpty == true) return DisplayState.EMPTY;
+  if (favoris != null) return DisplayState.CONTENT;
+  return DisplayState.LOADING;
 }
