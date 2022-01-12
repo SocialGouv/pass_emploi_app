@@ -5,6 +5,7 @@ import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/pages/app_page.dart';
 import 'package:pass_emploi_app/presentation/favori_heart_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_details_page_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
@@ -26,13 +27,14 @@ import 'package:url_launcher/url_launcher.dart';
 
 class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   final String _offreId;
+  final bool _fromAlternance;
   final bool shouldPopPageWhenFavoriIsRemoved;
 
   OffreEmploiDetailsPage._(
     this._offreId,
-    bool fromAlternance, {
+    this._fromAlternance, {
     this.shouldPopPageWhenFavoriIsRemoved = false,
-  }) : super(name: fromAlternance ? AnalyticsScreenNames.alternanceDetails : AnalyticsScreenNames.offreEmploiDetails);
+  }) : super(name: _fromAlternance ? AnalyticsScreenNames.alternanceDetails : AnalyticsScreenNames.emploiDetails);
 
   static MaterialPageRoute materialPageRoute(
     String id, {
@@ -419,10 +421,11 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
           FavoriHeart(
             offreId: offreId,
             withBorder: true,
+            from: _fromAlternance ? AppPage.alternanceDetails : AppPage.emploiDetails,
             onFavoriRemoved: shouldPopPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
           ),
           SizedBox(width: 8),
-          ShareButton(url, title, () =>_shareOffer(context)),
+          ShareButton(url, title, () => _shareOffer(context)),
         ],
       ),
     );

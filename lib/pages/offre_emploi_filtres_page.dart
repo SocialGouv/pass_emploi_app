@@ -18,7 +18,7 @@ import 'package:pass_emploi_app/widgets/sepline.dart';
 
 class OffreEmploiFiltresPage extends TraceableStatefulWidget {
   OffreEmploiFiltresPage(bool fromAlternance)
-      : super(name: fromAlternance ? AnalyticsScreenNames.alternanceFiltres : AnalyticsScreenNames.offreEmploiFiltres);
+      : super(name: fromAlternance ? AnalyticsScreenNames.alternanceFiltres : AnalyticsScreenNames.emploiFiltres);
 
   static MaterialPageRoute materialPageRoute(bool fromAlternance) {
     return MaterialPageRoute(builder: (_) => OffreEmploiFiltresPage(fromAlternance));

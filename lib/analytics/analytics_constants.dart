@@ -12,11 +12,11 @@ class AnalyticsScreenNames {
   static const createUserAction = "actions/create";
   static const chat = "chat";
 
-  static const offreEmploiResearch = "recherche/emploi/search";
-  static const offreEmploiResults = "recherche/emploi/search_results";
-  static const offreEmploiNoResults = "recherche/emploi/search_no_results";
-  static const offreEmploiDetails = "recherche/emploi/detail";
-  static const offreEmploiFiltres = "recherche/emploi/search_results/filters";
+  static const emploiResearch = "recherche/emploi/search";
+  static const emploiResults = "recherche/emploi/search_results";
+  static const emploiNoResults = "recherche/emploi/search_no_results";
+  static const emploiDetails = "recherche/emploi/detail";
+  static const emploiFiltres = "recherche/emploi/search_results/filters";
 
   static const alternanceResearch = "recherche/alternance/search";
   static const alternanceResults = "recherche/alternance/search_results";
@@ -32,16 +32,25 @@ class AnalyticsScreenNames {
   static const serviceCiviqueResearch = "recherche/service_civique/search";
 
   static const toolbox = "recherche/boite_a_outils";
-  static const favoris = "favoris/list/emploi";
+  static const emploiFavoris = "favoris/list/emploi";
+  static const alternanceFavoris = "favoris/list/alternance";
   static const plus = "plus";
 }
-
 
 class AnalyticsActionNames {
   AnalyticsActionNames._();
 
-  static const offreEmploiAddFavori = "recherche/emploi/detail?favori=true";
-  static const offreEmploiRemoveFavori = "recherche/emploi/detail?favori=false";
+  static const emploiResultAddFavori = "recherche/emploi/search_results?favori=true";
+  static const emploiResultRemoveFavori = "recherche/emploi/search_results?favori=false";
+  static const emploiDetailsAddFavori = "recherche/emploi/detail?favori=true";
+  static const emploiDetailsRemoveFavori = "recherche/emploi/detail?favori=false";
+  static const emploiFavoriRemoveFavori = "favoris/list/emploi?favori=false";
+
+  static const alternanceResultAddFavori = "recherche/alternance/search_results?favori=true";
+  static const alternanceResultRemoveFavori = "recherche/alternance/search_results?favori=false";
+  static const alternanceDetailsAddFavori = "recherche/alternance/detail?favori=true";
+  static const alternanceDetailsRemoveFavori = "recherche/alternance/detail?favori=false";
+  static const alternanceFavoriRemoveFavori = "favoris/list/alternance?favori=false";
 
   static const deleteUserAction = "actions/list?deleteSuccess=true";
 }

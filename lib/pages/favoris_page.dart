@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/pages/app_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_favoris_list_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_favoris_actions.dart';
@@ -17,7 +18,7 @@ import 'package:pass_emploi_app/widgets/retry.dart';
 import 'offre_emploi_details_page.dart';
 
 class FavorisPage extends TraceableStatelessWidget {
-  FavorisPage() : super(name: AnalyticsScreenNames.favoris);
+  FavorisPage() : super(name: AnalyticsScreenNames.emploiFavoris);
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +80,7 @@ class FavorisPage extends TraceableStatelessWidget {
                 ));
           },
           splashColor: AppColors.bluePurple,
-          child: OffreEmploiListItem(itemViewModel: viewModel.items[index]),
+          child: OffreEmploiListItem(itemViewModel: viewModel.items[index], from: AppPage.emploiFavoris),
         ),
       ),
     );

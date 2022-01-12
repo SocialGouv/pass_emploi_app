@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/pages/app_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_filtres_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -21,7 +22,7 @@ class OffreEmploiListPage extends TraceableStatefulWidget {
   final bool onlyAlternance;
 
   OffreEmploiListPage({required this.onlyAlternance})
-      : super(name: onlyAlternance ? AnalyticsScreenNames.alternanceResults : AnalyticsScreenNames.offreEmploiResults);
+      : super(name: onlyAlternance ? AnalyticsScreenNames.alternanceResults : AnalyticsScreenNames.emploiResults);
 
   @override
   State<OffreEmploiListPage> createState() => _OffreEmploiListPageState();
@@ -107,7 +108,10 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
         child: InkWell(
           onTap: () => _showOffreEmploiDetailsPage(context, resultsViewModel.items[index].id),
           splashColor: AppColors.bluePurple,
-          child: OffreEmploiListItem(itemViewModel: resultsViewModel.items[index]),
+          child: OffreEmploiListItem(
+            itemViewModel: resultsViewModel.items[index],
+            from: widget.onlyAlternance ? AppPage.alternanceResults : AppPage.emploiResults,
+          ),
         ),
       ),
     );
