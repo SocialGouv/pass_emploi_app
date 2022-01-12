@@ -49,7 +49,7 @@ void main() {
     expect(viewModel.displayState, DisplayState.CONTENT);
   });
 
-  test('View model triggers RequestLoginAction with GENERIC mode when generic login is performed', () {
+  test('View model triggers RequestLoginAction with PASS_EMPLOI mode when pass emploi login is performed', () {
     // Given
     final store = StoreSpy();
     final viewModel = LoginViewModel.create(store);
@@ -59,10 +59,10 @@ void main() {
 
     // Then
     expect(store.dispatchedAction, isA<RequestLoginAction>());
-    expect((store.dispatchedAction as RequestLoginAction).mode, RequestLoginMode.GENERIC);
+    expect((store.dispatchedAction as RequestLoginAction).mode, RequestLoginMode.PASS_EMPLOI);
   });
 
-  test('View model triggers RequestLoginAction with SIMILO mode when generic login is performed', () {
+  test('View model triggers RequestLoginAction with POLE_EMPLOI mode when Pole Emploi login is performed', () {
     // Given
     final store = StoreSpy();
     final viewModel = LoginViewModel.create(store);
@@ -75,7 +75,7 @@ void main() {
     expect((store.dispatchedAction as RequestLoginAction).mode, RequestLoginMode.POLE_EMPLOI);
   });
 
-  test('View model triggers RequestLoginAction with SIMILO mode when generic login is performed', () {
+  test('View model triggers RequestLoginAction with SIMILO mode when Mission Locale login is performed', () {
     // Given
     final store = StoreSpy();
     final viewModel = LoginViewModel.create(store);

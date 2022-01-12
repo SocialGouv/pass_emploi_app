@@ -71,7 +71,7 @@ void main() {
       final store = factory.initializeReduxStore(initialState: AppState.initialState());
       final displayedLoading = store.onChange.any((element) => element.loginState.isLoading());
       final result = store.onChange.firstWhere((element) => element.loginState.isSuccess());
-      store.dispatch(RequestLoginAction(RequestLoginMode.GENERIC));
+      store.dispatch(RequestLoginAction(RequestLoginMode.PASS_EMPLOI));
 
       // When
       final AppState resultState = await result;
@@ -136,7 +136,7 @@ void main() {
       final store = factory.initializeReduxStore(initialState: AppState.initialState());
       final displayedLoading = store.onChange.any((element) => element.loginState.isLoading());
       final result = store.onChange.firstWhere((element) => element.loginState.isFailure());
-      store.dispatch(RequestLoginAction(RequestLoginMode.GENERIC));
+      store.dispatch(RequestLoginAction(RequestLoginMode.PASS_EMPLOI));
 
       // When
       final AppState resultState = await result;

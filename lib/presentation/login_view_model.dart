@@ -40,8 +40,8 @@ List<LoginButtonViewModel> _loginButtons(Store<AppState> store, Flavor flavor) {
     ),
     if (flavor == Flavor.STAGING)
       LoginButtonViewModel(
-        label: Strings.loginGeneric,
-        action: () => store.dispatch(RequestLoginAction(RequestLoginMode.GENERIC)),
+        label: Strings.loginPassEmploi,
+        action: () => store.dispatch(RequestLoginAction(RequestLoginMode.PASS_EMPLOI)),
       ),
   ];
 }
