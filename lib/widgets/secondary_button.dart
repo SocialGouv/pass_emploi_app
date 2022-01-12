@@ -23,7 +23,7 @@ class SecondaryButton extends StatelessWidget {
         onPressed: onPressed,
         style: OutlinedButton.styleFrom(
           shape: StadiumBorder(),
-          side: BorderSide(color: AppColors.nightBlue, width: 2),
+          side: BorderSide(color: AppColors.primary, width: 2),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 16),
@@ -31,8 +31,8 @@ class SecondaryButton extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               if (drawableRes != null)
-                Padding(padding: const EdgeInsets.only(right: 12), child: SvgPicture.asset(drawableRes!)),
-              Text(label, style: TextStyles.textSmMedium()),
+                Padding(padding: const EdgeInsets.only(right: 12), child: SvgPicture.asset(drawableRes!, color: AppColors.primary,)),
+              Text(label, style: TextStyles.textSecondaryButton),
             ],
           ),
         ),

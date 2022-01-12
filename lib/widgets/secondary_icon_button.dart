@@ -6,12 +6,16 @@ class SecondaryIconButton extends StatelessWidget {
   final String drawableRes;
   final VoidCallback? onTap;
   final Color iconColor;
+  final Color? borderColor;
+  final double iconSize;
 
   const SecondaryIconButton({
     Key? key,
     required this.drawableRes,
     required this.onTap,
     this.iconColor = AppColors.primary,
+    this.borderColor,
+    this.iconSize = 18,
   }) : super(key: key);
 
   @override
@@ -21,7 +25,7 @@ class SecondaryIconButton extends StatelessWidget {
     return ClipOval(
       child: Material(
         color: Colors.transparent,
-        shape: CircleBorder(side: BorderSide(color: AppColors.primary)),
+        shape: CircleBorder(side: BorderSide(color: borderColor ?? iconColor)),
         child: InkWell(
           onTap: onTap,
           child: Container(
@@ -30,7 +34,7 @@ class SecondaryIconButton extends StatelessWidget {
             child: Center(
               child: SvgPicture.asset(
                 drawableRes,
-                width: 18,
+                width: iconSize,
                 color: this.iconColor,
               ),
             ),

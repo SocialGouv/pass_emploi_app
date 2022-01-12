@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
@@ -11,14 +10,11 @@ import 'package:pass_emploi_app/presentation/offre_emploi_search_results_view_mo
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
-import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/filter_button.dart';
-import 'package:pass_emploi_app/widgets/offre_emploi_list_item.dart';
-import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 
 class OffreEmploiListPage extends TraceableStatefulWidget {
   final bool onlyAlternance;
@@ -103,27 +99,19 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     int index,
     OffreEmploiSearchResultsViewModel resultsViewModel,
   ) {
-    return Container(
-      color: Colors.white,
-      child: Material(
-        type: MaterialType.transparency,
-        child: InkWell(
-          onTap: () => _showOffreEmploiDetailsPage(context, resultsViewModel.items[index].id),
-          splashColor: AppColors.bluePurple,
-          child: OffreEmploiListItem(
-            itemViewModel: resultsViewModel.items[index],
-            from: widget.onlyAlternance ? OffrePage.alternanceResults : OffrePage.emploiResults,
-          ),
-        ),
-      ),
+    var item = resultsViewModel.items[index];
+    return DataCard(
+      titre: item.title,
+      sousTitre: item.companyName,
+      lieu: item.location,
+      idOffreFavori: item.id,
+      dataTag: [item.contractType, item.duration ?? ''],
+      onTap: () => _showOffreEmploiDetailsPage(context, resultsViewModel.items[index].id),
     );
   }
 
   Widget _buildFirstItem(BuildContext context, OffreEmploiSearchResultsViewModel resultsViewModel) {
-    return ClipRRect(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(16), bottom: Radius.zero),
-      child: _buildOffreItemWithListener(context, 0, resultsViewModel),
-    );
+    return _buildOffreItemWithListener(context, 0, resultsViewModel);
   }
 
   Widget _buildItem(BuildContext context, int index, OffreEmploiSearchResultsViewModel resultsViewModel) {
@@ -169,7 +157,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     );
   }
 
-  Widget _listSeparator() => Container(height: 1, color: AppColors.bluePurpleAlpha20);
+  Widget _listSeparator() => Container(height: 16);
 
   void _showOffreEmploiDetailsPage(BuildContext context, String offreId) {
     _offsetBeforeLoading = _scrollController.offset;
@@ -186,7 +174,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
 
   Widget _filtreButton(OffreEmploiSearchResultsViewModel viewModel) {
     return FilterButton.simple(
-      filtresCount: viewModel.filtresCount,
+        filtresCount: viewModel.filtresCount,
       onPressed: () => Navigator.push(
         context,
         OffreEmploiFiltresPage.materialPageRoute(widget.onlyAlternance),

@@ -76,6 +76,34 @@ class TextStyles {
     fontFamily: 'Marianne',
   );
 
+  static final textSecondaryButton = TextStyle(
+    color: AppColors.primary,
+    fontSize: FontSizes.normal,
+    fontWeight: FontWeight.w700,
+    fontFamily: 'Marianne',
+  );
+
+  static final textBaseBold = TextStyle(
+    color: Colors.black,
+    fontFamily: 'Marianne',
+    fontSize: FontSizes.medium,
+    fontWeight: FontWeight.w700,
+  );
+
+  static final textSBold = TextStyle(
+    color: Colors.black,
+    fontFamily: 'Marianne',
+    fontSize: FontSizes.normal,
+    fontWeight: FontWeight.w700,
+  );
+
+  static final textSRegular = TextStyle(
+    color: AppColors.neutralColor,
+    fontFamily: 'Marianne',
+    fontSize: FontSizes.normal,
+    fontWeight: FontWeight.w400,
+  );
+
   static textSmMedium({Color color = AppColors.nightBlue}) {
     return GoogleFonts.rubik(
       color: color,
