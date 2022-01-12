@@ -76,7 +76,8 @@ AppState _updateActionStatus(
     creator: actionToUpdate.creator,
   );
   final newActions = List<UserAction>.from(currentActions).where((a) => a.id != updateActionStatus.actionId).toList()
-    ..add(updatedAction);
+    ..insert(0, updatedAction);
+
   return currentState.copyWith(
     userActionState: State<List<UserAction>>.success(newActions),
     userActionUpdateState: UserActionUpdateState.updated(),
