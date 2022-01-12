@@ -95,9 +95,6 @@ class Strings {
   static String deleteActionError = "Erreur lors de la suppression de l'action. Veuillez réessayer";
   static String deleteActionSuccess = "L’action a bien été supprimée";
 
-  // Offres Emploi
-  static String offresEmploiTitle = "Résultats offres d'emploi";
-
   // Solutions
   static String searchingPageTitle = "Recherche de solutions";
   static String keyWordsTitle = "Mots clés";
@@ -105,6 +102,7 @@ class Strings {
   static String jobLocationTitle = "Lieu de travail";
   static String jobLocationHint = "Ville, département…";
   static String searchButton = "Rechercher";
+  static String offresEmploiTitle = "Offres d'emploi";
   static String offreDetails = "Détails de l'offre";
   static String offresTabTitle = "Offres";
   static String boiteAOutilsTabTitle = "Boîte à outils";
@@ -112,6 +110,10 @@ class Strings {
   static String immersionButton = "Immersion";
   static String offresEmploiButton = "Emploi";
   static String serviceCiviqueButton = "Service civique";
+
+  // Alternance
+  static String alternanceButton = "Alternance";
+  static String alternanceTitle = "Offres d'alternance";
 
   // Immersion
   static String immersionLabel = "Découvrez un métier en immersion dans une entreprise.";

@@ -18,7 +18,10 @@ import 'package:pass_emploi_app/widgets/offre_emploi_list_item.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 
 class OffreEmploiListPage extends TraceableStatefulWidget {
-  OffreEmploiListPage() : super(name: AnalyticsScreenNames.offreEmploiResults);
+  final bool onlyAlternance;
+
+  OffreEmploiListPage({required this.onlyAlternance})
+      : super(name: onlyAlternance ? AnalyticsScreenNames.alternanceResults : AnalyticsScreenNames.offreEmploiResults);
 
   @override
   State<OffreEmploiListPage> createState() => _OffreEmploiListPageState();
@@ -68,7 +71,10 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     return Scaffold(
       backgroundColor: AppColors.lightBlue,
       appBar: FlatDefaultAppBar(
-        title: Text(Strings.offresEmploiTitle, style: TextStyles.textLgMedium),
+        title: Text(
+          widget.onlyAlternance ? Strings.alternanceTitle : Strings.offresEmploiTitle,
+          style: TextStyles.textLgMedium,
+        ),
       ),
       body: Stack(children: [
         if (viewModel.displayState == DisplayState.CONTENT)
@@ -80,10 +86,11 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
               itemCount: _itemCount(viewModel))
         else if (viewModel.displayState == DisplayState.EMPTY || viewModel.displayState == DisplayState.FAILURE)
           Center(child: Text(viewModel.errorMessage, style: TextStyles.textSmRegular())),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _filterButton(viewModel)),
-        ),
+        if (viewModel.withFiltreButton)
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _filtreButton(viewModel)),
+          ),
       ]),
     );
   }
@@ -171,30 +178,34 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
       return viewModel.items.length;
   }
 
-  Widget _filterButton(OffreEmploiSearchResultsViewModel viewModel) {
+  Widget _filtreButton(OffreEmploiSearchResultsViewModel viewModel) {
     return PrimaryActionButton(
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(Strings.filtrer),
-            SizedBox(width: 12),
-            SvgPicture.asset(Drawables.icFilter),
-            SizedBox(width: 12),
-            if (viewModel.filtresCount != null)
-              Container(
-                decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.bluePurple),
-                width: 22,
-                height: 22,
-                alignment: Alignment.center,
-                child: Text(viewModel.filtresCount!.toString()),
-              ),
-          ],
-        ),
-        onPressed: () => Navigator.push(context, OffreEmploiFiltresPage.materialPageRoute()).then((value) {
-              if (value == true) {
-                _offsetBeforeLoading = 0;
-                if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
-              }
-            }));
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(Strings.filtrer),
+          SizedBox(width: 12),
+          SvgPicture.asset(Drawables.icFilter),
+          SizedBox(width: 12),
+          if (viewModel.filtresCount != null)
+            Container(
+              decoration: BoxDecoration(shape: BoxShape.circle, color: AppColors.bluePurple),
+              width: 22,
+              height: 22,
+              alignment: Alignment.center,
+              child: Text(viewModel.filtresCount!.toString()),
+            ),
+        ],
+      ),
+      onPressed: () => Navigator.push(
+        context,
+        OffreEmploiFiltresPage.materialPageRoute(widget.onlyAlternance),
+      ).then((value) {
+        if (value == true) {
+          _offsetBeforeLoading = 0;
+          if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
+        }
+      }),
+    );
   }
 }

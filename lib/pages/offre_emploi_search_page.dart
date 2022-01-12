@@ -19,7 +19,13 @@ import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'offre_emploi_list_page.dart';
 
 class OffreEmploiSearchPage extends TraceableStatefulWidget {
-  OffreEmploiSearchPage() : super(name: AnalyticsScreenNames.offreEmploiResearch);
+  final bool onlyAlternance;
+
+  OffreEmploiSearchPage({required this.onlyAlternance})
+      : super(
+          name: onlyAlternance ? AnalyticsScreenNames.alternanceResearch : AnalyticsScreenNames.offreEmploiResearch,
+          key: ValueKey(onlyAlternance),
+        );
 
   @override
   State<OffreEmploiSearchPage> createState() => _OffreEmploiSearchPageState();
@@ -37,9 +43,9 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
       onWillChange: (_, newViewModel) {
         if (newViewModel.displayState == DisplayState.CONTENT && _shouldNavigate) {
           _shouldNavigate = false;
-          Navigator.push(context, MaterialPageRoute(builder: (context) => OffreEmploiListPage())).then((value) {
-            _shouldNavigate = true;
-          });
+          Navigator.push(context, MaterialPageRoute(builder: (_) {
+            return OffreEmploiListPage(onlyAlternance: widget.onlyAlternance);
+          })).then((_) => _shouldNavigate = true);
         }
       },
       distinct: true,
@@ -124,13 +130,15 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
   bool _isError(OffreEmploiSearchViewModel viewModel) {
     if (viewModel.displayState == DisplayState.EMPTY)
       MatomoTracker.trackScreenWithName(
-          AnalyticsScreenNames.offreEmploiNoResults, AnalyticsScreenNames.offreEmploiResearch);
+        widget.onlyAlternance ? AnalyticsScreenNames.alternanceNoResults : AnalyticsScreenNames.offreEmploiNoResults,
+        widget.onlyAlternance ? AnalyticsScreenNames.alternanceResearch : AnalyticsScreenNames.offreEmploiResearch,
+      );
 
     return viewModel.displayState == DisplayState.FAILURE || viewModel.displayState == DisplayState.EMPTY;
   }
 
   void _onSearchButtonPressed(OffreEmploiSearchViewModel viewModel) {
-    viewModel.onSearchingRequest(_keyWord, _selectedLocationViewModel?.location);
+    viewModel.onSearchingRequest(_keyWord, _selectedLocationViewModel?.location, widget.onlyAlternance);
     Keyboard.dismiss(context);
   }
 }

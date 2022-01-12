@@ -7,8 +7,9 @@ import 'immersion_search_page.dart';
 import 'service_civique_search_page.dart';
 
 const int _indexOfOffresEmploi = 0;
-const int _indexOfImmersion = 1;
-const int _indexOfServiceCivique = 2;
+const int _indexOfAlternance = 1;
+const int _indexOfImmersion = 2;
+const int _indexOfServiceCivique = 3;
 
 class SearchAnnoncesPage extends StatefulWidget {
   const SearchAnnoncesPage() : super();
@@ -46,6 +47,12 @@ class _SearchAnnoncesPageState extends State<SearchAnnoncesPage> {
           ),
           SizedBox(width: 12),
           CarouselButton(
+            isActive: _selectedIndex == _indexOfAlternance,
+            onPressed: () => _updateIndex(_indexOfAlternance),
+            label: Strings.alternanceButton,
+          ),
+          SizedBox(width: 12),
+          CarouselButton(
             isActive: _selectedIndex == _indexOfImmersion,
             onPressed: () => _updateIndex(_indexOfImmersion),
             label: Strings.immersionButton,
@@ -63,12 +70,15 @@ class _SearchAnnoncesPageState extends State<SearchAnnoncesPage> {
   }
 
   Widget _content() {
-    if (_selectedIndex == _indexOfOffresEmploi) {
-      return OffreEmploiSearchPage();
-    } else if (_selectedIndex == _indexOfImmersion) {
-      return ImmersionSearchPage();
-    } else {
-      return ServiceCiviqueSearchPage();
+    switch (_selectedIndex) {
+      case _indexOfOffresEmploi:
+        return OffreEmploiSearchPage(onlyAlternance: false);
+      case _indexOfAlternance:
+        return OffreEmploiSearchPage(onlyAlternance: true);
+      case _indexOfImmersion:
+        return ImmersionSearchPage();
+      default:
+        return ServiceCiviqueSearchPage();
     }
   }
 
