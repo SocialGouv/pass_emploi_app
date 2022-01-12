@@ -53,7 +53,6 @@ class _UserActionListPageState extends State<UserActionListPage> {
       converter: (store) => UserActionListPageViewModel.create(store),
       distinct: true,
       onDidChange: (previousViewModel, viewModel) {
-        debugPrint("😂 back to top");
         if (_scrollController.hasClients) {
           _scrollController.jumpTo(0);
         }
