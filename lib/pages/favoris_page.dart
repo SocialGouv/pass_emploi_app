@@ -18,7 +18,9 @@ import 'package:pass_emploi_app/widgets/retry.dart';
 import 'offre_emploi_details_page.dart';
 
 class FavorisPage extends TraceableStatelessWidget {
-  FavorisPage() : super(name: AnalyticsScreenNames.emploiFavoris);
+  final bool onlyAlternance;
+
+  FavorisPage({required this.onlyAlternance}) : super(name: AnalyticsScreenNames.emploiFavoris);
 
   @override
   Widget build(BuildContext context) {

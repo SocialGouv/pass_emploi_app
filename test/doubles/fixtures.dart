@@ -72,6 +72,7 @@ OffreEmploi mockOffreEmploi({id = "123DXPM"}) => OffreEmploi(
       title: "Technicien / Technicienne en froid et climatisation",
       companyName: "RH TT INTERIM",
       contractType: "MIS",
+      isAlternance: false,
       location: "77 - LOGNES",
       duration: "Temps plein",
     );

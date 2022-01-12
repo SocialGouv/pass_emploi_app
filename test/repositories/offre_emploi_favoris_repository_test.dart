@@ -165,6 +165,7 @@ main() {
         duration: "Temps partiel",
         location: "974 - STE MARIE",
         contractType: "CDD",
+        isAlternance: false,
         companyName: "SARL HAYA",
         title: "Cuisinier / Cuisinière",
       ),
@@ -173,6 +174,7 @@ main() {
         duration: "Temps partiel",
         location: "07 - LEMPS",
         contractType: "CDD",
+        isAlternance: true,
         companyName: "ATALIAN PROPRETE",
         title: "Agent de nettoyage chez un particulier H/F",
       ),
@@ -181,6 +183,7 @@ main() {
         duration: "Temps partiel",
         location: "80 - AMIENS",
         contractType: "CDI",
+        isAlternance: false,
         companyName: "CHARPENTE MENUISERIE ROUSSEAU",
         title: "Vendeur / Vendeuse de fruits et légumes",
       ),
@@ -189,6 +192,7 @@ main() {
         duration: "Temps plein",
         location: "63 - ISSOIRE",
         contractType: "CDI",
+        isAlternance: false,
         companyName: "SERVICES MAINTENANCE INDUSTRIELLE",
         title: "Serrurier(ère) métallier(ère) industriel(le)                (H/F)",
       )
@@ -279,6 +283,7 @@ OffreEmploi _offreWithPartialData() {
     duration: null,
     contractType: "contractType",
     companyName: null,
+    isAlternance: false,
     location: "Paris",
     title: "title",
   );
@@ -290,6 +295,7 @@ OffreEmploi _offreWithFullData() {
     duration: "duration",
     contractType: "otherContractType",
     companyName: "companyName",
+    isAlternance: false,
     location: "Marseille",
     title: "otherTitle",
   );

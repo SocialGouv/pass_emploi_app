@@ -5,6 +5,7 @@ class OffreEmploi extends Equatable {
   final String title;
   final String? companyName;
   final String contractType;
+  final bool isAlternance;
   final String? location;
   final String? duration;
 
@@ -13,6 +14,7 @@ class OffreEmploi extends Equatable {
     required this.title,
     required this.companyName,
     required this.contractType,
+    required this.isAlternance,
     required this.location,
     required this.duration,
   });
@@ -23,11 +25,12 @@ class OffreEmploi extends Equatable {
       title: json["titre"] as String,
       companyName: json["nomEntreprise"] as String?,
       contractType: json["typeContrat"] as String,
+      isAlternance: json['alternance'] as bool,
       location: json["localisation"]["nom"] as String,
       duration: json["duree"] as String?,
     );
   }
 
   @override
-  List<Object?> get props => [id, title, companyName, contractType, location, duration];
+  List<Object?> get props => [id, title, companyName, contractType, isAlternance, location, duration];
 }

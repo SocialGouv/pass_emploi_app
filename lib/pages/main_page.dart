@@ -108,7 +108,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case _indexOfSolutionsPage:
         return SolutionsTabPage();
       case _indexOfFavorisPage:
-        return FavorisPage();
+        return FavorisPage(onlyAlternance: false);
       case _indexOfPlusPage:
         return PlusPage();
       default:
