@@ -64,6 +64,7 @@ class PrimaryActionButton extends StatelessWidget {
         backgroundColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
           return states.contains(MaterialState.disabled) ? disabledBackgroundColor : backgroundColor;
         }),
+        elevation: MaterialStateProperty.all(10),
         alignment: Alignment.center,
         shape: MaterialStateProperty.all(RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(200))

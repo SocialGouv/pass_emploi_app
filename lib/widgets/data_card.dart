@@ -1,0 +1,118 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/favori_heart.dart';
+import 'package:pass_emploi_app/widgets/tags.dart';
+
+class DataCard extends StatelessWidget {
+  final String titre;
+  final String? sousTitre;
+  final String? lieu;
+  final List<String> dataTag;
+  final VoidCallback onTap;
+  final String? idOffreFavori;
+
+  const DataCard({
+    Key? key,
+    required this.titre,
+    required this.sousTitre,
+    required this.lieu,
+    required this.dataTag,
+    required this.onTap,
+    this.idOffreFavori,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      splashColor: AppColors.bluePurple,
+      onTap: this.onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.shadowColor,
+              spreadRadius: 1,
+              blurRadius: 8,
+              offset: Offset(0, 6), // changes position of shadow
+            )
+          ]
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      _buildTitre(),
+                      if (sousTitre != null) buildSousTitre(),
+                    ],
+                  ),
+                ),
+                if (idOffreFavori != null) FavoriHeart(offreId: idOffreFavori!, withBorder: false)
+              ],
+            ),
+            if (lieu != null) buildLieu(),
+            if (dataTag.isNotEmpty) buildDataTag(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTitre() {
+    return Text(titre, style: TextStyles.textBaseBold);
+  }
+
+  Widget buildSousTitre() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Text(
+        sousTitre!,
+        style: TextStyles.textSBold,
+      ),
+    );
+  }
+
+  Widget buildLieu() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SvgPicture.asset(Drawables.icPlace),
+          Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: Text(
+              lieu!,
+              style: TextStyles.textSRegular,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildDataTag() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 16.0),
+      child: Wrap(spacing: 16, runSpacing: 16, children: dataTag.map(_buildTag).toList()),
+    );
+  }
+
+  Widget _buildTag(String tag) {
+    return DataTag(label: tag);
+  }
+}

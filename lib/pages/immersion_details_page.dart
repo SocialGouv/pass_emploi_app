@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/presentation/immersion_details_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
