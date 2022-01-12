@@ -27,7 +27,7 @@ class FavorisPage extends TraceableStatelessWidget {
     return StoreConnector<AppState, OffreEmploiFavorisListViewModel>(
       onInit: (store) => store.dispatch(RequestOffreEmploiFavorisAction()),
       builder: (context, viewModel) => _scaffold(context, viewModel),
-      converter: (store) => OffreEmploiFavorisListViewModel.create(store),
+      converter: (store) => OffreEmploiFavorisListViewModel.create(store, onlyAlternance: onlyAlternance),
       distinct: true,
     );
   }

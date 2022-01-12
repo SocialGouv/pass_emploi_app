@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_favoris_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -17,38 +18,44 @@ class OffreEmploiFavorisListViewModel extends Equatable {
 
   OffreEmploiFavorisListViewModel._({required this.items, required this.displayState, required this.onRetry});
 
-  factory OffreEmploiFavorisListViewModel.create(Store<AppState> store) {
+  factory OffreEmploiFavorisListViewModel.create(Store<AppState> store, {required bool onlyAlternance}) {
+    final relevantFavoris = _relevantFavoris(store.state.offreEmploiFavorisState, onlyAlternance);
     return OffreEmploiFavorisListViewModel._(
-      items: _items(store.state.offreEmploiFavorisState),
-      displayState: _displayState(store.state.offreEmploiFavorisState),
+      items: _items(relevantFavoris),
+      displayState: _displayState(store.state.offreEmploiFavorisState, relevantFavoris),
       onRetry: () => store.dispatch(RequestOffreEmploiFavorisAction()),
     );
   }
 }
 
-List<OffreEmploiItemViewModel> _items(OffreEmploiFavorisState favorisState) {
+List<OffreEmploi>? _relevantFavoris(OffreEmploiFavorisState favorisState, onlyAlternance) {
   if (favorisState is OffreEmploiFavorisLoadedState) {
-    return favorisState.data?.values
-            .map((e) => OffreEmploiItemViewModel(
-                  e.id,
-                  e.title,
-                  e.companyName,
-                  e.contractType,
-                  e.duration,
-                  e.location,
-                ))
-            .toList() ??
-        [];
-  } else {
-    return [];
+    final data = favorisState.data;
+    if (data == null) return null;
+    return onlyAlternance ? data.values.where((e) => e.isAlternance).toList() : data.values.toList();
   }
+  return null;
 }
 
-DisplayState _displayState(OffreEmploiFavorisState favorisState) {
+List<OffreEmploiItemViewModel> _items(List<OffreEmploi>? favoris) {
+  if (favoris == null) return [];
+  return favoris
+      .map((e) => OffreEmploiItemViewModel(
+            id: e.id,
+            title: e.title,
+            companyName: e.companyName,
+            contractType: e.contractType,
+            duration: e.duration,
+            location: e.location,
+          ))
+      .toList();
+}
+
+DisplayState _displayState(OffreEmploiFavorisState favorisState, List<OffreEmploi>? favoris) {
   if (favorisState is OffreEmploiFavorisLoadedState) {
-    if (favorisState.data?.isEmpty == true) {
+    if (favoris?.isEmpty == true) {
       return DisplayState.EMPTY;
-    } else if (favorisState.data != null) {
+    } else if (favoris != null) {
       return DisplayState.CONTENT;
     } else {
       return DisplayState.LOADING;

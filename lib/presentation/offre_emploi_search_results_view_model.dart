@@ -70,12 +70,12 @@ List<OffreEmploiItemViewModel> _items(OffreEmploiSearchResultsState resultsState
   return resultsState is OffreEmploiSearchResultsDataState
       ? resultsState.offres
           .map((e) => OffreEmploiItemViewModel(
-                e.id,
-                e.title,
-                e.companyName,
-                e.contractType,
-                e.duration,
-                e.location,
+                id: e.id,
+                title: e.title,
+                companyName: e.companyName,
+                contractType: e.contractType,
+                duration: e.duration,
+                location: e.location,
               ))
           .toList()
       : [];
