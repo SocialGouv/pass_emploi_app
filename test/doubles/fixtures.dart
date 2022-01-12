@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/user.dart';
+import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 
@@ -76,6 +77,17 @@ OffreEmploi mockOffreEmploi({id = "123DXPM", isAlternance = false}) => OffreEmpl
       location: "77 - LOGNES",
       duration: "Temps plein",
     );
+
+OffreEmploiItemViewModel mockOffreEmploiItemViewModel({id = '123DXPM'}) {
+  return OffreEmploiItemViewModel(
+    id: id,
+    title: 'Technicien / Technicienne en froid et climatisation',
+    companyName: 'RH TT INTERIM',
+    contractType: 'MIS',
+    duration: 'Temps plein',
+    location: '77 - LOGNES',
+  );
+}
 
 AuthTokenResponse authTokenResponse() => AuthTokenResponse(
       accessToken: 'accessToken',

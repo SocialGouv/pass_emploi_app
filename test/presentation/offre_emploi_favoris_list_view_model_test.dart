@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_favoris_list_view_model.dart';
-import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
@@ -204,21 +203,7 @@ main() {
       final viewModel = OffreEmploiFavorisListViewModel.create(store, onlyAlternance: true);
 
       // Then
-      expect(
-        viewModel.items,
-        [mockOffreEmploiItemViewModel(id: '2')],
-      );
+      expect(viewModel.items, [mockOffreEmploiItemViewModel(id: '2')]);
     });
   });
-}
-
-OffreEmploiItemViewModel mockOffreEmploiItemViewModel({required String id}) {
-  return OffreEmploiItemViewModel(
-    id: id,
-    title: 'Technicien / Technicienne en froid et climatisation',
-    companyName: 'RH TT INTERIM',
-    contractType: 'MIS',
-    duration: 'Temps plein',
-    location: '77 - LOGNES',
-  );
 }
