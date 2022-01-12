@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
+
   AppColors._();
 
   static const Color lightBlue = Color.fromARGB(255, 246, 249, 252);
@@ -16,6 +17,8 @@ class AppColors {
   static const Color franceRed = Color.fromARGB(255, 225, 0, 15);
   static const Color franceRedAlpha05 = Color.fromARGB(13, 225, 0, 15);
   static const Color redGrey = Color.fromARGB(255, 228, 203, 200);
+
+  // Colors from zero height
   static const Color primary = Color.fromARGB(255, 59, 105, 209);
   static const Color primaryDarken = Color.fromARGB(255, 39, 73, 150);
   static const Color primaryLighten = Color.fromARGB(255, 238, 241, 248);
@@ -23,4 +26,7 @@ class AppColors {
   static const Color favoriteHeartColor = const Color(0xFFFF8D7E);
   static const Color warningLighten = Color.fromARGB(255, 255, 241, 237);
   static const Color warning = Color.fromARGB(255, 211, 50, 17);
+  static const Color shadowColor = Color.fromARGB(50, 50, 0, 2);
+  static const Color  neutralColor = const Color(0xFF646464);
+
 }
