@@ -20,4 +20,5 @@ class AppColors {
   static const Color primaryDarken = Color.fromARGB(255, 39, 73, 150);
   static const Color primaryLighten = Color.fromARGB(255, 238, 241, 248);
   static const Color primaryWithAlpha50 = Color.fromARGB(122, 59, 105, 209);
+  static const Color favoriteHeartColor = const Color(0xFFFF8D7E);
 }
