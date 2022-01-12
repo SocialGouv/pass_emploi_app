@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/tags.dart';
 
@@ -35,7 +36,11 @@ class UserActionListItem extends StatelessWidget {
             style: TextStyles.textSmMedium(),
           ),
           SizedBox(height: 4),
-          if (item.withComment) Text(item.comment, style: TextStyles.textSmRegular())
+          if (item.withComment) ...[
+            Text(item.comment, style: TextStyles.textSmRegular()),
+            SizedBox(height: 4),
+          ],
+          Text(item.lastUpdate, style: TextStyles.textSmRegular(color: AppColors.nightBlue))
         ],
       ),
     );

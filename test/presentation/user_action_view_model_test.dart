@@ -113,4 +113,22 @@ main() {
           textColor: Colors.white,
         ));
   });
+
+  test("UserActionViewModel.create should properly display last update date", () {
+    // Given
+    final userAction = UserAction(
+      id: "id",
+      content: "content",
+      comment: "comment",
+      status: UserActionStatus.IN_PROGRESS,
+      lastUpdate: DateTime(2022, 1, 12),
+      creator: ConseillerActionCreator(name: "Nils Tavernier"),
+    );
+
+    // When
+    final viewModel = UserActionViewModel.create(userAction);
+
+    // Then
+    expect(viewModel.lastUpdate, "Modifiée le 12/01/2022");
+  });
 }

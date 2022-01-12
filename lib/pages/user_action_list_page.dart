@@ -35,17 +35,17 @@ class _UserActionListPageState extends State<UserActionListPage> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, UserActionListPageViewModel>(
       onInit: (store) => store.dispatch(RequestUserActionsAction()),
-      builder: (context, viewModel) => _scaffold(context, viewModel, _body(context, viewModel)),
+      builder: (context, viewModel) => _scaffold(context, viewModel),
       converter: (store) => UserActionListPageViewModel.create(store),
     );
   }
 
-  Widget _scaffold(BuildContext context, UserActionListPageViewModel viewModel, Widget body) {
+  Widget _scaffold(BuildContext context, UserActionListPageViewModel viewModel) {
     return Scaffold(
       backgroundColor: AppColors.lightBlue,
       body: Stack(
         children: [
-          DefaultAnimatedSwitcher(child: body),
+          DefaultAnimatedSwitcher(child: _animatedBody(context, viewModel)),
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _createUserActionButton(viewModel)),
@@ -55,7 +55,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
     );
   }
 
-  Widget _body(BuildContext context, UserActionListPageViewModel viewModel) {
+  Widget _animatedBody(BuildContext context, UserActionListPageViewModel viewModel) {
     if (viewModel.withLoading) return _loader();
     if (viewModel.withFailure) return Center(child: Retry(Strings.actionsError, () => viewModel.onRetry()));
     if (viewModel.withEmptyMessage) return _empty();

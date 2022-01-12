@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class UserActionViewModel {
   final String id;
@@ -12,7 +13,7 @@ class UserActionViewModel {
   final String comment;
   final bool withComment;
   final UserActionStatus status;
-  final DateTime lastUpdate;
+  final String lastUpdate;
   final String creator;
   final UserActionTagViewModel? tag;
   final bool withDeleteOption;
@@ -36,7 +37,7 @@ class UserActionViewModel {
       comment: userAction.comment,
       withComment: userAction.comment.isNotEmpty,
       status: userAction.status,
-      lastUpdate: userAction.lastUpdate,
+      lastUpdate: Strings.lastUpdateFormat(userAction.lastUpdate.toDay()),
       creator: _displayName(userAction.creator),
       tag: _userActionTagViewModel(userAction),
       withDeleteOption: userAction.creator is! ConseillerActionCreator,
