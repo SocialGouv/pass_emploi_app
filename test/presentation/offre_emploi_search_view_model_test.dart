@@ -121,7 +121,7 @@ main() {
     expect(viewModel.locations.first.toString(), "Paris (75)");
   });
 
-  test('View model triggers SearchOffreEmploiAction when onFullSearchingRequest is performed', () {
+  test('View model triggers SearchOffreEmploiAction when onSearchingRequest is performed', () {
     // Given
     final store = StoreSpy();
     final viewModel = OffreEmploiSearchViewModel.create(store);
@@ -136,7 +136,7 @@ main() {
     expect(dispatchedAction.onlyAlternance, false);
   });
 
-  test('View model triggers SearchOffreEmploiAction when onFullSearchingRequest is performed only for alterance', () {
+  test('View model triggers SearchOffreEmploiAction when onSearchingRequest is performed only for alterance', () {
     // Given
     final store = StoreSpy();
     final viewModel = OffreEmploiSearchViewModel.create(store);
