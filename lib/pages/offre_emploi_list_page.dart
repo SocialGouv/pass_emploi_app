@@ -171,7 +171,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
 
   void _showOffreEmploiDetailsPage(BuildContext context, String offreId) {
     _offsetBeforeLoading = _scrollController.offset;
-    Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(offreId))
+    Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: widget.onlyAlternance))
         .then((value) => _scrollController.jumpTo(_offsetBeforeLoading));
   }
 

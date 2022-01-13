@@ -38,7 +38,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
 
   static MaterialPageRoute materialPageRoute(
     String id, {
-    bool fromAlternance = false,
+    required bool fromAlternance,
     bool shouldPopPageWhenFavoriIsRemoved = false,
   }) {
     return MaterialPageRoute(builder: (context) {

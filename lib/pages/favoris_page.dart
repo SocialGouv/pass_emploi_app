@@ -69,6 +69,7 @@ class FavorisPage extends TraceableStatelessWidget {
               context,
               OffreEmploiDetailsPage.materialPageRoute(
                 viewModel.items[index].id,
+                fromAlternance: onlyAlternance,
                 shouldPopPageWhenFavoriIsRemoved: true,
               ),
             );
