@@ -1,4 +1,4 @@
-enum AppPage {
+enum OffrePage {
   emploiResults,
   emploiDetails,
   emploiFavoris,

@@ -40,17 +40,17 @@ class AnalyticsScreenNames {
 class AnalyticsActionNames {
   AnalyticsActionNames._();
 
-  static const emploiResultAddFavori = "recherche/emploi/search_results?favori=true";
-  static const emploiResultRemoveFavori = "recherche/emploi/search_results?favori=false";
-  static const emploiDetailsAddFavori = "recherche/emploi/detail?favori=true";
-  static const emploiDetailsRemoveFavori = "recherche/emploi/detail?favori=false";
-  static const emploiFavoriRemoveFavori = "favoris/list/emploi?favori=false";
+  static String emploiResultUpdateFavori(bool added) => "recherche/emploi/search_results?favori=$added";
 
-  static const alternanceResultAddFavori = "recherche/alternance/search_results?favori=true";
-  static const alternanceResultRemoveFavori = "recherche/alternance/search_results?favori=false";
-  static const alternanceDetailsAddFavori = "recherche/alternance/detail?favori=true";
-  static const alternanceDetailsRemoveFavori = "recherche/alternance/detail?favori=false";
-  static const alternanceFavoriRemoveFavori = "favoris/list/alternance?favori=false";
+  static String emploiDetailUpdateFavori(bool added) => "recherche/emploi/detail?favori=$added";
+
+  static String? emploiFavoriUpdateFavori(bool added) => added ? null : "favoris/list/emploi?favori=false";
+
+  static String alternanceResultUpdateFavori(bool added) => "recherche/alternance/search_results?favori=$added";
+
+  static String alternanceDetailUpdateFavori(bool added) => "recherche/alternance/detail?favori=$added";
+
+  static String? alternanceFavoriUpdateFavori(bool added) => added ? null : "favoris/list/alternance?favori=false";
 
   static const deleteUserAction = "actions/list?deleteSuccess=true";
 }

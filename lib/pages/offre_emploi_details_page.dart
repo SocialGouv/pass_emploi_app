@@ -5,7 +5,7 @@ import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
-import 'package:pass_emploi_app/pages/app_page.dart';
+import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/favori_heart_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_details_page_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
@@ -421,7 +421,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
           FavoriHeart(
             offreId: offreId,
             withBorder: true,
-            from: _fromAlternance ? AppPage.alternanceDetails : AppPage.emploiDetails,
+            from: _fromAlternance ? OffrePage.alternanceDetails : OffrePage.emploiDetails,
             onFavoriRemoved: shouldPopPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
           ),
           SizedBox(width: 8),

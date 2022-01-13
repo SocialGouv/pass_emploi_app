@@ -3,9 +3,9 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/pages/app_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_filtres_page.dart';
+import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_results_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
@@ -110,7 +110,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
           splashColor: AppColors.bluePurple,
           child: OffreEmploiListItem(
             itemViewModel: resultsViewModel.items[index],
-            from: widget.onlyAlternance ? AppPage.alternanceResults : AppPage.emploiResults,
+            from: widget.onlyAlternance ? OffrePage.alternanceResults : OffrePage.emploiResults,
           ),
         ),
       ),
