@@ -3,7 +3,6 @@ import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/action_button.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -24,7 +23,7 @@ class ServiceCiviqueSearchPage extends TraceableStatelessWidget {
           SizedBox(height: 36),
           ConstrainedBox(
             constraints: const BoxConstraints(minWidth: double.infinity),
-            child: PrimaryActionButton.simple(
+            child: PrimaryActionButton(
               onPressed: () => launch(Strings.serviceCiviqueUrl),
               label: Strings.serviceCiviqueButtonAction,
             ),

@@ -173,7 +173,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
   }
 
   Widget _filtreButton(OffreEmploiSearchResultsViewModel viewModel) {
-    return FilterButton.simple(
+    return FilterButton(
         filtresCount: viewModel.filtresCount,
       onPressed: () => Navigator.push(
         context,

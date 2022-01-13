@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/cards/event_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
@@ -96,7 +97,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
     );
   }
 
-  Container _listSeparator() => Container(height: 1, color: AppColors.bluePurpleAlpha20);
+  Container _listSeparator() => Container(height: 16);
 
   Widget _listItem(BuildContext context, UserActionListPageItem item, UserActionListPageViewModel viewModel) {
     if (item is UserActionListSubtitle) {
@@ -110,24 +111,20 @@ class _UserActionListPageState extends State<UserActionListPage> {
   }
 
   Widget _tapListener(BuildContext context, UserActionViewModel item, UserActionListPageViewModel viewModel) {
-    return Container(
-      color: Colors.white,
-      child: Material(
-        type: MaterialType.transparency,
-        child: InkWell(
-          onTap: () => showUserActionBottomSheet(
-            context: context,
-            builder: (context) => UserActionDetailsBottomSheet(item),
-          ).then((value) => _onUserActionDetailsDismissed(context, value, viewModel)),
-          splashColor: AppColors.bluePurple,
-          child: UserActionListItem(item: item),
-        ),
-      ),
+    return EventCard(
+      onTap: () => showUserActionBottomSheet(
+        context: context,
+        builder: (context) => UserActionDetailsBottomSheet(item),
+      ).then((value) => _onUserActionDetailsDismissed(context, value, viewModel)),
+      titre: item.content,
+      sousTitre: item.comment,
+      statut: item.status,
+      derniereModification: item.lastUpdate,
     );
   }
 
   Widget _createUserActionButton(UserActionListPageViewModel viewModel) {
-    return PrimaryActionButton.simple(
+    return PrimaryActionButton(
       label: Strings.addAnAction,
       drawableRes: Drawables.icAdd,
       rippleColor: AppColors.primaryDarken,
