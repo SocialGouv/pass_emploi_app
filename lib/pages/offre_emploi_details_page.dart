@@ -402,7 +402,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: PrimaryActionButton.simple(
+            child: PrimaryActionButton(
               onPressed: () => launch(url),
               label: Strings.postulerButtonTitle,
             ),

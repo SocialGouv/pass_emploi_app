@@ -32,4 +32,5 @@ class Drawables {
   static String icClock = _assets + "ic_clock" + _svg;
   static String icMail = _assets + "ic_mail" + _svg;
   static String icFilter = _assets + "ic_filter" + _svg;
+  static String icChevronRight = _assets + "chevron_right" + _svg;
 }

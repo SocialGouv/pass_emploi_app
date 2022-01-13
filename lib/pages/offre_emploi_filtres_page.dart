@@ -169,7 +169,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
   Widget _stretchedButton(BuildContext context, OffreEmploiFiltresViewModel viewModel) {
     return ConstrainedBox(
       constraints: const BoxConstraints(minWidth: double.infinity),
-      child: PrimaryActionButton.simple(
+      child: PrimaryActionButton(
         onPressed: _hasFormChanged && viewModel.displayState != DisplayState.LOADING
             ? () => viewModel.updateFiltres(
                   _sliderValueToDisplay(viewModel).toInt(),

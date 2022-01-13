@@ -72,7 +72,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
           ),
           _separator(),
           Center(
-            child: PrimaryActionButton.simple(
+            child: PrimaryActionButton(
               onPressed: _isLoading(viewModel) ? null : () => _onSearchButtonPressed(viewModel),
               label: Strings.searchButton,
             ),

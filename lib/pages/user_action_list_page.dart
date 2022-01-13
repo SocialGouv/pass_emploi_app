@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/cards/event_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
@@ -30,7 +31,6 @@ class UserActionListPage extends TraceableStatefulWidget {
 }
 
 class _UserActionListPageState extends State<UserActionListPage> {
-
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, UserActionListPageViewModel>(
@@ -75,73 +75,23 @@ class _UserActionListPageState extends State<UserActionListPage> {
     );
   }
 
-  Container _listSeparator() => Container(height: 1, color: AppColors.bluePurpleAlpha20);
+  Container _listSeparator() => Container(height: 16);
 
   Widget _tapListener(BuildContext context, UserActionViewModel item, UserActionListPageViewModel viewModel) {
-    return Container(
-      color: Colors.white,
-      child: Material(
-        type: MaterialType.transparency,
-        child: InkWell(
-          onTap: () => showUserActionBottomSheet(
-            context: context,
-            builder: (context) => UserActionDetailsBottomSheet(item),
-          ).then((value) => _onUserActionDetailsDismissed(context, value, viewModel)),
-          splashColor: AppColors.bluePurple,
-          child: _listItem(item, viewModel),
-        ),
-      ),
-    );
-  }
-
-  Widget _listItem(UserActionViewModel item, UserActionListPageViewModel viewModel) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (item.tag != null)
-            _tagPadding(
-              tag: _tag(
-                  title: item.tag!.title, backgroundColor: item.tag!.backgroundColor, textColor: item.tag!.textColor),
-            ),
-          if (item.tag != null) SizedBox(height: 4),
-          Text(
-            item.content,
-            style: TextStyles.textSmMedium(),
-          ),
-          SizedBox(height: 4),
-          if (item.withComment) Text(item.comment, style: TextStyles.textSmRegular())
-        ],
-      ),
-    );
-  }
-
-  Padding _tagPadding({required Widget tag}) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
-      child: Align(alignment: Alignment.centerLeft, child: tag),
-    );
-  }
-
-  Container _tag({required String title, required Color backgroundColor, required Color textColor}) {
-    return Container(
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.all(Radius.circular(16)),
-      ),
-      child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
-          child: Text(
-            title,
-            style: TextStyles.textSmMedium(color: textColor),
-          )),
+    return EventCard(
+      onTap: () => showUserActionBottomSheet(
+        context: context,
+        builder: (context) => UserActionDetailsBottomSheet(item),
+      ).then((value) => _onUserActionDetailsDismissed(context, value, viewModel)),
+      titre: item.content,
+      sousTitre: item.comment,
+      statut: item.status,
+      derniereModification: item.lastUpdate,
     );
   }
 
   Widget _createUserActionButton(UserActionListPageViewModel viewModel) {
-    return PrimaryActionButton.simple(
+    return PrimaryActionButton(
       label: Strings.addAnAction,
       drawableRes: Drawables.icAdd,
       rippleColor: AppColors.primaryDarken,

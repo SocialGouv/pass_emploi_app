@@ -113,7 +113,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
   Widget _understood(BuildContext context) {
     return Padding(
       padding: userActionBottomSheetContentPadding(),
-      child: PrimaryActionButton.simple(
+      child: PrimaryActionButton(
         label: Strings.understood,
         onPressed: () => Navigator.pop(context),
       ),
@@ -207,7 +207,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
               update: (newStatus) => _update(newStatus),
             ),
           ),
-          PrimaryActionButton.simple(
+          PrimaryActionButton(
             onPressed: () => {detailsViewModel.onRefreshStatus(widget.actionViewModel.id, actionStatus)},
             label: Strings.refreshActionStatus,
           ),
@@ -222,7 +222,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          PrimaryActionButton.simple(
+          PrimaryActionButton(
             onPressed: detailsViewModel.displayState == UserActionDetailsDisplayState.SHOW_LOADING
                 ? null
                 : () => detailsViewModel.onDelete(widget.actionViewModel.id),

@@ -16,7 +16,7 @@ class FilterButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final int? filtresCount;
 
-  FilterButton.simple({
+  FilterButton({
     Key? key,
     this.drawableRes,
     this.backgroundColor = AppColors.primary,

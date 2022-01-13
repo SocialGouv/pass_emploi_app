@@ -27,4 +27,11 @@ class AppColors {
   static const Color warning = Color.fromARGB(255, 211, 50, 17);
   static const Color shadowColor = Color.fromARGB(10, 50, 0, 1);
   static const Color neutralColor = const Color(0xFF646464);
+  static const Color contentColor = const Color(0xFF161616);
+  static const Color accent1 = const Color(0xFF950EFF);
+  static const Color accent1Lighten = const Color(0xFFF4E5FF);
+  static const Color accent2 = const Color(0xFF666B97);
+  static const Color accent2Lighten = const Color(0xFFF6F6F6);
+  static const Color accent3 = const Color(0xFF0C7A81);
+  static const Color accent3Lighten = const Color(0xFFDFFDFF);
 }
