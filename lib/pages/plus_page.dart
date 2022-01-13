@@ -36,6 +36,7 @@ class PlusPage extends TraceableStatelessWidget {
                       textColor: AppColors.warning,
                       backgroundColor: AppColors.warningLighten,
                       rippleColor: AppColors.redGrey,
+                      withShadow: false,
                     ),
                   ),
                 ],
