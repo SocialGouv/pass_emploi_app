@@ -13,7 +13,7 @@ class DataCard extends StatelessWidget {
   final String? lieu;
   final List<String> dataTag;
   final VoidCallback onTap;
-  final String? idOffreFavori;
+  final String? id;
 
   const DataCard({
     Key? key,
@@ -22,51 +22,55 @@ class DataCard extends StatelessWidget {
     required this.lieu,
     required this.dataTag,
     required this.onTap,
-    this.idOffreFavori,
+    this.id,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      splashColor: AppColors.bluePurple,
-      onTap: this.onTap,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(16)),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.shadowColor,
-              spreadRadius: 1,
-              blurRadius: 8,
-              offset: Offset(0, 6), // changes position of shadow
-            )
-          ]
+    return Container(
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(16)), boxShadow: [
+        BoxShadow(
+          color: AppColors.shadowColor,
+          spreadRadius: 1,
+          blurRadius: 8,
+          offset: Offset(0, 6), // changes position of shadow
+        )
+      ]),
+      child: Material(
+        type: MaterialType.transparency,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.max,
+        child: InkWell(
+          onTap: this.onTap,
+          splashColor: AppColors.primaryLighten,
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      _buildTitre(),
-                      if (sousTitre != null) buildSousTitre(),
-                    ],
-                  ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          _buildTitre(),
+                          if (sousTitre != null) buildSousTitre(),
+                        ],
+                      ),
+                    ),
+                    if (id != null) FavoriHeart(offreId: id!, withBorder: false)
+                  ],
                 ),
-                if (idOffreFavori != null) FavoriHeart(offreId: idOffreFavori!, withBorder: false)
+                if (lieu != null && lieu!.isNotEmpty) buildLieu(),
+                if (dataTag.isNotEmpty) buildDataTag(),
               ],
             ),
-            if (lieu != null) buildLieu(),
-            if (dataTag.isNotEmpty) buildDataTag(),
-          ],
+          ),
         ),
       ),
     );

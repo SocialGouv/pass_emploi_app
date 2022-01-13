@@ -41,7 +41,7 @@ class DataTag extends StatelessWidget {
 
 }
 
-Container lightBlueTag({required String label, SvgPicture? icon}) {
+Widget lightBlueTag({required String label, SvgPicture? icon}) {
   return Container(
     decoration: BoxDecoration(
       color: AppColors.lightBlue,
