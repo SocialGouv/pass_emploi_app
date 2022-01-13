@@ -12,11 +12,11 @@ class AnalyticsScreenNames {
   static const createUserAction = "actions/create";
   static const chat = "chat";
 
-  static const offreEmploiResearch = "recherche/emploi/search";
-  static const offreEmploiResults = "recherche/emploi/search_results";
-  static const offreEmploiNoResults = "recherche/emploi/search_no_results";
-  static const offreEmploiDetails = "recherche/emploi/detail";
-  static const offreEmploiFiltres = "recherche/emploi/search_results/filters";
+  static const emploiResearch = "recherche/emploi/search";
+  static const emploiResults = "recherche/emploi/search_results";
+  static const emploiNoResults = "recherche/emploi/search_no_results";
+  static const emploiDetails = "recherche/emploi/detail";
+  static const emploiFiltres = "recherche/emploi/search_results/filters";
 
   static const alternanceResearch = "recherche/alternance/search";
   static const alternanceResults = "recherche/alternance/search_results";
@@ -32,16 +32,25 @@ class AnalyticsScreenNames {
   static const serviceCiviqueResearch = "recherche/service_civique/search";
 
   static const toolbox = "recherche/boite_a_outils";
-  static const favoris = "favoris/list/emploi";
+  static const emploiFavoris = "favoris/list/emploi";
+  static const alternanceFavoris = "favoris/list/alternance";
   static const plus = "plus";
 }
-
 
 class AnalyticsActionNames {
   AnalyticsActionNames._();
 
-  static const offreEmploiAddFavori = "recherche/emploi/detail?favori=true";
-  static const offreEmploiRemoveFavori = "recherche/emploi/detail?favori=false";
+  static String emploiResultUpdateFavori(bool added) => "recherche/emploi/search_results?favori=$added";
+
+  static String emploiDetailUpdateFavori(bool added) => "recherche/emploi/detail?favori=$added";
+
+  static String? emploiFavoriUpdateFavori(bool added) => added ? null : "favoris/list/emploi?favori=false";
+
+  static String alternanceResultUpdateFavori(bool added) => "recherche/alternance/search_results?favori=$added";
+
+  static String alternanceDetailUpdateFavori(bool added) => "recherche/alternance/detail?favori=$added";
+
+  static String? alternanceFavoriUpdateFavori(bool added) => added ? null : "favoris/list/alternance?favori=false";
 
   static const deleteUserAction = "actions/list?deleteSuccess=true";
 }

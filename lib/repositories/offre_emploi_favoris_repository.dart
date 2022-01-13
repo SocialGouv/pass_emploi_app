@@ -60,6 +60,7 @@ class OffreEmploiFavorisRepository {
             offre.title,
             offre.companyName,
             offre.contractType,
+            offre.isAlternance,
             offre.location,
             offre.duration,
           ),

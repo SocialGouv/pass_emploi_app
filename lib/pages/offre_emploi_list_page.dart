@@ -5,6 +5,7 @@ import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_filtres_page.dart';
+import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_results_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
@@ -21,7 +22,7 @@ class OffreEmploiListPage extends TraceableStatefulWidget {
   final bool onlyAlternance;
 
   OffreEmploiListPage({required this.onlyAlternance})
-      : super(name: onlyAlternance ? AnalyticsScreenNames.alternanceResults : AnalyticsScreenNames.offreEmploiResults);
+      : super(name: onlyAlternance ? AnalyticsScreenNames.alternanceResults : AnalyticsScreenNames.emploiResults);
 
   @override
   State<OffreEmploiListPage> createState() => _OffreEmploiListPageState();
@@ -107,7 +108,10 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
         child: InkWell(
           onTap: () => _showOffreEmploiDetailsPage(context, resultsViewModel.items[index].id),
           splashColor: AppColors.bluePurple,
-          child: OffreEmploiListItem(itemViewModel: resultsViewModel.items[index]),
+          child: OffreEmploiListItem(
+            itemViewModel: resultsViewModel.items[index],
+            from: widget.onlyAlternance ? OffrePage.alternanceResults : OffrePage.emploiResults,
+          ),
         ),
       ),
     );
@@ -167,7 +171,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
 
   void _showOffreEmploiDetailsPage(BuildContext context, String offreId) {
     _offsetBeforeLoading = _scrollController.offset;
-    Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(offreId))
+    Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: widget.onlyAlternance))
         .then((value) => _scrollController.jumpTo(_offsetBeforeLoading));
   }
 

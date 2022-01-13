@@ -44,15 +44,17 @@ void main() {
     expect(search.offres.length, 3);
     final offre = search.offres[0];
     expect(
-        offre,
-        OffreEmploi(
-          id: "123YYCD",
-          title: "Serveur / Serveuse de restaurant - chef de rang h/f   (H/F)",
-          companyName: "BRASSERIE FLO",
-          contractType: "CDI",
-          location: "75 - PARIS 10",
-          duration: "Temps plein",
-        ));
+      offre,
+      OffreEmploi(
+        id: "123YYCD",
+        title: "Serveur / Serveuse de restaurant - chef de rang h/f   (H/F)",
+        companyName: "BRASSERIE FLO",
+        contractType: "CDI",
+        isAlternance: false,
+        location: "75 - PARIS 10",
+        duration: "Temps plein",
+      ),
+    );
   });
 
   test('search when response is valid with keywords and a commune location should return offres', () async {

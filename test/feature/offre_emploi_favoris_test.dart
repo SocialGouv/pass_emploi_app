@@ -148,24 +148,7 @@ Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
           {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()},
         ),
         offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
-          offres: [
-            OffreEmploi(
-              id: "1",
-              title: "Technicien / Technicienne en froid et climatisation",
-              companyName: "RH TT INTERIM",
-              contractType: "MIS",
-              location: "77 - LOGNES",
-              duration: "Temps plein",
-            ),
-            OffreEmploi(
-              id: "17",
-              title: "Technicien / Technicienne en froid et climatisation",
-              companyName: "RH TT INTERIM",
-              contractType: "MIS",
-              location: "77 - LOGNES",
-              duration: "Temps plein",
-            ),
-          ],
+          offres: [mockOffreEmploi(id: '1'), mockOffreEmploi(id: '17')],
           loadedPage: 1,
           isMoreDataAvailable: false,
         )),
@@ -214,24 +197,7 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
           {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()},
         ),
         offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
-          offres: [
-            OffreEmploi(
-              id: "1",
-              title: "Technicien / Technicienne en froid et climatisation",
-              companyName: "RH TT INTERIM",
-              contractType: "MIS",
-              location: "77 - LOGNES",
-              duration: "Temps plein",
-            ),
-            OffreEmploi(
-              id: "17",
-              title: "Technicien / Technicienne en froid et climatisation",
-              companyName: "RH TT INTERIM",
-              contractType: "MIS",
-              location: "77 - LOGNES",
-              duration: "Temps plein",
-            ),
-          ],
+          offres: [mockOffreEmploi(id: '1'), mockOffreEmploi(id: '17')],
           loadedPage: 1,
           isMoreDataAvailable: false,
         )),

@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_results_view_model.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -36,7 +35,7 @@ main() {
 
       // Then
       expect(viewModel.displayState, DisplayState.CONTENT);
-      expect(viewModel.items, _expectedViewModels());
+      expect(viewModel.items, [mockOffreEmploiItemViewModel()]);
       expect(viewModel.displayLoaderAtBottomOfList, true);
     });
 
@@ -49,7 +48,7 @@ main() {
 
       // Then
       expect(viewModel.displayState, DisplayState.CONTENT);
-      expect(viewModel.items, _expectedViewModels());
+      expect(viewModel.items, [mockOffreEmploiItemViewModel()]);
       expect(viewModel.displayLoaderAtBottomOfList, false);
     });
   });
@@ -70,7 +69,7 @@ main() {
 
     // Then
     expect(viewModel.displayState, DisplayState.LOADING);
-    expect(viewModel.items, _expectedViewModels());
+    expect(viewModel.items, [mockOffreEmploiItemViewModel()]);
   });
 
   test("create when state is failure should convert data to view model", () {
@@ -92,7 +91,7 @@ main() {
 
     // Then
     expect(viewModel.displayState, DisplayState.FAILURE);
-    expect(viewModel.items, _expectedViewModels());
+    expect(viewModel.items, [mockOffreEmploiItemViewModel()]);
   });
 
   group("create should properly set filtre number ...", () {
@@ -358,17 +357,4 @@ Store<AppState> _storeWithParams({required bool onlyAlternance, required Locatio
       ),
     ),
   );
-}
-
-List<OffreEmploiItemViewModel> _expectedViewModels() {
-  return [
-    OffreEmploiItemViewModel(
-      "123DXPM",
-      "Technicien / Technicienne en froid et climatisation",
-      "RH TT INTERIM",
-      "MIS",
-      "Temps plein",
-      "77 - LOGNES",
-    )
-  ];
 }

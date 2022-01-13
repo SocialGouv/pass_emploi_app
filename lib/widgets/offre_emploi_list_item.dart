@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -11,8 +12,9 @@ import 'favori_heart.dart';
 
 class OffreEmploiListItem extends StatelessWidget {
   final OffreEmploiItemViewModel itemViewModel;
+  final OffrePage from;
 
-  const OffreEmploiListItem({required this.itemViewModel}) : super();
+  const OffreEmploiListItem({required this.itemViewModel, required this.from}) : super();
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class OffreEmploiListItem extends StatelessWidget {
         Positioned(
           top: 8,
           right: 8,
-          child: FavoriHeart(offreId: itemViewModel.id, withBorder: false),
+          child: FavoriHeart(offreId: itemViewModel.id, withBorder: false, from: from),
         )
       ]),
     );

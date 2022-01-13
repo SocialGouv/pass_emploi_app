@@ -23,7 +23,7 @@ class OffreEmploiSearchPage extends TraceableStatefulWidget {
 
   OffreEmploiSearchPage({required this.onlyAlternance})
       : super(
-          name: onlyAlternance ? AnalyticsScreenNames.alternanceResearch : AnalyticsScreenNames.offreEmploiResearch,
+          name: onlyAlternance ? AnalyticsScreenNames.alternanceResearch : AnalyticsScreenNames.emploiResearch,
           key: ValueKey(onlyAlternance),
         );
 
@@ -130,8 +130,8 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
   bool _isError(OffreEmploiSearchViewModel viewModel) {
     if (viewModel.displayState == DisplayState.EMPTY)
       MatomoTracker.trackScreenWithName(
-        widget.onlyAlternance ? AnalyticsScreenNames.alternanceNoResults : AnalyticsScreenNames.offreEmploiNoResults,
-        widget.onlyAlternance ? AnalyticsScreenNames.alternanceResearch : AnalyticsScreenNames.offreEmploiResearch,
+        widget.onlyAlternance ? AnalyticsScreenNames.alternanceNoResults : AnalyticsScreenNames.emploiNoResults,
+        widget.onlyAlternance ? AnalyticsScreenNames.alternanceResearch : AnalyticsScreenNames.emploiResearch,
       );
 
     return viewModel.displayState == DisplayState.FAILURE || viewModel.displayState == DisplayState.EMPTY;
