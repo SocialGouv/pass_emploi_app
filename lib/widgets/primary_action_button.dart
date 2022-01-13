@@ -10,6 +10,7 @@ class PrimaryActionButton extends StatelessWidget {
   final Color? rippleColor;
   final String? drawableRes;
   final String label;
+  final bool withShadow;
   final VoidCallback? onPressed;
 
   const PrimaryActionButton({
@@ -18,6 +19,7 @@ class PrimaryActionButton extends StatelessWidget {
     this.disabledBackgroundColor = AppColors.primaryWithAlpha50,
     this.textColor = Colors.white,
     this.rippleColor = AppColors.primaryDarken,
+    this.withShadow = true,
     this.drawableRes,
     this.onPressed,
     required this.label,
@@ -36,7 +38,13 @@ class PrimaryActionButton extends StatelessWidget {
         backgroundColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
           return states.contains(MaterialState.disabled) ? disabledBackgroundColor : backgroundColor;
         }),
-        elevation: MaterialStateProperty.all(10),
+        elevation: MaterialStateProperty.resolveWith((states) {
+          if (states.contains(MaterialState.disabled) || !withShadow) {
+            return 0;
+          } else {
+            return 10;
+          }
+        }),
         alignment: Alignment.center,
         shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(200)))),
         overlayColor: MaterialStateProperty.resolveWith(
