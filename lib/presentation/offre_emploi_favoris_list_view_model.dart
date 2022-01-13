@@ -20,16 +20,16 @@ class OffreEmploiFavorisListViewModel extends Equatable {
 
   factory OffreEmploiFavorisListViewModel.create(Store<AppState> store, {required bool onlyAlternance}) {
     final state = store.state.offreEmploiFavorisState;
-    final retry = store.dispatch(RequestOffreEmploiFavorisAction());
+    final retry = () => store.dispatch(RequestOffreEmploiFavorisAction());
     if (state is OffreEmploiFavorisLoadedState) {
       final favoris = _relevantFavoris(state.data, onlyAlternance);
       return OffreEmploiFavorisListViewModel._(
         items: favoris?.map((e) => OffreEmploiItemViewModel.create(e)).toList() ?? [],
         displayState: _displayState(favoris),
-        onRetry: () => retry(),
+        onRetry: retry,
       );
     } else {
-      return OffreEmploiFavorisListViewModel._(items: [], displayState: DisplayState.FAILURE, onRetry: () => retry());
+      return OffreEmploiFavorisListViewModel._(items: [], displayState: DisplayState.FAILURE, onRetry: retry);
     }
   }
 }

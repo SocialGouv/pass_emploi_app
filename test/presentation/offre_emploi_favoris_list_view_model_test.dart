@@ -1,12 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_favoris_list_view_model.dart';
+import 'package:pass_emploi_app/redux/actions/offre_emploi_favoris_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
+import '../doubles/spies.dart';
 
 main() {
   group('create when not only alternance…', () {
@@ -100,6 +102,15 @@ main() {
           mockOffreEmploiItemViewModel(id: '2'),
         ],
       );
+    });
+
+    test('View model triggers ImmersionSearchFailureAction when onRetry is performed', () {
+      final store = StoreSpy();
+      final viewModel = OffreEmploiFavorisListViewModel.create(store, onlyAlternance: false);
+
+      viewModel.onRetry();
+
+      expect(store.dispatchedAction is RequestOffreEmploiFavorisAction, isTrue);
     });
   });
 
@@ -204,6 +215,15 @@ main() {
 
       // Then
       expect(viewModel.items, [mockOffreEmploiItemViewModel(id: '2')]);
+    });
+
+    test('View model triggers ImmersionSearchFailureAction when onRetry is performed', () {
+      final store = StoreSpy();
+      final viewModel = OffreEmploiFavorisListViewModel.create(store, onlyAlternance: true);
+
+      viewModel.onRetry();
+
+      expect(store.dispatchedAction is RequestOffreEmploiFavorisAction, isTrue);
     });
   });
 }
