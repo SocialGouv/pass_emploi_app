@@ -96,7 +96,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
       titre: item.title,
       sousTitre: item.companyName,
       lieu: item.location,
-      idOffreFavori: item.id,
+      id: item.id,
       dataTag: [item.contractType, item.duration ?? ''],
       onTap: () => _showOffreEmploiDetailsPage(context, resultsViewModel.items[index].id),
     );

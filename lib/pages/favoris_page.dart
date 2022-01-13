@@ -9,9 +9,9 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
-import 'package:pass_emploi_app/widgets/offre_emploi_list_item.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 import 'offre_emploi_details_page.dart';
@@ -55,43 +55,28 @@ class FavorisPage extends TraceableStatelessWidget {
   ListView _listView(OffreEmploiFavorisListViewModel viewModel) {
     return ListView.separated(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-      itemBuilder: (context, index) =>
-          index == 0 ? _buildFirstItem(context, viewModel) : _buildItem(context, index, viewModel),
+      itemBuilder: (context, index) => _buildItem(context, index, viewModel),
       separatorBuilder: (context, index) => _listSeparator(),
       itemCount: viewModel.items.length,
     );
   }
 
-  Widget _listSeparator() => Container(height: 1, color: AppColors.bluePurpleAlpha20);
+  Widget _listSeparator() => Container(height: 16);
 
   Widget _buildItem(BuildContext context, int index, OffreEmploiFavorisListViewModel viewModel) {
-    return Container(
-      color: Colors.white,
-      child: Material(
-        type: MaterialType.transparency,
-        child: InkWell(
-          onTap: () {
-            Navigator.push(
-                context,
-                OffreEmploiDetailsPage.materialPageRoute(
-                  viewModel.items[index].id,
-                  shouldPopPageWhenFavoriIsRemoved: true,
-                ));
-          },
-          splashColor: AppColors.bluePurple,
-          child: OffreEmploiListItem(itemViewModel: viewModel.items[index]),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFirstItem(
-    BuildContext context,
-    OffreEmploiFavorisListViewModel viewModel,
-  ) {
-    return ClipRRect(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(16), bottom: Radius.zero),
-      child: _buildItem(context, 0, viewModel),
+    var item = viewModel.items[index];
+    return DataCard(
+      titre: item.title,
+      sousTitre: item.companyName,
+      lieu: item.location,
+      dataTag: [item.contractType, item.duration].whereType<String>().toList(),
+      id: item.id,
+      onTap: () => Navigator.push(
+          context,
+          OffreEmploiDetailsPage.materialPageRoute(
+            item.id,
+            shouldPopPageWhenFavoriIsRemoved: true,
+          )),
     );
   }
 
