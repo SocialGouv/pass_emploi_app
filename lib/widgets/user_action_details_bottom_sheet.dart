@@ -227,10 +227,11 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
                 ? null
                 : () => detailsViewModel.onDelete(widget.actionViewModel.id),
             label: Strings.deleteAction,
-            textColor: AppColors.franceRed,
-            backgroundColor: AppColors.franceRedAlpha05,
+            textColor: AppColors.warning,
+            backgroundColor: AppColors.warningLighten,
             disabledBackgroundColor: AppColors.redGrey,
             rippleColor: AppColors.redGrey,
+            withShadow: false,
           ),
           if (detailsViewModel.displayState == UserActionDetailsDisplayState.SHOW_DELETE_ERROR)
             Padding(
