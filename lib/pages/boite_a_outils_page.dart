@@ -40,6 +40,7 @@ class BoiteAOutilsPage extends TraceableStatelessWidget {
           ),
           child: InkWell(
             onTap: () {
+              MatomoTracker.trackScreenWithName(outil.urlRedirect, AnalyticsScreenNames.toolbox);
               launch(outil.urlRedirect);
             },
             child: Column(
