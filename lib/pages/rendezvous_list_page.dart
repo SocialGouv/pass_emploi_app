@@ -52,6 +52,7 @@ class RendezvousListPage extends TraceableStatelessWidget {
       date: viewModel.dateAndHour,
       titre: viewModel.title,
       sousTitre: viewModel.subtitle,
+      texteLien: Strings.linkDetailsRendezVous,
       onTap: () => Navigator.push(context, RendezvousPage.materialPageRoute(viewModel)),
     );
   }
