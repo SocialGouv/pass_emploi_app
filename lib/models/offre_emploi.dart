@@ -26,11 +26,20 @@ class OffreEmploi extends Equatable {
       companyName: json["nomEntreprise"] as String?,
       contractType: json["typeContrat"] as String,
       isAlternance: json['alternance'] as bool,
-      location: json["localisation"]["nom"] as String,
+      location: _getLocation(json),
       duration: json["duree"] as String?,
     );
   }
 
   @override
   List<Object?> get props => [id, title, companyName, contractType, isAlternance, location, duration];
+}
+
+String? _getLocation(dynamic json) {
+  final nom = (json["localisation"]["nom"] as String?);
+  if (nom == null || nom.isEmpty) {
+    return null;
+  } else {
+    return nom;
+  }
 }

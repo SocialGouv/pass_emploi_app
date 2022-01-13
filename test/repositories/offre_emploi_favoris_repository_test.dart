@@ -186,6 +186,14 @@ main() {
         isAlternance: false,
         companyName: "SERVICES MAINTENANCE INDUSTRIELLE",
         title: "Serrurier(ère) métallier(ère) industriel(le)                (H/F)",
+      ),
+      "123ZZZN1": OffreEmploi(
+        id: "123ZZZN1",
+        duration: "Temps plein",
+        location: null,
+        contractType: "CDI",
+        companyName: "SUPER TAXI",
+        title: "Chauffeur / Chauffeuse de taxi (H/F)",
       )
     });
   });
