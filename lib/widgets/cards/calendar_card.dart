@@ -3,13 +3,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class CalendarCard extends StatelessWidget {
   final String date;
   final String titre;
   final String? sousTitre;
+  final String texteLien;
   final VoidCallback onTap;
 
   const CalendarCard({
@@ -17,6 +17,7 @@ class CalendarCard extends StatelessWidget {
     required this.date,
     required this.titre,
     this.sousTitre,
+    required this.texteLien,
     required this.onTap,
   }) : super(key: key);
 
@@ -86,7 +87,7 @@ class CalendarCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(child: Container()),
-          Text(Strings.link,
+          Text(this.texteLien,
               style: TextStyle(
                 color: AppColors.contentColor,
                 fontFamily: 'Marianne',
