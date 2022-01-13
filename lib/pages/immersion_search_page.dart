@@ -146,7 +146,7 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        PrimaryActionButton.simple(
+        PrimaryActionButton(
           label: Strings.searchButton,
           onPressed: !_isLoading(viewModel) && _isFormValid() ? () => _onSearchButtonPressed(viewModel) : null,
         ),
