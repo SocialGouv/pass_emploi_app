@@ -61,11 +61,11 @@ class TextStyles {
   );
 
   static textMenuRegular(Color color) {
-    return GoogleFonts.rubik(
+    return TextStyle(
       color: color,
       fontSize: FontSizes.extraSmall,
-      fontWeight: FontWeight.w500,
-      letterSpacing: -0.3,
+      fontWeight: FontWeight.w700,
+      fontFamily: 'Marianne',
     );
   }
 
