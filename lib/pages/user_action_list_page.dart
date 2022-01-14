@@ -65,13 +65,12 @@ class _UserActionListPageState extends State<UserActionListPage> {
   Widget _scaffold(BuildContext context, UserActionListPageViewModel viewModel) {
     return Scaffold(
       backgroundColor: AppColors.lightBlue,
-      body: _isPoleEmploiLogin() ? UnavailableContent(contentType: ContentType.ACTIONS) : _content(viewModel, body),
+      body: _isPoleEmploiLogin() ? UnavailableContent(contentType: ContentType.ACTIONS) : _content(viewModel),
     );
   }
 
-  Widget _content(UserActionListPageViewModel viewModel, Widget body) {
+  Widget _content(UserActionListPageViewModel viewModel) {
     return Stack(
-      children: [
        children: [
           DefaultAnimatedSwitcher(child: _animatedBody(context, viewModel)),
           Align(
