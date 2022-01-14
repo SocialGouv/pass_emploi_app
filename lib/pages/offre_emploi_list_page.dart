@@ -78,7 +78,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
         ),
       ),
       body: Stack(children: [
-        if (viewModel.displayState == DisplayState.CONTENT)
+        if (viewModel.displayState == DisplayState.CONTENT || viewModel.displayState == DisplayState.LOADING)
           ListView.separated(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
               controller: _scrollController,

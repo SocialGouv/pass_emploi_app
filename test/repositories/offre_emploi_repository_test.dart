@@ -41,7 +41,7 @@ void main() {
     // Then
     expect(search!, isNotNull);
     expect(search.isMoreDataAvailable, false);
-    expect(search.offres.length, 3);
+    expect(search.offres.length, 4);
     final offre = search.offres[0];
     expect(
       offre,
@@ -55,6 +55,18 @@ void main() {
         duration: "Temps plein",
       ),
     );
+    final offreWithoutLocation = search.offres[3];
+    expect(
+        offreWithoutLocation,
+        OffreEmploi(
+          id: "123ZZZN1",
+          duration: "Temps plein",
+          location: null,
+          contractType: "CDI",
+          companyName: "SUPER TAXI",
+          title: "Chauffeur / Chauffeuse de taxi (H/F)",
+          isAlternance: false,
+        ));
   });
 
   test('search when response is valid with keywords and a commune location should return offres', () async {
@@ -145,6 +157,50 @@ void main() {
 
     // Then
     expect(search!, isNotNull);
+  });
+
+  test('search when response is valid with keywords and a department location should return offres', () async {
+    // Given
+    final httpClient = MockClient((request) async {
+      if (request.method != "GET") return invalidHttpResponse();
+      if (!request.url.toString().startsWith("BASE_URL/offres-emploi")) return invalidHttpResponse();
+      if (request.url.queryParameters["q"] != "keywords") return invalidHttpResponse();
+      if (request.url.queryParameters["departement"] != "75") return invalidHttpResponse();
+      if (request.url.queryParameters["page"] != "1") return invalidHttpResponse();
+      if (request.url.queryParameters["limit"] != "50") return invalidHttpResponse();
+      return Response(loadTestAssets("offres_emploi.json"), 200);
+    });
+    final repository = OffreEmploiRepository("BASE_URL", httpClient, HeadersBuilderStub());
+
+    // When
+    final location = Location(libelle: "Paris", code: "75", type: LocationType.DEPARTMENT);
+    final search = await repository.search(
+      userId: "ID",
+      request: SearchOffreEmploiRequest(
+        keywords: "keywords",
+        location: location,
+        onlyAlternance: false,
+        page: 1,
+        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      ),
+    );
+
+    // Then
+    expect(search!, isNotNull);
+    expect(search.isMoreDataAvailable, false);
+    expect(search.offres.length, 4);
+    final offre = search.offres[0];
+    expect(
+        offre,
+        OffreEmploi(
+          id: "123YYCD",
+          title: "Serveur / Serveuse de restaurant - chef de rang h/f   (H/F)",
+          companyName: "BRASSERIE FLO",
+          contractType: "CDI",
+          location: "75 - PARIS 10",
+          duration: "Temps plein",
+          isAlternance: false,
+        ));
   });
 
   group("search when filtres are applied ...", () {

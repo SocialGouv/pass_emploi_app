@@ -42,5 +42,18 @@
     "typeContrat": "CDI",
     "nomEntreprise": "SERVICES MAINTENANCE INDUSTRIELLE",
     "titre": "Serrurier(ère) métallier(ère) industriel(le)                (H/F)"
+  },
+  {
+    "id": "123ZZZN1",
+    "alternance": false,
+    "duree": "Temps plein",
+    "localisation": {
+      "nom": "",
+      "codePostal": "",
+      "commune": ""
+    },
+    "typeContrat": "CDI",
+    "nomEntreprise": "SUPER TAXI",
+    "titre": "Chauffeur / Chauffeuse de taxi (H/F)"
   }
 ]
