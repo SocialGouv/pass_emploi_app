@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/presentation/user_action_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
@@ -15,6 +16,7 @@ import 'package:pass_emploi_app/widgets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
+import 'package:pass_emploi_app/widgets/unavailable_content.dart';
 import 'package:pass_emploi_app/widgets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/user_action_details_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/user_action_list_item.dart';
@@ -63,15 +65,20 @@ class _UserActionListPageState extends State<UserActionListPage> {
   Widget _scaffold(BuildContext context, UserActionListPageViewModel viewModel) {
     return Scaffold(
       backgroundColor: AppColors.lightBlue,
-      body: Stack(
-        children: [
+      body: _isPoleEmploiLogin() ? UnavailableContent(contentType: ContentType.ACTIONS) : _content(viewModel, body),
+    );
+  }
+
+  Widget _content(UserActionListPageViewModel viewModel, Widget body) {
+    return Stack(
+      children: [
+       children: [
           DefaultAnimatedSwitcher(child: _animatedBody(context, viewModel)),
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _createUserActionButton(viewModel)),
           ),
         ],
-      ),
     );
   }
 
@@ -149,4 +156,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
   void _onCreateUserActionDismissed(UserActionListPageViewModel viewModel) {
     viewModel.onCreateUserActionDismissed();
   }
+
+  bool _isPoleEmploiLogin() =>
+      StoreProvider.of<AppState>(context).state.loginState.getResultOrThrow().loginMode == LoginMode.POLE_EMPLOI;
 }

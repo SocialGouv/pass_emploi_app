@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/pages/rendezvous_page.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_view_model.dart';
@@ -16,6 +17,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
+import 'package:pass_emploi_app/widgets/unavailable_content.dart';
 
 class RendezvousListPage extends TraceableStatelessWidget {
   RendezvousListPage() : super(name: AnalyticsScreenNames.rendezvousList);
@@ -25,7 +27,9 @@ class RendezvousListPage extends TraceableStatelessWidget {
     return StoreConnector<AppState, RendezvousListPageViewModel>(
       onInit: (store) => store.dispatch(RendezvousAction.request(Void)),
       converter: (store) => RendezvousListPageViewModel.create(store),
-      builder: (context, viewModel) => _scaffold(_body(context, viewModel)),
+      builder: (context, viewModel) => _scaffold(_isPoleEmploiLogin(context)
+          ? UnavailableContent(contentType: ContentType.RENDEZVOUS)
+          : _body(context, viewModel)),
     );
   }
 
@@ -65,4 +69,7 @@ class RendezvousListPage extends TraceableStatelessWidget {
       body: Center(child: DefaultAnimatedSwitcher(child: body)),
     );
   }
+
+  bool _isPoleEmploiLogin(BuildContext context) =>
+      StoreProvider.of<AppState>(context).state.loginState.getResultOrThrow().loginMode == LoginMode.POLE_EMPLOI;
 }

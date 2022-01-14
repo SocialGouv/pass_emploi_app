@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
@@ -20,7 +21,7 @@ class RouterPageViewModel extends Equatable {
   factory RouterPageViewModel.create(Store<AppState> store) {
     return RouterPageViewModel(
       routerPageDisplayState: _routerPageDisplayState(store),
-      mainPageDisplayState: _toMainPageDisplayState(store.state.deepLinkState),
+      mainPageDisplayState: _toMainPageDisplayState(store.state.deepLinkState, store),
       deepLinkKey: store.state.deepLinkState.deepLinkOpenedAt.hashCode,
     );
   }
@@ -36,7 +37,16 @@ RouterPageDisplayState _routerPageDisplayState(Store<AppState> store) {
   return RouterPageDisplayState.LOGIN;
 }
 
-MainPageDisplayState _toMainPageDisplayState(DeepLinkState deepLinkState) {
+MainPageDisplayState _toMainPageDisplayState(DeepLinkState? deepLinkState, Store<AppState> store) {
+  if (deepLinkState != null && deepLinkState.deepLink != DeepLink.NOT_SET)
+    return _toMainPageDisplayStateByDeepLink(deepLinkState);
+  final loginState = store.state.loginState;
+  if (loginState.isSuccess() && loginState.getResultOrThrow().loginMode == LoginMode.POLE_EMPLOI)
+    return  MainPageDisplayState.SEARCH;
+  return MainPageDisplayState.DEFAULT;
+}
+
+MainPageDisplayState _toMainPageDisplayStateByDeepLink(DeepLinkState deepLinkState) {
   switch (deepLinkState.deepLink) {
     case DeepLink.ROUTE_TO_RENDEZVOUS:
       return MainPageDisplayState.RENDEZVOUS_TAB;

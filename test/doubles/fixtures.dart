@@ -25,6 +25,14 @@ State<User> successUserState() => State<User>.success(User(
       loginMode: LoginMode.MILO,
     ));
 
+State<User> successPoleEmploiUserState() => State<User>.success(User(
+  id: "id",
+  firstName: "F",
+  lastName: "L",
+  loginMode: LoginMode.POLE_EMPLOI,
+));
+
+
 AppState loggedInState() => AppState.initialState().copyWith(loginState: successUserState());
 
 Response invalidHttpResponse({String message = ""}) => Response(message, 500);

@@ -50,6 +50,16 @@ void main() {
   });
 
   group("RouterPageViewModel.create when user logged in…", () {
+    test('via Pole Emploi should redirect to Search Page', () {
+      final state = AppState.initialState().copyWith(loginState: successPoleEmploiUserState());
+      final store = Store<AppState>(reducer, initialState: state);
+
+      final viewModel = RouterPageViewModel.create(store);
+
+      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
+      expect(viewModel.mainPageDisplayState, MainPageDisplayState.SEARCH);
+    });
+
     test('…and deep link not set should display main page with default display state', () {
       final state = AppState.initialState().copyWith(
         loginState: successUserState(),
