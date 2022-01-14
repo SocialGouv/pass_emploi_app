@@ -107,8 +107,15 @@ class TextStyles {
   static final textSRegular = TextStyle(
     color: AppColors.neutralColor,
     fontFamily: 'Marianne',
-    fontSize: FontSizes.normal,
+    fontSize: FontSizes.semi,
     fontWeight: FontWeight.w400,
+  );
+
+  static final textAppBar = TextStyle(
+    color: AppColors.contentColor,
+    fontFamily: 'Marianne',
+    fontSize: FontSizes.semi,
+    fontWeight: FontWeight.w700,
   );
 
   static textSmMedium({Color color = AppColors.nightBlue}) {
