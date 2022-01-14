@@ -55,7 +55,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
   Widget _scaffold(BuildContext context, OffreEmploiFiltresViewModel viewModel) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: FlatDefaultAppBar(title: Text(Strings.offresEmploiFiltresTitle, style: TextStyles.textLgMedium)),
+      appBar: passEmploiAppBar(label: Strings.offresEmploiFiltresTitle, withBackButton: true),
       body: _content(context, viewModel),
     );
   }
