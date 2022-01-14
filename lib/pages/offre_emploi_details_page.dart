@@ -54,6 +54,9 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, OffreEmploiDetailsPageViewModel>(
       onInit: (store) => store.dispatch(OffreEmploiDetailsAction.request(_offreId)),
+      onInitialBuild: (_) {
+        StoreProvider.of<AppState>(context).dispatch(RequestTrackingEventAction(_offreAfficheeEvent()));
+      },
       converter: (store) => OffreEmploiDetailsPageViewModel.getDetails(store),
       builder: (context, viewModel) => _scaffold(_body(context, viewModel)),
     );
@@ -463,10 +466,31 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
 
   void _applyToOffer(BuildContext context, String url) {
     launch(url);
-    StoreProvider.of<AppState>(context).dispatch(RequestTrackingEventAction(EventType.OFFRE_POSTULEE));
+    StoreProvider.of<AppState>(context).dispatch(RequestTrackingEventAction(_postulerEvent()));
   }
 
   void _shareOffer(BuildContext context) {
-    StoreProvider.of<AppState>(context).dispatch(RequestTrackingEventAction(EventType.OFFRE_PARTAGEE));
+    StoreProvider.of<AppState>(context).dispatch(RequestTrackingEventAction(_partagerEvent()));
+  }
+
+  EventType _offreAfficheeEvent() {
+    if (_fromAlternance)
+      return EventType.OFFRE_ALTERNANCE_AFFICHEE;
+    else
+      return EventType.OFFRE_EMPLOI_AFFICHEE;
+  }
+
+  EventType _postulerEvent() {
+    if (_fromAlternance)
+      return EventType.OFFRE_ALTERNANCE_POSTULEE;
+    else
+      return EventType.OFFRE_ALTERNANCE_POSTULEE;
+  }
+
+  EventType _partagerEvent() {
+    if (_fromAlternance)
+      return EventType.OFFRE_ALTERNANCE_PARTAGEE;
+    else
+      return EventType.OFFRE_EMPLOI_PARTAGEE;
   }
 }
