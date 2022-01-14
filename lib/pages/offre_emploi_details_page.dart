@@ -24,6 +24,7 @@ import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/share_button.dart';
 import 'package:pass_emploi_app/widgets/tags.dart';
+import 'package:pass_emploi_app/widgets/title_section.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OffreEmploiDetailsPage extends TraceableStatelessWidget {
@@ -194,7 +195,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       children: [
         _descriptionTitle(title: Strings.profileTitle, icon: SvgPicture.asset(Drawables.icTwoPoints)),
         SepLine(8, 20),
-        Text(Strings.experienceTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+        Text(Strings.experienceTitle, style: TextStyles.textBaseBold),
         _spacer(12),
         if (experience != null) _setRequiredElement(element: experience, criteria: viewModel.requiredExperience),
         SepLine(20, 20),
@@ -228,19 +229,8 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
 
   Widget _spacer(double _height) => SizedBox(height: _height);
 
-  Container _descriptionTitle({required String title, SvgPicture? icon}) {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (icon != null) Padding(padding: const EdgeInsets.only(right: 14), child: icon),
-            Flexible(child: Text(title, style: TextStyles.textLgMedium)),
-          ],
-        ),
-      ),
-    );
+  Widget _descriptionTitle({required String title, SvgPicture? icon}) {
+    return TitleSection(label: title);
   }
 
   Widget _companyDescriptionBlock({required String content}) {
@@ -257,7 +247,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(Strings.skillsTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+        Text(Strings.skillsTitle, style: TextStyles.textBaseBold),
         _spacer(12),
         for (final skill in skills) _setRequiredElement(element: skill.description, criteria: skill.requirement),
         SepLine(20, 20),
@@ -270,7 +260,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(Strings.softSkillsTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+        Text(Strings.softSkillsTitle, style: TextStyles.textBaseBold),
         _spacer(12),
         for (final soft in softSkills)
           Padding(
@@ -287,7 +277,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(Strings.educationTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+        Text(Strings.educationTitle, style: TextStyles.textBaseBold),
         _spacer(12),
         for (final education in educations)
           _setRequiredElement(element: education.label, criteria: education.requirement),
@@ -301,7 +291,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(Strings.languageTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+        Text(Strings.languageTitle, style: TextStyles.textBaseBold),
         _spacer(12),
         for (final language in languages) _setRequiredElement(element: language.type, criteria: language.requirement),
         SepLine(20, 20),
@@ -314,7 +304,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(Strings.driverLicenceTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+        Text(Strings.driverLicenceTitle, style: TextStyles.textBaseBold),
         _spacer(12),
         for (final licence in driverLicences)
           _setRequiredElement(element: licence.category, criteria: licence.requirement),
