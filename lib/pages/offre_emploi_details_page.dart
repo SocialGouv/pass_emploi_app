@@ -77,7 +77,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   }
 
   Scaffold _scaffold(Widget body) {
-    return Scaffold(appBar: FlatDefaultAppBar(title: Text(Strings.offreDetails, style: TextStyles.h3Semi)), body: body);
+    return Scaffold(appBar: passEmploiAppBar(label: Strings.offreDetails, withBackButton: true));
   }
 
   Widget _loading() => Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
