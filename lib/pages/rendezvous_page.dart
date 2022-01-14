@@ -22,7 +22,7 @@ class RendezvousPage extends TraceableStatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: DefaultAppBar(title: Text(Strings.myRendezVous, style: TextStyles.h3Semi)),
+      appBar: passEmploiAppBar(label: Strings.myRendezVous, withBackButton: true),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(Margins.medium),
