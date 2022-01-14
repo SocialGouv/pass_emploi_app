@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
+import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/presentation/call_to_action.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/immersion_details_view_model.dart';
@@ -245,7 +246,13 @@ main() {
         expect(viewModel.withSecondaryCallToActions, isTrue);
         expect(
           viewModel.secondaryCallToActions,
-          [CallToAction('Localiser l\'entreprise', Uri.parse("geo:0,0?q=Address%201"))],
+          [
+            CallToAction(
+              'Localiser l\'entreprise',
+              Uri.parse("geo:0,0?q=Address%201"),
+              EventType.OFFRE_IMMERSION_LOCALISATION,
+            ),
+          ],
         );
       });
 
@@ -261,7 +268,13 @@ main() {
         expect(viewModel.withSecondaryCallToActions, isTrue);
         expect(
           viewModel.secondaryCallToActions,
-          [CallToAction('Localiser l\'entreprise', Uri.parse("https://maps.apple.com/maps?q=Address+1"))],
+          [
+            CallToAction(
+              'Localiser l\'entreprise',
+              Uri.parse("https://maps.apple.com/maps?q=Address+1"),
+              EventType.OFFRE_IMMERSION_LOCALISATION,
+            )
+          ],
         );
       });
     });
@@ -282,7 +295,13 @@ main() {
         expect(viewModel.withSecondaryCallToActions, isTrue);
         expect(
           viewModel.secondaryCallToActions,
-          [CallToAction('Localiser l\'entreprise', Uri.parse("geo:0,0?q=Address%201"))],
+          [
+            CallToAction(
+              'Localiser l\'entreprise',
+              Uri.parse("geo:0,0?q=Address%201"),
+              EventType.OFFRE_IMMERSION_LOCALISATION,
+            )
+          ],
         );
       });
 
@@ -303,9 +322,14 @@ main() {
           CallToAction(
             'Envoyer un e-mail',
             Uri.parse("mailto:mail?subject=Candidature%20pour%20une%20p%C3%A9riode%20d'immersion"),
+            EventType.OFFRE_IMMERSION_ENVOI_EMAIL,
             drawableRes: Drawables.icMail,
           ),
-          CallToAction('Localiser l\'entreprise', Uri.parse("geo:0,0?q=Address%201")),
+          CallToAction(
+            'Localiser l\'entreprise',
+            Uri.parse("geo:0,0?q=Address%201"),
+            EventType.OFFRE_IMMERSION_LOCALISATION,
+          ),
         ]);
       });
 
@@ -321,7 +345,13 @@ main() {
 
         // Then
         expect(viewModel.withMainCallToAction, isTrue);
-        expect(viewModel.mainCallToAction, CallToAction('Appeler', Uri.parse("tel:0701020304")));
+        expect(
+            viewModel.mainCallToAction,
+            CallToAction(
+              'Appeler',
+              Uri.parse("tel:0701020304"),
+              EventType.OFFRE_IMMERSION_APPEL,
+            ));
         expect(viewModel.withSecondaryCallToActions, isTrue);
         expect(viewModel.secondaryCallToActions.length, 2);
       });
@@ -346,6 +376,7 @@ main() {
           CallToAction(
             'Envoyer un e-mail',
             Uri.parse("mailto:mail?subject=Candidature%20pour%20une%20p%C3%A9riode%20d'immersion"),
+            EventType.OFFRE_IMMERSION_ENVOI_EMAIL,
           ),
         );
       });
@@ -365,7 +396,13 @@ main() {
         // Then
         expect(viewModel.withMainCallToAction, isTrue);
         expect(viewModel.withSecondaryCallToActions, isFalse);
-        expect(viewModel.mainCallToAction, CallToAction('Appeler', Uri.parse("tel:0701020304")));
+        expect(
+            viewModel.mainCallToAction,
+            CallToAction(
+              'Appeler',
+              Uri.parse("tel:0701020304"),
+              EventType.OFFRE_IMMERSION_APPEL,
+            ));
       });
     });
 
@@ -383,7 +420,13 @@ main() {
         // Then
         expect(viewModel.withMainCallToAction, isTrue);
         expect(viewModel.withSecondaryCallToActions, isFalse);
-        expect(viewModel.mainCallToAction, CallToAction('Localiser l\'entreprise', Uri.parse("geo:0,0?q=Address%201")));
+        expect(
+            viewModel.mainCallToAction,
+            CallToAction(
+              'Localiser l\'entreprise',
+              Uri.parse("geo:0,0?q=Address%201"),
+              EventType.OFFRE_IMMERSION_LOCALISATION,
+            ));
       });
     });
   });

@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/presentation/call_to_action.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/immersion_details_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
+import 'package:pass_emploi_app/redux/actions/tracking_event_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -84,7 +85,7 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
                 Text(Strings.immersionDescriptionLabel, style: TextStyles.textMdRegular),
                 SizedBox(height: 20),
                 _contactBlock(viewModel),
-                if (viewModel.withSecondaryCallToActions) ..._secondaryCallToActions(viewModel),
+                if (viewModel.withSecondaryCallToActions) ..._secondaryCallToActions(context, viewModel),
               ],
             ),
           ),
@@ -121,19 +122,27 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
       padding: const EdgeInsets.all(16),
       child: ConstrainedBox(
         constraints: const BoxConstraints(minWidth: double.infinity),
-        child: ActionButton(onPressed: () => launch(callToAction.uri.toString()), label: callToAction.label),
+        child: ActionButton(
+            onPressed: () {
+              StoreProvider.of<AppState>(context).dispatch(RequestTrackingEventAction(callToAction.eventType));
+              launch(callToAction.uri.toString());
+            },
+            label: callToAction.label),
       ),
     );
   }
 
-  List<Widget> _secondaryCallToActions(ImmersionDetailsViewModel viewModel) {
+  List<Widget> _secondaryCallToActions(BuildContext context, ImmersionDetailsViewModel viewModel) {
     final buttons = viewModel.secondaryCallToActions.map((cta) {
       return Padding(
         padding: const EdgeInsets.only(bottom: 20),
         child: SecondaryButton(
           label: cta.label,
           drawableRes: cta.drawableRes,
-          onPressed: () => launch(cta.uri.toString()),
+          onPressed: () {
+            StoreProvider.of<AppState>(context).dispatch(RequestTrackingEventAction(cta.eventType));
+            launch(cta.uri.toString());
+          },
         ),
       );
     }).toList();

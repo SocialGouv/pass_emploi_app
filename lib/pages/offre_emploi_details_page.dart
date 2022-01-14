@@ -484,7 +484,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     if (_fromAlternance)
       return EventType.OFFRE_ALTERNANCE_POSTULEE;
     else
-      return EventType.OFFRE_ALTERNANCE_POSTULEE;
+      return EventType.OFFRE_EMPLOI_POSTULEE;
   }
 
   EventType _partagerEvent() {

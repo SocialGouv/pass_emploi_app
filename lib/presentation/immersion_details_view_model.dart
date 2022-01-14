@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
+import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/presentation/call_to_action.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
@@ -128,16 +129,29 @@ CallToAction? _mainCallToAction(ImmersionDetails immersion, Platform platform) {
   final contact = immersion.contact;
   if (contact != null) {
     if (contact.mode == ImmersionContactMode.INCONNU && contact.phone.isNotEmpty) {
-      return CallToAction(Strings.immersionPhoneButton, UriHandler().phoneUri(contact.phone));
+      return CallToAction(
+        Strings.immersionPhoneButton,
+        UriHandler().phoneUri(contact.phone),
+        EventType.OFFRE_IMMERSION_APPEL,
+      );
     } else if (contact.mode == ImmersionContactMode.PHONE) {
-      return CallToAction(Strings.immersionPhoneButton, UriHandler().phoneUri(contact.phone));
+      return CallToAction(
+        Strings.immersionPhoneButton,
+        UriHandler().phoneUri(contact.phone),
+        EventType.OFFRE_IMMERSION_APPEL,
+      );
     } else if (contact.mode == ImmersionContactMode.MAIL) {
       return CallToAction(
         Strings.immersionEmailButton,
         UriHandler().mailUri(to: contact.mail, subject: Strings.immersionEmailSubject),
+        EventType.OFFRE_IMMERSION_ENVOI_EMAIL,
       );
     } else if (contact.mode == ImmersionContactMode.PRESENTIEL) {
-      return CallToAction(Strings.immersionLocationButton, UriHandler().mapsUri(immersion.address, platform));
+      return CallToAction(
+        Strings.immersionLocationButton,
+        UriHandler().mapsUri(immersion.address, platform),
+        EventType.OFFRE_IMMERSION_LOCALISATION,
+      );
     }
   }
   return null;
@@ -152,9 +166,14 @@ List<CallToAction> _secondaryCallToActions(ImmersionDetails immersion, Platform 
         CallToAction(
           Strings.immersionEmailButton,
           UriHandler().mailUri(to: mail, subject: Strings.immersionEmailSubject),
+          EventType.OFFRE_IMMERSION_ENVOI_EMAIL,
           drawableRes: Drawables.icMail,
         ),
-      CallToAction(Strings.immersionLocationButton, UriHandler().mapsUri(immersion.address, platform)),
+      CallToAction(
+        Strings.immersionLocationButton,
+        UriHandler().mapsUri(immersion.address, platform),
+        EventType.OFFRE_IMMERSION_LOCALISATION,
+      ),
     ];
   } else {
     return [];
