@@ -37,6 +37,14 @@ class FavorisPage extends TraceableStatelessWidget {
     );
   }
 
+  Widget _scaffold(BuildContext context, OffreEmploiFavorisListViewModel viewModel) {
+    return Scaffold(
+      backgroundColor: AppColors.lightBlue,
+      appBar: passEmploiAppBar(label: Strings.menuFavoris),
+      body: DefaultAnimatedSwitcher(child: _switch(viewModel)),
+    );
+  }
+
   Widget _switch(OffreEmploiFavorisListViewModel viewModel) {
     switch (viewModel.displayState) {
       case DisplayState.CONTENT:
