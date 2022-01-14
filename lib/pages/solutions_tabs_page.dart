@@ -6,7 +6,6 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
 import 'boite_a_outils_page.dart';
-import 'offre_emploi_search_page.dart';
 
 class SolutionsTabPage extends StatelessWidget {
   final List<Tab> solutionTabs = <Tab>[
