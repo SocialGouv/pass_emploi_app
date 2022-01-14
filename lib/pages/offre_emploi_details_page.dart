@@ -59,7 +59,10 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   }
 
   Scaffold _scaffold(Widget body) {
-    return Scaffold(appBar: passEmploiAppBar(label: Strings.offreDetails, withBackButton: true));
+    return Scaffold(
+      appBar: passEmploiAppBar(label: Strings.offreDetails, withBackButton: true),
+      body: body,
+    );
   }
 
   Widget _loading() => Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
@@ -217,7 +220,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
 
   Widget _companyDescriptionBlock({required String content}) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(Strings.companyDescriptionTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+      Text(Strings.companyDescriptionTitle, style: TextStyles.textBaseBold),
       _spacer(12),
       Text(content, style: TextStyles.textSmRegular()),
       SepLine(12, 20),
@@ -345,16 +348,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         onTap: () => launch(url),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 4),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Flexible(child: Text(companyName, style: TextStyles.textMdMediumUnderline)),
-              Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: SvgPicture.asset(Drawables.icRedirection),
-              ),
-            ],
-          ),
+          child: Text(companyName, style: TextStyles.externalLink),
         ));
   }
 

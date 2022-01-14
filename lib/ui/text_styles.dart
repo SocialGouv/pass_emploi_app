@@ -76,6 +76,22 @@ class TextStyles {
     fontFamily: 'Marianne',
   );
 
+  static final externalLink = TextStyle(
+    color: AppColors.primaryDarken,
+    fontSize: FontSizes.medium,
+    fontWeight: FontWeight.w700,
+    fontFamily: 'Marianne',
+    decoration: TextDecoration.underline,
+  );
+
+  static final internalLink = TextStyle(
+    color: AppColors.primary,
+    fontSize: FontSizes.medium,
+    fontWeight: FontWeight.w700,
+    fontFamily: 'Marianne',
+    decoration: TextDecoration.underline,
+  );
+
   static final textSecondaryButton = TextStyle(
     color: AppColors.primary,
     fontSize: FontSizes.normal,

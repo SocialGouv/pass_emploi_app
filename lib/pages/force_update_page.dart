@@ -38,7 +38,7 @@ class ForceUpdatePage extends TraceableStatelessWidget {
               if (viewModel.withCallToAction)
                 TextButton(
                   onPressed: () => launch(viewModel.storeUrl),
-                  child: Text(Strings.updateButton, style: TextStyles.textLgMedium),
+                  child: Text(Strings.updateButton, style: TextStyles.externalLink),
                 ),
               Expanded(child: SizedBox())
             ],

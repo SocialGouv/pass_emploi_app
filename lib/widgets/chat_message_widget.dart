@@ -28,9 +28,9 @@ class ChatMessageWidget extends StatelessWidget {
             ),
             child: TextWithClickableLinks(
               item.content,
-              style: TextStyles.textSmRegular(
-                color: item is ConseillerMessageItem ? AppColors.nightBlue : Colors.white,
-              ),
+              style: item is ConseillerMessageItem
+                  ? TextStyles.externalLink
+                  : TextStyles.textSmRegular(color: Colors.white),
             ),
           ),
           SizedBox(height: 4),
