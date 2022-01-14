@@ -8,12 +8,12 @@ import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/presentation/chat_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
-import 'package:pass_emploi_app/redux/actions/tracking_event_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/chat_message_widget.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -152,8 +152,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                     if (_controller.value.text.isNotEmpty) {
                       viewModel.onSendMessage(_controller.value.text);
                       _controller.clear();
-                      StoreProvider.of<AppState>(context)
-                          .dispatch(RequestTrackingEventAction(EventType.MESSAGE_ENVOYE));
+                      context.trackEvent(EventType.MESSAGE_ENVOYE);
                     }
                   },
                 ),

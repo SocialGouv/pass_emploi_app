@@ -9,13 +9,13 @@ import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/favori_heart_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_details_page_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
-import 'package:pass_emploi_app/redux/actions/tracking_event_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
@@ -55,7 +55,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return StoreConnector<AppState, OffreEmploiDetailsPageViewModel>(
       onInit: (store) => store.dispatch(OffreEmploiDetailsAction.request(_offreId)),
       onInitialBuild: (_) {
-        StoreProvider.of<AppState>(context).dispatch(RequestTrackingEventAction(_offreAfficheeEvent()));
+        context.trackEvent(_offreAfficheeEvent());
       },
       converter: (store) => OffreEmploiDetailsPageViewModel.getDetails(store),
       builder: (context, viewModel) => _scaffold(_body(context, viewModel)),
@@ -466,11 +466,11 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
 
   void _applyToOffer(BuildContext context, String url) {
     launch(url);
-    StoreProvider.of<AppState>(context).dispatch(RequestTrackingEventAction(_postulerEvent()));
+    context.trackEvent(_postulerEvent());
   }
 
   void _shareOffer(BuildContext context) {
-    StoreProvider.of<AppState>(context).dispatch(RequestTrackingEventAction(_partagerEvent()));
+    context.trackEvent(_partagerEvent());
   }
 
   EventType _offreAfficheeEvent() {

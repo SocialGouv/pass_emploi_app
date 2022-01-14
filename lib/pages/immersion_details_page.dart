@@ -8,12 +8,12 @@ import 'package:pass_emploi_app/presentation/call_to_action.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/immersion_details_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
-import 'package:pass_emploi_app/redux/actions/tracking_event_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:pass_emploi_app/widgets/action_button.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
@@ -124,7 +124,7 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
         constraints: const BoxConstraints(minWidth: double.infinity),
         child: ActionButton(
             onPressed: () {
-              StoreProvider.of<AppState>(context).dispatch(RequestTrackingEventAction(callToAction.eventType));
+              context.trackEvent(callToAction.eventType);
               launch(callToAction.uri.toString());
             },
             label: callToAction.label),
@@ -140,7 +140,7 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
           label: cta.label,
           drawableRes: cta.drawableRes,
           onPressed: () {
-            StoreProvider.of<AppState>(context).dispatch(RequestTrackingEventAction(cta.eventType));
+            context.trackEvent(cta.eventType);
             launch(cta.uri.toString());
           },
         ),
