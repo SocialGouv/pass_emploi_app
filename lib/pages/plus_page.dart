@@ -7,7 +7,6 @@ import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 
@@ -18,7 +17,7 @@ class PlusPage extends TraceableStatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.lightBlue,
-      appBar: FlatDefaultAppBar(title: Text(Strings.menuPlus, style: TextStyles.h3Semi)),
+      appBar: passEmploiAppBar(label: Strings.menuPlus),
       body: Stack(
         children: [
           Align(
