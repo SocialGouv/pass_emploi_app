@@ -21,6 +21,7 @@ import 'package:pass_emploi_app/widgets/immersion_tags.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/title_section.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ImmersionDetailsPage extends TraceableStatelessWidget {
@@ -99,7 +100,7 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(Strings.immersionContactTitle, style: TextStyles.chapoSemi()),
+        TitleSection(label: Strings.immersionContactTitle),
         SepLine(12, 20),
         if (viewModel.contactLabel.isNotEmpty)
           Padding(
