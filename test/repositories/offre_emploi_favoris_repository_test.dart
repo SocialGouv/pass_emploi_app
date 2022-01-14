@@ -194,6 +194,7 @@ main() {
         contractType: "CDI",
         companyName: "SUPER TAXI",
         title: "Chauffeur / Chauffeuse de taxi (H/F)",
+        isAlternance: false,
       )
     });
   });
