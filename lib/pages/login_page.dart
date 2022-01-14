@@ -20,11 +20,11 @@ class LoginPage extends TraceableStatelessWidget {
     return StoreConnector<AppState, LoginViewModel>(
       converter: (store) => LoginViewModel.create(store),
       distinct: true,
-      builder: (context, viewModel) => _content(viewModel),
+      builder: (context, viewModel) => _content(viewModel, context),
     );
   }
 
-  Scaffold _content(LoginViewModel viewModel) {
+  Scaffold _content(LoginViewModel viewModel, BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
@@ -44,7 +44,7 @@ class LoginPage extends TraceableStatelessWidget {
                 child: SvgPicture.asset(Drawables.icLogo, width: 145, semanticsLabel: Strings.logoTextDescription),
               ),
               Expanded(
-                flex: 2,
+                flex: _isLittleScreen(context) ? 3 : 2,
                 child: Container(
                   width: double.infinity,
                   margin: EdgeInsets.only(left: 16, right: 16),
@@ -59,7 +59,7 @@ class LoginPage extends TraceableStatelessWidget {
                     children: [
                       Text(Strings.performLogin, style: TextStyles.textMdMedium, textAlign: TextAlign.center),
                       SizedBox(height: 16),
-                      _body(viewModel),
+                      _body(viewModel, context),
                     ],
                   ),
                 ),
@@ -72,41 +72,41 @@ class LoginPage extends TraceableStatelessWidget {
     );
   }
 
-  Widget _body(LoginViewModel viewModel) {
+  Widget _body(LoginViewModel viewModel, BuildContext context) {
     switch (viewModel.displayState) {
       case DisplayState.LOADING:
         return Center(child: CircularProgressIndicator());
       case DisplayState.FAILURE:
-        return _failure(viewModel);
+        return _failure(viewModel, context);
       default:
-        return Column(children: [..._loginButtons(viewModel)]);
+        return Column(children: [..._loginButtons(viewModel, context)]);
     }
   }
 
-  Column _failure(LoginViewModel viewModel) {
+  Column _failure(LoginViewModel viewModel, BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(Strings.loginError, style: TextStyles.textSmMedium(color: AppColors.errorRed)),
         SizedBox(height: 8),
-        ..._loginButtons(viewModel),
+        ..._loginButtons(viewModel, context),
       ],
     );
   }
 
-  List<Widget> _loginButtons(LoginViewModel viewModel) {
+  List<Widget> _loginButtons(LoginViewModel viewModel, BuildContext context) {
     final buttonsWithSpaces = viewModel.loginButtons.expand(
       (e) => [
-        _loginButton(e.label, e.action),
+        _loginButton(e.label, e.action, context),
         SizedBox(height: 16),
       ],
     );
     return buttonsWithSpaces.toList();
   }
 
-  Widget _loginButton(String text, GestureTapCallback onTap) {
+  Widget _loginButton(String text, GestureTapCallback onTap, BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 16, right: 16),
+      margin: _isLittleScreen(context) ? EdgeInsets.only(left: 0, right: 0) : EdgeInsets.only(left: 16, right: 16),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
         child: Material(
@@ -127,4 +127,6 @@ class LoginPage extends TraceableStatelessWidget {
       ),
     );
   }
+
+  bool _isLittleScreen(BuildContext context) => MediaQuery.of(context).size.height < 600;
 }
