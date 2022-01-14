@@ -4,16 +4,16 @@ import 'package:pass_emploi_app/network/json_serializable.dart';
 enum EventType { MESSAGE_ENVOYE, OFFRE_POSTULEE, OFFRE_PARTAGEE }
 
 class PostTrackingEmetteur extends JsonSerializable {
-  final String id;
+  final String userId;
   final LoginMode loginMode;
 
-  PostTrackingEmetteur({required this.id, required this.loginMode});
+  PostTrackingEmetteur({required this.userId, required this.loginMode});
 
   @override
   Map<String, dynamic> toJson() => {
         "type": "JEUNE",
         "structure": _toString(loginMode),
-        "id": id,
+        "id": userId,
       };
 
   String _toString(LoginMode structure) {
@@ -31,14 +31,14 @@ class PostTrackingEmetteur extends JsonSerializable {
 class PostTrackingEvent extends JsonSerializable {
   final EventType event;
   final LoginMode loginMode;
-  final String id;
+  final String userId;
 
-  PostTrackingEvent({required this.event, required this.loginMode, required this.id});
+  PostTrackingEvent({required this.event, required this.loginMode, required this.userId});
 
   @override
   Map<String, dynamic> toJson() => {
         "type": _toString(event),
-        "emetteur": PostTrackingEmetteur(id: id, loginMode: loginMode).toJson(),
+        "emetteur": PostTrackingEmetteur(userId: userId, loginMode: loginMode).toJson(),
       };
 
   _toString(EventType event) {

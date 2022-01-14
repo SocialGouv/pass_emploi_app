@@ -20,7 +20,7 @@ class TrackingEventRepository {
       final response = await _httpClient.post(
         url,
         headers: await _headersBuilder.headers(userId: userId, contentType: 'application/json'),
-        body: customJsonEncode(PostTrackingEvent(event: event, loginMode: loginMode, id: userId)),
+        body: customJsonEncode(PostTrackingEvent(event: event, loginMode: loginMode, userId: userId)),
       );
       if (response.statusCode.isValid()) return true;
     } catch (e, stack) {
