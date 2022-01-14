@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/pages/immersion_details_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
@@ -18,7 +17,7 @@ class ImmersionListPage extends TraceableStatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.lightBlue,
-      appBar: FlatDefaultAppBar(title: Text(Strings.immersionsTitle, style: TextStyles.textLgMedium)),
+      appBar: passEmploiAppBar(label: Strings.immersionsTitle, withBackButton: true),
       body: ListView.separated(
         padding: const EdgeInsets.all(16),
         itemBuilder: (context, index) => _buildItem(context, immersions[index], index),
