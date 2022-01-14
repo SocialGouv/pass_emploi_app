@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_filtres_page.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_results_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -99,7 +100,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     int index,
     OffreEmploiSearchResultsViewModel resultsViewModel,
   ) {
-    var item = resultsViewModel.items[index];
+    final OffreEmploiItemViewModel item = resultsViewModel.items[index];
     return DataCard(
       titre: item.title,
       sousTitre: item.companyName,
