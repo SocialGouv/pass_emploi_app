@@ -24,8 +24,8 @@ class MonSuiviTabPage extends StatelessWidget {
       initialIndex: initialTab == MonSuiviTab.ACTIONS ? 0 : 1,
       length: monSuiviTabs.length,
       child: Scaffold(
-        appBar: FlatDefaultAppBar(
-          title: Text(Strings.monSuiviAppBarTitle, style: TextStyles.h3Semi),
+        appBar: passEmploiAppBar(
+          label: Strings.monSuiviAppBarTitle,
           bottom: TabBar(tabs: monSuiviTabs),
         ),
         body: TabBarView(
