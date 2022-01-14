@@ -70,12 +70,8 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
   Widget _scaffold(BuildContext context, OffreEmploiSearchResultsViewModel viewModel) {
     return Scaffold(
       backgroundColor: AppColors.lightBlue,
-      appBar: FlatDefaultAppBar(
-        title: Text(
-          widget.onlyAlternance ? Strings.alternanceTitle : Strings.offresEmploiTitle,
-          style: TextStyles.textLgMedium,
-        ),
-      ),
+      appBar: passEmploiAppBar(label: widget.onlyAlternance ? Strings.alternanceTitle : Strings.offresEmploiTitle,
+          , withBackButton: true),
       body: Stack(children: [
         if (viewModel.displayState == DisplayState.CONTENT || viewModel.displayState == DisplayState.LOADING)
           ListView.separated(
@@ -84,8 +80,9 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
               itemBuilder: (context, index) => _buildItem(context, index, viewModel),
               separatorBuilder: (context, index) => _listSeparator(),
               itemCount: _itemCount(viewModel))
-        else if (viewModel.displayState == DisplayState.EMPTY || viewModel.displayState == DisplayState.FAILURE)
-          Center(child: Text(viewModel.errorMessage, style: TextStyles.textSmRegular())),
+        else
+          if (viewModel.displayState == DisplayState.EMPTY || viewModel.displayState == DisplayState.FAILURE)
+            Center(child: Text(viewModel.errorMessage, style: TextStyles.textSmRegular())),
         if (viewModel.withFiltreButton)
           Align(
             alignment: Alignment.bottomCenter,
@@ -95,11 +92,9 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     );
   }
 
-  Widget _buildOffreItemWithListener(
-    BuildContext context,
-    int index,
-    OffreEmploiSearchResultsViewModel resultsViewModel,
-  ) {
+  Widget _buildOffreItemWithListener(BuildContext context,
+      int index,
+      OffreEmploiSearchResultsViewModel resultsViewModel,) {
     final OffreEmploiItemViewModel item = resultsViewModel.items[index];
     return DataCard(
       titre: item.title,
@@ -175,16 +170,17 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
 
   Widget _filtreButton(OffreEmploiSearchResultsViewModel viewModel) {
     return FilterButton(
-        filtresCount: viewModel.filtresCount,
-      onPressed: () => Navigator.push(
-        context,
-        OffreEmploiFiltresPage.materialPageRoute(widget.onlyAlternance),
-      ).then((value) {
-        if (value == true) {
-          _offsetBeforeLoading = 0;
-          if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
-        }
-      }),
+      filtresCount: viewModel.filtresCount,
+      onPressed: () =>
+          Navigator.push(
+            context,
+            OffreEmploiFiltresPage.materialPageRoute(widget.onlyAlternance),
+          ).then((value) {
+            if (value == true) {
+              _offsetBeforeLoading = 0;
+              if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
+            }
+          }),
     );
   }
 }
