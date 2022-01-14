@@ -80,6 +80,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
         type: BottomNavigationBarType.fixed,
+        selectedItemColor: AppColors.secondary,
         showSelectedLabels: false,
         showUnselectedLabels: false,
         items: <BottomNavigationBarItem>[
