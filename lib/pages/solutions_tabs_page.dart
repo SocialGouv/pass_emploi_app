@@ -18,8 +18,8 @@ class SolutionsTabPage extends StatelessWidget {
     return DefaultTabController(
       length: solutionTabs.length,
       child: Scaffold(
-        appBar: FlatDefaultAppBar(
-          title: Text(Strings.solutionsAppBarTitle, style: TextStyles.h3Semi),
+        appBar: passEmploiAppBar(
+          label: Strings.solutionsAppBarTitle,
           bottom: TabBar(tabs: solutionTabs),
         ),
         body: TabBarView(
