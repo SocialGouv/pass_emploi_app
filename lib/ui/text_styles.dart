@@ -100,14 +100,14 @@ class TextStyles {
   );
 
   static final textBaseBold = TextStyle(
-    color: Colors.black,
+    color: AppColors.contentColor,
     fontFamily: 'Marianne',
     fontSize: FontSizes.medium,
     fontWeight: FontWeight.w700,
   );
 
   static final textSBold = TextStyle(
-    color: Colors.black,
+    color: AppColors.contentColor,
     fontFamily: 'Marianne',
     fontSize: FontSizes.normal,
     fontWeight: FontWeight.w700,
