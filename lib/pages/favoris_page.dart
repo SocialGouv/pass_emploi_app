@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_favoris_list_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/offre_emploi_favoris_actions.dart';
+import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -27,7 +28,7 @@ class FavorisPage extends TraceableStatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, OffreEmploiFavorisListViewModel>(
-      onInit: (store) => store.dispatch(RequestOffreEmploiFavorisAction()),
+      onInit: (store) => store.dispatch(RequestFavorisAction<OffreEmploi>()),
       builder: (context, viewModel) => DefaultAnimatedSwitcher(child: _switch(viewModel)),
       converter: (store) => OffreEmploiFavorisListViewModel.create(store, onlyAlternance: onlyAlternance),
       distinct: true,

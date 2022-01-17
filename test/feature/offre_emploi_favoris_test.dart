@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/redux/actions/offre_emploi_favoris_actions.dart';
+import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.dart';
@@ -24,7 +24,7 @@ main() {
         element.offreEmploiFavorisUpdateState.requestStatus["1"] == OffreEmploiFavorisUpdateStatus.SUCCESS);
 
     // When
-    store.dispatch(OffreEmploiRequestUpdateFavoriAction("1", false));
+    store.dispatch(RequestUpdateFavoriAction<OffreEmploi>("1", false));
 
     // Then
     expect(await loadingState, true);
@@ -44,7 +44,7 @@ main() {
         (element) => element.offreEmploiFavorisUpdateState.requestStatus["1"] == OffreEmploiFavorisUpdateStatus.ERROR);
 
     // When
-    store.dispatch(OffreEmploiRequestUpdateFavoriAction("1", false));
+    store.dispatch(RequestUpdateFavoriAction<OffreEmploi>("1", false));
 
     // Then
     expect(await loadingState, true);
@@ -64,7 +64,7 @@ main() {
         element.offreEmploiFavorisUpdateState.requestStatus["17"] == OffreEmploiFavorisUpdateStatus.SUCCESS);
 
     // When
-    store.dispatch(OffreEmploiRequestUpdateFavoriAction("17", true));
+    store.dispatch(RequestUpdateFavoriAction<OffreEmploi>("17", true));
 
     // Then
     expect(await loadingState, true);
@@ -87,7 +87,7 @@ main() {
         (element) => element.offreEmploiFavorisUpdateState.requestStatus["17"] == OffreEmploiFavorisUpdateStatus.ERROR);
 
     // When
-    store.dispatch(OffreEmploiRequestUpdateFavoriAction("17", true));
+    store.dispatch(RequestUpdateFavoriAction<OffreEmploi>("17", true));
 
     // Then
     expect(await loadingState, true);
@@ -108,7 +108,7 @@ main() {
         .first;
 
     // When
-    store.dispatch(RequestOffreEmploiFavorisAction());
+    store.dispatch(RequestFavorisAction<OffreEmploi>());
 
     // Then
     final loadedFavoris = await successState;
@@ -129,7 +129,7 @@ main() {
         store.onChange.any((element) => element.offreEmploiFavorisState is OffreEmploiFavorisNotInitialized);
 
     // When
-    store.dispatch(RequestOffreEmploiFavorisAction());
+    store.dispatch(RequestFavorisAction<OffreEmploi>());
 
     // Then
     expect(await failureState, true);
