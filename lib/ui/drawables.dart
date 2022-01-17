@@ -35,4 +35,5 @@ class Drawables {
   static String icChevronRight = _assets + "chevron_right" + _svg;
   static String icNoContent = _assets + "ic_no_content" + _svg;
   static String icChevronLeft = _assets + "chevron_left" + _svg;
+  static String icLaunch = _assets + "launch" + _svg;
 }

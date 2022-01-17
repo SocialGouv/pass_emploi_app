@@ -15,10 +15,10 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
-import 'package:pass_emploi_app/widgets/action_button.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/immersion_tags.dart';
+import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
@@ -75,15 +75,15 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(viewModel.title, style: TextStyles.textLgMedium),
+                Text(viewModel.title, style: TextStyles.textLBold()),
                 SizedBox(height: 20),
-                Text(viewModel.companyName, style: TextStyles.textMdRegular),
+                Text(viewModel.companyName, style: TextStyles.textBaseRegular),
                 SizedBox(height: 20),
                 ImmersionTags(secteurActivite: viewModel.secteurActivite, ville: viewModel.ville),
                 SizedBox(height: 20),
-                Text(viewModel.explanationLabel, style: TextStyles.textMdRegular),
+                Text(viewModel.explanationLabel, style: TextStyles.textBaseRegular),
                 SizedBox(height: 20),
-                Text(Strings.immersionDescriptionLabel, style: TextStyles.textMdRegular),
+                Text(Strings.immersionDescriptionLabel, style: TextStyles.textBaseRegular),
                 SizedBox(height: 20),
                 _contactBlock(viewModel),
                 if (viewModel.withSecondaryCallToActions) ..._secondaryCallToActions(context, viewModel),
@@ -106,9 +106,9 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
         if (viewModel.contactLabel.isNotEmpty)
           Padding(
             padding: const EdgeInsets.only(bottom: 20),
-            child: Text(viewModel.contactLabel, style: TextStyles.textSmMedium()),
+            child: Text(viewModel.contactLabel, style: TextStyles.textBaseBold),
           ),
-        Text(viewModel.contactInformation, style: TextStyles.textSmRegular()),
+        Text(viewModel.contactInformation, style: TextStyles.textBaseRegular),
       ],
     );
   }
@@ -123,7 +123,7 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
       padding: const EdgeInsets.all(16),
       child: ConstrainedBox(
         constraints: const BoxConstraints(minWidth: double.infinity),
-        child: ActionButton(
+        child: PrimaryActionButton(
             onPressed: () {
               context.trackEvent(callToAction.eventType);
               launch(callToAction.uri.toString());

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class DataTag extends StatelessWidget {
@@ -27,13 +26,11 @@ class DataTag extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 6),
                   child: SvgPicture.asset(drawableRes!, color: AppColors.primary)),
             Flexible(
-                child: Text(label,
-                    style: TextStyle(
-                      color: AppColors.primary,
-                      fontFamily: 'Marianne',
-                      fontSize: FontSizes.normal,
-                      fontWeight: FontWeight.w400,
-                    ))),
+              child: Text(
+                label,
+                style: TextStyles.textSRegularWithColor(AppColors.primary),
+              ),
+            ),
           ],
         ),
       ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class StatutTag extends StatelessWidget {
   final UserActionStatus status;
@@ -38,13 +38,10 @@ class StatutTag extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(40)), color: background, border: Border.all(color: textColor)),
       padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-      child: Text(label,
-          style: TextStyle(
-            color: textColor,
-            fontFamily: 'Marianne',
-            fontSize: FontSizes.normal,
-            fontWeight: FontWeight.w400,
-          )),
+      child: Text(
+        label,
+        style: TextStyles.textSRegularWithColor(textColor),
+      ),
     );
   }
 }

@@ -65,17 +65,15 @@ class FilterButton extends StatelessWidget {
           padding: const EdgeInsets.only(right: 8.0),
           child: Container(
             decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
-            width: 24,
-            height: 24,
-            alignment: Alignment.center,
-            padding: const EdgeInsets.only(bottom: 3),
-            child: Text(filtresCount!.toString(), style: TextStyle(
-              color: Colors.black,
-              fontSize: FontSizes.normal,
-              fontWeight: FontWeight.w700,
-              fontFamily: 'Marianne',
-            ),),
-          ),
+              width: 24,
+              height: 24,
+              alignment: Alignment.center,
+              padding: const EdgeInsets.only(bottom: 3),
+              child: Text(
+                filtresCount!.toString(),
+                style: TextStyles.textSBoldWithColor(Colors.black),
+              ),
+            ),
         ),
     ],
   );

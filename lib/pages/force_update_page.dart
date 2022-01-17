@@ -28,7 +28,9 @@ class ForceUpdatePage extends TraceableStatelessWidget {
       title: Strings.appName,
       theme: ThemeData(primarySwatch: Colors.indigo),
       home: Scaffold(
-        appBar: DefaultAppBar(title: Text(Strings.updateTitle, style: TextStyles.h3Semi)),
+        appBar: passEmploiAppBar(
+          label: Strings.updateTitle,
+        ),
         body: Padding(
           padding: const EdgeInsets.all(Margins.medium),
           child: Column(

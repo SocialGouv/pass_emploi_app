@@ -109,7 +109,7 @@ class DataCard extends StatelessWidget {
             padding: const EdgeInsets.only(left: 8.0),
             child: Text(
               lieu!,
-              style: TextStyles.textSRegular,
+              style: TextStyles.textSRegular(color: AppColors.neutralColor),
             ),
           ),
         ],

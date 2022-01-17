@@ -104,7 +104,7 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
               tilePadding: EdgeInsets.zero,
               title: Text(
                 Strings.immersionExpansionTileTitle,
-                style: TextStyles.textMdMedium,
+                style: TextStyles.textBaseBold,
               ),
               expandedCrossAxisAlignment: CrossAxisAlignment.start,
               expandedAlignment: Alignment.topLeft,
@@ -128,17 +128,17 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
 
   List<Widget> _collapsableContent() {
     return [
-      Text(Strings.immersionObjectifTitle, style: TextStyles.textSmMedium()),
+      Text(Strings.immersionObjectifTitle, style: TextStyles.textSBold),
       SizedBox(height: 16),
-      Text(Strings.immersionObjectifContent, style: TextStyles.textSmRegular()),
+      Text(Strings.immersionObjectifContent, style: TextStyles.textSRegular()),
       SizedBox(height: 24),
-      Text(Strings.immersionDemarchesTitle, style: TextStyles.textSmMedium()),
+      Text(Strings.immersionDemarchesTitle, style: TextStyles.textSBold),
       SizedBox(height: 16),
-      Text(Strings.immersionDemarchesContent, style: TextStyles.textSmRegular()),
+      Text(Strings.immersionDemarchesContent, style: TextStyles.textSRegular()),
       SizedBox(height: 24),
-      Text(Strings.immersionStatutTitle, style: TextStyles.textSmMedium()),
+      Text(Strings.immersionStatutTitle, style: TextStyles.textSBold),
       SizedBox(height: 16),
-      Text(Strings.immersionStatutContent, style: TextStyles.textSmRegular())
+      Text(Strings.immersionStatutContent, style: TextStyles.textSRegular())
     ];
   }
 

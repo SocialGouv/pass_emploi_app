@@ -12,6 +12,7 @@ class PrimaryActionButton extends StatelessWidget {
   final String label;
   final bool withShadow;
   final VoidCallback? onPressed;
+  final double iconSize;
 
   const PrimaryActionButton({
     Key? key,
@@ -23,6 +24,7 @@ class PrimaryActionButton extends StatelessWidget {
     this.drawableRes,
     this.onPressed,
     required this.label,
+    this.iconSize = 12,
   }) : super(key: key);
 
   @override
@@ -69,8 +71,9 @@ class PrimaryActionButton extends StatelessWidget {
                 padding: const EdgeInsets.all(4),
                 child: SvgPicture.asset(
                   drawableRes!,
-                  height: 12,
-                  width: 12,
+                  height: iconSize,
+                  width: iconSize,
+                  color: Colors.white,
                 ),
               )),
         Text(label),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
@@ -26,6 +27,8 @@ class ServiceCiviqueSearchPage extends TraceableStatelessWidget {
             child: PrimaryActionButton(
               onPressed: () => launch(Strings.serviceCiviqueUrl),
               label: Strings.serviceCiviqueButtonAction,
+              drawableRes: Drawables.icLaunch,
+              iconSize: 18,
             ),
           ),
         ],
