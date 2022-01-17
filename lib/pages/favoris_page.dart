@@ -30,7 +30,7 @@ class FavorisPage extends TraceableStatelessWidget {
     return StoreConnector<AppState, OffreEmploiFavorisListViewModel>(
       onInit: (store) => store.dispatch(RequestFavorisAction<OffreEmploi>()),
       builder: (context, viewModel) => DefaultAnimatedSwitcher(child: _switch(viewModel)),
-      converter: (store) => OffreEmploiFavorisListViewModel.createForOffreEmploi(store, onlyAlternance: onlyAlternance),
+      converter: (store) => FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: onlyAlternance),
       distinct: true,
     );
   }

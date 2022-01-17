@@ -24,7 +24,7 @@ main() {
       );
 
       // When
-      final viewModel = OffreEmploiFavorisListViewModel.createForOffreEmploi(store, onlyAlternance: false);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: false);
 
       // Then
       expect(viewModel.displayState, DisplayState.CONTENT);
@@ -40,7 +40,7 @@ main() {
       );
 
       // When
-      final viewModel = OffreEmploiFavorisListViewModel.createForOffreEmploi(store, onlyAlternance: false);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: false);
 
       // Then
       expect(viewModel.displayState, DisplayState.LOADING);
@@ -56,7 +56,7 @@ main() {
       );
 
       // When
-      final viewModel = OffreEmploiFavorisListViewModel.createForOffreEmploi(store, onlyAlternance: false);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: false);
 
       // Then
       expect(viewModel.displayState, DisplayState.EMPTY);
@@ -72,7 +72,7 @@ main() {
       );
 
       // When
-      final viewModel = OffreEmploiFavorisListViewModel.createForOffreEmploi(store, onlyAlternance: false);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: false);
 
       // Then
       expect(viewModel.displayState, DisplayState.FAILURE);
@@ -94,7 +94,7 @@ main() {
       );
 
       // When
-      final viewModel = OffreEmploiFavorisListViewModel.createForOffreEmploi(store, onlyAlternance: false);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: false);
 
       // Then
       expect(
@@ -108,7 +108,7 @@ main() {
 
     test('View model triggers ImmersionSearchFailureAction when onRetry is performed', () {
       final store = StoreSpy();
-      final viewModel = OffreEmploiFavorisListViewModel.createForOffreEmploi(store, onlyAlternance: false);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: false);
 
       viewModel.onRetry();
 
@@ -127,7 +127,7 @@ main() {
       );
 
       // When
-      final viewModel = OffreEmploiFavorisListViewModel.createForOffreEmploi(store, onlyAlternance: true);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: true);
 
       // Then
       expect(viewModel.displayState, DisplayState.CONTENT);
@@ -144,7 +144,7 @@ main() {
       );
 
       // When
-      final viewModel = OffreEmploiFavorisListViewModel.createForOffreEmploi(store, onlyAlternance: true);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: true);
 
       // Then
       expect(viewModel.displayState, DisplayState.EMPTY);
@@ -160,7 +160,7 @@ main() {
       );
 
       // When
-      final viewModel = OffreEmploiFavorisListViewModel.createForOffreEmploi(store, onlyAlternance: true);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: true);
 
       // Then
       expect(viewModel.displayState, DisplayState.LOADING);
@@ -176,7 +176,7 @@ main() {
       );
 
       // When
-      final viewModel = OffreEmploiFavorisListViewModel.createForOffreEmploi(store, onlyAlternance: true);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: true);
 
       // Then
       expect(viewModel.displayState, DisplayState.EMPTY);
@@ -192,7 +192,7 @@ main() {
       );
 
       // When
-      final viewModel = OffreEmploiFavorisListViewModel.createForOffreEmploi(store, onlyAlternance: true);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: true);
 
       // Then
       expect(viewModel.displayState, DisplayState.FAILURE);
@@ -214,7 +214,7 @@ main() {
       );
 
       // When
-      final viewModel = OffreEmploiFavorisListViewModel.createForOffreEmploi(store, onlyAlternance: true);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: true);
 
       // Then
       expect(viewModel.items, [mockOffreEmploiItemViewModel(id: '2')]);
@@ -222,7 +222,7 @@ main() {
 
     test('View model triggers ImmersionSearchFailureAction when onRetry is performed', () {
       final store = StoreSpy();
-      final viewModel = OffreEmploiFavorisListViewModel.createForOffreEmploi(store, onlyAlternance: true);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: true);
 
       viewModel.onRetry();
 
