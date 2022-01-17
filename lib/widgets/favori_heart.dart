@@ -14,7 +14,7 @@ import 'package:pass_emploi_app/widgets/secondary_icon_button.dart';
 class FavoriHeart extends StatelessWidget {
   final String offreId;
   final bool withBorder;
-  final OffrePage? from;
+  final OffrePage from;
   final Function()? onFavoriRemoved;
 
   FavoriHeart({required this.offreId, required this.withBorder, required this.from, this.onFavoriRemoved}) : super();

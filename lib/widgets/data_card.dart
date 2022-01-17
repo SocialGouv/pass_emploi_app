@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -14,6 +15,7 @@ class DataCard extends StatelessWidget {
   final List<String> dataTag;
   final VoidCallback onTap;
   final String? id;
+  final OffrePage? from;
 
   const DataCard({
     Key? key,
@@ -23,6 +25,7 @@ class DataCard extends StatelessWidget {
     required this.dataTag,
     required this.onTap,
     this.id,
+    this.from,
   }) : super(key: key);
 
   @override
@@ -63,11 +66,11 @@ class DataCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    if (id != null)
+                    if (id != null && from != null)
                       FavoriHeart(
                         offreId: id!,
                         withBorder: false,
-                        from: null,
+                        from: from!,
                       )
                   ],
                 ),
