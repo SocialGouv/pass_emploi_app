@@ -8,7 +8,6 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_filtres_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/checkbox_group.dart';
@@ -137,13 +136,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
   Widget _sliderValue(OffreEmploiFiltresViewModel viewModel) {
     return Row(
       children: [
-        Text(Strings.searchRadius,
-            style: TextStyle(
-              color: AppColors.contentColor,
-              fontFamily: 'Marianne',
-              fontSize: FontSizes.medium,
-              fontWeight: FontWeight.w400,
-            )),
+        Text(Strings.searchRadius, style: TextStyles.textBaseBold),
         Text(Strings.kmFormat(_sliderValueToDisplay(viewModel).toInt()), style: TextStyles.textBaseBold),
       ],
     );

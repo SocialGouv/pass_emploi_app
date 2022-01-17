@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
-import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class CalendarCard extends StatelessWidget {
@@ -57,7 +56,7 @@ class CalendarCard extends StatelessWidget {
   Widget _buildSousTitre() {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
-      child: Text(this.sousTitre!, style: TextStyles.textSRegular),
+      child: Text(this.sousTitre!, style: TextStyles.textSRegular(color: AppColors.neutralColor)),
     );
   }
 
@@ -68,13 +67,12 @@ class CalendarCard extends StatelessWidget {
         children: [
           SvgPicture.asset(Drawables.icClock, color: AppColors.primary),
           SizedBox(width: 6),
-          Text(this.date,
-              style: TextStyle(
-                color: AppColors.primary,
-                fontSize: FontSizes.normal,
-                fontWeight: FontWeight.w400,
-                fontFamily: 'Marianne',
-              )),
+          Text(
+            this.date,
+            style: TextStyles.textSRegularWithColor(
+              AppColors.primary,
+            ),
+          ),
         ],
       ),
     );
@@ -88,11 +86,8 @@ class CalendarCard extends StatelessWidget {
         children: [
           Expanded(child: Container()),
           Text(this.texteLien,
-              style: TextStyle(
-                color: AppColors.contentColor,
-                fontFamily: 'Marianne',
-                fontSize: FontSizes.normal,
-                fontWeight: FontWeight.w400,
+              style: TextStyles.textSRegularWithColor(
+                AppColors.contentColor,
               )),
           SizedBox(width: 8),
           SvgPicture.asset(Drawables.icChevronRight, color: AppColors.contentColor),

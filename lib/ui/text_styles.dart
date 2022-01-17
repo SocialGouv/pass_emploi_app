@@ -9,32 +9,10 @@ import 'font_sizes.dart';
 class TextStyles {
   TextStyles._();
 
-  static final h3Semi = GoogleFonts.rubik(
-    color: AppColors.nightBlue,
-    fontSize: FontSizes.huge,
-    fontWeight: FontWeight.w500,
-    letterSpacing: -0.3,
-  );
-
-  static chapoSemi({Color color = AppColors.nightBlue}) {
-    return GoogleFonts.rubik(
-      color: color,
-      fontSize: FontSizes.semi,
-      fontWeight: FontWeight.w500,
-    );
-  }
-
   static final textLgMedium = GoogleFonts.rubik(
     color: AppColors.nightBlue,
     fontSize: FontSizes.large,
     fontWeight: FontWeight.w600,
-    letterSpacing: -0.3,
-  );
-
-  static final textLgSemi = GoogleFonts.rubik(
-    color: AppColors.nightBlue,
-    fontSize: FontSizes.large,
-    fontWeight: FontWeight.w700,
     letterSpacing: -0.3,
   );
 
@@ -45,6 +23,15 @@ class TextStyles {
     letterSpacing: -0.3,
   );
 
+  static TextStyle textLBold({Color color = AppColors.contentColor}) {
+    return TextStyle(
+      color: color,
+      fontSize: FontSizes.huge,
+      fontWeight: FontWeight.w700,
+      fontFamily: "Marianne",
+    );
+  }
+
   static final textMdRegular = GoogleFonts.rubik(
     color: AppColors.nightBlue,
     fontSize: FontSizes.medium,
@@ -52,15 +39,25 @@ class TextStyles {
     letterSpacing: -0.3,
   );
 
-  static final textMdMediumUnderline = GoogleFonts.rubik(
-    color: AppColors.nightBlue,
-    fontSize: FontSizes.medium,
-    fontWeight: FontWeight.w500,
-    letterSpacing: -0.3,
-    decoration: TextDecoration.underline,
-  );
+  static TextStyle textSRegularWithColor(Color color) {
+    return TextStyle(
+      color: color,
+      fontSize: FontSizes.normal,
+      fontWeight: FontWeight.w400,
+      fontFamily: 'Marianne',
+    );
+  }
 
-  static textMenuRegular(Color color) {
+  static TextStyle textSBoldWithColor(Color color) {
+    return TextStyle(
+      color: color,
+      fontSize: FontSizes.normal,
+      fontWeight: FontWeight.w700,
+      fontFamily: 'Marianne',
+    );
+  }
+
+  static TextStyle textMenuRegular(Color color) {
     return TextStyle(
       color: color,
       fontSize: FontSizes.extraSmall,
@@ -106,6 +103,13 @@ class TextStyles {
     fontWeight: FontWeight.w700,
   );
 
+  static final textBaseRegular = TextStyle(
+    color: AppColors.contentColor,
+    fontFamily: 'Marianne',
+    fontSize: FontSizes.medium,
+    fontWeight: FontWeight.w400,
+  );
+
   static final textSBold = TextStyle(
     color: AppColors.contentColor,
     fontFamily: 'Marianne',
@@ -120,12 +124,14 @@ class TextStyles {
     fontWeight: FontWeight.w700,
   );
 
-  static final textSRegular = TextStyle(
-    color: AppColors.neutralColor,
-    fontFamily: 'Marianne',
-    fontSize: FontSizes.normal,
-    fontWeight: FontWeight.w400,
-  );
+  static TextStyle textSRegular({Color color = AppColors.contentColor}) {
+    return TextStyle(
+      color: color,
+      fontFamily: 'Marianne',
+      fontSize: FontSizes.normal,
+      fontWeight: FontWeight.w400,
+    );
+  }
 
   static final textAppBar = TextStyle(
     color: AppColors.contentColor,
@@ -155,6 +161,15 @@ class TextStyles {
       color: color,
       fontSize: FontSizes.small,
       fontWeight: FontWeight.w400,
+    );
+  }
+
+  static TextStyle textBaseBoldWithColor(Color color) {
+    return TextStyle(
+      color: color,
+      fontSize: FontSizes.medium,
+      fontWeight: FontWeight.w700,
+      fontFamily: 'Marianne',
     );
   }
 }

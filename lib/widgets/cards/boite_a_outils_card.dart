@@ -4,7 +4,6 @@ import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/outil.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -49,7 +48,7 @@ class BoiteAOutilsCard extends StatelessWidget {
                 SizedBox(height: 16),
                 Text(outil.title, style: TextStyles.textBaseBold),
                 SizedBox(height: 16),
-                Text(outil.description, style: TextStyles.textSRegular),
+                Text(outil.description, style: TextStyles.textSRegular(color: AppColors.neutralColor)),
                 SizedBox(height: 16),
               ]),
             ),
@@ -59,13 +58,11 @@ class BoiteAOutilsCard extends StatelessWidget {
             ),
             SizedBox(height: 16),
             Center(
-                child: Text(outil.actionLabel,
-                    style: TextStyle(
-                      color: AppColors.primary,
-                      fontFamily: 'Marianne',
-                      fontSize: FontSizes.medium,
-                      fontWeight: FontWeight.w700,
-                    ))),
+              child: Text(
+                outil.actionLabel,
+                style: TextStyles.textBaseBoldWithColor(AppColors.primary),
+              ),
+            ),
             SizedBox(height: 16),
           ],
         ),
