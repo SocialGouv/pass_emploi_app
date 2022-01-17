@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/status_tag.dart';
 
 class EventCard extends StatelessWidget {
   final VoidCallback onTap;
@@ -63,41 +63,10 @@ class EventCard extends StatelessWidget {
   }
 
   Widget _buildStatut() {
-    String label;
-    Color background;
-    Color textColor;
-    switch (this.statut) {
-      case UserActionStatus.NOT_STARTED:
-        label = Strings.actionToDo;
-        background = AppColors.accent1Lighten;
-        textColor = AppColors.accent1;
-        break;
-      case UserActionStatus.IN_PROGRESS:
-        label = Strings.actionInProgress;
-        background = AppColors.accent3Lighten;
-        textColor = AppColors.accent3;
-        break;
-      default:
-        label = Strings.actionDone;
-        background = AppColors.accent2Lighten;
-        textColor = AppColors.accent2;
-        break;
-    }
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
-      child: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(40)),
-            color: background,
-            border: Border.all(color: textColor)),
-        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-        child: Text(label,
-            style: TextStyle(
-              color: textColor,
-              fontFamily: 'Marianne',
-              fontSize: FontSizes.normal,
-              fontWeight: FontWeight.w400,
-            )),
+      child: StatutTag(
+        status: statut!,
       ),
     );
   }
