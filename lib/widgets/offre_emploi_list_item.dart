@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -58,10 +57,10 @@ class OffreEmploiListItem extends StatelessWidget {
             spacing: 8,
             runSpacing: 8,
             children: [
-              Tag(label: itemViewModel.contractType),
-              if (itemViewModel.duration != null) Tag(label: itemViewModel.duration!),
+              DataTag(label: itemViewModel.contractType),
+              if (itemViewModel.duration != null) DataTag(label: itemViewModel.duration!),
               if (itemViewModel.location != null)
-                Tag(label: itemViewModel.location!, icon: SvgPicture.asset(Drawables.icPlace)),
+                DataTag(label: itemViewModel.location!, drawableRes: Drawables.icPlace),
             ],
           )
         ],

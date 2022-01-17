@@ -4,14 +4,13 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class EventCard extends StatelessWidget {
   final VoidCallback onTap;
   final String titre;
   final String? sousTitre;
   final UserActionStatus? statut;
-  final DateTime? derniereModification;
+  final String? derniereModification;
 
   const EventCard({
     Key? key,
@@ -104,7 +103,7 @@ class EventCard extends StatelessWidget {
   }
 
   Widget _buildDerniereModification() {
-    final String derniereModification = Strings.lastModificationPrefix + this.derniereModification!.toDay();
+    final String derniereModification = Strings.lastModificationPrefix + this.derniereModification!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

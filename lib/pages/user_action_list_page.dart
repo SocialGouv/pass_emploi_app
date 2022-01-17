@@ -18,7 +18,6 @@ import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/user_action_details_bottom_sheet.dart';
-import 'package:pass_emploi_app/widgets/user_action_list_item.dart';
 
 class UserActionListPage extends TraceableStatefulWidget {
   UserActionListPage() : super(name: AnalyticsScreenNames.userActionList);

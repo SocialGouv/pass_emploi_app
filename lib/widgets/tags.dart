@@ -5,14 +5,10 @@ import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class DataTag extends StatelessWidget {
-
   final String? drawableRes;
   final String label;
 
-  const DataTag({
-    Key? key,
-    this.drawableRes,
-    required this.label,}) : super(key: key);
+  const DataTag({Key? key, this.drawableRes, required this.label}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,19 +22,23 @@ class DataTag extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            if (drawableRes != null) Padding(padding: const EdgeInsets.only(right: 6), child: SvgPicture.asset(drawableRes!)),
-            Flexible(child: Text(label, style: TextStyle(
-              color: AppColors.primary,
-              fontFamily: 'Marianne',
-              fontSize: FontSizes.normal,
-              fontWeight: FontWeight.w400,
-            ))),
+            if (drawableRes != null)
+              Padding(
+                  padding: const EdgeInsets.only(right: 6),
+                  child: SvgPicture.asset(drawableRes!, color: AppColors.primary)),
+            Flexible(
+                child: Text(label,
+                    style: TextStyle(
+                      color: AppColors.primary,
+                      fontFamily: 'Marianne',
+                      fontSize: FontSizes.normal,
+                      fontWeight: FontWeight.w400,
+                    ))),
           ],
         ),
       ),
     );
   }
-
 }
 
 Widget lightBlueTag({required String label, SvgPicture? icon}) {

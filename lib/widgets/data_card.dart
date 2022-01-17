@@ -63,7 +63,12 @@ class DataCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    if (id != null) FavoriHeart(offreId: id!, withBorder: false)
+                    if (id != null)
+                      FavoriHeart(
+                        offreId: id!,
+                        withBorder: false,
+                        from: null,
+                      )
                   ],
                 ),
                 if (lieu != null && lieu!.isNotEmpty) buildLieu(),

@@ -156,22 +156,22 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       if (location != null)
         Padding(
           padding: const EdgeInsets.only(bottom: 12),
-          child: Tag(label: location, icon: SvgPicture.asset(Drawables.icPlace)),
+          child: DataTag(label: location, drawableRes: Drawables.icPlace),
         ),
       if (contractType != null)
         Padding(
           padding: const EdgeInsets.only(bottom: 12),
-          child: Tag(label: contractType, icon: SvgPicture.asset(Drawables.icContract)),
+          child: DataTag(label: contractType, drawableRes: Drawables.icContract),
         ),
       if (salary != null)
         Padding(
           padding: const EdgeInsets.only(bottom: 12),
-          child: Tag(label: salary, icon: SvgPicture.asset(Drawables.icSalary)),
+          child: DataTag(label: salary, drawableRes: Drawables.icSalary),
         ),
       if (duration != null)
         Padding(
           padding: const EdgeInsets.only(bottom: 12),
-          child: Tag(label: duration, icon: SvgPicture.asset(Drawables.icTime)),
+          child: DataTag(label: duration, drawableRes: Drawables.icTime),
         ),
     ]);
   }
@@ -321,7 +321,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _spacer(12),
-        Tag(label: tagTitle),
+        DataTag(label: tagTitle),
       ],
     );
   }

@@ -22,12 +22,8 @@ class UserActionListItem extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 4),
               child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Tag(
+                  child: DataTag(
                     label: item.tag!.title,
-                    backgroundColor: item.tag!.backgroundColor,
-                    textStyle: TextStyles.textSmMedium(color: item.tag!.textColor),
-                    borderRadius: 16,
-                    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
                   )),
             ),
           if (item.tag != null) SizedBox(height: 4),
