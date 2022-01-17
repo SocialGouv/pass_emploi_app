@@ -16,6 +16,8 @@ import 'package:pass_emploi_app/widgets/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/filter_button.dart';
 
+import 'offre_page.dart';
+
 class OffreEmploiListPage extends TraceableStatefulWidget {
   final bool onlyAlternance;
 
@@ -103,6 +105,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
       id: item.id,
       dataTag: [item.contractType, item.duration ?? ''],
       onTap: () => _showOffreEmploiDetailsPage(context, resultsViewModel.items[index].id),
+      from: widget.onlyAlternance ? OffrePage.alternanceResults : OffrePage.emploiResults,
     );
   }
 

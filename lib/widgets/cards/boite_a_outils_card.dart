@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/outil.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
@@ -24,6 +26,7 @@ class BoiteAOutilsCard extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
+          MatomoTracker.trackScreenWithName(outil.urlRedirect, AnalyticsScreenNames.toolbox);
           launch(outil.urlRedirect);
         },
         child: Column(
