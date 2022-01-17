@@ -19,8 +19,17 @@ class BoiteAOutilsPage extends TraceableStatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16),
           separatorBuilder: (_, index) => SizedBox(height: 16),
           itemCount: _outils.length,
-          itemBuilder: (context, index) =>
-              BoiteAOutilsCard(outil: _outils[index], isLastItem: index == _outils.length - 1)),
+          itemBuilder: (context, index) => buildBoiteAOutilsCard(index)),
     );
+  }
+
+  Widget buildBoiteAOutilsCard(int index) {
+    if (index == _outils.length - 1) {
+      return Column(children: [
+        BoiteAOutilsCard(outil: _outils[index]),
+        SizedBox(height: 16),
+      ]);
+    }
+    return BoiteAOutilsCard(outil: _outils[index]);
   }
 }
