@@ -99,14 +99,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
   Container _listSeparator() => Container(height: 16);
 
   Widget _listItem(BuildContext context, UserActionListPageItem item, UserActionListPageViewModel viewModel) {
-    if (item is UserActionListSubtitle) {
-      return Padding(
-        padding: const EdgeInsets.fromLTRB(0, 40, 0, 16),
-        child: Text(item.title, style: TextStyles.textMdMedium),
-      );
-    } else {
-      return _tapListener(context, (item as UserActionListItemViewModel).viewModel, viewModel);
-    }
+    return _tapListener(context, (item as UserActionListItemViewModel).viewModel, viewModel);
   }
 
   Widget _tapListener(BuildContext context, UserActionViewModel item, UserActionListPageViewModel viewModel) {

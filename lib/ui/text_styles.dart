@@ -66,6 +66,15 @@ class TextStyles {
     );
   }
 
+  static TextStyle textXsRegular({Color color = AppColors.contentColor}) {
+    return TextStyle(
+      color: color,
+      fontSize: FontSizes.xs,
+      fontWeight: FontWeight.w400,
+      fontFamily: 'Marianne',
+    );
+  }
+
   static final textPrimaryButton = TextStyle(
     color: Colors.white,
     fontSize: FontSizes.normal,
@@ -152,14 +161,6 @@ class TextStyles {
     return GoogleFonts.rubik(
       color: color,
       fontSize: FontSizes.normal,
-      fontWeight: FontWeight.w400,
-    );
-  }
-
-  static textXsRegular({Color color = AppColors.nightBlue}) {
-    return GoogleFonts.rubik(
-      color: color,
-      fontSize: FontSizes.small,
       fontWeight: FontWeight.w400,
     );
   }

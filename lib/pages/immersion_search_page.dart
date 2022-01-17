@@ -58,12 +58,12 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 24),
-          Text(Strings.immersionLabel, style: TextStyles.textSmMedium()),
+          Text(Strings.immersionLabel, style: TextStyles.textBaseBold),
           SizedBox(height: 24),
           Text(Strings.metierCompulsoryLabel, style: TextStyles.textLgMedium),
           SizedBox(height: 24),
           MetierAutocomplete(
-            onSelectMetier: (selectedMetier){
+            onSelectMetier: (selectedMetier) {
               setState(() {
                 _setSelectedMetier(selectedMetier);
               });

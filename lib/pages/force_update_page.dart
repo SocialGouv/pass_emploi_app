@@ -36,7 +36,7 @@ class ForceUpdatePage extends TraceableStatelessWidget {
           child: Column(
             children: [
               Expanded(child: SvgPicture.asset(Drawables.icLogo, semanticsLabel: Strings.logoTextDescription)),
-              Text(viewModel.label, style: TextStyles.textMdRegular, textAlign: TextAlign.center),
+              Text(viewModel.label, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
               if (viewModel.withCallToAction)
                 TextButton(
                   onPressed: () => launch(viewModel.storeUrl),
