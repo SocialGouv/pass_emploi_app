@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/user.dart';
@@ -17,7 +18,7 @@ import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_delete_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 
-import 'offre_emploi_favoris_state.dart';
+import 'favoris_state.dart';
 import 'offre_emploi_favoris_update_state.dart';
 import 'offre_emploi_search_results_state.dart';
 import 'offre_emploi_search_state.dart';
@@ -33,7 +34,7 @@ class AppState extends Equatable {
   final State<OffreEmploiDetails> offreEmploiDetailsState;
   final OffreEmploiSearchResultsState offreEmploiSearchResultsState;
   final OffreEmploiSearchParametersState offreEmploiSearchParametersState;
-  final OffreEmploiFavorisState offreEmploiFavorisState;
+  final FavorisState<OffreEmploi> offreEmploiFavorisState;
   final OffreEmploiFavorisUpdateState offreEmploiFavorisUpdateState;
   final SearchLocationState searchLocationState;
   final State<User> loginState;
@@ -75,7 +76,7 @@ class AppState extends Equatable {
     final DeepLinkState? deepLinkState,
     final OffreEmploiSearchResultsState? offreEmploiSearchResultsState,
     final OffreEmploiSearchParametersState? offreEmploiSearchParametersState,
-    final OffreEmploiFavorisState? offreEmploiFavorisState,
+    final FavorisState<OffreEmploi>? offreEmploiFavorisState,
     final OffreEmploiFavorisUpdateState? offreEmploiFavorisUpdateState,
     final SearchLocationState? searchLocationState,
     final State<User>? loginState,
@@ -121,14 +122,14 @@ class AppState extends Equatable {
         offreEmploiDetailsState: State<OffreEmploiDetails>.notInitialized(),
         offreEmploiSearchResultsState: OffreEmploiSearchResultsState.notInitialized(),
         offreEmploiSearchParametersState: OffreEmploiSearchParametersState.notInitialized(),
-      offreEmploiFavorisState: OffreEmploiFavorisState.notInitialized(),
-      offreEmploiFavorisUpdateState: OffreEmploiFavorisUpdateState({}),
-      searchLocationState: SearchLocationState([]),
-      loginState: State<User>.notInitialized(),
-      userActionState: State<List<UserAction>>.notInitialized(),
-      rendezvousState: State<List<Rendezvous>>.notInitialized(),
-      immersionSearchState: State<List<Immersion>>.notInitialized(),
-      immersionDetailsState: State<ImmersionDetails>.notInitialized(),
+        offreEmploiFavorisState: FavorisState<OffreEmploi>.notInitialized(),
+        offreEmploiFavorisUpdateState: OffreEmploiFavorisUpdateState({}),
+        searchLocationState: SearchLocationState([]),
+        loginState: State<User>.notInitialized(),
+        userActionState: State<List<UserAction>>.notInitialized(),
+        rendezvousState: State<List<Rendezvous>>.notInitialized(),
+        immersionSearchState: State<List<Immersion>>.notInitialized(),
+        immersionDetailsState: State<ImmersionDetails>.notInitialized(),
         configurationState: ConfigurationState(configuration));
   }
 

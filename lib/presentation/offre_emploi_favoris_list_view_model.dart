@@ -3,7 +3,7 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
+import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:redux/redux.dart';
 
 import 'offre_emploi_item_view_model.dart';
@@ -21,7 +21,7 @@ class OffreEmploiFavorisListViewModel extends Equatable {
   factory OffreEmploiFavorisListViewModel.create(Store<AppState> store, {required bool onlyAlternance}) {
     final state = store.state.offreEmploiFavorisState;
     final retry = () => store.dispatch(RequestFavorisAction<OffreEmploi>());
-    if (state is OffreEmploiFavorisLoadedState) {
+    if (state is FavorisLoadedState<OffreEmploi>) {
       final favoris = _relevantFavoris(state.data, onlyAlternance);
       return OffreEmploiFavorisListViewModel._(
         items: favoris?.map((e) => OffreEmploiItemViewModel.create(e)).toList() ?? [],

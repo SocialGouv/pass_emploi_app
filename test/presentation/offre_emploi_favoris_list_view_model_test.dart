@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/presentation/offre_emploi_favoris_list_view_mode
 import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
+import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
@@ -18,7 +18,8 @@ main() {
       final store = Store<AppState>(
         reducer,
         initialState: AppState.initialState().copyWith(
-          offreEmploiFavorisState: OffreEmploiFavorisState.withMap({"1"}, {"1": mockOffreEmploi(isAlternance: false)}),
+          offreEmploiFavorisState:
+              FavorisState<OffreEmploi>.withMap({"1"}, {"1": mockOffreEmploi(isAlternance: false)}),
         ),
       );
 
@@ -34,7 +35,7 @@ main() {
       final store = Store<AppState>(
         reducer,
         initialState: AppState.initialState().copyWith(
-          offreEmploiFavorisState: OffreEmploiFavorisState.idsLoaded({"1"}),
+          offreEmploiFavorisState: FavorisState<OffreEmploi>.idsLoaded({"1"}),
         ),
       );
 
@@ -50,7 +51,7 @@ main() {
       final store = Store<AppState>(
         reducer,
         initialState: AppState.initialState().copyWith(
-          offreEmploiFavorisState: OffreEmploiFavorisState.withMap({}, Map()),
+          offreEmploiFavorisState: FavorisState<OffreEmploi>.withMap({}, Map()),
         ),
       );
 
@@ -66,7 +67,7 @@ main() {
       final store = Store<AppState>(
         reducer,
         initialState: AppState.initialState().copyWith(
-          offreEmploiFavorisState: OffreEmploiFavorisState.notInitialized(),
+          offreEmploiFavorisState: FavorisState<OffreEmploi>.notInitialized(),
         ),
       );
 
@@ -82,7 +83,7 @@ main() {
       final store = Store<AppState>(
         reducer,
         initialState: AppState.initialState().copyWith(
-          offreEmploiFavorisState: OffreEmploiFavorisState.withMap(
+          offreEmploiFavorisState: FavorisState<OffreEmploi>.withMap(
             {'1', '2'},
             {
               '1': mockOffreEmploi(id: '1', isAlternance: false),
@@ -121,7 +122,7 @@ main() {
       final store = Store<AppState>(
         reducer,
         initialState: AppState.initialState().copyWith(
-          offreEmploiFavorisState: OffreEmploiFavorisState.withMap({"1"}, {"1": mockOffreEmploi(isAlternance: true)}),
+          offreEmploiFavorisState: FavorisState<OffreEmploi>.withMap({"1"}, {"1": mockOffreEmploi(isAlternance: true)}),
         ),
       );
 
@@ -137,7 +138,8 @@ main() {
       final store = Store<AppState>(
         reducer,
         initialState: AppState.initialState().copyWith(
-          offreEmploiFavorisState: OffreEmploiFavorisState.withMap({"1"}, {"1": mockOffreEmploi(isAlternance: false)}),
+          offreEmploiFavorisState:
+              FavorisState<OffreEmploi>.withMap({"1"}, {"1": mockOffreEmploi(isAlternance: false)}),
         ),
       );
 
@@ -153,7 +155,7 @@ main() {
       final store = Store<AppState>(
         reducer,
         initialState: AppState.initialState().copyWith(
-          offreEmploiFavorisState: OffreEmploiFavorisState.idsLoaded({"1"}),
+          offreEmploiFavorisState: FavorisState<OffreEmploi>.idsLoaded({"1"}),
         ),
       );
 
@@ -169,7 +171,7 @@ main() {
       final store = Store<AppState>(
         reducer,
         initialState: AppState.initialState().copyWith(
-          offreEmploiFavorisState: OffreEmploiFavorisState.withMap({}, Map()),
+          offreEmploiFavorisState: FavorisState<OffreEmploi>.withMap({}, Map()),
         ),
       );
 
@@ -185,7 +187,7 @@ main() {
       final store = Store<AppState>(
         reducer,
         initialState: AppState.initialState().copyWith(
-          offreEmploiFavorisState: OffreEmploiFavorisState.notInitialized(),
+          offreEmploiFavorisState: FavorisState<OffreEmploi>.notInitialized(),
         ),
       );
 
@@ -201,7 +203,7 @@ main() {
       final store = Store<AppState>(
         reducer,
         initialState: AppState.initialState().copyWith(
-          offreEmploiFavorisState: OffreEmploiFavorisState.withMap(
+          offreEmploiFavorisState: FavorisState<OffreEmploi>.withMap(
             {'1', '2'},
             {
               '1': mockOffreEmploi(id: '1', isAlternance: false),

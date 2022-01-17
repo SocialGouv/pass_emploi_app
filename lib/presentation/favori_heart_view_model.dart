@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
+import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.dart';
 import 'package:redux/redux.dart';
 
@@ -32,9 +32,9 @@ class FavoriHeartViewModel extends Equatable {
   List<Object?> get props => [isFavori, withError, withLoading];
 }
 
-bool _isFavori(String offreId, OffreEmploiFavorisState offreEmploiFavorisState) {
-  if (offreEmploiFavorisState is OffreEmploiFavorisLoadedState) {
-    return offreEmploiFavorisState.offreEmploiFavorisId.contains(offreId);
+bool _isFavori(String offreId, FavorisState<OffreEmploi> offreEmploiFavorisState) {
+  if (offreEmploiFavorisState is FavorisLoadedState<OffreEmploi>) {
+    return offreEmploiFavorisState.favorisId.contains(offreId);
   } else {
     return false;
   }

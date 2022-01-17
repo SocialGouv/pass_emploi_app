@@ -2,12 +2,12 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
+import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.dart';
 
 AppState offreEmploiFavorisReducer(AppState currentState, OffreEmploiFavorisAction action) {
   if (action is FavorisIdLoadedAction<OffreEmploi>) {
-    var newState = OffreEmploiFavorisState.idsLoaded(action.favorisId);
+    var newState = FavorisState<OffreEmploi>.idsLoaded(action.favorisId);
     return currentState.copyWith(offreEmploiFavorisState: newState);
   } else if (action is UpdateFavoriLoadingAction<OffreEmploi>) {
     return _updateLoadingState(currentState, action);
@@ -18,14 +18,14 @@ AppState offreEmploiFavorisReducer(AppState currentState, OffreEmploiFavorisActi
   } else if (action is FavorisLoadedAction<OffreEmploi>) {
     return currentState.copyWith(offreEmploiFavorisState: _updateWithData(currentState, action));
   } else if (action is FavorisFailureAction<OffreEmploi>) {
-    return currentState.copyWith(offreEmploiFavorisState: OffreEmploiFavorisState.notInitialized());
+    return currentState.copyWith(offreEmploiFavorisState: FavorisState<OffreEmploi>.notInitialized());
   } else {
     return currentState;
   }
 }
 
-OffreEmploiFavorisState _updateWithData(AppState currentState, FavorisLoadedAction<OffreEmploi> action) {
-  return OffreEmploiFavorisState.withMap(action.favoris.keys.toSet(), action.favoris);
+FavorisState<OffreEmploi> _updateWithData(AppState currentState, FavorisLoadedAction<OffreEmploi> action) {
+  return FavorisState<OffreEmploi>.withMap(action.favoris.keys.toSet(), action.favoris);
 }
 
 AppState _updateFailureState(AppState currentState, UpdateFavoriFailureAction<OffreEmploi> action) {
@@ -71,10 +71,10 @@ OffreEmploiFavorisUpdateState _updateState(
   return OffreEmploiFavorisUpdateState(newStatusMap);
 }
 
-OffreEmploiFavorisState _updateFavorisList(AppState currentState, String offreId, bool newStatus) {
+FavorisState<OffreEmploi> _updateFavorisList(AppState currentState, String offreId, bool newStatus) {
   final favorisIdState = currentState.offreEmploiFavorisState;
-  if (favorisIdState is OffreEmploiFavorisLoadedState) {
-    final idList = favorisIdState.offreEmploiFavorisId;
+  if (favorisIdState is FavorisLoadedState<OffreEmploi>) {
+    final idList = favorisIdState.favorisId;
     final data = favorisIdState.data;
     if (newStatus) {
       idList.add(offreId);
@@ -82,7 +82,7 @@ OffreEmploiFavorisState _updateFavorisList(AppState currentState, String offreId
       idList.remove(offreId);
       data?.remove(offreId);
     }
-    return OffreEmploiFavorisState.withMap(idList, data);
+    return FavorisState<OffreEmploi>.withMap(idList, data);
   } else {
     return favorisIdState;
   }
