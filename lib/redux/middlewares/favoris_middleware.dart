@@ -19,7 +19,7 @@ class FavorisMiddleware<T> extends MiddlewareClass<AppState> {
     } else if (action is RequestUpdateFavoriAction<T> && loginState.isSuccess()) {
       if (action.newStatus) {
         await _addFavori(store, action, loginState.getResultOrThrow().id);
-      } else if (!action.newStatus) {
+      } else {
         await _removeFavori(store, action, loginState.getResultOrThrow().id);
       }
     } else if (action is RequestFavorisAction<T> && loginState.isSuccess()) {
