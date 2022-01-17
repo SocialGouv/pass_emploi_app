@@ -13,6 +13,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:pass_emploi_app/widgets/action_button.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
@@ -84,7 +85,7 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
                 Text(Strings.immersionDescriptionLabel, style: TextStyles.textMdRegular),
                 SizedBox(height: 20),
                 _contactBlock(viewModel),
-                if (viewModel.withSecondaryCallToActions) ..._secondaryCallToActions(viewModel),
+                if (viewModel.withSecondaryCallToActions) ..._secondaryCallToActions(context, viewModel),
               ],
             ),
           ),
@@ -121,19 +122,27 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
       padding: const EdgeInsets.all(16),
       child: ConstrainedBox(
         constraints: const BoxConstraints(minWidth: double.infinity),
-        child: ActionButton(onPressed: () => launch(callToAction.uri.toString()), label: callToAction.label),
+        child: ActionButton(
+            onPressed: () {
+              context.trackEvent(callToAction.eventType);
+              launch(callToAction.uri.toString());
+            },
+            label: callToAction.label),
       ),
     );
   }
 
-  List<Widget> _secondaryCallToActions(ImmersionDetailsViewModel viewModel) {
+  List<Widget> _secondaryCallToActions(BuildContext context, ImmersionDetailsViewModel viewModel) {
     final buttons = viewModel.secondaryCallToActions.map((cta) {
       return Padding(
         padding: const EdgeInsets.only(bottom: 20),
         child: SecondaryButton(
           label: cta.label,
           drawableRes: cta.drawableRes,
-          onPressed: () => launch(cta.uri.toString()),
+          onPressed: () {
+            context.trackEvent(cta.eventType);
+            launch(cta.uri.toString());
+          },
         ),
       );
     }).toList();
