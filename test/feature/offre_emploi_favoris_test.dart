@@ -208,11 +208,11 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
 class OffreEmploiFavorisRepositorySuccessStub extends OffreEmploiFavorisRepository {
   OffreEmploiFavorisRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
-  Future<Set<String>?> getOffreEmploiFavorisId(String userId) async {
+  Future<Set<String>?> getFavorisId(String userId) async {
     return {"1", "2", "4"};
   }
 
-  Future<Map<String, OffreEmploi>?> getOffreEmploiFavoris(String userId) async {
+  Future<Map<String, OffreEmploi>?> getFavoris(String userId) async {
     return {
       "1": mockOffreEmploi(id: "1"),
       "2": mockOffreEmploi(id: "2"),
@@ -232,11 +232,11 @@ class OffreEmploiFavorisRepositorySuccessStub extends OffreEmploiFavorisReposito
 class OffreEmploiFavorisRepositoryFailureStub extends OffreEmploiFavorisRepository {
   OffreEmploiFavorisRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
-  Future<Set<String>?> getOffreEmploiFavorisId(String userId) async {
+  Future<Set<String>?> getFavorisId(String userId) async {
     return {"1", "2", "4"};
   }
 
-  Future<Map<String, OffreEmploi>?> getOffreEmploiFavoris(String userId) async {
+  Future<Map<String, OffreEmploi>?> getFavoris(String userId) async {
     return null;
   }
 
