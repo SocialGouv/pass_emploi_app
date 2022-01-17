@@ -18,6 +18,7 @@ import 'package:pass_emploi_app/widgets/chat_message_widget.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
+import 'package:pass_emploi_app/widgets/sepline.dart';
 
 class ChatPage extends TraceableStatefulWidget {
   ChatPage() : super(name: AnalyticsScreenNames.chat);
@@ -74,10 +75,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
       appBar: passEmploiAppBar(label: viewModel.title),
       body: Column(
         children: [
-          Container(
-            height: 1,
-            color: AppColors.shadowColor,
-          ),
+          SepLine(0, 0),
           Expanded(child: DefaultAnimatedSwitcher(child: body)),
         ],
       ),
