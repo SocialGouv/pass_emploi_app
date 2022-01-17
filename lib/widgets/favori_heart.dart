@@ -14,7 +14,7 @@ import 'package:pass_emploi_app/widgets/secondary_icon_button.dart';
 class FavoriHeart extends StatelessWidget {
   final String offreId;
   final bool withBorder;
-  final OffrePage from;
+  final OffrePage? from;
   final Function()? onFavoriRemoved;
 
   FavoriHeart({required this.offreId, required this.withBorder, required this.from, this.onFavoriRemoved}) : super();
@@ -54,8 +54,8 @@ class FavoriHeart extends StatelessWidget {
 
   void _sendTracking(bool isFavori) {
     final newFavoriStatus = !isFavori;
-    final widgetName = FavoriHeartAnalyticsHelper().getAnalyticsWidgetName(from, newFavoriStatus);
-    final eventName = FavoriHeartAnalyticsHelper().getAnalyticsEventName(from);
+    final widgetName = FavoriHeartAnalyticsHelper().getAnalyticsWidgetName(from!, newFavoriStatus);
+    final eventName = FavoriHeartAnalyticsHelper().getAnalyticsEventName(from!);
     if (widgetName != null && eventName != null) MatomoTracker.trackScreenWithName(widgetName, eventName);
   }
 }

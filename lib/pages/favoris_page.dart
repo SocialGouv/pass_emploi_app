@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_favoris_list_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_favoris_actions.dart';
@@ -12,8 +11,6 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
-import 'package:pass_emploi_app/widgets/default_app_bar.dart';
-import 'package:pass_emploi_app/widgets/offre_emploi_list_item.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 import 'offre_emploi_details_page.dart';
@@ -34,14 +31,6 @@ class FavorisPage extends TraceableStatelessWidget {
       builder: (context, viewModel) => DefaultAnimatedSwitcher(child: _switch(viewModel)),
       converter: (store) => OffreEmploiFavorisListViewModel.create(store, onlyAlternance: onlyAlternance),
       distinct: true,
-    );
-  }
-
-  Widget _scaffold(BuildContext context, OffreEmploiFavorisListViewModel viewModel) {
-    return Scaffold(
-      backgroundColor: AppColors.lightBlue,
-      appBar: passEmploiAppBar(label: Strings.menuFavoris),
-      body: DefaultAnimatedSwitcher(child: _switch(viewModel)),
     );
   }
 
@@ -81,11 +70,8 @@ class FavorisPage extends TraceableStatelessWidget {
       id: item.id,
       onTap: () => Navigator.push(
           context,
-          OffreEmploiDetailsPage.materialPageRoute(
-            item.id,
-            fromAlternance: onlyAlternance,
-            shouldPopPageWhenFavoriIsRemoved: true,
-          )),
+          OffreEmploiDetailsPage.materialPageRoute(item.id,
+              fromAlternance: onlyAlternance,shouldPopPageWhenFavoriIsRemoved: true, fromAlternance: onlyAlternance)),
     );
   }
 

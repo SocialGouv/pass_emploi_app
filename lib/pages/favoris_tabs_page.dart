@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/carousel_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
@@ -24,7 +23,7 @@ class _FavorisTabsPageState extends State<FavorisTabsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.lightBlue,
-      appBar: FlatDefaultAppBar(title: Text(Strings.menuFavoris, style: TextStyles.h3Semi)),
+      appBar: passEmploiAppBar(label: Strings.menuFavoris),
       body: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
