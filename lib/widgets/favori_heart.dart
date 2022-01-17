@@ -60,7 +60,8 @@ class FavoriHeart extends StatelessWidget {
   }
 
   void _sendTracking(bool isFavori) {
-    final widgetName = FavoriHeartAnalyticsHelper().getAnalyticsWidgetName(from, isFavori);
+    final newFavoriStatus = !isFavori;
+    final widgetName = FavoriHeartAnalyticsHelper().getAnalyticsWidgetName(from, newFavoriStatus);
     final eventName = FavoriHeartAnalyticsHelper().getAnalyticsEventName(from);
     if (widgetName != null && eventName != null) MatomoTracker.trackScreenWithName(widgetName, eventName);
   }
