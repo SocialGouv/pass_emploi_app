@@ -4,7 +4,6 @@ import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
 class UserActionListPageViewModel extends Equatable {
@@ -75,22 +74,12 @@ List<UserActionListPageItem> _listItems({
   return [
     ...activeItems.map((e) => UserActionListItemViewModel(e)),
     if (doneItems.isNotEmpty) ...[
-      UserActionListSubtitle(Strings.doneActionsTitle),
       ...doneItems.map((e) => UserActionListItemViewModel(e)),
     ]
   ];
 }
 
 abstract class UserActionListPageItem extends Equatable {}
-
-class UserActionListSubtitle extends UserActionListPageItem {
-  final String title;
-
-  UserActionListSubtitle(this.title);
-
-  @override
-  List<Object?> get props => [title];
-}
 
 class UserActionListItemViewModel extends UserActionListPageItem {
   final UserActionViewModel viewModel;

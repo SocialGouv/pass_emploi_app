@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
@@ -83,7 +82,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     );
   }
 
-  Widget _loading() => Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
+  Widget _loading() => Center(child: CircularProgressIndicator(color: AppColors.primary));
 
   Widget _error() => Center(child: Text(Strings.offreDetailsError));
 
@@ -101,25 +100,25 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (id != null) Text(Strings.offreDetailNumber(id), style: TextStyles.textSmRegular()),
+                if (id != null) Text(Strings.offreDetailNumber(id), style: TextStyles.textXsRegular()),
                 if (lastUpdate != null)
                   Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
                       Strings.offreDetailLastUpdate(lastUpdate),
-                      style: TextStyles.textSmRegular(color: AppColors.bluePurple),
+                      style: TextStyles.textSRegular(),
                     ),
                   ),
                 _spacer(18),
                 if (title != null)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20),
-                    child: Text(title, style: TextStyles.textLgMedium),
+                    child: Text(title, style: TextStyles.textLBold()),
                   ),
                 if (companyName != null)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 12),
-                    child: Text(companyName, style: TextStyles.textMdRegular),
+                    child: Text(companyName, style: TextStyles.textBaseRegular),
                   ),
                 _tags(viewModel),
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS) _description(viewModel),
@@ -179,9 +178,9 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Widget _description(OffreEmploiDetailsPageViewModel viewModel) {
     final description = viewModel.description;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      _descriptionTitle(title: Strings.offreDetailsTitle, icon: SvgPicture.asset(Drawables.icOnePoint)),
+      _descriptionTitle(title: Strings.offreDetailsTitle),
       SepLine(8, 12),
-      if (description != null) Text(description, style: TextStyles.textSmRegular()),
+      if (description != null) Text(description, style: TextStyles.textSRegular()),
       _spacer(30),
     ]);
   }
@@ -196,7 +195,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _descriptionTitle(title: Strings.profileTitle, icon: SvgPicture.asset(Drawables.icTwoPoints)),
+        _descriptionTitle(title: Strings.profileTitle),
         SepLine(8, 20),
         Text(Strings.experienceTitle, style: TextStyles.textBaseBold),
         _spacer(12),
@@ -219,7 +218,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _descriptionTitle(title: Strings.companyTitle, icon: SvgPicture.asset(Drawables.icThreePoints)),
+        _descriptionTitle(title: Strings.companyTitle),
         SepLine(8, 30),
         if (companyName != null) _companyName(companyName: companyName, companyUrl: viewModel.companyUrl),
         if (companyAdapted) _blueTag(tagTitle: Strings.companyAdaptedTitle),
@@ -232,7 +231,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
 
   Widget _spacer(double _height) => SizedBox(height: _height);
 
-  Widget _descriptionTitle({required String title, SvgPicture? icon}) {
+  Widget _descriptionTitle({required String title}) {
     return TitleSection(label: title);
   }
 
@@ -240,7 +239,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(Strings.companyDescriptionTitle, style: TextStyles.textBaseBold),
       _spacer(12),
-      Text(content, style: TextStyles.textSmRegular()),
+      Text(content, style: TextStyles.textSRegular()),
       SepLine(12, 20),
     ]);
   }
@@ -268,7 +267,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         for (final soft in softSkills)
           Padding(
             padding: const EdgeInsets.only(bottom: 20),
-            child: Text("· $soft", style: TextStyles.textSmRegular()),
+            child: Text("· $soft", style: TextStyles.textSRegular()),
           ),
         SepLine(20, 20),
       ],
@@ -335,7 +334,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Widget _listItem(String text) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
-      child: Text("· $text", style: TextStyles.textSmRegular()),
+      child: Text("· $text", style: TextStyles.textSRegular()),
     );
   }
 
@@ -357,7 +356,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
 
   Widget _companyName({required String companyName, required String? companyUrl}) {
     return (companyUrl == null || companyUrl.isEmpty)
-        ? Text(companyName, style: TextStyles.textMdMedium)
+        ? Text(companyName, style: TextStyles.textBaseBold)
         : _companyNameWithUrl(companyName: companyName, url: companyUrl);
   }
 
@@ -381,8 +380,8 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
             children: [
               Text(
                 Strings.offreNotFoundError,
-                style: TextStyles.textSmMedium(
-                  color: AppColors.franceRed,
+                style: TextStyles.textSBoldWithColor(
+                  AppColors.franceRed,
                 ),
               ),
               SizedBox(height: 8),

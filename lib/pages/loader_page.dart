@@ -54,7 +54,7 @@ class _LoaderPageState extends State<LoaderPage> with SingleTickerProviderStateM
               top: widget._screenHeight / 4 - 36,
               child: FadeTransition(
                 opacity: _fadeAnimation,
-                child: Text(Strings.welcomeOn, style: TextStyles.textLgMedium),
+                child: Text(Strings.welcomeOn, style: TextStyles.textLBold()),
               ),
             ),
             AnimatedLogo(animation: _logoAnimation),
