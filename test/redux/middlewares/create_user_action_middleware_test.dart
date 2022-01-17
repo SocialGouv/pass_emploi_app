@@ -22,7 +22,7 @@ main() {
     final createUserAction = CreateUserAction("content", "comment", UserActionStatus.DONE);
     final store = Store<AppState>(
       storeSpy.reducer,
-      initialState: AppState.initialState().copyWith(loginState: successUserState()),
+      initialState: AppState.initialState().copyWith(loginState: successMiloUserState()),
     );
 
     // When

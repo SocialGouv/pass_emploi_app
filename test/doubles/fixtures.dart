@@ -18,7 +18,7 @@ User mockUser({id: ""}) => User(
       loginMode: LoginMode.MILO,
     );
 
-State<User> successUserState() => State<User>.success(User(
+State<User> successMiloUserState() => State<User>.success(User(
       id: "id",
       firstName: "F",
       lastName: "L",
@@ -26,14 +26,20 @@ State<User> successUserState() => State<User>.success(User(
     ));
 
 State<User> successPoleEmploiUserState() => State<User>.success(User(
-  id: "id",
-  firstName: "F",
-  lastName: "L",
-  loginMode: LoginMode.POLE_EMPLOI,
-));
+      id: "id",
+      firstName: "F",
+      lastName: "L",
+      loginMode: LoginMode.POLE_EMPLOI,
+    ));
 
+State<User> successPassEmploiUserState() => State<User>.success(User(
+      id: "id",
+      firstName: "F",
+      lastName: "L",
+      loginMode: LoginMode.PASS_EMPLOI,
+    ));
 
-AppState loggedInState() => AppState.initialState().copyWith(loginState: successUserState());
+AppState loggedInState() => AppState.initialState().copyWith(loginState: successMiloUserState());
 
 Response invalidHttpResponse({String message = ""}) => Response(message, 500);
 

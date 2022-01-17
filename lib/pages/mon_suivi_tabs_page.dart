@@ -5,13 +5,15 @@ import 'package:pass_emploi_app/pages/user_action_list_page.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/unavailable_content.dart';
 
 enum MonSuiviTab { ACTIONS, RENDEZVOUS }
 
 class MonSuiviTabPage extends StatelessWidget {
   final MonSuiviTab initialTab;
+  final bool showContent;
 
-  MonSuiviTabPage({required this.initialTab}) : super();
+  MonSuiviTabPage({required this.initialTab, required this.showContent}) : super();
 
   final List<Tab> monSuiviTabs = <Tab>[
     Tab(child: Text(Strings.actionsTabTitle, style: TextStyles.textMdMedium)),
@@ -28,13 +30,25 @@ class MonSuiviTabPage extends StatelessWidget {
           title: Text(Strings.monSuiviAppBarTitle, style: TextStyles.h3Semi),
           bottom: TabBar(tabs: monSuiviTabs),
         ),
-        body: TabBarView(
-          children: [
-            UserActionListPage(),
-            RendezvousListPage(),
-          ],
-        ),
+        body: _setTabContent(),
       ),
     );
+  }
+
+  TabBarView _setTabContent() {
+    if (showContent)
+      return TabBarView(
+        children: [
+          UserActionListPage(),
+          RendezvousListPage(),
+        ],
+      );
+    else
+      return TabBarView(
+        children: [
+          UnavailableContent(contentType: ContentType.ACTIONS),
+          UnavailableContent(contentType: ContentType.RENDEZVOUS),
+        ],
+      );
   }
 }

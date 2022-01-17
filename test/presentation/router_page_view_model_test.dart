@@ -62,7 +62,7 @@ void main() {
 
     test('…and deep link not set should display main page with default display state', () {
       final state = AppState.initialState().copyWith(
-        loginState: successUserState(),
+        loginState: successMiloUserState(),
         deepLinkState: DeepLinkState(DeepLink.NOT_SET, DateTime.now()),
       );
       final store = Store<AppState>(reducer, initialState: state);
@@ -75,7 +75,7 @@ void main() {
 
     test('…and deep link is set to rendezvous should display main page with rendezvous display state', () {
       final state = AppState.initialState().copyWith(
-        loginState: successUserState(),
+        loginState: successMiloUserState(),
         deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_RENDEZVOUS, DateTime.now()),
       );
       final store = Store<AppState>(reducer, initialState: state);
@@ -88,7 +88,7 @@ void main() {
 
     test('…and deep link is set to actions should display main page with actions display state', () {
       final state = AppState.initialState().copyWith(
-        loginState: successUserState(),
+        loginState: successMiloUserState(),
         deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_ACTION, DateTime.now()),
       );
       final store = Store<AppState>(reducer, initialState: state);
@@ -101,7 +101,7 @@ void main() {
 
     test('…and deep link is set to chat should display main page with chat display state', () {
       final state = AppState.initialState().copyWith(
-        loginState: successUserState(),
+        loginState: successMiloUserState(),
         deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_CHAT, DateTime.now()),
       );
       final store = Store<AppState>(reducer, initialState: state);
@@ -115,13 +115,13 @@ void main() {
 
   test('2 RouterPageViewModel with same login states and deep link state should be equal', () {
     final state1 = AppState.initialState().copyWith(
-      loginState: successUserState(),
+      loginState: successMiloUserState(),
       deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_CHAT, DateTime.utc(2022, 10, 24, 11, 56, 50, 330)),
     );
     final store1 = Store<AppState>(reducer, initialState: state1);
 
     final state2 = AppState.initialState().copyWith(
-      loginState: successUserState(),
+      loginState: successMiloUserState(),
       deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_CHAT, DateTime.utc(2022, 10, 24, 11, 56, 50, 330)),
     );
     final store2 = Store<AppState>(reducer, initialState: state2);
@@ -134,13 +134,13 @@ void main() {
 
   test('2 RouterPageViewModel with same login states and different deep link should be different', () {
     final state1 = AppState.initialState().copyWith(
-      loginState: successUserState(),
+      loginState: successMiloUserState(),
       deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_CHAT, DateTime.utc(2022, 10, 24, 11, 56, 50, 330)),
     );
     final store1 = Store<AppState>(reducer, initialState: state1);
 
     final state2 = AppState.initialState().copyWith(
-      loginState: successUserState(),
+      loginState: successMiloUserState(),
       deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_ACTION, DateTime.utc(2022, 10, 24, 11, 56, 50, 330)),
     );
     final store2 = Store<AppState>(reducer, initialState: state2);
@@ -155,13 +155,13 @@ void main() {
       '2 RouterPageViewModel with same login states and same deep link but different deep link date should be different',
       () {
     final state1 = AppState.initialState().copyWith(
-      loginState: successUserState(),
+      loginState: successMiloUserState(),
       deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_CHAT, DateTime.utc(2022, 10, 24, 11, 56, 50, 330)),
     );
     final store1 = Store<AppState>(reducer, initialState: state1);
 
     final state2 = AppState.initialState().copyWith(
-      loginState: successUserState(),
+      loginState: successMiloUserState(),
       deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_CHAT, DateTime.utc(2023, 10, 24, 11, 56, 50, 330)),
     );
     final store2 = Store<AppState>(reducer, initialState: state2);
