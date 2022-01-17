@@ -123,7 +123,7 @@ class TextStyles {
   static final textSRegular = TextStyle(
     color: AppColors.neutralColor,
     fontFamily: 'Marianne',
-    fontSize: FontSizes.semi,
+    fontSize: FontSizes.normal,
     fontWeight: FontWeight.w400,
   );
 
