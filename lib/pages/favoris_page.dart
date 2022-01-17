@@ -20,7 +20,10 @@ class FavorisPage extends TraceableStatelessWidget {
   final bool onlyAlternance;
 
   FavorisPage({required this.onlyAlternance})
-      : super(name: AnalyticsScreenNames.emploiFavoris, key: ValueKey(onlyAlternance));
+      : super(
+          name: onlyAlternance ? AnalyticsScreenNames.alternanceFavoris : AnalyticsScreenNames.emploiFavoris,
+          key: ValueKey(onlyAlternance),
+        );
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +78,10 @@ class FavorisPage extends TraceableStatelessWidget {
             );
           },
           splashColor: AppColors.bluePurple,
-          child: OffreEmploiListItem(itemViewModel: viewModel.items[index], from: OffrePage.emploiFavoris),
+          child: OffreEmploiListItem(
+            itemViewModel: viewModel.items[index],
+            from: onlyAlternance ? OffrePage.alternanceFavoris : OffrePage.emploiFavoris,
+          ),
         ),
       ),
     );
