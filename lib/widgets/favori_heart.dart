@@ -11,7 +11,7 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/secondary_icon_button.dart';
 
-class FavoriHeart extends StatelessWidget {
+class FavoriHeart<T> extends StatelessWidget {
   final String offreId;
   final bool withBorder;
   final OffrePage from;
@@ -22,7 +22,7 @@ class FavoriHeart extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, FavoriHeartViewModel>(
-      converter: (store) => FavoriHeartViewModel.create(offreId, store),
+      converter: (store) => FavoriHeartViewModel<T>.create(offreId, store),
       builder: (context, viewModel) => _buildHeart(context, viewModel),
       distinct: true,
       onDidChange: (_, viewModel) {

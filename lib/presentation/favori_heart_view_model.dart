@@ -1,12 +1,11 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.dart';
 import 'package:redux/redux.dart';
 
-class FavoriHeartViewModel extends Equatable {
+class FavoriHeartViewModel<T> extends Equatable {
   final bool isFavori;
   final bool withError;
   final bool withLoading;
@@ -24,7 +23,7 @@ class FavoriHeartViewModel extends Equatable {
       isFavori: _isFavori(offreId, store.state.offreEmploiFavorisState),
       withError: _withError(offreId, store.state.offreEmploiFavorisUpdateState),
       withLoading: _withLoading(offreId, store.state.offreEmploiFavorisUpdateState),
-      update: (newStatus) => store.dispatch(RequestUpdateFavoriAction<OffreEmploi>(offreId, newStatus)),
+      update: (newStatus) => store.dispatch(RequestUpdateFavoriAction<T>(offreId, newStatus)),
     );
   }
 
@@ -32,8 +31,8 @@ class FavoriHeartViewModel extends Equatable {
   List<Object?> get props => [isFavori, withError, withLoading];
 }
 
-bool _isFavori(String offreId, FavorisState<OffreEmploi> offreEmploiFavorisState) {
-  if (offreEmploiFavorisState is FavorisLoadedState<OffreEmploi>) {
+bool _isFavori<T>(String offreId, FavorisState<T> offreEmploiFavorisState) {
+  if (offreEmploiFavorisState is FavorisLoadedState<T>) {
     return offreEmploiFavorisState.favorisId.contains(offreId);
   } else {
     return false;
