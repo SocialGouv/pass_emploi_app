@@ -21,31 +21,34 @@ class CalendarCard extends StatelessWidget {
   }) : super(key: key);
 
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(16)), boxShadow: [
-        BoxShadow(
-          color: AppColors.shadowColor,
-          spreadRadius: 1,
-          blurRadius: 8,
-          offset: Offset(0, 6), // changes position of shadow
-        )
-      ]),
-      child: Material(
-        type: MaterialType.transparency,
-        child: InkWell(
-          onTap: this.onTap,
-          splashColor: AppColors.primaryLighten,
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildDate(),
-                Text(this.titre, style: TextStyles.textBaseBold),
-                if (this.sousTitre != null && this.sousTitre!.isNotEmpty) _buildSousTitre(),
-                _buildLink(),
-              ],
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: Container(
+        decoration: BoxDecoration(color: Colors.white, boxShadow: [
+          BoxShadow(
+            color: AppColors.shadowColor,
+            spreadRadius: 1,
+            blurRadius: 8,
+            offset: Offset(0, 6), // changes position of shadow
+          )
+        ]),
+        child: Material(
+          type: MaterialType.transparency,
+          child: InkWell(
+            onTap: this.onTap,
+            splashColor: AppColors.primaryLighten,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildDate(),
+                  Text(this.titre, style: TextStyles.textBaseBold),
+                  if (this.sousTitre != null && this.sousTitre!.isNotEmpty) _buildSousTitre(),
+                  _buildLink(),
+                ],
+              ),
             ),
           ),
         ),
