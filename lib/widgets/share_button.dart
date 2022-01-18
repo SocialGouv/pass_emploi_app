@@ -14,7 +14,7 @@ class ShareButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SecondaryIconButton(
       drawableRes: Drawables.icShare,
-      iconSize: 14,
+      iconSize: 18,
       onTap: () {
         if (onPressed != null) onPressed!();
         Share.share(textToShare, subject: subjectForEmail);

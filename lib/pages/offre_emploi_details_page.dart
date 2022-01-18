@@ -127,7 +127,8 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
                   if (viewModel.companyName != null) _companyDescription(viewModel),
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS)
-                  _offreNotFoundError()
+                  _offreNotFoundError(),
+                _spacer(60),
               ],
             ),
           ),
@@ -398,6 +399,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       color: Colors.white,
       padding: const EdgeInsets.all(16),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: PrimaryActionButton(

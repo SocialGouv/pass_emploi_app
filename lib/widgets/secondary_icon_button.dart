@@ -15,13 +15,13 @@ class SecondaryIconButton extends StatelessWidget {
     required this.onTap,
     this.iconColor = AppColors.primary,
     this.borderColor,
-    this.iconSize = 18,
+    this.iconSize = 24,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final double width = 48;
-    final double height = 48;
+    final double width = 59;
+    final double height = 59;
     return ClipOval(
       child: Material(
         color: Colors.transparent,

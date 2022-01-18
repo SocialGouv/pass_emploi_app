@@ -29,7 +29,10 @@ class HelpTooltip extends StatelessWidget {
           color: AppColors.primary,
         ),
       ),
-      child: SvgPicture.asset(iconRes),
+      child: SvgPicture.asset(
+        iconRes,
+        color: AppColors.primary,
+      ),
     );
   }
 }
