@@ -16,7 +16,7 @@ class ImmersionListPage extends TraceableStatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.lightBlue,
+      backgroundColor: AppColors.grey100,
       appBar: passEmploiAppBar(label: Strings.immersionsTitle, withBackButton: true),
       body: ListView.separated(
         padding: const EdgeInsets.all(16),

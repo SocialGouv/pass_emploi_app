@@ -68,7 +68,7 @@ class RendezvousListPage extends TraceableStatelessWidget {
 
   Scaffold _scaffold(Widget body) {
     return Scaffold(
-      backgroundColor: AppColors.primaryLighten,
+      backgroundColor: AppColors.grey100,
       body: Center(child: DefaultAnimatedSwitcher(child: body)),
     );
   }

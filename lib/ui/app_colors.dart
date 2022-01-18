@@ -20,8 +20,8 @@ class AppColors {
   // Colors from zero height
   static const Color primary = Color.fromARGB(255, 59, 105, 209);
   static const Color primaryDarken = Color.fromARGB(255, 39, 73, 150);
-  static const Color secondary = const Color(0xFF0D7F50);
   static const Color primaryLighten = Color.fromARGB(255, 238, 241, 248);
+  static const Color secondary = const Color(0xFF0D7F50);
   static const Color primaryWithAlpha50 = Color.fromARGB(122, 59, 105, 209);
   static const Color favoriteHeartColor = const Color(0xFFFF8D7E);
   static const Color warningLighten = Color.fromARGB(255, 255, 241, 237);
@@ -36,4 +36,5 @@ class AppColors {
   static const Color accent3 = const Color(0xFF0C7A81);
   static const Color accent3Lighten = const Color(0xFFDFFDFF);
   static const Color grey800 = const Color(0xFF646464);
+  static const Color grey100 = const Color(0xFFF1F1F1);
 }

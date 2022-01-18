@@ -29,6 +29,7 @@ class MonSuiviTabPage extends StatelessWidget {
       initialIndex: initialTab == MonSuiviTab.ACTIONS ? 0 : 1,
       length: monSuiviTabs.length,
       child: Scaffold(
+        backgroundColor: AppColors.grey100,
         appBar: passEmploiAppBar(
           label: Strings.monSuiviAppBarTitle,
           bottom: TabBar(

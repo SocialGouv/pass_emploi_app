@@ -22,7 +22,7 @@ class _FavorisTabsPageState extends State<FavorisTabsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.lightBlue,
+      backgroundColor: AppColors.grey100,
       appBar: passEmploiAppBar(label: Strings.menuFavoris),
       body: SingleChildScrollView(
         physics: const AlwaysScrollableScrollPhysics(),

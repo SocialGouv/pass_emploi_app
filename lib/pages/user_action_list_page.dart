@@ -62,7 +62,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
 
   Widget _scaffold(BuildContext context, UserActionListPageViewModel viewModel) {
     return Scaffold(
-      backgroundColor: AppColors.lightBlue,
+      backgroundColor: AppColors.grey100,
       body: Stack(
         children: [
           DefaultAnimatedSwitcher(child: _animatedBody(context, viewModel)),
