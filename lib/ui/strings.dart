@@ -165,7 +165,7 @@ class Strings {
   static String serviceCiviqueUrl = "https://www.service-civique.gouv.fr/missions/";
 
   // Immersion Errors
-  static String immersionMetierError = "Renseignez un métier de la liste";
+  static String immersionMetierError = "Renseignez un secteur d'activité de la liste";
   static String immersionVilleError = "Renseignez une ville de la liste";
 
   // Solutions Errors

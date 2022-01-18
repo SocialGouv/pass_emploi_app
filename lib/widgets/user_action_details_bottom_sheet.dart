@@ -227,8 +227,8 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
             label: Strings.deleteAction,
             textColor: AppColors.warning,
             backgroundColor: AppColors.warningLighten,
-            disabledBackgroundColor: AppColors.redGrey,
-            rippleColor: AppColors.redGrey,
+            disabledBackgroundColor: AppColors.warningLight,
+            rippleColor: AppColors.warningLight,
             withShadow: false,
           ),
           if (detailsViewModel.displayState == UserActionDetailsDisplayState.SHOW_DELETE_ERROR)

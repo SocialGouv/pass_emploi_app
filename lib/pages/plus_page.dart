@@ -34,7 +34,7 @@ class PlusPage extends TraceableStatelessWidget {
                       label: Strings.logoutAction,
                       textColor: AppColors.warning,
                       backgroundColor: AppColors.warningLighten,
-                      rippleColor: AppColors.redGrey,
+                      rippleColor: AppColors.warningLight,
                       withShadow: false,
                     ),
                   ),

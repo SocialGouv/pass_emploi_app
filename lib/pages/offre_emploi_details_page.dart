@@ -376,7 +376,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: Container(
-        color: AppColors.franceRedAlpha05,
+        color: AppColors.warningLight,
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -384,13 +384,13 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
               Text(
                 Strings.offreNotFoundError,
                 style: TextStyles.textSBoldWithColor(
-                  AppColors.franceRed,
+                  AppColors.warning,
                 ),
               ),
               SizedBox(height: 8),
               Text(
                 Strings.offreNotFoundExplaination,
-                style: TextStyles.textSmRegular(color: AppColors.franceRed),
+                style: TextStyles.textSmRegular(color: AppColors.warning),
               ),
             ],
           ),

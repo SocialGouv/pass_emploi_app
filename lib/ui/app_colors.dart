@@ -12,10 +12,6 @@ class AppColors {
   static const Color nightBlue = Color.fromARGB(255, 51, 56, 102);
   static const Color nightBlueAlpha05 = Color.fromARGB(13, 51, 56, 102);
   static const Color purple = Color.fromARGB(255, 151, 98, 218);
-  static const Color errorRed = Color.fromARGB(255, 211, 47, 47);
-  static const Color franceRed = Color.fromARGB(255, 225, 0, 15);
-  static const Color franceRedAlpha05 = Color.fromARGB(13, 225, 0, 15);
-  static const Color redGrey = Color.fromARGB(255, 228, 203, 200);
 
   // Colors from zero height
   // Primary colors
@@ -29,6 +25,7 @@ class AppColors {
 
   // Status colors
   static const Color warning = Color.fromARGB(255, 211, 50, 17);
+  static const Color warningLight = Color(0xFFFFCBBC);
   static const Color warningLighten = Color.fromARGB(255, 255, 241, 237);
 
   // Accent colors

@@ -27,10 +27,10 @@ class PassEmploiTheme {
     return SliderThemeData(
       trackHeight: 6.0,
       activeTrackColor: AppColors.primary,
-      inactiveTrackColor: AppColors.neutralColor,
+      inactiveTrackColor: AppColors.grey800,
       thumbColor: AppColors.primary,
       activeTickMarkColor: AppColors.primary,
-      inactiveTickMarkColor: AppColors.neutralColor,
+      inactiveTickMarkColor: AppColors.grey800,
     );
   }
 }
