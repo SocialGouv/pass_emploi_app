@@ -22,7 +22,7 @@ main() {
     final trackingEventAction = RequestTrackingEventAction(EventType.MESSAGE_ENVOYE);
     final store = Store<AppState>(
       storeSpy.reducer,
-      initialState: AppState.initialState().copyWith(loginState: successUserState()),
+      initialState: AppState.initialState().copyWith(loginState: successMiloUserState()),
     );
 
     // When

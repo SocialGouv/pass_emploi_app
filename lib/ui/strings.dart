@@ -187,7 +187,8 @@ class Strings {
   static String contratCdiTooltip = "CDI et CDI Intérimaire";
   static String contratCddInterimSaisonnierLabel = "CDD - intérim - saisonnier";
   static String contratAutreLabel = "Autres";
-  static String contratAutreTooltip = "Profession commerciale, Franchise, Profession libérale, Reprise d’entreprise, Contrat travail temporaire insertion";
+  static String contratAutreTooltip =
+      "Profession commerciale, Franchise, Profession libérale, Reprise d’entreprise, Contrat travail temporaire insertion";
   static String dureeSectionTitle = "Temps de travail";
   static String dureeTempsPleinLabel = "Temps plein";
   static String dureeTempsPartielLabel = "Temps partiel";
@@ -222,4 +223,14 @@ class Strings {
   static String offreDetailLastUpdate(String lastUpdate) => "Actualisée le $lastUpdate";
   static String noFavoris = "Aucun favori";
   static String favorisError = "Erreur lors de la récupération de vos favoris";
+
+  //unavailable content (actions & rdv) for pole emploi users
+  static String rendezvous = "rendez-vous";
+  static String actions = "actions";
+  static String unavailableContentTitle(String content) =>
+      "Vos $content ne sont pas accessibles sur l’application pass emploi.";
+  static String unvailableContentDescription =
+      "Vous pouvez les consulter sur votre espace personnel Pôle emploi.";
+  static String poleEmploiUrlButton = "Accéder à mon espace Pôle emploi";
+  static String espacePoleEmploiUrl = "https://candidat.pole-emploi.fr/espacepersonnel/";
 }

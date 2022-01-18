@@ -142,7 +142,7 @@ Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
   testStoreFactory.authenticator = AuthenticatorLoggedInStub();
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState().copyWith(
-        loginState: successUserState(),
+        loginState: successMiloUserState(),
         offreEmploiFavorisState: OffreEmploiFavorisState.withMap(
           {"1", "2", "4"},
           {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()},
@@ -162,7 +162,7 @@ Store<AppState> _successStoreWithFavorisIdLoaded() {
   testStoreFactory.authenticator = AuthenticatorLoggedInStub();
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState().copyWith(
-      loginState: successUserState(),
+      loginState: successMiloUserState(),
       offreEmploiFavorisState: OffreEmploiFavorisState.idsLoaded({"1", "2", "4"}),
     ),
   );
@@ -175,7 +175,7 @@ Store<AppState> _failureStoreWithFavorisIdLoaded() {
   testStoreFactory.authenticator = AuthenticatorLoggedInStub();
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState().copyWith(
-      loginState: successUserState(),
+      loginState: successMiloUserState(),
       offreEmploiFavorisState: OffreEmploiFavorisState.withMap(
         {"1", "2", "4"},
         {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()},
@@ -191,7 +191,7 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
   testStoreFactory.authenticator = AuthenticatorLoggedInStub();
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState().copyWith(
-        loginState: successUserState(),
+        loginState: successMiloUserState(),
         offreEmploiFavorisState: OffreEmploiFavorisState.withMap(
           {"1", "2", "4"},
           {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()},

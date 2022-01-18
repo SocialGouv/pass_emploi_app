@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/plus_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
@@ -39,7 +40,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance?.addObserver(this);
-    _selectedIndex = widget.displayState == MainPageDisplayState.CHAT ? _indexOfChatPage : _indexOfMonSuiviPage;
+    _selectedIndex = _setInitIndexPage();
     _displayMonSuiviOnRendezvousTab = widget.displayState == MainPageDisplayState.RENDEZVOUS_TAB;
   }
 
@@ -75,7 +76,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
     return Scaffold(
       body: Container(
         color: AppColors.lightBlue,
-        child: _content(_selectedIndex),
+        child: _content(_selectedIndex, viewModel),
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
@@ -97,12 +98,12 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
 
   void _onItemTapped(int index) => setState(() => _selectedIndex = index);
 
-  Widget _content(int index) {
+  Widget _content(int index, MainPageViewModel viewModel) {
     switch (index) {
       case _indexOfMonSuiviPage:
         final initialTab = _displayMonSuiviOnRendezvousTab ? MonSuiviTab.RENDEZVOUS : MonSuiviTab.ACTIONS;
         _displayMonSuiviOnRendezvousTab = false;
-        return MonSuiviTabPage(initialTab: initialTab);
+        return MonSuiviTabPage(initialTab: initialTab, showContent: !viewModel.isPoleEmploiLogin);
       case _indexOfChatPage:
         return ChatPage();
       case _indexOfSolutionsPage:
@@ -112,7 +113,19 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case _indexOfPlusPage:
         return PlusPage();
       default:
-        return MonSuiviTabPage(initialTab: MonSuiviTab.ACTIONS);
+        return MonSuiviTabPage(initialTab: MonSuiviTab.ACTIONS, showContent: !viewModel.isPoleEmploiLogin);
     }
   }
+
+  int _setInitIndexPage() {
+    switch(widget.displayState) {
+      case MainPageDisplayState.CHAT:
+        return _indexOfChatPage;
+      case MainPageDisplayState.SEARCH:
+        return _indexOfSolutionsPage;
+      default:
+        return _indexOfMonSuiviPage;
+    }
+  }
+
 }
