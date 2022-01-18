@@ -47,8 +47,7 @@ AppState reducer(AppState current, dynamic action) {
   } else if (action is OffreEmploiFavorisAction) {
     return current.copyWith(
       offreEmploiFavorisState: _offreEmploiFavorisReducer.reduceFavorisState(current.offreEmploiFavorisState, action),
-      offreEmploiFavorisUpdateState:
-          _favorisUpdateReducer.reduceUpdateState(current.offreEmploiFavorisUpdateState, action),
+      favorisUpdateState: _favorisUpdateReducer.reduceUpdateState(current.favorisUpdateState, action),
     );
   } else if (action is SearchLocationAction) {
     return searchLocationReducer(current, action);

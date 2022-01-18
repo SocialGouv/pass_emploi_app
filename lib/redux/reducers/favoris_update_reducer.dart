@@ -2,38 +2,37 @@ import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.dart';
 
 class FavorisUpdateReducer {
-  OffreEmploiFavorisUpdateState reduceUpdateState<T>(
-      OffreEmploiFavorisUpdateState currentState, FavorisAction<T> action) {
+  FavorisUpdateState reduceUpdateState<T>(FavorisUpdateState currentState, FavorisAction<T> action) {
     if (action is UpdateFavoriLoadingAction<T>) {
       return _updateState(
         currentState,
         action.favoriId,
-        OffreEmploiFavorisUpdateStatus.LOADING,
+        FavorisUpdateStatus.LOADING,
       );
     } else if (action is UpdateFavoriSuccessAction<T>) {
       return _updateState(
         currentState,
         action.favoriId,
-        OffreEmploiFavorisUpdateStatus.SUCCESS,
+        FavorisUpdateStatus.SUCCESS,
       );
     } else if (action is UpdateFavoriFailureAction<T>) {
       return _updateState(
         currentState,
         action.favoriId,
-        OffreEmploiFavorisUpdateStatus.ERROR,
+        FavorisUpdateStatus.ERROR,
       );
     } else {
       return currentState;
     }
   }
 
-  OffreEmploiFavorisUpdateState _updateState(
-    OffreEmploiFavorisUpdateState currentState,
+  FavorisUpdateState _updateState(
+    FavorisUpdateState currentState,
     String offreId,
-    OffreEmploiFavorisUpdateStatus status,
+    FavorisUpdateStatus status,
   ) {
     final newStatusMap = Map.of(currentState.requestStatus);
     newStatusMap[offreId] = status;
-    return OffreEmploiFavorisUpdateState(newStatusMap);
+    return FavorisUpdateState(newStatusMap);
   }
 }

@@ -18,10 +18,10 @@ main() {
     // Given
     final Store<AppState> store = _successStoreWithFavorisAndSearchResultsLoaded();
 
-    final loadingState = store.onChange.any((element) =>
-        element.offreEmploiFavorisUpdateState.requestStatus["1"] == OffreEmploiFavorisUpdateStatus.LOADING);
-    final successState = store.onChange.firstWhere((element) =>
-        element.offreEmploiFavorisUpdateState.requestStatus["1"] == OffreEmploiFavorisUpdateStatus.SUCCESS);
+    final loadingState =
+        store.onChange.any((element) => element.favorisUpdateState.requestStatus["1"] == FavorisUpdateStatus.LOADING);
+    final successState = store.onChange
+        .firstWhere((element) => element.favorisUpdateState.requestStatus["1"] == FavorisUpdateStatus.SUCCESS);
 
     // When
     store.dispatch(RequestUpdateFavoriAction<OffreEmploi>("1", false));
@@ -38,10 +38,10 @@ main() {
     // Given
     final Store<AppState> store = _failureStoreWithFavorisLoaded();
 
-    final loadingState = store.onChange.any((element) =>
-        element.offreEmploiFavorisUpdateState.requestStatus["1"] == OffreEmploiFavorisUpdateStatus.LOADING);
-    final failureState = store.onChange.firstWhere(
-        (element) => element.offreEmploiFavorisUpdateState.requestStatus["1"] == OffreEmploiFavorisUpdateStatus.ERROR);
+    final loadingState =
+        store.onChange.any((element) => element.favorisUpdateState.requestStatus["1"] == FavorisUpdateStatus.LOADING);
+    final failureState = store.onChange
+        .firstWhere((element) => element.favorisUpdateState.requestStatus["1"] == FavorisUpdateStatus.ERROR);
 
     // When
     store.dispatch(RequestUpdateFavoriAction<OffreEmploi>("1", false));
@@ -58,10 +58,10 @@ main() {
     // Given
     Store<AppState> store = _successStoreWithFavorisAndSearchResultsLoaded();
 
-    final loadingState = store.onChange.any((element) =>
-        element.offreEmploiFavorisUpdateState.requestStatus["17"] == OffreEmploiFavorisUpdateStatus.LOADING);
-    final successState = store.onChange.firstWhere((element) =>
-        element.offreEmploiFavorisUpdateState.requestStatus["17"] == OffreEmploiFavorisUpdateStatus.SUCCESS);
+    final loadingState =
+        store.onChange.any((element) => element.favorisUpdateState.requestStatus["17"] == FavorisUpdateStatus.LOADING);
+    final successState = store.onChange
+        .firstWhere((element) => element.favorisUpdateState.requestStatus["17"] == FavorisUpdateStatus.SUCCESS);
 
     // When
     store.dispatch(RequestUpdateFavoriAction<OffreEmploi>("17", true));
@@ -81,10 +81,10 @@ main() {
     // Given
     final Store<AppState> store = _failureStoreWithFavorisLoaded();
 
-    final loadingState = store.onChange.any((element) =>
-        element.offreEmploiFavorisUpdateState.requestStatus["17"] == OffreEmploiFavorisUpdateStatus.LOADING);
-    final failureState = store.onChange.firstWhere(
-        (element) => element.offreEmploiFavorisUpdateState.requestStatus["17"] == OffreEmploiFavorisUpdateStatus.ERROR);
+    final loadingState =
+        store.onChange.any((element) => element.favorisUpdateState.requestStatus["17"] == FavorisUpdateStatus.LOADING);
+    final failureState = store.onChange
+        .firstWhere((element) => element.favorisUpdateState.requestStatus["17"] == FavorisUpdateStatus.ERROR);
 
     // When
     store.dispatch(RequestUpdateFavoriAction<OffreEmploi>("17", true));

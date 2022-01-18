@@ -1,9 +1,7 @@
-enum OffreEmploiFavorisUpdateStatus {
-  LOADING, SUCCESS, ERROR
-}
+enum FavorisUpdateStatus { LOADING, SUCCESS, ERROR }
 
-class OffreEmploiFavorisUpdateState {
-  final Map<String, OffreEmploiFavorisUpdateStatus> requestStatus;
+class FavorisUpdateState {
+  final Map<String, FavorisUpdateStatus> requestStatus;
 
-  OffreEmploiFavorisUpdateState(this.requestStatus);
+  FavorisUpdateState(this.requestStatus);
 }

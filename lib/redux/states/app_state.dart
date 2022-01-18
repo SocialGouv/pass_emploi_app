@@ -35,7 +35,7 @@ class AppState extends Equatable {
   final OffreEmploiSearchResultsState offreEmploiSearchResultsState;
   final OffreEmploiSearchParametersState offreEmploiSearchParametersState;
   final FavorisState<OffreEmploi> offreEmploiFavorisState;
-  final OffreEmploiFavorisUpdateState offreEmploiFavorisUpdateState;
+  final FavorisUpdateState favorisUpdateState;
   final SearchLocationState searchLocationState;
   final State<User> loginState;
   final State<List<UserAction>> userActionState;
@@ -56,7 +56,7 @@ class AppState extends Equatable {
     required this.offreEmploiSearchResultsState,
     required this.offreEmploiSearchParametersState,
     required this.offreEmploiFavorisState,
-    required this.offreEmploiFavorisUpdateState,
+    required this.favorisUpdateState,
     required this.searchLocationState,
     required this.loginState,
     required this.userActionState,
@@ -77,7 +77,7 @@ class AppState extends Equatable {
     final OffreEmploiSearchResultsState? offreEmploiSearchResultsState,
     final OffreEmploiSearchParametersState? offreEmploiSearchParametersState,
     final FavorisState<OffreEmploi>? offreEmploiFavorisState,
-    final OffreEmploiFavorisUpdateState? offreEmploiFavorisUpdateState,
+    final FavorisUpdateState? favorisUpdateState,
     final SearchLocationState? searchLocationState,
     final State<User>? loginState,
     final State<List<UserAction>>? userActionState,
@@ -99,7 +99,7 @@ class AppState extends Equatable {
       offreEmploiSearchResultsState: offreEmploiSearchResultsState ?? this.offreEmploiSearchResultsState,
       offreEmploiSearchParametersState: offreEmploiSearchParametersState ?? this.offreEmploiSearchParametersState,
       offreEmploiFavorisState: offreEmploiFavorisState ?? this.offreEmploiFavorisState,
-      offreEmploiFavorisUpdateState: offreEmploiFavorisUpdateState ?? this.offreEmploiFavorisUpdateState,
+      favorisUpdateState: favorisUpdateState ?? this.favorisUpdateState,
       searchLocationState: searchLocationState ?? this.searchLocationState,
       loginState: loginState ?? this.loginState,
       userActionState: userActionState ?? this.userActionState,
@@ -123,7 +123,7 @@ class AppState extends Equatable {
         offreEmploiSearchResultsState: OffreEmploiSearchResultsState.notInitialized(),
         offreEmploiSearchParametersState: OffreEmploiSearchParametersState.notInitialized(),
         offreEmploiFavorisState: FavorisState<OffreEmploi>.notInitialized(),
-        offreEmploiFavorisUpdateState: OffreEmploiFavorisUpdateState({}),
+        favorisUpdateState: FavorisUpdateState({}),
         searchLocationState: SearchLocationState([]),
         loginState: State<User>.notInitialized(),
         userActionState: State<List<UserAction>>.notInitialized(),
@@ -146,7 +146,7 @@ class AppState extends Equatable {
         offreEmploiSearchResultsState,
         offreEmploiSearchParametersState,
         offreEmploiFavorisState,
-        offreEmploiFavorisUpdateState,
+        favorisUpdateState,
         searchLocationState,
         loginState,
         userActionState,
