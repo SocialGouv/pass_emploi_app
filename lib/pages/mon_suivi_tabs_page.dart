@@ -37,7 +37,7 @@ class MonSuiviTabPage extends StatelessWidget {
             indicatorWeight: 5,
             labelStyle: TextStyles.textBaseBold,
             labelColor: AppColors.contentColor,
-            unselectedLabelColor: AppColors.neutralColor,
+            unselectedLabelColor: AppColors.grey800,
             tabs: monSuiviTabs,
           ),
         ),

@@ -87,7 +87,7 @@ class LoginPage extends TraceableStatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(Strings.loginError, style: TextStyles.textSmMedium(color: AppColors.errorRed)),
+        Text(Strings.loginError, style: TextStyles.textSmMedium(color: AppColors.warning)),
         SizedBox(height: 8),
         ..._loginButtons(viewModel),
       ],

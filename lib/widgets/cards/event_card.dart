@@ -58,7 +58,7 @@ class EventCard extends StatelessWidget {
   Widget _buildSousTitre() {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
-      child: Text(this.sousTitre!, style: TextStyles.textSRegular(color: AppColors.neutralColor)),
+      child: Text(this.sousTitre!, style: TextStyles.textSRegular(color: AppColors.grey800)),
     );
   }
 
@@ -83,7 +83,7 @@ class EventCard extends StatelessWidget {
             color: AppColors.shadowColor,
           ),
         ),
-        Text(derniereModification, style: TextStyles.textSRegular(color: AppColors.neutralColor)),
+        Text(derniereModification, style: TextStyles.textSRegular(color: AppColors.grey800)),
       ],
     );
   }

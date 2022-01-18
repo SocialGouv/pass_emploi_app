@@ -121,11 +121,11 @@ class MetierAutocomplete extends StatelessWidget {
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
-        borderSide: BorderSide(color: AppColors.errorRed, width: 1.0),
+        borderSide: BorderSide(color: AppColors.warning, width: 1.0),
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
-        borderSide: BorderSide(color: AppColors.errorRed, width: 1.0),
+        borderSide: BorderSide(color: AppColors.warning, width: 1.0),
       ),
     );
   }
