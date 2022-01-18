@@ -95,14 +95,12 @@ main() {
     final viewModel = UserActionListPageViewModel.create(store);
 
     // Then
-    expect(viewModel.items.length, 9);
+    expect(viewModel.items.length, 8);
     for (var i = 0; i < 5; ++i) {
       expect(viewModel.items[i] is UserActionListItemViewModel, isTrue);
       expect((viewModel.items[i] as UserActionListItemViewModel).viewModel.status != UserActionStatus.DONE, isTrue);
     }
-    expect(viewModel.items[5] is UserActionListSubtitle, isTrue);
-    expect((viewModel.items[5] as UserActionListSubtitle).title, "Actions terminées");
-    for (var i = 6; i < 9; ++i) {
+    for (var i = 5; i < 8; ++i) {
       expect(viewModel.items[i] is UserActionListItemViewModel, isTrue);
       expect((viewModel.items[i] as UserActionListItemViewModel).viewModel.status == UserActionStatus.DONE, isTrue);
     }
@@ -165,10 +163,8 @@ main() {
     final viewModel = UserActionListPageViewModel.create(store);
 
     // Then
-    expect(viewModel.items.length, 3);
-    expect(viewModel.items[0] is UserActionListSubtitle, isTrue);
-    expect((viewModel.items[0] as UserActionListSubtitle).title, "Actions terminées");
-    for (var i = 1; i < 3; ++i) {
+    expect(viewModel.items.length, 2);
+    for (var i = 0; i < 2; ++i) {
       expect(viewModel.items[i] is UserActionListItemViewModel, isTrue);
       expect((viewModel.items[i] as UserActionListItemViewModel).viewModel.status == UserActionStatus.DONE, isTrue);
     }
