@@ -16,20 +16,19 @@ class UnavailableContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool littleScreen = _isLittleScreen(context);
-    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: littleScreen ? 0 : 24),
-          Center(child: SvgPicture.asset(Drawables.icNoContent, width: screenWidth / (littleScreen ? 3 : 2))),
-          SizedBox(height: littleScreen ? 8 : 36),
+          SizedBox(height: screenHeight * 0.02),
+          Flexible(child: SvgPicture.asset(Drawables.icNoContent), flex: 1),
+          SizedBox(height: screenHeight * 0.05),
           Text(_setTitle(), style: TextStyles.textSmMedium(), textAlign: TextAlign.center),
-          SizedBox(height: littleScreen ? 4: 24),
+          SizedBox(height: screenHeight * 0.03),
           Text(Strings.unvailableContentDescription, style: TextStyles.textSmRegular(), textAlign: TextAlign.center),
-          SizedBox(height: littleScreen ? 12 : 48),
+          SizedBox(height: screenHeight * 0.04),
           ConstrainedBox(
             constraints: const BoxConstraints(minWidth: double.infinity),
             child: ActionButton(
@@ -37,6 +36,7 @@ class UnavailableContent extends StatelessWidget {
               label: Strings.poleEmploiUrlButton,
             ),
           ),
+          SizedBox(height: screenHeight * 0.01),
         ],
       ),
     );
@@ -50,6 +50,4 @@ class UnavailableContent extends StatelessWidget {
         return Strings.unavailableContentTitle(Strings.rendezvous);
     }
   }
-
-  bool _isLittleScreen(BuildContext context) => MediaQuery.of(context).size.height < 600;
 }

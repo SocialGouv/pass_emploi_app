@@ -43,25 +43,22 @@ class LoginPage extends TraceableStatelessWidget {
                 flex: 1,
                 child: SvgPicture.asset(Drawables.icLogo, width: 145, semanticsLabel: Strings.logoTextDescription),
               ),
-              Expanded(
-                flex: _isLittleScreen(context) ? 3 : 2,
-                child: Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.only(left: 16, right: 16),
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(width: 1, color: Colors.white),
-                    borderRadius: BorderRadius.all(Radius.circular(16)),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(Strings.performLogin, style: TextStyles.textMdMedium, textAlign: TextAlign.center),
-                      SizedBox(height: 16),
-                      _body(viewModel, context),
-                    ],
-                  ),
+              Container(
+                width: double.infinity,
+                margin: EdgeInsets.only(left: 16, right: 16),
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(width: 1, color: Colors.white),
+                  borderRadius: BorderRadius.all(Radius.circular(16)),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(Strings.performLogin, style: TextStyles.textMdMedium, textAlign: TextAlign.center),
+                    SizedBox(height: 16),
+                    _body(viewModel, context),
+                  ],
                 ),
               ),
               Flexible(child: SizedBox(), flex: 1),
@@ -106,7 +103,7 @@ class LoginPage extends TraceableStatelessWidget {
 
   Widget _loginButton(String text, GestureTapCallback onTap, BuildContext context) {
     return Container(
-      margin: _isLittleScreen(context) ? EdgeInsets.only(left: 0, right: 0) : EdgeInsets.only(left: 16, right: 16),
+      margin: EdgeInsets.only(left: 16, right: 16),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(8),
         child: Material(
@@ -117,7 +114,18 @@ class LoginPage extends TraceableStatelessWidget {
               child: Center(
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: [Text(text, style: TextStyles.textSmMedium(color: Colors.white))],
+                  children: [
+                    Container(
+                      width: 220,
+                      child: Center(
+                        child: Text(
+                          text,
+                          style: TextStyles.textSmMedium(color: Colors.white),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -127,6 +135,4 @@ class LoginPage extends TraceableStatelessWidget {
       ),
     );
   }
-
-  bool _isLittleScreen(BuildContext context) => MediaQuery.of(context).size.height < 600;
 }
