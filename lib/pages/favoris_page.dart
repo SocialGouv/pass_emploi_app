@@ -13,29 +13,24 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
+import 'package:redux/redux.dart';
 
-import 'offre_emploi_details_page.dart';
+abstract class AbstractFavorisPage<FAVORIS_MODEL, FAVORIS_VIEW_MODEL> extends TraceableStatelessWidget {
+  final String analyticsScreenName;
 
-class FavorisPage extends TraceableStatelessWidget {
-  final bool onlyAlternance;
-
-  FavorisPage({required this.onlyAlternance})
-      : super(
-          name: onlyAlternance ? AnalyticsScreenNames.alternanceFavoris : AnalyticsScreenNames.emploiFavoris,
-          key: ValueKey(onlyAlternance),
-        );
+  const AbstractFavorisPage({required this.analyticsScreenName, Key? key}) : super(name: analyticsScreenName, key: key);
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, OffreEmploiFavorisListViewModel>(
-      onInit: (store) => store.dispatch(RequestFavorisAction<OffreEmploi>()),
+    return StoreConnector<AppState, FavorisListViewModel<FAVORIS_MODEL, FAVORIS_VIEW_MODEL>>(
+      onInit: (store) => store.dispatch(RequestFavorisAction<FAVORIS_MODEL>()),
       builder: (context, viewModel) => DefaultAnimatedSwitcher(child: _switch(viewModel)),
-      converter: (store) => FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: onlyAlternance),
+      converter: converter,
       distinct: true,
     );
   }
 
-  Widget _switch(OffreEmploiFavorisListViewModel viewModel) {
+  Widget _switch(FavorisListViewModel<FAVORIS_MODEL, FAVORIS_VIEW_MODEL> viewModel) {
     switch (viewModel.displayState) {
       case DisplayState.CONTENT:
         return _listView(viewModel);
@@ -48,7 +43,7 @@ class FavorisPage extends TraceableStatelessWidget {
     }
   }
 
-  Widget _listView(OffreEmploiFavorisListViewModel viewModel) {
+  Widget _listView(FavorisListViewModel<FAVORIS_MODEL, FAVORIS_VIEW_MODEL> viewModel) {
     return ListView.separated(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
       itemBuilder: (context, index) => _buildItem(context, index, viewModel),
@@ -83,4 +78,10 @@ class FavorisPage extends TraceableStatelessWidget {
   // Due to outer FavoritesTabsPage scrollview, making widget matches parent to center it is complicated.
   // Top padding is enough.
   Widget _centeredLike(Widget widget) => Padding(padding: EdgeInsets.only(top: 150), child: Center(child: widget));
+
+  FavorisListViewModel<FAVORIS_MODEL, FAVORIS_VIEW_MODEL> converter(Store<AppState> store);
+
+  MaterialPageRoute detailsPageRoute(FAVORIS_VIEW_MODEL itemViewModel);
+
+  Widget item(FAVORIS_VIEW_MODEL itemViewModel);
 }
