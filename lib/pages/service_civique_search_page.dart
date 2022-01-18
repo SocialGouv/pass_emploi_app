@@ -18,9 +18,9 @@ class ServiceCiviqueSearchPage extends TraceableStatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 36),
-          Text(Strings.serviceCiviqueTitle, style: TextStyles.textSmMedium()),
+          Text(Strings.serviceCiviqueTitle, style: TextStyles.textBaseBold),
           SizedBox(height: 24),
-          Text(Strings.serviceCiviqueContent, style: TextStyles.textSmRegular()),
+          Text(Strings.serviceCiviqueContent, style: TextStyles.textBaseRegular),
           SizedBox(height: 36),
           ConstrainedBox(
             constraints: const BoxConstraints(minWidth: double.infinity),

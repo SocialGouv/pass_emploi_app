@@ -23,14 +23,14 @@ class ChatMessageWidget extends StatelessWidget {
             ),
             padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
-              color: item is ConseillerMessageItem ? AppColors.lightBlue : AppColors.nightBlue,
+              color: item is ConseillerMessageItem ? AppColors.primaryLighten : AppColors.primary,
               borderRadius: BorderRadius.all(Radius.circular(16)),
             ),
             child: TextWithClickableLinks(
               item.content,
               style: item is ConseillerMessageItem
-                  ? TextStyles.externalLink
-                  : TextStyles.textSmRegular(color: Colors.white),
+                  ? TextStyles.textSRegular()
+                  : TextStyles.textSRegular(color: Colors.white),
             ),
           ),
           SizedBox(height: 4),

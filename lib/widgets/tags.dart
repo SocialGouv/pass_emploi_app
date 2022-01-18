@@ -37,22 +37,3 @@ class DataTag extends StatelessWidget {
     );
   }
 }
-
-Widget lightBlueTag({required String label, SvgPicture? icon}) {
-  return Container(
-    decoration: BoxDecoration(
-      color: AppColors.lightBlue,
-      borderRadius: BorderRadius.all(Radius.circular(8)),
-    ),
-    child: Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (icon != null) Padding(padding: const EdgeInsets.only(right: 6), child: icon),
-          Flexible(child: Text(label, style: TextStyles.textSmRegular())),
-        ],
-      ),
-    ),
-  );
-}

@@ -36,7 +36,7 @@ class _CheckBoxGroupState<T extends CheckboxValueViewModel> extends State<CheckB
       children: [
         Padding(
           padding: const EdgeInsets.only(left: 24),
-          child: Text(widget.title, style: TextStyles.textMdMedium),
+          child: Text(widget.title, style: TextStyles.textBaseBold),
         ),
         SizedBox(height: 12),
         ..._optionsSelectionStatus.entries.map<Widget>((entry) => _createCheckBox(entry.key, entry.value)).toList()
@@ -78,7 +78,7 @@ class _CheckBoxGroupState<T extends CheckboxValueViewModel> extends State<CheckB
     );
   }
 
-  Widget _title(String label) => Text(label, style: TextStyles.textMdRegular);
+  Widget _title(String label) => Text(label, style: TextStyles.textBaseBold);
 
   List<T> _listOfSelectedOptions() =>
       _optionsSelectionStatus.entries.where((element) => element.value).map((e) => e.key).toList();
