@@ -62,7 +62,7 @@ class DataCard extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           _buildTitre(),
-                          if (sousTitre != null) buildSousTitre(),
+                          if (sousTitre != null && sousTitre!.isNotEmpty) _buildSousTitre(),
                         ],
                       ),
                     ),
@@ -74,8 +74,8 @@ class DataCard extends StatelessWidget {
                       )
                   ],
                 ),
-                if (lieu != null && lieu!.isNotEmpty) buildLieu(),
-                if (dataTag.isNotEmpty) buildDataTag(),
+                if (lieu != null && lieu!.isNotEmpty) _buildLieu(),
+                if (dataTag.isNotEmpty) _buildDataTag(),
               ],
             ),
           ),
@@ -88,7 +88,7 @@ class DataCard extends StatelessWidget {
     return Text(titre, style: TextStyles.textBaseBold);
   }
 
-  Widget buildSousTitre() {
+  Widget _buildSousTitre() {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: Text(
@@ -98,18 +98,18 @@ class DataCard extends StatelessWidget {
     );
   }
 
-  Widget buildLieu() {
+  Widget _buildLieu() {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SvgPicture.asset(Drawables.icPlace),
+          SvgPicture.asset(Drawables.icPlace, color: AppColors.grey800),
           Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Text(
               lieu!,
-              style: TextStyles.textSRegular(color: AppColors.neutralColor),
+              style: TextStyles.textSRegular(color: AppColors.grey800),
             ),
           ),
         ],
@@ -117,7 +117,7 @@ class DataCard extends StatelessWidget {
     );
   }
 
-  Widget buildDataTag() {
+  Widget _buildDataTag() {
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
       child: Wrap(spacing: 16, runSpacing: 16, children: dataTag.map(_buildTag).toList()),

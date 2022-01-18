@@ -35,4 +35,5 @@ class AppColors {
   static const Color accent2Lighten = const Color(0xFFF6F6F6);
   static const Color accent3 = const Color(0xFF0C7A81);
   static const Color accent3Lighten = const Color(0xFFDFFDFF);
+  static const Color grey800 = const Color(0xFF646464);
 }

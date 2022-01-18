@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/external_link.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/help_tooltip.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
@@ -178,7 +179,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     final description = viewModel.description;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       _descriptionTitle(title: Strings.offreDetailsTitle),
-      SepLine(8, 12),
+      _spacer(12),
       if (description != null) Text(description, style: TextStyles.textSRegular()),
       _spacer(30),
     ]);
@@ -195,7 +196,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _descriptionTitle(title: Strings.profileTitle),
-        SepLine(8, 20),
+        _spacer(20),
         Text(Strings.experienceTitle, style: TextStyles.textBaseBold),
         _spacer(12),
         if (experience != null) _setRequiredElement(element: experience, criteria: viewModel.requiredExperience),
@@ -218,7 +219,6 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _descriptionTitle(title: Strings.companyTitle),
-        SepLine(8, 30),
         if (companyName != null) _companyName(companyName: companyName, companyUrl: viewModel.companyUrl),
         if (companyAdapted) _blueTag(tagTitle: Strings.companyAdaptedTitle),
         if (companyAccessibility) _blueTag(tagTitle: Strings.companyAccessibilityTitle),
@@ -360,12 +360,10 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   }
 
   Widget _companyNameWithUrl({required String companyName, required String url}) {
-    return InkWell(
-        onTap: () => launch(url),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4),
-          child: Text(companyName, style: TextStyles.externalLink),
-        ));
+    return ExternalLink(
+      label: companyName,
+      url: url,
+    );
   }
 
   Widget _offreNotFoundError() {
@@ -403,18 +401,18 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         children: [
           Expanded(
             child: PrimaryActionButton(
-              onPressed: () => _applyToOffer(context,url),
+              onPressed: () => _applyToOffer(context, url),
               label: Strings.postulerButtonTitle,
             ),
           ),
-          SizedBox(width: 8),
+          SizedBox(width: 16),
           FavoriHeart(
             offreId: offreId,
             withBorder: true,
             from: _fromAlternance ? OffrePage.alternanceDetails : OffrePage.emploiDetails,
             onFavoriRemoved: shouldPopPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
           ),
-          SizedBox(width: 8),
+          SizedBox(width: 16),
           ShareButton(url, title, () => _shareOffer(context)),
         ],
       ),

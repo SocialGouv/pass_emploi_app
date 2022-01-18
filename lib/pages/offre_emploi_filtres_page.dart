@@ -7,7 +7,6 @@ import 'package:pass_emploi_app/presentation/checkbox_value_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_filtres_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/checkbox_group.dart';
@@ -191,7 +190,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
   Widget _sepLine() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: SepLine(24, 24, lineColor: AppColors.bluePurple),
+      child: SepLine(24, 24),
     );
   }
 

@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/outil.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BoiteAOutilsCard extends StatelessWidget {
@@ -48,15 +49,13 @@ class BoiteAOutilsCard extends StatelessWidget {
                 SizedBox(height: 16),
                 Text(outil.title, style: TextStyles.textBaseBold),
                 SizedBox(height: 16),
-                Text(outil.description, style: TextStyles.textSRegular(color: AppColors.neutralColor)),
-                SizedBox(height: 16),
+                Text(outil.description, style: TextStyles.textBaseRegular),
               ]),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Container(height: 1, color: AppColors.bluePurpleAlpha20),
+              child: SepLine(16, 16),
             ),
-            SizedBox(height: 16),
             Center(
               child: Text(
                 outil.actionLabel,

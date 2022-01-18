@@ -102,10 +102,9 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TitleSection(label: Strings.immersionContactTitle),
-        SepLine(12, 20),
         if (viewModel.contactLabel.isNotEmpty)
           Padding(
-            padding: const EdgeInsets.only(bottom: 20),
+            padding: const EdgeInsets.symmetric(vertical: 20),
             child: Text(viewModel.contactLabel, style: TextStyles.textBaseBold),
           ),
         Text(viewModel.contactInformation, style: TextStyles.textBaseRegular),
