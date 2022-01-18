@@ -103,9 +103,9 @@ class Strings {
   // Solutions
   static String searchingPageTitle = "Recherche de solutions";
   static String keyWordsTitle = "Mots clés";
-  static String keyWordsTextField = "Métier, compétence...";
+  static String keyWordsTextHint = "Saisissez un métier, une compétence...";
   static String jobLocationTitle = "Lieu de travail";
-  static String jobLocationHint = "Ville, département…";
+  static String jobLocationHint = "Saisissez une ville, un département ou une région";
   static String searchButton = "Rechercher";
   static String offresEmploiTitle = "Offres d'emploi";
   static String offreDetails = "Détails de l'offre";
@@ -122,8 +122,8 @@ class Strings {
 
   // Immersion
   static String immersionLabel = "Découvrez un métier en immersion dans une entreprise.";
-  static String metierCompulsoryLabel = "Secteur d'activité*";
-  static String villeCompulsoryLabel = "Ville*";
+  static String metierCompulsoryLabel = "* Secteur d'activité";
+  static String villeCompulsoryLabel = "* Ville";
   static String immersionExpansionTileTitle = "En savoir plus sur l’immersion";
   static String immersionObjectifTitle = "Objectif poursuivi ?";
   static String immersionObjectifContent =
