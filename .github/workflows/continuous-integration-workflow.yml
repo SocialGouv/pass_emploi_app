@@ -18,7 +18,7 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           flutter-version: '2.10.0'
-      - name : Lancer les tests
+      - name: Lancer les tests
         run: flutter test
 
   pre-build:
@@ -44,7 +44,7 @@ jobs:
         with:
           flutter-version: '2.10.0'
 
-      - name: Write google configuration for android
+      - name: Write Google configuration for Android
         shell: bash
         run: |
           mkdir android/app/src/staging
@@ -74,14 +74,14 @@ jobs:
         env:
           STAGING_RUNTIME_ENV_B64: ${{ secrets.STAGING_RUNTIME_ENV_B64 }}
 
-      - name: Build android apk
+      - name: Build Android apk
         run: |
           flutter pub get
           flutter build apk \
           --flavor staging \
           --build-number=${{ needs.pre-build.outputs.date }}
 
-      - name: Deploy android apk
+      - name: Deploy Android apk
         run: |
           curl -sL https://firebase.tools | bash
           firebase appdistribution:distribute build/app/outputs/flutter-apk/app-staging-release.apk \
