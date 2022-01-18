@@ -11,7 +11,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:pass_emploi_app/widgets/external_link.dart';
 
 import '../ui/strings.dart';
 
@@ -37,11 +37,7 @@ class ForceUpdatePage extends TraceableStatelessWidget {
             children: [
               Expanded(child: SvgPicture.asset(Drawables.icLogo, semanticsLabel: Strings.logoTextDescription)),
               Text(viewModel.label, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
-              if (viewModel.withCallToAction)
-                TextButton(
-                  onPressed: () => launch(viewModel.storeUrl),
-                  child: Text(Strings.updateButton, style: TextStyles.externalLink),
-                ),
+              if (viewModel.withCallToAction) ExternalLink(label: Strings.updateButton, url: viewModel.storeUrl),
               Expanded(child: SizedBox())
             ],
           ),

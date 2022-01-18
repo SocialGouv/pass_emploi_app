@@ -13,7 +13,7 @@ class DefaultAppBar extends AppBar {
           centerTitle: centerTitle,
           iconTheme: IconThemeData(color: AppColors.contentColor),
           toolbarHeight: Dimens.appBarHeight,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.transparent,
           elevation: 2,
         );
 }
@@ -31,7 +31,7 @@ class FlatDefaultAppBar extends AppBar {
           actions: actions,
           iconTheme: IconThemeData(color: AppColors.contentColor),
           toolbarHeight: Dimens.flatAppBarHeight,
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.transparent,
           elevation: 0,
           leading: leading,
           bottom: bottom,

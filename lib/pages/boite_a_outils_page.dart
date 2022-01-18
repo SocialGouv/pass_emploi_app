@@ -29,6 +29,11 @@ class BoiteAOutilsPage extends TraceableStatelessWidget {
         BoiteAOutilsCard(outil: _outils[index]),
         SizedBox(height: 16),
       ]);
+    } else if (index == 0) {
+      return Column(children: [
+        SizedBox(height: 16),
+        BoiteAOutilsCard(outil: _outils[index]),
+      ]);
     }
     return BoiteAOutilsCard(outil: _outils[index]);
   }
