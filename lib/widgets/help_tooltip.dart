@@ -26,7 +26,7 @@ class HelpTooltip extends StatelessWidget {
         color: Colors.white,
         borderRadius: const BorderRadius.all(Radius.circular(4)),
         border: Border.all(
-          color: AppColors.nightBlue,
+          color: AppColors.primary,
         ),
       ),
       child: SvgPicture.asset(iconRes),
