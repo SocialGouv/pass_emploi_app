@@ -57,18 +57,18 @@ class RendezvousListPage extends TraceableStatelessWidget {
     );
   }
 
-  Widget _loader() => CircularProgressIndicator(color: AppColors.nightBlue);
+  Widget _loader() => CircularProgressIndicator(color: AppColors.primary);
 
   Widget _empty() {
     return Padding(
       padding: const EdgeInsets.all(Margins.medium),
-      child: Text(Strings.noUpcomingRendezVous, style: TextStyles.textSmRegular()),
+      child: Text(Strings.noUpcomingRendezVous, style: TextStyles.textSRegular()),
     );
   }
 
   Scaffold _scaffold(Widget body) {
     return Scaffold(
-      backgroundColor: AppColors.lightBlue,
+      backgroundColor: AppColors.primaryLighten,
       body: Center(child: DefaultAnimatedSwitcher(child: body)),
     );
   }

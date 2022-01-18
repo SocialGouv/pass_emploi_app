@@ -139,11 +139,11 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
           Text(
             Strings.loadMoreOffresError,
             textAlign: TextAlign.center,
-            style: TextStyles.textSmRegular(color: AppColors.bluePurple),
+            style: TextStyles.textSRegular(),
           ),
           TextButton(
               onPressed: () => _currentViewModel?.onLoadMore(),
-              child: Text(Strings.retry, style: TextStyles.textMdMedium)),
+              child: Text(Strings.retry, style: TextStyles.textBaseBold)),
         ],
       ),
     );

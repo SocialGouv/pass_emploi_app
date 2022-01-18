@@ -15,7 +15,6 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
-import 'package:pass_emploi_app/widgets/action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/help_tooltip.dart';
@@ -437,7 +436,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Widget _deleteFavoriStoreConnector(BuildContext context, String offreId) {
     return StoreConnector<AppState, FavoriHeartViewModel>(
       builder: (context, vm) {
-        return ActionButton(
+        return PrimaryActionButton(
           label: Strings.deleteOffreFromFavori,
           onPressed: vm.withLoading ? null : () => vm.update(false),
         );

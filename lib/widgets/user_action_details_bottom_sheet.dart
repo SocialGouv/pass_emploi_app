@@ -91,7 +91,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
               child: Text(
                 Strings.congratulationsActionUpdated,
                 textAlign: TextAlign.center,
-                style: TextStyles.textSmMedium(),
+                style: TextStyles.textBaseBold,
               ),
             ),
           ),
@@ -101,7 +101,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
               child: Text(
                 Strings.conseillerNotifiedActionUpdated,
                 textAlign: TextAlign.center,
-                style: TextStyles.textSmRegular(),
+                style: TextStyles.textBaseRegular,
               ),
             ),
           ),
@@ -152,19 +152,19 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 16),
-            child: Text(Strings.aboutThisAction, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+            child: Text(Strings.aboutThisAction, style: TextStyles.textBaseBold),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
             child: Text(
               widget.actionViewModel.content,
-              style: TextStyles.textMdMedium,
+              style: TextStyles.textSRegular(),
             ),
           ),
           if (widget.actionViewModel.withComment)
             Text(
               widget.actionViewModel.comment,
-              style: TextStyles.textSmRegular(color: AppColors.bluePurple),
+              style: TextStyles.textSRegular(),
             )
           else
             SizedBox(height: 8)
@@ -177,13 +177,13 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
     return Padding(
       padding: userActionBottomSheetContentPadding(),
       child: Row(children: [
-        Text(Strings.actionCreatedBy, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+        Text(Strings.actionCreatedBy, style: TextStyles.textBaseBold),
         Expanded(
             child: Align(
                 alignment: Alignment.centerRight,
                 child: Text(
                   widget.actionViewModel.creator,
-                  style: TextStyles.textSmMedium(),
+                  style: TextStyles.textSBold,
                 ))),
       ]),
     );
@@ -198,7 +198,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 16),
-            child: Text(Strings.updateStatus, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+            child: Text(Strings.updateStatus, style: TextStyles.textBaseBold),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 16),
@@ -237,7 +237,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
               child: Text(
                 Strings.deleteActionError,
                 textAlign: TextAlign.center,
-                style: TextStyles.textSmRegular(color: AppColors.errorRed),
+                style: TextStyles.textSRegular(color: AppColors.warning),
               ),
             ),
         ],

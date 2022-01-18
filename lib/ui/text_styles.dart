@@ -16,13 +16,6 @@ class TextStyles {
     letterSpacing: -0.3,
   );
 
-  static final textMdMedium = GoogleFonts.rubik(
-    color: AppColors.nightBlue,
-    fontSize: FontSizes.medium,
-    fontWeight: FontWeight.w500,
-    letterSpacing: -0.3,
-  );
-
   static TextStyle textLBold({Color color = AppColors.contentColor}) {
     return TextStyle(
       color: color,
@@ -31,13 +24,6 @@ class TextStyles {
       fontFamily: "Marianne",
     );
   }
-
-  static final textMdRegular = GoogleFonts.rubik(
-    color: AppColors.nightBlue,
-    fontSize: FontSizes.medium,
-    fontWeight: FontWeight.w400,
-    letterSpacing: -0.3,
-  );
 
   static TextStyle textSRegularWithColor(Color color) {
     return TextStyle(
