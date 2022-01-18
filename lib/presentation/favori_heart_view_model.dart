@@ -31,9 +31,9 @@ class FavoriHeartViewModel<T> extends Equatable {
   List<Object?> get props => [isFavori, withError, withLoading];
 }
 
-bool _isFavori<T>(String offreId, FavorisState<T> offreEmploiFavorisState) {
-  if (offreEmploiFavorisState is FavorisLoadedState<T>) {
-    return offreEmploiFavorisState.favorisId.contains(offreId);
+bool _isFavori<T>(String offreId, FavorisState<T> favorisState) {
+  if (favorisState is FavorisLoadedState<T>) {
+    return favorisState.favorisId.contains(offreId);
   } else {
     return false;
   }

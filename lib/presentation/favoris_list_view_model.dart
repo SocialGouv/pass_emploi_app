@@ -63,12 +63,7 @@ class AlternanceRelevantFavorisExtractor extends RelevantFavorisExtractor<OffreE
   @override
   List<OffreEmploi>? getRelevantFavoris(Store<AppState> store) {
     final state = store.state.offreEmploiFavorisState as FavorisLoadedState<OffreEmploi>;
-    final data = state.data;
-    if (data != null) {
-      return data.values.where((e) => e.isAlternance).toList();
-    } else {
-      return null;
-    }
+    return state.data?.values.where((e) => e.isAlternance).toList();
   }
 
   @override
@@ -81,12 +76,7 @@ class OffreEmploiRelevantFavorisExtractor extends RelevantFavorisExtractor<Offre
   @override
   List<OffreEmploi>? getRelevantFavoris(Store<AppState> store) {
     final state = store.state.offreEmploiFavorisState as FavorisLoadedState<OffreEmploi>;
-    final data = state.data;
-    if (data != null) {
-      return data.values.toList();
-    } else {
-      return null;
-    }
+    return state.data?.values.toList();
   }
 
   @override
