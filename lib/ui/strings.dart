@@ -228,9 +228,9 @@ class Strings {
   static String rendezvous = "rendez-vous";
   static String actions = "actions";
   static String unavailableContentTitle(String content) =>
-      "Vos $content ne sont pas encore accessibles sur l’application pass emploi.";
+      "Vos $content ne sont pas accessibles sur l’application pass emploi.";
   static String unvailableContentDescription =
-      "Vous pouvez vous connecter à votre espace personnel Pôle emploi pour les consulter.";
+      "Vous pouvez les consulter sur votre espace personnel Pôle emploi.";
   static String poleEmploiUrlButton = "Accéder à mon espace Pôle emploi";
   static String espacePoleEmploiUrl = "https://candidat.pole-emploi.fr/espacepersonnel/";
 }
