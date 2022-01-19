@@ -17,11 +17,7 @@ class MonSuiviTabPage extends StatelessWidget {
   MonSuiviTabPage({required this.initialTab, required this.showContent}) : super();
 
   final List<Tab> monSuiviTabs = <Tab>[
-    Tab(
-        child: Text(
-      Strings.actionsTabTitle,
-      textAlign: TextAlign.left,
-    )),
+    Tab(child: Text(Strings.actionsTabTitle, textAlign: TextAlign.left)),
     Tab(child: Text(Strings.rendezvousTabTitle, textAlign: TextAlign.left)),
   ];
 
