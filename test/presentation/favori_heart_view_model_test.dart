@@ -18,7 +18,7 @@ main() {
     );
 
     // When
-    final viewModel = FavoriHeartViewModel.create("offreId", store);
+    final viewModel = FavoriHeartViewModel.create("offreId", store, store.state.offreEmploiFavorisState);
     // Then
     expect(viewModel.isFavori, true);
   });
@@ -33,7 +33,7 @@ main() {
     );
 
     // When
-    final viewModel = FavoriHeartViewModel.create("offreId", store);
+    final viewModel = FavoriHeartViewModel.create("offreId", store, store.state.offreEmploiFavorisState);
 
     // Then
     expect(viewModel.isFavori, false);
@@ -49,7 +49,7 @@ main() {
       ),
     );
     // When
-    final viewModel = FavoriHeartViewModel.create("offreId", store);
+    final viewModel = FavoriHeartViewModel.create("offreId", store, store.state.offreEmploiFavorisState);
 
     // Then
     expect(viewModel.withError, true);
@@ -66,7 +66,7 @@ main() {
       ),
     );
     // When
-    final viewModel = FavoriHeartViewModel.create("offreId", store);
+    final viewModel = FavoriHeartViewModel.create("offreId", store, store.state.offreEmploiFavorisState);
 
     // Then
     expect(viewModel.withError, true);
@@ -83,7 +83,7 @@ main() {
       ),
     );
     // When
-    final viewModel = FavoriHeartViewModel.create("offreId", store);
+    final viewModel = FavoriHeartViewModel.create("offreId", store, store.state.offreEmploiFavorisState);
 
     // Then
     expect(viewModel.withLoading, true);

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
@@ -409,7 +408,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
             ),
           ),
           SizedBox(width: 16),
-          FavoriHeart<OffreEmploi>(
+          OffreEmploiFavoriHeart(
             offreId: offreId,
             withBorder: true,
             from: _fromAlternance ? OffrePage.alternanceDetails : OffrePage.emploiDetails,
@@ -442,7 +441,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
           onPressed: vm.withLoading ? null : () => vm.update(false),
         );
       },
-      converter: (store) => FavoriHeartViewModel.create(offreId, store),
+      converter: (store) => FavoriHeartViewModel.create(offreId, store, store.state.offreEmploiFavorisState),
       distinct: true,
       onDidChange: (_, viewModel) {
         if (!viewModel.isFavori) {

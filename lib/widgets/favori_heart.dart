@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/favori_heart_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -96,5 +97,15 @@ class FavoriHeartAnalyticsHelper {
       case OffrePage.alternanceFavoris:
         return AnalyticsScreenNames.alternanceFavoris;
     }
+  }
+}
+
+class OffreEmploiFavoriHeart extends FavoriHeart<OffreEmploi> {
+  OffreEmploiFavoriHeart({required offreId, required withBorder, required from, onFavoriRemoved})
+      : super(offreId: offreId, withBorder: withBorder, from: from, onFavoriRemoved: onFavoriRemoved);
+
+  @override
+  FavorisState<OffreEmploi> selectState(Store<AppState> store) {
+    return store.state.offreEmploiFavorisState;
   }
 }
