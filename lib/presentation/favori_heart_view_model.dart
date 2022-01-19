@@ -18,9 +18,9 @@ class FavoriHeartViewModel<T> extends Equatable {
     required this.update,
   });
 
-  factory FavoriHeartViewModel.create(String offreId, Store<AppState> store) {
+  factory FavoriHeartViewModel.create(String offreId, Store<AppState> store, FavorisState<T> favorisState) {
     return FavoriHeartViewModel._(
-      isFavori: _isFavori(offreId, store.state.offreEmploiFavorisState),
+      isFavori: _isFavori(offreId, favorisState),
       withError: _withError(offreId, store.state.offreEmploiFavorisUpdateState),
       withLoading: _withLoading(offreId, store.state.offreEmploiFavorisUpdateState),
       update: (newStatus) => store.dispatch(RequestUpdateFavoriAction<T>(offreId, newStatus)),
