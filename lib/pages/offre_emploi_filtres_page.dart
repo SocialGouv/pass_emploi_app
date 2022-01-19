@@ -7,7 +7,6 @@ import 'package:pass_emploi_app/presentation/checkbox_value_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_filtres_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/checkbox_group.dart';
@@ -58,7 +57,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
   Widget _scaffold(BuildContext context, OffreEmploiFiltresViewModel viewModel) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: FlatDefaultAppBar(title: Text(Strings.offresEmploiFiltresTitle, style: TextStyles.textLgMedium)),
+      appBar: passEmploiAppBar(label: Strings.offresEmploiFiltresTitle, withBackButton: true),
       body: _content(context, viewModel),
     );
   }
@@ -136,8 +135,8 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
   Widget _sliderValue(OffreEmploiFiltresViewModel viewModel) {
     return Row(
       children: [
-        Text(Strings.searchRadius, style: TextStyles.textMdRegular),
-        Text(Strings.kmFormat(_sliderValueToDisplay(viewModel).toInt()), style: TextStyles.textMdMedium),
+        Text(Strings.searchRadius, style: TextStyles.textBaseBold),
+        Text(Strings.kmFormat(_sliderValueToDisplay(viewModel).toInt()), style: TextStyles.textBaseBold),
       ],
     );
   }
@@ -165,8 +164,8 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(Strings.kmFormat(0), style: TextStyles.textSmMedium()),
-        Text(Strings.kmFormat(100), style: TextStyles.textSmMedium()),
+        Text(Strings.kmFormat(0), style: TextStyles.textSBold),
+        Text(Strings.kmFormat(100), style: TextStyles.textSBold),
       ],
     );
   }
@@ -174,7 +173,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
   Widget _stretchedButton(BuildContext context, OffreEmploiFiltresViewModel viewModel) {
     return ConstrainedBox(
       constraints: const BoxConstraints(minWidth: double.infinity),
-      child: PrimaryActionButton.simple(
+      child: PrimaryActionButton(
         onPressed: _hasFormChanged && viewModel.displayState != DisplayState.LOADING
             ? () => viewModel.updateFiltres(
           _sliderValueToDisplay(viewModel).toInt(),
@@ -191,7 +190,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
   Widget _sepLine() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: SepLine(24, 24, lineColor: AppColors.bluePurple),
+      child: SepLine(24, 24),
     );
   }
 

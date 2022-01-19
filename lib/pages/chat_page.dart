@@ -18,6 +18,7 @@ import 'package:pass_emploi_app/widgets/chat_message_widget.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
+import 'package:pass_emploi_app/widgets/sepline.dart';
 
 class ChatPage extends TraceableStatefulWidget {
   ChatPage() : super(name: AnalyticsScreenNames.chat);
@@ -71,8 +72,13 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
 
   Widget _scaffold(ChatPageViewModel viewModel, Widget body) {
     return Scaffold(
-      appBar: DefaultAppBar(title: Text(viewModel.title, style: TextStyles.h3Semi)),
-      body: DefaultAnimatedSwitcher(child: body),
+      appBar: passEmploiAppBar(label: viewModel.title),
+      body: Column(
+        children: [
+          SepLine(0, 0),
+          Expanded(child: DefaultAnimatedSwitcher(child: body)),
+        ],
+      ),
     );
   }
 
@@ -100,7 +106,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                 return Center(
                   child: Text(
                     item.dayLabel,
-                    style: TextStyles.textSmRegular(color: AppColors.bluePurple),
+                    style: TextStyles.textSRegular(),
                   ),
                 );
               } else if (item is MessageItem) {
@@ -128,25 +134,25 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.only(left: 16, right: 16, top: 13, bottom: 13),
                       filled: true,
-                      fillColor: AppColors.lightBlue,
+                      fillColor: AppColors.primaryLighten,
                       hintText: Strings.yourMessage,
-                      hintStyle: TextStyles.textSmRegular(color: AppColors.bluePurple),
+                      hintStyle: TextStyles.textSRegular(),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(34.0),
-                        borderSide: BorderSide(width: 1, color: AppColors.lightBlue),
+                        borderSide: BorderSide(width: 1, color: AppColors.primaryLighten),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(34.0),
-                        borderSide: BorderSide(color: AppColors.bluePurple, width: 1),
+                        borderSide: BorderSide(color: AppColors.primaryLighten, width: 1),
                       ),
                     ),
-                    style: TextStyles.textSmRegular(color: AppColors.nightBlue),
+                    style: TextStyles.textSRegular(),
                   ),
                   flex: 1,
                 ),
                 SizedBox(width: 10),
                 FloatingActionButton(
-                  backgroundColor: AppColors.nightBlue,
+                  backgroundColor: AppColors.primary,
                   child: SvgPicture.asset(Drawables.icPaperPlane),
                   onPressed: () {
                     if (_controller.value.text.isNotEmpty) {

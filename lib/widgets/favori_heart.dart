@@ -7,7 +7,9 @@ import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/favori_heart_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/secondary_icon_button.dart';
 
 class FavoriHeart extends StatelessWidget {
   final String offreId;
@@ -38,24 +40,15 @@ class FavoriHeart extends StatelessWidget {
   }
 
   Widget _buildHeart(BuildContext context, FavoriHeartViewModel viewModel) {
-    return ClipOval(
-      child: Material(
-        color: Colors.transparent,
-        shape: withBorder ? CircleBorder(side: BorderSide(color: AppColors.nightBlue)) : null,
-        child: InkWell(
-          onTap: () {
-            viewModel.update(!viewModel.isFavori);
-            _sendTracking(viewModel.isFavori);
-          },
-          child: SizedBox(
-            width: 48,
-            height: 48,
-            child: viewModel.isFavori
-                ? Icon(Icons.favorite_rounded, color: AppColors.nightBlue, size: 18)
-                : Icon(Icons.favorite_border_rounded, color: AppColors.nightBlue, size: 18),
-          ),
-        ),
-      ),
+    return SecondaryIconButton(
+      drawableRes: viewModel.isFavori ? Drawables.icHeartFull : Drawables.icHeart,
+      iconColor: AppColors.favoriteHeartColor,
+      borderColor: withBorder ? AppColors.primary : Colors.transparent,
+      iconSize: withBorder ? 18 : 24,
+      onTap: () {
+        viewModel.update(!viewModel.isFavori);
+        _sendTracking(viewModel.isFavori);
+      },
     );
   }
 

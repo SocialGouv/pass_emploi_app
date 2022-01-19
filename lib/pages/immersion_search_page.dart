@@ -58,12 +58,12 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 24),
-          Text(Strings.immersionLabel, style: TextStyles.textSmMedium()),
+          Text(Strings.immersionLabel, style: TextStyles.textBaseBold),
           SizedBox(height: 24),
           Text(Strings.metierCompulsoryLabel, style: TextStyles.textLgMedium),
           SizedBox(height: 24),
           MetierAutocomplete(
-            onSelectMetier: (selectedMetier){
+            onSelectMetier: (selectedMetier) {
               setState(() {
                 _setSelectedMetier(selectedMetier);
               });
@@ -104,7 +104,7 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
               tilePadding: EdgeInsets.zero,
               title: Text(
                 Strings.immersionExpansionTileTitle,
-                style: TextStyles.textMdMedium,
+                style: TextStyles.textBaseBold,
               ),
               expandedCrossAxisAlignment: CrossAxisAlignment.start,
               expandedAlignment: Alignment.topLeft,
@@ -128,17 +128,17 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
 
   List<Widget> _collapsableContent() {
     return [
-      Text(Strings.immersionObjectifTitle, style: TextStyles.textSmMedium()),
+      Text(Strings.immersionObjectifTitle, style: TextStyles.textSBold),
       SizedBox(height: 16),
-      Text(Strings.immersionObjectifContent, style: TextStyles.textSmRegular()),
+      Text(Strings.immersionObjectifContent, style: TextStyles.textSRegular()),
       SizedBox(height: 24),
-      Text(Strings.immersionDemarchesTitle, style: TextStyles.textSmMedium()),
+      Text(Strings.immersionDemarchesTitle, style: TextStyles.textSBold),
       SizedBox(height: 16),
-      Text(Strings.immersionDemarchesContent, style: TextStyles.textSmRegular()),
+      Text(Strings.immersionDemarchesContent, style: TextStyles.textSRegular()),
       SizedBox(height: 24),
-      Text(Strings.immersionStatutTitle, style: TextStyles.textSmMedium()),
+      Text(Strings.immersionStatutTitle, style: TextStyles.textSBold),
       SizedBox(height: 16),
-      Text(Strings.immersionStatutContent, style: TextStyles.textSmRegular())
+      Text(Strings.immersionStatutContent, style: TextStyles.textSRegular())
     ];
   }
 
@@ -146,7 +146,7 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        PrimaryActionButton.simple(
+        PrimaryActionButton(
           label: Strings.searchButton,
           onPressed: !_isLoading(viewModel) && _isFormValid() ? () => _onSearchButtonPressed(viewModel) : null,
         ),

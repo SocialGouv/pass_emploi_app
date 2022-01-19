@@ -55,7 +55,7 @@ class LoginPage extends TraceableStatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(Strings.performLogin, style: TextStyles.textMdMedium, textAlign: TextAlign.center),
+                    Text(Strings.performLogin, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
                     SizedBox(height: 16),
                     _body(viewModel, context),
                   ],

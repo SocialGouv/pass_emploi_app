@@ -13,8 +13,8 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/cards/calendar_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
-import 'package:pass_emploi_app/widgets/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 class RendezvousListPage extends TraceableStatelessWidget {
@@ -37,31 +37,38 @@ class RendezvousListPage extends TraceableStatelessWidget {
   }
 
   Widget _content(BuildContext context, RendezvousListPageViewModel viewModel) {
-    return ListView(
+    return ListView.separated(
+      itemCount: viewModel.items.length,
       padding: const EdgeInsets.all(Margins.medium),
-      children: viewModel.items.map((item) => _listItem(context, item)).toList(),
+      separatorBuilder: (context, index) => Container(
+        height: 16,
+      ),
+      itemBuilder: (context, index) => _listItem(context, viewModel.items[index]),
     );
   }
 
   Widget _listItem(BuildContext context, RendezvousViewModel viewModel) {
-    return RendezvousCard(
-      rendezvous: viewModel,
+    return CalendarCard(
+      date: viewModel.dateAndHour,
+      titre: viewModel.title,
+      sousTitre: viewModel.subtitle,
+      texteLien: Strings.linkDetailsRendezVous,
       onTap: () => Navigator.push(context, RendezvousPage.materialPageRoute(viewModel)),
     );
   }
 
-  Widget _loader() => CircularProgressIndicator(color: AppColors.nightBlue);
+  Widget _loader() => CircularProgressIndicator(color: AppColors.primary);
 
   Widget _empty() {
     return Padding(
       padding: const EdgeInsets.all(Margins.medium),
-      child: Text(Strings.noUpcomingRendezVous, style: TextStyles.textSmRegular()),
+      child: Text(Strings.noUpcomingRendezVous, style: TextStyles.textSRegular()),
     );
   }
 
   Scaffold _scaffold(Widget body) {
     return Scaffold(
-      backgroundColor: AppColors.lightBlue,
+      backgroundColor: AppColors.primaryLighten,
       body: Center(child: DefaultAnimatedSwitcher(child: body)),
     );
   }

@@ -58,7 +58,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _separator(),
           Text(Strings.keyWordsTitle, style: TextStyles.textLgMedium),
@@ -77,11 +77,9 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
             validator: (value) => null,
           ),
           _separator(),
-          Center(
-            child: PrimaryActionButton.simple(
-              onPressed: _isLoading(viewModel) ? null : () => _onSearchButtonPressed(viewModel),
-              label: Strings.searchButton,
-            ),
+          PrimaryActionButton(
+            onPressed: _isLoading(viewModel) ? null : () => _onSearchButtonPressed(viewModel),
+            label: Strings.searchButton,
           ),
           _separator(),
           if (_isError(viewModel)) ErrorText(viewModel.errorMessage),

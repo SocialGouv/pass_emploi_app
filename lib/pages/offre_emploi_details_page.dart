@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
@@ -16,13 +15,15 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
-import 'package:pass_emploi_app/widgets/action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/external_link.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/help_tooltip.dart';
+import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/share_button.dart';
 import 'package:pass_emploi_app/widgets/tags.dart';
+import 'package:pass_emploi_app/widgets/title_section.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class OffreEmploiDetailsPage extends TraceableStatelessWidget {
@@ -75,10 +76,13 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   }
 
   Scaffold _scaffold(Widget body) {
-    return Scaffold(appBar: FlatDefaultAppBar(title: Text(Strings.offreDetails, style: TextStyles.h3Semi)), body: body);
+    return Scaffold(
+      appBar: passEmploiAppBar(label: Strings.offreDetails, withBackButton: true),
+      body: body,
+    );
   }
 
-  Widget _loading() => Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
+  Widget _loading() => Center(child: CircularProgressIndicator(color: AppColors.primary));
 
   Widget _error() => Center(child: Text(Strings.offreDetailsError));
 
@@ -96,25 +100,25 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (id != null) Text(Strings.offreDetailNumber(id), style: TextStyles.textSmRegular()),
+                if (id != null) Text(Strings.offreDetailNumber(id), style: TextStyles.textXsRegular()),
                 if (lastUpdate != null)
                   Padding(
                     padding: const EdgeInsets.only(top: 4),
                     child: Text(
                       Strings.offreDetailLastUpdate(lastUpdate),
-                      style: TextStyles.textSmRegular(color: AppColors.bluePurple),
+                      style: TextStyles.textSRegular(),
                     ),
                   ),
                 _spacer(18),
                 if (title != null)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20),
-                    child: Text(title, style: TextStyles.textLgMedium),
+                    child: Text(title, style: TextStyles.textLBold()),
                   ),
                 if (companyName != null)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 12),
-                    child: Text(companyName, style: TextStyles.textMdRegular),
+                    child: Text(companyName, style: TextStyles.textBaseRegular),
                   ),
                 _tags(viewModel),
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS) _description(viewModel),
@@ -151,22 +155,22 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       if (location != null)
         Padding(
           padding: const EdgeInsets.only(bottom: 12),
-          child: Tag(label: location, icon: SvgPicture.asset(Drawables.icPlace)),
+          child: DataTag(label: location, drawableRes: Drawables.icPlace),
         ),
       if (contractType != null)
         Padding(
           padding: const EdgeInsets.only(bottom: 12),
-          child: Tag(label: contractType, icon: SvgPicture.asset(Drawables.icContract)),
+          child: DataTag(label: contractType, drawableRes: Drawables.icContract),
         ),
       if (salary != null)
         Padding(
           padding: const EdgeInsets.only(bottom: 12),
-          child: Tag(label: salary, icon: SvgPicture.asset(Drawables.icSalary)),
+          child: DataTag(label: salary, drawableRes: Drawables.icSalary),
         ),
       if (duration != null)
         Padding(
           padding: const EdgeInsets.only(bottom: 12),
-          child: Tag(label: duration, icon: SvgPicture.asset(Drawables.icTime)),
+          child: DataTag(label: duration, drawableRes: Drawables.icTime),
         ),
     ]);
   }
@@ -174,9 +178,9 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Widget _description(OffreEmploiDetailsPageViewModel viewModel) {
     final description = viewModel.description;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      _descriptionTitle(title: Strings.offreDetailsTitle, icon: SvgPicture.asset(Drawables.icOnePoint)),
-      SepLine(8, 12),
-      if (description != null) Text(description, style: TextStyles.textSmRegular()),
+      _descriptionTitle(title: Strings.offreDetailsTitle),
+      _spacer(12),
+      if (description != null) Text(description, style: TextStyles.textSRegular()),
       _spacer(30),
     ]);
   }
@@ -191,9 +195,9 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _descriptionTitle(title: Strings.profileTitle, icon: SvgPicture.asset(Drawables.icTwoPoints)),
-        SepLine(8, 20),
-        Text(Strings.experienceTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+        _descriptionTitle(title: Strings.profileTitle),
+        _spacer(20),
+        Text(Strings.experienceTitle, style: TextStyles.textBaseBold),
         _spacer(12),
         if (experience != null) _setRequiredElement(element: experience, criteria: viewModel.requiredExperience),
         SepLine(20, 20),
@@ -214,8 +218,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _descriptionTitle(title: Strings.companyTitle, icon: SvgPicture.asset(Drawables.icThreePoints)),
-        SepLine(8, 30),
+        _descriptionTitle(title: Strings.companyTitle),
         if (companyName != null) _companyName(companyName: companyName, companyUrl: viewModel.companyUrl),
         if (companyAdapted) _blueTag(tagTitle: Strings.companyAdaptedTitle),
         if (companyAccessibility) _blueTag(tagTitle: Strings.companyAccessibilityTitle),
@@ -227,26 +230,15 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
 
   Widget _spacer(double _height) => SizedBox(height: _height);
 
-  Container _descriptionTitle({required String title, SvgPicture? icon}) {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (icon != null) Padding(padding: const EdgeInsets.only(right: 14), child: icon),
-            Flexible(child: Text(title, style: TextStyles.textLgMedium)),
-          ],
-        ),
-      ),
-    );
+  Widget _descriptionTitle({required String title}) {
+    return TitleSection(label: title);
   }
 
   Widget _companyDescriptionBlock({required String content}) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text(Strings.companyDescriptionTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+      Text(Strings.companyDescriptionTitle, style: TextStyles.textBaseBold),
       _spacer(12),
-      Text(content, style: TextStyles.textSmRegular()),
+      Text(content, style: TextStyles.textSRegular()),
       SepLine(12, 20),
     ]);
   }
@@ -256,7 +248,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(Strings.skillsTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+        Text(Strings.skillsTitle, style: TextStyles.textBaseBold),
         _spacer(12),
         for (final skill in skills) _setRequiredElement(element: skill.description, criteria: skill.requirement),
         SepLine(20, 20),
@@ -269,12 +261,12 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(Strings.softSkillsTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+        Text(Strings.softSkillsTitle, style: TextStyles.textBaseBold),
         _spacer(12),
         for (final soft in softSkills)
           Padding(
             padding: const EdgeInsets.only(bottom: 20),
-            child: Text("· $soft", style: TextStyles.textSmRegular()),
+            child: Text("· $soft", style: TextStyles.textSRegular()),
           ),
         SepLine(20, 20),
       ],
@@ -286,7 +278,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(Strings.educationTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+        Text(Strings.educationTitle, style: TextStyles.textBaseBold),
         _spacer(12),
         for (final education in educations)
           _setRequiredElement(element: education.label, criteria: education.requirement),
@@ -300,7 +292,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(Strings.languageTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+        Text(Strings.languageTitle, style: TextStyles.textBaseBold),
         _spacer(12),
         for (final language in languages) _setRequiredElement(element: language.type, criteria: language.requirement),
         SepLine(20, 20),
@@ -313,7 +305,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(Strings.driverLicenceTitle, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+        Text(Strings.driverLicenceTitle, style: TextStyles.textBaseBold),
         _spacer(12),
         for (final licence in driverLicences)
           _setRequiredElement(element: licence.category, criteria: licence.requirement),
@@ -327,7 +319,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _spacer(12),
-        Tag(label: tagTitle),
+        DataTag(label: tagTitle),
       ],
     );
   }
@@ -341,7 +333,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Widget _listItem(String text) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
-      child: Text("· $text", style: TextStyles.textSmRegular()),
+      child: Text("· $text", style: TextStyles.textSRegular()),
     );
   }
 
@@ -363,26 +355,15 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
 
   Widget _companyName({required String companyName, required String? companyUrl}) {
     return (companyUrl == null || companyUrl.isEmpty)
-        ? Text(companyName, style: TextStyles.textMdMedium)
+        ? Text(companyName, style: TextStyles.textBaseBold)
         : _companyNameWithUrl(companyName: companyName, url: companyUrl);
   }
 
   Widget _companyNameWithUrl({required String companyName, required String url}) {
-    return InkWell(
-        onTap: () => launch(url),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Flexible(child: Text(companyName, style: TextStyles.textMdMediumUnderline)),
-              Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: SvgPicture.asset(Drawables.icRedirection),
-              ),
-            ],
-          ),
-        ));
+    return ExternalLink(
+      label: companyName,
+      url: url,
+    );
   }
 
   Widget _offreNotFoundError() {
@@ -396,8 +377,8 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
             children: [
               Text(
                 Strings.offreNotFoundError,
-                style: TextStyles.textSmMedium(
-                  color: AppColors.franceRed,
+                style: TextStyles.textSBoldWithColor(
+                  AppColors.franceRed,
                 ),
               ),
               SizedBox(height: 8),
@@ -419,15 +400,19 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       child: Row(
         children: [
           Expanded(
-              child: ActionButton(onPressed: () => _applyToOffer(context, url), label: Strings.postulerButtonTitle)),
-          SizedBox(width: 8),
+            child: PrimaryActionButton(
+              onPressed: () => _applyToOffer(context, url),
+              label: Strings.postulerButtonTitle,
+            ),
+          ),
+          SizedBox(width: 16),
           FavoriHeart(
             offreId: offreId,
             withBorder: true,
             from: _fromAlternance ? OffrePage.alternanceDetails : OffrePage.emploiDetails,
             onFavoriRemoved: shouldPopPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
           ),
-          SizedBox(width: 8),
+          SizedBox(width: 16),
           ShareButton(url, title, () => _shareOffer(context)),
         ],
       ),
@@ -449,7 +434,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Widget _deleteFavoriStoreConnector(BuildContext context, String offreId) {
     return StoreConnector<AppState, FavoriHeartViewModel>(
       builder: (context, vm) {
-        return ActionButton(
+        return PrimaryActionButton(
           label: Strings.deleteOffreFromFavori,
           onPressed: vm.withLoading ? null : () => vm.update(false),
         );

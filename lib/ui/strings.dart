@@ -94,6 +94,8 @@ class Strings {
   static String deleteAction = "Supprimer l'action";
   static String deleteActionError = "Erreur lors de la suppression de l'action. Veuillez réessayer";
   static String deleteActionSuccess = "L’action a bien été supprimée";
+  static String lastModificationPrefix = "Dernière modification le ";
+  static String linkDetailsRendezVous = "Voir les détails du rendez-vous";
 
   static String lastUpdateFormat(String formattedDate) => "Modifiée le $formattedDate";
   static String doneActionsTitle = "Actions terminées";
@@ -149,7 +151,7 @@ class Strings {
   static String immersionDescriptionLabel = "Si l’entreprise est d’accord pour vous accueillir :\n\n"
       "· Prévenez votre conseiller\n"
       "· Remplissez une convention d’immersion avec lui";
-  static String immersionContactTitle = "· Contact";
+  static String immersionContactTitle = "Contact";
   static String immersionPhoneButton = "Appeler";
   static String immersionLocationButton = "Localiser l\'entreprise";
   static String immersionEmailButton = "Envoyer un e-mail";

@@ -90,7 +90,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(Strings.actionLabel, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+          Text(Strings.actionLabel, style: TextStyles.textXsRegular()),
           SizedBox(height: 16),
           _textField(
             isEnabled: viewModel.displayState != CreateUserActionDisplayState.SHOW_LOADING,
@@ -100,7 +100,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
             textInputAction: TextInputAction.next,
           ),
           SizedBox(height: 16),
-          Text(Strings.actionDescription, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+          Text(Strings.actionDescription, style: TextStyles.textXsRegular()),
           SizedBox(height: 16),
           _textField(
             isEnabled: viewModel.displayState != CreateUserActionDisplayState.SHOW_LOADING,
@@ -148,7 +148,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(Strings.defineActionStatus, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+          Text(Strings.defineActionStatus, style: TextStyles.textXsRegular()),
           SizedBox(height: 16),
           UserActionStatusGroup(
             status: _initialStatus,
@@ -166,7 +166,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          PrimaryActionButton.simple(
+          PrimaryActionButton(
             label: Strings.create,
             onPressed: _isLoading(viewModel) && _isFormValid()
                 ? () => {viewModel.createUserAction(_actionContent!, _actionComment, _initialStatus)}
@@ -179,7 +179,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
                 child: Text(
                   Strings.actionCreationError,
                   textAlign: TextAlign.center,
-                  style: TextStyles.textSmRegular(color: AppColors.errorRed),
+                  style: TextStyles.textSRegular(color: AppColors.warning),
                 ),
               ),
             ),
