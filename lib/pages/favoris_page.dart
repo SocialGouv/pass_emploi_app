@@ -69,9 +69,13 @@ class FavorisPage extends TraceableStatelessWidget {
       dataTag: [item.contractType, item.duration].whereType<String>().toList(),
       id: item.id,
       onTap: () => Navigator.push(
-          context,
-          OffreEmploiDetailsPage.materialPageRoute(item.id,
-              fromAlternance: onlyAlternance,shouldPopPageWhenFavoriIsRemoved: true, fromAlternance: onlyAlternance)),
+        context,
+        OffreEmploiDetailsPage.materialPageRoute(
+          item.id,
+          fromAlternance: onlyAlternance,
+          shouldPopPageWhenFavoriIsRemoved: true,
+        ),
+      ),
     );
   }
 

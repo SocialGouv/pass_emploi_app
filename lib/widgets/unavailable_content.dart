@@ -3,9 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import 'action_button.dart';
 
 enum ContentType { ACTIONS, RENDEZVOUS }
 
@@ -25,14 +24,15 @@ class UnavailableContent extends StatelessWidget {
           SizedBox(height: screenHeight * 0.02),
           Flexible(child: SvgPicture.asset(Drawables.icNoContent), flex: 1),
           SizedBox(height: screenHeight * 0.05),
-          Text(_setTitle(), style: TextStyles.textMdMedium, textAlign: TextAlign.center),
+          Text(_setTitle(), style: TextStyles.textBaseBold, textAlign: TextAlign.center),
           SizedBox(height: screenHeight * 0.03),
-          Text(Strings.unvailableContentDescription, style: TextStyles.textMdRegular, textAlign: TextAlign.center),
+          Text(Strings.unvailableContentDescription, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
           SizedBox(height: screenHeight * 0.04),
           ConstrainedBox(
             constraints: const BoxConstraints(minWidth: double.infinity),
-            child: ActionButton(
+            child: PrimaryActionButton(
               onPressed: () => launch(Strings.espacePoleEmploiUrl),
+              drawableRes: Drawables.icLaunch,
               label: Strings.poleEmploiUrlButton,
             ),
           ),
