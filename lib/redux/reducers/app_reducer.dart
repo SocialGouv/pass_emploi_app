@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
 import 'package:pass_emploi_app/redux/actions/deep_link_action.dart';
+import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
@@ -27,6 +28,7 @@ final Reducer<ImmersionDetails> _immersionDetailsReducer = Reducer<ImmersionDeta
 final LoginReducer _loginReducer = LoginReducer();
 final OffreEmploiDetailsReducer _offreEmploiDetailsReducer = OffreEmploiDetailsReducer();
 final FavorisReducer<OffreEmploi> _offreEmploiFavorisReducer = FavorisReducer<OffreEmploi>();
+final FavorisReducer<Immersion> _immersionFavorisReducer = FavorisReducer<Immersion>();
 final FavorisUpdateReducer _favorisUpdateReducer = FavorisUpdateReducer();
 
 AppState reducer(AppState current, dynamic action) {
@@ -47,6 +49,11 @@ AppState reducer(AppState current, dynamic action) {
   } else if (action is FavorisAction<OffreEmploi>) {
     return current.copyWith(
       offreEmploiFavorisState: _offreEmploiFavorisReducer.reduceFavorisState(current.offreEmploiFavorisState, action),
+      favorisUpdateState: _favorisUpdateReducer.reduceUpdateState(current.favorisUpdateState, action),
+    );
+  } else if (action is FavorisAction<Immersion>) {
+    return current.copyWith(
+      immersionFavorisState: _immersionFavorisReducer.reduceFavorisState(current.immersionFavorisState, action),
       favorisUpdateState: _favorisUpdateReducer.reduceUpdateState(current.favorisUpdateState, action),
     );
   } else if (action is SearchLocationAction) {

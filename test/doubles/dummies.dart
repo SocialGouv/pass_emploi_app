@@ -13,6 +13,7 @@ import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
+import 'package:pass_emploi_app/repositories/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
@@ -125,4 +126,8 @@ class DummyChatCrypto extends ChatCrypto {
 
 class DummyTrackingEventRepository extends TrackingEventRepository {
   DummyTrackingEventRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+}
+
+class DummyImmersionFavorisRepository extends ImmersionFavorisRepository {
+  DummyImmersionFavorisRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
 }

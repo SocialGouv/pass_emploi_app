@@ -5,9 +5,9 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/store/store_factory.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
-import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
+import 'package:pass_emploi_app/repositories/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
+import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
 
@@ -33,6 +34,7 @@ class TestStoreFactory {
   SearchLocationRepository searchLocationRepository = DummySearchLocationRepository();
   ImmersionRepository immersionRepository = DummyImmersionRepository();
   ImmersionDetailsRepository immersionDetailsRepository = DummyImmersionDetailsRepository();
+  ImmersionFavorisRepository immersionFavorisRepository = DummyImmersionFavorisRepository();
   FirebaseAuthRepository firebaseAuthRepository = DummyFirebaseAuthRepository();
   FirebaseAuthWrapper firebaseAuthWrapper = DummyFirebaseAuthWrapper();
   ChatCrypto chatCrypto = DummyChatCrypto();
@@ -49,6 +51,7 @@ class TestStoreFactory {
       crashlytics,
       detailedOfferRepository,
       offreEmploiFavorisRepository,
+      immersionFavorisRepository,
       searchLocationRepository,
       immersionRepository,
       immersionDetailsRepository,

@@ -9,10 +9,10 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/redux/middlewares/action_logging_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/chat_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/crashlytics_middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/data_from_id_extractor.dart';
 import 'package:pass_emploi_app/redux/middlewares/favoris_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/login_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/middleware.dart';
-import 'package:pass_emploi_app/redux/middlewares/offre_emploi_data_from_id_extractor.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_details_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';
@@ -26,6 +26,7 @@ import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
+import 'package:pass_emploi_app/repositories/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
@@ -47,6 +48,7 @@ class StoreFactory {
   final Crashlytics crashlytics;
   final OffreEmploiDetailsRepository offreEmploiDetailsRepository;
   final OffreEmploiFavorisRepository offreEmploiFavorisRepository;
+  final ImmersionFavorisRepository immersionFavorisRepository;
   final SearchLocationRepository searchLocationRepository;
   final ImmersionRepository immersionRepository;
   final ImmersionDetailsRepository immersionDetailsRepository;
@@ -65,6 +67,7 @@ class StoreFactory {
     this.crashlytics,
     this.offreEmploiDetailsRepository,
     this.offreEmploiFavorisRepository,
+    this.immersionFavorisRepository,
     this.searchLocationRepository,
     this.immersionRepository,
     this.immersionDetailsRepository,
@@ -86,6 +89,7 @@ class StoreFactory {
         OffreEmploiMiddleware(offreEmploiRepository),
         OffreEmploiDetailsMiddleware(offreEmploiDetailsRepository),
         FavorisMiddleware<OffreEmploi>(offreEmploiFavorisRepository, OffreEmploiDataFromIdExtractor()),
+        FavorisMiddleware<Immersion>(immersionFavorisRepository, ImmersionDataFromIdExtractor()),
         RegisterPushNotificationTokenMiddleware(registerTokenRepository),
         CrashlyticsMiddleware(crashlytics),
         SearchLocationMiddleware(searchLocationRepository),
