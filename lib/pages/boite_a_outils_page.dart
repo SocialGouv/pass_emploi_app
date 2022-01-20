@@ -14,7 +14,7 @@ class BoiteAOutilsPage extends TraceableStatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.lightBlue,
+      color: AppColors.grey100,
       child: ListView.separated(
           padding: EdgeInsets.symmetric(horizontal: 16),
           separatorBuilder: (_, index) => SizedBox(height: 16),

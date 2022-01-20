@@ -75,7 +75,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
 
   Widget _scaffold(BuildContext context, OffreEmploiSearchResultsViewModel viewModel) {
     return Scaffold(
-      backgroundColor: AppColors.lightBlue,
+      backgroundColor: AppColors.grey100,
       appBar: passEmploiAppBar(
           label: widget.onlyAlternance ? Strings.alternanceTitle : Strings.offresEmploiTitle, withBackButton: true),
       body: Stack(children: [

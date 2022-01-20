@@ -128,7 +128,7 @@ class LocationAutocomplete extends StatelessWidget {
   }
 
   Widget _fakeListTileToLeverageAdditionalScrollInAutocompleteWidget() {
-    return Container(height: 48, color: AppColors.lightBlue);
+    return Container(height: 48, color: AppColors.grey100);
   }
 
   void _putBackLastLocationSetOnFocusLost(bool hasFocus, TextEditingController textEditingController) {

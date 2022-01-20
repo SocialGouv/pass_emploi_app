@@ -59,6 +59,7 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
 
   Scaffold _scaffold(Widget body) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: passEmploiAppBar(label: Strings.offreDetails, withBackButton: true),
       body: Center(child: DefaultAnimatedSwitcher(child: body)),
     );

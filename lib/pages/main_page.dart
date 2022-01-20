@@ -74,7 +74,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   Widget _body(MainPageViewModel viewModel) {
     return Scaffold(
       body: Container(
-        color: AppColors.lightBlue,
+        color: AppColors.grey100,
         child: _content(_selectedIndex, viewModel),
       ),
       bottomNavigationBar: BottomNavigationBar(

@@ -20,7 +20,7 @@ class ImmersionListPage extends TraceableStatelessWidget {
     return FavorisStateContext<OffreEmploi>(
       selectState: (store) => store.state.offreEmploiFavorisState,
       child: Scaffold(
-        backgroundColor: AppColors.lightBlue,
+        backgroundColor: AppColors.grey100,
         appBar: passEmploiAppBar(label: Strings.immersionsTitle, withBackButton: true),
         body: ListView.separated(
           padding: const EdgeInsets.all(16),
