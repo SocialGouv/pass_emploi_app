@@ -63,6 +63,7 @@ ios/ProdOptionsPlist.plist
 ios/StagingExportOptions.plist
 ios/ProdExportOptions.plist
 ios/*.p12
+ios/*.p8
 
 *.mobileprovision
 

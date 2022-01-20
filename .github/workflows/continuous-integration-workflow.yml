@@ -3,7 +3,7 @@ name: PR Continuous Integration - Mobile App
 on:
   push:
     branches: [ develop, master ]
-  pull_request:
+#  pull_request:
   workflow_dispatch:
 
 
@@ -118,15 +118,15 @@ jobs:
 
       - name: Install the provisioning profile
         env:
-          PROVISIONING_CERTIFICATE_BASE64: ${{ secrets.STAGING_IOS_PROVISIONING_PROFILE_B64 }}
+          STAGING_IOS_PROVISIONING_PROFILE_B64: ${{ secrets.STAGING_IOS_PROVISIONING_PROFILE_B64 }}
         run: |
           PP_PATH=$RUNNER_TEMP/frfabriquesocialgouvpassemploistaging.mobileprovision
-          echo -n "$PROVISIONING_CERTIFICATE_BASE64" | base64 --decode --output $PP_PATH
+          echo -n "$STAGING_IOS_PROVISIONING_PROFILE_B64" | base64 --decode --output $PP_PATH
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
           cd ~/Library/MobileDevice/Provisioning\ Profiles
 
-      - name: Write google configuration for ios
+      - name: Write Google configuration for ios
         shell: bash
         run: |
           mkdir -p ios/firebase-config/staging
@@ -141,14 +141,21 @@ jobs:
         env:
           STAGING_RUNTIME_ENV_B64: ${{ secrets.STAGING_RUNTIME_ENV_B64 }}
 
-      - name: Write plist files
+      - name: Write staging plist files
         shell: bash
         run: |
           echo "$STAGING_OPTIONS_PLIST_B64" | base64 --decode > ios/StagingOptionsPlist.plist
         env:
           STAGING_OPTIONS_PLIST_B64: ${{ secrets.STAGING_OPTIONS_PLIST_B64 }}
 
-      - name: Build ipa
+      - name: Write prod plist files (required for xcodebuild to succeed)
+        shell: bash
+        run: |
+          echo "$PROD_OPTIONS_PLIST_B64" | base64 --decode > ios/ProdOptionsPlist.plist
+        env:
+          PROD_OPTIONS_PLIST_B64: ${{ secrets.PROD_OPTIONS_PLIST_B64 }}
+
+      - name: Build iOS application bundle
         run: |
           flutter pub get
           flutter build ios \
