@@ -44,7 +44,7 @@ AppState reducer(AppState current, dynamic action) {
     return current.copyWith(
       offreEmploiDetailsState: _offreEmploiDetailsReducer.reduce(current.offreEmploiDetailsState, action),
     );
-  } else if (action is OffreEmploiFavorisAction) {
+  } else if (action is FavorisAction<OffreEmploi>) {
     return current.copyWith(
       offreEmploiFavorisState: _offreEmploiFavorisReducer.reduceFavorisState(current.offreEmploiFavorisState, action),
       favorisUpdateState: _favorisUpdateReducer.reduceUpdateState(current.favorisUpdateState, action),
