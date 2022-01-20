@@ -34,6 +34,8 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
       } else if (action is RequestMoreOffreEmploiSearchResultsAction &&
           parametersState is OffreEmploiSearchParametersInitializedState &&
           previousResultsState is OffreEmploiSearchResultsDataState) {
+        if (isLoading(store)) return;
+        store.dispatch(OffreEmploiPaginationLoadingAction());
         _search(
           store: store,
           userId: userId,
@@ -61,6 +63,10 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
       }
     }
   }
+
+  bool isLoading(Store<AppState> store) =>
+      store.state.offreEmploiSearchResultsState is OffreEmploiSearchResultsDataState &&
+      (store.state.offreEmploiSearchResultsState as OffreEmploiSearchResultsDataState).isLoading;
 
   Future<void> _search({
     required Store<AppState> store,

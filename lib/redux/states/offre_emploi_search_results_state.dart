@@ -8,7 +8,9 @@ abstract class OffreEmploiSearchResultsState extends Equatable {
     required List<OffreEmploi> offres,
     required int loadedPage,
     required bool isMoreDataAvailable,
-  }) => OffreEmploiSearchResultsDataState(offres, loadedPage, isMoreDataAvailable);
+    bool isLoading = false,
+  }) =>
+      OffreEmploiSearchResultsDataState(offres, loadedPage, isMoreDataAvailable, isLoading);
 
   factory OffreEmploiSearchResultsState.notInitialized() = OffreEmploiSearchResultsNotInitializedState;
 
@@ -20,8 +22,9 @@ class OffreEmploiSearchResultsDataState extends OffreEmploiSearchResultsState {
   final List<OffreEmploi> offres;
   final int loadedPage;
   final bool isMoreDataAvailable;
+  final bool isLoading;
 
-  OffreEmploiSearchResultsDataState(this.offres, this.loadedPage, this.isMoreDataAvailable) : super._();
+  OffreEmploiSearchResultsDataState(this.offres, this.loadedPage, this.isMoreDataAvailable, this.isLoading) : super._();
 
   @override
   List<Object> get props => [offres, loadedPage, isMoreDataAvailable];
