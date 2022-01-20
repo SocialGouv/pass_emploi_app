@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/pages/offre_emploi_favoris_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/carousel_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
-
-import 'favoris_page.dart';
 
 const int _indexOfOffresEmploi = 0;
 const int _indexOfAlternance = 1;
@@ -60,7 +59,7 @@ class _FavorisTabsPageState extends State<FavorisTabsPage> {
     );
   }
 
-  Widget _content() => FavorisPage(onlyAlternance: _selectedIndex == _indexOfAlternance);
+  Widget _content() => OffreEmploiFavorisPage(onlyAlternance: _selectedIndex == _indexOfAlternance);
 
   void _updateIndex(int index) {
     setState(() {

@@ -1,9 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
+import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
@@ -41,15 +42,15 @@ main() {
       final Store<AppState> store = testStoreFactory.initializeReduxStore(initialState: initialState);
 
       final successState =
-          store.onChange.firstWhere((element) => element.offreEmploiFavorisState is OffreEmploiFavorisLoadedState);
+          store.onChange.firstWhere((element) => element.offreEmploiFavorisState is FavorisLoadedState<OffreEmploi>);
 
       // When
       store.dispatch(LoginAction.success(mockUser()));
 
       // Then
       final loadedFavoris = await successState;
-      final favorisState = (loadedFavoris.offreEmploiFavorisState as OffreEmploiFavorisLoadedState);
-      expect(favorisState.offreEmploiFavorisId, {"1", "2", "4"});
+      final favorisState = (loadedFavoris.offreEmploiFavorisState as FavorisLoadedState<OffreEmploi>);
+      expect(favorisState.favorisId, {"1", "2", "4"});
       expect(favorisState.data, null);
     });
 

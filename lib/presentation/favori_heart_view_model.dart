@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/redux/actions/offre_emploi_favoris_actions.dart';
+import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
+import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.dart';
 import 'package:redux/redux.dart';
 
-class FavoriHeartViewModel extends Equatable {
+class FavoriHeartViewModel<T> extends Equatable {
   final bool isFavori;
   final bool withError;
   final bool withLoading;
@@ -18,12 +18,12 @@ class FavoriHeartViewModel extends Equatable {
     required this.update,
   });
 
-  factory FavoriHeartViewModel.create(String offreId, Store<AppState> store) {
+  factory FavoriHeartViewModel.create(String offreId, Store<AppState> store, FavorisState<T> favorisState) {
     return FavoriHeartViewModel._(
-      isFavori: _isFavori(offreId, store.state.offreEmploiFavorisState),
-      withError: _withError(offreId, store.state.offreEmploiFavorisUpdateState),
-      withLoading: _withLoading(offreId, store.state.offreEmploiFavorisUpdateState),
-      update: (newStatus) => store.dispatch(OffreEmploiRequestUpdateFavoriAction(offreId, newStatus)),
+      isFavori: _isFavori(offreId, favorisState),
+      withError: _withError(offreId, store.state.favorisUpdateState),
+      withLoading: _withLoading(offreId, store.state.favorisUpdateState),
+      update: (newStatus) => store.dispatch(RequestUpdateFavoriAction<T>(offreId, newStatus)),
     );
   }
 
@@ -31,18 +31,18 @@ class FavoriHeartViewModel extends Equatable {
   List<Object?> get props => [isFavori, withError, withLoading];
 }
 
-bool _isFavori(String offreId, OffreEmploiFavorisState offreEmploiFavorisState) {
-  if (offreEmploiFavorisState is OffreEmploiFavorisLoadedState) {
-    return offreEmploiFavorisState.offreEmploiFavorisId.contains(offreId);
+bool _isFavori<T>(String offreId, FavorisState<T> favorisState) {
+  if (favorisState is FavorisLoadedState<T>) {
+    return favorisState.favorisId.contains(offreId);
   } else {
     return false;
   }
 }
 
-bool _withError(String offreId, OffreEmploiFavorisUpdateState updateState) {
-  return updateState.requestStatus[offreId] == OffreEmploiFavorisUpdateStatus.ERROR;
+bool _withError(String offreId, FavorisUpdateState updateState) {
+  return updateState.requestStatus[offreId] == FavorisUpdateStatus.ERROR;
 }
 
-bool _withLoading(String offreId, OffreEmploiFavorisUpdateState updateState) {
-  return updateState.requestStatus[offreId] == OffreEmploiFavorisUpdateStatus.LOADING;
+bool _withLoading(String offreId, FavorisUpdateState updateState) {
+  return updateState.requestStatus[offreId] == FavorisUpdateStatus.LOADING;
 }

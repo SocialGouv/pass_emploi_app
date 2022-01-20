@@ -10,7 +10,7 @@ import '../doubles/stubs.dart';
 import '../utils/test_assets.dart';
 
 main() {
-  test('getOffreEmploiFavorisId when response is valid with all parameters should return offres', () async {
+  test('getFavorisId when response is valid with all parameters should return offres', () async {
     // Given
     final httpClient = MockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
@@ -20,19 +20,19 @@ main() {
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final favoris = await repository.getOffreEmploiFavorisId("jeuneId");
+    final favoris = await repository.getFavorisId("jeuneId");
 
     // Then
     expect(favoris, ["124GQRG", "124FGRM", "124FGFB", "124FGJJ"]);
   });
 
-  test('getOffreEmploiFavorisId when response is invalid should return null', () async {
+  test('getFavorisId when response is invalid should return null', () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final favoris = await repository.getOffreEmploiFavorisId("jeuneId");
+    final favoris = await repository.getFavoris("jeuneId");
 
     // Then
     expect(favoris, isNull);
@@ -141,13 +141,13 @@ main() {
     expect(result, isTrue);
   });
 
-  test('getOffreEmploiFavoris when response is valid with all parameters should return offres', () async {
+  test('getFavoris when response is valid with all parameters should return offres', () async {
     // Given
     final httpClient = _successfulClientForQuery();
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final favoris = await repository.getOffreEmploiFavoris("jeuneId");
+    final favoris = await repository.getFavoris("jeuneId");
 
     // Then
     expect(favoris, {
@@ -199,13 +199,13 @@ main() {
     });
   });
 
-  test('getOffreEmploiFavoris when response is invalid should return null', () async {
+  test('getFavoris when response is invalid should return null', () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final favoris = await repository.getOffreEmploiFavoris("jeuneId");
+    final favoris = await repository.getFavoris("jeuneId");
 
     // Then
     expect(favoris, isNull);

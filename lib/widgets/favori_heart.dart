@@ -3,26 +3,40 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/favori_heart_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/secondary_icon_button.dart';
+import 'package:redux/redux.dart';
 
-class FavoriHeart extends StatelessWidget {
+import 'favori_state_selector.dart';
+
+class FavoriHeart<T> extends StatelessWidget {
   final String offreId;
   final bool withBorder;
   final OffrePage from;
   final Function()? onFavoriRemoved;
 
-  FavoriHeart({required this.offreId, required this.withBorder, required this.from, this.onFavoriRemoved}) : super();
+  FavoriHeart({
+    required this.offreId,
+    required this.withBorder,
+    required this.from,
+    this.onFavoriRemoved,
+  }) : super();
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, FavoriHeartViewModel>(
-      converter: (store) => FavoriHeartViewModel.create(offreId, store),
+      converter: (store) => FavoriHeartViewModel<T>.create(
+        offreId,
+        store,
+        context.dependOnInheritedWidgetOfExactType<FavorisStateContext<T>>()!.selectState(store),
+      ),
       builder: (context, viewModel) => _buildHeart(context, viewModel),
       distinct: true,
       onDidChange: (_, viewModel) {
@@ -93,4 +107,8 @@ class FavoriHeartAnalyticsHelper {
         return AnalyticsScreenNames.alternanceFavoris;
     }
   }
+}
+
+FavorisState<OffreEmploi> selectState(Store<AppState> store) {
+  return store.state.offreEmploiFavorisState;
 }

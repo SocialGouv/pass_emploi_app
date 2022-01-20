@@ -1,9 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_details_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 
@@ -59,7 +60,7 @@ main() {
     final store = testStoreFactory.initializeReduxStore(
       initialState: AppState.initialState().copyWith(
           loginState: State<User>.success(mockUser()),
-          offreEmploiFavorisState: OffreEmploiFavorisState.withMap({"offerId"}, {"offerId": mockOffreEmploi()})),
+          offreEmploiFavorisState: FavorisState<OffreEmploi>.withMap({"offerId"}, {"offerId": mockOffreEmploi()})),
     );
 
     final displayedLoading = store.onChange.any((element) => element.offreEmploiDetailsState.isLoading());

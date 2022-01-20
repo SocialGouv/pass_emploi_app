@@ -1,10 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/presentation/offre_emploi_favoris_list_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/offre_emploi_favoris_actions.dart';
+import 'package:pass_emploi_app/presentation/favoris_list_view_model.dart';
+import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
+import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
@@ -17,12 +18,13 @@ main() {
       final store = Store<AppState>(
         reducer,
         initialState: AppState.initialState().copyWith(
-          offreEmploiFavorisState: OffreEmploiFavorisState.withMap({"1"}, {"1": mockOffreEmploi(isAlternance: false)}),
+          offreEmploiFavorisState:
+              FavorisState<OffreEmploi>.withMap({"1"}, {"1": mockOffreEmploi(isAlternance: false)}),
         ),
       );
 
       // When
-      final viewModel = OffreEmploiFavorisListViewModel.create(store, onlyAlternance: false);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: false);
 
       // Then
       expect(viewModel.displayState, DisplayState.CONTENT);
@@ -33,12 +35,12 @@ main() {
       final store = Store<AppState>(
         reducer,
         initialState: AppState.initialState().copyWith(
-          offreEmploiFavorisState: OffreEmploiFavorisState.idsLoaded({"1"}),
+          offreEmploiFavorisState: FavorisState<OffreEmploi>.idsLoaded({"1"}),
         ),
       );
 
       // When
-      final viewModel = OffreEmploiFavorisListViewModel.create(store, onlyAlternance: false);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: false);
 
       // Then
       expect(viewModel.displayState, DisplayState.LOADING);
@@ -49,12 +51,12 @@ main() {
       final store = Store<AppState>(
         reducer,
         initialState: AppState.initialState().copyWith(
-          offreEmploiFavorisState: OffreEmploiFavorisState.withMap({}, Map()),
+          offreEmploiFavorisState: FavorisState<OffreEmploi>.withMap({}, Map()),
         ),
       );
 
       // When
-      final viewModel = OffreEmploiFavorisListViewModel.create(store, onlyAlternance: false);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: false);
 
       // Then
       expect(viewModel.displayState, DisplayState.EMPTY);
@@ -65,12 +67,12 @@ main() {
       final store = Store<AppState>(
         reducer,
         initialState: AppState.initialState().copyWith(
-          offreEmploiFavorisState: OffreEmploiFavorisState.notInitialized(),
+          offreEmploiFavorisState: FavorisState<OffreEmploi>.notInitialized(),
         ),
       );
 
       // When
-      final viewModel = OffreEmploiFavorisListViewModel.create(store, onlyAlternance: false);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: false);
 
       // Then
       expect(viewModel.displayState, DisplayState.FAILURE);
@@ -81,7 +83,7 @@ main() {
       final store = Store<AppState>(
         reducer,
         initialState: AppState.initialState().copyWith(
-          offreEmploiFavorisState: OffreEmploiFavorisState.withMap(
+          offreEmploiFavorisState: FavorisState<OffreEmploi>.withMap(
             {'1', '2'},
             {
               '1': mockOffreEmploi(id: '1', isAlternance: false),
@@ -92,7 +94,7 @@ main() {
       );
 
       // When
-      final viewModel = OffreEmploiFavorisListViewModel.create(store, onlyAlternance: false);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: false);
 
       // Then
       expect(
@@ -106,11 +108,11 @@ main() {
 
     test('View model triggers ImmersionSearchFailureAction when onRetry is performed', () {
       final store = StoreSpy();
-      final viewModel = OffreEmploiFavorisListViewModel.create(store, onlyAlternance: false);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: false);
 
       viewModel.onRetry();
 
-      expect(store.dispatchedAction is RequestOffreEmploiFavorisAction, isTrue);
+      expect(store.dispatchedAction is RequestFavorisAction<OffreEmploi>, isTrue);
     });
   });
 
@@ -120,12 +122,12 @@ main() {
       final store = Store<AppState>(
         reducer,
         initialState: AppState.initialState().copyWith(
-          offreEmploiFavorisState: OffreEmploiFavorisState.withMap({"1"}, {"1": mockOffreEmploi(isAlternance: true)}),
+          offreEmploiFavorisState: FavorisState<OffreEmploi>.withMap({"1"}, {"1": mockOffreEmploi(isAlternance: true)}),
         ),
       );
 
       // When
-      final viewModel = OffreEmploiFavorisListViewModel.create(store, onlyAlternance: true);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: true);
 
       // Then
       expect(viewModel.displayState, DisplayState.CONTENT);
@@ -136,12 +138,13 @@ main() {
       final store = Store<AppState>(
         reducer,
         initialState: AppState.initialState().copyWith(
-          offreEmploiFavorisState: OffreEmploiFavorisState.withMap({"1"}, {"1": mockOffreEmploi(isAlternance: false)}),
+          offreEmploiFavorisState:
+              FavorisState<OffreEmploi>.withMap({"1"}, {"1": mockOffreEmploi(isAlternance: false)}),
         ),
       );
 
       // When
-      final viewModel = OffreEmploiFavorisListViewModel.create(store, onlyAlternance: true);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: true);
 
       // Then
       expect(viewModel.displayState, DisplayState.EMPTY);
@@ -152,12 +155,12 @@ main() {
       final store = Store<AppState>(
         reducer,
         initialState: AppState.initialState().copyWith(
-          offreEmploiFavorisState: OffreEmploiFavorisState.idsLoaded({"1"}),
+          offreEmploiFavorisState: FavorisState<OffreEmploi>.idsLoaded({"1"}),
         ),
       );
 
       // When
-      final viewModel = OffreEmploiFavorisListViewModel.create(store, onlyAlternance: true);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: true);
 
       // Then
       expect(viewModel.displayState, DisplayState.LOADING);
@@ -168,12 +171,12 @@ main() {
       final store = Store<AppState>(
         reducer,
         initialState: AppState.initialState().copyWith(
-          offreEmploiFavorisState: OffreEmploiFavorisState.withMap({}, Map()),
+          offreEmploiFavorisState: FavorisState<OffreEmploi>.withMap({}, Map()),
         ),
       );
 
       // When
-      final viewModel = OffreEmploiFavorisListViewModel.create(store, onlyAlternance: true);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: true);
 
       // Then
       expect(viewModel.displayState, DisplayState.EMPTY);
@@ -184,12 +187,12 @@ main() {
       final store = Store<AppState>(
         reducer,
         initialState: AppState.initialState().copyWith(
-          offreEmploiFavorisState: OffreEmploiFavorisState.notInitialized(),
+          offreEmploiFavorisState: FavorisState<OffreEmploi>.notInitialized(),
         ),
       );
 
       // When
-      final viewModel = OffreEmploiFavorisListViewModel.create(store, onlyAlternance: true);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: true);
 
       // Then
       expect(viewModel.displayState, DisplayState.FAILURE);
@@ -200,7 +203,7 @@ main() {
       final store = Store<AppState>(
         reducer,
         initialState: AppState.initialState().copyWith(
-          offreEmploiFavorisState: OffreEmploiFavorisState.withMap(
+          offreEmploiFavorisState: FavorisState<OffreEmploi>.withMap(
             {'1', '2'},
             {
               '1': mockOffreEmploi(id: '1', isAlternance: false),
@@ -211,7 +214,7 @@ main() {
       );
 
       // When
-      final viewModel = OffreEmploiFavorisListViewModel.create(store, onlyAlternance: true);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: true);
 
       // Then
       expect(viewModel.items, [mockOffreEmploiItemViewModel(id: '2')]);
@@ -219,11 +222,11 @@ main() {
 
     test('View model triggers ImmersionSearchFailureAction when onRetry is performed', () {
       final store = StoreSpy();
-      final viewModel = OffreEmploiFavorisListViewModel.create(store, onlyAlternance: true);
+      final viewModel = FavorisListViewModel.createForOffreEmploi(store, onlyAlternance: true);
 
       viewModel.onRetry();
 
-      expect(store.dispatchedAction is RequestOffreEmploiFavorisAction, isTrue);
+      expect(store.dispatchedAction is RequestFavorisAction<OffreEmploi>, isTrue);
     });
   });
 }

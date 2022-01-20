@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
@@ -18,6 +19,7 @@ import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/external_link.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
+import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/help_tooltip.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
@@ -59,7 +61,10 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         context.trackEvent(_offreAfficheeEvent());
       },
       converter: (store) => OffreEmploiDetailsPageViewModel.getDetails(store),
-      builder: (context, viewModel) => _scaffold(_body(context, viewModel)),
+      builder: (context, viewModel) => FavorisStateContext<OffreEmploi>(
+        selectState: (store) => store.state.offreEmploiFavorisState,
+        child: _scaffold(_body(context, viewModel)),
+      ),
     );
   }
 
@@ -408,7 +413,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
             ),
           ),
           SizedBox(width: 16),
-          FavoriHeart(
+          FavoriHeart<OffreEmploi>(
             offreId: offreId,
             withBorder: true,
             from: _fromAlternance ? OffrePage.alternanceDetails : OffrePage.emploiDetails,
@@ -441,7 +446,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
           onPressed: vm.withLoading ? null : () => vm.update(false),
         );
       },
-      converter: (store) => FavoriHeartViewModel.create(offreId, store),
+      converter: (store) => FavoriHeartViewModel.create(offreId, store, store.state.offreEmploiFavorisState),
       distinct: true,
       onDidChange: (_, viewModel) {
         if (!viewModel.isFavori) {
