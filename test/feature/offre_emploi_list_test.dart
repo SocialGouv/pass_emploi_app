@@ -114,6 +114,34 @@ main() {
       expect(searchResultsState.isMoreDataAvailable, false);
     });
 
+    test("and new call requested with one already ongoing, data should not be requested again", () async {
+      // Given
+      final testStoreFactory = TestStoreFactory();
+      testStoreFactory.offreEmploiRepository = OffreEmploiRepositorySuccessWithMoreDataStub();
+      final store = testStoreFactory.initializeReduxStore(
+        initialState: loggedInState().copyWith(
+          offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
+          offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
+            keywords: "boulanger patissier",
+            location: null,
+            onlyAlternance: false,
+            filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+          ),
+        ),
+      );
+
+      final successState =
+          store.onChange.firstWhere((element) => element.offreEmploiSearchState is OffreEmploiSearchSuccessState);
+
+      // When
+      store.dispatch(RequestMoreOffreEmploiSearchResultsAction());
+      store.dispatch(RequestMoreOffreEmploiSearchResultsAction());
+
+      // Then
+      await successState;
+      expect((testStoreFactory.offreEmploiRepository as OffreEmploiRepositorySuccessWithMoreDataStub).callCount, 1);
+    });
+
     group("and last call was an error ", () {
       test("and new call fails again should display an error and keep previously loaded data to display it", () async {
         // Given

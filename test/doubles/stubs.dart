@@ -60,6 +60,7 @@ class UserActionRepositoryFailureStub extends UserActionRepository {
 
 class OffreEmploiRepositorySuccessWithMoreDataStub extends OffreEmploiRepository {
   bool? _onlyAlternance;
+  int callCount = 0;
 
   OffreEmploiRepositorySuccessWithMoreDataStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
@@ -67,6 +68,7 @@ class OffreEmploiRepositorySuccessWithMoreDataStub extends OffreEmploiRepository
 
   @override
   Future<OffreEmploiSearchResponse?> search({required String userId, required SearchOffreEmploiRequest request}) async {
+    callCount = callCount + 1;
     final response = OffreEmploiSearchResponse(isMoreDataAvailable: true, offres: [mockOffreEmploi()]);
     if (_onlyAlternance == null) return response;
     return request.onlyAlternance == _onlyAlternance ? response : null;
@@ -112,9 +114,8 @@ class AuthenticatorLoggedInStub extends Authenticator {
   Future<bool> isLoggedIn() async => true;
 
   @override
-  Future<AuthIdToken?> idToken() async =>
-      AuthIdToken(
-    userId: "id",
+  Future<AuthIdToken?> idToken() async => AuthIdToken(
+        userId: "id",
         firstName: "F",
         lastName: "L",
         expiresAt: 100000000,
