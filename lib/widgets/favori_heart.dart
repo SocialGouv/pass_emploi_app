@@ -11,23 +11,32 @@ import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:redux/redux.dart';
 import 'package:pass_emploi_app/widgets/secondary_icon_button.dart';
+import 'package:redux/redux.dart';
 
-abstract class FavoriHeart<T> extends StatelessWidget {
+import 'favori_state_selector.dart';
+
+class FavoriHeart<T> extends StatelessWidget {
   final String offreId;
   final bool withBorder;
   final OffrePage from;
   final Function()? onFavoriRemoved;
 
-  FavoriHeart({required this.offreId, required this.withBorder, required this.from, this.onFavoriRemoved}) : super();
-
-  FavorisState<T> selectState(Store<AppState> store);
+  FavoriHeart({
+    required this.offreId,
+    required this.withBorder,
+    required this.from,
+    this.onFavoriRemoved,
+  }) : super();
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, FavoriHeartViewModel>(
-      converter: (store) => FavoriHeartViewModel<T>.create(offreId, store, selectState(store)),
+      converter: (store) => FavoriHeartViewModel<T>.create(
+        offreId,
+        store,
+        context.dependOnInheritedWidgetOfExactType<FavorisStateContext<T>>()!.selectState(store),
+      ),
       builder: (context, viewModel) => _buildHeart(context, viewModel),
       distinct: true,
       onDidChange: (_, viewModel) {
@@ -100,12 +109,6 @@ class FavoriHeartAnalyticsHelper {
   }
 }
 
-class OffreEmploiFavoriHeart extends FavoriHeart<OffreEmploi> {
-  OffreEmploiFavoriHeart({required offreId, required withBorder, required from, onFavoriRemoved})
-      : super(offreId: offreId, withBorder: withBorder, from: from, onFavoriRemoved: onFavoriRemoved);
-
-  @override
-  FavorisState<OffreEmploi> selectState(Store<AppState> store) {
-    return store.state.offreEmploiFavorisState;
-  }
+FavorisState<OffreEmploi> selectState(Store<AppState> store) {
+  return store.state.offreEmploiFavorisState;
 }

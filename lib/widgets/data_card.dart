@@ -8,7 +8,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/tags.dart';
 
-class DataCard extends StatelessWidget {
+class DataCard<T> extends StatelessWidget {
   final String titre;
   final String? sousTitre;
   final String? lieu;
@@ -71,7 +71,7 @@ class DataCard extends StatelessWidget {
                         ),
                       ),
                       if (id != null && from != null)
-                        FavoriHeart(
+                        FavoriHeart<T>(
                           offreId: id!,
                           withBorder: false,
                           from: from!,

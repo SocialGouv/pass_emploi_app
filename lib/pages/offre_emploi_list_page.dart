@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_filtres_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -14,6 +15,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/filter_button.dart';
 
 import 'offre_page.dart';
@@ -57,7 +59,10 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     return StoreConnector<AppState, OffreEmploiSearchResultsViewModel>(
       converter: (store) => OffreEmploiSearchResultsViewModel.create(store),
       onInitialBuild: (viewModel) => _currentViewModel = viewModel,
-      builder: (context, viewModel) => _scaffold(context, viewModel),
+      builder: (context, viewModel) => FavorisStateContext<OffreEmploi>(
+        selectState: (store) => store.state.offreEmploiFavorisState,
+        child: _scaffold(context, viewModel),
+      ),
       onDidChange: (previousViewModel, viewModel) {
         _currentViewModel = viewModel;
         if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
@@ -98,7 +103,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     OffreEmploiSearchResultsViewModel resultsViewModel,
   ) {
     final OffreEmploiItemViewModel item = resultsViewModel.items[index];
-    return DataCard(
+    return DataCard<OffreEmploi>(
       titre: item.title,
       sousTitre: item.companyName,
       lieu: item.location,
