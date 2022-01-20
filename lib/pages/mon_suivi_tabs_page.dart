@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/pages/rendezvous_list_page.dart';
 import 'package:pass_emploi_app/pages/user_action_list_page.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
-import 'package:pass_emploi_app/widgets/tab_bar.dart';
+import 'package:pass_emploi_app/widgets/pass_emploi_tab_bar.dart';
 import 'package:pass_emploi_app/widgets/unavailable_content.dart';
 
 enum MonSuiviTab { ACTIONS, RENDEZVOUS }
