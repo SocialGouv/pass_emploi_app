@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pass_emploi_app/pages/rendezvous_list_page.dart';
 import 'package:pass_emploi_app/pages/user_action_list_page.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/pass_emploi_tab_bar.dart';
 import 'package:pass_emploi_app/widgets/unavailable_content.dart';
 
 enum MonSuiviTab { ACTIONS, RENDEZVOUS }
@@ -16,34 +15,26 @@ class MonSuiviTabPage extends StatelessWidget {
 
   MonSuiviTabPage({required this.initialTab, required this.showContent}) : super();
 
-  final List<Tab> monSuiviTabs = <Tab>[
-    Tab(child: Text(Strings.actionsTabTitle, textAlign: TextAlign.left)),
-    Tab(child: Text(Strings.rendezvousTabTitle, textAlign: TextAlign.left)),
+  final List<String> _monSuiviTabs = [
+    Strings.actionsTabTitle,
+    Strings.rendezvousTabTitle,
   ];
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       initialIndex: initialTab == MonSuiviTab.ACTIONS ? 0 : 1,
-      length: monSuiviTabs.length,
+      length: _monSuiviTabs.length,
       child: Scaffold(
         appBar: passEmploiAppBar(
           label: Strings.monSuiviAppBarTitle,
-          bottom: TabBar(
-            indicatorColor: AppColors.primary,
-            indicatorWeight: 5,
-            labelStyle: TextStyles.textBaseBold,
-            labelColor: AppColors.contentColor,
-            unselectedLabelColor: AppColors.neutralColor,
-            tabs: monSuiviTabs,
-          ),
         ),
-        body: _setTabContent(),
+        body: _getBody(),
       ),
     );
   }
 
-  TabBarView _setTabContent() {
+  Widget _setTabContent() {
     if (showContent)
       return TabBarView(
         children: [
@@ -58,5 +49,16 @@ class MonSuiviTabPage extends StatelessWidget {
           UnavailableContent(contentType: ContentType.RENDEZVOUS),
         ],
       );
+  }
+
+  _getBody() {
+    return Column(
+      children: [
+        PassEmploiTabBar(
+          tabLabels: _monSuiviTabs,
+        ),
+        Expanded(child: _setTabContent()),
+      ],
+    );
   }
 }

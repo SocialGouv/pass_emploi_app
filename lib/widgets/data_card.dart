@@ -30,6 +30,7 @@ class DataCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<String> nonEmptyDataTags = dataTag.where((element) => element.isNotEmpty).toList();
     return Container(
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(16)), boxShadow: [
         BoxShadow(
@@ -39,44 +40,47 @@ class DataCard extends StatelessWidget {
           offset: Offset(0, 6), // changes position of shadow
         )
       ]),
-      child: Material(
-        type: MaterialType.transparency,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
-        ),
-        child: InkWell(
-          onTap: this.onTap,
-          splashColor: AppColors.primaryLighten,
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          _buildTitre(),
-                          if (sousTitre != null && sousTitre!.isNotEmpty) _buildSousTitre(),
-                        ],
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: Material(
+          type: MaterialType.transparency,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
+          ),
+          child: InkWell(
+            onTap: this.onTap,
+            splashColor: AppColors.primaryLighten,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            _buildTitre(),
+                            if (sousTitre != null && sousTitre!.isNotEmpty) _buildSousTitre(),
+                            if (lieu != null && lieu!.isNotEmpty) _buildLieu(),
+                          ],
+                        ),
                       ),
-                    ),
-                    if (id != null && from != null)
-                      FavoriHeart(
-                        offreId: id!,
-                        withBorder: false,
-                        from: from!,
-                      )
-                  ],
-                ),
-                if (lieu != null && lieu!.isNotEmpty) _buildLieu(),
-                if (dataTag.isNotEmpty) _buildDataTag(),
-              ],
+                      if (id != null && from != null)
+                        FavoriHeart(
+                          offreId: id!,
+                          withBorder: false,
+                          from: from!,
+                        )
+                    ],
+                  ),
+                  if (nonEmptyDataTags.isNotEmpty) _buildDataTags(nonEmptyDataTags),
+                ],
+              ),
             ),
           ),
         ),
@@ -117,10 +121,10 @@ class DataCard extends StatelessWidget {
     );
   }
 
-  Widget _buildDataTag() {
+  Widget _buildDataTags(List<String> nonEmptyDataTags) {
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
-      child: Wrap(spacing: 16, runSpacing: 16, children: dataTag.map(_buildTag).toList()),
+      child: Wrap(spacing: 16, runSpacing: 16, children: nonEmptyDataTags.map(_buildTag).toList()),
     );
   }
 

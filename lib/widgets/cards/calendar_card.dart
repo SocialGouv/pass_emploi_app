@@ -21,17 +21,17 @@ class CalendarCard extends StatelessWidget {
   }) : super(key: key);
 
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(16),
-      child: Container(
-        decoration: BoxDecoration(color: Colors.white, boxShadow: [
-          BoxShadow(
-            color: AppColors.shadowColor,
-            spreadRadius: 1,
-            blurRadius: 8,
-            offset: Offset(0, 6), // changes position of shadow
-          )
-        ]),
+    return Container(
+      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), boxShadow: [
+        BoxShadow(
+          color: AppColors.shadowColor,
+          spreadRadius: 1,
+          blurRadius: 8,
+          offset: Offset(0, 6), // changes position of shadow
+        )
+      ]),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
         child: Material(
           type: MaterialType.transparency,
           child: InkWell(

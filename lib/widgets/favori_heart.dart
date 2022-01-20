@@ -44,7 +44,6 @@ class FavoriHeart extends StatelessWidget {
       drawableRes: viewModel.isFavori ? Drawables.icHeartFull : Drawables.icHeart,
       iconColor: AppColors.favoriteHeartColor,
       borderColor: withBorder ? AppColors.primary : Colors.transparent,
-      iconSize: withBorder ? 18 : 24,
       onTap: () {
         viewModel.update(!viewModel.isFavori);
         _sendTracking(viewModel.isFavori);

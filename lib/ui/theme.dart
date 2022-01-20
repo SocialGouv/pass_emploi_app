@@ -19,7 +19,7 @@ class PassEmploiTheme {
   static CheckboxThemeData _checkboxes() {
     return CheckboxThemeData(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-      side: BorderSide(color: AppColors.nightBlue, width: 2),
+      side: BorderSide(color: AppColors.contentColor, width: 2),
     );
   }
 
