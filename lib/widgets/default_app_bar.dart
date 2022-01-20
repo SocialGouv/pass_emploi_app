@@ -41,12 +41,10 @@ class FlatDefaultAppBar extends AppBar {
 FlatDefaultAppBar passEmploiAppBar({
   required String label,
   bool withBackButton = false,
-  PreferredSizeWidget? bottom,
 }) {
   return FlatDefaultAppBar(
     title: Text(label, style: TextStyles.textAppBar),
     leading: withBackButton ? _appBarLeading : null,
-    bottom: bottom,
   );
 }
 
