@@ -10,8 +10,6 @@ AppState offreEmploiReducer(AppState currentState, OffreEmploiAction action) {
     return _storeInitialSearchParameters(currentState, action);
   } else if (action is OffreEmploiSearchLoadingAction) {
     return currentState.copyWith(offreEmploiSearchState: OffreEmploiSearchState.loading());
-  } else if (action is OffreEmploiPaginationLoadingAction) {
-    return _updateLoadingStatus(currentState);
   } else if (action is OffreEmploiSearchSuccessAction) {
     final previousSearchState = currentState.offreEmploiSearchResultsState;
     if (previousSearchState is OffreEmploiSearchResultsDataState) {
@@ -47,21 +45,6 @@ AppState offreEmploiReducer(AppState currentState, OffreEmploiAction action) {
   }
 }
 
-AppState _updateLoadingStatus(AppState currentState) {
-  final previousSearchState = currentState.offreEmploiSearchResultsState;
-  if (previousSearchState is OffreEmploiSearchResultsDataState) {
-    return currentState.copyWith(
-      offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
-          offres: previousSearchState.offres,
-          loadedPage: previousSearchState.loadedPage,
-          isMoreDataAvailable: previousSearchState.isMoreDataAvailable,
-          isLoading: true),
-    );
-  } else {
-    return currentState;
-  }
-}
-
 AppState _storeOffres(AppState currentState, OffreEmploiSearchSuccessAction action) {
   return currentState.copyWith(
     offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
@@ -80,7 +63,7 @@ AppState _appendNewOffres(AppState currentState, OffreEmploiSearchResultsDataSta
       offres: previousSearchState.offres + action.offres,
       loadedPage: action.page,
       isMoreDataAvailable: action.isMoreDataAvailable,
-        isLoading: false),
+    ),
     offreEmploiSearchState: OffreEmploiSearchState.success(),
   );
 }

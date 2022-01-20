@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:redux/redux.dart';
 
@@ -17,6 +18,7 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
     final loginState = store.state.loginState;
     final parametersState = store.state.offreEmploiSearchParametersState;
     final previousResultsState = store.state.offreEmploiSearchResultsState;
+    final offreEmploiSearchState = store.state.offreEmploiSearchState;
     if (loginState.isSuccess()) {
       var userId = loginState.getResultOrThrow().id;
       if (action is SearchOffreEmploiAction) {
@@ -33,9 +35,8 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
         );
       } else if (action is RequestMoreOffreEmploiSearchResultsAction &&
           parametersState is OffreEmploiSearchParametersInitializedState &&
-          previousResultsState is OffreEmploiSearchResultsDataState) {
-        if (isLoading(store)) return;
-        store.dispatch(OffreEmploiPaginationLoadingAction());
+          previousResultsState is OffreEmploiSearchResultsDataState &&
+          !(offreEmploiSearchState is OffreEmploiSearchLoadingState)) {
         _search(
           store: store,
           userId: userId,
@@ -63,10 +64,6 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
       }
     }
   }
-
-  bool isLoading(Store<AppState> store) =>
-      store.state.offreEmploiSearchResultsState is OffreEmploiSearchResultsDataState &&
-      (store.state.offreEmploiSearchResultsState as OffreEmploiSearchResultsDataState).isLoading;
 
   Future<void> _search({
     required Store<AppState> store,

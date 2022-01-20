@@ -14,8 +14,6 @@ class SearchOffreEmploiAction extends OffreEmploiAction {
 
 class OffreEmploiSearchLoadingAction extends OffreEmploiAction {}
 
-class OffreEmploiPaginationLoadingAction extends OffreEmploiAction {}
-
 class OffreEmploiSearchSuccessAction extends OffreEmploiAction {
   final List<OffreEmploi> offres;
   final int page;
