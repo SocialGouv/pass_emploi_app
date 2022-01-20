@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/presentation/call_to_action.dart';
+import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/immersion_details_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
@@ -17,6 +17,8 @@ import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/favori_heart.dart';
+import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/immersion_tags.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
@@ -24,6 +26,8 @@ import 'package:pass_emploi_app/widgets/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/title_section.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'offre_page.dart';
 
 class ImmersionDetailsPage extends TraceableStatelessWidget {
   final String _immersionId;
@@ -41,7 +45,10 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
       onInit: (store) => store.dispatch(ImmersionDetailsAction.request(_immersionId)),
       onDispose: (store) => store.dispatch(ImmersionDetailsAction.reset()),
       converter: (store) => ImmersionDetailsViewModel.create(store, platform),
-      builder: (context, viewModel) => _scaffold(_body(context, viewModel)),
+      builder: (context, viewModel) => FavorisStateContext(
+        selectState: (store) => store.state.immersionFavorisState,
+        child: _scaffold(_body(context, viewModel)),
+      ),
       distinct: true,
     );
   }
@@ -92,8 +99,7 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
             ),
           ),
         ),
-        if (viewModel.withMainCallToAction)
-          Align(child: _footer(context, viewModel.mainCallToAction!), alignment: Alignment.bottomCenter)
+        Align(child: _footer(context, viewModel), alignment: Alignment.bottomCenter)
       ],
     );
   }
@@ -118,19 +124,24 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
     return params.entries.map((e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}').join('&');
   }
 
-  Widget _footer(BuildContext context, CallToAction callToAction) {
+  Widget _footer(BuildContext context, ImmersionDetailsViewModel viewModel) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.all(Margins.spacing_base),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(minWidth: double.infinity),
-        child: PrimaryActionButton(
-            onPressed: () {
-              context.trackEvent(callToAction.eventType);
-              launch(callToAction.uri.toString());
-            },
-            label: callToAction.label),
-      ),
+      child: Row(textDirection: TextDirection.rtl, children: [
+        FavoriHeart<Immersion>(offreId: viewModel.id, withBorder: true, from: OffrePage.immersionDetails),
+        SizedBox(width: 16),
+        if (viewModel.withMainCallToAction)
+          Expanded(
+            child: PrimaryActionButton(
+              onPressed: () {
+                context.trackEvent(viewModel.mainCallToAction!.eventType);
+                launch(viewModel.mainCallToAction!.uri.toString());
+              },
+              label: viewModel.mainCallToAction!.label,
+            ),
+          ),
+      ]),
     );
   }
 

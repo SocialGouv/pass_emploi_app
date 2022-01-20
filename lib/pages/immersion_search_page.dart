@@ -40,9 +40,11 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
       distinct: true,
       onWillChange: (_, viewModel) {
         if (viewModel.displayState == ImmersionSearchDisplayState.SHOW_RESULTS) {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ImmersionListPage(viewModel.immersions)));
-          // Reset state to avoid unexpected SHOW_RESULTS while coming back from ImmersionListPage
-          StoreProvider.of<AppState>(context).dispatch(ImmersionAction.reset());
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ImmersionListPage(viewModel.immersions)))
+              .then((value) {
+            // Reset state to avoid unexpected SHOW_RESULTS while coming back from ImmersionListPage
+            StoreProvider.of<AppState>(context).dispatch(ImmersionAction.reset());
+          });
         }
       },
       onDispose: (store) {

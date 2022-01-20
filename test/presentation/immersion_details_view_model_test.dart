@@ -47,6 +47,7 @@ main() {
 
     // Then
     expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.id, '12345');
     expect(viewModel.title, 'Métier');
     expect(viewModel.companyName, 'Nom établissement');
     expect(viewModel.secteurActivite, 'Secteur');
@@ -456,7 +457,7 @@ ImmersionDetails _mockImmersion({
   ImmersionContactMode mode = ImmersionContactMode.INCONNU,
 }) {
   return ImmersionDetails(
-    id: '',
+    id: '12345',
     metier: 'Métier',
     companyName: 'Nom établissement',
     secteurActivite: 'Secteur',

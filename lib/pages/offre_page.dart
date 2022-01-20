@@ -5,4 +5,5 @@ enum OffrePage {
   alternanceResults,
   alternanceDetails,
   alternanceFavoris,
+  immersionDetails,
 }
