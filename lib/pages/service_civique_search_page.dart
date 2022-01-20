@@ -25,7 +25,10 @@ class ServiceCiviqueSearchPage extends TraceableStatelessWidget {
           ConstrainedBox(
             constraints: const BoxConstraints(minWidth: double.infinity),
             child: PrimaryActionButton(
-              onPressed: () => launch(Strings.serviceCiviqueUrl),
+              onPressed: () {
+                MatomoTracker.trackScreenWithName(Strings.serviceCiviqueUrl, AnalyticsScreenNames.serviceCiviqueResearch);
+                launch(Strings.serviceCiviqueUrl);
+              },
               label: Strings.serviceCiviqueButtonAction,
               drawableRes: Drawables.icLaunch,
               iconSize: 18,
