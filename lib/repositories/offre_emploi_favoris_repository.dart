@@ -18,7 +18,7 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
 
   @override
   Future<Set<String>?> getFavorisId(String userId) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris");
+    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-emploi");
     try {
       final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
 
@@ -34,7 +34,8 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
 
   @override
   Future<Map<String, OffreEmploi>?> getFavoris(String userId) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris").replace(queryParameters: {"detail": "true"});
+    final url =
+        Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-emploi").replace(queryParameters: {"detail": "true"});
     try {
       final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
       if (response.statusCode.isValid()) {
@@ -53,7 +54,7 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
 
   @override
   Future<bool> postFavori(String userId, OffreEmploi favori) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favori");
+    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favori/offres-emploi");
     try {
       final response = await _httpClient.post(
         url,
@@ -81,7 +82,7 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
 
   @override
   Future<bool> deleteFavori(String userId, String favoriId) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favori/$favoriId");
+    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favori/offres-emploi/$favoriId");
     try {
       final response = await _httpClient.delete(
         url,
