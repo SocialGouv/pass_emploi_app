@@ -32,7 +32,7 @@ main() {
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final favoris = await repository.getFavoris("jeuneId");
+    final favoris = await repository.getFavorisId("jeuneId");
 
     // Then
     expect(favoris, isNull);
