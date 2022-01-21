@@ -26,7 +26,7 @@ class PassEmploiTabBar extends StatelessWidget {
               isScrollable: true,
               labelPadding: const EdgeInsets.only(right: 32),
               indicatorPadding: const EdgeInsets.only(right: 32),
-              unselectedLabelColor: AppColors.neutralColor,
+              unselectedLabelColor: AppColors.grey800,
               tabs: _tabs(),
             ),
           ),

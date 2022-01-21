@@ -143,7 +143,7 @@ class LocationAutocomplete extends StatelessWidget {
       contentPadding: const EdgeInsets.only(left: 24, top: 18, bottom: 18),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
-        borderSide: BorderSide(color: AppColors.grey700, width: 1.0),
+        borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
