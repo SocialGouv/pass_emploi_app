@@ -25,8 +25,9 @@ class FlatDefaultAppBar extends AppBar {
     PreferredSizeWidget? bottom,
     List<Widget>? actions,
     bool? centerTitle = true,
+    Color? backgroundColor,
   }) : super(
-    title: title,
+          title: title,
           centerTitle: centerTitle,
           actions: actions,
           iconTheme: IconThemeData(color: AppColors.contentColor),

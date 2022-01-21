@@ -60,8 +60,8 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
           SizedBox(height: 24),
           Text(Strings.immersionLabel, style: TextStyles.textBaseBold),
           SizedBox(height: 24),
-          Text(Strings.metierCompulsoryLabel, style: TextStyles.textLgMedium),
-          SizedBox(height: 24),
+          Text(Strings.metierCompulsoryLabel, style: TextStyles.textBaseBold),
+          SizedBox(height: 14),
           MetierAutocomplete(
             onSelectMetier: (selectedMetier) {
               setState(() {
@@ -78,8 +78,8 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
             },
           ),
           SizedBox(height: 24),
-          Text(Strings.villeCompulsoryLabel, style: TextStyles.textLgMedium),
-          SizedBox(height: 24),
+          Text(Strings.villeCompulsoryLabel, style: TextStyles.textBaseBold),
+          SizedBox(height: 14),
           LocationAutocomplete(
             onInputLocation: (newLocationQuery) => viewModel.onInputLocation(newLocationQuery),
             onSelectLocationViewModel: (locationViewModel) => _selectedLocationViewModel = locationViewModel,

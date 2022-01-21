@@ -61,12 +61,14 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _separator(),
-          Text(Strings.keyWordsTitle, style: TextStyles.textLgMedium),
-          _separator(),
+          Text(Strings.keyWordsTitle, style: TextStyles.textBaseBold),
+          Text(Strings.keyWordsTextHint, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
+          SizedBox(height: 14),
           _keywordTextFormField(),
           _separator(),
-          Text(Strings.jobLocationTitle, style: TextStyles.textLgMedium),
-          _separator(),
+          Text(Strings.jobLocationTitle, style: TextStyles.textBaseBold),
+          Text(Strings.jobLocationHint, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
+          SizedBox(height: 14),
           LocationAutocomplete(
             onInputLocation: (newLocationQuery) => viewModel.onInputLocation(newLocationQuery),
             onSelectLocationViewModel: (locationViewModel) => _selectedLocationViewModel = locationViewModel,
@@ -92,7 +94,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
 
   TextFormField _keywordTextFormField() {
     return TextFormField(
-      style: TextStyles.textSmMedium(color: AppColors.nightBlue),
+      style: TextStyles.textBaseBold,
       keyboardType: TextInputType.name,
       textCapitalization: TextCapitalization.words,
       textInputAction: TextInputAction.done,
@@ -100,23 +102,21 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
         if (value == null || value.isEmpty) return Strings.mandatoryAccessCodeError;
         return null;
       },
-      decoration: _inputDecoration(Strings.keyWordsTextField),
+      decoration: _inputDecoration(),
       onChanged: (keyword) => _keyWord = keyword,
     );
   }
 
-  InputDecoration _inputDecoration(String textFieldString) {
+  InputDecoration _inputDecoration() {
     return InputDecoration(
       contentPadding: const EdgeInsets.only(left: 24, top: 18, bottom: 18),
-      labelText: textFieldString,
-      labelStyle: TextStyles.textSmMedium(color: AppColors.bluePurple),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
-        borderSide: BorderSide(color: AppColors.nightBlue, width: 1.0),
+        borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
-        borderSide: BorderSide(color: AppColors.nightBlue, width: 1.0),
+        borderSide: BorderSide(color: AppColors.primary, width: 1.0),
       ),
     );
   }

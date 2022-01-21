@@ -82,6 +82,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
 
   Scaffold _scaffold(Widget body) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: passEmploiAppBar(label: Strings.offreDetails, withBackButton: true),
       body: body,
     );
@@ -376,7 +377,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: Container(
-        color: AppColors.franceRedAlpha05,
+        color: AppColors.warningLight,
         child: Padding(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -384,13 +385,13 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
               Text(
                 Strings.offreNotFoundError,
                 style: TextStyles.textSBoldWithColor(
-                  AppColors.franceRed,
+                  AppColors.warning,
                 ),
               ),
               SizedBox(height: 8),
               Text(
                 Strings.offreNotFoundExplaination,
-                style: TextStyles.textSmRegular(color: AppColors.franceRed),
+                style: TextStyles.textSmRegular(color: AppColors.warning),
               ),
             ],
           ),

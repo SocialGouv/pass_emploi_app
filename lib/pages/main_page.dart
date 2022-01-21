@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/plus_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
@@ -75,7 +74,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   Widget _body(MainPageViewModel viewModel) {
     return Scaffold(
       body: Container(
-        color: AppColors.lightBlue,
+        color: AppColors.grey100,
         child: _content(_selectedIndex, viewModel),
       ),
       bottomNavigationBar: BottomNavigationBar(

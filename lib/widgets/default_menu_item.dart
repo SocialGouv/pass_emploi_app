@@ -24,7 +24,7 @@ class DefaultMenuItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final alreadyBuilt = _widgetAlreadyBuildForLabelList.contains(label);
     if (!alreadyBuilt) _widgetAlreadyBuildForLabelList.add(label);
-    Color color = AppColors.neutralColor;
+    Color color = AppColors.grey800;
     if (isActive) color = AppColors.secondary;
     return Stack(
       alignment: Alignment.center,

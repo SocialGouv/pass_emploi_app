@@ -16,7 +16,7 @@ class PlusPage extends TraceableStatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.lightBlue,
+      backgroundColor: AppColors.grey100,
       appBar: passEmploiAppBar(label: Strings.menuPlus),
       body: Stack(
         children: [
@@ -34,7 +34,7 @@ class PlusPage extends TraceableStatelessWidget {
                       label: Strings.logoutAction,
                       textColor: AppColors.warning,
                       backgroundColor: AppColors.warningLighten,
-                      rippleColor: AppColors.redGrey,
+                      rippleColor: AppColors.warningLight,
                       withShadow: false,
                     ),
                   ),
