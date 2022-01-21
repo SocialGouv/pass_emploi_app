@@ -12,12 +12,17 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   debugPrint("Handling a background message: ${message.messageId}");
 }
 
+Future<void> _firebaseMessagingForegroundHandler(RemoteMessage message) async {
+  debugPrint("Handling a foreground message: ${message.messageId}");
+}
+
 class FirebasePushNotificationManager extends PushNotificationManager {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
   @override
   Future<void> init(Store<AppState> store) async {
     await _requestPermission();
+    FirebaseMessaging.onMessage.listen(_firebaseMessagingForegroundHandler);
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     if (Platform.isAndroid) await _createHighImportanceAndroidChannel();
   }
