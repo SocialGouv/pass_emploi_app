@@ -17,7 +17,7 @@ class PostImmersionFavori implements JsonSerializable {
 
   @override
   Map<String, dynamic> toJson() => {
-        "id": id,
+        "idOffre": id,
         "metier": metier,
         "nomEtablissement": nomEtablissement,
         "secteurActivite": secteurActivite,

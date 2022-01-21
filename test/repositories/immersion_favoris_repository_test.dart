@@ -58,19 +58,6 @@ main() {
     expect(result, isTrue);
   });
 
-  test("postFavori when adding alternance favori should post correct data and return true", () async {
-    // Given
-    final httpClient = _mockClientForFullData();
-
-    final repository = ImmersionFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
-
-    // When
-    final result = await repository.postFavori("jeuneId", _offreWithFullData());
-
-    // Then
-    expect(result, isTrue);
-  });
-
   test("deleteFavori when removing favori should delete with correct id and return true when response is valid",
       () async {
     // Given
@@ -222,11 +209,12 @@ MockClient _mockClientForFullData() {
     if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-immersion"))
       return invalidHttpResponse();
     final requestJson = jsonUtf8Decode(request.bodyBytes);
-    if (requestJson["id"] != "98286f66-2a8e-4a22-80a8-c6fda3a52980") return invalidHttpResponse(message: "idOffre KO");
-    if (requestJson["metier"] != "Boulanger") return invalidHttpResponse(message: "idOffre KO");
-    if (requestJson["nomEtablissement"] != "EPSAN Brumath") return invalidHttpResponse(message: "titre KO");
-    if (requestJson["secteurActivite"] != "Boulangerie") return invalidHttpResponse(message: "titre KO");
-    if (requestJson["ville"] != "Brumath") return invalidHttpResponse(message: "typeContrat KO");
+    if (requestJson["idOffre"] != "98286f66-2a8e-4a22-80a8-c6fda3a52980")
+      return invalidHttpResponse(message: "idOffre KO");
+    if (requestJson["metier"] != "Boulanger") return invalidHttpResponse(message: "metier KO");
+    if (requestJson["nomEtablissement"] != "EPSAN Brumath") return invalidHttpResponse(message: "nomEtablissement KO");
+    if (requestJson["secteurActivite"] != "Boulangerie") return invalidHttpResponse(message: "secteurActivite KO");
+    if (requestJson["ville"] != "Brumath") return invalidHttpResponse(message: "ville KO");
     return Response("", 201);
   });
 }
