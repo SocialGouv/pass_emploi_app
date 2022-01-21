@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
@@ -27,11 +28,15 @@ class FlatDefaultAppBar extends AppBar {
     bool? centerTitle = true,
     Color? backgroundColor,
   }) : super(
-          title: title,
+    title: title,
           centerTitle: centerTitle,
           actions: actions,
           iconTheme: IconThemeData(color: AppColors.contentColor),
           toolbarHeight: Dimens.flatAppBarHeight,
+          systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarIconBrightness: Brightness.light,
+            statusBarBrightness: Brightness.light,
+          ),
           backgroundColor: Colors.transparent,
           elevation: 0,
           leading: leading,
