@@ -210,7 +210,7 @@ MockClient _alreadyExistsClient() {
 MockClient _successfulClientForDelete() {
   return MockClient((request) async {
     if (request.method != "DELETE") return invalidHttpResponse();
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favori/offres-immersion/offreId"))
+    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-immersion/offreId"))
       return invalidHttpResponse();
     return Response("", 204);
   });
@@ -219,7 +219,8 @@ MockClient _successfulClientForDelete() {
 MockClient _mockClientForFullData() {
   return MockClient((request) async {
     if (request.method != "POST") return invalidHttpResponse();
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favori")) return invalidHttpResponse();
+    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-immersion"))
+      return invalidHttpResponse();
     final requestJson = jsonUtf8Decode(request.bodyBytes);
     if (requestJson["id"] != "98286f66-2a8e-4a22-80a8-c6fda3a52980") return invalidHttpResponse(message: "idOffre KO");
     if (requestJson["metier"] != "Boulanger") return invalidHttpResponse(message: "idOffre KO");

@@ -244,7 +244,7 @@ MockClient _alreadyExistsClient() {
 MockClient _successfulClientForDelete() {
   return MockClient((request) async {
     if (request.method != "DELETE") return invalidHttpResponse();
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favori/offres-emploi/offreId"))
+    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-emploi/offreId"))
       return invalidHttpResponse();
     return Response("", 204);
   });
@@ -253,7 +253,7 @@ MockClient _successfulClientForDelete() {
 MockClient _mockClientForFullData({required bool expectedAlternance}) {
   return MockClient((request) async {
     if (request.method != "POST") return invalidHttpResponse();
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favori/offres-emploi"))
+    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-emploi"))
       return invalidHttpResponse();
     final requestJson = jsonUtf8Decode(request.bodyBytes);
     if (requestJson["idOffre"] != "offreId2") return invalidHttpResponse(message: "idOffre KO");
@@ -270,7 +270,7 @@ MockClient _mockClientForFullData({required bool expectedAlternance}) {
 MockClient _mockClientForPartialData() {
   return MockClient((request) async {
     if (request.method != "POST") return invalidHttpResponse();
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favori/offres-emploi"))
+    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-emploi"))
       return invalidHttpResponse();
     final requestJson = jsonUtf8Decode(request.bodyBytes);
     if (requestJson["idOffre"] != "offreId") return invalidHttpResponse(message: "idOffre KO");

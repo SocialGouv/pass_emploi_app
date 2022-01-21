@@ -54,7 +54,7 @@ class ImmersionFavorisRepository extends FavorisRepository<Immersion> {
 
   @override
   Future<bool> postFavori(String userId, Immersion favori) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favori/offres-immersion");
+    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-immersion");
     try {
       final response = await _httpClient.post(
         url,
@@ -80,7 +80,7 @@ class ImmersionFavorisRepository extends FavorisRepository<Immersion> {
 
   @override
   Future<bool> deleteFavori(String userId, String favoriId) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favori/offres-immersion/$favoriId");
+    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-immersion/$favoriId");
     try {
       final response = await _httpClient.delete(
         url,

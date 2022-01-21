@@ -54,7 +54,7 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
 
   @override
   Future<bool> postFavori(String userId, OffreEmploi favori) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favori/offres-emploi");
+    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-emploi");
     try {
       final response = await _httpClient.post(
         url,
@@ -82,7 +82,7 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
 
   @override
   Future<bool> deleteFavori(String userId, String favoriId) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favori/offres-emploi/$favoriId");
+    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-emploi/$favoriId");
     try {
       final response = await _httpClient.delete(
         url,
