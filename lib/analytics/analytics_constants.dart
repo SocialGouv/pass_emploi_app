@@ -34,6 +34,7 @@ class AnalyticsScreenNames {
   static const toolbox = "recherche/boite_a_outils";
   static const emploiFavoris = "favoris/list/emploi";
   static const alternanceFavoris = "favoris/list/alternance";
+  static const immersionFavoris = "favoris/list/immersion";
   static const plus = "plus";
 }
 

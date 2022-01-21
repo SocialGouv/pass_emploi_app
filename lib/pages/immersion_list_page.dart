@@ -10,6 +10,8 @@ import 'package:pass_emploi_app/widgets/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 
+import 'offre_page.dart';
+
 class ImmersionListPage extends TraceableStatelessWidget {
   final List<Immersion> immersions;
 
@@ -39,6 +41,7 @@ class ImmersionListPage extends TraceableStatelessWidget {
       lieu: immersion.ville,
       dataTag: [immersion.secteurActivite],
       onTap: () => Navigator.push(context, ImmersionDetailsPage.materialPageRoute(immersion.id)),
+      from: OffrePage.immersionResults,
     );
   }
 }
