@@ -26,12 +26,12 @@ class RendezvousPage extends TraceableStatelessWidget {
       appBar: passEmploiAppBar(label: Strings.myRendezVous, withBackButton: true),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(Margins.medium),
+          padding: const EdgeInsets.all(Margins.spacing_base),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(rendezvous.title, style: TextStyles.textLBold()),
-              SizedBox(height: 4),
+              SizedBox(height: Margins.spacing_xs),
               Text(rendezvous.subtitle, style: TextStyles.textBaseRegular),
               SizedBox(height: 20),
               Row(
@@ -45,21 +45,21 @@ class RendezvousPage extends TraceableStatelessWidget {
                   Text(rendezvous.hourAndDuration, style: TextStyles.textBaseBold),
                 ],
               ),
-              SizedBox(height: 24),
-              Container(height: 1, color: AppColors.primaryLighten),
-              SizedBox(height: 12),
+              SizedBox(height: Margins.spacing_m),
+              Container(height: 1, color: AppColors.warning),
+              SizedBox(height: 8),
               Text(rendezvous.modality, style: TextStyles.textBaseBold),
               SizedBox(height: 24),
               Container(height: 1, color: AppColors.primaryLighten),
               SizedBox(height: 12),
               Text(Strings.rendezVousConseillerCommentLabel, style: TextStyles.textBaseBold),
-              SizedBox(height: 8),
+              SizedBox(height: Margins.spacing_s),
               Text(rendezvous.comment, style: TextStyles.textSRegular()),
-              SizedBox(height: 24),
+              SizedBox(height: Margins.spacing_m),
               Container(height: 1, color: AppColors.primaryLighten),
               SizedBox(height: 12),
               Text(Strings.cantMakeItNoBigDeal, style: TextStyles.textBaseBold),
-              SizedBox(height: 8),
+              SizedBox(height: Margins.spacing_s),
               Text(
                 Strings.shouldInformConseiller,
                 style: TextStyles.textSRegular(),

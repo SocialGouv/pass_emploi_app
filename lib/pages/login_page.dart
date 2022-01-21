@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/presentation/login_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
@@ -56,7 +57,7 @@ class LoginPage extends TraceableStatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(Strings.performLogin, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
-                    SizedBox(height: 16),
+                    SizedBox(height: Margins.spacing_base),
                     _body(viewModel, context),
                   ],
                 ),
@@ -85,7 +86,7 @@ class LoginPage extends TraceableStatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(Strings.loginError, style: TextStyles.textSmMedium(color: AppColors.warning)),
-        SizedBox(height: 8),
+        SizedBox(height: Margins.spacing_s),
         ..._loginButtons(viewModel, context),
       ],
     );
@@ -93,9 +94,10 @@ class LoginPage extends TraceableStatelessWidget {
 
   List<Widget> _loginButtons(LoginViewModel viewModel, BuildContext context) {
     final buttonsWithSpaces = viewModel.loginButtons.expand(
-      (e) => [
+      (e) =>
+      [
         _loginButton(e.label, e.action, context),
-        SizedBox(height: 16),
+        SizedBox(height: Margins.spacing_base),
       ],
     );
     return buttonsWithSpaces.toList();

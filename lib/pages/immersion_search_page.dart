@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/keyboard.dart';
@@ -57,9 +58,9 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 24),
+          SizedBox(height: Margins.spacing_m),
           Text(Strings.immersionLabel, style: TextStyles.textBaseBold),
-          SizedBox(height: 24),
+          SizedBox(height: Margins.spacing_m),
           Text(Strings.metierCompulsoryLabel, style: TextStyles.textBaseBold),
           SizedBox(height: 14),
           MetierAutocomplete(
@@ -77,7 +78,7 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
               return null;
             },
           ),
-          SizedBox(height: 24),
+          SizedBox(height: Margins.spacing_m),
           Text(Strings.villeCompulsoryLabel, style: TextStyles.textBaseBold),
           SizedBox(height: 14),
           LocationAutocomplete(
@@ -94,10 +95,10 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
               return null;
             },
           ),
-          SizedBox(height: 24),
+          SizedBox(height: Margins.spacing_m),
           _stretchedButton(viewModel),
           if (_isError(viewModel)) ErrorText(viewModel.errorMessage),
-          SizedBox(height: 24),
+          SizedBox(height: Margins.spacing_m),
           Theme(
             data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
             child: ExpansionTile(
@@ -129,15 +130,15 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
   List<Widget> _collapsableContent() {
     return [
       Text(Strings.immersionObjectifTitle, style: TextStyles.textSBold),
-      SizedBox(height: 16),
+      SizedBox(height: Margins.spacing_base),
       Text(Strings.immersionObjectifContent, style: TextStyles.textSRegular()),
-      SizedBox(height: 24),
+      SizedBox(height: Margins.spacing_m),
       Text(Strings.immersionDemarchesTitle, style: TextStyles.textSBold),
-      SizedBox(height: 16),
+      SizedBox(height: Margins.spacing_base),
       Text(Strings.immersionDemarchesContent, style: TextStyles.textSRegular()),
-      SizedBox(height: 24),
+      SizedBox(height: Margins.spacing_m),
       Text(Strings.immersionStatutTitle, style: TextStyles.textSBold),
-      SizedBox(height: 16),
+      SizedBox(height: Margins.spacing_base),
       Text(Strings.immersionStatutContent, style: TextStyles.textSRegular())
     ];
   }

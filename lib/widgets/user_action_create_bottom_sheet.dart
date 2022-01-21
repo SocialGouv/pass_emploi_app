@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/create_user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
@@ -91,7 +92,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(Strings.actionLabel, style: TextStyles.textXsRegular()),
-          SizedBox(height: 16),
+          SizedBox(height: Margins.spacing_base),
           _textField(
             isEnabled: viewModel.displayState != CreateUserActionDisplayState.SHOW_LOADING,
             onChanged: (value) => _actionContent = value,
@@ -99,9 +100,9 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
             mandatoryError: Strings.mandatoryActionLabelError,
             textInputAction: TextInputAction.next,
           ),
-          SizedBox(height: 16),
+          SizedBox(height: Margins.spacing_base),
           Text(Strings.actionDescription, style: TextStyles.textXsRegular()),
-          SizedBox(height: 16),
+          SizedBox(height: Margins.spacing_base),
           _textField(
             isEnabled: viewModel.displayState != CreateUserActionDisplayState.SHOW_LOADING,
             onChanged: (value) => _actionComment = value,
@@ -149,7 +150,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(Strings.defineActionStatus, style: TextStyles.textXsRegular()),
-          SizedBox(height: 16),
+          SizedBox(height: Margins.spacing_base),
           UserActionStatusGroup(
             status: _initialStatus,
             update: (wantedStatus) => _update(wantedStatus),

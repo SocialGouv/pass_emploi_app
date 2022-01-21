@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/presentation/favoris_list_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
@@ -51,7 +52,7 @@ abstract class AbstractFavorisPage<FAVORIS_MODEL, FAVORIS_VIEW_MODEL> extends Tr
     );
   }
 
-  Widget _listSeparator() => Container(height: 16);
+  Widget _listSeparator() => Container(height: Margins.spacing_base);
 
   // Due to outer FavoritesTabsPage scrollview, making widget matches parent to center it is complicated.
   // Top padding is enough.

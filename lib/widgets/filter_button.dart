@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
@@ -66,7 +67,7 @@ class FilterButton extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
               width: 24,
-              height: 24,
+              height: Margins.spacing_m,
               alignment: Alignment.center,
               padding: const EdgeInsets.only(bottom: 3),
               child: Text(

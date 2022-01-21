@@ -32,7 +32,7 @@ class ForceUpdatePage extends TraceableStatelessWidget {
           label: Strings.updateTitle,
         ),
         body: Padding(
-          padding: const EdgeInsets.all(Margins.medium),
+          padding: const EdgeInsets.all(Margins.spacing_base),
           child: Column(
             children: [
               Expanded(child: SvgPicture.asset(Drawables.icLogo, semanticsLabel: Strings.logoTextDescription)),

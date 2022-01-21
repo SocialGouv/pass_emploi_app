@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
@@ -83,7 +84,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(height: 16),
+          SizedBox(height: Margins.spacing_base),
           Expanded(child: SvgPicture.asset(Drawables.icCongratulations, excludeFromSemantics: true)),
           Expanded(
             child: Container(
@@ -95,7 +96,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
               ),
             ),
           ),
-          SizedBox(height: 16),
+          SizedBox(height: Margins.spacing_base),
           Expanded(
             child: Container(
               child: Text(
@@ -151,7 +152,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 16),
+            padding: const EdgeInsets.only(bottom: Margins.spacing_base),
             child: Text(Strings.aboutThisAction, style: TextStyles.textBaseBold),
           ),
           Padding(
@@ -167,7 +168,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
               style: TextStyles.textSRegular(),
             )
           else
-            SizedBox(height: 8)
+            SizedBox(height: Margins.spacing_s)
         ],
       ),
     );
@@ -191,17 +192,17 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
 
   Widget _changeStatus(UserActionDetailsViewModel detailsViewModel) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
+      padding: const EdgeInsets.fromLTRB(16, 24, Margins.spacing_base, Margins.spacing_base),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 16),
+            padding: const EdgeInsets.only(bottom: Margins.spacing_base),
             child: Text(Strings.updateStatus, style: TextStyles.textBaseBold),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 16),
+            padding: const EdgeInsets.only(bottom: Margins.spacing_base),
             child: UserActionStatusGroup(
               status: actionStatus,
               update: (newStatus) => _update(newStatus),
@@ -218,7 +219,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
 
   Widget _deleteAction(UserActionDetailsViewModel detailsViewModel) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+      padding: const EdgeInsets.fromLTRB(16, 0, Margins.spacing_base, 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

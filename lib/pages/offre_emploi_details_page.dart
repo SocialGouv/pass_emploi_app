@@ -102,7 +102,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       children: [
         SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(Margins.medium, Margins.medium, Margins.medium, 64),
+            padding: const EdgeInsets.fromLTRB(Margins.spacing_base, Margins.spacing_base, Margins.spacing_base, 64),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -388,7 +388,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
                   AppColors.warning,
                 ),
               ),
-              SizedBox(height: 8),
+              SizedBox(height: Margins.spacing_s),
               Text(
                 Strings.offreNotFoundExplaination,
                 style: TextStyles.textSmRegular(color: AppColors.warning),

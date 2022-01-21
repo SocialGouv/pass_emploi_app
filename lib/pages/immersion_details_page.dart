@@ -72,7 +72,7 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
       children: [
         SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(Margins.medium, Margins.medium, Margins.medium, 100),
+            padding: const EdgeInsets.fromLTRB(Margins.spacing_base, Margins.spacing_base, Margins.spacing_base, 100),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

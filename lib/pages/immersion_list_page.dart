@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/pages/immersion_details_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -25,7 +26,7 @@ class ImmersionListPage extends TraceableStatelessWidget {
         body: ListView.separated(
           padding: const EdgeInsets.all(16),
           itemBuilder: (context, index) => _buildItem(context, immersions[index], index),
-          separatorBuilder: (context, index) => Container(height: 16),
+          separatorBuilder: (context, index) => Container(height: Margins.spacing_base),
           itemCount: immersions.length,
         ),
       ),

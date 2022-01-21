@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_search_page.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/carousel_button.dart';
 
@@ -26,7 +27,7 @@ class _SearchAnnoncesPageState extends State<SearchAnnoncesPage> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 24),
+          SizedBox(height: Margins.spacing_m),
           _carousel(),
           _content(),
         ],

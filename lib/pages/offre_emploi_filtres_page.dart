@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/presentation/checkbox_value_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_filtres_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/checkbox_group.dart';
@@ -66,7 +67,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 32),
+          SizedBox(height: Margins.spacing_l),
           if (viewModel.shouldDisplayDistanceFiltre) ...[
             _distanceSlider(context, viewModel),
             _sepLine(),
@@ -86,7 +87,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
               ),
             ),
             SizedBox(
-              height: 32,
+              height: Margins.spacing_l,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -102,7 +103,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
               ),
             ),
             SizedBox(
-              height: 32,
+              height: Margins.spacing_l,
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
