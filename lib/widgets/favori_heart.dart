@@ -85,6 +85,12 @@ class FavoriHeartAnalyticsHelper {
         return AnalyticsActionNames.alternanceDetailUpdateFavori(isFavori);
       case OffrePage.alternanceFavoris:
         return AnalyticsActionNames.alternanceFavoriUpdateFavori(isFavori);
+      case OffrePage.immersionResults:
+        return AnalyticsActionNames.immersionResultUpdateFavori(isFavori);
+      case OffrePage.immersionDetails:
+        return AnalyticsActionNames.immersionDetailUpdateFavori(isFavori);
+      case OffrePage.immersionFavoris:
+        return AnalyticsActionNames.immersionFavoriUpdateFavori(isFavori);
     }
   }
 
@@ -102,6 +108,12 @@ class FavoriHeartAnalyticsHelper {
         return AnalyticsScreenNames.alternanceDetails;
       case OffrePage.alternanceFavoris:
         return AnalyticsScreenNames.alternanceFavoris;
+      case OffrePage.immersionResults:
+        return AnalyticsScreenNames.immersionResults;
+      case OffrePage.immersionDetails:
+        return AnalyticsScreenNames.immersionDetails;
+      case OffrePage.immersionFavoris:
+        return AnalyticsScreenNames.immersionFavoris;
     }
   }
 }
