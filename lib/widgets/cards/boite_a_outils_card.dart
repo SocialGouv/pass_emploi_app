@@ -4,6 +4,7 @@ import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/outil.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -46,15 +47,15 @@ class BoiteAOutilsCard extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-                SizedBox(height: 16),
+                SizedBox(height: Margins.spacing_base),
                 Text(outil.title, style: TextStyles.textBaseBold),
-                SizedBox(height: 16),
+                SizedBox(height: Margins.spacing_base),
                 Text(outil.description, style: TextStyles.textBaseRegular),
               ]),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: SepLine(16, 16),
+              padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+              child: SepLine(Margins.spacing_base, Margins.spacing_base),
             ),
             Center(
               child: Text(
@@ -62,7 +63,7 @@ class BoiteAOutilsCard extends StatelessWidget {
                 style: TextStyles.textBaseBoldWithColor(AppColors.primary),
               ),
             ),
-            SizedBox(height: 16),
+            SizedBox(height: Margins.spacing_base),
           ],
         ),
       ),

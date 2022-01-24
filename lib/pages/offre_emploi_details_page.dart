@@ -102,28 +102,28 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       children: [
         SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(Margins.medium, Margins.medium, Margins.medium, 64),
+            padding: const EdgeInsets.fromLTRB(Margins.spacing_m, Margins.spacing_m, Margins.spacing_m, 64),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (id != null) Text(Strings.offreDetailNumber(id), style: TextStyles.textXsRegular()),
                 if (lastUpdate != null)
                   Padding(
-                    padding: const EdgeInsets.only(top: 4),
+                    padding: const EdgeInsets.only(top: Margins.spacing_xs),
                     child: Text(
                       Strings.offreDetailLastUpdate(lastUpdate),
                       style: TextStyles.textSRegular(),
                     ),
                   ),
-                _spacer(18),
+                _spacer(Margins.spacing_base),
                 if (title != null)
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
+                    padding: const EdgeInsets.only(bottom: Margins.spacing_m),
                     child: Text(title, style: TextStyles.textLBold()),
                   ),
                 if (companyName != null)
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
+                    padding: const EdgeInsets.only(bottom: Margins.spacing_m),
                     child: Text(companyName, style: TextStyles.textBaseRegular),
                   ),
                 _tags(viewModel),
@@ -161,24 +161,25 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       if (location != null)
         Padding(
-          padding: const EdgeInsets.only(bottom: 12),
+          padding: const EdgeInsets.only(bottom: Margins.spacing_base),
           child: DataTag(label: location, drawableRes: Drawables.icPlace),
         ),
       if (contractType != null)
         Padding(
-          padding: const EdgeInsets.only(bottom: 12),
+          padding: const EdgeInsets.only(bottom: Margins.spacing_base),
           child: DataTag(label: contractType, drawableRes: Drawables.icContract),
         ),
       if (salary != null)
         Padding(
-          padding: const EdgeInsets.only(bottom: 12),
+          padding: const EdgeInsets.only(bottom: Margins.spacing_base),
           child: DataTag(label: salary, drawableRes: Drawables.icSalary),
         ),
       if (duration != null)
         Padding(
-          padding: const EdgeInsets.only(bottom: 12),
+          padding: const EdgeInsets.only(bottom: Margins.spacing_base),
           child: DataTag(label: duration, drawableRes: Drawables.icTime),
         ),
+      _spacer(Margins.spacing_m)
     ]);
   }
 
@@ -186,9 +187,9 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     final description = viewModel.description;
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       _descriptionTitle(title: Strings.offreDetailsTitle),
-      _spacer(12),
+      _spacer(Margins.spacing_m),
       if (description != null) Text(description, style: TextStyles.textSRegular()),
-      _spacer(30),
+      _spacer(Margins.spacing_l),
     ]);
   }
 
@@ -203,11 +204,11 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _descriptionTitle(title: Strings.profileTitle),
-        _spacer(20),
+        _spacer(Margins.spacing_m),
         Text(Strings.experienceTitle, style: TextStyles.textBaseBold),
-        _spacer(12),
+        _spacer(Margins.spacing_base),
         if (experience != null) _setRequiredElement(element: experience, criteria: viewModel.requiredExperience),
-        SepLine(20, 20),
+        SepLine(Margins.spacing_m, Margins.spacing_m),
         if (skills != null) skills,
         if (softSkills != null) softSkills,
         if (educations != null) educations,
@@ -226,10 +227,11 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _descriptionTitle(title: Strings.companyTitle),
+        _spacer(Margins.spacing_m),
         if (companyName != null) _companyName(companyName: companyName, companyUrl: viewModel.companyUrl),
         if (companyAdapted) _blueTag(tagTitle: Strings.companyAdaptedTitle),
         if (companyAccessibility) _blueTag(tagTitle: Strings.companyAccessibilityTitle),
-        _spacer(20),
+        _spacer(Margins.spacing_m),
         if (companyDescription != null) _companyDescriptionBlock(content: companyDescription),
       ],
     );
@@ -244,9 +246,9 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Widget _companyDescriptionBlock({required String content}) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(Strings.companyDescriptionTitle, style: TextStyles.textBaseBold),
-      _spacer(12),
+      _spacer(Margins.spacing_base),
       Text(content, style: TextStyles.textSRegular()),
-      SepLine(12, 20),
+      SepLine(Margins.spacing_base, Margins.spacing_m),
     ]);
   }
 
@@ -256,9 +258,9 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(Strings.skillsTitle, style: TextStyles.textBaseBold),
-        _spacer(12),
+        _spacer(Margins.spacing_base),
         for (final skill in skills) _setRequiredElement(element: skill.description, criteria: skill.requirement),
-        SepLine(20, 20),
+        SepLine(Margins.spacing_m, Margins.spacing_m),
       ],
     );
   }
@@ -269,13 +271,13 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(Strings.softSkillsTitle, style: TextStyles.textBaseBold),
-        _spacer(12),
+        _spacer(Margins.spacing_base),
         for (final soft in softSkills)
           Padding(
-            padding: const EdgeInsets.only(bottom: 20),
+            padding: const EdgeInsets.only(bottom: Margins.spacing_m),
             child: Text("· $soft", style: TextStyles.textSRegular()),
           ),
-        SepLine(20, 20),
+        SepLine(Margins.spacing_m, Margins.spacing_m),
       ],
     );
   }
@@ -286,10 +288,10 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(Strings.educationTitle, style: TextStyles.textBaseBold),
-        _spacer(12),
+        _spacer(Margins.spacing_base),
         for (final education in educations)
           _setRequiredElement(element: education.label, criteria: education.requirement),
-        SepLine(20, 20),
+        SepLine(Margins.spacing_m, Margins.spacing_m),
       ],
     );
   }
@@ -300,9 +302,9 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(Strings.languageTitle, style: TextStyles.textBaseBold),
-        _spacer(12),
+        _spacer(Margins.spacing_base),
         for (final language in languages) _setRequiredElement(element: language.type, criteria: language.requirement),
-        SepLine(20, 20),
+        SepLine(Margins.spacing_m, Margins.spacing_m),
       ],
     );
   }
@@ -313,10 +315,10 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(Strings.driverLicenceTitle, style: TextStyles.textBaseBold),
-        _spacer(12),
+        _spacer(Margins.spacing_base),
         for (final licence in driverLicences)
           _setRequiredElement(element: licence.category, criteria: licence.requirement),
-        SepLine(20, 20),
+        SepLine(Margins.spacing_m, Margins.spacing_m),
       ],
     );
   }
@@ -325,7 +327,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _spacer(12),
+        _spacer(Margins.spacing_base),
         DataTag(label: tagTitle),
       ],
     );
@@ -339,20 +341,20 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
 
   Widget _listItem(String text) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.only(bottom: Margins.spacing_base),
       child: Text("· $text", style: TextStyles.textSRegular()),
     );
   }
 
   Widget _requiredElement(String requiredText) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_xs),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Flexible(child: _listItem(requiredText)),
           Padding(
-            padding: const EdgeInsets.only(left: 8, bottom: 12),
+            padding: const EdgeInsets.only(left: Margins.spacing_s, bottom: Margins.spacing_base),
             child: HelpTooltip(message: Strings.requiredIcon, iconRes: Drawables.icImportant),
           ),
         ],
@@ -388,7 +390,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
                   AppColors.warning,
                 ),
               ),
-              SizedBox(height: 8),
+              _spacer(Margins.spacing_s),
               Text(
                 Strings.offreNotFoundExplaination,
                 style: TextStyles.textSmRegular(color: AppColors.warning),
@@ -403,7 +405,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Widget _footer(BuildContext context, String url, String offreId, String? title) {
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(Margins.spacing_base),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -413,14 +415,14 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
               label: Strings.postulerButtonTitle,
             ),
           ),
-          SizedBox(width: 16),
+          SizedBox(width: Margins.spacing_base),
           FavoriHeart<OffreEmploi>(
             offreId: offreId,
             withBorder: true,
             from: _fromAlternance ? OffrePage.alternanceDetails : OffrePage.emploiDetails,
             onFavoriRemoved: shouldPopPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
           ),
-          SizedBox(width: 16),
+          SizedBox(width: Margins.spacing_base),
           ShareButton(url, title, () => _shareOffer(context)),
         ],
       ),

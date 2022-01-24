@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/presentation/offre_emploi_search_results_view_mo
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/data_card.dart';
@@ -161,7 +162,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     );
   }
 
-  Widget _listSeparator() => Container(height: 16);
+  Widget _listSeparator() => Container(height: Margins.spacing_base);
 
   void _showOffreEmploiDetailsPage(BuildContext context, String offreId) {
     _offsetBeforeLoading = _scrollController.offset;

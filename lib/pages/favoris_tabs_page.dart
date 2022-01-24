@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_favoris_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/carousel_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -27,7 +28,7 @@ class _FavorisTabsPageState extends State<FavorisTabsPage> {
         physics: const AlwaysScrollableScrollPhysics(),
         child: Column(
           children: [
-            SizedBox(height: 24),
+            SizedBox(height: Margins.spacing_m),
             _carousel(),
             _content(),
           ],
@@ -41,19 +42,19 @@ class _FavorisTabsPageState extends State<FavorisTabsPage> {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          SizedBox(width: 12),
+          SizedBox(width: Margins.spacing_base),
           CarouselButton(
             isActive: _selectedIndex == _indexOfOffresEmploi,
             onPressed: () => _updateIndex(_indexOfOffresEmploi),
             label: Strings.offresEmploiButton,
           ),
-          SizedBox(width: 12),
+          SizedBox(width: Margins.spacing_base),
           CarouselButton(
             isActive: _selectedIndex == _indexOfAlternance,
             onPressed: () => _updateIndex(_indexOfAlternance),
             label: Strings.alternanceButton,
           ),
-          SizedBox(width: 12)
+          SizedBox(width: Margins.spacing_base)
         ],
       ),
     );

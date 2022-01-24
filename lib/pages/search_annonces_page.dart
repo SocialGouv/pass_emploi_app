@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_search_page.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/carousel_button.dart';
 
@@ -26,7 +27,7 @@ class _SearchAnnoncesPageState extends State<SearchAnnoncesPage> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: 24),
+          SizedBox(height: Margins.spacing_m),
           _carousel(),
           _content(),
         ],
@@ -39,31 +40,31 @@ class _SearchAnnoncesPageState extends State<SearchAnnoncesPage> {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          SizedBox(width: 12),
+          SizedBox(width: Margins.spacing_base),
           CarouselButton(
             isActive: _selectedIndex == _indexOfOffresEmploi,
             onPressed: () => _updateIndex(_indexOfOffresEmploi),
             label: Strings.offresEmploiButton,
           ),
-          SizedBox(width: 12),
+          SizedBox(width: Margins.spacing_base),
           CarouselButton(
             isActive: _selectedIndex == _indexOfAlternance,
             onPressed: () => _updateIndex(_indexOfAlternance),
             label: Strings.alternanceButton,
           ),
-          SizedBox(width: 12),
+          SizedBox(width: Margins.spacing_base),
           CarouselButton(
             isActive: _selectedIndex == _indexOfImmersion,
             onPressed: () => _updateIndex(_indexOfImmersion),
             label: Strings.immersionButton,
           ),
-          SizedBox(width: 12),
+          SizedBox(width: Margins.spacing_base),
           CarouselButton(
             isActive: _selectedIndex == _indexOfServiceCivique,
             onPressed: () => _updateIndex(_indexOfServiceCivique),
             label: Strings.serviceCiviqueButton,
           ),
-          SizedBox(width: 12),
+          SizedBox(width: Margins.spacing_base),
         ],
       ),
     );

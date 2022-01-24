@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class CalendarCard extends StatelessWidget {
@@ -69,7 +70,7 @@ class CalendarCard extends StatelessWidget {
       child: Row(
         children: [
           SvgPicture.asset(Drawables.icClock, color: AppColors.primary),
-          SizedBox(width: 6),
+          SizedBox(width: Margins.spacing_s),
           Text(
             this.date,
             style: TextStyles.textSRegularWithColor(
@@ -92,7 +93,7 @@ class CalendarCard extends StatelessWidget {
               style: TextStyles.textSRegularWithColor(
                 AppColors.contentColor,
               )),
-          SizedBox(width: 8),
+          SizedBox(width: Margins.spacing_s),
           SvgPicture.asset(Drawables.icChevronRight, color: AppColors.contentColor),
         ],
       ),

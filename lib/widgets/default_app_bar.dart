@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class DefaultAppBar extends AppBar {
@@ -60,7 +61,7 @@ Widget _appBarLeading = Builder(
       icon: SvgPicture.asset(
         Drawables.icChevronLeft,
         color: AppColors.contentColor,
-        height: 40,
+        height: Margins.spacing_xl,
       ),
       onPressed: () {
         Navigator.of(context).pop();

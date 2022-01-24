@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart
 import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/keyboard.dart';
@@ -63,12 +64,12 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
           _separator(),
           Text(Strings.keyWordsTitle, style: TextStyles.textBaseBold),
           Text(Strings.keyWordsTextHint, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
-          SizedBox(height: 14),
+          SizedBox(height: Margins.spacing_base),
           _keywordTextFormField(),
           _separator(),
           Text(Strings.jobLocationTitle, style: TextStyles.textBaseBold),
           Text(Strings.jobLocationHint, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
-          SizedBox(height: 14),
+          SizedBox(height: Margins.spacing_base),
           LocationAutocomplete(
             onInputLocation: (newLocationQuery) => viewModel.onInputLocation(newLocationQuery),
             onSelectLocationViewModel: (locationViewModel) => _selectedLocationViewModel = locationViewModel,
@@ -90,7 +91,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
     );
   }
 
-  SizedBox _separator() => SizedBox(height: 24);
+  SizedBox _separator() => SizedBox(height: Margins.spacing_m);
 
   TextFormField _keywordTextFormField() {
     return TextFormField(

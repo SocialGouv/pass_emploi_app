@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets.dart';
@@ -96,7 +97,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
     );
   }
 
-  Container _listSeparator() => Container(height: 16);
+  Container _listSeparator() => Container(height: Margins.spacing_base);
 
   Widget _listItem(BuildContext context, UserActionListPageItem item, UserActionListPageViewModel viewModel) {
     return _tapListener(context, (item as UserActionListItemViewModel).viewModel, viewModel);

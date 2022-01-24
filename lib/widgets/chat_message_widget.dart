@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 
@@ -33,7 +34,7 @@ class ChatMessageWidget extends StatelessWidget {
                   : TextStyles.textSRegular(color: Colors.white),
             ),
           ),
-          SizedBox(height: 4),
+          SizedBox(height: Margins.spacing_xs),
           Text(item.caption, style: TextStyles.textXsRegular())
         ],
       ),

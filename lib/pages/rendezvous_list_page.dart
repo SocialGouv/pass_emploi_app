@@ -39,9 +39,9 @@ class RendezvousListPage extends TraceableStatelessWidget {
   Widget _content(BuildContext context, RendezvousListPageViewModel viewModel) {
     return ListView.separated(
       itemCount: viewModel.items.length,
-      padding: const EdgeInsets.all(Margins.medium),
+      padding: const EdgeInsets.all(Margins.spacing_s),
       separatorBuilder: (context, index) => Container(
-        height: 16,
+        height: Margins.spacing_base,
       ),
       itemBuilder: (context, index) => _listItem(context, viewModel.items[index]),
     );
@@ -61,7 +61,7 @@ class RendezvousListPage extends TraceableStatelessWidget {
 
   Widget _empty() {
     return Padding(
-      padding: const EdgeInsets.all(Margins.medium),
+      padding: const EdgeInsets.all(Margins.spacing_base),
       child: Text(Strings.noUpcomingRendezVous, style: TextStyles.textSRegular()),
     );
   }
