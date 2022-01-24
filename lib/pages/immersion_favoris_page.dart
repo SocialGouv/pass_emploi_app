@@ -11,7 +11,11 @@ import 'immersion_details_page.dart';
 import 'offre_page.dart';
 
 class ImmersionFavorisPage extends AbstractFavorisPage<Immersion, Immersion> {
-  ImmersionFavorisPage() : super(analyticsScreenName: AnalyticsScreenNames.immersionFavoris);
+  ImmersionFavorisPage()
+      : super(
+          selectState: (store) => store.state.immersionFavorisState,
+          analyticsScreenName: AnalyticsScreenNames.immersionFavoris,
+        );
 
   @override
   FavorisListViewModel<Immersion, Immersion> converter(Store<AppState> store) {
@@ -27,6 +31,7 @@ class ImmersionFavorisPage extends AbstractFavorisPage<Immersion, Immersion> {
       dataTag: [itemViewModel.secteurActivite],
       onTap: () => Navigator.push(context, ImmersionDetailsPage.materialPageRoute(itemViewModel.id)),
       from: OffrePage.immersionFavoris,
+      id: itemViewModel.id,
     );
   }
 }

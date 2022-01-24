@@ -9,12 +9,14 @@ import 'package:redux/redux.dart';
 
 import 'favoris_page.dart';
 import 'offre_emploi_details_page.dart';
+import 'offre_page.dart';
 
 class OffreEmploiFavorisPage extends AbstractFavorisPage<OffreEmploi, OffreEmploiItemViewModel> {
   final bool onlyAlternance;
 
   OffreEmploiFavorisPage({required this.onlyAlternance})
       : super(
+          selectState: (store) => store.state.offreEmploiFavorisState,
           analyticsScreenName:
               onlyAlternance ? AnalyticsScreenNames.alternanceFavoris : AnalyticsScreenNames.emploiFavoris,
           key: ValueKey(onlyAlternance),
@@ -33,6 +35,7 @@ class OffreEmploiFavorisPage extends AbstractFavorisPage<OffreEmploi, OffreEmplo
       lieu: itemViewModel.location,
       dataTag: [itemViewModel.contractType, itemViewModel.duration].whereType<String>().toList(),
       id: itemViewModel.id,
+      from: onlyAlternance ? OffrePage.alternanceFavoris : OffrePage.emploiFavoris,
       onTap: () => Navigator.push(
         context,
         OffreEmploiDetailsPage.materialPageRoute(

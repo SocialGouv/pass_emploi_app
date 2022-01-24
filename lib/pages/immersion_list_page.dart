@@ -42,6 +42,7 @@ class ImmersionListPage extends TraceableStatelessWidget {
       dataTag: [immersion.secteurActivite],
       onTap: () => Navigator.push(context, ImmersionDetailsPage.materialPageRoute(immersion.id)),
       from: OffrePage.immersionResults,
+      id: immersion.id,
     );
   }
 }
