@@ -87,7 +87,7 @@ class ChatRepository {
           await FirebaseFirestore.instance.collection(_collectionPath).where('jeuneId', isEqualTo: userId).get();
       return chats.docs.first.id;
     } catch (e) {
-      print(e);
+      debugPrint("Failed subscription to chat stream: $e");
     }
   }
 
