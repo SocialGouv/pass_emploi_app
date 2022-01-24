@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -46,7 +45,7 @@ main() {
     expect(repositoryMock.wasCalledWithFiltres, isTrue);
   });
 
-  test("applying new filtres when call fails should erase existing data and filtres should be stored", () async {
+  test("applying new filtres when call fails should erase existing data and filtres should be erased", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.offreEmploiRepository = OffreEmploiRepositoryFailureStub();
@@ -58,15 +57,27 @@ main() {
         store.onChange.firstWhere((element) => element.offreEmploiSearchState is OffreEmploiSearchFailureState);
 
     // When
-    store.dispatch(OffreEmploiSearchUpdateFiltresAction(OffreEmploiSearchParametersFiltres.withFiltres(distance: 40)));
+    store.dispatch(
+      OffreEmploiSearchUpdateFiltresAction(
+        OffreEmploiSearchParametersFiltres.withFiltres(
+          distance: 40,
+          duree: [DureeFiltre.temps_plein],
+          contrat: [ContratFiltre.cdi],
+          experience: [ExperienceFiltre.de_un_a_trois_ans],
+        ),
+      ),
+    );
 
     // Then
     expect(await displayedLoading, true);
     final appState = await failureState;
     expect(appState.offreEmploiSearchState is OffreEmploiSearchFailureState, true);
 
-    final paramsState = (appState.offreEmploiSearchParametersState as OffreEmploiSearchParametersInitializedState);
-    expect(paramsState.filtres.distance, 40);
+    final parametersState = appState.offreEmploiSearchParametersState as OffreEmploiSearchParametersInitializedState;
+    expect(parametersState.filtres.distance, null);
+    expect(parametersState.filtres.duree, null);
+    expect(parametersState.filtres.contrat, null);
+    expect(parametersState.filtres.experience, null);
   });
 }
 
@@ -75,8 +86,9 @@ Store<AppState> _initializeReduxStore(TestStoreFactory testStoreFactory) {
     initialState: loggedInState().copyWith(
       offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
       offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
-        keyWords: "boulanger patissier",
+        keywords: "boulanger patissier",
         location: null,
+        onlyAlternance: false,
         filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
       ),
     ),
@@ -97,14 +109,8 @@ class OffreEmploiRepositorySuccessWithMoreDataMock extends OffreEmploiRepository
   bool wasCalledWithFiltres = false;
 
   @override
-  Future<OffreEmploiSearchResponse?> search({
-    required String userId,
-    required String keywords,
-    required Location? location,
-    required int page,
-    required OffreEmploiSearchParametersFiltres filtres,
-  }) async {
-    if (filtres.distance == 40) {
+  Future<OffreEmploiSearchResponse?> search({required String userId, required SearchOffreEmploiRequest request}) async {
+    if (request.filtres.distance == 40) {
       wasCalledWithFiltres = true;
     }
     return OffreEmploiSearchResponse(isMoreDataAvailable: true, offres: [

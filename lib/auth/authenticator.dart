@@ -14,9 +14,10 @@ const String _refreshTokenKey = "refreshToken";
 
 enum RefreshTokenStatus { SUCCESSFUL, GENERIC_ERROR, USER_NOT_LOGGED_IN, NETWORK_UNREACHABLE, EXPIRED_REFRESH_TOKEN }
 
-enum AuthenticationMode { GENERIC, SIMILO }
+enum AuthenticationMode { GENERIC, SIMILO, POLE_EMPLOI }
 
 const Map<String, String> similoAdditionalParameters = {"kc_idp_hint": "similo-jeune"};
+const Map<String, String> poleEmploiAdditionalParameters = {"kc_idp_hint": "pe-jeune"};
 
 class Authenticator {
   final AuthWrapper _authWrapper;
@@ -34,7 +35,7 @@ class Authenticator {
           _configuration.authIssuer,
           _configuration.authScopes,
           _configuration.authClientSecret,
-          mode == AuthenticationMode.SIMILO ? similoAdditionalParameters : null,
+          _additionalParameters(mode),
         ),
       );
       _saveToken(response);
@@ -106,5 +107,15 @@ class Authenticator {
     _preferences.delete(key: _idTokenKey);
     _preferences.delete(key: _accessTokenKey);
     _preferences.delete(key: _refreshTokenKey);
+  }
+
+  Map<String, String>? _additionalParameters(AuthenticationMode mode) {
+    if (mode == AuthenticationMode.SIMILO) {
+      return similoAdditionalParameters;
+    } else if (mode == AuthenticationMode.POLE_EMPLOI) {
+      return poleEmploiAdditionalParameters;
+    } else {
+      return null;
+    }
   }
 }

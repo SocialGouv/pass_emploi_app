@@ -2,7 +2,7 @@ name: pass_emploi_app
 description: Pass Emploi iOS and Android app.
 
 publish_to: 'none'
-version: 1.0.0
+version: 1.1.0
 
 environment:
   sdk: "2.14.4" # Dart version
@@ -52,3 +52,12 @@ flutter:
   assets:
     - assets/
     - env/
+
+  fonts:
+    - family: Marianne
+      fonts:
+        - asset: fonts/Marianne-Regular.otf
+        - asset: fonts/Marianne-Regular.otf
+          weight: 400
+        - asset: fonts/Marianne-Bold.otf
+          weight: 700

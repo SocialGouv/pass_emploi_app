@@ -98,6 +98,7 @@ class AuthenticatorLoggedInAndValidIdTokenStub extends Authenticator {
         firstName: "F",
         lastName: "L",
         expiresAt: (DateTime.now().millisecondsSinceEpoch ~/ 1000) + 1000,
+        loginMode: 'MILO',
       );
 
   @override
@@ -111,7 +112,13 @@ class AuthenticatorLoggedInAndInvalidIdTokenStub extends Authenticator {
       : super(DummyAuthWrapper(), configuration(), SharedPreferencesSpy());
 
   @override
-  Future<AuthIdToken?> idToken() async => AuthIdToken(userId: "id", firstName: "F", lastName: "L", expiresAt: 0);
+  Future<AuthIdToken?> idToken() async => AuthIdToken(
+        userId: "id",
+        firstName: "F",
+        lastName: "L",
+        expiresAt: 0,
+        loginMode: 'MILO',
+      );
 
   @override
   Future<String?> accessToken() async => "Access token";

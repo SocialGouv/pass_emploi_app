@@ -5,8 +5,6 @@ import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
-import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/network/headers.dart';
@@ -61,17 +59,19 @@ class UserActionRepositoryFailureStub extends UserActionRepository {
 }
 
 class OffreEmploiRepositorySuccessWithMoreDataStub extends OffreEmploiRepository {
+  bool? _onlyAlternance;
+  int callCount = 0;
+
   OffreEmploiRepositorySuccessWithMoreDataStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
+  void withOnlyAlternanceResolves(bool onlyAlternance) => _onlyAlternance = onlyAlternance;
+
   @override
-  Future<OffreEmploiSearchResponse?> search({
-    required String userId,
-    required String keywords,
-    required Location? location,
-    required int page,
-    required OffreEmploiSearchParametersFiltres filtres,
-  }) async {
-    return OffreEmploiSearchResponse(isMoreDataAvailable: true, offres: [mockOffreEmploi()]);
+  Future<OffreEmploiSearchResponse?> search({required String userId, required SearchOffreEmploiRequest request}) async {
+    callCount = callCount + 1;
+    final response = OffreEmploiSearchResponse(isMoreDataAvailable: true, offres: [mockOffreEmploi()]);
+    if (_onlyAlternance == null) return response;
+    return request.onlyAlternance == _onlyAlternance ? response : null;
   }
 }
 
@@ -79,13 +79,7 @@ class OffreEmploiRepositoryFailureStub extends OffreEmploiRepository {
   OffreEmploiRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<OffreEmploiSearchResponse?> search({
-    required String userId,
-    required String keywords,
-    required Location? location,
-    required int page,
-    required OffreEmploiSearchParametersFiltres filtres,
-  }) async {
+  Future<OffreEmploiSearchResponse?> search({required String userId, required SearchOffreEmploiRequest request}) async {
     return null;
   }
 }
@@ -101,8 +95,9 @@ class HeadersBuilderStub extends HeadersBuilder {
 
 class AuthenticatorLoggedInStub extends Authenticator {
   final AuthenticationMode? expectedMode;
+  final String? authIdTokenLoginMode;
 
-  AuthenticatorLoggedInStub({this.expectedMode})
+  AuthenticatorLoggedInStub({this.expectedMode, this.authIdTokenLoginMode})
       : super(
           DummyAuthWrapper(),
           configuration(),
@@ -119,7 +114,13 @@ class AuthenticatorLoggedInStub extends Authenticator {
   Future<bool> isLoggedIn() async => true;
 
   @override
-  Future<AuthIdToken?> idToken() async=> AuthIdToken(userId: "id", firstName: "F", lastName: "L", expiresAt: 100000000);
+  Future<AuthIdToken?> idToken() async => AuthIdToken(
+        userId: "id",
+        firstName: "F",
+        lastName: "L",
+        expiresAt: 100000000,
+        loginMode: authIdTokenLoginMode ?? "MILO",
+      );
 }
 
 class AuthenticatorNotLoggedInStub extends Authenticator {

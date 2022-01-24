@@ -11,26 +11,46 @@ class AnalyticsScreenNames {
   static const updateUserAction = "actions/detail?modifySuccess=true";
   static const createUserAction = "actions/create";
   static const chat = "chat";
-  static const offreEmploiResearch = "solutions/emploi/search";
-  static const offreEmploiResults = "solutions/emploi/search_results";
-  static const offreEmploiNoResults = "solutions/emploi/search_no_resuts";
-  static const offreEmploiDetails = "solutions/emploi/detail";
-  static const offreEmploiFiltres = "solutions/emploi/search_results/filters";
-  static const immersionResearch = "solutions/immersion/search";
-  static const immersionResults = "solutions/immersion/search_results";
-  static const immersionNoResults = "solutions/immersion/search_no_results";
-  static const immersionDetails = "solutions/immersion/detail";
-  static const serviceCiviqueResearch = "solutions/service_civique/search";
-  static const toolbox = "solutions/boite_a_outils";
-  static const favoris = "favoris/list/emploi";
+
+  static const emploiResearch = "recherche/emploi/search";
+  static const emploiResults = "recherche/emploi/search_results";
+  static const emploiNoResults = "recherche/emploi/search_no_results";
+  static const emploiDetails = "recherche/emploi/detail";
+  static const emploiFiltres = "recherche/emploi/search_results/filters";
+
+  static const alternanceResearch = "recherche/alternance/search";
+  static const alternanceResults = "recherche/alternance/search_results";
+  static const alternanceNoResults = "recherche/alternance/search_no_results";
+  static const alternanceDetails = "recherche/alternance/detail";
+  static const alternanceFiltres = "recherche/alternance/search_results/filters";
+
+  static const immersionResearch = "recherche/immersion/search";
+  static const immersionResults = "recherche/immersion/search_results";
+  static const immersionNoResults = "recherche/immersion/search_no_results";
+  static const immersionDetails = "recherche/immersion/detail";
+
+  static const serviceCiviqueResearch = "recherche/service_civique/search";
+
+  static const toolbox = "recherche/boite_a_outils";
+  static const emploiFavoris = "favoris/list/emploi";
+  static const alternanceFavoris = "favoris/list/alternance";
   static const plus = "plus";
 }
-
 
 class AnalyticsActionNames {
   AnalyticsActionNames._();
 
-  static const offreEmploiAddFavori = "solutions/emploi/detail?favori=true";
-  static const offreEmploiRemoveFavori = "solutions/emploi/detail?favori=false";
+  static String emploiResultUpdateFavori(bool added) => "recherche/emploi/search_results?favori=$added";
 
+  static String emploiDetailUpdateFavori(bool added) => "recherche/emploi/detail?favori=$added";
+
+  static String? emploiFavoriUpdateFavori(bool added) => added ? null : "favoris/list/emploi?favori=false";
+
+  static String alternanceResultUpdateFavori(bool added) => "recherche/alternance/search_results?favori=$added";
+
+  static String alternanceDetailUpdateFavori(bool added) => "recherche/alternance/detail?favori=$added";
+
+  static String? alternanceFavoriUpdateFavori(bool added) => added ? null : "favoris/list/alternance?favori=false";
+
+  static const deleteUserAction = "actions/list?deleteSuccess=true";
 }

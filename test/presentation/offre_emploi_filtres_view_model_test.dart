@@ -84,9 +84,9 @@ main() {
     expect(viewModel.errorMessage, "Aucune offre ne correspond à votre recherche");
   });
 
-  test("create when state has no filter should set distance to 10km", () {
+  test("create when state has no filtre should set distance to 10km", () {
     // Given
-    final store = _mockStoreWithCommuneSearchAndNoFiltres();
+    final store = _storeWithCommuneSearchAndNoFiltres();
 
     // When
     final viewModel = OffreEmploiFiltresViewModel.create(store);
@@ -95,15 +95,16 @@ main() {
     expect(viewModel.initialDistanceValue, 10);
   });
 
-  test("create when state distance filter set should set distance", () {
+  test("create when state distance filtre set should set distance", () {
     // Given
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
         offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
-          "mots clés",
-          mockCommuneLocation(),
-          OffreEmploiSearchParametersFiltres.withFiltres(distance: 20),
+          keywords: "mots clés",
+          location: mockCommuneLocation(),
+          onlyAlternance: false,
+          filtres: OffreEmploiSearchParametersFiltres.withFiltres(distance: 20),
         ),
       ),
     );
@@ -115,15 +116,16 @@ main() {
     expect(viewModel.initialDistanceValue, 20);
   });
 
-  test("create when search location is a departement should not display distance filter", () {
+  test("create when search location is a departement should not display distance filtre", () {
     // Given
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
         offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
-          "mots clés",
-          mockLocation(),
-          OffreEmploiSearchParametersFiltres.noFiltres(),
+          keywords: "mots clés",
+          location: mockLocation(),
+          onlyAlternance: false,
+          filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
         ),
       ),
     );
@@ -135,9 +137,9 @@ main() {
     expect(viewModel.shouldDisplayDistanceFiltre, isFalse);
   });
 
-  test("create when search location is a commune should display distance filter", () {
+  test("create when search location is a commune should display distance filtre", () {
     // Given
-    final store = _mockStoreWithCommuneSearchAndNoFiltres();
+    final store = _storeWithCommuneSearchAndNoFiltres();
 
     // When
     final viewModel = OffreEmploiFiltresViewModel.create(store);
@@ -146,9 +148,31 @@ main() {
     expect(viewModel.shouldDisplayDistanceFiltre, isTrue);
   });
 
+  test('create when search location is not only alternance should display non distance filtres', () {
+    // Given
+    final store = _store(alternanceOnly: false);
+
+    // When
+    final viewModel = OffreEmploiFiltresViewModel.create(store);
+
+    // Then
+    expect(viewModel.shouldDisplayNonDistanceFiltres, isTrue);
+  });
+
+  test('create when search location is only alternance should not display non distance filtres', () {
+    // Given
+    final store = _store(alternanceOnly: true);
+
+    // When
+    final viewModel = OffreEmploiFiltresViewModel.create(store);
+
+    // Then
+    expect(viewModel.shouldDisplayNonDistanceFiltres, isFalse);
+  });
+
   test("create when state has no filtre set should not pre-check any filtre", () {
     // Given
-    final store = _mockStoreWithCommuneSearchAndNoFiltres();
+    final store = _storeWithCommuneSearchAndNoFiltres();
 
     // When
     final viewModel = OffreEmploiFiltresViewModel.create(store);
@@ -167,9 +191,10 @@ main() {
       reducer,
       initialState: AppState.initialState().copyWith(
         offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
-          "mots clés",
-          mockCommuneLocation(),
-          OffreEmploiSearchParametersFiltres.withFiltres(
+          keywords: "mots clés",
+          location: mockCommuneLocation(),
+          onlyAlternance: false,
+          filtres: OffreEmploiSearchParametersFiltres.withFiltres(
             experience: [
               ExperienceFiltre.de_zero_a_un_an,
               ExperienceFiltre.de_un_a_trois_ans,
@@ -277,14 +302,29 @@ List<CheckboxValueViewModel<ExperienceFiltre>> _allExperiencesInitiallyUnchecked
   ];
 }
 
-Store<AppState> _mockStoreWithCommuneSearchAndNoFiltres({customReducer = reducer}) {
+Store<AppState> _storeWithCommuneSearchAndNoFiltres({customReducer = reducer}) {
   return Store<AppState>(
     customReducer,
     initialState: AppState.initialState().copyWith(
       offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
-        "mots clés",
-        mockCommuneLocation(),
-        OffreEmploiSearchParametersFiltres.noFiltres(),
+        keywords: "mots clés",
+        location: mockCommuneLocation(),
+        onlyAlternance: false,
+        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      ),
+    ),
+  );
+}
+
+Store<AppState> _store({required bool alternanceOnly}) {
+  return Store<AppState>(
+    reducer,
+    initialState: AppState.initialState().copyWith(
+      offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
+        keywords: "",
+        location: null,
+        onlyAlternance: alternanceOnly,
+        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
       ),
     ),
   );

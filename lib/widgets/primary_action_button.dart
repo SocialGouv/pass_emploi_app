@@ -4,52 +4,51 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class PrimaryActionButton extends StatelessWidget {
-  final Row child;
   final Color backgroundColor;
   final Color disabledBackgroundColor;
   final Color textColor;
   final Color? rippleColor;
+  final String? drawableRes;
+  final String label;
+  final bool withShadow;
   final VoidCallback? onPressed;
+  final double iconSize;
 
   const PrimaryActionButton({
     Key? key,
-    required this.child,
-    this.backgroundColor = AppColors.nightBlue,
-    this.disabledBackgroundColor = AppColors.blueGrey,
+    this.backgroundColor = AppColors.primary,
+    this.disabledBackgroundColor = AppColors.primaryWithAlpha50,
     this.textColor = Colors.white,
-    this.rippleColor = AppColors.bluePurple,
+    this.rippleColor = AppColors.primaryDarken,
+    this.withShadow = true,
+    this.drawableRes,
     this.onPressed,
+    required this.label,
+    this.iconSize = 12,
   }) : super(key: key);
-
-  PrimaryActionButton.simple({
-    Key? key,
-    required String label,
-    String? drawableRes,
-    this.backgroundColor = AppColors.nightBlue,
-    this.disabledBackgroundColor = AppColors.blueGrey,
-    this.textColor = Colors.white,
-    this.rippleColor = AppColors.bluePurple,
-    this.onPressed,
-  })  : child = Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (drawableRes != null)
-              Padding(padding: const EdgeInsets.only(right: 12), child: SvgPicture.asset(drawableRes)),
-            Text(label),
-          ],
-        ),
-        super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    double leftPadding = 20;
+    if (this.drawableRes != null) {
+      leftPadding = 12;
+    }
     return TextButton(
       style: ButtonStyle(
         foregroundColor: MaterialStateProperty.all(textColor),
-        textStyle: MaterialStateProperty.all(TextStyles.textSmMedium()),
+        textStyle: MaterialStateProperty.all(TextStyles.textPrimaryButton),
         backgroundColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
           return states.contains(MaterialState.disabled) ? disabledBackgroundColor : backgroundColor;
         }),
-        shape: MaterialStateProperty.all(StadiumBorder()),
+        elevation: MaterialStateProperty.resolveWith((states) {
+          if (states.contains(MaterialState.disabled) || !withShadow) {
+            return 0;
+          } else {
+            return 10;
+          }
+        }),
+        alignment: Alignment.center,
+        shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(200)))),
         overlayColor: MaterialStateProperty.resolveWith(
           (states) {
             return states.contains(MaterialState.pressed) ? rippleColor : null;
@@ -57,7 +56,28 @@ class PrimaryActionButton extends StatelessWidget {
         ),
       ),
       onPressed: onPressed,
-      child: Padding(padding: const EdgeInsets.fromLTRB(16, 8, 16, 8), child: this.child),
+      child: Padding(padding: EdgeInsets.fromLTRB(leftPadding, 12, 20, 12), child: _getRow()),
+    );
+  }
+
+  Widget _getRow() {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (drawableRes != null)
+          Padding(
+              padding: const EdgeInsets.only(right: 12),
+              child: Padding(
+                padding: const EdgeInsets.all(4),
+                child: SvgPicture.asset(
+                  drawableRes!,
+                  height: iconSize,
+                  width: iconSize,
+                  color: Colors.white,
+                ),
+              )),
+        Text(label),
+      ],
     );
   }
 }

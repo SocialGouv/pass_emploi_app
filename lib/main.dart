@@ -30,6 +30,7 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/store/store_factory.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
@@ -98,8 +99,10 @@ Future<bool> _shouldForceUpdate(RemoteConfig? remoteConfig) async {
   return AppVersionChecker().shouldForceUpdate(currentVersion: currentVersion, minimumVersion: minimumVersion);
 }
 
-Future<Store<AppState>> _initializeReduxStore(Configuration configuration,
-    PushNotificationManager pushNotificationManager,) async {
+Future<Store<AppState>> _initializeReduxStore(
+  Configuration configuration,
+  PushNotificationManager pushNotificationManager,
+) async {
   final headersBuilder = HeadersBuilder();
   final securedPreferences = FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true));
   final authenticator = Authenticator(AuthWrapper(FlutterAppAuth()), configuration, securedPreferences);
@@ -139,7 +142,8 @@ Future<Store<AppState>> _initializeReduxStore(Configuration configuration,
     FirebaseAuthRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     FirebaseAuthWrapper(),
     chatCrypto,
-  ).initializeReduxStore(initialState: AppState.initialState());
+    TrackingEventRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+  ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
   accessTokenRetriever.setStore(reduxStore);
   return reduxStore;
 }

@@ -61,13 +61,7 @@ main() {
 
     // Then
     expect(viewModel.status, UserActionStatus.DONE);
-    expect(
-        viewModel.tag,
-        UserActionTagViewModel(
-          title: Strings.actionDone,
-          backgroundColor: AppColors.blueGrey,
-          textColor: AppColors.nightBlue,
-        ));
+    expect(viewModel.tag, null);
   });
 
   test("UserActionViewModel.create when status is not started should create view model properly", () {
@@ -86,7 +80,13 @@ main() {
 
     // Then
     expect(viewModel.status, UserActionStatus.NOT_STARTED);
-    expect(viewModel.tag, null);
+    expect(
+        viewModel.tag,
+        UserActionTagViewModel(
+          title: Strings.actionToDo,
+          backgroundColor: AppColors.blueGrey,
+          textColor: AppColors.nightBlue,
+        ));
   });
 
   test("UserActionViewModel.create when status is in progress should create view model properly", () {
@@ -112,5 +112,23 @@ main() {
           backgroundColor: AppColors.purple,
           textColor: Colors.white,
         ));
+  });
+
+  test("UserActionViewModel.create should properly display last update date", () {
+    // Given
+    final userAction = UserAction(
+      id: "id",
+      content: "content",
+      comment: "comment",
+      status: UserActionStatus.IN_PROGRESS,
+      lastUpdate: DateTime(2022, 1, 12),
+      creator: ConseillerActionCreator(name: "Nils Tavernier"),
+    );
+
+    // When
+    final viewModel = UserActionViewModel.create(userAction);
+
+    // Then
+    expect(viewModel.lastUpdate, "Modifiée le 12/01/2022");
   });
 }

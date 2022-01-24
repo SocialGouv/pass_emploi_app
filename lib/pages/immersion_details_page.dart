@@ -13,14 +13,16 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
-import 'package:pass_emploi_app/widgets/action_button.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/immersion_tags.dart';
+import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/title_section.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ImmersionDetailsPage extends TraceableStatelessWidget {
@@ -57,7 +59,8 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
 
   Scaffold _scaffold(Widget body) {
     return Scaffold(
-      appBar: FlatDefaultAppBar(title: Text(Strings.offreDetails, style: TextStyles.textLgMedium)),
+      backgroundColor: Colors.white,
+      appBar: passEmploiAppBar(label: Strings.offreDetails, withBackButton: true),
       body: Center(child: DefaultAnimatedSwitcher(child: body)),
     );
   }
@@ -69,22 +72,22 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
       children: [
         SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(Margins.medium, Margins.medium, Margins.medium, 100),
+            padding: const EdgeInsets.fromLTRB(Margins.spacing_base, Margins.spacing_base, Margins.spacing_base, 100),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(viewModel.title, style: TextStyles.textLgMedium),
-                SizedBox(height: 20),
-                Text(viewModel.companyName, style: TextStyles.textMdRegular),
-                SizedBox(height: 20),
+                Text(viewModel.title, style: TextStyles.textLBold()),
+                SizedBox(height: Margins.spacing_m),
+                Text(viewModel.companyName, style: TextStyles.textBaseRegular),
+                SizedBox(height: Margins.spacing_m),
                 ImmersionTags(secteurActivite: viewModel.secteurActivite, ville: viewModel.ville),
-                SizedBox(height: 20),
-                Text(viewModel.explanationLabel, style: TextStyles.textMdRegular),
-                SizedBox(height: 20),
-                Text(Strings.immersionDescriptionLabel, style: TextStyles.textMdRegular),
-                SizedBox(height: 20),
+                SizedBox(height: Margins.spacing_l),
+                Text(viewModel.explanationLabel, style: TextStyles.textBaseRegular),
+                SizedBox(height: Margins.spacing_m),
+                Text(Strings.immersionDescriptionLabel, style: TextStyles.textBaseRegular),
+                SizedBox(height: Margins.spacing_m),
                 _contactBlock(viewModel),
-                if (viewModel.withSecondaryCallToActions) ..._secondaryCallToActions(viewModel),
+                if (viewModel.withSecondaryCallToActions) ..._secondaryCallToActions(context, viewModel),
               ],
             ),
           ),
@@ -99,14 +102,14 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(Strings.immersionContactTitle, style: TextStyles.chapoSemi()),
-        SepLine(12, 20),
+        TitleSection(label: Strings.immersionContactTitle),
         if (viewModel.contactLabel.isNotEmpty)
           Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: Text(viewModel.contactLabel, style: TextStyles.textSmMedium()),
+            padding: const EdgeInsets.symmetric(vertical: Margins.spacing_m),
+            child: Text(viewModel.contactLabel, style: TextStyles.textBaseBold),
           ),
-        Text(viewModel.contactInformation, style: TextStyles.textSmRegular()),
+        SizedBox(height: Margins.spacing_m),
+        Text(viewModel.contactInformation, style: TextStyles.textBaseRegular),
       ],
     );
   }
@@ -118,25 +121,33 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
   Widget _footer(BuildContext context, CallToAction callToAction) {
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(Margins.spacing_base),
       child: ConstrainedBox(
         constraints: const BoxConstraints(minWidth: double.infinity),
-        child: ActionButton(onPressed: () => launch(callToAction.uri.toString()), label: callToAction.label),
+        child: PrimaryActionButton(
+            onPressed: () {
+              context.trackEvent(callToAction.eventType);
+              launch(callToAction.uri.toString());
+            },
+            label: callToAction.label),
       ),
     );
   }
 
-  List<Widget> _secondaryCallToActions(ImmersionDetailsViewModel viewModel) {
+  List<Widget> _secondaryCallToActions(BuildContext context, ImmersionDetailsViewModel viewModel) {
     final buttons = viewModel.secondaryCallToActions.map((cta) {
       return Padding(
-        padding: const EdgeInsets.only(bottom: 20),
+        padding: const EdgeInsets.only(bottom: Margins.spacing_m),
         child: SecondaryButton(
           label: cta.label,
           drawableRes: cta.drawableRes,
-          onPressed: () => launch(cta.uri.toString()),
+          onPressed: () {
+            context.trackEvent(cta.eventType);
+            launch(cta.uri.toString());
+          },
         ),
       );
     }).toList();
-    return [SepLine(24, 20), ...buttons];
+    return [SepLine(Margins.spacing_m, Margins.spacing_m), ...buttons];
   }
 }

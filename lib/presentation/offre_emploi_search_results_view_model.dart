@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
@@ -6,6 +7,7 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
 import 'offre_emploi_item_view_model.dart';
@@ -14,14 +16,18 @@ class OffreEmploiSearchResultsViewModel extends Equatable {
   final DisplayState displayState;
   final List<OffreEmploiItemViewModel> items;
   final bool displayLoaderAtBottomOfList;
+  final bool withFiltreButton;
   final int? filtresCount;
+  final String errorMessage;
   final Function() onLoadMore;
 
   OffreEmploiSearchResultsViewModel({
     required this.displayState,
     required this.items,
     required this.displayLoaderAtBottomOfList,
+    required this.withFiltreButton,
     required this.filtresCount,
+    required this.errorMessage,
     required this.onLoadMore,
   });
 
@@ -33,7 +39,9 @@ class OffreEmploiSearchResultsViewModel extends Equatable {
       displayState: _displayState(searchState, searchResultsState),
       items: _items(store.state.offreEmploiSearchResultsState),
       displayLoaderAtBottomOfList: _displayLoader(store.state.offreEmploiSearchResultsState),
+      withFiltreButton: _withFilterButton(searchParamsState),
       filtresCount: _filtresCount(searchParamsState),
+      errorMessage: _errorMessage(searchState, searchResultsState),
       onLoadMore: () => store.dispatch(RequestMoreOffreEmploiSearchResultsAction()),
     );
   }
@@ -60,29 +68,19 @@ _displayLoader(OffreEmploiSearchResultsState resultsState) =>
 
 List<OffreEmploiItemViewModel> _items(OffreEmploiSearchResultsState resultsState) {
   return resultsState is OffreEmploiSearchResultsDataState
-      ? resultsState.offres
-          .map((e) => OffreEmploiItemViewModel(
-                e.id,
-                e.title,
-                e.companyName,
-                e.contractType,
-                e.duration,
-                e.location,
-              ))
-          .toList()
+      ? resultsState.offres.map((e) => OffreEmploiItemViewModel.create(e)).toList()
       : [];
 }
 
 DisplayState _displayState(OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
   if (searchState is OffreEmploiSearchSuccessState && searchResultsState is OffreEmploiSearchResultsDataState) {
-    return DisplayState.CONTENT;
+    return searchResultsState.offres.isNotEmpty ? DisplayState.CONTENT : DisplayState.EMPTY;
   } else if (searchState is OffreEmploiSearchLoadingState) {
     return DisplayState.LOADING;
   } else {
     return DisplayState.FAILURE;
   }
 }
-
 
 int _distanceCount(OffreEmploiSearchParametersInitializedState searchParamsState) {
   final distanceFiltre = searchParamsState.filtres.distance;
@@ -97,3 +95,19 @@ int _otherFiltresCount(OffreEmploiSearchParametersInitializedState searchParamsS
   ].fold(0, (previousValue, element) => previousValue + element);
 }
 
+String _errorMessage(OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
+  if (searchState is OffreEmploiSearchSuccessState && searchResultsState is OffreEmploiSearchResultsDataState) {
+    return searchResultsState.offres.isNotEmpty ? "" : Strings.noContentError;
+  } else if (searchState is OffreEmploiSearchFailureState) {
+    return Strings.genericError;
+  } else {
+    return "";
+  }
+}
+
+bool _withFilterButton(OffreEmploiSearchParametersState state) {
+  if (state is OffreEmploiSearchParametersInitializedState && state.onlyAlternance) {
+    return state.location?.type == LocationType.COMMUNE;
+  }
+  return true;
+}

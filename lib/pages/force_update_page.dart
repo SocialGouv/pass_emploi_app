@@ -11,7 +11,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:pass_emploi_app/widgets/external_link.dart';
 
 import '../ui/strings.dart';
 
@@ -28,18 +28,16 @@ class ForceUpdatePage extends TraceableStatelessWidget {
       title: Strings.appName,
       theme: ThemeData(primarySwatch: Colors.indigo),
       home: Scaffold(
-        appBar: DefaultAppBar(title: Text(Strings.updateTitle, style: TextStyles.h3Semi)),
+        appBar: passEmploiAppBar(
+          label: Strings.updateTitle,
+        ),
         body: Padding(
-          padding: const EdgeInsets.all(Margins.medium),
+          padding: const EdgeInsets.all(Margins.spacing_base),
           child: Column(
             children: [
               Expanded(child: SvgPicture.asset(Drawables.icLogo, semanticsLabel: Strings.logoTextDescription)),
-              Text(viewModel.label, style: TextStyles.textMdRegular, textAlign: TextAlign.center),
-              if (viewModel.withCallToAction)
-                TextButton(
-                  onPressed: () => launch(viewModel.storeUrl),
-                  child: Text(Strings.updateButton, style: TextStyles.textLgMedium),
-                ),
+              Text(viewModel.label, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+              if (viewModel.withCallToAction) ExternalLink(label: Strings.updateButton, url: viewModel.storeUrl),
               Expanded(child: SizedBox())
             ],
           ),

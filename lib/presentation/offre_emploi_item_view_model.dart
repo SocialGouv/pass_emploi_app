@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 
 class OffreEmploiItemViewModel extends Equatable {
   final String id;
@@ -8,14 +9,25 @@ class OffreEmploiItemViewModel extends Equatable {
   final String? duration;
   final String? location;
 
-  OffreEmploiItemViewModel(
-    this.id,
-    this.title,
-    this.companyName,
-    this.contractType,
-    this.duration,
-    this.location,
-  );
+  OffreEmploiItemViewModel({
+    required this.id,
+    required this.title,
+    required this.companyName,
+    required this.contractType,
+    required this.duration,
+    required this.location,
+  });
+
+  factory OffreEmploiItemViewModel.create(OffreEmploi offre) {
+    return OffreEmploiItemViewModel(
+      id: offre.id,
+      title: offre.title,
+      companyName: offre.companyName,
+      contractType: offre.contractType,
+      duration: offre.duration,
+      location: offre.location,
+    );
+  }
 
   @override
   List<Object?> get props => [

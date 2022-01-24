@@ -4,17 +4,20 @@ import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/redux/middlewares/action_logging_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/chat_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/crashlytics_middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/favoris_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/login_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/offre_emploi_data_from_id_extractor.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_details_middleware.dart';
-import 'package:pass_emploi_app/redux/middlewares/offre_emploi_favoris_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/search_location_middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/tracking_event_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/user_action_middleware.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
@@ -30,6 +33,7 @@ import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
+import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart' as redux;
 
@@ -49,6 +53,7 @@ class StoreFactory {
   final FirebaseAuthRepository firebaseAuthRepository;
   final FirebaseAuthWrapper firebaseAuthWrapper;
   final ChatCrypto chatCrypto;
+  final TrackingEventRepository trackingEventRepository;
 
   StoreFactory(
     this.authenticator,
@@ -66,6 +71,7 @@ class StoreFactory {
     this.firebaseAuthRepository,
     this.firebaseAuthWrapper,
     this.chatCrypto,
+    this.trackingEventRepository,
   );
 
   redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -79,10 +85,11 @@ class StoreFactory {
         RegisterPushNotificationTokenMiddleware(registerTokenRepository),
         OffreEmploiMiddleware(offreEmploiRepository),
         OffreEmploiDetailsMiddleware(offreEmploiDetailsRepository),
-        OffreEmploiFavorisMiddleware(offreEmploiFavorisRepository),
+        FavorisMiddleware<OffreEmploi>(offreEmploiFavorisRepository, OffreEmploiDataFromIdExtractor()),
         RegisterPushNotificationTokenMiddleware(registerTokenRepository),
         CrashlyticsMiddleware(crashlytics),
         SearchLocationMiddleware(searchLocationRepository),
+        TrackingEventMiddleware(trackingEventRepository),
         Middleware<void, List<Rendezvous>>(rendezvousRepository),
         Middleware<ImmersionRequest, List<Immersion>>(immersionRepository),
         Middleware<String, ImmersionDetails>(immersionDetailsRepository),

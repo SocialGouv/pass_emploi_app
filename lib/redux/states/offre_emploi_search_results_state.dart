@@ -8,7 +8,8 @@ abstract class OffreEmploiSearchResultsState extends Equatable {
     required List<OffreEmploi> offres,
     required int loadedPage,
     required bool isMoreDataAvailable,
-  }) => OffreEmploiSearchResultsDataState(offres, loadedPage, isMoreDataAvailable);
+  }) =>
+      OffreEmploiSearchResultsDataState(offres, loadedPage, isMoreDataAvailable);
 
   factory OffreEmploiSearchResultsState.notInitialized() = OffreEmploiSearchResultsNotInitializedState;
 

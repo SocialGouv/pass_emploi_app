@@ -29,7 +29,8 @@ class AppVersionChecker {
   Version? _extractVersion(String? version) {
     if (version == null) return null;
     try {
-      final digits = version.split('.').map((versionDigitStr) => int.parse(versionDigitStr)).toList();
+      final versionWithoutSuffix = version.replaceAll(RegExp("[^.0-9]"), "");
+      final digits = versionWithoutSuffix.split('.').map((versionDigitStr) => int.parse(versionDigitStr)).toList();
       return digits.length == 3 ? Version(digits[0], digits[1], digits[2]) : null;
     } catch (onError) {
       return null;

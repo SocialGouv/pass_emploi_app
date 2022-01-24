@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/create_user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
@@ -90,8 +91,8 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(Strings.actionLabel, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
-          SizedBox(height: 16),
+          Text(Strings.actionLabel, style: TextStyles.textXsRegular()),
+          SizedBox(height: Margins.spacing_base),
           _textField(
             isEnabled: viewModel.displayState != CreateUserActionDisplayState.SHOW_LOADING,
             onChanged: (value) => _actionContent = value,
@@ -99,9 +100,9 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
             mandatoryError: Strings.mandatoryActionLabelError,
             textInputAction: TextInputAction.next,
           ),
-          SizedBox(height: 16),
-          Text(Strings.actionDescription, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
-          SizedBox(height: 16),
+          SizedBox(height: Margins.spacing_base),
+          Text(Strings.actionDescription, style: TextStyles.textXsRegular()),
+          SizedBox(height: Margins.spacing_base),
           _textField(
             isEnabled: viewModel.displayState != CreateUserActionDisplayState.SHOW_LOADING,
             onChanged: (value) => _actionComment = value,
@@ -148,8 +149,8 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(Strings.defineActionStatus, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
-          SizedBox(height: 16),
+          Text(Strings.defineActionStatus, style: TextStyles.textXsRegular()),
+          SizedBox(height: Margins.spacing_base),
           UserActionStatusGroup(
             status: _initialStatus,
             update: (wantedStatus) => _update(wantedStatus),
@@ -166,7 +167,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          PrimaryActionButton.simple(
+          PrimaryActionButton(
             label: Strings.create,
             onPressed: _isLoading(viewModel) && _isFormValid()
                 ? () => {viewModel.createUserAction(_actionContent!, _actionComment, _initialStatus)}
@@ -179,7 +180,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
                 child: Text(
                   Strings.actionCreationError,
                   textAlign: TextAlign.center,
-                  style: TextStyles.textSmRegular(color: AppColors.errorRed),
+                  style: TextStyles.textSRegular(color: AppColors.warning),
                 ),
               ),
             ),

@@ -49,6 +49,10 @@ void main() {
       DeepLinkAction(RemoteMessage(data: {"type": "DELETED_RENDEZVOUS"})),
       DeepLinkState(DeepLink.ROUTE_TO_RENDEZVOUS, DateTime.now()),
     );
+    assertState(
+      DeepLinkAction(RemoteMessage(data: {"type": "RAPPEL_RENDEZVOUS"})),
+      DeepLinkState(DeepLink.ROUTE_TO_RENDEZVOUS, DateTime.now()),
+    );
   });
 }
 

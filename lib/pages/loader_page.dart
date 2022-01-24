@@ -54,7 +54,7 @@ class _LoaderPageState extends State<LoaderPage> with SingleTickerProviderStateM
               top: widget._screenHeight / 4 - 36,
               child: FadeTransition(
                 opacity: _fadeAnimation,
-                child: Text(Strings.welcomeOn, style: TextStyles.textLgMedium),
+                child: Text(Strings.welcomeOn, style: TextStyles.textLBold()),
               ),
             ),
             AnimatedLogo(animation: _logoAnimation),
@@ -65,7 +65,7 @@ class _LoaderPageState extends State<LoaderPage> with SingleTickerProviderStateM
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [AppColors.lightBlue, AppColors.lightPurple],
+            colors: [AppColors.warning, AppColors.primaryLighten],
           ),
         ),
       ),

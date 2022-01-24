@@ -3,38 +3,62 @@ import 'package:flutter/widgets.dart';
 import 'package:pass_emploi_app/pages/rendezvous_list_page.dart';
 import 'package:pass_emploi_app/pages/user_action_list_page.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/pass_emploi_tab_bar.dart';
+import 'package:pass_emploi_app/widgets/unavailable_content.dart';
 
 enum MonSuiviTab { ACTIONS, RENDEZVOUS }
 
 class MonSuiviTabPage extends StatelessWidget {
   final MonSuiviTab initialTab;
+  final bool showContent;
 
-  MonSuiviTabPage({required this.initialTab}) : super();
+  MonSuiviTabPage({required this.initialTab, required this.showContent}) : super();
 
-  final List<Tab> monSuiviTabs = <Tab>[
-    Tab(child: Text(Strings.actionsTabTitle, style: TextStyles.textMdMedium)),
-    Tab(child: Text(Strings.rendezvousTabTitle, style: TextStyles.textMdMedium)),
+  final List<String> _monSuiviTabs = [
+    Strings.actionsTabTitle,
+    Strings.rendezvousTabTitle,
   ];
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       initialIndex: initialTab == MonSuiviTab.ACTIONS ? 0 : 1,
-      length: monSuiviTabs.length,
+      length: _monSuiviTabs.length,
       child: Scaffold(
-        appBar: FlatDefaultAppBar(
-          title: Text(Strings.monSuiviAppBarTitle, style: TextStyles.h3Semi),
-          bottom: TabBar(tabs: monSuiviTabs),
+        appBar: passEmploiAppBar(
+          label: Strings.monSuiviAppBarTitle,
         ),
-        body: TabBarView(
-          children: [
-            UserActionListPage(),
-            RendezvousListPage(),
-          ],
-        ),
+        body: _getBody(),
       ),
+    );
+  }
+
+  Widget _setTabContent() {
+    if (showContent)
+      return TabBarView(
+        children: [
+          UserActionListPage(),
+          RendezvousListPage(),
+        ],
+      );
+    else
+      return TabBarView(
+        children: [
+          UnavailableContent(contentType: ContentType.ACTIONS),
+          UnavailableContent(contentType: ContentType.RENDEZVOUS),
+        ],
+      );
+  }
+
+  _getBody() {
+    return Column(
+      children: [
+        PassEmploiTabBar(
+          tabLabels: _monSuiviTabs,
+        ),
+        Expanded(child: _setTabContent()),
+      ],
     );
   }
 }

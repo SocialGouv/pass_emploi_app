@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/presentation/checkbox_value_view_model.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/help_tooltip.dart';
 
@@ -34,12 +36,28 @@ class _CheckBoxGroupState<T extends CheckboxValueViewModel> extends State<CheckB
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 24),
-          child: Text(widget.title, style: TextStyles.textMdMedium),
-        ),
-        SizedBox(height: 12),
-        ..._optionsSelectionStatus.entries.map<Widget>((entry) => _createCheckBox(entry.key, entry.value)).toList()
+        Text(widget.title, style: TextStyles.textBaseBold),
+        SizedBox(height: Margins.spacing_base),
+        Container(
+          decoration:
+              BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(16)), boxShadow: [
+            BoxShadow(
+              color: AppColors.shadowColor,
+              spreadRadius: 1,
+              blurRadius: 8,
+              offset: Offset(0, 6), // changes position of shadow
+            )
+          ]),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: _optionsSelectionStatus.entries
+                  .map<Widget>((entry) => _createCheckBox(entry.key, entry.value))
+                  .toList(),
+            ),
+          ),
+        )
       ],
     );
   }
@@ -47,21 +65,19 @@ class _CheckBoxGroupState<T extends CheckboxValueViewModel> extends State<CheckB
   Widget _createCheckBox(T viewModel, bool isSelected) {
     final label = viewModel.label;
     final helpText = viewModel.helpText;
-    return Padding(
-      padding: const EdgeInsets.only(left: 8),
-      child: CheckboxListTile(
-        title: helpText != null ? _textWithToolTip(label, helpText) : _title(label),
-        value: isSelected,
-        onChanged: (value) {
-          setState(() {
-            if (value != null) {
-              _optionsSelectionStatus[viewModel] = value;
-              var listOfSelectedOptions = _listOfSelectedOptions();
-              widget.onSelectedOptionsUpdated(listOfSelectedOptions);
-            }
-          });
-        },
-      ),
+    return CheckboxListTile(
+      title: helpText != null ? _textWithToolTip(label, helpText) : _title(label),
+      value: isSelected,
+      activeColor: AppColors.primary,
+      onChanged: (value) {
+        setState(() {
+          if (value != null) {
+            _optionsSelectionStatus[viewModel] = value;
+            var listOfSelectedOptions = _listOfSelectedOptions();
+            widget.onSelectedOptionsUpdated(listOfSelectedOptions);
+          }
+        });
+      },
     );
   }
 
@@ -69,7 +85,7 @@ class _CheckBoxGroupState<T extends CheckboxValueViewModel> extends State<CheckB
     return Row(
       children: [
         _title(label),
-        SizedBox(width: 8),
+        SizedBox(width: Margins.spacing_s),
         HelpTooltip(
           message: helpText,
           iconRes: Drawables.icInfo,
@@ -78,7 +94,7 @@ class _CheckBoxGroupState<T extends CheckboxValueViewModel> extends State<CheckB
     );
   }
 
-  Widget _title(String label) => Text(label, style: TextStyles.textMdRegular);
+  Widget _title(String label) => Text(label, style: TextStyles.textBaseRegular);
 
   List<T> _listOfSelectedOptions() =>
       _optionsSelectionStatus.entries.where((element) => element.value).map((e) => e.key).toList();

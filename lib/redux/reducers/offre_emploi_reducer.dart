@@ -27,14 +27,19 @@ AppState offreEmploiReducer(AppState currentState, OffreEmploiAction action) {
   } else if (action is OffreEmploiSearchWithUpdateFiltresSuccessAction) {
     return _storeOffresWithUpdatedFiltres(currentState, action);
   } else if (action is OffreEmploiSearchUpdateFiltresAction) {
-    var parametersState = currentState.offreEmploiSearchParametersState;
+    final parametersState = currentState.offreEmploiSearchParametersState;
     if (parametersState is OffreEmploiSearchParametersInitializedState) {
       return _storeUpdatedFiltresSearchParameters(currentState, parametersState, action);
     } else {
       return currentState;
     }
   } else if (action is OffreEmploiSearchWithUpdateFiltresFailureAction) {
-    return _searchStateFailure(currentState);
+    final parametersState = currentState.offreEmploiSearchParametersState;
+    if (parametersState is OffreEmploiSearchParametersInitializedState) {
+      return _resetSearchAndFiltresState(currentState, parametersState);
+    } else {
+      return currentState;
+    }
   } else {
     return currentState;
   }
@@ -66,8 +71,9 @@ AppState _appendNewOffres(AppState currentState, OffreEmploiSearchResultsDataSta
 AppState _storeInitialSearchParameters(AppState currentState, SearchOffreEmploiAction action) {
   return currentState.copyWith(
       offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
-    keyWords: action.keywords,
+    keywords: action.keywords,
     location: action.location,
+    onlyAlternance: action.onlyAlternance,
     filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
   ));
 }
@@ -75,11 +81,13 @@ AppState _storeInitialSearchParameters(AppState currentState, SearchOffreEmploiA
 AppState _storeUpdatedFiltresSearchParameters(AppState currentState,
     OffreEmploiSearchParametersInitializedState parametersState, OffreEmploiSearchUpdateFiltresAction action) {
   return currentState.copyWith(
-      offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
-    keyWords: parametersState.keyWords,
-    location: parametersState.location,
-    filtres: action.updatedFiltres,
-  ));
+    offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
+      keywords: parametersState.keywords,
+      location: parametersState.location,
+      onlyAlternance: parametersState.onlyAlternance,
+      filtres: action.updatedFiltres,
+    ),
+  );
 }
 
 AppState _storeOffresWithUpdatedFiltres(AppState currentState, OffreEmploiSearchWithUpdateFiltresSuccessAction action) {
@@ -95,4 +103,17 @@ AppState _storeOffresWithUpdatedFiltres(AppState currentState, OffreEmploiSearch
 
 AppState _searchStateFailure(AppState currentState) {
   return currentState.copyWith(offreEmploiSearchState: OffreEmploiSearchState.failure());
+}
+
+AppState _resetSearchAndFiltresState(
+    AppState currentState, OffreEmploiSearchParametersInitializedState parametersState) {
+  return currentState.copyWith(
+    offreEmploiSearchState: OffreEmploiSearchState.failure(),
+    offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
+      keywords: parametersState.keywords,
+      location: parametersState.location,
+      onlyAlternance: parametersState.onlyAlternance,
+      filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+    ),
+  );
 }
