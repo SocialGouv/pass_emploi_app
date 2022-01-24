@@ -409,7 +409,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
-          Expanded(child: DeleteFavoriButton<OffreEmploi>(offreId: id)),
+          Expanded(child: DeleteFavoriButton<OffreEmploi>(offreId: id, from: OffrePage.emploiDetails)),
         ],
       ),
     );

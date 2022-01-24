@@ -1,13 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/presentation/call_to_action.dart';
-import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/immersion_details_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/immersion_details_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
@@ -24,7 +25,7 @@ main() {
     final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
     // Then
-    expect(viewModel.displayState, DisplayState.LOADING);
+    expect(viewModel.displayState, ImmersionDetailsPageDisplayState.SHOW_LOADER);
   });
 
   test('create when state is failure should set display state properly', () {
@@ -35,7 +36,7 @@ main() {
     final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
     // Then
-    expect(viewModel.displayState, DisplayState.FAILURE);
+    expect(viewModel.displayState, ImmersionDetailsPageDisplayState.SHOW_ERROR);
   });
 
   test('create when state is success should set display state properly and fill generic immersion info', () {
@@ -46,13 +47,48 @@ main() {
     final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
     // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.displayState, ImmersionDetailsPageDisplayState.SHOW_DETAILS);
     expect(viewModel.id, '12345');
     expect(viewModel.title, 'Métier');
     expect(viewModel.companyName, 'Nom établissement');
     expect(viewModel.secteurActivite, 'Secteur');
     expect(viewModel.ville, 'Ville');
     expect(viewModel.address, 'Adresse');
+  });
+
+  test("getDetails when state is incomplete data should set display state properly and convert data to view model", () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(
+        immersionDetailsState: ImmersionDetailsIncompleteDataState(Immersion(
+          id: "10298",
+          metier: "incomplete-metier",
+          ville: "incomplete-ville",
+          secteurActivite: "incomplete-secteur",
+          nomEtablissement: "incomplete-nom",
+        )),
+      ),
+    );
+
+    // When
+    final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+
+    // Then
+    expect(viewModel.displayState, ImmersionDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS);
+    expect(viewModel.id, "10298");
+    expect(viewModel.title, "incomplete-metier");
+    expect(viewModel.companyName, "incomplete-nom");
+    expect(viewModel.secteurActivite, "incomplete-secteur");
+    expect(viewModel.ville, "incomplete-ville");
+    expect(viewModel.address, isNull);
+    expect(viewModel.explanationLabel, isNull);
+    expect(viewModel.contactLabel, isNull);
+    expect(viewModel.contactInformation, isNull);
+    expect(viewModel.withMainCallToAction, isNull);
+    expect(viewModel.withSecondaryCallToActions, isNull);
+    expect(viewModel.mainCallToAction, isNull);
+    expect(viewModel.secondaryCallToActions, isNull);
   });
 
   group('Explanation label…', () {
@@ -354,7 +390,7 @@ main() {
               EventType.OFFRE_IMMERSION_APPEL,
             ));
         expect(viewModel.withSecondaryCallToActions, isTrue);
-        expect(viewModel.secondaryCallToActions.length, 2);
+        expect(viewModel.secondaryCallToActions!.length, 2);
       });
     });
 
