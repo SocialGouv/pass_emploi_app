@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
@@ -150,7 +151,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                   ),
                   flex: 1,
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: Margins.spacing_s),
                 FloatingActionButton(
                   backgroundColor: AppColors.primary,
                   child: SvgPicture.asset(Drawables.icPaperPlane),

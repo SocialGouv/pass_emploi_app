@@ -77,15 +77,15 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(viewModel.title, style: TextStyles.textLBold()),
-                SizedBox(height: 20),
+                SizedBox(height: Margins.spacing_m),
                 Text(viewModel.companyName, style: TextStyles.textBaseRegular),
-                SizedBox(height: 20),
+                SizedBox(height: Margins.spacing_m),
                 ImmersionTags(secteurActivite: viewModel.secteurActivite, ville: viewModel.ville),
-                SizedBox(height: 20),
+                SizedBox(height: Margins.spacing_l),
                 Text(viewModel.explanationLabel, style: TextStyles.textBaseRegular),
-                SizedBox(height: 20),
+                SizedBox(height: Margins.spacing_m),
                 Text(Strings.immersionDescriptionLabel, style: TextStyles.textBaseRegular),
-                SizedBox(height: 20),
+                SizedBox(height: Margins.spacing_m),
                 _contactBlock(viewModel),
                 if (viewModel.withSecondaryCallToActions) ..._secondaryCallToActions(context, viewModel),
               ],
@@ -105,9 +105,10 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
         TitleSection(label: Strings.immersionContactTitle),
         if (viewModel.contactLabel.isNotEmpty)
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20),
+            padding: const EdgeInsets.symmetric(vertical: Margins.spacing_m),
             child: Text(viewModel.contactLabel, style: TextStyles.textBaseBold),
           ),
+        SizedBox(height: Margins.spacing_m),
         Text(viewModel.contactInformation, style: TextStyles.textBaseRegular),
       ],
     );
@@ -120,7 +121,7 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
   Widget _footer(BuildContext context, CallToAction callToAction) {
     return Container(
       color: Colors.white,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(Margins.spacing_base),
       child: ConstrainedBox(
         constraints: const BoxConstraints(minWidth: double.infinity),
         child: PrimaryActionButton(
@@ -136,7 +137,7 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
   List<Widget> _secondaryCallToActions(BuildContext context, ImmersionDetailsViewModel viewModel) {
     final buttons = viewModel.secondaryCallToActions.map((cta) {
       return Padding(
-        padding: const EdgeInsets.only(bottom: 20),
+        padding: const EdgeInsets.only(bottom: Margins.spacing_m),
         child: SecondaryButton(
           label: cta.label,
           drawableRes: cta.drawableRes,
@@ -147,6 +148,6 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
         ),
       );
     }).toList();
-    return [SepLine(24, 20), ...buttons];
+    return [SepLine(Margins.spacing_m, Margins.spacing_m), ...buttons];
   }
 }

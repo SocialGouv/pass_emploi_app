@@ -42,19 +42,19 @@ class _FavorisTabsPageState extends State<FavorisTabsPage> {
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          SizedBox(width: 12),
+          SizedBox(width: Margins.spacing_base),
           CarouselButton(
             isActive: _selectedIndex == _indexOfOffresEmploi,
             onPressed: () => _updateIndex(_indexOfOffresEmploi),
             label: Strings.offresEmploiButton,
           ),
-          SizedBox(width: 12),
+          SizedBox(width: Margins.spacing_base),
           CarouselButton(
             isActive: _selectedIndex == _indexOfAlternance,
             onPressed: () => _updateIndex(_indexOfAlternance),
             label: Strings.alternanceButton,
           ),
-          SizedBox(width: 12)
+          SizedBox(width: Margins.spacing_base)
         ],
       ),
     );

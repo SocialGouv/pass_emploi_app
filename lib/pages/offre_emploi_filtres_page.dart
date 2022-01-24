@@ -87,10 +87,10 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
               ),
             ),
             SizedBox(
-              height: Margins.spacing_l,
+              height: Margins.spacing_m,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
               child: CheckBoxGroup<ContratFiltre>(
                 title: Strings.contratSectionTitle,
                 options: viewModel.contratFiltres,
@@ -106,7 +106,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
               height: Margins.spacing_l,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
               child: CheckBoxGroup<DureeFiltre>(
                 title: Strings.dureeSectionTitle,
                 options: viewModel.dureeFiltres,
@@ -121,7 +121,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
           ],
           if (_isError(viewModel)) ErrorText(viewModel.errorMessage),
           Padding(
-            padding: const EdgeInsets.all(24),
+            padding: const EdgeInsets.all(Margins.spacing_m),
             child: _stretchedButton(context, viewModel),
           ),
         ],

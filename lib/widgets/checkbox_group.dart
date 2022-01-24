@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/presentation/checkbox_value_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/help_tooltip.dart';
 
@@ -36,7 +37,7 @@ class _CheckBoxGroupState<T extends CheckboxValueViewModel> extends State<CheckB
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(widget.title, style: TextStyles.textBaseBold),
-        SizedBox(height: 12),
+        SizedBox(height: Margins.spacing_base),
         Container(
           decoration:
               BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(16)), boxShadow: [
@@ -84,7 +85,7 @@ class _CheckBoxGroupState<T extends CheckboxValueViewModel> extends State<CheckB
     return Row(
       children: [
         _title(label),
-        SizedBox(width: 8),
+        SizedBox(width: Margins.spacing_s),
         HelpTooltip(
           message: helpText,
           iconRes: Drawables.icInfo,

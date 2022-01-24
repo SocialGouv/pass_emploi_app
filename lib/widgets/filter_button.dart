@@ -57,16 +57,23 @@ class FilterButton extends StatelessWidget {
     return Row(
     mainAxisSize: MainAxisSize.min,
     children: [
-      Text(Strings.filtrer, style: TextStyles.textPrimaryButton.copyWith(fontSize: FontSizes.medium),),
-      SizedBox(width: 18),
-      SvgPicture.asset(Drawables.icFilter, height: 18, width: 18,),
-      SizedBox(width: 18),
-      if (filtresCount != null)
-        Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: Container(
-            decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
-              width: 24,
+        Text(
+          Strings.filtrer,
+          style: TextStyles.textPrimaryButton.copyWith(fontSize: FontSizes.medium),
+        ),
+        SizedBox(width: Margins.spacing_base),
+        SvgPicture.asset(
+          Drawables.icFilter,
+          height: 18,
+          width: 18,
+        ),
+        SizedBox(width: Margins.spacing_base),
+        if (filtresCount != null)
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Container(
+              decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+              width: Margins.spacing_m,
               height: Margins.spacing_m,
               alignment: Alignment.center,
               padding: const EdgeInsets.only(bottom: 3),

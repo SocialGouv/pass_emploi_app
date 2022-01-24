@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class DefaultMenuItem extends StatelessWidget {
@@ -42,7 +43,7 @@ class DefaultMenuItem extends StatelessWidget {
                 if (withBadge) Positioned(child: SvgPicture.asset(Drawables.icBadge), top: -1, left: 12),
               ],
             ),
-            SizedBox(height: 6.0),
+            SizedBox(height: Margins.spacing_s),
             Text(label, style: TextStyles.textMenuRegular(color)),
           ],
         ),
