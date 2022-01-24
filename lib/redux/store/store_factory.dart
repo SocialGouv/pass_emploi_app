@@ -3,7 +3,6 @@ import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/redux/middlewares/action_logging_middleware.dart';
@@ -11,6 +10,7 @@ import 'package:pass_emploi_app/redux/middlewares/chat_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/crashlytics_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/data_from_id_extractor.dart';
 import 'package:pass_emploi_app/redux/middlewares/favoris_middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/immersion_details_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/login_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_details_middleware.dart';
@@ -96,7 +96,7 @@ class StoreFactory {
         TrackingEventMiddleware(trackingEventRepository),
         Middleware<void, List<Rendezvous>>(rendezvousRepository),
         Middleware<ImmersionRequest, List<Immersion>>(immersionRepository),
-        Middleware<String, ImmersionDetails>(immersionDetailsRepository),
+        ImmersionDetailsMiddleware(immersionDetailsRepository),
         ..._debugMiddleware(),
       ],
     );

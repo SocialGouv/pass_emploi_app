@@ -20,11 +20,14 @@ void main() {
     final repository = ImmersionDetailsRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final immersion = await repository.fetch("ID", "id-immersion");
+    final response = await repository.fetch("id-immersion");
 
     // Then
+    expect(response.details, isNotNull);
+    expect(response.isGenericFailure, isFalse);
+    expect(response.isOffreNotFound, isFalse);
     expect(
-      immersion,
+      response.details,
       ImmersionDetails(
         id: "3eaa17fb-a912-4610-863d-93c5db29ea0c",
         metier: "xxxx",
@@ -48,11 +51,14 @@ void main() {
     final repository = ImmersionDetailsRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final immersion = await repository.fetch("ID", "id-immersion");
+    final response = await repository.fetch("id-immersion");
 
     // Then
+    expect(response.details, isNotNull);
+    expect(response.isGenericFailure, isFalse);
+    expect(response.isOffreNotFound, isFalse);
     expect(
-      immersion,
+      response.details,
       ImmersionDetails(
         id: "0e32e7bd-b1dd-468d-8faa-d82ae6f5a939",
         metier: "xxxx",
@@ -73,27 +79,31 @@ void main() {
     );
   });
 
-  test('fetch when response is invalid should return null', () async {
+  test('fetch when response is invalid should flag response as not found', () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
     final repository = ImmersionDetailsRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final immersion = await repository.fetch("ID", "id-immersion");
+    final response = await repository.fetch("id-immersion");
 
     // Then
-    expect(immersion, isNull);
+    expect(response.details, isNull);
+    expect(response.isGenericFailure, isFalse);
+    expect(response.isOffreNotFound, isTrue);
   });
 
-  test('fetch when response throws exception should return null', () async {
+  test('fetch when response throws exception should flag response as generic failure', () async {
     // Given
     final httpClient = MockClient((request) async => throw Exception());
     final repository = ImmersionDetailsRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final immersion = await repository.fetch("ID", "id-immersion");
+    final response = await repository.fetch("id-immersion");
 
     // Then
-    expect(immersion, isNull);
+    expect(response.details, isNull);
+    expect(response.isGenericFailure, isTrue);
+    expect(response.isOffreNotFound, isFalse);
   });
 }
