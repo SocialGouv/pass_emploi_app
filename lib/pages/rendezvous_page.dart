@@ -46,7 +46,7 @@ class RendezvousPage extends TraceableStatelessWidget {
                 ],
               ),
               SizedBox(height: Margins.spacing_m),
-              Container(height: 1, color: AppColors.warning),
+              Container(height: 1, color: AppColors.primaryLighten),
               SizedBox(height: Margins.spacing_s),
               Text(rendezvous.modality, style: TextStyles.textBaseBold),
               SizedBox(height: Margins.spacing_m),
