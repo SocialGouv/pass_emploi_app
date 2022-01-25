@@ -36,4 +36,6 @@ class Drawables {
   static String icNoContent = _assets + "ic_no_content" + _svg;
   static String icChevronLeft = _assets + "chevron_left" + _svg;
   static String icLaunch = _assets + "launch" + _svg;
+  static String icUnJeuneUneSolution = _assets + "un_jeune_une_solution_logo" + _svg;
+  static String passEmploiLogo = _assets + "logo_pass_emploi_white" + _svg;
 }
