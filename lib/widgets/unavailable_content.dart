@@ -26,7 +26,7 @@ class UnavailableContent extends StatelessWidget {
           SizedBox(height: screenHeight * 0.05),
           Text(_setTitle(), style: TextStyles.textBaseBold, textAlign: TextAlign.center),
           SizedBox(height: screenHeight * 0.03),
-          Text(Strings.unvailableContentDescription, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+          Text(Strings.unvailableContentDescription, style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
           SizedBox(height: screenHeight * 0.04),
           ConstrainedBox(
             constraints: const BoxConstraints(minWidth: double.infinity),

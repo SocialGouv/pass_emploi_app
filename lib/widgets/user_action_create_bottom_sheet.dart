@@ -91,7 +91,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(Strings.actionLabel, style: TextStyles.textXsRegular()),
+          Text(Strings.actionLabel, style: TextStyles.textBaseBold),
           SizedBox(height: Margins.spacing_base),
           _textField(
             isEnabled: viewModel.displayState != CreateUserActionDisplayState.SHOW_LOADING,
@@ -101,7 +101,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
             textInputAction: TextInputAction.next,
           ),
           SizedBox(height: Margins.spacing_base),
-          Text(Strings.actionDescription, style: TextStyles.textXsRegular()),
+          Text(Strings.actionDescription, style: TextStyles.textBaseBold),
           SizedBox(height: Margins.spacing_base),
           _textField(
             isEnabled: viewModel.displayState != CreateUserActionDisplayState.SHOW_LOADING,
@@ -128,12 +128,12 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
           contentPadding: const EdgeInsets.all(16),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(color: AppColors.borderGrey, width: 1.0),
+            borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
           )),
       keyboardType: TextInputType.multiline,
       textCapitalization: TextCapitalization.sentences,
       textInputAction: textInputAction,
-      style: TextStyles.textSmRegular(),
+      style: TextStyles.textSBold,
       validator: (value) {
         if (isMandatory && (value == null || value.isEmpty)) return mandatoryError;
         return null;
