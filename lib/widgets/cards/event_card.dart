@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/status_tag.dart';
 
@@ -40,7 +40,7 @@ class EventCard extends StatelessWidget {
             onTap: this.onTap,
             splashColor: AppColors.primaryLighten,
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(Margins.spacing_base),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -48,7 +48,7 @@ class EventCard extends StatelessWidget {
                   if (this.statut != null) _buildStatut(),
                   Text(this.titre, style: TextStyles.textBaseBold),
                   if (this.sousTitre != null && this.sousTitre!.isNotEmpty) _buildSousTitre(),
-                  if (this.derniereModification != null) _buildDerniereModification(),
+                  if (this.derniereModification != null) _buildDerniereModification(this.derniereModification!),
                 ],
               ),
             ),
@@ -60,33 +60,32 @@ class EventCard extends StatelessWidget {
 
   Widget _buildSousTitre() {
     return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: Text(this.sousTitre!, style: TextStyles.textSRegular(color: AppColors.grey800)),
+      padding: const EdgeInsets.only(top: Margins.spacing_s),
+      child: Text(this.sousTitre!, style: TextStyles.textSRegular(color: AppColors.contentColor)),
     );
   }
 
   Widget _buildStatut() {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
+      padding: const EdgeInsets.only(bottom: Margins.spacing_base),
       child: StatutTag(
         status: statut!,
       ),
     );
   }
 
-  Widget _buildDerniereModification() {
-    final String derniereModification = Strings.lastModificationPrefix + this.derniereModification!;
+  Widget _buildDerniereModification(String label) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8),
+          padding: const EdgeInsets.symmetric(vertical: Margins.spacing_base),
           child: Container(
             height: 1,
-            color: AppColors.shadowColor,
+            color: AppColors.primaryLighten,
           ),
         ),
-        Text(derniereModification, style: TextStyles.textSRegular(color: AppColors.grey800)),
+        Text(label, style: TextStyles.textSRegular(color: AppColors.contentColor)),
       ],
     );
   }
