@@ -12,6 +12,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   debugPrint("Handling a background message: ${message.messageId}");
 }
 
+
 class FirebasePushNotificationManager extends PushNotificationManager {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 

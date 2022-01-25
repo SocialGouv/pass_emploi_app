@@ -82,9 +82,13 @@ class ChatRepository {
   }
 
   Future<String?> _getChatDocumentId(String userId) async {
-    final chats =
-        await FirebaseFirestore.instance.collection(_collectionPath).where('jeuneId', isEqualTo: userId).get();
-    return chats.docs.first.id;
+    try {
+      final chats =
+          await FirebaseFirestore.instance.collection(_collectionPath).where('jeuneId', isEqualTo: userId).get();
+      return chats.docs.first.id;
+    } catch (e) {
+      debugPrint("Failed subscription to chat stream: $e");
+    }
   }
 
   DocumentReference<Map<String, dynamic>> _chatCollection(String chatDocumentId) {
