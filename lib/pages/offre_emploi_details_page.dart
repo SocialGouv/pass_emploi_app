@@ -449,7 +449,8 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
           onPressed: vm.withLoading ? null : () => vm.update(false),
         );
       },
-      converter: (store) => FavoriHeartViewModel.create(offreId, store, store.state.offreEmploiFavorisState),
+      converter: (store) =>
+          FavoriHeartViewModel<OffreEmploi>.create(offreId, store, store.state.offreEmploiFavorisState),
       distinct: true,
       onDidChange: (_, viewModel) {
         if (!viewModel.isFavori) {
