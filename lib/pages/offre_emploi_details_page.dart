@@ -32,24 +32,24 @@ import 'package:url_launcher/url_launcher.dart';
 class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   final String _offreId;
   final bool _fromAlternance;
-  final bool shouldPopPageWhenFavoriIsRemoved;
+  final bool popPageWhenFavoriIsRemoved;
 
   OffreEmploiDetailsPage._(
     this._offreId,
     this._fromAlternance, {
-    this.shouldPopPageWhenFavoriIsRemoved = false,
+    this.popPageWhenFavoriIsRemoved = false,
   }) : super(name: _fromAlternance ? AnalyticsScreenNames.alternanceDetails : AnalyticsScreenNames.emploiDetails);
 
   static MaterialPageRoute materialPageRoute(
     String id, {
     required bool fromAlternance,
-    bool shouldPopPageWhenFavoriIsRemoved = false,
+    bool popPageWhenFavoriIsRemoved = false,
   }) {
     return MaterialPageRoute(builder: (context) {
       return OffreEmploiDetailsPage._(
         id,
         fromAlternance,
-        shouldPopPageWhenFavoriIsRemoved: shouldPopPageWhenFavoriIsRemoved,
+        popPageWhenFavoriIsRemoved: popPageWhenFavoriIsRemoved,
       );
     });
   }
@@ -394,7 +394,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
             offreId: offreId,
             withBorder: true,
             from: _fromAlternance ? OffrePage.alternanceDetails : OffrePage.emploiDetails,
-            onFavoriRemoved: shouldPopPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
+            onFavoriRemoved: popPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
           ),
           SizedBox(width: Margins.spacing_base),
           ShareButton(url, title, () => _shareOffer(context)),

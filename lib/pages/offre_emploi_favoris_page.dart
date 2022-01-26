@@ -41,7 +41,7 @@ class OffreEmploiFavorisPage extends AbstractFavorisPage<OffreEmploi, OffreEmplo
         OffreEmploiDetailsPage.materialPageRoute(
           itemViewModel.id,
           fromAlternance: onlyAlternance,
-          shouldPopPageWhenFavoriIsRemoved: true,
+          popPageWhenFavoriIsRemoved: true,
         ),
       ),
     );

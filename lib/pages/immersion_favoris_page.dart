@@ -33,7 +33,7 @@ class ImmersionFavorisPage extends AbstractFavorisPage<Immersion, Immersion> {
         context,
         ImmersionDetailsPage.materialPageRoute(
           itemViewModel.id,
-          shouldPopPageWhenFavoriIsRemoved: true,
+          popPageWhenFavoriIsRemoved: true,
         ),
       ),
       from: OffrePage.immersionFavoris,

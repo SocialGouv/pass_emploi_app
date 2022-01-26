@@ -32,21 +32,21 @@ import 'offre_page.dart';
 
 class ImmersionDetailsPage extends TraceableStatelessWidget {
   final String _immersionId;
-  final bool shouldPopPageWhenFavoriIsRemoved;
+  final bool popPageWhenFavoriIsRemoved;
 
   ImmersionDetailsPage._(
     this._immersionId, {
-    this.shouldPopPageWhenFavoriIsRemoved = false,
+    this.popPageWhenFavoriIsRemoved = false,
   }) : super(name: AnalyticsScreenNames.immersionDetails);
 
   static MaterialPageRoute materialPageRoute(
     String id, {
-    bool shouldPopPageWhenFavoriIsRemoved = false,
+    bool popPageWhenFavoriIsRemoved = false,
   }) {
     return MaterialPageRoute(
       builder: (context) => ImmersionDetailsPage._(
         id,
-        shouldPopPageWhenFavoriIsRemoved: shouldPopPageWhenFavoriIsRemoved,
+        popPageWhenFavoriIsRemoved: popPageWhenFavoriIsRemoved,
       ),
     );
   }
@@ -172,7 +172,7 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
           offreId: viewModel.id,
           withBorder: true,
           from: OffrePage.immersionDetails,
-          onFavoriRemoved: shouldPopPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
+          onFavoriRemoved: popPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
         ),
         SizedBox(width: 16),
         if (viewModel.withMainCallToAction!)
