@@ -5,24 +5,34 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/favoris_list_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
+import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:redux/redux.dart';
 
 abstract class AbstractFavorisPage<FAVORIS_MODEL, FAVORIS_VIEW_MODEL> extends TraceableStatelessWidget {
   final String analyticsScreenName;
+  final FavorisState<FAVORIS_MODEL> Function(Store<AppState> store) selectState;
 
-  const AbstractFavorisPage({required this.analyticsScreenName, Key? key}) : super(name: analyticsScreenName, key: key);
+  const AbstractFavorisPage({
+    required this.analyticsScreenName,
+    required this.selectState,
+    Key? key,
+  }) : super(name: analyticsScreenName, key: key);
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, FavorisListViewModel<FAVORIS_MODEL, FAVORIS_VIEW_MODEL>>(
       onInit: (store) => store.dispatch(RequestFavorisAction<FAVORIS_MODEL>()),
-      builder: (context, viewModel) => DefaultAnimatedSwitcher(child: _switch(context, viewModel)),
+      builder: (context, viewModel) => FavorisStateContext<FAVORIS_MODEL>(
+        selectState: selectState,
+        child: DefaultAnimatedSwitcher(child: _switch(context, viewModel)),
+      ),
       converter: converter,
       distinct: true,
     );

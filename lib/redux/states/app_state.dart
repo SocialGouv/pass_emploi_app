@@ -35,6 +35,7 @@ class AppState extends Equatable {
   final OffreEmploiSearchResultsState offreEmploiSearchResultsState;
   final OffreEmploiSearchParametersState offreEmploiSearchParametersState;
   final FavorisState<OffreEmploi> offreEmploiFavorisState;
+  final FavorisState<Immersion> immersionFavorisState;
   final FavorisUpdateState favorisUpdateState;
   final SearchLocationState searchLocationState;
   final State<User> loginState;
@@ -56,6 +57,7 @@ class AppState extends Equatable {
     required this.offreEmploiSearchResultsState,
     required this.offreEmploiSearchParametersState,
     required this.offreEmploiFavorisState,
+    required this.immersionFavorisState,
     required this.favorisUpdateState,
     required this.searchLocationState,
     required this.loginState,
@@ -77,6 +79,7 @@ class AppState extends Equatable {
     final OffreEmploiSearchResultsState? offreEmploiSearchResultsState,
     final OffreEmploiSearchParametersState? offreEmploiSearchParametersState,
     final FavorisState<OffreEmploi>? offreEmploiFavorisState,
+    final FavorisState<Immersion>? immersionFavorisState,
     final FavorisUpdateState? favorisUpdateState,
     final SearchLocationState? searchLocationState,
     final State<User>? loginState,
@@ -99,6 +102,7 @@ class AppState extends Equatable {
       offreEmploiSearchResultsState: offreEmploiSearchResultsState ?? this.offreEmploiSearchResultsState,
       offreEmploiSearchParametersState: offreEmploiSearchParametersState ?? this.offreEmploiSearchParametersState,
       offreEmploiFavorisState: offreEmploiFavorisState ?? this.offreEmploiFavorisState,
+      immersionFavorisState: immersionFavorisState ?? this.immersionFavorisState,
       favorisUpdateState: favorisUpdateState ?? this.favorisUpdateState,
       searchLocationState: searchLocationState ?? this.searchLocationState,
       loginState: loginState ?? this.loginState,
@@ -123,6 +127,7 @@ class AppState extends Equatable {
         offreEmploiSearchResultsState: OffreEmploiSearchResultsState.notInitialized(),
         offreEmploiSearchParametersState: OffreEmploiSearchParametersState.notInitialized(),
         offreEmploiFavorisState: FavorisState<OffreEmploi>.notInitialized(),
+        immersionFavorisState: FavorisState<Immersion>.notInitialized(),
         favorisUpdateState: FavorisUpdateState({}),
         searchLocationState: SearchLocationState([]),
         loginState: State<User>.notInitialized(),

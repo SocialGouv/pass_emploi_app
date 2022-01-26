@@ -127,4 +127,5 @@ Location mockLocation() => Location(libelle: "", code: "", type: LocationType.DE
 
 Location mockCommuneLocation() => Location(libelle: "", code: "", type: LocationType.COMMUNE);
 
-Immersion mockImmersion() => Immersion(id: "", metier: "", nomEtablissement: "", secteurActivite: "", ville: "");
+Immersion mockImmersion({id = ""}) =>
+    Immersion(id: id, metier: "", nomEtablissement: "", secteurActivite: "", ville: "");

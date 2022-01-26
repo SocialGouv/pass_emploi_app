@@ -6,8 +6,11 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/carousel_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
+import 'immersion_favoris_page.dart';
+
 const int _indexOfOffresEmploi = 0;
 const int _indexOfAlternance = 1;
+const int _indexOfImmersion = 2;
 
 class FavorisTabsPage extends StatefulWidget {
   const FavorisTabsPage() : super();
@@ -54,13 +57,28 @@ class _FavorisTabsPageState extends State<FavorisTabsPage> {
             onPressed: () => _updateIndex(_indexOfAlternance),
             label: Strings.alternanceButton,
           ),
-          SizedBox(width: Margins.spacing_base)
+          SizedBox(width: Margins.spacing_base),
+          CarouselButton(
+            isActive: _selectedIndex == _indexOfImmersion,
+            onPressed: () => _updateIndex(_indexOfImmersion),
+            label: Strings.immersionButton,
+          ),
+          SizedBox(width: 12),
         ],
       ),
     );
   }
 
-  Widget _content() => OffreEmploiFavorisPage(onlyAlternance: _selectedIndex == _indexOfAlternance);
+  Widget _content() {
+    switch (_selectedIndex) {
+      case 0:
+        return OffreEmploiFavorisPage(onlyAlternance: false);
+      case 1:
+        return OffreEmploiFavorisPage(onlyAlternance: true);
+      default:
+        return ImmersionFavorisPage();
+    }
+  }
 
   void _updateIndex(int index) {
     setState(() {

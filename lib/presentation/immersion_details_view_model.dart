@@ -14,6 +14,7 @@ import 'package:redux/redux.dart';
 
 class ImmersionDetailsViewModel extends Equatable {
   final DisplayState displayState;
+  final String id;
   final String title;
   final String companyName;
   final String secteurActivite;
@@ -30,6 +31,7 @@ class ImmersionDetailsViewModel extends Equatable {
 
   ImmersionDetailsViewModel._({
     required this.displayState,
+    required this.id,
     required this.title,
     required this.companyName,
     required this.secteurActivite,
@@ -52,6 +54,7 @@ class ImmersionDetailsViewModel extends Equatable {
     final secondaryCallToActions = immersion != null ? _secondaryCallToActions(immersion, platform) : <CallToAction>[];
     return ImmersionDetailsViewModel._(
       displayState: displayStateFromState(state),
+      id: immersion?.id ?? '',
       title: immersion?.metier ?? '',
       companyName: immersion?.companyName ?? '',
       secteurActivite: immersion?.secteurActivite ?? '',
@@ -69,8 +72,10 @@ class ImmersionDetailsViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         displayState,
+        id,
         title,
         companyName,
         secteurActivite,

@@ -1,24 +1,24 @@
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
-import 'package:pass_emploi_app/models/offre_emploi.dart';
+import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
-import 'package:pass_emploi_app/network/post_offre_emploi_favori.dart';
+import 'package:pass_emploi_app/network/post_immersion_favori.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
 import 'package:pass_emploi_app/repositories/favoris_repository.dart';
 
-class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
+class ImmersionFavorisRepository extends FavorisRepository<Immersion> {
   final String _baseUrl;
   final Client _httpClient;
   final HeadersBuilder _headersBuilder;
   final Crashlytics? _crashlytics;
 
-  OffreEmploiFavorisRepository(this._baseUrl, this._httpClient, this._headersBuilder, [this._crashlytics]);
+  ImmersionFavorisRepository(this._baseUrl, this._httpClient, this._headersBuilder, [this._crashlytics]);
 
   @override
   Future<Set<String>?> getFavorisId(String userId) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-emploi");
+    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-immersion");
     try {
       final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
 
@@ -33,9 +33,9 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
   }
 
   @override
-  Future<Map<String, OffreEmploi>?> getFavoris(String userId) async {
+  Future<Map<String, Immersion>?> getFavoris(String userId) async {
     final url =
-        Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-emploi").replace(queryParameters: {"detail": "true"});
+        Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-immersion").replace(queryParameters: {"detail": "true"});
     try {
       final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
       if (response.statusCode.isValid()) {
@@ -43,7 +43,7 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
         return Map.fromIterable(
           json,
           key: (element) => element["id"],
-          value: (element) => OffreEmploi.fromJson(element),
+          value: (element) => Immersion.fromJson(element),
         );
       }
     } catch (e, stack) {
@@ -53,21 +53,19 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
   }
 
   @override
-  Future<bool> postFavori(String userId, OffreEmploi favori) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-emploi");
+  Future<bool> postFavori(String userId, Immersion favori) async {
+    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-immersion");
     try {
       final response = await _httpClient.post(
         url,
         headers: await _headersBuilder.headers(contentType: 'application/json'),
         body: customJsonEncode(
-          PostOffreEmploiFavori(
-            favori.id,
-            favori.title,
-            favori.companyName,
-            favori.contractType,
-            favori.isAlternance,
-            favori.location,
-            favori.duration,
+          PostImmersionFavori(
+            id: favori.id,
+            metier: favori.metier,
+            nomEtablissement: favori.nomEtablissement,
+            secteurActivite: favori.secteurActivite,
+            ville: favori.ville,
           ),
         ),
       );
@@ -82,7 +80,7 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
 
   @override
   Future<bool> deleteFavori(String userId, String favoriId) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-emploi/$favoriId");
+    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-immersion/$favoriId");
     try {
       final response = await _httpClient.delete(
         url,

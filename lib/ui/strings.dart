@@ -178,7 +178,7 @@ class Strings {
   static String searchRadius = "Dans un rayon de : ";
   static String applyFiltres = "Appliquer les filtres";
 
-  static String kmFormat(int int) => "${int} km";
+  static String kmFormat(int int) => "$int km";
   static String experienceSectionTitle = "Expérience";
   static String experienceDeZeroAUnAnLabel = "De 0 à 1 an";
   static String experienceDeUnATroisAnsLabel = "De 1 an à 3 ans";
