@@ -74,7 +74,7 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
       case ImmersionDetailsPageDisplayState.SHOW_LOADER:
         return _loading();
       case ImmersionDetailsPageDisplayState.SHOW_ERROR:
-        return Center(child: Retry(Strings.offreDetailsError, () => viewModel.onRetry(_immersionId)));
+        return _retry(viewModel);
     }
   }
 
@@ -87,6 +87,9 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
   }
 
   Widget _loading() => Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
+
+  Center _retry(ImmersionDetailsViewModel viewModel) =>
+      Center(child: Retry(Strings.offreDetailsError, () => viewModel.onRetry(_immersionId)));
 
   Widget _content(BuildContext context, ImmersionDetailsViewModel viewModel) {
     final explanationLabel = viewModel.explanationLabel;
