@@ -5,12 +5,12 @@ import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
 
-class OffreEmploiDetailsResponse {
+class OffreDetailsResponse<T> {
   final bool isGenericFailure;
   final bool isOffreNotFound;
-  final OffreEmploiDetails? offreEmploiDetails;
+  final T? details;
 
-  OffreEmploiDetailsResponse({required this.isGenericFailure, required this.isOffreNotFound, this.offreEmploiDetails});
+  OffreDetailsResponse({required this.isGenericFailure, required this.isOffreNotFound, this.details});
 }
 
 class OffreEmploiDetailsRepository {
@@ -21,33 +21,33 @@ class OffreEmploiDetailsRepository {
 
   OffreEmploiDetailsRepository(this._baseUrl, this._httpClient, this._headersBuilder, [this._crashlytics]);
 
-  Future<OffreEmploiDetailsResponse> getOffreEmploiDetails({required String offreId}) async {
+  Future<OffreDetailsResponse<OffreEmploiDetails>> getOffreEmploiDetails({required String offreId}) async {
     final url = Uri.parse(_baseUrl + "/offres-emploi/$offreId");
     try {
       final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes);
         if (json.containsKey("data")) {
-          return OffreEmploiDetailsResponse(
+          return OffreDetailsResponse(
             isGenericFailure: false,
             isOffreNotFound: false,
-            offreEmploiDetails: OffreEmploiDetails.fromJson(json["data"], json["urlRedirectPourPostulation"]),
+            details: OffreEmploiDetails.fromJson(json["data"], json["urlRedirectPourPostulation"]),
           );
         }
       } else {
-        return OffreEmploiDetailsResponse(
+        return OffreDetailsResponse<OffreEmploiDetails>(
           isGenericFailure: false,
           isOffreNotFound: true,
-          offreEmploiDetails: null,
+          details: null,
         );
       }
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);
     }
-    return OffreEmploiDetailsResponse(
+    return OffreDetailsResponse<OffreEmploiDetails>(
       isGenericFailure: true,
       isOffreNotFound: false,
-      offreEmploiDetails: null,
+      details: null,
     );
   }
 }

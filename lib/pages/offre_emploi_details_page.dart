@@ -6,7 +6,6 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
-import 'package:pass_emploi_app/presentation/favori_heart_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_details_page_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -17,8 +16,10 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/delete_favori_button.dart';
 import 'package:pass_emploi_app/widgets/external_link.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
+import 'package:pass_emploi_app/widgets/favori_not_found_error.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/help_tooltip.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
@@ -31,24 +32,24 @@ import 'package:url_launcher/url_launcher.dart';
 class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   final String _offreId;
   final bool _fromAlternance;
-  final bool shouldPopPageWhenFavoriIsRemoved;
+  final bool popPageWhenFavoriIsRemoved;
 
   OffreEmploiDetailsPage._(
     this._offreId,
     this._fromAlternance, {
-    this.shouldPopPageWhenFavoriIsRemoved = false,
+    this.popPageWhenFavoriIsRemoved = false,
   }) : super(name: _fromAlternance ? AnalyticsScreenNames.alternanceDetails : AnalyticsScreenNames.emploiDetails);
 
   static MaterialPageRoute materialPageRoute(
     String id, {
     required bool fromAlternance,
-    bool shouldPopPageWhenFavoriIsRemoved = false,
+    bool popPageWhenFavoriIsRemoved = false,
   }) {
     return MaterialPageRoute(builder: (context) {
       return OffreEmploiDetailsPage._(
         id,
         fromAlternance,
-        shouldPopPageWhenFavoriIsRemoved: shouldPopPageWhenFavoriIsRemoved,
+        popPageWhenFavoriIsRemoved: popPageWhenFavoriIsRemoved,
       );
     });
   }
@@ -133,7 +134,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
                   if (viewModel.companyName != null) _companyDescription(viewModel),
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS)
-                  _offreNotFoundError(),
+                  FavoriNotFoundError(),
                 _spacer(60),
               ],
             ),
@@ -375,33 +376,6 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     );
   }
 
-  Widget _offreNotFoundError() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(16),
-      child: Container(
-        color: AppColors.warningLight,
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Text(
-                Strings.offreNotFoundError,
-                style: TextStyles.textSBoldWithColor(
-                  AppColors.warning,
-                ),
-              ),
-              _spacer(Margins.spacing_s),
-              Text(
-                Strings.offreNotFoundExplaination,
-                style: TextStyles.textSmRegular(color: AppColors.warning),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _footer(BuildContext context, String url, String offreId, String? title) {
     return Container(
       color: Colors.white,
@@ -420,7 +394,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
             offreId: offreId,
             withBorder: true,
             from: _fromAlternance ? OffrePage.alternanceDetails : OffrePage.emploiDetails,
-            onFavoriRemoved: shouldPopPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
+            onFavoriRemoved: popPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
           ),
           SizedBox(width: Margins.spacing_base),
           ShareButton(url, title, () => _shareOffer(context)),
@@ -435,28 +409,9 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
-          Expanded(child: _deleteFavoriStoreConnector(context, id)),
+          Expanded(child: DeleteFavoriButton<OffreEmploi>(offreId: id, from: OffrePage.emploiDetails)),
         ],
       ),
-    );
-  }
-
-  Widget _deleteFavoriStoreConnector(BuildContext context, String offreId) {
-    return StoreConnector<AppState, FavoriHeartViewModel>(
-      builder: (context, vm) {
-        return PrimaryActionButton(
-          label: Strings.deleteOffreFromFavori,
-          onPressed: vm.withLoading ? null : () => vm.update(false),
-        );
-      },
-      converter: (store) =>
-          FavoriHeartViewModel<OffreEmploi>.create(offreId, store, store.state.offreEmploiFavorisState),
-      distinct: true,
-      onDidChange: (_, viewModel) {
-        if (!viewModel.isFavori) {
-          Navigator.pop(context);
-        }
-      },
     );
   }
 

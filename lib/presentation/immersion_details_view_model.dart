@@ -1,32 +1,36 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/presentation/call_to_action.dart';
-import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/immersion_details_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:pass_emploi_app/utils/uri_handler.dart';
 import 'package:redux/redux.dart';
 
+enum ImmersionDetailsPageDisplayState { SHOW_DETAILS, SHOW_INCOMPLETE_DETAILS, SHOW_LOADER, SHOW_ERROR }
+
 class ImmersionDetailsViewModel extends Equatable {
-  final DisplayState displayState;
+  final ImmersionDetailsPageDisplayState displayState;
   final String id;
   final String title;
   final String companyName;
   final String secteurActivite;
   final String ville;
-  final String address;
-  final String explanationLabel;
-  final String contactLabel;
-  final String contactInformation;
-  final bool withMainCallToAction;
-  final bool withSecondaryCallToActions;
+  final String? address;
+  final String? explanationLabel;
+  final String? contactLabel;
+  final String? contactInformation;
+  final bool? withMainCallToAction;
+  final bool? withSecondaryCallToActions;
   final CallToAction? mainCallToAction;
-  final List<CallToAction> secondaryCallToActions;
+  final List<CallToAction>? secondaryCallToActions;
   final Function(String immersionId) onRetry;
 
   ImmersionDetailsViewModel._({
@@ -36,44 +40,34 @@ class ImmersionDetailsViewModel extends Equatable {
     required this.companyName,
     required this.secteurActivite,
     required this.ville,
-    required this.address,
-    required this.explanationLabel,
-    required this.contactLabel,
-    required this.contactInformation,
-    required this.withMainCallToAction,
-    required this.withSecondaryCallToActions,
-    required this.mainCallToAction,
-    required this.secondaryCallToActions,
+    this.address,
+    this.explanationLabel,
+    this.contactLabel,
+    this.contactInformation,
+    this.withMainCallToAction,
+    this.withSecondaryCallToActions,
+    this.mainCallToAction,
+    this.secondaryCallToActions,
     required this.onRetry,
   });
 
   factory ImmersionDetailsViewModel.create(Store<AppState> store, Platform platform) {
     final state = store.state.immersionDetailsState;
-    final immersion = state.isSuccess() ? state.getResultOrThrow() : null;
-    final mainCallToAction = immersion != null ? _mainCallToAction(immersion, platform) : null;
-    final secondaryCallToActions = immersion != null ? _secondaryCallToActions(immersion, platform) : <CallToAction>[];
-    return ImmersionDetailsViewModel._(
-      displayState: displayStateFromState(state),
-      id: immersion?.id ?? '',
-      title: immersion?.metier ?? '',
-      companyName: immersion?.companyName ?? '',
-      secteurActivite: immersion?.secteurActivite ?? '',
-      ville: immersion?.ville ?? '',
-      address: immersion?.address ?? '',
-      explanationLabel: immersion != null ? _explanationLabel(immersion) : '',
-      contactLabel: immersion != null ? _contactLabel(immersion) : '',
-      contactInformation: immersion != null ? _contactInformation(immersion) : '',
-      withMainCallToAction: mainCallToAction != null,
-      withSecondaryCallToActions: secondaryCallToActions.isNotEmpty,
-      mainCallToAction: mainCallToAction,
-      secondaryCallToActions: secondaryCallToActions,
-      onRetry: (immersionId) => store.dispatch(ImmersionDetailsAction.request(immersionId)),
-    );
+    if (state.isSuccess()) {
+      final immersionDetails = state.getResultOrThrow();
+      final mainCallToAction = _mainCallToAction(immersionDetails, platform);
+      final secondaryCallToActions = _secondaryCallToActions(immersionDetails, platform);
+      return _successViewModel(state, immersionDetails, mainCallToAction, secondaryCallToActions, store);
+    } else if (state is ImmersionDetailsIncompleteDataState) {
+      final immersion = state.immersion;
+      return _incompleteViewModel(immersion, store);
+    } else {
+      return _otherCasesViewModel(state, store);
+    }
   }
 
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         displayState,
         id,
         title,
@@ -85,6 +79,61 @@ class ImmersionDetailsViewModel extends Equatable {
         contactLabel,
         contactInformation,
       ];
+}
+
+ImmersionDetailsPageDisplayState _displayState(State<ImmersionDetails> offreEmploiDetailsState) {
+  if (offreEmploiDetailsState.isSuccess()) {
+    return ImmersionDetailsPageDisplayState.SHOW_DETAILS;
+  } else if (offreEmploiDetailsState.isLoading()) {
+    return ImmersionDetailsPageDisplayState.SHOW_LOADER;
+  } else {
+    return ImmersionDetailsPageDisplayState.SHOW_ERROR;
+  }
+}
+
+ImmersionDetailsViewModel _successViewModel(State<ImmersionDetails> state, ImmersionDetails immersionDetails,
+    CallToAction? mainCallToAction, List<CallToAction> secondaryCallToActions, Store<AppState> store) {
+  return ImmersionDetailsViewModel._(
+    displayState: _displayState(state),
+    id: immersionDetails.id,
+    title: immersionDetails.metier,
+    companyName: immersionDetails.companyName,
+    secteurActivite: immersionDetails.secteurActivite,
+    ville: immersionDetails.ville,
+    address: immersionDetails.address,
+    explanationLabel: _explanationLabel(immersionDetails),
+    contactLabel: _contactLabel(immersionDetails),
+    contactInformation: _contactInformation(immersionDetails),
+    withMainCallToAction: mainCallToAction != null,
+    withSecondaryCallToActions: secondaryCallToActions.isNotEmpty,
+    mainCallToAction: mainCallToAction,
+    secondaryCallToActions: secondaryCallToActions,
+    onRetry: (immersionId) => _retry(store, immersionId),
+  );
+}
+
+ImmersionDetailsViewModel _incompleteViewModel(Immersion immersion, Store<AppState> store) {
+  return ImmersionDetailsViewModel._(
+    displayState: ImmersionDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS,
+    id: immersion.id,
+    title: immersion.metier,
+    companyName: immersion.nomEtablissement,
+    secteurActivite: immersion.secteurActivite,
+    ville: immersion.ville,
+    onRetry: (immersionId) => _retry(store, immersionId),
+  );
+}
+
+ImmersionDetailsViewModel _otherCasesViewModel(State<ImmersionDetails> state, Store<AppState> store) {
+  return ImmersionDetailsViewModel._(
+    displayState: _displayState(state),
+    id: "",
+    title: "",
+    companyName: "",
+    secteurActivite: "",
+    ville: "",
+    onRetry: (immersionId) => _retry(store, immersionId),
+  );
 }
 
 String _explanationLabel(ImmersionDetails immersion) {
@@ -184,3 +233,5 @@ List<CallToAction> _secondaryCallToActions(ImmersionDetails immersion, Platform 
     return [];
   }
 }
+
+void _retry(Store store, String immersionId) => store.dispatch(ImmersionDetailsAction.request(immersionId));

@@ -29,7 +29,13 @@ class ImmersionFavorisPage extends AbstractFavorisPage<Immersion, Immersion> {
       sousTitre: itemViewModel.nomEtablissement,
       lieu: itemViewModel.ville,
       dataTag: [itemViewModel.secteurActivite],
-      onTap: () => Navigator.push(context, ImmersionDetailsPage.materialPageRoute(itemViewModel.id)),
+      onTap: () => Navigator.push(
+        context,
+        ImmersionDetailsPage.materialPageRoute(
+          itemViewModel.id,
+          popPageWhenFavoriIsRemoved: true,
+        ),
+      ),
       from: OffrePage.immersionFavoris,
       id: itemViewModel.id,
     );
