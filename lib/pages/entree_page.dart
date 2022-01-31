@@ -10,6 +10,8 @@ import 'package:pass_emploi_app/widgets/entree_background.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/secondary_button.dart';
 
+import 'create_account_page.dart';
+
 class EntreePage extends TraceableStatelessWidget {
   const EntreePage() : super(name: AnalyticsScreenNames.entree);
 
@@ -72,7 +74,11 @@ class EntreePage extends TraceableStatelessWidget {
                                         Navigator.push(context, LoginPage.materialPageRoute());
                                       }),
                                   SizedBox(height: Margins.spacing_base),
-                                  SecondaryButton(label: "Demander un compte pass emploi", onPressed: () {}),
+                                  SecondaryButton(
+                                      label: "Demander un compte pass emploi",
+                                      onPressed: () {
+                                        Navigator.push(context, CreateAccountPage.materialPageRoute());
+                                      }),
                                 ],
                               ),
                             ),

@@ -16,6 +16,8 @@ import 'package:pass_emploi_app/widgets/entree_background.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/secondary_button.dart';
 
+import 'create_account_page.dart';
+
 class LoginPage extends TraceableStatelessWidget {
   LoginPage() : super(name: AnalyticsScreenNames.login);
 
@@ -81,7 +83,11 @@ class LoginPage extends TraceableStatelessWidget {
                             child: Text("Vous n’avez pas de compte pass emploi ?",
                                 style: TextStyles.textBaseRegular.copyWith(color: Colors.white))),
                         SizedBox(height: 16),
-                        SecondaryButton(label: "Demander un compte pass emploi", onPressed: () {}),
+                        SecondaryButton(
+                            label: "Demander un compte pass emploi",
+                            onPressed: () {
+                              Navigator.push(context, CreateAccountPage.materialPageRoute());
+                            }),
                       ],
                     ),
                   )
