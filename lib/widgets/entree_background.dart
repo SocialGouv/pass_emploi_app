@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
 
 class EntreeBackground extends StatelessWidget {
   const EntreeBackground({
@@ -21,32 +19,6 @@ class EntreeBackground extends StatelessWidget {
           ),
           clipper: DiagonalClipper(),
         ),
-        SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(
-                height: 64,
-              ),
-              SvgPicture.asset(
-                Drawables.passEmploiLogo,
-                color: Colors.white,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Image.asset(
-                "assets/un_jeune_une_solution_logo.png",
-              ),
-              Expanded(
-                child: Image.asset(
-                  "assets/jeune_home.png",
-                  alignment: Alignment.bottomCenter,
-                ),
-              ),
-            ],
-          ),
-        )
       ],
     );
   }
