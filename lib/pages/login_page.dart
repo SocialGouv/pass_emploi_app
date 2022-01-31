@@ -16,6 +16,10 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 class LoginPage extends TraceableStatelessWidget {
   LoginPage() : super(name: AnalyticsScreenNames.login);
 
+  static MaterialPageRoute materialPageRoute() {
+    return MaterialPageRoute(builder: (context) => LoginPage());
+  }
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, LoginViewModel>(

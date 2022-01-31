@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/pages/login_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/widgets/login_hub_background.dart';
+import 'package:pass_emploi_app/widgets/entree_background.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/secondary_button.dart';
 
@@ -35,7 +36,11 @@ class EntreePage extends TraceableStatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      PrimaryActionButton(label: "Se connecter", onPressed: () {}),
+                      PrimaryActionButton(
+                          label: "Se connecter",
+                          onPressed: () {
+                            Navigator.push(context, LoginPage.materialPageRoute());
+                          }),
                       SizedBox(height: Margins.spacing_base),
                       SecondaryButton(label: "Demander un compte pass emploi", onPressed: () {}),
                     ],

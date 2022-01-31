@@ -1,7 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/pages/login_hub_page.dart';
+import 'package:pass_emploi_app/pages/entree_page.dart';
 import 'package:pass_emploi_app/pages/main_page.dart';
 import 'package:pass_emploi_app/pages/spash_screen_page.dart';
 import 'package:pass_emploi_app/presentation/router_page_view_model.dart';
