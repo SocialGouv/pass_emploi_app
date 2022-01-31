@@ -41,7 +41,7 @@ class _RouterPageState extends State<RouterPage> {
         return SplashScreenPage();
       case RouterPageDisplayState.LOGIN:
         _removeAllScreensAboveRouterPage();
-        return LoginHubPage();
+        return EntreePage();
       case RouterPageDisplayState.MAIN:
         return MainPage(
           displayState: viewModel.mainPageDisplayState,

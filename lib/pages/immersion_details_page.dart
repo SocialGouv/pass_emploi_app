@@ -197,13 +197,16 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
     final buttons = viewModel.secondaryCallToActions!.map((cta) {
       return Padding(
         padding: const EdgeInsets.only(bottom: Margins.spacing_m),
-        child: SecondaryButton(
-          label: cta.label,
-          drawableRes: cta.drawableRes,
-          onPressed: () {
-            context.trackEvent(cta.eventType);
-            launch(cta.uri.toString());
-          },
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minWidth: double.infinity),
+          child: SecondaryButton(
+            label: cta.label,
+            drawableRes: cta.drawableRes,
+            onPressed: () {
+              context.trackEvent(cta.eventType);
+              launch(cta.uri.toString());
+            },
+          ),
         ),
       );
     }).toList();
