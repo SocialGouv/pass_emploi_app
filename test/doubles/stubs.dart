@@ -5,9 +5,12 @@ import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
+import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
+import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/network/headers.dart';
+import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 
@@ -213,5 +216,26 @@ class AuthWrapperStub extends AuthWrapper {
     if (_throwsLogoutException) throw AuthWrapperLogoutException();
     if (request == _logoutParameters) return Future.value(true);
     return Future.value(false);
+  }
+}
+
+class ChatRepositoryStub extends ChatRepository {
+  List<Message> _messages = [];
+  ConseillerMessageInfo _info = ConseillerMessageInfo(null, null);
+
+  ChatRepositoryStub() : super(DummyChatCrypto(), DummyCrashlytics());
+
+  void onMessageStreamReturns(List<Message> messages) => _messages = messages;
+
+  void onChatStatusStreamReturns(ConseillerMessageInfo info) => _info = info;
+
+  @override
+  Stream<List<Message>> messagesStream(String userId) async* {
+    yield _messages;
+  }
+
+  @override
+  Stream<ConseillerMessageInfo> chatStatusStream(String userId) async* {
+    yield _info;
   }
 }
