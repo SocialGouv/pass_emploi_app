@@ -2,9 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@color/newPrimaryBlue" />
 
-    <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@drawable/logo_pass_emploi" />
-    </item>
+    <item
+        android:drawable="@drawable/ic_logo"
+        android:gravity="center" />
 </layer-list>
