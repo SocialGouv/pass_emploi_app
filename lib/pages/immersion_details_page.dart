@@ -170,15 +170,8 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.all(Margins.spacing_base),
-      child: Row(textDirection: TextDirection.rtl, children: [
-        FavoriHeart<Immersion>(
-          offreId: viewModel.id,
-          withBorder: true,
-          from: OffrePage.immersionDetails,
-          onFavoriRemoved: popPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
-        ),
-        SizedBox(width: 16),
-        if (viewModel.withMainCallToAction!)
+      child: Row(
+        children: [
           Expanded(
             child: PrimaryActionButton(
               onPressed: () {
@@ -188,7 +181,15 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
               label: viewModel.mainCallToAction!.label,
             ),
           ),
-      ]),
+          SizedBox(width: 16),
+          FavoriHeart<Immersion>(
+            offreId: viewModel.id,
+            withBorder: true,
+            from: OffrePage.immersionDetails,
+            onFavoriRemoved: popPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
+          ),
+        ],
+      ),
     );
   }
 

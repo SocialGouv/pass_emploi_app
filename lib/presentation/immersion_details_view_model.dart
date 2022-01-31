@@ -27,7 +27,6 @@ class ImmersionDetailsViewModel extends Equatable {
   final String? explanationLabel;
   final String? contactLabel;
   final String? contactInformation;
-  final bool? withMainCallToAction;
   final bool? withSecondaryCallToActions;
   final CallToAction? mainCallToAction;
   final List<CallToAction>? secondaryCallToActions;
@@ -44,7 +43,6 @@ class ImmersionDetailsViewModel extends Equatable {
     this.explanationLabel,
     this.contactLabel,
     this.contactInformation,
-    this.withMainCallToAction,
     this.withSecondaryCallToActions,
     this.mainCallToAction,
     this.secondaryCallToActions,
@@ -104,7 +102,6 @@ ImmersionDetailsViewModel _successViewModel(State<ImmersionDetails> state, Immer
     explanationLabel: _explanationLabel(immersionDetails),
     contactLabel: _contactLabel(immersionDetails),
     contactInformation: _contactInformation(immersionDetails),
-    withMainCallToAction: mainCallToAction != null,
     withSecondaryCallToActions: secondaryCallToActions.isNotEmpty,
     mainCallToAction: mainCallToAction,
     secondaryCallToActions: secondaryCallToActions,
@@ -179,42 +176,40 @@ String _contactInformation(ImmersionDetails immersion) {
   return contactInformation;
 }
 
-CallToAction? _mainCallToAction(ImmersionDetails immersion, Platform platform) {
+CallToAction _mainCallToAction(ImmersionDetails immersion, Platform platform) {
   final contact = immersion.contact;
-  if (contact != null) {
-    if (contact.mode == ImmersionContactMode.INCONNU && contact.phone.isNotEmpty) {
-      return CallToAction(
-        Strings.immersionPhoneButton,
-        UriHandler().phoneUri(contact.phone),
-        EventType.OFFRE_IMMERSION_APPEL,
-      );
-    } else if (contact.mode == ImmersionContactMode.PHONE) {
-      return CallToAction(
-        Strings.immersionPhoneButton,
-        UriHandler().phoneUri(contact.phone),
-        EventType.OFFRE_IMMERSION_APPEL,
-      );
-    } else if (contact.mode == ImmersionContactMode.MAIL) {
-      return CallToAction(
-        Strings.immersionEmailButton,
-        UriHandler().mailUri(to: contact.mail, subject: Strings.immersionEmailSubject),
-        EventType.OFFRE_IMMERSION_ENVOI_EMAIL,
-      );
-    } else if (contact.mode == ImmersionContactMode.PRESENTIEL) {
-      return CallToAction(
-        Strings.immersionLocationButton,
-        UriHandler().mapsUri(immersion.address, platform),
-        EventType.OFFRE_IMMERSION_LOCALISATION,
-      );
-    }
+  if (contact != null && contact.mode == ImmersionContactMode.INCONNU && contact.phone.isNotEmpty) {
+    return CallToAction(
+      Strings.immersionPhoneButton,
+      UriHandler().phoneUri(contact.phone),
+      EventType.OFFRE_IMMERSION_APPEL,
+    );
+  } else if (contact != null && contact.mode == ImmersionContactMode.PHONE) {
+    return CallToAction(
+      Strings.immersionPhoneButton,
+      UriHandler().phoneUri(contact.phone),
+      EventType.OFFRE_IMMERSION_APPEL,
+    );
+  } else if (contact != null && contact.mode == ImmersionContactMode.MAIL) {
+    return CallToAction(
+      Strings.immersionEmailButton,
+      UriHandler().mailUri(to: contact.mail, subject: Strings.immersionEmailSubject),
+      EventType.OFFRE_IMMERSION_ENVOI_EMAIL,
+    );
+  } else {
+    return CallToAction(
+      Strings.immersionLocationButton,
+      UriHandler().mapsUri(immersion.address, platform),
+      EventType.OFFRE_IMMERSION_LOCALISATION,
+    );
   }
-  return null;
 }
 
 List<CallToAction> _secondaryCallToActions(ImmersionDetails immersion, Platform platform) {
   final mode = immersion.contact?.mode;
   if (mode == null || mode == ImmersionContactMode.INCONNU) {
     final mail = immersion.contact?.mail;
+    final phone = immersion.contact?.phone;
     return [
       if (mail != null && mail.isNotEmpty)
         CallToAction(
@@ -223,11 +218,12 @@ List<CallToAction> _secondaryCallToActions(ImmersionDetails immersion, Platform 
           EventType.OFFRE_IMMERSION_ENVOI_EMAIL,
           drawableRes: Drawables.icMail,
         ),
-      CallToAction(
-        Strings.immersionLocationButton,
-        UriHandler().mapsUri(immersion.address, platform),
-        EventType.OFFRE_IMMERSION_LOCALISATION,
-      ),
+      if (phone != null && phone.isNotEmpty)
+        CallToAction(
+          Strings.immersionLocationButton,
+          UriHandler().mapsUri(immersion.address, platform),
+          EventType.OFFRE_IMMERSION_LOCALISATION,
+        ),
     ];
   } else {
     return [];
