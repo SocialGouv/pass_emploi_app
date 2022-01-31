@@ -31,6 +31,13 @@ class _RouterPageState extends State<RouterPage> {
       onInit: (store) => store.dispatch(BootstrapAction()),
       converter: (store) => RouterPageViewModel.create(store),
       builder: (context, viewModel) => _content(viewModel),
+      onDidChange: (previousViewModel, viewModel) {
+        debugPrint("🚔 Router : ${viewModel.routerPageDisplayState}");
+        if (viewModel.routerPageDisplayState == RouterPageDisplayState.LOGIN ||
+            viewModel.routerPageDisplayState == RouterPageDisplayState.MAIN) {
+          _removeAllScreensAboveRouterPage();
+        }
+      },
       distinct: true,
     );
   }
@@ -40,7 +47,6 @@ class _RouterPageState extends State<RouterPage> {
       case RouterPageDisplayState.SPLASH:
         return SplashScreenPage();
       case RouterPageDisplayState.LOGIN:
-        _removeAllScreensAboveRouterPage();
         return EntreePage();
       case RouterPageDisplayState.MAIN:
         return MainPage(
