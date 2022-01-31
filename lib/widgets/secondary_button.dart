@@ -21,6 +21,7 @@ class SecondaryButton extends StatelessWidget {
       onPressed: onPressed,
       style: OutlinedButton.styleFrom(
         shape: StadiumBorder(),
+        backgroundColor: Colors.white,
         side: BorderSide(color: AppColors.primary, width: 2),
       ),
       child: Padding(
@@ -35,7 +36,7 @@ class SecondaryButton extends StatelessWidget {
                     drawableRes!,
                     color: AppColors.primary,
                   )),
-            Text(label, style: TextStyles.textSecondaryButton),
+            Flexible(child: Text(label, textAlign: TextAlign.center, style: TextStyles.textSecondaryButton)),
           ],
         ),
       ),

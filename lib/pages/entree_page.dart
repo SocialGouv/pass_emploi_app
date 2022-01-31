@@ -19,63 +19,71 @@ class EntreePage extends TraceableStatelessWidget {
       body: Stack(
         children: [
           const EntreeBackground(),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Image.asset(
-              "assets/jeune_home.png",
-              alignment: Alignment.bottomCenter,
-            ),
-          ),
-          Column(
-            children: [
-              SizedBox(
-                height: 64,
-              ),
-              SvgPicture.asset(
-                Drawables.passEmploiLogo,
-                color: Colors.white,
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Image.asset(
-                "assets/un_jeune_une_solution_logo.png",
-              ),
-              Spacer(),
-              Padding(
-                padding: const EdgeInsets.all(Margins.spacing_m),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Container(
-                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), boxShadow: [
-                      BoxShadow(
-                        color: AppColors.shadowColor,
-                        spreadRadius: 1,
-                        blurRadius: 8,
-                        offset: Offset(0, 6), // changes position of shadow
+          SafeArea(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 64,
+                ),
+                SvgPicture.asset(
+                  Drawables.passEmploiLogo,
+                  color: Colors.white,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Image.asset(
+                  "assets/un_jeune_une_solution_logo.png",
+                ),
+                Expanded(
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Image.asset(
+                          "assets/jeune_home.png",
+                          alignment: Alignment.bottomCenter,
+                        ),
                       ),
-                    ]),
-                    child: Padding(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_m),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          PrimaryActionButton(
-                              label: "Se connecter",
-                              onPressed: () {
-                                Navigator.push(context, LoginPage.materialPageRoute());
-                              }),
-                          SizedBox(height: Margins.spacing_base),
-                          SecondaryButton(label: "Demander un compte pass emploi", onPressed: () {}),
-                        ],
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.all(Margins.spacing_m),
+                          child: Container(
+                            decoration:
+                                BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), boxShadow: [
+                              BoxShadow(
+                                color: AppColors.shadowColor,
+                                spreadRadius: 1,
+                                blurRadius: 8,
+                                offset: Offset(0, 6), // changes position of shadow
+                              ),
+                            ]),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: Margins.spacing_base, vertical: Margins.spacing_m),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  PrimaryActionButton(
+                                      label: "Se connecter",
+                                      onPressed: () {
+                                        Navigator.push(context, LoginPage.materialPageRoute());
+                                      }),
+                                  SizedBox(height: Margins.spacing_base),
+                                  SecondaryButton(label: "Demander un compte pass emploi", onPressed: () {}),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),

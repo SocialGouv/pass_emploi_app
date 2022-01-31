@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
@@ -99,9 +100,9 @@ void main() {
 
     // Then
     expect(viewModel.loginButtons, [
-      LoginButtonViewModel(label: "Je suis suivi(e) par la Mission Locale", action: () {}),
-      LoginButtonViewModel(label: "Je suis suivi(e) par Pôle emploi", action: () {}),
-      LoginButtonViewModel(label: "Connexion pass emploi", action: () {}),
+      LoginButtonViewModel(label: "Pôle emploi", backgroundColor: AppColors.poleEmploi, action: () {}),
+      LoginButtonViewModel(label: "Mission Locale", backgroundColor: AppColors.missionLocale, action: () {}),
+      LoginButtonViewModel(label: "pass emploi", backgroundColor: AppColors.primary, action: () {}),
     ]);
   });
 
@@ -116,8 +117,8 @@ void main() {
 
     // Then
     expect(viewModel.loginButtons, [
-      LoginButtonViewModel(label: "Je suis suivi(e) par la Mission Locale", action: () {}),
-      LoginButtonViewModel(label: "Je suis suivi(e) par Pôle emploi", action: () {}),
+      LoginButtonViewModel(label: "Pôle emploi", backgroundColor: AppColors.poleEmploi, action: () {}),
+      LoginButtonViewModel(label: "Mission Locale", backgroundColor: AppColors.missionLocale, action: () {}),
     ]);
   });
 }
