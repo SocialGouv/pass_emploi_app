@@ -4,10 +4,6 @@
 set -e
 set -o pipefail
 
-set -a
-source scripts/build.env
-set +a
-
 flutter test
 
 date=`echo "$(date +%s)"`
