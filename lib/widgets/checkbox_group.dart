@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/presentation/checkbox_value_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/help_tooltip.dart';
 
@@ -41,12 +42,7 @@ class _CheckBoxGroupState<T extends CheckboxValueViewModel> extends State<CheckB
         Container(
           decoration:
               BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(16)), boxShadow: [
-            BoxShadow(
-              color: AppColors.shadowColor,
-              spreadRadius: 1,
-              blurRadius: 8,
-              offset: Offset(0, 6), // changes position of shadow
-            )
+            Shadows.boxShadow,
           ]),
           child: Padding(
             padding: const EdgeInsets.only(left: 16),

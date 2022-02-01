@@ -3,9 +3,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/login_page.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
@@ -43,13 +43,8 @@ class EntreePage extends TraceableStatelessWidget {
                           padding: const EdgeInsets.all(Margins.spacing_m),
                           child: Container(
                             decoration:
-                            BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), boxShadow: [
-                              BoxShadow(
-                                color: AppColors.shadowColor,
-                                spreadRadius: 1,
-                                blurRadius: 8,
-                                offset: Offset(0, 6), // changes position of shadow
-                              ),
+                                BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), boxShadow: [
+                              Shadows.boxShadow,
                             ]),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
