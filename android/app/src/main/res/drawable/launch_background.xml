@@ -5,6 +5,6 @@
     <item>
         <bitmap
             android:gravity="center"
-            android:src="@drawable/logo_pass_emploi" />
+            android:src="@drawable/logo_pass_emploi_light" />
     </item>
 </layer-list>

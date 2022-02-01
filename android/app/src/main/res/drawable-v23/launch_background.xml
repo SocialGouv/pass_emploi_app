@@ -3,6 +3,6 @@
     <item android:drawable="@drawable/biseau_background" />
 
     <item
-        android:drawable="@drawable/ic_logo"
+        android:drawable="@drawable/logo_pass_emploi_light"
         android:gravity="center" />
 </layer-list>
