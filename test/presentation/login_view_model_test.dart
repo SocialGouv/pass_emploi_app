@@ -69,7 +69,7 @@ void main() {
     final viewModel = LoginViewModel.create(store);
 
     // When
-    viewModel.loginButtons[1].action();
+    viewModel.loginButtons[0].action();
 
     // Then
     expect(store.dispatchedAction, isA<RequestLoginAction>());
@@ -82,7 +82,7 @@ void main() {
     final viewModel = LoginViewModel.create(store);
 
     // When
-    viewModel.loginButtons[0].action();
+    viewModel.loginButtons[1].action();
 
     // Then
     expect(store.dispatchedAction, isA<RequestLoginAction>());
