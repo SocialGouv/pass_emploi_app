@@ -42,30 +42,17 @@ class EntreePage extends TraceableStatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(Margins.spacing_m),
                           child: Container(
-                            decoration:
-                                BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), boxShadow: [
-                              Shadows.boxShadow,
-                            ]),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: [Shadows.boxShadow],
+                            ),
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
-                                  horizontal: Margins.spacing_base, vertical: Margins.spacing_m),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  PrimaryActionButton(
-                                      label: Strings.loginAction,
-                                      onPressed: () {
-                                        Navigator.push(context, LoginPage.materialPageRoute());
-                                      }),
-                                  SizedBox(height: Margins.spacing_base),
-                                  SecondaryButton(
-                                      label: Strings.askAccount,
-                                      onPressed: () {
-                                        Navigator.push(context, CreateAccountPage.materialPageRoute());
-                                      }),
-                                ],
+                                horizontal: Margins.spacing_base,
+                                vertical: Margins.spacing_m,
                               ),
+                              child: _buttonCard(context),
                             ),
                           ),
                         ),
@@ -78,6 +65,24 @@ class EntreePage extends TraceableStatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Column _buttonCard(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        PrimaryActionButton(
+          label: Strings.loginAction,
+          onPressed: () => Navigator.push(context, LoginPage.materialPageRoute()),
+        ),
+        SizedBox(height: Margins.spacing_base),
+        SecondaryButton(
+          label: Strings.askAccount,
+          onPressed: () => Navigator.push(context, CreateAccountPage.materialPageRoute()),
+        ),
+      ],
     );
   }
 }
