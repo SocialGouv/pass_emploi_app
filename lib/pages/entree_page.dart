@@ -22,6 +22,7 @@ class EntreePage extends TraceableStatelessWidget {
         children: [
           const EntreeBackground(),
           SafeArea(
+            bottom: false,
             child: Column(
               children: [
                 SizedBox(
@@ -53,7 +54,7 @@ class EntreePage extends TraceableStatelessWidget {
                           padding: const EdgeInsets.all(Margins.spacing_m),
                           child: Container(
                             decoration:
-                                BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), boxShadow: [
+                            BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), boxShadow: [
                               BoxShadow(
                                 color: AppColors.shadowColor,
                                 spreadRadius: 1,
