@@ -6,6 +6,8 @@ import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
+import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -68,6 +70,12 @@ class DummyRendezvousRepository extends RendezvousRepository {
 
 class DummyChatRepository extends ChatRepository {
   DummyChatRepository() : super(DummyChatCrypto(), DummyCrashlytics());
+
+  @override
+  Stream<List<Message>> messagesStream(String userId) async* {}
+
+  @override
+  Stream<ConseillerMessageInfo> chatStatusStream(String userId) async* {}
 }
 
 class DummyCrashlytics extends Crashlytics {
