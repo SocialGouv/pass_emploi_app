@@ -30,8 +30,7 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
       _logout(store, action.logoutRequester);
       _firebaseAuthWrapper.signOut();
     } else if (action is LoginAction && action.isSuccess()) {
-      await _loginToFirebase(action.getResultOrThrow().id);
-      store.dispatch(SubscribeToChatStatusAction());
+      _loginToFirebase(action.getResultOrThrow().id);
     }
   }
 
@@ -82,7 +81,7 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
   Future<void> _loginToFirebase(String userId) async {
     final response = await _firebaseAuthRepository.getFirebaseAuth(userId);
     if (response != null) {
-      await _firebaseAuthWrapper.signInWithCustomToken(response.token);
+      _firebaseAuthWrapper.signInWithCustomToken(response.token);
       _chatCrypto.setKey(response.key);
     }
   }
