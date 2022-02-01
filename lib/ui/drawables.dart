@@ -3,6 +3,7 @@ class Drawables {
 
   static String _assets = "assets/";
   static String _svg = ".svg";
+  static String _png = ".png";
   static String icLogo = _assets + "ic_logo" + _svg;
   static String icMenuHome = _assets + "ic_menu_home" + _svg;
   static String icMenuAction = _assets + "ic_menu_action" + _svg;
@@ -36,6 +37,7 @@ class Drawables {
   static String icNoContent = _assets + "ic_no_content" + _svg;
   static String icChevronLeft = _assets + "chevron_left" + _svg;
   static String icLaunch = _assets + "launch" + _svg;
-  static String icUnJeuneUneSolution = _assets + "un_jeune_une_solution_logo" + _svg;
   static String passEmploiLogo = _assets + "logo_pass_emploi_white" + _svg;
+  static String icUnJeuneUneSolution = _assets + "un_jeune_une_solution_logo" + _png;
+  static String jeuneEntree = _assets + "jeune_home" + _png;
 }

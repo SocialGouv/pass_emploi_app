@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 
-class EntreeBackground extends StatelessWidget {
-  const EntreeBackground({
+class EntreeBiseauBackground extends StatelessWidget {
+  const EntreeBiseauBackground({
     Key? key,
   }) : super(key: key);
 

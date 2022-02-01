@@ -12,7 +12,7 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/entree_background.dart';
+import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/secondary_button.dart';
 
@@ -38,7 +38,7 @@ class LoginPage extends TraceableStatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          EntreeBackground(),
+          EntreeBiseauBackground(),
           SafeArea(
             child: SingleChildScrollView(
               child: Column(
@@ -65,8 +65,7 @@ class LoginPage extends TraceableStatelessWidget {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text("Je suis suivi par un conseiller...",
-                            style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+                        Text(Strings.suiviParConseiller, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
                         SizedBox(height: Margins.spacing_m),
                         _body(viewModel, context),
                       ],
@@ -80,11 +79,14 @@ class LoginPage extends TraceableStatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Center(
-                            child: Text("Vous n’avez pas de compte pass emploi ?",
-                                style: TextStyles.textBaseRegular.copyWith(color: Colors.white))),
+                          child: Text(
+                            Strings.dontHaveAccount,
+                            style: TextStyles.textBaseRegular.copyWith(color: Colors.white),
+                          ),
+                        ),
                         SizedBox(height: 16),
                         SecondaryButton(
-                            label: "Demander un compte pass emploi",
+                            label: Strings.askAccount,
                             onPressed: () {
                               Navigator.push(context, CreateAccountPage.materialPageRoute());
                             }),

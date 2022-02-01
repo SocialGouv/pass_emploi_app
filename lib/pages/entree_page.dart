@@ -6,7 +6,8 @@ import 'package:pass_emploi_app/pages/login_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/widgets/entree_background.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/secondary_button.dart';
 
@@ -20,33 +21,21 @@ class EntreePage extends TraceableStatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          const EntreeBackground(),
+          const EntreeBiseauBackground(),
           SafeArea(
             bottom: false,
             child: Column(
               children: [
-                SizedBox(
-                  height: 64,
-                ),
-                SvgPicture.asset(
-                  Drawables.passEmploiLogo,
-                  color: Colors.white,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Image.asset(
-                  "assets/un_jeune_une_solution_logo.png",
-                ),
+                SizedBox(height: 64),
+                SvgPicture.asset(Drawables.passEmploiLogo),
+                SizedBox(height: 20),
+                Image.asset(Drawables.icUnJeuneUneSolution),
                 Expanded(
                   child: Stack(
                     children: [
                       Align(
                         alignment: Alignment.bottomCenter,
-                        child: Image.asset(
-                          "assets/jeune_home.png",
-                          alignment: Alignment.bottomCenter,
-                        ),
+                        child: Image.asset(Drawables.jeuneEntree, alignment: Alignment.bottomCenter),
                       ),
                       Align(
                         alignment: Alignment.bottomCenter,
@@ -70,13 +59,13 @@ class EntreePage extends TraceableStatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
                                   PrimaryActionButton(
-                                      label: "Se connecter",
+                                      label: Strings.loginAction,
                                       onPressed: () {
                                         Navigator.push(context, LoginPage.materialPageRoute());
                                       }),
                                   SizedBox(height: Margins.spacing_base),
                                   SecondaryButton(
-                                      label: "Demander un compte pass emploi",
+                                      label: Strings.askAccount,
                                       onPressed: () {
                                         Navigator.push(context, CreateAccountPage.materialPageRoute());
                                       }),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class CreateAccountPage extends TraceableStatelessWidget {
@@ -15,7 +16,7 @@ class CreateAccountPage extends TraceableStatelessWidget {
     return Scaffold(
       body: Center(
         child: Text(
-          "Vous êtes intéressé et vous pensez être élligible au Contrat Engagement Jeune ?\nPrenez rendez-vous avec votre conseiller principal.",
+          Strings.createAccountPlaceholder,
           textAlign: TextAlign.center,
           style: TextStyles.textBaseRegular,
         ),

@@ -32,7 +32,6 @@ class _RouterPageState extends State<RouterPage> {
       converter: (store) => RouterPageViewModel.create(store),
       builder: (context, viewModel) => _content(viewModel),
       onDidChange: (previousViewModel, viewModel) {
-        debugPrint("🚔 Router : ${viewModel.routerPageDisplayState}");
         if (viewModel.routerPageDisplayState == RouterPageDisplayState.LOGIN ||
             viewModel.routerPageDisplayState == RouterPageDisplayState.MAIN) {
           _removeAllScreensAboveRouterPage();
