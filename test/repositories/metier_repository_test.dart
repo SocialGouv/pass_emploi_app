@@ -2,21 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
 
-String _sanitizeString(String str) {
-  return _removeDiacritics(str).replaceAll(RegExp("[-'` ]"), "").trim().toUpperCase();
-}
-
-String _removeDiacritics(String str) {
-  var withDia = 'ÀÁÂÃÄàáâäÒÓÔÕÕÖòóôõöÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûü';
-  var withoutDia = 'AAAAAaaaaOOOOOOoooooEEEEeeeeCcIIIIiiiiUUUUuuuu';
-
-  for (int i = 0; i < withDia.length; i++) {
-    str = str.replaceAll(withDia[i], withoutDia[i]);
-  }
-
-  return str;
-}
-
 main() {
   group("_getMetiers should return ...", () {
     final MetierRepository repository = MetierRepository();
@@ -65,11 +50,3 @@ void matchesBtpEtPaysageMetier(Iterable<Metier> value) {
   expect(value.length, 1);
   expect(value.first.codeRome, "F1104");
 }
-
-Iterable<Metier> _matchesHotellerieMetiers() =>
-    Metier.values.where((m) => ["G1502", "G1701", "G1703"].contains(m.codeRome));
-
-Iterable<Metier> _matchesBtpEtPaysageMetier() => Metier.values.where((m) => m.codeRome == "F1104");
-
-Iterable<Metier> _matchesBtpEtPaysageMetiers() =>
-    Metier.values.where((m) => ["F1104", "F1101", "F1201"].contains(m.codeRome));
