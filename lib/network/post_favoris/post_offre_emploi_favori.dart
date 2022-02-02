@@ -1,4 +1,4 @@
-import 'json_serializable.dart';
+import '../json_serializable.dart';
 
 class PostOffreEmploiFavori implements JsonSerializable {
   final String id;

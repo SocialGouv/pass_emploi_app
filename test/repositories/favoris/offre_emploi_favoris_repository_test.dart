@@ -3,11 +3,11 @@ import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
-import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
+import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 
-import '../doubles/fixtures.dart';
-import '../doubles/stubs.dart';
-import '../utils/test_assets.dart';
+import '../../doubles/fixtures.dart';
+import '../../doubles/stubs.dart';
+import '../../utils/test_assets.dart';
 
 main() {
   test('getFavorisId when response is valid with all parameters should return offres', () async {

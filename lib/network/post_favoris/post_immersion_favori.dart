@@ -1,4 +1,4 @@
-import 'package:pass_emploi_app/network/json_serializable.dart';
+import '../json_serializable.dart';
 
 class PostImmersionFavori implements JsonSerializable {
   final String id;
