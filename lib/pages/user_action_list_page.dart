@@ -9,9 +9,11 @@ import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/cards/event_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
@@ -30,22 +32,41 @@ class UserActionListPage extends TraceableStatefulWidget {
 }
 
 class _UserActionListPageState extends State<UserActionListPage> {
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    _scrollController = ScrollController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, UserActionListPageViewModel>(
       onInit: (store) => store.dispatch(RequestUserActionsAction()),
-      builder: (context, viewModel) => _scaffold(context, viewModel, _body(context, viewModel)),
+      builder: (context, viewModel) => _scaffold(context, viewModel),
       converter: (store) => UserActionListPageViewModel.create(store),
+      distinct: true,
+      onDidChange: (previousViewModel, viewModel) {
+        if (_scrollController.hasClients) {
+          _scrollController.jumpTo(0);
+        }
+      },
     );
   }
 
-  Widget _scaffold(BuildContext context, UserActionListPageViewModel viewModel, Widget body) {
+  Widget _scaffold(BuildContext context, UserActionListPageViewModel viewModel) {
     return Scaffold(
-      backgroundColor: AppColors.lightBlue,
+      backgroundColor: AppColors.grey100,
       body: Stack(
         children: [
-          DefaultAnimatedSwitcher(child: body),
+          DefaultAnimatedSwitcher(child: _animatedBody(context, viewModel)),
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _createUserActionButton(viewModel)),
@@ -55,7 +76,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
     );
   }
 
-  Widget _body(BuildContext context, UserActionListPageViewModel viewModel) {
+  Widget _animatedBody(BuildContext context, UserActionListPageViewModel viewModel) {
     if (viewModel.withLoading) return _loader();
     if (viewModel.withFailure) return Center(child: Retry(Strings.actionsError, () => viewModel.onRetry()));
     if (viewModel.withEmptyMessage) return _empty();
@@ -68,82 +89,38 @@ class _UserActionListPageState extends State<UserActionListPage> {
 
   Widget _userActionsList(BuildContext context, UserActionListPageViewModel viewModel) {
     return ListView.separated(
+      controller: _scrollController,
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
       itemCount: viewModel.items.length,
-      itemBuilder: (context, i) => _tapListener(context, viewModel.items[i], viewModel),
+      itemBuilder: (context, i) => _listItem(context, viewModel.items[i], viewModel),
       separatorBuilder: (context, i) => _listSeparator(),
     );
   }
 
-  Container _listSeparator() => Container(height: 1, color: AppColors.bluePurpleAlpha20);
+  Container _listSeparator() => Container(height: Margins.spacing_base);
+
+  Widget _listItem(BuildContext context, UserActionListPageItem item, UserActionListPageViewModel viewModel) {
+    return _tapListener(context, (item as UserActionListItemViewModel).viewModel, viewModel);
+  }
 
   Widget _tapListener(BuildContext context, UserActionViewModel item, UserActionListPageViewModel viewModel) {
-    return Container(
-      color: Colors.white,
-      child: Material(
-        type: MaterialType.transparency,
-        child: InkWell(
-          onTap: () => showUserActionBottomSheet(
-            context: context,
-            builder: (context) => UserActionDetailsBottomSheet(item),
-          ).then((value) => _onUserActionDetailsDismissed(context, value, viewModel)),
-          splashColor: AppColors.bluePurple,
-          child: _listItem(item, viewModel),
-        ),
-      ),
-    );
-  }
-
-  Widget _listItem(UserActionViewModel item, UserActionListPageViewModel viewModel) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (item.tag != null)
-            _tagPadding(
-              tag: _tag(
-                  title: item.tag!.title, backgroundColor: item.tag!.backgroundColor, textColor: item.tag!.textColor),
-            ),
-          if (item.tag != null) SizedBox(height: 4),
-          Text(
-            item.content,
-            style: TextStyles.textSmMedium(),
-          ),
-          SizedBox(height: 4),
-          if (item.withComment) Text(item.comment, style: TextStyles.textSmRegular())
-        ],
-      ),
-    );
-  }
-
-  Padding _tagPadding({required Widget tag}) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
-      child: Align(alignment: Alignment.centerLeft, child: tag),
-    );
-  }
-
-  Container _tag({required String title, required Color backgroundColor, required Color textColor}) {
-    return Container(
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.all(Radius.circular(16)),
-      ),
-      child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 16),
-          child: Text(
-            title,
-            style: TextStyles.textSmMedium(color: textColor),
-          )),
+    return EventCard(
+      onTap: () => showUserActionBottomSheet(
+        context: context,
+        builder: (context) => UserActionDetailsBottomSheet(item),
+      ).then((value) => _onUserActionDetailsDismissed(context, value, viewModel)),
+      titre: item.content,
+      sousTitre: item.comment,
+      statut: item.status,
+      derniereModification: item.lastUpdate,
     );
   }
 
   Widget _createUserActionButton(UserActionListPageViewModel viewModel) {
-    return PrimaryActionButton.simple(
+    return PrimaryActionButton(
       label: Strings.addAnAction,
       drawableRes: Drawables.icAdd,
+      rippleColor: AppColors.primaryDarken,
       onPressed: () => showUserActionBottomSheet(
         context: context,
         builder: (context) => CreateUserActionBottomSheet(),

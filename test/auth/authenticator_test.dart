@@ -53,6 +53,23 @@ void main() {
       expect(prefs.storedValues["refreshToken"], authTokenResponse().refreshToken);
     });
 
+    test('token is saved and returned when login in POLE_EMPLOI mode is successful', () async {
+      // Given
+      authWrapperStub.withLoginArgsResolves(
+        _authTokenRequest(additionalParameters: {"kc_idp_hint": "pe-jeune"}),
+        authTokenResponse(),
+      );
+
+      // When
+      final bool result = await authenticator.login(AuthenticationMode.POLE_EMPLOI);
+
+      // Then
+      expect(result, isTrue);
+      expect(prefs.storedValues["idToken"], authTokenResponse().idToken);
+      expect(prefs.storedValues["accessToken"], authTokenResponse().accessToken);
+      expect(prefs.storedValues["refreshToken"], authTokenResponse().refreshToken);
+    });
+
     test('token is null when login has failed', () async {
       // Given
       authWrapperStub.withLoginArgsThrows();
@@ -229,6 +246,7 @@ void main() {
           firstName: "Gabriel",
           lastName: "Android",
           expiresAt: 1638874410,
+          loginMode: 'PASS_EMPLOI',
         ));
   });
 

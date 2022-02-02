@@ -70,4 +70,5 @@ ios/cert.p12
 env/.env.staging
 env/.env.prod
 env/.env.local
+env/.env.audit
 ci/env.ci

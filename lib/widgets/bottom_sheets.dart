@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/sepline.dart';
 
 Future<T?> showUserActionBottomSheet<T>({required BuildContext context, required WidgetBuilder builder}) {
   return showModalBottomSheet(
@@ -20,7 +21,7 @@ Padding userActionBottomSheetHeader(BuildContext context, {required String title
     child: Stack(
       alignment: AlignmentDirectional.center,
       children: [
-        Text(title, style: TextStyles.textMdMedium),
+        Text(title, style: TextStyles.textBaseBold),
         Positioned(
           right: 8,
           child: IconButton(
@@ -28,7 +29,10 @@ Padding userActionBottomSheetHeader(BuildContext context, {required String title
             iconSize: 48,
             onPressed: () => Navigator.pop(context),
             tooltip: Strings.close,
-            icon: SvgPicture.asset(Drawables.icClose),
+            icon: SvgPicture.asset(
+              Drawables.icClose,
+              color: AppColors.contentColor,
+            ),
           ),
         ),
       ],
@@ -36,6 +40,6 @@ Padding userActionBottomSheetHeader(BuildContext context, {required String title
   );
 }
 
-Container userActionBottomSheetSeparator() => Container(height: 1, color: AppColors.bluePurpleAlpha20);
+Widget userActionBottomSheetSeparator() => SepLine(0, 0);
 
 EdgeInsets userActionBottomSheetContentPadding() => const EdgeInsets.fromLTRB(16, 24, 16, 24);

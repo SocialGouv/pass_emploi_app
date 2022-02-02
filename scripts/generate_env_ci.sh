@@ -1,7 +1,6 @@
 #! /bin/bash
 
 rm ci/env.ci
-cp scripts/build.env ci/env.ci
 
 echo -e "\nSTAGING_GOOGLE_SERVICE_B64=" >> ci/env.ci
 cat android/app/src/staging/google-services.json | base64 >> ci/env.ci

@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart
 import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/keyboard.dart';
@@ -19,7 +20,13 @@ import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'offre_emploi_list_page.dart';
 
 class OffreEmploiSearchPage extends TraceableStatefulWidget {
-  OffreEmploiSearchPage() : super(name: AnalyticsScreenNames.offreEmploiResearch);
+  final bool onlyAlternance;
+
+  OffreEmploiSearchPage({required this.onlyAlternance})
+      : super(
+          name: onlyAlternance ? AnalyticsScreenNames.alternanceResearch : AnalyticsScreenNames.emploiResearch,
+          key: ValueKey(onlyAlternance),
+        );
 
   @override
   State<OffreEmploiSearchPage> createState() => _OffreEmploiSearchPageState();
@@ -37,9 +44,9 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
       onWillChange: (_, newViewModel) {
         if (newViewModel.displayState == DisplayState.CONTENT && _shouldNavigate) {
           _shouldNavigate = false;
-          Navigator.push(context, MaterialPageRoute(builder: (context) => OffreEmploiListPage())).then((value) {
-            _shouldNavigate = true;
-          });
+          Navigator.push(context, MaterialPageRoute(builder: (_) {
+            return OffreEmploiListPage(onlyAlternance: widget.onlyAlternance);
+          })).then((_) => _shouldNavigate = true);
         }
       },
       distinct: true,
@@ -52,15 +59,17 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _separator(),
-          Text(Strings.keyWordsTitle, style: TextStyles.textLgMedium),
-          _separator(),
+          Text(Strings.keyWordsTitle, style: TextStyles.textBaseBold),
+          Text(Strings.keyWordsTextHint, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
+          SizedBox(height: Margins.spacing_base),
           _keywordTextFormField(),
           _separator(),
-          Text(Strings.jobLocationTitle, style: TextStyles.textLgMedium),
-          _separator(),
+          Text(Strings.jobLocationTitle, style: TextStyles.textBaseBold),
+          Text(Strings.jobLocationHint, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
+          SizedBox(height: Margins.spacing_base),
           LocationAutocomplete(
             onInputLocation: (newLocationQuery) => viewModel.onInputLocation(newLocationQuery),
             onSelectLocationViewModel: (locationViewModel) => _selectedLocationViewModel = locationViewModel,
@@ -71,11 +80,9 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
             validator: (value) => null,
           ),
           _separator(),
-          Center(
-            child: PrimaryActionButton.simple(
-              onPressed: _isLoading(viewModel) ? null : () => _onSearchButtonPressed(viewModel),
-              label: Strings.searchButton,
-            ),
+          PrimaryActionButton(
+            onPressed: _isLoading(viewModel) ? null : () => _onSearchButtonPressed(viewModel),
+            label: Strings.searchButton,
           ),
           _separator(),
           if (_isError(viewModel)) ErrorText(viewModel.errorMessage),
@@ -84,11 +91,11 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
     );
   }
 
-  SizedBox _separator() => SizedBox(height: 24);
+  SizedBox _separator() => SizedBox(height: Margins.spacing_m);
 
   TextFormField _keywordTextFormField() {
     return TextFormField(
-      style: TextStyles.textSmMedium(color: AppColors.nightBlue),
+      style: TextStyles.textBaseBold,
       keyboardType: TextInputType.name,
       textCapitalization: TextCapitalization.words,
       textInputAction: TextInputAction.done,
@@ -96,23 +103,21 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
         if (value == null || value.isEmpty) return Strings.mandatoryAccessCodeError;
         return null;
       },
-      decoration: _inputDecoration(Strings.keyWordsTextField),
+      decoration: _inputDecoration(),
       onChanged: (keyword) => _keyWord = keyword,
     );
   }
 
-  InputDecoration _inputDecoration(String textFieldString) {
+  InputDecoration _inputDecoration() {
     return InputDecoration(
       contentPadding: const EdgeInsets.only(left: 24, top: 18, bottom: 18),
-      labelText: textFieldString,
-      labelStyle: TextStyles.textSmMedium(color: AppColors.bluePurple),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
-        borderSide: BorderSide(color: AppColors.nightBlue, width: 1.0),
+        borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
-        borderSide: BorderSide(color: AppColors.nightBlue, width: 1.0),
+        borderSide: BorderSide(color: AppColors.primary, width: 1.0),
       ),
     );
   }
@@ -124,13 +129,15 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
   bool _isError(OffreEmploiSearchViewModel viewModel) {
     if (viewModel.displayState == DisplayState.EMPTY)
       MatomoTracker.trackScreenWithName(
-          AnalyticsScreenNames.offreEmploiNoResults, AnalyticsScreenNames.offreEmploiResearch);
+        widget.onlyAlternance ? AnalyticsScreenNames.alternanceNoResults : AnalyticsScreenNames.emploiNoResults,
+        widget.onlyAlternance ? AnalyticsScreenNames.alternanceResearch : AnalyticsScreenNames.emploiResearch,
+      );
 
     return viewModel.displayState == DisplayState.FAILURE || viewModel.displayState == DisplayState.EMPTY;
   }
 
   void _onSearchButtonPressed(OffreEmploiSearchViewModel viewModel) {
-    viewModel.onSearchingRequest(_keyWord, _selectedLocationViewModel?.location);
+    viewModel.onSearchingRequest(_keyWord, _selectedLocationViewModel?.location, widget.onlyAlternance);
     Keyboard.dismiss(context);
   }
 }

@@ -1,9 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/models/offre_emploi.dart';
+import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_details_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 
@@ -59,7 +61,7 @@ main() {
     final store = testStoreFactory.initializeReduxStore(
       initialState: AppState.initialState().copyWith(
           loginState: State<User>.success(mockUser()),
-          offreEmploiFavorisState: OffreEmploiFavorisState.withMap({"offerId"}, {"offerId": mockOffreEmploi()})),
+          offreEmploiFavorisState: FavorisState<OffreEmploi>.withMap({"offerId"}, {"offerId": mockOffreEmploi()})),
     );
 
     final displayedLoading = store.onChange.any((element) => element.offreEmploiDetailsState.isLoading());
@@ -81,11 +83,11 @@ class OffreEmploiDetailsRepositorySuccessStub extends OffreEmploiDetailsReposito
   OffreEmploiDetailsRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<OffreEmploiDetailsResponse> getOffreEmploiDetails({required String offreId}) async {
-    return OffreEmploiDetailsResponse(
+  Future<OffreDetailsResponse<OffreEmploiDetails>> getOffreEmploiDetails({required String offreId}) async {
+    return OffreDetailsResponse(
       isGenericFailure: false,
       isOffreNotFound: false,
-      offreEmploiDetails: mockOffreEmploiDetails(),
+      details: mockOffreEmploiDetails(),
     );
   }
 }
@@ -94,11 +96,11 @@ class OffreEmploiDetailsRepositoryGenericFailureStub extends OffreEmploiDetailsR
   OffreEmploiDetailsRepositoryGenericFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<OffreEmploiDetailsResponse> getOffreEmploiDetails({required String offreId}) async {
-    return OffreEmploiDetailsResponse(
+  Future<OffreDetailsResponse<OffreEmploiDetails>> getOffreEmploiDetails({required String offreId}) async {
+    return OffreDetailsResponse(
       isGenericFailure: true,
       isOffreNotFound: false,
-      offreEmploiDetails: null,
+      details: null,
     );
   }
 }
@@ -107,11 +109,11 @@ class OffreEmploiDetailsRepositoryNotFoundFailureStub extends OffreEmploiDetails
   OffreEmploiDetailsRepositoryNotFoundFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<OffreEmploiDetailsResponse> getOffreEmploiDetails({required String offreId}) async {
-    return OffreEmploiDetailsResponse(
+  Future<OffreDetailsResponse<OffreEmploiDetails>> getOffreEmploiDetails({required String offreId}) async {
+    return OffreDetailsResponse(
       isGenericFailure: false,
       isOffreNotFound: true,
-      offreEmploiDetails: null,
+      details: null,
     );
   }
 }

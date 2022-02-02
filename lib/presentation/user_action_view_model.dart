@@ -1,18 +1,20 @@
 import 'dart:ui';
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
 
-class UserActionViewModel {
+class UserActionViewModel extends Equatable {
   final String id;
   final String content;
   final String comment;
   final bool withComment;
   final UserActionStatus status;
-  final DateTime lastUpdate;
+  final String lastUpdate;
   final String creator;
   final UserActionTagViewModel? tag;
   final bool withDeleteOption;
@@ -36,12 +38,15 @@ class UserActionViewModel {
       comment: userAction.comment,
       withComment: userAction.comment.isNotEmpty,
       status: userAction.status,
-      lastUpdate: userAction.lastUpdate,
+      lastUpdate: Strings.lastUpdateFormat(userAction.lastUpdate.toDay()),
       creator: _displayName(userAction.creator),
       tag: _userActionTagViewModel(userAction),
       withDeleteOption: userAction.creator is! ConseillerActionCreator,
     );
   }
+
+  @override
+  List<Object?> get props => [id, content, comment, withComment, status, lastUpdate, creator, tag, withDeleteOption];
 }
 
 _displayName(UserActionCreator creator) {
@@ -54,9 +59,9 @@ _displayName(UserActionCreator creator) {
 
 UserActionTagViewModel? _userActionTagViewModel(userAction) {
   switch (userAction.status) {
-    case UserActionStatus.DONE:
+    case UserActionStatus.NOT_STARTED:
       return UserActionTagViewModel(
-        title: Strings.actionDone,
+        title: Strings.actionToDo,
         backgroundColor: AppColors.blueGrey,
         textColor: AppColors.nightBlue,
       );
@@ -66,12 +71,12 @@ UserActionTagViewModel? _userActionTagViewModel(userAction) {
         backgroundColor: AppColors.purple,
         textColor: Colors.white,
       );
-    case UserActionStatus.NOT_STARTED:
+    case UserActionStatus.DONE:
       return null;
   }
 }
 
-class UserActionTagViewModel {
+class UserActionTagViewModel extends Equatable {
   final String title;
   final Color backgroundColor;
   final Color textColor;
@@ -93,4 +98,7 @@ class UserActionTagViewModel {
 
   @override
   int get hashCode => title.hashCode ^ backgroundColor.hashCode ^ textColor.hashCode;
+
+  @override
+  List<Object?> get props => [title, backgroundColor, textColor];
 }

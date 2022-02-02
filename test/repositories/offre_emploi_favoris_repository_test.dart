@@ -10,153 +10,145 @@ import '../doubles/stubs.dart';
 import '../utils/test_assets.dart';
 
 main() {
-  test('getOffreEmploiFavorisId when response is valid with all parameters should return offres', () async {
+  test('getFavorisId when response is valid with all parameters should return offres', () async {
     // Given
     final httpClient = MockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
-      if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris")) return invalidHttpResponse();
+      if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-emploi"))
+        return invalidHttpResponse();
       return Response.bytes(loadTestAssetsAsBytes("offre_emploi_favoris_id.json"), 200);
     });
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final favoris = await repository.getOffreEmploiFavorisId("jeuneId");
+    final favoris = await repository.getFavorisId("jeuneId");
 
     // Then
     expect(favoris, ["124GQRG", "124FGRM", "124FGFB", "124FGJJ"]);
   });
 
-  test('getOffreEmploiFavorisId when response is invalid should return null', () async {
+  test('getFavorisId when response is invalid should return null', () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final favoris = await repository.getOffreEmploiFavorisId("jeuneId");
+    final favoris = await repository.getFavorisId("jeuneId");
 
     // Then
     expect(favoris, isNull);
   });
 
   test(
-      "updateOffreEmploiFavoriStatus when adding favori should post correct data when most fields are null and return true when response is valid",
+      "postFavori when adding favori should post correct data when most fields are null and return true when response is valid",
       () async {
     // Given
     final httpClient = _mockClientForPartialData();
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final result = await repository.postFavori(
-      "jeuneId",
-      _offreWithPartialData(),
-    );
+    final result = await repository.postFavori("jeuneId", _offreWithPartialData());
 
     // Then
     expect(result, isTrue);
   });
 
   test(
-      "updateOffreEmploiFavoriStatus when adding favori should post correct data when all fields are not null and return true when response is valid",
+      "postFavori when adding favori should post correct data when all fields are not null and return true when response is valid",
       () async {
     // Given
-    final httpClient = _mockClientForFullData();
+    final httpClient = _mockClientForFullData(expectedAlternance: false);
 
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final result = await repository.postFavori(
-      "jeuneId",
-      _offreWithFullData(),
-    );
+    final result = await repository.postFavori("jeuneId", _offreWithFullData(isAlternance: false));
 
     // Then
     expect(result, isTrue);
   });
 
-  test(
-      "updateOffreEmploiFavoriStatus when removing favori should delete with correct id and return true when response is valid",
+  test("postFavori when adding alternance favori should post correct data and return true", () async {
+    // Given
+    final httpClient = _mockClientForFullData(expectedAlternance: true);
+
+    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+
+    // When
+    final result = await repository.postFavori("jeuneId", _offreWithFullData(isAlternance: true));
+
+    // Then
+    expect(result, isTrue);
+  });
+
+  test("deleteFavori when removing favori should delete with correct id and return true when response is valid",
       () async {
     // Given
     final httpClient = _successfulClientForDelete();
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final result = await repository.deleteFavori(
-      "jeuneId",
-      "offreId",
-    );
+    final result = await repository.deleteFavori("jeuneId", "offreId");
 
     // Then
     expect(result, isTrue);
   });
 
-  test("updateOffreEmploiFavoriStatus when removing favori should return true when response is a 404", () async {
+  test("deleteFavori when removing favori should return true when response is a 404", () async {
     // Given
     final httpClient = _notFoundClient();
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final result = await repository.deleteFavori(
-      "jeuneId",
-      "offreId",
-    );
+    final result = await repository.deleteFavori("jeuneId", "offreId");
 
     // Then
     expect(result, true);
   });
 
-  test("updateOffreEmploiFavoriStatus when removing favori should return false when response is invalid", () async {
+  test("deleteFavori when removing favori should return false when response is invalid", () async {
     // Given
     final httpClient = _failureClient();
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final result = await repository.deleteFavori(
-      "jeuneId",
-      "offreId",
-    );
+    final result = await repository.deleteFavori("jeuneId", "offreId");
 
     // Then
     expect(result, isFalse);
   });
 
-  test("updateOffreEmploiFavoriStatus when adding favori should return false when response is invalid", () async {
+  test("postFavori when adding favori should return false when response is invalid", () async {
     // Given
     final httpClient = _failureClient();
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final result = await repository.postFavori(
-      "jeuneId",
-      _offreWithPartialData(),
-    );
+    final result = await repository.postFavori("jeuneId", _offreWithPartialData());
 
     // Then
     expect(result, isFalse);
   });
 
-  test("updateOffreEmploiFavoriStatus when adding favori should return true when response is 409", () async {
+  test("postFavori when adding favori should return true when response is 409", () async {
     // Given
     final httpClient = _alreadyExistsClient();
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final result = await repository.postFavori(
-      "jeuneId",
-      _offreWithPartialData(),
-    );
+    final result = await repository.postFavori("jeuneId", _offreWithPartialData());
 
     // Then
     expect(result, isTrue);
   });
 
-  test('getOffreEmploiFavoris when response is valid with all parameters should return offres', () async {
+  test('getFavoris when response is valid with all parameters should return offres', () async {
     // Given
     final httpClient = _successfulClientForQuery();
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final favoris = await repository.getOffreEmploiFavoris("jeuneId");
+    final favoris = await repository.getFavoris("jeuneId");
 
     // Then
     expect(favoris, {
@@ -165,6 +157,7 @@ main() {
         duration: "Temps partiel",
         location: "974 - STE MARIE",
         contractType: "CDD",
+        isAlternance: false,
         companyName: "SARL HAYA",
         title: "Cuisinier / Cuisinière",
       ),
@@ -173,6 +166,7 @@ main() {
         duration: "Temps partiel",
         location: "07 - LEMPS",
         contractType: "CDD",
+        isAlternance: true,
         companyName: "ATALIAN PROPRETE",
         title: "Agent de nettoyage chez un particulier H/F",
       ),
@@ -181,6 +175,7 @@ main() {
         duration: "Temps partiel",
         location: "80 - AMIENS",
         contractType: "CDI",
+        isAlternance: false,
         companyName: "CHARPENTE MENUISERIE ROUSSEAU",
         title: "Vendeur / Vendeuse de fruits et légumes",
       ),
@@ -189,19 +184,29 @@ main() {
         duration: "Temps plein",
         location: "63 - ISSOIRE",
         contractType: "CDI",
+        isAlternance: false,
         companyName: "SERVICES MAINTENANCE INDUSTRIELLE",
         title: "Serrurier(ère) métallier(ère) industriel(le)                (H/F)",
+      ),
+      "123ZZZN1": OffreEmploi(
+        id: "123ZZZN1",
+        duration: "Temps plein",
+        location: null,
+        contractType: "CDI",
+        companyName: "SUPER TAXI",
+        title: "Chauffeur / Chauffeuse de taxi (H/F)",
+        isAlternance: false,
       )
     });
   });
 
-  test('getOffreEmploiFavoris when response is invalid should return null', () async {
+  test('getFavoris when response is invalid should return null', () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final favoris = await repository.getOffreEmploiFavoris("jeuneId");
+    final favoris = await repository.getFavoris("jeuneId");
 
     // Then
     expect(favoris, isNull);
@@ -212,7 +217,8 @@ MockClient _successfulClientForQuery() {
   return MockClient((request) async {
     if (request.method != "GET") return invalidHttpResponse();
     if (request.url.queryParameters["detail"] != "true") return invalidHttpResponse(message: "query KO");
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris")) return invalidHttpResponse();
+    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-emploi"))
+      return invalidHttpResponse();
     return Response.bytes(loadTestAssetsAsBytes("offre_emploi_favoris_data.json"), 200);
   });
 }
@@ -238,15 +244,17 @@ MockClient _alreadyExistsClient() {
 MockClient _successfulClientForDelete() {
   return MockClient((request) async {
     if (request.method != "DELETE") return invalidHttpResponse();
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favori/offreId")) return invalidHttpResponse();
+    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-emploi/offreId"))
+      return invalidHttpResponse();
     return Response("", 204);
   });
 }
 
-MockClient _mockClientForFullData() {
+MockClient _mockClientForFullData({required bool expectedAlternance}) {
   return MockClient((request) async {
     if (request.method != "POST") return invalidHttpResponse();
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favori")) return invalidHttpResponse();
+    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-emploi"))
+      return invalidHttpResponse();
     final requestJson = jsonUtf8Decode(request.bodyBytes);
     if (requestJson["idOffre"] != "offreId2") return invalidHttpResponse(message: "idOffre KO");
     if (requestJson["duree"] != "duration") return invalidHttpResponse(message: "idOffre KO");
@@ -254,7 +262,7 @@ MockClient _mockClientForFullData() {
     if (requestJson["nomEntreprise"] != "companyName") return invalidHttpResponse(message: "titre KO");
     if (requestJson["typeContrat"] != "otherContractType") return invalidHttpResponse(message: "typeContrat KO");
     if (requestJson["localisation"]["nom"] != "Marseille") return invalidHttpResponse(message: "alternance KO");
-    if (requestJson["alternance"] != false) return invalidHttpResponse(message: "alternance KO");
+    if (requestJson["alternance"] != expectedAlternance) return invalidHttpResponse(message: "alternance KO");
     return Response("", 201);
   });
 }
@@ -262,7 +270,8 @@ MockClient _mockClientForFullData() {
 MockClient _mockClientForPartialData() {
   return MockClient((request) async {
     if (request.method != "POST") return invalidHttpResponse();
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favori")) return invalidHttpResponse();
+    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-emploi"))
+      return invalidHttpResponse();
     final requestJson = jsonUtf8Decode(request.bodyBytes);
     if (requestJson["idOffre"] != "offreId") return invalidHttpResponse(message: "idOffre KO");
     if (requestJson["titre"] != "title") return invalidHttpResponse(message: "titre KO");
@@ -279,17 +288,19 @@ OffreEmploi _offreWithPartialData() {
     duration: null,
     contractType: "contractType",
     companyName: null,
+    isAlternance: false,
     location: "Paris",
     title: "title",
   );
 }
 
-OffreEmploi _offreWithFullData() {
+OffreEmploi _offreWithFullData({required bool isAlternance}) {
   return OffreEmploi(
     id: "offreId2",
     duration: "duration",
     contractType: "otherContractType",
     companyName: "companyName",
+    isAlternance: isAlternance,
     location: "Marseille",
     title: "otherTitle",
   );

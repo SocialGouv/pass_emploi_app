@@ -1,35 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:pass_emploi_app/pages/search_annonces_page.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/pass_emploi_tab_bar.dart';
 
 import 'boite_a_outils_page.dart';
-import 'offre_emploi_search_page.dart';
 
 class SolutionsTabPage extends StatelessWidget {
-  final List<Tab> solutionTabs = <Tab>[
-    Tab(child: Text(Strings.offresTabTitle, style: TextStyles.textMdMedium)),
-    Tab(child: Text(Strings.boiteAOutilsTabTitle, style: TextStyles.textMdMedium)),
+  final List<String> _solutionTabs = [
+    Strings.offresTabTitle,
+    Strings.boiteAOutilsTabTitle,
   ];
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: solutionTabs.length,
+      length: _solutionTabs.length,
       child: Scaffold(
-        appBar: FlatDefaultAppBar(
-          title: Text(Strings.solutionsAppBarTitle, style: TextStyles.h3Semi),
-          bottom: TabBar(tabs: solutionTabs),
+        backgroundColor: AppColors.grey100,
+        appBar: passEmploiAppBar(
+          label: Strings.solutionsAppBarTitle,
         ),
-        body: TabBarView(
-          children: [
-            SearchAnnoncesPage(),
-            BoiteAOutilsPage(),
-          ],
-        ),
+        body: _buildTabBarView(),
       ),
+    );
+  }
+
+  Widget _buildTabBarView() {
+    return Column(
+      children: [
+        PassEmploiTabBar(tabLabels: _solutionTabs),
+        Expanded(
+          child: TabBarView(
+            children: [
+              SearchAnnoncesPage(),
+              BoiteAOutilsPage(),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

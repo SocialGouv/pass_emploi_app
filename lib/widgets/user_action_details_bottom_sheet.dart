@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
@@ -83,7 +84,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
           child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          SizedBox(height: 16),
+          SizedBox(height: Margins.spacing_base),
           Expanded(child: SvgPicture.asset(Drawables.icCongratulations, excludeFromSemantics: true)),
           Expanded(
             child: Container(
@@ -91,17 +92,17 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
               child: Text(
                 Strings.congratulationsActionUpdated,
                 textAlign: TextAlign.center,
-                style: TextStyles.textSmMedium(),
+                style: TextStyles.textBaseBold,
               ),
             ),
           ),
-          SizedBox(height: 16),
+          SizedBox(height: Margins.spacing_base),
           Expanded(
             child: Container(
               child: Text(
                 Strings.conseillerNotifiedActionUpdated,
                 textAlign: TextAlign.center,
-                style: TextStyles.textSmRegular(),
+                style: TextStyles.textBaseRegular,
               ),
             ),
           ),
@@ -113,7 +114,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
   Widget _understood(BuildContext context) {
     return Padding(
       padding: userActionBottomSheetContentPadding(),
-      child: PrimaryActionButton.simple(
+      child: PrimaryActionButton(
         label: Strings.understood,
         onPressed: () => Navigator.pop(context),
       ),
@@ -151,23 +152,23 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: Text(Strings.aboutThisAction, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+            padding: const EdgeInsets.only(bottom: Margins.spacing_base),
+            child: Text(Strings.aboutThisAction, style: TextStyles.textBaseBold),
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
             child: Text(
               widget.actionViewModel.content,
-              style: TextStyles.textMdMedium,
+              style: TextStyles.textSRegular(),
             ),
           ),
           if (widget.actionViewModel.withComment)
             Text(
               widget.actionViewModel.comment,
-              style: TextStyles.textSmRegular(color: AppColors.bluePurple),
+              style: TextStyles.textSRegular(),
             )
           else
-            SizedBox(height: 8)
+            SizedBox(height: Margins.spacing_s)
         ],
       ),
     );
@@ -177,13 +178,13 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
     return Padding(
       padding: userActionBottomSheetContentPadding(),
       child: Row(children: [
-        Text(Strings.actionCreatedBy, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+        Text(Strings.actionCreatedBy, style: TextStyles.textBaseBold),
         Expanded(
             child: Align(
                 alignment: Alignment.centerRight,
                 child: Text(
                   widget.actionViewModel.creator,
-                  style: TextStyles.textSmMedium(),
+                  style: TextStyles.textSBold,
                 ))),
       ]),
     );
@@ -191,23 +192,23 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
 
   Widget _changeStatus(UserActionDetailsViewModel detailsViewModel) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 24, 16, 16),
+      padding: const EdgeInsets.fromLTRB(16, 24, Margins.spacing_base, Margins.spacing_base),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: Text(Strings.updateStatus, style: TextStyles.textSmMedium(color: AppColors.bluePurple)),
+            padding: const EdgeInsets.only(bottom: Margins.spacing_base),
+            child: Text(Strings.updateStatus, style: TextStyles.textBaseBold),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 16),
+            padding: const EdgeInsets.only(bottom: Margins.spacing_base),
             child: UserActionStatusGroup(
               status: actionStatus,
               update: (newStatus) => _update(newStatus),
             ),
           ),
-          PrimaryActionButton.simple(
+          PrimaryActionButton(
             onPressed: () => {detailsViewModel.onRefreshStatus(widget.actionViewModel.id, actionStatus)},
             label: Strings.refreshActionStatus,
           ),
@@ -218,19 +219,18 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
 
   Widget _deleteAction(UserActionDetailsViewModel detailsViewModel) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+      padding: const EdgeInsets.fromLTRB(16, 0, Margins.spacing_base, 24),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          PrimaryActionButton.simple(
-            onPressed: detailsViewModel.displayState == UserActionDetailsDisplayState.SHOW_LOADING
-                ? null
-                : () => detailsViewModel.onDelete(widget.actionViewModel.id),
+          PrimaryActionButton(
+            onPressed: () => _onDeleteAction(detailsViewModel),
             label: Strings.deleteAction,
-            textColor: AppColors.franceRed,
-            backgroundColor: AppColors.franceRedAlpha05,
-            disabledBackgroundColor: AppColors.redGrey,
-            rippleColor: AppColors.redGrey,
+            textColor: AppColors.warning,
+            backgroundColor: AppColors.warningLighten,
+            disabledBackgroundColor: AppColors.warningLight,
+            rippleColor: AppColors.warningLight,
+            withShadow: false,
           ),
           if (detailsViewModel.displayState == UserActionDetailsDisplayState.SHOW_DELETE_ERROR)
             Padding(
@@ -238,7 +238,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
               child: Text(
                 Strings.deleteActionError,
                 textAlign: TextAlign.center,
-                style: TextStyles.textSmRegular(color: AppColors.errorRed),
+                style: TextStyles.textSRegular(color: AppColors.warning),
               ),
             ),
         ],
@@ -246,7 +246,14 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
     );
   }
 
-  _dismissBottomSheetIfNeeded(BuildContext context, UserActionDetailsViewModel viewModel) {
+  void _onDeleteAction(UserActionDetailsViewModel detailsViewModel) {
+    if (detailsViewModel.displayState != UserActionDetailsDisplayState.SHOW_LOADING) {
+      detailsViewModel.onDelete(widget.actionViewModel.id);
+      MatomoTracker.trackScreenWithName(AnalyticsActionNames.deleteUserAction, AnalyticsScreenNames.userActionDetails);
+    }
+  }
+
+  void _dismissBottomSheetIfNeeded(BuildContext context, UserActionDetailsViewModel viewModel) {
     if (viewModel.displayState == UserActionDetailsDisplayState.TO_DISMISS)
       Navigator.pop(context);
     else if (viewModel.displayState == UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION)

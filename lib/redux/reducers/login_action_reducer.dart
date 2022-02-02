@@ -10,7 +10,7 @@ class LoginReducer {
 
   AppState reduce(AppState currentState, LoginAction action) {
     if (action is RequestLogoutAction) {
-      return AppState.initialState();
+      return AppState.initialState(configuration: currentState.configurationState.configuration);
     } else if (action is NotLoggedInAction) {
       return currentState.copyWith(loginState: UserNotLoggedInState());
     } else {

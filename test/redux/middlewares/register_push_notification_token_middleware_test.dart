@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
@@ -33,7 +34,12 @@ void main() {
   });
 
   test('call when action is LoginAction.success should call repository to register token', () {
-    final user = User(id: "1", firstName: "first-name", lastName: "last-name");
+    final user = User(
+      id: "1",
+      firstName: "first-name",
+      lastName: "last-name",
+      loginMode: LoginMode.MILO,
+    );
     final action = LoginAction.success(user);
 
     final middleware = RegisterPushNotificationTokenMiddleware(_repositorySpy);

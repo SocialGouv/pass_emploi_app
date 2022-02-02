@@ -1,0 +1,23 @@
+[
+  {
+    "id": "4f44d3ec-6568-41f0-b66e-e53a9e1fe904",
+    "metier": "xxxx",
+    "nomEtablissement": "EPSAN",
+    "secteurActivite": "xxxx",
+    "ville": "xxxx"
+  },
+  {
+    "id": "4277d7b7-3d86-453d-9375-14aee8fde94d",
+    "metier": "xxxx",
+    "nomEtablissement": "LES FOURMIS DE L AJPA",
+    "secteurActivite": "xxxx",
+    "ville": "xxxx"
+  },
+  {
+    "id": "b2d70bb3-ba69-4dd8-880a-62171b48ecbc",
+    "metier": "xxxx",
+    "nomEtablissement": "CENTRE SERVICES",
+    "secteurActivite": "xxxx",
+    "ville": "xxxx"
+  }
+]

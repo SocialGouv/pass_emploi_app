@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -87,8 +86,9 @@ Store<AppState> _initializeReduxStore(TestStoreFactory testStoreFactory) {
     initialState: loggedInState().copyWith(
       offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
       offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
-        keyWords: "boulanger patissier",
+        keywords: "boulanger patissier",
         location: null,
+        onlyAlternance: false,
         filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
       ),
     ),
@@ -109,14 +109,8 @@ class OffreEmploiRepositorySuccessWithMoreDataMock extends OffreEmploiRepository
   bool wasCalledWithFiltres = false;
 
   @override
-  Future<OffreEmploiSearchResponse?> search({
-    required String userId,
-    required String keywords,
-    required Location? location,
-    required int page,
-    required OffreEmploiSearchParametersFiltres filtres,
-  }) async {
-    if (filtres.distance == 40) {
+  Future<OffreEmploiSearchResponse?> search({required String userId, required SearchOffreEmploiRequest request}) async {
+    if (request.filtres.distance == 40) {
       wasCalledWithFiltres = true;
     }
     return OffreEmploiSearchResponse(isMoreDataAvailable: true, offres: [

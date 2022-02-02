@@ -1,4 +1,5 @@
 import 'package:http/http.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
@@ -6,14 +7,39 @@ import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/user.dart';
+import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 
-User mockUser({id: ""}) => User(id: id, firstName: "", lastName: "");
+User mockUser({id: ""}) => User(
+      id: id,
+      firstName: "",
+      lastName: "",
+      loginMode: LoginMode.MILO,
+    );
 
-State<User> successUserState() => State<User>.success(User(id: "id", firstName: "F", lastName: "L"));
+State<User> successMiloUserState() => State<User>.success(User(
+      id: "id",
+      firstName: "F",
+      lastName: "L",
+      loginMode: LoginMode.MILO,
+    ));
 
-AppState loggedInState() => AppState.initialState().copyWith(loginState: successUserState());
+State<User> successPoleEmploiUserState() => State<User>.success(User(
+      id: "id",
+      firstName: "F",
+      lastName: "L",
+      loginMode: LoginMode.POLE_EMPLOI,
+    ));
+
+State<User> successPassEmploiUserState() => State<User>.success(User(
+      id: "id",
+      firstName: "F",
+      lastName: "L",
+      loginMode: LoginMode.PASS_EMPLOI,
+    ));
+
+AppState loggedInState() => AppState.initialState().copyWith(loginState: successMiloUserState());
 
 Response invalidHttpResponse({String message = ""}) => Response(message, 500);
 
@@ -56,14 +82,26 @@ OffreEmploiDetails mockOffreEmploiDetails() => OffreEmploiDetails(
       lastUpdate: DateTime(2021, 11, 22, 14, 47, 29),
     );
 
-OffreEmploi mockOffreEmploi({id = "123DXPM"}) => OffreEmploi(
+OffreEmploi mockOffreEmploi({id = "123DXPM", isAlternance = false}) => OffreEmploi(
       id: id,
       title: "Technicien / Technicienne en froid et climatisation",
       companyName: "RH TT INTERIM",
       contractType: "MIS",
+      isAlternance: isAlternance,
       location: "77 - LOGNES",
       duration: "Temps plein",
     );
+
+OffreEmploiItemViewModel mockOffreEmploiItemViewModel({id = '123DXPM'}) {
+  return OffreEmploiItemViewModel(
+    id: id,
+    title: 'Technicien / Technicienne en froid et climatisation',
+    companyName: 'RH TT INTERIM',
+    contractType: 'MIS',
+    duration: 'Temps plein',
+    location: '77 - LOGNES',
+  );
+}
 
 AuthTokenResponse authTokenResponse() => AuthTokenResponse(
       accessToken: 'accessToken',
@@ -71,8 +109,8 @@ AuthTokenResponse authTokenResponse() => AuthTokenResponse(
       refreshToken: 'refreshToken',
     );
 
-Configuration configuration() => Configuration(
-      Flavor.STAGING,
+Configuration configuration({flavor = Flavor.STAGING}) => Configuration(
+      flavor,
       'serverBaseUrl',
       'matomoBaseUrl',
       'matomoSiteId',
@@ -89,4 +127,5 @@ Location mockLocation() => Location(libelle: "", code: "", type: LocationType.DE
 
 Location mockCommuneLocation() => Location(libelle: "", code: "", type: LocationType.COMMUNE);
 
-Immersion mockImmersion() => Immersion(id: "", metier: "", nomEtablissement: "", secteurActivite: "", ville: "");
+Immersion mockImmersion({id = ""}) =>
+    Immersion(id: id, metier: "", nomEtablissement: "", secteurActivite: "", ville: "");

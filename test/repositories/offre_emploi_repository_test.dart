@@ -29,26 +29,43 @@ void main() {
     final location = Location(libelle: "Paris", code: "75", type: LocationType.DEPARTMENT);
     final search = await repository.search(
       userId: "ID",
-      keywords: "keywords",
-      location: location,
-      page: 1,
-      filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      request: SearchOffreEmploiRequest(
+        keywords: "keywords",
+        location: location,
+        onlyAlternance: false,
+        page: 1,
+        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      ),
     );
 
     // Then
     expect(search!, isNotNull);
     expect(search.isMoreDataAvailable, false);
-    expect(search.offres.length, 3);
+    expect(search.offres.length, 4);
     final offre = search.offres[0];
     expect(
-        offre,
+      offre,
+      OffreEmploi(
+        id: "123YYCD",
+        title: "Serveur / Serveuse de restaurant - chef de rang h/f   (H/F)",
+        companyName: "BRASSERIE FLO",
+        contractType: "CDI",
+        isAlternance: false,
+        location: "75 - PARIS 10",
+        duration: "Temps plein",
+      ),
+    );
+    final offreWithoutLocation = search.offres[3];
+    expect(
+        offreWithoutLocation,
         OffreEmploi(
-          id: "123YYCD",
-          title: "Serveur / Serveuse de restaurant - chef de rang h/f   (H/F)",
-          companyName: "BRASSERIE FLO",
-          contractType: "CDI",
-          location: "75 - PARIS 10",
+          id: "123ZZZN1",
           duration: "Temps plein",
+          location: null,
+          contractType: "CDI",
+          companyName: "SUPER TAXI",
+          title: "Chauffeur / Chauffeuse de taxi (H/F)",
+          isAlternance: false,
         ));
   });
 
@@ -69,27 +86,17 @@ void main() {
     final location = Location(libelle: "Marseille 02", code: "13202", codePostal: "13002", type: LocationType.COMMUNE);
     final search = await repository.search(
       userId: "ID",
-      keywords: "keywords",
-      location: location,
-      page: 1,
-      filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      request: SearchOffreEmploiRequest(
+        keywords: "keywords",
+        location: location,
+        onlyAlternance: false,
+        page: 1,
+        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      ),
     );
 
     // Then
     expect(search!, isNotNull);
-    expect(search.isMoreDataAvailable, false);
-    expect(search.offres.length, 3);
-    final offre = search.offres[0];
-    expect(
-        offre,
-        OffreEmploi(
-          id: "123YYCD",
-          title: "Serveur / Serveuse de restaurant - chef de rang h/f   (H/F)",
-          companyName: "BRASSERIE FLO",
-          contractType: "CDI",
-          location: "75 - PARIS 10",
-          duration: "Temps plein",
-        ));
   });
 
   test('search when response is valid with empty keyword and department parameters should return offres', () async {
@@ -109,16 +116,79 @@ void main() {
 
     final search = await repository.search(
       userId: "ID",
-      keywords: "",
-      location: null,
-      page: 1,
-      filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      request: SearchOffreEmploiRequest(
+        keywords: "",
+        location: null,
+        onlyAlternance: false,
+        page: 1,
+        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      ),
+    );
+
+    // Then
+    expect(search!, isNotNull);
+  });
+
+  test('search when response is valid with only alternance should return offres', () async {
+    // Given
+    final httpClient = MockClient((request) async {
+      if (request.method != "GET") return invalidHttpResponse();
+      if (!request.url.toString().startsWith("BASE_URL/offres-emploi")) return invalidHttpResponse();
+      if (request.url.queryParameters.containsKey("q")) return invalidHttpResponse();
+      if (request.url.queryParameters.containsKey("departement")) return invalidHttpResponse();
+      if (request.url.queryParameters["alternance"] != "true") return invalidHttpResponse();
+      if (request.url.queryParameters["page"] != "1") return invalidHttpResponse();
+      if (request.url.queryParameters["limit"] != "50") return invalidHttpResponse();
+      return Response(loadTestAssets("offres_emploi.json"), 200);
+    });
+    final repository = OffreEmploiRepository("BASE_URL", httpClient, HeadersBuilderStub());
+
+    // When
+    final search = await repository.search(
+      userId: "ID",
+      request: SearchOffreEmploiRequest(
+        keywords: "",
+        location: null,
+        onlyAlternance: true,
+        page: 1,
+        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      ),
+    );
+
+    // Then
+    expect(search!, isNotNull);
+  });
+
+  test('search when response is valid with keywords and a department location should return offres', () async {
+    // Given
+    final httpClient = MockClient((request) async {
+      if (request.method != "GET") return invalidHttpResponse();
+      if (!request.url.toString().startsWith("BASE_URL/offres-emploi")) return invalidHttpResponse();
+      if (request.url.queryParameters["q"] != "keywords") return invalidHttpResponse();
+      if (request.url.queryParameters["departement"] != "75") return invalidHttpResponse();
+      if (request.url.queryParameters["page"] != "1") return invalidHttpResponse();
+      if (request.url.queryParameters["limit"] != "50") return invalidHttpResponse();
+      return Response(loadTestAssets("offres_emploi.json"), 200);
+    });
+    final repository = OffreEmploiRepository("BASE_URL", httpClient, HeadersBuilderStub());
+
+    // When
+    final location = Location(libelle: "Paris", code: "75", type: LocationType.DEPARTMENT);
+    final search = await repository.search(
+      userId: "ID",
+      request: SearchOffreEmploiRequest(
+        keywords: "keywords",
+        location: location,
+        onlyAlternance: false,
+        page: 1,
+        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      ),
     );
 
     // Then
     expect(search!, isNotNull);
     expect(search.isMoreDataAvailable, false);
-    expect(search.offres.length, 3);
+    expect(search.offres.length, 4);
     final offre = search.offres[0];
     expect(
         offre,
@@ -129,6 +199,7 @@ void main() {
           contractType: "CDI",
           location: "75 - PARIS 10",
           duration: "Temps plein",
+          isAlternance: false,
         ));
   });
 
@@ -152,10 +223,13 @@ void main() {
             Location(libelle: "Issy-les-Moulineaux", code: "03129", codePostal: "92130", type: LocationType.COMMUNE);
         final search = await repository.search(
           userId: "ID",
-          keywords: "keywords",
-          location: location,
-          page: 1,
-          filtres: filtres,
+          request: SearchOffreEmploiRequest(
+            keywords: "keywords",
+            location: location,
+            onlyAlternance: false,
+            page: 1,
+            filtres: filtres,
+          ),
         );
 
         // Then
@@ -290,19 +364,19 @@ void main() {
       assertFiltres(
         "when duree is temps partiel",
         OffreEmploiSearchParametersFiltres.withFiltres(duree: [DureeFiltre.temps_partiel]),
-            (query) => query.contains("duree=2"),
+        (query) => query.contains("duree=2"),
       );
 
       assertFiltres(
         "when duree is both",
         OffreEmploiSearchParametersFiltres.withFiltres(duree: [DureeFiltre.temps_plein, DureeFiltre.temps_partiel]),
-            (query) => query.contains("duree=1") && query.contains("duree=2"),
+        (query) => query.contains("duree=1") && query.contains("duree=2"),
       );
 
       assertFiltres(
         "when no duree is selected",
-        OffreEmploiSearchParametersFiltres.withFiltres(duree : []),
-            (query) => !query.contains("duree"),
+        OffreEmploiSearchParametersFiltres.withFiltres(duree: []),
+        (query) => !query.contains("duree"),
       );
 
       assertFiltres(
@@ -321,10 +395,13 @@ void main() {
     // When
     final search = await repository.search(
       userId: "ID",
-      keywords: "keywords",
-      location: null,
-      page: 1,
-      filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      request: SearchOffreEmploiRequest(
+        keywords: "keywords",
+        location: null,
+        onlyAlternance: false,
+        page: 1,
+        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      ),
     );
 
     // Then
