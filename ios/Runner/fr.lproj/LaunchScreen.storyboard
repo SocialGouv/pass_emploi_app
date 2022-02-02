@@ -19,21 +19,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SpashGradientBackground" translatesAutoresizingMaskIntoConstraints="NO" id="utT-kp-G6P">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="biseau_background" translatesAutoresizingMaskIntoConstraints="NO" id="utT-kp-G6P">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" image="LaunchImage" translatesAutoresizingMaskIntoConstraints="NO" id="YRO-k0-Ey4">
-                                <rect key="frame" x="110" y="404" width="194.5" height="88.5"/>
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="logo_pass_emploi_light" translatesAutoresizingMaskIntoConstraints="NO" id="YRO-k0-Ey4">
+                                <rect key="frame" x="107" y="348" width="200" height="200"/>
+                                <accessibility key="accessibilityConfiguration">
+                                    <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
+                                </accessibility>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="hf6-vt-Rbl"/>
+                                    <constraint firstAttribute="width" constant="200" id="iTX-QA-XDZ"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="1a2-6s-vTC"/>
-                            <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="4X2-HB-R7a"/>
+                            <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="FoM-Jc-JWv"/>
                             <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="Lq9-yq-Iqd"/>
                             <constraint firstItem="utT-kp-G6P" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="Znm-7F-ftu"/>
                             <constraint firstAttribute="bottom" secondItem="utT-kp-G6P" secondAttribute="bottom" id="k4h-oE-jj1"/>
-                            <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="oNc-Ol-eGq"/>
                             <constraint firstItem="utT-kp-G6P" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="yNF-9N-50t"/>
                             <constraint firstAttribute="trailing" secondItem="utT-kp-G6P" secondAttribute="trailing" id="zgL-V0-IaU"/>
                         </constraints>
@@ -45,7 +50,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="LaunchImage" width="194.5" height="88.5"/>
-        <image name="SpashGradientBackground" width="375" height="812"/>
+        <image name="biseau_background" width="375" height="812"/>
+        <image name="logo_pass_emploi_light" width="120" height="120"/>
     </resources>
 </document>

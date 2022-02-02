@@ -1,22 +1,22 @@
 {
-  "images" : [
+  "images": [
     {
-      "filename": "logo.png",
+      "filename": "biseau_background.png",
       "idiom": "universal",
       "scale": "1x"
     },
     {
-      "filename": "logo@2x.png",
+      "filename": "biseau_background@2x.png",
       "idiom": "universal",
       "scale": "2x"
     },
     {
-      "filename": "logo@3x.png",
+      "filename": "biseau_background@3x.png",
       "idiom": "universal",
       "scale": "3x"
     }
   ],
-  "info" : {
+  "info": {
     "author": "xcode",
     "version": 1
   }

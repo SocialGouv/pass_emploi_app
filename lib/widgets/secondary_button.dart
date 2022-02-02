@@ -17,24 +17,27 @@ class SecondaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(minWidth: double.infinity),
-      child: OutlinedButton(
-        onPressed: onPressed,
-        style: OutlinedButton.styleFrom(
-          shape: StadiumBorder(),
-          side: BorderSide(color: AppColors.primary, width: 2),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 16),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (drawableRes != null)
-                Padding(padding: const EdgeInsets.only(right: 12), child: SvgPicture.asset(drawableRes!, color: AppColors.primary,)),
-              Text(label, style: TextStyles.textSecondaryButton),
-            ],
-          ),
+    return OutlinedButton(
+      onPressed: onPressed,
+      style: OutlinedButton.styleFrom(
+        shape: StadiumBorder(),
+        backgroundColor: Colors.white,
+        side: BorderSide(color: AppColors.primary, width: 2),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (drawableRes != null)
+              Padding(
+                  padding: const EdgeInsets.only(right: 12),
+                  child: SvgPicture.asset(
+                    drawableRes!,
+                    color: AppColors.primary,
+                  )),
+            Flexible(child: Text(label, textAlign: TextAlign.center, style: TextStyles.textSecondaryButton)),
+          ],
         ),
       ),
     );

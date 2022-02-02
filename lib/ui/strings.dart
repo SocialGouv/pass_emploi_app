@@ -39,14 +39,21 @@ class Strings {
   // Loader (Splash)
   static String welcomeOn = "Bienvenue sur";
 
+  // Entree
+  static String createAccountPlaceholder =
+      "Vous êtes intéressé et vous pensez être élligible au Contrat Engagement Jeune ?\nPrenez rendez-vous avec votre conseiller principal.";
+  static String askAccount = "Demander un compte pass emploi";
+  static String suiviParConseiller = "Je suis suivi par un conseiller...";
+  static String dontHaveAccount = "Vous n’avez pas de compte pass emploi ?";
+
   // Login
   static String performLogin = "Connectez-vous";
   static String mandatoryAccessCodeError = "Votre code d\'accès doit être renseigné";
   static String yourAccessCode = "Votre code d\'accès";
   static String loginError = "Erreur lors de la connexion";
-  static String loginPassEmploi = "Connexion pass emploi";
-  static String loginPoleEmploi = "Je suis suivi(e) par Pôle emploi";
-  static String loginMissionLocale = "Je suis suivi(e) par la Mission Locale";
+  static String loginPassEmploi = "pass emploi";
+  static String loginPoleEmploi = "Pôle emploi";
+  static String loginMissionLocale = "Mission Locale";
   static String loginAction = "Se connecter";
   static String logoutAction = "Me déconnecter";
 

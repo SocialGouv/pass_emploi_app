@@ -1,9 +1,11 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
@@ -31,16 +33,19 @@ class LoginViewModel extends Equatable {
 List<LoginButtonViewModel> _loginButtons(Store<AppState> store, Flavor flavor) {
   return [
     LoginButtonViewModel(
-      label: Strings.loginMissionLocale,
-      action: () => store.dispatch(RequestLoginAction(RequestLoginMode.SIMILO)),
+      label: Strings.loginPoleEmploi,
+      backgroundColor: AppColors.poleEmploi,
+      action: () => store.dispatch(RequestLoginAction(RequestLoginMode.POLE_EMPLOI)),
     ),
     LoginButtonViewModel(
-      label: Strings.loginPoleEmploi,
-      action: () => store.dispatch(RequestLoginAction(RequestLoginMode.POLE_EMPLOI)),
+      label: Strings.loginMissionLocale,
+      backgroundColor: AppColors.missionLocale,
+      action: () => store.dispatch(RequestLoginAction(RequestLoginMode.SIMILO)),
     ),
     if (flavor == Flavor.STAGING)
       LoginButtonViewModel(
         label: Strings.loginPassEmploi,
+        backgroundColor: AppColors.primary,
         action: () => store.dispatch(RequestLoginAction(RequestLoginMode.PASS_EMPLOI)),
       ),
   ];
@@ -48,9 +53,10 @@ List<LoginButtonViewModel> _loginButtons(Store<AppState> store, Flavor flavor) {
 
 class LoginButtonViewModel extends Equatable {
   final String label;
+  final Color backgroundColor;
   final Function() action;
 
-  LoginButtonViewModel({required this.label, required this.action});
+  LoginButtonViewModel({required this.label, required this.backgroundColor, required this.action});
 
   @override
   List<Object?> get props => [label];

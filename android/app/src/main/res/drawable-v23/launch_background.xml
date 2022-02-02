@@ -2,9 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:drawable="@drawable/biseau_background" />
 
-    <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@drawable/logo_pass_emploi_light" />
-    </item>
+    <item
+        android:drawable="@drawable/logo_pass_emploi_light"
+        android:gravity="center" />
 </layer-list>
