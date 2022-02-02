@@ -34,6 +34,19 @@
       "localisation": {
         "nom": "75 - Paris (Dept.)"
       }
+    },
+    {
+      "id": "123ZZZN1",
+      "alternance": false,
+      "duree": "Temps plein",
+      "localisation": {
+        "nom": "",
+        "codePostal": "",
+        "commune": ""
+      },
+      "typeContrat": "CDI",
+      "nomEntreprise": "SUPER TAXI",
+      "titre": "Chauffeur / Chauffeuse de taxi (H/F)"
     }
   ]
 }

@@ -7,7 +7,6 @@ import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 
@@ -17,8 +16,8 @@ class PlusPage extends TraceableStatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.lightBlue,
-      appBar: FlatDefaultAppBar(title: Text(Strings.menuPlus, style: TextStyles.h3Semi)),
+      backgroundColor: AppColors.grey100,
+      appBar: passEmploiAppBar(label: Strings.menuPlus),
       body: Stack(
         children: [
           Align(
@@ -28,15 +27,15 @@ class PlusPage extends TraceableStatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: PrimaryActionButton.simple(
+                    child: PrimaryActionButton(
                       onPressed: () {
                         StoreProvider.of<AppState>(context).dispatch(RequestLogoutAction(LogoutRequester.USER));
                       },
                       label: Strings.logoutAction,
-                      textColor: AppColors.franceRed,
-                      backgroundColor: AppColors.franceRedAlpha05,
-                      disabledBackgroundColor: AppColors.redGrey,
-                      rippleColor: AppColors.redGrey,
+                      textColor: AppColors.warning,
+                      backgroundColor: AppColors.warningLighten,
+                      rippleColor: AppColors.warningLight,
+                      withShadow: false,
                     ),
                   ),
                 ],

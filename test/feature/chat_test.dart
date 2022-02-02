@@ -7,10 +7,9 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
-import 'package:pass_emploi_app/repositories/chat_repository.dart';
 
-import '../doubles/dummies.dart';
 import '../doubles/fixtures.dart';
+import '../doubles/stubs.dart';
 import '../utils/test_setup.dart';
 
 void main() {
@@ -93,27 +92,6 @@ void main() {
       ChatStatusState.success(unreadMessageCount: 22, lastConseillerReading: DateTime(2022)),
     );
   });
-}
-
-class ChatRepositoryStub extends ChatRepository {
-  List<Message> _messages = [];
-  ConseillerMessageInfo _info = ConseillerMessageInfo(null, null);
-
-  ChatRepositoryStub() : super(DummyChatCrypto(), DummyCrashlytics());
-
-  void onMessageStreamReturns(List<Message> messages) => _messages = messages;
-
-  void onChatStatusStreamReturns(ConseillerMessageInfo info) => _info = info;
-
-  @override
-  Stream<List<Message>> messagesStream(String userId) async* {
-    yield _messages;
-  }
-
-  @override
-  Stream<ConseillerMessageInfo> chatStatusStream(String userId) async* {
-    yield _info;
-  }
 }
 
 Message _mockMessage([String id = '1']) => Message("content $id", DateTime.utc(2022, 1, 1), Sender.conseiller);

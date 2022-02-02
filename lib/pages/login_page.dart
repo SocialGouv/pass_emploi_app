@@ -9,120 +9,140 @@ import 'package:pass_emploi_app/presentation/login_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
+import 'package:pass_emploi_app/widgets/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/secondary_button.dart';
+
+import 'create_account_page.dart';
 
 class LoginPage extends TraceableStatelessWidget {
   LoginPage() : super(name: AnalyticsScreenNames.login);
+
+  static MaterialPageRoute materialPageRoute() {
+    return MaterialPageRoute(builder: (context) => LoginPage());
+  }
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, LoginViewModel>(
       converter: (store) => LoginViewModel.create(store),
       distinct: true,
-      builder: (context, viewModel) => _content(viewModel),
+      builder: (context, viewModel) => _content(viewModel, context),
     );
   }
 
-  Scaffold _content(LoginViewModel viewModel) {
+  Scaffold _content(LoginViewModel viewModel, BuildContext context) {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [AppColors.lightBlue, AppColors.lightPurple],
+          EntreeBiseauBackground(),
+          SafeArea(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 64,
+                  ),
+                  SvgPicture.asset(
+                    Drawables.passEmploiLogo,
+                    color: Colors.white,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+                    padding: EdgeInsets.all(Margins.spacing_m),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(width: 1, color: Colors.white),
+                      borderRadius: BorderRadius.all(Radius.circular(16)),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(Strings.suiviParConseiller, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+                        SizedBox(height: Margins.spacing_m),
+                        _body(viewModel, context),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(Margins.spacing_m, 0, Margins.spacing_m, Margins.spacing_m),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Center(
+                          child: Text(
+                            Strings.dontHaveAccount,
+                            style: TextStyles.textBaseRegular.copyWith(color: Colors.white),
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                        SecondaryButton(
+                            label: Strings.askAccount,
+                            onPressed: () {
+                              Navigator.push(context, CreateAccountPage.materialPageRoute());
+                            }),
+                      ],
+                    ),
+                  )
+                ],
               ),
             ),
-          ),
-          Column(
-            children: [
-              Expanded(
-                flex: 1,
-                child: SvgPicture.asset(Drawables.icLogo, width: 145, semanticsLabel: Strings.logoTextDescription),
-              ),
-              Expanded(
-                flex: 2,
-                child: Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.only(left: 16, right: 16),
-                  padding: EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(width: 1, color: Colors.white),
-                    borderRadius: BorderRadius.all(Radius.circular(16)),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(Strings.performLogin, style: TextStyles.textMdMedium, textAlign: TextAlign.center),
-                      SizedBox(height: 16),
-                      _body(viewModel),
-                    ],
-                  ),
-                ),
-              ),
-              Flexible(child: SizedBox(), flex: 1),
-            ],
           ),
         ],
       ),
     );
   }
 
-  Widget _body(LoginViewModel viewModel) {
+  Widget _body(LoginViewModel viewModel, BuildContext context) {
     switch (viewModel.displayState) {
       case DisplayState.LOADING:
         return Center(child: CircularProgressIndicator());
       case DisplayState.FAILURE:
-        return _failure(viewModel);
+        return _failure(viewModel, context);
       default:
-        return Column(children: [..._loginButtons(viewModel)]);
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [..._loginButtons(viewModel, context)],
+        );
     }
   }
 
-  Column _failure(LoginViewModel viewModel) {
+  Column _failure(LoginViewModel viewModel, BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(Strings.loginError, style: TextStyles.textSmMedium(color: AppColors.errorRed)),
-        SizedBox(height: 8),
-        ..._loginButtons(viewModel),
+        Center(child: Text(Strings.loginError, style: TextStyles.textSmMedium(color: AppColors.warning))),
+        SizedBox(height: Margins.spacing_base),
+        ..._loginButtons(viewModel, context),
       ],
     );
   }
 
-  List<Widget> _loginButtons(LoginViewModel viewModel) {
-    return [
-      _loginButton(viewModel, Strings.loginMissionLocale, () => viewModel.onSimiloLoginAction()),
-      SizedBox(height: 16),
-      _loginButton(viewModel, Strings.loginGeneric, () => viewModel.onGenericLoginAction()),
-    ];
+  List<Widget> _loginButtons(LoginViewModel viewModel, BuildContext context) {
+    final buttonsWithSpaces = viewModel.loginButtons.expand(
+      (e) => [
+        _loginButton(e, context),
+        SizedBox(height: Margins.spacing_base),
+      ],
+    );
+    return buttonsWithSpaces.toList();
   }
 
-  Widget _loginButton(LoginViewModel viewModel, String text, GestureTapCallback onTap) {
-    return Container(
-      margin: EdgeInsets.only(left: 16, right: 16),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(8),
-        child: Material(
-          child: InkWell(
-            onTap: () => onTap(),
-            child: Container(
-              height: 56,
-              child: Center(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [Text(text, style: TextStyles.textSmMedium(color: Colors.white))],
-                ),
-              ),
-            ),
-          ),
-          color: AppColors.nightBlue,
-        ),
-      ),
+  Widget _loginButton(LoginButtonViewModel viewModel, BuildContext context) {
+    return PrimaryActionButton(
+      label: viewModel.label,
+      onPressed: viewModel.action,
+      backgroundColor: viewModel.backgroundColor,
     );
   }
 }

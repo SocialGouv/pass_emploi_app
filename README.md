@@ -85,10 +85,9 @@ Le script lance les tests, build les ipa et apk, et les distribue sur firebase a
 NB: le déploiement nécessite [la cli firebase](https://firebase.google.com/docs/cli). Il ne devrait 
 pas être nécessaire d'être connecté, le script utilisant un token "ci".
 
-1. S'assurer que le fichier `scripts/build.env` est bien rempli, à partir du même modèle que `scripts/build.env.template`.
-   Ce fichier contient notamment la release note qui apparaîtra dans la description des builds.
-2. S'assurer que le script `scripts/staging_release_when_github_is_down.sh` est bien executable : `chmod u+x scripts/staging_release_when_github_is_down.sh`    
-3. En se plaçant à la racine du projet, lancer le script `scripts/staging_release_when_github_is_down.sh`.
+1. S'assurer que le script `scripts/staging_release_when_github_is_down.sh` est bien
+   executable : `chmod u+x scripts/staging_release_when_github_is_down.sh`
+2. En se plaçant à la racine du projet, lancer le script `scripts/staging_release_when_github_is_down.sh`.
 
 ## Déployer une app en bêta test sur les stores publics
 ### Prérequis

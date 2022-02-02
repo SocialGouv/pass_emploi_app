@@ -10,7 +10,7 @@ class Strings {
   // Menu
   static String menuMonSuivi = "Mon suivi";
   static String menuChat = "Messages";
-  static String menuSolutions = "Solutions";
+  static String menuSolutions = "Recherche";
   static String menuFavoris = "Favoris";
   static String menuRendezvous = "Rendez-vous";
   static String menuPlus = "Plus";
@@ -39,13 +39,21 @@ class Strings {
   // Loader (Splash)
   static String welcomeOn = "Bienvenue sur";
 
+  // Entree
+  static String createAccountPlaceholder =
+      "Vous êtes intéressé et vous pensez être élligible au Contrat Engagement Jeune ?\nPrenez rendez-vous avec votre conseiller principal.";
+  static String askAccount = "Demander un compte pass emploi";
+  static String suiviParConseiller = "Je suis suivi par un conseiller...";
+  static String dontHaveAccount = "Vous n’avez pas de compte pass emploi ?";
+
   // Login
   static String performLogin = "Connectez-vous";
   static String mandatoryAccessCodeError = "Votre code d\'accès doit être renseigné";
   static String yourAccessCode = "Votre code d\'accès";
   static String loginError = "Erreur lors de la connexion";
-  static String loginGeneric = "Je suis suivi(e) par Pôle emploi";
-  static String loginMissionLocale = "Je suis suivi(e) par la Mission Locale";
+  static String loginPassEmploi = "pass emploi";
+  static String loginPoleEmploi = "Pôle emploi";
+  static String loginMissionLocale = "Mission Locale";
   static String loginAction = "Se connecter";
   static String logoutAction = "Me déconnecter";
 
@@ -93,17 +101,19 @@ class Strings {
   static String deleteAction = "Supprimer l'action";
   static String deleteActionError = "Erreur lors de la suppression de l'action. Veuillez réessayer";
   static String deleteActionSuccess = "L’action a bien été supprimée";
+  static String linkDetailsRendezVous = "Voir les détails du rendez-vous";
 
-  // Offres Emploi
-  static String offresEmploiTitle = "Résultats offres d'emploi";
+  static String lastUpdateFormat(String formattedDate) => "Modifiée le $formattedDate";
+  static String doneActionsTitle = "Actions terminées";
 
   // Solutions
   static String searchingPageTitle = "Recherche de solutions";
   static String keyWordsTitle = "Mots clés";
-  static String keyWordsTextField = "Métier, compétence...";
+  static String keyWordsTextHint = "Saisissez un métier, une compétence...";
   static String jobLocationTitle = "Lieu de travail";
-  static String jobLocationHint = "Ville, département…";
+  static String jobLocationHint = "Saisissez une ville, un département ou une région";
   static String searchButton = "Rechercher";
+  static String offresEmploiTitle = "Offres d'emploi";
   static String offreDetails = "Détails de l'offre";
   static String offresTabTitle = "Offres";
   static String boiteAOutilsTabTitle = "Boîte à outils";
@@ -112,10 +122,14 @@ class Strings {
   static String offresEmploiButton = "Emploi";
   static String serviceCiviqueButton = "Service civique";
 
+  // Alternance
+  static String alternanceButton = "Alternance";
+  static String alternanceTitle = "Offres d'alternance";
+
   // Immersion
   static String immersionLabel = "Découvrez un métier en immersion dans une entreprise.";
-  static String metierCompulsoryLabel = "Métier*";
-  static String villeCompulsoryLabel = "Localisation*";
+  static String metierCompulsoryLabel = "* Métier";
+  static String villeCompulsoryLabel = "* Localisation";
   static String immersionExpansionTileTitle = "En savoir plus sur l’immersion";
   static String immersionObjectifTitle = "Objectif poursuivi ?";
   static String immersionObjectifContent =
@@ -143,7 +157,7 @@ class Strings {
   static String immersionDescriptionLabel = "Si l’entreprise est d’accord pour vous accueillir :\n\n"
       "· Prévenez votre conseiller\n"
       "· Remplissez une convention d’immersion avec lui";
-  static String immersionContactTitle = "· Contact";
+  static String immersionContactTitle = "Contact";
   static String immersionPhoneButton = "Appeler";
   static String immersionLocationButton = "Localiser l\'entreprise";
   static String immersionEmailButton = "Envoyer un e-mail";
@@ -157,7 +171,7 @@ class Strings {
   static String serviceCiviqueUrl = "https://www.service-civique.gouv.fr/missions/";
 
   // Immersion Errors
-  static String immersionMetierError = "Renseignez un métier de la liste";
+  static String immersionMetierError = "Renseignez un secteur d'activité de la liste";
   static String immersionVilleError = "Renseignez une ville de la liste";
 
   // Solutions Errors
@@ -171,7 +185,7 @@ class Strings {
   static String searchRadius = "Dans un rayon de : ";
   static String applyFiltres = "Appliquer les filtres";
 
-  static String kmFormat(int int) => "${int} km";
+  static String kmFormat(int int) => "$int km";
   static String experienceSectionTitle = "Expérience";
   static String experienceDeZeroAUnAnLabel = "De 0 à 1 an";
   static String experienceDeUnATroisAnsLabel = "De 1 an à 3 ans";
@@ -181,7 +195,8 @@ class Strings {
   static String contratCdiTooltip = "CDI et CDI Intérimaire";
   static String contratCddInterimSaisonnierLabel = "CDD - intérim - saisonnier";
   static String contratAutreLabel = "Autres";
-  static String contratAutreTooltip = "Profession commerciale, Franchise, Profession libérale, Reprise d’entreprise, Contrat travail temporaire insertion";
+  static String contratAutreTooltip =
+      "Profession commerciale, Franchise, Profession libérale, Reprise d’entreprise, Contrat travail temporaire insertion";
   static String dureeSectionTitle = "Temps de travail";
   static String dureeTempsPleinLabel = "Temps plein";
   static String dureeTempsPartielLabel = "Temps partiel";
@@ -216,4 +231,14 @@ class Strings {
   static String offreDetailLastUpdate(String lastUpdate) => "Actualisée le $lastUpdate";
   static String noFavoris = "Aucun favori";
   static String favorisError = "Erreur lors de la récupération de vos favoris";
+
+  //unavailable content (actions & rdv) for pole emploi users
+  static String rendezvous = "rendez-vous";
+  static String actions = "actions";
+  static String unavailableContentTitle(String content) =>
+      "Vos $content ne sont pas accessibles sur l’application pass emploi.";
+  static String unvailableContentDescription =
+      "Vous pouvez les consulter sur votre espace personnel Pôle emploi.";
+  static String poleEmploiUrlButton = "Accéder à mon espace Pôle emploi";
+  static String espacePoleEmploiUrl = "https://candidat.pole-emploi.fr/espacepersonnel/";
 }

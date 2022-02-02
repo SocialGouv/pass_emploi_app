@@ -1,12 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
+import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/presentation/call_to_action.dart';
-import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/immersion_details_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/immersion_details_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
@@ -23,7 +25,7 @@ main() {
     final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
     // Then
-    expect(viewModel.displayState, DisplayState.LOADING);
+    expect(viewModel.displayState, ImmersionDetailsPageDisplayState.SHOW_LOADER);
   });
 
   test('create when state is failure should set display state properly', () {
@@ -34,7 +36,7 @@ main() {
     final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
     // Then
-    expect(viewModel.displayState, DisplayState.FAILURE);
+    expect(viewModel.displayState, ImmersionDetailsPageDisplayState.SHOW_ERROR);
   });
 
   test('create when state is success should set display state properly and fill generic immersion info', () {
@@ -45,12 +47,47 @@ main() {
     final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
     // Then
-    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.displayState, ImmersionDetailsPageDisplayState.SHOW_DETAILS);
+    expect(viewModel.id, '12345');
     expect(viewModel.title, 'Métier');
     expect(viewModel.companyName, 'Nom établissement');
     expect(viewModel.secteurActivite, 'Secteur');
     expect(viewModel.ville, 'Ville');
     expect(viewModel.address, 'Adresse');
+  });
+
+  test("getDetails when state is incomplete data should set display state properly and convert data to view model", () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(
+        immersionDetailsState: ImmersionDetailsIncompleteDataState(Immersion(
+          id: "10298",
+          metier: "incomplete-metier",
+          ville: "incomplete-ville",
+          secteurActivite: "incomplete-secteur",
+          nomEtablissement: "incomplete-nom",
+        )),
+      ),
+    );
+
+    // When
+    final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
+
+    // Then
+    expect(viewModel.displayState, ImmersionDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS);
+    expect(viewModel.id, "10298");
+    expect(viewModel.title, "incomplete-metier");
+    expect(viewModel.companyName, "incomplete-nom");
+    expect(viewModel.secteurActivite, "incomplete-secteur");
+    expect(viewModel.ville, "incomplete-ville");
+    expect(viewModel.address, isNull);
+    expect(viewModel.explanationLabel, isNull);
+    expect(viewModel.contactLabel, isNull);
+    expect(viewModel.contactInformation, isNull);
+    expect(viewModel.withSecondaryCallToActions, isNull);
+    expect(viewModel.mainCallToAction, isNull);
+    expect(viewModel.secondaryCallToActions, isNull);
   });
 
   group('Explanation label…', () {
@@ -233,7 +270,7 @@ main() {
 
   group('Call to actions…', () {
     group('when contact is null…', () {
-      test('does not have main CTA, only secondary address CTA (on Android)', () {
+      test('only have main address CTA (on Android), no secondary CTAs', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(null, address: "Address 1"));
 
@@ -241,15 +278,18 @@ main() {
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
         // Then
-        expect(viewModel.withMainCallToAction, isFalse);
-        expect(viewModel.withSecondaryCallToActions, isTrue);
         expect(
-          viewModel.secondaryCallToActions,
-          [CallToAction('Localiser l\'entreprise', Uri.parse("geo:0,0?q=Address%201"))],
+          viewModel.mainCallToAction,
+          CallToAction(
+            'Localiser l\'entreprise',
+            Uri.parse("geo:0,0?q=Address%201"),
+            EventType.OFFRE_IMMERSION_LOCALISATION,
+          ),
         );
+        expect(viewModel.withSecondaryCallToActions, isFalse);
       });
 
-      test('does not have main CTA, only secondary address CTA (on iOS)', () {
+      test('only have main address CTA (on iOS), no secondary CTAs', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(null, address: "Address 1"));
 
@@ -257,17 +297,20 @@ main() {
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.IOS);
 
         // Then
-        expect(viewModel.withMainCallToAction, isFalse);
-        expect(viewModel.withSecondaryCallToActions, isTrue);
         expect(
-          viewModel.secondaryCallToActions,
-          [CallToAction('Localiser l\'entreprise', Uri.parse("https://maps.apple.com/maps?q=Address+1"))],
+          viewModel.mainCallToAction,
+          CallToAction(
+            'Localiser l\'entreprise',
+            Uri.parse("https://maps.apple.com/maps?q=Address+1"),
+            EventType.OFFRE_IMMERSION_LOCALISATION,
+          ),
         );
+        expect(viewModel.withSecondaryCallToActions, isFalse);
       });
     });
 
     group('when contact mode is INCONNU…', () {
-      test('but neither phone neither mail is set > does not have main CTA, only secondary address CTA', () {
+      test('but neither phone nor mail is set > only have main address CTA, no secondary CTAs', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(
           _mockContact(mode: ImmersionContactMode.INCONNU, phone: '', mail: ''),
@@ -278,15 +321,18 @@ main() {
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
         // Then
-        expect(viewModel.withMainCallToAction, isFalse);
-        expect(viewModel.withSecondaryCallToActions, isTrue);
         expect(
-          viewModel.secondaryCallToActions,
-          [CallToAction('Localiser l\'entreprise', Uri.parse("geo:0,0?q=Address%201"))],
+          viewModel.mainCallToAction,
+          CallToAction(
+            'Localiser l\'entreprise',
+            Uri.parse("geo:0,0?q=Address%201"),
+            EventType.OFFRE_IMMERSION_LOCALISATION,
+          ),
         );
+        expect(viewModel.withSecondaryCallToActions, isFalse);
       });
 
-      test('but phone is unset > does not have main CTA, only secondary mail & address CTAs', () {
+      test('but phone is unset > does have main address CTA and secondary mail CTA', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(
           _mockContact(mode: ImmersionContactMode.INCONNU, phone: '', mail: 'mail'),
@@ -297,15 +343,22 @@ main() {
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
         // Then
-        expect(viewModel.withMainCallToAction, isFalse);
+        expect(
+          viewModel.mainCallToAction,
+          CallToAction(
+            'Localiser l\'entreprise',
+            Uri.parse("geo:0,0?q=Address%201"),
+            EventType.OFFRE_IMMERSION_LOCALISATION,
+          ),
+        );
         expect(viewModel.withSecondaryCallToActions, isTrue);
         expect(viewModel.secondaryCallToActions, [
           CallToAction(
             'Envoyer un e-mail',
             Uri.parse("mailto:mail?subject=Candidature%20pour%20une%20p%C3%A9riode%20d'immersion"),
+            EventType.OFFRE_IMMERSION_ENVOI_EMAIL,
             drawableRes: Drawables.icMail,
-          ),
-          CallToAction('Localiser l\'entreprise', Uri.parse("geo:0,0?q=Address%201")),
+          )
         ]);
       });
 
@@ -320,15 +373,20 @@ main() {
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
         // Then
-        expect(viewModel.withMainCallToAction, isTrue);
-        expect(viewModel.mainCallToAction, CallToAction('Appeler', Uri.parse("tel:0701020304")));
+        expect(
+            viewModel.mainCallToAction,
+            CallToAction(
+              'Appeler',
+              Uri.parse("tel:0701020304"),
+              EventType.OFFRE_IMMERSION_APPEL,
+            ));
         expect(viewModel.withSecondaryCallToActions, isTrue);
-        expect(viewModel.secondaryCallToActions.length, 2);
+        expect(viewModel.secondaryCallToActions!.length, 2);
       });
     });
 
     group('when contact mode is MAIL', () {
-      test('does have a main mail CTA, but secondary CTAs', () {
+      test('does have a main mail CTA, but no secondary CTAs', () {
         // Given
         final store = _successStore(_mockImmersionWithContact(
           _mockContact(mode: ImmersionContactMode.MAIL, phone: 'phone', mail: 'mail'),
@@ -339,15 +397,15 @@ main() {
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
         // Then
-        expect(viewModel.withMainCallToAction, isTrue);
-        expect(viewModel.withSecondaryCallToActions, isFalse);
         expect(
           viewModel.mainCallToAction,
           CallToAction(
             'Envoyer un e-mail',
             Uri.parse("mailto:mail?subject=Candidature%20pour%20une%20p%C3%A9riode%20d'immersion"),
+            EventType.OFFRE_IMMERSION_ENVOI_EMAIL,
           ),
         );
+        expect(viewModel.withSecondaryCallToActions, isFalse);
       });
     });
 
@@ -363,9 +421,14 @@ main() {
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
         // Then
-        expect(viewModel.withMainCallToAction, isTrue);
         expect(viewModel.withSecondaryCallToActions, isFalse);
-        expect(viewModel.mainCallToAction, CallToAction('Appeler', Uri.parse("tel:0701020304")));
+        expect(
+            viewModel.mainCallToAction,
+            CallToAction(
+              'Appeler',
+              Uri.parse("tel:0701020304"),
+              EventType.OFFRE_IMMERSION_APPEL,
+            ));
       });
     });
 
@@ -381,9 +444,14 @@ main() {
         final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
 
         // Then
-        expect(viewModel.withMainCallToAction, isTrue);
         expect(viewModel.withSecondaryCallToActions, isFalse);
-        expect(viewModel.mainCallToAction, CallToAction('Localiser l\'entreprise', Uri.parse("geo:0,0?q=Address%201")));
+        expect(
+            viewModel.mainCallToAction,
+            CallToAction(
+              'Localiser l\'entreprise',
+              Uri.parse("geo:0,0?q=Address%201"),
+              EventType.OFFRE_IMMERSION_LOCALISATION,
+            ));
       });
     });
   });
@@ -413,7 +481,7 @@ ImmersionDetails _mockImmersion({
   ImmersionContactMode mode = ImmersionContactMode.INCONNU,
 }) {
   return ImmersionDetails(
-    id: '',
+    id: '12345',
     metier: 'Métier',
     companyName: 'Nom établissement',
     secteurActivite: 'Secteur',

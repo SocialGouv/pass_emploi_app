@@ -14,7 +14,7 @@ class Retry extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(text),
-        TextButton(onPressed: onRetry, child: Text(Strings.retry, style: TextStyles.textLgMedium)),
+        TextButton(onPressed: onRetry, child: Text(Strings.retry, style: TextStyles.textSecondaryButton)),
       ],
     );
   }

@@ -6,8 +6,9 @@ import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/network/post_offre_emploi_favori.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
+import 'package:pass_emploi_app/repositories/favoris_repository.dart';
 
-class OffreEmploiFavorisRepository {
+class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
   final String _baseUrl;
   final Client _httpClient;
   final HeadersBuilder _headersBuilder;
@@ -15,8 +16,9 @@ class OffreEmploiFavorisRepository {
 
   OffreEmploiFavorisRepository(this._baseUrl, this._httpClient, this._headersBuilder, [this._crashlytics]);
 
-  Future<Set<String>?> getOffreEmploiFavorisId(String userId) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris");
+  @override
+  Future<Set<String>?> getFavorisId(String userId) async {
+    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-emploi");
     try {
       final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
 
@@ -30,8 +32,10 @@ class OffreEmploiFavorisRepository {
     return null;
   }
 
-  Future<Map<String, OffreEmploi>?> getOffreEmploiFavoris(String userId) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris").replace(queryParameters: {"detail": "true"});
+  @override
+  Future<Map<String, OffreEmploi>?> getFavoris(String userId) async {
+    final url =
+        Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-emploi").replace(queryParameters: {"detail": "true"});
     try {
       final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
       if (response.statusCode.isValid()) {
@@ -48,20 +52,22 @@ class OffreEmploiFavorisRepository {
     return null;
   }
 
-  Future<bool> postFavori(String userId, OffreEmploi offre) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favori");
+  @override
+  Future<bool> postFavori(String userId, OffreEmploi favori) async {
+    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-emploi");
     try {
       final response = await _httpClient.post(
         url,
         headers: await _headersBuilder.headers(contentType: 'application/json'),
         body: customJsonEncode(
           PostOffreEmploiFavori(
-            offre.id,
-            offre.title,
-            offre.companyName,
-            offre.contractType,
-            offre.location,
-            offre.duration,
+            favori.id,
+            favori.title,
+            favori.companyName,
+            favori.contractType,
+            favori.isAlternance,
+            favori.location,
+            favori.duration,
           ),
         ),
       );
@@ -74,8 +80,9 @@ class OffreEmploiFavorisRepository {
     return false;
   }
 
-  Future<bool> deleteFavori(String userId, String offreId) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favori/$offreId");
+  @override
+  Future<bool> deleteFavori(String userId, String favoriId) async {
+    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-emploi/$favoriId");
     try {
       final response = await _httpClient.delete(
         url,

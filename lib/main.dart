@@ -32,6 +32,7 @@ import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
+import 'package:pass_emploi_app/repositories/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
@@ -39,6 +40,7 @@ import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
+import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
 
@@ -98,8 +100,10 @@ Future<bool> _shouldForceUpdate(RemoteConfig? remoteConfig) async {
   return AppVersionChecker().shouldForceUpdate(currentVersion: currentVersion, minimumVersion: minimumVersion);
 }
 
-Future<Store<AppState>> _initializeReduxStore(Configuration configuration,
-    PushNotificationManager pushNotificationManager,) async {
+Future<Store<AppState>> _initializeReduxStore(
+  Configuration configuration,
+  PushNotificationManager pushNotificationManager,
+) async {
   final headersBuilder = HeadersBuilder();
   final securedPreferences = FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true));
   final authenticator = Authenticator(AuthWrapper(FlutterAppAuth()), configuration, securedPreferences);
@@ -133,13 +137,15 @@ Future<Store<AppState>> _initializeReduxStore(Configuration configuration,
     crashlytics,
     OffreEmploiDetailsRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     OffreEmploiFavorisRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+    ImmersionFavorisRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     SearchLocationRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     ImmersionRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     ImmersionDetailsRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     FirebaseAuthRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     FirebaseAuthWrapper(),
     chatCrypto,
-  ).initializeReduxStore(initialState: AppState.initialState());
+    TrackingEventRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+  ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
   accessTokenRetriever.setStore(reduxStore);
   return reduxStore;
 }

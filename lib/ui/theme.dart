@@ -19,18 +19,18 @@ class PassEmploiTheme {
   static CheckboxThemeData _checkboxes() {
     return CheckboxThemeData(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-      side: BorderSide(color: AppColors.nightBlue, width: 2),
+      side: BorderSide(color: AppColors.contentColor, width: 2),
     );
   }
 
   static SliderThemeData _sliders() {
     return SliderThemeData(
       trackHeight: 6.0,
-      activeTrackColor: AppColors.nightBlue,
-      inactiveTrackColor: AppColors.bluePurple,
-      thumbColor: AppColors.nightBlue,
-      activeTickMarkColor: AppColors.nightBlue,
-      inactiveTickMarkColor: AppColors.bluePurple,
+      activeTrackColor: AppColors.primary,
+      inactiveTrackColor: AppColors.grey800,
+      thumbColor: AppColors.primary,
+      activeTickMarkColor: AppColors.primary,
+      inactiveTickMarkColor: AppColors.grey800,
     );
   }
 }

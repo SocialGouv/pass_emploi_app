@@ -7,8 +7,9 @@ abstract class OffreEmploiAction {}
 class SearchOffreEmploiAction extends OffreEmploiAction {
   final String keywords;
   final Location? location;
+  final bool onlyAlternance;
 
-  SearchOffreEmploiAction({required this.keywords, required this.location});
+  SearchOffreEmploiAction({required this.keywords, required this.location, required this.onlyAlternance});
 }
 
 class OffreEmploiSearchLoadingAction extends OffreEmploiAction {}

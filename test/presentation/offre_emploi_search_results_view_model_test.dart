@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_results_view_model.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -35,7 +35,7 @@ main() {
 
       // Then
       expect(viewModel.displayState, DisplayState.CONTENT);
-      expect(viewModel.items, _expectedViewModels());
+      expect(viewModel.items, [mockOffreEmploiItemViewModel()]);
       expect(viewModel.displayLoaderAtBottomOfList, true);
     });
 
@@ -48,7 +48,7 @@ main() {
 
       // Then
       expect(viewModel.displayState, DisplayState.CONTENT);
-      expect(viewModel.items, _expectedViewModels());
+      expect(viewModel.items, [mockOffreEmploiItemViewModel()]);
       expect(viewModel.displayLoaderAtBottomOfList, false);
     });
   });
@@ -69,7 +69,7 @@ main() {
 
     // Then
     expect(viewModel.displayState, DisplayState.LOADING);
-    expect(viewModel.items, _expectedViewModels());
+    expect(viewModel.items, [mockOffreEmploiItemViewModel()]);
   });
 
   test("create when state is failure should convert data to view model", () {
@@ -91,7 +91,7 @@ main() {
 
     // Then
     expect(viewModel.displayState, DisplayState.FAILURE);
-    expect(viewModel.items, _expectedViewModels());
+    expect(viewModel.items, [mockOffreEmploiItemViewModel()]);
   });
 
   group("create should properly set filtre number ...", () {
@@ -171,8 +171,7 @@ main() {
 
     test("when state has active contrat filtre it should display 1 as filtre number", () {
       // Given
-      final store = _storeWithFiltres(OffreEmploiSearchParametersFiltres.withFiltres(
-          contrat: [ContratFiltre.autre]));
+      final store = _storeWithFiltres(OffreEmploiSearchParametersFiltres.withFiltres(contrat: [ContratFiltre.autre]));
 
       // When
       final viewModel = OffreEmploiSearchResultsViewModel.create(store);
@@ -266,7 +265,7 @@ main() {
       initialState: AppState.initialState().copyWith(
           offreEmploiSearchState: OffreEmploiSearchState.success(),
           offreEmploiSearchResultsState:
-          OffreEmploiSearchResultsState.data(offres: [], loadedPage: 1, isMoreDataAvailable: false)),
+              OffreEmploiSearchResultsState.data(offres: [], loadedPage: 1, isMoreDataAvailable: false)),
     );
 
     // When
@@ -276,6 +275,60 @@ main() {
     expect(viewModel.displayState, DisplayState.EMPTY);
     expect(viewModel.errorMessage, "Aucune offre ne correspond à votre recherche");
   });
+
+  group("Filtre button…", () {
+    test('when search is not only for alternance should be displayed', () {
+      // Given
+      Store<AppState> store = _storeWithParams(onlyAlternance: false, location: null);
+
+      // When
+      final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+      // Then
+      expect(viewModel.withFiltreButton, true);
+    });
+
+    group('when search is only for alternance…', () {
+      test('and location is null should not be displayed', () {
+        // Given
+        Store<AppState> store = _storeWithParams(onlyAlternance: true, location: null);
+
+        // When
+        final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+        // Then
+        expect(viewModel.withFiltreButton, false);
+      });
+
+      test('and location is DEPARTMENT should not be displayed', () {
+        // Given
+        Store<AppState> store = _storeWithParams(
+          onlyAlternance: true,
+          location: Location(libelle: '', code: '', type: LocationType.DEPARTMENT),
+        );
+
+        // When
+        final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+        // Then
+        expect(viewModel.withFiltreButton, false);
+      });
+
+      test('and location is COMMUNE should be displayed', () {
+        // Given
+        Store<AppState> store = _storeWithParams(
+          onlyAlternance: true,
+          location: Location(libelle: '', code: '', type: LocationType.COMMUNE),
+        );
+
+        // When
+        final viewModel = OffreEmploiSearchResultsViewModel.create(store);
+
+        // Then
+        expect(viewModel.withFiltreButton, true);
+      });
+    });
+  });
 }
 
 Store<AppState> _storeWithFiltres(OffreEmploiSearchParametersFiltres filtres) {
@@ -283,23 +336,25 @@ Store<AppState> _storeWithFiltres(OffreEmploiSearchParametersFiltres filtres) {
     reducer,
     initialState: AppState.initialState().copyWith(
       offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
-        "keyWords",
-        mockLocation(),
-        filtres,
+        keywords: "keyWords",
+        location: mockLocation(),
+        onlyAlternance: false,
+        filtres: filtres,
       ),
     ),
   );
 }
 
-List<OffreEmploiItemViewModel> _expectedViewModels() {
-  return [
-    OffreEmploiItemViewModel(
-      "123DXPM",
-      "Technicien / Technicienne en froid et climatisation",
-      "RH TT INTERIM",
-      "MIS",
-      "Temps plein",
-      "77 - LOGNES",
-    )
-  ];
+Store<AppState> _storeWithParams({required bool onlyAlternance, required Location? location}) {
+  return Store<AppState>(
+    reducer,
+    initialState: AppState.initialState().copyWith(
+      offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
+        keywords: "",
+        location: location,
+        onlyAlternance: onlyAlternance,
+        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+      ),
+    ),
+  );
 }

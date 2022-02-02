@@ -8,6 +8,22 @@ import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
 
+class SearchOffreEmploiRequest {
+  final String keywords;
+  final Location? location;
+  final bool onlyAlternance;
+  final int page;
+  final OffreEmploiSearchParametersFiltres filtres;
+
+  SearchOffreEmploiRequest({
+    required this.keywords,
+    required this.location,
+    required this.onlyAlternance,
+    required this.page,
+    required this.filtres,
+  });
+}
+
 class OffreEmploiRepository {
   static const PAGE_SIZE = 50;
 
@@ -18,14 +34,10 @@ class OffreEmploiRepository {
 
   OffreEmploiRepository(this._baseUrl, this._httpClient, this._headerBuilder, [this._crashlytics]);
 
-  Future<OffreEmploiSearchResponse?> search({
-    required String userId,
-    required String keywords,
-    required Location? location,
-    required int page,
-    required OffreEmploiSearchParametersFiltres filtres,
-  }) async {
-    final url = Uri.parse(_baseUrl + "/offres-emploi").replace(query: _createQuery(keywords, location, page, filtres));
+  Future<OffreEmploiSearchResponse?> search({required String userId, required SearchOffreEmploiRequest request}) async {
+    final url = Uri.parse(_baseUrl + "/offres-emploi").replace(
+      query: _createQuery(request),
+    );
     try {
       final response = await _httpClient.get(url, headers: await _headerBuilder.headers(userId: userId));
       if (response.statusCode.isValid()) {
@@ -39,7 +51,7 @@ class OffreEmploiRepository {
     return null;
   }
 
-  String _createQuery(String keywords, Location? location, int page, OffreEmploiSearchParametersFiltres filtres) {
+  String _createQuery(SearchOffreEmploiRequest request) {
     final result = StringBuffer();
     var separator = "";
 
@@ -51,27 +63,30 @@ class OffreEmploiRepository {
       result.write(Uri.encodeQueryComponent(value));
     }
 
-    writeParameter("page", page.toString());
+    if (request.onlyAlternance) {
+      writeParameter("alternance", true.toString());
+    }
+    writeParameter("page", request.page.toString());
     writeParameter("limit", PAGE_SIZE.toString());
-    if (keywords.isNotEmpty) {
-      writeParameter("q", keywords);
+    if (request.keywords.isNotEmpty) {
+      writeParameter("q", request.keywords);
     }
-    if (location?.type == LocationType.DEPARTMENT) {
-      writeParameter("departement", location!.code);
+    if (request.location?.type == LocationType.DEPARTMENT) {
+      writeParameter("departement", request.location!.code);
     }
-    if (location?.type == LocationType.COMMUNE) {
-      writeParameter("commune", location!.code);
+    if (request.location?.type == LocationType.COMMUNE) {
+      writeParameter("commune", request.location!.code);
     }
-    if (filtres.distance != null) {
-      writeParameter("rayon", filtres.distance.toString());
+    if (request.filtres.distance != null) {
+      writeParameter("rayon", request.filtres.distance.toString());
     }
-    filtres.experience?.forEach((element) {
+    request.filtres.experience?.forEach((element) {
       writeParameter("experience", FiltresRequest.experienceToUrlParameter(element));
     });
-    filtres.contrat?.forEach((element) {
+    request.filtres.contrat?.forEach((element) {
       writeParameter("contrat", FiltresRequest.contratToUrlParameter(element));
     });
-    filtres.duree?.forEach((element) {
+    request.filtres.duree?.forEach((element) {
       writeParameter("duree", FiltresRequest.dureeToUrlParameter(element));
     });
     return result.toString();

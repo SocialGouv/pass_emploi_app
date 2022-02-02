@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/widgets/tags.dart';
 
@@ -15,8 +14,8 @@ class ImmersionTags extends StatelessWidget {
       spacing: 8,
       runSpacing: 8,
       children: [
-        lightBlueTag(label: secteurActivite),
-        lightBlueTag(label: ville, icon: SvgPicture.asset(Drawables.icPlace)),
+        DataTag(label: secteurActivite),
+        DataTag(label: ville, drawableRes: Drawables.icPlace),
       ],
     );
   }

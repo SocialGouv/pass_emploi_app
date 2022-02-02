@@ -11,7 +11,7 @@ import '../doubles/dummies.dart';
 import '../utils/test_setup.dart';
 
 void main() {
-  test("when user requests an update the action should be updated and user notified", () async {
+  test("when user requests an update the action should be updated, put on top of list and user notified", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
     final repositorySpy = UserActionRepositorySpy();
@@ -19,7 +19,12 @@ void main() {
     final store = testStoreFactory.initializeReduxStore(
       initialState: AppState.initialState().copyWith(
         userActionState: State<List<UserAction>>.success(
-          [_notStartedAction()],
+          [
+            _notStartedAction(actionId: "1"),
+            _notStartedAction(actionId: "2"),
+            _notStartedAction(actionId: "3"),
+            _notStartedAction(actionId: "4"),
+          ],
         ),
       ),
     );
@@ -29,7 +34,7 @@ void main() {
     // When
     await store.dispatch(UserActionUpdateStatusAction(
       userId: "userId",
-      actionId: "actionId",
+      actionId: "3",
       newStatus: UserActionStatus.DONE,
     ));
 
@@ -37,16 +42,16 @@ void main() {
     final appState = await changedState;
     expect(repositorySpy.isActionUpdated, true);
 
-    expect(appState.userActionState.getResultOrThrow()[0].id, "actionId");
+    expect(appState.userActionState.getResultOrThrow()[0].id, "3");
     expect(appState.userActionState.getResultOrThrow()[0].status, UserActionStatus.DONE);
 
     expect(appState.userActionUpdateState is UserActionUpdatedState, true);
   });
 }
 
-UserAction _notStartedAction() {
+UserAction _notStartedAction({required String actionId}) {
   return UserAction(
-    id: "actionId",
+    id: actionId,
     content: "content",
     comment: "comment",
     status: UserActionStatus.NOT_STARTED,

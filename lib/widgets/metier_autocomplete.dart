@@ -47,7 +47,7 @@ class MetierAutocomplete extends StatelessWidget {
           maxLines: null,
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.done,
-          style: TextStyles.textSmMedium(color: AppColors.nightBlue),
+          style: TextStyles.textBaseBold,
           controller: textEditingController,
           decoration: _inputDecoration(Strings.immersionFieldHint),
           focusNode: focusNode,
@@ -109,23 +109,21 @@ class MetierAutocomplete extends StatelessWidget {
   InputDecoration _inputDecoration(String textFieldString) {
     return InputDecoration(
       contentPadding: const EdgeInsets.only(left: 24, top: 18, bottom: 18),
-      labelText: textFieldString,
-      labelStyle: TextStyles.textSmMedium(color: AppColors.bluePurple),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
-        borderSide: BorderSide(color: AppColors.nightBlue, width: 1.0),
+        borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
-        borderSide: BorderSide(color: AppColors.nightBlue, width: 1.0),
+        borderSide: BorderSide(color: AppColors.primary, width: 1.0),
       ),
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
-        borderSide: BorderSide(color: AppColors.errorRed, width: 1.0),
+        borderSide: BorderSide(color: AppColors.warning, width: 1.0),
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
-        borderSide: BorderSide(color: AppColors.errorRed, width: 1.0),
+        borderSide: BorderSide(color: AppColors.warning, width: 1.0),
       ),
     );
   }

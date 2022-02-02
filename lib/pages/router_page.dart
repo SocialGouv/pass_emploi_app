@@ -1,7 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/pages/login_page.dart';
+import 'package:pass_emploi_app/pages/entree_page.dart';
 import 'package:pass_emploi_app/pages/main_page.dart';
 import 'package:pass_emploi_app/pages/spash_screen_page.dart';
 import 'package:pass_emploi_app/presentation/router_page_view_model.dart';
@@ -31,6 +31,12 @@ class _RouterPageState extends State<RouterPage> {
       onInit: (store) => store.dispatch(BootstrapAction()),
       converter: (store) => RouterPageViewModel.create(store),
       builder: (context, viewModel) => _content(viewModel),
+      onDidChange: (previousViewModel, viewModel) {
+        if (viewModel.routerPageDisplayState == RouterPageDisplayState.LOGIN ||
+            viewModel.routerPageDisplayState == RouterPageDisplayState.MAIN) {
+          _removeAllScreensAboveRouterPage();
+        }
+      },
       distinct: true,
     );
   }
@@ -40,8 +46,7 @@ class _RouterPageState extends State<RouterPage> {
       case RouterPageDisplayState.SPLASH:
         return SplashScreenPage();
       case RouterPageDisplayState.LOGIN:
-        _removeAllScreensAboveRouterPage();
-        return LoginPage();
+        return EntreePage();
       case RouterPageDisplayState.MAIN:
         return MainPage(
           displayState: viewModel.mainPageDisplayState,
