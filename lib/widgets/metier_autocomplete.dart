@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/debouncer.dart';
 
 class MetierAutocomplete extends StatelessWidget {
   final Function(Metier? selectedMetier) onSelectMetier;
@@ -11,6 +12,10 @@ class MetierAutocomplete extends StatelessWidget {
   final String? Function(String? input) validator;
   final GlobalKey<FormState> formKey;
   final _metierRepository = MetierRepository();
+
+  final Debouncer _debouncer = Debouncer(duration: Duration(milliseconds: 50));
+  Future<List<Metier>>? _getMetiers;
+  List<Metier> _lastListMetier = List<Metier>.empty();
 
   MetierAutocomplete({
     required this.onSelectMetier,
@@ -23,9 +28,14 @@ class MetierAutocomplete extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) => Autocomplete<Metier>(
-        optionsBuilder: (textEditingValue) => _metierRepository.getMetiers(textEditingValue.text),
+        optionsBuilder: (textEditingValue) {
+          _debouncer.run(() {
+            _getMetiers = _metierRepository.getMetiers(textEditingValue.text);
+          });
+          return List<Metier>.filled (1,Metier.values.first);
+        },
         onSelected: (option) => onSelectMetier(option),
-        optionsViewBuilder: (context, onSelected, options) => _optionsView(constraints, options, onSelected),
+        optionsViewBuilder: (context, onSelected, options) => _optionsView(constraints, onSelected),
         fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) =>
             _fieldView(textEditingController, focusNode, onFieldSubmitted),
       ),
@@ -65,7 +75,6 @@ class MetierAutocomplete extends StatelessWidget {
 
   Widget _optionsView(
     BoxConstraints constraints,
-    Iterable<Metier> options,
     AutocompleteOnSelected<Metier> onSelected,
   ) {
     return Align(
@@ -76,23 +85,30 @@ class MetierAutocomplete extends StatelessWidget {
           ),
           child: Container(
             width: constraints.biggest.width,
-            child: ListView.builder(
-              padding: EdgeInsets.zero,
-              shrinkWrap: true,
-              itemCount: options.length,
-              itemBuilder: (BuildContext context, int index) {
-                final Metier option = options.elementAt(index);
+            child:FutureBuilder<List<Metier>>(
+                future: _getMetiers,
+                builder: (BuildContext context, AsyncSnapshot<List<Metier>> snapshot) {
+                  if (snapshot.hasData && snapshot.data != null) {
+                    _lastListMetier = snapshot.data!;
+                  }
+                  return ListView.builder(
+                    padding: EdgeInsets.zero,
+                    shrinkWrap: true,
+                    itemCount: _lastListMetier.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      final Metier option = _lastListMetier.elementAt(index);
 
-                return GestureDetector(
-                  onTap: () {
-                    onSelected(option);
-                  },
-                  child: ListTile(
-                    title: Text(option.libelle, style: TextStyles.textSmRegular()),
-                  ),
-                );
-              },
-            ),
+                      return GestureDetector(
+                        onTap: () {
+                          onSelected(option);
+                        },
+                        child: ListTile(
+                          title: Text(option.libelle, style: TextStyles.textSmRegular()),
+                        ),
+                      );
+                    },
+                  );
+                }),
             color: Colors.white,
           ),
           color: Colors.white,
