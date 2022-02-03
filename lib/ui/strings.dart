@@ -40,11 +40,19 @@ class Strings {
   static String welcomeOn = "Bienvenue sur";
 
   // Entree
-  static String createAccountPlaceholder =
-      "Vous êtes intéressé et vous pensez être élligible au Contrat Engagement Jeune ?\nPrenez rendez-vous avec votre conseiller principal.";
   static String askAccount = "Demander un compte pass emploi";
   static String suiviParConseiller = "Je suis suivi par un conseiller...";
   static String dontHaveAccount = "Vous n’avez pas de compte pass emploi ?";
+
+  // Choix organisme
+  static String interestedInCej = "Vous êtes intéressé et vous pensez être éligible au Contrat Engagement Jeune ?";
+  static String whichOrganisme = "De quel organisme dépend votre conseiller principal ?";
+  static String noOrganisme = "Je ne suis inscrit à aucun de ces organismes";
+  static String rendezVousPoleEmploi =
+      "Prenez rendez-vous avec votre conseiller Pôle emploi qui procédera à la création de votre compte.";
+  static String rendezVousMissionLocale =
+      "Prenez rendez-vous avec votre conseiller Mission Locale qui procédera à la création de votre compte.";
+  static String alreadyHavePassEmploiAccount = "Vous avez un compte pass emploi ?";
 
   // Login
   static String performLogin = "Connectez-vous";

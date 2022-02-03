@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/onboarding_background.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
@@ -39,7 +40,7 @@ class ChoixOrganismePage extends TraceableStatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Text(
-                            "Vous êtes intéressé et vous pensez être éligible au Contrat Engagement Jeune ?",
+                            Strings.interestedInCej,
                             style: TextStyle(
                               color: AppColors.primary,
                               fontFamily: 'Marianne',
@@ -49,13 +50,13 @@ class ChoixOrganismePage extends TraceableStatelessWidget {
                           ),
                           SizedBox(height: Margins.spacing_xl),
                           Text(
-                            "De quel organisme dépend votre conseiller principal ?",
+                            Strings.whichOrganisme,
                             style: TextStyles.textMRegular,
                             textAlign: TextAlign.center,
                           ),
                           SizedBox(height: Margins.spacing_xl),
                           PrimaryActionButton(
-                            label: "Pôle emploi",
+                            label: Strings.loginPoleEmploi,
                             onPressed: () {
                               Navigator.push(
                                   context, ChoixOrganismeExplainationPage.materialPageRoute(isPoleEmploi: true));
@@ -63,7 +64,7 @@ class ChoixOrganismePage extends TraceableStatelessWidget {
                           ),
                           SizedBox(height: Margins.spacing_l),
                           PrimaryActionButton(
-                            label: "Mission Locale",
+                            label: Strings.loginMissionLocale,
                             onPressed: () {
                               Navigator.push(
                                   context, ChoixOrganismeExplainationPage.materialPageRoute(isPoleEmploi: false));
@@ -86,7 +87,7 @@ class ChoixOrganismePage extends TraceableStatelessWidget {
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: "Je ne suis inscrit à aucun de ces organismes",
+                              text: Strings.noOrganisme,
                               style: TextStyles.textBaseRegular.copyWith(decoration: TextDecoration.underline),
                             ),
                             WidgetSpan(
