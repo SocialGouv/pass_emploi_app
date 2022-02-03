@@ -12,8 +12,11 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/onboarding_background.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ChoixOrganismePage extends TraceableStatelessWidget {
+  static const noOrganismeLink = "https://www.1jeune1solution.gouv.fr/contrat-engagement-jeune";
+
   const ChoixOrganismePage() : super(name: AnalyticsScreenNames.choixOrganisme);
 
   static MaterialPageRoute materialPageRoute() {
@@ -79,7 +82,10 @@ class ChoixOrganismePage extends TraceableStatelessWidget {
                 Material(
                   color: Colors.transparent,
                   child: InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      MatomoTracker.trackScreenWithName(noOrganismeLink, AnalyticsScreenNames.choixOrganisme);
+                      launch(noOrganismeLink);
+                    },
                     child: Padding(
                       padding: const EdgeInsets.all(Margins.spacing_s),
                       child: RichText(
