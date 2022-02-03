@@ -9,16 +9,16 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/onboarding_background.dart';
 import 'package:pass_emploi_app/widgets/secondary_button.dart';
 
-class CreateAccountExplainationPage extends TraceableStatelessWidget {
+class ChoixOrganismeExplainationPage extends TraceableStatelessWidget {
   final bool isPoleEmploi;
 
-  const CreateAccountExplainationPage(this.isPoleEmploi)
+  const ChoixOrganismeExplainationPage(this.isPoleEmploi)
       : super(
           name: isPoleEmploi ? AnalyticsScreenNames.choixOrganismePE : AnalyticsScreenNames.choixOrganismeMilo,
         );
 
   static MaterialPageRoute materialPageRoute({required bool isPoleEmploi}) {
-    return MaterialPageRoute(builder: (context) => CreateAccountExplainationPage(isPoleEmploi));
+    return MaterialPageRoute(builder: (context) => ChoixOrganismeExplainationPage(isPoleEmploi));
   }
 
   @override

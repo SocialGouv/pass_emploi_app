@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/pages/create_account_explaination_page.dart';
+import 'package:pass_emploi_app/pages/choix_organisme_explaination_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -12,11 +12,11 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/onboarding_background.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 
-class CreateAccountPage extends TraceableStatelessWidget {
-  const CreateAccountPage() : super(name: AnalyticsScreenNames.choixOrganisme);
+class ChoixOrganismePage extends TraceableStatelessWidget {
+  const ChoixOrganismePage() : super(name: AnalyticsScreenNames.choixOrganisme);
 
   static MaterialPageRoute materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => CreateAccountPage());
+    return MaterialPageRoute(builder: (context) => ChoixOrganismePage());
   }
 
   @override
@@ -58,7 +58,7 @@ class CreateAccountPage extends TraceableStatelessWidget {
                             label: "Pôle emploi",
                             onPressed: () {
                               Navigator.push(
-                                  context, CreateAccountExplainationPage.materialPageRoute(isPoleEmploi: true));
+                                  context, ChoixOrganismeExplainationPage.materialPageRoute(isPoleEmploi: true));
                             },
                           ),
                           SizedBox(height: Margins.spacing_l),
@@ -66,7 +66,7 @@ class CreateAccountPage extends TraceableStatelessWidget {
                             label: "Mission Locale",
                             onPressed: () {
                               Navigator.push(
-                                  context, CreateAccountExplainationPage.materialPageRoute(isPoleEmploi: false));
+                                  context, ChoixOrganismeExplainationPage.materialPageRoute(isPoleEmploi: false));
                             },
                           ),
                         ],
