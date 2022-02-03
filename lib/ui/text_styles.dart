@@ -105,6 +105,13 @@ class TextStyles {
     fontWeight: FontWeight.w400,
   );
 
+  static final textMRegular = TextStyle(
+    color: AppColors.contentColor,
+    fontFamily: 'Marianne',
+    fontSize: FontSizes.semi,
+    fontWeight: FontWeight.w400,
+  );
+
   static final textSBold = TextStyle(
     color: AppColors.contentColor,
     fontFamily: 'Marianne',
