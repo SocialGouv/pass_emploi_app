@@ -15,7 +15,7 @@ class MetierAutocomplete extends StatelessWidget {
 
   final Debouncer _debouncer = Debouncer(duration: Duration(milliseconds: 50));
   Future<List<Metier>>? _getMetiers;
-  List<Metier> _lastListMetier = List<Metier>.empty();
+  List<Metier> _lastListMetier = [];
 
   MetierAutocomplete({
     required this.onSelectMetier,
@@ -32,7 +32,7 @@ class MetierAutocomplete extends StatelessWidget {
           _debouncer.run(() {
             _getMetiers = _metierRepository.getMetiers(textEditingValue.text);
           });
-          return List<Metier>.filled(1, Metier.values.first);
+          return _fakeListMetierRequiredByAutocompleteToCallOptionsViewBuilderMethod();
         },
         onSelected: (option) => onSelectMetier(option),
         optionsViewBuilder: (context, onSelected, options) => _optionsView(constraints, onSelected),
@@ -121,6 +121,8 @@ class MetierAutocomplete extends StatelessWidget {
       textEditingController.text = title;
     }
   }
+
+  List<Metier> _fakeListMetierRequiredByAutocompleteToCallOptionsViewBuilderMethod() => [Metier.values.first];
 
   InputDecoration _inputDecoration(String textFieldString) {
     return InputDecoration(
