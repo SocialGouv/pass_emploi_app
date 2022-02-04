@@ -43,7 +43,8 @@ class ChoixOrganismeExplainationPage extends TraceableStatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(Margins.spacing_m),
+                            padding:
+                                const EdgeInsets.fromLTRB(Margins.spacing_m, Margins.spacing_m, Margins.spacing_m, 0),
                             child: Container(
                               decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
                               child: Padding(
@@ -62,6 +63,7 @@ class ChoixOrganismeExplainationPage extends TraceableStatelessWidget {
                               ),
                             ),
                           ),
+                          SizedBox(height: Margins.spacing_base),
                           Text(
                             Strings.alreadyHavePassEmploiAccount,
                             style: TextStyles.textBaseRegular,

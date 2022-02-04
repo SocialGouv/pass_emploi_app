@@ -38,7 +38,8 @@ class ChoixOrganismePage extends TraceableStatelessWidget {
                     child: Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(Margins.spacing_m),
+                          padding:
+                              const EdgeInsets.fromLTRB(Margins.spacing_m, Margins.spacing_m, Margins.spacing_m, 0),
                           child: Container(
                             decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
                             child: Padding(
