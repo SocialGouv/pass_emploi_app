@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/pages/cej_information_page.dart';
 import 'package:pass_emploi_app/pages/login_page.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -10,8 +11,6 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/secondary_button.dart';
-
-import 'choix_organisme_page.dart';
 
 class EntreePage extends TraceableStatelessWidget {
   const EntreePage() : super(name: AnalyticsScreenNames.entree);
@@ -80,7 +79,7 @@ class EntreePage extends TraceableStatelessWidget {
         SizedBox(height: Margins.spacing_base),
         SecondaryButton(
           label: Strings.askAccount,
-          onPressed: () => Navigator.push(context, ChoixOrganismePage.materialPageRoute()),
+          onPressed: () => Navigator.push(context, CejInformationPage.materialPageRoute()),
         ),
       ],
     );

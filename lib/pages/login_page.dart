@@ -4,6 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/pages/cej_information_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/login_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -15,8 +16,6 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/secondary_button.dart';
-
-import 'choix_organisme_page.dart';
 
 class LoginPage extends TraceableStatelessWidget {
   LoginPage() : super(name: AnalyticsScreenNames.login);
@@ -88,7 +87,7 @@ class LoginPage extends TraceableStatelessWidget {
                         SecondaryButton(
                             label: Strings.askAccount,
                             onPressed: () {
-                              Navigator.push(context, ChoixOrganismePage.materialPageRoute());
+                              Navigator.push(context, CejInformationPage.materialPageRoute());
                             }),
                       ],
                     ),
