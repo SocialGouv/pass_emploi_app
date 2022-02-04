@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/widgets/onboarding_background.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../ui/strings.dart';
 import 'choix_organisme_page.dart';
 
 class CejInformationPage extends StatefulWidget {
@@ -62,7 +63,7 @@ class _CejInformationPageState extends State<CejInformationPage> {
                             vertical: Margins.spacing_s,
                             horizontal: Margins.spacing_base,
                           ),
-                          child: Text("Passer", style: TextStyles.textPrimaryButton.copyWith(color: Colors.white)),
+                          child: Text(Strings.skip, style: TextStyles.textPrimaryButton.copyWith(color: Colors.white)),
                         ),
                       ),
                     ],
@@ -81,7 +82,7 @@ class _CejInformationPageState extends State<CejInformationPage> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(Margins.spacing_m, 0, Margins.spacing_m, Margins.spacing_m),
                   child: PrimaryActionButton(
-                    label: "Continuer",
+                    label: Strings.continueLabel,
                     onPressed: () {
                       final currentPage = _controller.page;
                       if (currentPage != null && currentPage < 2) {
@@ -153,30 +154,21 @@ class _CejInformationPageState extends State<CejInformationPage> {
   Widget _firstCard() {
     return _contentCard(
       [
-        Text("Qu’est-ce que pass emploi ?", style: TextStyles.textMBold.copyWith(color: AppColors.primary)),
+        Text(Strings.whatIsPassEmploi, style: TextStyles.textMBold.copyWith(color: AppColors.primary)),
         SizedBox(height: Margins.spacing_base),
-        Text("L’application dédiée aux bénéficiaires du Contrat Engagement Jeune", style: TextStyles.textBaseRegular),
+        Text(Strings.whatIsPassEmploiDesc, style: TextStyles.textBaseRegular),
         SizedBox(height: Margins.spacing_m),
-        _cardBulletPoint(Drawables.icDone, "Un suivi personnalisé"),
+        _cardBulletPoint(Drawables.icDone, Strings.customService),
         SizedBox(height: Margins.spacing_s),
-        Text(
-          "pass emploi vous permet de suivre toutes vos actions en lien avec vos démarches professionnelles.",
-          style: TextStyles.textBaseRegular,
-        ),
+        Text(Strings.customServiceDesc, style: TextStyles.textBaseRegular),
         SizedBox(height: Margins.spacing_m),
-        _cardBulletPoint(Drawables.icOnboardingChat, "Un moyen de contact privilégié"),
+        _cardBulletPoint(Drawables.icOnboardingChat, Strings.favoredContact),
         SizedBox(height: Margins.spacing_s),
-        Text(
-          "Restez en contact avec votre conseiller à l’aide d’une messagerie instantanée.",
-          style: TextStyles.textBaseRegular,
-        ),
+        Text(Strings.favoredContactDesc, style: TextStyles.textBaseRegular),
         SizedBox(height: Margins.spacing_m),
-        _cardBulletPoint(Drawables.icSearch, "Un outil de recherche"),
+        _cardBulletPoint(Drawables.icSearch, Strings.searchTool),
         SizedBox(height: Margins.spacing_s),
-        Text(
-          "Grâce à pass emploi, recherchez un emploi, gérez vos offres favorites et trouvez des solutions.",
-          style: TextStyles.textBaseRegular,
-        ),
+        Text(Strings.searchToolDesc, style: TextStyles.textBaseRegular),
       ],
     );
   }
@@ -184,47 +176,37 @@ class _CejInformationPageState extends State<CejInformationPage> {
   Widget _secondCard() {
     return _contentCard(
       [
-        Text("Qu’est-ce que le Contrat Engagement Jeune ?",
-            style: TextStyles.textMBold.copyWith(color: AppColors.primary)),
+        Text(Strings.whatIsCej, style: TextStyles.textMBold.copyWith(color: AppColors.primary)),
         SizedBox(height: Margins.spacing_m),
-        _cardBulletPoint(Drawables.icFlash, "Un suivi personnalisé"),
+        _cardBulletPoint(Drawables.icFlash, Strings.customService),
         SizedBox(height: Margins.spacing_s),
-        Text(
-          "Pendant plusieurs mois, vous êtes accompagnés de 15 à 20 heures par semaine minimum.",
-          style: TextStyles.textBaseRegular,
-        ),
+        Text(Strings.customServiceCejDesc, style: TextStyles.textBaseRegular),
         SizedBox(height: Margins.spacing_m),
-        _cardBulletPoint(Drawables.icPeople, "Un référent unique"),
+        _cardBulletPoint(Drawables.icPeople, Strings.uniqueReferent),
         SizedBox(height: Margins.spacing_s),
-        Text(
-          "Un conseiller vous accompagne tout au long de votre parcours. ",
-          style: TextStyles.textBaseRegular,
-        ),
+        Text(Strings.uniqueReferentDesc, style: TextStyles.textBaseRegular),
         SizedBox(height: Margins.spacing_m),
-        _cardBulletPoint(Drawables.icEuro, "Une allocation financière"),
+        _cardBulletPoint(Drawables.icEuro, Strings.financialHelp),
         SizedBox(height: Margins.spacing_s),
-        Text(
-          "Une allocation pouvant aller jusqu’à 500 euros par mois si vous en avez besoin.",
-          style: TextStyles.textBaseRegular,
-        ),
+        Text(Strings.financialHelpDesc, style: TextStyles.textBaseRegular),
       ],
     );
   }
 
   Widget _thirdCard() {
     return _contentCard([
-      Text("Qui est concerné ?", style: TextStyles.textMBold.copyWith(color: AppColors.primary)),
+      Text(Strings.whoIsConcerned, style: TextStyles.textMBold.copyWith(color: AppColors.primary)),
       SizedBox(height: Margins.spacing_m),
       SvgPicture.asset(Drawables.puzzle),
       SizedBox(height: Margins.spacing_m),
       RichText(
         text: TextSpan(
           children: [
-            TextSpan(text: "→ Les personnes entre ", style: TextStyles.textBaseRegular),
-            TextSpan(text: "16 et 25 ans", style: TextStyles.textBaseBold),
-            TextSpan(text: " (moins de ", style: TextStyles.textBaseRegular),
-            TextSpan(text: "30 ans", style: TextStyles.textBaseBold),
-            TextSpan(text: " pour celles en situation de handicap)", style: TextStyles.textBaseRegular),
+            TextSpan(text: Strings.whoIsConcernedFirstRichText[0], style: TextStyles.textBaseRegular),
+            TextSpan(text: Strings.whoIsConcernedFirstRichText[1], style: TextStyles.textBaseBold),
+            TextSpan(text: Strings.whoIsConcernedFirstRichText[2], style: TextStyles.textBaseRegular),
+            TextSpan(text: Strings.whoIsConcernedFirstRichText[3], style: TextStyles.textBaseBold),
+            TextSpan(text: Strings.whoIsConcernedFirstRichText[4], style: TextStyles.textBaseRegular),
           ],
         ),
       ),
@@ -233,9 +215,9 @@ class _CejInformationPageState extends State<CejInformationPage> {
         text: TextSpan(
           children: [
             // → Les personnes qui ne sont pas en formation ni en emploi durable (CDI ou CDD de longue durée)
-            TextSpan(text: "→ Les personnes qui ne sont ", style: TextStyles.textBaseRegular),
-            TextSpan(text: "pas en formation ni en emploi durable", style: TextStyles.textBaseBold),
-            TextSpan(text: " (CDI ou CDD de longue durée)", style: TextStyles.textBaseRegular),
+            TextSpan(text: Strings.whoIsConcernedSecondRichText[0], style: TextStyles.textBaseRegular),
+            TextSpan(text: Strings.whoIsConcernedSecondRichText[1], style: TextStyles.textBaseBold),
+            TextSpan(text: Strings.whoIsConcernedSecondRichText[2], style: TextStyles.textBaseRegular),
           ],
         ),
       ),
