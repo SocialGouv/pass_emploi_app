@@ -37,6 +37,14 @@ class Drawables {
   static String icNoContent = _assets + "ic_no_content" + _svg;
   static String icChevronLeft = _assets + "chevron_left" + _svg;
   static String icLaunch = _assets + "launch" + _svg;
+  static String icDone = _assets + "ic_done" + _svg;
+  static String icEuro = _assets + "ic_euro" + _svg;
+  static String icFlash = _assets + "ic_flash" + _svg;
+  static String icOnboardingChat = _assets + "ic_onboarding_chat" + _svg;
+  static String icSearch = _assets + "ic_search" + _svg;
+  static String icPeople = _assets + "ic_people" + _svg;
+  static String puzzle = _assets + "puzzle" + _svg;
+
   static String passEmploiLogo = _assets + "logo_pass_emploi_white" + _svg;
   static String icUnJeuneUneSolution = _assets + "un_jeune_une_solution_logo" + _png;
   static String jeuneEntree = _assets + "jeune_home" + _png;
