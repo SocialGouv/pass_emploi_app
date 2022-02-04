@@ -225,12 +225,18 @@ class _CejInformationPageState extends State<CejInformationPage> {
   }
 
   Widget _cardBulletPoint(String icon, String text) {
-    return Row(
-      children: [
-        SvgPicture.asset(icon),
-        SizedBox(width: Margins.spacing_s),
-        Text(text, style: TextStyles.textBaseBold),
-      ],
+    return RichText(
+      text: TextSpan(
+        children: [
+          WidgetSpan(
+            child: Padding(
+              padding: const EdgeInsets.only(right: Margins.spacing_s),
+              child: SvgPicture.asset(icon),
+            ),
+          ),
+          TextSpan(text: text, style: TextStyles.textBaseBold),
+        ],
+      ),
     );
   }
 }
