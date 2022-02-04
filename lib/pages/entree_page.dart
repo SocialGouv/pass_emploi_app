@@ -11,7 +11,7 @@ import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/secondary_button.dart';
 
-import 'create_account_page.dart';
+import 'choix_organisme_page.dart';
 
 class EntreePage extends TraceableStatelessWidget {
   const EntreePage() : super(name: AnalyticsScreenNames.entree);
@@ -80,7 +80,7 @@ class EntreePage extends TraceableStatelessWidget {
         SizedBox(height: Margins.spacing_base),
         SecondaryButton(
           label: Strings.askAccount,
-          onPressed: () => Navigator.push(context, CreateAccountPage.materialPageRoute()),
+          onPressed: () => Navigator.push(context, ChoixOrganismePage.materialPageRoute()),
         ),
       ],
     );
