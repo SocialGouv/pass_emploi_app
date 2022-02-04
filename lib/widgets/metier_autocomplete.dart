@@ -32,7 +32,7 @@ class MetierAutocomplete extends StatelessWidget {
           _debouncer.run(() {
             _getMetiers = _metierRepository.getMetiers(textEditingValue.text);
           });
-          return List<Metier>.filled (1,Metier.values.first);
+          return List<Metier>.filled(1, Metier.values.first);
         },
         onSelected: (option) => onSelectMetier(option),
         optionsViewBuilder: (context, onSelected, options) => _optionsView(constraints, onSelected),
@@ -85,7 +85,7 @@ class MetierAutocomplete extends StatelessWidget {
           ),
           child: Container(
             width: constraints.biggest.width,
-            child:FutureBuilder<List<Metier>>(
+            child: FutureBuilder<List<Metier>>(
                 future: _getMetiers,
                 builder: (BuildContext context, AsyncSnapshot<List<Metier>> snapshot) {
                   if (snapshot.hasData && snapshot.data != null) {
