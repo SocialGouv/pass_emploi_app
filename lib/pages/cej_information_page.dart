@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -10,14 +12,32 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'choix_organisme_page.dart';
 
-class CejInformationPage extends StatelessWidget {
+class CejInformationPage extends StatefulWidget {
   static MaterialPageRoute materialPageRoute() {
     return MaterialPageRoute(builder: (context) => CejInformationPage());
   }
 
   CejInformationPage({Key? key}) : super(key: key);
 
+  @override
+  State<CejInformationPage> createState() => _CejInformationPageState();
+}
+
+class _CejInformationPageState extends State<CejInformationPage> {
   final PageController _controller = PageController();
+  int? _displayedPage;
+
+  @override
+  void initState() {
+    _controller.addListener(() {
+      final _controllerPage = _controller.page?.floor();
+      if (_controllerPage != null && _controllerPage != _displayedPage) {
+        _displayedPage = _controllerPage;
+        MatomoTracker.trackScreenWithName(AnalyticsScreenNames.cejInformationPage(_controllerPage), "");
+      }
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +111,6 @@ class CejInformationPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                //Text("Current page : ${controller.page}"),
               ],
             ),
           ),
