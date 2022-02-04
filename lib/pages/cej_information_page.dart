@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/onboarding_background.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'choix_organisme_page.dart';
 
@@ -73,6 +74,21 @@ class CejInformationPage extends StatelessWidget {
                         Navigator.push(context, ChoixOrganismePage.materialPageRoute());
                       }
                     },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(Margins.spacing_m, 0, Margins.spacing_m, Margins.spacing_m),
+                  child: Center(
+                    child: SmoothPageIndicator(
+                      controller: _controller,
+                      count: 3,
+                      effect: WormEffect(
+                        activeDotColor: AppColors.primary,
+                        dotColor: AppColors.disabled,
+                        dotHeight: 10,
+                        dotWidth: 10,
+                      ),
+                    ),
                   ),
                 ),
                 //Text("Current page : ${controller.page}"),
