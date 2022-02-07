@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
 import 'bottom_sheets.dart';
@@ -157,13 +158,13 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
           ),
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
-            child: Text(
+            child: TextWithClickableLinks(
               widget.actionViewModel.title,
               style: TextStyles.textSRegular(),
             ),
           ),
           if (widget.actionViewModel.withSubtitle)
-            Text(
+            TextWithClickableLinks(
               widget.actionViewModel.subtitle,
               style: TextStyles.textSRegular(),
             )
