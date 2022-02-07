@@ -158,13 +158,13 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
           Padding(
             padding: const EdgeInsets.only(bottom: 8),
             child: Text(
-              widget.actionViewModel.content,
+              widget.actionViewModel.title,
               style: TextStyles.textSRegular(),
             ),
           ),
-          if (widget.actionViewModel.withComment)
+          if (widget.actionViewModel.withSubtitle)
             Text(
-              widget.actionViewModel.comment,
+              widget.actionViewModel.subtitle,
               style: TextStyles.textSRegular(),
             )
           else

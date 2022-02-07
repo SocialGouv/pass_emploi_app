@@ -13,7 +13,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets.dart';
-import 'package:pass_emploi_app/widgets/cards/event_card.dart';
+import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
@@ -100,19 +100,23 @@ class _UserActionListPageState extends State<UserActionListPage> {
   Container _listSeparator() => Container(height: Margins.spacing_base);
 
   Widget _listItem(BuildContext context, UserActionListPageItem item, UserActionListPageViewModel viewModel) {
-    return _tapListener(context, (item as UserActionListItemViewModel).viewModel, viewModel);
+    if (item is UserActionListSubtitle) {
+      return Padding(
+        padding: const EdgeInsets.only(top: Margins.spacing_base),
+        child: Text(item.title, style: TextStyles.textMBold),
+      );
+    } else {
+      return _tapListener(context, (item as UserActionListItemViewModel).viewModel, viewModel);
+    }
   }
 
   Widget _tapListener(BuildContext context, UserActionViewModel item, UserActionListPageViewModel viewModel) {
-    return EventCard(
+    return UserActionCard(
       onTap: () => showUserActionBottomSheet(
         context: context,
         builder: (context) => UserActionDetailsBottomSheet(item),
       ).then((value) => _onUserActionDetailsDismissed(context, value, viewModel)),
-      titre: item.content,
-      sousTitre: item.comment,
-      statut: item.status,
-      derniereModification: item.lastUpdate,
+      viewModel: item,
     );
   }
 

@@ -1,26 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/status_tag.dart';
 
-class EventCard extends StatelessWidget {
-  final VoidCallback onTap;
-  final String titre;
-  final String? sousTitre;
-  final UserActionStatus? statut;
-  final String? derniereModification;
+import '../../presentation/user_action_view_model.dart';
 
-  const EventCard({
-    Key? key,
-    required this.onTap,
-    required this.titre,
-    this.sousTitre,
-    this.statut,
-    this.derniereModification,
-  }) : super(key: key);
+class UserActionCard extends StatelessWidget {
+  final VoidCallback onTap;
+  final UserActionViewModel viewModel;
+
+  const UserActionCard({Key? key, required this.onTap, required this.viewModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,10 +32,10 @@ class EventCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (this.statut != null) _buildStatut(),
-                  Text(this.titre, style: TextStyles.textBaseBold),
-                  if (this.sousTitre != null && this.sousTitre!.isNotEmpty) _buildSousTitre(),
-                  if (this.derniereModification != null) _buildDerniereModification(this.derniereModification!),
+                  if (viewModel.tag != null) _buildStatut(viewModel.tag!),
+                  Text(viewModel.title, style: TextStyles.textBaseBold),
+                  if (viewModel.withSubtitle) _buildSousTitre(),
+                  _buildDerniereModification(),
                 ],
               ),
             ),
@@ -57,20 +48,18 @@ class EventCard extends StatelessWidget {
   Widget _buildSousTitre() {
     return Padding(
       padding: const EdgeInsets.only(top: Margins.spacing_s),
-      child: Text(this.sousTitre!, style: TextStyles.textSRegular(color: AppColors.contentColor)),
+      child: Text(viewModel.subtitle, style: TextStyles.textSRegular(color: AppColors.contentColor)),
     );
   }
 
-  Widget _buildStatut() {
+  Widget _buildStatut(UserActionTagViewModel viewModel) {
     return Padding(
       padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-      child: StatutTag(
-        status: statut!,
-      ),
+      child: StatutTag(viewModel: viewModel),
     );
   }
 
-  Widget _buildDerniereModification(String label) {
+  Widget _buildDerniereModification() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -81,7 +70,7 @@ class EventCard extends StatelessWidget {
             color: AppColors.primaryLighten,
           ),
         ),
-        Text(label, style: TextStyles.textSRegular(color: AppColors.contentColor)),
+        Text(viewModel.lastUpdate, style: TextStyles.textSRegular(color: AppColors.contentColor)),
       ],
     );
   }
