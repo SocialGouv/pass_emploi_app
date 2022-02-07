@@ -102,7 +102,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
   Widget _listItem(BuildContext context, UserActionListPageItem item, UserActionListPageViewModel viewModel) {
     if (item is UserActionListSubtitle) {
       return Padding(
-        padding: const EdgeInsets.only(top: 16),
+        padding: const EdgeInsets.only(top: Margins.spacing_base),
         child: Text(item.title, style: TextStyles.textMBold),
       );
     } else {
