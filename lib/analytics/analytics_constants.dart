@@ -24,17 +24,21 @@ class AnalyticsScreenNames {
   static const emploiNoResults = "recherche/emploi/search_no_results";
   static const emploiDetails = "recherche/emploi/detail";
   static const emploiFiltres = "recherche/emploi/search_results/filters";
+  static const emploiCreateAlert= "recherche/emploi/search"; //TODO-281 Check correct url
 
   static const alternanceResearch = "recherche/alternance/search";
   static const alternanceResults = "recherche/alternance/search_results";
   static const alternanceNoResults = "recherche/alternance/search_no_results";
   static const alternanceDetails = "recherche/alternance/detail";
   static const alternanceFiltres = "recherche/alternance/search_results/filters";
+  static const alternanceCreateAlert= "recherche/alternance/search"; //TODO-281 Check correct url
 
   static const immersionResearch = "recherche/immersion/search";
   static const immersionResults = "recherche/immersion/search_results";
   static const immersionNoResults = "recherche/immersion/search_no_results";
   static const immersionDetails = "recherche/immersion/detail";
+  static const immersionCreateAlert= "recherche/immersion/search"; //TODO-281 Check correct url
+
 
   static const serviceCiviqueResearch = "recherche/service_civique/search";
 

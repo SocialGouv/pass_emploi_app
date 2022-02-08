@@ -301,4 +301,20 @@ class Strings {
   static const legalNoticeUrl = "https://beta.gouv.fr/startups/pass-emploi.html?type=legalNotice";
   static const privacyPolicyUrl = "https://beta.gouv.fr/startups/pass-emploi.html?type=privacyPolicy";
   static const termsOfServiceUrl = "https://beta.gouv.fr/startups/pass-emploi.html?type=termsOfService";
+
+  // saved search
+  static String createAlert = "Créer une alerte";
+  static String createSavedSearchTitle = "Enregistrer la recherche en favoris";
+  static String savedSearchTitle = "* Nom de la recherche";
+  static String mandatorySavedSearchTitleError = "Renseigner un nom pour votre recherche";
+  static String savedSearchFilters = "Critères de la recherche";
+  static String createSavedSearchButton = "Créer une alerte";
+  static String savedSearchInfo = "Les filtres appliqués seront aussi enregistrés.";
+  static String searchNotificationInfo =
+      "Vous recevrez des notifications pour être alerté des nouvelles offres liées aux critères de votre recherche.";
+  static String savedSearchTitleField(metier, localisation) => "$metier - $localisation";
+  static String savedSearchEmploiTag = "Offre d’emploi";
+  static String savedSearchAlternanceTag = "Alternance";
+  static String savedSearchImmersionTag = "Immersion";
+  static String creationSavedSearchError = "Erreur lors de la création de la recherche sauvegardée. Veuillez réessayer";
 }

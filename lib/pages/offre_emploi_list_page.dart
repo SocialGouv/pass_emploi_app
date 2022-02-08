@@ -11,14 +11,19 @@ import 'package:pass_emploi_app/presentation/offre_emploi_search_results_view_mo
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/data_card.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/offre_emploi_saved_search_bottom_sheet.dart';
+import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_offre_widget.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/filtre_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/filter_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 
 import 'offre_page.dart';
 
@@ -107,11 +112,15 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
         separatorBuilder: (context, index) => _listSeparator(),
         itemCount: _itemCount(viewModel),
       ),
-      if (viewModel.withFiltreButton)
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _filtrePrimaryButton(viewModel)),
-        ),
+      Align(
+        alignment: Alignment.bottomCenter,
+        child: Padding(
+            padding: const EdgeInsets.only(bottom: 24),
+            child: Wrap(spacing: 16, runSpacing: 16, children: [
+              _alertButton(),
+              if (viewModel.withFiltreButton) _filtrePrimaryButton(viewModel),
+            ])),
+      ),
     ]);
   }
 
@@ -249,4 +258,23 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
       widget.onlyAlternance ? AnalyticsScreenNames.alternanceResearch : AnalyticsScreenNames.emploiResearch,
     );
   }
+
+  Widget _alertButton() {
+    return PrimaryActionButton(
+      label: Strings.createAlert,
+      drawableRes: Drawables.icAlert,
+      rippleColor: AppColors.primaryDarken,
+      heightPadding: 6,
+      widthPadding: 6,
+      iconSize: 16,
+      onPressed: () => showUserActionBottomSheet(
+          context: context,
+          builder: (context) => OffreEmploiSavedSearchBottomSheet(onlyAlternance: widget.onlyAlternance)),
+      // ).then((value) => _onCreateUserActionDismissed(viewModel)),
+    );
+  }
+
+// void _onCreateUserActionDismissed(UserActionListPageViewModel viewModel) {
+//   viewModel.onCreateUserActionDismissed();
+// }
 }

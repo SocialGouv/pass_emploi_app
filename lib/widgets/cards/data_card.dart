@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
-import 'package:pass_emploi_app/widgets/tags.dart';
+import 'package:pass_emploi_app/widgets/tags/tags.dart';
 
 class DataCard<T> extends StatelessWidget {
   final String titre;

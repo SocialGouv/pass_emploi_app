@@ -17,7 +17,7 @@ import '../doubles/fixtures.dart';
 import '../doubles/stubs.dart';
 import '../redux/middlewares/register_push_notification_token_middleware_test.dart';
 import '../utils/test_setup.dart';
-import 'offre_emploi_favoris_test.dart';
+import 'favoris/offre_emploi_favoris_test.dart';
 
 main() {
   group("after login ...", () {

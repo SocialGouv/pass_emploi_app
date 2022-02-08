@@ -4,12 +4,12 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/presentation/favoris_list_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/widgets/data_card.dart';
+import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:redux/redux.dart';
 
 import 'favoris_page.dart';
-import 'offre_emploi_details_page.dart';
-import 'offre_page.dart';
+import '../offre_emploi_details_page.dart';
+import '../offre_page.dart';
 
 class OffreEmploiFavorisPage extends AbstractFavorisPage<OffreEmploi, OffreEmploiItemViewModel> {
   final bool onlyAlternance;

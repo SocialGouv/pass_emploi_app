@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class PrimaryActionButton extends StatelessWidget {
@@ -13,6 +14,8 @@ class PrimaryActionButton extends StatelessWidget {
   final bool withShadow;
   final VoidCallback? onPressed;
   final double iconSize;
+  final double heightPadding;
+  final double widthPadding;
 
   const PrimaryActionButton({
     Key? key,
@@ -25,6 +28,8 @@ class PrimaryActionButton extends StatelessWidget {
     this.onPressed,
     required this.label,
     this.iconSize = 12,
+    this.heightPadding = 12,
+    this.widthPadding = 20,
   }) : super(key: key);
 
   @override
@@ -56,7 +61,7 @@ class PrimaryActionButton extends StatelessWidget {
         ),
       ),
       onPressed: onPressed,
-      child: Padding(padding: EdgeInsets.fromLTRB(leftPadding, 12, 20, 12), child: _getRow()),
+      child: Padding(padding: EdgeInsets.fromLTRB(leftPadding, heightPadding, widthPadding, heightPadding), child: _getRow()),
     );
   }
 
@@ -76,7 +81,10 @@ class PrimaryActionButton extends StatelessWidget {
                   color: Colors.white,
                 ),
               )),
-        Text(label),
+        Text(
+          label,
+          style: TextStyles.textPrimaryButton.copyWith(fontSize: FontSizes.medium),
+        ),
       ],
     );
   }

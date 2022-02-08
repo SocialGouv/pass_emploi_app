@@ -8,8 +8,8 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:redux/redux.dart';
 
-import '../doubles/fixtures.dart';
-import '../doubles/spies.dart';
+import '../../doubles/fixtures.dart';
+import '../../doubles/spies.dart';
 
 main() {
   test("create when favoris have data should show content", () {

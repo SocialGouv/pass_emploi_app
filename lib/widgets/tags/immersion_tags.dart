@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
-import 'package:pass_emploi_app/widgets/tags.dart';
+import 'package:pass_emploi_app/widgets/tags/tags.dart';
 
 class ImmersionTags extends StatelessWidget {
   final String secteurActivite;

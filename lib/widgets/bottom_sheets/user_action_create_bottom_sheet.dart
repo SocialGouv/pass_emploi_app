@@ -12,7 +12,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
 import 'bottom_sheets.dart';
-import 'primary_action_button.dart';
+import '../buttons/primary_action_button.dart';
 
 class CreateUserActionBottomSheet extends TraceableStatefulWidget {
   CreateUserActionBottomSheet() : super(name: AnalyticsScreenNames.createUserAction);

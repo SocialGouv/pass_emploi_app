@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/pages/offre_emploi_favoris_page.dart';
+import 'package:pass_emploi_app/pages/favoris/offre_emploi_favoris_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/widgets/carousel_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/carousel_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
 import 'immersion_favoris_page.dart';

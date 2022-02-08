@@ -12,8 +12,8 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/checkbox_group.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
-import 'package:pass_emploi_app/widgets/error_text.dart';
-import 'package:pass_emploi_app/widgets/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/errors/error_text.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
 class OffreEmploiFiltresPage extends TraceableStatefulWidget {
