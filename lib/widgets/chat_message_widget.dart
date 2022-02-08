@@ -12,6 +12,8 @@ class ChatMessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextStyle textStyle =
+        item is ConseillerMessageItem ? TextStyles.textSRegular() : TextStyles.textSRegular(color: Colors.white);
     return Container(
       margin: const EdgeInsets.only(top: 10, bottom: 10),
       child: Column(
@@ -29,9 +31,8 @@ class ChatMessageWidget extends StatelessWidget {
             ),
             child: TextWithClickableLinks(
               item.content,
-              style: item is ConseillerMessageItem
-                  ? TextStyles.textSRegular()
-                  : TextStyles.textSRegular(color: Colors.white),
+              linkStyle: textStyle,
+              style: textStyle,
             ),
           ),
           SizedBox(height: Margins.spacing_xs),
