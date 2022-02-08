@@ -81,11 +81,11 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
           ),
           _separator(),
           PrimaryActionButton(
-            onPressed: _isLoading(viewModel) ? null : () => _onSearchButtonPressed(viewModel),
+            onPressed: viewModel.displayState == DisplayState.LOADING ? null : () => _onSearchButtonPressed(viewModel),
             label: Strings.searchButton,
           ),
           _separator(),
-          if (_isError(viewModel)) ErrorText(viewModel.errorMessage),
+          if (viewModel.displayState == DisplayState.FAILURE) ErrorText(viewModel.errorMessage),
         ],
       ),
     );
@@ -120,20 +120,6 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
         borderSide: BorderSide(color: AppColors.primary, width: 1.0),
       ),
     );
-  }
-
-  bool _isLoading(OffreEmploiSearchViewModel viewModel) {
-    return viewModel.displayState == DisplayState.LOADING;
-  }
-
-  bool _isError(OffreEmploiSearchViewModel viewModel) {
-    if (viewModel.displayState == DisplayState.EMPTY)
-      MatomoTracker.trackScreenWithName(
-        widget.onlyAlternance ? AnalyticsScreenNames.alternanceNoResults : AnalyticsScreenNames.emploiNoResults,
-        widget.onlyAlternance ? AnalyticsScreenNames.alternanceResearch : AnalyticsScreenNames.emploiResearch,
-      );
-
-    return viewModel.displayState == DisplayState.FAILURE || viewModel.displayState == DisplayState.EMPTY;
   }
 
   void _onSearchButtonPressed(OffreEmploiSearchViewModel viewModel) {

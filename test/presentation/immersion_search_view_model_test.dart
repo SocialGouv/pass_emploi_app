@@ -56,7 +56,10 @@ main() {
 
     // Then
     expect(viewModel.displayState, ImmersionSearchDisplayState.SHOW_EMPTY_ERROR);
-    expect(viewModel.errorMessage, "Aucune offre ne correspond à votre recherche");
+    expect(
+      viewModel.errorMessage,
+      "Pour le moment, aucune offre ne correspond à vos critères.\n\nTrouvez d'autres offres en modifiant vos critères.",
+    );
   });
 
   test("create when state is success and not empty should set display state properly", () {
