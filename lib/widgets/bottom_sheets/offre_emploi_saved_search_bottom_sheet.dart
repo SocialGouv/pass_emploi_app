@@ -210,5 +210,12 @@ class OffreEmploiSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<O
 
   bool _isFormValid() => _formKey.currentState?.validate() == true;
 
+  @override
+  dismissBottomSheetIfNeeded(BuildContext context, OffreEmploiSavedSearchViewModel viewModel) {
+    if (viewModel.displayState == CreateSavedSearchDisplayState.TO_DISMISS) {
+      Navigator.pop(context);
+    }
+  }
+
 }
 

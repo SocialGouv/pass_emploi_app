@@ -17,6 +17,8 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/offre_emploi_saved_search_bottom_sheet.dart';
+import 'package:pass_emploi_app/widgets/buttons/filter_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_offre_widget.dart';
@@ -259,7 +261,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     );
   }
 
-  Widget _alertButton() {
+  Widget _alertButton(OffreEmploiSearchResultsViewModel viewModel) {
     return PrimaryActionButton(
       label: Strings.createAlert,
       drawableRes: Drawables.icAlert,
@@ -267,14 +269,16 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
       heightPadding: 6,
       widthPadding: 6,
       iconSize: 16,
-      onPressed: () => showUserActionBottomSheet(
-          context: context,
-          builder: (context) => OffreEmploiSavedSearchBottomSheet(onlyAlternance: widget.onlyAlternance)),
-      // ).then((value) => _onCreateUserActionDismissed(viewModel)),
+      onPressed: () {
+        showUserActionBottomSheet(
+            context: context,
+            builder: (context) => OffreEmploiSavedSearchBottomSheet(onlyAlternance: widget.onlyAlternance));
+      viewModel.onSavingSearchClick();
+      },
     );
   }
 
-// void _onCreateUserActionDismissed(UserActionListPageViewModel viewModel) {
-//   viewModel.onCreateUserActionDismissed();
-// }
+  void _onCreateUserActionDismissed(viewModel) {
+    viewModel.onCreateUserActionDismissed();
+  }
 }

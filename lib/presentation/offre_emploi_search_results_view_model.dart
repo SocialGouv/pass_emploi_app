@@ -20,6 +20,7 @@ class OffreEmploiSearchResultsViewModel extends Equatable {
   final int? filtresCount;
   final String errorMessage;
   final Function() onLoadMore;
+  final Function() onSavingSearchClick;
 
   OffreEmploiSearchResultsViewModel({
     required this.displayState,
@@ -29,6 +30,7 @@ class OffreEmploiSearchResultsViewModel extends Equatable {
     required this.filtresCount,
     required this.errorMessage,
     required this.onLoadMore,
+    required this.onSavingSearchClick,
   });
 
   factory OffreEmploiSearchResultsViewModel.create(Store<AppState> store) {
@@ -43,11 +45,13 @@ class OffreEmploiSearchResultsViewModel extends Equatable {
       filtresCount: _filtresCount(searchParamsState),
       errorMessage: _errorMessage(searchState, searchResultsState),
       onLoadMore: () => store.dispatch(RequestMoreOffreEmploiSearchResultsAction()),
+      onSavingSearchClick: () => store.dispatch(InitializeSaveSearchAction()),
     );
   }
 
   @override
   List<Object?> get props => [displayState, items, displayLoaderAtBottomOfList, filtresCount];
+
 }
 
 int? _filtresCount(OffreEmploiSearchParametersState searchParamsState) {

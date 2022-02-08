@@ -201,5 +201,12 @@ class ImmersionSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<Imm
   }
   
   bool _isFormValid() => _formKey.currentState?.validate() == true;
+
+  @override
+  dismissBottomSheetIfNeeded(BuildContext context, ImmersionSavedSearchViewModel viewModel) {
+    if (viewModel.displayState == CreateSavedSearchDisplayState.TO_DISMISS) {
+      Navigator.pop(context);
+    }
+  }
 }
 

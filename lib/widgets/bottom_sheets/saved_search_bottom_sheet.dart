@@ -22,12 +22,15 @@ abstract class AbstractSavedSearchBottomSheet<SAVED_SEARCH_MODEL> extends Tracea
     return StoreConnector<AppState,  SavedSearchViewModel<SAVED_SEARCH_MODEL> >(
       onInit: (store) => store.dispatch(CreateSavedSearchAction<SAVED_SEARCH_MODEL>),
       builder: (context, viewModel) => buildSaveSearch(context, viewModel),
+      onWillChange: (previousVm, newVm) => dismissBottomSheetIfNeeded(context, newVm),
       converter: converter,
       distinct: true,
     );
   }
 
-  SavedSearchViewModel<SAVED_SEARCH_MODEL /*, SAVED_SEARCH_VIEW_MODEL */> converter(Store<AppState> store);
+  SavedSearchViewModel<SAVED_SEARCH_MODEL> converter(Store<AppState> store);
 
   Widget buildSaveSearch(BuildContext context, SavedSearchViewModel<SAVED_SEARCH_MODEL> itemViewModel);
+
+  dismissBottomSheetIfNeeded(BuildContext context, SavedSearchViewModel<SAVED_SEARCH_MODEL> newVm);
 }
