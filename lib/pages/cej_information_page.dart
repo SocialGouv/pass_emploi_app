@@ -7,10 +7,10 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/onboarding_background.dart';
-import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../ui/strings.dart';
+import '../widgets/buttons/primary_action_button.dart';
 import '../widgets/cej_information_content_card.dart';
 import 'choix_organisme_page.dart';
 
