@@ -35,7 +35,7 @@ class _CejInformationPageState extends State<CejInformationPage> {
       final _controllerPage = _controller.page?.floor();
       if (_controllerPage != null && _controllerPage != _displayedPage) {
         _displayedPage = _controllerPage;
-        MatomoTracker.trackScreenWithName(AnalyticsScreenNames.cejInformationPage(_controllerPage), "");
+        MatomoTracker.trackScreenWithName(AnalyticsScreenNames.cejInformationPage(_controllerPage + 1), "");
       }
     });
     super.initState();
