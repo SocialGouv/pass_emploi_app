@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/pages/immersion_details_page.dart';
-import 'package:pass_emploi_app/presentation/immersion_search_view_model.dart';
+import 'package:pass_emploi_app/redux/actions/saved_search_actions.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -17,6 +18,7 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_offre_widget.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 
+import '../redux/states/app_state.dart';
 import 'offre_page.dart';
 
 class ImmersionListPage extends TraceableStatelessWidget {
@@ -80,8 +82,10 @@ class ImmersionListPage extends TraceableStatelessWidget {
       heightPadding: 6,
       widthPadding: 6,
       iconSize: 16,
-      onPressed: () =>
-          showUserActionBottomSheet(context: context, builder: (context) => ImmersionSavedSearchBottomSheet()),
+      onPressed: () {
+        showUserActionBottomSheet(context: context, builder: (context) => ImmersionSavedSearchBottomSheet());
+        StoreProvider.of<AppState>(context).dispatch(InitializeSaveSearchAction<ImmersionSavedSearch>());
+      },
       // ).then((value) => _onCreateUserActionDismissed(viewModel)),
     );
   }
