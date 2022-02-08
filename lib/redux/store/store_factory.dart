@@ -46,6 +46,8 @@ import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_r
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart' as redux;
 
+import '../middlewares/initialize_saved_search_middleware.dart';
+
 class StoreFactory {
   final Authenticator authenticator;
   final UserActionRepository userActionRepository;
@@ -115,6 +117,7 @@ class StoreFactory {
         ImmersionDetailsMiddleware(immersionDetailsRepository),
         SavedSearchMiddleware<OffreEmploiSavedSearch>(offreEmploiSavedSearchRepository),
         SavedSearchMiddleware<ImmersionSavedSearch>(immersionSavedSearchRepository),
+        InitializeSavedSearchMiddleware(),
         ..._debugMiddleware(),
       ],
     );

@@ -83,7 +83,7 @@ class AlternanceSearchExtractor extends AbstractSearchExtractor<OffreEmploiSaved
       metier: state.keywords,
       location: state.location,
       keywords: state.keywords,
-      isAlternance: true,
+      isAlternance: state.onlyAlternance,
       filters: OffreEmploiSearchParametersFiltres.withFiltres(
         distance: state.filtres.distance,
         experience: state.filtres.experience,
@@ -117,7 +117,7 @@ class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSave
       metier: eMetier,
       location: eLocation,
       keywords: eMetier,
-      isAlternance: false,
+      isAlternance: state.onlyAlternance,
       filters: OffreEmploiSearchParametersFiltres.withFiltres(
         distance: state.filtres.distance,
         experience: state.filtres.experience,

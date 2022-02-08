@@ -9,6 +9,8 @@ class SavedSearchReducer<T> {
       return SavedSearchState<T>.failure();
     } else if (action is SavedSearchNotInitialized<T>) {
       return SavedSearchState<T>.notInitialized();
+    } else if (action is CreateSavedSearchAction<T>) {
+      return SavedSearchState<T>.initialized(action.savedSearch);
     } else {
       return currentState;
     }
