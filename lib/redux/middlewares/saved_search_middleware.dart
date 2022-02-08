@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/redux/actions/saved_search_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -24,7 +25,9 @@ class SavedSearchMiddleware<T> extends MiddlewareClass<AppState> {
     RequestPostSavedSearchAction<T> action,
     String userId,
   ) async {
-    var emploiSavedSearchState = store.state.offreEmploiSavedSearchState;
+    var emploiSavedSearchState = (action.savedSearch is OffreEmploiSavedSearch)
+        ? store.state.offreEmploiSavedSearchState
+        : store.state.immersionSavedSearchState;
     var savedSearch = _extractSearch(emploiSavedSearchState);
     final result = await _repository.postSavedSearch(
       userId,
@@ -37,7 +40,7 @@ class SavedSearchMiddleware<T> extends MiddlewareClass<AppState> {
     }
   }
 
-  dynamic _extractSearch(SavedSearchState<OffreEmploiSavedSearch> emploiSavedSearchState) {
+  dynamic _extractSearch(SavedSearchState<Equatable> emploiSavedSearchState) {
     if (emploiSavedSearchState is SavedSearchInitialized) {
       return (emploiSavedSearchState as SavedSearchInitialized).search;
     } else {

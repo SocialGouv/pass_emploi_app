@@ -12,19 +12,22 @@ import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';
 
 main() {
-  test("savedSearch should be updated when savedSearch is added and api call succeeds", () async {
+
+  final offreEmploiSavedSearch = OffreEmploiSavedSearch(
+      title: "Titre de l'offre",
+      filters: OffreEmploiSearchParametersFiltres.noFiltres(),
+      keywords: "Boulanger",
+      isAlternance: false,
+      location: mockLocation(),
+      metier: "Boulanger");
+
+  AppState initialState = AppState.initialState().copyWith(
+    offreEmploiSavedSearchState: SavedSearchState.initialized(offreEmploiSavedSearch),
+    loginState: successMiloUserState(),
+  );
+
+  test("savedSearch should successfully update its state when savedSearch api call succeeds", () async {
     // Given
-    var offreEmploiSavedSearch = OffreEmploiSavedSearch(
-        title: "Titre de l'offre",
-        filters: OffreEmploiSearchParametersFiltres.noFiltres(),
-        keywords: "Boulanger",
-        isAlternance: false,
-        location: mockLocation(),
-        metier: "Boulanger");
-    AppState initialState = AppState.initialState().copyWith(
-      offreEmploiSavedSearchState: SavedSearchState.initialized(offreEmploiSavedSearch),
-      loginState: successMiloUserState(),
-    );
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.offreEmploiSavedSearchRepository = OffreEmploiSavedSearchRepositorySuccessStub();
     testStoreFactory.authenticator = AuthenticatorLoggedInStub();
@@ -40,15 +43,22 @@ main() {
     expect(offreEmploiSavedSearchState is SavedSearchSuccessfullyCreated, true);
   });
 
-  test("savedSearch state should not be updated when savedSearch is added and api call fails", ()  {
+  test("savedSearch should fail when savedSearch api call fails", () async {
     // Given
+    final testStoreFactory = TestStoreFactory();
+    testStoreFactory.offreEmploiSavedSearchRepository = OffreEmploiSavedSearchRepositoryFailureStub();
+    testStoreFactory.authenticator = AuthenticatorLoggedInStub();
+    final store = testStoreFactory.initializeReduxStore(initialState: initialState);
+    final expected =
+    store.onChange.firstWhere((element) => element.offreEmploiSavedSearchState.status == SavedSearchStatus.ERROR);
 
     // When
-
+    store.dispatch(RequestPostSavedSearchAction(offreEmploiSavedSearch));
 
     // Then
+    var offreEmploiSavedSearchState = (await expected).offreEmploiSavedSearchState;
+    expect(offreEmploiSavedSearchState is SavedSearchFailureState, true);
   });
-  
 }
 
 class OffreEmploiSavedSearchRepositorySuccessStub extends OffreEmploiSavedSearchRepository {
@@ -57,5 +67,14 @@ class OffreEmploiSavedSearchRepositorySuccessStub extends OffreEmploiSavedSearch
   @override
   Future<bool> postSavedSearch(String userId, OffreEmploiSavedSearch savedSearch) async {
     return true;
+  }
+}
+
+class OffreEmploiSavedSearchRepositoryFailureStub extends OffreEmploiSavedSearchRepository {
+  OffreEmploiSavedSearchRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+
+  @override
+  Future<bool> postSavedSearch(String userId, OffreEmploiSavedSearch savedSearch) async {
+    return false;
   }
 }
