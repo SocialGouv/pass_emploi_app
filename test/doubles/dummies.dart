@@ -13,15 +13,17 @@ import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
+import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
-import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
-import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
@@ -138,4 +140,12 @@ class DummyTrackingEventRepository extends TrackingEventRepository {
 
 class DummyImmersionFavorisRepository extends ImmersionFavorisRepository {
   DummyImmersionFavorisRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+}
+
+class DummyOffreEmploiSavedSearchRepository extends OffreEmploiSavedSearchRepository {
+  DummyOffreEmploiSavedSearchRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+}
+
+class DummyImmersionSavedSearchRepository extends ImmersionSavedSearchRepository {
+  DummyImmersionSavedSearchRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
 }
