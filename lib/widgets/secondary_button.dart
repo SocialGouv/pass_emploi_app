@@ -7,12 +7,14 @@ class SecondaryButton extends StatelessWidget {
   final String label;
   final String? drawableRes;
   final VoidCallback? onPressed;
+  final Color backgroundColor;
 
   const SecondaryButton({
     Key? key,
     required this.label,
     required this.onPressed,
     this.drawableRes,
+    this.backgroundColor = Colors.transparent,
   }) : super(key: key);
 
   @override
@@ -21,7 +23,7 @@ class SecondaryButton extends StatelessWidget {
       onPressed: onPressed,
       style: OutlinedButton.styleFrom(
         shape: StadiumBorder(),
-        backgroundColor: Colors.white,
+        backgroundColor: backgroundColor,
         side: BorderSide(color: AppColors.primary, width: 2),
       ),
       child: Padding(
