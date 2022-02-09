@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/saved_search_state.dart';
 import 'package:redux/redux.dart';
 
-abstract class AbstractSavedSearchBottomSheet<SAVED_SEARCH_MODEL> extends TraceableStatefulWidget {
+abstract class AbstractSavedSearchBottomSheet<SAVED_SEARCH_MODEL> extends TraceableStatelessWidget {
   final String analyticsScreenName;
   final SavedSearchState<SAVED_SEARCH_MODEL> Function(Store<AppState> store) selectState;
 
@@ -18,13 +18,8 @@ abstract class AbstractSavedSearchBottomSheet<SAVED_SEARCH_MODEL> extends Tracea
   }) : super(name: analyticsScreenName, key: key);
 
   @override
-  State<AbstractSavedSearchBottomSheet<SAVED_SEARCH_MODEL>> createState() => AbstractSavedSearchBottomSheetState<SAVED_SEARCH_MODEL>();
-}
-
-abstract class AbstractSavedSearchBottomSheetState<SAVED_SEARCH_MODEL> extends State<AbstractSavedSearchBottomSheet<SAVED_SEARCH_MODEL>> {
-  @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState,  SavedSearchViewModel<SAVED_SEARCH_MODEL> >(
+    return StoreConnector<AppState, SavedSearchViewModel<SAVED_SEARCH_MODEL>>(
       onInit: (store) => store.dispatch(CreateSavedSearchAction<SAVED_SEARCH_MODEL>),
       builder: (context, viewModel) => buildSaveSearch(context, viewModel),
       onWillChange: (previousVm, newVm) => dismissBottomSheetIfNeeded(context, newVm),

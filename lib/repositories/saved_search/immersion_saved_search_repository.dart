@@ -16,7 +16,7 @@ class ImmersionSavedSearchRepository extends SavedSearchRepository<ImmersionSave
   ImmersionSavedSearchRepository(this._baseUrl, this._httpClient, this._headersBuilder, [this._crashlytics]);
 
   @override
-  Future<bool> postSavedSearch(String userId, ImmersionSavedSearch savedSearch) async {
+  Future<bool> postSavedSearch(String userId, ImmersionSavedSearch savedSearch, String title) async {
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/recherches/immersions");
     try {
       final response = await _httpClient.post(
@@ -24,7 +24,7 @@ class ImmersionSavedSearchRepository extends SavedSearchRepository<ImmersionSave
         headers: await _headersBuilder.headers(contentType: 'application/json'),
         body: customJsonEncode(
           PostImmersionSavedSearch(
-            title: savedSearch.title,
+            title: title,
             metier: savedSearch.metier,
             localisation: savedSearch.location,
             codeRome: savedSearch.filters?.codeRome,

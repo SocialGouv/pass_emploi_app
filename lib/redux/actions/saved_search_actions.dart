@@ -2,8 +2,9 @@ abstract class SavedSearchAction<T> {}
 
 class RequestPostSavedSearchAction<T> extends SavedSearchAction<T> {
   final T savedSearch;
+  final String title;
 
-  RequestPostSavedSearchAction(this.savedSearch);
+  RequestPostSavedSearchAction(this.savedSearch, this.title);
 }
 
 class CreateSavedSearchAction<T> extends SavedSearchAction<T> {

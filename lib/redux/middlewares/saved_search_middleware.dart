@@ -32,7 +32,7 @@ class SavedSearchMiddleware<T> extends MiddlewareClass<AppState> {
     final result = await _repository.postSavedSearch(
       userId,
       savedSearch,
-    );
+      action.title);
     if (result) {
       store.dispatch(SavedSearchSuccessAction<T>());
     } else {

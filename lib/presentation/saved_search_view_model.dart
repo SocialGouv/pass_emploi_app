@@ -17,7 +17,7 @@ typedef OffreEmploiSavedSearchViewModel = SavedSearchViewModel<OffreEmploiSavedS
 typedef ImmersionSavedSearchViewModel = SavedSearchViewModel<ImmersionSavedSearch>;
 
 class SavedSearchViewModel<SAVED_SEARCH_MODEL> extends Equatable {
-  final Function(String? title) createSavedSearch;
+  final Function(String title) createSavedSearch;
   final CreateSavedSearchDisplayState displayState;
   final SAVED_SEARCH_MODEL searchModel;
 
@@ -27,19 +27,21 @@ class SavedSearchViewModel<SAVED_SEARCH_MODEL> extends Equatable {
     required this.searchModel,
   });
 
-  factory SavedSearchViewModel.create(Store<AppState> store, AbstractSearchExtractor<SAVED_SEARCH_MODEL> search) {
+  factory SavedSearchViewModel.create(
+      Store<AppState> store, AbstractSearchExtractor<SAVED_SEARCH_MODEL> search, bool isImmersion) {
     return SavedSearchViewModel._(
         searchModel: search.getSearchFilters(store),
-        displayState: _displayState((SAVED_SEARCH_MODEL is OffreEmploiSavedSearchViewModel)
-            ? store.state.offreEmploiSavedSearchState
-            : store.state.immersionSavedSearchState),
-        createSavedSearch: (title) => store.dispatch(RequestPostSavedSearchAction(search.getSearchFilters(store))));
+        displayState: _displayState(
+            isImmersion ? store.state.immersionSavedSearchState : store.state.offreEmploiSavedSearchState),
+        createSavedSearch: (title) =>
+            store.dispatch(RequestPostSavedSearchAction(search.getSearchFilters(store), title)));
   }
 
   static OffreEmploiSavedSearchViewModel createForOffreEmploi(Store<AppState> store, {required bool onlyAlternance}) {
     return SavedSearchViewModel.create(
       store,
       onlyAlternance ? AlternanceSearchExtractor() : OffreEmploiSearchExtractor(),
+      false,
     );
   }
 
@@ -47,6 +49,7 @@ class SavedSearchViewModel<SAVED_SEARCH_MODEL> extends Equatable {
     return SavedSearchViewModel.create(
       store,
       ImmersionSearchExtractor(),
+      true,
     );
   }
 

@@ -16,7 +16,7 @@ class OffreEmploiSavedSearchRepository extends SavedSearchRepository<OffreEmploi
   OffreEmploiSavedSearchRepository(this._baseUrl, this._httpClient, this._headersBuilder, [this._crashlytics]);
 
   @override
-  Future<bool> postSavedSearch(String userId, OffreEmploiSavedSearch savedSearch) async {
+  Future<bool> postSavedSearch(String userId, OffreEmploiSavedSearch savedSearch, String title) async {
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/recherches/offres-emploi");
     try {
       final response = await _httpClient.post(
@@ -24,7 +24,7 @@ class OffreEmploiSavedSearchRepository extends SavedSearchRepository<OffreEmploi
         headers: await _headersBuilder.headers(contentType: 'application/json'),
         body: customJsonEncode(
           PostOffreEmploiSavedSearch(
-            title: savedSearch.title,
+            title: title,
             metier: savedSearch.metier,
             localisation: savedSearch.location,
             keywords: savedSearch.keywords,
