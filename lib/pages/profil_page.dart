@@ -15,10 +15,14 @@ import 'package:pass_emploi_app/widgets/cards/profil_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../widgets/label_value_row.dart';
 
 class ProfilPage extends TraceableStatelessWidget {
+  static const legalNoticeLink = "https://beta.gouv.fr/startups/pass-emploi.html";
+  static const privacyPolicyLink = "https://beta.gouv.fr/startups/pass-emploi.html";
+
   ProfilPage() : super(name: AnalyticsScreenNames.plus);
 
   @override
@@ -65,36 +69,48 @@ class ProfilPage extends TraceableStatelessWidget {
               SizedBox(height: Margins.spacing_m),
               ProfilCard(
                 padding: EdgeInsets.zero,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(Margins.spacing_base),
-                      child: LabelValueRow(
-                        label: Text(Strings.legalNoticeLabel, style: TextStyles.textBaseRegular),
-                        value: _redirectIcon(),
-                      ),
-                    ),
-                    SepLine(0, 0, color: AppColors.grey100),
-                    Padding(
-                      padding: const EdgeInsets.all(Margins.spacing_base),
-                      child: LabelValueRow(
-                        label: Text(Strings.privacyPolicyLabel, style: TextStyles.textBaseRegular),
-                        value: _redirectIcon(),
-                      ),
-                    ),
-                    SepLine(0, 0, color: AppColors.grey100),
-                    Padding(
-                      padding: const EdgeInsets.all(Margins.spacing_base),
-                      child: LabelValueRow(
-                        label: Text(Strings.accessibilityLevelLabel, style: TextStyles.textBaseRegular),
-                        value: Text(
-                          Strings.accessibilityLevelNonConforme,
-                          style: TextStyles.textBaseBold,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        InkWell(
+                          onTap: () => launch(legalNoticeLink),
+                          child: Padding(
+                            padding: const EdgeInsets.all(Margins.spacing_base),
+                            child: LabelValueRow(
+                              label: Text(Strings.legalNoticeLabel, style: TextStyles.textBaseRegular),
+                              value: _redirectIcon(),
+                            ),
+                          ),
                         ),
-                      ),
+                        SepLine(0, 0, color: AppColors.grey100),
+                        InkWell(
+                          onTap: () => launch(privacyPolicyLink),
+                          child: Padding(
+                            padding: const EdgeInsets.all(Margins.spacing_base),
+                            child: LabelValueRow(
+                              label: Text(Strings.privacyPolicyLabel, style: TextStyles.textBaseRegular),
+                              value: _redirectIcon(),
+                            ),
+                          ),
+                        ),
+                        SepLine(0, 0, color: AppColors.grey100),
+                        Padding(
+                          padding: const EdgeInsets.all(Margins.spacing_base),
+                          child: LabelValueRow(
+                            label: Text(Strings.accessibilityLevelLabel, style: TextStyles.textBaseRegular),
+                            value: Text(
+                              Strings.accessibilityLevelNonConforme,
+                              style: TextStyles.textBaseBold,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
               SizedBox(height: Margins.spacing_m),
@@ -112,9 +128,9 @@ class ProfilPage extends TraceableStatelessWidget {
   }
 
   SvgPicture _redirectIcon() => SvgPicture.asset(
-        Drawables.icRedirection,
-        width: 18,
-        height: 18,
-        color: AppColors.grey800,
-      );
+    Drawables.icRedirection,
+    width: 18,
+    height: 18,
+    color: AppColors.grey800,
+  );
 }
