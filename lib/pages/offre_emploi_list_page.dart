@@ -18,7 +18,7 @@ import 'package:pass_emploi_app/widgets/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_offre_widget.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
-import 'package:pass_emploi_app/widgets/filter_button.dart';
+import 'package:pass_emploi_app/widgets/filtre_button.dart';
 
 import 'offre_page.dart';
 
@@ -110,7 +110,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
       if (viewModel.withFiltreButton)
         Align(
           alignment: Alignment.bottomCenter,
-          child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _filtreButton(viewModel)),
+          child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _filtrePrimaryButton(viewModel)),
         ),
     ]);
   }
@@ -121,7 +121,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     if (viewModel.withFiltreButton) {
       additional = Padding(
         padding: const EdgeInsets.only(top: Margins.spacing_base),
-        child: _filtreButton(viewModel),
+        child: _filtreSecondaryButton(viewModel),
       );
     }
     return EmptyOffreWidget(additional: additional);
@@ -134,7 +134,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
         if (viewModel.withFiltreButton)
           Align(
             alignment: Alignment.bottomCenter,
-            child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _filtreButton(viewModel)),
+            child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _filtrePrimaryButton(viewModel)),
           ),
       ],
     );
@@ -190,8 +190,9 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
             style: TextStyles.textSRegular(),
           ),
           TextButton(
-              onPressed: () => _currentViewModel?.onLoadMore(),
-              child: Text(Strings.retry, style: TextStyles.textBaseBold)),
+            onPressed: () => _currentViewModel?.onLoadMore(),
+            child: Text(Strings.retry, style: TextStyles.textBaseBold),
+          ),
         ],
       ),
     );
@@ -219,19 +220,27 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
       return viewModel.items.length;
   }
 
-  Widget _filtreButton(OffreEmploiSearchResultsViewModel viewModel) {
-    return FilterButton(
+  Widget _filtrePrimaryButton(OffreEmploiSearchResultsViewModel viewModel) {
+    return FiltreButton.primary(
       filtresCount: viewModel.filtresCount,
-      onPressed: () => Navigator.push(
-        context,
-        OffreEmploiFiltresPage.materialPageRoute(widget.onlyAlternance),
-      ).then((value) {
-        if (value == true) {
-          _offsetBeforeLoading = 0;
-          if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
-        }
-      }),
+      onPressed: () => _onFiltreButtonPressed(),
     );
+  }
+
+  Widget _filtreSecondaryButton(OffreEmploiSearchResultsViewModel viewModel) {
+    return FiltreButton.secondary(
+      filtresCount: viewModel.filtresCount,
+      onPressed: () => _onFiltreButtonPressed(),
+    );
+  }
+
+  Future<void> _onFiltreButtonPressed() {
+    return Navigator.push(context, OffreEmploiFiltresPage.materialPageRoute(widget.onlyAlternance)).then((value) {
+      if (value == true) {
+        _offsetBeforeLoading = 0;
+        if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
+      }
+    });
   }
 
   void _trackEmptyResult() {

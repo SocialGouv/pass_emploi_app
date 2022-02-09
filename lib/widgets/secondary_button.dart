@@ -31,11 +31,9 @@ class SecondaryButton extends StatelessWidget {
           children: [
             if (drawableRes != null)
               Padding(
-                  padding: const EdgeInsets.only(right: 12),
-                  child: SvgPicture.asset(
-                    drawableRes!,
-                    color: AppColors.primary,
-                  )),
+                padding: const EdgeInsets.only(right: 12),
+                child: SvgPicture.asset(drawableRes!, color: AppColors.primary),
+              ),
             Flexible(child: Text(label, textAlign: TextAlign.center, style: TextStyles.textSecondaryButton)),
           ],
         ),
