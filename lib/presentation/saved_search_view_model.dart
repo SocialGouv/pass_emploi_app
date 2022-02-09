@@ -33,9 +33,7 @@ class SavedSearchViewModel<SAVED_SEARCH_MODEL> extends Equatable {
         displayState: _displayState((SAVED_SEARCH_MODEL is OffreEmploiSavedSearchViewModel)
             ? store.state.offreEmploiSavedSearchState
             : store.state.immersionSavedSearchState),
-        createSavedSearch: (title) => store.dispatch(
-              RequestPostSavedSearchAction(search.getSearchFilters(store)),
-            ));
+        createSavedSearch: (title) => store.dispatch(RequestPostSavedSearchAction(search.getSearchFilters(store))));
   }
 
   static OffreEmploiSavedSearchViewModel createForOffreEmploi(Store<AppState> store, {required bool onlyAlternance}) {

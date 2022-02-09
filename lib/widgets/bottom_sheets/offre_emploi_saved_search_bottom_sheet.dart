@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
+import 'package:pass_emploi_app/presentation/saved_search_view_model.dart';
+import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/saved_search_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 import 'package:redux/redux.dart';
-import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
-import 'package:pass_emploi_app/presentation/saved_search_view_model.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/saved_search_bottom_sheet.dart';
 
 import 'bottom_sheets.dart';
 
@@ -23,11 +23,11 @@ class OffreEmploiSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<O
 
   OffreEmploiSavedSearchBottomSheet({required this.onlyAlternance})
       : super(
-    selectState: (store) => store.state.offreEmploiSavedSearchState,
-    analyticsScreenName:
-    onlyAlternance ? AnalyticsScreenNames.alternanceResearch : AnalyticsScreenNames.emploiResearch,
-    key: ValueKey(onlyAlternance),
-  );
+          selectState: (store) => store.state.offreEmploiSavedSearchState,
+          analyticsScreenName:
+              onlyAlternance ? AnalyticsScreenNames.alternanceResearch : AnalyticsScreenNames.emploiResearch,
+          key: ValueKey(onlyAlternance),
+        );
 
   @override
   SavedSearchViewModel<OffreEmploiSavedSearch> converter(Store<AppState> store) {
@@ -36,6 +36,7 @@ class OffreEmploiSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<O
 
   @override
   Widget buildSaveSearch(BuildContext context, OffreEmploiSavedSearchViewModel viewModel) {
+    _searchTitle = viewModel.searchModel.title;
     return _buildForm(context, viewModel);
   }
 
@@ -79,21 +80,28 @@ class OffreEmploiSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<O
           SizedBox(height: Margins.spacing_base),
           _textField(
             initialValue: searchViewModel.title,
-            onChanged: (value) => _searchTitle = value,
+            onChanged: (value) {
+              _updateSearchTitle(value);
+            },
             isMandatory: true,
             mandatoryError: Strings.mandatorySavedSearchTitleError,
-            textInputAction: TextInputAction.next, isEnabled: true,
+            textInputAction: TextInputAction.next,
+            isEnabled: true,
           ),
         ],
       ),
     );
   }
 
+  void _updateSearchTitle(String value) {
+     setState(() =>_searchTitle = value);
+  }
+
   Widget _savedSearchFilters(OffreEmploiSavedSearch searchViewModel) {
     List<String> _tags = onlyAlternance ? [Strings.savedSearchAlternanceTag] : [Strings.savedSearchEmploiTag];
     String? _keyWords = searchViewModel.keywords;
-    String? _location =  searchViewModel.location?.libelle;
-    if (_keyWords != null && _keyWords.isNotEmpty)  _tags.add(_keyWords);
+    String? _location = searchViewModel.location?.libelle;
+    if (_keyWords != null && _keyWords.isNotEmpty) _tags.add(_keyWords);
     if (_location != null && _location.isNotEmpty) _tags.add(_location);
     return Padding(
       padding: userActionBottomSheetContentPadding(),
@@ -188,9 +196,9 @@ class OffreEmploiSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<O
         children: [
           PrimaryActionButton(
             label: Strings.create,
-            onPressed: (_searchTitle != null &&_isFormValid())
+            onPressed: ((_searchTitle != null && _searchTitle!.isNotEmpty) || _isFormValid())
                 ? () => {viewModel.createSavedSearch(_searchTitle)}
-                : (_searchTitle == null) ? () => {viewModel.createSavedSearch(_searchTitle)} :  null,
+                : null,
           ),
         ],
       ),
@@ -216,6 +224,4 @@ class OffreEmploiSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<O
       Navigator.pop(context);
     }
   }
-
 }
-

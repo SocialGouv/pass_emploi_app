@@ -19,12 +19,12 @@ import 'bottom_sheets.dart';
 class ImmersionSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<ImmersionSavedSearch> {
   final _formKey = GlobalKey<FormState>();
   String? _searchTitle;
-  
+
   ImmersionSavedSearchBottomSheet()
       : super(
-    selectState: (store) => store.state.immersionSavedSearchState,
-    analyticsScreenName: AnalyticsScreenNames.immersionResearch,
-  );
+          selectState: (store) => store.state.immersionSavedSearchState,
+          analyticsScreenName: AnalyticsScreenNames.immersionResearch,
+        );
 
   @override
   ImmersionSavedSearchViewModel converter(Store<AppState> store) {
@@ -33,9 +33,10 @@ class ImmersionSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<Imm
 
   @override
   Widget buildSaveSearch(BuildContext context, ImmersionSavedSearchViewModel viewModel) {
-      return _buildForm(context, viewModel);
+    _searchTitle = viewModel.searchModel.title;
+    return _buildForm(context, viewModel);
   }
-  
+
   Form _buildForm(BuildContext context, ImmersionSavedSearchViewModel viewModel) {
     return Form(
       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -79,7 +80,8 @@ class ImmersionSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<Imm
             onChanged: (value) => _searchTitle = value,
             isMandatory: true,
             mandatoryError: Strings.mandatorySavedSearchTitleError,
-            textInputAction: TextInputAction.next, isEnabled: true,
+            textInputAction: TextInputAction.next,
+            isEnabled: true,
           ),
         ],
       ),
@@ -180,9 +182,8 @@ class ImmersionSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<Imm
         children: [
           PrimaryActionButton(
             label: Strings.create,
-            onPressed: (_searchTitle != null &&_isFormValid())
-                ? () => {viewModel.createSavedSearch(_searchTitle)}
-                : (_searchTitle == null) ? () => {viewModel.createSavedSearch(_searchTitle)} :  null,
+            onPressed:
+                (_searchTitle != null && _isFormValid()) ? () => {viewModel.createSavedSearch(_searchTitle)} : null,
           ),
         ],
       ),
@@ -199,7 +200,7 @@ class ImmersionSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<Imm
   Widget _buildTag(String tag) {
     return DataTag(label: tag);
   }
-  
+
   bool _isFormValid() => _formKey.currentState?.validate() == true;
 
   @override
@@ -209,4 +210,3 @@ class ImmersionSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<Imm
     }
   }
 }
-

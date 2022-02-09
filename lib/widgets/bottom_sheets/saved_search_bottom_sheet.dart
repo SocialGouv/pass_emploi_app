@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/saved_search_state.dart';
 import 'package:redux/redux.dart';
 
-abstract class AbstractSavedSearchBottomSheet<SAVED_SEARCH_MODEL> extends TraceableStatelessWidget {
+abstract class AbstractSavedSearchBottomSheet<SAVED_SEARCH_MODEL> extends TraceableStatefulWidget {
   final String analyticsScreenName;
   final SavedSearchState<SAVED_SEARCH_MODEL> Function(Store<AppState> store) selectState;
 
@@ -17,6 +17,11 @@ abstract class AbstractSavedSearchBottomSheet<SAVED_SEARCH_MODEL> extends Tracea
     Key? key,
   }) : super(name: analyticsScreenName, key: key);
 
+  @override
+  State<AbstractSavedSearchBottomSheet<SAVED_SEARCH_MODEL>> createState() => AbstractSavedSearchBottomSheetState<SAVED_SEARCH_MODEL>();
+}
+
+abstract class AbstractSavedSearchBottomSheetState<SAVED_SEARCH_MODEL> extends State<AbstractSavedSearchBottomSheet<SAVED_SEARCH_MODEL>> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState,  SavedSearchViewModel<SAVED_SEARCH_MODEL> >(
