@@ -52,7 +52,7 @@ main() {
     final viewModel = ProfilPageViewModel.create(store);
 
     // Then
-    expect(viewModel.userEmail, "-");
+    expect(viewModel.userEmail, "Non renseignée");
     expect(viewModel.userName, "Kenji Dupont");
   });
 }

@@ -285,4 +285,14 @@ class Strings {
   static String unvailableContentDescription = "Vous pouvez les consulter sur votre espace personnel Pôle emploi.";
   static String poleEmploiUrlButton = "Accéder à mon espace Pôle emploi";
   static String espacePoleEmploiUrl = "https://candidat.pole-emploi.fr/espacepersonnel/";
+
+  // Profil
+  static String personalInformation = "Informations personnelles";
+  static String emailAddressLabel = "Adresse e-mail";
+  static String missingEmailAddressValue = "Non renseignée";
+  static String legalInformation = "Informations légales";
+  static String legalNoticeLabel = "Mentions légales";
+  static String privacyPolicyLabel = "Politique de confidentialité";
+  static String accessibilityLevelLabel = "Niveau d’accessibilité";
+  static String accessibilityLevelNonConforme = "Non conforme";
 }
