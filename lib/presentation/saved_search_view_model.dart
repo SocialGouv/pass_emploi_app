@@ -30,13 +30,12 @@ class SavedSearchViewModel<SAVED_SEARCH_MODEL> extends Equatable {
   factory SavedSearchViewModel.create(Store<AppState> store, AbstractSearchExtractor<SAVED_SEARCH_MODEL> search) {
     return SavedSearchViewModel._(
         searchModel: search.getSearchFilters(store),
-        displayState: _displayState(store.state.offreEmploiSavedSearchState),
+        displayState: _displayState((SAVED_SEARCH_MODEL is OffreEmploiSavedSearchViewModel)
+            ? store.state.offreEmploiSavedSearchState
+            : store.state.immersionSavedSearchState),
         createSavedSearch: (title) => store.dispatch(
               RequestPostSavedSearchAction(search.getSearchFilters(store)),
-            )
-        // withError: _withError(offerId, store.state.savedSearchUpdateState),
-        // withLoading: _withLoading(offerId, store.state.savedSearchUpdateState),
-        );
+            ));
   }
 
   static OffreEmploiSavedSearchViewModel createForOffreEmploi(Store<AppState> store, {required bool onlyAlternance}) {

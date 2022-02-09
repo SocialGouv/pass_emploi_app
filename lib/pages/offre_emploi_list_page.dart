@@ -277,8 +277,4 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
       },
     );
   }
-
-  void _onCreateUserActionDismissed(viewModel) {
-    viewModel.onCreateUserActionDismissed();
-  }
 }
