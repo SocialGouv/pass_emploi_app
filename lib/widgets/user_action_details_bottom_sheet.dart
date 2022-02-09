@@ -54,6 +54,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
         return _bottomSheetContent(context, detailsViewModel);
       case UserActionDetailsDisplayState.SHOW_SUCCESS:
         return _congratulations(context);
+      case UserActionDetailsDisplayState.TO_DISMISS_AFTER_UPDATE:
       case UserActionDetailsDisplayState.TO_DISMISS:
       case UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION:
         break;
@@ -61,7 +62,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
   }
 
   Widget _congratulations(BuildContext context) {
-    MatomoTracker.trackScreenWithName(AnalyticsScreenNames.updateUserAction, AnalyticsScreenNames.userActionDetails);
+    _trackSuccessfulUpdate();
     return FractionallySizedBox(
       heightFactor: 0.90,
       child: Column(
@@ -255,9 +256,17 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
   }
 
   void _dismissBottomSheetIfNeeded(BuildContext context, UserActionDetailsViewModel viewModel) {
-    if (viewModel.displayState == UserActionDetailsDisplayState.TO_DISMISS)
+    if (viewModel.displayState == UserActionDetailsDisplayState.TO_DISMISS) {
       Navigator.pop(context);
-    else if (viewModel.displayState == UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION)
+    } else if (viewModel.displayState == UserActionDetailsDisplayState.TO_DISMISS_AFTER_UPDATE) {
+      _trackSuccessfulUpdate();
+      Navigator.pop(context);
+    } else if (viewModel.displayState == UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION) {
       Navigator.pop(context, UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION);
+    }
+  }
+
+  _trackSuccessfulUpdate() {
+    MatomoTracker.trackScreenWithName(AnalyticsScreenNames.updateUserAction, AnalyticsScreenNames.userActionDetails);
   }
 }

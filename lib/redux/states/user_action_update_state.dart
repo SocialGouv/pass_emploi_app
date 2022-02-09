@@ -1,13 +1,19 @@
+import 'package:pass_emploi_app/models/user_action.dart';
+
 abstract class UserActionUpdateState {
   UserActionUpdateState._();
 
   factory UserActionUpdateState.notUpdating() = UserActionNotUpdatingState;
-  factory UserActionUpdateState.updated() => UserActionUpdatedState();
+
+  factory UserActionUpdateState.updated(UserActionStatus newStatus) = UserActionUpdatedState;
+
   factory UserActionUpdateState.noUpdateNeeded() = UserActionNoUpdateNeeded;
 }
 
 class UserActionUpdatedState extends UserActionUpdateState {
-  UserActionUpdatedState() : super._();
+  final UserActionStatus newStatus;
+
+  UserActionUpdatedState(this.newStatus) : super._();
 }
 
 class UserActionNotUpdatingState extends UserActionUpdateState {
