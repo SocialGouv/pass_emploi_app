@@ -44,7 +44,9 @@ main() {
     expect(viewModel.errorMessage, "Erreur lors de la recherche. Veuillez réessayer");
   });
 
-  test("create when state is success and not empty should set display state properly", () {
+  test(
+      "create when state is success and not empty should display result (empty content is directly handled by result page)",
+      () {
     // Given
     final store = Store<AppState>(
       reducer,
@@ -55,8 +57,7 @@ main() {
     final viewModel = ImmersionSearchViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, ImmersionSearchDisplayState.SHOW_EMPTY_ERROR);
-    expect(viewModel.errorMessage, "Aucune offre ne correspond à votre recherche");
+    expect(viewModel.displayState, ImmersionSearchDisplayState.SHOW_RESULTS);
   });
 
   test("create when state is success and not empty should set display state properly", () {

@@ -217,9 +217,11 @@ class Strings {
   static String immersionVilleError = "Renseignez une ville de la liste";
 
   // Solutions Errors
-  static String noContentError = "Aucune offre ne correspond à votre recherche";
+  static String noContentError =
+      "Pour le moment, aucune offre ne correspond à vos critères.\n\nTrouvez d'autres offres en modifiant vos critères.";
   static String genericError = "Erreur lors de la recherche. Veuillez réessayer";
   static String loadMoreOffresError = "Erreur lors du chargement des offres";
+  static String updateCriteria = "Modifier les critères de recherche";
 
   // Offre emploi filtres
   static String filtrer = "Filtrer";
@@ -265,7 +267,7 @@ class Strings {
       "Vous pouvez décider de la supprimer ou bien de la conserver dans vos favoris.";
   static String deleteOffreFromFavori = "Supprimer des favoris";
 
-  // favoris
+  // Favoris
   static String miscellaneousErrorRetry = "Une erreur est survenue. Veuillez réessayer";
 
   static String offreDetailNumber(String offreId) => "Offre n°$offreId";
@@ -274,7 +276,7 @@ class Strings {
   static String noFavoris = "Aucun favori";
   static String favorisError = "Erreur lors de la récupération de vos favoris";
 
-  //unavailable content (actions & rdv) for pole emploi users
+  // Unavailable content (actions & rdv) for pole emploi users
   static String rendezvous = "rendez-vous";
   static String actions = "actions";
 

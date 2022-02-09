@@ -258,14 +258,15 @@ main() {
     expect(viewModel.errorMessage, "Erreur lors de la recherche. Veuillez réessayer");
   });
 
-  test("create when search state is success but empty should display empty message", () {
+  test("create when search state is success but empty should display empty content", () {
     // Given
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-          offreEmploiSearchState: OffreEmploiSearchState.success(),
-          offreEmploiSearchResultsState:
-              OffreEmploiSearchResultsState.data(offres: [], loadedPage: 1, isMoreDataAvailable: false)),
+        offreEmploiSearchState: OffreEmploiSearchState.success(),
+        offreEmploiSearchResultsState:
+            OffreEmploiSearchResultsState.data(offres: [], loadedPage: 1, isMoreDataAvailable: false),
+      ),
     );
 
     // When
@@ -273,7 +274,6 @@ main() {
 
     // Then
     expect(viewModel.displayState, DisplayState.EMPTY);
-    expect(viewModel.errorMessage, "Aucune offre ne correspond à votre recherche");
   });
 
   group("Filtre button…", () {

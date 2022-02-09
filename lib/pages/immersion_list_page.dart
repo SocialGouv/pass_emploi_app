@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/empty_offre_widget.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 
 import 'offre_page.dart';
@@ -15,7 +16,10 @@ import 'offre_page.dart';
 class ImmersionListPage extends TraceableStatelessWidget {
   final List<Immersion> immersions;
 
-  const ImmersionListPage(this.immersions) : super(name: AnalyticsScreenNames.immersionResults);
+  ImmersionListPage(this.immersions)
+      : super(
+          name: immersions.isEmpty ? AnalyticsScreenNames.immersionNoResults : AnalyticsScreenNames.immersionResults,
+        );
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +28,17 @@ class ImmersionListPage extends TraceableStatelessWidget {
       child: Scaffold(
         backgroundColor: AppColors.grey100,
         appBar: passEmploiAppBar(label: Strings.immersionsTitle, withBackButton: true),
-        body: ListView.separated(
-          padding: const EdgeInsets.all(16),
-          itemBuilder: (context, index) => _buildItem(context, immersions[index], index),
-          separatorBuilder: (context, index) => Container(height: Margins.spacing_base),
-          itemCount: immersions.length,
-        ),
+        body: immersions.isEmpty ? EmptyOffreWidget() : _content(),
       ),
+    );
+  }
+
+  Widget _content() {
+    return ListView.separated(
+      padding: const EdgeInsets.all(16),
+      itemBuilder: (context, index) => _buildItem(context, immersions[index], index),
+      separatorBuilder: (context, index) => Container(height: Margins.spacing_base),
+      itemCount: immersions.length,
     );
   }
 

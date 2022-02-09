@@ -91,6 +91,10 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
     );
   }
 
+  bool _isLoading(OffreEmploiSearchViewModel viewModel) => viewModel.displayState == DisplayState.LOADING;
+
+  bool _isError(OffreEmploiSearchViewModel viewModel) => viewModel.displayState == DisplayState.FAILURE;
+
   SizedBox _separator() => SizedBox(height: Margins.spacing_m);
 
   TextFormField _keywordTextFormField() {
@@ -120,20 +124,6 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
         borderSide: BorderSide(color: AppColors.primary, width: 1.0),
       ),
     );
-  }
-
-  bool _isLoading(OffreEmploiSearchViewModel viewModel) {
-    return viewModel.displayState == DisplayState.LOADING;
-  }
-
-  bool _isError(OffreEmploiSearchViewModel viewModel) {
-    if (viewModel.displayState == DisplayState.EMPTY)
-      MatomoTracker.trackScreenWithName(
-        widget.onlyAlternance ? AnalyticsScreenNames.alternanceNoResults : AnalyticsScreenNames.emploiNoResults,
-        widget.onlyAlternance ? AnalyticsScreenNames.alternanceResearch : AnalyticsScreenNames.emploiResearch,
-      );
-
-    return viewModel.displayState == DisplayState.FAILURE || viewModel.displayState == DisplayState.EMPTY;
   }
 
   void _onSearchButtonPressed(OffreEmploiSearchViewModel viewModel) {
