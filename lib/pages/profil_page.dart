@@ -6,9 +6,10 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
-import 'package:pass_emploi_app/widgets/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/secondary_button.dart';
 
 class ProfilPage extends TraceableStatelessWidget {
   ProfilPage() : super(name: AnalyticsScreenNames.plus);
@@ -18,31 +19,21 @@ class ProfilPage extends TraceableStatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.grey100,
       appBar: passEmploiAppBar(label: Strings.menuProfil),
-      body: Stack(
-        children: [
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.all(30.0),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: PrimaryActionButton(
-                      onPressed: () {
-                        StoreProvider.of<AppState>(context).dispatch(RequestLogoutAction(LogoutRequester.USER));
-                      },
-                      label: Strings.logoutAction,
-                      textColor: AppColors.warning,
-                      backgroundColor: AppColors.warningLighten,
-                      rippleColor: AppColors.warningLight,
-                      withShadow: false,
-                    ),
-                  ),
-                ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(Margins.spacing_m),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SecondaryButton(
+                onPressed: () {
+                  StoreProvider.of<AppState>(context).dispatch(RequestLogoutAction(LogoutRequester.USER));
+                },
+                label: Strings.logoutAction,
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
