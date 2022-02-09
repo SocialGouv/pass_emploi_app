@@ -65,7 +65,7 @@ main() {
       userActionState: State<List<UserAction>>.success(
         [_notStartedAction()],
       ),
-      userActionUpdateState: UserActionUpdateState.updated(),
+      userActionUpdateState: UserActionUpdateState.updated(UserActionStatus.IN_PROGRESS),
     );
 
     // When
@@ -81,7 +81,7 @@ main() {
       userActionState: State<List<UserAction>>.success(
         [_notStartedAction()],
       ),
-      userActionUpdateState: UserActionUpdateState.updated(),
+      userActionUpdateState: UserActionUpdateState.updated(UserActionStatus.NOT_STARTED),
     );
 
     // When

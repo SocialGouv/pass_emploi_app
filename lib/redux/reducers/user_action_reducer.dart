@@ -80,7 +80,7 @@ AppState _updateActionStatus(
 
   return currentState.copyWith(
     userActionState: State<List<UserAction>>.success(newActions),
-    userActionUpdateState: UserActionUpdateState.updated(),
+    userActionUpdateState: UserActionUpdateState.updated(updateActionStatus.newStatus),
   );
 }
 
