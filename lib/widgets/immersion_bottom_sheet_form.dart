@@ -136,21 +136,28 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
         children: [
           Text(Strings.savedSearchFilters, style: TextStyles.textBaseBold),
           SizedBox(height: Margins.spacing_base),
-          _buildDataTags([Strings.savedSearchImmersionTag, searchViewModel.metier, searchViewModel.location]),
+          _buildDataTags([
+            TagInfo(Strings.savedSearchImmersionTag, false),
+            TagInfo(searchViewModel.metier, false),
+            TagInfo(searchViewModel.location, true),
+          ]),
         ],
       ),
     );
   }
 
-  Widget _buildDataTags(List<String> nonEmptyDataTags) {
+  Widget _buildDataTags(List<TagInfo> nonEmptyDataTags) {
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
       child: Wrap(spacing: 16, runSpacing: 16, children: nonEmptyDataTags.map(_buildTag).toList()),
     );
   }
 
-  Widget _buildTag(String tag) {
-    return DataTag(label: tag);
+  Widget _buildTag(TagInfo tagInfo) {
+    return DataTag(
+      label: tagInfo.label,
+      drawableRes: tagInfo.withIcon ? Drawables.icPlace : null,
+    );
   }
 
   Widget _savedSearchInfo() {
@@ -192,4 +199,11 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
       ],
     );
   }
+}
+
+class TagInfo {
+  final String label;
+  final bool withIcon;
+
+  TagInfo(this.label, this.withIcon);
 }

@@ -11,6 +11,7 @@ import '../ui/strings.dart';
 import '../ui/text_styles.dart';
 import 'bottom_sheets/bottom_sheets.dart';
 import 'buttons/primary_action_button.dart';
+import 'immersion_bottom_sheet_form.dart';
 
 class OffreEmploiBottomSheetForm extends StatefulWidget {
   final SavedSearchViewModel<OffreEmploiSavedSearch> viewModel;
@@ -129,11 +130,13 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
   }
 
   Widget _savedSearchFilters(OffreEmploiSavedSearch searchViewModel) {
-    List<String> _tags = widget.onlyAlternance ? [Strings.savedSearchAlternanceTag] : [Strings.savedSearchEmploiTag];
+    List<TagInfo> _tags = widget.onlyAlternance
+        ? [TagInfo(Strings.savedSearchAlternanceTag, false)]
+        : [TagInfo(Strings.savedSearchEmploiTag, false)];
     String? _keyWords = searchViewModel.keywords;
     String? _location = searchViewModel.location?.libelle;
-    if (_keyWords != null && _keyWords.isNotEmpty) _tags.add(_keyWords);
-    if (_location != null && _location.isNotEmpty) _tags.add(_location);
+    if (_keyWords != null && _keyWords.isNotEmpty) _tags.add(TagInfo(_keyWords, false));
+    if (_location != null && _location.isNotEmpty) _tags.add(TagInfo(_location, true));
     return Padding(
       padding: userActionBottomSheetContentPadding(),
       child: Column(
@@ -148,15 +151,18 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
     );
   }
 
-  Widget _buildDataTags(List<String> nonEmptyDataTags) {
+  Widget _buildDataTags(List<TagInfo> nonEmptyDataTags) {
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
       child: Wrap(spacing: 16, runSpacing: 16, children: nonEmptyDataTags.map(_buildTag).toList()),
     );
   }
 
-  Widget _buildTag(String tag) {
-    return DataTag(label: tag);
+  Widget _buildTag(TagInfo tagInfo) {
+    return DataTag(
+      label: tagInfo.label,
+      drawableRes: tagInfo.withIcon ? Drawables.icPlace : null,
+    );
   }
 
   Widget _savedSearchInfo() {
