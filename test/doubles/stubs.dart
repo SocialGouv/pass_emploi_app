@@ -121,6 +121,7 @@ class AuthenticatorLoggedInStub extends Authenticator {
         userId: "id",
         firstName: "F",
         lastName: "L",
+        email: "first.last@milo.fr",
         expiresAt: 100000000,
         loginMode: authIdTokenLoginMode ?? "MILO",
       );

@@ -10,6 +10,7 @@ class AuthIdToken extends Equatable {
   final String userId;
   final String firstName;
   final String lastName;
+  final String? email;
   final int expiresAt;
   final String loginMode;
 
@@ -17,6 +18,7 @@ class AuthIdToken extends Equatable {
     required this.userId,
     required this.firstName,
     required this.lastName,
+    required this.email,
     required this.expiresAt,
     required this.loginMode,
   });
@@ -38,6 +40,7 @@ class AuthIdToken extends Equatable {
       userId: json["userId"],
       firstName: json["given_name"],
       lastName: json["family_name"],
+      email: json["email"],
       expiresAt: json["exp"] as int,
       loginMode: json["userStructure"],
     );

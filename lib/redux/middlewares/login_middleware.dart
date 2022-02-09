@@ -48,10 +48,12 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
   void _dispatchLoginSuccess(Store<AppState> store) async {
     final AuthIdToken idToken = (await _authenticator.idToken())!;
     final user = User(
-        id: idToken.userId,
-        firstName: idToken.firstName,
-        lastName: idToken.lastName,
-        loginMode: idToken.getLoginMode());
+      id: idToken.userId,
+      firstName: idToken.firstName,
+      lastName: idToken.lastName,
+      email: idToken.email,
+      loginMode: idToken.getLoginMode(),
+    );
     store.dispatch(LoginAction.success(user));
   }
 
