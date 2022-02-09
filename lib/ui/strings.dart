@@ -97,7 +97,7 @@ class Strings {
   static String loginPoleEmploi = "Pôle emploi";
   static String loginMissionLocale = "Mission Locale";
   static String loginAction = "Se connecter";
-  static String logoutAction = "Me déconnecter";
+  static String logoutAction = "Se déconnecter";
 
   // Mon Suivi
   static String monSuiviAppBarTitle = "Mon suivi";
