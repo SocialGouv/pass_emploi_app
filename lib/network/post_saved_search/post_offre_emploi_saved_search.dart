@@ -32,23 +32,23 @@ class PostOffreEmploiSavedSearch implements JsonSerializable {
   Map<String, dynamic> toJson() =>
       {
         "titre": title,
-        "metier": metier ?? "",
-        "localisation": localisation?.libelle ?? "",
+        "metier": metier,
+        "localisation": localisation?.libelle,
         "criteres": {
-          "q": keywords ?? "",
+          "q": keywords,
           "departement": getLocationType(localisation, LocationType.DEPARTMENT),
           "alternance": isAlternance,
           "experience": getExperience(experience),
           "contrat": getContrat(contrat),
           "duree": getDuration(duration),
           "commune": getLocationType(localisation, LocationType.COMMUNE),
-          "rayon": rayon ?? 0
+          "rayon": rayon
         }
       };
 }
 
-String getLocationType(Location? location, LocationType type) =>
-    (location != null && location.type == type) ? location.code : "";
+String? getLocationType(Location? location, LocationType type) =>
+    (location != null && location.type == type) ? location.code : null;
 
 List<String> getExperience(List<ExperienceFiltre>? experience) {
   List<String> list = [];

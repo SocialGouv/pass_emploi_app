@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart'
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/redux/actions/saved_search_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/immersion_search_request_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/saved_search_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -12,6 +13,7 @@ import 'package:redux/redux.dart';
 enum CreateSavedSearchDisplayState { SHOW_CONTENT, SHOW_LOADING, TO_DISMISS, SHOW_ERROR }
 
 typedef OffreEmploiSavedSearchViewModel = SavedSearchViewModel<OffreEmploiSavedSearch>;
+
 typedef ImmersionSavedSearchViewModel = SavedSearchViewModel<ImmersionSavedSearch>;
 
 class SavedSearchViewModel<SAVED_SEARCH_MODEL> extends Equatable {
@@ -142,14 +144,19 @@ class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSave
 class ImmersionSearchExtractor extends AbstractSearchExtractor<ImmersionSavedSearch> {
   @override
   ImmersionSavedSearch getSearchFilters(Store<AppState> store) {
-    final state = store.state.immersionSearchState;
-    final iMetier = state.getResultOrThrow().first.metier;
-    final iLocation = state.getResultOrThrow().first.ville;
+    final state = store.state.immersionSearchState.getResultOrThrow().first;
+    final requestState = store.state.immersionSearchRequestState as RequestedImmersionSearchRequestState;
+    final iMetier = state.metier;
+    final iLocation = state.ville;
     return ImmersionSavedSearch(
       title: Strings.savedSearchTitleField(iMetier, iLocation),
       metier: iMetier,
       location: iLocation,
-      filters: ImmersionSearchParametersFilters.withoutFilters(),
+      filters: ImmersionSearchParametersFilters.withFilters(
+        codeRome: requestState.codeRome,
+        lat: requestState.latitude,
+        lon: requestState.longitude,
+      ),
     );
   }
 }

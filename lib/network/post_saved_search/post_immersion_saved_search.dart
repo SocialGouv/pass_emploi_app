@@ -23,9 +23,9 @@ class PostImmersionSavedSearch implements JsonSerializable {
         "metier": metier,
         "localisation": localisation,
         "criteres": {
-          "rome": codeRome ?? "",
-          "lat": lat ?? 0,
-          "lon": lon ?? 0,
+          "rome": codeRome,
+          "lat": lat,
+          "lon": lon,
         }
       };
 }

@@ -23,7 +23,9 @@ import 'package:pass_emploi_app/redux/reducers/saved_search/saved_search_reducer
 import 'package:pass_emploi_app/redux/reducers/search_location_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/search_metier_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/user_action_reducer.dart';
+import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/immersion_search_request_state.dart';
 
 import 'favoris/favoris_update_reducer.dart';
 import 'offre_emploi_reducer.dart';
@@ -73,7 +75,19 @@ AppState reducer(AppState current, dynamic action) {
   } else if (action is RendezvousAction) {
     return current.copyWith(rendezvousState: _rendezvousReducer.reduce(current.rendezvousState, action));
   } else if (action is ImmersionAction) {
-    return current.copyWith(immersionSearchState: _immersionReducer.reduce(current.immersionSearchState, action));
+    RequestedImmersionSearchRequestState? immersionSearchRequestState;
+    if (action.isRequest()) {
+      final ImmersionRequest request = action.getRequestOrThrow();
+      immersionSearchRequestState = RequestedImmersionSearchRequestState(
+        codeRome: request.codeRome,
+        latitude: request.location.latitude ?? 0,
+        longitude: request.location.longitude ?? 0,
+      );
+    }
+    return current.copyWith(
+      immersionSearchState: _immersionReducer.reduce(current.immersionSearchState, action),
+      immersionSearchRequestState: immersionSearchRequestState,
+    );
   } else if (action is ImmersionDetailsAction) {
     return current.copyWith(
       immersionDetailsState: _immersionDetailsReducer.reduce(current.immersionDetailsState, action),

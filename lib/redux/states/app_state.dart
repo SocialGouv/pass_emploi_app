@@ -23,6 +23,7 @@ import 'package:pass_emploi_app/redux/states/user_action_delete_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 
 import 'favoris_state.dart';
+import 'immersion_search_request_state.dart';
 import 'offre_emploi_favoris_update_state.dart';
 import 'offre_emploi_search_results_state.dart';
 import 'offre_emploi_search_state.dart';
@@ -51,6 +52,7 @@ class AppState extends Equatable {
   final SavedSearchState<OffreEmploiSavedSearch> offreEmploiSavedSearchState;
   final SavedSearchState<ImmersionSavedSearch> immersionSavedSearchState;
   final ConfigurationState configurationState;
+  final ImmersionSearchRequestState immersionSearchRequestState;
 
   AppState({
     required this.deepLinkState,
@@ -76,6 +78,7 @@ class AppState extends Equatable {
     required this.offreEmploiSavedSearchState,
     required this.immersionSavedSearchState,
     required this.configurationState,
+    required this.immersionSearchRequestState,
   });
 
   AppState copyWith({
@@ -102,6 +105,7 @@ class AppState extends Equatable {
     final SavedSearchState<OffreEmploiSavedSearch>? offreEmploiSavedSearchState,
     final SavedSearchState<ImmersionSavedSearch>? immersionSavedSearchState,
     final ConfigurationState? configurationState,
+    final ImmersionSearchRequestState? immersionSearchRequestState,
   }) {
     return AppState(
       deepLinkState: deepLinkState ?? this.deepLinkState,
@@ -127,6 +131,7 @@ class AppState extends Equatable {
       offreEmploiSavedSearchState: offreEmploiSavedSearchState ?? this.offreEmploiSavedSearchState,
       immersionSavedSearchState: immersionSavedSearchState ?? this.immersionSavedSearchState,
       configurationState: configurationState ?? this.configurationState,
+      immersionSearchRequestState: immersionSearchRequestState ?? this.immersionSearchRequestState,
     );
   }
 
@@ -154,7 +159,8 @@ class AppState extends Equatable {
         immersionDetailsState: State<ImmersionDetails>.notInitialized(),
         offreEmploiSavedSearchState: SavedSearchState<OffreEmploiSavedSearch>.notInitialized(),
         immersionSavedSearchState: SavedSearchState<ImmersionSavedSearch>.notInitialized(),
-        configurationState: ConfigurationState(configuration));
+        configurationState: ConfigurationState(configuration),
+        immersionSearchRequestState: EmptyImmersionSearchRequestState());
   }
 
   @override
