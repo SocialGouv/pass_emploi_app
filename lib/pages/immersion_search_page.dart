@@ -161,18 +161,9 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
 
   bool _isMetierFormValid() => _selectedMetierCodeRome != null && _metierFormKey.currentState?.validate() == true;
 
-  bool _isLoading(ImmersionSearchViewModel viewModel) {
-    return viewModel.displayState == ImmersionSearchDisplayState.SHOW_LOADER;
-  }
+  bool _isLoading(ImmersionSearchViewModel vm) => vm.displayState == ImmersionSearchDisplayState.SHOW_LOADER;
 
-  bool _isError(ImmersionSearchViewModel viewModel) {
-    if (viewModel.displayState == ImmersionSearchDisplayState.SHOW_EMPTY_ERROR)
-      MatomoTracker.trackScreenWithName(
-          AnalyticsScreenNames.immersionNoResults, AnalyticsScreenNames.immersionResearch);
-
-    return viewModel.displayState == ImmersionSearchDisplayState.SHOW_ERROR ||
-        viewModel.displayState == ImmersionSearchDisplayState.SHOW_EMPTY_ERROR;
-  }
+  bool _isError(ImmersionSearchViewModel vm) => vm.displayState == ImmersionSearchDisplayState.SHOW_ERROR;
 
   void _onSearchButtonPressed(ImmersionSearchViewModel viewModel) {
     viewModel.onSearchingRequest(_selectedMetierCodeRome, _selectedLocationViewModel?.location);

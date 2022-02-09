@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -17,11 +16,10 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/empty_offre_widget.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/filter_button.dart';
 
-import '../ui/drawables.dart';
-import '../widgets/primary_action_button.dart';
 import 'offre_page.dart';
 
 class OffreEmploiListPage extends TraceableStatefulWidget {
@@ -119,35 +117,14 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
 
   Widget _empty(BuildContext context, OffreEmploiSearchResultsViewModel viewModel) {
     _trackEmptyResult();
-    return Padding(
-      padding: const EdgeInsets.all(Margins.spacing_base),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Column(
-              children: [
-                Flexible(child: SvgPicture.asset(Drawables.icEmptyOffres)),
-                Text(viewModel.errorMessage, style: TextStyles.textSBold, textAlign: TextAlign.center),
-              ],
-            ),
-            flex: 7,
-          ),
-          SizedBox(height: Margins.spacing_base),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                PrimaryActionButton(onPressed: () => Navigator.pop(context), label: Strings.updateCriteria),
-                SizedBox(height: Margins.spacing_base),
-                if (viewModel.withFiltreButton) _filtreButton(viewModel),
-              ],
-            ),
-            flex: 3,
-          ),
-        ],
-      ),
-    );
+    Widget? additional;
+    if (viewModel.withFiltreButton) {
+      additional = Padding(
+        padding: const EdgeInsets.only(top: Margins.spacing_base),
+        child: _filtreButton(viewModel),
+      );
+    }
+    return EmptyOffreWidget(additional: additional);
   }
 
   Widget _error(OffreEmploiSearchResultsViewModel viewModel) {

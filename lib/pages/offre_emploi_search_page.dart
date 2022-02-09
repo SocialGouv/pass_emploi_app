@@ -81,15 +81,19 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
           ),
           _separator(),
           PrimaryActionButton(
-            onPressed: viewModel.displayState == DisplayState.LOADING ? null : () => _onSearchButtonPressed(viewModel),
+            onPressed: _isLoading(viewModel) ? null : () => _onSearchButtonPressed(viewModel),
             label: Strings.searchButton,
           ),
           _separator(),
-          if (viewModel.displayState == DisplayState.FAILURE) ErrorText(viewModel.errorMessage),
+          if (_isError(viewModel)) ErrorText(viewModel.errorMessage),
         ],
       ),
     );
   }
+
+  bool _isLoading(OffreEmploiSearchViewModel viewModel) => viewModel.displayState == DisplayState.LOADING;
+
+  bool _isError(OffreEmploiSearchViewModel viewModel) => viewModel.displayState == DisplayState.FAILURE;
 
   SizedBox _separator() => SizedBox(height: Margins.spacing_m);
 

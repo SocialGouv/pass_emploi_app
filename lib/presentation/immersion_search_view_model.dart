@@ -10,7 +10,7 @@ import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
-enum ImmersionSearchDisplayState { SHOW_SEARCH_FORM, SHOW_RESULTS, SHOW_LOADER, SHOW_ERROR, SHOW_EMPTY_ERROR }
+enum ImmersionSearchDisplayState { SHOW_SEARCH_FORM, SHOW_RESULTS, SHOW_LOADER, SHOW_ERROR }
 
 class ImmersionSearchViewModel extends Equatable {
   final ImmersionSearchDisplayState displayState;
@@ -52,10 +52,8 @@ class ImmersionSearchViewModel extends Equatable {
 }
 
 ImmersionSearchDisplayState _displayState(State<List<Immersion>> immersionSearchState) {
-  if (immersionSearchState.isSuccess() && immersionSearchState.getResultOrThrow().isNotEmpty) {
+  if (immersionSearchState.isSuccess()) {
     return ImmersionSearchDisplayState.SHOW_RESULTS;
-  } else if (immersionSearchState.isSuccess() && immersionSearchState.getResultOrThrow().isEmpty) {
-    return ImmersionSearchDisplayState.SHOW_EMPTY_ERROR;
   } else if (immersionSearchState.isLoading()) {
     return ImmersionSearchDisplayState.SHOW_LOADER;
   } else if (immersionSearchState.isFailure()) {
@@ -71,10 +69,5 @@ List<Immersion> _immersions(State<List<Immersion>> immersionSearchState) {
 }
 
 String _errorMessage(State<List<Immersion>> immersionSearchState) {
-  if (immersionSearchState.isSuccess() && immersionSearchState.getResultOrThrow().isEmpty) {
-    return Strings.noContentError;
-  } else if (immersionSearchState.isFailure()) {
-    return Strings.genericError;
-  }
-  return "";
+  return immersionSearchState.isFailure() ? Strings.genericError : "";
 }

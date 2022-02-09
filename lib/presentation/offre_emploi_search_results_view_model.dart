@@ -96,13 +96,7 @@ int _otherFiltresCount(OffreEmploiSearchParametersInitializedState searchParamsS
 }
 
 String _errorMessage(OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
-  if (searchState is OffreEmploiSearchSuccessState && searchResultsState is OffreEmploiSearchResultsDataState) {
-    return searchResultsState.offres.isEmpty ? Strings.noContentError : "";
-  } else if (searchState is OffreEmploiSearchFailureState) {
-    return Strings.genericError;
-  } else {
-    return "";
-  }
+  return searchState is OffreEmploiSearchFailureState ? Strings.genericError : "";
 }
 
 bool _withFilterButton(OffreEmploiSearchParametersState state) {
