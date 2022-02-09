@@ -47,7 +47,7 @@ class Strings {
   static String menuSolutions = "Recherche";
   static String menuFavoris = "Favoris";
   static String menuRendezvous = "Rendez-vous";
-  static String menuPlus = "Plus";
+  static String menuProfil = "Profil";
 
   // Chat
   static String yourMessage = "Votre message…";

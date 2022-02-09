@@ -10,14 +10,14 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 
-class PlusPage extends TraceableStatelessWidget {
-  PlusPage() : super(name: AnalyticsScreenNames.plus);
+class ProfilPage extends TraceableStatelessWidget {
+  ProfilPage() : super(name: AnalyticsScreenNames.plus);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.grey100,
-      appBar: passEmploiAppBar(label: Strings.menuPlus),
+      appBar: passEmploiAppBar(label: Strings.menuProfil),
       body: Stack(
         children: [
           Align(
