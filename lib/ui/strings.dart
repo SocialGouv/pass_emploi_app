@@ -296,4 +296,9 @@ class Strings {
   static String privacyPolicyLabel = "Politique de confidentialité";
   static String accessibilityLevelLabel = "Niveau d’accessibilité";
   static String accessibilityLevelNonConforme = "Non conforme";
+  static String termsOfServiceLabel = "Conditions Générales d’Utilisation";
+
+  static const legalNoticeUrl = "https://beta.gouv.fr/startups/pass-emploi.html?type=legalNotice";
+  static const privacyPolicyUrl = "https://beta.gouv.fr/startups/pass-emploi.html?type=privacyPolicy";
+  static const termsOfServiceUrl = "https://beta.gouv.fr/startups/pass-emploi.html?type=termsOfService";
 }

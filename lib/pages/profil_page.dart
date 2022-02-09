@@ -20,8 +20,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../widgets/label_value_row.dart';
 
 class ProfilPage extends TraceableStatelessWidget {
-  static const legalNoticeLink = "https://beta.gouv.fr/startups/pass-emploi.html?type=legalNotice";
-  static const privacyPolicyLink = "https://beta.gouv.fr/startups/pass-emploi.html?type=privacyPolicy";
 
   ProfilPage() : super(name: AnalyticsScreenNames.profil);
 
@@ -77,7 +75,7 @@ class ProfilPage extends TraceableStatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         InkWell(
-                          onTap: () => _launchAndTrackExternalLink(legalNoticeLink),
+                          onTap: () => _launchAndTrackExternalLink(Strings.legalNoticeUrl),
                           child: Padding(
                             padding: const EdgeInsets.all(Margins.spacing_base),
                             child: LabelValueRow(
@@ -88,7 +86,18 @@ class ProfilPage extends TraceableStatelessWidget {
                         ),
                         SepLine(0, 0, color: AppColors.grey100),
                         InkWell(
-                          onTap: () => _launchAndTrackExternalLink(privacyPolicyLink),
+                          onTap: () => _launchAndTrackExternalLink(Strings.termsOfServiceUrl),
+                          child: Padding(
+                            padding: const EdgeInsets.all(Margins.spacing_base),
+                            child: LabelValueRow(
+                              label: Text(Strings.termsOfServiceLabel, style: TextStyles.textBaseRegular),
+                              value: _redirectIcon(),
+                            ),
+                          ),
+                        ),
+                        SepLine(0, 0, color: AppColors.grey100),
+                        InkWell(
+                          onTap: () => _launchAndTrackExternalLink(Strings.privacyPolicyUrl),
                           child: Padding(
                             padding: const EdgeInsets.all(Margins.spacing_base),
                             child: LabelValueRow(
