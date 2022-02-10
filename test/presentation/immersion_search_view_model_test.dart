@@ -1,13 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/presentation/immersion_search_view_model.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
+import 'package:pass_emploi_app/redux/actions/search_metier_action.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/search_location_state.dart';
+import 'package:pass_emploi_app/redux/states/search_metier_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:redux/redux.dart';
 
@@ -144,5 +147,32 @@ main() {
     viewModel.onSearchingRequest(null, null);
 
     expect((store.dispatchedAction as ImmersionAction).isFailure(), isTrue);
+  });
+
+  test("create returns metier", () {
+    // Given
+    final metier = Metier.values.first;
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(searchMetierState: SearchMetierState([metier])),
+    );
+
+    // When
+    final viewModel = ImmersionSearchViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, ImmersionSearchDisplayState.SHOW_SEARCH_FORM);
+    expect(viewModel.metiers, [metier]);
+  });
+
+  test('View model triggers RequestMetierAction when onInputMetier is performed', () {
+    final store = StoreSpy();
+    final viewModel = ImmersionSearchViewModel.create(store);
+
+    viewModel.onInputMetier("boul");
+
+    expect(store.dispatchedAction, isA<RequestMetierAction>());
+    final action = (store.dispatchedAction as RequestMetierAction);
+    expect(action.input, "boul");
   });
 }
