@@ -1,5 +1,6 @@
-class OffreEmploiSearchParametersFiltres {
+import 'package:equatable/equatable.dart';
 
+class OffreEmploiSearchParametersFiltres extends Equatable {
   static const defaultDistanceValue = 10;
 
   final int? distance;
@@ -35,6 +36,9 @@ class OffreEmploiSearchParametersFiltres {
       contrat: null,
     );
   }
+
+  @override
+  List<Object?> get props => [distance, experience, contrat, duree];
 }
 
 enum ExperienceFiltre { de_zero_a_un_an, de_un_a_trois_ans, trois_ans_et_plus }
