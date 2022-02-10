@@ -33,7 +33,7 @@ main() {
         store.onChange.firstWhere((element) => element.immersionSavedSearchState.status == SavedSearchStatus.SUCCESS);
 
     // When
-    store.dispatch(RequestPostSavedSearchAction(immersionSavedSearch));
+    store.dispatch(RequestPostSavedSearchAction(immersionSavedSearch, "Boulanger - Paris"));
 
     // Then
     var immersionSavedSearchState = (await expected).immersionSavedSearchState;
@@ -50,7 +50,7 @@ main() {
         store.onChange.firstWhere((element) => element.immersionSavedSearchState.status == SavedSearchStatus.ERROR);
 
     // When
-    store.dispatch(RequestPostSavedSearchAction(immersionSavedSearch));
+    store.dispatch(RequestPostSavedSearchAction(immersionSavedSearch, "Boulanger - Paris"));
 
     // Then
     var immersionSavedSearchState = (await expected).immersionSavedSearchState;
@@ -62,7 +62,7 @@ class ImmersionSavedSearchRepositorySuccessStub extends ImmersionSavedSearchRepo
   ImmersionSavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<bool> postSavedSearch(String userId, ImmersionSavedSearch savedSearch) async {
+  Future<bool> postSavedSearch(String userId, ImmersionSavedSearch savedSearch, String title) async {
     return true;
   }
 }
@@ -71,7 +71,7 @@ class ImmersionSavedSearchRepositoryFailureStub extends ImmersionSavedSearchRepo
   ImmersionSavedSearchRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<bool> postSavedSearch(String userId, ImmersionSavedSearch savedSearch) async {
+  Future<bool> postSavedSearch(String userId, ImmersionSavedSearch savedSearch, String title) async {
     return false;
   }
 }

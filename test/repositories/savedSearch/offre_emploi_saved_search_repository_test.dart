@@ -20,7 +20,7 @@ main() {
       final repository = OffreEmploiSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
       // When
-      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithoutFilters());
+      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithoutFilters(), "title");
 
       // Then
       expect(result, isTrue);
@@ -32,7 +32,7 @@ main() {
       final repository = OffreEmploiSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
       // When
-      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithFilters(isAlternance: false));
+      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithFilters(isAlternance: false), "title");
 
       // Then
       expect(result, isTrue);
@@ -44,7 +44,7 @@ main() {
       final repository = OffreEmploiSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
       // When
-      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithFilters(isAlternance: true));
+      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithFilters(isAlternance: true), "title");
 
       // Then
       expect(result, isTrue);
@@ -56,7 +56,7 @@ main() {
       final repository = OffreEmploiSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
       // When
-      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithoutFilters());
+      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithoutFilters(), "title");
 
       // Then
       expect(result, isFalse);

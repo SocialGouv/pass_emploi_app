@@ -17,7 +17,7 @@ main() {
       final repository = ImmersionSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
       // When
-      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithFilters());
+      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithFilters(), "title");
 
       // Then
       expect(result, isTrue);
@@ -31,7 +31,7 @@ main() {
       final repository = ImmersionSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
       // When
-      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithoutFilters());
+      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithoutFilters(), "title");
 
       // Then
       expect(result, isTrue);
@@ -43,7 +43,7 @@ main() {
       final repository = ImmersionSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
       // When
-      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithFilters());
+      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithFilters(), "title");
 
       // Then
       expect(result, isFalse);

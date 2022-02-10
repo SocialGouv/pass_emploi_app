@@ -14,7 +14,7 @@ import '../../utils/test_setup.dart';
 main() {
 
   final offreEmploiSavedSearch = OffreEmploiSavedSearch(
-      title: "Titre de l'offre",
+      title: "Boulanger",
       filters: OffreEmploiSearchParametersFiltres.noFiltres(),
       keywords: "Boulanger",
       isAlternance: false,
@@ -36,7 +36,7 @@ main() {
         store.onChange.firstWhere((element) => element.offreEmploiSavedSearchState.status == SavedSearchStatus.SUCCESS);
 
     // When
-    store.dispatch(RequestPostSavedSearchAction(offreEmploiSavedSearch));
+    store.dispatch(RequestPostSavedSearchAction(offreEmploiSavedSearch, "Boulanger"));
 
     // Then
     var offreEmploiSavedSearchState = (await expected).offreEmploiSavedSearchState;
@@ -53,7 +53,7 @@ main() {
     store.onChange.firstWhere((element) => element.offreEmploiSavedSearchState.status == SavedSearchStatus.ERROR);
 
     // When
-    store.dispatch(RequestPostSavedSearchAction(offreEmploiSavedSearch));
+    store.dispatch(RequestPostSavedSearchAction(offreEmploiSavedSearch, "Boulanger"));
 
     // Then
     var offreEmploiSavedSearchState = (await expected).offreEmploiSavedSearchState;
@@ -65,7 +65,7 @@ class OffreEmploiSavedSearchRepositorySuccessStub extends OffreEmploiSavedSearch
   OffreEmploiSavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<bool> postSavedSearch(String userId, OffreEmploiSavedSearch savedSearch) async {
+  Future<bool> postSavedSearch(String userId, OffreEmploiSavedSearch savedSearch, String title) async {
     return true;
   }
 }
@@ -74,7 +74,7 @@ class OffreEmploiSavedSearchRepositoryFailureStub extends OffreEmploiSavedSearch
   OffreEmploiSavedSearchRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<bool> postSavedSearch(String userId, OffreEmploiSavedSearch savedSearch) async {
+  Future<bool> postSavedSearch(String userId, OffreEmploiSavedSearch savedSearch, String title) async {
     return false;
   }
 }
