@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/debouncer.dart';
+import 'package:pass_emploi_app/utils/keyboard.dart';
 
 class MetierAutocomplete extends StatelessWidget {
   final Function(String newMetierQuery) onInputMetier;
@@ -30,11 +31,16 @@ class MetierAutocomplete extends StatelessWidget {
       builder: (context, constraints) => Autocomplete<Metier>(
         optionsBuilder: (textEditingValue) {
           _debouncer.run(() {
-            onInputMetier(textEditingValue.text);
+            final newMetierQuery = textEditingValue.text;
+            _deleteSelectedMetierOnTextDeletion(newMetierQuery);
+            onInputMetier(newMetierQuery);
           });
           return _fakeListMetierRequiredByAutocompleteToCallOptionsViewBuilderMethod();
         },
-        onSelected: (option) => onSelectMetier(option),
+        onSelected: (option) {
+          Keyboard.dismiss(context);
+          onSelectMetier(option);
+        },
         optionsViewBuilder: (context, onSelected, options) => _optionsView(constraints, onSelected),
         fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) =>
             _fieldView(textEditingController, focusNode, onFieldSubmitted),
@@ -61,12 +67,6 @@ class MetierAutocomplete extends StatelessWidget {
           controller: textEditingController,
           decoration: _inputDecoration(Strings.immersionFieldHint),
           focusNode: focusNode,
-          onFieldSubmitted: (String value) {
-            onFieldSubmitted();
-          },
-          onChanged: (value) {
-            if (value.isEmpty) onSelectMetier(null);
-          },
           validator: validator,
         ),
       ),
@@ -107,6 +107,12 @@ class MetierAutocomplete extends StatelessWidget {
     var title = getPreviouslySelectedTitle();
     if (!hasFocus && title != null) {
       textEditingController.text = title;
+    }
+  }
+
+  void _deleteSelectedMetierOnTextDeletion(String newMetierQuery) {
+    if (newMetierQuery.isEmpty) {
+      onSelectMetier(null);
     }
   }
 
