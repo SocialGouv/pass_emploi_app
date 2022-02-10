@@ -3,8 +3,8 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/presentation/saved_search_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/offre_emploi_bottom_sheet_form.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/saved_search_bottom_sheet.dart';
-import 'package:pass_emploi_app/widgets/offre_emploi_bottom_sheet_form.dart';
 import 'package:redux/redux.dart';
 
 import '../../ui/strings.dart';

@@ -17,15 +17,12 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/offre_emploi_saved_search_bottom_sheet.dart';
-import 'package:pass_emploi_app/widgets/buttons/filter_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/filtre_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_offre_widget.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
-import 'package:pass_emploi_app/widgets/filtre_button.dart';
-import 'package:pass_emploi_app/widgets/buttons/filter_button.dart';
-import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 
 import 'offre_page.dart';
 
@@ -119,7 +116,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
         child: Padding(
             padding: const EdgeInsets.only(bottom: 24),
             child: Wrap(spacing: 16, runSpacing: 16, children: [
-              _alertButton(),
+              _alertButton(viewModel),
               if (viewModel.withFiltreButton) _filtrePrimaryButton(viewModel),
             ])),
       ),

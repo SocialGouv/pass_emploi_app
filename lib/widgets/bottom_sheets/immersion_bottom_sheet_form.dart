@@ -4,15 +4,15 @@ import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/presentation/saved_search_view_model.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 
-import '../analytics/analytics_constants.dart';
-import '../models/saved_search/immersion_saved_search.dart';
-import '../ui/app_colors.dart';
-import '../ui/drawables.dart';
-import '../ui/margins.dart';
-import '../ui/strings.dart';
-import '../ui/text_styles.dart';
-import 'bottom_sheets/bottom_sheets.dart';
-import 'buttons/primary_action_button.dart';
+import '../../analytics/analytics_constants.dart';
+import '../../models/saved_search/immersion_saved_search.dart';
+import '../../ui/app_colors.dart';
+import '../../ui/drawables.dart';
+import '../../ui/margins.dart';
+import '../../ui/strings.dart';
+import '../../ui/text_styles.dart';
+import '../buttons/primary_action_button.dart';
+import 'bottom_sheets.dart';
 
 class ImmersionBottomSheetForm extends StatefulWidget {
   final SavedSearchViewModel<ImmersionSavedSearch> viewModel;
