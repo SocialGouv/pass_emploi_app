@@ -29,7 +29,7 @@ class SavedSearchViewModel<SAVED_SEARCH_MODEL> extends Equatable {
     required this.savingFailure,
   });
 
-  factory SavedSearchViewModel.create(
+  factory SavedSearchViewModel._create(
       Store<AppState> store, AbstractSearchExtractor<SAVED_SEARCH_MODEL> search, bool isImmersion) {
     return SavedSearchViewModel._(
       searchModel: search.getSearchFilters(store),
@@ -41,7 +41,7 @@ class SavedSearchViewModel<SAVED_SEARCH_MODEL> extends Equatable {
   }
 
   static OffreEmploiSavedSearchViewModel createForOffreEmploi(Store<AppState> store, {required bool onlyAlternance}) {
-    return SavedSearchViewModel.create(
+    return SavedSearchViewModel._create(
       store,
       OffreEmploiSearchExtractor(),
       false,
@@ -49,7 +49,7 @@ class SavedSearchViewModel<SAVED_SEARCH_MODEL> extends Equatable {
   }
 
   static ImmersionSavedSearchViewModel createForImmersion(Store<AppState> store) {
-    return SavedSearchViewModel.create(
+    return SavedSearchViewModel._create(
       store,
       ImmersionSearchExtractor(),
       true,

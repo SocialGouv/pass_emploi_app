@@ -86,7 +86,6 @@ class ImmersionListPage extends TraceableStatelessWidget {
         showUserActionBottomSheet(context: context, builder: (context) => ImmersionSavedSearchBottomSheet());
         StoreProvider.of<AppState>(context).dispatch(InitializeSaveSearchAction<ImmersionSavedSearch>());
       },
-      // ).then((value) => _onCreateUserActionDismissed(viewModel)),
     );
   }
 }
