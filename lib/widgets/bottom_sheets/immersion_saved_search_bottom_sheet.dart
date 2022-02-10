@@ -14,7 +14,7 @@ class ImmersionSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<Imm
   ImmersionSavedSearchBottomSheet()
       : super(
           selectState: (store) => store.state.immersionSavedSearchState,
-          analyticsScreenName: AnalyticsScreenNames.immersionResearch,
+          analyticsScreenName: AnalyticsScreenNames.immersionCreateAlert,
         );
 
   @override

@@ -17,7 +17,7 @@ class OffreEmploiSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<O
       : super(
     selectState: (store) => store.state.offreEmploiSavedSearchState,
     analyticsScreenName:
-    onlyAlternance ? AnalyticsScreenNames.alternanceResearch : AnalyticsScreenNames.emploiResearch,
+    onlyAlternance ? AnalyticsScreenNames.alternanceCreateAlert : AnalyticsScreenNames.emploiCreateAlert,
     key: ValueKey(onlyAlternance),
   );
 

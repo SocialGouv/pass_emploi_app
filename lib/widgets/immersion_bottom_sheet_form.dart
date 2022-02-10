@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/presentation/saved_search_view_model.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 
+import '../analytics/analytics_constants.dart';
 import '../models/saved_search/immersion_saved_search.dart';
 import '../ui/app_colors.dart';
 import '../ui/drawables.dart';
@@ -58,7 +60,13 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
         children: [
           PrimaryActionButton(
             label: Strings.create,
-            onPressed: (_isFormValid()) ? () => {viewModel.createSavedSearch(searchTitle!)} : null,
+            onPressed: (_isFormValid())
+                ? () {
+                    viewModel.createSavedSearch(searchTitle!);
+                    MatomoTracker.trackScreenWithName(AnalyticsActionNames.createSavedSearchImmersion,
+                        AnalyticsScreenNames.immersionCreateAlert);
+                  }
+                : null,
           ),
         ],
       ),
