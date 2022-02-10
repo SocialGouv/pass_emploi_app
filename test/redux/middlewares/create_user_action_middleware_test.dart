@@ -45,6 +45,7 @@ main() {
         id: "error",
         firstName: "F",
         lastName: "L",
+        email: null,
         loginMode: LoginMode.MILO,
       ))),
     );

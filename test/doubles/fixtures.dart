@@ -39,6 +39,7 @@ State<User> successPassEmploiUserState() => State<User>.success(User(
       id: "id",
       firstName: "F",
       lastName: "L",
+      email: null,
       loginMode: LoginMode.PASS_EMPLOI,
     ));
 

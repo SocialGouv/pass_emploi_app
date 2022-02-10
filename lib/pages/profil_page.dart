@@ -136,9 +136,9 @@ class ProfilPage extends TraceableStatelessWidget {
     );
   }
 
-  _launchAndTrackExternalLink(String link) {
+  void _launchAndTrackExternalLink(String link) {
     MatomoTracker.trackScreenWithName(link, AnalyticsScreenNames.profil);
-    return launch(link);
+    launch(link);
   }
 
   SvgPicture _redirectIcon() => SvgPicture.asset(
