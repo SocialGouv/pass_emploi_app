@@ -316,5 +316,7 @@ class Strings {
   static String savedSearchEmploiTag = "Offre d’emploi";
   static String savedSearchAlternanceTag = "Alternance";
   static String savedSearchImmersionTag = "Immersion";
+  static String savedSearchSuccessfullyCreated =
+      "Votre recherche a bien été enregistrée en favoris. Retrouvez-la dans la page favoris.";
   static String creationSavedSearchError = "Erreur lors de la création de la recherche sauvegardée. Veuillez réessayer";
 }

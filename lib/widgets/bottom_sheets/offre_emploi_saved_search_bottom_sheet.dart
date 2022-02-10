@@ -7,16 +7,19 @@ import 'package:pass_emploi_app/widgets/bottom_sheets/saved_search_bottom_sheet.
 import 'package:pass_emploi_app/widgets/offre_emploi_bottom_sheet_form.dart';
 import 'package:redux/redux.dart';
 
+import '../../ui/strings.dart';
+import '../snack_bar/show_snack_bar.dart';
+
 class OffreEmploiSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<OffreEmploiSavedSearch> {
   final bool onlyAlternance;
 
   OffreEmploiSavedSearchBottomSheet({required this.onlyAlternance})
       : super(
-          selectState: (store) => store.state.offreEmploiSavedSearchState,
-          analyticsScreenName:
-              onlyAlternance ? AnalyticsScreenNames.alternanceResearch : AnalyticsScreenNames.emploiResearch,
-          key: ValueKey(onlyAlternance),
-        );
+    selectState: (store) => store.state.offreEmploiSavedSearchState,
+    analyticsScreenName:
+    onlyAlternance ? AnalyticsScreenNames.alternanceResearch : AnalyticsScreenNames.emploiResearch,
+    key: ValueKey(onlyAlternance),
+  );
 
   @override
   SavedSearchViewModel<OffreEmploiSavedSearch> converter(Store<AppState> store) {
@@ -39,6 +42,9 @@ class OffreEmploiSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<O
   dismissBottomSheetIfNeeded(BuildContext context, OffreEmploiSavedSearchViewModel viewModel) {
     if (viewModel.displayState == CreateSavedSearchDisplayState.TO_DISMISS) {
       Navigator.pop(context);
+      showSuccessfulSnackBar(context, Strings.savedSearchSuccessfullyCreated);
     }
+    else if (viewModel.displayState == CreateSavedSearchDisplayState.SHOW_ERROR)
+      showSnackBarError(context, Strings.creationSavedSearchError);
   }
 }

@@ -177,6 +177,7 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
 
   Widget _setInfo(String label) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         Padding(

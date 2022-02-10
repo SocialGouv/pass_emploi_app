@@ -182,6 +182,7 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
 
   Widget _setInfo(String label) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         Padding(
