@@ -4,7 +4,6 @@ import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import '../filtres_request.dart';
 import '../json_serializable.dart';
 
-
 class PostOffreEmploiSavedSearch implements JsonSerializable {
   final String title;
   final String? metier;
@@ -29,13 +28,12 @@ class PostOffreEmploiSavedSearch implements JsonSerializable {
   });
 
   @override
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "titre": title,
         "metier": metier,
         "localisation": localisation?.libelle,
         "criteres": {
-          "q": keywords,
+          if (keywords != null && keywords!.isNotEmpty) "q": keywords,
           "departement": getLocationType(localisation, LocationType.DEPARTMENT),
           "alternance": isAlternance,
           "experience": getExperience(experience),

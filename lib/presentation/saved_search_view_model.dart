@@ -20,27 +20,30 @@ class SavedSearchViewModel<SAVED_SEARCH_MODEL> extends Equatable {
   final Function(String title) createSavedSearch;
   final CreateSavedSearchDisplayState displayState;
   final SAVED_SEARCH_MODEL searchModel;
+  final bool Function() savingFailure;
 
   SavedSearchViewModel._({
     required this.displayState,
     required this.createSavedSearch,
     required this.searchModel,
+    required this.savingFailure,
   });
 
   factory SavedSearchViewModel.create(
       Store<AppState> store, AbstractSearchExtractor<SAVED_SEARCH_MODEL> search, bool isImmersion) {
     return SavedSearchViewModel._(
-        searchModel: search.getSearchFilters(store),
-        displayState: _displayState(
-            isImmersion ? store.state.immersionSavedSearchState : store.state.offreEmploiSavedSearchState),
-        createSavedSearch: (title) =>
-            store.dispatch(RequestPostSavedSearchAction(search.getSearchFilters(store), title)));
+      searchModel: search.getSearchFilters(store),
+      displayState:
+          _displayState(isImmersion ? store.state.immersionSavedSearchState : store.state.offreEmploiSavedSearchState),
+      createSavedSearch: (title) => store.dispatch(RequestPostSavedSearchAction(search.getSearchFilters(store), title)),
+      savingFailure: () => search.isFailureState(store),
+    );
   }
 
   static OffreEmploiSavedSearchViewModel createForOffreEmploi(Store<AppState> store, {required bool onlyAlternance}) {
     return SavedSearchViewModel.create(
       store,
-      onlyAlternance ? AlternanceSearchExtractor() : OffreEmploiSearchExtractor(),
+      OffreEmploiSearchExtractor(),
       false,
     );
   }
@@ -71,40 +74,8 @@ CreateSavedSearchDisplayState _displayState(SavedSearchState savedSearchCreateSt
 
 abstract class AbstractSearchExtractor<SAVED_SEARCH_MODEL> {
   SAVED_SEARCH_MODEL getSearchFilters(Store<AppState> store);
-}
 
-class AlternanceSearchExtractor extends AbstractSearchExtractor<OffreEmploiSavedSearch> {
-  @override
-  OffreEmploiSavedSearch getSearchFilters(Store<AppState> store) {
-    final state = store.state.offreEmploiSearchParametersState as OffreEmploiSearchParametersInitializedState;
-    final eMetier = state.keywords;
-    final eLocation = state.location;
-    String _title = _setTitleForOffer(eMetier, eLocation?.libelle);
-    return OffreEmploiSavedSearch(
-      title: _title,
-      metier: state.keywords,
-      location: state.location,
-      keywords: state.keywords,
-      isAlternance: state.onlyAlternance,
-      filters: OffreEmploiSearchParametersFiltres.withFiltres(
-        distance: state.filtres.distance,
-        experience: state.filtres.experience,
-        duree: state.filtres.duree,
-        contrat: state.filtres.contrat,
-      ),
-    );
-  }
-
-  String _setTitleForOffer(String? metier, String? location) {
-    if (_stringWithValue(metier) && _stringWithValue(location))
-      return Strings.savedSearchTitleField(metier, location);
-    else if (_stringWithValue(metier))
-      return metier!;
-    else if (_stringWithValue(location)) return location!;
-    return "";
-  }
-
-  bool _stringWithValue(String? str) => str != null && str.isNotEmpty;
+  bool isFailureState(Store<AppState> store);
 }
 
 class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSavedSearch> {
@@ -127,6 +98,11 @@ class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSave
         contrat: state.filtres.contrat,
       ),
     );
+  }
+
+  @override
+  bool isFailureState(Store<AppState> store) {
+    return store.state.offreEmploiSavedSearchState is SavedSearchFailureState;
   }
 
   String _setTitleForOffer(String? metier, String? location) {
@@ -158,5 +134,10 @@ class ImmersionSearchExtractor extends AbstractSearchExtractor<ImmersionSavedSea
         lon: requestState.longitude,
       ),
     );
+  }
+
+  @override
+  bool isFailureState(Store<AppState> store) {
+    return store.state.immersionSavedSearchState is SavedSearchFailureState;
   }
 }

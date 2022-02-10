@@ -6,7 +6,9 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/saved_search_bottom_sheet.dart';
 import 'package:redux/redux.dart';
 
+import '../../ui/strings.dart';
 import '../immersion_bottom_sheet_form.dart';
+import '../snack_bar/show_snack_bar.dart';
 
 class ImmersionSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<ImmersionSavedSearch> {
   final _formKey = GlobalKey<FormState>();
@@ -42,6 +44,9 @@ class ImmersionSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<Imm
   dismissBottomSheetIfNeeded(BuildContext context, ImmersionSavedSearchViewModel viewModel) {
     if (viewModel.displayState == CreateSavedSearchDisplayState.TO_DISMISS) {
       Navigator.pop(context);
+      (viewModel.savingFailure())
+          ? showSnackBarError(context, Strings.creationSavedSearchError)
+          : showSuccessfulSnackBar(context, Strings.savedSearchSuccessfullyCreated);
     }
   }
 }

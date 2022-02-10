@@ -15,11 +15,11 @@ class OffreEmploiSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<O
 
   OffreEmploiSavedSearchBottomSheet({required this.onlyAlternance})
       : super(
-    selectState: (store) => store.state.offreEmploiSavedSearchState,
-    analyticsScreenName:
-    onlyAlternance ? AnalyticsScreenNames.alternanceCreateAlert : AnalyticsScreenNames.emploiCreateAlert,
-    key: ValueKey(onlyAlternance),
-  );
+          selectState: (store) => store.state.offreEmploiSavedSearchState,
+          analyticsScreenName:
+              onlyAlternance ? AnalyticsScreenNames.alternanceCreateAlert : AnalyticsScreenNames.emploiCreateAlert,
+          key: ValueKey(onlyAlternance),
+        );
 
   @override
   SavedSearchViewModel<OffreEmploiSavedSearch> converter(Store<AppState> store) {
@@ -42,9 +42,11 @@ class OffreEmploiSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<O
   dismissBottomSheetIfNeeded(BuildContext context, OffreEmploiSavedSearchViewModel viewModel) {
     if (viewModel.displayState == CreateSavedSearchDisplayState.TO_DISMISS) {
       Navigator.pop(context);
-      showSuccessfulSnackBar(context, Strings.savedSearchSuccessfullyCreated);
+      (viewModel.savingFailure())
+          ? showSnackBarError(context, Strings.creationSavedSearchError)
+          : showSuccessfulSnackBar(context, Strings.savedSearchSuccessfullyCreated);
     }
-    else if (viewModel.displayState == CreateSavedSearchDisplayState.SHOW_ERROR)
-      showSnackBarError(context, Strings.creationSavedSearchError);
+    if (viewModel.savingFailure())
+        showSnackBarError(context, Strings.creationSavedSearchError);
   }
 }
