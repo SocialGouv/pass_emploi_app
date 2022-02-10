@@ -28,30 +28,31 @@ class MetierAutocomplete extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
-      builder: (context, constraints) =>
-          Autocomplete<Metier>(
-            optionsBuilder: (textEditingValue) {
-              _debouncer.run(() {
-                final newMetierQuery = textEditingValue.text;
-                _deleteSelectedMetierOnTextDeletion(newMetierQuery);
-                onInputMetier(newMetierQuery);
-              });
-              return _fakeListMetierRequiredByAutocompleteToCallOptionsViewBuilderMethod();
-            },
-            onSelected: (option) {
-              Keyboard.dismiss(context);
-              onSelectMetier(option);
-            },
-            optionsViewBuilder: (context, onSelected, options) => _optionsView(constraints, onSelected),
-            fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) =>
-                _fieldView(textEditingController, focusNode, onFieldSubmitted),
-          ),
+      builder: (context, constraints) => Autocomplete<Metier>(
+        optionsBuilder: (textEditingValue) {
+          _debouncer.run(() {
+            final newMetierQuery = textEditingValue.text;
+            _deleteSelectedMetierOnTextDeletion(newMetierQuery);
+            onInputMetier(newMetierQuery);
+          });
+          return _fakeListMetierRequiredByAutocompleteToCallOptionsViewBuilderMethod();
+        },
+        onSelected: (option) {
+          Keyboard.dismiss(context);
+          onSelectMetier(option);
+        },
+        optionsViewBuilder: (context, onSelected, options) => _optionsView(constraints, onSelected),
+        fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) =>
+            _fieldView(textEditingController, focusNode, onFieldSubmitted),
+      ),
     );
   }
 
-  Widget _fieldView(TextEditingController textEditingController,
-      FocusNode focusNode,
-      VoidCallback onFieldSubmitted,) {
+  Widget _fieldView(
+    TextEditingController textEditingController,
+    FocusNode focusNode,
+    VoidCallback onFieldSubmitted,
+  ) {
     return Focus(
       onFocusChange: (hasFocus) => _putBackLastLocationSetOnFocusLost(hasFocus, textEditingController),
       child: Form(
@@ -72,8 +73,10 @@ class MetierAutocomplete extends StatelessWidget {
     );
   }
 
-  Widget _optionsView(BoxConstraints constraints,
-      AutocompleteOnSelected<Metier> onSelected,) {
+  Widget _optionsView(
+    BoxConstraints constraints,
+    AutocompleteOnSelected<Metier> onSelected,
+  ) {
     return Align(
         alignment: Alignment.topLeft,
         child: Material(
@@ -89,8 +92,7 @@ class MetierAutocomplete extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 final Metier metier = metiers.elementAt(index);
                 return GestureDetector(
-                  onTap: () => onSelected(metier)
-                  ,
+                  onTap: () => onSelected(metier),
                   child: ListTile(title: Text(metier.libelle, style: TextStyles.textSmRegular())),
                 );
               },
