@@ -42,7 +42,7 @@ class AnalyticsScreenNames {
   static const emploiFavoris = "favoris/list/emploi";
   static const alternanceFavoris = "favoris/list/alternance";
   static const immersionFavoris = "favoris/list/immersion";
-  static const plus = "plus";
+  static const profil = "profil";
 }
 
 class AnalyticsActionNames {

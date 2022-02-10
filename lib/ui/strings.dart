@@ -1,38 +1,4 @@
 class Strings {
-  static String skip = "Passer";
-  static String continueLabel = "Continuer";
-
-  static String whatIsPassEmploi = "Qu’est-ce que pass emploi ?";
-  static String whatIsPassEmploiDesc = "L’application dédiée aux bénéficiaires du Contrat Engagement Jeune";
-  static String customService = "Un suivi personnalisé";
-  static String customServiceDesc =
-      "pass emploi vous permet de suivre toutes vos actions en lien avec vos démarches professionnelles.";
-  static String favoredContact = "Un moyen de contact privilégié";
-  static String favoredContactDesc = "Restez en contact avec votre conseiller à l’aide d’une messagerie instantanée.";
-  static String searchTool = "Un outil de recherche";
-  static String searchToolDesc =
-      "Grâce à pass emploi, recherchez un emploi, gérez vos offres favorites et trouvez des solutions.";
-  static String whatIsCej = "Qu’est-ce que le Contrat Engagement Jeune ?";
-  static String customServiceCejDesc =
-      "Pendant plusieurs mois, vous êtes accompagnés de 15 à 20 heures par semaine minimum.";
-  static String uniqueReferent = "Un référent unique";
-  static String uniqueReferentDesc = "Un conseiller vous accompagne tout au long de votre parcours.";
-  static String financialHelp = "Une allocation financière";
-  static String financialHelpDesc = "Une allocation pouvant aller jusqu’à 500 euros par mois si vous en avez besoin.";
-  static String whoIsConcerned = "Qui est concerné ?";
-  static List<String> whoIsConcernedFirstRichText = [
-    "→ Les personnes entre ",
-    "16 et 25 ans",
-    " (moins de ",
-    "30 ans",
-    " pour celles en situation de handicap)",
-  ];
-  static List<String> whoIsConcernedSecondRichText = [
-    "→ Les personnes qui ne sont ",
-    "pas en formation ni en emploi durable",
-    " (CDI ou CDD de longue durée)",
-  ];
-
   Strings._();
 
   // Common
@@ -47,7 +13,7 @@ class Strings {
   static String menuSolutions = "Recherche";
   static String menuFavoris = "Favoris";
   static String menuRendezvous = "Rendez-vous";
-  static String menuPlus = "Plus";
+  static String menuProfil = "Profil";
 
   // Chat
   static String yourMessage = "Votre message…";
@@ -88,6 +54,41 @@ class Strings {
       "Prenez rendez-vous avec votre conseiller Mission Locale qui procédera à la création de votre compte.";
   static String alreadyHavePassEmploiAccount = "Vous avez un compte pass emploi ?";
 
+  // Onboarding
+  static String skip = "Passer";
+  static String continueLabel = "Continuer";
+
+  static String whatIsPassEmploi = "Qu’est-ce que pass emploi ?";
+  static String whatIsPassEmploiDesc = "L’application dédiée aux bénéficiaires du Contrat Engagement Jeune";
+  static String customService = "Un suivi personnalisé";
+  static String customServiceDesc =
+      "pass emploi vous permet de suivre toutes vos actions en lien avec vos démarches professionnelles.";
+  static String favoredContact = "Un moyen de contact privilégié";
+  static String favoredContactDesc = "Restez en contact avec votre conseiller à l’aide d’une messagerie instantanée.";
+  static String searchTool = "Un outil de recherche";
+  static String searchToolDesc =
+      "Grâce à pass emploi, recherchez un emploi, gérez vos offres favorites et trouvez des solutions.";
+  static String whatIsCej = "Qu’est-ce que le Contrat Engagement Jeune ?";
+  static String customServiceCejDesc =
+      "Pendant plusieurs mois, vous êtes accompagnés de 15 à 20 heures par semaine minimum.";
+  static String uniqueReferent = "Un référent unique";
+  static String uniqueReferentDesc = "Un conseiller vous accompagne tout au long de votre parcours.";
+  static String financialHelp = "Une allocation financière";
+  static String financialHelpDesc = "Une allocation pouvant aller jusqu’à 500 euros par mois si vous en avez besoin.";
+  static String whoIsConcerned = "Qui est concerné ?";
+  static List<String> whoIsConcernedFirstRichText = [
+    "→ Les personnes entre ",
+    "16 et 25 ans",
+    " (moins de ",
+    "30 ans",
+    " pour celles en situation de handicap)",
+  ];
+  static List<String> whoIsConcernedSecondRichText = [
+    "→ Les personnes qui ne sont ",
+    "pas en formation ni en emploi durable",
+    " (CDI ou CDD de longue durée)",
+  ];
+
   // Login
   static String performLogin = "Connectez-vous";
   static String mandatoryAccessCodeError = "Votre code d\'accès doit être renseigné";
@@ -97,7 +98,7 @@ class Strings {
   static String loginPoleEmploi = "Pôle emploi";
   static String loginMissionLocale = "Mission Locale";
   static String loginAction = "Se connecter";
-  static String logoutAction = "Me déconnecter";
+  static String logoutAction = "Se déconnecter";
 
   // Mon Suivi
   static String monSuiviAppBarTitle = "Mon suivi";
@@ -285,4 +286,19 @@ class Strings {
   static String unvailableContentDescription = "Vous pouvez les consulter sur votre espace personnel Pôle emploi.";
   static String poleEmploiUrlButton = "Accéder à mon espace Pôle emploi";
   static String espacePoleEmploiUrl = "https://candidat.pole-emploi.fr/espacepersonnel/";
+
+  // Profil
+  static String personalInformation = "Informations personnelles";
+  static String emailAddressLabel = "Adresse e-mail";
+  static String missingEmailAddressValue = "Non renseignée";
+  static String legalInformation = "Informations légales";
+  static String legalNoticeLabel = "Mentions légales";
+  static String privacyPolicyLabel = "Politique de confidentialité";
+  static String accessibilityLevelLabel = "Niveau d’accessibilité";
+  static String accessibilityLevelNonConforme = "Non conforme";
+  static String termsOfServiceLabel = "Conditions Générales d’Utilisation";
+
+  static const legalNoticeUrl = "https://beta.gouv.fr/startups/pass-emploi.html?type=legalNotice";
+  static const privacyPolicyUrl = "https://beta.gouv.fr/startups/pass-emploi.html?type=privacyPolicy";
+  static const termsOfServiceUrl = "https://beta.gouv.fr/startups/pass-emploi.html?type=termsOfService";
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
-import 'package:pass_emploi_app/pages/plus_page.dart';
+import 'package:pass_emploi_app/pages/profil_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
@@ -88,7 +88,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
           MenuItem(drawableRes: Drawables.icMenuChat, label: Strings.menuChat, withBadge: viewModel.withChatBadge),
           MenuItem(drawableRes: Drawables.icSearchingBar, label: Strings.menuSolutions),
           MenuItem(drawableRes: Drawables.icHeart, label: Strings.menuFavoris),
-          MenuItem(drawableRes: Drawables.icMenuPlus, label: Strings.menuPlus),
+          MenuItem(drawableRes: Drawables.icMenuPlus, label: Strings.menuProfil),
         ],
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
@@ -111,7 +111,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case _indexOfFavorisPage:
         return FavorisTabsPage();
       case _indexOfPlusPage:
-        return PlusPage();
+        return ProfilPage();
       default:
         return MonSuiviTabPage(initialTab: MonSuiviTab.ACTIONS, showContent: !viewModel.isPoleEmploiLogin);
     }

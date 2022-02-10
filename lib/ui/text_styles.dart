@@ -136,7 +136,7 @@ class TextStyles {
   }
 
   static final textAppBar = TextStyle(
-    color: AppColors.contentColor,
+    color: AppColors.primary,
     fontFamily: 'Marianne',
     fontSize: FontSizes.semi,
     fontWeight: FontWeight.w700,

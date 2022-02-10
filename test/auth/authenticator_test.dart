@@ -228,7 +228,7 @@ void main() {
     authWrapperStub.withLoginArgsResolves(
       _authTokenRequest(),
       AuthTokenResponse(
-        idToken: realIdToken,
+        idToken: realPassEmploiIdToken,
         accessToken: 'accessToken',
         refreshToken: 'refreshToken',
       ),
@@ -245,8 +245,37 @@ void main() {
           userId: "ZKBAC",
           firstName: "Gabriel",
           lastName: "Android",
+          email: null,
           expiresAt: 1638874410,
           loginMode: 'PASS_EMPLOI',
+        ));
+  });
+
+  test("ID token is properly returned and deserialized when login is successful and id token contains email", () async {
+    // Given
+    authWrapperStub.withLoginArgsResolves(
+      _authTokenRequest(),
+      AuthTokenResponse(
+        idToken: realMiloIdToken,
+        accessToken: 'accessToken',
+        refreshToken: 'refreshToken',
+      ),
+    );
+    await authenticator.login(AuthenticationMode.GENERIC);
+
+    // When
+    final token = await authenticator.idToken();
+
+    // Then
+    expect(
+        token,
+        AuthIdToken(
+          userId: "5C02587A-D341-4E6D-B5A0-574733D0EBB9",
+          firstName: "Kenji",
+          lastName: "Dupont",
+          email: "jeune.milo.passemploi@gmail.com",
+          expiresAt: 1644422649,
+          loginMode: 'MILO',
         ));
   });
 
@@ -316,5 +345,8 @@ AuthLogoutRequest _authLogoutRequest() {
   );
 }
 
-const String realIdToken =
+const String realPassEmploiIdToken =
     "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJnMG4zdi1lV2pLZVdjSXdSTlljQ2dSaHJTVkdBSXdpLWYxRnlOOVk1R1ZZIn0.eyJleHAiOjE2Mzg4NzQ0MTAsImlhdCI6MTYzODg3NDExMSwiYXV0aF90aW1lIjoxNjM4ODc0MTEwLCJqdGkiOiI0ZTY1MzFkYS0yMjdhLTRmNWEtOGRkOC01YWEzNjY3OTcxYzUiLCJpc3MiOiJodHRwczovL3BhLWF1dGgtc3RhZ2luZy5vc2Mtc2VjbnVtLWZyMS5zY2FsaW5nby5pby9hdXRoL3JlYWxtcy9wYXNzLWVtcGxvaSIsImF1ZCI6InBhc3MtZW1wbG9pLWFwcCIsInN1YiI6IjYwZjdlMDFmLWNjZWUtNDEwYy1hODI4LWIzNmZhYjQ5ZjJhYiIsInR5cCI6IklEIiwiYXpwIjoicGFzcy1lbXBsb2ktYXBwIiwibm9uY2UiOiIwU29JUjhXLWhFWTctVFdnTDdLVVFRIiwic2Vzc2lvbl9zdGF0ZSI6IjQ3NjQ3MWI1LWM3NWUtNDg5NC1hNWEyLWM4MTZiZmE0MDAwMiIsImF0X2hhc2giOiJEbE5ONDU3b2s2ekl2dHA4NklqUklRIiwiYWNyIjoiMSIsInNpZCI6IjQ3NjQ3MWI1LWM3NWUtNDg5NC1hNWEyLWM4MTZiZmE0MDAwMiIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwidXNlclN0cnVjdHVyZSI6IlBBU1NfRU1QTE9JIiwibmFtZSI6IkdhYnJpZWwgQW5kcm9pZCIsInVzZXJUeXBlIjoiSkVVTkUiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ6a2JhYyIsImdpdmVuX25hbWUiOiJHYWJyaWVsIiwiZmFtaWx5X25hbWUiOiJBbmRyb2lkIiwidXNlcklkIjoiWktCQUMifQ.EsdwKH0XhNHGatXX6n6ip";
+
+const String realMiloIdToken =
+    "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJnMG4zdi1lV2pLZVdjSXdSTlljQ2dSaHJTVkdBSXdpLWYxRnlOOVk1R1ZZIn0.eyJleHAiOjE2NDQ0MjI2NDksImlhdCI6MTY0NDQyMDg0OSwiYXV0aF90aW1lIjoxNjQ0NDIwODQ4LCJqdGkiOiJlNTg2ZTZiOS01OTExLTQ1YWYtYjcwOS1lOGU0OThhN2UxNmYiLCJpc3MiOiJodHRwczovL2lkLnBhc3MtZW1wbG9pLmluY3ViYXRldXIubmV0L2F1dGgvcmVhbG1zL3Bhc3MtZW1wbG9pIiwiYXVkIjoicGFzcy1lbXBsb2ktYXBwIiwic3ViIjoiYmM4NzRjOGMtMjMyMS00OTY5LWIzZWMtM2RlZGRmZWI3MzdkIiwidHlwIjoiSUQiLCJhenAiOiJwYXNzLWVtcGxvaS1hcHAiLCJub25jZSI6IlFhcjV6ZVFNbmVKS01rd0h5LTZJa1EiLCJzZXNzaW9uX3N0YXRlIjoiZTg2MmQyOGYtZGQ3My00MDBjLWFjMTctZWM5ZjFhNmQyYzE0IiwiYXRfaGFzaCI6InQ2UHdBdkhSeXR1R0pTbkVnQU1MTEEiLCJhY3IiOiIxIiwic2lkIjoiZTg2MmQyOGYtZGQ3My00MDBjLWFjMTctZWM5ZjFhNmQyYzE0IiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJ1c2VyU3RydWN0dXJlIjoiTUlMTyIsIm5hbWUiOiJLZW5qaSBEdXBvbnQiLCJ1c2VyVHlwZSI6IkpFVU5FIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiamV1bmUubWlsby5wYXNzZW1wbG9pQGdtYWlsLmNvbSIsImdpdmVuX25hbWUiOiJLZW5qaSIsImZhbWlseV9uYW1lIjoiRHVwb250IiwidXNlcklkIjoiNUMwMjU4N0EtRDM0MS00RTZELUI1QTAtNTc0NzMzRDBFQkI5IiwiZW1haWwiOiJqZXVuZS5taWxvLnBhc3NlbXBsb2lAZ21haWwuY29tIn0.A4N3JCg0LfvZJKmuo-phXyV1lqLJcbOLVhVrNE4ptqhJAb5yOhjDc4Or6RKHwQrXpY4LIX-qGFquE_PNsJJTNQIZsoMrTh-t9FNh7bRbP6ViPA5tw52s7AgTpXj2VjcjH0yjLsCVwm09uloGEQo3xfRaWEodcV-0y33Jq6KdJQ1hEM8K_CMNwrDPdxQgf_ZHvJgxTe32PBeuf56cWuPPMeML8mDcKuNw3vLHqRr2qzsA4sjs8UWFQMpDfIVEj44xqSqqXXaFcfMD-T0hZLrKVTvtvBVBZPpyLQ8fza-G2ho5cIDk8anTjKt2UyEDc4t1wBPDMDYb_0XmsLA9V77ZcQ";
