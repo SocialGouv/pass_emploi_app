@@ -47,11 +47,6 @@ main() {
   test("tests immersion search extractor", () {
     // Given
     final testStoreFactory = TestStoreFactory();
-    var filtres = ImmersionSearchParametersFilters.withFilters(
-      codeRome: "codeRome",
-      lat: 12,
-      lon: 34,
-    );
     final immersionState = State.success([
       Immersion(
         id: "id",

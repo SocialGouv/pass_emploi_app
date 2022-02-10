@@ -5,6 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import '../../ui/app_colors.dart';
 import '../../ui/drawables.dart';
 
+final GlobalKey<ScaffoldMessengerState> snackbarKey = GlobalKey<ScaffoldMessengerState>();
+
 showSuccessfulSnackBar(BuildContext context, String label) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
@@ -27,7 +29,7 @@ showSuccessfulSnackBar(BuildContext context, String label) {
             ),
           ),
           GestureDetector(
-            onTap: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
+            onTap: () => snackbarKey.currentState?.hideCurrentSnackBar(),
             child: SvgPicture.asset(
               Drawables.icClose,
               color: AppColors.secondary,
@@ -61,7 +63,7 @@ showSnackBarError(BuildContext context, String label) {
             ),
           ),
           GestureDetector(
-            onTap: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
+            onTap: () => snackbarKey.currentState?.hideCurrentSnackBar(),
             child: SvgPicture.asset(
               Drawables.icClose,
               color: AppColors.warning,
