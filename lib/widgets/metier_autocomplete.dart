@@ -92,12 +92,8 @@ class MetierAutocomplete extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 final Metier metier = metiers.elementAt(index);
                 return GestureDetector(
-                  onTap: () {
-                    onSelected(metier);
-                  },
-                  child: ListTile(
-                    title: Text(metier.libelle, style: TextStyles.textSmRegular()),
-                  ),
+                  onTap: () => onSelected(metier),
+                  child: ListTile(title: Text(metier.libelle, style: TextStyles.textSmRegular())),
                 );
               },
             ),
