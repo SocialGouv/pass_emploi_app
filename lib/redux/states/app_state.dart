@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/redux/states/create_user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/search_location_state.dart';
+import 'package:pass_emploi_app/redux/states/search_metier_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_delete_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
@@ -38,6 +39,7 @@ class AppState extends Equatable {
   final FavorisState<Immersion> immersionFavorisState;
   final FavorisUpdateState favorisUpdateState;
   final SearchLocationState searchLocationState;
+  final SearchMetierState searchMetierState;
   final State<User> loginState;
   final State<List<UserAction>> userActionState;
   final State<List<Rendezvous>> rendezvousState;
@@ -60,6 +62,7 @@ class AppState extends Equatable {
     required this.immersionFavorisState,
     required this.favorisUpdateState,
     required this.searchLocationState,
+    required this.searchMetierState,
     required this.loginState,
     required this.userActionState,
     required this.rendezvousState,
@@ -82,6 +85,7 @@ class AppState extends Equatable {
     final FavorisState<Immersion>? immersionFavorisState,
     final FavorisUpdateState? favorisUpdateState,
     final SearchLocationState? searchLocationState,
+    final SearchMetierState? searchMetierState,
     final State<User>? loginState,
     final State<List<UserAction>>? userActionState,
     final State<List<Rendezvous>>? rendezvousState,
@@ -105,6 +109,7 @@ class AppState extends Equatable {
       immersionFavorisState: immersionFavorisState ?? this.immersionFavorisState,
       favorisUpdateState: favorisUpdateState ?? this.favorisUpdateState,
       searchLocationState: searchLocationState ?? this.searchLocationState,
+      searchMetierState: searchMetierState ?? this.searchMetierState,
       loginState: loginState ?? this.loginState,
       userActionState: userActionState ?? this.userActionState,
       rendezvousState: rendezvousState ?? this.rendezvousState,
@@ -130,6 +135,7 @@ class AppState extends Equatable {
         immersionFavorisState: FavorisState<Immersion>.notInitialized(),
         favorisUpdateState: FavorisUpdateState({}),
         searchLocationState: SearchLocationState([]),
+        searchMetierState: SearchMetierState([]),
         loginState: State<User>.notInitialized(),
         userActionState: State<List<UserAction>>.notInitialized(),
         rendezvousState: State<List<Rendezvous>>.notInitialized(),
@@ -153,6 +159,7 @@ class AppState extends Equatable {
         offreEmploiFavorisState,
         favorisUpdateState,
         searchLocationState,
+        searchMetierState,
         loginState,
         userActionState,
         rendezvousState,

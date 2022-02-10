@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/metier.dart';
-import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/debouncer.dart';
 
 class MetierAutocomplete extends StatelessWidget {
+  final Function(String newMetierQuery) onInputMetier;
   final Function(Metier? selectedMetier) onSelectMetier;
   final String? Function() getPreviouslySelectedTitle;
+  final List<Metier> metiers;
   final String? Function(String? input) validator;
   final GlobalKey<FormState> formKey;
-  final _metierRepository = MetierRepository();
 
-  final Debouncer _debouncer = Debouncer(duration: Duration(milliseconds: 50));
-  Future<List<Metier>>? _getMetiers;
-  List<Metier> _lastListMetier = [];
+  final Debouncer _debouncer = Debouncer(duration: Duration(milliseconds: 200));
 
   MetierAutocomplete({
+    required this.onInputMetier,
+    required this.metiers,
     required this.onSelectMetier,
     required this.validator,
     required this.formKey,
@@ -30,7 +30,7 @@ class MetierAutocomplete extends StatelessWidget {
       builder: (context, constraints) => Autocomplete<Metier>(
         optionsBuilder: (textEditingValue) {
           _debouncer.run(() {
-            _getMetiers = _metierRepository.getMetiers(textEditingValue.text);
+            onInputMetier(textEditingValue.text);
           });
           return _fakeListMetierRequiredByAutocompleteToCallOptionsViewBuilderMethod();
         },
@@ -85,30 +85,18 @@ class MetierAutocomplete extends StatelessWidget {
           ),
           child: Container(
             width: constraints.biggest.width,
-            child: FutureBuilder<List<Metier>>(
-                future: _getMetiers,
-                builder: (BuildContext context, AsyncSnapshot<List<Metier>> snapshot) {
-                  if (snapshot.hasData && snapshot.data != null) {
-                    _lastListMetier = snapshot.data!;
-                  }
-                  return ListView.builder(
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    itemCount: _lastListMetier.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      final Metier option = _lastListMetier.elementAt(index);
-
-                      return GestureDetector(
-                        onTap: () {
-                          onSelected(option);
-                        },
-                        child: ListTile(
-                          title: Text(option.libelle, style: TextStyles.textSmRegular()),
-                        ),
-                      );
-                    },
-                  );
-                }),
+            child: ListView.builder(
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              itemCount: metiers.length,
+              itemBuilder: (BuildContext context, int index) {
+                final Metier metier = metiers.elementAt(index);
+                return GestureDetector(
+                  onTap: () => onSelected(metier),
+                  child: ListTile(title: Text(metier.libelle, style: TextStyles.textSmRegular())),
+                );
+              },
+            ),
             color: Colors.white,
           ),
           color: Colors.white,

@@ -34,6 +34,7 @@ import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
+import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
@@ -139,6 +140,7 @@ Future<Store<AppState>> _initializeReduxStore(
     OffreEmploiFavorisRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     ImmersionFavorisRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     SearchLocationRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+    MetierRepository(),
     ImmersionRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     ImmersionDetailsRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     FirebaseAuthRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),

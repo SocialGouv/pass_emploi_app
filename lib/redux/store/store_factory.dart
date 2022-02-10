@@ -18,6 +18,7 @@ import 'package:pass_emploi_app/redux/middlewares/offre_emploi_details_middlewar
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/search_location_middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/search_metier_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/tracking_event_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/user_action_middleware.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
@@ -29,6 +30,7 @@ import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
+import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
@@ -51,6 +53,7 @@ class StoreFactory {
   final OffreEmploiFavorisRepository offreEmploiFavorisRepository;
   final ImmersionFavorisRepository immersionFavorisRepository;
   final SearchLocationRepository searchLocationRepository;
+  final MetierRepository metierRepository;
   final ImmersionRepository immersionRepository;
   final ImmersionDetailsRepository immersionDetailsRepository;
   final FirebaseAuthRepository firebaseAuthRepository;
@@ -70,6 +73,7 @@ class StoreFactory {
     this.offreEmploiFavorisRepository,
     this.immersionFavorisRepository,
     this.searchLocationRepository,
+    this.metierRepository,
     this.immersionRepository,
     this.immersionDetailsRepository,
     this.firebaseAuthRepository,
@@ -95,6 +99,7 @@ class StoreFactory {
         RegisterPushNotificationTokenMiddleware(registerTokenRepository),
         CrashlyticsMiddleware(crashlytics),
         SearchLocationMiddleware(searchLocationRepository),
+        SearchMetierMiddleware(metierRepository),
         TrackingEventMiddleware(trackingEventRepository),
         Middleware<void, List<Rendezvous>>(rendezvousRepository),
         Middleware<ImmersionRequest, List<Immersion>>(immersionRepository),

@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/presentation/immersion_search_view_model.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
+import 'package:pass_emploi_app/redux/actions/search_metier_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -49,6 +50,7 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
       },
       onDispose: (store) {
         store.dispatch(ResetLocationAction());
+        store.dispatch(ResetMetierAction());
         store.dispatch(ImmersionAction.reset());
       },
     );
@@ -66,6 +68,8 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
           Text(Strings.metierCompulsoryLabel, style: TextStyles.textBaseBold),
           SizedBox(height: Margins.spacing_base),
           MetierAutocomplete(
+            onInputMetier: (newMetierQuery) => viewModel.onInputMetier(newMetierQuery),
+            metiers: viewModel.metiers,
             onSelectMetier: (selectedMetier) {
               setState(() {
                 _setSelectedMetier(selectedMetier);
