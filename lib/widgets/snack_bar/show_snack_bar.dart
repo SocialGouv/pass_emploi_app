@@ -7,7 +7,7 @@ import '../../ui/drawables.dart';
 
 final GlobalKey<ScaffoldMessengerState> snackbarKey = GlobalKey<ScaffoldMessengerState>();
 
-showSuccessfulSnackBar(BuildContext context, String label) {
+void showSuccessfulSnackBar(BuildContext context, String label) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       backgroundColor: AppColors.secondaryLighten,
@@ -41,7 +41,7 @@ showSuccessfulSnackBar(BuildContext context, String label) {
   );
 }
 
-showSnackBarError(BuildContext context, String label) {
+void showSnackBarError(BuildContext context, String label) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       backgroundColor: AppColors.warningLight,
