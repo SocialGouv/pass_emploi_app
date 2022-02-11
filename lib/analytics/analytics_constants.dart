@@ -76,3 +76,10 @@ class AnalyticsActionNames {
   static String createSavedSearchAlternance = "/recherche/alternance/search_results?create_saved_search=true";
   static String createSavedSearchImmersion = "/recherche/immersion/search_results?create_saved_search=true";
 }
+
+class AnalyticsCustomDimensions {
+  static const userTypeId = 1;
+  static const structureId = 2;
+
+  static const appUserType = "jeune";
+}
