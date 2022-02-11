@@ -446,9 +446,11 @@ packages:
   matomo:
     dependency: "direct main"
     description:
-      name: matomo
-      url: "https://pub.dartlang.org"
-    source: hosted
+      path: "."
+      ref: HEAD
+      resolved-ref: b4a370276f7ac4f0c31623bf954b3c4f3f78cd6f
+      url: "https://github.com/BonnetM/dart-matomo.git"
+    source: git
     version: "1.1.0"
   meta:
     dependency: transitive
