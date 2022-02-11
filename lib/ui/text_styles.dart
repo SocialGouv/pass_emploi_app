@@ -79,7 +79,7 @@ class TextStyles {
   static final internalLink = TextStyle(
     color: AppColors.primary,
     fontSize: FontSizes.medium,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w400,
     fontFamily: 'Marianne',
     decoration: TextDecoration.underline,
   );
