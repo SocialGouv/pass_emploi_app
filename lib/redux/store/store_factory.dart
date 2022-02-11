@@ -5,6 +5,8 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
+import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/redux/middlewares/action_logging_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/chat_initializer_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/chat_middleware.dart';
@@ -17,6 +19,7 @@ import 'package:pass_emploi_app/redux/middlewares/middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_details_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/saved_search_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/search_location_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/search_metier_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/tracking_event_middleware.dart';
@@ -26,20 +29,24 @@ import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
+import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
-import 'package:pass_emploi_app/repositories/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
-import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart' as redux;
+
+import '../middlewares/initialize_saved_search_middleware.dart';
 
 class StoreFactory {
   final Authenticator authenticator;
@@ -60,6 +67,8 @@ class StoreFactory {
   final FirebaseAuthWrapper firebaseAuthWrapper;
   final ChatCrypto chatCrypto;
   final TrackingEventRepository trackingEventRepository;
+  final OffreEmploiSavedSearchRepository offreEmploiSavedSearchRepository;
+  final ImmersionSavedSearchRepository immersionSavedSearchRepository;
 
   StoreFactory(
     this.authenticator,
@@ -80,6 +89,8 @@ class StoreFactory {
     this.firebaseAuthWrapper,
     this.chatCrypto,
     this.trackingEventRepository,
+    this.offreEmploiSavedSearchRepository,
+    this.immersionSavedSearchRepository,
   );
 
   redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -104,6 +115,9 @@ class StoreFactory {
         Middleware<void, List<Rendezvous>>(rendezvousRepository),
         Middleware<ImmersionRequest, List<Immersion>>(immersionRepository),
         ImmersionDetailsMiddleware(immersionDetailsRepository),
+        SavedSearchMiddleware<OffreEmploiSavedSearch>(offreEmploiSavedSearchRepository),
+        SavedSearchMiddleware<ImmersionSavedSearch>(immersionSavedSearchRepository),
+        InitializeSavedSearchMiddleware(),
         ..._debugMiddleware(),
       ],
     );

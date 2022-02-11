@@ -10,7 +10,8 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/onboarding_background.dart';
-import 'package:pass_emploi_app/widgets/secondary_button.dart';
+
+import '../widgets/buttons/secondary_button.dart';
 
 class ChoixOrganismeExplainationPage extends TraceableStatelessWidget {
   final bool isPoleEmploi;

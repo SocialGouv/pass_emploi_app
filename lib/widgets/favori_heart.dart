@@ -9,7 +9,7 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/widgets/secondary_icon_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_icon_button.dart';
 
 import 'favori_state_selector.dart';
 

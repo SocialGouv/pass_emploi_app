@@ -48,6 +48,7 @@ class OffreEmploiSearchResultsViewModel extends Equatable {
 
   @override
   List<Object?> get props => [displayState, items, displayLoaderAtBottomOfList, filtresCount];
+
 }
 
 int? _filtresCount(OffreEmploiSearchParametersState searchParamsState) {

@@ -14,10 +14,10 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/keyboard.dart';
-import 'package:pass_emploi_app/widgets/error_text.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
 import 'package:pass_emploi_app/widgets/metier_autocomplete.dart';
-import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 
 class ImmersionSearchPage extends TraceableStatefulWidget {
   const ImmersionSearchPage() : super(name: AnalyticsScreenNames.immersionResearch);

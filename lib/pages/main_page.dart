@@ -11,7 +11,7 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/menu_item.dart';
 
-import 'favoris_tabs_page.dart';
+import 'favoris/favoris_tabs_page.dart';
 import 'mon_suivi_tabs_page.dart';
 
 const int _indexOfMonSuiviPage = 0;

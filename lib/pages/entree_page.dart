@@ -9,8 +9,8 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
-import 'package:pass_emploi_app/widgets/primary_action_button.dart';
-import 'package:pass_emploi_app/widgets/secondary_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 
 class EntreePage extends TraceableStatelessWidget {
   const EntreePage() : super(name: AnalyticsScreenNames.entree);

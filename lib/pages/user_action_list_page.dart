@@ -12,13 +12,13 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_create_bottom_sheet.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_details_bottom_sheet.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
-import 'package:pass_emploi_app/widgets/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
-import 'package:pass_emploi_app/widgets/user_action_create_bottom_sheet.dart';
-import 'package:pass_emploi_app/widgets/user_action_details_bottom_sheet.dart';
 
 class UserActionListPage extends TraceableStatefulWidget {
   UserActionListPage() : super(name: AnalyticsScreenNames.userActionList);
@@ -112,7 +112,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
 
   Widget _tapListener(BuildContext context, UserActionViewModel item, UserActionListPageViewModel viewModel) {
     return UserActionCard(
-      onTap: () => showUserActionBottomSheet(
+      onTap: () => showPassEmploiBottomSheet(
         context: context,
         builder: (context) => UserActionDetailsBottomSheet(item),
       ).then((value) => _onUserActionDetailsDismissed(context, value, viewModel)),
@@ -125,7 +125,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
       label: Strings.addAnAction,
       drawableRes: Drawables.icAdd,
       rippleColor: AppColors.primaryDarken,
-      onPressed: () => showUserActionBottomSheet(
+      onPressed: () => showPassEmploiBottomSheet(
         context: context,
         builder: (context) => CreateUserActionBottomSheet(),
       ).then((value) => _onCreateUserActionDismissed(viewModel)),

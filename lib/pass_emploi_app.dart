@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/pages/router_page.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/theme.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:redux/redux.dart';
 
 class PassEmploiApp extends StatelessWidget {
@@ -16,6 +17,7 @@ class PassEmploiApp extends StatelessWidget {
     return StoreProvider<AppState>(
       store: _store,
       child: MaterialApp(
+        scaffoldMessengerKey: snackbarKey,
         title: Strings.appName,
         theme: PassEmploiTheme.data,
         home: RouterPage(),
