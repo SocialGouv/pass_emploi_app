@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../ui/margins.dart';
 import '../ui/strings.dart';
-import '../widgets/carousel_button.dart';
+import '../widgets/buttons/carousel_button.dart';
 
 const int _indexOfOffresEmploi = 0;
 const int _indexOfAlternance = 1;

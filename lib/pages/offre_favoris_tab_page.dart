@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 
 import '../ui/margins.dart';
 import '../ui/strings.dart';
-import '../widgets/carousel_button.dart';
-import 'immersion_favoris_page.dart';
-import 'offre_emploi_favoris_page.dart';
+import '../widgets/buttons/carousel_button.dart';
+import 'favoris/immersion_favoris_page.dart';
+import 'favoris/offre_emploi_favoris_page.dart';
 
 const int _indexOfOffresEmploi = 0;
 const int _indexOfAlternance = 1;
