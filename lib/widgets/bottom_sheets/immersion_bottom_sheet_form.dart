@@ -193,9 +193,10 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
             child: Padding(
               padding: const EdgeInsets.all(4),
               child: SvgPicture.asset(
-                Drawables.icInfoBlue,
+                Drawables.icInfo,
                 height: 18,
                 width: 18,
+                color: AppColors.primary,
               ),
             )),
         SizedBox(

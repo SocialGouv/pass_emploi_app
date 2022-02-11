@@ -141,9 +141,7 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
   }
 
   Widget _savedSearchFilters(OffreEmploiSavedSearch searchViewModel) {
-    List<TagInfo> _tags = widget.onlyAlternance
-        ? [TagInfo(Strings.savedSearchAlternanceTag, false)]
-        : [TagInfo(Strings.savedSearchEmploiTag, false)];
+    List<TagInfo> _tags = [TagInfo(searchViewModel.getSavedSearchTagLabel(), false)];
     String? _keyWords = searchViewModel.keywords;
     String? _location = searchViewModel.location?.libelle;
     if (_keyWords != null && _keyWords.isNotEmpty) _tags.add(TagInfo(_keyWords, false));
@@ -201,9 +199,10 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
             child: Padding(
               padding: const EdgeInsets.all(4),
               child: SvgPicture.asset(
-                Drawables.icInfoBlue,
+                Drawables.icInfo,
                 height: 18,
                 width: 18,
+                color: AppColors.primary,
               ),
             )),
         SizedBox(

@@ -15,7 +15,6 @@ class OffreEmploiSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<O
 
   OffreEmploiSavedSearchBottomSheet({required this.onlyAlternance})
       : super(
-          selectState: (store) => store.state.offreEmploiSavedSearchState,
           analyticsScreenName:
               onlyAlternance ? AnalyticsScreenNames.alternanceCreateAlert : AnalyticsScreenNames.emploiCreateAlert,
           key: ValueKey(onlyAlternance),
@@ -46,7 +45,6 @@ class OffreEmploiSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<O
           ? showSnackBarError(context, Strings.creationSavedSearchError)
           : showSuccessfulSnackBar(context, Strings.savedSearchSuccessfullyCreated);
     }
-    if (viewModel.savingFailure())
-        showSnackBarError(context, Strings.creationSavedSearchError);
+    if (viewModel.savingFailure()) showSnackBarError(context, Strings.creationSavedSearchError);
   }
 }

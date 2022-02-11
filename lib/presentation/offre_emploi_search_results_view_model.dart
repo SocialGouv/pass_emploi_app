@@ -1,10 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
-import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
-import 'package:pass_emploi_app/redux/actions/saved_search_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
@@ -22,7 +20,6 @@ class OffreEmploiSearchResultsViewModel extends Equatable {
   final int? filtresCount;
   final String errorMessage;
   final Function() onLoadMore;
-  final Function() onSavingSearchClick;
 
   OffreEmploiSearchResultsViewModel({
     required this.displayState,
@@ -32,7 +29,6 @@ class OffreEmploiSearchResultsViewModel extends Equatable {
     required this.filtresCount,
     required this.errorMessage,
     required this.onLoadMore,
-    required this.onSavingSearchClick,
   });
 
   factory OffreEmploiSearchResultsViewModel.create(Store<AppState> store) {
@@ -47,7 +43,6 @@ class OffreEmploiSearchResultsViewModel extends Equatable {
       filtresCount: _filtresCount(searchParamsState),
       errorMessage: _errorMessage(searchState, searchResultsState),
       onLoadMore: () => store.dispatch(RequestMoreOffreEmploiSearchResultsAction()),
-      onSavingSearchClick: () => store.dispatch(InitializeSaveSearchAction<OffreEmploiSavedSearch>()),
     );
   }
 

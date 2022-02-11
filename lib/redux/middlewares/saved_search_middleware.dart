@@ -29,10 +29,11 @@ class SavedSearchMiddleware<T> extends MiddlewareClass<AppState> {
         ? store.state.offreEmploiSavedSearchState
         : store.state.immersionSavedSearchState;
     var savedSearch = _extractSearch(emploiSavedSearchState);
-    final result = await _repository.postSavedSearch(
-      userId,
-      savedSearch,
-      action.title);
+    if (savedSearch == null) {
+      store.dispatch(SavedSearchFailureAction<T>());
+      return;
+    }
+    final result = await _repository.postSavedSearch(userId, savedSearch, action.title);
     if (result) {
       store.dispatch(SavedSearchSuccessAction<T>());
     } else {
@@ -40,7 +41,7 @@ class SavedSearchMiddleware<T> extends MiddlewareClass<AppState> {
     }
   }
 
-  dynamic _extractSearch(SavedSearchState<Equatable> emploiSavedSearchState) {
+  T? _extractSearch(SavedSearchState<Equatable> emploiSavedSearchState) {
     if (emploiSavedSearchState is SavedSearchInitialized) {
       return (emploiSavedSearchState as SavedSearchInitialized).search;
     } else {

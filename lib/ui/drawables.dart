@@ -25,7 +25,6 @@ class Drawables {
   static String icThreePoints = _assets + "ic_three_points" + _svg;
   static String icImportant = _assets + "ic_important" + _svg;
   static String icInfo = _assets + "ic_info" + _svg;
-  static String icInfoBlue = _assets + "ic_info_blue" + _svg;
   static String icRedirection = _assets + "ic_redirection" + _svg;
   static String icPaperPlane = _assets + "ic_paper_plane" + _svg;
   static String icCongratulations = _assets + "ic_congratulations" + _svg;

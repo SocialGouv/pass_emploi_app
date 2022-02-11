@@ -267,10 +267,9 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
       widthPadding: 6,
       iconSize: 16,
       onPressed: () {
-        showUserActionBottomSheet(
+        showPassEmploiBottomSheet(
             context: context,
             builder: (context) => OffreEmploiSavedSearchBottomSheet(onlyAlternance: widget.onlyAlternance));
-      viewModel.onSavingSearchClick();
       },
     );
   }

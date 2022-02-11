@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/redux/actions/saved_search_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:redux/redux.dart';
 
-import '../../presentation/saved_search_view_model.dart';
+import '../../models/saved_search/saved_search_extractors.dart';
 
 class InitializeSavedSearchMiddleware extends MiddlewareClass<AppState> {
   @override

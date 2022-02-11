@@ -1,8 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/redux/actions/saved_search_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/immersion_search_request_state.dart';
 import 'package:pass_emploi_app/redux/states/saved_search_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
 
 import '../../doubles/dummies.dart';
@@ -55,6 +58,46 @@ main() {
     // Then
     var immersionSavedSearchState = (await expected).immersionSavedSearchState;
     expect(immersionSavedSearchState is SavedSearchFailureState, true);
+  });
+
+  test("InitializeSaveSearchAction should update store with rights informations", () async {
+    // Given
+    AppState initialState = AppState.initialState().copyWith(
+      immersionSearchState: State.success([
+        Immersion(
+            id: "id",
+            metier: "metier",
+            nomEtablissement: "nomEtablissement",
+            secteurActivite: "secteurActivite",
+            ville: "ville")
+      ]),
+      immersionSearchRequestState:
+          RequestedImmersionSearchRequestState(codeRome: "codeRome", latitude: 12, longitude: 34),
+      loginState: successMiloUserState(),
+    );
+    final testStoreFactory = TestStoreFactory();
+    testStoreFactory.authenticator = AuthenticatorLoggedInStub();
+    final store = testStoreFactory.initializeReduxStore(initialState: initialState);
+    final expected =
+        store.onChange.firstWhere((element) => element.immersionSavedSearchState is SavedSearchInitialized);
+
+    // When
+    store.dispatch(InitializeSaveSearchAction<ImmersionSavedSearch>());
+
+    // Then
+    var immersionSavedSearchState =
+        (await expected).immersionSavedSearchState as SavedSearchInitialized<ImmersionSavedSearch>;
+    expect(
+        immersionSavedSearchState.search,
+        ImmersionSavedSearch(
+            title: "metier - ville",
+            metier: "metier",
+            location: "ville",
+            filters: ImmersionSearchParametersFilters.withFilters(
+              codeRome: "codeRome",
+              lat: 12,
+              lon: 34,
+            )));
   });
 }
 
