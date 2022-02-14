@@ -40,6 +40,7 @@ class FiltreButton extends StatelessWidget {
   }
 
   Widget _buildAsSecondary() {
+    final double verticalPadding = filtresCount == null ? 16 : 14;
     return OutlinedButton(
       style: OutlinedButton.styleFrom(
         shape: StadiumBorder(),
@@ -47,7 +48,7 @@ class FiltreButton extends StatelessWidget {
         side: BorderSide(color: AppColors.primary, width: 2),
       ),
       onPressed: onPressed,
-      child: Padding(padding: EdgeInsets.fromLTRB(12, 16, 0, 16), child: _buildRow()),
+      child: Padding(padding: EdgeInsets.fromLTRB(12, verticalPadding, 0, verticalPadding), child: _buildRow()),
     );
   }
 

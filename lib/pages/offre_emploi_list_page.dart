@@ -117,6 +117,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
         child: Padding(
           padding: const EdgeInsets.only(bottom: 24),
           child: Wrap(
+            alignment: WrapAlignment.center,
             spacing: 16,
             runSpacing: 16,
             children: [
