@@ -14,7 +14,7 @@ class SavedSearchListRequestMiddleware extends MiddlewareClass<AppState> {
     next(action);
     final loginState = store.state.loginState;
     if (action is RequestSavedSearchListAction && loginState.isSuccess()) {
-      final savedSearchs = await repository.getSearch(loginState.getResultOrThrow().id);
+      final savedSearchs = await repository.getSavedSearch(loginState.getResultOrThrow().id);
       if (savedSearchs == null) {
         store.dispatch(SavedSearchListFailureAction());
       } else {

@@ -14,7 +14,7 @@ class GetSavedSearchRepository {
 
   GetSavedSearchRepository(this._baseUrl, this._httpClient, this._headerBuilder, this._crashlytics);
 
-  Future<List?> getSearch(String userId) async {
+  Future<List?> getSavedSearch(String userId) async {
     final url = Uri.parse(_baseUrl + "/jeunes/" + userId + "/recherches");
     try {
       final response = await _httpClient.get(url, headers: await _headerBuilder.headers(userId: userId));
