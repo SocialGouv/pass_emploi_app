@@ -80,6 +80,7 @@ AppState reducer(AppState current, dynamic action) {
       final ImmersionRequest request = action.getRequestOrThrow();
       immersionSearchRequestState = RequestedImmersionSearchRequestState(
         codeRome: request.codeRome,
+        ville: request.location.libelle,
         latitude: request.location.latitude ?? 0,
         longitude: request.location.longitude ?? 0,
       );

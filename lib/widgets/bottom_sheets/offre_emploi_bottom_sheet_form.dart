@@ -61,7 +61,9 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           PrimaryActionButton(
-            label: Strings.create,
+            label: Strings.addAnAction,
+            drawableRes: Drawables.icAlert,
+            iconSize: 18,
             onPressed: (_isFormValid())
                 ? () {
                     viewModel.createSavedSearch(searchTitle!);
@@ -73,6 +75,7 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
                   }
                 : null,
           ),
+          if (viewModel.savingFailure()) _createError(),
         ],
       ),
     );
@@ -209,10 +212,21 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
           width: 270,
           child: Text(
             label,
-            style: TextStyles.textXsRegular(),
+            style: TextStyles.textSRegular(),
           ),
         ),
       ],
+    );
+  }
+
+  Widget _createError() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: Text(
+        Strings.creationSavedSearchError,
+        textAlign: TextAlign.center,
+        style: TextStyles.textSRegular(color: AppColors.warning),
+      ),
     );
   }
 }

@@ -59,15 +59,18 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           PrimaryActionButton(
-            label: Strings.create,
+            label: Strings.addAnAction,
+            drawableRes: Drawables.icAlert,
+            iconSize: 18,
             onPressed: (_isFormValid())
                 ? () {
                     viewModel.createSavedSearch(searchTitle!);
-                    MatomoTracker.trackScreenWithName(AnalyticsActionNames.createSavedSearchImmersion,
-                        AnalyticsScreenNames.immersionCreateAlert);
+                    MatomoTracker.trackScreenWithName(
+                        AnalyticsActionNames.createSavedSearchImmersion, AnalyticsScreenNames.immersionCreateAlert);
                   }
                 : null,
           ),
+          if (viewModel.savingFailure()) _createError(),
         ],
       ),
     );
@@ -203,10 +206,21 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
           width: 270,
           child: Text(
             label,
-            style: TextStyles.textXsRegular(),
+            style: TextStyles.textSRegular(),
           ),
         ),
       ],
+    );
+  }
+
+  Widget _createError() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8),
+      child: Text(
+        Strings.creationSavedSearchError,
+        textAlign: TextAlign.center,
+        style: TextStyles.textSRegular(color: AppColors.warning),
+      ),
     );
   }
 }

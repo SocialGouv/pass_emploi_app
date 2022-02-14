@@ -41,10 +41,7 @@ class OffreEmploiSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<O
   dismissBottomSheetIfNeeded(BuildContext context, OffreEmploiSavedSearchViewModel viewModel) {
     if (viewModel.displayState == CreateSavedSearchDisplayState.TO_DISMISS) {
       Navigator.pop(context);
-      (viewModel.savingFailure())
-          ? showSnackBarError(context, Strings.creationSavedSearchError)
-          : showSuccessfulSnackBar(context, Strings.savedSearchSuccessfullyCreated);
+      showSuccessfulSnackBar(context, Strings.savedSearchSuccessfullyCreated);
     }
-    if (viewModel.savingFailure()) showSnackBarError(context, Strings.creationSavedSearchError);
   }
 }
