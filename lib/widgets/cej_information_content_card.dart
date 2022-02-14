@@ -46,7 +46,7 @@ class CejInformationFirstContentCard extends StatelessWidget {
         SizedBox(height: Margins.spacing_base),
         Text(Strings.whatIsPassEmploiDesc, style: TextStyles.textBaseRegular),
         SizedBox(height: Margins.spacing_m),
-        _cardBulletPoint(Drawables.icDone, Strings.customService),
+        _cardBulletPoint(Drawables.icDoneCircle, Strings.customService),
         SizedBox(height: Margins.spacing_s),
         Text(Strings.customServiceDesc, style: TextStyles.textBaseRegular),
         SizedBox(height: Margins.spacing_m),

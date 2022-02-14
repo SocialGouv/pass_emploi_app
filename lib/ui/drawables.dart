@@ -37,6 +37,7 @@ class Drawables {
   static String icNoContent = _assets + "ic_no_content" + _svg;
   static String icChevronLeft = _assets + "chevron_left" + _svg;
   static String icLaunch = _assets + "launch" + _svg;
+  static String icDoneCircle = _assets + "ic_done_circle" + _svg;
   static String icDone = _assets + "ic_done" + _svg;
   static String icEuro = _assets + "ic_euro" + _svg;
   static String icFlash = _assets + "ic_flash" + _svg;
