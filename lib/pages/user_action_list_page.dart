@@ -83,7 +83,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
     return _userActionsList(context, viewModel);
   }
 
-  Widget _loader() => Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
+  Widget _loader() => Center(child: CircularProgressIndicator(color: AppColors.primary));
 
   Widget _empty() => Center(child: Text(Strings.noActionsYet, style: TextStyles.textSmRegular()));
 
