@@ -72,7 +72,7 @@ main() {
             ville: "ville")
       ]),
       immersionSearchRequestState:
-          RequestedImmersionSearchRequestState(codeRome: "codeRome", latitude: 12, longitude: 34),
+          RequestedImmersionSearchRequestState(codeRome: "codeRome", latitude: 12, longitude: 34, ville: "ville"),
       loginState: successMiloUserState(),
     );
     final testStoreFactory = TestStoreFactory();

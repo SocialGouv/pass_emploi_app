@@ -62,7 +62,7 @@ main() {
           codeRome: "codeRome",
           latitude: 12,
           longitude: 34,
-        ));
+          ville: "ville"));
     final store = testStoreFactory.initializeReduxStore(initialState: state);
 
     // When

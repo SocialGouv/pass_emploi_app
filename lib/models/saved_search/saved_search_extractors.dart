@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:redux/redux.dart';
 
 import '../../redux/states/app_state.dart';
@@ -57,14 +58,17 @@ class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSave
 class ImmersionSearchExtractor extends AbstractSearchExtractor<ImmersionSavedSearch> {
   @override
   ImmersionSavedSearch getSearchFilters(Store<AppState> store) {
+    final searchedMetiers = store.state.searchMetierState.metiers;
     final state = store.state.immersionSearchState.getResultOrThrow().first;
     final requestState = store.state.immersionSearchRequestState as RequestedImmersionSearchRequestState;
-    final iMetier = state.metier;
-    final iLocation = state.ville;
+    final String metier =
+        searchedMetiers.firstWhereOrNull((element) => element.codeRome == requestState.codeRome)?.libelle ??
+            state.metier;
+    final location = requestState.ville;
     return ImmersionSavedSearch(
-      title: Strings.savedSearchTitleField(iMetier, iLocation),
-      metier: iMetier,
-      location: iLocation,
+      title: Strings.savedSearchTitleField(metier, location),
+      metier: metier,
+      location: location,
       filters: ImmersionSearchParametersFilters.withFilters(
         codeRome: requestState.codeRome,
         lat: requestState.latitude,
