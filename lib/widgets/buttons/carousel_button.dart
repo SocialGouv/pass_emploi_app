@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class CarouselButton extends StatelessWidget {
@@ -18,14 +20,21 @@ class CarouselButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return OutlinedButton(
       style: ButtonStyle(
-        foregroundColor: MaterialStateProperty.all(Colors.white),
-        backgroundColor: MaterialStateProperty.all(isActive ? AppColors.nightBlue : Colors.transparent),
+        backgroundColor: MaterialStateProperty.all(isActive ? AppColors.primaryLighten : Colors.transparent),
         shape: MaterialStateProperty.all(StadiumBorder()),
-        side: MaterialStateProperty.all(BorderSide(color: AppColors.nightBlue, width: 1)),
+        side: MaterialStateProperty.all(BorderSide(color: isActive ? AppColors.primary : AppColors.grey800, width: 1)),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        child: Text(label, style: TextStyles.textSmMedium(color: isActive ? Colors.white : AppColors.nightBlue)),
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 16),
+        child: Row(
+          children: [
+            if (isActive) ...[
+              SvgPicture.asset(Drawables.icDone, width: 16, height: 16),
+              SizedBox(width: 8),
+            ],
+            Text(label, style: TextStyles.textSBold.copyWith(color: isActive ? AppColors.primary : AppColors.grey800)),
+          ],
+        ),
       ),
       onPressed: onPressed,
     );

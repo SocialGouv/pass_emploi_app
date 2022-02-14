@@ -16,7 +16,7 @@ void showSuccessfulSnackBar(BuildContext context, String label) {
         mainAxisSize: MainAxisSize.max,
         children: [
           SvgPicture.asset(
-            Drawables.icDone,
+            Drawables.icDoneCircle,
             color: AppColors.secondary,
           ),
           Expanded(
