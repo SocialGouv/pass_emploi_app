@@ -39,6 +39,7 @@ import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dar
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
@@ -47,6 +48,7 @@ import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart' as redux;
 
 import '../middlewares/initialize_saved_search_middleware.dart';
+import '../middlewares/saved_search/saved_searchs_list_request_middleware.dart';
 import '../middlewares/user_tracking_structure_middleware.dart';
 
 class StoreFactory {
@@ -70,6 +72,7 @@ class StoreFactory {
   final TrackingEventRepository trackingEventRepository;
   final OffreEmploiSavedSearchRepository offreEmploiSavedSearchRepository;
   final ImmersionSavedSearchRepository immersionSavedSearchRepository;
+  final GetSavedSearchRepository getSavedSearchRepository;
 
   StoreFactory(
     this.authenticator,
@@ -92,6 +95,7 @@ class StoreFactory {
     this.trackingEventRepository,
     this.offreEmploiSavedSearchRepository,
     this.immersionSavedSearchRepository,
+    this.getSavedSearchRepository,
   );
 
   redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -120,6 +124,7 @@ class StoreFactory {
         SavedSearchMiddleware<OffreEmploiSavedSearch>(offreEmploiSavedSearchRepository),
         SavedSearchMiddleware<ImmersionSavedSearch>(immersionSavedSearchRepository),
         InitializeSavedSearchMiddleware(),
+        SavedSearchListRequestMiddleware(getSavedSearchRepository),
         ..._debugMiddleware(),
       ],
     );

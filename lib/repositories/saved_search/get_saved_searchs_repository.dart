@@ -21,7 +21,15 @@ class GetSavedSearchRepository {
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes);
         final list = (json as List).map((search) => SavedSearchResponse.fromJson(search)).toList();
-        return list;
+        return list.map((e) {
+          if (e.type == "OFFRES_IMMERSION") {
+            return SavedSearchImmersionExtractor().extract(e);
+          } else if (e.type == "OFFRES_EMPLOI") {
+            return SavedSearchEmploiExtractor().extract(e);
+          } else {
+            return null;
+          }
+        }).toList();
       }
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);

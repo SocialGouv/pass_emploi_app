@@ -37,12 +37,12 @@ class SavedSearchResponse {
 class SavedSearchResponseCriteres {
   final String? q;
   final String? departement;
-  final bool alternance;
+  final bool? alternance;
   final List<String>? experience;
   final List<String>? contrat;
   final List<String>? duree;
   final String? commune;
-  final double? rayon;
+  final int? rayon;
   final double? lon;
   final double? lat;
   final String? rome;
@@ -50,7 +50,7 @@ class SavedSearchResponseCriteres {
   SavedSearchResponseCriteres(
       {this.q,
       this.departement,
-      required this.alternance,
+      this.alternance,
       this.experience,
       this.contrat,
       this.duree,
@@ -64,12 +64,12 @@ class SavedSearchResponseCriteres {
     return SavedSearchResponseCriteres(
       q: json["q"] as String?,
       departement: json["departement"] as String?,
-      alternance: json["alternance"] as bool,
+      alternance: json["alternance"] as bool?,
       experience: (json["experience"] as List?)?.map((e) => e as String).toList(),
       contrat: (json["contrat"] as List?)?.map((e) => e as String).toList(),
       duree: (json["duree"] as List?)?.map((e) => e as String).toList(),
       commune: json["commune"] as String?,
-      rayon: json["rayon"] as double?,
+      rayon: json["rayon"] as int?,
       lat: json["lat"] as double?,
       lon: json["lon"] as double?,
       rome: json["rome"] as String?,
@@ -84,7 +84,7 @@ class SavedSearchEmploiExtractor {
       metier: savedSearch.metier,
       location: _getLocation(savedSearch),
       keywords: savedSearch.criteres.q,
-      isAlternance: savedSearch.criteres.alternance,
+      isAlternance: savedSearch.criteres.alternance!,
       filters: _getFilters(savedSearch.criteres),
     );
   }
@@ -107,7 +107,7 @@ class SavedSearchEmploiExtractor {
 
   OffreEmploiSearchParametersFiltres _getFilters(SavedSearchResponseCriteres criteres) {
     return OffreEmploiSearchParametersFiltres.withFiltres(
-      distance: criteres.rayon?.toInt(),
+      distance: criteres.rayon,
       experience: criteres.experience?.map((e) => FiltresRequest.experienceFromUrlParameter(e)).toList(),
       contrat: criteres.contrat?.map((e) => FiltresRequest.contratFromUrlParameter(e)).toList(),
       duree: criteres.duree?.map((e) => FiltresRequest.dureeFromUrlParameter(e)).toList(),

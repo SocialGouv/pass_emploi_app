@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/redux/states/app_state.dart';
 
+import '../presentation/saved_search/saved_search_list_view_model.dart';
+import '../redux/actions/saved_search_actions.dart';
+import '../ui/app_colors.dart';
 import '../ui/margins.dart';
 import '../ui/strings.dart';
 import '../widgets/buttons/carousel_button.dart';
@@ -18,13 +23,22 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
 
   @override
   Widget build(BuildContext context) {
+    return StoreConnector<AppState, SavedSearchListViewModel>(
+      onInit: (store) => store.dispatch(RequestSavedSearchListAction()),
+      builder: (context, viewModel) => _scrollView(viewModel),
+      converter: (store) => SavedSearchListViewModel.createFromStore(store),
+      distinct: true,
+    );
+  }
+
+  SingleChildScrollView _scrollView(SavedSearchListViewModel viewModel) {
     return SingleChildScrollView(
       physics: const AlwaysScrollableScrollPhysics(),
       child: Column(
         children: [
           SizedBox(height: Margins.spacing_m),
           _carousel(),
-          _content(),
+          _content(viewModel),
         ],
       ),
     );
@@ -59,14 +73,14 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     );
   }
 
-  Widget _content() {
+  Widget _content(SavedSearchListViewModel viewModel) {
     switch (_selectedIndex) {
       case 0:
-        return Container();
+        return getOffreEmplois(viewModel);
       case 1:
-        return Container();
+        return getOffreEmplois(viewModel);
       default:
-        return Container();
+        return getOffreEmplois(viewModel);
     }
   }
 
@@ -74,5 +88,14 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  Widget getOffreEmplois(SavedSearchListViewModel viewModel) {
+    final offreEmplois = viewModel.getOffresEmploi(false);
+    if (offreEmplois.isEmpty) return Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
+    return ListView.builder(
+      itemCount: offreEmplois.length,
+      itemBuilder: (context, position) => Text(offreEmplois[position].title),
+    );
   }
 }
