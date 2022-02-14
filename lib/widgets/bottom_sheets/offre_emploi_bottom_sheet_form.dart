@@ -61,7 +61,7 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           PrimaryActionButton(
-            label: Strings.addAnAction,
+            label: Strings.createSavedSearchButton,
             drawableRes: Drawables.icAlert,
             iconSize: 18,
             onPressed: (_isFormValid())

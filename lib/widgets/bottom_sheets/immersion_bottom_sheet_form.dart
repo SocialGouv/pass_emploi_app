@@ -59,7 +59,7 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           PrimaryActionButton(
-            label: Strings.addAnAction,
+            label: Strings.createSavedSearchButton,
             drawableRes: Drawables.icAlert,
             iconSize: 18,
             onPressed: (_isFormValid())
