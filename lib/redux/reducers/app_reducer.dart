@@ -105,7 +105,7 @@ AppState reducer(AppState current, dynamic action) {
       immersionSavedSearchState:
           _immersionSavedSearchReducer.reduceSavedSearchState(current.immersionSavedSearchState, action),
     );
-  } else if (action is SavedSearchListAction) {
+  } else if (action is RequestSavedSearchListAction) {
     return current.copyWith(
       savedSearchListState: _savedSearchListReducer.reduce(action),
     );

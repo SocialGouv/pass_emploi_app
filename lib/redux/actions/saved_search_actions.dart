@@ -26,7 +26,7 @@ class RequestSavedSearchListAction extends SavedSearchListAction {}
 class SavedSearchListFailureAction extends SavedSearchListAction {}
 
 class SavedSearchListSuccessAction extends SavedSearchListAction {
-  final List savedSearchs;
+  final List savedSearches;
 
-  SavedSearchListSuccessAction(this.savedSearchs);
+  SavedSearchListSuccessAction(this.savedSearches);
 }

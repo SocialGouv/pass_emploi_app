@@ -9,7 +9,7 @@ class SavedSearchListReducer {
     } else if (action is SavedSearchListFailureAction) {
       return State.failure();
     } else if (action is SavedSearchListSuccessAction) {
-      return State.success(action.savedSearchs);
+      return State.success(action.savedSearches);
     } else {
       return State.notInitialized();
     }
