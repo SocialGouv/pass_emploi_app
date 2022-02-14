@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
+import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/widgets/cards/saved_search_card.dart';
 
 import '../presentation/saved_search/saved_search_list_view_model.dart';
 import '../redux/actions/saved_search_actions.dart';
@@ -31,16 +35,13 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     );
   }
 
-  SingleChildScrollView _scrollView(SavedSearchListViewModel viewModel) {
-    return SingleChildScrollView(
-      physics: const AlwaysScrollableScrollPhysics(),
-      child: Column(
-        children: [
-          SizedBox(height: Margins.spacing_m),
-          _carousel(),
-          _content(viewModel),
-        ],
-      ),
+  Widget _scrollView(SavedSearchListViewModel viewModel) {
+    return Column(
+      children: [
+        SizedBox(height: Margins.spacing_m),
+        _carousel(),
+        Expanded(child: _content(viewModel)),
+      ],
     );
   }
 
@@ -76,11 +77,11 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   Widget _content(SavedSearchListViewModel viewModel) {
     switch (_selectedIndex) {
       case 0:
-        return getOffreEmplois(viewModel);
+        return _getSavedSearchOffreEmplois(viewModel, false);
       case 1:
-        return getOffreEmplois(viewModel);
+        return _getSavedSearchOffreEmplois(viewModel, true);
       default:
-        return getOffreEmplois(viewModel);
+        return _getSavedSearchImmersions(viewModel);
     }
   }
 
@@ -90,12 +91,78 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     });
   }
 
-  Widget getOffreEmplois(SavedSearchListViewModel viewModel) {
-    final offreEmplois = viewModel.getOffresEmploi(false);
+  Widget _getSavedSearchOffreEmplois(SavedSearchListViewModel viewModel, bool isAlternance) {
+    final offreEmplois = viewModel.getOffresEmploi(isAlternance);
     if (offreEmplois.isEmpty) return Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
     return ListView.builder(
+      scrollDirection: Axis.vertical,
       itemCount: offreEmplois.length,
-      itemBuilder: (context, position) => Text(offreEmplois[position].title),
+      itemBuilder: (context, position) {
+        double topPadding = (position == 0) ? Margins.spacing_m : 0;
+        return Padding(
+          padding: EdgeInsets.fromLTRB(Margins.spacing_base, topPadding, Margins.spacing_base, Margins.spacing_base),
+          child: _buildCard(context, offreEmplois[position]),
+        );
+      },
+    );
+  }
+
+  Widget _buildCard(BuildContext context, OffreEmploiSavedSearch offreEmploi) {
+    return SavedSearchCard(
+      title: offreEmploi.title,
+      lieu: offreEmploi.location?.libelle,
+      dataTag: [
+        if (offreEmploi.metier != null) offreEmploi.metier!,
+        ..._getDureeTags(offreEmploi.filters.duree),
+        ..._getContratTags(offreEmploi.filters.contrat),
+        ..._getExperienceTags(offreEmploi.filters.experience),
+        if (offreEmploi.filters.distance != null) (offreEmploi.filters.distance.toString() + " km")
+      ],
+    );
+  }
+
+  List<String> _getDureeTags(List<DureeFiltre>? duree) {
+    if (duree == null) {
+      return [];
+    }
+    return duree.map((e) => FiltresLabels.fromDureeToString(e)).toList();
+  }
+
+  List<String> _getContratTags(List<ContratFiltre>? contrat) {
+    if (contrat == null) {
+      return [];
+    }
+    return contrat.map((e) => FiltresLabels.fromContratToString(e)).toList();
+  }
+
+  List<String> _getExperienceTags(List<ExperienceFiltre>? experience) {
+    if (experience == null) {
+      return [];
+    }
+    return experience.map((e) => FiltresLabels.fromExperienceToString(e)).toList();
+  }
+
+  Widget _getSavedSearchImmersions(SavedSearchListViewModel viewModel) {
+    final savedSearchsImmersion = viewModel.getImmersions();
+    if (savedSearchsImmersion.isEmpty) return Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
+    return ListView.builder(
+      scrollDirection: Axis.vertical,
+      itemCount: savedSearchsImmersion.length,
+      itemBuilder: (context, position) {
+        double topPadding = (position == 0) ? Margins.spacing_m : 0;
+        return Padding(
+          padding: EdgeInsets.fromLTRB(Margins.spacing_base, topPadding, Margins.spacing_base, Margins.spacing_base),
+          child: _buildImmersionCard(context, savedSearchsImmersion[position]),
+        );
+      },
+    );
+  }
+
+  Widget _buildImmersionCard(BuildContext context, ImmersionSavedSearch savedSearchsImmersion) {
+    return SavedSearchCard(
+      title: savedSearchsImmersion.title,
+      lieu: savedSearchsImmersion.location,
+      dataTag: [savedSearchsImmersion.metier],
     );
   }
 }

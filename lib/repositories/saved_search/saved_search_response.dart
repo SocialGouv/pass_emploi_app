@@ -94,7 +94,7 @@ class SavedSearchEmploiExtractor {
       final type = savedSearch.criteres.commune == null ? LocationType.DEPARTMENT : LocationType.COMMUNE;
       return Location(
         type: type,
-        code: type == LocationType.DEPARTMENT ? savedSearch.criteres.departement! : savedSearch.criteres.commune!,
+        code: savedSearch.criteres.commune ?? savedSearch.criteres.departement!,
         libelle: savedSearch.localisation ?? "",
         codePostal: null,
         longitude: null,

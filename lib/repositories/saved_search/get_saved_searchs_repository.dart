@@ -24,7 +24,7 @@ class GetSavedSearchRepository {
         return list.map((e) {
           if (e.type == "OFFRES_IMMERSION") {
             return SavedSearchImmersionExtractor().extract(e);
-          } else if (e.type == "OFFRES_EMPLOI") {
+          } else if (e.type == "OFFRES_EMPLOI" || e.type == "OFFRES_ALTERNANCE") {
             return SavedSearchEmploiExtractor().extract(e);
           } else {
             return null;
