@@ -35,7 +35,7 @@ class FiltreButton extends StatelessWidget {
         ),
       ),
       onPressed: onPressed,
-      child: Padding(padding: EdgeInsets.fromLTRB(12, 6, 0, 6), child: _buildRow()),
+      child: Padding(padding: EdgeInsets.fromLTRB(12, 7, 0, 7), child: _buildRow()),
     );
   }
 
@@ -43,11 +43,11 @@ class FiltreButton extends StatelessWidget {
     return OutlinedButton(
       style: OutlinedButton.styleFrom(
         shape: StadiumBorder(),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         side: BorderSide(color: AppColors.primary, width: 2),
       ),
       onPressed: onPressed,
-      child: Padding(padding: EdgeInsets.fromLTRB(12, 6, 0, 6), child: _buildRow()),
+      child: Padding(padding: EdgeInsets.fromLTRB(12, 16, 0, 16), child: _buildRow()),
     );
   }
 
@@ -58,7 +58,9 @@ class FiltreButton extends StatelessWidget {
       children: [
         Text(
           Strings.filtrer,
-          style: TextStyles.textPrimaryButton.copyWith(fontSize: FontSizes.medium, color: accentColor),
+          style: primary
+              ? TextStyles.textPrimaryButton.copyWith(fontSize: FontSizes.medium)
+              : TextStyles.textSecondaryButton,
         ),
         SizedBox(width: Margins.spacing_base),
         SvgPicture.asset(Drawables.icFilter, height: 18, width: 18, color: accentColor),
