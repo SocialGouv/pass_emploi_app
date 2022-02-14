@@ -9,9 +9,9 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
+import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -120,6 +120,7 @@ class Link extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
+      color: Colors.transparent,
       child: InkWell(
         onTap: () {
           MatomoTracker.trackScreenWithName(link, AnalyticsScreenNames.entree);
