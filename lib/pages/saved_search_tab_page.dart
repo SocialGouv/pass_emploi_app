@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/widgets/cards/saved_search_card.dart';
 
@@ -11,6 +12,7 @@ import '../redux/actions/saved_search_actions.dart';
 import '../ui/app_colors.dart';
 import '../ui/margins.dart';
 import '../ui/strings.dart';
+import '../ui/text_styles.dart';
 import '../widgets/buttons/carousel_button.dart';
 
 const int _indexOfOffresEmploi = 0;
@@ -92,8 +94,15 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   }
 
   Widget _getSavedSearchOffreEmplois(SavedSearchListViewModel viewModel, bool isAlternance) {
+    if (viewModel.displayState == DisplayState.LOADING) {
+      return Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
+    }
+    if (viewModel.displayState == DisplayState.FAILURE) {
+      return Center(child: Text(Strings.savedSearchGetError, style: TextStyles.textSmRegular()));
+    }
     final offreEmplois = viewModel.getOffresEmploi(isAlternance);
-    if (offreEmplois.isEmpty) return Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
+    if (offreEmplois.isEmpty)
+      return Center(child: Text(Strings.noSavedSearchYetYet, style: TextStyles.textSmRegular()));
     return ListView.builder(
       scrollDirection: Axis.vertical,
       itemCount: offreEmplois.length,
@@ -143,8 +152,15 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   }
 
   Widget _getSavedSearchImmersions(SavedSearchListViewModel viewModel) {
+    if (viewModel.displayState == DisplayState.LOADING) {
+      return Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
+    }
+    if (viewModel.displayState == DisplayState.FAILURE) {
+      return Center(child: Text(Strings.savedSearchGetError, style: TextStyles.textSmRegular()));
+    }
     final savedSearchsImmersion = viewModel.getImmersions();
-    if (savedSearchsImmersion.isEmpty) return Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
+    if (savedSearchsImmersion.isEmpty)
+      return Center(child: Text(Strings.noSavedSearchYetYet, style: TextStyles.textSmRegular()));
     return ListView.builder(
       scrollDirection: Axis.vertical,
       itemCount: savedSearchsImmersion.length,
