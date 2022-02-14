@@ -8,7 +8,6 @@ import 'package:pass_emploi_app/redux/states/saved_search_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
-import 'package:pass_emploi_app/repositories/saved_search/saved_search_repository.dart';
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
@@ -105,23 +104,22 @@ main() {
   });
 
   group("When user tries to get a list of immersion saved searches ...", () {
-    test("update state with success if repository returns something", () async {
+    test("update state with success if repository returns data", () async {
       // Given
       final testStoreFactory = TestStoreFactory();
       testStoreFactory.getSavedSearchRepository = SavedSearchRepositorySuccessStub();
       final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
 
       final displayedLoading = store.onChange.any((element) => element.savedSearchListState.isLoading());
-      // final successAppState = store.onChange.firstWhere((element) => element.savedSearchListState.isSuccess());
+      final successAppState = store.onChange.firstWhere((element) => element.savedSearchListState.isSuccess());
       // When
-      store.dispatch(RequestSavedSearchListAction);
+      store.dispatch(RequestSavedSearchListAction());
 
       // Then
-      final stateTest = store.state.savedSearchListState;
       expect(await displayedLoading, true);
-      // final appState = await displayedLoading;
-      // expect(appState.savedSearchListState.getResultOrThrow().length, 1);
-      // expect(appState.savedSearchListState.getResultOrThrow()[0].date, DateTime(2022));
+      final appState = await successAppState;
+      expect(appState.savedSearchListState.getResultOrThrow().length, 1);
+      expect(appState.savedSearchListState.getResultOrThrow()[0].title, "Boulangerie - viennoiserie - PARIS-14");
     });
 
     test("update state with failure if repository returns nothing", () async {
@@ -134,7 +132,7 @@ main() {
       final failureAppState = store.onChange.firstWhere((element) => element.savedSearchListState.isFailure());
 
       // When
-      store.dispatch(RequestSavedSearchListAction);
+      store.dispatch(RequestSavedSearchListAction());
 
       // Then
       expect(await displayedLoading, true);
@@ -163,8 +161,7 @@ class ImmersionSavedSearchRepositoryFailureStub extends ImmersionSavedSearchRepo
 }
 
 class SavedSearchRepositorySuccessStub extends GetSavedSearchRepository {
-  SavedSearchRepositorySuccessStub()
-      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyCrashlytics());
+  SavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyCrashlytics());
 
   @override
   Future<List<ImmersionSavedSearch>?> getSavedSearch(String userId) async {
