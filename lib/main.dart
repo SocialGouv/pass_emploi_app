@@ -6,7 +6,6 @@ import 'dart:isolate';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -47,6 +46,7 @@ import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_r
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
 
+import 'analytics/analytics_constants.dart';
 import 'configuration/app_version_checker.dart';
 import 'configuration/configuration.dart';
 import 'crashlytics/crashlytics.dart';
@@ -78,6 +78,7 @@ Future<void> _initializeMatomoTracker(Configuration configuration) async {
   final siteId = configuration.matomoSiteId;
   final url = configuration.matomoBaseUrl;
   await MatomoTracker().initialize(siteId: int.parse(siteId), url: url);
+  MatomoTracker.setCustomDimension(AnalyticsCustomDimensions.userTypeId, AnalyticsCustomDimensions.appUserType);
 }
 
 Future<RemoteConfig?> _remoteConfig() async {
