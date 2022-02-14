@@ -11,8 +11,6 @@ import '../snack_bar/show_snack_bar.dart';
 import 'immersion_bottom_sheet_form.dart';
 
 class ImmersionSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<ImmersionSavedSearch> {
-  final _formKey = GlobalKey<FormState>();
-
   ImmersionSavedSearchBottomSheet()
       : super(
           analyticsScreenName: AnalyticsScreenNames.immersionCreateAlert,
@@ -28,14 +26,10 @@ class ImmersionSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<Imm
     return _buildForm(context, viewModel);
   }
 
-  Form _buildForm(BuildContext context, ImmersionSavedSearchViewModel viewModel) {
-    return Form(
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      key: _formKey,
-      child: FractionallySizedBox(
-        heightFactor: 0.90,
-        child: ImmersionBottomSheetForm(viewModel),
-      ),
+  Widget _buildForm(BuildContext context, ImmersionSavedSearchViewModel viewModel) {
+    return FractionallySizedBox(
+      heightFactor: 0.90,
+      child: ImmersionBottomSheetForm(viewModel),
     );
   }
 
