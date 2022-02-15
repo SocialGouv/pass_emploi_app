@@ -48,7 +48,8 @@ class SavedSearchResponseCriteres {
   final double? lat;
   final String? rome;
 
-  SavedSearchResponseCriteres({this.q,
+  SavedSearchResponseCriteres({
+    this.q,
     this.departement,
     this.alternance,
     this.experience,
@@ -58,7 +59,8 @@ class SavedSearchResponseCriteres {
     this.rayon,
     this.lon,
     this.lat,
-    this.rome});
+    this.rome,
+  });
 
   factory SavedSearchResponseCriteres.fromJson(dynamic json) {
     return SavedSearchResponseCriteres(
@@ -69,9 +71,9 @@ class SavedSearchResponseCriteres {
       contrat: (json["contrat"] as List?)?.map((e) => e as String).toList(),
       duree: (json["duree"] as List?)?.map((e) => e as String).toList(),
       commune: json["commune"] as String?,
-      rayon: json["rayon"] as int?,
-      lat: json["lat"] as double?,
-      lon: json["lon"] as double?,
+      rayon: (json["rayon"] as num?)?.toInt(),
+      lat: (json["lat"] as num?)?.toDouble(),
+      lon: (json["lon"] as num?)?.toDouble(),
       rome: json["rome"] as String?,
     );
   }
