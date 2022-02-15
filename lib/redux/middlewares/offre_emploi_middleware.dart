@@ -61,6 +61,18 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
             filtres: action.updatedFiltres,
           ),
         );
+      } else if (action is OffreEmploiSearchWithFiltresAction) {
+        _resetSearchWithUpdatedFiltres(
+          store: store,
+          userId: userId,
+          request: SearchOffreEmploiRequest(
+            keywords: action.keywords,
+            location: action.location,
+            onlyAlternance: action.onlyAlternance,
+            page: 1,
+            filtres: action.updatedFiltres,
+          ),
+        );
       }
     }
   }

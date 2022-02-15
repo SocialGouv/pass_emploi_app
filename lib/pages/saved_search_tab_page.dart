@@ -17,6 +17,7 @@ import '../ui/margins.dart';
 import '../ui/strings.dart';
 import '../ui/text_styles.dart';
 import '../widgets/buttons/carousel_button.dart';
+import 'offre_emploi_list_page.dart';
 
 const int _indexOfOffresEmploi = 0;
 const int _indexOfAlternance = 1;
@@ -29,11 +30,20 @@ class SavedSearchTabPage extends StatefulWidget {
 
 class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   int _selectedIndex = 0;
+  bool _shouldNavigate = false;
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, SavedSearchListViewModel>(
       onInit: (store) => store.dispatch(RequestSavedSearchListAction()),
+      onWillChange: (previousVM, newViewModel) {
+        if (newViewModel.shouldGoToOffre && _shouldNavigate) {
+          _shouldNavigate = false;
+          Navigator.push(context, MaterialPageRoute(builder: (_) {
+            return OffreEmploiListPage(onlyAlternance: false);
+          })).then((_) => _shouldNavigate = true);
+        }
+      },
       builder: (context, viewModel) => _scrollView(viewModel),
       converter: (store) => SavedSearchListViewModel.createFromStore(store),
       distinct: true,
@@ -122,14 +132,15 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
         double topPadding = (position == 0) ? Margins.spacing_m : 0;
         return Padding(
           padding: EdgeInsets.fromLTRB(Margins.spacing_base, topPadding, Margins.spacing_base, Margins.spacing_base),
-          child: _buildCard(context, offreEmplois[position]),
+          child: _buildCard(context, offreEmplois[position], viewModel),
         );
       },
     );
   }
 
-  Widget _buildCard(BuildContext context, OffreEmploiSavedSearch offreEmploi) {
+  Widget _buildCard(BuildContext context, OffreEmploiSavedSearch offreEmploi, SavedSearchListViewModel viewModel) {
     return SavedSearchCard(
+      onTap: () => viewModel.offreEmploiSelected(offreEmploi),
       title: offreEmploi.title,
       lieu: offreEmploi.location?.libelle,
       dataTag: [

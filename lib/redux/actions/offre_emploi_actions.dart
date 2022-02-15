@@ -47,3 +47,17 @@ class OffreEmploiSearchWithUpdateFiltresSuccessAction extends OffreEmploiAction 
 }
 
 class OffreEmploiSearchWithUpdateFiltresFailureAction extends OffreEmploiAction {}
+
+class OffreEmploiSearchWithFiltresAction extends OffreEmploiAction {
+  final String keywords;
+  final Location? location;
+  final bool onlyAlternance;
+  final OffreEmploiSearchParametersFiltres updatedFiltres;
+
+  OffreEmploiSearchWithFiltresAction({
+    required this.keywords,
+    required this.location,
+    required this.onlyAlternance,
+    required this.updatedFiltres,
+  });
+}
