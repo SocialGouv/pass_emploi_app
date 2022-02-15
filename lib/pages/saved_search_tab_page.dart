@@ -30,7 +30,7 @@ class SavedSearchTabPage extends StatefulWidget {
 
 class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   int _selectedIndex = 0;
-  bool _shouldNavigate = false;
+  bool _shouldNavigate = true;
 
   @override
   Widget build(BuildContext context) {
