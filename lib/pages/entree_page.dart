@@ -35,37 +35,36 @@ class EntreePage extends TraceableStatelessWidget {
                 SizedBox(height: 20),
                 Image.asset(Drawables.icUnJeuneUneSolution),
                 Expanded(
-                  child: Stack(
-                    children: [
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Image.asset(Drawables.jeuneEntree, alignment: Alignment.bottomCenter),
-                      ),
-                      Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Padding(
-                          padding: const EdgeInsets.all(Margins.spacing_m),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(16),
-                              boxShadow: [Shadows.boxShadow],
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.only(
-                                left: Margins.spacing_base,
-                                right: Margins.spacing_base,
-                                top: Margins.spacing_base,
-                              ),
-                              child: _buttonCard(context),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Image.asset(Drawables.jeuneEntree, alignment: Alignment.bottomCenter),
                   ),
                 ),
               ],
+            ),
+          ),
+          SafeArea(
+            bottom: false,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(Margins.spacing_m),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [Shadows.boxShadow],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(
+                      left: Margins.spacing_base,
+                      right: Margins.spacing_base,
+                      top: Margins.spacing_base,
+                    ),
+                    child: _buttonCard(context),
+                  ),
+                ),
+              ),
             ),
           ),
         ],
