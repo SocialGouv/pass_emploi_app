@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
@@ -11,12 +12,14 @@ import 'package:pass_emploi_app/widgets/cards/saved_search_card.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 import '../presentation/saved_search/saved_search_list_view_model.dart';
+import '../redux/actions/named_actions.dart';
 import '../redux/actions/saved_search_actions.dart';
 import '../ui/app_colors.dart';
 import '../ui/margins.dart';
 import '../ui/strings.dart';
 import '../ui/text_styles.dart';
 import '../widgets/buttons/carousel_button.dart';
+import 'immersion_list_page.dart';
 import 'offre_emploi_list_page.dart';
 
 const int _indexOfOffresEmploi = 0;
@@ -37,17 +40,30 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     return StoreConnector<AppState, SavedSearchListViewModel>(
       onInit: (store) => store.dispatch(RequestSavedSearchListAction()),
       onWillChange: (previousVM, newViewModel) {
-        if (newViewModel.shouldGoToOffre && _shouldNavigate) {
-          _shouldNavigate = false;
-          Navigator.push(context, MaterialPageRoute(builder: (_) {
-            return OffreEmploiListPage(onlyAlternance: false);
-          })).then((_) => _shouldNavigate = true);
-        }
+        if (newViewModel.shouldGoToOffre && _shouldNavigate) _goToOffresPage(context);
+        if (newViewModel.shouldGoToAlternance && _shouldNavigate) _goToOffresPage(context);
+        if (newViewModel.immersionsResults.isNotEmpty && _shouldNavigate)
+          _goToImmersion(context, newViewModel.immersionsResults);
       },
       builder: (context, viewModel) => _scrollView(viewModel),
       converter: (store) => SavedSearchListViewModel.createFromStore(store),
       distinct: true,
     );
+  }
+
+  void _goToOffresPage(BuildContext context) {
+    _shouldNavigate = false;
+    Navigator.push(context, MaterialPageRoute(builder: (_) {
+      return OffreEmploiListPage(onlyAlternance: _selectedIndex == 1);
+    })).then((_) => _shouldNavigate = true);
+  }
+
+  void _goToImmersion(BuildContext context, List<Immersion> immersionsResults) {
+    _shouldNavigate = false;
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ImmersionListPage(immersionsResults)))
+        .then((value) {
+      StoreProvider.of<AppState>(context).dispatch(ImmersionAction.reset());
+    }).then((_) => _shouldNavigate = true);
   }
 
   Widget _scrollView(SavedSearchListViewModel viewModel) {
@@ -185,14 +201,18 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
         double topPadding = (position == 0) ? Margins.spacing_m : 0;
         return Padding(
           padding: EdgeInsets.fromLTRB(Margins.spacing_base, topPadding, Margins.spacing_base, Margins.spacing_base),
-          child: _buildImmersionCard(context, savedSearchsImmersion[position]),
+          child: _buildImmersionCard(context, savedSearchsImmersion[position], viewModel),
         );
       },
     );
   }
 
-  Widget _buildImmersionCard(BuildContext context, ImmersionSavedSearch savedSearchsImmersion) {
+  Widget _buildImmersionCard(
+      BuildContext context, ImmersionSavedSearch savedSearchsImmersion, SavedSearchListViewModel viewModel) {
     return SavedSearchCard(
+      onTap: () {
+        viewModel.offreImmersionSelected(savedSearchsImmersion);
+      },
       title: savedSearchsImmersion.title,
       lieu: savedSearchsImmersion.location,
       dataTag: [savedSearchsImmersion.metier],
