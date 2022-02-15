@@ -40,6 +40,15 @@ AppState offreEmploiReducer(AppState currentState, OffreEmploiAction action) {
     } else {
       return currentState;
     }
+  } else if (action is OffreEmploiSearchWithFiltresAction) {
+    return currentState.copyWith(
+      offreEmploiSearchParametersState: OffreEmploiSearchParametersState.initialized(
+        keywords: action.keywords,
+        location: action.location,
+        onlyAlternance: action.onlyAlternance,
+        filtres: action.updatedFiltres,
+      ),
+    );
   } else {
     return currentState;
   }
