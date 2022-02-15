@@ -12,7 +12,7 @@ class FiltresRequest {
     }
   }
 
-  static ExperienceFiltre experienceFromUrlParameter(String url) {
+  static ExperienceFiltre? experienceFromUrlParameter(String url) {
     switch (url) {
       case "1":
         return ExperienceFiltre.de_zero_a_un_an;
@@ -21,7 +21,7 @@ class FiltresRequest {
       case "3":
         return ExperienceFiltre.trois_ans_et_plus;
       default:
-        throw Exception("Experience type not defined: $url");
+        return null;
     }
   }
 
@@ -36,7 +36,7 @@ class FiltresRequest {
     }
   }
 
-  static ContratFiltre contratFromUrlParameter(String url) {
+  static ContratFiltre? contratFromUrlParameter(String url) {
     switch (url) {
       case "CDI":
         return ContratFiltre.cdi;
@@ -45,7 +45,7 @@ class FiltresRequest {
       case "autre":
         return ContratFiltre.autre;
       default:
-        throw Exception("Contrat type not defined: $url");
+        return null;
     }
   }
 
@@ -58,14 +58,14 @@ class FiltresRequest {
     }
   }
 
-  static DureeFiltre dureeFromUrlParameter(String url) {
+  static DureeFiltre? dureeFromUrlParameter(String url) {
     switch (url) {
       case "1":
         return DureeFiltre.temps_plein;
       case "2":
         return DureeFiltre.temps_partiel;
       default:
-        throw Exception("Duree type not defined: $url");
+        return null;
     }
   }
 }

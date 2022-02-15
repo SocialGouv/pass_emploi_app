@@ -322,7 +322,7 @@ class Strings {
       "Votre recherche a bien été enregistrée en favoris. Retrouvez-la dans la page favoris.";
   static String creationSavedSearchError = "Erreur lors de la création de la recherche sauvegardée. Veuillez réessayer";
   static String savedSearchGetError = "Erreur lors de la récupération des recherches sauvegardées.";
-  static String noSavedSearchYetYet = "Aucune recherche sauvegardée.";
+  static String noSavedSearchYet = "Aucune recherche sauvegardée.";
   static String savedSearchTabName = "Mes recherches";
   static String favorisTabName = "Mes offres";
   static String savedSearchSeeResults = "Voir les résultats";

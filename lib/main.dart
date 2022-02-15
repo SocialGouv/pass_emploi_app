@@ -127,33 +127,34 @@ Future<Store<AppState>> _initializeReduxStore(
   );
   final chatCrypto = ChatCrypto();
   final reduxStore = StoreFactory(
-    authenticator,
-    UserActionRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
-    RendezvousRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
-    OffreEmploiRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
-    ChatRepository(chatCrypto, crashlytics),
-    RegisterTokenRepository(
-      configuration.serverBaseUrl,
-      httpClient,
-      headersBuilder,
-      pushNotificationManager,
-      crashlytics,
-    ),
-    crashlytics,
-    OffreEmploiDetailsRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
-    OffreEmploiFavorisRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
-    ImmersionFavorisRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
-    SearchLocationRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
-    MetierRepository(),
-    ImmersionRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
-    ImmersionDetailsRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
-    FirebaseAuthRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
-    FirebaseAuthWrapper(),
-    chatCrypto,
-    TrackingEventRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
-    OffreEmploiSavedSearchRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
-    ImmersionSavedSearchRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
-      GetSavedSearchRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics)).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
+          authenticator,
+          UserActionRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+          RendezvousRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+          OffreEmploiRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+          ChatRepository(chatCrypto, crashlytics),
+          RegisterTokenRepository(
+            configuration.serverBaseUrl,
+            httpClient,
+            headersBuilder,
+            pushNotificationManager,
+            crashlytics,
+          ),
+          crashlytics,
+          OffreEmploiDetailsRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+          OffreEmploiFavorisRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+          ImmersionFavorisRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+          SearchLocationRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+          MetierRepository(),
+          ImmersionRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+          ImmersionDetailsRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+          FirebaseAuthRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+          FirebaseAuthWrapper(),
+          chatCrypto,
+          TrackingEventRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+          OffreEmploiSavedSearchRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+          ImmersionSavedSearchRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+          GetSavedSearchRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics))
+      .initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
   accessTokenRetriever.setStore(reduxStore);
   return reduxStore;
 }

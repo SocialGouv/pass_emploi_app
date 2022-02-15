@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 
@@ -41,7 +42,7 @@ class SavedSearchCard extends StatelessWidget {
             onTap: this.onTap ?? () {},
             splashColor: AppColors.primaryLighten,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+              padding: const EdgeInsets.fromLTRB(Margins.spacing_base, 0, Margins.spacing_base, Margins.spacing_base),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [

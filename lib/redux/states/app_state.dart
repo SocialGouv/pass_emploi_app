@@ -192,6 +192,8 @@ class AppState extends Equatable {
         immersionDetailsState,
         offreEmploiSavedSearchState,
         immersionSavedSearchState,
+        immersionSearchRequestState,
+        savedSearchListState,
       ];
 
   @override

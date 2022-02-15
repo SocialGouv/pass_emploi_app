@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/network/filtres_request.dart';
@@ -47,18 +48,17 @@ class SavedSearchResponseCriteres {
   final double? lat;
   final String? rome;
 
-  SavedSearchResponseCriteres(
-      {this.q,
-      this.departement,
-      this.alternance,
-      this.experience,
-      this.contrat,
-      this.duree,
-      this.commune,
-      this.rayon,
-      this.lon,
-      this.lat,
-      this.rome});
+  SavedSearchResponseCriteres({this.q,
+    this.departement,
+    this.alternance,
+    this.experience,
+    this.contrat,
+    this.duree,
+    this.commune,
+    this.rayon,
+    this.lon,
+    this.lat,
+    this.rome});
 
   factory SavedSearchResponseCriteres.fromJson(dynamic json) {
     return SavedSearchResponseCriteres(
@@ -108,9 +108,9 @@ class SavedSearchEmploiExtractor {
   OffreEmploiSearchParametersFiltres _getFilters(SavedSearchResponseCriteres criteres) {
     return OffreEmploiSearchParametersFiltres.withFiltres(
       distance: criteres.rayon,
-      experience: criteres.experience?.map((e) => FiltresRequest.experienceFromUrlParameter(e)).toList(),
-      contrat: criteres.contrat?.map((e) => FiltresRequest.contratFromUrlParameter(e)).toList(),
-      duree: criteres.duree?.map((e) => FiltresRequest.dureeFromUrlParameter(e)).toList(),
+      experience: criteres.experience?.map((e) => FiltresRequest.experienceFromUrlParameter(e)).whereNotNull().toList(),
+      contrat: criteres.contrat?.map((e) => FiltresRequest.contratFromUrlParameter(e)).whereNotNull().toList(),
+      duree: criteres.duree?.map((e) => FiltresRequest.dureeFromUrlParameter(e)).whereNotNull().toList(),
     );
   }
 }

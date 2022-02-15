@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.da
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/widgets/cards/saved_search_card.dart';
+import 'package:pass_emploi_app/widgets/retry.dart';
 
 import '../presentation/saved_search/saved_search_list_view_model.dart';
 import '../redux/actions/saved_search_actions.dart';
@@ -79,6 +80,16 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   }
 
   Widget _content(SavedSearchListViewModel viewModel) {
+    if (viewModel.displayState == DisplayState.LOADING) {
+      return Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
+    }
+    if (viewModel.displayState == DisplayState.FAILURE) {
+      return Center(
+          child: Retry(
+        Strings.savedSearchGetError,
+        () => viewModel.onRetry(),
+      ));
+    }
     switch (_selectedIndex) {
       case 0:
         MatomoTracker.trackScreenWithName(
@@ -102,15 +113,8 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   }
 
   Widget _getSavedSearchOffreEmplois(SavedSearchListViewModel viewModel, bool isAlternance) {
-    if (viewModel.displayState == DisplayState.LOADING) {
-      return Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
-    }
-    if (viewModel.displayState == DisplayState.FAILURE) {
-      return Center(child: Text(Strings.savedSearchGetError, style: TextStyles.textSmRegular()));
-    }
     final offreEmplois = viewModel.getOffresEmploi(isAlternance);
-    if (offreEmplois.isEmpty)
-      return Center(child: Text(Strings.noSavedSearchYetYet, style: TextStyles.textSmRegular()));
+    if (offreEmplois.isEmpty) return Center(child: Text(Strings.noSavedSearchYet, style: TextStyles.textSmRegular()));
     return ListView.builder(
       scrollDirection: Axis.vertical,
       itemCount: offreEmplois.length,
@@ -160,15 +164,9 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   }
 
   Widget _getSavedSearchImmersions(SavedSearchListViewModel viewModel) {
-    if (viewModel.displayState == DisplayState.LOADING) {
-      return Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
-    }
-    if (viewModel.displayState == DisplayState.FAILURE) {
-      return Center(child: Text(Strings.savedSearchGetError, style: TextStyles.textSmRegular()));
-    }
     final savedSearchsImmersion = viewModel.getImmersions();
     if (savedSearchsImmersion.isEmpty)
-      return Center(child: Text(Strings.noSavedSearchYetYet, style: TextStyles.textSmRegular()));
+      return Center(child: Text(Strings.noSavedSearchYet, style: TextStyles.textSmRegular()));
     return ListView.builder(
       scrollDirection: Axis.vertical,
       itemCount: savedSearchsImmersion.length,
