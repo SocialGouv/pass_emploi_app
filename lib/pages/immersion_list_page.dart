@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_offre_widget.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 
+import '../widgets/buttons/secondary_button.dart';
 import 'offre_page.dart';
 
 class ImmersionListPage extends TraceableStatelessWidget {
@@ -32,7 +33,16 @@ class ImmersionListPage extends TraceableStatelessWidget {
       child: Scaffold(
         backgroundColor: AppColors.grey100,
         appBar: passEmploiAppBar(label: Strings.immersionsTitle, withBackButton: true),
-        body: immersions.isEmpty ? EmptyOffreWidget() : _content(context),
+        body: immersions.isEmpty ? _empty(context) : _content(context),
+      ),
+    );
+  }
+
+  Widget _empty(BuildContext context) {
+    return EmptyOffreWidget(
+      additional: Padding(
+        padding: const EdgeInsets.only(top: Margins.spacing_base),
+        child: _alertSecondaryButton(context),
       ),
     );
   }
@@ -49,10 +59,15 @@ class ImmersionListPage extends TraceableStatelessWidget {
         Align(
           alignment: Alignment.bottomCenter,
           child: Padding(
-              padding: const EdgeInsets.only(bottom: Margins.spacing_m),
-              child: Wrap(spacing: 16, runSpacing: 16, children: [
-                _alertButton(context),
-              ])),
+            padding: const EdgeInsets.only(bottom: Margins.spacing_m),
+            child: Wrap(
+              spacing: 16,
+              runSpacing: 16,
+              children: [
+                _alertPrimaryButton(context),
+              ],
+            ),
+          ),
         ),
       ],
     );
@@ -70,7 +85,7 @@ class ImmersionListPage extends TraceableStatelessWidget {
     );
   }
 
-  Widget _alertButton(BuildContext context) {
+  Widget _alertPrimaryButton(BuildContext context) {
     return PrimaryActionButton(
       label: Strings.createAlert,
       drawableRes: Drawables.icAlert,
@@ -78,9 +93,19 @@ class ImmersionListPage extends TraceableStatelessWidget {
       heightPadding: 6,
       widthPadding: 6,
       iconSize: 16,
-      onPressed: () {
-        showPassEmploiBottomSheet(context: context, builder: (context) => ImmersionSavedSearchBottomSheet());
-      },
+      onPressed: () => _onAlertButtonPressed(context),
     );
+  }
+
+  Widget _alertSecondaryButton(BuildContext context) {
+    return SecondaryButton(
+      label: Strings.createAlert,
+      drawableRes: Drawables.icAlert,
+      onPressed: () => _onAlertButtonPressed(context),
+    );
+  }
+
+  void _onAlertButtonPressed(BuildContext context) {
+    showPassEmploiBottomSheet(context: context, builder: (context) => ImmersionSavedSearchBottomSheet());
   }
 }

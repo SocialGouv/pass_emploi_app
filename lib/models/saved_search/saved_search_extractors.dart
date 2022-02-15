@@ -39,17 +39,18 @@ class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSave
   }
 
   @override
-  bool isFailureState(Store<AppState> store) {
-    return store.state.offreEmploiSavedSearchState is SavedSearchFailureState;
-  }
+  bool isFailureState(Store<AppState> store) => store.state.offreEmploiSavedSearchState is SavedSearchFailureState;
 
   String _setTitleForOffer(String? metier, String? location) {
-    if (_stringWithValue(metier) && _stringWithValue(location))
+    if (_stringWithValue(metier) && _stringWithValue(location)) {
       return Strings.savedSearchTitleField(metier, location);
-    else if (_stringWithValue(metier))
+    } else if (_stringWithValue(metier)) {
       return metier!;
-    else if (_stringWithValue(location)) return location!;
-    return "";
+    } else if (_stringWithValue(location)) {
+      return location!;
+    } else {
+      return '';
+    }
   }
 
   bool _stringWithValue(String? str) => str != null && str.isNotEmpty;
@@ -58,12 +59,8 @@ class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSave
 class ImmersionSearchExtractor extends AbstractSearchExtractor<ImmersionSavedSearch> {
   @override
   ImmersionSavedSearch getSearchFilters(Store<AppState> store) {
-    final searchedMetiers = store.state.searchMetierState.metiers;
-    final state = store.state.immersionSearchState.getResultOrThrow().first;
     final requestState = store.state.immersionSearchRequestState as RequestedImmersionSearchRequestState;
-    final String metier =
-        searchedMetiers.firstWhereOrNull((element) => element.codeRome == requestState.codeRome)?.libelle ??
-            state.metier;
+    final String metier = _metier(store);
     final location = requestState.ville;
     return ImmersionSavedSearch(
       title: Strings.savedSearchTitleField(metier, location),
@@ -78,7 +75,19 @@ class ImmersionSearchExtractor extends AbstractSearchExtractor<ImmersionSavedSea
   }
 
   @override
-  bool isFailureState(Store<AppState> store) {
-    return store.state.immersionSavedSearchState is SavedSearchFailureState;
+  bool isFailureState(Store<AppState> store) => store.state.immersionSavedSearchState is SavedSearchFailureState;
+
+  String _metier(Store<AppState> store) {
+    final foundImmersions = store.state.immersionSearchState.getResultOrThrow();
+    final searchedMetiers = store.state.searchMetierState.metiers;
+    final requestState = store.state.immersionSearchRequestState as RequestedImmersionSearchRequestState;
+    final matchingSearchedMetier = searchedMetiers.firstWhereOrNull((e) => e.codeRome == requestState.codeRome);
+    if (foundImmersions.isNotEmpty) {
+      return foundImmersions.first.metier;
+    } else if (matchingSearchedMetier != null) {
+      return matchingSearchedMetier.libelle;
+    } else {
+      return '';
+    }
   }
 }
