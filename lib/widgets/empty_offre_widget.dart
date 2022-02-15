@@ -14,40 +14,25 @@ class EmptyOffreWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverFillRemaining(
-          hasScrollBody: false,
-          child: Padding(
-            padding: const EdgeInsets.all(Margins.spacing_base),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Column(
-                    children: [
-                      Flexible(child: SvgPicture.asset(Drawables.icEmptyOffres)),
-                      Text(Strings.noContentError, style: TextStyles.textSBold, textAlign: TextAlign.center),
-                    ],
-                  ),
-                  flex: 7,
-                ),
-                SizedBox(height: Margins.spacing_base),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      PrimaryActionButton(onPressed: () => Navigator.pop(context), label: Strings.updateCriteria),
-                      if (additional != null) additional!,
-                    ],
-                  ),
-                  flex: 3,
-                ),
-              ],
-            ),
+    return Padding(
+      padding: const EdgeInsets.all(Margins.spacing_base),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(child: SvgPicture.asset(Drawables.icEmptyOffres)),
+          Padding(
+            padding: const EdgeInsets.only(bottom: Margins.spacing_base),
+            child: Text(Strings.noContentError, style: TextStyles.textSBold, textAlign: TextAlign.center),
           ),
-        ),
-      ],
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              PrimaryActionButton(onPressed: () => Navigator.pop(context), label: Strings.updateCriteria),
+              if (additional != null) additional!,
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
