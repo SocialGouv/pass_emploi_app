@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dar
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
@@ -45,28 +46,31 @@ class TestStoreFactory {
   TrackingEventRepository trackingEventRepository = DummyTrackingEventRepository();
   OffreEmploiSavedSearchRepository offreEmploiSavedSearchRepository = DummyOffreEmploiSavedSearchRepository();
   ImmersionSavedSearchRepository immersionSavedSearchRepository = DummyImmersionSavedSearchRepository();
+  GetSavedSearchRepository getSavedSearchRepository = DummyGetSavedSearchRepository();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
-            authenticator,
-            userActionRepository,
-            rendezvousRepository,
-            offreEmploiRepository,
-            chatRepository,
-            registerTokenRepository,
-            crashlytics,
-            detailedOfferRepository,
-        offreEmploiFavorisRepository,
-        immersionFavorisRepository,
-        searchLocationRepository,
-        metierRepository,immersionRepository,
-        immersionDetailsRepository,
-        firebaseAuthRepository,
-        firebaseAuthWrapper,
-        chatCrypto,
-        trackingEventRepository,
-        offreEmploiSavedSearchRepository,
-        immersionSavedSearchRepository
+      authenticator,
+      userActionRepository,
+      rendezvousRepository,
+      offreEmploiRepository,
+      chatRepository,
+      registerTokenRepository,
+      crashlytics,
+      detailedOfferRepository,
+      offreEmploiFavorisRepository,
+      immersionFavorisRepository,
+      searchLocationRepository,
+      metierRepository,
+      immersionRepository,
+      immersionDetailsRepository,
+      firebaseAuthRepository,
+      firebaseAuthWrapper,
+      chatCrypto,
+      trackingEventRepository,
+      offreEmploiSavedSearchRepository,
+      immersionSavedSearchRepository,
+      getSavedSearchRepository,
     ).initializeReduxStore(initialState: initialState);
   }
 }

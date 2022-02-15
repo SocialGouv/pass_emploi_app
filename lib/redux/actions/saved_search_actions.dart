@@ -18,3 +18,15 @@ class SavedSearchFailureAction<T> extends SavedSearchAction<T> {}
 class SavedSearchSuccessAction<T> extends SavedSearchAction<T> {}
 
 class InitializeSaveSearchAction<T> extends SavedSearchAction<T> {}
+
+abstract class SavedSearchListAction {}
+
+class RequestSavedSearchListAction extends SavedSearchListAction {}
+
+class SavedSearchListFailureAction extends SavedSearchListAction {}
+
+class SavedSearchListSuccessAction extends SavedSearchListAction {
+  final List savedSearches;
+
+  SavedSearchListSuccessAction(this.savedSearches);
+}

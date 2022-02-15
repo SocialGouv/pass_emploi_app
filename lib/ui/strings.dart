@@ -312,6 +312,7 @@ class Strings {
   static String savedSearchInfo = "Les filtres appliqués seront aussi enregistrés.";
   static String searchNotificationInfo =
       "Vous recevrez des notifications pour être alerté des nouvelles offres liées aux critères de votre recherche.";
+
   static String savedSearchTitleField(metier, localisation) => "$metier - $localisation";
   static String savedSearchEmploiTag = "Offre d’emploi";
   static String savedSearchAlternanceTag = "Alternance";
@@ -319,4 +320,9 @@ class Strings {
   static String savedSearchSuccessfullyCreated =
       "Votre recherche a bien été enregistrée en favoris. Retrouvez-la dans la page favoris.";
   static String creationSavedSearchError = "Erreur lors de la création de la recherche sauvegardée. Veuillez réessayer";
+  static String savedSearchGetError = "Erreur lors de la récupération des recherches sauvegardées.";
+  static String noSavedSearchYet = "Aucune recherche sauvegardée.";
+  static String savedSearchTabName = "Mes recherches";
+  static String favorisTabName = "Mes offres";
+  static String savedSearchSeeResults = "Voir les résultats";
 }

@@ -53,6 +53,7 @@ class AppState extends Equatable {
   final SavedSearchState<ImmersionSavedSearch> immersionSavedSearchState;
   final ConfigurationState configurationState;
   final ImmersionSearchRequestState immersionSearchRequestState;
+  final State<List> savedSearchListState;
 
   AppState({
     required this.deepLinkState,
@@ -79,6 +80,7 @@ class AppState extends Equatable {
     required this.immersionSavedSearchState,
     required this.configurationState,
     required this.immersionSearchRequestState,
+    required this.savedSearchListState,
   });
 
   AppState copyWith({
@@ -106,6 +108,7 @@ class AppState extends Equatable {
     final SavedSearchState<ImmersionSavedSearch>? immersionSavedSearchState,
     final ConfigurationState? configurationState,
     final ImmersionSearchRequestState? immersionSearchRequestState,
+    final State<List>? savedSearchListState,
   }) {
     return AppState(
       deepLinkState: deepLinkState ?? this.deepLinkState,
@@ -132,6 +135,7 @@ class AppState extends Equatable {
       immersionSavedSearchState: immersionSavedSearchState ?? this.immersionSavedSearchState,
       configurationState: configurationState ?? this.configurationState,
       immersionSearchRequestState: immersionSearchRequestState ?? this.immersionSearchRequestState,
+      savedSearchListState: savedSearchListState ?? this.savedSearchListState,
     );
   }
 
@@ -160,7 +164,8 @@ class AppState extends Equatable {
         offreEmploiSavedSearchState: SavedSearchState<OffreEmploiSavedSearch>.notInitialized(),
         immersionSavedSearchState: SavedSearchState<ImmersionSavedSearch>.notInitialized(),
         configurationState: ConfigurationState(configuration),
-        immersionSearchRequestState: EmptyImmersionSearchRequestState());
+        immersionSearchRequestState: EmptyImmersionSearchRequestState(),
+        savedSearchListState: State<List>.notInitialized());
   }
 
   @override
@@ -187,6 +192,8 @@ class AppState extends Equatable {
         immersionDetailsState,
         offreEmploiSavedSearchState,
         immersionSavedSearchState,
+        immersionSearchRequestState,
+        savedSearchListState,
       ];
 
   @override
