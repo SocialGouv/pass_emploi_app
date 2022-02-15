@@ -41,7 +41,6 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
       onInit: (store) => store.dispatch(RequestSavedSearchListAction()),
       onWillChange: (previousVM, newViewModel) {
         if (newViewModel.shouldGoToOffre && _shouldNavigate) _goToOffresPage(context);
-        if (newViewModel.shouldGoToAlternance && _shouldNavigate) _goToOffresPage(context);
         if (newViewModel.immersionsResults.isNotEmpty && _shouldNavigate)
           _goToImmersion(context, newViewModel.immersionsResults);
       },
