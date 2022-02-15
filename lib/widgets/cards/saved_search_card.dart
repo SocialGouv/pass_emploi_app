@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 
 import '../../ui/app_colors.dart';
@@ -66,7 +67,7 @@ class SavedSearchCard extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(right: 8.0),
                         child: Text(
-                          "Voir les résultats",
+                          Strings.savedSearchSeeResults,
                           style: TextStyles.textSRegular(),
                         ),
                       ),

@@ -8,8 +8,8 @@ import 'package:pass_emploi_app/widgets/pass_emploi_tab_bar.dart';
 
 class FavorisTabsPage extends StatelessWidget {
   final List<String> _favorisTabs = [
-    "Mes offres",
-    "Mes recherches",
+    Strings.favorisTabName,
+    Strings.savedSearchTabName,
   ];
 
   @override
