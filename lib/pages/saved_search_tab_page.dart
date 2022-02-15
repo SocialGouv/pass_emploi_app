@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
@@ -79,10 +81,16 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   Widget _content(SavedSearchListViewModel viewModel) {
     switch (_selectedIndex) {
       case 0:
+        MatomoTracker.trackScreenWithName(
+            AnalyticsScreenNames.savedSearchEmploiListUrl, AnalyticsScreenNames.savedSearchEmploiListUrl);
         return _getSavedSearchOffreEmplois(viewModel, false);
       case 1:
+        MatomoTracker.trackScreenWithName(
+            AnalyticsScreenNames.savedSearchImmersionListUrl, AnalyticsScreenNames.savedSearchImmersionListUrl);
         return _getSavedSearchOffreEmplois(viewModel, true);
       default:
+        MatomoTracker.trackScreenWithName(
+            AnalyticsScreenNames.savedSearchEmploiListUrl, AnalyticsScreenNames.savedSearchEmploiListUrl);
         return _getSavedSearchImmersions(viewModel);
     }
   }

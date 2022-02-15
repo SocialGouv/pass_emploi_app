@@ -37,8 +37,7 @@ class AnalyticsScreenNames {
   static const immersionResults = "recherche/immersion/search_results";
   static const immersionNoResults = "recherche/immersion/search_no_results";
   static const immersionDetails = "recherche/immersion/detail";
-  static const immersionCreateAlert= "/saved_search/immersion/create";
-
+  static const immersionCreateAlert = "/saved_search/immersion/create";
 
   static const serviceCiviqueResearch = "recherche/service_civique/search";
 
@@ -47,6 +46,10 @@ class AnalyticsScreenNames {
   static const alternanceFavoris = "favoris/list/alternance";
   static const immersionFavoris = "favoris/list/immersion";
   static const profil = "profil";
+
+  static const savedSearchEmploiListUrl = "/saved_searches/emploi/list";
+  static const savedSearchAlternanceListUrl = "/saved_searches/alternance/list";
+  static const savedSearchImmersionListUrl = "/saved_searches/immersion/list";
 }
 
 class AnalyticsActionNames {
