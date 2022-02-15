@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
-import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -59,9 +58,7 @@ class FiltreButton extends StatelessWidget {
       children: [
         Text(
           Strings.filtrer,
-          style: primary
-              ? TextStyles.textPrimaryButton.copyWith(fontSize: FontSizes.medium)
-              : TextStyles.textSecondaryButton,
+          style: primary ? TextStyles.textPrimaryButton : TextStyles.textSecondaryButton,
         ),
         SizedBox(width: Margins.spacing_base),
         SvgPicture.asset(Drawables.icFilter, height: 18, width: 18, color: accentColor),

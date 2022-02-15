@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class PrimaryActionButton extends StatelessWidget {
@@ -13,6 +12,7 @@ class PrimaryActionButton extends StatelessWidget {
   final String label;
   final bool withShadow;
   final VoidCallback? onPressed;
+  final double? fontSize;
   final double iconSize;
   final double heightPadding;
   final double widthPadding;
@@ -27,6 +27,7 @@ class PrimaryActionButton extends StatelessWidget {
     this.drawableRes,
     this.onPressed,
     required this.label,
+    this.fontSize,
     this.iconSize = 12,
     this.heightPadding = 12,
     this.widthPadding = 20,
@@ -34,23 +35,18 @@ class PrimaryActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double leftPadding = 20;
-    if (this.drawableRes != null) {
-      leftPadding = 12;
-    }
+    final double leftPadding = this.drawableRes != null ? 12 : 20;
+    final baseTextStyle = TextStyles.textPrimaryButton;
+    final usedTextStyle = fontSize != null ? baseTextStyle.copyWith(fontSize: fontSize) : baseTextStyle;
     return TextButton(
       style: ButtonStyle(
         foregroundColor: MaterialStateProperty.all(textColor),
-        textStyle: MaterialStateProperty.all(TextStyles.textPrimaryButton),
+        textStyle: MaterialStateProperty.all(usedTextStyle),
         backgroundColor: MaterialStateProperty.resolveWith<Color?>((Set<MaterialState> states) {
           return states.contains(MaterialState.disabled) ? disabledBackgroundColor : backgroundColor;
         }),
         elevation: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.disabled) || !withShadow) {
-            return 0;
-          } else {
-            return 10;
-          }
+          return (states.contains(MaterialState.disabled) || !withShadow) ? 0 : 10;
         }),
         alignment: Alignment.center,
         shape: MaterialStateProperty.all(RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(200)))),
@@ -61,7 +57,10 @@ class PrimaryActionButton extends StatelessWidget {
         ),
       ),
       onPressed: onPressed,
-      child: Padding(padding: EdgeInsets.fromLTRB(leftPadding, heightPadding, widthPadding, heightPadding), child: _getRow()),
+      child: Padding(
+        padding: EdgeInsets.fromLTRB(leftPadding, heightPadding, widthPadding, heightPadding),
+        child: _getRow(),
+      ),
     );
   }
 
@@ -81,10 +80,7 @@ class PrimaryActionButton extends StatelessWidget {
                   color: Colors.white,
                 ),
               )),
-        Text(
-          label,
-          style: TextStyles.textPrimaryButton.copyWith(fontSize: FontSizes.medium),
-        ),
+        Text(label),
       ],
     );
   }

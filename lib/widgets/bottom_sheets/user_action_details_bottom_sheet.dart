@@ -9,14 +9,15 @@ import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
-import 'bottom_sheets.dart';
 import '../buttons/primary_action_button.dart';
+import 'bottom_sheets.dart';
 
 class UserActionDetailsBottomSheet extends TraceableStatefulWidget {
   final UserActionViewModel actionViewModel;
@@ -229,6 +230,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
             onPressed: () => _onDeleteAction(detailsViewModel),
             label: Strings.deleteAction,
             textColor: AppColors.warning,
+            fontSize: FontSizes.normal,
             backgroundColor: AppColors.warningLighten,
             disabledBackgroundColor: AppColors.warningLight,
             rippleColor: AppColors.warningLight,
