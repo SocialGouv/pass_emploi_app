@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_response.dart';
@@ -21,15 +22,18 @@ class GetSavedSearchRepository {
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes);
         final list = (json as List).map((search) => SavedSearchResponse.fromJson(search)).toList();
-        return list.map((e) {
-          if (e.type == "OFFRES_IMMERSION") {
-            return SavedSearchImmersionExtractor().extract(e);
-          } else if (e.type == "OFFRES_EMPLOI" || e.type == "OFFRES_ALTERNANCE") {
-            return SavedSearchEmploiExtractor().extract(e);
-          } else {
-            return null;
-          }
-        }).toList();
+        return list
+            .map((e) {
+              if (e.type == "OFFRES_IMMERSION") {
+                return SavedSearchImmersionExtractor().extract(e);
+              } else if (e.type == "OFFRES_EMPLOI" || e.type == "OFFRES_ALTERNANCE") {
+                return SavedSearchEmploiExtractor().extract(e);
+              } else {
+                return null;
+              }
+            })
+            .whereNotNull()
+            .toList();
       }
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);
