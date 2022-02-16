@@ -19,7 +19,7 @@ class GetSavedSearchMiddleware extends MiddlewareClass<AppState> {
     final loginState = store.state.loginState;
     if (action is GetSavedSearchAction && loginState.isSuccess()) {
       final search = (await _repository.getSavedSearch(loginState.getResultOrThrow().id))
-          ?.where((e) => e.id == action.actionId)
+          ?.where((e) => e.id == action.savedSearchId)
           .firstOrNull;
       if (search is ImmersionSavedSearch) {
         SavedSearchListViewModel.onOffreImmersionSelected(search, store);

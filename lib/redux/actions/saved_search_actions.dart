@@ -36,7 +36,7 @@ class SavedSearchListSuccessAction extends SavedSearchListAction {
 }
 
 class GetSavedSearchAction {
-  final String actionId;
+  final String savedSearchId;
 
-  GetSavedSearchAction(this.actionId);
+  GetSavedSearchAction(this.savedSearchId);
 }
