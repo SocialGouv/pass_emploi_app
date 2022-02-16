@@ -13,6 +13,10 @@ class ImmersionSavedSearch extends Equatable {
     required this.filters,
   });
 
+  ImmersionSavedSearch copyWithTitle(String title) {
+    return ImmersionSavedSearch(title: title, metier: metier, location: location, filters: filters);
+  }
+
   @override
   List<Object?> get props => [title, metier, location, filters];
 }

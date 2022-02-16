@@ -25,6 +25,16 @@ class OffreEmploiSavedSearch extends Equatable {
     return isAlternance ? Strings.savedSearchAlternanceTag : Strings.savedSearchEmploiTag;
   }
 
+  OffreEmploiSavedSearch copyWithTitle(String title) {
+    return OffreEmploiSavedSearch(
+        title: title,
+        metier: metier,
+        location: location,
+        keywords: keywords,
+        isAlternance: isAlternance,
+        filters: filters);
+  }
+
   @override
   List<Object?> get props => [title, metier, location, keywords, isAlternance, filters];
 }

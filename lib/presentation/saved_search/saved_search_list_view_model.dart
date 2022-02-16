@@ -24,6 +24,7 @@ class SavedSearchListViewModel {
   final Function(OffreEmploiSavedSearch) offreEmploiSelected;
   final Function(ImmersionSavedSearch) offreImmersionSelected;
   final bool shouldGoToOffre;
+  final bool shouldGoToImmersion;
   final VoidCallback onRetry;
   final List<Immersion> immersionsResults;
 
@@ -33,6 +34,7 @@ class SavedSearchListViewModel {
     this.offreEmploiSelected = _emptyFunction,
     this.offreImmersionSelected = _emptyImmersionFunction,
     this.shouldGoToOffre = false,
+    this.shouldGoToImmersion = false,
     this.immersionsResults = const [],
     this.onRetry = _emptyVoidFunction,
   });
@@ -54,6 +56,7 @@ class SavedSearchListViewModel {
         displayState: DisplayState.CONTENT,
         savedSearch: state.getResultOrThrow(),
         shouldGoToOffre: searchResultState is OffreEmploiSearchResultsDataState,
+        shouldGoToImmersion: immersionSearchState.isSuccess(),
         immersionsResults: immersionSearchState.isSuccess() ? immersionSearchState.getResultOrThrow() : [],
         offreEmploiSelected: (savedSearch) => _offreEmploiSelected(savedSearch, store),
         offreImmersionSelected: (savedSearch) => _offreImmersionSelected(savedSearch, store),

@@ -41,7 +41,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
       onInit: (store) => store.dispatch(RequestSavedSearchListAction()),
       onWillChange: (previousVM, newViewModel) {
         if (newViewModel.shouldGoToOffre && _shouldNavigate) _goToOffresPage(context);
-        if (newViewModel.immersionsResults.isNotEmpty && _shouldNavigate)
+        if (newViewModel.shouldGoToImmersion && _shouldNavigate)
           _goToImmersion(context, newViewModel.immersionsResults);
       },
       builder: (context, viewModel) => _scrollView(viewModel),
@@ -209,9 +209,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   Widget _buildImmersionCard(
       BuildContext context, ImmersionSavedSearch savedSearchsImmersion, SavedSearchListViewModel viewModel) {
     return SavedSearchCard(
-      onTap: () {
-        viewModel.offreImmersionSelected(savedSearchsImmersion);
-      },
+      onTap: () => viewModel.offreImmersionSelected(savedSearchsImmersion),
       title: savedSearchsImmersion.title,
       lieu: savedSearchsImmersion.location,
       dataTag: [savedSearchsImmersion.metier],

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/redux/actions/saved_search_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -35,9 +36,19 @@ class SavedSearchMiddleware<T> extends MiddlewareClass<AppState> {
     }
     final result = await _repository.postSavedSearch(userId, savedSearch, action.title);
     if (result) {
-      store.dispatch(SavedSearchSuccessAction<T>());
+      store.dispatch(SavedSearchSuccessAction<T>(_changeSearchTitle(savedSearch, action.title)));
     } else {
       store.dispatch(SavedSearchFailureAction<T>());
+    }
+  }
+
+  T _changeSearchTitle(T search, String title) {
+    if (search is ImmersionSavedSearch) {
+      return search.copyWithTitle(title) as T;
+    } else if (search is OffreEmploiSavedSearch) {
+      return search.copyWithTitle(title) as T;
+    } else {
+      return search;
     }
   }
 

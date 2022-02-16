@@ -15,7 +15,11 @@ class CreateSavedSearchAction<T> extends SavedSearchAction<T> {
 
 class SavedSearchFailureAction<T> extends SavedSearchAction<T> {}
 
-class SavedSearchSuccessAction<T> extends SavedSearchAction<T> {}
+class SavedSearchSuccessAction<T> extends SavedSearchAction<T> {
+  final T search;
+
+  SavedSearchSuccessAction(this.search);
+}
 
 class InitializeSaveSearchAction<T> extends SavedSearchAction<T> {}
 
