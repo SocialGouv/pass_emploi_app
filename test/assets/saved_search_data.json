@@ -59,5 +59,21 @@
       "lon": 2.323026,
       "rome": "D1102"
     }
+  },
+  {
+    "id": "9ea85cc4-c92f-4f91-b5a3-b600f364fbc2",
+    "titre": "",
+    "type": "UNKNOWN",
+    "metier": "",
+    "criteres": {
+      "q": "",
+      "duree": [],
+      "rayon": null,
+      "commune": null,
+      "contrat": [],
+      "alternance": false,
+      "experience": [],
+      "departement": null
+    }
   }
 ]

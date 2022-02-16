@@ -88,7 +88,7 @@ main() {
       store.dispatch(InitializeSaveSearchAction<ImmersionSavedSearch>());
 
       // Then
-      var immersionSavedSearchState =
+      final immersionSavedSearchState =
           (await expected).immersionSavedSearchState as SavedSearchInitialized<ImmersionSavedSearch>;
       expect(
           immersionSavedSearchState.search,
@@ -112,16 +112,16 @@ main() {
       testStoreFactory.getSavedSearchRepository = SavedSearchRepositorySuccessStub();
       final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
 
-      final displayedLoading = store.onChange.any((element) => element.savedSearchListState.isLoading());
-      final successAppState = store.onChange.firstWhere((element) => element.savedSearchListState.isSuccess());
+      final displayedLoading = store.onChange.any((element) => element.savedSearchesState.isLoading());
+      final successAppState = store.onChange.firstWhere((element) => element.savedSearchesState.isSuccess());
       // When
       store.dispatch(RequestSavedSearchListAction());
 
       // Then
       expect(await displayedLoading, true);
       final appState = await successAppState;
-      expect(appState.savedSearchListState.getResultOrThrow().length, 1);
-      expect(appState.savedSearchListState.getResultOrThrow()[0].title, "Boulangerie - viennoiserie - PARIS-14");
+      expect(appState.savedSearchesState.getResultOrThrow().length, 1);
+      expect(appState.savedSearchesState.getResultOrThrow()[0].getTitle(), "Boulangerie - viennoiserie - PARIS-14");
     });
 
     test("update state with failure if repository returns nothing", () async {
@@ -130,8 +130,8 @@ main() {
       testStoreFactory.getSavedSearchRepository = SavedSearchRepositoryFailureStub();
       final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
 
-      final displayedLoading = store.onChange.any((element) => element.savedSearchListState.isLoading());
-      final failureAppState = store.onChange.firstWhere((element) => element.savedSearchListState.isFailure());
+      final displayedLoading = store.onChange.any((element) => element.savedSearchesState.isLoading());
+      final failureAppState = store.onChange.firstWhere((element) => element.savedSearchesState.isFailure());
 
       // When
       store.dispatch(RequestSavedSearchListAction());
@@ -139,7 +139,7 @@ main() {
       // Then
       expect(await displayedLoading, true);
       final appState = await failureAppState;
-      expect(appState.savedSearchListState.isFailure(), isTrue);
+      expect(appState.savedSearchesState.isFailure(), isTrue);
     });
   });
 }

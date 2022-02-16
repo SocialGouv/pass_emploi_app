@@ -19,6 +19,7 @@ import 'package:pass_emploi_app/redux/middlewares/middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_details_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/saved_search/saved_search_delete_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/saved_search_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/search_location_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/search_metier_middleware.dart';
@@ -42,6 +43,7 @@ import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
@@ -74,6 +76,7 @@ class StoreFactory {
   final OffreEmploiSavedSearchRepository offreEmploiSavedSearchRepository;
   final ImmersionSavedSearchRepository immersionSavedSearchRepository;
   final GetSavedSearchRepository getSavedSearchRepository;
+  final SavedSearchDeleteRepository savedSearchDeleteRepository;
 
   StoreFactory(
     this.authenticator,
@@ -97,6 +100,7 @@ class StoreFactory {
     this.offreEmploiSavedSearchRepository,
     this.immersionSavedSearchRepository,
     this.getSavedSearchRepository,
+    this.savedSearchDeleteRepository,
   );
 
   redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -127,6 +131,7 @@ class StoreFactory {
         InitializeSavedSearchMiddleware(),
         SavedSearchListRequestMiddleware(getSavedSearchRepository),
         GetSavedSearchMiddleware(getSavedSearchRepository),
+        SavedSearchDeleteMiddleware(savedSearchDeleteRepository),
         ..._debugMiddleware(),
       ],
     );

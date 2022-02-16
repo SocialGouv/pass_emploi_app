@@ -8,7 +8,6 @@ import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart'
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repository.dart';
 
-import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../utils/test_assets.dart';
@@ -22,10 +21,11 @@ main() {
         if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/recherches")) return invalidHttpResponse();
         return Response.bytes(loadTestAssetsAsBytes("saved_search_data.json"), 200);
       });
-      final repository = GetSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyCrashlytics());
+      final repository = GetSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
       // When
       final savedSearch = await repository.getSavedSearch("jeuneId");
+
       // Then
       expect(savedSearch, _getMockedSavedSearch());
     });
@@ -33,7 +33,7 @@ main() {
     test('return null when response is invalid should return null', () async {
       // Given
       final httpClient = MockClient((request) async => invalidHttpResponse());
-      final repository = GetSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyCrashlytics());
+      final repository = GetSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
       // When
       final savedSearch = await repository.getSavedSearch("jeuneId");

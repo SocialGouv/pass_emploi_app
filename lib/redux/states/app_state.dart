@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/redux/states/configuration_state.dart';
 import 'package:pass_emploi_app/redux/states/create_user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
+import 'package:pass_emploi_app/redux/states/saved_search_delete_state.dart';
 import 'package:pass_emploi_app/redux/states/saved_search_state.dart';
 import 'package:pass_emploi_app/redux/states/search_location_state.dart';
 import 'package:pass_emploi_app/redux/states/search_metier_state.dart';
@@ -22,6 +23,7 @@ import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_delete_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 
+import '../../models/saved_search/saved_search.dart';
 import 'favoris_state.dart';
 import 'immersion_search_request_state.dart';
 import 'offre_emploi_favoris_update_state.dart';
@@ -53,7 +55,8 @@ class AppState extends Equatable {
   final SavedSearchState<ImmersionSavedSearch> immersionSavedSearchState;
   final ConfigurationState configurationState;
   final ImmersionSearchRequestState immersionSearchRequestState;
-  final State<List> savedSearchListState;
+  final State<List<SavedSearch>> savedSearchesState;
+  final SavedSearchDeleteState savedSearchDeleteState;
 
   AppState({
     required this.deepLinkState,
@@ -80,7 +83,8 @@ class AppState extends Equatable {
     required this.immersionSavedSearchState,
     required this.configurationState,
     required this.immersionSearchRequestState,
-    required this.savedSearchListState,
+    required this.savedSearchesState,
+    required this.savedSearchDeleteState,
   });
 
   AppState copyWith({
@@ -108,7 +112,8 @@ class AppState extends Equatable {
     final SavedSearchState<ImmersionSavedSearch>? immersionSavedSearchState,
     final ConfigurationState? configurationState,
     final ImmersionSearchRequestState? immersionSearchRequestState,
-    final State<List>? savedSearchListState,
+    final State<List<SavedSearch>>? savedSearchesState,
+    final SavedSearchDeleteState? savedSearchDeleteState,
   }) {
     return AppState(
       deepLinkState: deepLinkState ?? this.deepLinkState,
@@ -135,42 +140,44 @@ class AppState extends Equatable {
       immersionSavedSearchState: immersionSavedSearchState ?? this.immersionSavedSearchState,
       configurationState: configurationState ?? this.configurationState,
       immersionSearchRequestState: immersionSearchRequestState ?? this.immersionSearchRequestState,
-      savedSearchListState: savedSearchListState ?? this.savedSearchListState,
+      savedSearchesState: savedSearchesState ?? this.savedSearchesState,
+      savedSearchDeleteState: savedSearchDeleteState ?? this.savedSearchDeleteState,
     );
   }
 
   factory AppState.initialState({Configuration? configuration}) {
     return AppState(
-        deepLinkState: DeepLinkState.notInitialized(),
-        createUserActionState: CreateUserActionState.notInitialized(),
-        userActionUpdateState: UserActionUpdateState.notUpdating(),
-        userActionDeleteState: UserActionDeleteState.notInitialized(),
-        chatStatusState: ChatStatusState.notInitialized(),
-        chatState: ChatState.notInitialized(),
-        offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
-        offreEmploiDetailsState: State<OffreEmploiDetails>.notInitialized(),
-        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.notInitialized(),
-        offreEmploiSearchParametersState: OffreEmploiSearchParametersState.notInitialized(),
-        offreEmploiFavorisState: FavorisState<OffreEmploi>.notInitialized(),
-        immersionFavorisState: FavorisState<Immersion>.notInitialized(),
-        favorisUpdateState: FavorisUpdateState({}),
-        searchLocationState: SearchLocationState([]),
-        searchMetierState: SearchMetierState([]),
-        loginState: State<User>.notInitialized(),
-        userActionState: State<List<UserAction>>.notInitialized(),
-        rendezvousState: State<List<Rendezvous>>.notInitialized(),
-        immersionSearchState: State<List<Immersion>>.notInitialized(),
-        immersionDetailsState: State<ImmersionDetails>.notInitialized(),
-        offreEmploiSavedSearchState: SavedSearchState<OffreEmploiSavedSearch>.notInitialized(),
-        immersionSavedSearchState: SavedSearchState<ImmersionSavedSearch>.notInitialized(),
-        configurationState: ConfigurationState(configuration),
-        immersionSearchRequestState: EmptyImmersionSearchRequestState(),
-        savedSearchListState: State<List>.notInitialized());
+      deepLinkState: DeepLinkState.notInitialized(),
+      createUserActionState: CreateUserActionState.notInitialized(),
+      userActionUpdateState: UserActionUpdateState.notUpdating(),
+      userActionDeleteState: UserActionDeleteState.notInitialized(),
+      chatStatusState: ChatStatusState.notInitialized(),
+      chatState: ChatState.notInitialized(),
+      offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
+      offreEmploiDetailsState: State<OffreEmploiDetails>.notInitialized(),
+      offreEmploiSearchResultsState: OffreEmploiSearchResultsState.notInitialized(),
+      offreEmploiSearchParametersState: OffreEmploiSearchParametersState.notInitialized(),
+      offreEmploiFavorisState: FavorisState<OffreEmploi>.notInitialized(),
+      immersionFavorisState: FavorisState<Immersion>.notInitialized(),
+      favorisUpdateState: FavorisUpdateState({}),
+      searchLocationState: SearchLocationState([]),
+      searchMetierState: SearchMetierState([]),
+      loginState: State<User>.notInitialized(),
+      userActionState: State<List<UserAction>>.notInitialized(),
+      rendezvousState: State<List<Rendezvous>>.notInitialized(),
+      immersionSearchState: State<List<Immersion>>.notInitialized(),
+      immersionDetailsState: State<ImmersionDetails>.notInitialized(),
+      offreEmploiSavedSearchState: SavedSearchState<OffreEmploiSavedSearch>.notInitialized(),
+      immersionSavedSearchState: SavedSearchState<ImmersionSavedSearch>.notInitialized(),
+      configurationState: ConfigurationState(configuration),
+      immersionSearchRequestState: EmptyImmersionSearchRequestState(),
+      savedSearchesState: State<List<SavedSearch>>.notInitialized(),
+      savedSearchDeleteState: SavedSearchDeleteState.notInitialized(),
+    );
   }
 
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         deepLinkState,
         createUserActionState,
         userActionUpdateState,
@@ -193,7 +200,8 @@ class AppState extends Equatable {
         offreEmploiSavedSearchState,
         immersionSavedSearchState,
         immersionSearchRequestState,
-        savedSearchListState,
+        savedSearchesState,
+        savedSearchDeleteState,
       ];
 
   @override

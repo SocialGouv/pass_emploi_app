@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 
-class ImmersionSavedSearch extends Equatable {
+class ImmersionSavedSearch extends Equatable implements SavedSearch {
   final String id;
   final String title;
   final String metier;
@@ -24,6 +25,12 @@ class ImmersionSavedSearch extends Equatable {
       filters: filters,
     );
   }
+
+  @override
+  String getId() => id;
+
+  @override
+  String getTitle() => title;
 
   @override
   List<Object?> get props => [id, title, metier, location, filters];

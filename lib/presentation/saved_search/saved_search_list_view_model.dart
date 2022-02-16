@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
@@ -10,6 +11,7 @@ import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:redux/redux.dart';
 
+import '../../models/saved_search/saved_search.dart';
 import '../../redux/states/app_state.dart';
 
 void _emptyFunction(OffreEmploiSavedSearch search) {}
@@ -18,9 +20,9 @@ void _emptyVoidFunction() {}
 
 void _emptyImmersionFunction(ImmersionSavedSearch search) {}
 
-class SavedSearchListViewModel {
+class SavedSearchListViewModel extends Equatable {
   final DisplayState displayState;
-  final List savedSearch;
+  final List<SavedSearch> savedSearches;
   final Function(OffreEmploiSavedSearch) offreEmploiSelected;
   final Function(ImmersionSavedSearch) offreImmersionSelected;
   final bool shouldGoToOffre;
@@ -30,7 +32,7 @@ class SavedSearchListViewModel {
 
   SavedSearchListViewModel._({
     required this.displayState,
-    this.savedSearch = const [],
+    this.savedSearches = const [],
     this.offreEmploiSelected = _emptyFunction,
     this.offreImmersionSelected = _emptyImmersionFunction,
     this.shouldGoToOffre = false,
@@ -40,41 +42,43 @@ class SavedSearchListViewModel {
   });
 
   factory SavedSearchListViewModel.createFromStore(Store<AppState> store) {
-    final state = store.state.savedSearchListState;
+    final state = store.state.savedSearchesState;
     final searchResultState = store.state.offreEmploiSearchResultsState;
     final immersionSearchState = store.state.immersionSearchState;
-    if (state.isLoading())
-      return SavedSearchListViewModel._(
-        displayState: DisplayState.LOADING,
-      );
-    if (state.isFailure())
-      return SavedSearchListViewModel._(
-        displayState: DisplayState.FAILURE,
-      );
-    if (state.isSuccess())
+    if (state.isSuccess()) {
       return SavedSearchListViewModel._(
         displayState: DisplayState.CONTENT,
-        savedSearch: state.getResultOrThrow(),
+        savedSearches: state.getResultOrThrow().toList(),
         shouldGoToOffre: searchResultState is OffreEmploiSearchResultsDataState,
         shouldGoToImmersion: immersionSearchState.isSuccess(),
         immersionsResults: immersionSearchState.isSuccess() ? immersionSearchState.getResultOrThrow() : [],
         offreEmploiSelected: (savedSearch) => onOffreEmploiSelected(savedSearch, store),
         offreImmersionSelected: (savedSearch) => onOffreImmersionSelected(savedSearch, store),
       );
-    return SavedSearchListViewModel._(
-      displayState: DisplayState.LOADING,
-    );
+    }
+    if (state.isFailure()) return SavedSearchListViewModel._(displayState: DisplayState.FAILURE);
+    return SavedSearchListViewModel._(displayState: DisplayState.LOADING);
   }
 
+  @override
+  List<Object?> get props =>
+      [
+        displayState,
+        savedSearches,
+        immersionsResults,
+        shouldGoToOffre,
+        shouldGoToImmersion,
+      ];
+
   List<OffreEmploiSavedSearch> getOffresEmploi(bool withAlternance) {
-    return savedSearch
+    return savedSearches
         .whereType<OffreEmploiSavedSearch>()
         .where((element) => element.isAlternance == withAlternance)
         .toList();
   }
 
   List<ImmersionSavedSearch> getImmersions() {
-    return savedSearch.whereType<ImmersionSavedSearch>().toList();
+    return savedSearches.whereType<ImmersionSavedSearch>().toList();
   }
 
   static void onOffreEmploiSelected(OffreEmploiSavedSearch savedSearch, Store<AppState> store) {
@@ -89,15 +93,19 @@ class SavedSearchListViewModel {
   }
 
   static void onOffreImmersionSelected(ImmersionSavedSearch savedSearch, Store<AppState> store) {
-    store.dispatch(ImmersionAction.request(ImmersionRequest(
-      savedSearch.filters!.codeRome!,
-      Location(
-        type: LocationType.COMMUNE,
-        libelle: savedSearch.location,
-        code: "",
-        latitude: savedSearch.filters!.lat!,
-        longitude: savedSearch.filters!.lon!,
+    store.dispatch(
+      ImmersionAction.request(
+        ImmersionRequest(
+          savedSearch.filters!.codeRome!,
+          Location(
+            type: LocationType.COMMUNE,
+            libelle: savedSearch.location,
+            code: "",
+            latitude: savedSearch.filters!.lat!,
+            longitude: savedSearch.filters!.lon!,
+          ),
+        ),
       ),
-    )));
+    );
   }
 }

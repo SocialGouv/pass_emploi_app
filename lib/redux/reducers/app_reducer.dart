@@ -19,6 +19,7 @@ import 'package:pass_emploi_app/redux/reducers/immersion_details_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/login_action_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/offre_emploi_details_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/reducer.dart';
+import 'package:pass_emploi_app/redux/reducers/saved_search/saved_search_delete_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/saved_search/saved_search_list_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/saved_search/saved_search_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/search_location_reducer.dart';
@@ -30,30 +31,30 @@ import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
 import 'package:pass_emploi_app/redux/states/immersion_search_request_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 
+import '../../models/saved_search/saved_search.dart';
 import 'favoris/favoris_update_reducer.dart';
 import 'offre_emploi_reducer.dart';
 
-final Reducer<List<Rendezvous>> _rendezvousReducer = Reducer<List<Rendezvous>>();
-final Reducer<List<Immersion>> _immersionReducer = Reducer<List<Immersion>>();
-final ImmersionDetailsReducer _immersionDetailsReducer = ImmersionDetailsReducer();
-final LoginReducer _loginReducer = LoginReducer();
-final OffreEmploiDetailsReducer _offreEmploiDetailsReducer = OffreEmploiDetailsReducer();
-final FavorisReducer<OffreEmploi> _offreEmploiFavorisReducer = FavorisReducer<OffreEmploi>();
-final FavorisReducer<Immersion> _immersionFavorisReducer = FavorisReducer<Immersion>();
-final FavorisUpdateReducer _favorisUpdateReducer = FavorisUpdateReducer();
-final SavedSearchReducer<OffreEmploiSavedSearch> _offreEmploiSavedSearchReducer =
-    SavedSearchReducer<OffreEmploiSavedSearch>();
-final SavedSearchReducer<ImmersionSavedSearch> _immersionSavedSearchReducer =
-    SavedSearchReducer<ImmersionSavedSearch>();
+final _rendezvousReducer = Reducer<List<Rendezvous>>();
+final _immersionReducer = Reducer<List<Immersion>>();
+final _immersionDetailsReducer = ImmersionDetailsReducer();
+final _loginReducer = LoginReducer();
+final _offreEmploiDetailsReducer = OffreEmploiDetailsReducer();
+final _offreEmploiFavorisReducer = FavorisReducer<OffreEmploi>();
+final _immersionFavorisReducer = FavorisReducer<Immersion>();
+final _favorisUpdateReducer = FavorisUpdateReducer();
+final _offreEmploiSavedSearchReducer = SavedSearchReducer<OffreEmploiSavedSearch>();
+final _immersionSavedSearchReducer = SavedSearchReducer<ImmersionSavedSearch>();
 final _savedSearchListReducer = SavedSearchListReducer();
+final _savedSearchDeleteReducer = SavedSearchDeleteReducer();
 
-State<List> _updateSavedSearchListIfNeeded(SavedSearchAction action, AppState current) {
-  if (action is SavedSearchSuccessAction && current.savedSearchListState.isSuccess()) {
-    final newList = current.savedSearchListState.getResultOrThrow();
+State<List<SavedSearch>> _updateSavedSearchListIfNeeded(SavedSearchAction action, AppState current) {
+  if (action is SavedSearchSuccessAction && current.savedSearchesState.isSuccess()) {
+    final newList = current.savedSearchesState.getResultOrThrow();
     newList.add(action.search);
     return State.success(newList);
   } else {
-    return current.savedSearchListState;
+    return current.savedSearchesState;
   }
 }
 
@@ -112,20 +113,20 @@ AppState reducer(AppState current, dynamic action) {
     );
   } else if (action is SavedSearchAction<OffreEmploiSavedSearch>) {
     return current.copyWith(
-      savedSearchListState: _updateSavedSearchListIfNeeded(action, current),
+      savedSearchesState: _updateSavedSearchListIfNeeded(action, current),
       offreEmploiSavedSearchState:
-      _offreEmploiSavedSearchReducer.reduceSavedSearchState(current.offreEmploiSavedSearchState, action),
+          _offreEmploiSavedSearchReducer.reduceSavedSearchState(current.offreEmploiSavedSearchState, action),
     );
   } else if (action is SavedSearchAction<ImmersionSavedSearch>) {
     return current.copyWith(
-      savedSearchListState: _updateSavedSearchListIfNeeded(action, current),
+      savedSearchesState: _updateSavedSearchListIfNeeded(action, current),
       immersionSavedSearchState:
-      _immersionSavedSearchReducer.reduceSavedSearchState(current.immersionSavedSearchState, action),
+          _immersionSavedSearchReducer.reduceSavedSearchState(current.immersionSavedSearchState, action),
     );
   } else if (action is SavedSearchListAction) {
-    return current.copyWith(
-      savedSearchListState: _savedSearchListReducer.reduce(action),
-    );
+    return current.copyWith(savedSearchesState: _savedSearchListReducer.reduce(action));
+  } else if (action is SavedSearchDeleteAction) {
+    return _savedSearchDeleteReducer.reduce(current, action);
   } else {
     return current;
   }

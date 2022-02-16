@@ -39,7 +39,7 @@ class SavedSearchCard extends StatelessWidget {
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
           ),
           child: InkWell(
-            onTap: this.onTap ?? () {},
+            onTap: onTap ?? () {},
             splashColor: AppColors.primaryLighten,
             child: Padding(
               padding: const EdgeInsets.fromLTRB(Margins.spacing_base, 0, Margins.spacing_base, Margins.spacing_base),
@@ -67,15 +67,9 @@ class SavedSearchCard extends StatelessWidget {
                       Expanded(child: Container()),
                       Padding(
                         padding: const EdgeInsets.only(right: 8.0),
-                        child: Text(
-                          Strings.savedSearchSeeResults,
-                          style: TextStyles.textSRegular(),
-                        ),
+                        child: Text(Strings.savedSearchSeeResults, style: TextStyles.textSRegular()),
                       ),
-                      SvgPicture.asset(
-                        Drawables.icChevronRight,
-                        color: AppColors.contentColor,
-                      )
+                      SvgPicture.asset(Drawables.icChevronRight, color: AppColors.contentColor)
                     ],
                   )
                 ],
@@ -90,6 +84,7 @@ class SavedSearchCard extends StatelessWidget {
   Widget _buildTrashButton() {
     return InkWell(
       splashColor: AppColors.primaryLighten,
+      customBorder: CircleBorder(),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: SvgPicture.asset(Drawables.icTrash),

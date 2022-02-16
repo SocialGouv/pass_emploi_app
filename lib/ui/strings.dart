@@ -325,4 +325,10 @@ class Strings {
   static String savedSearchTabName = "Mes recherches";
   static String favorisTabName = "Mes offres";
   static String savedSearchSeeResults = "Voir les résultats";
+
+  static String savedSearchDeleteMessage = "Voulez-vous vraiment supprimer la recherche sauvegardée ?";
+  static String savedSearchDeleteCancel = "Annuler";
+  static String savedSearchDeleteConfirm = "Supprimer";
+  static String savedSearchDeleteError = "Erreur lors de la suppression de la recherche.";
+  static String savedSearchDeleteSuccess = "Votre recherche sauvegardée a été supprimée avec succès.";
 }

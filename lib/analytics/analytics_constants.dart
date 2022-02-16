@@ -47,9 +47,13 @@ class AnalyticsScreenNames {
   static const immersionFavoris = "favoris/list/immersion";
   static const profil = "profil";
 
-  static const savedSearchEmploiListUrl = "/saved_searches/emploi/list";
-  static const savedSearchAlternanceListUrl = "/saved_searches/alternance/list";
-  static const savedSearchImmersionListUrl = "/saved_searches/immersion/list";
+  static const savedSearchEmploiList = "/saved_searches/emploi/list";
+  static const savedSearchAlternanceList = "/saved_searches/alternance/list";
+  static const savedSearchImmersionList = "/saved_searches/immersion/list";
+
+  static const savedSearchEmploiDelete = "/saved_search/emploi/delete";
+  static const savedSearchAlternanceDelete = "/saved_search/alternance/delete";
+  static const savedSearchImmersionDelete = "/saved_search/immersion/delete";
 }
 
 class AnalyticsActionNames {
@@ -78,6 +82,10 @@ class AnalyticsActionNames {
   static String createSavedSearchEmploi = "/recherche/emploi/search_results?create_saved_search=true";
   static String createSavedSearchAlternance = "/recherche/alternance/search_results?create_saved_search=true";
   static String createSavedSearchImmersion = "/recherche/immersion/search_results?create_saved_search=true";
+
+  static String deleteSavedSearchEmploi = "/saved_searches/emploi/list?deleteSuccess=true";
+  static String deleteSavedSearchAlternance = "/saved_searches/alternance/list?deleteSuccess=true";
+  static String deleteSavedSearchImmersion = "/saved_searches/immersion/list?deleteSuccess=true";
 }
 
 class AnalyticsCustomDimensions {
