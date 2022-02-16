@@ -47,7 +47,7 @@ main() {
 List<Equatable> _getMockedSavedSearch() {
   return [
     OffreEmploiSavedSearch(
-      id: "id",
+      id: "9ea85cc4-c92f-4f91-b5a3-b600f364faf1",
       title: "Boulangerie",
       metier: "Boulangerie",
       location: null,
@@ -61,7 +61,7 @@ List<Equatable> _getMockedSavedSearch() {
       ),
     ),
     OffreEmploiSavedSearch(
-      id: "id",
+      id: "25f317c7-f28a-4f50-a629-013bb960484d",
       title: "Boulangerie - NANTES",
       metier: "Boulangerie",
       location: Location(libelle: "NANTES", code: "44109", type: LocationType.COMMUNE),
@@ -75,7 +75,7 @@ List<Equatable> _getMockedSavedSearch() {
       ),
     ),
     OffreEmploiSavedSearch(
-      id: "id",
+      id: "6b51e128-000b-4125-a09a-c38a32a8b886",
       title: "Flutter",
       metier: "Flutter",
       location: null,

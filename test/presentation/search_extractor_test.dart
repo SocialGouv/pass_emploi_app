@@ -36,7 +36,7 @@ main() {
 
     // Then
     final expected = OffreEmploiSavedSearch(
-      id: "id",
+      id: "",
       title: "Je suis un keyword",
       metier: "Je suis un keyword",
       location: mockLocation(),
