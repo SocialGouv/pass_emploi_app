@@ -95,11 +95,10 @@ class SavedSearchEmploiExtractor {
   Location? _getLocation(SavedSearchResponse savedSearch) {
     if (savedSearch.localisation != null) {
       final type = savedSearch.criteres.commune == null ? LocationType.DEPARTMENT : LocationType.COMMUNE;
-      var code2 = savedSearch.criteres.commune ?? savedSearch.criteres.departement ?? "";
       return Location(
         type: type,
-        code: code2,
-        libelle: code2.isEmpty ? (savedSearch.localisation ?? "") : "OH !",
+        code: savedSearch.criteres.commune ?? savedSearch.criteres.departement ?? "",
+        libelle: savedSearch.localisation ?? "",
         codePostal: null,
         longitude: null,
         latitude: null,
