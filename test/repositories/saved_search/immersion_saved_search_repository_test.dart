@@ -88,6 +88,7 @@ MockClient _mockClientforFulllDataWithoutFilters() {
 
 ImmersionSavedSearch _savedSearchWithoutFilters() {
   return ImmersionSavedSearch(
+    id: "id",
     title: "title",
     metier: "plombier",
     location: "Paris",
@@ -97,6 +98,7 @@ ImmersionSavedSearch _savedSearchWithoutFilters() {
 
 ImmersionSavedSearch _savedSearchWithFilters() {
   return ImmersionSavedSearch(
+    id: "id",
     title: "title",
     metier: "plombier",
     location: "Paris",

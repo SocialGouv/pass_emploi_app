@@ -17,6 +17,7 @@ import '../../utils/test_setup.dart';
 main() {
   group("When user tries to save an offer search ...", () {
     final immersionSavedSearch = ImmersionSavedSearch(
+      id: "id",
       title: "Boulanger - Paris",
       filters: ImmersionSearchParametersFilters.withoutFilters(),
       location: "Paris",
@@ -92,6 +93,7 @@ main() {
       expect(
           immersionSavedSearchState.search,
           ImmersionSavedSearch(
+              id: "",
               title: "metier - ville",
               metier: "metier",
               location: "ville",
@@ -181,6 +183,7 @@ class SavedSearchRepositoryFailureStub extends GetSavedSearchRepository {
 List<ImmersionSavedSearch> _getImmersionSavedSearchList() {
   return [
     ImmersionSavedSearch(
+      id: "id",
       title: "Boulangerie - viennoiserie - PARIS-14",
       metier: "Boulangerie - viennoiserie",
       location: "PARIS-14",

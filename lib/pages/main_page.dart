@@ -109,7 +109,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case _indexOfSolutionsPage:
         return SolutionsTabPage();
       case _indexOfFavorisPage:
-        return FavorisTabsPage();
+        return FavorisTabsPage(widget.displayState == MainPageDisplayState.SAVED_SEARCH ? 1 : 0);
       case _indexOfPlusPage:
         return ProfilPage();
       default:
@@ -118,14 +118,15 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   }
 
   int _setInitIndexPage() {
-    switch(widget.displayState) {
+    switch (widget.displayState) {
       case MainPageDisplayState.CHAT:
         return _indexOfChatPage;
       case MainPageDisplayState.SEARCH:
         return _indexOfSolutionsPage;
+      case MainPageDisplayState.SAVED_SEARCH:
+        return _indexOfFavorisPage;
       default:
         return _indexOfMonSuiviPage;
     }
   }
-
 }

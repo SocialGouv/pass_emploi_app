@@ -48,6 +48,7 @@ import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart' as redux;
 
 import '../middlewares/initialize_saved_search_middleware.dart';
+import '../middlewares/saved_search/saved_search_middleware.dart';
 import '../middlewares/saved_search/saved_searchs_list_request_middleware.dart';
 import '../middlewares/user_tracking_structure_middleware.dart';
 
@@ -125,6 +126,7 @@ class StoreFactory {
         SavedSearchMiddleware<ImmersionSavedSearch>(immersionSavedSearchRepository),
         InitializeSavedSearchMiddleware(),
         SavedSearchListRequestMiddleware(getSavedSearchRepository),
+        GetSavedSearchMiddleware(getSavedSearchRepository),
         ..._debugMiddleware(),
       ],
     );

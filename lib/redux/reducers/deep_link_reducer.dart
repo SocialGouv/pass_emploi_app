@@ -5,8 +5,16 @@ import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
 
 AppState deepLinkReducer(AppState currentState, DeepLinkAction action) {
   return currentState.copyWith(
-    deepLinkState: DeepLinkState(_extractDeepLinkFromMessage(action.message), DateTime.now()),
+    deepLinkState: DeepLinkState(
+        _extractDeepLinkFromMessage(action.message), DateTime.now(), _extractIdFromMessage(action.message)),
   );
+}
+
+String? _extractIdFromMessage(RemoteMessage message) {
+  if (message.data["type"] == "NOUVELLE_OFFRE") {
+    return message.data["id"];
+  }
+  return null;
 }
 
 DeepLink _extractDeepLinkFromMessage(RemoteMessage message) {
@@ -19,6 +27,8 @@ DeepLink _extractDeepLinkFromMessage(RemoteMessage message) {
     case "DELETED_RENDEZVOUS":
     case "RAPPEL_RENDEZVOUS":
       return DeepLink.ROUTE_TO_RENDEZVOUS;
+    case "NOUVELLE_OFFRE":
+      return DeepLink.SAVED_SEARCH_RESULTS;
     default:
       return DeepLink.NOT_SET;
   }

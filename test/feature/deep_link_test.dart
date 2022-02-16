@@ -53,6 +53,10 @@ void main() {
       DeepLinkAction(RemoteMessage(data: {"type": "RAPPEL_RENDEZVOUS"})),
       DeepLinkState(DeepLink.ROUTE_TO_RENDEZVOUS, DateTime.now()),
     );
+    assertState(
+      DeepLinkAction(RemoteMessage(data: {"type": "NOUVELLE_OFFRE", "id": "Bonjour je suis un id"})),
+      DeepLinkState(DeepLink.SAVED_SEARCH_RESULTS, DateTime.now(), "Bonjour je suis un id"),
+    );
   });
 }
 

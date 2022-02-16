@@ -17,6 +17,7 @@ main() {
   group("When user tries to save an offer search ...", () {
     final offreEmploiSavedSearch = OffreEmploiSavedSearch(
         title: "Boulanger",
+        id: "id",
         filters: OffreEmploiSearchParametersFiltres.noFiltres(),
         keywords: "Boulanger",
         isAlternance: false,
@@ -121,7 +122,6 @@ class OffreEmploiSavedSearchRepositoryFailureStub extends OffreEmploiSavedSearch
   }
 }
 
-
 class SavedSearchRepositorySuccessStub extends GetSavedSearchRepository {
   SavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyCrashlytics());
 
@@ -143,6 +143,7 @@ class SavedSearchRepositoryFailureStub extends GetSavedSearchRepository {
 List<OffreEmploiSavedSearch> _getOffreEmploiSavedSearchList() {
   return [
     OffreEmploiSavedSearch(
+      id: "id",
       title: "Boulangerie - NANTES",
       metier: "Boulangerie",
       location: Location(libelle: "NANTES", code: "44109", type: LocationType.COMMUNE),
@@ -156,6 +157,7 @@ List<OffreEmploiSavedSearch> _getOffreEmploiSavedSearchList() {
       ),
     ),
     OffreEmploiSavedSearch(
+      id: "id",
       title: "Flutter",
       metier: "Flutter",
       location: null,

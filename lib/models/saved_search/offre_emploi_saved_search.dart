@@ -5,6 +5,7 @@ import '../../ui/strings.dart';
 import '../offre_emploi_filtres_parameters.dart';
 
 class OffreEmploiSavedSearch extends Equatable {
+  final String id;
   final String title;
   final String? metier;
   final Location? location;
@@ -13,6 +14,7 @@ class OffreEmploiSavedSearch extends Equatable {
   final OffreEmploiSearchParametersFiltres filters;
 
   OffreEmploiSavedSearch({
+    required this.id,
     required this.title,
     required this.metier,
     required this.location,
@@ -27,6 +29,7 @@ class OffreEmploiSavedSearch extends Equatable {
 
   OffreEmploiSavedSearch copyWithTitle(String title) {
     return OffreEmploiSavedSearch(
+        id: id,
         title: title,
         metier: metier,
         location: location,
@@ -36,5 +39,5 @@ class OffreEmploiSavedSearch extends Equatable {
   }
 
   @override
-  List<Object?> get props => [title, metier, location, keywords, isAlternance, filters];
+  List<Object?> get props => [id, title, metier, location, keywords, isAlternance, filters];
 }

@@ -26,6 +26,7 @@ import 'package:pass_emploi_app/redux/reducers/search_metier_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/user_action_reducer.dart';
 import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
 import 'package:pass_emploi_app/redux/states/immersion_search_request_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 
@@ -57,6 +58,9 @@ State<List> _updateSavedSearchListIfNeeded(SavedSearchAction action, AppState cu
 }
 
 AppState reducer(AppState current, dynamic action) {
+  if (action is GetSavedSearchAction) {
+    return current.copyWith(deepLinkState: DeepLinkState.used());
+  }
   if (action is DeepLinkAction) {
     return deepLinkReducer(current, action);
   } else if (action is LoginAction) {
@@ -110,13 +114,13 @@ AppState reducer(AppState current, dynamic action) {
     return current.copyWith(
       savedSearchListState: _updateSavedSearchListIfNeeded(action, current),
       offreEmploiSavedSearchState:
-          _offreEmploiSavedSearchReducer.reduceSavedSearchState(current.offreEmploiSavedSearchState, action),
+      _offreEmploiSavedSearchReducer.reduceSavedSearchState(current.offreEmploiSavedSearchState, action),
     );
   } else if (action is SavedSearchAction<ImmersionSavedSearch>) {
     return current.copyWith(
       savedSearchListState: _updateSavedSearchListIfNeeded(action, current),
       immersionSavedSearchState:
-          _immersionSavedSearchReducer.reduceSavedSearchState(current.immersionSavedSearchState, action),
+      _immersionSavedSearchReducer.reduceSavedSearchState(current.immersionSavedSearchState, action),
     );
   } else if (action is SavedSearchListAction) {
     return current.copyWith(

@@ -104,6 +104,7 @@ MockClient _mockClientforPartialDataWithoutFilters() {
 
 OffreEmploiSavedSearch _savedSearchWithoutFilters() {
   return OffreEmploiSavedSearch(
+    id: "id",
     title: "title",
     metier: null,
     location: null,
@@ -115,6 +116,7 @@ OffreEmploiSavedSearch _savedSearchWithoutFilters() {
 
 OffreEmploiSavedSearch _savedSearchWithFilters({required bool isAlternance}) {
   return OffreEmploiSavedSearch(
+    id: "id",
     title: "title",
     metier: "plombier",
     location: Location(libelle: "Paris", code: "75", type: LocationType.DEPARTMENT),
