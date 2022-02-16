@@ -12,10 +12,15 @@ class FavorisTabsPage extends StatelessWidget {
     Strings.savedSearchTabName,
   ];
 
+  final int initialTab;
+
+  FavorisTabsPage([this.initialTab = 0]);
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: _favorisTabs.length,
+      initialIndex: initialTab,
       child: Scaffold(
         backgroundColor: AppColors.grey100,
         appBar: passEmploiAppBar(label: Strings.menuFavoris),

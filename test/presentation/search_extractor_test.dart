@@ -36,6 +36,7 @@ main() {
 
     // Then
     final expected = OffreEmploiSavedSearch(
+      id: "id",
       title: "Je suis un keyword",
       metier: "Je suis un keyword",
       location: mockLocation(),
@@ -78,6 +79,7 @@ main() {
     expect(
       result,
       ImmersionSavedSearch(
+        id: "id",
         title: "metier - ville",
         metier: "metier",
         location: "ville",
@@ -114,6 +116,7 @@ main() {
     expect(
       result,
       ImmersionSavedSearch(
+        id: "id",
         title: "${searchedMetier.libelle} - ville",
         metier: searchedMetier.libelle,
         location: "ville",

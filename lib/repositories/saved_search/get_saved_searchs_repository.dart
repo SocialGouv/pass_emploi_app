@@ -22,22 +22,23 @@ class GetSavedSearchRepository {
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes);
         final list = (json as List).map((search) => SavedSearchResponse.fromJson(search)).toList();
-        return list
-            .map((e) {
-              if (e.type == "OFFRES_IMMERSION") {
-                return SavedSearchImmersionExtractor().extract(e);
-              } else if (e.type == "OFFRES_EMPLOI" || e.type == "OFFRES_ALTERNANCE") {
-                return SavedSearchEmploiExtractor().extract(e);
-              } else {
-                return null;
-              }
-            })
-            .whereNotNull()
-            .toList();
+        return list.map((e) => SavedSearchJsonExtractor().extract(e)).whereNotNull().toList();
       }
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);
     }
     return null;
+  }
+}
+
+class SavedSearchJsonExtractor {
+  dynamic extract(SavedSearchResponse savedSearch) {
+    if (savedSearch.type == "OFFRES_IMMERSION") {
+      return SavedSearchImmersionExtractor().extract(savedSearch);
+    } else if (savedSearch.type == "OFFRES_EMPLOI" || savedSearch.type == "OFFRES_ALTERNANCE") {
+      return SavedSearchEmploiExtractor().extract(savedSearch);
+    } else {
+      return null;
+    }
   }
 }

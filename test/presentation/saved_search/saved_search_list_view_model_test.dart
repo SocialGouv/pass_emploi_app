@@ -12,9 +12,12 @@ import '../../utils/test_setup.dart';
 
 main() {
   final _savedSearchs = [
-    ImmersionSavedSearch(title: "titreImmersion1", metier: "metierImmersion1", location: "ville", filters: null),
-    ImmersionSavedSearch(title: "titreImmersion2", metier: "metierImmersion2", location: "ville", filters: null),
+    ImmersionSavedSearch(
+        id: "id", title: "titreImmersion1", metier: "metierImmersion1", location: "ville", filters: null),
+    ImmersionSavedSearch(
+        id: "id", title: "titreImmersion2", metier: "metierImmersion2", location: "ville", filters: null),
     OffreEmploiSavedSearch(
+      id: "id",
       title: "titreOffreEmploi1",
       metier: "metierOffreEmploi1",
       location: mockLocation(),
@@ -24,6 +27,7 @@ main() {
     ),
     OffreEmploiSavedSearch(
       title: "titreOffreEmploi2",
+      id: "id",
       metier: "metierOffreEmploi2",
       location: mockLocation(),
       keywords: "keywords",
@@ -31,6 +35,7 @@ main() {
       filters: OffreEmploiSearchParametersFiltres.noFiltres(),
     ),
     OffreEmploiSavedSearch(
+      id: "id",
       title: "titreAlternance1",
       metier: "metierAlternance1",
       location: mockLocation(),
@@ -39,6 +44,7 @@ main() {
       filters: OffreEmploiSearchParametersFiltres.noFiltres(),
     ),
     OffreEmploiSavedSearch(
+      id: "id",
       title: "titreAlternance2",
       metier: "metierAlternance2",
       location: mockLocation(),
@@ -92,8 +98,10 @@ main() {
     // Then
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.getImmersions(), [
-      ImmersionSavedSearch(title: "titreImmersion1", metier: "metierImmersion1", location: "ville", filters: null),
-      ImmersionSavedSearch(title: "titreImmersion2", metier: "metierImmersion2", location: "ville", filters: null),
+      ImmersionSavedSearch(
+          id: "id", title: "titreImmersion1", metier: "metierImmersion1", location: "ville", filters: null),
+      ImmersionSavedSearch(
+          id: "id", title: "titreImmersion2", metier: "metierImmersion2", location: "ville", filters: null),
     ]);
   });
 
@@ -112,6 +120,7 @@ main() {
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.getOffresEmploi(false), [
       OffreEmploiSavedSearch(
+        id: "id",
         title: "titreOffreEmploi1",
         metier: "metierOffreEmploi1",
         location: mockLocation(),
@@ -120,6 +129,7 @@ main() {
         filters: OffreEmploiSearchParametersFiltres.noFiltres(),
       ),
       OffreEmploiSavedSearch(
+        id: "id",
         title: "titreOffreEmploi2",
         metier: "metierOffreEmploi2",
         location: mockLocation(),
@@ -145,6 +155,7 @@ main() {
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.getOffresEmploi(true), [
       OffreEmploiSavedSearch(
+        id: "id",
         title: "titreAlternance1",
         metier: "metierAlternance1",
         location: mockLocation(),
@@ -154,6 +165,7 @@ main() {
       ),
       OffreEmploiSavedSearch(
         title: "titreAlternance2",
+        id: "id",
         metier: "metierAlternance2",
         location: mockLocation(),
         keywords: "keywords",

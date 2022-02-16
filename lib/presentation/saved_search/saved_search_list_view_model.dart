@@ -58,8 +58,8 @@ class SavedSearchListViewModel {
         shouldGoToOffre: searchResultState is OffreEmploiSearchResultsDataState,
         shouldGoToImmersion: immersionSearchState.isSuccess(),
         immersionsResults: immersionSearchState.isSuccess() ? immersionSearchState.getResultOrThrow() : [],
-        offreEmploiSelected: (savedSearch) => _offreEmploiSelected(savedSearch, store),
-        offreImmersionSelected: (savedSearch) => _offreImmersionSelected(savedSearch, store),
+        offreEmploiSelected: (savedSearch) => onOffreEmploiSelected(savedSearch, store),
+        offreImmersionSelected: (savedSearch) => onOffreImmersionSelected(savedSearch, store),
       );
     return SavedSearchListViewModel._(
       displayState: DisplayState.LOADING,
@@ -77,7 +77,7 @@ class SavedSearchListViewModel {
     return savedSearch.whereType<ImmersionSavedSearch>().toList();
   }
 
-  static void _offreEmploiSelected(OffreEmploiSavedSearch savedSearch, Store<AppState> store) {
+  static void onOffreEmploiSelected(OffreEmploiSavedSearch savedSearch, Store<AppState> store) {
     store.dispatch(
       OffreEmploiSearchWithFiltresAction(
         keywords: savedSearch.keywords ?? "",
@@ -88,7 +88,7 @@ class SavedSearchListViewModel {
     );
   }
 
-  static void _offreImmersionSelected(ImmersionSavedSearch savedSearch, Store<AppState> store) {
+  static void onOffreImmersionSelected(ImmersionSavedSearch savedSearch, Store<AppState> store) {
     store.dispatch(ImmersionAction.request(ImmersionRequest(
       savedSearch.filters!.codeRome!,
       Location(

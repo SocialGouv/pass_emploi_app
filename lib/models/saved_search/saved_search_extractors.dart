@@ -24,6 +24,7 @@ class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSave
     final location = state.location;
     String _title = _setTitleForOffer(metier, location?.libelle);
     return OffreEmploiSavedSearch(
+      id: "",
       title: _title,
       metier: metier,
       location: location,
@@ -63,6 +64,7 @@ class ImmersionSearchExtractor extends AbstractSearchExtractor<ImmersionSavedSea
     final String metier = _metier(store);
     final location = requestState.ville;
     return ImmersionSavedSearch(
+      id: "",
       title: Strings.savedSearchTitleField(metier, location),
       metier: metier,
       location: location,

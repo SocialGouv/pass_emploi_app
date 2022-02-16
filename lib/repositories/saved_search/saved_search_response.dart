@@ -82,6 +82,7 @@ class SavedSearchResponseCriteres {
 class SavedSearchEmploiExtractor {
   OffreEmploiSavedSearch extract(SavedSearchResponse savedSearch) {
     return OffreEmploiSavedSearch(
+      id: savedSearch.id,
       title: savedSearch.titre,
       metier: savedSearch.metier,
       location: _getLocation(savedSearch),
@@ -120,6 +121,7 @@ class SavedSearchEmploiExtractor {
 class SavedSearchImmersionExtractor {
   ImmersionSavedSearch extract(SavedSearchResponse savedSearch) {
     return ImmersionSavedSearch(
+      id: savedSearch.id,
       title: savedSearch.titre,
       metier: savedSearch.metier ?? "",
       location: savedSearch.localisation ?? "",

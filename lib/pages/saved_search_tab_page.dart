@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart'
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
 import 'package:pass_emploi_app/widgets/cards/saved_search_card.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
@@ -38,7 +39,13 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, SavedSearchListViewModel>(
-      onInit: (store) => store.dispatch(RequestSavedSearchListAction()),
+      onInit: (store) {
+        store.dispatch(RequestSavedSearchListAction());
+        final DeepLinkState link = store.state.deepLinkState;
+        if (link.deepLink == DeepLink.SAVED_SEARCH_RESULTS && link.dataId != null) {
+          store.dispatch(GetSavedSearchAction(link.dataId!));
+        }
+      },
       onWillChange: (previousVM, newViewModel) {
         if (newViewModel.shouldGoToOffre && _shouldNavigate) _goToOffresPage(context);
         if (newViewModel.shouldGoToImmersion && _shouldNavigate)
