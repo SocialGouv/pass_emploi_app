@@ -87,7 +87,7 @@ class SavedSearchEmploiExtractor {
       metier: savedSearch.metier,
       location: _getLocation(savedSearch),
       keywords: savedSearch.criteres.q,
-      isAlternance: savedSearch.criteres.alternance!,
+      isAlternance: savedSearch.criteres.alternance ?? (savedSearch.type == "OFFRES_ALTERNANCE"),
       filters: _getFilters(savedSearch.criteres),
     );
   }
@@ -95,10 +95,11 @@ class SavedSearchEmploiExtractor {
   Location? _getLocation(SavedSearchResponse savedSearch) {
     if (savedSearch.localisation != null) {
       final type = savedSearch.criteres.commune == null ? LocationType.DEPARTMENT : LocationType.COMMUNE;
+      var code2 = savedSearch.criteres.commune ?? savedSearch.criteres.departement ?? "";
       return Location(
         type: type,
-        code: savedSearch.criteres.commune ?? savedSearch.criteres.departement!,
-        libelle: savedSearch.localisation ?? "",
+        code: code2,
+        libelle: code2.isEmpty ? (savedSearch.localisation ?? "") : "OH !",
         codePostal: null,
         longitude: null,
         latitude: null,

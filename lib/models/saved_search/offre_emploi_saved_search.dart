@@ -39,5 +39,5 @@ class OffreEmploiSavedSearch extends Equatable {
   }
 
   @override
-  List<Object?> get props => [title, metier, location, keywords, isAlternance, filters];
+  List<Object?> get props => [id, title, metier, location, keywords, isAlternance, filters];
 }
