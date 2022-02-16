@@ -93,7 +93,7 @@ main() {
       expect(
           immersionSavedSearchState.search,
           ImmersionSavedSearch(
-              id: "id",
+              id: "",
               title: "metier - ville",
               metier: "metier",
               location: "ville",

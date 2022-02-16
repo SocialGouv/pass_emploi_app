@@ -79,7 +79,7 @@ main() {
     expect(
       result,
       ImmersionSavedSearch(
-        id: "id",
+        id: "",
         title: "metier - ville",
         metier: "metier",
         location: "ville",
@@ -116,7 +116,7 @@ main() {
     expect(
       result,
       ImmersionSavedSearch(
-        id: "id",
+        id: "",
         title: "${searchedMetier.libelle} - ville",
         metier: searchedMetier.libelle,
         location: "ville",

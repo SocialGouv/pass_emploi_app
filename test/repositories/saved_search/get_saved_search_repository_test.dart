@@ -89,7 +89,7 @@ List<Equatable> _getMockedSavedSearch() {
       ),
     ),
     ImmersionSavedSearch(
-      id: "id",
+      id: "670c413e-b669-4228-850a-9a7307fe79ea",
       title: "Boulangerie - viennoiserie - PARIS-14",
       metier: "Boulangerie - viennoiserie",
       location: "PARIS-14",
