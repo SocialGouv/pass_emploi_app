@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/pages/immersion_list_page.dart';
 import 'package:pass_emploi_app/presentation/immersion_search_view_model.dart';
@@ -41,11 +42,12 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
       distinct: true,
       onWillChange: (_, viewModel) {
         if (viewModel.displayState == ImmersionSearchDisplayState.SHOW_RESULTS) {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ImmersionListPage(viewModel.immersions)))
+          widget
+              .pushAndTrackBack(
+                  context, MaterialPageRoute(builder: (context) => ImmersionListPage(viewModel.immersions)))
               .then((_) {
             // Reset state to avoid unexpected SHOW_RESULTS while coming back from ImmersionListPage
             StoreProvider.of<AppState>(context).dispatch(ImmersionAction.reset());
-            MatomoTracker.trackScreenWithName(AnalyticsScreenNames.immersionResearch, "");
           });
         }
       },

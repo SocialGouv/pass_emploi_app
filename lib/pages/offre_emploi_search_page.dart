@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart';
@@ -24,12 +25,9 @@ class OffreEmploiSearchPage extends TraceableStatefulWidget {
 
   OffreEmploiSearchPage({required this.onlyAlternance})
       : super(
-          name: _analyticsScreenName(onlyAlternance),
+          name: onlyAlternance ? AnalyticsScreenNames.alternanceResearch : AnalyticsScreenNames.emploiResearch,
           key: ValueKey(onlyAlternance),
         );
-
-  static String _analyticsScreenName(bool onlyAlternance) =>
-      onlyAlternance ? AnalyticsScreenNames.alternanceResearch : AnalyticsScreenNames.emploiResearch;
 
   @override
   State<OffreEmploiSearchPage> createState() => _OffreEmploiSearchPageState();
@@ -47,10 +45,9 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
       onWillChange: (_, newViewModel) {
         if (newViewModel.displayState == DisplayState.CONTENT && _shouldNavigate) {
           _shouldNavigate = false;
-          Navigator.push(context, MaterialPageRoute(builder: (_) {
+          widget.pushAndTrackBack(context, MaterialPageRoute(builder: (_) {
             return OffreEmploiListPage(onlyAlternance: widget.onlyAlternance);
           })).then((_) {
-            MatomoTracker.trackScreenWithName(OffreEmploiSearchPage._analyticsScreenName(widget.onlyAlternance), "");
             _shouldNavigate = true;
           });
         }
