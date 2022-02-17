@@ -45,9 +45,9 @@ class LoginPage extends TraceableStatelessWidget {
                   SizedBox(
                     height: 48,
                   ),
-                  SvgPicture.asset(Drawables.cejAppLogo, width: 200),
+                  SvgPicture.asset(Drawables.cejAppLogo),
                   SizedBox(
-                    height: 48,
+                    height: 20,
                   ),
                   Container(
                     width: double.infinity,
@@ -77,7 +77,6 @@ class LoginPage extends TraceableStatelessWidget {
                         Center(
                           child: Text(
                             Strings.dontHaveAccount,
-                            textAlign: TextAlign.center,
                             style: TextStyles.textBaseRegular.copyWith(color: Colors.white),
                           ),
                         ),
