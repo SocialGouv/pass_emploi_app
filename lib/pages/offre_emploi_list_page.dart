@@ -245,10 +245,11 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
   }
 
   int _itemCount(OffreEmploiSearchResultsViewModel viewModel) {
-    if (viewModel.displayLoaderAtBottomOfList)
+    if (viewModel.displayLoaderAtBottomOfList) {
       return viewModel.items.length + 1;
-    else
+    } else {
       return viewModel.items.length;
+    }
   }
 
   Widget _filtrePrimaryButton(OffreEmploiSearchResultsViewModel viewModel) {

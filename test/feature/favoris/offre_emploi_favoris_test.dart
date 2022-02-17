@@ -208,10 +208,12 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
 class OffreEmploiFavorisRepositorySuccessStub extends OffreEmploiFavorisRepository {
   OffreEmploiFavorisRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
+  @override
   Future<Set<String>?> getFavorisId(String userId) async {
     return {"1", "2", "4"};
   }
 
+  @override
   Future<Map<String, OffreEmploi>?> getFavoris(String userId) async {
     return {
       "1": mockOffreEmploi(id: "1"),
@@ -220,10 +222,12 @@ class OffreEmploiFavorisRepositorySuccessStub extends OffreEmploiFavorisReposito
     };
   }
 
+  @override
   Future<bool> postFavori(String userId, OffreEmploi offre) async {
     return true;
   }
 
+  @override
   Future<bool> deleteFavori(String userId, String offreId) async {
     return true;
   }
@@ -232,18 +236,22 @@ class OffreEmploiFavorisRepositorySuccessStub extends OffreEmploiFavorisReposito
 class OffreEmploiFavorisRepositoryFailureStub extends OffreEmploiFavorisRepository {
   OffreEmploiFavorisRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
+  @override
   Future<Set<String>?> getFavorisId(String userId) async {
     return {"1", "2", "4"};
   }
 
+  @override
   Future<Map<String, OffreEmploi>?> getFavoris(String userId) async {
     return null;
   }
 
+  @override
   Future<bool> postFavori(String userId, OffreEmploi offre) async {
     return false;
   }
 
+  @override
   Future<bool> deleteFavori(String userId, String offreId) async {
     return false;
   }

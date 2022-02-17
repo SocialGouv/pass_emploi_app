@@ -1,0 +1,16 @@
+include:
+  package:flutter_lints/flutter.yaml
+
+analyzer:
+  exclude: [ build/** ]
+  language:
+    strict-raw-types: true
+  strong-mode:
+    implicit-casts: false
+  errors:
+    missing_return: error
+    dead_code: error
+    unused_element: error
+    constant_identifier_names: ignore
+    prefer_const_constructors: ignore
+    prefer_const_literals_to_create_immutables: ignore

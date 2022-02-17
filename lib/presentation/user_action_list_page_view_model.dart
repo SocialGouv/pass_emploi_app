@@ -49,22 +49,24 @@ class UserActionListPageViewModel extends Equatable {
 bool _isEmpty(State<List<UserAction>> state) => state.isSuccess() && state.getResultOrThrow().isEmpty;
 
 List<UserActionViewModel> _activeItems({required State<List<UserAction>> state}) {
-  if (state.isSuccess())
+  if (state.isSuccess()) {
     return state
         .getResultOrThrow()
         .where((action) => action.status != UserActionStatus.DONE)
         .map((action) => UserActionViewModel.create(action))
         .toList();
+  }
   return [];
 }
 
 List<UserActionViewModel> _doneItems({required State<List<UserAction>> state}) {
-  if (state.isSuccess())
+  if (state.isSuccess()) {
     return state
         .getResultOrThrow()
         .where((action) => action.status == UserActionStatus.DONE)
         .map((action) => UserActionViewModel.create(action))
         .toList();
+  }
   return [];
 }
 

@@ -84,7 +84,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
     );
   }
 
-  _body(BuildContext context, ChatPageViewModel viewModel) {
+  Widget _body(BuildContext context, ChatPageViewModel viewModel) {
     switch (viewModel.displayState) {
       case DisplayState.CONTENT:
         return _content(context, viewModel);

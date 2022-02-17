@@ -5,7 +5,7 @@ class LastInFirstOutQueue<E> {
   late ListQueue<E> _queue;
 
   LastInFirstOutQueue(this._capacity) {
-    _queue = ListQueue<E>(this._capacity);
+    _queue = ListQueue<E>(_capacity);
   }
 
   void add(E element) {

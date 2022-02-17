@@ -60,8 +60,9 @@ MockClient _failureClient() {
 MockClient _mockClientforFullDataWithFilters() {
   return MockClient((request) async {
     if (request.method != "POST") return invalidHttpResponse();
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/recherches/immersions"))
+    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/recherches/immersions")) {
       return invalidHttpResponse();
+    }
     final requestJson = jsonUtf8Decode(request.bodyBytes);
     if (requestJson["titre"] != "title") return invalidHttpResponse(message: "title KO");
     if (requestJson["metier"] != "plombier") return invalidHttpResponse(message: "metier KO");
@@ -76,8 +77,9 @@ MockClient _mockClientforFullDataWithFilters() {
 MockClient _mockClientforFulllDataWithoutFilters() {
   return MockClient((request) async {
     if (request.method != "POST") return invalidHttpResponse();
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/recherches/immersions"))
+    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/recherches/immersions")) {
       return invalidHttpResponse();
+    }
     final requestJson = jsonUtf8Decode(request.bodyBytes);
     if (requestJson["titre"] != "title") return invalidHttpResponse(message: "title KO");
     if (requestJson["metier"] != "plombier") return invalidHttpResponse(message: "metier KO");

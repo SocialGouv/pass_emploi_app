@@ -15,7 +15,7 @@ import '../widgets/cej_information_content_card.dart';
 import 'choix_organisme_page.dart';
 
 class CejInformationPage extends StatefulWidget {
-  static MaterialPageRoute materialPageRoute() {
+  static MaterialPageRoute<_CejInformationPageState> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => CejInformationPage());
   }
 

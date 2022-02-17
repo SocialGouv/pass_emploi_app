@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
@@ -44,7 +43,7 @@ class DataCard<T> extends StatelessWidget {
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
           ),
           child: InkWell(
-            onTap: this.onTap,
+            onTap: onTap,
             splashColor: AppColors.primaryLighten,
             child: Padding(
               padding: const EdgeInsets.all(16),

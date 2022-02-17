@@ -21,16 +21,16 @@ class NextDispatcherSpy {
 }
 
 class StoreSpy extends Store<AppState> {
-  late Object dispatchedAction;
+  late dynamic dispatchedAction;
 
   StoreSpy() : super(reducer, initialState: AppState.initialState(configuration: configuration()));
 
   @override
-  dispatch(action) => dispatchedAction = action;
+  dispatch(dynamic action) => dispatchedAction = action;
 }
 
 class SharedPreferencesSpy extends FlutterSecureStorage {
-  final Map<String, String> storedValues = Map();
+  final Map<String, String> storedValues = {};
 
   @override
   Future<void> write({
@@ -42,9 +42,8 @@ class SharedPreferencesSpy extends FlutterSecureStorage {
     WebOptions? webOptions,
     MacOsOptions? mOptions,
     WindowsOptions? wOptions,
-  }) {
+  }) async {
     storedValues[key] = value!;
-    return Future.value(true);
   }
 
   @override

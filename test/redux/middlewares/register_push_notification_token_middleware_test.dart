@@ -56,6 +56,7 @@ class RegisterTokenRepositorySpy extends RegisterTokenRepository {
 
   RegisterTokenRepositorySpy() : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPushNotificationManager());
 
+  @override
   Future<void> registerToken(String userId) async {
     expect(userId, "1");
     wasCalled = true;

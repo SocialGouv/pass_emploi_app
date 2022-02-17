@@ -200,10 +200,12 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
 class ImmersionFavorisRepositorySuccessStub extends ImmersionFavorisRepository {
   ImmersionFavorisRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
+  @override
   Future<Set<String>?> getFavorisId(String userId) async {
     return {"1", "2", "4"};
   }
 
+  @override
   Future<Map<String, Immersion>?> getFavoris(String userId) async {
     return {
       "1": mockImmersion(id: "1"),
@@ -212,10 +214,12 @@ class ImmersionFavorisRepositorySuccessStub extends ImmersionFavorisRepository {
     };
   }
 
+  @override
   Future<bool> postFavori(String userId, Immersion favori) async {
     return true;
   }
 
+  @override
   Future<bool> deleteFavori(String userId, String offreId) async {
     return true;
   }
@@ -224,18 +228,22 @@ class ImmersionFavorisRepositorySuccessStub extends ImmersionFavorisRepository {
 class ImmersionFavorisRepositoryFailureStub extends ImmersionFavorisRepository {
   ImmersionFavorisRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
+  @override
   Future<Set<String>?> getFavorisId(String userId) async {
     return {"1", "2", "4"};
   }
 
+  @override
   Future<Map<String, Immersion>?> getFavoris(String userId) async {
     return null;
   }
 
+  @override
   Future<bool> postFavori(String userId, Immersion favori) async {
     return false;
   }
 
+  @override
   Future<bool> deleteFavori(String userId, String offreId) async {
     return false;
   }

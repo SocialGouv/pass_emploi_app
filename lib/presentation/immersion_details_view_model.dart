@@ -230,4 +230,4 @@ List<CallToAction> _secondaryCallToActions(ImmersionDetails immersion, Platform 
   }
 }
 
-void _retry(Store store, String immersionId) => store.dispatch(ImmersionDetailsAction.request(immersionId));
+void _retry(Store<AppState> store, String immersionId) => store.dispatch(ImmersionDetailsAction.request(immersionId));

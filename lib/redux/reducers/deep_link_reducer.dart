@@ -12,7 +12,7 @@ AppState deepLinkReducer(AppState currentState, DeepLinkAction action) {
 
 String? _extractIdFromMessage(RemoteMessage message) {
   if (message.data["type"] == "NOUVELLE_OFFRE") {
-    return message.data["id"];
+    return message.data["id"] as String?;
   }
   return null;
 }

@@ -304,7 +304,7 @@ List<CheckboxValueViewModel<ExperienceFiltre>> _allExperiencesInitiallyUnchecked
   ];
 }
 
-Store<AppState> _storeWithCommuneSearchAndNoFiltres({customReducer = reducer}) {
+Store<AppState> _storeWithCommuneSearchAndNoFiltres({Reducer<AppState> customReducer = reducer}) {
   return Store<AppState>(
     customReducer,
     initialState: AppState.initialState().copyWith(

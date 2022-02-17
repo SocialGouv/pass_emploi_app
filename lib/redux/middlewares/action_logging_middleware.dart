@@ -6,7 +6,7 @@ import 'package:redux/redux.dart';
 class ActionLoggingMiddleware extends MiddlewareClass<AppState> {
   @override
   call(Store<AppState> store, action, NextDispatcher next) {
-    log("${_stripActionName(action)}", name: "ACTIONS");
+    log(_stripActionName(action), name: "ACTIONS");
     next(action);
   }
 
