@@ -295,9 +295,9 @@ class Strings {
   static String accessibilityLevelNonConforme = "Non conforme";
   static String termsOfServiceLabel = "Conditions d'Utilisation";
 
-  static const legalNoticeUrl = "https://beta.gouv.fr/startups/pass-emploi.html?type=legalNotice";
-  static const privacyPolicyUrl = "https://beta.gouv.fr/startups/pass-emploi.html?type=privacyPolicy";
-  static const termsOfServiceUrl = "https://beta.gouv.fr/startups/pass-emploi.html?type=termsOfService";
+  static const legalNoticeUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_mentions_legales";
+  static const privacyPolicyUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_politique_de_confidentialite";
+  static const termsOfServiceUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_conditions_generales";
 
   // saved search
   static String createAlert = "Créer une alerte";
