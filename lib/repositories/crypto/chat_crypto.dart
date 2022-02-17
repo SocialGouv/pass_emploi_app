@@ -30,7 +30,7 @@ class ChatCrypto {
   }
 
   void setKey(String key) {
-    this._encrypter = Encrypter(AES(Key.fromUtf8(key), mode: AESMode.cbc));
+    _encrypter = Encrypter(AES(Key.fromUtf8(key), mode: AESMode.cbc));
   }
 }
 

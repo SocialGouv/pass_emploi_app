@@ -22,8 +22,8 @@ class ImmersionSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<Imm
   }
 
   @override
-  Widget buildSaveSearch(BuildContext context, ImmersionSavedSearchViewModel viewModel) {
-    return _buildForm(context, viewModel);
+  Widget buildSaveSearch(BuildContext context, ImmersionSavedSearchViewModel itemViewModel) {
+    return _buildForm(context, itemViewModel);
   }
 
   Widget _buildForm(BuildContext context, ImmersionSavedSearchViewModel viewModel) {

@@ -11,8 +11,8 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
-import 'bottom_sheets.dart';
 import '../buttons/primary_action_button.dart';
+import 'bottom_sheets.dart';
 
 class CreateUserActionBottomSheet extends TraceableStatefulWidget {
   CreateUserActionBottomSheet() : super(name: AnalyticsScreenNames.createUserAction);
@@ -43,18 +43,12 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
   Widget build(BuildContext context) {
     return StoreConnector<AppState, CreateUserActionViewModel>(
       converter: (state) => CreateUserActionViewModel.create(state),
-      builder: (context, viewModel) => _build(context, viewModel),
+      builder: (context, viewModel) => _buildForm(context, viewModel),
       onWillChange: (previousVm, newVm) => _dismissBottomSheetIfNeeded(context, newVm),
     );
   }
 
-  _build(BuildContext context, CreateUserActionViewModel viewModel) {
-    if (viewModel.displayState != CreateUserActionDisplayState.TO_DISMISS) {
-      return _buildForm(context, viewModel);
-    }
-  }
-
-  Form _buildForm(BuildContext context, CreateUserActionViewModel viewModel) {
+  Widget _buildForm(BuildContext context, CreateUserActionViewModel viewModel) {
     return Form(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       key: _formKey,
@@ -193,7 +187,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
 
   bool _isLoading(CreateUserActionViewModel viewModel) => viewModel.displayState != CreateUserActionDisplayState.SHOW_LOADING;
 
-  _dismissBottomSheetIfNeeded(BuildContext context, CreateUserActionViewModel viewModel) {
+  void _dismissBottomSheetIfNeeded(BuildContext context, CreateUserActionViewModel viewModel) {
     if (viewModel.displayState == CreateUserActionDisplayState.TO_DISMISS) {
       Navigator.pop(context);
     }

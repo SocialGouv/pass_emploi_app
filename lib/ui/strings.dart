@@ -30,9 +30,9 @@ class Strings {
   // Force Update
   static String updateTitle = "Mise à jour";
   static String updateButton = "Mettre à jour";
-  static String forceUpdateOnStoreLabel = "Votre application nécessite d\'être mise à jour pour son bon fonctionnement";
+  static String forceUpdateOnStoreLabel = "Votre application nécessite d'être mise à jour pour son bon fonctionnement";
   static String forceUpdateOnFirebaseLabel =
-      "Votre application nécessite d\'être mise à jour sur Firebase pour son bon fonctionnement";
+      "Votre application nécessite d'être mise à jour sur Firebase pour son bon fonctionnement";
 
   static String hello(firstName) => "Bonjour $firstName";
 
@@ -89,8 +89,8 @@ class Strings {
 
   // Login
   static String performLogin = "Connectez-vous";
-  static String mandatoryAccessCodeError = "Votre code d\'accès doit être renseigné";
-  static String yourAccessCode = "Votre code d\'accès";
+  static String mandatoryAccessCodeError = "Votre code d'accès doit être renseigné";
+  static String yourAccessCode = "Votre code d'accès";
   static String loginError = "Erreur lors de la connexion";
   static String loginPassEmploi = "pass emploi";
   static String loginPoleEmploi = "Pôle emploi";
@@ -200,7 +200,7 @@ class Strings {
       "· Remplissez une convention d’immersion avec lui";
   static String immersionContactTitle = "Contact";
   static String immersionPhoneButton = "Appeler";
-  static String immersionLocationButton = "Localiser l\'entreprise";
+  static String immersionLocationButton = "Localiser l'entreprise";
   static String immersionEmailButton = "Envoyer un e-mail";
   static String immersionEmailSubject = "Candidature pour une période d'immersion";
 

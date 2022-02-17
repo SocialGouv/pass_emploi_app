@@ -7,7 +7,7 @@ main() {
 
   test("chat crypto should encrypt message and then decrypt it", () {
     // Given
-    final String message = "mon super message";
+    const String message = "mon super message";
     final chatCrypto = ChatCrypto();
     chatCrypto.setKey("7x!A%C*F-JaNdRgUkXp2s5v8y/B?E(G+");
 

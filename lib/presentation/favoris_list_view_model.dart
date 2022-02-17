@@ -27,7 +27,7 @@ class FavorisListViewModel<FAVORIS_MODEL, FAVORIS_VIEW_MODEL> extends Equatable 
     RelevantFavorisExtractor<FAVORIS_MODEL> relevantFavorisExtractor,
     FavorisViewModelTransformer<FAVORIS_MODEL, FAVORIS_VIEW_MODEL> viewModelTransformer,
   ) {
-    final retry = () => store.dispatch(RequestFavorisAction<FAVORIS_MODEL>());
+    retry() => store.dispatch(RequestFavorisAction<FAVORIS_MODEL>());
     if (relevantFavorisExtractor.isDataInitialized(store)) {
       final favoris = relevantFavorisExtractor.getRelevantFavoris(store);
       return FavorisListViewModel._(

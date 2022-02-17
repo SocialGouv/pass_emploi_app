@@ -21,10 +21,10 @@ class Location extends Equatable {
 
   factory Location.fromJson(dynamic json) {
     return Location(
-      libelle: json['libelle'],
-      code: json['code'],
+      libelle: json['libelle'] as String,
+      code: json['code'] as String,
       type: _extractLocationType(json),
-      codePostal: json['codePostal'],
+      codePostal: json['codePostal'] as String?,
       latitude: json['latitude'] != null ? json['latitude'] as double : null,
       longitude: json['longitude'] != null ? json['longitude'] as double : null,
     );

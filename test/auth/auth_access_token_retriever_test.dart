@@ -81,7 +81,7 @@ void main() {
     // When
     try {
       await tokenRetriever.accessToken();
-    } catch (e) {}
+    } catch (_) {}
 
     // Then
     expect(store.dispatchedAction, isA<RequestLogoutAction>());

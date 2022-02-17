@@ -68,8 +68,8 @@ main() {
 }
 
 class _ChatCryptoSpy extends ChatCrypto {
-  var content;
-  var iv;
+  String content = '';
+  String iv = '';
 
   @override
   String decrypt(EncryptedTextWithIv encrypted) {

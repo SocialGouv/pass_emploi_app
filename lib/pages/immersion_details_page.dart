@@ -14,17 +14,17 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
+import 'package:pass_emploi_app/widgets/buttons/delete_favori_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
-import 'package:pass_emploi_app/widgets/buttons/delete_favori_button.dart';
-import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/errors/favori_not_found_error.dart';
+import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
-import 'package:pass_emploi_app/widgets/tags/immersion_tags.dart';
-import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
-import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/tags/immersion_tags.dart';
 import 'package:pass_emploi_app/widgets/title_section.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -39,7 +39,7 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
     this.popPageWhenFavoriIsRemoved = false,
   }) : super(name: AnalyticsScreenNames.immersionDetails);
 
-  static MaterialPageRoute materialPageRoute(
+  static MaterialPageRoute<ImmersionDetailsPage> materialPageRoute(
     String id, {
     bool popPageWhenFavoriIsRemoved = false,
   }) {

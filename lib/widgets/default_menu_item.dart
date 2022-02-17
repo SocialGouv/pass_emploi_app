@@ -19,7 +19,7 @@ class DefaultMenuItem extends StatelessWidget {
     required this.withBadge,
   }) : super();
 
-  static List<String> _widgetAlreadyBuildForLabelList = [];
+  static final List<String> _widgetAlreadyBuildForLabelList = [];
 
   @override
   Widget build(BuildContext context) {

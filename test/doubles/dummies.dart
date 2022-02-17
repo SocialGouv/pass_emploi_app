@@ -51,6 +51,7 @@ class DummyPushNotificationManager extends PushNotificationManager {
 class DummyRegisterTokenRepository extends RegisterTokenRepository {
   DummyRegisterTokenRepository() : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPushNotificationManager());
 
+  @override
   Future<void> registerToken(String userId) async {}
 }
 
@@ -88,7 +89,7 @@ class DummyCrashlytics extends Crashlytics {
 
   @override
   void recordNonNetworkException(dynamic exception, StackTrace stack, [Uri? failingEndpoint]) {
-    debugPrint(exception);
+    debugPrint(exception.toString());
   }
 }
 

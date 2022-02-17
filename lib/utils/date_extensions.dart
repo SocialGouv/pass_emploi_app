@@ -16,6 +16,6 @@ extension DateExtensions on DateTime {
   String toHour() => DateFormat('HH:mm').format(this);
 
   bool isAtSameDayAs(DateTime other) {
-    return this.day == other.day && this.month == other.month && this.year == other.year;
+    return day == other.day && month == other.month && year == other.year;
   }
 }

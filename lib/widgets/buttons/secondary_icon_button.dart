@@ -32,11 +32,7 @@ class SecondaryIconButton extends StatelessWidget {
             width: width,
             height: height,
             child: Center(
-              child: SvgPicture.asset(
-                drawableRes,
-                width: iconSize,
-                color: this.iconColor,
-              ),
+              child: SvgPicture.asset(drawableRes, width: iconSize, color: iconColor),
             ),
           ),
         ),

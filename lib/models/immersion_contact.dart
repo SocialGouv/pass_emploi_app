@@ -21,12 +21,12 @@ class ImmersionContact extends Equatable {
 
   factory ImmersionContact.fromJson(dynamic json) {
     return ImmersionContact(
-      firstName: json['prenom'] ?? '',
-      lastName: json['nom'] ?? '',
-      phone: json['telephone'] ?? '',
-      mail: json['email'] ?? '',
-      role: json['role'] ?? '',
-      mode: _getContactMode(json['modeDeContact']),
+      firstName: json['prenom'] as String? ?? '',
+      lastName: json['nom'] as String? ?? '',
+      phone: json['telephone'] as String? ?? '',
+      mail: json['email'] as String? ?? '',
+      role: json['role'] as String? ?? '',
+      mode: _getContactMode(json['modeDeContact'] as String),
     );
   }
 

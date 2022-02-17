@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
@@ -20,7 +19,7 @@ import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 class LoginPage extends TraceableStatelessWidget {
   LoginPage() : super(name: AnalyticsScreenNames.login);
 
-  static MaterialPageRoute materialPageRoute() {
+  static MaterialPageRoute<LoginPage> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => LoginPage());
   }
 

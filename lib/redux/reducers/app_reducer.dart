@@ -48,7 +48,7 @@ final _immersionSavedSearchReducer = SavedSearchReducer<ImmersionSavedSearch>();
 final _savedSearchListReducer = SavedSearchListReducer();
 final _savedSearchDeleteReducer = SavedSearchDeleteReducer();
 
-State<List<SavedSearch>> _updateSavedSearchListIfNeeded(SavedSearchAction action, AppState current) {
+State<List<SavedSearch>> _updateSavedSearchListIfNeeded(SavedSearchAction<dynamic> action, AppState current) {
   if (action is SavedSearchSuccessAction && current.savedSearchesState.isSuccess()) {
     final newList = current.savedSearchesState.getResultOrThrow();
     newList.add(action.search);

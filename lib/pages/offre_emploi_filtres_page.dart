@@ -10,10 +10,10 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/checkbox_group.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
-import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
 class OffreEmploiFiltresPage extends TraceableStatefulWidget {
@@ -161,11 +161,12 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
       max: 100,
       divisions: 10,
       onChanged: (value) {
-        if (value > 0)
+        if (value > 0) {
           setState(() {
             _currentSliderValue = value;
             _hasFormChanged = true;
           });
+        }
       },
     );
   }
