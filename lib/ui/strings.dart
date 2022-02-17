@@ -2,9 +2,9 @@ class Strings {
   Strings._();
 
   // Common
-  static String appName = "Pass Emploi";
+  static String appName = "CEJ";
   static String retry = "Réessayer";
-  static String logoTextDescription = "Logo Pass Emploi";
+  static String logoTextDescription = "Logo CEJ";
   static String close = "Fermer";
 
   // Menu
