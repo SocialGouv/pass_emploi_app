@@ -50,20 +50,16 @@ class SavedSearchDeleteDialog extends TraceableStatelessWidget {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, SavedSearchDeleteViewModel>(
       converter: (store) => SavedSearchDeleteViewModel.create(store),
-      builder: (context, viewModel) => _body(context, viewModel),
+      builder: (context, viewModel) => _alertDialog(context, viewModel),
+      onWillChange: (_, viewModel) {
+        if (viewModel.displayState == SavedSearchDeleteDisplayState.SUCCESS) {
+          MatomoTracker.trackScreenWithName(_actionName(type), _screenName(type));
+          Navigator.pop(context, true);
+        }
+      },
       distinct: true,
       onDispose: (store) => store.dispatch(SavedSearchDeleteResetAction()),
     );
-  }
-
-  Widget _body(BuildContext context, SavedSearchDeleteViewModel viewModel) {
-    if (viewModel.displayState == SavedSearchDeleteDisplayState.SUCCESS) {
-      MatomoTracker.trackScreenWithName(_actionName(type), _screenName(type));
-      Navigator.pop(context, true);
-      return SizedBox();
-    } else {
-      return _alertDialog(context, viewModel);
-    }
   }
 
   Widget _alertDialog(BuildContext context, SavedSearchDeleteViewModel viewModel) {
