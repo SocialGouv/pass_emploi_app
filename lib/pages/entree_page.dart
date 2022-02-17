@@ -33,7 +33,7 @@ class EntreePage extends TraceableStatelessWidget {
               children: [
                 SvgPicture.asset(Drawables.icUnJeuneUneSolution),
                 SizedBox(height: 32),
-                Container(color: Colors.red, child: SvgPicture.asset(Drawables.cejAppLogo)),
+                SvgPicture.asset(Drawables.cejAppLogo),
                 SizedBox(height: 32),
                 Expanded(
                   child: Align(
