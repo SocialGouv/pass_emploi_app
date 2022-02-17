@@ -67,16 +67,24 @@ class ChoixOrganismePage extends TraceableStatelessWidget {
                                   PrimaryActionButton(
                                     label: Strings.loginPoleEmploi,
                                     onPressed: () {
-                                      Navigator.push(context,
-                                          ChoixOrganismeExplainationPage.materialPageRoute(isPoleEmploi: true));
+                                      Navigator.push(
+                                        context,
+                                        ChoixOrganismeExplainationPage.materialPageRoute(isPoleEmploi: true),
+                                      ).then(
+                                        (_) =>
+                                            MatomoTracker.trackScreenWithName(AnalyticsScreenNames.choixOrganisme, ""),
+                                      );
                                     },
                                   ),
                                   SizedBox(height: Margins.spacing_l),
                                   PrimaryActionButton(
                                     label: Strings.loginMissionLocale,
                                     onPressed: () {
-                                      Navigator.push(context,
-                                          ChoixOrganismeExplainationPage.materialPageRoute(isPoleEmploi: false));
+                                      Navigator.push(
+                                        context,
+                                        ChoixOrganismeExplainationPage.materialPageRoute(isPoleEmploi: false),
+                                      ).then((_) =>
+                                          MatomoTracker.trackScreenWithName(AnalyticsScreenNames.choixOrganisme, ""));
                                     },
                                   ),
                                 ],

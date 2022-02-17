@@ -30,8 +30,10 @@ import 'offre_page.dart';
 class OffreEmploiListPage extends TraceableStatefulWidget {
   final bool onlyAlternance;
 
-  OffreEmploiListPage({required this.onlyAlternance})
-      : super(name: onlyAlternance ? AnalyticsScreenNames.alternanceResults : AnalyticsScreenNames.emploiResults);
+  OffreEmploiListPage({required this.onlyAlternance}) : super(name: _analyticsScreenName(onlyAlternance));
+
+  static String _analyticsScreenName(bool onlyAlternance) =>
+      onlyAlternance ? AnalyticsScreenNames.alternanceResults : AnalyticsScreenNames.emploiResults;
 
   @override
   State<OffreEmploiListPage> createState() => _OffreEmploiListPageState();
@@ -234,7 +236,10 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
   void _showOffreEmploiDetailsPage(BuildContext context, String offreId) {
     _offsetBeforeLoading = _scrollController.offset;
     Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: widget.onlyAlternance))
-        .then((value) => _scrollController.jumpTo(_offsetBeforeLoading));
+        .then((_) {
+      _scrollController.jumpTo(_offsetBeforeLoading);
+      MatomoTracker.trackScreenWithName(OffreEmploiListPage._analyticsScreenName(widget.onlyAlternance), "");
+    });
   }
 
   int _itemCount(OffreEmploiSearchResultsViewModel viewModel) {
@@ -264,6 +269,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
         _offsetBeforeLoading = 0;
         if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
       }
+      MatomoTracker.trackScreenWithName(OffreEmploiListPage._analyticsScreenName(widget.onlyAlternance), "");
     });
   }
 

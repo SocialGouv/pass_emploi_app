@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/presentation/favoris_list_view_model.dart';
@@ -6,9 +7,9 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:redux/redux.dart';
 
-import 'favoris_page.dart';
 import '../immersion_details_page.dart';
 import '../offre_page.dart';
+import 'favoris_page.dart';
 
 class ImmersionFavorisPage extends AbstractFavorisPage<Immersion, Immersion> {
   ImmersionFavorisPage()
@@ -35,7 +36,7 @@ class ImmersionFavorisPage extends AbstractFavorisPage<Immersion, Immersion> {
           itemViewModel.id,
           popPageWhenFavoriIsRemoved: true,
         ),
-      ),
+      ).then((_) => MatomoTracker.trackScreenWithName(AnalyticsScreenNames.immersionFavoris, "")),
       from: OffrePage.immersionFavoris,
       id: itemViewModel.id,
     );

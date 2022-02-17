@@ -23,8 +23,11 @@ class ImmersionListPage extends TraceableStatelessWidget {
 
   ImmersionListPage(this.immersions)
       : super(
-          name: immersions.isEmpty ? AnalyticsScreenNames.immersionNoResults : AnalyticsScreenNames.immersionResults,
+          name: _analyticsScreenName(immersions),
         );
+
+  static String _analyticsScreenName(List<Immersion> immersions) =>
+      immersions.isEmpty ? AnalyticsScreenNames.immersionNoResults : AnalyticsScreenNames.immersionResults;
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +82,9 @@ class ImmersionListPage extends TraceableStatelessWidget {
       sousTitre: immersion.nomEtablissement,
       lieu: immersion.ville,
       dataTag: [immersion.secteurActivite],
-      onTap: () => Navigator.push(context, ImmersionDetailsPage.materialPageRoute(immersion.id)),
+      onTap: () => Navigator.push(context, ImmersionDetailsPage.materialPageRoute(immersion.id)).then(
+        (_) => MatomoTracker.trackScreenWithName(_analyticsScreenName(immersions), ""),
+      ),
       from: OffrePage.immersionResults,
       id: immersion.id,
     );

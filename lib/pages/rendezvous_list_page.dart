@@ -53,7 +53,9 @@ class RendezvousListPage extends TraceableStatelessWidget {
       titre: viewModel.title,
       sousTitre: viewModel.subtitle,
       texteLien: Strings.linkDetailsRendezVous,
-      onTap: () => Navigator.push(context, RendezvousPage.materialPageRoute(viewModel)),
+      onTap: () => Navigator.push(context, RendezvousPage.materialPageRoute(viewModel)).then(
+        (_) => MatomoTracker.trackScreenWithName(AnalyticsScreenNames.rendezvousList, ""),
+      ),
     );
   }
 

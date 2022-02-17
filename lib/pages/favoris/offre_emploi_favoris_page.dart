@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/presentation/favoris_list_view_model.dart';
@@ -7,9 +8,9 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:redux/redux.dart';
 
-import 'favoris_page.dart';
 import '../offre_emploi_details_page.dart';
 import '../offre_page.dart';
+import 'favoris_page.dart';
 
 class OffreEmploiFavorisPage extends AbstractFavorisPage<OffreEmploi, OffreEmploiItemViewModel> {
   final bool onlyAlternance;
@@ -17,10 +18,12 @@ class OffreEmploiFavorisPage extends AbstractFavorisPage<OffreEmploi, OffreEmplo
   OffreEmploiFavorisPage({required this.onlyAlternance})
       : super(
           selectState: (store) => store.state.offreEmploiFavorisState,
-          analyticsScreenName:
-              onlyAlternance ? AnalyticsScreenNames.alternanceFavoris : AnalyticsScreenNames.emploiFavoris,
+          analyticsScreenName: _analyticsScreenName(onlyAlternance),
           key: ValueKey(onlyAlternance),
         );
+
+  static String _analyticsScreenName(bool onlyAlternance) =>
+      onlyAlternance ? AnalyticsScreenNames.alternanceFavoris : AnalyticsScreenNames.emploiFavoris;
 
   @override
   FavorisListViewModel<OffreEmploi, OffreEmploiItemViewModel> converter(Store<AppState> store) {
@@ -43,7 +46,7 @@ class OffreEmploiFavorisPage extends AbstractFavorisPage<OffreEmploi, OffreEmplo
           fromAlternance: onlyAlternance,
           popPageWhenFavoriIsRemoved: true,
         ),
-      ),
+      ).then((_) => MatomoTracker.trackScreenWithName(_analyticsScreenName(onlyAlternance), "")),
     );
   }
 }
