@@ -29,11 +29,12 @@ class EntreePage extends TraceableStatelessWidget {
           SafeArea(
             bottom: false,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(height: 64),
-                SvgPicture.asset(Drawables.passEmploiLogo),
-                SizedBox(height: 20),
-                Image.asset(Drawables.icUnJeuneUneSolution),
+                SvgPicture.asset(Drawables.icUnJeuneUneSolution),
+                SizedBox(height: 32),
+                Container(color: Colors.red, child: SvgPicture.asset(Drawables.cejAppLogo)),
+                SizedBox(height: 32),
                 Expanded(
                   child: Align(
                     alignment: Alignment.bottomCenter,
