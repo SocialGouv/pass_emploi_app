@@ -103,6 +103,8 @@ class EntreePage extends TraceableStatelessWidget {
               SizedBox(height: Margins.spacing_m),
               Link(Strings.termsOfServiceLabel, Strings.termsOfServiceUrl),
               SizedBox(height: Margins.spacing_m),
+              Link(Strings.accessibilityLevelLabel, Strings.accessibilityUrl),
+              SizedBox(height: Margins.spacing_m),
             ],
           ),
         )
