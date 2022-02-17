@@ -14,6 +14,7 @@ import 'package:redux/redux.dart';
 import '../../models/saved_search/saved_search.dart';
 import '../../redux/states/app_state.dart';
 import '../../redux/states/offre_emploi_search_parameters_state.dart';
+import '../../redux/states/state.dart';
 
 void _emptyFunction(OffreEmploiSavedSearch search) {}
 
@@ -21,14 +22,15 @@ void _emptyVoidFunction() {}
 
 void _emptyImmersionFunction(ImmersionSavedSearch search) {}
 
+enum SavedSearchNavigationState { OFFRE_EMPLOI, OFFRE_IMMERSION, OFFRE_ALTERNANCE, NONE }
+
 class SavedSearchListViewModel extends Equatable {
   final DisplayState displayState;
   final List<SavedSearch> savedSearches;
   final Function(OffreEmploiSavedSearch) offreEmploiSelected;
   final Function(ImmersionSavedSearch) offreImmersionSelected;
-  final bool? shouldGoToOffre;
-  final bool shouldGoToImmersion;
-  final VoidCallback onRetry;
+  final SavedSearchNavigationState searchNavigationState;
+  final Function onRetry;
   final List<Immersion> immersionsResults;
 
   SavedSearchListViewModel._({
@@ -36,8 +38,7 @@ class SavedSearchListViewModel extends Equatable {
     this.savedSearches = const [],
     this.offreEmploiSelected = _emptyFunction,
     this.offreImmersionSelected = _emptyImmersionFunction,
-    this.shouldGoToOffre,
-    this.shouldGoToImmersion = false,
+    this.searchNavigationState = SavedSearchNavigationState.NONE,
     this.immersionsResults = const [],
     this.onRetry = _emptyVoidFunction,
   });
@@ -59,11 +60,7 @@ class SavedSearchListViewModel extends Equatable {
       return SavedSearchListViewModel._(
         displayState: DisplayState.CONTENT,
         savedSearches: state.getResultOrThrow().toList(),
-        shouldGoToOffre: (searchResultState is OffreEmploiSearchResultsDataState &&
-                searchParamsState is OffreEmploiSearchParametersInitializedState)
-            ? searchParamsState.onlyAlternance
-            : null,
-        shouldGoToImmersion: immersionSearchState.isSuccess(),
+        searchNavigationState: _getSearchNavigationState(searchResultState, searchParamsState, immersionSearchState),
         immersionsResults: immersionSearchState.isSuccess() ? immersionSearchState.getResultOrThrow() : [],
         offreEmploiSelected: (savedSearch) => onOffreEmploiSelected(savedSearch, store),
         offreImmersionSelected: (savedSearch) => onOffreImmersionSelected(savedSearch, store),
@@ -81,6 +78,20 @@ class SavedSearchListViewModel extends Equatable {
         shouldGoToOffre,
         shouldGoToImmersion,
       ];
+
+  static SavedSearchNavigationState _getSearchNavigationState(OffreEmploiSearchResultsState searchResultState,
+      OffreEmploiSearchParametersState searchParamsState, State<List<Immersion>> immersionSearchState) {
+    if ((searchResultState is OffreEmploiSearchResultsDataState &&
+        searchParamsState is OffreEmploiSearchParametersInitializedState)) {
+      return searchParamsState.onlyAlternance
+          ? SavedSearchNavigationState.OFFRE_ALTERNANCE
+          : SavedSearchNavigationState.OFFRE_EMPLOI;
+    } else if (immersionSearchState.isSuccess()) {
+      return SavedSearchNavigationState.OFFRE_IMMERSION;
+    } else {
+      return SavedSearchNavigationState.NONE;
+    }
+  }
 
   List<OffreEmploiSavedSearch> getOffresEmploi(bool withAlternance) {
     return savedSearches

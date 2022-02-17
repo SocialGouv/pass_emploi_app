@@ -49,10 +49,13 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
         }
       },
       onWillChange: (previousVM, newVM) {
-        if (newVM.shouldGoToOffre != null && _shouldNavigate) {
-          _goToOffresPage(context, newViewModel.shouldGoToOffre!);
-        }
-        if (newVM.shouldGoToImmersion && _shouldNavigate) {
+        if (newVM.searchNavigationState == SavedSearchNavigationState.OFFRE_EMPLOI && _shouldNavigate) {
+          _goToOffresPage(context, false);
+        } else if (newViewModel.searchNavigationState == SavedSearchNavigationState.OFFRE_ALTERNANCE &&
+            _shouldNavigate) {
+          _goToOffresPage(context, true);
+        } else if (newVM.searchNavigationState == SavedSearchNavigationState.OFFRE_IMMERSION &&
+            _shouldNavigate) {
           _goToImmersion(context, newVM.immersionsResults);
         }
       },
