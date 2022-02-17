@@ -48,15 +48,15 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
           store.dispatch(GetSavedSearchAction(link.dataId!));
         }
       },
-      onWillChange: (previousVM, newVM) {
-        if (newVM.searchNavigationState == SavedSearchNavigationState.OFFRE_EMPLOI && _shouldNavigate) {
+      onWillChange: (previousVM, newViewModel) {
+        if (newViewModel.searchNavigationState == SavedSearchNavigationState.OFFRE_EMPLOI && _shouldNavigate) {
           _goToOffresPage(context, false);
         } else if (newViewModel.searchNavigationState == SavedSearchNavigationState.OFFRE_ALTERNANCE &&
             _shouldNavigate) {
           _goToOffresPage(context, true);
-        } else if (newVM.searchNavigationState == SavedSearchNavigationState.OFFRE_IMMERSION &&
+        } else if (newViewModel.searchNavigationState == SavedSearchNavigationState.OFFRE_IMMERSION &&
             _shouldNavigate) {
-          _goToImmersion(context, newVM.immersionsResults);
+          _goToImmersion(context, newViewModel.immersionsResults);
         }
       },
       builder: (context, viewModel) => _scrollView(viewModel),

@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
@@ -48,15 +47,17 @@ class SavedSearchListViewModel extends Equatable {
     final searchResultState = store.state.offreEmploiSearchResultsState;
     final immersionSearchState = store.state.immersionSearchState;
     final searchParamsState = store.state.offreEmploiSearchParametersState;
-    if (state.isLoading())
+    if (state.isLoading()) {
       return SavedSearchListViewModel._(
         displayState: DisplayState.LOADING,
       );
-    if (state.isFailure())
+    }
+    if (state.isFailure()) {
       return SavedSearchListViewModel._(
         displayState: DisplayState.FAILURE,
       );
-    if (state.isSuccess())
+    }
+    if (state.isSuccess()) {
       return SavedSearchListViewModel._(
         displayState: DisplayState.CONTENT,
         savedSearches: state.getResultOrThrow().toList(),
@@ -70,13 +71,12 @@ class SavedSearchListViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         displayState,
         savedSearches,
         immersionsResults,
-        shouldGoToOffre,
-        shouldGoToImmersion,
+        searchNavigationState,
+        immersionsResults,
       ];
 
   static SavedSearchNavigationState _getSearchNavigationState(OffreEmploiSearchResultsState searchResultState,
