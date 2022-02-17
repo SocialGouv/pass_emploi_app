@@ -25,7 +25,7 @@ class UserAction {
       id: json['id'] as String,
       content: json['content'] as String,
       comment: json['comment'] as String,
-      status: _statusFromString(statusString: json['status']),
+      status: _statusFromString(statusString: json['status'] as String),
       lastUpdate: (json['lastUpdate'] as String).toDateTime(),
       creator: _creator(json),
     );

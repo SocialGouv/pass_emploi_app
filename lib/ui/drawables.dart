@@ -1,9 +1,9 @@
 class Drawables {
   Drawables._();
 
-  static String _assets = "assets/";
-  static String _svg = ".svg";
-  static String _png = ".png";
+  static final String _assets = "assets/";
+  static final String _svg = ".svg";
+  static final String _png = ".png";
   static String icLogo = _assets + "ic_logo" + _svg;
   static String icMenuHome = _assets + "ic_menu_home" + _svg;
   static String icMenuAction = _assets + "ic_menu_action" + _svg;

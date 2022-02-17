@@ -209,7 +209,7 @@ void main() {
       OffreEmploiSearchParametersFiltres filtres,
       bool Function(String query) assertion,
     ) {
-      test('$title', () async {
+      test(title, () async {
         // Given
         final httpClient = MockClient((request) async {
           debugPrint(request.url.query);

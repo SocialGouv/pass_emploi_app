@@ -75,8 +75,7 @@ class OffreEmploiDetails extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         id,
         title,
         urlRedirectPourPostulation,
@@ -110,8 +109,8 @@ class Skill extends Equatable {
   static Skill? fromJson(Map<String, dynamic> json) {
     if (json['libelle'] == null) return null;
     return Skill(
-      description: json['libelle'],
-      requirement: json['exigence'],
+      description: json['libelle'] as String,
+      requirement: json['exigence'] as String,
     );
   }
 
@@ -126,9 +125,7 @@ class SoftSkill extends Equatable {
     required this.description,
   });
 
-  factory SoftSkill.fromJson(Map<String, dynamic> json) => SoftSkill(
-        description: json['libelle'],
-      );
+  factory SoftSkill.fromJson(Map<String, dynamic> json) => SoftSkill(description: json['libelle'] as String?);
 
   @override
   List<Object?> get props => [description];
@@ -143,8 +140,8 @@ class DriverLicence extends Equatable {
   static DriverLicence? fromJson(Map<String, dynamic> json) {
     if (json['libelle'] == null) return null;
     return DriverLicence(
-      category: json['libelle'],
-      requirement: json['exigence'],
+      category: json['libelle'] as String,
+      requirement: json['exigence'] as String?,
     );
   }
 
@@ -185,8 +182,8 @@ class Language extends Equatable {
   static Language? fromJson(Map<String, dynamic> json) {
     if (json['libelle'] == null) return null;
     return Language(
-      type: json['libelle'],
-      requirement: json['exigence'],
+      type: json['libelle'] as String,
+      requirement: json['exigence'] as String?,
     );
   }
 

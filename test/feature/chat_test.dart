@@ -64,7 +64,7 @@ void main() {
         repository.onChatStatusStreamReturns(info);
         factory.chatRepository = repository;
         final store = factory.initializeReduxStore(initialState: loggedInState());
-        final newStateFuture = store.onChange.firstWhere((e) => !(e.chatStatusState is ChatStatusNotInitializedState));
+        final newStateFuture = store.onChange.firstWhere((e) => e.chatStatusState is! ChatStatusNotInitializedState);
 
         // When
         store.dispatch(SubscribeToChatStatusAction());

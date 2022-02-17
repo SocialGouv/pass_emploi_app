@@ -73,16 +73,18 @@ MockClient _failureClient() {
 MockClient _mockClientforFullDataWithFilters({required bool expectedAlternance}) {
   return MockClient((request) async {
     if (request.method != "POST") return invalidHttpResponse();
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/recherches/offres-emploi"))
+    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/recherches/offres-emploi")) {
       return invalidHttpResponse();
+    }
     final requestJson = jsonUtf8Decode(request.bodyBytes);
     if (requestJson["titre"] != "title") return invalidHttpResponse(message: "title KO");
     if (requestJson["metier"] != "plombier") return invalidHttpResponse(message: "metier KO");
     if (requestJson["localisation"] != "Paris") return invalidHttpResponse(message: "localisation KO");
     if (requestJson["criteres"]["q"] != "secteur privé") return invalidHttpResponse(message: "keywords KO");
     if (requestJson["criteres"]["departement"] != "75") return invalidHttpResponse(message: "departement KO");
-    if (requestJson["criteres"]["alternance"] != expectedAlternance)
+    if (requestJson["criteres"]["alternance"] != expectedAlternance) {
       return invalidHttpResponse(message: "alternance KO");
+    }
     if (requestJson["criteres"]["rayon"] != 40) return invalidHttpResponse(message: "distance KO");
     if (requestJson["criteres"]["experience"][0] != "3") return invalidHttpResponse(message: "experience KO");
     if (requestJson["criteres"]["contrat"][0] != "CDI") return invalidHttpResponse(message: "contrat KO");
@@ -94,8 +96,9 @@ MockClient _mockClientforFullDataWithFilters({required bool expectedAlternance})
 MockClient _mockClientforPartialDataWithoutFilters() {
   return MockClient((request) async {
     if (request.method != "POST") return invalidHttpResponse();
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/recherches/offres-emploi"))
+    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/recherches/offres-emploi")) {
       return invalidHttpResponse();
+    }
     final requestJson = jsonUtf8Decode(request.bodyBytes);
     if (requestJson["titre"] != "title") return invalidHttpResponse(message: "title KO");
     return Response("", 201);

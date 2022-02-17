@@ -80,7 +80,7 @@ class AuthWrapper {
         throw AuthWrapperRefreshTokenExpiredException();
       } else {
         debugPrint(e.toString());
-        throw e;
+        rethrow;
       }
     }
   }

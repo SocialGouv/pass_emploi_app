@@ -37,12 +37,12 @@ class AuthIdToken extends Equatable {
 
   factory AuthIdToken._fromJson(Map<String, dynamic> json) {
     return AuthIdToken(
-      userId: json["userId"],
-      firstName: json["given_name"],
-      lastName: json["family_name"],
-      email: json["email"],
+      userId: json["userId"] as String,
+      firstName: json["given_name"] as String,
+      lastName: json["family_name"] as String,
+      email: json["email"] as String?,
       expiresAt: json["exp"] as int,
-      loginMode: json["userStructure"],
+      loginMode: json["userStructure"] as String,
     );
   }
 

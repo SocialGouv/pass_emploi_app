@@ -161,12 +161,12 @@ Future<Store<AppState>> _initializeReduxStore(
   return reduxStore;
 }
 
-Future _handleErrorsOutsideFlutter() async {
+Future<void> _handleErrorsOutsideFlutter() async {
   Isolate.current.addErrorListener(RawReceivePort((pair) async {
-    final List<dynamic> errorAndStacktrace = pair;
+    final errorAndStacktrace = pair as List<dynamic>;
     await FirebaseCrashlytics.instance.recordError(
       errorAndStacktrace.first,
-      errorAndStacktrace.last,
+      errorAndStacktrace.last as StackTrace,
     );
   }).sendPort);
 }

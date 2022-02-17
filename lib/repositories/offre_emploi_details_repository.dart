@@ -26,12 +26,12 @@ class OffreEmploiDetailsRepository {
     try {
       final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
       if (response.statusCode.isValid()) {
-        final json = jsonUtf8Decode(response.bodyBytes);
+        final Map<dynamic, dynamic> json = jsonUtf8Decode(response.bodyBytes) as Map<dynamic, dynamic>;
         if (json.containsKey("data")) {
           return OffreDetailsResponse(
             isGenericFailure: false,
             isOffreNotFound: false,
-            details: OffreEmploiDetails.fromJson(json["data"], json["urlRedirectPourPostulation"]),
+            details: OffreEmploiDetails.fromJson(json["data"], json["urlRedirectPourPostulation"] as String),
           );
         }
       } else {

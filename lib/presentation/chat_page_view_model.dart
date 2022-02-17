@@ -44,13 +44,13 @@ class ChatPageViewModel extends Equatable {
   List<Object?> get props => [title, displayState, items];
 }
 
-_displayState(ChatState state) {
+DisplayState _displayState(ChatState state) {
   if (state is ChatLoadingState) return DisplayState.LOADING;
   if (state is ChatFailureState) return DisplayState.FAILURE;
   return DisplayState.CONTENT;
 }
 
-_messagesToChatItems(List<Message> messages, DateTime lastConseillerReading) {
+List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseillerReading) {
   return _messagesWithDaySections(messages).map<ChatItem>((element) {
     if (element is String) {
       return DayItem(element);
@@ -67,7 +67,7 @@ _messagesToChatItems(List<Message> messages, DateTime lastConseillerReading) {
   }).toList();
 }
 
-_messagesWithDaySections(List<Message> messages) {
+List<dynamic> _messagesWithDaySections(List<Message> messages) {
   final messagesWithDaySections = <dynamic>[];
   groupBy(messages, (message) => _getDayLabel((message as Message).creationDate)).forEach((day, messagesOfDay) {
     messagesWithDaySections.add(day);
@@ -76,5 +76,6 @@ _messagesWithDaySections(List<Message> messages) {
   return messagesWithDaySections;
 }
 
-_getDayLabel(DateTime dateTime) =>
-    dateTime.isAtSameDayAs(DateTime.now()) ? Strings.today : Strings.simpleDayFormat(dateTime.toDay());
+String _getDayLabel(DateTime dateTime) {
+  return dateTime.isAtSameDayAs(DateTime.now()) ? Strings.today : Strings.simpleDayFormat(dateTime.toDay());
+}

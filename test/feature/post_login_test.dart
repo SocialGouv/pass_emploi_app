@@ -209,6 +209,7 @@ class _FirebaseAuthWrapperSpy extends FirebaseAuthWrapper {
     return false;
   }
 
+  @override
   Future<void> signOut() async {}
 }
 

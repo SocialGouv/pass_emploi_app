@@ -26,8 +26,8 @@ class OffreEmploiSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<O
   }
 
   @override
-  Widget buildSaveSearch(BuildContext context, OffreEmploiSavedSearchViewModel viewModel) {
-    return _buildForm(context, viewModel);
+  Widget buildSaveSearch(BuildContext context, OffreEmploiSavedSearchViewModel itemViewModel) {
+    return _buildForm(context, itemViewModel);
   }
 
   Widget _buildForm(BuildContext context, OffreEmploiSavedSearchViewModel viewModel) {
@@ -38,8 +38,8 @@ class OffreEmploiSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<O
   }
 
   @override
-  dismissBottomSheetIfNeeded(BuildContext context, OffreEmploiSavedSearchViewModel viewModel) {
-    if (viewModel.displayState == CreateSavedSearchDisplayState.TO_DISMISS) {
+  dismissBottomSheetIfNeeded(BuildContext context, OffreEmploiSavedSearchViewModel newVm) {
+    if (newVm.displayState == CreateSavedSearchDisplayState.TO_DISMISS) {
       Navigator.pop(context);
       showSuccessfulSnackBar(context, Strings.savedSearchSuccessfullyCreated);
     }

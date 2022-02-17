@@ -17,10 +17,12 @@ abstract class SavedSearchState<T> {
 enum SavedSearchStatus { NOT_SENT, LOADING, SUCCESS, ERROR }
 
 class SavedSearchNotInitialized<T> extends SavedSearchState<T> {
+  @override
   SavedSearchStatus status = SavedSearchStatus.NOT_SENT;
 }
 
 class SavedSearchInitialized<T> extends SavedSearchState<T> {
+  @override
   SavedSearchStatus status = SavedSearchStatus.NOT_SENT;
   T search;
 
@@ -28,13 +30,16 @@ class SavedSearchInitialized<T> extends SavedSearchState<T> {
 }
 
 class SavedSearchSuccessfullyCreated<T> extends SavedSearchState<T> {
+  @override
   SavedSearchStatus status = SavedSearchStatus.SUCCESS;
 }
 
 class SavedSearchFailureState<T> extends SavedSearchState<T> {
+  @override
   SavedSearchStatus status = SavedSearchStatus.ERROR;
 }
 
 class SavedSearchLoadingState<T> extends SavedSearchState<T> {
+  @override
   SavedSearchStatus status = SavedSearchStatus.LOADING;
 }

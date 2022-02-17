@@ -15,7 +15,7 @@ void main() {
         final store = testStoreFactory.initializeReduxStore(initialState: AppState.initialState());
 
         // When
-        final outputAppState = store.onChange.firstWhere((element) => element.deepLinkState is DeepLinkState);
+        final outputAppState = store.onChange.first;
         await store.dispatch(action);
 
         // Then

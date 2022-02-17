@@ -7,7 +7,7 @@ class CallToAction extends Equatable {
   final String? drawableRes;
   final EventType eventType;
 
-  CallToAction(this.label, this.uri, this.eventType, {this.drawableRes});
+  const CallToAction(this.label, this.uri, this.eventType, {this.drawableRes});
 
   @override
   List<Object?> get props => [label, uri.toString(), drawableRes, eventType];

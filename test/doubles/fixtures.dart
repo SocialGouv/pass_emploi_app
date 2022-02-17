@@ -11,7 +11,7 @@ import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 
-User mockUser({id: ""}) => User(
+User mockUser({String id = ""}) => User(
       id: id,
       firstName: "",
       lastName: "",
@@ -86,7 +86,7 @@ OffreEmploiDetails mockOffreEmploiDetails() => OffreEmploiDetails(
       lastUpdate: DateTime(2021, 11, 22, 14, 47, 29),
     );
 
-OffreEmploi mockOffreEmploi({id = "123DXPM", isAlternance = false}) => OffreEmploi(
+OffreEmploi mockOffreEmploi({String id = "123DXPM", bool isAlternance = false}) => OffreEmploi(
       id: id,
       title: "Technicien / Technicienne en froid et climatisation",
       companyName: "RH TT INTERIM",
@@ -96,7 +96,7 @@ OffreEmploi mockOffreEmploi({id = "123DXPM", isAlternance = false}) => OffreEmpl
       duration: "Temps plein",
     );
 
-OffreEmploiItemViewModel mockOffreEmploiItemViewModel({id = '123DXPM'}) {
+OffreEmploiItemViewModel mockOffreEmploiItemViewModel({String id = '123DXPM'}) {
   return OffreEmploiItemViewModel(
     id: id,
     title: 'Technicien / Technicienne en froid et climatisation',
@@ -113,7 +113,7 @@ AuthTokenResponse authTokenResponse() => AuthTokenResponse(
       refreshToken: 'refreshToken',
     );
 
-Configuration configuration({flavor = Flavor.STAGING}) => Configuration(
+Configuration configuration({Flavor flavor = Flavor.STAGING}) => Configuration(
       flavor,
       'serverBaseUrl',
       'matomoBaseUrl',
@@ -131,5 +131,6 @@ Location mockLocation() => Location(libelle: "", code: "", type: LocationType.DE
 
 Location mockCommuneLocation() => Location(libelle: "", code: "", type: LocationType.COMMUNE);
 
-Immersion mockImmersion({id = ""}) =>
-    Immersion(id: id, metier: "", nomEtablissement: "", secteurActivite: "", ville: "");
+Immersion mockImmersion({String id = ""}) {
+  return Immersion(id: id, metier: "", nomEtablissement: "", secteurActivite: "", ville: "");
+}

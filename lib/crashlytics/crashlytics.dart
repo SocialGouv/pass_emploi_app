@@ -4,7 +4,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 
 abstract class Crashlytics {
-  void setCustomKey(String key, dynamic value);
+  void setCustomKey(String key, String value);
 
   void recordNonNetworkException(dynamic exception, StackTrace stack, [Uri? failingEndpoint]);
 }
@@ -15,7 +15,7 @@ class CrashlyticsWithFirebase extends Crashlytics {
   CrashlyticsWithFirebase(this.instance);
 
   @override
-  void setCustomKey(String key, value) {
+  void setCustomKey(String key, String value) {
     instance.setCustomKey(key, value);
   }
 
