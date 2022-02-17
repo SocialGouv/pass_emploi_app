@@ -6,6 +6,8 @@ import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/saved_search/saved_search_list_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 
 import '../../doubles/fixtures.dart';
@@ -249,5 +251,68 @@ main() {
 
     // Then
     expect(viewModel.savedSearches, isNotEmpty);
+  });
+
+  test("ViewModel should set navigation to offres emploi when search results are ready", () {
+    // Given
+    final store = TestStoreFactory().initializeReduxStore(
+      initialState: AppState.initialState().copyWith(
+        savedSearchesState: State<List<SavedSearch>>.success(_savedSearches),
+        offreEmploiSearchResultsState: OffreEmploiSearchResultsDataState([], 2, true),
+        offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
+          keywords: "",
+          onlyAlternance: true,
+          location: mockLocation(),
+          filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+        ),
+      ),
+    );
+    final viewModel = SavedSearchListViewModel.createFromStore(store);
+
+    // When
+    _savedSearches.clear();
+
+    // Then
+    expect(viewModel.searchNavigationState, SavedSearchNavigationState.OFFRE_ALTERNANCE);
+  });
+
+  test("ViewModel should set navigation to offres alternances when search results are ready", () {
+    // Given
+    final store = TestStoreFactory().initializeReduxStore(
+      initialState: AppState.initialState().copyWith(
+        savedSearchesState: State<List<SavedSearch>>.success(_savedSearches),
+        offreEmploiSearchResultsState: OffreEmploiSearchResultsDataState([], 2, true),
+        offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
+          keywords: "",
+          onlyAlternance: false,
+          location: mockLocation(),
+          filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
+        ),
+      ),
+    );
+    final viewModel = SavedSearchListViewModel.createFromStore(store);
+
+    // When
+    _savedSearches.clear();
+
+    // Then
+    expect(viewModel.searchNavigationState, SavedSearchNavigationState.OFFRE_EMPLOI);
+  });
+
+  test("ViewModel should set navigation to offres immersions when search results are ready", () {
+    // Given
+    final store = TestStoreFactory().initializeReduxStore(
+      initialState: AppState.initialState().copyWith(
+        savedSearchesState: State<List<SavedSearch>>.success(_savedSearches),
+        immersionSearchState: State.success([]),
+      ),
+    );
+    final viewModel = SavedSearchListViewModel.createFromStore(store);
+
+    // When
+    _savedSearches.clear();
+
+    // Then
+    expect(viewModel.searchNavigationState, SavedSearchNavigationState.OFFRE_IMMERSION);
   });
 }
