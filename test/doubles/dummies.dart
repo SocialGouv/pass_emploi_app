@@ -25,6 +25,7 @@ import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
@@ -153,4 +154,8 @@ class DummyImmersionSavedSearchRepository extends ImmersionSavedSearchRepository
 
 class DummyGetSavedSearchRepository extends GetSavedSearchRepository {
   DummyGetSavedSearchRepository() : super("", DummyHttpClient(), DummyHeadersBuilder(), null);
+}
+
+class DummySavedSearchDeleteRepository extends SavedSearchDeleteRepository {
+  DummySavedSearchDeleteRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
 }

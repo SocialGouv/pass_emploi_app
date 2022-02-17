@@ -8,6 +8,7 @@ class SecondaryButton extends StatelessWidget {
   final String? drawableRes;
   final VoidCallback? onPressed;
   final Color backgroundColor;
+  final double? fontSize;
 
   const SecondaryButton({
     Key? key,
@@ -15,10 +16,13 @@ class SecondaryButton extends StatelessWidget {
     required this.onPressed,
     this.drawableRes,
     this.backgroundColor = Colors.transparent,
+    this.fontSize,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final baseTextStyle = TextStyles.textSecondaryButton;
+    final usedTextStyle = fontSize != null ? baseTextStyle.copyWith(fontSize: fontSize) : baseTextStyle;
     return OutlinedButton(
       onPressed: onPressed,
       style: OutlinedButton.styleFrom(
@@ -36,7 +40,7 @@ class SecondaryButton extends StatelessWidget {
                 padding: const EdgeInsets.only(right: 12),
                 child: SvgPicture.asset(drawableRes!, color: AppColors.primary),
               ),
-            Flexible(child: Text(label, textAlign: TextAlign.center, style: TextStyles.textSecondaryButton)),
+            Flexible(child: Text(label, textAlign: TextAlign.center, style: usedTextStyle)),
           ],
         ),
       ),

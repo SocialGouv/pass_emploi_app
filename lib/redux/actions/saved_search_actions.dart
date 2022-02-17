@@ -1,3 +1,5 @@
+import '../../models/saved_search/saved_search.dart';
+
 abstract class SavedSearchAction<T> {}
 
 class RequestPostSavedSearchAction<T> extends SavedSearchAction<T> {
@@ -30,7 +32,7 @@ class RequestSavedSearchListAction extends SavedSearchListAction {}
 class SavedSearchListFailureAction extends SavedSearchListAction {}
 
 class SavedSearchListSuccessAction extends SavedSearchListAction {
-  final List savedSearches;
+  final List<SavedSearch> savedSearches;
 
   SavedSearchListSuccessAction(this.savedSearches);
 }
@@ -40,3 +42,23 @@ class GetSavedSearchAction {
 
   GetSavedSearchAction(this.savedSearchId);
 }
+
+abstract class SavedSearchDeleteAction {}
+
+class SavedSearchDeleteRequestAction extends SavedSearchDeleteAction {
+  final String savedSearchId;
+
+  SavedSearchDeleteRequestAction(this.savedSearchId);
+}
+
+class SavedSearchDeleteLoadingAction extends SavedSearchDeleteAction {}
+
+class SavedSearchDeleteFailureAction extends SavedSearchDeleteAction {}
+
+class SavedSearchDeleteSuccessAction extends SavedSearchDeleteAction {
+  final String savedSearchId;
+
+  SavedSearchDeleteSuccessAction(this.savedSearchId);
+}
+
+class SavedSearchDeleteResetAction extends SavedSearchDeleteAction {}

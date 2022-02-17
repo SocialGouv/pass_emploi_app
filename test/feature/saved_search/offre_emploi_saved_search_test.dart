@@ -16,8 +16,8 @@ import '../../utils/test_setup.dart';
 main() {
   group("When user tries to save an offer search ...", () {
     final offreEmploiSavedSearch = OffreEmploiSavedSearch(
-        title: "Boulanger",
         id: "id",
+        title: "Boulanger",
         filters: OffreEmploiSearchParametersFiltres.noFiltres(),
         keywords: "Boulanger",
         isAlternance: false,
@@ -71,17 +71,17 @@ main() {
       testStoreFactory.getSavedSearchRepository = SavedSearchRepositorySuccessStub();
       final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
 
-      final displayedLoading = store.onChange.any((element) => element.savedSearchListState.isLoading());
-      final successAppState = store.onChange.firstWhere((element) => element.savedSearchListState.isSuccess());
+      final displayedLoading = store.onChange.any((element) => element.savedSearchesState.isLoading());
+      final successAppState = store.onChange.firstWhere((element) => element.savedSearchesState.isSuccess());
       // When
       store.dispatch(RequestSavedSearchListAction());
 
       // Then
       expect(await displayedLoading, true);
       final appState = await successAppState;
-      expect(appState.savedSearchListState.getResultOrThrow().length, 2);
-      expect(appState.savedSearchListState.getResultOrThrow()[0].title, "Boulangerie - NANTES");
-      expect(appState.savedSearchListState.getResultOrThrow()[1].title, "Flutter");
+      expect(appState.savedSearchesState.getResultOrThrow().length, 2);
+      expect(appState.savedSearchesState.getResultOrThrow()[0].getTitle(), "Boulangerie - NANTES");
+      expect(appState.savedSearchesState.getResultOrThrow()[1].getTitle(), "Flutter");
     });
 
     test("update state with failure if repository returns nothing", () async {
@@ -90,8 +90,8 @@ main() {
       testStoreFactory.getSavedSearchRepository = SavedSearchRepositoryFailureStub();
       final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
 
-      final displayedLoading = store.onChange.any((element) => element.savedSearchListState.isLoading());
-      final failureAppState = store.onChange.firstWhere((element) => element.savedSearchListState.isFailure());
+      final displayedLoading = store.onChange.any((element) => element.savedSearchesState.isLoading());
+      final failureAppState = store.onChange.firstWhere((element) => element.savedSearchesState.isFailure());
 
       // When
       store.dispatch(RequestSavedSearchListAction());
@@ -99,7 +99,7 @@ main() {
       // Then
       expect(await displayedLoading, true);
       final appState = await failureAppState;
-      expect(appState.savedSearchListState.isFailure(), isTrue);
+      expect(appState.savedSearchesState.isFailure(), isTrue);
     });
   });
 }

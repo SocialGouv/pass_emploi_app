@@ -53,4 +53,5 @@ class Drawables {
   static String conversation = _assets + "conversation" + _svg;
   static String icEmptyOffres = _assets + "ic_empty_offres" + _svg;
   static String icTrash = _assets + "ic_trash" + _svg;
+  static String icTrashAlert = _assets + "ic_trash_alert" + _svg;
 }

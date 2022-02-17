@@ -47,37 +47,3 @@ void showSuccessfulSnackBar(BuildContext context, String label) {
     ),
   );
 }
-
-void showSnackBarError(BuildContext context, String label) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      backgroundColor: AppColors.warningLight,
-      content: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          SvgPicture.asset(
-            Drawables.icImportant,
-            color: AppColors.warning,
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: Text(
-                label,
-                style: TextStyle(color: AppColors.warning),
-              ),
-            ),
-          ),
-          GestureDetector(
-            onTap: () => snackbarKey.currentState?.hideCurrentSnackBar(),
-            child: SvgPicture.asset(
-              Drawables.icClose,
-              color: AppColors.warning,
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-}

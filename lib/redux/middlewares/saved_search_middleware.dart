@@ -1,4 +1,3 @@
-import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/redux/actions/saved_search_actions.dart';
@@ -26,10 +25,10 @@ class SavedSearchMiddleware<T> extends MiddlewareClass<AppState> {
     RequestPostSavedSearchAction<T> action,
     String userId,
   ) async {
-    var emploiSavedSearchState = (action.savedSearch is OffreEmploiSavedSearch)
+    final emploiSavedSearchState = (action.savedSearch is OffreEmploiSavedSearch)
         ? store.state.offreEmploiSavedSearchState
         : store.state.immersionSavedSearchState;
-    var savedSearch = _extractSearch(emploiSavedSearchState);
+    final savedSearch = _extractSearch(emploiSavedSearchState);
     if (savedSearch == null) {
       store.dispatch(SavedSearchFailureAction<T>());
       return;
@@ -52,11 +51,7 @@ class SavedSearchMiddleware<T> extends MiddlewareClass<AppState> {
     }
   }
 
-  T? _extractSearch(SavedSearchState<Equatable> emploiSavedSearchState) {
-    if (emploiSavedSearchState is SavedSearchInitialized) {
-      return (emploiSavedSearchState as SavedSearchInitialized).search;
-    } else {
-      return null;
-    }
+  T? _extractSearch(SavedSearchState emploiSavedSearchState) {
+    return emploiSavedSearchState is SavedSearchInitialized ? emploiSavedSearchState.search : null;
   }
 }

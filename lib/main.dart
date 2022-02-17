@@ -20,7 +20,6 @@ import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/network/access_token_interceptor.dart';
 import 'package:pass_emploi_app/network/headers.dart';
-import 'package:pass_emploi_app/network/logging_interceptor.dart';
 import 'package:pass_emploi_app/pages/force_update_page.dart';
 import 'package:pass_emploi_app/pass_emploi_app.dart';
 import 'package:pass_emploi_app/push/firebase_push_notification_manager.dart';
@@ -42,6 +41,7 @@ import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
@@ -51,6 +51,7 @@ import 'analytics/analytics_constants.dart';
 import 'configuration/app_version_checker.dart';
 import 'configuration/configuration.dart';
 import 'crashlytics/crashlytics.dart';
+import 'network/logging_interceptor.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -154,6 +155,7 @@ Future<Store<AppState>> _initializeReduxStore(
     OffreEmploiSavedSearchRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     ImmersionSavedSearchRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     GetSavedSearchRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+    SavedSearchDeleteRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
   ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
   accessTokenRetriever.setStore(reduxStore);
   return reduxStore;

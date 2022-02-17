@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
 import 'package:pass_emploi_app/widgets/cards/saved_search_card.dart';
+import 'package:pass_emploi_app/widgets/dialogs/saved_search_delete_dialog.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 import '../presentation/saved_search/saved_search_list_view_model.dart';
@@ -20,6 +21,7 @@ import '../ui/margins.dart';
 import '../ui/strings.dart';
 import '../ui/text_styles.dart';
 import '../widgets/buttons/carousel_button.dart';
+import '../widgets/snack_bar/show_snack_bar.dart';
 import 'immersion_list_page.dart';
 import 'offre_emploi_list_page.dart';
 
@@ -46,10 +48,9 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
           store.dispatch(GetSavedSearchAction(link.dataId!));
         }
       },
-      onWillChange: (previousVM, newViewModel) {
-        if (newViewModel.shouldGoToOffre && _shouldNavigate) _goToOffresPage(context);
-        if (newViewModel.shouldGoToImmersion && _shouldNavigate)
-          _goToImmersion(context, newViewModel.immersionsResults);
+      onWillChange: (previousVM, newVM) {
+        if (newVM.shouldGoToOffre && _shouldNavigate) _goToOffresPage(context);
+        if (newVM.shouldGoToImmersion && _shouldNavigate) _goToImmersion(context, newVM.immersionsResults);
       },
       builder: (context, viewModel) => _scrollView(viewModel),
       converter: (store) => SavedSearchListViewModel.createFromStore(store),
@@ -116,24 +117,20 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
       return Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
     }
     if (viewModel.displayState == DisplayState.FAILURE) {
-      return Center(
-          child: Retry(
-        Strings.savedSearchGetError,
-        () => viewModel.onRetry(),
-      ));
+      return Center(child: Retry(Strings.savedSearchGetError, () => viewModel.onRetry()));
     }
     switch (_selectedIndex) {
-      case 0:
+      case _indexOfOffresEmploi:
         MatomoTracker.trackScreenWithName(
-            AnalyticsScreenNames.savedSearchEmploiListUrl, AnalyticsScreenNames.savedSearchEmploiListUrl);
-        return _getSavedSearchOffreEmplois(viewModel, false);
-      case 1:
+            AnalyticsScreenNames.savedSearchEmploiList, AnalyticsScreenNames.savedSearchEmploiList);
+        return _getSavedSearchOffreEmploi(viewModel, false);
+      case _indexOfAlternance:
         MatomoTracker.trackScreenWithName(
-            AnalyticsScreenNames.savedSearchImmersionListUrl, AnalyticsScreenNames.savedSearchImmersionListUrl);
-        return _getSavedSearchOffreEmplois(viewModel, true);
+            AnalyticsScreenNames.savedSearchAlternanceList, AnalyticsScreenNames.savedSearchAlternanceList);
+        return _getSavedSearchOffreEmploi(viewModel, true);
       default:
         MatomoTracker.trackScreenWithName(
-            AnalyticsScreenNames.savedSearchEmploiListUrl, AnalyticsScreenNames.savedSearchEmploiListUrl);
+            AnalyticsScreenNames.savedSearchEmploiList, AnalyticsScreenNames.savedSearchEmploiList);
         return _getSavedSearchImmersions(viewModel);
     }
   }
@@ -144,7 +141,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     });
   }
 
-  Widget _getSavedSearchOffreEmplois(SavedSearchListViewModel viewModel, bool isAlternance) {
+  Widget _getSavedSearchOffreEmploi(SavedSearchListViewModel viewModel, bool isAlternance) {
     final offreEmplois = viewModel.getOffresEmploi(isAlternance);
     if (offreEmplois.isEmpty) return Center(child: Text(Strings.noSavedSearchYet, style: TextStyles.textSmRegular()));
     return ListView.builder(
@@ -161,8 +158,10 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   }
 
   Widget _buildCard(BuildContext context, OffreEmploiSavedSearch offreEmploi, SavedSearchListViewModel viewModel) {
+    final type = offreEmploi.isAlternance ? SavedSearchType.ALTERNANCE : SavedSearchType.EMPLOI;
     return SavedSearchCard(
       onTap: () => viewModel.offreEmploiSelected(offreEmploi),
+      onDeleteTap: () => _showDeleteDialog(viewModel, offreEmploi.id, type),
       title: offreEmploi.title,
       lieu: offreEmploi.location?.libelle,
       dataTag: [
@@ -214,12 +213,25 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   }
 
   Widget _buildImmersionCard(
-      BuildContext context, ImmersionSavedSearch savedSearchsImmersion, SavedSearchListViewModel viewModel) {
+    BuildContext context,
+    ImmersionSavedSearch savedSearchsImmersion,
+    SavedSearchListViewModel viewModel,
+  ) {
     return SavedSearchCard(
       onTap: () => viewModel.offreImmersionSelected(savedSearchsImmersion),
+      onDeleteTap: () => _showDeleteDialog(viewModel, savedSearchsImmersion.id, SavedSearchType.IMMERSION),
       title: savedSearchsImmersion.title,
       lieu: savedSearchsImmersion.location,
       dataTag: [savedSearchsImmersion.metier],
     );
+  }
+
+  void _showDeleteDialog(SavedSearchListViewModel viewModel, String savedSearchId, SavedSearchType type) {
+    showDialog(
+      context: context,
+      builder: (_) => SavedSearchDeleteDialog(savedSearchId, type),
+    ).then((result) {
+      if (result == true) showSuccessfulSnackBar(context, Strings.savedSearchDeleteSuccess);
+    });
   }
 }
