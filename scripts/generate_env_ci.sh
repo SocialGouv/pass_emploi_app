@@ -50,9 +50,6 @@ cat env/.env.prod | base64 >> ci/env.ci
 echo -e "\nPROD_GOOGLE_SERVICE_IOS_B64=" >> ci/env.ci
 cat ios/firebase-config/prod/GoogleService-Info.plist | base64 >> ci/env.ci
 
-echo -e "\nPROD_OPTIONS_PLIST_B64=" >> ci/env.ci
-cat ios/ProdOptionsPlist.plist | base64 >> ci/env.ci
-
 echo -e "\nPROD_IOS_PROVISIONING_PROFILE_B64=" >> ci/env.ci
 cat ci/frfabriquesocialgouvpassemploi.mobileprovision | base64 >> ci/env.ci
 

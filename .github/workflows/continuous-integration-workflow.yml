@@ -2,8 +2,8 @@ name: PR Continuous Integration - Mobile App
 
 on:
   push:
-    branches: [ develop, master ]
-#  pull_request:
+    branches: [ develop ]
+  pull_request:
   workflow_dispatch:
 
 
@@ -147,13 +147,6 @@ jobs:
           echo "$STAGING_OPTIONS_PLIST_B64" | base64 --decode > ios/StagingOptionsPlist.plist
         env:
           STAGING_OPTIONS_PLIST_B64: ${{ secrets.STAGING_OPTIONS_PLIST_B64 }}
-
-      - name: Write prod plist files (required for xcodebuild to succeed)
-        shell: bash
-        run: |
-          echo "$PROD_OPTIONS_PLIST_B64" | base64 --decode > ios/ProdOptionsPlist.plist
-        env:
-          PROD_OPTIONS_PLIST_B64: ${{ secrets.PROD_OPTIONS_PLIST_B64 }}
 
       - name: Build iOS application bundle
         run: |
