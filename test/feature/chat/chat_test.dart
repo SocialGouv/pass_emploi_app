@@ -1,6 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
+import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
+import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
+import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -51,6 +54,44 @@ void main() {
     // Then
     expect(((await newState1).chatState as ChatSuccessState).messages, [_mockMessage('1')]);
     expect(((await newState2).chatState as ChatSuccessState).messages, [_mockMessage('1'), _mockMessage('2')]);
+  });
+
+  group("On chat status subscription, conseiller info are retrieved and properly modify state", () {
+    void assertState(ConseillerMessageInfo info, ChatStatusState expectedState) {
+      test("$info -> $expectedState", () async {
+        // Given
+        final factory = TestStoreFactory();
+        final repository = ChatRepositoryStub();
+        repository.onChatStatusStreamReturns(info);
+        factory.chatRepository = repository;
+        final store = factory.initializeReduxStore(initialState: loggedInState());
+        final newStateFuture = store.onChange.firstWhere((e) => e.chatStatusState is! ChatStatusNotInitializedState);
+
+        // When
+        store.dispatch(SubscribeToChatStatusAction());
+
+        // Then
+        final newState = await newStateFuture;
+        expect(newState.chatStatusState, expectedState);
+      });
+    }
+
+    assertState(
+      ConseillerMessageInfo(null, null),
+      ChatStatusState.empty(),
+    );
+    assertState(
+      ConseillerMessageInfo(22, null),
+      ChatStatusState.success(unreadMessageCount: 22, lastConseillerReading: _minDateTime),
+    );
+    assertState(
+      ConseillerMessageInfo(null, DateTime(2022)),
+      ChatStatusState.success(unreadMessageCount: 0, lastConseillerReading: DateTime(2022)),
+    );
+    assertState(
+      ConseillerMessageInfo(22, DateTime(2022)),
+      ChatStatusState.success(unreadMessageCount: 22, lastConseillerReading: DateTime(2022)),
+    );
   });
 }
 

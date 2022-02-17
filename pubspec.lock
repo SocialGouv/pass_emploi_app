@@ -906,5 +906,5 @@ packages:
     source: hosted
     version: "5.3.1"
 sdks:
-  dart: "2.16.0"
+  dart: "2.16.1"
   flutter: ">=2.10.0"
