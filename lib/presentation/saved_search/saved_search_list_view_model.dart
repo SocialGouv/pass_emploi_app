@@ -13,6 +13,7 @@ import 'package:redux/redux.dart';
 
 import '../../models/saved_search/saved_search.dart';
 import '../../redux/states/app_state.dart';
+import '../../redux/states/offre_emploi_search_parameters_state.dart';
 
 void _emptyFunction(OffreEmploiSavedSearch search) {}
 
@@ -25,7 +26,7 @@ class SavedSearchListViewModel extends Equatable {
   final List<SavedSearch> savedSearches;
   final Function(OffreEmploiSavedSearch) offreEmploiSelected;
   final Function(ImmersionSavedSearch) offreImmersionSelected;
-  final bool shouldGoToOffre;
+  final bool? shouldGoToOffre;
   final bool shouldGoToImmersion;
   final VoidCallback onRetry;
   final List<Immersion> immersionsResults;
@@ -35,7 +36,7 @@ class SavedSearchListViewModel extends Equatable {
     this.savedSearches = const [],
     this.offreEmploiSelected = _emptyFunction,
     this.offreImmersionSelected = _emptyImmersionFunction,
-    this.shouldGoToOffre = false,
+    this.shouldGoToOffre,
     this.shouldGoToImmersion = false,
     this.immersionsResults = const [],
     this.onRetry = _emptyVoidFunction,
@@ -45,18 +46,29 @@ class SavedSearchListViewModel extends Equatable {
     final state = store.state.savedSearchesState;
     final searchResultState = store.state.offreEmploiSearchResultsState;
     final immersionSearchState = store.state.immersionSearchState;
-    if (state.isSuccess()) {
+    final searchParamsState = store.state.offreEmploiSearchParametersState;
+    if (state.isLoading())
+      return SavedSearchListViewModel._(
+        displayState: DisplayState.LOADING,
+      );
+    if (state.isFailure())
+      return SavedSearchListViewModel._(
+        displayState: DisplayState.FAILURE,
+      );
+    if (state.isSuccess())
       return SavedSearchListViewModel._(
         displayState: DisplayState.CONTENT,
         savedSearches: state.getResultOrThrow().toList(),
-        shouldGoToOffre: searchResultState is OffreEmploiSearchResultsDataState,
+        shouldGoToOffre: (searchResultState is OffreEmploiSearchResultsDataState &&
+                searchParamsState is OffreEmploiSearchParametersInitializedState)
+            ? searchParamsState.onlyAlternance
+            : null,
         shouldGoToImmersion: immersionSearchState.isSuccess(),
         immersionsResults: immersionSearchState.isSuccess() ? immersionSearchState.getResultOrThrow() : [],
         offreEmploiSelected: (savedSearch) => onOffreEmploiSelected(savedSearch, store),
         offreImmersionSelected: (savedSearch) => onOffreImmersionSelected(savedSearch, store),
       );
     }
-    if (state.isFailure()) return SavedSearchListViewModel._(displayState: DisplayState.FAILURE);
     return SavedSearchListViewModel._(displayState: DisplayState.LOADING);
   }
 

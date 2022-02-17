@@ -49,8 +49,12 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
         }
       },
       onWillChange: (previousVM, newVM) {
-        if (newVM.shouldGoToOffre && _shouldNavigate) _goToOffresPage(context);
-        if (newVM.shouldGoToImmersion && _shouldNavigate) _goToImmersion(context, newVM.immersionsResults);
+        if (newVM.shouldGoToOffre != null && _shouldNavigate) {
+          _goToOffresPage(context, newViewModel.shouldGoToOffre!);
+        }
+        if (newVM.shouldGoToImmersion && _shouldNavigate) {
+          _goToImmersion(context, newVM.immersionsResults);
+        }
       },
       builder: (context, viewModel) => _scrollView(viewModel),
       converter: (store) => SavedSearchListViewModel.createFromStore(store),
@@ -58,15 +62,17 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     );
   }
 
-  void _goToOffresPage(BuildContext context) {
+  void _goToOffresPage(BuildContext context, bool onlyAlternance) {
     _shouldNavigate = false;
+    _updateIndex(onlyAlternance ? _indexOfAlternance : _indexOfOffresEmploi);
     Navigator.push(context, MaterialPageRoute(builder: (_) {
-      return OffreEmploiListPage(onlyAlternance: _selectedIndex == 1);
+      return OffreEmploiListPage(onlyAlternance: onlyAlternance);
     })).then((_) => _shouldNavigate = true);
   }
 
   void _goToImmersion(BuildContext context, List<Immersion> immersionsResults) {
     _shouldNavigate = false;
+    _updateIndex(_indexOfImmersion);
     Navigator.push(context, MaterialPageRoute(builder: (context) => ImmersionListPage(immersionsResults)))
         .then((value) {
       StoreProvider.of<AppState>(context).dispatch(ImmersionAction.reset());
@@ -136,9 +142,11 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   }
 
   void _updateIndex(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    if (_selectedIndex != index) {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
   }
 
   Widget _getSavedSearchOffreEmploi(SavedSearchListViewModel viewModel, bool isAlternance) {
@@ -166,9 +174,6 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
       lieu: offreEmploi.location?.libelle,
       dataTag: [
         if (offreEmploi.metier != null) offreEmploi.metier!,
-        ..._getDureeTags(offreEmploi.filters.duree),
-        ..._getContratTags(offreEmploi.filters.contrat),
-        ..._getExperienceTags(offreEmploi.filters.experience),
         if (offreEmploi.filters.distance != null) (offreEmploi.filters.distance.toString() + " km")
       ],
     );
