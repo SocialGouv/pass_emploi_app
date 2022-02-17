@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:pass_emploi_app/pages/rendezvous_list_page.dart';
-import 'package:pass_emploi_app/pages/user_action_list_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -37,14 +35,6 @@ class MonSuiviTabPage extends StatelessWidget {
   }
 
   Widget _setTabContent() {
-    if (showContent)
-      return TabBarView(
-        children: [
-          UserActionListPage(),
-          RendezvousListPage(),
-        ],
-      );
-    else
       return TabBarView(
         children: [
           UnavailableContent(contentType: ContentType.ACTIONS),
