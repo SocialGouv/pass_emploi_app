@@ -18,11 +18,15 @@ import 'package:url_launcher/url_launcher.dart';
 import '../ui/text_styles.dart';
 
 class EntreePage extends TraceableStatelessWidget {
+  static const minimum_height_to_see_jeune_face = 656;
+
   const EntreePage() : super(name: AnalyticsScreenNames.entree);
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    debugPrint("h = $screenHeight");
     return Scaffold(
       body: Stack(
         children: [
@@ -40,7 +44,9 @@ class EntreePage extends TraceableStatelessWidget {
                 Expanded(
                   child: Align(
                     alignment: Alignment.bottomCenter,
-                    child: Image.asset(Drawables.jeuneEntree, alignment: Alignment.bottomCenter),
+                    child: screenHeight >= minimum_height_to_see_jeune_face
+                        ? Image.asset(Drawables.jeuneEntree, alignment: Alignment.bottomCenter)
+                        : Container(),
                   ),
                 ),
               ],
