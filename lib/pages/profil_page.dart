@@ -111,11 +111,17 @@ class ProfilPage extends TraceableStatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.all(Margins.spacing_base),
                             child: LabelValueRow(
-                              label: Text(Strings.accessibilityLevelLabel, style: TextStyles.textBaseRegular),
-                              value: Text(
-                                Strings.accessibilityLevelNonConforme,
-                                style: TextStyles.textBaseBold,
+                              label: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(Strings.accessibilityLevelLabel, style: TextStyles.textBaseRegular),
+                                  Text(
+                                    Strings.accessibilityLevelNonConforme,
+                                    style: TextStyles.textBaseBold,
+                                  )
+                                ],
                               ),
+                              value: _redirectIcon(),
                             ),
                           ),
                         ),
