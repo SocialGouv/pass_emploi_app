@@ -69,14 +69,17 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     _shouldNavigate = false;
     _updateIndex(onlyAlternance ? _indexOfAlternance : _indexOfOffresEmploi);
     Navigator.push(context, MaterialPageRoute(builder: (_) {
-      return OffreEmploiListPage(onlyAlternance: onlyAlternance);
+      return OffreEmploiListPage(
+        onlyAlternance: onlyAlternance,
+        fromSavedSearch: true,
+      );
     })).then((_) => _shouldNavigate = true);
   }
 
   void _goToImmersion(BuildContext context, List<Immersion> immersionsResults) {
     _shouldNavigate = false;
     _updateIndex(_indexOfImmersion);
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ImmersionListPage(immersionsResults)))
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ImmersionListPage(immersionsResults, true)))
         .then((value) {
       StoreProvider.of<AppState>(context).dispatch(ImmersionAction.reset());
     }).then((_) => _shouldNavigate = true);
@@ -177,7 +180,6 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
       lieu: offreEmploi.location?.libelle,
       dataTag: [
         if (offreEmploi.metier != null) offreEmploi.metier!,
-        if (offreEmploi.filters.distance != null) (offreEmploi.filters.distance.toString() + " km")
       ],
     );
   }
