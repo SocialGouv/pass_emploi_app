@@ -20,7 +20,6 @@ import '../widgets/buttons/secondary_button.dart';
 import '../widgets/label_value_row.dart';
 
 class ProfilPage extends TraceableStatelessWidget {
-
   ProfilPage() : super(name: AnalyticsScreenNames.profil);
 
   @override
@@ -107,13 +106,16 @@ class ProfilPage extends TraceableStatelessWidget {
                           ),
                         ),
                         SepLine(0, 0, color: AppColors.grey100),
-                        Padding(
-                          padding: const EdgeInsets.all(Margins.spacing_base),
-                          child: LabelValueRow(
-                            label: Text(Strings.accessibilityLevelLabel, style: TextStyles.textBaseRegular),
-                            value: Text(
-                              Strings.accessibilityLevelNonConforme,
-                              style: TextStyles.textBaseBold,
+                        InkWell(
+                          onTap: () => _launchAndTrackExternalLink(Strings.accessibilityUrl),
+                          child: Padding(
+                            padding: const EdgeInsets.all(Margins.spacing_base),
+                            child: LabelValueRow(
+                              label: Text(Strings.accessibilityLevelLabel, style: TextStyles.textBaseRegular),
+                              value: Text(
+                                Strings.accessibilityLevelNonConforme,
+                                style: TextStyles.textBaseBold,
+                              ),
                             ),
                           ),
                         ),

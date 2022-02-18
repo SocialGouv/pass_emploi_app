@@ -66,7 +66,7 @@ class ChoixOrganismeExplainationPage extends TraceableStatelessWidget {
                           ),
                           SizedBox(height: Margins.spacing_base),
                           Text(
-                            Strings.alreadyHavePassEmploiAccount,
+                            Strings.alreadyHaveAccount,
                             style: TextStyles.textBaseRegular,
                             textAlign: TextAlign.center,
                           ),

@@ -14,7 +14,7 @@ class SplashScreenPage extends TraceableStatelessWidget {
     return Stack(
       children: [
         EntreeBiseauBackground(),
-        Center(child: SvgPicture.asset(Drawables.passEmploiLogo, semanticsLabel: Strings.logoTextDescription)),
+        Center(child: SvgPicture.asset(Drawables.cejAppLogo, semanticsLabel: Strings.logoTextDescription)),
       ],
     );
   }

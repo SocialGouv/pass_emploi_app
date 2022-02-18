@@ -2,9 +2,9 @@ class Strings {
   Strings._();
 
   // Common
-  static String appName = "Pass Emploi";
+  static String appName = "CEJ";
   static String retry = "Réessayer";
-  static String logoTextDescription = "Logo Pass Emploi";
+  static String logoTextDescription = "Logo CEJ";
   static String close = "Fermer";
 
   // Menu
@@ -40,9 +40,9 @@ class Strings {
   static String welcomeOn = "Bienvenue sur";
 
   // Entree
-  static String askAccount = "Demander un compte pass emploi";
+  static String askAccount = "Demander un compte";
   static String suiviParConseiller = "Je suis suivi par un conseiller...";
-  static String dontHaveAccount = "Vous n’avez pas de compte pass emploi ?";
+  static String dontHaveAccount = "Vous n’avez pas de compte sur cette application ?";
 
   // Choix organisme
   static String interestedInCej = "Vous êtes intéressé et vous pensez être éligible au Contrat Engagement Jeune ?";
@@ -52,22 +52,20 @@ class Strings {
       "Prenez rendez-vous avec votre conseiller Pôle emploi qui procédera à la création de votre compte.";
   static String rendezVousMissionLocale =
       "Prenez rendez-vous avec votre conseiller Mission Locale qui procédera à la création de votre compte.";
-  static String alreadyHavePassEmploiAccount = "Vous avez un compte pass emploi ?";
+  static String alreadyHaveAccount = "Vous avez déjà un compte sur cette application ?";
 
   // Onboarding
   static String skip = "Passer";
   static String continueLabel = "Continuer";
 
-  static String whatIsPassEmploi = "Qu’est-ce que pass emploi ?";
-  static String whatIsPassEmploiDesc = "L’application dédiée aux bénéficiaires du Contrat Engagement Jeune";
+  static String whyThisApp = "Pourquoi cette application ?";
+  static String whyThisAppDesc = "C’est l’application dédiée aux bénéficiaires du Contrat Engagement Jeune (CEJ)";
   static String customService = "Un suivi personnalisé";
-  static String customServiceDesc =
-      "pass emploi vous permet de suivre toutes vos actions en lien avec vos démarches professionnelles.";
+  static String customServiceDesc = "Suivez toutes vos actions en lien avec vos démarches professionnelles.";
   static String favoredContact = "Un moyen de contact privilégié";
   static String favoredContactDesc = "Restez en contact avec votre conseiller à l’aide d’une messagerie instantanée.";
   static String searchTool = "Un outil de recherche";
-  static String searchToolDesc =
-      "Grâce à pass emploi, recherchez un emploi, gérez vos offres favorites et trouvez des solutions.";
+  static String searchToolDesc = "Recherchez un emploi, gérez vos offres favorites et trouvez des solutions.";
   static String whatIsCej = "Qu’est-ce que le Contrat Engagement Jeune ?";
   static String customServiceCejDesc =
       "Pendant plusieurs mois, vous êtes accompagnés de 15 à 20 heures par semaine minimum.";
@@ -281,8 +279,7 @@ class Strings {
   static String rendezvous = "rendez-vous";
   static String actions = "actions";
 
-  static String unavailableContentTitle(String content) =>
-      "Vos $content ne sont pas accessibles sur l’application pass emploi.";
+  static String unavailableContentTitle(String content) => "Vos $content ne sont pas accessibles sur l’application.";
   static String unvailableContentDescription = "Vous pouvez les consulter sur votre espace personnel Pôle emploi.";
   static String poleEmploiUrlButton = "Accéder à mon espace Pôle emploi";
   static String espacePoleEmploiUrl = "https://candidat.pole-emploi.fr/espacepersonnel/";
@@ -298,9 +295,10 @@ class Strings {
   static String accessibilityLevelNonConforme = "Non conforme";
   static String termsOfServiceLabel = "Conditions d'Utilisation";
 
-  static const legalNoticeUrl = "https://beta.gouv.fr/startups/pass-emploi.html?type=legalNotice";
-  static const privacyPolicyUrl = "https://beta.gouv.fr/startups/pass-emploi.html?type=privacyPolicy";
-  static const termsOfServiceUrl = "https://beta.gouv.fr/startups/pass-emploi.html?type=termsOfService";
+  static const legalNoticeUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_mentions_legales";
+  static const privacyPolicyUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_politique_de_confidentialite";
+  static const termsOfServiceUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_conditions_generales";
+  static const accessibilityUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_accessibilite_application";
 
   // saved search
   static String createAlert = "Créer une alerte";

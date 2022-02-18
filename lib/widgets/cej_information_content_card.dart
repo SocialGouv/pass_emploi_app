@@ -42,9 +42,9 @@ class CejInformationFirstContentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return CejInformationContentCard(
       children: [
-        Text(Strings.whatIsPassEmploi, style: TextStyles.textMBold.copyWith(color: AppColors.primary)),
+        Text(Strings.whyThisApp, style: TextStyles.textMBold.copyWith(color: AppColors.primary)),
         SizedBox(height: Margins.spacing_base),
-        Text(Strings.whatIsPassEmploiDesc, style: TextStyles.textBaseRegular),
+        Text(Strings.whyThisAppDesc, style: TextStyles.textBaseRegular),
         SizedBox(height: Margins.spacing_m),
         _cardBulletPoint(Drawables.icDoneCircle, Strings.customService),
         SizedBox(height: Margins.spacing_s),

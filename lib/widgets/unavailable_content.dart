@@ -32,7 +32,6 @@ class UnavailableContent extends StatelessWidget {
             constraints: const BoxConstraints(minWidth: double.infinity),
             child: PrimaryActionButton(
               onPressed: () => launch(Strings.espacePoleEmploiUrl),
-              drawableRes: Drawables.icLaunch,
               label: Strings.poleEmploiUrlButton,
             ),
           ),

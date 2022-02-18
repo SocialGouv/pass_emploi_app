@@ -29,11 +29,12 @@ class EntreePage extends TraceableStatelessWidget {
           SafeArea(
             bottom: false,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SizedBox(height: 64),
-                SvgPicture.asset(Drawables.passEmploiLogo),
-                SizedBox(height: 20),
-                Image.asset(Drawables.icUnJeuneUneSolution),
+                SvgPicture.asset(Drawables.icUnJeuneUneSolution),
+                SizedBox(height: 32),
+                SvgPicture.asset(Drawables.cejAppLogo),
+                SizedBox(height: 32),
                 Expanded(
                   child: Align(
                     alignment: Alignment.bottomCenter,
@@ -101,6 +102,8 @@ class EntreePage extends TraceableStatelessWidget {
               Link(Strings.privacyPolicyLabel, Strings.privacyPolicyUrl),
               SizedBox(height: Margins.spacing_m),
               Link(Strings.termsOfServiceLabel, Strings.termsOfServiceUrl),
+              SizedBox(height: Margins.spacing_m),
+              Link(Strings.accessibilityLevelLabel, Strings.accessibilityUrl),
               SizedBox(height: Margins.spacing_m),
             ],
           ),

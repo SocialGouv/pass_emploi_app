@@ -22,7 +22,7 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="biseau_background" translatesAutoresizingMaskIntoConstraints="NO" id="utT-kp-G6P">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </imageView>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="logo_pass_emploi_light" translatesAutoresizingMaskIntoConstraints="NO" id="YRO-k0-Ey4">
+                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFit" image="cej_splash_logo" translatesAutoresizingMaskIntoConstraints="NO" id="YRO-k0-Ey4">
                                 <rect key="frame" x="107" y="348" width="200" height="200"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" image="YES" notEnabled="YES"/>
@@ -51,6 +51,6 @@
     </scenes>
     <resources>
         <image name="biseau_background" width="375" height="812"/>
-        <image name="logo_pass_emploi_light" width="120" height="120"/>
+        <image name="cej_splash_logo" width="250" height="135"/>
     </resources>
 </document>

@@ -65,8 +65,7 @@ class PrimaryActionButton extends StatelessWidget {
   }
 
   Widget _getRow() {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
+    return Wrap(
       children: [
         if (drawableRes != null)
           Padding(
@@ -80,7 +79,10 @@ class PrimaryActionButton extends StatelessWidget {
                   color: Colors.white,
                 ),
               )),
-        Text(label),
+        Text(
+          label,
+          textAlign: TextAlign.center,
+        ),
       ],
     );
   }
