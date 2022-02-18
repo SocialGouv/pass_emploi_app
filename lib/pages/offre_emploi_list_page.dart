@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_filtres_page.dart';
@@ -233,8 +234,10 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
 
   void _showOffreEmploiDetailsPage(BuildContext context, String offreId) {
     _offsetBeforeLoading = _scrollController.offset;
-    Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: widget.onlyAlternance))
-        .then((value) => _scrollController.jumpTo(_offsetBeforeLoading));
+    widget
+        .pushAndTrackBack(
+            context, OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: widget.onlyAlternance))
+        .then((_) => _scrollController.jumpTo(_offsetBeforeLoading));
   }
 
   int _itemCount(OffreEmploiSearchResultsViewModel viewModel) {
@@ -259,7 +262,9 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
   }
 
   Future<void> _onFiltreButtonPressed() {
-    return Navigator.push(context, OffreEmploiFiltresPage.materialPageRoute(widget.onlyAlternance)).then((value) {
+    return widget
+        .pushAndTrackBack(context, OffreEmploiFiltresPage.materialPageRoute(widget.onlyAlternance))
+        .then((value) {
       if (value == true) {
         _offsetBeforeLoading = 0;
         if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);

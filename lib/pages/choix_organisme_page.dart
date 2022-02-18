@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/pages/choix_organisme_explaination_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -67,16 +68,20 @@ class ChoixOrganismePage extends TraceableStatelessWidget {
                                   PrimaryActionButton(
                                     label: Strings.loginPoleEmploi,
                                     onPressed: () {
-                                      Navigator.push(context,
-                                          ChoixOrganismeExplainationPage.materialPageRoute(isPoleEmploi: true));
+                                      pushAndTrackBack(
+                                        context,
+                                        ChoixOrganismeExplainationPage.materialPageRoute(isPoleEmploi: true),
+                                      );
                                     },
                                   ),
                                   SizedBox(height: Margins.spacing_l),
                                   PrimaryActionButton(
                                     label: Strings.loginMissionLocale,
                                     onPressed: () {
-                                      Navigator.push(context,
-                                          ChoixOrganismeExplainationPage.materialPageRoute(isPoleEmploi: false));
+                                      pushAndTrackBack(
+                                        context,
+                                        ChoixOrganismeExplainationPage.materialPageRoute(isPoleEmploi: false),
+                                      );
                                     },
                                   ),
                                 ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/pages/immersion_details_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -79,7 +80,7 @@ class ImmersionListPage extends TraceableStatelessWidget {
       sousTitre: immersion.nomEtablissement,
       lieu: immersion.ville,
       dataTag: [immersion.secteurActivite],
-      onTap: () => Navigator.push(context, ImmersionDetailsPage.materialPageRoute(immersion.id)),
+      onTap: () => pushAndTrackBack(context, ImmersionDetailsPage.materialPageRoute(immersion.id)),
       from: OffrePage.immersionResults,
       id: immersion.id,
     );

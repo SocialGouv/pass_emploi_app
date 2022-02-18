@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart';
@@ -13,9 +14,9 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/keyboard.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
-import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 
 import 'offre_emploi_list_page.dart';
 
@@ -44,9 +45,11 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
       onWillChange: (_, newViewModel) {
         if (newViewModel.displayState == DisplayState.CONTENT && _shouldNavigate) {
           _shouldNavigate = false;
-          Navigator.push(context, MaterialPageRoute(builder: (_) {
+          widget.pushAndTrackBack(context, MaterialPageRoute(builder: (_) {
             return OffreEmploiListPage(onlyAlternance: widget.onlyAlternance);
-          })).then((_) => _shouldNavigate = true);
+          })).then((_) {
+            _shouldNavigate = true;
+          });
         }
       },
       distinct: true,

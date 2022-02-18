@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/pages/rendezvous_page.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_view_model.dart';
@@ -53,7 +54,7 @@ class RendezvousListPage extends TraceableStatelessWidget {
       titre: viewModel.title,
       sousTitre: viewModel.subtitle,
       texteLien: Strings.linkDetailsRendezVous,
-      onTap: () => Navigator.push(context, RendezvousPage.materialPageRoute(viewModel)),
+      onTap: () => pushAndTrackBack(context, RendezvousPage.materialPageRoute(viewModel)),
     );
   }
 
