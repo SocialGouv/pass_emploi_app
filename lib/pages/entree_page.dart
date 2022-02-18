@@ -22,6 +22,7 @@ class EntreePage extends TraceableStatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Stack(
         children: [
@@ -32,9 +33,9 @@ class EntreePage extends TraceableStatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 SizedBox(height: 16),
-                SvgPicture.asset(Drawables.icUnJeuneUneSolution),
+                SvgPicture.asset(Drawables.icUnJeuneUneSolution, width: screenWidth * 0.25),
                 SizedBox(height: 32),
-                SvgPicture.asset(Drawables.cejAppLogo),
+                SvgPicture.asset(Drawables.cejAppLogo, width: screenWidth * 0.6),
                 SizedBox(height: 16),
                 Expanded(
                   child: Align(
