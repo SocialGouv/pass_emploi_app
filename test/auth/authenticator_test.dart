@@ -27,10 +27,10 @@ void main() {
       authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
 
       // When
-      final bool result = await authenticator.login(AuthenticationMode.GENERIC);
+      final AuthenticatorResponse result = await authenticator.login(AuthenticationMode.GENERIC);
 
       // Then
-      expect(result, isTrue);
+      expect(result, AuthenticatorResponse.SUCCESS);
       expect(prefs.storedValues["idToken"], authTokenResponse().idToken);
       expect(prefs.storedValues["accessToken"], authTokenResponse().accessToken);
       expect(prefs.storedValues["refreshToken"], authTokenResponse().refreshToken);
@@ -44,10 +44,10 @@ void main() {
       );
 
       // When
-      final bool result = await authenticator.login(AuthenticationMode.SIMILO);
+      final AuthenticatorResponse result = await authenticator.login(AuthenticationMode.SIMILO);
 
       // Then
-      expect(result, isTrue);
+      expect(result, AuthenticatorResponse.SUCCESS);
       expect(prefs.storedValues["idToken"], authTokenResponse().idToken);
       expect(prefs.storedValues["accessToken"], authTokenResponse().accessToken);
       expect(prefs.storedValues["refreshToken"], authTokenResponse().refreshToken);
@@ -61,10 +61,10 @@ void main() {
       );
 
       // When
-      final bool result = await authenticator.login(AuthenticationMode.POLE_EMPLOI);
+      final AuthenticatorResponse result = await authenticator.login(AuthenticationMode.POLE_EMPLOI);
 
       // Then
-      expect(result, isTrue);
+      expect(result, AuthenticatorResponse.SUCCESS);
       expect(prefs.storedValues["idToken"], authTokenResponse().idToken);
       expect(prefs.storedValues["accessToken"], authTokenResponse().accessToken);
       expect(prefs.storedValues["refreshToken"], authTokenResponse().refreshToken);
@@ -75,10 +75,21 @@ void main() {
       authWrapperStub.withLoginArgsThrows();
 
       // When
-      final bool result = await authenticator.login(AuthenticationMode.GENERIC);
+      final AuthenticatorResponse result = await authenticator.login(AuthenticationMode.GENERIC);
 
       // Then
-      expect(result, isFalse);
+      expect(result, AuthenticatorResponse.FAILURE);
+    });
+
+    test('reponse is canceledwhen login has been canceled', () async {
+      // Given
+      authWrapperStub.withCanceledExcption();
+
+      // When
+      final AuthenticatorResponse result = await authenticator.login(AuthenticationMode.GENERIC);
+
+      // Then
+      expect(result, AuthenticatorResponse.CANCELLED);
     });
 
     test('isLoggedIn is TRUE when login is successful', () async {

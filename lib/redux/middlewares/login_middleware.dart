@@ -38,10 +38,13 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
 
   void _logUser(Store<AppState> store, RequestLoginMode mode) async {
     store.dispatch(LoginAction.loading());
-    if (await _authenticator.login(_getAuthenticationMode(mode))) {
+    var authenticatorResponse = await _authenticator.login(_getAuthenticationMode(mode));
+    if (authenticatorResponse == AuthenticatorResponse.SUCCESS) {
       _dispatchLoginSuccess(store);
-    } else {
+    } else if (authenticatorResponse == AuthenticatorResponse.FAILURE) {
       store.dispatch(LoginAction.failure());
+    } else {
+      store.dispatch(NotLoggedInAction());
     }
   }
 

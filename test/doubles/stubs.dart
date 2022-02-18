@@ -108,9 +108,9 @@ class AuthenticatorLoggedInStub extends Authenticator {
         );
 
   @override
-  Future<bool> login(AuthenticationMode mode) {
-    if (expectedMode == null) return Future.value(true);
-    return Future.value(expectedMode == mode);
+  Future<AuthenticatorResponse> login(AuthenticationMode mode) {
+    if (expectedMode == null) return Future.value(AuthenticatorResponse.SUCCESS);
+    return Future.value(expectedMode == mode ? AuthenticatorResponse.SUCCESS : AuthenticatorResponse.FAILURE);
   }
 
   @override
@@ -131,7 +131,7 @@ class AuthenticatorNotLoggedInStub extends Authenticator {
   AuthenticatorNotLoggedInStub() : super(DummyAuthWrapper(), configuration(), SharedPreferencesSpy());
 
   @override
-  Future<bool> login(AuthenticationMode mode) => Future.value(false);
+  Future<AuthenticatorResponse> login(AuthenticationMode mode) => Future.value(AuthenticatorResponse.FAILURE);
 
   @override
   Future<bool> isLoggedIn() async => false;
@@ -147,6 +147,7 @@ class AuthWrapperStub extends AuthWrapper {
   late AuthRefreshTokenRequest _refreshParameters;
   late AuthTokenResponse _refreshResult;
   late bool _throwsLoginException;
+  late bool _throwsCanceledException = false;
   late bool _throwsLogoutException;
   late bool _throwsRefreshNetworkException;
   late bool _throwsRefreshExpiredException;
@@ -163,6 +164,10 @@ class AuthWrapperStub extends AuthWrapper {
   withLogoutArgsResolves(AuthLogoutRequest parameters) {
     _logoutParameters = parameters;
     _throwsLogoutException = false;
+  }
+
+  withCanceledExcption() {
+    _throwsCanceledException = true;
   }
 
   withLoginArgsThrows() {
@@ -198,6 +203,7 @@ class AuthWrapperStub extends AuthWrapper {
 
   @override
   Future<AuthTokenResponse> login(AuthTokenRequest request) async {
+    if (_throwsCanceledException) throw UserCanceledLoginException();
     if (_throwsLoginException) throw Exception();
     if (request == _loginParameters) return _loginResult;
     throw Exception("Wrong parameters for login stub");
