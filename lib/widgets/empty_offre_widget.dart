@@ -9,8 +9,9 @@ import 'buttons/primary_action_button.dart';
 
 class EmptyOffreWidget extends StatelessWidget {
   final Widget? additional;
+  final bool withModifyButton;
 
-  EmptyOffreWidget({Key? key, this.additional}) : super(key: key);
+  EmptyOffreWidget({Key? key, this.additional, this.withModifyButton = true}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,8 @@ class EmptyOffreWidget extends StatelessWidget {
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              PrimaryActionButton(onPressed: () => Navigator.pop(context), label: Strings.updateCriteria),
+              if (withModifyButton)
+                PrimaryActionButton(onPressed: () => Navigator.pop(context), label: Strings.updateCriteria),
               if (additional != null) additional!,
             ],
           ),

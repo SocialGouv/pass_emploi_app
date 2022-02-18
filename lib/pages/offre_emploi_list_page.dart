@@ -30,8 +30,9 @@ import 'offre_page.dart';
 
 class OffreEmploiListPage extends TraceableStatefulWidget {
   final bool onlyAlternance;
+  final bool fromSavedSearch;
 
-  OffreEmploiListPage({required this.onlyAlternance})
+  OffreEmploiListPage({required this.onlyAlternance, this.fromSavedSearch = false})
       : super(name: onlyAlternance ? AnalyticsScreenNames.alternanceResults : AnalyticsScreenNames.emploiResults);
 
   @override
@@ -134,20 +135,23 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
   Widget _empty(BuildContext context, OffreEmploiSearchResultsViewModel viewModel) {
     _trackEmptyResult();
     return EmptyOffreWidget(
+      withModifyButton: !widget.fromSavedSearch,
       additional: Padding(
         padding: const EdgeInsets.only(top: Margins.spacing_base),
-        child: Column(
-          children: [
-            Wrap(
-              spacing: 16,
-              runSpacing: 16,
-              children: [
-                _alertSecondaryButton(viewModel),
-                if (viewModel.withFiltreButton) _filtreSecondaryButton(viewModel),
-              ],
-            ),
-          ],
-        ),
+        child: widget.fromSavedSearch
+            ? Container()
+            : Column(
+                children: [
+                  Wrap(
+                    spacing: 16,
+                    runSpacing: 16,
+                    children: [
+                      _alertSecondaryButton(viewModel),
+                      if (viewModel.withFiltreButton) _filtreSecondaryButton(viewModel),
+                    ],
+                  ),
+                ],
+              ),
       ),
     );
   }

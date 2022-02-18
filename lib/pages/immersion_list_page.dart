@@ -21,8 +21,9 @@ import 'offre_page.dart';
 
 class ImmersionListPage extends TraceableStatelessWidget {
   final List<Immersion> immersions;
+  final bool fromSavedSearch;
 
-  ImmersionListPage(this.immersions)
+  ImmersionListPage(this.immersions, [this.fromSavedSearch = false])
       : super(
           name: immersions.isEmpty ? AnalyticsScreenNames.immersionNoResults : AnalyticsScreenNames.immersionResults,
         );
@@ -41,9 +42,10 @@ class ImmersionListPage extends TraceableStatelessWidget {
 
   Widget _empty(BuildContext context) {
     return EmptyOffreWidget(
+      withModifyButton: !this.fromSavedSearch,
       additional: Padding(
         padding: const EdgeInsets.only(top: Margins.spacing_base),
-        child: _alertSecondaryButton(context),
+        child: this.fromSavedSearch ? Container() : _alertSecondaryButton(context),
       ),
     );
   }
