@@ -37,7 +37,11 @@ class AuthWrapper {
       if (e.code == "discovery_failed") {
         throw AuthWrapperNetworkException();
       } else if (e.code == "authorize_and_exchange_code_failed") {
-        throw AuthWrapperCalledCancelException();
+        if (e.message == "Failed to authorize: [error: null, description: User cancelled flow]") {
+          throw UserCanceledLoginException();
+        } else {
+          throw AuthWrapperCalledCancelException();
+        }
       } else {
         throw AuthWrapperLoginException();
       }
@@ -102,3 +106,5 @@ class AuthWrapperNetworkException implements Exception {}
 class AuthWrapperRefreshTokenExpiredException implements AuthWrapperRefreshTokenException {}
 
 class AuthWrapperCalledCancelException implements AuthWrapperLoginException {}
+
+class UserCanceledLoginException implements AuthWrapperLoginException {}

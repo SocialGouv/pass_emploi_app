@@ -19,6 +19,8 @@ enum AuthenticationMode { GENERIC, SIMILO, POLE_EMPLOI }
 const Map<String, String> similoAdditionalParameters = {"kc_idp_hint": "similo-jeune"};
 const Map<String, String> poleEmploiAdditionalParameters = {"kc_idp_hint": "pe-jeune"};
 
+enum AuthenticatorResponse { SUCCESS, FAILURE, CANCELLED }
+
 class Authenticator {
   final AuthWrapper _authWrapper;
   final Configuration _configuration;
@@ -26,7 +28,7 @@ class Authenticator {
 
   Authenticator(this._authWrapper, this._configuration, this._preferences);
 
-  Future<bool> login(AuthenticationMode mode) async {
+  Future<AuthenticatorResponse> login(AuthenticationMode mode) async {
     try {
       final response = await _authWrapper.login(
         AuthTokenRequest(
@@ -39,9 +41,9 @@ class Authenticator {
         ),
       );
       _saveToken(response);
-      return true;
+      return AuthenticatorResponse.SUCCESS;
     } catch (e) {
-      return false;
+      return (e is UserCanceledLoginException) ? AuthenticatorResponse.CANCELLED : AuthenticatorResponse.FAILURE;
     }
   }
 
