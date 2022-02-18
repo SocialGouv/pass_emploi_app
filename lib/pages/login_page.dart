@@ -42,13 +42,9 @@ class LoginPage extends TraceableStatelessWidget {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 48,
-                  ),
-                  SvgPicture.asset(Drawables.cejAppLogo),
-                  SizedBox(
-                    height: 20,
-                  ),
+                  SizedBox(height: 32),
+                  SvgPicture.asset(Drawables.cejAppLogo, width: 200),
+                  SizedBox(height: 32),
                   Container(
                     width: double.infinity,
                     margin: EdgeInsets.symmetric(horizontal: Margins.spacing_m),

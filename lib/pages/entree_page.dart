@@ -31,10 +31,11 @@ class EntreePage extends TraceableStatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                SizedBox(height: 16),
                 SvgPicture.asset(Drawables.icUnJeuneUneSolution),
                 SizedBox(height: 32),
                 SvgPicture.asset(Drawables.cejAppLogo),
-                SizedBox(height: 32),
+                SizedBox(height: 16),
                 Expanded(
                   child: Align(
                     alignment: Alignment.bottomCenter,
