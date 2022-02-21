@@ -71,7 +71,9 @@ main() {
     expect(storeSpy.calledWithRetry, true);
   });
 
-  test('create when rendezvous state is success with rendezvous should display them', () {
+  test(
+      'create when rendezvous state is success with rendezvous should display them and sort them by reverse chronological order',
+      () {
     // Given
     final store = Store<AppState>(
       reducer,
@@ -108,22 +110,22 @@ main() {
     expect(viewModel.items.length, 2);
 
     final rdv1 = viewModel.items[0];
-    expect(rdv1.title, 'title1');
-    expect(rdv1.subtitle, 'subtitle1');
-    expect(rdv1.dateAndHour, '23/12/2022 à 10:20');
-    expect(rdv1.dateWithoutHour, '23 décembre 2022');
-    expect(rdv1.hourAndDuration, '10:20 (1h)');
-    expect(rdv1.withComment, false);
-    expect(rdv1.modality, 'Le rendez-vous se fera par téléphone');
+    expect(rdv1.title, 'title2');
+    expect(rdv1.subtitle, 'subtitle2');
+    expect(rdv1.dateAndHour, '24/12/2022 à 13:40');
+    expect(rdv1.dateWithoutHour, '24 décembre 2022');
+    expect(rdv1.hourAndDuration, '13:40 (30min)');
+    expect(rdv1.withComment, true);
+    expect(rdv1.comment, 'comment2');
+    expect(rdv1.modality, 'Le rendez-vous se fera à l\'agence');
     final rdv2 = viewModel.items[1];
-    expect(rdv2.title, 'title2');
-    expect(rdv2.subtitle, 'subtitle2');
-    expect(rdv2.dateAndHour, '24/12/2022 à 13:40');
-    expect(rdv2.dateWithoutHour, '24 décembre 2022');
-    expect(rdv2.hourAndDuration, '13:40 (30min)');
-    expect(rdv2.withComment, true);
-    expect(rdv2.comment, 'comment2');
-    expect(rdv2.modality, 'Le rendez-vous se fera à l\'agence');
+    expect(rdv2.title, 'title1');
+    expect(rdv2.subtitle, 'subtitle1');
+    expect(rdv2.dateAndHour, '23/12/2022 à 10:20');
+    expect(rdv2.dateWithoutHour, '23 décembre 2022');
+    expect(rdv2.hourAndDuration, '10:20 (1h)');
+    expect(rdv2.withComment, false);
+    expect(rdv2.modality, 'Le rendez-vous se fera par téléphone');
   });
 
   test('create when rendezvous state is success but there are no rendezvous should display an empty message', () {

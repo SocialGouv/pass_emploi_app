@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
+import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -82,11 +83,11 @@ class OffreEmploiDetailsRepositorySuccessStub extends OffreEmploiDetailsReposito
   OffreEmploiDetailsRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<OffreEmploiDetailsResponse> getOffreEmploiDetails({required String offreId}) async {
-    return OffreEmploiDetailsResponse(
+  Future<OffreDetailsResponse<OffreEmploiDetails>> getOffreEmploiDetails({required String offreId}) async {
+    return OffreDetailsResponse(
       isGenericFailure: false,
       isOffreNotFound: false,
-      offreEmploiDetails: mockOffreEmploiDetails(),
+      details: mockOffreEmploiDetails(),
     );
   }
 }
@@ -95,11 +96,11 @@ class OffreEmploiDetailsRepositoryGenericFailureStub extends OffreEmploiDetailsR
   OffreEmploiDetailsRepositoryGenericFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<OffreEmploiDetailsResponse> getOffreEmploiDetails({required String offreId}) async {
-    return OffreEmploiDetailsResponse(
+  Future<OffreDetailsResponse<OffreEmploiDetails>> getOffreEmploiDetails({required String offreId}) async {
+    return OffreDetailsResponse(
       isGenericFailure: true,
       isOffreNotFound: false,
-      offreEmploiDetails: null,
+      details: null,
     );
   }
 }
@@ -108,11 +109,11 @@ class OffreEmploiDetailsRepositoryNotFoundFailureStub extends OffreEmploiDetails
   OffreEmploiDetailsRepositoryNotFoundFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<OffreEmploiDetailsResponse> getOffreEmploiDetails({required String offreId}) async {
-    return OffreEmploiDetailsResponse(
+  Future<OffreDetailsResponse<OffreEmploiDetails>> getOffreEmploiDetails({required String offreId}) async {
+    return OffreDetailsResponse(
       isGenericFailure: false,
       isOffreNotFound: true,
-      offreEmploiDetails: null,
+      details: null,
     );
   }
 }

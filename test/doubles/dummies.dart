@@ -6,19 +6,26 @@ import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
+import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
+import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
-import 'package:pass_emploi_app/repositories/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
@@ -67,6 +74,12 @@ class DummyRendezvousRepository extends RendezvousRepository {
 
 class DummyChatRepository extends ChatRepository {
   DummyChatRepository() : super(DummyChatCrypto(), DummyCrashlytics());
+
+  @override
+  Stream<List<Message>> messagesStream(String userId) async* {}
+
+  @override
+  Stream<ConseillerMessageInfo> chatStatusStream(String userId) async* {}
 }
 
 class DummyCrashlytics extends Crashlytics {
@@ -125,4 +138,24 @@ class DummyChatCrypto extends ChatCrypto {
 
 class DummyTrackingEventRepository extends TrackingEventRepository {
   DummyTrackingEventRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+}
+
+class DummyImmersionFavorisRepository extends ImmersionFavorisRepository {
+  DummyImmersionFavorisRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+}
+
+class DummyOffreEmploiSavedSearchRepository extends OffreEmploiSavedSearchRepository {
+  DummyOffreEmploiSavedSearchRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+}
+
+class DummyImmersionSavedSearchRepository extends ImmersionSavedSearchRepository {
+  DummyImmersionSavedSearchRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+}
+
+class DummyGetSavedSearchRepository extends GetSavedSearchRepository {
+  DummyGetSavedSearchRepository() : super("", DummyHttpClient(), DummyHeadersBuilder(), null);
+}
+
+class DummySavedSearchDeleteRepository extends SavedSearchDeleteRepository {
+  DummySavedSearchDeleteRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
 }

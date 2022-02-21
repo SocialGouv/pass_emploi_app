@@ -1,18 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/metier.dart';
-import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/debouncer.dart';
+import 'package:pass_emploi_app/utils/keyboard.dart';
 
 class MetierAutocomplete extends StatelessWidget {
+  final Function(String newMetierQuery) onInputMetier;
   final Function(Metier? selectedMetier) onSelectMetier;
   final String? Function() getPreviouslySelectedTitle;
+  final List<Metier> metiers;
   final String? Function(String? input) validator;
   final GlobalKey<FormState> formKey;
-  final _metierRepository = MetierRepository();
+
+  final Debouncer _debouncer = Debouncer(duration: Duration(milliseconds: 200));
 
   MetierAutocomplete({
+    required this.onInputMetier,
+    required this.metiers,
     required this.onSelectMetier,
     required this.validator,
     required this.formKey,
@@ -23,9 +29,19 @@ class MetierAutocomplete extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) => Autocomplete<Metier>(
-        optionsBuilder: (textEditingValue) => _metierRepository.getMetiers(textEditingValue.text),
-        onSelected: (option) => onSelectMetier(option),
-        optionsViewBuilder: (context, onSelected, options) => _optionsView(constraints, options, onSelected),
+        optionsBuilder: (textEditingValue) {
+          _debouncer.run(() {
+            final newMetierQuery = textEditingValue.text;
+            _deleteSelectedMetierOnTextDeletion(newMetierQuery);
+            onInputMetier(newMetierQuery);
+          });
+          return _fakeListMetierRequiredByAutocompleteToCallOptionsViewBuilderMethod();
+        },
+        onSelected: (option) {
+          Keyboard.dismiss(context);
+          onSelectMetier(option);
+        },
+        optionsViewBuilder: (context, onSelected, options) => _optionsView(constraints, onSelected),
         fieldViewBuilder: (context, textEditingController, focusNode, onFieldSubmitted) =>
             _fieldView(textEditingController, focusNode, onFieldSubmitted),
       ),
@@ -51,12 +67,6 @@ class MetierAutocomplete extends StatelessWidget {
           controller: textEditingController,
           decoration: _inputDecoration(Strings.immersionFieldHint),
           focusNode: focusNode,
-          onFieldSubmitted: (String value) {
-            onFieldSubmitted();
-          },
-          onChanged: (value) {
-            if (value.isEmpty) onSelectMetier(null);
-          },
           validator: validator,
         ),
       ),
@@ -65,7 +75,6 @@ class MetierAutocomplete extends StatelessWidget {
 
   Widget _optionsView(
     BoxConstraints constraints,
-    Iterable<Metier> options,
     AutocompleteOnSelected<Metier> onSelected,
   ) {
     return Align(
@@ -79,17 +88,12 @@ class MetierAutocomplete extends StatelessWidget {
             child: ListView.builder(
               padding: EdgeInsets.zero,
               shrinkWrap: true,
-              itemCount: options.length,
+              itemCount: metiers.length,
               itemBuilder: (BuildContext context, int index) {
-                final Metier option = options.elementAt(index);
-
+                final Metier metier = metiers.elementAt(index);
                 return GestureDetector(
-                  onTap: () {
-                    onSelected(option);
-                  },
-                  child: ListTile(
-                    title: Text(option.libelle, style: TextStyles.textSmRegular()),
-                  ),
+                  onTap: () => onSelected(metier),
+                  child: ListTile(title: Text(metier.libelle, style: TextStyles.textSmRegular())),
                 );
               },
             ),
@@ -105,6 +109,14 @@ class MetierAutocomplete extends StatelessWidget {
       textEditingController.text = title;
     }
   }
+
+  void _deleteSelectedMetierOnTextDeletion(String newMetierQuery) {
+    if (newMetierQuery.isEmpty) {
+      onSelectMetier(null);
+    }
+  }
+
+  List<Metier> _fakeListMetierRequiredByAutocompleteToCallOptionsViewBuilderMethod() => [Metier.values.first];
 
   InputDecoration _inputDecoration(String textFieldString) {
     return InputDecoration(

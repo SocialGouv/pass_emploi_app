@@ -13,18 +13,51 @@ import 'package:redux/redux.dart';
 import '../doubles/fixtures.dart';
 
 main() {
-  test("create when action has been updated should show success", () {
-    // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(userActionUpdateState: UserActionUpdateState.updated()),
-    );
+  group("create when action has been updated ...", () {
+    test("to not_started status should dismiss bottom sheet", () {
+      // Given
+      final store = Store<AppState>(
+        reducer,
+        initialState: AppState.initialState()
+            .copyWith(userActionUpdateState: UserActionUpdateState.updated(UserActionStatus.NOT_STARTED)),
+      );
 
-    // When
-    final viewModel = UserActionDetailsViewModel.create(store);
+      // When
+      final viewModel = UserActionDetailsViewModel.create(store);
 
-    // Then
-    expect(viewModel.displayState, UserActionDetailsDisplayState.SHOW_SUCCESS);
+      // Then
+      expect(viewModel.displayState, UserActionDetailsDisplayState.TO_DISMISS_AFTER_UPDATE);
+    });
+
+    test("to in_progress status should dismiss bottom sheet", () {
+      // Given
+      final store = Store<AppState>(
+        reducer,
+        initialState: AppState.initialState()
+            .copyWith(userActionUpdateState: UserActionUpdateState.updated(UserActionStatus.IN_PROGRESS)),
+      );
+
+      // When
+      final viewModel = UserActionDetailsViewModel.create(store);
+
+      // Then
+      expect(viewModel.displayState, UserActionDetailsDisplayState.TO_DISMISS_AFTER_UPDATE);
+    });
+
+    test("to done status should show success screen", () {
+      // Given
+      final store = Store<AppState>(
+        reducer,
+        initialState: AppState.initialState()
+            .copyWith(userActionUpdateState: UserActionUpdateState.updated(UserActionStatus.DONE)),
+      );
+
+      // When
+      final viewModel = UserActionDetailsViewModel.create(store);
+
+      // Then
+      expect(viewModel.displayState, UserActionDetailsDisplayState.SHOW_SUCCESS);
+    });
   });
 
   test("create when action is not updating should show content", () {

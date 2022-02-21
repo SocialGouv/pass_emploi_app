@@ -37,12 +37,20 @@ class AuthWrapper {
       if (e.code == "discovery_failed") {
         throw AuthWrapperNetworkException();
       } else if (e.code == "authorize_and_exchange_code_failed") {
-        throw AuthWrapperCalledCancelException();
+        if (_isUserCancelled(e)) {
+          throw UserCanceledLoginException();
+        } else {
+          throw AuthWrapperCalledCancelException();
+        }
       } else {
         throw AuthWrapperLoginException();
       }
     }
   }
+
+  bool _isUserCancelled(PlatformException e) =>
+      e.message == "Failed to authorize: [error: null, description: User cancelled flow]" ||
+      e.message == "Failed to authorize: L’opération n’a pas pu s’achever. (org.openid.appauth.general erreur -3.)";
 
   Future<AuthTokenResponse> refreshToken(AuthRefreshTokenRequest request) async {
     try {
@@ -102,3 +110,5 @@ class AuthWrapperNetworkException implements Exception {}
 class AuthWrapperRefreshTokenExpiredException implements AuthWrapperRefreshTokenException {}
 
 class AuthWrapperCalledCancelException implements AuthWrapperLoginException {}
+
+class UserCanceledLoginException implements AuthWrapperLoginException {}

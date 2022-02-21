@@ -5,9 +5,12 @@ import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
+import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
+import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/network/headers.dart';
+import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 
@@ -105,9 +108,9 @@ class AuthenticatorLoggedInStub extends Authenticator {
         );
 
   @override
-  Future<bool> login(AuthenticationMode mode) {
-    if (expectedMode == null) return Future.value(true);
-    return Future.value(expectedMode == mode);
+  Future<AuthenticatorResponse> login(AuthenticationMode mode) {
+    if (expectedMode == null) return Future.value(AuthenticatorResponse.SUCCESS);
+    return Future.value(expectedMode == mode ? AuthenticatorResponse.SUCCESS : AuthenticatorResponse.FAILURE);
   }
 
   @override
@@ -118,6 +121,7 @@ class AuthenticatorLoggedInStub extends Authenticator {
         userId: "id",
         firstName: "F",
         lastName: "L",
+        email: "first.last@milo.fr",
         expiresAt: 100000000,
         loginMode: authIdTokenLoginMode ?? "MILO",
       );
@@ -127,7 +131,7 @@ class AuthenticatorNotLoggedInStub extends Authenticator {
   AuthenticatorNotLoggedInStub() : super(DummyAuthWrapper(), configuration(), SharedPreferencesSpy());
 
   @override
-  Future<bool> login(AuthenticationMode mode) => Future.value(false);
+  Future<AuthenticatorResponse> login(AuthenticationMode mode) => Future.value(AuthenticatorResponse.FAILURE);
 
   @override
   Future<bool> isLoggedIn() async => false;
@@ -143,6 +147,7 @@ class AuthWrapperStub extends AuthWrapper {
   late AuthRefreshTokenRequest _refreshParameters;
   late AuthTokenResponse _refreshResult;
   late bool _throwsLoginException;
+  late bool _throwsCanceledException = false;
   late bool _throwsLogoutException;
   late bool _throwsRefreshNetworkException;
   late bool _throwsRefreshExpiredException;
@@ -159,6 +164,10 @@ class AuthWrapperStub extends AuthWrapper {
   withLogoutArgsResolves(AuthLogoutRequest parameters) {
     _logoutParameters = parameters;
     _throwsLogoutException = false;
+  }
+
+  withCanceledExcption() {
+    _throwsCanceledException = true;
   }
 
   withLoginArgsThrows() {
@@ -194,6 +203,7 @@ class AuthWrapperStub extends AuthWrapper {
 
   @override
   Future<AuthTokenResponse> login(AuthTokenRequest request) async {
+    if (_throwsCanceledException) throw UserCanceledLoginException();
     if (_throwsLoginException) throw Exception();
     if (request == _loginParameters) return _loginResult;
     throw Exception("Wrong parameters for login stub");
@@ -213,5 +223,26 @@ class AuthWrapperStub extends AuthWrapper {
     if (_throwsLogoutException) throw AuthWrapperLogoutException();
     if (request == _logoutParameters) return Future.value(true);
     return Future.value(false);
+  }
+}
+
+class ChatRepositoryStub extends ChatRepository {
+  List<Message> _messages = [];
+  ConseillerMessageInfo _info = ConseillerMessageInfo(null, null);
+
+  ChatRepositoryStub() : super(DummyChatCrypto(), DummyCrashlytics());
+
+  void onMessageStreamReturns(List<Message> messages) => _messages = messages;
+
+  void onChatStatusStreamReturns(ConseillerMessageInfo info) => _info = info;
+
+  @override
+  Stream<List<Message>> messagesStream(String userId) async* {
+    yield _messages;
+  }
+
+  @override
+  Stream<ConseillerMessageInfo> chatStatusStream(String userId) async* {
+    yield _info;
   }
 }

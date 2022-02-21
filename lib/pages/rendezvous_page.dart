@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 
 class RendezvousPage extends TraceableStatelessWidget {
   final RendezvousViewModel rendezvous;
@@ -54,7 +55,7 @@ class RendezvousPage extends TraceableStatelessWidget {
               SizedBox(height: Margins.spacing_s),
               Text(Strings.rendezVousConseillerCommentLabel, style: TextStyles.textBaseBold),
               SizedBox(height: Margins.spacing_s),
-              Text(rendezvous.comment, style: TextStyles.textSRegular()),
+              TextWithClickableLinks(rendezvous.comment, style: TextStyles.textSRegular()),
               SizedBox(height: Margins.spacing_m),
               Container(height: 1, color: AppColors.primaryLighten),
               SizedBox(height: Margins.spacing_base),

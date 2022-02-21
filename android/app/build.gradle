@@ -32,7 +32,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -41,7 +41,7 @@ android {
     defaultConfig {
         applicationId "fr.fabrique.social.gouv.passemploi"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
         manifestPlaceholders = [
@@ -71,11 +71,11 @@ android {
             dimension "app"
             applicationIdSuffix ".staging"
             versionNameSuffix "-staging"
-            resValue "string", "app_name", "Pass Emploi Staging"
+            resValue "string", "app_name", "CEJ Staging"
         }
         prod {
             dimension "app"
-            resValue "string", "app_name", "Pass Emploi"
+            resValue "string", "app_name", "CEJ"
         }
     }
 

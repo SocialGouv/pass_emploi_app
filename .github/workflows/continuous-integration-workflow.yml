@@ -1,0 +1,185 @@
+name: PR Continuous Integration - Mobile App
+
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+  workflow_dispatch:
+
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '2.10.0'
+      - name: Lancer les tests
+        run: flutter test
+
+  pre-build:
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    needs: test
+    name: pre-build
+    steps:
+      - name: Get current timestamp
+        id: getCurrentTimestamp
+        run: echo "::set-output name=date::$(date +%s)"
+    outputs:
+      date: ${{ steps.getCurrentTimestamp.outputs.date }}
+
+
+  build-android-staging:
+    if: github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    needs: pre-build
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '2.10.0'
+
+      - name: Write Google configuration for Android
+        shell: bash
+        run: |
+          mkdir android/app/src/staging
+          echo "$STAGING_GOOGLE_SERVICE_B64" | base64 --decode > android/app/src/staging/google-services.json
+        env:
+          STAGING_GOOGLE_SERVICE_B64: ${{ secrets.STAGING_GOOGLE_SERVICE_B64 }}
+
+      - name: Write key properties
+        shell: bash
+        run: |
+          echo "$STAGING_KEY_PROPERTIES_B64" | base64 --decode > android/key.properties
+        env:
+          STAGING_KEY_PROPERTIES_B64: ${{ secrets.STAGING_KEY_PROPERTIES_B64 }}
+
+      - name: Write key store
+        shell: bash
+        run: |
+          mkdir android/keystore
+          echo "$STAGING_KEYSTORE_B64" | base64 --decode > android/keystore/passemploi.jks
+        env:
+          STAGING_KEYSTORE_B64: ${{ secrets.STAGING_KEYSTORE_B64 }}
+
+      - name: Write env
+        shell: bash
+        run: |
+          echo "$STAGING_RUNTIME_ENV_B64" | base64 --decode > env/.env.staging
+        env:
+          STAGING_RUNTIME_ENV_B64: ${{ secrets.STAGING_RUNTIME_ENV_B64 }}
+
+      - name: Build Android apk
+        run: |
+          flutter pub get
+          flutter build apk \
+          --flavor staging \
+          --build-number=${{ needs.pre-build.outputs.date }}
+
+      - name: Deploy Android apk
+        run: |
+          curl -sL https://firebase.tools | bash
+          firebase appdistribution:distribute build/app/outputs/flutter-apk/app-staging-release.apk \
+            --token "$STAGING_FIREBASE_CI_TOKEN" \
+            --app "$STAGING_ANDROID_APP_ID" \
+            --groups "$STAGING_FIREBASE_RELEASE_GROUPS"
+        env:
+          STAGING_FIREBASE_CI_TOKEN: ${{ secrets.STAGING_FIREBASE_CI_TOKEN }}
+          STAGING_ANDROID_APP_ID: ${{ secrets.STAGING_ANDROID_APP_ID }}
+          STAGING_FIREBASE_RELEASE_GROUPS: ${{ secrets.STAGING_FIREBASE_RELEASE_GROUPS }}
+
+  build-ios-staging:
+    if: github.ref == 'refs/heads/develop'
+    runs-on: macos-11
+    needs: pre-build
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: '2.10.0'
+
+      - name: Write p12 certificate
+        shell: bash
+        run: |
+          echo "$P12_B64" | base64 --decode > ios/cert.p12
+        env:
+          P12_B64: ${{ secrets.P12_B64 }}
+
+      - name: Install Apple Certificate
+        uses: apple-actions/import-codesign-certs@v1
+        with:
+          p12-filepath: "ios/cert.p12"
+          p12-password: ${{ secrets.P12_PASSWORD }}
+
+      - name: Install the provisioning profile
+        env:
+          STAGING_IOS_PROVISIONING_PROFILE_B64: ${{ secrets.STAGING_IOS_PROVISIONING_PROFILE_B64 }}
+        run: |
+          PP_PATH=$RUNNER_TEMP/frfabriquesocialgouvpassemploistaging.mobileprovision
+          echo -n "$STAGING_IOS_PROVISIONING_PROFILE_B64" | base64 --decode --output $PP_PATH
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+          cd ~/Library/MobileDevice/Provisioning\ Profiles
+
+      - name: Write Google configuration for ios
+        shell: bash
+        run: |
+          mkdir -p ios/firebase-config/staging
+          echo "$STAGING_GOOGLE_SERVICE_IOS_B64" | base64 --decode > ios/firebase-config/staging/GoogleService-Info.plist
+        env:
+          STAGING_GOOGLE_SERVICE_IOS_B64: ${{ secrets.STAGING_GOOGLE_SERVICE_IOS_B64 }}
+
+      - name: Write env
+        shell: bash
+        run: |
+          echo "$STAGING_RUNTIME_ENV_B64" | base64 --decode > env/.env.staging
+        env:
+          STAGING_RUNTIME_ENV_B64: ${{ secrets.STAGING_RUNTIME_ENV_B64 }}
+
+      - name: Write staging plist files
+        shell: bash
+        run: |
+          echo "$STAGING_OPTIONS_PLIST_B64" | base64 --decode > ios/StagingOptionsPlist.plist
+        env:
+          STAGING_OPTIONS_PLIST_B64: ${{ secrets.STAGING_OPTIONS_PLIST_B64 }}
+
+      - name: Build iOS application bundle
+        run: |
+          flutter pub get
+          flutter build ios \
+          --flavor staging \
+          --build-number=${{ needs.pre-build.outputs.date }} \
+          --release --no-codesign
+
+      - name: Build resolve Swift dependencies
+        run: xcodebuild -resolvePackageDependencies -workspace ios/Runner.xcworkspace -scheme staging -configuration Release-staging
+
+      - name: Build xArchive
+        run: |
+          xcodebuild -workspace ios/Runner.xcworkspace -scheme staging \
+          -configuration Release-staging DEVELOPMENT_TEAM=$APPLE_TEAM_ID \
+          -sdk 'iphoneos' \
+          -destination 'generic/platform=iOS' \
+          -archivePath build-output/app.xcarchive PROVISIONING_PROFILE_SPECIFIER=$APPLE_PROVISIONNING_PROFILE_ID \
+          clean archive CODE_SIGN_IDENTITY="iPhone Distribution: Fabrique numerique des ministeres sociaux"
+          xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/StagingOptionsPlist.plist
+        env:
+          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APPLE_PROVISIONNING_PROFILE_ID: ${{ secrets.APPLE_STAGING_PROVISIONNING_PROFILE_ID }}
+
+      - name: Deploy to staging
+        run: |
+          curl -sL https://firebase.tools | bash
+          firebase appdistribution:distribute build-output/ios/application_CEJ.ipa \
+            --token "$STAGING_FIREBASE_CI_TOKEN" \
+            --app "$STAGING_IOS_APP_ID" \
+            --groups "$STAGING_FIREBASE_RELEASE_GROUPS"
+        env:
+          STAGING_FIREBASE_CI_TOKEN: ${{ secrets.STAGING_FIREBASE_CI_TOKEN }}
+          STAGING_IOS_APP_ID: ${{ secrets.STAGING_IOS_APP_ID }}
+          STAGING_FIREBASE_RELEASE_GROUPS: ${{ secrets.STAGING_FIREBASE_RELEASE_GROUPS }}

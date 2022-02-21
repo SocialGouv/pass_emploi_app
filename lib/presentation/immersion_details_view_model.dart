@@ -1,76 +1,73 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/presentation/call_to_action.dart';
-import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/immersion_details_state.dart';
+import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:pass_emploi_app/utils/uri_handler.dart';
 import 'package:redux/redux.dart';
 
+enum ImmersionDetailsPageDisplayState { SHOW_DETAILS, SHOW_INCOMPLETE_DETAILS, SHOW_LOADER, SHOW_ERROR }
+
 class ImmersionDetailsViewModel extends Equatable {
-  final DisplayState displayState;
+  final ImmersionDetailsPageDisplayState displayState;
+  final String id;
   final String title;
   final String companyName;
   final String secteurActivite;
   final String ville;
-  final String address;
-  final String explanationLabel;
-  final String contactLabel;
-  final String contactInformation;
-  final bool withMainCallToAction;
-  final bool withSecondaryCallToActions;
+  final String? address;
+  final String? explanationLabel;
+  final String? contactLabel;
+  final String? contactInformation;
+  final bool? withSecondaryCallToActions;
   final CallToAction? mainCallToAction;
-  final List<CallToAction> secondaryCallToActions;
+  final List<CallToAction>? secondaryCallToActions;
   final Function(String immersionId) onRetry;
 
   ImmersionDetailsViewModel._({
     required this.displayState,
+    required this.id,
     required this.title,
     required this.companyName,
     required this.secteurActivite,
     required this.ville,
-    required this.address,
-    required this.explanationLabel,
-    required this.contactLabel,
-    required this.contactInformation,
-    required this.withMainCallToAction,
-    required this.withSecondaryCallToActions,
-    required this.mainCallToAction,
-    required this.secondaryCallToActions,
+    this.address,
+    this.explanationLabel,
+    this.contactLabel,
+    this.contactInformation,
+    this.withSecondaryCallToActions,
+    this.mainCallToAction,
+    this.secondaryCallToActions,
     required this.onRetry,
   });
 
   factory ImmersionDetailsViewModel.create(Store<AppState> store, Platform platform) {
     final state = store.state.immersionDetailsState;
-    final immersion = state.isSuccess() ? state.getResultOrThrow() : null;
-    final mainCallToAction = immersion != null ? _mainCallToAction(immersion, platform) : null;
-    final secondaryCallToActions = immersion != null ? _secondaryCallToActions(immersion, platform) : <CallToAction>[];
-    return ImmersionDetailsViewModel._(
-      displayState: displayStateFromState(state),
-      title: immersion?.metier ?? '',
-      companyName: immersion?.companyName ?? '',
-      secteurActivite: immersion?.secteurActivite ?? '',
-      ville: immersion?.ville ?? '',
-      address: immersion?.address ?? '',
-      explanationLabel: immersion != null ? _explanationLabel(immersion) : '',
-      contactLabel: immersion != null ? _contactLabel(immersion) : '',
-      contactInformation: immersion != null ? _contactInformation(immersion) : '',
-      withMainCallToAction: mainCallToAction != null,
-      withSecondaryCallToActions: secondaryCallToActions.isNotEmpty,
-      mainCallToAction: mainCallToAction,
-      secondaryCallToActions: secondaryCallToActions,
-      onRetry: (immersionId) => store.dispatch(ImmersionDetailsAction.request(immersionId)),
-    );
+    if (state.isSuccess()) {
+      final immersionDetails = state.getResultOrThrow();
+      final mainCallToAction = _mainCallToAction(immersionDetails, platform);
+      final secondaryCallToActions = _secondaryCallToActions(immersionDetails, platform);
+      return _successViewModel(state, immersionDetails, mainCallToAction, secondaryCallToActions, store);
+    } else if (state is ImmersionDetailsIncompleteDataState) {
+      final immersion = state.immersion;
+      return _incompleteViewModel(immersion, store);
+    } else {
+      return _otherCasesViewModel(state, store);
+    }
   }
 
   @override
   List<Object?> get props => [
         displayState,
+        id,
         title,
         companyName,
         secteurActivite,
@@ -80,6 +77,60 @@ class ImmersionDetailsViewModel extends Equatable {
         contactLabel,
         contactInformation,
       ];
+}
+
+ImmersionDetailsPageDisplayState _displayState(State<ImmersionDetails> offreEmploiDetailsState) {
+  if (offreEmploiDetailsState.isSuccess()) {
+    return ImmersionDetailsPageDisplayState.SHOW_DETAILS;
+  } else if (offreEmploiDetailsState.isLoading()) {
+    return ImmersionDetailsPageDisplayState.SHOW_LOADER;
+  } else {
+    return ImmersionDetailsPageDisplayState.SHOW_ERROR;
+  }
+}
+
+ImmersionDetailsViewModel _successViewModel(State<ImmersionDetails> state, ImmersionDetails immersionDetails,
+    CallToAction? mainCallToAction, List<CallToAction> secondaryCallToActions, Store<AppState> store) {
+  return ImmersionDetailsViewModel._(
+    displayState: _displayState(state),
+    id: immersionDetails.id,
+    title: immersionDetails.metier,
+    companyName: immersionDetails.companyName,
+    secteurActivite: immersionDetails.secteurActivite,
+    ville: immersionDetails.ville,
+    address: immersionDetails.address,
+    explanationLabel: _explanationLabel(immersionDetails),
+    contactLabel: _contactLabel(immersionDetails),
+    contactInformation: _contactInformation(immersionDetails),
+    withSecondaryCallToActions: secondaryCallToActions.isNotEmpty,
+    mainCallToAction: mainCallToAction,
+    secondaryCallToActions: secondaryCallToActions,
+    onRetry: (immersionId) => _retry(store, immersionId),
+  );
+}
+
+ImmersionDetailsViewModel _incompleteViewModel(Immersion immersion, Store<AppState> store) {
+  return ImmersionDetailsViewModel._(
+    displayState: ImmersionDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS,
+    id: immersion.id,
+    title: immersion.metier,
+    companyName: immersion.nomEtablissement,
+    secteurActivite: immersion.secteurActivite,
+    ville: immersion.ville,
+    onRetry: (immersionId) => _retry(store, immersionId),
+  );
+}
+
+ImmersionDetailsViewModel _otherCasesViewModel(State<ImmersionDetails> state, Store<AppState> store) {
+  return ImmersionDetailsViewModel._(
+    displayState: _displayState(state),
+    id: "",
+    title: "",
+    companyName: "",
+    secteurActivite: "",
+    ville: "",
+    onRetry: (immersionId) => _retry(store, immersionId),
+  );
 }
 
 String _explanationLabel(ImmersionDetails immersion) {
@@ -125,42 +176,40 @@ String _contactInformation(ImmersionDetails immersion) {
   return contactInformation;
 }
 
-CallToAction? _mainCallToAction(ImmersionDetails immersion, Platform platform) {
+CallToAction _mainCallToAction(ImmersionDetails immersion, Platform platform) {
   final contact = immersion.contact;
-  if (contact != null) {
-    if (contact.mode == ImmersionContactMode.INCONNU && contact.phone.isNotEmpty) {
-      return CallToAction(
-        Strings.immersionPhoneButton,
-        UriHandler().phoneUri(contact.phone),
-        EventType.OFFRE_IMMERSION_APPEL,
-      );
-    } else if (contact.mode == ImmersionContactMode.PHONE) {
-      return CallToAction(
-        Strings.immersionPhoneButton,
-        UriHandler().phoneUri(contact.phone),
-        EventType.OFFRE_IMMERSION_APPEL,
-      );
-    } else if (contact.mode == ImmersionContactMode.MAIL) {
-      return CallToAction(
-        Strings.immersionEmailButton,
-        UriHandler().mailUri(to: contact.mail, subject: Strings.immersionEmailSubject),
-        EventType.OFFRE_IMMERSION_ENVOI_EMAIL,
-      );
-    } else if (contact.mode == ImmersionContactMode.PRESENTIEL) {
-      return CallToAction(
-        Strings.immersionLocationButton,
-        UriHandler().mapsUri(immersion.address, platform),
-        EventType.OFFRE_IMMERSION_LOCALISATION,
-      );
-    }
+  if (contact != null && contact.mode == ImmersionContactMode.INCONNU && contact.phone.isNotEmpty) {
+    return CallToAction(
+      Strings.immersionPhoneButton,
+      UriHandler().phoneUri(contact.phone),
+      EventType.OFFRE_IMMERSION_APPEL,
+    );
+  } else if (contact != null && contact.mode == ImmersionContactMode.PHONE) {
+    return CallToAction(
+      Strings.immersionPhoneButton,
+      UriHandler().phoneUri(contact.phone),
+      EventType.OFFRE_IMMERSION_APPEL,
+    );
+  } else if (contact != null && contact.mode == ImmersionContactMode.MAIL) {
+    return CallToAction(
+      Strings.immersionEmailButton,
+      UriHandler().mailUri(to: contact.mail, subject: Strings.immersionEmailSubject),
+      EventType.OFFRE_IMMERSION_ENVOI_EMAIL,
+    );
+  } else {
+    return CallToAction(
+      Strings.immersionLocationButton,
+      UriHandler().mapsUri(immersion.address, platform),
+      EventType.OFFRE_IMMERSION_LOCALISATION,
+    );
   }
-  return null;
 }
 
 List<CallToAction> _secondaryCallToActions(ImmersionDetails immersion, Platform platform) {
   final mode = immersion.contact?.mode;
   if (mode == null || mode == ImmersionContactMode.INCONNU) {
     final mail = immersion.contact?.mail;
+    final phone = immersion.contact?.phone;
     return [
       if (mail != null && mail.isNotEmpty)
         CallToAction(
@@ -169,13 +218,16 @@ List<CallToAction> _secondaryCallToActions(ImmersionDetails immersion, Platform 
           EventType.OFFRE_IMMERSION_ENVOI_EMAIL,
           drawableRes: Drawables.icMail,
         ),
-      CallToAction(
-        Strings.immersionLocationButton,
-        UriHandler().mapsUri(immersion.address, platform),
-        EventType.OFFRE_IMMERSION_LOCALISATION,
-      ),
+      if (phone != null && phone.isNotEmpty)
+        CallToAction(
+          Strings.immersionLocationButton,
+          UriHandler().mapsUri(immersion.address, platform),
+          EventType.OFFRE_IMMERSION_LOCALISATION,
+        ),
     ];
   } else {
     return [];
   }
 }
+
+void _retry(Store store, String immersionId) => store.dispatch(ImmersionDetailsAction.request(immersionId));

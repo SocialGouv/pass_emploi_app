@@ -6,46 +6,47 @@ main() {
   group("_getMetiers should return ...", () {
     final MetierRepository repository = MetierRepository();
 
-    test("filtered list of metier when user input matches metier libelle", () {
-      expect(repository.getMetiers("Dessin BTP et paysage"), _matchesBtpEtPaysageMetier());
+    test("filtered list of metier when user input matches metier libelle", () async {
+      matchesBtpEtPaysageMetier(await repository.getMetiers("Dessin BTP et paysage"));
     });
 
-    test("filtered list of metier when user input has different cases in the metier name", () {
-      expect(repository.getMetiers("dessin btp et paysage"), _matchesBtpEtPaysageMetier());
-      expect(repository.getMetiers("DESSIN BTP ET PAYSAGE"), _matchesBtpEtPaysageMetier());
-      expect(repository.getMetiers("DeSSin BTP eT paYSAgE"), _matchesBtpEtPaysageMetier());
+    test("filtered list of metier when user input has different cases in the metier name", () async {
+      matchesBtpEtPaysageMetier(await repository.getMetiers("dessin btp et paysage"));
+      matchesBtpEtPaysageMetier(await repository.getMetiers("DESSIN BTP ET PAYSAGE"));
+      matchesBtpEtPaysageMetier(await repository.getMetiers("DeSSin BTP eT paYSAgE"));
     });
 
-    test("filtered list of metier when user input not complete", () {
-      expect(repository.getMetiers("paysage"), _matchesBtpEtPaysageMetiers());
+    test("filtered list of metier when user input not complete", () async {
+      expect((await repository.getMetiers("paysage")).length, 6);
     });
 
-    test("empty list when user input is empty", () {
-      expect(repository.getMetiers(""), []);
+    test("empty list when user input is empty", () async {
+      expect(await repository.getMetiers(""), []);
     });
 
-    test("empty list when user input contains only one character", () {
-      expect(repository.getMetiers("d"), []);
+    test("empty list when user input contains only one character", () async {
+      expect(await repository.getMetiers("d"), []);
     });
 
-    test("filtered list of metier when user input contains diacritics in the department name", () {
-      expect(repository.getMetiers("hôtellerie"), _matchesHotellerieMetiers());
-      expect(repository.getMetiers("hotellerie"), _matchesHotellerieMetiers());
+    test("filtered list of metier when user input contains diacritics in the department name", () async {
+      expect((await repository.getMetiers("hôtellerie")).length, 28);
+      expect((await repository.getMetiers("hotellerie")).length, 28);
     });
 
-    test("filtered list of metier when user input contains spaces in the department name", () {
-      expect(repository.getMetiers("Expertise technique couleur en industrie"),
-          Metier.values.where((m) => m.codeRome == "H1201"));
-      expect(repository.getMetiers("Personnel d attractions"), Metier.values.where((m) => m.codeRome == "G1205"));
-      expect(repository.getMetiers("           Chaudronnerie    tôlerie   "),
-          Metier.values.where((m) => m.codeRome == "H2902"));
+    test("filtered list of metier when user input contains spaces in the department name", () async {
+      expect((await repository.getMetiers("Expertise technique couleur en industrie")).length, 1);
+      expect((await repository.getMetiers("Expertise technique couleur en industrie")).first.codeRome, "H1201");
+
+      expect((await repository.getMetiers("Personnel d attractions")).length, 1);
+      expect((await repository.getMetiers("Personnel d attractions")).first.codeRome, "G1205");
+
+      expect((await repository.getMetiers("           Chaudronnerie    tôlerie   ")).length, 2);
+      expect((await repository.getMetiers("           Chaudronnerie    tôlerie   ")).first.codeRome, "H2902");
     });
   });
 }
 
-Iterable<Metier> _matchesHotellerieMetiers() =>
-    Metier.values.where((m) => ["G1502", "G1701", "G1703"].contains(m.codeRome));
-
-Iterable<Metier> _matchesBtpEtPaysageMetier() => Metier.values.where((m) => m.codeRome == "F1104");
-
-Iterable<Metier> _matchesBtpEtPaysageMetiers() => Metier.values.where((m) => ["F1104", "F1101", "F1201"].contains(m.codeRome));
+void matchesBtpEtPaysageMetier(Iterable<Metier> value) {
+  expect(value.length, 1);
+  expect(value.first.codeRome, "F1104");
+}

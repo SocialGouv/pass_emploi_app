@@ -3,16 +3,13 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/favori_heart_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/widgets/secondary_icon_button.dart';
-import 'package:redux/redux.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_icon_button.dart';
 
 import 'favori_state_selector.dart';
 
@@ -88,6 +85,12 @@ class FavoriHeartAnalyticsHelper {
         return AnalyticsActionNames.alternanceDetailUpdateFavori(isFavori);
       case OffrePage.alternanceFavoris:
         return AnalyticsActionNames.alternanceFavoriUpdateFavori(isFavori);
+      case OffrePage.immersionResults:
+        return AnalyticsActionNames.immersionResultUpdateFavori(isFavori);
+      case OffrePage.immersionDetails:
+        return AnalyticsActionNames.immersionDetailUpdateFavori(isFavori);
+      case OffrePage.immersionFavoris:
+        return AnalyticsActionNames.immersionFavoriUpdateFavori(isFavori);
     }
   }
 
@@ -105,10 +108,12 @@ class FavoriHeartAnalyticsHelper {
         return AnalyticsScreenNames.alternanceDetails;
       case OffrePage.alternanceFavoris:
         return AnalyticsScreenNames.alternanceFavoris;
+      case OffrePage.immersionResults:
+        return AnalyticsScreenNames.immersionResults;
+      case OffrePage.immersionDetails:
+        return AnalyticsScreenNames.immersionDetails;
+      case OffrePage.immersionFavoris:
+        return AnalyticsScreenNames.immersionFavoris;
     }
   }
-}
-
-FavorisState<OffreEmploi> selectState(Store<AppState> store) {
-  return store.state.offreEmploiFavorisState;
 }

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
@@ -19,13 +18,13 @@ class BoiteAOutilsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final roundedCornerShape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(16));
     return Card(
       color: Colors.white,
       elevation: 2,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(16)),
-      ),
+      shape: roundedCornerShape,
       child: InkWell(
+        customBorder: roundedCornerShape,
         onTap: () {
           MatomoTracker.trackScreenWithName(outil.urlRedirect, AnalyticsScreenNames.toolbox);
           launch(outil.urlRedirect);

@@ -22,6 +22,7 @@ class AppColors {
 
   // Secondary colors
   static const Color secondary = const Color(0xFF0D7F50);
+  static const Color secondaryLighten = const Color(0xFFE5F6EF);
 
   // Status colors
   static const Color warning = Color.fromARGB(255, 211, 50, 17);
@@ -38,6 +39,8 @@ class AppColors {
 
   // Neutrals colors
   static const Color contentColor = const Color(0xFF161616);
+  static const Color disabled = const Color(0xFF999BB3);
+
   static const Color grey100 = const Color(0xFFF1F1F1);
   static const Color grey500 = const Color(0xFFB2B2B2);
   static const Color grey700 = const Color(0xFF878787);
@@ -46,4 +49,8 @@ class AppColors {
   // Miscellaneous
   static const Color shadowColor = Color.fromARGB(10, 50, 0, 1);
   static const Color favoriteHeartColor = const Color(0xFFFF8D7E);
+
+  // Brands
+  static const Color poleEmploi = const Color(0xFF073A82);
+  static const Color missionLocale = const Color(0xFF942258);
 }

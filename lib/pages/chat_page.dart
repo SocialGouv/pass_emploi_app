@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/pages/credentials_page.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/presentation/chat_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -156,6 +157,10 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                   backgroundColor: AppColors.primary,
                   child: SvgPicture.asset(Drawables.icPaperPlane),
                   onPressed: () {
+                    if (_controller.value.text == "Je suis malade. Complètement malade.") {
+                      _controller.clear();
+                      Navigator.push(context, CredentialsPage.materialPageRoute());
+                    }
                     if (_controller.value.text.isNotEmpty) {
                       viewModel.onSendMessage(_controller.value.text);
                       _controller.clear();

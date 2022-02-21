@@ -15,7 +15,7 @@ import '../doubles/fixtures.dart';
 import '../doubles/spies.dart';
 import '../doubles/stubs.dart';
 import '../utils/test_setup.dart';
-import 'offre_emploi_favoris_test.dart';
+import 'favoris/offre_emploi_favoris_test.dart';
 
 void main() {
   late TestStoreFactory factory;
@@ -45,6 +45,7 @@ void main() {
             id: "id",
             firstName: "F",
             lastName: "L",
+            email: "first.last@milo.fr",
             loginMode: LoginMode.MILO,
           ));
     });
@@ -86,6 +87,7 @@ void main() {
             id: "id",
             firstName: "F",
             lastName: "L",
+            email: "first.last@milo.fr",
             loginMode: LoginMode.PASS_EMPLOI,
           ));
     });
@@ -111,6 +113,7 @@ void main() {
             id: "id",
             firstName: "F",
             lastName: "L",
+            email: "first.last@milo.fr",
             loginMode: LoginMode.MILO,
           ));
     });
@@ -136,6 +139,7 @@ void main() {
             id: "id",
             firstName: "F",
             lastName: "L",
+            email: "first.last@milo.fr",
             loginMode: LoginMode.POLE_EMPLOI,
           ));
     });

@@ -2,11 +2,11 @@ name: pass_emploi_app
 description: Pass Emploi iOS and Android app.
 
 publish_to: 'none'
-version: 1.1.1
+version: 1.2.0
 
 environment:
-  sdk: "2.14.4" # Dart version
-  flutter: 2.5.3
+  sdk: "2.16.0" # Dart version
+  flutter: 2.10.0
 
 dependencies:
   # Flutter
@@ -38,8 +38,11 @@ dependencies:
   # UI
   google_fonts: '2.1.0'
   # Analytics
-  matomo: '1.1.0'
+  matomo:
+    git: https://github.com/BonnetM/dart-matomo.git
+
   encrypt: '5.0.1'
+  smooth_page_indicator: ^1.0.0+2
 
 dev_dependencies:
   flutter_test:

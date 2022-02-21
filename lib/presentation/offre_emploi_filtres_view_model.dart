@@ -73,13 +73,7 @@ class OffreEmploiFiltresViewModel extends Equatable {
 }
 
 String _errorMessage(OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
-  if (searchState is OffreEmploiSearchSuccessState && searchResultsState is OffreEmploiSearchResultsDataState) {
-    return searchResultsState.offres.isNotEmpty ? "" : Strings.noContentError;
-  } else if (searchState is OffreEmploiSearchFailureState) {
-    return Strings.genericError;
-  } else {
-    return "";
-  }
+  return searchState is OffreEmploiSearchFailureState ? Strings.genericError : "";
 }
 
 List<CheckboxValueViewModel<DureeFiltre>> _duree(OffreEmploiSearchParametersState parametersState) {
@@ -159,7 +153,7 @@ bool _shouldDisplayNonDistanceFiltres(OffreEmploiSearchParametersState parameter
 
 DisplayState _displayState(OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
   if (searchState is OffreEmploiSearchSuccessState && searchResultsState is OffreEmploiSearchResultsDataState) {
-    return searchResultsState.offres.isNotEmpty ? DisplayState.CONTENT : DisplayState.EMPTY;
+    return DisplayState.CONTENT;
   } else if (searchState is OffreEmploiSearchLoadingState) {
     return DisplayState.LOADING;
   } else {

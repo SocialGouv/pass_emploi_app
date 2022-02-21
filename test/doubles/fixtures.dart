@@ -15,20 +15,23 @@ User mockUser({id: ""}) => User(
       id: id,
       firstName: "",
       lastName: "",
+      email: "",
       loginMode: LoginMode.MILO,
     );
 
 State<User> successMiloUserState() => State<User>.success(User(
-      id: "id",
+  id: "id",
       firstName: "F",
       lastName: "L",
+      email: "first.last@milo.fr",
       loginMode: LoginMode.MILO,
     ));
 
 State<User> successPoleEmploiUserState() => State<User>.success(User(
-      id: "id",
+  id: "id",
       firstName: "F",
       lastName: "L",
+      email: "first.last@pole-emploi.fr",
       loginMode: LoginMode.POLE_EMPLOI,
     ));
 
@@ -36,6 +39,7 @@ State<User> successPassEmploiUserState() => State<User>.success(User(
       id: "id",
       firstName: "F",
       lastName: "L",
+      email: null,
       loginMode: LoginMode.PASS_EMPLOI,
     ));
 
@@ -127,4 +131,5 @@ Location mockLocation() => Location(libelle: "", code: "", type: LocationType.DE
 
 Location mockCommuneLocation() => Location(libelle: "", code: "", type: LocationType.COMMUNE);
 
-Immersion mockImmersion() => Immersion(id: "", metier: "", nomEtablissement: "", secteurActivite: "", ville: "");
+Immersion mockImmersion({id = ""}) =>
+    Immersion(id: id, metier: "", nomEtablissement: "", secteurActivite: "", ville: "");

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_filtres_page.dart';
@@ -11,20 +12,27 @@ import 'package:pass_emploi_app/presentation/offre_emploi_search_results_view_mo
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/data_card.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/offre_emploi_saved_search_bottom_sheet.dart';
+import 'package:pass_emploi_app/widgets/buttons/filtre_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
+import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/empty_offre_widget.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
-import 'package:pass_emploi_app/widgets/filter_button.dart';
 
 import 'offre_page.dart';
 
 class OffreEmploiListPage extends TraceableStatefulWidget {
   final bool onlyAlternance;
+  final bool fromSavedSearch;
 
-  OffreEmploiListPage({required this.onlyAlternance})
+  OffreEmploiListPage({required this.onlyAlternance, this.fromSavedSearch = false})
       : super(name: onlyAlternance ? AnalyticsScreenNames.alternanceResults : AnalyticsScreenNames.emploiResults);
 
   @override
@@ -62,7 +70,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
       onInitialBuild: (viewModel) => _currentViewModel = viewModel,
       builder: (context, viewModel) => FavorisStateContext<OffreEmploi>(
         selectState: (store) => store.state.offreEmploiFavorisState,
-        child: _scaffold(context, viewModel),
+        child: _scaffold(_body(context, viewModel)),
       ),
       onDidChange: (previousViewModel, viewModel) {
         _currentViewModel = viewModel;
@@ -74,27 +82,90 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     );
   }
 
-  Widget _scaffold(BuildContext context, OffreEmploiSearchResultsViewModel viewModel) {
+  Widget _scaffold(Widget body) {
     return Scaffold(
       backgroundColor: AppColors.grey100,
       appBar: passEmploiAppBar(
-          label: widget.onlyAlternance ? Strings.alternanceTitle : Strings.offresEmploiTitle, withBackButton: true),
-      body: Stack(children: [
-        if (viewModel.displayState == DisplayState.CONTENT || viewModel.displayState == DisplayState.LOADING)
-          ListView.separated(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-              controller: _scrollController,
-              itemBuilder: (context, index) => _buildItem(context, index, viewModel),
-              separatorBuilder: (context, index) => _listSeparator(),
-              itemCount: _itemCount(viewModel))
-        else if (viewModel.displayState == DisplayState.EMPTY || viewModel.displayState == DisplayState.FAILURE)
-          Center(child: Text(viewModel.errorMessage, style: TextStyles.textSmRegular())),
+        label: widget.onlyAlternance ? Strings.alternanceTitle : Strings.offresEmploiTitle,
+        withBackButton: true,
+      ),
+      body: body,
+    );
+  }
+
+  Widget _body(BuildContext context, OffreEmploiSearchResultsViewModel viewModel) {
+    switch (viewModel.displayState) {
+      case DisplayState.CONTENT:
+      case DisplayState.LOADING:
+        return _content(context, viewModel);
+      case DisplayState.EMPTY:
+        return _empty(context, viewModel);
+      case DisplayState.FAILURE:
+        return _error(viewModel);
+    }
+  }
+
+  Widget _content(BuildContext context, OffreEmploiSearchResultsViewModel viewModel) {
+    return Stack(children: [
+      ListView.separated(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+        controller: _scrollController,
+        itemBuilder: (context, index) => _buildItem(context, index, viewModel),
+        separatorBuilder: (context, index) => _listSeparator(),
+        itemCount: _itemCount(viewModel),
+      ),
+      Align(
+        alignment: Alignment.bottomCenter,
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 24),
+          child: Wrap(
+            alignment: WrapAlignment.center,
+            spacing: 16,
+            runSpacing: 16,
+            children: [
+              _alertPrimaryButton(viewModel),
+              if (viewModel.withFiltreButton) _filtrePrimaryButton(viewModel),
+            ],
+          ),
+        ),
+      ),
+    ]);
+  }
+
+  Widget _empty(BuildContext context, OffreEmploiSearchResultsViewModel viewModel) {
+    _trackEmptyResult();
+    return EmptyOffreWidget(
+      withModifyButton: !widget.fromSavedSearch,
+      additional: Padding(
+        padding: const EdgeInsets.only(top: Margins.spacing_base),
+        child: widget.fromSavedSearch
+            ? Container()
+            : Column(
+                children: [
+                  Wrap(
+                    spacing: 16,
+                    runSpacing: 16,
+                    children: [
+                      _alertSecondaryButton(viewModel),
+                      if (viewModel.withFiltreButton) _filtreSecondaryButton(viewModel),
+                    ],
+                  ),
+                ],
+              ),
+      ),
+    );
+  }
+
+  Widget _error(OffreEmploiSearchResultsViewModel viewModel) {
+    return Stack(
+      children: [
+        Center(child: Text(viewModel.errorMessage, style: TextStyles.textSmRegular())),
         if (viewModel.withFiltreButton)
           Align(
             alignment: Alignment.bottomCenter,
-            child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _filtreButton(viewModel)),
+            child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _filtrePrimaryButton(viewModel)),
           ),
-      ]),
+      ],
     );
   }
 
@@ -148,8 +219,9 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
             style: TextStyles.textSRegular(),
           ),
           TextButton(
-              onPressed: () => _currentViewModel?.onLoadMore(),
-              child: Text(Strings.retry, style: TextStyles.textBaseBold)),
+            onPressed: () => _currentViewModel?.onLoadMore(),
+            child: Text(Strings.retry, style: TextStyles.textBaseBold),
+          ),
         ],
       ),
     );
@@ -166,8 +238,10 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
 
   void _showOffreEmploiDetailsPage(BuildContext context, String offreId) {
     _offsetBeforeLoading = _scrollController.offset;
-    Navigator.push(context, OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: widget.onlyAlternance))
-        .then((value) => _scrollController.jumpTo(_offsetBeforeLoading));
+    widget
+        .pushAndTrackBack(
+            context, OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: widget.onlyAlternance))
+        .then((_) => _scrollController.jumpTo(_offsetBeforeLoading));
   }
 
   int _itemCount(OffreEmploiSearchResultsViewModel viewModel) {
@@ -177,18 +251,62 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
       return viewModel.items.length;
   }
 
-  Widget _filtreButton(OffreEmploiSearchResultsViewModel viewModel) {
-    return FilterButton(
+  Widget _filtrePrimaryButton(OffreEmploiSearchResultsViewModel viewModel) {
+    return FiltreButton.primary(
       filtresCount: viewModel.filtresCount,
-      onPressed: () => Navigator.push(
-        context,
-        OffreEmploiFiltresPage.materialPageRoute(widget.onlyAlternance),
-      ).then((value) {
-        if (value == true) {
-          _offsetBeforeLoading = 0;
-          if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
-        }
-      }),
+      onPressed: () => _onFiltreButtonPressed(),
+    );
+  }
+
+  Widget _filtreSecondaryButton(OffreEmploiSearchResultsViewModel viewModel) {
+    return FiltreButton.secondary(
+      filtresCount: viewModel.filtresCount,
+      onPressed: () => _onFiltreButtonPressed(),
+    );
+  }
+
+  Future<void> _onFiltreButtonPressed() {
+    return widget
+        .pushAndTrackBack(context, OffreEmploiFiltresPage.materialPageRoute(widget.onlyAlternance))
+        .then((value) {
+      if (value == true) {
+        _offsetBeforeLoading = 0;
+        if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
+      }
+    });
+  }
+
+  void _trackEmptyResult() {
+    MatomoTracker.trackScreenWithName(
+      widget.onlyAlternance ? AnalyticsScreenNames.alternanceNoResults : AnalyticsScreenNames.emploiNoResults,
+      widget.onlyAlternance ? AnalyticsScreenNames.alternanceResearch : AnalyticsScreenNames.emploiResearch,
+    );
+  }
+
+  Widget _alertPrimaryButton(OffreEmploiSearchResultsViewModel viewModel) {
+    return PrimaryActionButton(
+      label: Strings.createAlert,
+      drawableRes: Drawables.icAlert,
+      rippleColor: AppColors.primaryDarken,
+      heightPadding: 6,
+      widthPadding: 6,
+      iconSize: 16,
+      onPressed: () => _onAlertButtonPressed(),
+    );
+  }
+
+  Widget _alertSecondaryButton(OffreEmploiSearchResultsViewModel viewModel) {
+    return SecondaryButton(
+      label: Strings.createAlert,
+      drawableRes: Drawables.icAlert,
+      onPressed: () => _onAlertButtonPressed(),
+    );
+  }
+
+  void _onAlertButtonPressed() {
+    showPassEmploiBottomSheet(
+      context: context,
+      builder: (context) => OffreEmploiSavedSearchBottomSheet(onlyAlternance: widget.onlyAlternance),
     );
   }
 }

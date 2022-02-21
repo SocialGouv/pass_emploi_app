@@ -23,8 +23,8 @@ void main() {
     final offre = await repository.getOffreEmploiDetails(offreId: "ID");
 
     // Then
-    expect(offre.offreEmploiDetails, isNotNull);
-    expect(offre.offreEmploiDetails, mockOffreEmploiDetails());
+    expect(offre.details, isNotNull);
+    expect(offre.details, mockOffreEmploiDetails());
     expect(offre.isGenericFailure, isFalse);
     expect(offre.isOffreNotFound, isFalse);
   });
@@ -38,12 +38,12 @@ void main() {
     final offre = await repository.getOffreEmploiDetails(offreId: "ID");
 
     // Then
-    expect(offre.offreEmploiDetails, isNull);
+    expect(offre.details, isNull);
     expect(offre.isGenericFailure, isFalse);
     expect(offre.isOffreNotFound, isTrue);
   });
 
-  test('getOffreEmploiDetails when response throws exception flag response as generic failure', () async {
+  test('getOffreEmploiDetails when response throws exception should flag response as generic failure', () async {
     // Given
     final httpClient = MockClient((request) async => throw Exception());
     final repository = OffreEmploiDetailsRepository("BASE_URL", httpClient, HeadersBuilderStub());
@@ -52,7 +52,7 @@ void main() {
     final offre = await repository.getOffreEmploiDetails(offreId: "ID");
 
     // Then
-    expect(offre.offreEmploiDetails, isNull);
+    expect(offre.details, isNull);
     expect(offre.isGenericFailure, isTrue);
     expect(offre.isOffreNotFound, isFalse);
   });

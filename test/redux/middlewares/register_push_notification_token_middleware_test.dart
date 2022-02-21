@@ -38,6 +38,7 @@ void main() {
       id: "1",
       firstName: "first-name",
       lastName: "last-name",
+      email: null,
       loginMode: LoginMode.MILO,
     );
     final action = LoginAction.success(user);

@@ -63,7 +63,7 @@ class TextStyles {
 
   static final textPrimaryButton = TextStyle(
     color: Colors.white,
-    fontSize: FontSizes.normal,
+    fontSize: FontSizes.medium,
     fontWeight: FontWeight.w700,
     fontFamily: 'Marianne',
   );
@@ -79,7 +79,7 @@ class TextStyles {
   static final internalLink = TextStyle(
     color: AppColors.primary,
     fontSize: FontSizes.medium,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w400,
     fontFamily: 'Marianne',
     decoration: TextDecoration.underline,
   );
@@ -102,6 +102,13 @@ class TextStyles {
     color: AppColors.contentColor,
     fontFamily: 'Marianne',
     fontSize: FontSizes.medium,
+    fontWeight: FontWeight.w400,
+  );
+
+  static final textMRegular = TextStyle(
+    color: AppColors.contentColor,
+    fontFamily: 'Marianne',
+    fontSize: FontSizes.semi,
     fontWeight: FontWeight.w400,
   );
 
@@ -129,7 +136,7 @@ class TextStyles {
   }
 
   static final textAppBar = TextStyle(
-    color: AppColors.contentColor,
+    color: AppColors.primary,
     fontFamily: 'Marianne',
     fontSize: FontSizes.semi,
     fontWeight: FontWeight.w700,

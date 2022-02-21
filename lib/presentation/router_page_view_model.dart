@@ -56,5 +56,9 @@ MainPageDisplayState _toMainPageDisplayStateByDeepLink(DeepLinkState deepLinkSta
       return MainPageDisplayState.ACTIONS_TAB;
     case DeepLink.NOT_SET:
       return MainPageDisplayState.DEFAULT;
+    case DeepLink.SAVED_SEARCH_RESULTS:
+      return MainPageDisplayState.SAVED_SEARCH;
+    case DeepLink.USED:
+      return MainPageDisplayState.DEFAULT;
   }
 }

@@ -3,6 +3,7 @@ class Drawables {
 
   static String _assets = "assets/";
   static String _svg = ".svg";
+  static String _png = ".png";
   static String icLogo = _assets + "ic_logo" + _svg;
   static String icMenuHome = _assets + "ic_menu_home" + _svg;
   static String icMenuAction = _assets + "ic_menu_action" + _svg;
@@ -36,4 +37,21 @@ class Drawables {
   static String icNoContent = _assets + "ic_no_content" + _svg;
   static String icChevronLeft = _assets + "chevron_left" + _svg;
   static String icLaunch = _assets + "launch" + _svg;
+  static String icDoneCircle = _assets + "ic_done_circle" + _svg;
+  static String icDone = _assets + "ic_done" + _svg;
+  static String icEuro = _assets + "ic_euro" + _svg;
+  static String icFlash = _assets + "ic_flash" + _svg;
+  static String icOnboardingChat = _assets + "ic_onboarding_chat" + _svg;
+  static String icSearch = _assets + "ic_search" + _svg;
+  static String icPeople = _assets + "ic_people" + _svg;
+  static String puzzle = _assets + "puzzle" + _svg;
+
+  static String cejAppLogo = _assets + "logo_app_cej" + _svg;
+  static String icAlert = _assets + "ic_alert" + _svg;
+  static String icUnJeuneUneSolution = _assets + "logo_1jeune1solution_light" + _svg;
+  static String jeuneEntree = _assets + "jeune_home" + _png;
+  static String conversation = _assets + "conversation" + _svg;
+  static String icEmptyOffres = _assets + "ic_empty_offres" + _svg;
+  static String icTrash = _assets + "ic_trash" + _svg;
+  static String icTrashAlert = _assets + "ic_trash_alert" + _svg;
 }

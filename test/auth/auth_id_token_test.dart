@@ -21,6 +21,7 @@ void _assertIsValid(int expiresAt, bool expected) {
       userId: "",
       lastName: "",
       firstName: "",
+      email: "",
       expiresAt: expiresAt,
       loginMode: 'MILO',
     ).isValid(),

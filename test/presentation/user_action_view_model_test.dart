@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
@@ -84,8 +83,8 @@ main() {
         viewModel.tag,
         UserActionTagViewModel(
           title: Strings.actionToDo,
-          backgroundColor: AppColors.blueGrey,
-          textColor: AppColors.nightBlue,
+          backgroundColor: AppColors.accent1Lighten,
+          textColor: AppColors.accent1,
         ));
   });
 
@@ -109,8 +108,8 @@ main() {
         viewModel.tag,
         UserActionTagViewModel(
           title: Strings.actionInProgress,
-          backgroundColor: AppColors.purple,
-          textColor: Colors.white,
+          backgroundColor: AppColors.accent3Lighten,
+          textColor: AppColors.accent3,
         ));
   });
 

@@ -62,7 +62,8 @@ ios/StagingOptionsPlist.plist
 ios/ProdOptionsPlist.plist
 ios/StagingExportOptions.plist
 ios/ProdExportOptions.plist
-ios/cert.p12
+ios/*.p12
+ios/*.p8
 
 *.mobileprovision
 
@@ -70,4 +71,5 @@ ios/cert.p12
 env/.env.staging
 env/.env.prod
 env/.env.local
-ci/env.ci
+ci/*.ci
+env/.env.audit

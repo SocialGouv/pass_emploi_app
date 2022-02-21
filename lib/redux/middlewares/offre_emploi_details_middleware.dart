@@ -18,15 +18,15 @@ class OffreEmploiDetailsMiddleware extends MiddlewareClass<AppState> {
       final offreId = action.getRequestOrThrow();
       store.dispatch(OffreEmploiDetailsAction.loading());
       final result = await _repository.getOffreEmploiDetails(offreId: offreId);
-      if (result.offreEmploiDetails != null) {
-        store.dispatch(OffreEmploiDetailsAction.success(result.offreEmploiDetails!));
+      if (result.details != null) {
+        store.dispatch(OffreEmploiDetailsAction.success(result.details!));
       } else {
         _dispatchIncompleteDataOrError(store, result, offreId);
       }
     }
   }
 
-  void _dispatchIncompleteDataOrError(Store<AppState> store, OffreEmploiDetailsResponse result, String offreId) {
+  void _dispatchIncompleteDataOrError(Store<AppState> store, OffreDetailsResponse result, String offreId) {
     var favorisState = store.state.offreEmploiFavorisState;
     if (result.isOffreNotFound &&
         favorisState is FavorisLoadedState<OffreEmploi> &&

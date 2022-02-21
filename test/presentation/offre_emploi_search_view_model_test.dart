@@ -49,7 +49,9 @@ main() {
     expect(viewModel.errorMessage, "Erreur lors de la recherche. Veuillez réessayer");
   });
 
-  test("create when state is success but empty should set display state properly", () {
+  test(
+      "create when state is success but empty should set display content (empty content is directly handled by result page)",
+      () {
     // Given
     final store = Store<AppState>(
       reducer,
@@ -64,8 +66,8 @@ main() {
     final viewModel = OffreEmploiSearchViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, DisplayState.EMPTY);
-    expect(viewModel.errorMessage, "Aucune offre ne correspond à votre recherche");
+    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.errorMessage, '');
   });
 
   test("create when state is success and not empty should set display state properly", () {
