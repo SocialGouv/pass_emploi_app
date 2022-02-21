@@ -5,8 +5,6 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
-import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
-import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/redux/middlewares/action_logging_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/chat_initializer_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/chat_middleware.dart';
@@ -18,9 +16,9 @@ import 'package:pass_emploi_app/redux/middlewares/login_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_details_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/offre_emploi_saved_search_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/saved_search/saved_search_delete_middleware.dart';
-import 'package:pass_emploi_app/redux/middlewares/saved_search_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/search_location_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/search_metier_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/tracking_event_middleware.dart';
@@ -49,6 +47,7 @@ import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_r
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart' as redux;
 
+import '../middlewares/immersion_saved_search_middleware.dart';
 import '../middlewares/initialize_saved_search_middleware.dart';
 import '../middlewares/saved_search/saved_search_middleware.dart';
 import '../middlewares/saved_search/saved_searchs_list_request_middleware.dart';
@@ -126,8 +125,8 @@ class StoreFactory {
         Middleware<void, List<Rendezvous>>(rendezvousRepository),
         Middleware<ImmersionRequest, List<Immersion>>(immersionRepository),
         ImmersionDetailsMiddleware(immersionDetailsRepository),
-        SavedSearchMiddleware<OffreEmploiSavedSearch>(offreEmploiSavedSearchRepository),
-        SavedSearchMiddleware<ImmersionSavedSearch>(immersionSavedSearchRepository),
+        OffreEmploiSavedSearchMiddleware(offreEmploiSavedSearchRepository),
+        ImmersionSavedSearchMiddleware(immersionSavedSearchRepository),
         InitializeSavedSearchMiddleware(),
         SavedSearchListRequestMiddleware(getSavedSearchRepository),
         GetSavedSearchMiddleware(getSavedSearchRepository),

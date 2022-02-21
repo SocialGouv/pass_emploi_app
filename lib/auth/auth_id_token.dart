@@ -31,7 +31,7 @@ class AuthIdToken extends Equatable {
           base64Url.normalize(parts[1]),
         ),
       ),
-    );
+    ) as Map<String, dynamic>;
     return AuthIdToken._fromJson(json);
   }
 
