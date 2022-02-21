@@ -42,10 +42,10 @@ class ImmersionListPage extends TraceableStatelessWidget {
 
   Widget _empty(BuildContext context) {
     return EmptyOffreWidget(
-      withModifyButton: !this.fromSavedSearch,
+      withModifyButton: !fromSavedSearch,
       additional: Padding(
         padding: const EdgeInsets.only(top: Margins.spacing_base),
-        child: this.fromSavedSearch ? Container() : _alertSecondaryButton(context),
+        child: fromSavedSearch ? Container() : _alertSecondaryButton(context),
       ),
     );
   }

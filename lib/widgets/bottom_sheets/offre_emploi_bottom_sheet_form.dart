@@ -22,14 +22,17 @@ class OffreEmploiBottomSheetForm extends StatefulWidget {
   OffreEmploiBottomSheetForm(this.viewModel, this.onlyAlternance);
 
   @override
-  State<OffreEmploiBottomSheetForm> createState() =>
-      _OffreEmploiBottomSheetFormState(viewModel.searchModel.title.isNotEmpty ? viewModel.searchModel.title : null);
+  State<OffreEmploiBottomSheetForm> createState() => _OffreEmploiBottomSheetFormState();
 }
 
 class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm> {
   String? searchTitle;
 
-  _OffreEmploiBottomSheetFormState(this.searchTitle);
+  @override
+  void initState() {
+    super.initState();
+    searchTitle = widget.viewModel.searchModel.title.isNotEmpty ? widget.viewModel.searchModel.title : null;
+  }
 
   @override
   Widget build(BuildContext context) {

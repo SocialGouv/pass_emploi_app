@@ -40,7 +40,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     this.popPageWhenFavoriIsRemoved = false,
   }) : super(name: _fromAlternance ? AnalyticsScreenNames.alternanceDetails : AnalyticsScreenNames.emploiDetails);
 
-  static MaterialPageRoute materialPageRoute(
+  static MaterialPageRoute<void> materialPageRoute(
     String id, {
     required bool fromAlternance,
     bool popPageWhenFavoriIsRemoved = false,

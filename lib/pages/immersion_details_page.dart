@@ -39,15 +39,9 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
     this.popPageWhenFavoriIsRemoved = false,
   }) : super(name: AnalyticsScreenNames.immersionDetails);
 
-  static MaterialPageRoute<ImmersionDetailsPage> materialPageRoute(
-    String id, {
-    bool popPageWhenFavoriIsRemoved = false,
-  }) {
+  static MaterialPageRoute<void> materialPageRoute(String id, {bool popPageWhenFavoriIsRemoved = false}) {
     return MaterialPageRoute(
-      builder: (context) => ImmersionDetailsPage._(
-        id,
-        popPageWhenFavoriIsRemoved: popPageWhenFavoriIsRemoved,
-      ),
+      builder: (context) => ImmersionDetailsPage._(id, popPageWhenFavoriIsRemoved: popPageWhenFavoriIsRemoved),
     );
   }
 

@@ -20,7 +20,7 @@ class OffreEmploiFiltresPage extends TraceableStatefulWidget {
   OffreEmploiFiltresPage(bool fromAlternance)
       : super(name: fromAlternance ? AnalyticsScreenNames.alternanceFiltres : AnalyticsScreenNames.emploiFiltres);
 
-  static MaterialPageRoute materialPageRoute(bool fromAlternance) {
+  static MaterialPageRoute<bool> materialPageRoute(bool fromAlternance) {
     return MaterialPageRoute(builder: (_) => OffreEmploiFiltresPage(fromAlternance));
   }
 
@@ -46,9 +46,8 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
       converter: (store) => OffreEmploiFiltresViewModel.create(store),
       builder: (context, viewModel) => _scaffold(context, viewModel),
       distinct: true,
-      onWillChange: (previousViewModel, newViewModel) {
-        if (previousViewModel?.displayState == DisplayState.LOADING &&
-            newViewModel.displayState == DisplayState.CONTENT) {
+      onWillChange: (previousVM, newVM) {
+        if (previousVM?.displayState == DisplayState.LOADING && newVM.displayState == DisplayState.CONTENT) {
           Navigator.pop(context, true);
         }
       },
