@@ -98,12 +98,10 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
           ),
           SizedBox(height: Margins.spacing_base),
           Expanded(
-            child: Container(
-              child: Text(
-                Strings.conseillerNotifiedActionUpdated,
-                textAlign: TextAlign.center,
-                style: TextStyles.textBaseRegular,
-              ),
+            child: Text(
+              Strings.conseillerNotifiedActionUpdated,
+              textAlign: TextAlign.center,
+              style: TextStyles.textBaseRegular,
             ),
           ),
         ],

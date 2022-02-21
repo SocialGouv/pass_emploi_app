@@ -36,7 +36,7 @@ class DefaultMenuItem extends StatelessWidget {
             Stack(
               clipBehavior: Clip.none,
               children: [
-                Container(
+                SizedBox(
                   child: SvgPicture.asset(drawableRes, color: color),
                   height: Dimens.bottomNavigationBarItemHeight,
                 ),

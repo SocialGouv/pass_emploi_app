@@ -20,15 +20,15 @@ class SecondaryIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double width = 59;
-    final double height = 59;
+    const double width = 59;
+    const double height = 59;
     return ClipOval(
       child: Material(
         color: Colors.transparent,
         shape: CircleBorder(side: BorderSide(color: borderColor ?? iconColor)),
         child: InkWell(
           onTap: onTap,
-          child: Container(
+          child: SizedBox(
             width: width,
             height: height,
             child: Center(

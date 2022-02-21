@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/help_tooltip.dart';
 
+// ignore_for_file: strict_raw_type
 class CheckBoxGroup<T> extends StatefulWidget {
   final String title;
   final List<CheckboxValueViewModel<T>> options;

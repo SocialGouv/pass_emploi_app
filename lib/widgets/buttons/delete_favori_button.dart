@@ -18,7 +18,7 @@ class DeleteFavoriButton<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, FavoriHeartViewModel>(
+    return StoreConnector<AppState, FavoriHeartViewModel<T>>(
       builder: (context, vm) {
         return PrimaryActionButton(
           label: Strings.deleteOffreFromFavori,

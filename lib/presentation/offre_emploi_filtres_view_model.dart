@@ -50,13 +50,9 @@ class OffreEmploiFiltresViewModel extends Equatable {
       shouldDisplayDistanceFiltre: _shouldDisplayDistanceFiltre(parametersState),
       shouldDisplayNonDistanceFiltres: _shouldDisplayNonDistanceFiltres(parametersState),
       initialDistanceValue: _distance(parametersState),
-      updateFiltres: (
-        updatedDistanceValue,
-        experienceFiltres,
-        contratFiltres,
-        dureeFiltres,
-      ) =>
-          _dispatchUpdateFiltresAction(store, updatedDistanceValue, experienceFiltres, contratFiltres, dureeFiltres),
+      updateFiltres: (updatedDistanceValue, experienceFiltres, contratFiltres, dureeFiltres) {
+        _dispatchUpdateFiltresAction(store, updatedDistanceValue, experienceFiltres, contratFiltres, dureeFiltres);
+      },
       experienceFiltres: _experience(parametersState),
       contratFiltres: _contrat(parametersState),
       dureeFiltres: _duree(parametersState),

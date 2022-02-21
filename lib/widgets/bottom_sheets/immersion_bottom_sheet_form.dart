@@ -20,14 +20,17 @@ class ImmersionBottomSheetForm extends StatefulWidget {
   ImmersionBottomSheetForm(this.viewModel);
 
   @override
-  State<ImmersionBottomSheetForm> createState() =>
-      _ImmersionBottomSheetFormState(viewModel.searchModel.title.isNotEmpty ? viewModel.searchModel.title : null);
+  State<ImmersionBottomSheetForm> createState() => _ImmersionBottomSheetFormState();
 }
 
 class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
   String? searchTitle;
 
-  _ImmersionBottomSheetFormState(this.searchTitle);
+  @override
+  void initState() {
+    super.initState();
+    searchTitle = widget.viewModel.searchModel.title.isNotEmpty ? widget.viewModel.searchModel.title : null;
+  }
 
   @override
   Widget build(BuildContext context) {
