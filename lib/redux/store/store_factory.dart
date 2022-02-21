@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/chat/init/chat_initializer_middleware.d
 import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_middleware.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_middleware.dart';
+import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_middleware.dart';
 import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
@@ -19,6 +20,7 @@ import 'package:pass_emploi_app/redux/middlewares/crashlytics_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/data_from_id_extractor.dart';
 import 'package:pass_emploi_app/redux/middlewares/favoris_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/immersion_details_middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/immersion_saved_search_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/login_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_details_middleware.dart';
@@ -48,6 +50,7 @@ import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search
 import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
+import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
@@ -55,6 +58,7 @@ import 'package:redux/redux.dart' as redux;
 
 import '../../features/service_civique/detail/service_civique_detail_middleware.dart';
 import '../../repositories/service_civique/service_civique_repository.dart';
+import '../middlewares/immersion_saved_search_middleware.dart';
 import '../middlewares/immersion_saved_search_middleware.dart';
 import '../middlewares/initialize_saved_search_middleware.dart';
 import '../middlewares/saved_search/saved_search_middleware.dart';
