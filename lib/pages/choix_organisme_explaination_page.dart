@@ -21,7 +21,7 @@ class ChoixOrganismeExplainationPage extends TraceableStatelessWidget {
           name: isPoleEmploi ? AnalyticsScreenNames.choixOrganismePE : AnalyticsScreenNames.choixOrganismeMilo,
         );
 
-  static MaterialPageRoute<ChoixOrganismeExplainationPage> materialPageRoute({required bool isPoleEmploi}) {
+  static MaterialPageRoute<void> materialPageRoute({required bool isPoleEmploi}) {
     return MaterialPageRoute(builder: (context) => ChoixOrganismeExplainationPage(isPoleEmploi));
   }
 

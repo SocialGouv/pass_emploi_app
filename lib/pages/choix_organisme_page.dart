@@ -20,7 +20,7 @@ class ChoixOrganismePage extends TraceableStatelessWidget {
 
   const ChoixOrganismePage() : super(name: AnalyticsScreenNames.choixOrganisme);
 
-  static MaterialPageRoute<ChoixOrganismePage> materialPageRoute() {
+  static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => ChoixOrganismePage());
   }
 

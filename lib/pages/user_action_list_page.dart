@@ -23,10 +23,6 @@ import 'package:pass_emploi_app/widgets/retry.dart';
 class UserActionListPage extends TraceableStatefulWidget {
   UserActionListPage() : super(name: AnalyticsScreenNames.userActionList);
 
-  static MaterialPageRoute<UserActionListPage> materialPageRoute(String userId) {
-    return MaterialPageRoute(builder: (context) => UserActionListPage());
-  }
-
   @override
   State<UserActionListPage> createState() => _UserActionListPageState();
 }

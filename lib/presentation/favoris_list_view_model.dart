@@ -57,7 +57,7 @@ class FavorisListViewModel<FAVORIS_MODEL, FAVORIS_VIEW_MODEL> extends Equatable 
   }
 }
 
-DisplayState _displayState(List? favoris) {
+DisplayState _displayState<FAVORIS_MODEL>(List<FAVORIS_MODEL>? favoris) {
   if (favoris?.isEmpty == true) return DisplayState.EMPTY;
   if (favoris != null) return DisplayState.CONTENT;
   return DisplayState.LOADING;

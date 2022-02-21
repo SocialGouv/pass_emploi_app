@@ -8,7 +8,7 @@ import '../ui/margins.dart';
 class CredentialsPage extends StatefulWidget {
   const CredentialsPage() : super();
 
-  static MaterialPageRoute<CredentialsPage> materialPageRoute() {
+  static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => CredentialsPage());
   }
 

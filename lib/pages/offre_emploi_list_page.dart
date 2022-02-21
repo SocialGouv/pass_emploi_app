@@ -240,7 +240,9 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     _offsetBeforeLoading = _scrollController.offset;
     widget
         .pushAndTrackBack(
-            context, OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: widget.onlyAlternance))
+          context,
+          OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: widget.onlyAlternance),
+        )
         .then((_) => _scrollController.jumpTo(_offsetBeforeLoading));
   }
 

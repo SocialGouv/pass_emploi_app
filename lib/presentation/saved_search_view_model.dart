@@ -58,12 +58,12 @@ class SavedSearchViewModel<SAVED_SEARCH_MODEL> extends Equatable {
   List<Object?> get props => [displayState, createSavedSearch];
 }
 
-CreateSavedSearchDisplayState _displayState(SavedSearchState savedSearchCreateState) {
-  if (savedSearchCreateState is SavedSearchNotInitialized) {
+CreateSavedSearchDisplayState _displayState<T>(SavedSearchState<T> savedSearchCreateState) {
+  if (savedSearchCreateState is SavedSearchNotInitialized<T>) {
     return CreateSavedSearchDisplayState.SHOW_CONTENT;
-  } else if (savedSearchCreateState is SavedSearchLoadingState) {
+  } else if (savedSearchCreateState is SavedSearchLoadingState<T>) {
     return CreateSavedSearchDisplayState.SHOW_LOADING;
-  } else if (savedSearchCreateState is SavedSearchSuccessfullyCreated) {
+  } else if (savedSearchCreateState is SavedSearchSuccessfullyCreated<T>) {
     return CreateSavedSearchDisplayState.TO_DISMISS;
   } else {
     return CreateSavedSearchDisplayState.SHOW_ERROR;

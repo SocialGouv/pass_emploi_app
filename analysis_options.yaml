@@ -1,3 +1,4 @@
+# Doc can be [found here](https://dart.dev/guides/language/analysis-options)
 include:
   package:flutter_lints/flutter.yaml
 
@@ -11,6 +12,9 @@ analyzer:
     missing_return: error
     dead_code: error
     unused_element: error
+    void_checks: ignore
     constant_identifier_names: ignore
     prefer_const_constructors: ignore
     prefer_const_literals_to_create_immutables: ignore
+    prefer_const_constructors_in_immutables: ignore
+    use_key_in_widget_constructors: ignore
