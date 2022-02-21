@@ -80,8 +80,8 @@ main() {
       result,
       ImmersionSavedSearch(
         id: "",
-        title: "metier - ville",
-        metier: "metier",
+        title: "Conduite d'engins agricoles et forestiers - ville",
+        metier: "Conduite d'engins agricoles et forestiers",
         location: "ville",
         filters: ImmersionSearchParametersFilters.withFilters(
           codeRome: searchedMetier.codeRome,
@@ -95,7 +95,14 @@ main() {
   test("tests immersion search extractor when immersion result is empty", () {
     // Given
     final testStoreFactory = TestStoreFactory();
-    final immersionState = State.success(<Immersion>[]);
+    final immersionState = State.success(<Immersion>[
+      Immersion(
+          id: "id",
+          metier: "metier",
+          nomEtablissement: "nomEtablissement",
+          secteurActivite: "secteurActivite",
+          ville: "ville"),
+    ]);
     final searchedMetier = Metier.values.first;
     AppState state = AppState.initialState().copyWith(
       searchMetierState: SearchMetierState([searchedMetier]),

@@ -80,16 +80,10 @@ class ImmersionSearchExtractor extends AbstractSearchExtractor<ImmersionSavedSea
   bool isFailureState(Store<AppState> store) => store.state.immersionSavedSearchState is SavedSearchFailureState;
 
   String _metier(Store<AppState> store) {
-    final foundImmersions = store.state.immersionSearchState.getResultOrThrow();
-    final searchedMetiers = store.state.searchMetierState.metiers;
     final requestState = store.state.immersionSearchRequestState as RequestedImmersionSearchRequestState;
-    final matchingSearchedMetier = searchedMetiers.firstWhereOrNull((e) => e.codeRome == requestState.codeRome);
-    if (foundImmersions.isNotEmpty) {
-      return foundImmersions.first.metier;
-    } else if (matchingSearchedMetier != null) {
-      return matchingSearchedMetier.libelle;
-    } else {
-      return '';
-    }
+    final state = store.state.immersionSearchState.getResultOrThrow().first;
+    final searchedMetiers = store.state.searchMetierState.metiers;
+    return searchedMetiers.firstWhereOrNull((element) => element.codeRome == requestState.codeRome)?.libelle ??
+        state.metier;
   }
 }
