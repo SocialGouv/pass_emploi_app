@@ -1,12 +1,10 @@
-import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
-import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/redux/actions/saved_search_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/saved_search_state.dart';
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_repository.dart';
 import 'package:redux/redux.dart';
 
-class SavedSearchMiddleware<T> extends MiddlewareClass<AppState> {
+abstract class SavedSearchMiddleware<T> extends MiddlewareClass<AppState> {
   final SavedSearchRepository<T> _repository;
 
   SavedSearchMiddleware(this._repository);
@@ -20,38 +18,20 @@ class SavedSearchMiddleware<T> extends MiddlewareClass<AppState> {
     }
   }
 
-  Future<void> _saveSearch(
-    Store<AppState> store,
-    RequestPostSavedSearchAction<T> action,
-    String userId,
-  ) async {
-    final emploiSavedSearchState = (action.savedSearch is OffreEmploiSavedSearch)
-        ? store.state.offreEmploiSavedSearchState
-        : store.state.immersionSavedSearchState;
-    final savedSearch = _extractSearch(emploiSavedSearchState);
-    if (savedSearch == null) {
+  Future<void> _saveSearch(Store<AppState> store, RequestPostSavedSearchAction<T> action, String userId) async {
+    final savedSearchState = getSavedSearchState(store);
+    final T? t = savedSearchState is SavedSearchInitialized<T> ? savedSearchState.search : null;
+    if (t == null) {
       store.dispatch(SavedSearchFailureAction<T>());
-      return;
-    }
-    final result = await _repository.postSavedSearch(userId, savedSearch, action.title);
-    if (result) {
-      store.dispatch(SavedSearchSuccessAction<T>(_changeSearchTitle(savedSearch, action.title)));
     } else {
-      store.dispatch(SavedSearchFailureAction<T>());
+      final result = await _repository.postSavedSearch(userId, t, action.title);
+      store.dispatch(
+        result ? SavedSearchSuccessAction<T>(copyWithTitle(t, action.title)) : SavedSearchFailureAction<T>(),
+      );
     }
   }
 
-  T _changeSearchTitle(T search, String title) {
-    if (search is ImmersionSavedSearch) {
-      return search.copyWithTitle(title) as T;
-    } else if (search is OffreEmploiSavedSearch) {
-      return search.copyWithTitle(title) as T;
-    } else {
-      return search;
-    }
-  }
+  SavedSearchState<T> getSavedSearchState(Store<AppState> store);
 
-  T? _extractSearch(SavedSearchState emploiSavedSearchState) {
-    return emploiSavedSearchState is SavedSearchInitialized ? emploiSavedSearchState.search : null;
-  }
+  T copyWithTitle(T t, String title);
 }
