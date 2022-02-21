@@ -31,7 +31,10 @@ class OffreEmploiDetailsRepository {
           return OffreDetailsResponse(
             isGenericFailure: false,
             isOffreNotFound: false,
-            details: OffreEmploiDetails.fromJson(json["data"], json["urlRedirectPourPostulation"] as String),
+            details: OffreEmploiDetails.fromJson(
+              json["data"] as Map<String, dynamic>,
+              json["urlRedirectPourPostulation"] as String,
+            ),
           );
         }
       } else {
