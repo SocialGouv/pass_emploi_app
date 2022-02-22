@@ -5,13 +5,18 @@ include:
 analyzer:
   exclude: [ build/** ]
   language:
+    strict-casts: true
     strict-raw-types: true
-  strong-mode:
-    implicit-casts: false
   errors:
     missing_return: error
     dead_code: error
     unused_element: error
+    always_declare_return_types: error
+    prefer_double_quotes: error
+    prefer_final_fields: error
+    prefer_final_locals: error
+    sort_child_properties_last: error
+    use_decorated_box: error
     void_checks: ignore
     constant_identifier_names: ignore
     prefer_const_constructors: ignore
