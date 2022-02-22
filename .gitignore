@@ -73,3 +73,6 @@ env/.env.prod
 env/.env.local
 ci/*.ci
 env/.env.audit
+
+# fvm
+.fvm
