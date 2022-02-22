@@ -27,7 +27,7 @@ class ImmersionDetailsMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
-  void _dispatchIncompleteDataOrError(Store<AppState> store, OffreDetailsResponse result, String offreId) {
+  void _dispatchIncompleteDataOrError<T>(Store<AppState> store, OffreDetailsResponse<T> result, String offreId) {
     var favorisState = store.state.immersionFavorisState;
     if (result.isOffreNotFound &&
         favorisState is FavorisLoadedState<Immersion> &&

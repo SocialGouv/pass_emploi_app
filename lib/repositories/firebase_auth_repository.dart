@@ -22,8 +22,8 @@ class FirebaseAuthRepository {
       );
       if (response.statusCode.isValid()) {
         return FirebaseAuthResponse(
-          jsonUtf8Decode(response.bodyBytes)["token"],
-          jsonUtf8Decode(response.bodyBytes)["cle"],
+          jsonUtf8Decode(response.bodyBytes)["token"] as String,
+          jsonUtf8Decode(response.bodyBytes)["cle"] as String,
         );
       }
     } catch (e, stack) {

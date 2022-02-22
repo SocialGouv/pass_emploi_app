@@ -49,7 +49,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        immersionFavorisState: FavorisState<Immersion>.withMap({}, Map()),
+        immersionFavorisState: FavorisState<Immersion>.withMap({}, {}),
       ),
     );
 

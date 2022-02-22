@@ -4,10 +4,9 @@ import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:redux/redux.dart';
 
 class FavorisStateContext<T> extends InheritedWidget {
-  final Widget child;
   final FavorisState<T> Function(Store<AppState> store) selectState;
 
-  FavorisStateContext({required this.child, required this.selectState}) : super(child: child);
+  FavorisStateContext({required Widget child, required this.selectState}) : super(child: child);
 
   @override
   bool updateShouldNotify(covariant InheritedWidget oldWidget) => true;

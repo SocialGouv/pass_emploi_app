@@ -14,8 +14,9 @@ main() {
     // Given
     final httpClient = MockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
-      if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-immersion"))
+      if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-immersion")) {
         return invalidHttpResponse();
+      }
       return Response.bytes(loadTestAssetsAsBytes("immersion_favoris_id.json"), 200);
     });
     final repository = ImmersionFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
@@ -170,8 +171,9 @@ MockClient _successfulClientForQuery() {
   return MockClient((request) async {
     if (request.method != "GET") return invalidHttpResponse();
     if (request.url.queryParameters["detail"] != "true") return invalidHttpResponse(message: "query KO");
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-immersion"))
+    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-immersion")) {
       return invalidHttpResponse();
+    }
     return Response.bytes(loadTestAssetsAsBytes("immersion_favoris_data.json"), 200);
   });
 }
@@ -197,8 +199,9 @@ MockClient _alreadyExistsClient() {
 MockClient _successfulClientForDelete() {
   return MockClient((request) async {
     if (request.method != "DELETE") return invalidHttpResponse();
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-immersion/offreId"))
+    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-immersion/offreId")) {
       return invalidHttpResponse();
+    }
     return Response("", 204);
   });
 }
@@ -206,11 +209,13 @@ MockClient _successfulClientForDelete() {
 MockClient _mockClientForFullData() {
   return MockClient((request) async {
     if (request.method != "POST") return invalidHttpResponse();
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-immersion"))
+    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-immersion")) {
       return invalidHttpResponse();
+    }
     final requestJson = jsonUtf8Decode(request.bodyBytes);
-    if (requestJson["idOffre"] != "98286f66-2a8e-4a22-80a8-c6fda3a52980")
+    if (requestJson["idOffre"] != "98286f66-2a8e-4a22-80a8-c6fda3a52980") {
       return invalidHttpResponse(message: "idOffre KO");
+    }
     if (requestJson["metier"] != "Boulanger") return invalidHttpResponse(message: "metier KO");
     if (requestJson["nomEtablissement"] != "EPSAN Brumath") return invalidHttpResponse(message: "nomEtablissement KO");
     if (requestJson["secteurActivite"] != "Boulangerie") return invalidHttpResponse(message: "secteurActivite KO");

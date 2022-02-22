@@ -64,7 +64,7 @@ int? _filtresCount(OffreEmploiSearchParametersState searchParamsState) {
   }
 }
 
-_displayLoader(OffreEmploiSearchResultsState resultsState) =>
+bool _displayLoader(OffreEmploiSearchResultsState resultsState) =>
     resultsState is OffreEmploiSearchResultsDataState ? resultsState.isMoreDataAvailable : false;
 
 List<OffreEmploiItemViewModel> _items(OffreEmploiSearchResultsState resultsState) {

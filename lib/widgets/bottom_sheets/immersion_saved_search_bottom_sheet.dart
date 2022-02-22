@@ -11,19 +11,14 @@ import '../snack_bar/show_snack_bar.dart';
 import 'immersion_bottom_sheet_form.dart';
 
 class ImmersionSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<ImmersionSavedSearch> {
-  ImmersionSavedSearchBottomSheet()
-      : super(
-          analyticsScreenName: AnalyticsScreenNames.immersionCreateAlert,
-        );
+  ImmersionSavedSearchBottomSheet() : super(analyticsScreenName: AnalyticsScreenNames.immersionCreateAlert);
 
   @override
-  ImmersionSavedSearchViewModel converter(Store<AppState> store) {
-    return SavedSearchViewModel.createForImmersion(store);
-  }
+  ImmersionSavedSearchViewModel converter(Store<AppState> store) => SavedSearchViewModel.createForImmersion(store);
 
   @override
-  Widget buildSaveSearch(BuildContext context, ImmersionSavedSearchViewModel viewModel) {
-    return _buildForm(context, viewModel);
+  Widget buildSaveSearch(BuildContext context, ImmersionSavedSearchViewModel itemViewModel) {
+    return _buildForm(context, itemViewModel);
   }
 
   Widget _buildForm(BuildContext context, ImmersionSavedSearchViewModel viewModel) {
@@ -34,8 +29,8 @@ class ImmersionSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<Imm
   }
 
   @override
-  dismissBottomSheetIfNeeded(BuildContext context, ImmersionSavedSearchViewModel viewModel) {
-    if (viewModel.displayState == CreateSavedSearchDisplayState.TO_DISMISS) {
+  dismissBottomSheetIfNeeded(BuildContext context, ImmersionSavedSearchViewModel newVm) {
+    if (newVm.displayState == CreateSavedSearchDisplayState.TO_DISMISS) {
       Navigator.pop(context);
       showSuccessfulSnackBar(context, Strings.savedSearchSuccessfullyCreated);
     }

@@ -15,16 +15,16 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
-import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/buttons/delete_favori_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/share_button.dart';
+import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/errors/favori_not_found_error.dart';
 import 'package:pass_emploi_app/widgets/external_link.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
-import 'package:pass_emploi_app/widgets/errors/favori_not_found_error.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/help_tooltip.dart';
-import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
-import 'package:pass_emploi_app/widgets/buttons/share_button.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 import 'package:pass_emploi_app/widgets/title_section.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -40,7 +40,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     this.popPageWhenFavoriIsRemoved = false,
   }) : super(name: _fromAlternance ? AnalyticsScreenNames.alternanceDetails : AnalyticsScreenNames.emploiDetails);
 
-  static MaterialPageRoute materialPageRoute(
+  static MaterialPageRoute<void> materialPageRoute(
     String id, {
     required bool fromAlternance,
     bool popPageWhenFavoriIsRemoved = false,
@@ -420,28 +420,13 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     context.trackEvent(_postulerEvent());
   }
 
-  void _shareOffer(BuildContext context) {
-    context.trackEvent(_partagerEvent());
-  }
+  void _shareOffer(BuildContext context) => context.trackEvent(_partagerEvent());
 
   EventType _offreAfficheeEvent() {
-    if (_fromAlternance)
-      return EventType.OFFRE_ALTERNANCE_AFFICHEE;
-    else
-      return EventType.OFFRE_EMPLOI_AFFICHEE;
+    return _fromAlternance ? EventType.OFFRE_ALTERNANCE_AFFICHEE : EventType.OFFRE_EMPLOI_AFFICHEE;
   }
 
-  EventType _postulerEvent() {
-    if (_fromAlternance)
-      return EventType.OFFRE_ALTERNANCE_POSTULEE;
-    else
-      return EventType.OFFRE_EMPLOI_POSTULEE;
-  }
+  EventType _postulerEvent() => _fromAlternance ? EventType.OFFRE_ALTERNANCE_POSTULEE : EventType.OFFRE_EMPLOI_POSTULEE;
 
-  EventType _partagerEvent() {
-    if (_fromAlternance)
-      return EventType.OFFRE_ALTERNANCE_PARTAGEE;
-    else
-      return EventType.OFFRE_EMPLOI_PARTAGEE;
-  }
+  EventType _partagerEvent() => _fromAlternance ? EventType.OFFRE_ALTERNANCE_PARTAGEE : EventType.OFFRE_EMPLOI_PARTAGEE;
 }

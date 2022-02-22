@@ -61,7 +61,7 @@ void main() {
       final AppState resultState = await result;
 
       // Then
-      expect(resultState.loginState, isA<UserNotLoggedInState>());
+      expect(resultState.loginState, isA<UserNotLoggedInState<User>>());
     });
   });
 

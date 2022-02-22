@@ -2,7 +2,7 @@ import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
 import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 
 class FavorisReducer<T> {
-  FavorisState<T> reduceFavorisState<T>(FavorisState<T> currentState, FavorisAction<T> action) {
+  FavorisState<T> reduceFavorisState(FavorisState<T> currentState, FavorisAction<T> action) {
     if (action is FavorisIdLoadedAction<T>) {
       return FavorisState<T>.idsLoaded(action.favorisId);
     } else if (action is UpdateFavoriSuccessAction<T>) {

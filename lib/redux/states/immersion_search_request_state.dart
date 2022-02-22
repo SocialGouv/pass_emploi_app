@@ -29,13 +29,7 @@ class RequestedImmersionSearchRequestState extends ImmersionSearchRequestState {
   }
 
   @override
-  List<Object> get props =>
-      [
-        this.codeRome,
-        this.latitude,
-        this.longitude,
-        this.ville,
-      ];
+  List<Object> get props => [codeRome, latitude, longitude, ville];
 }
 
 class EmptyImmersionSearchRequestState extends ImmersionSearchRequestState {

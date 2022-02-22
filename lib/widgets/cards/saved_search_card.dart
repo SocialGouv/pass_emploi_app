@@ -89,7 +89,7 @@ class SavedSearchCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: SvgPicture.asset(Drawables.icTrash),
       ),
-      onTap: this.onDeleteTap ?? () {},
+      onTap: onDeleteTap ?? () {},
     );
   }
 

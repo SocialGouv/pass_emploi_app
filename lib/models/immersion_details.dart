@@ -24,12 +24,12 @@ class ImmersionDetails extends Equatable {
 
   factory ImmersionDetails.fromJson(dynamic json) {
     return ImmersionDetails(
-      id: json['id'],
-      metier: json['metier'],
-      companyName: json['nomEtablissement'],
-      secteurActivite: json['secteurActivite'],
-      ville: json['ville'],
-      address: json['adresse'],
+      id: json['id'] as String,
+      metier: json['metier'] as String,
+      companyName: json['nomEtablissement'] as String,
+      secteurActivite: json['secteurActivite'] as String,
+      ville: json['ville'] as String,
+      address: json['adresse'] as String,
       isVolontaire: json['estVolontaire'] as bool,
       contact: json['contact'] != null ? ImmersionContact.fromJson(json['contact']) : null,
     );

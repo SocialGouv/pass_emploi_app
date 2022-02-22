@@ -47,18 +47,15 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
     );
   }
 
-  _build(BuildContext context, UserActionDetailsViewModel detailsViewModel) {
+  Widget _build(BuildContext context, UserActionDetailsViewModel detailsViewModel) {
     switch (detailsViewModel.displayState) {
       case UserActionDetailsDisplayState.SHOW_CONTENT:
       case UserActionDetailsDisplayState.SHOW_LOADING:
       case UserActionDetailsDisplayState.SHOW_DELETE_ERROR:
         return _bottomSheetContent(context, detailsViewModel);
       case UserActionDetailsDisplayState.SHOW_SUCCESS:
+      default:
         return _congratulations(context);
-      case UserActionDetailsDisplayState.TO_DISMISS_AFTER_UPDATE:
-      case UserActionDetailsDisplayState.TO_DISMISS:
-      case UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION:
-        break;
     }
   }
 
@@ -101,12 +98,10 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
           ),
           SizedBox(height: Margins.spacing_base),
           Expanded(
-            child: Container(
-              child: Text(
-                Strings.conseillerNotifiedActionUpdated,
-                textAlign: TextAlign.center,
-                style: TextStyles.textBaseRegular,
-              ),
+            child: Text(
+              Strings.conseillerNotifiedActionUpdated,
+              textAlign: TextAlign.center,
+              style: TextStyles.textBaseRegular,
             ),
           ),
         ],

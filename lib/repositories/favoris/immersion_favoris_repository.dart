@@ -40,11 +40,7 @@ class ImmersionFavorisRepository extends FavorisRepository<Immersion> {
       final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes) as List;
-        return Map.fromIterable(
-          json,
-          key: (element) => element["id"],
-          value: (element) => Immersion.fromJson(element),
-        );
+        return {for (var element in json) element["id"] as String: Immersion.fromJson(element)};
       }
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
@@ -28,7 +27,7 @@ class FavoriHeart<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, FavoriHeartViewModel>(
+    return StoreConnector<AppState, FavoriHeartViewModel<T>>(
       converter: (store) => FavoriHeartViewModel<T>.create(
         offreId,
         store,
@@ -50,7 +49,7 @@ class FavoriHeart<T> extends StatelessWidget {
     );
   }
 
-  Widget _buildHeart(BuildContext context, FavoriHeartViewModel viewModel) {
+  Widget _buildHeart(BuildContext context, FavoriHeartViewModel<T> viewModel) {
     return SecondaryIconButton(
       drawableRes: viewModel.isFavori ? Drawables.icHeartFull : Drawables.icHeart,
       iconColor: AppColors.favoriteHeartColor,

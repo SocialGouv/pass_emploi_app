@@ -21,8 +21,8 @@ class AppColors {
   static const Color primaryWithAlpha50 = Color.fromARGB(122, 59, 105, 209);
 
   // Secondary colors
-  static const Color secondary = const Color(0xFF0D7F50);
-  static const Color secondaryLighten = const Color(0xFFE5F6EF);
+  static const Color secondary = Color(0xFF0D7F50);
+  static const Color secondaryLighten = Color(0xFFE5F6EF);
 
   // Status colors
   static const Color warning = Color.fromARGB(255, 211, 50, 17);
@@ -30,27 +30,27 @@ class AppColors {
   static const Color warningLighten = Color.fromARGB(255, 255, 241, 237);
 
   // Accent colors
-  static const Color accent1 = const Color(0xFF950EFF);
-  static const Color accent1Lighten = const Color(0xFFF4E5FF);
-  static const Color accent2 = const Color(0xFF666B97);
-  static const Color accent2Lighten = const Color(0xFFF6F6F6);
-  static const Color accent3 = const Color(0xFF0C7A81);
-  static const Color accent3Lighten = const Color(0xFFDFFDFF);
+  static const Color accent1 = Color(0xFF950EFF);
+  static const Color accent1Lighten = Color(0xFFF4E5FF);
+  static const Color accent2 = Color(0xFF666B97);
+  static const Color accent2Lighten = Color(0xFFF6F6F6);
+  static const Color accent3 = Color(0xFF0C7A81);
+  static const Color accent3Lighten = Color(0xFFDFFDFF);
 
   // Neutrals colors
-  static const Color contentColor = const Color(0xFF161616);
-  static const Color disabled = const Color(0xFF999BB3);
+  static const Color contentColor = Color(0xFF161616);
+  static const Color disabled = Color(0xFF999BB3);
 
-  static const Color grey100 = const Color(0xFFF1F1F1);
-  static const Color grey500 = const Color(0xFFB2B2B2);
-  static const Color grey700 = const Color(0xFF878787);
-  static const Color grey800 = const Color(0xFF646464);
+  static const Color grey100 = Color(0xFFF1F1F1);
+  static const Color grey500 = Color(0xFFB2B2B2);
+  static const Color grey700 = Color(0xFF878787);
+  static const Color grey800 = Color(0xFF646464);
 
   // Miscellaneous
   static const Color shadowColor = Color.fromARGB(10, 50, 0, 1);
-  static const Color favoriteHeartColor = const Color(0xFFFF8D7E);
+  static const Color favoriteHeartColor = Color(0xFFFF8D7E);
 
   // Brands
-  static const Color poleEmploi = const Color(0xFF073A82);
-  static const Color missionLocale = const Color(0xFF942258);
+  static const Color poleEmploi = Color(0xFF073A82);
+  static const Color missionLocale = Color(0xFF942258);
 }

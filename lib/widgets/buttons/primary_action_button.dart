@@ -35,7 +35,7 @@ class PrimaryActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double leftPadding = this.drawableRes != null ? 12 : 20;
+    final double leftPadding = drawableRes != null ? 12 : 20;
     final baseTextStyle = TextStyles.textPrimaryButton;
     final usedTextStyle = fontSize != null ? baseTextStyle.copyWith(fontSize: fontSize) : baseTextStyle;
     return TextButton(

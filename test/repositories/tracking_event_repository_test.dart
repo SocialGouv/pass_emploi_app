@@ -15,8 +15,9 @@ void main() {
       test("is $eventType should properly convert to $expectedSerialization", () async {
         final httpClient = MockClient((request) async {
           final requestJson = jsonUtf8Decode(request.bodyBytes);
-          if (requestJson["type"] != expectedSerialization)
+          if (requestJson["type"] != expectedSerialization) {
             return invalidHttpResponse(message: "${requestJson["type"]} != $expectedSerialization");
+          }
           return Response("", 201);
         });
         final repository = TrackingEventRepository("BASE_URL", httpClient, HeadersBuilderStub());

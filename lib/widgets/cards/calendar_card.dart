@@ -22,6 +22,7 @@ class CalendarCard extends StatelessWidget {
     required this.onTap,
   }) : super(key: key);
 
+  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), boxShadow: [
@@ -32,7 +33,7 @@ class CalendarCard extends StatelessWidget {
         child: Material(
           type: MaterialType.transparency,
           child: InkWell(
-            onTap: this.onTap,
+            onTap: onTap,
             splashColor: AppColors.primaryLighten,
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -41,8 +42,8 @@ class CalendarCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildDate(),
-                  Text(this.titre, style: TextStyles.textBaseBold),
-                  if (this.sousTitre != null && this.sousTitre!.isNotEmpty) _buildSousTitre(),
+                  Text(titre, style: TextStyles.textBaseBold),
+                  if (sousTitre != null && sousTitre!.isNotEmpty) _buildSousTitre(),
                   _buildLink(),
                 ],
               ),
@@ -56,7 +57,7 @@ class CalendarCard extends StatelessWidget {
   Widget _buildSousTitre() {
     return Padding(
       padding: const EdgeInsets.only(top: 8.0),
-      child: Text(this.sousTitre!, style: TextStyles.textSRegular(color: AppColors.grey800)),
+      child: Text(sousTitre!, style: TextStyles.textSRegular(color: AppColors.grey800)),
     );
   }
 
@@ -68,7 +69,7 @@ class CalendarCard extends StatelessWidget {
           SvgPicture.asset(Drawables.icClock, color: AppColors.primary),
           SizedBox(width: Margins.spacing_s),
           Text(
-            this.date,
+            date,
             style: TextStyles.textSRegularWithColor(
               AppColors.primary,
             ),
@@ -85,7 +86,7 @@ class CalendarCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(child: Container()),
-          Text(this.texteLien,
+          Text(texteLien,
               style: TextStyles.textSRegularWithColor(
                 AppColors.contentColor,
               )),

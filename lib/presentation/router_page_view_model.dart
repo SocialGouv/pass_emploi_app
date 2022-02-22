@@ -38,11 +38,13 @@ RouterPageDisplayState _routerPageDisplayState(Store<AppState> store) {
 }
 
 MainPageDisplayState _toMainPageDisplayState(DeepLinkState? deepLinkState, Store<AppState> store) {
-  if (deepLinkState != null && deepLinkState.deepLink != DeepLink.NOT_SET)
+  if (deepLinkState != null && deepLinkState.deepLink != DeepLink.NOT_SET) {
     return _toMainPageDisplayStateByDeepLink(deepLinkState);
+  }
   final loginState = store.state.loginState;
-  if (loginState.isSuccess() && loginState.getResultOrThrow().loginMode == LoginMode.POLE_EMPLOI)
-    return  MainPageDisplayState.SEARCH;
+  if (loginState.isSuccess() && loginState.getResultOrThrow().loginMode == LoginMode.POLE_EMPLOI) {
+    return MainPageDisplayState.SEARCH;
+  }
   return MainPageDisplayState.DEFAULT;
 }
 

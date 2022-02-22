@@ -1,8 +1,5 @@
-import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/actions/search_metier_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:redux/redux.dart';
 
 import '../../models/metier.dart';

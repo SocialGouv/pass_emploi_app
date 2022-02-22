@@ -49,7 +49,7 @@ class UserActionViewModel extends Equatable {
   List<Object?> get props => [id, title, subtitle, withSubtitle, status, lastUpdate, creator, tag, withDeleteOption];
 }
 
-_displayName(UserActionCreator creator) => creator is ConseillerActionCreator ? creator.name : Strings.you;
+String _displayName(UserActionCreator creator) => creator is ConseillerActionCreator ? creator.name : Strings.you;
 
 UserActionTagViewModel? _userActionTagViewModel(UserActionStatus status) {
   switch (status) {

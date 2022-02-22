@@ -3,7 +3,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -184,31 +183,11 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     );
   }
 
-  List<String> _getDureeTags(List<DureeFiltre>? duree) {
-    if (duree == null) {
-      return [];
-    }
-    return duree.map((e) => FiltresLabels.fromDureeToString(e)).toList();
-  }
-
-  List<String> _getContratTags(List<ContratFiltre>? contrat) {
-    if (contrat == null) {
-      return [];
-    }
-    return contrat.map((e) => FiltresLabels.fromContratToString(e)).toList();
-  }
-
-  List<String> _getExperienceTags(List<ExperienceFiltre>? experience) {
-    if (experience == null) {
-      return [];
-    }
-    return experience.map((e) => FiltresLabels.fromExperienceToString(e)).toList();
-  }
-
   Widget _getSavedSearchImmersions(SavedSearchListViewModel viewModel) {
     final savedSearchsImmersion = viewModel.getImmersions();
-    if (savedSearchsImmersion.isEmpty)
+    if (savedSearchsImmersion.isEmpty) {
       return Center(child: Text(Strings.noSavedSearchYet, style: TextStyles.textSmRegular()));
+    }
     return ListView.builder(
       scrollDirection: Axis.vertical,
       itemCount: savedSearchsImmersion.length,

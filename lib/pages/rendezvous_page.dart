@@ -16,7 +16,7 @@ class RendezvousPage extends TraceableStatelessWidget {
 
   RendezvousPage._(this.rendezvous) : super(name: AnalyticsScreenNames.rendezvousDetails);
 
-  static MaterialPageRoute materialPageRoute(RendezvousViewModel rendezvous) {
+  static MaterialPageRoute<void> materialPageRoute(RendezvousViewModel rendezvous) {
     return MaterialPageRoute(builder: (context) => RendezvousPage._(rendezvous));
   }
 

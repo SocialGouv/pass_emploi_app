@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -142,7 +140,7 @@ class TextStyles {
     fontWeight: FontWeight.w700,
   );
 
-  static textSmMedium({Color color = AppColors.nightBlue}) {
+  static TextStyle textSmMedium({Color color = AppColors.nightBlue}) {
     return GoogleFonts.rubik(
       color: color,
       fontSize: FontSizes.normal,
@@ -150,7 +148,7 @@ class TextStyles {
     );
   }
 
-  static textSmRegular({Color color = AppColors.nightBlue}) {
+  static TextStyle textSmRegular({Color color = AppColors.nightBlue}) {
     return GoogleFonts.rubik(
       color: color,
       fontSize: FontSizes.normal,
