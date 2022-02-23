@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:redux/redux.dart';
 
 import '../redux/actions/search_location_action.dart';
+import '../redux/actions/search_service_civique_actions.dart';
 import '../redux/states/app_state.dart';
 
 class ServiceCiviqueViewModel extends Equatable {
@@ -23,7 +24,7 @@ class ServiceCiviqueViewModel extends Equatable {
             .map((location) => LocationViewModel.fromLocation(location))
             .toList(),
         onSearchRequest: (location) {
-          // Do nothing
+          SearchServiceCiviqueAction(location: location);
         },
         onInputLocation: (input) => store.dispatch(RequestLocationAction(input, villesOnly: true)));
   }
