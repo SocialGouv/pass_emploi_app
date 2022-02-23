@@ -1,13 +1,10 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:pass_emploi_app/redux/actions/deep_link_action.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
 
-AppState deepLinkReducer(AppState currentState, DeepLinkAction action) {
-  return currentState.copyWith(
-    deepLinkState: DeepLinkState(
-        _extractDeepLinkFromMessage(action.message), DateTime.now(), _extractIdFromMessage(action.message)),
-  );
+DeepLinkState deepLinkReducer(DeepLinkAction action) {
+  return DeepLinkState(
+      _extractDeepLinkFromMessage(action.message), DateTime.now(), _extractIdFromMessage(action.message));
 }
 
 String? _extractIdFromMessage(RemoteMessage message) {
