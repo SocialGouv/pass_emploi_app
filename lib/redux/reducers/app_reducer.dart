@@ -19,7 +19,6 @@ import 'package:pass_emploi_app/redux/reducers/immersion_details_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/login_action_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/offre_emploi_details_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/reducer.dart';
-import 'package:pass_emploi_app/redux/reducers/saved_search/saved_search_delete_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/saved_search/saved_search_list_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/saved_search/saved_search_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/search_location_reducer.dart';
@@ -46,7 +45,6 @@ final _favorisUpdateReducer = FavorisUpdateReducer();
 final _offreEmploiSavedSearchReducer = SavedSearchReducer<OffreEmploiSavedSearch>();
 final _immersionSavedSearchReducer = SavedSearchReducer<ImmersionSavedSearch>();
 final _savedSearchListReducer = SavedSearchListReducer();
-final _savedSearchDeleteReducer = SavedSearchDeleteReducer();
 
 State<List<SavedSearch>> _updateSavedSearchListIfNeeded(SavedSearchAction<SavedSearch> action, AppState current) {
   if (action is SavedSearchSuccessAction<SavedSearch> && current.savedSearchesState.isSuccess()) {
@@ -125,8 +123,6 @@ AppState reducer(AppState current, dynamic action) {
     );
   } else if (action is SavedSearchListAction) {
     return current.copyWith(savedSearchesState: _savedSearchListReducer.reduce(action));
-  } else if (action is SavedSearchDeleteAction) {
-    return _savedSearchDeleteReducer.reduce(current, action);
   } else {
     return current;
   }

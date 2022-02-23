@@ -2,7 +2,7 @@ import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/store/store_factory.dart';
+import 'package:pass_emploi_app/redux/store/store_factory_v1.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
@@ -18,7 +18,6 @@ import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
-import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
@@ -48,10 +47,9 @@ class TestStoreFactory {
   OffreEmploiSavedSearchRepository offreEmploiSavedSearchRepository = DummyOffreEmploiSavedSearchRepository();
   ImmersionSavedSearchRepository immersionSavedSearchRepository = DummyImmersionSavedSearchRepository();
   GetSavedSearchRepository getSavedSearchRepository = DummyGetSavedSearchRepository();
-  SavedSearchDeleteRepository savedSearchDeleteRepository = DummySavedSearchDeleteRepository();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
-    return StoreFactory(
+    return StoreFactoryV1(
       authenticator,
       userActionRepository,
       rendezvousRepository,
@@ -73,7 +71,6 @@ class TestStoreFactory {
       offreEmploiSavedSearchRepository,
       immersionSavedSearchRepository,
       getSavedSearchRepository,
-      savedSearchDeleteRepository,
     ).initializeReduxStore(initialState: initialState);
   }
 }

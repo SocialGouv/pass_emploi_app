@@ -1,9 +1,9 @@
+import 'package:async_redux/async_redux.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/presentation/saved_search/saved_search_delete_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/saved_search_actions.dart';
+import 'package:pass_emploi_app/redux/actions/saved_search_delete_actions.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
@@ -51,8 +51,8 @@ class SavedSearchDeleteDialog extends TraceableStatelessWidget {
     return StoreConnector<AppState, SavedSearchDeleteViewModel>(
       converter: (store) => SavedSearchDeleteViewModel.create(store),
       builder: (context, viewModel) => _alertDialog(context, viewModel),
-      onWillChange: (_, viewModel) {
-        if (viewModel.displayState == SavedSearchDeleteDisplayState.SUCCESS) {
+      onWillChange: (context, store, previousVm, newVm) {
+        if (newVm.displayState == SavedSearchDeleteDisplayState.SUCCESS) {
           MatomoTracker.trackScreenWithName(_actionName(type), _screenName(type));
           Navigator.pop(context, true);
         }

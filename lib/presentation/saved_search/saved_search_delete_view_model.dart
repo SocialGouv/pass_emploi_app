@@ -1,6 +1,6 @@
-import 'package:pass_emploi_app/redux/actions/saved_search_actions.dart';
+import 'package:async_redux/async_redux.dart';
+import 'package:pass_emploi_app/redux/actions/saved_search_delete_actions.dart';
 import 'package:pass_emploi_app/redux/states/saved_search_delete_state.dart';
-import 'package:redux/redux.dart';
 
 import '../../redux/states/app_state.dart';
 

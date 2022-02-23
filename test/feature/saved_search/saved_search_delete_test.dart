@@ -1,9 +1,12 @@
+import 'package:async_redux/async_redux.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
-import 'package:pass_emploi_app/redux/actions/saved_search_actions.dart';
+import 'package:pass_emploi_app/redux/actions/saved_search_delete_actions.dart';
+import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/saved_search_delete_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
+import 'package:pass_emploi_app/redux/store/environment.dart';
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
 
 import '../../doubles/dummies.dart';
@@ -12,78 +15,88 @@ import '../../utils/test_setup.dart';
 
 main() {
   group("When repository succeeds…", () {
-    final testStoreFactory = TestStoreFactory();
-    testStoreFactory.savedSearchDeleteRepository = SavedSearchDeleteRepositorySuccessStub();
-
     test("saved search should be deleted", () async {
       // Given
-      final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
-      final displayedLoading = store.onChange.any((e) => e.savedSearchDeleteState is SavedSearchDeleteLoadingState);
-      final successState = store.onChange.firstWhere((e) => e.savedSearchDeleteState is SavedSearchDeleteSuccessState);
+      final store = _store(loggedInState(), SavedSearchDeleteRepositorySuccessStub());
+      final storeTester = StoreTester.from(store);
 
       // When
       store.dispatch(SavedSearchDeleteRequestAction("savedSearchId"));
 
       // Then
-      expect(await displayedLoading, isTrue);
-      final appState = await successState;
-      expect(appState.savedSearchDeleteState is SavedSearchDeleteSuccessState, isTrue);
+      await storeTester.waitCondition((info) => info.state.savedSearchDeleteState is SavedSearchDeleteLoadingState);
+      final info = await storeTester.waitCondition(
+        (info) => info.state.savedSearchDeleteState is SavedSearchDeleteSuccessState,
+      );
+      expect(info.first.state.savedSearchDeleteState is SavedSearchDeleteSuccessState, isTrue);
     });
 
     test("saved search should be removed from saved searches", () async {
       // Given
-      final store = testStoreFactory.initializeReduxStore(
-        initialState: loggedInState().copyWith(savedSearchesState: State.success([_mockSavedSearch()])),
+      final store = _store(
+        loggedInState().copyWith(savedSearchesState: State.success([_mockSavedSearch()])),
+        SavedSearchDeleteRepositorySuccessStub(),
       );
-      final displayedLoading = store.onChange.any((e) => e.savedSearchDeleteState is SavedSearchDeleteLoadingState);
-      final successState = store.onChange.firstWhere((e) => e.savedSearchDeleteState is SavedSearchDeleteSuccessState);
+      final storeTester = StoreTester.from(store);
 
       // When
       store.dispatch(SavedSearchDeleteRequestAction("savedSearchId"));
 
       // Then
-      expect(await displayedLoading, isTrue);
-      final appState = await successState;
-      expect(appState.savedSearchesState.getResultOrThrow(), isEmpty);
+      await storeTester.waitCondition((info) => info.state.savedSearchDeleteState is SavedSearchDeleteLoadingState);
+      final info = await storeTester.waitCondition(
+        (info) => info.state.savedSearchDeleteState is SavedSearchDeleteSuccessState,
+      );
+      expect(info.first.state.savedSearchesState.getResultOrThrow(), isEmpty);
     });
   });
 
   group("When repository fails…", () {
-    final testStoreFactory = TestStoreFactory();
-    testStoreFactory.savedSearchDeleteRepository = SavedSearchDeleteRepositoryFailureStub();
-
     test("saved search delete state should be failure", () async {
       // Given
-      final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
-      final displayedLoading = store.onChange.any((e) => e.savedSearchDeleteState is SavedSearchDeleteLoadingState);
-      final failureState = store.onChange.firstWhere((e) => e.savedSearchDeleteState is SavedSearchDeleteFailureState);
+      final store = _store(
+        loggedInState(),
+        SavedSearchDeleteRepositoryFailureStub(),
+      );
+      final storeTester = StoreTester.from(store);
 
       // When
       store.dispatch(SavedSearchDeleteRequestAction("savedSearchId"));
 
       // Then
-      expect(await displayedLoading, isTrue);
-      final appState = await failureState;
-      expect(appState.savedSearchDeleteState is SavedSearchDeleteFailureState, isTrue);
+      await storeTester.waitCondition((info) => info.state.savedSearchDeleteState is SavedSearchDeleteLoadingState);
+      await storeTester.waitCondition((info) => info.state.savedSearchDeleteState is SavedSearchDeleteFailureState);
     });
 
     test("saved search should not be removed from saved searches", () async {
       // Given
-      final store = testStoreFactory.initializeReduxStore(
-        initialState: loggedInState().copyWith(savedSearchesState: State.success([_mockSavedSearch()])),
+      final store = _store(
+        loggedInState().copyWith(savedSearchesState: State.success([_mockSavedSearch()])),
+        SavedSearchDeleteRepositoryFailureStub(),
       );
-      final displayedLoading = store.onChange.any((e) => e.savedSearchDeleteState is SavedSearchDeleteLoadingState);
-      final failureState = store.onChange.firstWhere((e) => e.savedSearchDeleteState is SavedSearchDeleteFailureState);
+      final storeTester = StoreTester.from(store);
 
       // When
       store.dispatch(SavedSearchDeleteRequestAction("savedSearchId"));
 
       // Then
-      expect(await displayedLoading, isTrue);
-      final appState = await failureState;
-      expect(appState.savedSearchesState.getResultOrThrow(), [_mockSavedSearch()]);
+      await storeTester.waitCondition((info) => info.state.savedSearchDeleteState is SavedSearchDeleteLoadingState);
+      final info = await storeTester.waitCondition(
+        (info) => info.state.savedSearchDeleteState is SavedSearchDeleteFailureState,
+      );
+      expect(info.first.state.savedSearchesState.getResultOrThrow(), [_mockSavedSearch()]);
     });
   });
+}
+
+Store<AppState> _store(AppState state, SavedSearchDeleteRepository repository) {
+  return Store<AppState>(
+    initialState: state,
+    environment: Environment(
+      storeV1: TestStoreFactory().initializeReduxStore(initialState: state),
+      savedSearchDeleteRepository: repository,
+    ),
+  );
 }
 
 SavedSearch _mockSavedSearch() {

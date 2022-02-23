@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:isolate';
 
+import 'package:async_redux/async_redux.dart' as async_redux;
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
@@ -25,7 +26,8 @@ import 'package:pass_emploi_app/pass_emploi_app.dart';
 import 'package:pass_emploi_app/push/firebase_push_notification_manager.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/store/store_factory.dart';
+import 'package:pass_emploi_app/redux/store/store_factory_v1.dart';
+import 'package:pass_emploi_app/redux/store/store_factory_v2.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
@@ -65,12 +67,14 @@ main() async {
   final remoteConfig = await _remoteConfig();
   final forceUpdate = await _shouldForceUpdate(remoteConfig);
   final PushNotificationManager pushManager = FirebasePushNotificationManager();
-  final store = await _initializeReduxStore(configuration, pushManager);
+  final initialState = AppState.initialState(configuration: configuration);
+  final storeV1 = await _initializeReduxStoreV1(configuration, pushManager, initialState);
+  final storeV2 = await _initializeReduxStoreV2(configuration, initialState, storeV1);
 
-  await pushManager.init(store);
+  await pushManager.init(storeV1);
 
   runZonedGuarded<Future<void>>(() async {
-    runApp(forceUpdate ? ForceUpdatePage(configuration.flavor) : PassEmploiApp(store));
+    runApp(forceUpdate ? ForceUpdatePage(configuration.flavor) : PassEmploiApp(storeV1: storeV1, storeV2: storeV2));
   }, FirebaseCrashlytics.instance.recordError);
 
   await _handleErrorsOutsideFlutter();
@@ -106,9 +110,10 @@ Future<bool> _shouldForceUpdate(RemoteConfig? remoteConfig) async {
   return AppVersionChecker().shouldForceUpdate(currentVersion: currentVersion, minimumVersion: minimumVersion);
 }
 
-Future<Store<AppState>> _initializeReduxStore(
+Future<Store<AppState>> _initializeReduxStoreV1(
   Configuration configuration,
   PushNotificationManager pushNotificationManager,
+  AppState initialState,
 ) async {
   final headersBuilder = HeadersBuilder();
   final securedPreferences = FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true));
@@ -127,7 +132,7 @@ Future<Store<AppState>> _initializeReduxStore(
     interceptors: [AccessTokenInterceptor(accessTokenRetriever), LoggingInterceptor()],
   );
   final chatCrypto = ChatCrypto();
-  final reduxStore = StoreFactory(
+  final reduxStore = StoreFactoryV1(
     authenticator,
     UserActionRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     RendezvousRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
@@ -155,10 +160,35 @@ Future<Store<AppState>> _initializeReduxStore(
     OffreEmploiSavedSearchRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     ImmersionSavedSearchRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     GetSavedSearchRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
-    SavedSearchDeleteRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
-  ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
+  ).initializeReduxStore(initialState: initialState);
   accessTokenRetriever.setStore(reduxStore);
   return reduxStore;
+}
+
+Future<async_redux.Store<AppState>> _initializeReduxStoreV2(
+  Configuration configuration,
+  AppState initialState,
+  Store<AppState> storeV1,
+) async {
+  final headersBuilder = HeadersBuilder();
+  final securedPreferences = FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true));
+  final authenticator = Authenticator(AuthWrapper(FlutterAppAuth()), configuration, securedPreferences);
+  final accessTokenRetriever = AuthAccessTokenRetriever(authenticator);
+  final crashlytics = CrashlyticsWithFirebase(FirebaseCrashlytics.instance);
+  var defaultContext = SecurityContext.defaultContext;
+  try {
+    defaultContext.setTrustedCertificatesBytes(utf8.encode(configuration.iSRGX1CertificateForOldDevices));
+  } catch (e, stack) {
+    crashlytics.recordNonNetworkException(e, stack);
+  }
+  Client clientWithCertificate = IOClient(HttpClient(context: defaultContext));
+  final httpClient = InterceptedClient.build(
+    client: clientWithCertificate,
+    interceptors: [AccessTokenInterceptor(accessTokenRetriever), LoggingInterceptor()],
+  );
+  return StoreFactoryV2(
+    SavedSearchDeleteRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+  ).initializeReduxStoreV2(initialState: initialState, storeV1: storeV1);
 }
 
 Future<void> _handleErrorsOutsideFlutter() async {
