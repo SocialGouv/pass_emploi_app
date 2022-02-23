@@ -24,7 +24,7 @@ class ServiceCiviqueViewModel extends Equatable {
             .map((location) => LocationViewModel.fromLocation(location))
             .toList(),
         onSearchRequest: (location) {
-          SearchServiceCiviqueAction(location: location);
+          store.dispatch(SearchServiceCiviqueAction(location: location));
         },
         onInputLocation: (input) => store.dispatch(RequestLocationAction(input, villesOnly: true)));
   }
