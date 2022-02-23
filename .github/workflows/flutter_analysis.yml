@@ -1,4 +1,4 @@
-name: Static analysis of Dart and FLutter code
+name: Static analysis of Dart and Flutter code
 
 on:
   pull_request:
