@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/presentation/saved_search/saved_search_delete_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/saved_search_actions.dart';
+import 'package:pass_emploi_app/features/saved_search/delete/presentation/saved_search_delete_view_model.dart';
+import 'package:pass_emploi_app/features/saved_search/delete/slice/actions.dart';
+import 'package:pass_emploi_app/features/saved_search/delete/slice/state.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/saved_search_delete_state.dart';
 
 import '../../doubles/spies.dart';
 import '../../utils/test_setup.dart';
