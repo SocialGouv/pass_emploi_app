@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
+import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
-import 'package:url_launcher/url_launcher.dart';
 
+import '../presentation/location_view_model.dart';
+import '../presentation/service_civique_view_model.dart';
 import '../widgets/location_autocomplete.dart';
 
 class ServiceCiviqueSearchPage extends TraceableStatefulWidget {
@@ -19,13 +22,20 @@ class ServiceCiviqueSearchPage extends TraceableStatefulWidget {
 
 class _ServiceCiviqueSearchPageState extends State<ServiceCiviqueSearchPage> {
   final _locationFormKey = GlobalKey<FormState>();
+  LocationViewModel? _selectedLocationViewModel;
 
   @override
   Widget build(BuildContext context) {
-    return _buildContent(context);
+    return StoreConnector<AppState, ServiceCiviqueViewModel>(
+      converter: (store) => ServiceCiviqueViewModel.create(store),
+      builder: _buildContent,
+      onDispose: (store) {
+        store.dispatch(ResetLocationAction());
+      },
+    );
   }
 
-  Padding _buildContent(BuildContext context) {
+  Padding _buildContent(BuildContext context, ServiceCiviqueViewModel viewModel) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
       child: Column(
@@ -34,7 +44,7 @@ class _ServiceCiviqueSearchPageState extends State<ServiceCiviqueSearchPage> {
           SizedBox(height: Margins.spacing_s),
           Text(Strings.serviceCiviquePresentation, style: TextStyles.textBaseRegular),
           SizedBox(height: Margins.spacing_m),
-          Text(Strings.villeCompulsoryLabel, style: TextStyles.textBaseBold),
+          Text(Strings.villeNonCompulsoryLabel, style: TextStyles.textBaseBold),
           SizedBox(height: Margins.spacing_s),
           Text(Strings.selectACity, style: TextStyles.textSRegular()),
           SizedBox(height: Margins.spacing_s),
@@ -43,12 +53,9 @@ class _ServiceCiviqueSearchPageState extends State<ServiceCiviqueSearchPage> {
             onSelectLocationViewModel: (locationViewModel) => _selectedLocationViewModel = locationViewModel,
             locationViewModels: viewModel.locations,
             hint: Strings.immersionFieldHint,
-            getPreviouslySelectedTitle: () => _selectedLocationViewModel?.title,
+            getPreviouslySelectedTitle: () => null,
             formKey: _locationFormKey,
             validator: (value) {
-              if (value == null || value.isEmpty || _selectedLocationViewModel == null) {
-                return Strings.immersionVilleError;
-              }
               return null;
             },
           ),
@@ -57,7 +64,7 @@ class _ServiceCiviqueSearchPageState extends State<ServiceCiviqueSearchPage> {
             constraints: const BoxConstraints(minWidth: double.infinity),
             child: PrimaryActionButton(
               onPressed: () {
-                // TODO en mob
+                viewModel.onSearchRequest(_selectedLocationViewModel?.location);
               },
               label: Strings.searchButton,
               iconSize: 18,

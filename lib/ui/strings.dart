@@ -171,6 +171,7 @@ class Strings {
   static String immersionLabel = "Découvrez un métier en immersion dans une entreprise.";
   static String metierCompulsoryLabel = "* Métier";
   static String villeCompulsoryLabel = "* Localisation";
+  static String villeNonCompulsoryLabel = "Localisation";
   static String immersionExpansionTileTitle = "En savoir plus sur l’immersion";
   static String immersionObjectifTitle = "Objectif poursuivi ?";
   static String immersionObjectifContent =
