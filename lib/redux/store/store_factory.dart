@@ -21,6 +21,7 @@ import 'package:pass_emploi_app/redux/middlewares/offre_emploi_saved_search_midd
 import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/search_location_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/search_metier_middleware.dart';
+import 'package:pass_emploi_app/redux/middlewares/search_service_civique_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/tracking_event_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/user_action_middleware.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
@@ -43,6 +44,7 @@ import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search
 import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
+import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart' as redux;
@@ -76,6 +78,7 @@ class StoreFactory {
   final ImmersionSavedSearchRepository immersionSavedSearchRepository;
   final GetSavedSearchRepository getSavedSearchRepository;
   final SavedSearchDeleteRepository savedSearchDeleteRepository;
+  final ServiceCiviqueRepository serviceCiviqueRepository;
 
   StoreFactory(
     this.authenticator,
@@ -100,6 +103,7 @@ class StoreFactory {
     this.immersionSavedSearchRepository,
     this.getSavedSearchRepository,
     this.savedSearchDeleteRepository,
+    this.serviceCiviqueRepository,
   );
 
   redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -131,6 +135,7 @@ class StoreFactory {
         SavedSearchListRequestMiddleware(getSavedSearchRepository),
         GetSavedSearchMiddleware(getSavedSearchRepository),
         SavedSearchDeleteMiddleware(savedSearchDeleteRepository),
+        SearchServiceCiviqueMiddleware(serviceCiviqueRepository),
         ..._debugMiddleware(),
       ],
     );
