@@ -44,8 +44,12 @@ class ServiceCiviqueRepository {
       final response = await _httpClient.get(url, headers: await _headerBuilder.headers(userId: userId));
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes);
-        final list = (json["results"] as List).map((offre) => ServiceCivique.fromJson(offre)).toList();
-        return ServiceCiviqueSearchResponse(isMoreDataAvailable: list.length == PAGE_SIZE, offres: list);
+        final list = (json as List).map((offre) => ServiceCivique.fromJson(offre)).toList();
+        return ServiceCiviqueSearchResponse(
+          isMoreDataAvailable: list.length == PAGE_SIZE,
+          offres: list,
+          lastPageRequested: request.page,
+        );
       }
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);
@@ -76,7 +80,7 @@ class ServiceCiviqueRepository {
     if (request.distance != null) {
       writeParameter("distance", request.distance.toString());
     }
-    if (request.startDate != null  && request.startDate!.isNotEmpty) {
+    if (request.startDate != null && request.startDate!.isNotEmpty) {
       writeParameter("dateDeDebutMinimum", request.startDate!);
     }
     if (request.endDate != null && request.endDate!.isNotEmpty) {
@@ -91,7 +95,12 @@ class ServiceCiviqueRepository {
 
 class ServiceCiviqueSearchResponse {
   final bool isMoreDataAvailable;
+  final int lastPageRequested;
   final List<ServiceCivique> offres;
 
-  ServiceCiviqueSearchResponse({required this.isMoreDataAvailable, required this.offres});
+  ServiceCiviqueSearchResponse({
+    required this.isMoreDataAvailable,
+    required this.offres,
+    required this.lastPageRequested,
+  });
 }
