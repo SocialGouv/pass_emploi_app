@@ -32,6 +32,7 @@ class _ServiceCiviqueSearchPageState extends State<ServiceCiviqueSearchPage> {
       onDispose: (store) {
         store.dispatch(ResetLocationAction());
       },
+      distinct: true,
     );
   }
 
