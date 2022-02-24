@@ -35,8 +35,10 @@ class ServiceCiviqueRepository {
 
   ServiceCiviqueRepository(this._baseUrl, this._httpClient, this._headerBuilder, [this._crashlytics]);
 
-  Future<ServiceCiviqueSearchResponse?> search(
-      {required String userId, required SearchServiceCiviqueRequest request}) async {
+  Future<ServiceCiviqueSearchResponse?> search({
+    required String userId,
+    required SearchServiceCiviqueRequest request,
+  }) async {
     final url = Uri.parse(_baseUrl + "/services-civique").replace(
       query: _createQuery(request),
     );
