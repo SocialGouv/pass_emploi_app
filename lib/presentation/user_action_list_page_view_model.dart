@@ -1,9 +1,12 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
+import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
+import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
+import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
+import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
@@ -27,18 +30,21 @@ class UserActionListPageViewModel extends Equatable {
   });
 
   factory UserActionListPageViewModel.create(Store<AppState> store) {
-    final userActionState = store.state.userActionState;
+    final state = store.state.userActionListState;
     return UserActionListPageViewModel(
-      withLoading: userActionState.isLoading() || userActionState.isNotInitialized(),
-      withFailure: userActionState.isFailure(),
-      withEmptyMessage: _isEmpty(userActionState),
+      withLoading: state is UserActionListLoadingState || state is UserActionListNotInitializedState,
+      withFailure: state is UserActionListFailureState,
+      withEmptyMessage: _isEmpty(state),
       items: _listItems(
-        activeItems: _activeItems(state: userActionState),
-        doneItems: _doneItems(state: userActionState),
+        activeItems: _activeItems(state: state),
+        doneItems: _doneItems(state: state),
       ),
-      onRetry: () => store.dispatch(RequestUserActionsAction()),
-      onUserActionDetailsDismissed: () => store.dispatch(DismissUserActionDetailsAction()),
-      onCreateUserActionDismissed: () => store.dispatch(DismissCreateUserAction()),
+      onRetry: () => store.dispatch(UserActionListRequestAction()),
+      onUserActionDetailsDismissed: () {
+        store.dispatch(UserActionUpdateResetAction());
+        store.dispatch(UserActionDeleteResetAction());
+      },
+      onCreateUserActionDismissed: () => store.dispatch(UserActionCreateResetAction()),
     );
   }
 
@@ -46,12 +52,11 @@ class UserActionListPageViewModel extends Equatable {
   List<Object?> get props => [withLoading, withFailure, withEmptyMessage, items];
 }
 
-bool _isEmpty(State<List<UserAction>> state) => state.isSuccess() && state.getResultOrThrow().isEmpty;
+bool _isEmpty(UserActionListState state) => state is UserActionListSuccessState && state.userActions.isEmpty;
 
-List<UserActionViewModel> _activeItems({required State<List<UserAction>> state}) {
-  if (state.isSuccess()) {
-    return state
-        .getResultOrThrow()
+List<UserActionViewModel> _activeItems({required UserActionListState state}) {
+  if (state is UserActionListSuccessState) {
+    return state.userActions
         .where((action) => action.status != UserActionStatus.DONE)
         .map((action) => UserActionViewModel.create(action))
         .toList();
@@ -59,10 +64,9 @@ List<UserActionViewModel> _activeItems({required State<List<UserAction>> state})
   return [];
 }
 
-List<UserActionViewModel> _doneItems({required State<List<UserAction>> state}) {
-  if (state.isSuccess()) {
-    return state
-        .getResultOrThrow()
+List<UserActionViewModel> _doneItems({required UserActionListState state}) {
+  if (state is UserActionListSuccessState) {
+    return state.userActions
         .where((action) => action.status == UserActionStatus.DONE)
         .map((action) => UserActionViewModel.create(action))
         .toList();

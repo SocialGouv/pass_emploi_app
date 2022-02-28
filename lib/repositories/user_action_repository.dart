@@ -64,10 +64,7 @@ class UserActionRepository {
   Future<bool> deleteUserAction(String actionId) async {
     final url = Uri.parse(_baseUrl + "/actions/$actionId");
     try {
-      final response = await _httpClient.delete(
-        url,
-        headers: await _headerBuilder.headers(),
-      );
+      final response = await _httpClient.delete(url, headers: await _headerBuilder.headers());
       if (response.statusCode.isValid()) return true;
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);

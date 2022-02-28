@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
+import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
+import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
-import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
-import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 
 import '../doubles/dummies.dart';
@@ -18,7 +18,7 @@ void main() {
     testStoreFactory.userActionRepository = repositorySpy;
     final store = testStoreFactory.initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        userActionState: State<List<UserAction>>.success(
+        userActionListState: UserActionListSuccessState(
           [
             _notStartedAction(actionId: "1"),
             _notStartedAction(actionId: "2"),
@@ -29,23 +29,25 @@ void main() {
       ),
     );
 
-    final changedState = store.onChange.first;
+    final successAppState = store.onChange.firstWhere((e) => e.userActionUpdateState is UserActionUpdatedState);
 
     // When
-    await store.dispatch(UserActionUpdateStatusAction(
-      userId: "userId",
-      actionId: "3",
-      newStatus: UserActionStatus.DONE,
-    ));
+    await store.dispatch(
+      UserActionUpdateRequestAction(
+        userId: "userId",
+        actionId: "3",
+        newStatus: UserActionStatus.DONE,
+      ),
+    );
 
     // Then
-    final appState = await changedState;
+    final appState = await successAppState;
     expect(repositorySpy.isActionUpdated, true);
 
-    expect(appState.userActionState.getResultOrThrow()[0].id, "3");
-    expect(appState.userActionState.getResultOrThrow()[0].status, UserActionStatus.DONE);
-
-    expect(appState.userActionUpdateState is UserActionUpdatedState, true);
+    expect(appState.userActionListState is UserActionListSuccessState, isTrue);
+    expect((appState.userActionListState as UserActionListSuccessState).userActions[0].id, "3");
+    expect((appState.userActionListState as UserActionListSuccessState).userActions[0].status, UserActionStatus.DONE);
+    expect(appState.userActionUpdateState is UserActionUpdatedState, isTrue);
   });
 }
 

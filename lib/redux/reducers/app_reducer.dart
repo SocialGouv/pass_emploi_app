@@ -1,6 +1,10 @@
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_reducer.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_reducer.dart';
+import 'package:pass_emploi_app/features/user_action/create/user_action_create_reducer.dart';
+import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_reducer.dart';
+import 'package:pass_emploi_app/features/user_action/list/user_action_list_reducer.dart';
+import 'package:pass_emploi_app/features/user_action/update/user_action_update_reducer.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -10,7 +14,6 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/user.dart';
-import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
 import 'package:pass_emploi_app/redux/actions/deep_link_action.dart';
 import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
@@ -20,7 +23,6 @@ import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/actions/saved_search_actions.dart';
 import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/actions/search_metier_action.dart';
-import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/deep_link_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/favoris/favoris_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/immersion_details_reducer.dart';
@@ -32,7 +34,6 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
 import 'package:pass_emploi_app/redux/states/configuration_state.dart';
-import 'package:pass_emploi_app/redux/states/create_user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
 import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/immersion_search_request_state.dart';
@@ -45,8 +46,6 @@ import 'package:pass_emploi_app/redux/states/saved_search_state.dart';
 import 'package:pass_emploi_app/redux/states/search_location_state.dart';
 import 'package:pass_emploi_app/redux/states/search_metier_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
-import 'package:pass_emploi_app/redux/states/user_action_delete_state.dart';
-import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 import '../../models/saved_search/saved_search.dart';
@@ -56,10 +55,11 @@ AppState reducer(AppState current, dynamic action) {
   if (action is RequestLogoutAction) {
     return AppState.initialState(configuration: current.configurationState.configuration);
   }
-  return current.copyWith(
-    createUserActionState: _createUserActionState(current.createUserActionState, action),
-    userActionUpdateState: _userActionUpdateState(current.userActionUpdateState, action),
-    userActionDeleteState: _userActionDeleteState(current.userActionDeleteState, action),
+  return AppState(
+    userActionListState: userActionListReducer(current.userActionListState, action),
+    userActionCreateState: userActionCreateReducer(current.userActionCreateState, action),
+    userActionUpdateState: userActionUpdateReducer(current.userActionUpdateState, action),
+    userActionDeleteState: userActionDeleteReducer(current.userActionDeleteState, action),
     chatStatusState: _chatStatusState(current.chatStatusState, action),
     chatState: _chatState(current.chatState, action),
     offreEmploiSearchState: _offreEmploiSearchState(current.offreEmploiSearchState, action),
@@ -73,7 +73,6 @@ AppState reducer(AppState current, dynamic action) {
     searchLocationState: _searchLocationState(current.searchLocationState, action),
     searchMetierState: _searchMetierState(current.searchMetierState, action),
     loginState: _loginState(current.loginState, action),
-    userActionState: _userActionState(current.userActionState, action),
     rendezvousState: _rendezvousState(current.rendezvousState, action),
     offreEmploiDetailsState: _offreEmploiDetailsState(current.offreEmploiDetailsState, action),
     immersionSearchState: _immersionSearchState(current.immersionSearchState, action),
@@ -86,20 +85,6 @@ AppState reducer(AppState current, dynamic action) {
     savedSearchDeleteState: savedSearchDeleteReducer(current.savedSearchDeleteState, action),
     serviceCiviqueSearchResultState: serviceCiviqueReducer(current.serviceCiviqueSearchResultState, action),
   );
-}
-
-UserActionDeleteState _userActionDeleteState(UserActionDeleteState current, dynamic action) {
-  if (action is UserActionDeleteLoadingAction) {
-    return UserActionDeleteState.loading();
-  } else if (action is UserActionDeleteSuccessAction) {
-    return UserActionDeleteState.success();
-  } else if (action is UserActionDeleteFailureAction) {
-    return UserActionDeleteState.failure();
-  } else if (action is DismissUserActionDetailsAction) {
-    return UserActionDeleteState.notInitialized();
-  } else {
-    return current;
-  }
 }
 
 ChatStatusState _chatStatusState(ChatStatusState current, dynamic action) {
@@ -276,41 +261,11 @@ SearchMetierState _searchMetierState(SearchMetierState current, dynamic action) 
   }
 }
 
-State<User>? _loginState(State<User> current, dynamic action) {
+State<User> _loginState(State<User> current, dynamic action) {
   if (action is NotLoggedInAction) {
     return UserNotLoggedInState();
   } else if (action is LoginAction) {
     return Reducer<User>().reduce(current, action);
-  } else {
-    return current;
-  }
-}
-
-State<List<UserAction>> _userActionState(State<List<UserAction>> current, dynamic action) {
-  if (action is UserActionLoadingAction) {
-    return State<List<UserAction>>.loading();
-  } else if (action is UserActionSuccessAction) {
-    return State<List<UserAction>>.success(action.actions);
-  } else if (action is UserActionFailureAction) {
-    return State<List<UserAction>>.failure();
-  } else if (action is UserActionDeleteSuccessAction) {
-    return State<List<UserAction>>.success(
-      current.getResultOrThrow().where((element) => element.id != action.actionId).toList(),
-    );
-  } else if (action is UserActionUpdateStatusAction) {
-    final currentActions = current.getResultOrThrow();
-    final actionToUpdate = currentActions.firstWhere((a) => a.id == action.actionId);
-    final updatedAction = UserAction(
-      id: actionToUpdate.id,
-      content: actionToUpdate.content,
-      comment: actionToUpdate.comment,
-      status: action.newStatus,
-      lastUpdate: DateTime.now(),
-      creator: actionToUpdate.creator,
-    );
-    final newActions = List<UserAction>.from(currentActions).where((a) => a.id != action.actionId).toList()
-      ..insert(0, updatedAction);
-    return State<List<UserAction>>.success(newActions);
   } else {
     return current;
   }
@@ -395,28 +350,6 @@ State<List<SavedSearch>> _savedSearchesState(State<List<SavedSearch>> current, d
     final List<SavedSearch> savedSearches = current.getResultOrThrow();
     savedSearches.removeWhere((element) => element.getId() == action.savedSearchId);
     return State<List<SavedSearch>>.success(savedSearches);
-  } else {
-    return current;
-  }
-}
-
-CreateUserActionState _createUserActionState(CreateUserActionState current, dynamic action) {
-  if (action is UserActionCreatedWithSuccessAction) {
-    return CreateUserActionState.success();
-  } else if (action is UserActionCreationFailed) {
-    return CreateUserActionState.error();
-  } else {
-    return current;
-  }
-}
-
-UserActionUpdateState _userActionUpdateState(UserActionUpdateState current, dynamic action) {
-  if (action is UserActionNoUpdateNeededAction) {
-    return UserActionUpdateState.noUpdateNeeded();
-  } else if (action is DismissUserActionDetailsAction) {
-    return UserActionUpdateState.notUpdating();
-  } else if (action is UserActionUpdateStatusAction) {
-    return UserActionUpdateState.updated(action.newStatus);
   } else {
     return current;
   }
