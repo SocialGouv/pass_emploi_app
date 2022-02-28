@@ -263,9 +263,9 @@ class ServiceCiviqueRepositorySuccessWithMoreDataStub extends ServiceCiviqueRepo
     callCount = callCount + 1;
     final response = ServiceCiviqueSearchResponse(
         isMoreDataAvailable: true,
-        offres: [mockServiceCivique()],
+        offres: List.from(previousOffers)..add(mockServiceCivique()),
         lastRequest: SearchServiceCiviqueRequest(
-            domain: null, location: null, distance: null, startDate: null, endDate: null, page: 0));
+            domain: null, location: null, distance: null, startDate: null, endDate: null, page: request.page));
     return response;
   }
 }
