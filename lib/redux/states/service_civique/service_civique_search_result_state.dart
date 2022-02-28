@@ -46,5 +46,5 @@ class ServiceCiviqueSearchResultDataState extends ServiceCiviqueSearchResultStat
   }) : super._();
 
   @override
-  List<Object?> get props => [this.offres, this.loadedPage, this.isMoreDataAvailable];
+  List<Object?> get props => [offres, loadedPage, isMoreDataAvailable];
 }
