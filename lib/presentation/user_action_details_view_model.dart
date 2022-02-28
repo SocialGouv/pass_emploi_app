@@ -1,8 +1,10 @@
+import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
+import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
+import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
+import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
+import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
-import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/user_action_delete_state.dart';
-import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 import 'package:redux/redux.dart';
 
 import '../models/user_action.dart';
@@ -26,7 +28,7 @@ class UserActionDetailsViewModel {
     return UserActionDetailsViewModel._(
       displayState: _displayState(store.state),
       onRefreshStatus: (actionId, newStatus) => _refreshStatus(store, actionId, newStatus),
-      onDelete: (actionId) => store.dispatch(UserActionDeleteAction(actionId)),
+      onDelete: (actionId) => store.dispatch(UserActionDeleteRequestAction(actionId)),
     );
   }
 
@@ -39,7 +41,7 @@ class UserActionDetailsViewModel {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is UserActionDetailsViewModel && runtimeType == other.runtimeType && displayState == other.displayState;
+          other is UserActionDetailsViewModel && runtimeType == other.runtimeType && displayState == other.displayState;
 
   @override
   int get hashCode => displayState.hashCode;
@@ -53,7 +55,7 @@ UserActionDetailsDisplayState _displayState(AppState state) {
     } else {
       return UserActionDetailsDisplayState.TO_DISMISS_AFTER_UPDATE;
     }
-  } else if (updateState is UserActionNoUpdateNeeded) {
+  } else if (updateState is UserActionNoUpdateNeededState) {
     return UserActionDetailsDisplayState.TO_DISMISS;
   } else if (state.userActionDeleteState is UserActionDeleteSuccessState) {
     return UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION;
@@ -66,18 +68,20 @@ UserActionDetailsDisplayState _displayState(AppState state) {
   }
 }
 
-_refreshStatus(Store<AppState> store, String actionId, UserActionStatus newStatus) {
+void _refreshStatus(Store<AppState> store, String actionId, UserActionStatus newStatus) {
   final loginState = store.state.loginState;
-  final userActionState = store.state.userActionState;
-  if (userActionState.isSuccess()) {
+  final userActionListState = store.state.userActionListState;
+  if (userActionListState is UserActionListSuccessState) {
     if (loginState.isSuccess()) {
-      final action = userActionState.getResultOrThrow().firstWhere((element) => element.id == actionId);
+      final action = userActionListState.userActions.firstWhere((e) => e.id == actionId);
       if (action.status != newStatus) {
-        store.dispatch(UserActionUpdateStatusAction(
-          userId: loginState.getResultOrThrow().id,
-          actionId: actionId,
-          newStatus: newStatus,
-        ));
+        store.dispatch(
+          UserActionUpdateRequestAction(
+            userId: loginState.getResultOrThrow().id,
+            actionId: actionId,
+            newStatus: newStatus,
+          ),
+        );
       } else {
         store.dispatch(UserActionNoUpdateNeededAction());
       }

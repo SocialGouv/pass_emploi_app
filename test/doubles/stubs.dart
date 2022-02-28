@@ -37,6 +37,11 @@ class UserActionRepositorySuccessStub extends UserActionRepository {
   }
 
   @override
+  Future<bool> createUserAction(String userId, String? content, String? comment, UserActionStatus status) async {
+    return userId == "id" && content == "content" && comment == "comment" && status == UserActionStatus.NOT_STARTED;
+  }
+
+  @override
   Future<void> updateActionStatus(String userId, String actionId, UserActionStatus newStatus) async {}
 
   @override
@@ -51,6 +56,11 @@ class UserActionRepositoryFailureStub extends UserActionRepository {
   @override
   Future<List<UserAction>?> getUserActions(String userId) async {
     return null;
+  }
+
+  @override
+  Future<bool> createUserAction(String userId, String? content, String? comment, UserActionStatus status) async {
+    return false;
   }
 
   @override

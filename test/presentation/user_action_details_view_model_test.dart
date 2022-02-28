@@ -1,13 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
+import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
+import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
+import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/user_action_details_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
-import 'package:pass_emploi_app/redux/states/user_action_delete_state.dart';
-import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
@@ -18,8 +18,9 @@ main() {
       // Given
       final store = Store<AppState>(
         reducer,
-        initialState: AppState.initialState()
-            .copyWith(userActionUpdateState: UserActionUpdateState.updated(UserActionStatus.NOT_STARTED)),
+        initialState: AppState.initialState().copyWith(
+          userActionUpdateState: UserActionUpdatedState(UserActionStatus.NOT_STARTED),
+        ),
       );
 
       // When
@@ -33,8 +34,9 @@ main() {
       // Given
       final store = Store<AppState>(
         reducer,
-        initialState: AppState.initialState()
-            .copyWith(userActionUpdateState: UserActionUpdateState.updated(UserActionStatus.IN_PROGRESS)),
+        initialState: AppState.initialState().copyWith(
+          userActionUpdateState: UserActionUpdatedState(UserActionStatus.IN_PROGRESS),
+        ),
       );
 
       // When
@@ -48,8 +50,9 @@ main() {
       // Given
       final store = Store<AppState>(
         reducer,
-        initialState: AppState.initialState()
-            .copyWith(userActionUpdateState: UserActionUpdateState.updated(UserActionStatus.DONE)),
+        initialState: AppState.initialState().copyWith(
+          userActionUpdateState: UserActionUpdatedState(UserActionStatus.DONE),
+        ),
       );
 
       // When
@@ -64,7 +67,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: AppState.initialState().copyWith(userActionUpdateState: UserActionUpdateState.notUpdating()),
+      initialState: AppState.initialState().copyWith(userActionUpdateState: UserActionNotUpdatingState()),
     );
 
     // When
@@ -78,7 +81,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: AppState.initialState().copyWith(userActionUpdateState: UserActionUpdateState.noUpdateNeeded()),
+      initialState: AppState.initialState().copyWith(userActionUpdateState: UserActionNoUpdateNeededState()),
     );
 
     // When
@@ -92,7 +95,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: AppState.initialState().copyWith(userActionDeleteState: UserActionDeleteState.success()),
+      initialState: AppState.initialState().copyWith(userActionDeleteState: UserActionDeleteSuccessState()),
     );
 
     // When
@@ -106,7 +109,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: AppState.initialState().copyWith(userActionDeleteState: UserActionDeleteState.loading()),
+      initialState: AppState.initialState().copyWith(userActionDeleteState: UserActionDeleteLoadingState()),
     );
 
     // When
@@ -120,7 +123,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: AppState.initialState().copyWith(userActionDeleteState: UserActionDeleteState.failure()),
+      initialState: AppState.initialState().copyWith(userActionDeleteState: UserActionDeleteFailureState()),
     );
 
     // When
@@ -136,24 +139,27 @@ main() {
     final store = Store<AppState>(
       storeSpy.reducer,
       initialState: loggedInState().copyWith(
-          userActionState: State<List<UserAction>>.success([
-        UserAction(
-          id: "id",
-          content: "content",
-          comment: "comment",
-          status: UserActionStatus.DONE,
-          lastUpdate: DateTime(2022, 12, 23, 0, 0, 0),
-          creator: JeuneActionCreator(),
+        userActionListState: UserActionListSuccessState(
+          [
+            UserAction(
+              id: "id",
+              content: "content",
+              comment: "comment",
+              status: UserActionStatus.DONE,
+              lastUpdate: DateTime(2022, 12, 23, 0, 0, 0),
+              creator: JeuneActionCreator(),
+            ),
+            UserAction(
+              id: "id2",
+              content: "content2",
+              comment: "",
+              status: UserActionStatus.NOT_STARTED,
+              lastUpdate: DateTime(2022, 11, 13, 0, 0, 0),
+              creator: JeuneActionCreator(),
+            ),
+          ],
         ),
-        UserAction(
-          id: "id2",
-          content: "content2",
-          comment: "",
-          status: UserActionStatus.NOT_STARTED,
-          lastUpdate: DateTime(2022, 11, 13, 0, 0, 0),
-          creator: JeuneActionCreator(),
-        ),
-      ])),
+      ),
     );
 
     // When
@@ -170,24 +176,27 @@ main() {
     final store = Store<AppState>(
       storeSpy.reducer,
       initialState: loggedInState().copyWith(
-          userActionState: State<List<UserAction>>.success([
-        UserAction(
-          id: "id",
-          content: "content",
-          comment: "comment",
-          status: UserActionStatus.DONE,
-          lastUpdate: DateTime(2022, 12, 23, 0, 0, 0),
-          creator: JeuneActionCreator(),
+        userActionListState: UserActionListSuccessState(
+          [
+            UserAction(
+              id: "id",
+              content: "content",
+              comment: "comment",
+              status: UserActionStatus.DONE,
+              lastUpdate: DateTime(2022, 12, 23, 0, 0, 0),
+              creator: JeuneActionCreator(),
+            ),
+            UserAction(
+              id: "id2",
+              content: "content2",
+              comment: "",
+              status: UserActionStatus.NOT_STARTED,
+              lastUpdate: DateTime(2022, 11, 13, 0, 0, 0),
+              creator: JeuneActionCreator(),
+            ),
+          ],
         ),
-        UserAction(
-          id: "id2",
-          content: "content2",
-          comment: "",
-          status: UserActionStatus.NOT_STARTED,
-          lastUpdate: DateTime(2022, 11, 13, 0, 0, 0),
-          creator: JeuneActionCreator(),
-        ),
-      ])),
+      ),
     );
 
     // When
@@ -208,7 +217,7 @@ class StoreSpy {
     if (action is UserActionNoUpdateNeededAction) {
       calledWithNoUpdateNeeded = true;
     }
-    if (action is UserActionUpdateStatusAction) {
+    if (action is UserActionUpdateRequestAction) {
       calledWithUpdate = true;
     }
     return currentState;
