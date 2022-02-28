@@ -25,7 +25,7 @@ main() {
     final successAppState = await successState;
     final searchState = (successAppState.serviceCiviqueSearchResultState as ServiceCiviqueSearchResultDataState);
     expect(searchState.offres.length, 1);
-    expect(searchState.loadedPage, 1);
+    expect(searchState.lastRequest.page, 0);
   });
 
 
