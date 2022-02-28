@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/redux/actions/search_service_civique_actions.dart';
-import 'package:pass_emploi_app/redux/states/service_civique/service_civique_search_result_state.dart';
+import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_actions.dart';
+import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
 
 import '../doubles/fixtures.dart';
 import '../doubles/stubs.dart';
