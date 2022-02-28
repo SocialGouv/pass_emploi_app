@@ -1,4 +1,4 @@
-import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 
 abstract class UserActionItem {
   UserActionItem._();
