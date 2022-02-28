@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
+import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -22,7 +23,7 @@ User mockUser({String id = ""}) => User(
     );
 
 State<User> successMiloUserState() => State<User>.success(User(
-  id: "id",
+      id: "id",
       firstName: "F",
       lastName: "L",
       email: "first.last@milo.fr",
@@ -30,7 +31,7 @@ State<User> successMiloUserState() => State<User>.success(User(
     ));
 
 State<User> successPoleEmploiUserState() => State<User>.success(User(
-  id: "id",
+      id: "id",
       firstName: "F",
       lastName: "L",
       email: "first.last@pole-emploi.fr",
@@ -136,3 +137,12 @@ Location mockCommuneLocation() => Location(libelle: "", code: "", type: Location
 Immersion mockImmersion({String id = ""}) {
   return Immersion(id: id, metier: "", nomEtablissement: "", secteurActivite: "", ville: "");
 }
+
+ServiceCivique mockServiceCivique({id = "123DXPM"}) => ServiceCivique(
+      id: id,
+      startDate: '17/02/2022',
+      title: "Technicien / Technicienne en froid et climatisation",
+      companyName: "RH TT INTERIM",
+      domain: 'Informatique',
+      location: "77 - LOGNES",
+    );
