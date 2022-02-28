@@ -25,6 +25,7 @@ class ServiceCiviqueSearchPage extends TraceableStatefulWidget {
 
 class _ServiceCiviqueSearchPageState extends State<ServiceCiviqueSearchPage> {
   final _locationFormKey = GlobalKey<FormState>();
+  var _shouldNavigate = true;
   LocationViewModel? _selectedLocationViewModel;
 
   @override
@@ -34,7 +35,10 @@ class _ServiceCiviqueSearchPageState extends State<ServiceCiviqueSearchPage> {
       builder: _buildContent,
       onWillChange: (_, newViewModel) {
         if (newViewModel.displayState == DisplayState.CONTENT) {
-          widget.pushAndTrackBack(context, MaterialPageRoute(builder: (context) => ServiceCiviqueListPage()));
+          if (_shouldNavigate) {
+            _shouldNavigate = false;
+            widget.pushAndTrackBack(context, MaterialPageRoute(builder: (context) => ServiceCiviqueListPage()));
+          }
         }
       },
       onDispose: (store) {
@@ -73,6 +77,7 @@ class _ServiceCiviqueSearchPageState extends State<ServiceCiviqueSearchPage> {
             constraints: const BoxConstraints(minWidth: double.infinity),
             child: PrimaryActionButton(
               onPressed: () {
+                _shouldNavigate = true;
                 viewModel.onSearchRequest(_selectedLocationViewModel?.location);
               },
               label: Strings.searchButton,

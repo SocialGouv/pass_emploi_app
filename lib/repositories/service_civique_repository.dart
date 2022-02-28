@@ -38,6 +38,7 @@ class ServiceCiviqueRepository {
   Future<ServiceCiviqueSearchResponse?> search({
     required String userId,
     required SearchServiceCiviqueRequest request,
+    required List<ServiceCivique> previousOffers,
   }) async {
     final url = Uri.parse(_baseUrl + "/services-civique").replace(
       query: _createQuery(request),
@@ -49,8 +50,8 @@ class ServiceCiviqueRepository {
         final list = (json as List).map((offre) => ServiceCivique.fromJson(offre)).toList();
         return ServiceCiviqueSearchResponse(
           isMoreDataAvailable: list.length == PAGE_SIZE,
-          offres: list,
-          lastPageRequested: request.page,
+          offres: List.from(previousOffers)..addAll(list),
+          lastRequest: request,
         );
       }
     } catch (e, stack) {
@@ -97,12 +98,12 @@ class ServiceCiviqueRepository {
 
 class ServiceCiviqueSearchResponse {
   final bool isMoreDataAvailable;
-  final int lastPageRequested;
+  final SearchServiceCiviqueRequest lastRequest;
   final List<ServiceCivique> offres;
 
   ServiceCiviqueSearchResponse({
     required this.isMoreDataAvailable,
     required this.offres,
-    required this.lastPageRequested,
+    required this.lastRequest,
   });
 }

@@ -10,6 +10,10 @@ class SearchServiceCiviqueAction {
 
 class ServiceCiviqueSearchFailureAction {}
 
+class ServiceCiviqueSearchResetAction {}
+
+class RequestMoreServiceCiviqueSearchResultsAction {}
+
 class ServiceCiviqueSearchSuccessAction {
   final ServiceCiviqueSearchResponse response;
 
