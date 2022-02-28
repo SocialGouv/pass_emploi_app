@@ -1,6 +1,6 @@
 import 'package:pass_emploi_app/models/location.dart';
 
-import '../../repositories/service_civique_repository.dart';
+import '../../../repositories/service_civique_repository.dart';
 
 abstract class ServiceCiviqueAction {}
 

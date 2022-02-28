@@ -1,8 +1,8 @@
-import 'package:pass_emploi_app/redux/actions/search_service_civique_actions.dart';
+import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:redux/redux.dart';
 
-import '../../repositories/service_civique_repository.dart';
+import '../../../repositories/service_civique_repository.dart';
 
 class SearchServiceCiviqueMiddleware extends MiddlewareClass<AppState> {
   final ServiceCiviqueRepository _repository;
