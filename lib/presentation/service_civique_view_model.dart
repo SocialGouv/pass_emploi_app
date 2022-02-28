@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:redux/redux.dart';
 
 import '../redux/actions/search_location_action.dart';
-import '../redux/actions/search_service_civique_actions.dart';
+import '../features/service_civique/search/search_service_civique_actions.dart';
 import '../redux/states/app_state.dart';
 
 class ServiceCiviqueViewModel extends Equatable {

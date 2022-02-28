@@ -138,7 +138,7 @@ Immersion mockImmersion({String id = ""}) {
   return Immersion(id: id, metier: "", nomEtablissement: "", secteurActivite: "", ville: "");
 }
 
-ServiceCivique mockServiceCivique({id = "123DXPM"}) => ServiceCivique(
+ServiceCivique mockServiceCivique({String id = "123DXPM"}) => ServiceCivique(
       id: id,
       startDate: '17/02/2022',
       title: "Technicien / Technicienne en froid et climatisation",

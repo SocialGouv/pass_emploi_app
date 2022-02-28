@@ -19,7 +19,7 @@ import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/actions/saved_search_actions.dart';
 import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/actions/search_metier_action.dart';
-import 'package:pass_emploi_app/redux/actions/search_service_civique_actions.dart';
+import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_actions.dart';
 import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/deep_link_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/favoris/favoris_reducer.dart';
@@ -29,7 +29,7 @@ import 'package:pass_emploi_app/redux/reducers/reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/saved_search/saved_search_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/search_location_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/search_metier_reducer.dart';
-import 'package:pass_emploi_app/redux/reducers/service_civique/service_civique_reducer.dart';
+import 'package:pass_emploi_app/features/service_civique/search/service_civique_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/user_action_reducer.dart';
 import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -88,6 +88,7 @@ AppState reducer(AppState current, dynamic action) {
     immersionSearchRequestState: _immersionSearchRequestState(current.immersionSearchRequestState, action),
     savedSearchesState: _savedSearchesState(current.savedSearchesState, action),
     savedSearchDeleteState: savedSearchDeleteReducer(current.savedSearchDeleteState, action),
+    serviceCiviqueSearchResultState: serviceCiviqueReducer(current, action),
   );
 }
 
