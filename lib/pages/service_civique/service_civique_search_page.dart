@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 
 import '../../presentation/location_view_model.dart';
 import '../../presentation/service_civique_view_model.dart';
+import '../../widgets/errors/error_text.dart';
 import '../../widgets/location_autocomplete.dart';
 
 class ServiceCiviqueSearchPage extends TraceableStatefulWidget {
@@ -84,6 +85,7 @@ class _ServiceCiviqueSearchPageState extends State<ServiceCiviqueSearchPage> {
               iconSize: 18,
             ),
           ),
+          if (viewModel.displayState == DisplayState.FAILURE) ErrorText(Strings.genericError),
           _buildCollapsableTile(context),
         ],
       ),
