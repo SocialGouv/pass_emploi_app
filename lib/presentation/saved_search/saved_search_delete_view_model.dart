@@ -1,5 +1,5 @@
-import 'package:pass_emploi_app/features/saved_search/delete/slice/actions.dart';
-import 'package:pass_emploi_app/features/saved_search/delete/slice/state.dart';
+import 'package:pass_emploi_app/features/saved_search/delete/actions.dart';
+import 'package:pass_emploi_app/features/saved_search/delete/state.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:redux/redux.dart';
 

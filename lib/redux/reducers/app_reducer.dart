@@ -1,5 +1,5 @@
-import 'package:pass_emploi_app/features/saved_search/delete/slice/actions.dart';
-import 'package:pass_emploi_app/features/saved_search/delete/slice/reducer.dart';
+import 'package:pass_emploi_app/features/saved_search/delete/actions.dart';
+import 'package:pass_emploi_app/features/saved_search/delete/reducer.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
