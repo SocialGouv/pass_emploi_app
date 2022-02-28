@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
-import 'package:pass_emploi_app/features/saved_search/delete/actions.dart';
+import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
 import 'package:pass_emploi_app/presentation/saved_search/saved_search_delete_view_model.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
