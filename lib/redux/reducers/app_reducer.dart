@@ -1,5 +1,6 @@
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_reducer.dart';
+import 'package:pass_emploi_app/features/service_civique/search/service_civique_reducer.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -83,6 +84,7 @@ AppState reducer(AppState current, dynamic action) {
     immersionSearchRequestState: _immersionSearchRequestState(current.immersionSearchRequestState, action),
     savedSearchesState: _savedSearchesState(current.savedSearchesState, action),
     savedSearchDeleteState: savedSearchDeleteReducer(current.savedSearchDeleteState, action),
+    serviceCiviqueSearchResultState: serviceCiviqueReducer(current.serviceCiviqueSearchResultState, action),
   );
 }
 

@@ -20,6 +20,7 @@ import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search
 import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
+import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
@@ -49,6 +50,7 @@ class TestStoreFactory {
   ImmersionSavedSearchRepository immersionSavedSearchRepository = DummyImmersionSavedSearchRepository();
   GetSavedSearchRepository getSavedSearchRepository = DummyGetSavedSearchRepository();
   SavedSearchDeleteRepository savedSearchDeleteRepository = DummySavedSearchDeleteRepository();
+  ServiceCiviqueRepository serviceCiviqueRepository = DummyServiceCiviqueRepository();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
@@ -74,6 +76,7 @@ class TestStoreFactory {
       immersionSavedSearchRepository,
       getSavedSearchRepository,
       savedSearchDeleteRepository,
+      serviceCiviqueRepository,
     ).initializeReduxStore(initialState: initialState);
   }
 }

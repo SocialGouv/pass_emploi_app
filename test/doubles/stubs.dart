@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
+import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 
 import 'dummies.dart';
@@ -244,5 +245,34 @@ class ChatRepositoryStub extends ChatRepository {
   @override
   Stream<ConseillerMessageInfo> chatStatusStream(String userId) async* {
     yield _info;
+  }
+}
+
+class ServiceCiviqueRepositorySuccessWithMoreDataStub extends ServiceCiviqueRepository {
+  int callCount = 0;
+
+  ServiceCiviqueRepositorySuccessWithMoreDataStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+
+  @override
+  Future<ServiceCiviqueSearchResponse?> search({
+    required String userId,
+    required SearchServiceCiviqueRequest request,
+  }) async {
+    callCount = callCount + 1;
+    final response =
+        ServiceCiviqueSearchResponse(isMoreDataAvailable: true, offres: [mockServiceCivique()], lastPageRequested: 1);
+    return response;
+  }
+}
+
+class ServiceCiviqueRepositoryFailureStub extends ServiceCiviqueRepository {
+  ServiceCiviqueRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+
+  @override
+  Future<ServiceCiviqueSearchResponse?> search({
+    required String userId,
+    required SearchServiceCiviqueRequest request,
+  }) async {
+    return null;
   }
 }

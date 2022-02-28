@@ -171,6 +171,7 @@ class Strings {
   static String immersionLabel = "Découvrez un métier en immersion dans une entreprise.";
   static String metierCompulsoryLabel = "* Métier";
   static String villeCompulsoryLabel = "* Localisation";
+  static String villeNonCompulsoryLabel = "Localisation";
   static String immersionExpansionTileTitle = "En savoir plus sur l’immersion";
   static String immersionObjectifTitle = "Objectif poursuivi ?";
   static String immersionObjectifContent =
@@ -210,6 +211,24 @@ class Strings {
       "Le service civique est un engagement volontaire au service de l'intérêt général, accessible sans condition de diplôme. Il est indemnisé et s'effectue en France ou à l'étranger.";
   static String serviceCiviqueButtonAction = "Rechercher un service civique";
   static String serviceCiviqueUrl = "https://www.service-civique.gouv.fr/missions/";
+  static String serviceCiviquePresentation =
+      "Engagez-vous dans un projet d’intérêt général et découvrez de nouveaux horizons";
+  static String selectACity = "Sélectionner une ville";
+  static String knowMoreAboutServiceCivique = "En savoir plus sur le service civique";
+  static String knowMoreAboutServiceCiviqueFirstTitle = "De 16 à 25 ans";
+  static String knowMoreAboutServiceCiviqueFirstText =
+      "Les missions sont ouvertes à tous les jeunes de 16 à 25 ans, sans conditions de diplôme et jusqu’à 30 ans pour les jeunes en situation de handicap";
+  static String knowMoreAboutServiceCiviqueSecondTitle = "De 6 à 12 mois";
+  static String knowMoreAboutServiceCiviqueSecondText =
+      "Tous les organismes proposant des missions de Service Civique sont certifiés d’intérêt général et œuvrent dans 9 domaines différents";
+  static String knowMoreAboutServiceCiviqueThirdTitle = "En France et à l’étranger";
+  static String knowMoreAboutServiceCiviqueThirdText =
+      "Découvrir de nouvelles expériences, acquérir de nouvelles compétences tout en étant indemnisé et en bénéficiant de nombreux avantages";
+  static String knowMoreAboutServiceCiviqueFourthTitle = "Une indemnisation";
+  static String knowMoreAboutServiceCiviqueFourthText =
+      "580 € d’indemnisation par mois dont 473,04 € pris en charge par l’État et 107,58 € par l’organisme d’accueil. ";
+  static String knowMoreAboutServiceCiviqueLastTitle =
+      "Vous souhaitez en savoir plus ? Envoyez un message à votre conseiller.";
 
   // Immersion Errors
   static String immersionMetierError = "Renseignez un secteur d'activité de la liste";
