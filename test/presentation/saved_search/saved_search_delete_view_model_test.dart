@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/saved_search/delete/actions.dart';
-import 'package:pass_emploi_app/features/saved_search/delete/state.dart';
+import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
+import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_state.dart';
 import 'package:pass_emploi_app/presentation/saved_search/saved_search_delete_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 
