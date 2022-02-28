@@ -1,6 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_state.dart';
+import 'package:pass_emploi_app/features/user_action/create/user_action_create_state.dart';
+import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
+import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
+import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -9,11 +13,9 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/user.dart';
-import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/states/chat_state.dart';
 import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
 import 'package:pass_emploi_app/redux/states/configuration_state.dart';
-import 'package:pass_emploi_app/redux/states/create_user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/saved_search_state.dart';
@@ -21,8 +23,6 @@ import 'package:pass_emploi_app/redux/states/search_location_state.dart';
 import 'package:pass_emploi_app/redux/states/search_metier_state.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
-import 'package:pass_emploi_app/redux/states/user_action_delete_state.dart';
-import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
 
 import '../../models/saved_search/saved_search.dart';
 import 'favoris_state.dart';
@@ -33,7 +33,8 @@ import 'offre_emploi_search_state.dart';
 
 class AppState extends Equatable {
   final DeepLinkState deepLinkState;
-  final CreateUserActionState createUserActionState;
+  final UserActionListState userActionListState;
+  final UserActionCreateState userActionCreateState;
   final UserActionUpdateState userActionUpdateState;
   final UserActionDeleteState userActionDeleteState;
   final ChatStatusState chatStatusState;
@@ -48,7 +49,6 @@ class AppState extends Equatable {
   final SearchLocationState searchLocationState;
   final SearchMetierState searchMetierState;
   final State<User> loginState;
-  final State<List<UserAction>> userActionState;
   final State<List<Rendezvous>> rendezvousState;
   final State<List<Immersion>> immersionSearchState;
   final State<ImmersionDetails> immersionDetailsState;
@@ -62,7 +62,8 @@ class AppState extends Equatable {
 
   AppState({
     required this.deepLinkState,
-    required this.createUserActionState,
+    required this.userActionListState,
+    required this.userActionCreateState,
     required this.userActionUpdateState,
     required this.userActionDeleteState,
     required this.chatStatusState,
@@ -77,7 +78,6 @@ class AppState extends Equatable {
     required this.searchLocationState,
     required this.searchMetierState,
     required this.loginState,
-    required this.userActionState,
     required this.rendezvousState,
     required this.immersionSearchState,
     required this.immersionDetailsState,
@@ -91,7 +91,8 @@ class AppState extends Equatable {
   });
 
   AppState copyWith({
-    final CreateUserActionState? createUserActionState,
+    final UserActionListState? userActionListState,
+    final UserActionCreateState? userActionCreateState,
     final UserActionUpdateState? userActionUpdateState,
     final UserActionDeleteState? userActionDeleteState,
     final ChatStatusState? chatStatusState,
@@ -106,7 +107,6 @@ class AppState extends Equatable {
     final SearchLocationState? searchLocationState,
     final SearchMetierState? searchMetierState,
     final State<User>? loginState,
-    final State<List<UserAction>>? userActionState,
     final State<List<Rendezvous>>? rendezvousState,
     final State<OffreEmploiDetails>? offreEmploiDetailsState,
     final State<List<Immersion>>? immersionSearchState,
@@ -121,7 +121,8 @@ class AppState extends Equatable {
   }) {
     return AppState(
       deepLinkState: deepLinkState ?? this.deepLinkState,
-      createUserActionState: createUserActionState ?? this.createUserActionState,
+      userActionListState: userActionListState ?? this.userActionListState,
+      userActionCreateState: userActionCreateState ?? this.userActionCreateState,
       userActionUpdateState: userActionUpdateState ?? this.userActionUpdateState,
       userActionDeleteState: userActionDeleteState ?? this.userActionDeleteState,
       chatStatusState: chatStatusState ?? this.chatStatusState,
@@ -136,7 +137,6 @@ class AppState extends Equatable {
       searchLocationState: searchLocationState ?? this.searchLocationState,
       searchMetierState: searchMetierState ?? this.searchMetierState,
       loginState: loginState ?? this.loginState,
-      userActionState: userActionState ?? this.userActionState,
       rendezvousState: rendezvousState ?? this.rendezvousState,
       immersionSearchState: immersionSearchState ?? this.immersionSearchState,
       immersionDetailsState: immersionDetailsState ?? this.immersionDetailsState,
@@ -153,9 +153,10 @@ class AppState extends Equatable {
   factory AppState.initialState({Configuration? configuration}) {
     return AppState(
       deepLinkState: DeepLinkState.notInitialized(),
-      createUserActionState: CreateUserActionState.notInitialized(),
-      userActionUpdateState: UserActionUpdateState.notUpdating(),
-      userActionDeleteState: UserActionDeleteState.notInitialized(),
+      userActionListState: UserActionListNotInitializedState(),
+      userActionCreateState: UserActionCreateNotInitializedState(),
+      userActionUpdateState: UserActionNotUpdatingState(),
+      userActionDeleteState: UserActionDeleteNotInitializedState(),
       chatStatusState: ChatStatusState.notInitialized(),
       chatState: ChatState.notInitialized(),
       offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
@@ -168,7 +169,6 @@ class AppState extends Equatable {
       searchLocationState: SearchLocationState([]),
       searchMetierState: SearchMetierState([]),
       loginState: State<User>.notInitialized(),
-      userActionState: State<List<UserAction>>.notInitialized(),
       rendezvousState: State<List<Rendezvous>>.notInitialized(),
       immersionSearchState: State<List<Immersion>>.notInitialized(),
       immersionDetailsState: State<ImmersionDetails>.notInitialized(),
@@ -183,9 +183,10 @@ class AppState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         deepLinkState,
-        createUserActionState,
+        userActionCreateState,
         userActionUpdateState,
         userActionDeleteState,
         chatStatusState,
@@ -199,7 +200,7 @@ class AppState extends Equatable {
         searchLocationState,
         searchMetierState,
         loginState,
-        userActionState,
+        userActionListState,
         rendezvousState,
         immersionSearchState,
         immersionDetailsState,

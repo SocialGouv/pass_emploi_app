@@ -3,6 +3,10 @@ import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_middleware.dart';
+import 'package:pass_emploi_app/features/user_action/create/user_action_create_middleware.dart';
+import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
+import 'package:pass_emploi_app/features/user_action/list/user_action_list_middleware.dart';
+import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
@@ -23,7 +27,6 @@ import 'package:pass_emploi_app/redux/middlewares/search_location_middleware.dar
 import 'package:pass_emploi_app/redux/middlewares/search_metier_middleware.dart';
 import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/tracking_event_middleware.dart';
-import 'package:pass_emploi_app/redux/middlewares/user_action_middleware.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -112,9 +115,12 @@ class StoreFactory {
       initialState: initialState,
       middleware: [
         LoginMiddleware(authenticator, firebaseAuthWrapper),
+        UserActionListMiddleware(userActionRepository),
+        UserActionCreateMiddleware(userActionRepository),
+        UserActionUpdateMiddleware(userActionRepository),
+        UserActionDeleteMiddleware(userActionRepository),
         ChatInitializerMiddleware(firebaseAuthRepository, firebaseAuthWrapper, chatCrypto),
         ChatMiddleware(chatRepository),
-        UserActionMiddleware(userActionRepository),
         RegisterPushNotificationTokenMiddleware(registerTokenRepository),
         OffreEmploiMiddleware(offreEmploiRepository),
         OffreEmploiDetailsMiddleware(offreEmploiDetailsRepository),

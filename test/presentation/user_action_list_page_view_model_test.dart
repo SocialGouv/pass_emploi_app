@@ -1,11 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
+import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
+import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
+import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
+import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/user_action_list_page_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
@@ -15,7 +18,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: loggedInState().copyWith(userActionState: State<List<UserAction>>.loading()),
+      initialState: loggedInState().copyWith(userActionListState: UserActionListLoadingState()),
     );
 
     // When
@@ -30,7 +33,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: loggedInState().copyWith(userActionState: State<List<UserAction>>.notInitialized()),
+      initialState: loggedInState().copyWith(userActionListState: UserActionListNotInitializedState()),
     );
 
     // When
@@ -45,7 +48,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: loggedInState().copyWith(userActionState: State<List<UserAction>>.failure()),
+      initialState: loggedInState().copyWith(userActionListState: UserActionListFailureState()),
     );
 
     // When
@@ -61,7 +64,7 @@ main() {
     var storeSpy = StoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
-      initialState: loggedInState().copyWith(userActionState: State<List<UserAction>>.failure()),
+      initialState: loggedInState().copyWith(userActionListState: UserActionListFailureState()),
     );
     final viewModel = UserActionListPageViewModel.create(store);
 
@@ -79,16 +82,19 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: loggedInState().copyWith(
-          userActionState: State<List<UserAction>>.success([
-        _userAction(status: UserActionStatus.DONE),
-        _userAction(status: UserActionStatus.IN_PROGRESS),
-        _userAction(status: UserActionStatus.DONE),
-        _userAction(status: UserActionStatus.NOT_STARTED),
-        _userAction(status: UserActionStatus.IN_PROGRESS),
-        _userAction(status: UserActionStatus.NOT_STARTED),
-        _userAction(status: UserActionStatus.DONE),
-        _userAction(status: UserActionStatus.IN_PROGRESS),
-      ])),
+        userActionListState: UserActionListSuccessState(
+          [
+            _userAction(status: UserActionStatus.DONE),
+            _userAction(status: UserActionStatus.IN_PROGRESS),
+            _userAction(status: UserActionStatus.DONE),
+            _userAction(status: UserActionStatus.NOT_STARTED),
+            _userAction(status: UserActionStatus.IN_PROGRESS),
+            _userAction(status: UserActionStatus.NOT_STARTED),
+            _userAction(status: UserActionStatus.DONE),
+            _userAction(status: UserActionStatus.IN_PROGRESS),
+          ],
+        ),
+      ),
     );
 
     // When
@@ -112,7 +118,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: loggedInState().copyWith(userActionState: State<List<UserAction>>.success([])),
+      initialState: loggedInState().copyWith(userActionListState: UserActionListSuccessState([])),
     );
 
     // When
@@ -130,13 +136,16 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: loggedInState().copyWith(
-          userActionState: State<List<UserAction>>.success([
-        _userAction(status: UserActionStatus.IN_PROGRESS),
-        _userAction(status: UserActionStatus.NOT_STARTED),
-        _userAction(status: UserActionStatus.IN_PROGRESS),
-        _userAction(status: UserActionStatus.NOT_STARTED),
-        _userAction(status: UserActionStatus.IN_PROGRESS),
-      ])),
+        userActionListState: UserActionListSuccessState(
+          [
+            _userAction(status: UserActionStatus.IN_PROGRESS),
+            _userAction(status: UserActionStatus.NOT_STARTED),
+            _userAction(status: UserActionStatus.IN_PROGRESS),
+            _userAction(status: UserActionStatus.NOT_STARTED),
+            _userAction(status: UserActionStatus.IN_PROGRESS),
+          ],
+        ),
+      ),
     );
 
     // When
@@ -155,10 +164,13 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: loggedInState().copyWith(
-          userActionState: State<List<UserAction>>.success([
-        _userAction(status: UserActionStatus.DONE),
-        _userAction(status: UserActionStatus.DONE),
-      ])),
+        userActionListState: UserActionListSuccessState(
+          [
+            _userAction(status: UserActionStatus.DONE),
+            _userAction(status: UserActionStatus.DONE),
+          ],
+        ),
+      ),
     );
 
     // When
@@ -187,7 +199,8 @@ main() {
     viewModel.onUserActionDetailsDismissed();
 
     // Then
-    expect(storeSpy.calledWithDismissDetails, true);
+    expect(storeSpy.calledWithResetCreate, true);
+    expect(storeSpy.calledWithResetUpdate, true);
   });
 
   test('onCreateUserActionDismissed should dispatch DismissCreateUserAction', () {
@@ -203,7 +216,7 @@ main() {
     viewModel.onCreateUserActionDismissed();
 
     // Then
-    expect(storeSpy.calledWithDismissCreate, true);
+    expect(storeSpy.calledWithResetCreate, true);
   });
 }
 
@@ -221,22 +234,16 @@ UserAction _userAction({required UserActionStatus status}) {
 class StoreSpy {
   var calledWithRetry = false;
   var calledWithUpdate = false;
-  var calledWithDismissDetails = false;
-  var calledWithDismissCreate = false;
+  var calledWithResetUpdate = false;
+  var calledWithResetCreate = false;
+  var calledWithResetDelete = false;
 
   AppState reducer(AppState currentState, dynamic action) {
-    if (action is RequestUserActionsAction) {
-      calledWithRetry = true;
-    }
-    if (action is UserActionUpdateStatusAction) {
-      calledWithUpdate = true;
-    }
-    if (action is DismissUserActionDetailsAction) {
-      calledWithDismissDetails = true;
-    }
-    if (action is DismissCreateUserAction) {
-      calledWithDismissCreate = true;
-    }
+    if (action is UserActionListRequestAction) calledWithRetry = true;
+    if (action is UserActionUpdateRequestAction) calledWithUpdate = true;
+    if (action is UserActionUpdateResetAction) calledWithResetUpdate = true;
+    if (action is UserActionCreateResetAction) calledWithResetCreate = true;
+    if (action is UserActionDeleteResetAction) calledWithResetCreate = true;
     return currentState;
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
-import 'package:pass_emploi_app/presentation/create_user_action_view_model.dart';
+import 'package:pass_emploi_app/presentation/user_action_create_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -41,14 +41,14 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, CreateUserActionViewModel>(
-      converter: (state) => CreateUserActionViewModel.create(state),
+    return StoreConnector<AppState, UserActionCreateViewModel>(
+      converter: (state) => UserActionCreateViewModel.create(state),
       builder: (context, viewModel) => _buildForm(context, viewModel),
       onWillChange: (previousVm, newVm) => _dismissBottomSheetIfNeeded(context, newVm),
     );
   }
 
-  Widget _buildForm(BuildContext context, CreateUserActionViewModel viewModel) {
+  Widget _buildForm(BuildContext context, UserActionCreateViewModel viewModel) {
     return Form(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       key: _formKey,
@@ -78,7 +78,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
     );
   }
 
-  Widget _actionContentAndComment(CreateUserActionViewModel viewModel) {
+  Widget _actionContentAndComment(UserActionCreateViewModel viewModel) {
     return Padding(
       padding: userActionBottomSheetContentPadding(),
       child: Column(
@@ -88,7 +88,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
           Text(Strings.actionLabel, style: TextStyles.textBaseBold),
           SizedBox(height: Margins.spacing_base),
           _textField(
-            isEnabled: viewModel.displayState != CreateUserActionDisplayState.SHOW_LOADING,
+            isEnabled: viewModel.displayState != UserActionCreateDisplayState.SHOW_LOADING,
             onChanged: (value) => _actionContent = value,
             isMandatory: true,
             mandatoryError: Strings.mandatoryActionLabelError,
@@ -98,7 +98,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
           Text(Strings.actionDescription, style: TextStyles.textBaseBold),
           SizedBox(height: Margins.spacing_base),
           _textField(
-            isEnabled: viewModel.displayState != CreateUserActionDisplayState.SHOW_LOADING,
+            isEnabled: viewModel.displayState != UserActionCreateDisplayState.SHOW_LOADING,
             onChanged: (value) => _actionComment = value,
             textInputAction: TextInputAction.done,
           ),
@@ -136,7 +136,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
     );
   }
 
-  Widget _defineStatus(CreateUserActionViewModel viewModel) {
+  Widget _defineStatus(UserActionCreateViewModel viewModel) {
     return Padding(
       padding: userActionBottomSheetContentPadding(),
       child: Column(
@@ -148,14 +148,14 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
           UserActionStatusGroup(
             status: _initialStatus,
             update: (wantedStatus) => _update(wantedStatus),
-            isEnabled: viewModel.displayState != CreateUserActionDisplayState.SHOW_LOADING,
+            isEnabled: viewModel.displayState != UserActionCreateDisplayState.SHOW_LOADING,
           ),
         ],
       ),
     );
   }
 
-  Widget _createButton(CreateUserActionViewModel viewModel) {
+  Widget _createButton(UserActionCreateViewModel viewModel) {
     return Padding(
       padding: userActionBottomSheetContentPadding(),
       child: Column(
@@ -167,7 +167,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
                 ? () => {viewModel.createUserAction(_actionContent!, _actionComment, _initialStatus)}
                 : null,
           ),
-          if (viewModel.displayState == CreateUserActionDisplayState.SHOW_ERROR)
+          if (viewModel.displayState == UserActionCreateDisplayState.SHOW_ERROR)
             Center(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -185,10 +185,11 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
 
   bool _isFormValid() => _formKey.currentState?.validate() == true;
 
-  bool _isLoading(CreateUserActionViewModel viewModel) => viewModel.displayState != CreateUserActionDisplayState.SHOW_LOADING;
+  bool _isLoading(UserActionCreateViewModel viewModel) =>
+      viewModel.displayState != UserActionCreateDisplayState.SHOW_LOADING;
 
-  void _dismissBottomSheetIfNeeded(BuildContext context, CreateUserActionViewModel viewModel) {
-    if (viewModel.displayState == CreateUserActionDisplayState.TO_DISMISS) {
+  void _dismissBottomSheetIfNeeded(BuildContext context, UserActionCreateViewModel viewModel) {
+    if (viewModel.displayState == UserActionCreateDisplayState.TO_DISMISS) {
       Navigator.pop(context);
     }
   }

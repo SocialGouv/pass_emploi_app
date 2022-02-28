@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
+import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
+import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 
 import '../doubles/fixtures.dart';
 import '../doubles/stubs.dart';
@@ -12,16 +13,17 @@ void main() {
     testStoreFactory.userActionRepository = UserActionRepositorySuccessStub();
     final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
 
-    final displayedLoading = store.onChange.any((element) => element.userActionState.isLoading());
-    final successAppState = store.onChange.firstWhere((element) => element.userActionState.isSuccess());
+    final displayedLoading = store.onChange.any((e) => e.userActionListState is UserActionListLoadingState);
+    final successAppState = store.onChange.firstWhere((e) => e.userActionListState is UserActionListSuccessState);
 
     // When
-    await store.dispatch(RequestUserActionsAction());
+    await store.dispatch(UserActionListRequestAction());
 
     // Then
     expect(await displayedLoading, true);
     final appState = await successAppState;
-    expect(appState.userActionState.getResultOrThrow().length, 1);
-    expect(appState.userActionState.getResultOrThrow()[0].id, "id");
+    expect(appState.userActionListState is UserActionListSuccessState, isTrue);
+    expect((appState.userActionListState as UserActionListSuccessState).userActions.length, 1);
+    expect((appState.userActionListState as UserActionListSuccessState).userActions[0].id, "id");
   });
 }
