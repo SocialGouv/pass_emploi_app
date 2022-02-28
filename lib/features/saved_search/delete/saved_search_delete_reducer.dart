@@ -6,6 +6,5 @@ SavedSearchDeleteState savedSearchDeleteReducer(SavedSearchDeleteState current, 
   if (action is SavedSearchDeleteFailureAction) return SavedSearchDeleteFailureState();
   if (action is SavedSearchDeleteSuccessAction) return SavedSearchDeleteSuccessState();
   if (action is SavedSearchDeleteResetAction) return SavedSearchDeleteNotInitializedState();
-
   return current;
 }
