@@ -2,18 +2,16 @@ import 'package:pass_emploi_app/models/location.dart';
 
 import '../../../repositories/service_civique_repository.dart';
 
-abstract class ServiceCiviqueAction {}
-
-class SearchServiceCiviqueAction extends ServiceCiviqueAction {
+class SearchServiceCiviqueAction {
   final Location? location;
 
   SearchServiceCiviqueAction({required this.location});
 }
 
-class ServiceCiviqueFailureAction extends ServiceCiviqueAction {}
+class ServiceCiviqueSearchFailureAction {}
 
-class ServiceCiviqueSuccessAction extends ServiceCiviqueAction {
+class ServiceCiviqueSearchSuccessAction {
   final ServiceCiviqueSearchResponse response;
 
-  ServiceCiviqueSuccessAction(this.response);
+  ServiceCiviqueSearchSuccessAction(this.response);
 }
