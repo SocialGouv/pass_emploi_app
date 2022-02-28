@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_actions.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -66,7 +67,7 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
         _shouldLoadAtBottom = viewModel.displayLoaderAtBottomOfList && viewModel.displayState != DisplayState.FAILURE;
       },
       distinct: true,
-      onDispose: (store) => null/*store.dispatch(OffreEmploiResetResultsAction())*/,
+      onDispose: (store) => store.dispatch(ServiceCiviqueSearchResetAction()),
     );
   }
 

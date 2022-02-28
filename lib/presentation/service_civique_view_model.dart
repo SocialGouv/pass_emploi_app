@@ -42,7 +42,7 @@ class ServiceCiviqueViewModel extends Equatable {
       onInputLocation: (input) => store.dispatch(RequestLocationAction(input, villesOnly: true)),
       items: _items(store.state.serviceCiviqueSearchResultState),
       displayLoaderAtBottomOfList: _displayLoader(store.state.serviceCiviqueSearchResultState),
-      onLoadMore: () => null/*store.dispatch(RequestMoreServiceCiviqueSearchResultsAction())*/,
+      onLoadMore: () => store.dispatch(RequestMoreServiceCiviqueSearchResultsAction()),
     );
   }
 
