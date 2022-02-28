@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
+import 'package:pass_emploi_app/pages/service_civique/service_civique_list_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -10,9 +12,9 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 
-import '../presentation/location_view_model.dart';
-import '../presentation/service_civique_view_model.dart';
-import '../widgets/location_autocomplete.dart';
+import '../../presentation/location_view_model.dart';
+import '../../presentation/service_civique_view_model.dart';
+import '../../widgets/location_autocomplete.dart';
 
 class ServiceCiviqueSearchPage extends TraceableStatefulWidget {
   ServiceCiviqueSearchPage() : super(name: AnalyticsScreenNames.serviceCiviqueResearch);
@@ -32,7 +34,7 @@ class _ServiceCiviqueSearchPageState extends State<ServiceCiviqueSearchPage> {
       builder: _buildContent,
       onWillChange: (_, newViewModel) {
         if (newViewModel.displayState == DisplayState.CONTENT) {
-          // TODO open new page
+          widget.pushAndTrackBack(context, MaterialPageRoute(builder: (context) => ServiceCiviqueListPage()));
         }
       },
       onDispose: (store) {
