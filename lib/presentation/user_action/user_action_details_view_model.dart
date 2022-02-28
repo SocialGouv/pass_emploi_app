@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:redux/redux.dart';
 
-import '../models/user_action.dart';
+import '../../models/user_action.dart';
 
 enum UserActionDetailsDisplayState {
   SHOW_CONTENT,
