@@ -15,7 +15,7 @@ class SearchServiceCiviqueMiddleware extends MiddlewareClass<AppState> {
     if (action is SearchServiceCiviqueAction) {
       final loginState = store.state.loginState;
       if (loginState.isSuccess()) {
-        _repository.search(
+        final ServiceCiviqueSearchResponse? response = await _repository.search(
           userId: loginState.getResultOrThrow().id,
           request: SearchServiceCiviqueRequest(
             domain: null,
@@ -26,6 +26,7 @@ class SearchServiceCiviqueMiddleware extends MiddlewareClass<AppState> {
             page: 0,
           ),
         );
+        store.dispatch(response == null ? ServiceCiviqueFailureAction() : ServiceCiviqueSuccessAction(response));
       }
     }
   }
