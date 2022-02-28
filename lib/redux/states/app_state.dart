@@ -19,6 +19,7 @@ import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_stat
 import 'package:pass_emploi_app/redux/states/saved_search_state.dart';
 import 'package:pass_emploi_app/redux/states/search_location_state.dart';
 import 'package:pass_emploi_app/redux/states/search_metier_state.dart';
+import 'package:pass_emploi_app/redux/states/service_civique/service_civique_search_result_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_delete_state.dart';
 import 'package:pass_emploi_app/redux/states/user_action_update_state.dart';
@@ -57,6 +58,7 @@ class AppState extends Equatable {
   final ImmersionSearchRequestState immersionSearchRequestState;
   final State<List<SavedSearch>> savedSearchesState;
   final SavedSearchDeleteState savedSearchDeleteState;
+  final ServiceCiviqueSearchResultState serviceCiviqueSearchResultState;
 
   AppState({
     required this.deepLinkState,
@@ -85,6 +87,7 @@ class AppState extends Equatable {
     required this.immersionSearchRequestState,
     required this.savedSearchesState,
     required this.savedSearchDeleteState,
+    required this.serviceCiviqueSearchResultState,
   });
 
   AppState copyWith({
@@ -114,6 +117,7 @@ class AppState extends Equatable {
     final ImmersionSearchRequestState? immersionSearchRequestState,
     final State<List<SavedSearch>>? savedSearchesState,
     final SavedSearchDeleteState? savedSearchDeleteState,
+    final ServiceCiviqueSearchResultState? serviceCiviqueSearchResultState,
   }) {
     return AppState(
       deepLinkState: deepLinkState ?? this.deepLinkState,
@@ -142,6 +146,7 @@ class AppState extends Equatable {
       immersionSearchRequestState: immersionSearchRequestState ?? this.immersionSearchRequestState,
       savedSearchesState: savedSearchesState ?? this.savedSearchesState,
       savedSearchDeleteState: savedSearchDeleteState ?? this.savedSearchDeleteState,
+      serviceCiviqueSearchResultState: serviceCiviqueSearchResultState ?? this.serviceCiviqueSearchResultState,
     );
   }
 
@@ -173,6 +178,7 @@ class AppState extends Equatable {
       immersionSearchRequestState: EmptyImmersionSearchRequestState(),
       savedSearchesState: State<List<SavedSearch>>.notInitialized(),
       savedSearchDeleteState: SavedSearchDeleteNotInitializedState(),
+      serviceCiviqueSearchResultState: ServiceCiviqueSearchResultNotInitializedState(),
     );
   }
 
