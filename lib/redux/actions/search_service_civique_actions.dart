@@ -1,5 +1,7 @@
 import 'package:pass_emploi_app/models/location.dart';
 
+import '../../repositories/service_civique_repository.dart';
+
 abstract class ServiceCiviqueAction {}
 
 class SearchServiceCiviqueAction extends ServiceCiviqueAction {
@@ -8,4 +10,10 @@ class SearchServiceCiviqueAction extends ServiceCiviqueAction {
   SearchServiceCiviqueAction({required this.location});
 }
 
-class ServiceCiviqueSuccessAction extends ServiceCiviqueAction {}
+class ServiceCiviqueFailureAction extends ServiceCiviqueAction {}
+
+class ServiceCiviqueSuccessAction extends ServiceCiviqueAction {
+  final ServiceCiviqueSearchResponse response;
+
+  ServiceCiviqueSuccessAction(this.response);
+}
