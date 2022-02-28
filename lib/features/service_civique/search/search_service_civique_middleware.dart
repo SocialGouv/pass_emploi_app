@@ -26,7 +26,8 @@ class SearchServiceCiviqueMiddleware extends MiddlewareClass<AppState> {
             page: 0,
           ),
         );
-        store.dispatch(response == null ? ServiceCiviqueFailureAction() : ServiceCiviqueSuccessAction(response));
+        store.dispatch(
+            response == null ? ServiceCiviqueSearchFailureAction() : ServiceCiviqueSearchSuccessAction(response));
       }
     }
   }
