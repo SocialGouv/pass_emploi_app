@@ -126,6 +126,7 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
     final ServiceCivique item = resultsViewModel.items[index];
     return DataCard<ServiceCivique>(
       titre: item.title,
+      category: item.domain,
       sousTitre: item.companyName,
       lieu: item.location,
       id: item.id,
