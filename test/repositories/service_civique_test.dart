@@ -41,6 +41,7 @@ void main() {
         page: 0,
         distance: null,
       ),
+      previousOffers: [],
     );
 
     // Then
@@ -54,7 +55,7 @@ void main() {
         title: "Accompagnement des publics individuels",
         companyName: "SYNDICAT MIXTE DU CHATEAU DE VALENCAY",
         location: "Valençay",
-        startDate: null,
+        startDate: "01 décembre 2021",
         domain: "solidarite-insertion",
       ),
     );
@@ -77,6 +78,7 @@ void main() {
         page: 0,
         distance: null,
       ),
+      previousOffers: [],
     );
 
     // Then
