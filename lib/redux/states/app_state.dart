@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
+import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -15,7 +16,6 @@ import 'package:pass_emploi_app/redux/states/configuration_state.dart';
 import 'package:pass_emploi_app/redux/states/create_user_action_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
-import 'package:pass_emploi_app/redux/states/saved_search_delete_state.dart';
 import 'package:pass_emploi_app/redux/states/saved_search_state.dart';
 import 'package:pass_emploi_app/redux/states/search_location_state.dart';
 import 'package:pass_emploi_app/redux/states/search_metier_state.dart';
@@ -172,7 +172,7 @@ class AppState extends Equatable {
       configurationState: ConfigurationState(configuration),
       immersionSearchRequestState: EmptyImmersionSearchRequestState(),
       savedSearchesState: State<List<SavedSearch>>.notInitialized(),
-      savedSearchDeleteState: SavedSearchDeleteState.notInitialized(),
+      savedSearchDeleteState: SavedSearchDeleteNotInitializedState(),
     );
   }
 

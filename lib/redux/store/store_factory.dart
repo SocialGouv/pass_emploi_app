@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_middleware.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
@@ -18,7 +19,6 @@ import 'package:pass_emploi_app/redux/middlewares/offre_emploi_details_middlewar
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_saved_search_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';
-import 'package:pass_emploi_app/redux/middlewares/saved_search/saved_search_delete_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/search_location_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/search_metier_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/tracking_event_middleware.dart';

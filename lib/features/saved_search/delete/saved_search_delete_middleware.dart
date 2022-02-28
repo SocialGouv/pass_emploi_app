@@ -1,8 +1,7 @@
+import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
+import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
 import 'package:redux/redux.dart';
-
-import '../../../repositories/saved_search/saved_search_delete_repository.dart';
-import '../../actions/saved_search_actions.dart';
-import '../../states/app_state.dart';
 
 class SavedSearchDeleteMiddleware extends MiddlewareClass<AppState> {
   final SavedSearchDeleteRepository repository;
