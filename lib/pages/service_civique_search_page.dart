@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -29,6 +30,11 @@ class _ServiceCiviqueSearchPageState extends State<ServiceCiviqueSearchPage> {
     return StoreConnector<AppState, ServiceCiviqueViewModel>(
       converter: (store) => ServiceCiviqueViewModel.create(store),
       builder: _buildContent,
+      onWillChange: (_, newViewModel) {
+        if (newViewModel.displayState == DisplayState.CONTENT) {
+          // TODO open new page
+        }
+      },
       onDispose: (store) {
         store.dispatch(ResetLocationAction());
       },
