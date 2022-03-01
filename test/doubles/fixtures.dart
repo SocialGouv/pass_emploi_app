@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
+import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -143,4 +144,20 @@ ServiceCivique mockServiceCivique({String id = "123DXPM"}) => ServiceCivique(
       companyName: "RH TT INTERIM",
       domain: 'Informatique',
       location: "77 - LOGNES",
+    );
+
+ServiceCiviqueDetail mockServiceCiviqueDetail() => ServiceCiviqueDetail(
+      dateDeDebut: '17/02/2022',
+      dateDeFin: '17/02/2022',
+      titre: "Technicien / Technicienne en froid et climatisation",
+      organisation: "RH TT INTERIM",
+      domaine: 'Informatique',
+      ville: "LOGNES",
+      urlOrganisation: "url de l'organisation",
+      adresseMission: "je suis une addresse",
+      adresseOrganisation: "je suis une addresse",
+      codeDepartement: "77",
+      description: "C'est toi la description",
+      descriptionOrganisation: "Bon ça va là les description, ça suffit",
+      lienAnnonce: "Bonjour, moi c'est le lien (social ?) mwahaha",
     );

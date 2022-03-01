@@ -46,6 +46,7 @@ import 'package:pass_emploi_app/redux/states/search_location_state.dart';
 import 'package:pass_emploi_app/redux/states/search_metier_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 
+import '../../features/service_civique/detail/service_civique_detail_reducer.dart';
 import '../../models/saved_search/saved_search.dart';
 import 'favoris/favoris_update_reducer.dart';
 
@@ -82,6 +83,7 @@ AppState reducer(AppState current, dynamic action) {
     savedSearchesState: _savedSearchesState(current.savedSearchesState, action),
     savedSearchDeleteState: savedSearchDeleteReducer(current.savedSearchDeleteState, action),
     serviceCiviqueSearchResultState: serviceCiviqueReducer(current.serviceCiviqueSearchResultState, action),
+    serviceCiviqueDetailState: serviceCiviqueDetailReducer(current.serviceCiviqueDetailState, action),
   );
 }
 

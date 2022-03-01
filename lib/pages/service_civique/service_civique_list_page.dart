@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_actions.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
+import 'package:pass_emploi_app/pages/service_civique/service_civique_detail_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -128,9 +130,13 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
       sousTitre: item.companyName,
       lieu: item.location,
       id: item.id,
-      dataTag: [item.startDate ?? ''],
+      dataTag: [
+        if (item.startDate != null) Strings.asSoonAs + item.startDate!,
+      ],
       onTap: () {
-        // TODO redirect to detail page
+        widget.pushAndTrackBack(context, MaterialPageRoute(builder: (_) {
+          return ServiceCiviqueDetailPage(item.id);
+        }));
       },
     );
   }
