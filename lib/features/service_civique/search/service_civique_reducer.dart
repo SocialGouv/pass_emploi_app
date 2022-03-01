@@ -7,11 +7,13 @@ ServiceCiviqueSearchResultState serviceCiviqueReducer(ServiceCiviqueSearchResult
   } else if (action is ServiceCiviqueSearchSuccessAction) {
     return ServiceCiviqueSearchResultDataState(
       isMoreDataAvailable: action.response.isMoreDataAvailable,
-      loadedPage: action.response.lastPageRequested,
+      lastRequest: action.response.lastRequest,
       offres: action.response.offres,
     );
   } else if (action is ServiceCiviqueSearchFailureAction) {
-    return ServiceCiviqueSearchResultErrorState();
+    return ServiceCiviqueSearchResultErrorState(action.failedRequest, action.previousOffers);
+  } else if (action is ServiceCiviqueSearchResetAction) {
+    return ServiceCiviqueSearchResultNotInitializedState();
   } else {
     return current;
   }

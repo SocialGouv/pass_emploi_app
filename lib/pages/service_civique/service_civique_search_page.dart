@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
+import 'package:pass_emploi_app/pages/service_civique/service_civique_list_page.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -9,9 +12,10 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 
-import '../presentation/location_view_model.dart';
-import '../presentation/service_civique_view_model.dart';
-import '../widgets/location_autocomplete.dart';
+import '../../presentation/location_view_model.dart';
+import '../../presentation/service_civique_view_model.dart';
+import '../../widgets/errors/error_text.dart';
+import '../../widgets/location_autocomplete.dart';
 
 class ServiceCiviqueSearchPage extends TraceableStatefulWidget {
   ServiceCiviqueSearchPage() : super(name: AnalyticsScreenNames.serviceCiviqueResearch);
@@ -22,6 +26,7 @@ class ServiceCiviqueSearchPage extends TraceableStatefulWidget {
 
 class _ServiceCiviqueSearchPageState extends State<ServiceCiviqueSearchPage> {
   final _locationFormKey = GlobalKey<FormState>();
+  var _shouldNavigate = true;
   LocationViewModel? _selectedLocationViewModel;
 
   @override
@@ -29,6 +34,14 @@ class _ServiceCiviqueSearchPageState extends State<ServiceCiviqueSearchPage> {
     return StoreConnector<AppState, ServiceCiviqueViewModel>(
       converter: (store) => ServiceCiviqueViewModel.create(store),
       builder: _buildContent,
+      onWillChange: (_, newViewModel) {
+        if (newViewModel.displayState == DisplayState.CONTENT) {
+          if (_shouldNavigate) {
+            _shouldNavigate = false;
+            widget.pushAndTrackBack(context, MaterialPageRoute(builder: (context) => ServiceCiviqueListPage()));
+          }
+        }
+      },
       onDispose: (store) {
         store.dispatch(ResetLocationAction());
       },
@@ -65,12 +78,14 @@ class _ServiceCiviqueSearchPageState extends State<ServiceCiviqueSearchPage> {
             constraints: const BoxConstraints(minWidth: double.infinity),
             child: PrimaryActionButton(
               onPressed: () {
+                _shouldNavigate = true;
                 viewModel.onSearchRequest(_selectedLocationViewModel?.location);
               },
               label: Strings.searchButton,
               iconSize: 18,
             ),
           ),
+          if (viewModel.displayState == DisplayState.FAILURE) ErrorText(Strings.genericError),
           _buildCollapsableTile(context),
         ],
       ),

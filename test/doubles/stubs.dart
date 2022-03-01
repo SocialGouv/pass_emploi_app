@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/message.dart';
+import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/network/headers.dart';
@@ -257,10 +258,14 @@ class ServiceCiviqueRepositorySuccessWithMoreDataStub extends ServiceCiviqueRepo
   Future<ServiceCiviqueSearchResponse?> search({
     required String userId,
     required SearchServiceCiviqueRequest request,
+    required List<ServiceCivique> previousOffers,
   }) async {
     callCount = callCount + 1;
-    final response =
-        ServiceCiviqueSearchResponse(isMoreDataAvailable: true, offres: [mockServiceCivique()], lastPageRequested: 1);
+    final response = ServiceCiviqueSearchResponse(
+        isMoreDataAvailable: true,
+        offres: List.from(previousOffers)..add(mockServiceCivique()),
+        lastRequest: SearchServiceCiviqueRequest(
+            domain: null, location: null, distance: null, startDate: null, endDate: null, page: request.page));
     return response;
   }
 }
@@ -272,6 +277,7 @@ class ServiceCiviqueRepositoryFailureStub extends ServiceCiviqueRepository {
   Future<ServiceCiviqueSearchResponse?> search({
     required String userId,
     required SearchServiceCiviqueRequest request,
+    required List<ServiceCivique> previousOffers,
   }) async {
     return null;
   }

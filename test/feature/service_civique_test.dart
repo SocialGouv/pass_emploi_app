@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_actions.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
+import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 
 import '../doubles/fixtures.dart';
 import '../doubles/stubs.dart';
@@ -13,8 +14,10 @@ main() {
     factory.serviceCiviqueRepository = ServiceCiviqueRepositorySuccessWithMoreDataStub();
     final store = factory.initializeReduxStore(initialState: loggedInState());
 
-    final displayedLoading = store.onChange.any((e) => e.serviceCiviqueSearchResultState is ServiceCiviqueSearchResultLoadingState);
-    final successState = store.onChange.firstWhere((e) => e.serviceCiviqueSearchResultState is ServiceCiviqueSearchResultDataState);
+    final displayedLoading =
+        store.onChange.any((e) => e.serviceCiviqueSearchResultState is ServiceCiviqueSearchResultLoadingState);
+    final successState =
+        store.onChange.firstWhere((e) => e.serviceCiviqueSearchResultState is ServiceCiviqueSearchResultDataState);
 
     // When
     store.dispatch(SearchServiceCiviqueAction(location: mockLocation()));
@@ -25,9 +28,8 @@ main() {
     final successAppState = await successState;
     final searchState = (successAppState.serviceCiviqueSearchResultState as ServiceCiviqueSearchResultDataState);
     expect(searchState.offres.length, 1);
-    expect(searchState.loadedPage, 1);
+    expect(searchState.lastRequest.page, 0);
   });
-
 
   test("service civique should be fetched and an error be displayed if something wrong happens", () async {
     // Given
@@ -35,8 +37,10 @@ main() {
     testStoreFactory.serviceCiviqueRepository = ServiceCiviqueRepositoryFailureStub();
     final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
 
-    final displayedLoading = store.onChange.any((e) => e.serviceCiviqueSearchResultState is ServiceCiviqueSearchResultLoadingState);
-    final displayedError = store.onChange.any((e) => e.serviceCiviqueSearchResultState is ServiceCiviqueSearchResultErrorState);
+    final displayedLoading =
+        store.onChange.any((e) => e.serviceCiviqueSearchResultState is ServiceCiviqueSearchResultLoadingState);
+    final displayedError =
+        store.onChange.any((e) => e.serviceCiviqueSearchResultState is ServiceCiviqueSearchResultErrorState);
 
     // When
     store.dispatch(SearchServiceCiviqueAction(location: mockLocation()));
@@ -44,5 +48,41 @@ main() {
     // Then
     expect(await displayedLoading, true);
     expect(await displayedError, true);
+  });
+
+  test("service civique should load second page", () async {
+    // Given
+    final factory = TestStoreFactory();
+    factory.serviceCiviqueRepository = ServiceCiviqueRepositorySuccessWithMoreDataStub();
+    final store = factory.initializeReduxStore(
+      initialState: loggedInState().copyWith(
+        serviceCiviqueSearchResultState: ServiceCiviqueSearchResultDataState(
+            isMoreDataAvailable: true,
+            lastRequest: SearchServiceCiviqueRequest(
+              location: null,
+              page: 0,
+              endDate: null,
+              distance: null,
+              startDate: null,
+              domain: null,
+            ),
+            offres: [
+              mockServiceCivique(),
+            ]),
+      ),
+    );
+
+    final successState = store.onChange.firstWhere((e) =>
+        e.serviceCiviqueSearchResultState is ServiceCiviqueSearchResultDataState &&
+        (e.serviceCiviqueSearchResultState as ServiceCiviqueSearchResultDataState).offres.length == 2);
+
+    // When
+    store.dispatch(RequestMoreServiceCiviqueSearchResultsAction());
+
+    // Then
+    final successAppState = await successState;
+    final searchState = (successAppState.serviceCiviqueSearchResultState as ServiceCiviqueSearchResultDataState);
+    expect(searchState.offres.length, 2);
+    expect(searchState.lastRequest.page, 1);
   });
 }

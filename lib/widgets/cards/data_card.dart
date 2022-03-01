@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 
 class DataCard<T> extends StatelessWidget {
+  final String? category;
   final String titre;
   final String? sousTitre;
   final String? lieu;
@@ -26,6 +27,7 @@ class DataCard<T> extends StatelessWidget {
     required this.onTap,
     this.id,
     this.from,
+    this.category,
   }) : super(key: key);
 
   @override
@@ -59,6 +61,7 @@ class DataCard<T> extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
+                            if (category != null && category!.isNotEmpty) _buildCategory(category!),
                             _buildTitre(),
                             if (sousTitre != null && sousTitre!.isNotEmpty) _buildSousTitre(),
                             if (lieu != null && lieu!.isNotEmpty) _buildLieu(),
@@ -125,5 +128,15 @@ class DataCard<T> extends StatelessWidget {
 
   Widget _buildTag(String tag) {
     return DataTag(label: tag);
+  }
+
+  Widget _buildCategory(String category) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Text(
+        category,
+        style: TextStyles.textSRegular(color: AppColors.primary),
+      ),
+    );
   }
 }

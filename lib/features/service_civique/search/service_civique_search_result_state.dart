@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
+import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 
 abstract class ServiceCiviqueSearchResultState extends Equatable {
   ServiceCiviqueSearchResultState._();
@@ -17,20 +18,23 @@ class ServiceCiviqueSearchResultLoadingState extends ServiceCiviqueSearchResultS
 }
 
 class ServiceCiviqueSearchResultErrorState extends ServiceCiviqueSearchResultState {
-  ServiceCiviqueSearchResultErrorState() : super._();
+  final SearchServiceCiviqueRequest failedRequest;
+  final List<ServiceCivique> previousOffers;
+
+  ServiceCiviqueSearchResultErrorState(this.failedRequest, this.previousOffers) : super._();
 }
 
 class ServiceCiviqueSearchResultDataState extends ServiceCiviqueSearchResultState {
   final List<ServiceCivique> offres;
-  final int loadedPage;
+  final SearchServiceCiviqueRequest lastRequest;
   final bool isMoreDataAvailable;
 
   ServiceCiviqueSearchResultDataState({
     required this.isMoreDataAvailable,
-    required this.loadedPage,
+    required this.lastRequest,
     required this.offres,
   }) : super._();
 
   @override
-  List<Object?> get props => [offres, loadedPage, isMoreDataAvailable];
+  List<Object?> get props => [offres, lastRequest, isMoreDataAvailable];
 }
