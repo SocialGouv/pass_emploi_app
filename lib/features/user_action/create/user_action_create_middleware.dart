@@ -13,7 +13,7 @@ class UserActionCreateMiddleware extends MiddlewareClass<AppState> {
   call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     final loginState = store.state.loginState;
-    if (action is UserActionCreateRequestAction) {
+    if (loginState.isSuccess() && action is UserActionCreateRequestAction) {
       store.dispatch(UserActionCreateLoadingAction());
       final result = await _repository.createUserAction(
         loginState.getResultOrThrow().id,
