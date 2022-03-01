@@ -54,7 +54,7 @@ class ${feature_camel_case}Middleware extends MiddlewareClass<AppState> {
   call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     final loginState = store.state.loginState;
-    if (action is ${feature_camel_case}RequestAction) {
+    if (loginState.isSuccess() && action is ${feature_camel_case}RequestAction) {
       store.dispatch(${feature_camel_case}LoadingAction());
       //TODO: call repository
       //store.dispatch(result != null ? ${feature_camel_case}SuccessAction(action.) : ${feature_camel_case}FailureAction());

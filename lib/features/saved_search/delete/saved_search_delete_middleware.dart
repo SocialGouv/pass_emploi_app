@@ -12,7 +12,7 @@ class SavedSearchDeleteMiddleware extends MiddlewareClass<AppState> {
   call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     final loginState = store.state.loginState;
-    if (action is SavedSearchDeleteRequestAction) {
+    if (loginState.isSuccess() && action is SavedSearchDeleteRequestAction) {
       store.dispatch(SavedSearchDeleteLoadingAction());
       final success = await repository.delete(loginState.getResultOrThrow().id, action.savedSearchId);
       store.dispatch(success ? SavedSearchDeleteSuccessAction(action.savedSearchId) : SavedSearchDeleteFailureAction());

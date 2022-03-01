@@ -16,7 +16,7 @@ class ChatStatusMiddleware extends MiddlewareClass<AppState> {
   call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     final loginState = store.state.loginState;
-    if (action is SubscribeToChatStatusAction) {
+    if (loginState.isSuccess() && action is SubscribeToChatStatusAction) {
       _subscribeToChatStatusStream(loginState.getResultOrThrow().id, store);
     } else if (action is UnsubscribeFromChatStatusAction) {
       _subscription?.cancel();
