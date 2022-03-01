@@ -1,6 +1,7 @@
+import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
-class Rendezvous {
+class Rendezvous extends Equatable {
   final String id;
   final DateTime date;
   final String title;
@@ -22,7 +23,7 @@ class Rendezvous {
   factory Rendezvous.fromJson(dynamic json) {
     return Rendezvous(
       id: json['id'] as String,
-      date: (json['date'] as String).toDateTime(),
+      date: (json['date'] as String).toDateTimeOnLocalTimeZone(),
       title: json['title'] as String,
       subtitle: json['subtitle'] as String,
       comment: json['comment'] as String,
@@ -30,4 +31,7 @@ class Rendezvous {
       modality: json['modality'] as String,
     );
   }
+
+  @override
+  List<Object?> get props => [id, date, title, subtitle, comment, duration, modality];
 }
