@@ -1,0 +1,21 @@
+import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
+import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
+import 'package:redux/redux.dart';
+
+class RendezvousMiddleware extends MiddlewareClass<AppState> {
+  final RendezvousRepository _repository;
+
+  RendezvousMiddleware(this._repository);
+
+  @override
+  call(Store<AppState> store, action, NextDispatcher next) async {
+    next(action);
+    final loginState = store.state.loginState;
+    if (loginState.isSuccess() && action is RendezvousRequestAction) {
+      store.dispatch(RendezvousLoadingAction());
+      final result = await _repository.getRendezvous(loginState.getResultOrThrow().id);
+      store.dispatch(result != null ? RendezvousSuccessAction(result) : RendezvousFailureAction());
+    }
+  }
+}

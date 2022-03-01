@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/chat/init/chat_initializer_middleware.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_middleware.dart';
+import 'package:pass_emploi_app/features/rendezvous/rendezvous_middleware.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_middleware.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_middleware.dart';
 import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_middleware.dart';
@@ -14,7 +15,6 @@ import 'package:pass_emploi_app/features/user_action/list/user_action_list_middl
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/redux/middlewares/action_logging_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/crashlytics_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/data_from_id_extractor.dart';
@@ -131,6 +131,7 @@ class StoreFactory {
         ChatInitializerMiddleware(firebaseAuthRepository, firebaseAuthWrapper, chatCrypto),
         ChatMiddleware(chatRepository),
         ChatStatusMiddleware(chatRepository),
+        RendezvousMiddleware(rendezvousRepository),
         RegisterPushNotificationTokenMiddleware(registerTokenRepository),
         OffreEmploiMiddleware(offreEmploiRepository),
         OffreEmploiDetailsMiddleware(offreEmploiDetailsRepository),
@@ -142,7 +143,6 @@ class StoreFactory {
         SearchMetierMiddleware(metierRepository),
         TrackingEventMiddleware(trackingEventRepository),
         UserTrackingStructureMiddleware(),
-        Middleware<void, List<Rendezvous>>(rendezvousRepository),
         Middleware<ImmersionRequest, List<Immersion>>(immersionRepository),
         ImmersionDetailsMiddleware(immersionDetailsRepository),
         OffreEmploiSavedSearchMiddleware(offreEmploiSavedSearchRepository),

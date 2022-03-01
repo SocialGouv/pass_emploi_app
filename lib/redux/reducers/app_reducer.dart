@@ -1,5 +1,6 @@
 import 'package:pass_emploi_app/features/chat/messages/chat_reducer.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_reducer.dart';
+import 'package:pass_emploi_app/features/rendezvous/rendezvous_reducer.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_reducer.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_reducer.dart';
@@ -12,7 +13,6 @@ import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
-import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/user.dart';
@@ -72,7 +72,7 @@ AppState reducer(AppState current, dynamic action) {
     searchLocationState: _searchLocationState(current.searchLocationState, action),
     searchMetierState: _searchMetierState(current.searchMetierState, action),
     loginState: _loginState(current.loginState, action),
-    rendezvousState: _rendezvousState(current.rendezvousState, action),
+    rendezvousState: rendezvousReducer(current.rendezvousState, action),
     offreEmploiDetailsState: _offreEmploiDetailsState(current.offreEmploiDetailsState, action),
     immersionSearchState: _immersionSearchState(current.immersionSearchState, action),
     immersionDetailsState: _immersionDetailsState(current.immersionDetailsState, action),
@@ -145,8 +145,9 @@ OffreEmploiSearchResultsState _offreEmploiSearchResultsState(OffreEmploiSearchRe
   }
 }
 
-OffreEmploiSearchParametersState _offreEmploiSearchParametersState(OffreEmploiSearchParametersState current,
-    dynamic action,
+OffreEmploiSearchParametersState _offreEmploiSearchParametersState(
+  OffreEmploiSearchParametersState current,
+  dynamic action,
 ) {
   if (action is OffreEmploiSearchWithFiltresAction) {
     return OffreEmploiSearchParametersState.initialized(
@@ -243,14 +244,6 @@ State<User> _loginState(State<User> current, dynamic action) {
   }
 }
 
-State<List<Rendezvous>> _rendezvousState(State<List<Rendezvous>> current, dynamic action) {
-  if (action is RendezvousAction) {
-    return Reducer<List<Rendezvous>>().reduce(current, action);
-  } else {
-    return current;
-  }
-}
-
 State<OffreEmploiDetails> _offreEmploiDetailsState(State<OffreEmploiDetails> current, dynamic action) {
   if (action is OffreEmploiDetailsAction) {
     return OffreEmploiDetailsReducer().reduce(current, action);
@@ -275,7 +268,8 @@ State<ImmersionDetails> _immersionDetailsState(State<ImmersionDetails> current, 
   }
 }
 
-SavedSearchState<OffreEmploiSavedSearch> _offreEmploiSavedSearchState(SavedSearchState<OffreEmploiSavedSearch> current, dynamic action) {
+SavedSearchState<OffreEmploiSavedSearch> _offreEmploiSavedSearchState(
+    SavedSearchState<OffreEmploiSavedSearch> current, dynamic action) {
   if (action is SavedSearchAction<OffreEmploiSavedSearch>) {
     return SavedSearchReducer<OffreEmploiSavedSearch>().reduceSavedSearchState(current, action);
   } else {
@@ -283,7 +277,8 @@ SavedSearchState<OffreEmploiSavedSearch> _offreEmploiSavedSearchState(SavedSearc
   }
 }
 
-SavedSearchState<ImmersionSavedSearch> _immersionSavedSearchState(SavedSearchState<ImmersionSavedSearch> current, dynamic action) {
+SavedSearchState<ImmersionSavedSearch> _immersionSavedSearchState(
+    SavedSearchState<ImmersionSavedSearch> current, dynamic action) {
   if (action is SavedSearchAction<ImmersionSavedSearch>) {
     return SavedSearchReducer<ImmersionSavedSearch>().reduceSavedSearchState(current, action);
   } else {

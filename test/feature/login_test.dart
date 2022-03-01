@@ -2,13 +2,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
-import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/bootstrap_action.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/login_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
 
 import '../doubles/dummies.dart';
 import '../doubles/fixtures.dart';
@@ -168,7 +167,7 @@ void main() {
     final store = factory.initializeReduxStore(
       initialState: AppState.initialState(configuration: configuration(flavor: Flavor.PROD)).copyWith(
         loginState: UserNotLoggedInState(),
-        rendezvousState: State<List<Rendezvous>>.loading(),
+        rendezvousState: RendezvousLoadingState(),
       ),
     );
     final Future<AppState> newStateFuture = store.onChange.first;
@@ -179,7 +178,7 @@ void main() {
     // Then
     final newState = await newStateFuture;
     expect(newState.loginState.isNotInitialized(), isTrue);
-    expect(newState.rendezvousState.isNotInitialized(), isTrue);
+    expect(newState.rendezvousState is RendezvousNotInitializedState, isTrue);
     expect(newState.configurationState.getFlavor(), Flavor.PROD);
     expect(authenticatorSpy.logoutCalled, isFalse);
   });
@@ -192,7 +191,7 @@ void main() {
     final store = factory.initializeReduxStore(
       initialState: AppState.initialState(configuration: configuration(flavor: Flavor.PROD)).copyWith(
         loginState: UserNotLoggedInState(),
-        rendezvousState: State<List<Rendezvous>>.loading(),
+        rendezvousState: RendezvousLoadingState(),
       ),
     );
     final Future<AppState> newStateFuture = store.onChange.first;
@@ -203,7 +202,7 @@ void main() {
     // Then
     final newState = await newStateFuture;
     expect(newState.loginState.isNotInitialized(), isTrue);
-    expect(newState.rendezvousState.isNotInitialized(), isTrue);
+    expect(newState.rendezvousState is RendezvousNotInitializedState, isTrue);
     expect(newState.configurationState.getFlavor(), Flavor.PROD);
     expect(authenticatorSpy.logoutCalled, isTrue);
   });
