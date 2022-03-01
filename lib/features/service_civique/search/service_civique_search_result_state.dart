@@ -18,7 +18,10 @@ class ServiceCiviqueSearchResultLoadingState extends ServiceCiviqueSearchResultS
 }
 
 class ServiceCiviqueSearchResultErrorState extends ServiceCiviqueSearchResultState {
-  ServiceCiviqueSearchResultErrorState() : super._();
+  final SearchServiceCiviqueRequest failedRequest;
+  final List<ServiceCivique> previousOffers;
+
+  ServiceCiviqueSearchResultErrorState(this.failedRequest, this.previousOffers) : super._();
 }
 
 class ServiceCiviqueSearchResultDataState extends ServiceCiviqueSearchResultState {
