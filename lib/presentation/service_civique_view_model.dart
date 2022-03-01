@@ -17,6 +17,7 @@ class ServiceCiviqueViewModel extends Equatable {
   final Function(String? input) onInputLocation;
   final DisplayState displayState;
   final Function() onLoadMore;
+  final Function() onRetry;
   final List<ServiceCivique> items;
   final bool displayLoaderAtBottomOfList;
 
@@ -28,6 +29,7 @@ class ServiceCiviqueViewModel extends Equatable {
     required this.onLoadMore,
     required this.items,
     required this.displayLoaderAtBottomOfList,
+    required this.onRetry,
   });
 
   factory ServiceCiviqueViewModel.create(Store<AppState> store) {
@@ -43,7 +45,7 @@ class ServiceCiviqueViewModel extends Equatable {
       items: _items(store.state.serviceCiviqueSearchResultState),
       displayLoaderAtBottomOfList: _displayLoader(store.state.serviceCiviqueSearchResultState),
       onLoadMore: () => store.dispatch(RequestMoreServiceCiviqueSearchResultsAction()),
-    );
+        onRetry: () => store.dispatch(RetryServiceCiviqueSearchAction()));
   }
 
   @override

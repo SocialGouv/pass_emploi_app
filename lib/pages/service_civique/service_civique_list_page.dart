@@ -15,14 +15,12 @@ import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_offre_widget.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
+import 'package:pass_emploi_app/widgets/retry.dart';
 
 import '../../presentation/service_civique_view_model.dart';
 
-
 class ServiceCiviqueListPage extends TraceableStatefulWidget {
-
-  ServiceCiviqueListPage()
-      : super(name: AnalyticsScreenNames.serviceCiviqueResults);
+  ServiceCiviqueListPage() : super(name: AnalyticsScreenNames.serviceCiviqueResults);
 
   @override
   State<ServiceCiviqueListPage> createState() => _ServiceCiviqueListPage();
@@ -118,12 +116,11 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
     ]);
   }
 
-
   Widget _buildOffreItemWithListener(
-      BuildContext context,
-      int index,
-      ServiceCiviqueViewModel resultsViewModel,
-      ) {
+    BuildContext context,
+    int index,
+    ServiceCiviqueViewModel resultsViewModel,
+  ) {
     final ServiceCivique item = resultsViewModel.items[index];
     return DataCard<ServiceCivique>(
       titre: item.title,
@@ -199,8 +196,7 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
   Widget _error(ServiceCiviqueViewModel viewModel) {
     return Stack(
       children: [
-        Center(child: Text("Error", style: TextStyles.textSmRegular())),
-        // if (viewModel.withFiltreButton)
+        Center(child: Retry(Strings.genericError, viewModel.onRetry)), // if (viewModel.withFiltreButton)
         //   Align(
         //     alignment: Alignment.bottomCenter,
         //     child: Padding(padding: const EdgeInsets.only(bottom: 24), child: null),
@@ -217,5 +213,4 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
       ),
     );
   }
-
 }
