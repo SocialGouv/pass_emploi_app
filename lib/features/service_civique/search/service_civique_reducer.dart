@@ -11,7 +11,7 @@ ServiceCiviqueSearchResultState serviceCiviqueReducer(ServiceCiviqueSearchResult
       offres: action.response.offres,
     );
   } else if (action is ServiceCiviqueSearchFailureAction) {
-    return ServiceCiviqueSearchResultErrorState();
+    return ServiceCiviqueSearchResultErrorState(action.failedRequest, action.previousOffers);
   } else if (action is ServiceCiviqueSearchResetAction) {
     return ServiceCiviqueSearchResultNotInitializedState();
   } else {

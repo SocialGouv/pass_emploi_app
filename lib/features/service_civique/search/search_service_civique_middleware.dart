@@ -16,10 +16,10 @@ class SearchServiceCiviqueMiddleware extends MiddlewareClass<AppState> {
   @override
   call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
-    if (action is RequestMoreServiceCiviqueSearchResultsAction) {
-      final loginState = store.state.loginState;
-      if (loginState.isSuccess()) {
-        final ServiceCiviqueSearchResultState state = store.state.serviceCiviqueSearchResultState;
+    final loginState = store.state.loginState;
+    if (loginState.isSuccess()) {
+      final ServiceCiviqueSearchResultState state = store.state.serviceCiviqueSearchResultState;
+      if (action is RequestMoreServiceCiviqueSearchResultsAction) {
         if (state is ServiceCiviqueSearchResultDataState) {
           final request = SearchServiceCiviqueRequest(
             domain: state.lastRequest.domain,
@@ -31,11 +31,7 @@ class SearchServiceCiviqueMiddleware extends MiddlewareClass<AppState> {
           );
           await _searchServiceCiviquePage(loginState, store, request, state.offres);
         }
-      }
-    }
-    if (action is SearchServiceCiviqueAction) {
-      final loginState = store.state.loginState;
-      if (loginState.isSuccess()) {
+      } else if (action is SearchServiceCiviqueAction) {
         final request = SearchServiceCiviqueRequest(
           domain: null,
           location: action.location,
@@ -45,6 +41,8 @@ class SearchServiceCiviqueMiddleware extends MiddlewareClass<AppState> {
           page: 0,
         );
         await _searchServiceCiviquePage(loginState, store, request, []);
+      } else if (action is RetryServiceCiviqueSearchAction && state is ServiceCiviqueSearchResultErrorState) {
+        await _searchServiceCiviquePage(loginState, store, state.failedRequest, state.previousOffers);
       }
     }
   }
@@ -60,7 +58,8 @@ class SearchServiceCiviqueMiddleware extends MiddlewareClass<AppState> {
       request: request,
       previousOffers: previousOffers,
     );
-    store
-        .dispatch(response == null ? ServiceCiviqueSearchFailureAction() : ServiceCiviqueSearchSuccessAction(response));
+    store.dispatch(response == null
+        ? ServiceCiviqueSearchFailureAction(request, previousOffers)
+        : ServiceCiviqueSearchSuccessAction(response));
   }
 }
