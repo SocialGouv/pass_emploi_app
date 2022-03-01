@@ -230,6 +230,10 @@ class Strings {
   static String knowMoreAboutServiceCiviqueLastTitle =
       "Vous souhaitez en savoir plus ? Envoyez un message à votre conseiller.";
   static String serviceCiviqueListTitle = "Offres de service civique";
+  static String asSoonAs = "Dès le ";
+  static String serviceCiviqueDetailTitle = "Détails de l’offre de service civique";
+  static String serviceCiviqueMissionTitle = "Mission";
+  static String serviceCiviqueOrganisationTitle = "Organisation";
 
   // Immersion Errors
   static String immersionMetierError = "Renseignez un secteur d'activité de la liste";
