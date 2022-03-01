@@ -130,21 +130,15 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
       sousTitre: item.companyName,
       lieu: item.location,
       id: item.id,
-      dataTag: [_getDate(item)],
+      dataTag: [
+        if (item.startDate == null) Strings.asSoonAs + item.startDate!,
+      ],
       onTap: () {
         widget.pushAndTrackBack(context, MaterialPageRoute(builder: (_) {
           return ServiceCiviqueDetailPage(item.id);
         }));
       },
     );
-  }
-
-  String _getDate(ServiceCivique item) {
-    if (item.startDate == null) {
-      return "";
-    } else {
-      return Strings.asSoonAs + item.startDate!;
-    }
   }
 
   Widget _buildFirstItem(BuildContext context, ServiceCiviqueViewModel resultsViewModel) {
