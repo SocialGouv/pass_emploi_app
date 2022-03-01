@@ -2,7 +2,7 @@ import 'package:pass_emploi_app/features/service_civique/detail/service_civique_
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:redux/src/store.dart';
+import 'package:redux/redux.dart';
 
 class ServiceCiviqueDetailViewModel {
   final DisplayState displayState;
