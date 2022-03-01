@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
+import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
+import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
@@ -13,8 +15,6 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/user.dart';
-import 'package:pass_emploi_app/redux/states/chat_state.dart';
-import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
 import 'package:pass_emploi_app/redux/states/configuration_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
@@ -157,8 +157,8 @@ class AppState extends Equatable {
       userActionCreateState: UserActionCreateNotInitializedState(),
       userActionUpdateState: UserActionNotUpdatingState(),
       userActionDeleteState: UserActionDeleteNotInitializedState(),
-      chatStatusState: ChatStatusState.notInitialized(),
-      chatState: ChatState.notInitialized(),
+      chatStatusState: ChatStatusNotInitializedState(),
+      chatState: ChatNotInitializedState(),
       offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
       offreEmploiDetailsState: State<OffreEmploiDetails>.notInitialized(),
       offreEmploiSearchResultsState: OffreEmploiSearchResultsState.notInitialized(),
@@ -183,8 +183,7 @@ class AppState extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         deepLinkState,
         userActionCreateState,
         userActionUpdateState,
