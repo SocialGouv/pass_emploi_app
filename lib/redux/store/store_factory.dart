@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/chat/init/chat_initializer_middleware.d
 import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_middleware.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_middleware.dart';
+import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_middleware.dart';
@@ -26,7 +27,6 @@ import 'package:pass_emploi_app/redux/middlewares/offre_emploi_saved_search_midd
 import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/search_location_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/search_metier_middleware.dart';
-import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/tracking_event_middleware.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
@@ -53,6 +53,8 @@ import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_r
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart' as redux;
 
+import '../../features/service_civique/detail/service_civique_detail_middleware.dart';
+import '../../repositories/service_civique/service_civique_repository.dart';
 import '../middlewares/immersion_saved_search_middleware.dart';
 import '../middlewares/initialize_saved_search_middleware.dart';
 import '../middlewares/saved_search/saved_search_middleware.dart';
@@ -83,6 +85,7 @@ class StoreFactory {
   final GetSavedSearchRepository getSavedSearchRepository;
   final SavedSearchDeleteRepository savedSearchDeleteRepository;
   final ServiceCiviqueRepository serviceCiviqueRepository;
+  final ServiceCiviqueDetailRepository serviceCiviqueDetailRepository;
 
   StoreFactory(
     this.authenticator,
@@ -108,6 +111,7 @@ class StoreFactory {
     this.getSavedSearchRepository,
     this.savedSearchDeleteRepository,
     this.serviceCiviqueRepository,
+    this.serviceCiviqueDetailRepository,
   );
 
   redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -144,6 +148,7 @@ class StoreFactory {
         GetSavedSearchMiddleware(getSavedSearchRepository),
         SavedSearchDeleteMiddleware(savedSearchDeleteRepository),
         SearchServiceCiviqueMiddleware(serviceCiviqueRepository),
+        ServiceCiviqueDetailMiddleware(serviceCiviqueDetailRepository),
         ..._debugMiddleware(),
       ],
     );

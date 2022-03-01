@@ -43,6 +43,7 @@ import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search
 import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
+import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
@@ -158,6 +159,7 @@ Future<Store<AppState>> _initializeReduxStore(
     GetSavedSearchRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     SavedSearchDeleteRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     ServiceCiviqueRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+    ServiceCiviqueDetailRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
   ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
   accessTokenRetriever.setStore(reduxStore);
   return reduxStore;
