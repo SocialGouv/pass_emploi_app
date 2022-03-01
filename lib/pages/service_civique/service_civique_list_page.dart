@@ -131,7 +131,7 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
       lieu: item.location,
       id: item.id,
       dataTag: [
-        if (item.startDate == null) Strings.asSoonAs + item.startDate!,
+        if (item.startDate != null) Strings.asSoonAs + item.startDate!,
       ],
       onTap: () {
         widget.pushAndTrackBack(context, MaterialPageRoute(builder: (_) {
