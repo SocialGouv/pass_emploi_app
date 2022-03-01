@@ -132,7 +132,9 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
       lieu: item.location,
       id: item.id,
       dataTag: [item.startDate ?? ''],
-      onTap: () => null,
+      onTap: () {
+        // TODO redirect to detail page
+      },
     );
   }
 
