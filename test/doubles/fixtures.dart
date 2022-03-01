@@ -11,6 +11,8 @@ import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 
+import '../utils/test_datetime.dart';
+
 User mockUser({id: ""}) => User(
       id: id,
       firstName: "",
@@ -83,7 +85,7 @@ OffreEmploiDetails mockOffreEmploiDetails() => OffreEmploiDetails(
         Skill(description: "Connecter une boîte de raccordements", requirement: "E")
       ],
       softSkills: ["Autonomie", "Capacité de décision", "Persévérance"],
-      lastUpdate: DateTime(2021, 11, 22, 14, 47, 29),
+      lastUpdate: parseDateTimeFromPoleEmploiPatternWithCurrentTimeZone("2021-11-22T14:47:29.000Z"),
     );
 
 OffreEmploi mockOffreEmploi({id = "123DXPM", isAlternance = false}) => OffreEmploi(

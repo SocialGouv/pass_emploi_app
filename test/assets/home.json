@@ -1,0 +1,59 @@
+{
+  "conseiller": {
+    "id": "41",
+    "firstName": "Nils",
+    "lastName": "Tavernier"
+  },
+  "doneActionsCount": 0,
+  "actions": [
+    {
+      "id": "6c7b1c4b-5ba7-443b-b46c-1ccd67907329",
+      "creationDate": "Sun, 24 Sep 2023 02:00:00 Europe/Paris",
+      "content": "Suivre une formation",
+      "status": "not_started",
+      "comment": "Consulter le catalogue des formations",
+      "isDone": false,
+      "lastUpdate": "Mon, 25 Sep 2023 02:00:00 Europe/Paris",
+      "creatorType": "conseiller",
+      "creator": "Nils Tavernier"
+    }
+  ],
+  "rendezvous": [
+    {
+      "id": "89092e0a-1111-411b-ac32-4e8cb18498e4",
+      "comment": "Suivi des actions",
+      "date": "Thu, 31 Mar 2022 22:00:00 Europe/Paris",
+      "duration": "0:30:00",
+      "modality": "Par téléphone",
+      "title": "Rendez-vous conseiller",
+      "subtitle": "avec Nils"
+    },
+    {
+      "id": "89092e0a-1111-411b-ac32-4e8cb18498e5",
+      "comment": "Suivi des actions",
+      "date": "Sun, 24 Sep 2023 14:00:00 Europe/Paris",
+      "duration": "0:30:00",
+      "modality": "Par téléphone",
+      "title": "Rendez-vous conseiller",
+      "subtitle": "avec Nils"
+    },
+    {
+      "id": "252c18b0-bad4-4e1b-87e7-6f446a2cff2e",
+      "comment": "",
+      "date": "Thu, 31 Mar 2022 22:00:00 Europe/Paris",
+      "duration": "1:05:00",
+      "modality": "par téléphone",
+      "title": "Rendez-vous conseiller",
+      "subtitle": "avec Nils"
+    },
+    {
+      "id": "6fbbdf6d-da00-41a5-9c47-841eb59cd378",
+      "comment": "",
+      "date": "Thu, 31 Mar 2022 11:00:00 Europe/Paris",
+      "duration": "0:22:00",
+      "modality": "par téléphone",
+      "title": "Rendez-vous conseiller",
+      "subtitle": "avec Nils"
+    }
+  ]
+}
