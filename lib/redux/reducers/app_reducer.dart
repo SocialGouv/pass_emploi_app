@@ -1,3 +1,5 @@
+import 'package:pass_emploi_app/features/chat/messages/chat_reducer.dart';
+import 'package:pass_emploi_app/features/chat/status/chat_status_reducer.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_reducer.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_reducer.dart';
@@ -14,7 +16,6 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/user.dart';
-import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
 import 'package:pass_emploi_app/redux/actions/deep_link_action.dart';
 import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
 import 'package:pass_emploi_app/redux/actions/login_actions.dart';
@@ -31,8 +32,6 @@ import 'package:pass_emploi_app/redux/reducers/reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/saved_search/saved_search_reducer.dart';
 import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/chat_state.dart';
-import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
 import 'package:pass_emploi_app/redux/states/configuration_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
 import 'package:pass_emploi_app/redux/states/favoris_state.dart';
@@ -46,7 +45,6 @@ import 'package:pass_emploi_app/redux/states/saved_search_state.dart';
 import 'package:pass_emploi_app/redux/states/search_location_state.dart';
 import 'package:pass_emploi_app/redux/states/search_metier_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
-import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 import '../../models/saved_search/saved_search.dart';
 import 'favoris/favoris_update_reducer.dart';
@@ -60,8 +58,8 @@ AppState reducer(AppState current, dynamic action) {
     userActionCreateState: userActionCreateReducer(current.userActionCreateState, action),
     userActionUpdateState: userActionUpdateReducer(current.userActionUpdateState, action),
     userActionDeleteState: userActionDeleteReducer(current.userActionDeleteState, action),
-    chatStatusState: _chatStatusState(current.chatStatusState, action),
-    chatState: _chatState(current.chatState, action),
+    chatStatusState: chatStatusReducer(current.chatStatusState, action),
+    chatState: chatReducer(current.chatState, action),
     offreEmploiSearchState: _offreEmploiSearchState(current.offreEmploiSearchState, action),
     deepLinkState: _deepLinkState(current.deepLinkState, action),
     offreEmploiSearchResultsState: _offreEmploiSearchResultsState(current.offreEmploiSearchResultsState, action),
@@ -85,35 +83,6 @@ AppState reducer(AppState current, dynamic action) {
     savedSearchDeleteState: savedSearchDeleteReducer(current.savedSearchDeleteState, action),
     serviceCiviqueSearchResultState: serviceCiviqueReducer(current.serviceCiviqueSearchResultState, action),
   );
-}
-
-ChatStatusState _chatStatusState(ChatStatusState current, dynamic action) {
-  if (action is ChatConseillerMessageAction) {
-    final ChatStatusState chatStatusState;
-    if (action.lastConseillerReading == null && action.unreadMessageCount == null) {
-      chatStatusState = ChatStatusState.empty();
-    } else {
-      chatStatusState = ChatStatusState.success(
-        unreadMessageCount: action.unreadMessageCount != null ? action.unreadMessageCount! : 0,
-        lastConseillerReading: action.lastConseillerReading != null ? action.lastConseillerReading! : minDateTime,
-      );
-    }
-    return chatStatusState;
-  } else {
-    return current;
-  }
-}
-
-ChatState _chatState(ChatState current, dynamic action) {
-  if (action is ChatLoadingAction) {
-    return ChatState.loading();
-  } else if (action is ChatSuccessAction) {
-    return ChatState.success(action.messages);
-  } else if (action is ChatFailureAction) {
-    return ChatState.failure();
-  } else {
-    return current;
-  }
 }
 
 OffreEmploiSearchState _offreEmploiSearchState(OffreEmploiSearchState current, dynamic action) {
@@ -172,9 +141,8 @@ OffreEmploiSearchResultsState _offreEmploiSearchResultsState(OffreEmploiSearchRe
   }
 }
 
-OffreEmploiSearchParametersState _offreEmploiSearchParametersState(
-  OffreEmploiSearchParametersState current,
-  dynamic action,
+OffreEmploiSearchParametersState _offreEmploiSearchParametersState(OffreEmploiSearchParametersState current,
+    dynamic action,
 ) {
   if (action is OffreEmploiSearchWithFiltresAction) {
     return OffreEmploiSearchParametersState.initialized(
@@ -303,8 +271,7 @@ State<ImmersionDetails> _immersionDetailsState(State<ImmersionDetails> current, 
   }
 }
 
-SavedSearchState<OffreEmploiSavedSearch> _offreEmploiSavedSearchState(
-    SavedSearchState<OffreEmploiSavedSearch> current, dynamic action) {
+SavedSearchState<OffreEmploiSavedSearch> _offreEmploiSavedSearchState(SavedSearchState<OffreEmploiSavedSearch> current, dynamic action) {
   if (action is SavedSearchAction<OffreEmploiSavedSearch>) {
     return SavedSearchReducer<OffreEmploiSavedSearch>().reduceSavedSearchState(current, action);
   } else {
@@ -312,8 +279,7 @@ SavedSearchState<OffreEmploiSavedSearch> _offreEmploiSavedSearchState(
   }
 }
 
-SavedSearchState<ImmersionSavedSearch> _immersionSavedSearchState(
-    SavedSearchState<ImmersionSavedSearch> current, dynamic action) {
+SavedSearchState<ImmersionSavedSearch> _immersionSavedSearchState(SavedSearchState<ImmersionSavedSearch> current, dynamic action) {
   if (action is SavedSearchAction<ImmersionSavedSearch>) {
     return SavedSearchReducer<ImmersionSavedSearch>().reduceSavedSearchState(current, action);
   } else {
