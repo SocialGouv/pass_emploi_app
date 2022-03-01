@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/presentation/user_action_details_view_model.dart';
-import 'package:pass_emploi_app/presentation/user_action_list_page_view_model.dart';
-import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/user_action_actions.dart';
+import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_list_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -45,15 +45,14 @@ class _UserActionListPageState extends State<UserActionListPage> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, UserActionListPageViewModel>(
-      onInit: (store) => store.dispatch(RequestUserActionsAction()),
+      onInit: (store) => store.dispatch(UserActionListRequestAction()),
       builder: (context, viewModel) => _scaffold(context, viewModel),
       converter: (store) => UserActionListPageViewModel.create(store),
       distinct: true,
       onDidChange: (previousViewModel, viewModel) {
-        if (_scrollController.hasClients) {
-          _scrollController.jumpTo(0);
-        }
+        if (_scrollController.hasClients) _scrollController.jumpTo(0);
       },
+      onDispose: (store) => store.dispatch(UserActionListResetAction()),
     );
   }
 
