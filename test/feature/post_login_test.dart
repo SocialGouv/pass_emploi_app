@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
+import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/chat_status_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
 import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
@@ -107,7 +107,7 @@ main() {
         factory.chatRepository = ChatRepositoryStub();
         final Store<AppState> store = factory.initializeReduxStore(initialState: initialState);
         final Future<AppState> result = store.onChange.firstWhere((element) {
-          return element.chatStatusState == ChatStatusState.empty();
+          return element.chatStatusState is ChatStatusEmptyState;
         });
 
         // When
@@ -115,7 +115,7 @@ main() {
 
         // Then
         final AppState resultState = await result;
-        expect(resultState.chatStatusState, ChatStatusState.empty());
+        expect(resultState.chatStatusState is ChatStatusEmptyState, isTrue);
       });
     });
 
@@ -173,7 +173,7 @@ main() {
         factory.chatRepository = ChatRepositoryStub();
         final Store<AppState> store = factory.initializeReduxStore(initialState: initialState);
         final Future<AppState> result = store.onChange.firstWhere((element) {
-          return element.chatStatusState == ChatStatusState.empty();
+          return element.chatStatusState is ChatStatusEmptyState;
         });
 
         // When
@@ -181,7 +181,7 @@ main() {
 
         // Then
         final AppState resultState = await result;
-        expect(resultState.chatStatusState, ChatStatusState.empty());
+        expect(resultState.chatStatusState is ChatStatusEmptyState, isTrue);
       });
     });
   });

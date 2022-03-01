@@ -1,5 +1,5 @@
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
-import 'package:pass_emploi_app/redux/actions/chat_actions.dart';
+import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
