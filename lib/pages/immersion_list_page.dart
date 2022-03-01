@@ -101,6 +101,7 @@ class ImmersionListPage extends TraceableStatelessWidget {
               runSpacing: 16,
               children: [
                 _alertPrimaryButton(context),
+                _filtrePrimaryButton(context, viewModel),
               ],
             ),
           ),
