@@ -24,19 +24,20 @@ class AnalyticsScreenNames {
   static const emploiNoResults = "recherche/emploi/search_no_results";
   static const emploiDetails = "recherche/emploi/detail";
   static const emploiFiltres = "recherche/emploi/search_results/filters";
-  static const emploiCreateAlert= "/saved_search/emploi/create";
+  static const emploiCreateAlert = "/saved_search/emploi/create";
 
   static const alternanceResearch = "recherche/alternance/search";
   static const alternanceResults = "recherche/alternance/search_results";
   static const alternanceNoResults = "recherche/alternance/search_no_results";
   static const alternanceDetails = "recherche/alternance/detail";
   static const alternanceFiltres = "recherche/alternance/search_results/filters";
-  static const alternanceCreateAlert= "/saved_search/alternance/create";
+  static const alternanceCreateAlert = "/saved_search/alternance/create";
 
   static const immersionResearch = "recherche/immersion/search";
   static const immersionResults = "recherche/immersion/search_results";
   static const immersionNoResults = "recherche/immersion/search_no_results";
   static const immersionDetails = "recherche/immersion/detail";
+  static const immersionFiltres = "/recherche/immersion/search_results/filters";
   static const immersionCreateAlert = "/saved_search/immersion/create";
 
   static const serviceCiviqueResearch = "recherche/service_civique/search";

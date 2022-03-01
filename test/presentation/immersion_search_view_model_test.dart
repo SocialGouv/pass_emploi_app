@@ -76,7 +76,6 @@ main() {
 
     // Then
     expect(viewModel.displayState, ImmersionSearchDisplayState.SHOW_RESULTS);
-    expect(viewModel.immersions, [mockImmersion()]);
     expect(viewModel.errorMessage, "");
   });
 

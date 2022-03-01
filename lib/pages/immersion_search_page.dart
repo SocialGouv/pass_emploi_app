@@ -43,9 +43,7 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
       onWillChange: (_, viewModel) {
         if (viewModel.displayState == ImmersionSearchDisplayState.SHOW_RESULTS) {
           widget
-              .pushAndTrackBack(
-                  context, MaterialPageRoute(builder: (context) => ImmersionListPage(viewModel.immersions)))
-              .then((_) {
+              .pushAndTrackBack(context, MaterialPageRoute(builder: (context) => ImmersionListPage())).then((_) {
             // Reset state to avoid unexpected SHOW_RESULTS while coming back from ImmersionListPage
             StoreProvider.of<AppState>(context).dispatch(ImmersionListResetAction());
           });

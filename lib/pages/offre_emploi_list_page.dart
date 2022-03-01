@@ -146,7 +146,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
                     spacing: 16,
                     runSpacing: 16,
                     children: [
-                      _alertSecondaryButton(viewModel),
+                      _alertSecondaryButton(),
                       if (viewModel.withFiltreButton) _filtreSecondaryButton(viewModel),
                     ],
                   ),
@@ -298,7 +298,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     );
   }
 
-  Widget _alertSecondaryButton(OffreEmploiSearchResultsViewModel viewModel) {
+  Widget _alertSecondaryButton() {
     return SecondaryButton(
       label: Strings.createAlert,
       drawableRes: Drawables.icAlert,
