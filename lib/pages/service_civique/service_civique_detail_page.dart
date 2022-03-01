@@ -77,18 +77,16 @@ class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (detail.domaine != null) Text(detail.domaine, style: TextStyles.textBaseRegular),
+                Text(detail.domaine, style: TextStyles.textBaseRegular),
                 _spacer(Margins.spacing_s),
-                if (detail.titre != null)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: Margins.spacing_s),
-                    child: Text(detail.titre, style: TextStyles.textMBold),
-                  ),
-                if (detail.organisation != null)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: Margins.spacing_m),
-                    child: Text(detail.organisation, style: TextStyles.textBaseRegular),
-                  ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: Margins.spacing_s),
+                  child: Text(detail.titre, style: TextStyles.textMBold),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: Margins.spacing_m),
+                  child: Text(detail.organisation, style: TextStyles.textBaseRegular),
+                ),
                 _tags(detail),
                 if (detail.description != null) _description(detail.description!),
                 _organisation(detail),
