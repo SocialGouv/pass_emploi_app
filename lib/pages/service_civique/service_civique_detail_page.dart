@@ -169,6 +169,7 @@ class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
             detail.adresseOrganisation!,
             style: TextStyles.textBaseRegular,
           ),
+        if (detail.descriptionOrganisation != null) _spacer(Margins.spacing_s),
         if (detail.descriptionOrganisation != null)
           Text(
             detail.descriptionOrganisation!,
