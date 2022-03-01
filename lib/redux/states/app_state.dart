@@ -7,6 +7,8 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_s
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
+import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
+import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -21,7 +23,6 @@ import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_stat
 import 'package:pass_emploi_app/redux/states/saved_search_state.dart';
 import 'package:pass_emploi_app/redux/states/search_location_state.dart';
 import 'package:pass_emploi_app/redux/states/search_metier_state.dart';
-import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 
 import '../../models/saved_search/saved_search.dart';
@@ -59,6 +60,7 @@ class AppState extends Equatable {
   final State<List<SavedSearch>> savedSearchesState;
   final SavedSearchDeleteState savedSearchDeleteState;
   final ServiceCiviqueSearchResultState serviceCiviqueSearchResultState;
+  final ServiceCiviqueDetailState serviceCiviqueDetailState;
 
   AppState({
     required this.deepLinkState,
@@ -88,6 +90,7 @@ class AppState extends Equatable {
     required this.savedSearchesState,
     required this.savedSearchDeleteState,
     required this.serviceCiviqueSearchResultState,
+    required this.serviceCiviqueDetailState,
   });
 
   AppState copyWith({
@@ -118,6 +121,7 @@ class AppState extends Equatable {
     final State<List<SavedSearch>>? savedSearchesState,
     final SavedSearchDeleteState? savedSearchDeleteState,
     final ServiceCiviqueSearchResultState? serviceCiviqueSearchResultState,
+    final ServiceCiviqueDetailState? serviceCiviqueDetailState,
   }) {
     return AppState(
       deepLinkState: deepLinkState ?? this.deepLinkState,
@@ -147,6 +151,7 @@ class AppState extends Equatable {
       savedSearchesState: savedSearchesState ?? this.savedSearchesState,
       savedSearchDeleteState: savedSearchDeleteState ?? this.savedSearchDeleteState,
       serviceCiviqueSearchResultState: serviceCiviqueSearchResultState ?? this.serviceCiviqueSearchResultState,
+      serviceCiviqueDetailState: serviceCiviqueDetailState ?? this.serviceCiviqueDetailState,
     );
   }
 
@@ -179,6 +184,7 @@ class AppState extends Equatable {
       savedSearchesState: State<List<SavedSearch>>.notInitialized(),
       savedSearchDeleteState: SavedSearchDeleteNotInitializedState(),
       serviceCiviqueSearchResultState: ServiceCiviqueSearchResultNotInitializedState(),
+      serviceCiviqueDetailState: ServiceCiviqueDetailNotInitializedState(),
     );
   }
 
@@ -208,6 +214,7 @@ class AppState extends Equatable {
         immersionSearchRequestState,
         savedSearchesState,
         savedSearchDeleteState,
+        serviceCiviqueDetailState,
       ];
 
   @override
