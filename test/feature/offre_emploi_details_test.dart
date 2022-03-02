@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_actions.dart';
+import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
-import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/favoris_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 
 import '../doubles/dummies.dart';
@@ -21,17 +21,17 @@ main() {
       initialState: AppState.initialState().copyWith(loginState: LoginFailureState()),
     );
 
-    final displayedLoading = store.onChange.any((element) => element.offreEmploiDetailsState.isLoading());
-    final successState = store.onChange.firstWhere((element) => element.offreEmploiDetailsState.isSuccess());
+    final displayedLoading = store.onChange.any((e) => e.offreEmploiDetailsState is OffreEmploiDetailsLoadingState);
+    final successState = store.onChange.firstWhere((e) => e.offreEmploiDetailsState is OffreEmploiDetailsSuccessState);
 
     // When
-    store.dispatch(OffreEmploiDetailsAction.request("offerId"));
+    store.dispatch(OffreEmploiDetailsRequestAction("offerId"));
 
     // Then
 
     expect(await displayedLoading, true);
     final appState = await successState;
-    expect(appState.offreEmploiDetailsState.getResultOrThrow().id, "123TZKB");
+    expect((appState.offreEmploiDetailsState as OffreEmploiDetailsSuccessState).offre.id, "123TZKB");
   });
 
   test("detailed offer should be fetched and an error must be displayed if something wrong happens", () async {
@@ -42,11 +42,11 @@ main() {
       initialState: AppState.initialState().copyWith(loginState: LoginFailureState()),
     );
 
-    final displayedLoading = store.onChange.any((element) => element.offreEmploiDetailsState.isLoading());
-    final displayedError = store.onChange.any((element) => element.offreEmploiDetailsState.isFailure());
+    final displayedLoading = store.onChange.any((e) => e.offreEmploiDetailsState is OffreEmploiDetailsLoadingState);
+    final displayedError = store.onChange.any((e) => e.offreEmploiDetailsState is OffreEmploiDetailsFailureState);
 
     // When
-    store.dispatch(OffreEmploiDetailsAction.request("offerId"));
+    store.dispatch(OffreEmploiDetailsRequestAction("offerId"));
 
     // Then
     expect(await displayedLoading, true);
@@ -63,18 +63,18 @@ main() {
           offreEmploiFavorisState: FavorisState<OffreEmploi>.withMap({"offerId"}, {"offerId": mockOffreEmploi()})),
     );
 
-    final displayedLoading = store.onChange.any((element) => element.offreEmploiDetailsState.isLoading());
-    final displayedIncompleteData = store.onChange
-        .firstWhere((element) => element.offreEmploiDetailsState is OffreEmploiDetailsIncompleteDataState);
+    final displayedLoading = store.onChange.any((e) => e.offreEmploiDetailsState is OffreEmploiDetailsLoadingState);
+    final displayedIncompleteData =
+        store.onChange.firstWhere((e) => e.offreEmploiDetailsState is OffreEmploiDetailsIncompleteDataState);
 
     // When
-    store.dispatch(OffreEmploiDetailsAction.request("offerId"));
+    store.dispatch(OffreEmploiDetailsRequestAction("offerId"));
 
     // Then
     expect(await displayedLoading, true);
     final appState = await displayedIncompleteData;
     final detailsState = (appState.offreEmploiDetailsState as OffreEmploiDetailsIncompleteDataState);
-    expect(detailsState.offreEmploi, mockOffreEmploi());
+    expect(detailsState.offre, mockOffreEmploi());
   });
 }
 

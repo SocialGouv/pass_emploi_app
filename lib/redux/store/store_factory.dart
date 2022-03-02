@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/chat/init/chat_initializer_middleware.d
 import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_middleware.dart';
 import 'package:pass_emploi_app/features/login/login_middleware.dart';
+import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_middleware.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_middleware.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_middleware.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_middleware.dart';
@@ -23,7 +24,6 @@ import 'package:pass_emploi_app/redux/middlewares/favoris_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/immersion_details_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/immersion_saved_search_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/middleware.dart';
-import 'package:pass_emploi_app/redux/middlewares/offre_emploi_details_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_saved_search_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';

@@ -1,6 +1,5 @@
+import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_actions.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/redux/actions/named_actions.dart';
-import 'package:pass_emploi_app/redux/actions/offre_emploi_details_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
@@ -14,14 +13,13 @@ class OffreEmploiDetailsMiddleware extends MiddlewareClass<AppState> {
   @override
   call(Store<AppState> store, dynamic action, NextDispatcher next) async {
     next(action);
-    if (action is OffreEmploiDetailsAction && action.isRequest()) {
-      final offreId = action.getRequestOrThrow();
-      store.dispatch(OffreEmploiDetailsAction.loading());
-      final result = await _repository.getOffreEmploiDetails(offreId: offreId);
+    if (action is OffreEmploiDetailsRequestAction) {
+      store.dispatch(OffreEmploiDetailsLoadingAction());
+      final result = await _repository.getOffreEmploiDetails(offreId: action.offreId);
       if (result.details != null) {
-        store.dispatch(OffreEmploiDetailsAction.success(result.details!));
+        store.dispatch(OffreEmploiDetailsSuccessAction(result.details!));
       } else {
-        _dispatchIncompleteDataOrError(store, result, offreId);
+        _dispatchIncompleteDataOrError(store, result, action.offreId);
       }
     }
   }
@@ -34,7 +32,7 @@ class OffreEmploiDetailsMiddleware extends MiddlewareClass<AppState> {
         favorisState.data![offreId] != null) {
       store.dispatch(OffreEmploiDetailsIncompleteDataAction(favorisState.data![offreId]!));
     } else {
-      store.dispatch(OffreEmploiDetailsAction.failure());
+      store.dispatch(OffreEmploiDetailsFailureAction());
     }
   }
 }

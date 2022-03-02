@@ -2,6 +2,7 @@ import 'package:pass_emploi_app/features/chat/messages/chat_reducer.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_reducer.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_reducer.dart';
+import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_reducer.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_reducer.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_reducer.dart';
@@ -13,7 +14,6 @@ import 'package:pass_emploi_app/features/user_action/update/user_action_update_r
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
@@ -27,7 +27,6 @@ import 'package:pass_emploi_app/redux/actions/search_metier_action.dart';
 import 'package:pass_emploi_app/redux/reducers/deep_link_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/favoris/favoris_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/immersion_details_reducer.dart';
-import 'package:pass_emploi_app/redux/reducers/offre_emploi_details_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/saved_search/saved_search_reducer.dart';
 import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
@@ -65,6 +64,7 @@ AppState reducer(AppState current, dynamic action) {
     offreEmploiSearchResultsState: _offreEmploiSearchResultsState(current.offreEmploiSearchResultsState, action),
     offreEmploiSearchParametersState:
         _offreEmploiSearchParametersState(current.offreEmploiSearchParametersState, action),
+    offreEmploiDetailsState: offreEmploiDetailsReducer(current.offreEmploiDetailsState, action),
     offreEmploiFavorisState: _offreEmploiFavorisState(current.offreEmploiFavorisState, action),
     immersionFavorisState: _immersionFavorisState(current.immersionFavorisState, action),
     favorisUpdateState: _favorisUpdateState(current.favorisUpdateState, action),
@@ -72,7 +72,6 @@ AppState reducer(AppState current, dynamic action) {
     searchMetierState: _searchMetierState(current.searchMetierState, action),
     loginState: loginReducer(current.loginState, action),
     rendezvousState: rendezvousReducer(current.rendezvousState, action),
-    offreEmploiDetailsState: _offreEmploiDetailsState(current.offreEmploiDetailsState, action),
     immersionSearchState: _immersionSearchState(current.immersionSearchState, action),
     immersionDetailsState: _immersionDetailsState(current.immersionDetailsState, action),
     offreEmploiSavedSearchState: _offreEmploiSavedSearchState(current.offreEmploiSavedSearchState, action),
@@ -228,14 +227,6 @@ SearchMetierState _searchMetierState(SearchMetierState current, dynamic action) 
     return SearchMetierState(action.metiers);
   } else if (action is ResetMetierAction) {
     return SearchMetierState([]);
-  } else {
-    return current;
-  }
-}
-
-State<OffreEmploiDetails> _offreEmploiDetailsState(State<OffreEmploiDetails> current, dynamic action) {
-  if (action is OffreEmploiDetailsAction) {
-    return OffreEmploiDetailsReducer().reduce(current, action);
   } else {
     return current;
   }
