@@ -1,10 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
-import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
 
 import '../doubles/dummies.dart';
@@ -17,7 +16,7 @@ void main() {
       // Given
       final testStoreFactory = TestStoreFactory();
       final store = testStoreFactory.initializeReduxStore(
-        initialState: AppState.initialState().copyWith(loginState: State<User>.failure()),
+        initialState: AppState.initialState().copyWith(loginState: LoginFailureState()),
       );
       final unchangedRendezvousState = store.onChange.any((e) => e.rendezvousState is RendezvousNotInitializedState);
 

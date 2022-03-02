@@ -2,12 +2,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
+import 'package:pass_emploi_app/features/login/login_actions.dart';
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/bootstrap_action.dart';
-import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
 
 import '../doubles/dummies.dart';
 import '../doubles/fixtures.dart';
@@ -29,7 +29,7 @@ void main() {
       // Given
       factory.authenticator = AuthenticatorLoggedInStub();
       final store = factory.initializeReduxStore(initialState: AppState.initialState());
-      final result = store.onChange.firstWhere((element) => element.loginState.isSuccess());
+      final result = store.onChange.firstWhere((e) => e.loginState is LoginSuccessState);
       store.dispatch(BootstrapAction());
 
       // When
@@ -37,9 +37,9 @@ void main() {
 
       // Then
       final loginState = resultState.loginState;
-      expect(loginState.isSuccess(), isTrue);
+      expect(loginState is LoginSuccessState, isTrue);
       expect(
-          loginState.getResultOrThrow(),
+          (loginState as LoginSuccessState).user,
           User(
             id: "id",
             firstName: "F",
@@ -53,14 +53,14 @@ void main() {
       // Given
       factory.authenticator = AuthenticatorNotLoggedInStub();
       final store = factory.initializeReduxStore(initialState: AppState.initialState());
-      final result = store.onChange.firstWhere((element) => element.loginState is UserNotLoggedInState);
+      final result = store.onChange.firstWhere((e) => e.loginState is UserNotLoggedInState);
       store.dispatch(BootstrapAction());
 
       // When
       final AppState resultState = await result;
 
       // Then
-      expect(resultState.loginState, isA<UserNotLoggedInState<User>>());
+      expect(resultState.loginState, isA<UserNotLoggedInState>());
     });
   });
 
@@ -70,8 +70,8 @@ void main() {
       factory.authenticator =
           AuthenticatorLoggedInStub(expectedMode: AuthenticationMode.GENERIC, authIdTokenLoginMode: "---");
       final store = factory.initializeReduxStore(initialState: AppState.initialState());
-      final displayedLoading = store.onChange.any((element) => element.loginState.isLoading());
-      final result = store.onChange.firstWhere((element) => element.loginState.isSuccess());
+      final displayedLoading = store.onChange.any((e) => e.loginState is LoginLoadingState);
+      final result = store.onChange.firstWhere((e) => e.loginState is LoginSuccessState);
       store.dispatch(RequestLoginAction(RequestLoginMode.PASS_EMPLOI));
 
       // When
@@ -81,7 +81,7 @@ void main() {
       expect(await displayedLoading, true);
       final loginState = resultState.loginState;
       expect(
-          loginState.getResultOrThrow(),
+          (loginState as LoginSuccessState).user,
           User(
             id: "id",
             firstName: "F",
@@ -96,8 +96,8 @@ void main() {
       factory.authenticator =
           AuthenticatorLoggedInStub(expectedMode: AuthenticationMode.SIMILO, authIdTokenLoginMode: "MILO");
       final store = factory.initializeReduxStore(initialState: AppState.initialState());
-      final displayedLoading = store.onChange.any((element) => element.loginState.isLoading());
-      final result = store.onChange.firstWhere((element) => element.loginState.isSuccess());
+      final displayedLoading = store.onChange.any((e) => e.loginState is LoginLoadingState);
+      final result = store.onChange.firstWhere((e) => e.loginState is LoginSuccessState);
       store.dispatch(RequestLoginAction(RequestLoginMode.SIMILO));
 
       // When
@@ -107,7 +107,7 @@ void main() {
       expect(await displayedLoading, true);
       final loginState = resultState.loginState;
       expect(
-          loginState.getResultOrThrow(),
+          (loginState as LoginSuccessState).user,
           User(
             id: "id",
             firstName: "F",
@@ -122,8 +122,8 @@ void main() {
       factory.authenticator =
           AuthenticatorLoggedInStub(expectedMode: AuthenticationMode.POLE_EMPLOI, authIdTokenLoginMode: "POLE_EMPLOI");
       final store = factory.initializeReduxStore(initialState: AppState.initialState());
-      final displayedLoading = store.onChange.any((element) => element.loginState.isLoading());
-      final result = store.onChange.firstWhere((element) => element.loginState.isSuccess());
+      final displayedLoading = store.onChange.any((e) => e.loginState is LoginLoadingState);
+      final result = store.onChange.firstWhere((e) => e.loginState is LoginSuccessState);
       store.dispatch(RequestLoginAction(RequestLoginMode.POLE_EMPLOI));
 
       // When
@@ -133,7 +133,7 @@ void main() {
       expect(await displayedLoading, true);
       final loginState = resultState.loginState;
       expect(
-          loginState.getResultOrThrow(),
+          (loginState as LoginSuccessState).user,
           User(
             id: "id",
             firstName: "F",
@@ -147,8 +147,8 @@ void main() {
       // Given
       factory.authenticator = AuthenticatorNotLoggedInStub();
       final store = factory.initializeReduxStore(initialState: AppState.initialState());
-      final displayedLoading = store.onChange.any((element) => element.loginState.isLoading());
-      final result = store.onChange.firstWhere((element) => element.loginState.isFailure());
+      final displayedLoading = store.onChange.any((e) => e.loginState is LoginLoadingState);
+      final result = store.onChange.firstWhere((e) => e.loginState is LoginFailureState);
       store.dispatch(RequestLoginAction(RequestLoginMode.PASS_EMPLOI));
 
       // When
@@ -156,7 +156,7 @@ void main() {
 
       // Then
       expect(await displayedLoading, true);
-      expect(resultState.loginState.isFailure(), isTrue);
+      expect(resultState.loginState is LoginFailureState, isTrue);
     });
   });
 
@@ -177,7 +177,7 @@ void main() {
 
     // Then
     final newState = await newStateFuture;
-    expect(newState.loginState.isNotInitialized(), isTrue);
+    expect(newState.loginState is LoginNotInitializedState, isTrue);
     expect(newState.rendezvousState is RendezvousNotInitializedState, isTrue);
     expect(newState.configurationState.getFlavor(), Flavor.PROD);
     expect(authenticatorSpy.logoutCalled, isFalse);
@@ -201,7 +201,7 @@ void main() {
 
     // Then
     final newState = await newStateFuture;
-    expect(newState.loginState.isNotInitialized(), isTrue);
+    expect(newState.loginState is LoginNotInitializedState, isTrue);
     expect(newState.rendezvousState is RendezvousNotInitializedState, isTrue);
     expect(newState.configurationState.getFlavor(), Flavor.PROD);
     expect(authenticatorSpy.logoutCalled, isTrue);

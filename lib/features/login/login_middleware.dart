@@ -2,10 +2,9 @@ import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
+import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/bootstrap_action.dart';
-import 'package:pass_emploi_app/redux/actions/login_actions.dart';
-import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:redux/redux.dart';
 
@@ -37,12 +36,12 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _logUser(Store<AppState> store, RequestLoginMode mode) async {
-    store.dispatch(LoginAction.loading());
+    store.dispatch(LoginLoadingAction());
     var authenticatorResponse = await _authenticator.login(_getAuthenticationMode(mode));
     if (authenticatorResponse == AuthenticatorResponse.SUCCESS) {
       _dispatchLoginSuccess(store);
     } else if (authenticatorResponse == AuthenticatorResponse.FAILURE) {
-      store.dispatch(LoginAction.failure());
+      store.dispatch(LoginFailureAction());
     } else {
       store.dispatch(NotLoggedInAction());
     }
@@ -57,7 +56,7 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
       email: idToken.email,
       loginMode: idToken.getLoginMode(),
     );
-    store.dispatch(LoginAction.success(user));
+    store.dispatch(LoginSuccessAction(user));
   }
 
   void _logout(Store<AppState> store, LogoutRequester logoutRequester) async {

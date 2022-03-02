@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/redux/actions/saved_search_actions.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repository.dart';
 import 'package:redux/redux.dart';
@@ -17,8 +18,8 @@ class GetSavedSearchMiddleware extends MiddlewareClass<AppState> {
   call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     final loginState = store.state.loginState;
-    if (action is GetSavedSearchAction && loginState.isSuccess()) {
-      final search = (await _repository.getSavedSearch(loginState.getResultOrThrow().id))
+    if (action is GetSavedSearchAction && loginState is LoginSuccessState) {
+      final search = (await _repository.getSavedSearch(loginState.user.id))
           ?.where((e) => e.getId() == action.savedSearchId)
           .firstOrNull;
       if (search is ImmersionSavedSearch) {

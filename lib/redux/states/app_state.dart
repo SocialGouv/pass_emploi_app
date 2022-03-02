@@ -2,22 +2,21 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_state.dart';
+import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
-import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
-import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
-import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/states/configuration_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
@@ -34,6 +33,7 @@ import 'offre_emploi_search_results_state.dart';
 import 'offre_emploi_search_state.dart';
 
 class AppState extends Equatable {
+  final LoginState loginState;
   final DeepLinkState deepLinkState;
   final UserActionListState userActionListState;
   final UserActionCreateState userActionCreateState;
@@ -50,7 +50,6 @@ class AppState extends Equatable {
   final FavorisUpdateState favorisUpdateState;
   final SearchLocationState searchLocationState;
   final SearchMetierState searchMetierState;
-  final State<User> loginState;
   final RendezvousState rendezvousState;
   final State<List<Immersion>> immersionSearchState;
   final State<ImmersionDetails> immersionDetailsState;
@@ -64,6 +63,7 @@ class AppState extends Equatable {
   final ServiceCiviqueDetailState serviceCiviqueDetailState;
 
   AppState({
+    required this.loginState,
     required this.deepLinkState,
     required this.userActionListState,
     required this.userActionCreateState,
@@ -80,7 +80,6 @@ class AppState extends Equatable {
     required this.favorisUpdateState,
     required this.searchLocationState,
     required this.searchMetierState,
-    required this.loginState,
     required this.rendezvousState,
     required this.immersionSearchState,
     required this.immersionDetailsState,
@@ -95,6 +94,7 @@ class AppState extends Equatable {
   });
 
   AppState copyWith({
+    final LoginState? loginState,
     final UserActionListState? userActionListState,
     final UserActionCreateState? userActionCreateState,
     final UserActionUpdateState? userActionUpdateState,
@@ -110,7 +110,6 @@ class AppState extends Equatable {
     final FavorisUpdateState? favorisUpdateState,
     final SearchLocationState? searchLocationState,
     final SearchMetierState? searchMetierState,
-    final State<User>? loginState,
     final RendezvousState? rendezvousState,
     final State<OffreEmploiDetails>? offreEmploiDetailsState,
     final State<List<Immersion>>? immersionSearchState,
@@ -125,6 +124,7 @@ class AppState extends Equatable {
     final ServiceCiviqueDetailState? serviceCiviqueDetailState,
   }) {
     return AppState(
+      loginState: loginState ?? this.loginState,
       deepLinkState: deepLinkState ?? this.deepLinkState,
       userActionListState: userActionListState ?? this.userActionListState,
       userActionCreateState: userActionCreateState ?? this.userActionCreateState,
@@ -141,7 +141,6 @@ class AppState extends Equatable {
       favorisUpdateState: favorisUpdateState ?? this.favorisUpdateState,
       searchLocationState: searchLocationState ?? this.searchLocationState,
       searchMetierState: searchMetierState ?? this.searchMetierState,
-      loginState: loginState ?? this.loginState,
       rendezvousState: rendezvousState ?? this.rendezvousState,
       immersionSearchState: immersionSearchState ?? this.immersionSearchState,
       immersionDetailsState: immersionDetailsState ?? this.immersionDetailsState,
@@ -158,6 +157,7 @@ class AppState extends Equatable {
 
   factory AppState.initialState({Configuration? configuration}) {
     return AppState(
+      loginState: LoginNotInitializedState(),
       deepLinkState: DeepLinkState.notInitialized(),
       userActionListState: UserActionListNotInitializedState(),
       userActionCreateState: UserActionCreateNotInitializedState(),
@@ -174,7 +174,6 @@ class AppState extends Equatable {
       favorisUpdateState: FavorisUpdateState({}),
       searchLocationState: SearchLocationState([]),
       searchMetierState: SearchMetierState([]),
-      loginState: State<User>.notInitialized(),
       rendezvousState: RendezvousNotInitializedState(),
       immersionSearchState: State<List<Immersion>>.notInitialized(),
       immersionDetailsState: State<ImmersionDetails>.notInitialized(),
@@ -191,32 +190,32 @@ class AppState extends Equatable {
 
   @override
   List<Object?> get props => [
-        deepLinkState,
-        userActionCreateState,
-        userActionUpdateState,
-        userActionDeleteState,
-        chatStatusState,
-        chatState,
-        offreEmploiSearchState,
-        offreEmploiDetailsState,
-        offreEmploiSearchResultsState,
-        offreEmploiSearchParametersState,
-        offreEmploiFavorisState,
-        favorisUpdateState,
-        searchLocationState,
-        searchMetierState,
-        loginState,
-        userActionListState,
-        rendezvousState,
-        immersionSearchState,
-        immersionDetailsState,
-        offreEmploiSavedSearchState,
-        immersionSavedSearchState,
-        immersionSearchRequestState,
-        savedSearchesState,
-        savedSearchDeleteState,
-        serviceCiviqueDetailState,
-      ];
+    deepLinkState,
+    userActionCreateState,
+    userActionUpdateState,
+    userActionDeleteState,
+    chatStatusState,
+    chatState,
+    offreEmploiSearchState,
+    offreEmploiDetailsState,
+    offreEmploiSearchResultsState,
+    offreEmploiSearchParametersState,
+    offreEmploiFavorisState,
+    favorisUpdateState,
+    searchLocationState,
+    searchMetierState,
+    loginState,
+    userActionListState,
+    rendezvousState,
+    immersionSearchState,
+    immersionDetailsState,
+    offreEmploiSavedSearchState,
+    immersionSavedSearchState,
+    immersionSearchRequestState,
+    savedSearchesState,
+    savedSearchDeleteState,
+    serviceCiviqueDetailState,
+  ];
 
   @override
   bool? get stringify => true;

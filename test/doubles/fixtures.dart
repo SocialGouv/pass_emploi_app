@@ -2,6 +2,7 @@ import 'package:http/http.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -11,7 +12,6 @@ import 'package:pass_emploi_app/models/service_civique/service_civique_detail.da
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
 
 import '../utils/test_datetime.dart';
 
@@ -23,7 +23,7 @@ User mockUser({String id = ""}) => User(
       loginMode: LoginMode.MILO,
     );
 
-State<User> successMiloUserState() => State<User>.success(User(
+LoginState successMiloUserState() => LoginSuccessState(User(
       id: "id",
       firstName: "F",
       lastName: "L",
@@ -31,7 +31,7 @@ State<User> successMiloUserState() => State<User>.success(User(
       loginMode: LoginMode.MILO,
     ));
 
-State<User> successPoleEmploiUserState() => State<User>.success(User(
+LoginState successPoleEmploiUserState() => LoginSuccessState(User(
       id: "id",
       firstName: "F",
       lastName: "L",
@@ -39,7 +39,7 @@ State<User> successPoleEmploiUserState() => State<User>.success(User(
       loginMode: LoginMode.POLE_EMPLOI,
     ));
 
-State<User> successPassEmploiUserState() => State<User>.success(User(
+LoginState successPassEmploiUserState() => LoginSuccessState(User(
       id: "id",
       firstName: "F",
       lastName: "L",

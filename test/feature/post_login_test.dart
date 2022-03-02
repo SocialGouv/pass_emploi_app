@@ -1,13 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
+import 'package:pass_emploi_app/features/login/login_actions.dart';
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/models/user.dart';
-import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
 import 'package:pass_emploi_app/redux/states/favoris_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:redux/src/store.dart';
@@ -21,7 +20,7 @@ import 'favoris/offre_emploi_favoris_test.dart';
 
 main() {
   group("after login ...", () {
-    final initialState = AppState.initialState().copyWith(loginState: State<User>.failure());
+    final initialState = AppState.initialState().copyWith(loginState: LoginFailureState());
 
     test("push notification token should be registered", () async {
       // Given
@@ -32,7 +31,7 @@ main() {
       final Store<AppState> store = testStoreFactory.initializeReduxStore(initialState: initialState);
 
       // When
-      await store.dispatch(LoginAction.success(mockUser(id: "1")));
+      await store.dispatch(LoginSuccessAction(mockUser(id: "1")));
 
       // Then
       expect(tokenRepositorySpy.wasCalled, true);
@@ -45,10 +44,10 @@ main() {
       final Store<AppState> store = testStoreFactory.initializeReduxStore(initialState: initialState);
 
       final successState =
-          store.onChange.firstWhere((element) => element.offreEmploiFavorisState is FavorisLoadedState<OffreEmploi>);
+          store.onChange.firstWhere((e) => e.offreEmploiFavorisState is FavorisLoadedState<OffreEmploi>);
 
       // When
-      store.dispatch(LoginAction.success(mockUser()));
+      store.dispatch(LoginSuccessAction(mockUser()));
 
       // Then
       final loadedFavoris = await successState;
@@ -59,7 +58,7 @@ main() {
 
     group('when coming from a chat deep link…', () {
       final initialState = AppState.initialState().copyWith(
-        loginState: State<User>.failure(),
+        loginState: LoginFailureState(),
         deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_CHAT, DateTime.now()),
       );
 
@@ -67,15 +66,15 @@ main() {
           "Firebase Auth token should be fetched and set synchronously to properly prepare ChatPage to be the first opened page",
           () async {
         // Given
-        final factory = TestStoreFactory();
+            final factory = TestStoreFactory();
         final firebaseAuthWrapperSpy = _FirebaseAuthWrapperSpy();
         factory.firebaseAuthWrapper = firebaseAuthWrapperSpy;
         factory.firebaseAuthRepository = _FirebaseAuthRepositorySuccessStub();
         final Store<AppState> store = factory.initializeReduxStore(initialState: initialState);
-        final Future<AppState> newState = store.onChange.firstWhere((element) => element.loginState.isSuccess());
+        final Future<AppState> newState = store.onChange.firstWhere((e) => e.loginState is LoginSuccessState);
 
         // When
-        store.dispatch(LoginAction.success(mockUser(id: "id")));
+        store.dispatch(LoginSuccessAction(mockUser(id: "id")));
 
         // Then
         await newState;
@@ -85,15 +84,15 @@ main() {
       test("chat crypto key should be fetched and set  to properly prepare ChatPage to be the first opened page",
           () async {
         // Given
-        final factory = TestStoreFactory();
+            final factory = TestStoreFactory();
         final chatCryptoSpy = _ChatCryptoSpy();
         factory.chatCrypto = chatCryptoSpy;
         factory.firebaseAuthRepository = _FirebaseAuthRepositorySuccessStub();
         final Store<AppState> store = factory.initializeReduxStore(initialState: initialState);
-        final Future<AppState> newState = store.onChange.firstWhere((element) => element.loginState.isSuccess());
+        final Future<AppState> newState = store.onChange.firstWhere((e) => e.loginState is LoginSuccessState);
 
         // When
-        store.dispatch(LoginAction.success(mockUser(id: "id")));
+        store.dispatch(LoginSuccessAction(mockUser(id: "id")));
 
         // Then
         await newState;
@@ -106,12 +105,12 @@ main() {
         factory.firebaseAuthRepository = _FirebaseAuthRepositorySuccessStub();
         factory.chatRepository = ChatRepositoryStub();
         final Store<AppState> store = factory.initializeReduxStore(initialState: initialState);
-        final Future<AppState> result = store.onChange.firstWhere((element) {
-          return element.chatStatusState is ChatStatusEmptyState;
+        final Future<AppState> result = store.onChange.firstWhere((e) {
+          return e.chatStatusState is ChatStatusEmptyState;
         });
 
         // When
-        store.dispatch(LoginAction.success(mockUser(id: "id")));
+        store.dispatch(LoginSuccessAction(mockUser(id: "id")));
 
         // Then
         final AppState resultState = await result;
@@ -121,7 +120,7 @@ main() {
 
     group('when not coming from a chat deep link…', () {
       final initialState = AppState.initialState().copyWith(
-        loginState: State<User>.failure(),
+        loginState: LoginFailureState(),
         deepLinkState: DeepLinkState(DeepLink.NOT_SET, DateTime.now()),
       );
 
@@ -132,10 +131,10 @@ main() {
         factory.firebaseAuthWrapper = firebaseAuthWrapperSpy;
         factory.firebaseAuthRepository = _FirebaseAuthRepositorySuccessStub();
         final Store<AppState> store = factory.initializeReduxStore(initialState: initialState);
-        final Future<AppState> newState = store.onChange.firstWhere((element) => element.loginState.isSuccess());
+        final Future<AppState> newState = store.onChange.firstWhere((e) => e.loginState is LoginSuccessState);
 
         // When
-        store.dispatch(LoginAction.success(mockUser(id: "id")));
+        store.dispatch(LoginSuccessAction(mockUser(id: "id")));
 
         // Then
         await newState;
@@ -148,15 +147,15 @@ main() {
       test("chat crypto key should be fetched and set to properly prepare ChatPage to accelerate sign-in process",
           () async {
         // Given
-        final factory = TestStoreFactory();
+            final factory = TestStoreFactory();
         final chatCryptoSpy = _ChatCryptoSpy();
         factory.chatCrypto = chatCryptoSpy;
         factory.firebaseAuthRepository = _FirebaseAuthRepositorySuccessStub();
         final Store<AppState> store = factory.initializeReduxStore(initialState: initialState);
-        final Future<AppState> newState = store.onChange.firstWhere((element) => element.loginState.isSuccess());
+        final Future<AppState> newState = store.onChange.firstWhere((e) => e.loginState is LoginSuccessState);
 
         // When
-        store.dispatch(LoginAction.success(mockUser(id: "id")));
+        store.dispatch(LoginSuccessAction(mockUser(id: "id")));
 
         // Then
         await newState;
@@ -172,12 +171,12 @@ main() {
         factory.firebaseAuthRepository = _FirebaseAuthRepositorySuccessStub();
         factory.chatRepository = ChatRepositoryStub();
         final Store<AppState> store = factory.initializeReduxStore(initialState: initialState);
-        final Future<AppState> result = store.onChange.firstWhere((element) {
-          return element.chatStatusState is ChatStatusEmptyState;
+        final Future<AppState> result = store.onChange.firstWhere((e) {
+          return e.chatStatusState is ChatStatusEmptyState;
         });
 
         // When
-        store.dispatch(LoginAction.success(mockUser(id: "id")));
+        store.dispatch(LoginSuccessAction(mockUser(id: "id")));
 
         // Then
         final AppState resultState = await result;

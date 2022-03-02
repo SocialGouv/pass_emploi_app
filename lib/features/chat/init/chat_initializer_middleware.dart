@@ -1,6 +1,6 @@
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
-import 'package:pass_emploi_app/redux/actions/named_actions.dart';
+import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
@@ -16,11 +16,11 @@ class ChatInitializerMiddleware extends MiddlewareClass<AppState> {
 
   @override
   call(Store<AppState> store, action, NextDispatcher next) async {
-    if (action is LoginAction && action.isSuccess()) {
+    if (action is LoginSuccessAction) {
       if (store.state.deepLinkState.deepLink == DeepLink.ROUTE_TO_CHAT) {
         await _initializeChatFirstThenDispatchLogin(action, next, store);
       } else {
-        await _dispatchLoginFirstThenInitializeChat(next, action, store);
+        await _dispatchLoginFirstThenInitializeChat(action, next, store);
       }
     } else {
       next(action);
@@ -28,16 +28,22 @@ class ChatInitializerMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<void> _initializeChatFirstThenDispatchLogin(
-      LoginAction action, NextDispatcher next, Store<AppState> store) async {
-    await _initializeChatAndSubscribeToChatStatus(action.getResultOrThrow().id);
+    LoginSuccessAction action,
+    NextDispatcher next,
+    Store<AppState> store,
+  ) async {
+    await _initializeChatAndSubscribeToChatStatus(action.user.id);
     next(action);
     store.dispatch(SubscribeToChatStatusAction());
   }
 
   Future<void> _dispatchLoginFirstThenInitializeChat(
-      NextDispatcher next, LoginAction action, Store<AppState> store) async {
+    LoginSuccessAction action,
+    NextDispatcher next,
+    Store<AppState> store,
+  ) async {
     next(action);
-    await _initializeChatAndSubscribeToChatStatus(action.getResultOrThrow().id);
+    await _initializeChatAndSubscribeToChatStatus(action.user.id);
     store.dispatch(SubscribeToChatStatusAction());
   }
 

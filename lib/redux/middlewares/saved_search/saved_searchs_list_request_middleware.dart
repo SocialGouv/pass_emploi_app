@@ -1,3 +1,4 @@
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repository.dart';
 import 'package:redux/redux.dart';
 
@@ -13,8 +14,8 @@ class SavedSearchListRequestMiddleware extends MiddlewareClass<AppState> {
   call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     final loginState = store.state.loginState;
-    if (action is RequestSavedSearchListAction && loginState.isSuccess()) {
-      final savedSearchs = await repository.getSavedSearch(loginState.getResultOrThrow().id);
+    if (action is RequestSavedSearchListAction && loginState is LoginSuccessState) {
+      final savedSearchs = await repository.getSavedSearch(loginState.user.id);
       if (savedSearchs == null) {
         store.dispatch(SavedSearchListFailureAction());
       } else {

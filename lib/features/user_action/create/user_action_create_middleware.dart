@@ -1,3 +1,4 @@
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -13,10 +14,10 @@ class UserActionCreateMiddleware extends MiddlewareClass<AppState> {
   call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     final loginState = store.state.loginState;
-    if (loginState.isSuccess() && action is UserActionCreateRequestAction) {
+    if (loginState is LoginSuccessState && action is UserActionCreateRequestAction) {
       store.dispatch(UserActionCreateLoadingAction());
       final result = await _repository.createUserAction(
-        loginState.getResultOrThrow().id,
+        loginState.user.id,
         action.content,
         action.comment,
         action.initialStatus,

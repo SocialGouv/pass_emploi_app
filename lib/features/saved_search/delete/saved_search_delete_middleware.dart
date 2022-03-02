@@ -1,3 +1,4 @@
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
@@ -12,9 +13,9 @@ class SavedSearchDeleteMiddleware extends MiddlewareClass<AppState> {
   call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     final loginState = store.state.loginState;
-    if (loginState.isSuccess() && action is SavedSearchDeleteRequestAction) {
+    if (loginState is LoginSuccessState && action is SavedSearchDeleteRequestAction) {
       store.dispatch(SavedSearchDeleteLoadingAction());
-      final success = await repository.delete(loginState.getResultOrThrow().id, action.savedSearchId);
+      final success = await repository.delete(loginState.user.id, action.savedSearchId);
       store.dispatch(success ? SavedSearchDeleteSuccessAction(action.savedSearchId) : SavedSearchDeleteFailureAction());
     }
   }

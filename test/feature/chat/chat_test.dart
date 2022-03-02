@@ -1,13 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/message.dart';
-import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
@@ -41,7 +40,7 @@ void main() {
     factory.chatRepository = repository;
     final store = factory.initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        loginState: State<User>.success(mockUser()),
+        loginState: LoginSuccessState(mockUser()),
         chatState: ChatSuccessState([_mockMessage('1')]),
       ),
     );

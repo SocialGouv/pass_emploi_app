@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:redux/redux.dart';
 
@@ -14,7 +15,8 @@ class MainPageViewModel extends Equatable {
 
   factory MainPageViewModel.create(Store<AppState> store) {
     final chatStatusState = store.state.chatStatusState;
-    final loginMode = store.state.loginState.getResultOrThrow().loginMode;
+    final loginState = store.state.loginState;
+    final loginMode = loginState is LoginSuccessState ? loginState.user.loginMode : null;
 
     return MainPageViewModel(
       withChatBadge: (chatStatusState is ChatStatusSuccessState) && (chatStatusState.unreadMessageCount > 0),

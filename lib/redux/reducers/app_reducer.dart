@@ -1,5 +1,7 @@
 import 'package:pass_emploi_app/features/chat/messages/chat_reducer.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_reducer.dart';
+import 'package:pass_emploi_app/features/login/login_actions.dart';
+import 'package:pass_emploi_app/features/login/login_reducer.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_reducer.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_reducer.dart';
@@ -15,10 +17,8 @@ import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
-import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/deep_link_action.dart';
 import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
-import 'package:pass_emploi_app/redux/actions/login_actions.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/actions/saved_search_actions.dart';
@@ -36,7 +36,6 @@ import 'package:pass_emploi_app/redux/states/configuration_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
 import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/immersion_search_request_state.dart';
-import 'package:pass_emploi_app/redux/states/login_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
@@ -71,7 +70,7 @@ AppState reducer(AppState current, dynamic action) {
     favorisUpdateState: _favorisUpdateState(current.favorisUpdateState, action),
     searchLocationState: _searchLocationState(current.searchLocationState, action),
     searchMetierState: _searchMetierState(current.searchMetierState, action),
-    loginState: _loginState(current.loginState, action),
+    loginState: loginReducer(current.loginState, action),
     rendezvousState: rendezvousReducer(current.rendezvousState, action),
     offreEmploiDetailsState: _offreEmploiDetailsState(current.offreEmploiDetailsState, action),
     immersionSearchState: _immersionSearchState(current.immersionSearchState, action),
@@ -229,16 +228,6 @@ SearchMetierState _searchMetierState(SearchMetierState current, dynamic action) 
     return SearchMetierState(action.metiers);
   } else if (action is ResetMetierAction) {
     return SearchMetierState([]);
-  } else {
-    return current;
-  }
-}
-
-State<User> _loginState(State<User> current, dynamic action) {
-  if (action is NotLoggedInAction) {
-    return UserNotLoggedInState();
-  } else if (action is LoginAction) {
-    return Reducer<User>().reduce(current, action);
   } else {
     return current;
   }

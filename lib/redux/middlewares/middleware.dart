@@ -1,3 +1,4 @@
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/repository.dart';
 import 'package:pass_emploi_app/redux/actions/actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -13,9 +14,9 @@ class Middleware<REQUEST, RESULT> extends MiddlewareClass<AppState> {
     next(action);
     if (action is Action<REQUEST, RESULT> && action.isRequest()) {
       final loginState = store.state.loginState;
-      if (loginState.isSuccess()) {
+      if (loginState is LoginSuccessState) {
         store.dispatch(Action<REQUEST, RESULT>.loading());
-        final result = await _repository.fetch(loginState.getResultOrThrow().id, action.getRequestOrThrow());
+        final result = await _repository.fetch(loginState.user.id, action.getRequestOrThrow());
         store.dispatch(result != null ? Action<REQUEST, RESULT>.success(result) : Action<REQUEST, RESULT>.failure());
       }
     }

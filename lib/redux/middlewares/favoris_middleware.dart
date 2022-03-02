@@ -1,5 +1,6 @@
+import 'package:pass_emploi_app/features/login/login_actions.dart';
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
-import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/favoris/favoris_repository.dart';
 import 'package:redux/redux.dart';
@@ -14,16 +15,16 @@ class FavorisMiddleware<T> extends MiddlewareClass<AppState> {
   call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     final loginState = store.state.loginState;
-    if (action is LoginAction && action.isSuccess()) {
-      await _fetchFavorisId(action.getResultOrThrow().id, store);
-    } else if (action is RequestUpdateFavoriAction<T> && loginState.isSuccess()) {
+    if (action is LoginSuccessAction) {
+      await _fetchFavorisId(action.user.id, store);
+    } else if (action is RequestUpdateFavoriAction<T> && loginState is LoginSuccessState) {
       if (action.newStatus) {
-        await _addFavori(store, action, loginState.getResultOrThrow().id);
+        await _addFavori(store, action, loginState.user.id);
       } else {
-        await _removeFavori(store, action, loginState.getResultOrThrow().id);
+        await _removeFavori(store, action, loginState.user.id);
       }
-    } else if (action is RequestFavorisAction<T> && loginState.isSuccess()) {
-      await _fetchFavoris(store, action, loginState.getResultOrThrow().id);
+    } else if (action is RequestFavorisAction<T> && loginState is LoginSuccessState) {
+      await _fetchFavoris(store, action, loginState.user.id);
     }
   }
 
@@ -34,11 +35,9 @@ class FavorisMiddleware<T> extends MiddlewareClass<AppState> {
     }
   }
 
-  Future<void> _fetchFavoris(
-    Store<AppState> store,
-    RequestFavorisAction<T> action,
-    String userId,
-  ) async {
+  Future<void> _fetchFavoris(Store<AppState> store,
+      RequestFavorisAction<T> action,
+      String userId,) async {
     final result = await _repository.getFavoris(userId);
     if (result != null) {
       store.dispatch(FavorisLoadedAction<T>(result));
@@ -47,11 +46,9 @@ class FavorisMiddleware<T> extends MiddlewareClass<AppState> {
     }
   }
 
-  Future<void> _addFavori(
-    Store<AppState> store,
-    RequestUpdateFavoriAction<T> action,
-    String userId,
-  ) async {
+  Future<void> _addFavori(Store<AppState> store,
+      RequestUpdateFavoriAction<T> action,
+      String userId,) async {
     store.dispatch(UpdateFavoriLoadingAction<T>(action.favoriId));
     final result = await _repository.postFavori(
       userId,
@@ -64,11 +61,9 @@ class FavorisMiddleware<T> extends MiddlewareClass<AppState> {
     }
   }
 
-  Future<void> _removeFavori(
-    Store<AppState> store,
-    RequestUpdateFavoriAction<T> action,
-    String userId,
-  ) async {
+  Future<void> _removeFavori(Store<AppState> store,
+      RequestUpdateFavoriAction<T> action,
+      String userId,) async {
     store.dispatch(UpdateFavoriLoadingAction<T>(action.favoriId));
     final result = await _repository.deleteFavori(userId, action.favoriId);
     if (result) {
