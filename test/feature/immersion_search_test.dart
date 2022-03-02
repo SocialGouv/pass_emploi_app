@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 
 import '../doubles/dummies.dart';
@@ -17,16 +17,19 @@ main() {
     testStoreFactory.immersionRepository = ImmersionRepositorySuccessStub();
     final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
 
-    final Future<bool> displayedLoading = store.onChange.any((e) => e.immersionSearchState.isLoading());
-    final Future<AppState> successStateFuture = store.onChange.firstWhere((e) => e.immersionSearchState.isSuccess());
+    final Future<bool> displayedLoading = store.onChange.any((e) => e.immersionListState is ImmersionListLoadingState);
+    final Future<AppState> successStateFuture = store.onChange.firstWhere((e) {
+      return e.immersionListState is ImmersionListSuccessState;
+    });
 
     // When
-    store.dispatch(ImmersionAction.request(ImmersionRequest("code-rome", mockLocation())));
+    store.dispatch(ImmersionListRequestAction(ImmersionRequest("code-rome", mockLocation())));
 
     // Then
     expect(await displayedLoading, isTrue);
     final successState = await successStateFuture;
-    expect(successState.immersionSearchState.getResultOrThrow(), [mockImmersion()]);
+    expect(successState.immersionListState, isA<ImmersionListSuccessState>());
+    expect((successState.immersionListState as ImmersionListSuccessState).immersions, [mockImmersion()]);
   });
 
   test("immersions should be loaded and error displayed when repository returns null", () async {
@@ -35,11 +38,11 @@ main() {
     testStoreFactory.immersionRepository = ImmersionRepositoryFailureStub();
     final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
 
-    final Future<bool> displayedLoading = store.onChange.any((e) => e.immersionSearchState.isLoading());
-    final Future<bool> displayedError = store.onChange.any((e) => e.immersionSearchState.isFailure());
+    final Future<bool> displayedLoading = store.onChange.any((e) => e.immersionListState is ImmersionListLoadingState);
+    final Future<bool> displayedError = store.onChange.any((e) => e.immersionListState is ImmersionListFailureState);
 
     // When
-    store.dispatch(ImmersionAction.request(ImmersionRequest("code-rome", mockLocation())));
+    store.dispatch(ImmersionListRequestAction(ImmersionRequest("code-rome", mockLocation())));
 
     // Then
     expect(await displayedLoading, true);
@@ -50,17 +53,17 @@ main() {
     // Given
     final testStoreFactory = TestStoreFactory();
     final store = testStoreFactory.initializeReduxStore(
-      initialState: loggedInState().copyWith(immersionSearchState: State<List<Immersion>>.failure()),
+      initialState: loggedInState().copyWith(immersionListState: ImmersionListFailureState()),
     );
 
     final Future<AppState> resultStateFuture = store.onChange.first;
 
     // When
-    store.dispatch(ImmersionAction.reset());
+    store.dispatch(ImmersionListResetAction());
 
     // Then
     final resultState = await resultStateFuture;
-    expect(resultState.immersionSearchState.isNotInitialized(), isTrue);
+    expect(resultState.immersionListState, isA<ImmersionListNotInitializedState>());
   });
 }
 

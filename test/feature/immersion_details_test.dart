@@ -88,7 +88,7 @@ main() {
 
     // Then
     final resultState = await resultStateFuture;
-    expect(resultState.immersionSearchState.isNotInitialized(), isTrue);
+    expect(resultState.immersionDetailsState.isNotInitialized(), isTrue);
   });
 }
 

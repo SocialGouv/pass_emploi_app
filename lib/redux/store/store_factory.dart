@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/chat/init/chat_initializer_middleware.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_middleware.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_middleware.dart';
 import 'package:pass_emploi_app/features/login/login_middleware.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_middleware.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_middleware.dart';
@@ -25,15 +26,12 @@ import 'package:pass_emploi_app/redux/middlewares/crashlytics_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/data_from_id_extractor.dart';
 import 'package:pass_emploi_app/redux/middlewares/favoris_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/immersion_details_middleware.dart';
-import 'package:pass_emploi_app/redux/middlewares/immersion_saved_search_middleware.dart';
-import 'package:pass_emploi_app/redux/middlewares/middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/search_location_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/search_metier_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/tracking_event_middleware.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
-import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
@@ -142,7 +140,7 @@ class StoreFactory {
         SearchMetierMiddleware(metierRepository),
         TrackingEventMiddleware(trackingEventRepository),
         UserTrackingStructureMiddleware(),
-        Middleware<ImmersionRequest, List<Immersion>>(immersionRepository),
+        ImmersionListMiddleware(immersionRepository),
         ImmersionDetailsMiddleware(immersionDetailsRepository),
         OffreEmploiSavedSearchCreateMiddleware(offreEmploiSavedSearchRepository),
         ImmersionSavedSearchCreateMiddleware(immersionSavedSearchRepository),

@@ -1,5 +1,7 @@
 import 'package:pass_emploi_app/features/chat/messages/chat_reducer.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_reducer.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_reducer.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_reducer.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_reducer.dart';
@@ -28,7 +30,6 @@ import 'package:pass_emploi_app/redux/actions/search_metier_action.dart';
 import 'package:pass_emploi_app/redux/reducers/deep_link_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/favoris/favoris_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/immersion_details_reducer.dart';
-import 'package:pass_emploi_app/redux/reducers/reducer.dart';
 import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/configuration_state.dart';
@@ -72,7 +73,7 @@ AppState reducer(AppState current, dynamic action) {
     searchMetierState: _searchMetierState(current.searchMetierState, action),
     loginState: loginReducer(current.loginState, action),
     rendezvousState: rendezvousReducer(current.rendezvousState, action),
-    immersionSearchState: _immersionSearchState(current.immersionSearchState, action),
+    immersionListState: immersionListReducer(current.immersionListState, action),
     immersionDetailsState: _immersionDetailsState(current.immersionDetailsState, action),
     offreEmploiSavedSearchCreateState: savedSearchCreateReducer<OffreEmploiSavedSearch>(
       current.offreEmploiSavedSearchCreateState,
@@ -238,14 +239,6 @@ SearchMetierState _searchMetierState(SearchMetierState current, dynamic action) 
   }
 }
 
-State<List<Immersion>> _immersionSearchState(State<List<Immersion>> current, dynamic action) {
-  if (action is ImmersionAction) {
-    return Reducer<List<Immersion>>().reduce(current, action);
-  } else {
-    return current;
-  }
-}
-
 State<ImmersionDetails> _immersionDetailsState(State<ImmersionDetails> current, dynamic action) {
   if (action is ImmersionDetailsAction) {
     return ImmersionDetailsReducer().reduce(current, action);
@@ -259,8 +252,8 @@ ConfigurationState _configurationState(ConfigurationState current, dynamic actio
 }
 
 ImmersionSearchRequestState _immersionSearchRequestState(ImmersionSearchRequestState current, dynamic action) {
-  if (action is ImmersionAction && action.isRequest()) {
-    final ImmersionRequest request = action.getRequestOrThrow();
+  if (action is ImmersionListRequestAction) {
+    final ImmersionRequest request = action.request;
     return RequestedImmersionSearchRequestState(
       codeRome: request.codeRome,
       ville: request.location.libelle,

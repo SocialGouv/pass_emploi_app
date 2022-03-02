@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_actions.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
@@ -9,14 +10,13 @@ import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.da
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/widgets/cards/saved_search_card.dart';
 import 'package:pass_emploi_app/widgets/dialogs/saved_search_delete_dialog.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 import '../features/saved_search/get/saved_search_get_action.dart';
 import '../presentation/saved_search/saved_search_list_view_model.dart';
-import '../redux/actions/named_actions.dart';
-import '../ui/app_colors.dart';
 import '../ui/margins.dart';
 import '../ui/strings.dart';
 import '../ui/text_styles.dart';
@@ -81,7 +81,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     _updateIndex(_indexOfImmersion);
     Navigator.push(context, MaterialPageRoute(builder: (context) => ImmersionListPage(immersionsResults, true)))
         .then((value) {
-      StoreProvider.of<AppState>(context).dispatch(ImmersionAction.reset());
+      StoreProvider.of<AppState>(context).dispatch(ImmersionListResetAction());
     }).then((_) => _shouldNavigate = true);
   }
 

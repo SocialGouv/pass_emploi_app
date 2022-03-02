@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
 import 'package:pass_emploi_app/features/saved_search/init/saved_search_initialize_action.dart';
@@ -8,7 +9,6 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/immersion_search_request_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
 
@@ -71,7 +71,7 @@ main() {
     test("SaveSearchInitializeAction should update store with rights informations", () async {
       // Given
       AppState initialState = AppState.initialState().copyWith(
-        immersionSearchState: State.success([
+        immersionListState: ImmersionListSuccessState([
           Immersion(
               id: "id",
               metier: "metier",
