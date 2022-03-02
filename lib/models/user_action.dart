@@ -26,7 +26,7 @@ class UserAction {
       content: json['content'] as String,
       comment: json['comment'] as String,
       status: _statusFromString(statusString: json['status'] as String),
-      lastUpdate: (json['lastUpdate'] as String).toDateTime(),
+      lastUpdate: (json['lastUpdate'] as String).toDateTimeOnLocalTimeZone(),
       creator: _creator(json),
     );
   }
