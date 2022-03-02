@@ -8,9 +8,9 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 
-import '../doubles/dummies.dart';
-import '../doubles/fixtures.dart';
-import '../utils/test_setup.dart';
+import '../../doubles/dummies.dart';
+import '../../doubles/fixtures.dart';
+import '../../utils/test_setup.dart';
 
 main() {
   test("detailed offer should be fetched and displayed when screen loads", () async {

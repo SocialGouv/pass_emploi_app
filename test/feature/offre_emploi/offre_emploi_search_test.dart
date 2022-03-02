@@ -4,9 +4,9 @@ import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_stat
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 
-import '../doubles/fixtures.dart';
-import '../doubles/stubs.dart';
-import '../utils/test_setup.dart';
+import '../../doubles/fixtures.dart';
+import '../../doubles/stubs.dart';
+import '../../utils/test_setup.dart';
 
 main() {
   test("offres emploi should be loaded, results displayed, and parameters saved", () async {

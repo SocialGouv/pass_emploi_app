@@ -8,10 +8,10 @@ import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:redux/src/store.dart';
 
-import '../doubles/dummies.dart';
-import '../doubles/fixtures.dart';
-import '../doubles/stubs.dart';
-import '../utils/test_setup.dart';
+import '../../doubles/dummies.dart';
+import '../../doubles/fixtures.dart';
+import '../../doubles/stubs.dart';
+import '../../utils/test_setup.dart';
 
 main() {
   test("applying new filtres when call succeeds should replace all existing data and filtres should be stored",

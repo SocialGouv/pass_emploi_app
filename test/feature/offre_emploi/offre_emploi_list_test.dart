@@ -6,10 +6,10 @@ import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.d
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 
-import '../doubles/dummies.dart';
-import '../doubles/fixtures.dart';
-import '../doubles/stubs.dart';
-import '../utils/test_setup.dart';
+import '../../doubles/dummies.dart';
+import '../../doubles/fixtures.dart';
+import '../../doubles/stubs.dart';
+import '../../utils/test_setup.dart';
 
 main() {
   group("offre emplois when data has already been loaded ...", () {
