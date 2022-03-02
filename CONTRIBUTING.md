@@ -24,7 +24,8 @@ Ce document liste les différentes pratiques de dev mises en place sur le projet
     * [Utiliser des objets pour les cas plus complexe](#utiliser-des-objets-pour-les-cas-plus-complexe)
     * [Ne pas propager les erreurs](#ne-pas-propager-les-erreurs)
 * [L'usage de Redux](#lusage-de-redux)
-    * [Pour les cas d'usage génériques, utiliser les classes dédiées](#pour-les-cas-dusage-génériques-utiliser-les-classes-dédiées)
+    * [L'organisation des fichiers Redux dans le projet](#lorganisation-des-fichiers-redux-dans-le-projet)
+    * [Un seul et unique `reducer` pour chaque sous état](#un-seul-et-unique-reducer-pour-chaque-sous-état)
     * [Au sein des `Widget` qui fonctionnent avec Redux](#au-sein-des-widget-qui-fonctionnent-avec-redux)
 * [Les tests automatisés](#les-tests-automatisés)
     * [Les tests de la couche repository](#les-tests-de-la-couche-repository)
@@ -123,17 +124,23 @@ Dès qu'un des objets du projet interagit avec un objet (du projet ou d'une dép
 Il n'est pas question ici de définir le mécanisme de Redux, mais plutôt de partager les pratiques qui y sont liées dans le 
 projet.
 
-## Pour les cas d'usage génériques, utiliser les classes dédiées
-Avec les `actions`, les `reducers`, les `middlewares` et les `states`, Redux peut s'avérer assez verbeux. Aussi, pour les 
-cas d'usage nominaux, à savoir l'appel à un repository, affichage du chargement, du succès ou d'une erreur, il est préconisé 
-d'utiliser les classes génériques et les fichiers suivant :
- * `Action<REQUEST, RESULT>`
- * Le fichier `named_actions.dart`, qui définit une liste de `typedef` pour ces actions génériques, afin de ne pas avoir 
- à les écrire en entier. Il est à noter que l'IDE Android Studio ne parvient pas à automatiquement importer ces `typedef`.
- Aussi il est nécessaire d'écrire l'import `import 'package:pass_emploi_app/redux/actions/named_actions.dart';` à la main.
- * `Reducer<RESULT>`
- * `Repository<REQUEST, RESULT>`
- * `State<T>`
+## L'organisation des fichiers Redux dans le projet
+Afin d'avoir une meilleure organisation de l'ensemble des composants liés à Redux (`actions`, `reducers`,
+`middlewares` et `states`), le projet migre vers un découpage par cas d'usage plutôt que par un découpage
+technique qui était initialement en place.
+Aussi, pour chaque nouveau cas d'usage, il convient de créer un répertoire dédié dans le répertoire
+`lib/features`, et d'y mettre tous les composants Redux correspondants.
+
+## Un seul et unique `reducer` pour chaque sous état
+Afin d'améliorer la lisibilité du code, le débogage, et de rester au maximum dans l'esprit
+des [spécifications Redux](https://redux.js.org/usage/index), il convient de ne créer qu'un seul
+`reducer` par sous état. Ainsi, quand on veut voir où un état est modifié, on s'assure qu'il n'y a
+qu'un seul fichier auquel porter son attention.
+
+Il est tout à fait possible que des `actions` d'un autre cas d'usage modifient le sous état au sein
+de ce `reducer`. Par exemple, dans le cas d'une liste dans laquelle on peut créer un élément, les
+actions liées à la création d'élément sont à la fois gérés par le `reducer` lié au cas d'usage de la
+création d'élément, et par le `reducer` lié au cas d'usage de la liste pour y ajouter l'élément crée.
  
 ## Au sein des `Widget` qui fonctionnent avec Redux
 * Afin de n'affecter l'état global de l'application que lors de l'affichage d'un écran, par convention le
