@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
@@ -71,7 +72,7 @@ main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchesState: State<List<SavedSearch>>.loading(),
+        savedSearchListState: SavedSearchListLoadingState(),
       ),
     );
 
@@ -86,7 +87,7 @@ main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchesState: State<List<SavedSearch>>.failure(),
+        savedSearchListState: SavedSearchListFailureState(),
       ),
     );
 
@@ -101,7 +102,7 @@ main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchesState: State<List<SavedSearch>>.success(_savedSearches),
+        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
       ),
     );
 
@@ -132,7 +133,7 @@ main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchesState: State<List<SavedSearch>>.success(_savedSearches),
+        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
       ),
     );
 
@@ -167,7 +168,7 @@ main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchesState: State<List<SavedSearch>>.success(_savedSearches),
+        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
       ),
     );
 
@@ -202,7 +203,7 @@ main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchesState: State<List<SavedSearch>>.success(_savedSearches),
+        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
       ),
     );
 
@@ -218,12 +219,12 @@ main() {
     // Given
     final store1 = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchesState: State<List<SavedSearch>>.success(_savedSearches),
+        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
       ),
     );
     final store2 = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchesState: State<List<SavedSearch>>.success(_savedSearches.sublist(0, 2)),
+        savedSearchListState: SavedSearchListSuccessState(_savedSearches.sublist(0, 2)),
       ),
     );
 
@@ -241,7 +242,7 @@ main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchesState: State<List<SavedSearch>>.success(_savedSearches),
+        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
       ),
     );
     final viewModel = SavedSearchListViewModel.createFromStore(store);
@@ -257,7 +258,7 @@ main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchesState: State<List<SavedSearch>>.success(_savedSearches),
+        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
         offreEmploiSearchResultsState: OffreEmploiSearchResultsDataState([], 2, true),
         offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
           keywords: "",
@@ -280,7 +281,7 @@ main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchesState: State<List<SavedSearch>>.success(_savedSearches),
+        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
         offreEmploiSearchResultsState: OffreEmploiSearchResultsDataState([], 2, true),
         offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
           keywords: "",
@@ -303,7 +304,7 @@ main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchesState: State<List<SavedSearch>>.success(_savedSearches),
+        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
         immersionSearchState: State.success([]),
       ),
     );

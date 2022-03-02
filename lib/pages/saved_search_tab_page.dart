@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_actions.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
@@ -41,7 +42,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, SavedSearchListViewModel>(
       onInit: (store) {
-        store.dispatch(RequestSavedSearchListAction());
+        store.dispatch(SavedSearchListRequestAction());
         final DeepLinkState link = store.state.deepLinkState;
         if (link.deepLink == DeepLink.SAVED_SEARCH_RESULTS && link.dataId != null) {
           store.dispatch(GetSavedSearchAction(link.dataId!));

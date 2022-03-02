@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
@@ -43,24 +44,20 @@ class SavedSearchListViewModel extends Equatable {
   });
 
   factory SavedSearchListViewModel.createFromStore(Store<AppState> store) {
-    final state = store.state.savedSearchesState;
+    final state = store.state.savedSearchListState;
     final searchResultState = store.state.offreEmploiSearchResultsState;
     final immersionSearchState = store.state.immersionSearchState;
     final searchParamsState = store.state.offreEmploiSearchParametersState;
-    if (state.isLoading()) {
-      return SavedSearchListViewModel._(
-        displayState: DisplayState.LOADING,
-      );
+    if (state is SavedSearchListLoadingState) {
+      return SavedSearchListViewModel._(displayState: DisplayState.LOADING);
     }
-    if (state.isFailure()) {
-      return SavedSearchListViewModel._(
-        displayState: DisplayState.FAILURE,
-      );
+    if (state is SavedSearchListFailureState) {
+      return SavedSearchListViewModel._(displayState: DisplayState.FAILURE);
     }
-    if (state.isSuccess()) {
+    if (state is SavedSearchListSuccessState) {
       return SavedSearchListViewModel._(
         displayState: DisplayState.CONTENT,
-        savedSearches: state.getResultOrThrow().toList(),
+        savedSearches: state.savedSearches.toList(),
         searchNavigationState: _getSearchNavigationState(searchResultState, searchParamsState, immersionSearchState),
         immersionsResults: immersionSearchState.isSuccess() ? immersionSearchState.getResultOrThrow() : [],
         offreEmploiSelected: (savedSearch) => onOffreEmploiSelected(savedSearch, store),

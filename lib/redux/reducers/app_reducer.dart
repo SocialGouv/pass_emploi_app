@@ -4,8 +4,8 @@ import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_reducer.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_reducer.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_reducer.dart';
-import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_reducer.dart';
+import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_reducer.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_reducer.dart';
@@ -45,7 +45,6 @@ import 'package:pass_emploi_app/redux/states/search_metier_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 
 import '../../features/service_civique/detail/service_civique_detail_reducer.dart';
-import '../../models/saved_search/saved_search.dart';
 import 'favoris/favoris_update_reducer.dart';
 
 AppState reducer(AppState current, dynamic action) {
@@ -78,7 +77,7 @@ AppState reducer(AppState current, dynamic action) {
     immersionSavedSearchState: _immersionSavedSearchState(current.immersionSavedSearchState, action),
     configurationState: _configurationState(current.configurationState, action),
     immersionSearchRequestState: _immersionSearchRequestState(current.immersionSearchRequestState, action),
-    savedSearchesState: _savedSearchesState(current.savedSearchesState, action),
+    savedSearchListState: savedSearchListReducer(current.savedSearchListState, action),
     savedSearchDeleteState: savedSearchDeleteReducer(current.savedSearchDeleteState, action),
     serviceCiviqueSearchResultState: serviceCiviqueReducer(current.serviceCiviqueSearchResultState, action),
     serviceCiviqueDetailState: serviceCiviqueDetailReducer(current.serviceCiviqueDetailState, action),
@@ -279,22 +278,6 @@ ImmersionSearchRequestState _immersionSearchRequestState(ImmersionSearchRequestS
       latitude: request.location.latitude ?? 0,
       longitude: request.location.longitude ?? 0,
     );
-  } else {
-    return current;
-  }
-}
-
-State<List<SavedSearch>> _savedSearchesState(State<List<SavedSearch>> current, dynamic action) {
-  if (action is RequestSavedSearchListAction) {
-    return State.loading();
-  } else if (action is SavedSearchListFailureAction) {
-    return State.failure();
-  } else if (action is SavedSearchListSuccessAction) {
-    return State.success(action.savedSearches);
-  } else if (action is SavedSearchDeleteSuccessAction && current.isSuccess()) {
-    final List<SavedSearch> savedSearches = current.getResultOrThrow();
-    savedSearches.removeWhere((element) => element.getId() == action.savedSearchId);
-    return State<List<SavedSearch>>.success(savedSearches);
   } else {
     return current;
   }
