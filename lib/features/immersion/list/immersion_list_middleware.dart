@@ -15,7 +15,7 @@ class ImmersionListMiddleware extends MiddlewareClass<AppState> {
     final loginState = store.state.loginState;
     if (loginState is LoginSuccessState && action is ImmersionListRequestAction) {
       store.dispatch(ImmersionListLoadingAction());
-      final immersions = await _repository.fetch(loginState.user.id, action.request);
+      final immersions = await _repository.getImmersions(loginState.user.id, action.request);
       store.dispatch(immersions != null ? ImmersionListSuccessAction(immersions) : ImmersionListFailureAction());
     }
   }

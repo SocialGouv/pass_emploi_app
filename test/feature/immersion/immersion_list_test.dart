@@ -71,7 +71,7 @@ class ImmersionRepositorySuccessStub extends ImmersionRepository {
   ImmersionRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<List<Immersion>?> fetch(String userId, ImmersionRequest request) async {
+  Future<List<Immersion>?> getImmersions(String userId, ImmersionRequest request) async {
     return request.codeRome == "code-rome" ? [mockImmersion()] : [];
   }
 }
@@ -80,7 +80,7 @@ class ImmersionRepositoryFailureStub extends ImmersionRepository {
   ImmersionRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<List<Immersion>?> fetch(String userId, ImmersionRequest request) async {
+  Future<List<Immersion>?> getImmersions(String userId, ImmersionRequest request) async {
     return null;
   }
 }
