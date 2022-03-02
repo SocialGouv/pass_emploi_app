@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/features/immersion/details/immersion_details_actions.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/presentation/immersion_details_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -49,8 +49,8 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
   Widget build(BuildContext context) {
     final platform = io.Platform.isAndroid ? Platform.ANDROID : Platform.IOS;
     return StoreConnector<AppState, ImmersionDetailsViewModel>(
-      onInit: (store) => store.dispatch(ImmersionDetailsAction.request(_immersionId)),
-      onDispose: (store) => store.dispatch(ImmersionDetailsAction.reset()),
+      onInit: (store) => store.dispatch(ImmersionDetailsRequestAction(_immersionId)),
+      onDispose: (store) => store.dispatch(ImmersionDetailsResetAction()),
       converter: (store) => ImmersionDetailsViewModel.create(store, platform),
       builder: (context, viewModel) => FavorisStateContext(
         selectState: (store) => store.state.immersionFavorisState,

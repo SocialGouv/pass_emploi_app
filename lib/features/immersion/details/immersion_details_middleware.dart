@@ -1,6 +1,5 @@
+import 'package:pass_emploi_app/features/immersion/details/immersion_details_actions.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/redux/actions/immersion_details_actions.dart';
-import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
@@ -15,27 +14,26 @@ class ImmersionDetailsMiddleware extends MiddlewareClass<AppState> {
   @override
   call(Store<AppState> store, dynamic action, NextDispatcher next) async {
     next(action);
-    if (action is ImmersionDetailsAction && action.isRequest()) {
-      final offreId = action.getRequestOrThrow();
-      store.dispatch(ImmersionDetailsAction.loading());
-      final result = await _repository.fetch(offreId);
+    if (action is ImmersionDetailsRequestAction) {
+      store.dispatch(ImmersionDetailsLoadingAction());
+      final result = await _repository.fetch(action.immersionId);
       if (result.details != null) {
-        store.dispatch(ImmersionDetailsAction.success(result.details!));
+        store.dispatch(ImmersionDetailsSuccessAction(result.details!));
       } else {
-        _dispatchIncompleteDataOrError(store, result, offreId);
+        _dispatchIncompleteDataOrError(store, result, action.immersionId);
       }
     }
   }
 
   void _dispatchIncompleteDataOrError<T>(Store<AppState> store, OffreDetailsResponse<T> result, String offreId) {
-    var favorisState = store.state.immersionFavorisState;
+    final favorisState = store.state.immersionFavorisState;
     if (result.isOffreNotFound &&
         favorisState is FavorisLoadedState<Immersion> &&
         favorisState.data != null &&
         favorisState.data![offreId] != null) {
       store.dispatch(ImmersionDetailsIncompleteDataAction(favorisState.data![offreId]!));
     } else {
-      store.dispatch(ImmersionDetailsAction.failure());
+      store.dispatch(ImmersionDetailsFailureAction());
     }
   }
 }

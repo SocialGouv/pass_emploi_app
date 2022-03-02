@@ -1,12 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/immersion/details/immersion_details_actions.dart';
+import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
-import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/favoris_state.dart';
-import 'package:pass_emploi_app/redux/states/immersion_details_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 
@@ -20,17 +19,20 @@ main() {
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.immersionDetailsRepository = ImmersionDetailsRepositorySuccessStub();
     final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
-
-    final Future<bool> displayedLoading = store.onChange.any((e) => e.immersionDetailsState.isLoading());
-    final Future<AppState> successStateFuture = store.onChange.firstWhere((e) => e.immersionDetailsState.isSuccess());
+    final Future<bool> displayedLoading =
+        store.onChange.any((e) => e.immersionDetailsState is ImmersionDetailsLoadingState);
+    final Future<AppState> successStateFuture = store.onChange.firstWhere((e) {
+      return e.immersionDetailsState is ImmersionDetailsSuccessState;
+    });
 
     // When
-    store.dispatch(ImmersionDetailsAction.request("immersion-id"));
+    store.dispatch(ImmersionDetailsRequestAction("immersion-id"));
 
     // Then
     expect(await displayedLoading, isTrue);
     final successState = await successStateFuture;
-    expect(successState.immersionDetailsState.getResultOrThrow(), _mockImmersionDetails());
+    expect(successState.immersionDetailsState, isA<ImmersionDetailsSuccessState>());
+    expect((successState.immersionDetailsState as ImmersionDetailsSuccessState).immersion, _mockImmersionDetails());
   });
 
   test("immersion should be displayed as incomplete data when 404 error but offre is in favoris", () async {
@@ -42,13 +44,13 @@ main() {
           loginState: LoginSuccessState(mockUser()),
           immersionFavorisState: FavorisState<Immersion>.withMap({"offerId"}, {"offerId": mockImmersion()})),
     );
-
-    final displayedLoading = store.onChange.any((element) => element.immersionDetailsState.isLoading());
+    final displayedLoading =
+        store.onChange.any((element) => element.immersionDetailsState is ImmersionDetailsLoadingState);
     final displayedIncompleteData =
         store.onChange.firstWhere((element) => element.immersionDetailsState is ImmersionDetailsIncompleteDataState);
 
     // When
-    store.dispatch(ImmersionDetailsAction.request("offerId"));
+    store.dispatch(ImmersionDetailsRequestAction("offerId"));
 
     // Then
     expect(await displayedLoading, true);
@@ -62,12 +64,15 @@ main() {
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.immersionDetailsRepository = ImmersionDetailsRepositoryFailureStub();
     final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
-
-    final Future<bool> displayedLoading = store.onChange.any((e) => e.immersionDetailsState.isLoading());
-    final Future<bool> displayedError = store.onChange.any((e) => e.immersionDetailsState.isFailure());
+    final Future<bool> displayedLoading = store.onChange.any((e) {
+      return e.immersionDetailsState is ImmersionDetailsLoadingState;
+    });
+    final Future<bool> displayedError = store.onChange.any((e) {
+      return e.immersionDetailsState is ImmersionDetailsFailureState;
+    });
 
     // When
-    store.dispatch(ImmersionDetailsAction.request("immersion-id"));
+    store.dispatch(ImmersionDetailsRequestAction("immersion-id"));
 
     // Then
     expect(await displayedLoading, true);
@@ -78,17 +83,17 @@ main() {
     // Given
     final testStoreFactory = TestStoreFactory();
     final store = testStoreFactory.initializeReduxStore(
-      initialState: loggedInState().copyWith(immersionDetailsState: State<ImmersionDetails>.failure()),
+      initialState: loggedInState().copyWith(immersionDetailsState: ImmersionDetailsFailureState()),
     );
 
     final Future<AppState> resultStateFuture = store.onChange.first;
 
     // When
-    store.dispatch(ImmersionDetailsAction.reset());
+    store.dispatch(ImmersionDetailsResetAction());
 
     // Then
     final resultState = await resultStateFuture;
-    expect(resultState.immersionDetailsState.isNotInitialized(), isTrue);
+    expect(resultState.immersionDetailsState, isA<ImmersionDetailsNotInitializedState>());
   });
 }
 
