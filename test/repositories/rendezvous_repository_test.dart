@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
@@ -12,7 +10,7 @@ import '../utils/test_assets.dart';
 import '../utils/test_datetime.dart';
 
 void main() {
-  test('fetch when response is valid should return rendezvous with date on local timezone', () async {
+  test('getRendezvous when response is valid should return rendezvous with date on local timezone', () async {
     // Given
     final httpClient = MockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
@@ -22,7 +20,7 @@ void main() {
     final repository = RendezvousRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final rendezvous = await repository.fetch("userId", Void);
+    final rendezvous = await repository.getRendezvous("userId");
 
     // Then
     expect(rendezvous, isNotNull);
@@ -41,13 +39,13 @@ void main() {
     );
   });
 
-  test('fetch when response is invalid should return null', () async {
+  test('getRendezvous when response is invalid should return null', () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
     final repository = RendezvousRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final rendezvous = await repository.fetch("userID", Void);
+    final rendezvous = await repository.getRendezvous("userID");
 
     // Then
     expect(rendezvous, isNull);
