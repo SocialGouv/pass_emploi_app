@@ -38,7 +38,7 @@ class SearchServiceCiviqueMiddleware extends MiddlewareClass<AppState> {
           distance: null,
           startDate: null,
           endDate: null,
-          page: 0,
+          page: 1,
         );
         await _searchServiceCiviquePage(loginState, store, request, []);
       } else if (action is RetryServiceCiviqueSearchAction && state is ServiceCiviqueSearchResultErrorState) {

@@ -95,6 +95,7 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
   }
 
   Widget _content(BuildContext context, ServiceCiviqueViewModel viewModel) {
+    if (viewModel.items.isEmpty) return _empty();
     return Stack(children: [
       ListView.separated(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
@@ -212,6 +213,8 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
   }
 
   Widget _empty() {
+    MatomoTracker.trackScreenWithName(
+        AnalyticsScreenNames.serviceCiviqueNoResults, AnalyticsScreenNames.serviceCiviqueNoResults);
     return EmptyOffreWidget(
       additional: Padding(
         padding: const EdgeInsets.only(top: Margins.spacing_base),

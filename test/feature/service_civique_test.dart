@@ -28,7 +28,7 @@ main() {
     final successAppState = await successState;
     final searchState = (successAppState.serviceCiviqueSearchResultState as ServiceCiviqueSearchResultDataState);
     expect(searchState.offres.length, 1);
-    expect(searchState.lastRequest.page, 0);
+    expect(searchState.lastRequest.page, 1);
   });
 
   test("service civique should be fetched and an error be displayed if something wrong happens", () async {
