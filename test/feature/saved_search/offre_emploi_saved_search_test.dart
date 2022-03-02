@@ -1,12 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_actions.dart';
+import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
-import 'package:pass_emploi_app/redux/actions/saved_search_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/saved_search_state.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
 
@@ -27,7 +27,7 @@ main() {
         metier: "Boulanger");
 
     AppState initialState = AppState.initialState().copyWith(
-      offreEmploiSavedSearchState: SavedSearchState.initialized(offreEmploiSavedSearch),
+      offreEmploiSavedSearchCreateState: SavedSearchCreateState.initialized(offreEmploiSavedSearch),
       loginState: successMiloUserState(),
     );
 
@@ -38,15 +38,15 @@ main() {
       testStoreFactory.authenticator = AuthenticatorLoggedInStub();
       final store = testStoreFactory.initializeReduxStore(initialState: initialState);
       final expected = store.onChange.firstWhere((e) {
-        return e.offreEmploiSavedSearchState.status == SavedSearchStatus.SUCCESS;
+        return e.offreEmploiSavedSearchCreateState.status == SavedSearchCreateStatus.SUCCESS;
       });
 
       // When
-      store.dispatch(RequestPostSavedSearchAction(offreEmploiSavedSearch, "Boulanger"));
+      store.dispatch(SavedSearchCreateRequestAction(offreEmploiSavedSearch, "Boulanger"));
 
       // Then
-      var offreEmploiSavedSearchState = (await expected).offreEmploiSavedSearchState;
-      expect(offreEmploiSavedSearchState is SavedSearchSuccessfullyCreated, true);
+      var offreEmploiSavedSearchCreateState = (await expected).offreEmploiSavedSearchCreateState;
+      expect(offreEmploiSavedSearchCreateState is SavedSearchCreateSuccessfullyCreated, true);
     });
 
     test("savedSearch should fail when savedSearch api call fails", () async {
@@ -56,15 +56,15 @@ main() {
       testStoreFactory.authenticator = AuthenticatorLoggedInStub();
       final store = testStoreFactory.initializeReduxStore(initialState: initialState);
       final expected = store.onChange.firstWhere((e) {
-        return e.offreEmploiSavedSearchState.status == SavedSearchStatus.ERROR;
+        return e.offreEmploiSavedSearchCreateState.status == SavedSearchCreateStatus.ERROR;
       });
 
       // When
-      store.dispatch(RequestPostSavedSearchAction(offreEmploiSavedSearch, "Boulanger"));
+      store.dispatch(SavedSearchCreateRequestAction(offreEmploiSavedSearch, "Boulanger"));
 
       // Then
-      final offreEmploiSavedSearchState = (await expected).offreEmploiSavedSearchState;
-      expect(offreEmploiSavedSearchState is SavedSearchFailureState, true);
+      final offreEmploiSavedSearchCreateState = (await expected).offreEmploiSavedSearchCreateState;
+      expect(offreEmploiSavedSearchCreateState is SavedSearchCreateFailureState, true);
     });
   });
 

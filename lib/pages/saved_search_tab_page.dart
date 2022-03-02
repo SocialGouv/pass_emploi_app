@@ -13,9 +13,9 @@ import 'package:pass_emploi_app/widgets/cards/saved_search_card.dart';
 import 'package:pass_emploi_app/widgets/dialogs/saved_search_delete_dialog.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
+import '../features/saved_search/get/saved_search_get_action.dart';
 import '../presentation/saved_search/saved_search_list_view_model.dart';
 import '../redux/actions/named_actions.dart';
-import '../redux/actions/saved_search_actions.dart';
 import '../ui/app_colors.dart';
 import '../ui/margins.dart';
 import '../ui/strings.dart';
@@ -45,7 +45,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
         store.dispatch(SavedSearchListRequestAction());
         final DeepLinkState link = store.state.deepLinkState;
         if (link.deepLink == DeepLink.SAVED_SEARCH_RESULTS && link.dataId != null) {
-          store.dispatch(GetSavedSearchAction(link.dataId!));
+          store.dispatch(SavedSearchGetAction(link.dataId!));
         }
       },
       onWillChange: (previousVM, newViewModel) {
