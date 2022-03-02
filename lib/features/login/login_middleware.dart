@@ -62,7 +62,7 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
   void _logout(Store<AppState> store, LogoutRequester logoutRequester) async {
     if (logoutRequester == LogoutRequester.USER) await _authenticator.logout();
     store.dispatch(UnsubscribeFromChatStatusAction());
-    return store.dispatch(BootstrapAction());
+    store.dispatch(BootstrapAction());
   }
 
   AuthenticationMode _getAuthenticationMode(RequestLoginMode mode) {

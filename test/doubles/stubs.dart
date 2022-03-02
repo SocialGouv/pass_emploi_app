@@ -235,8 +235,8 @@ class AuthWrapperStub extends AuthWrapper {
   @override
   Future<void> logout(AuthLogoutRequest request) async {
     if (_throwsLogoutException) throw AuthWrapperLogoutException();
-    if (request == _logoutParameters) return Future.value(true);
-    return Future.value(false);
+    if (request == _logoutParameters) return;
+    throw Exception();
   }
 }
 
