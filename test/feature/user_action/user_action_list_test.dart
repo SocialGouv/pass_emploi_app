@@ -2,9 +2,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 
-import '../doubles/fixtures.dart';
-import '../doubles/stubs.dart';
-import '../utils/test_setup.dart';
+import '../../doubles/fixtures.dart';
+import '../../doubles/stubs.dart';
+import '../../utils/test_setup.dart';
 
 void main() {
   test("actions should be fetched and displayed when screen loads", () async {

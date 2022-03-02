@@ -6,9 +6,9 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
 
-import '../doubles/dummies.dart';
-import '../doubles/fixtures.dart';
-import '../utils/test_setup.dart';
+import '../../doubles/dummies.dart';
+import '../../doubles/fixtures.dart';
+import '../../utils/test_setup.dart';
 
 void main() {
   group("rendezvous request action", () {

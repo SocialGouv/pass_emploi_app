@@ -9,12 +9,12 @@ import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/actions/bootstrap_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 
-import '../doubles/dummies.dart';
-import '../doubles/fixtures.dart';
-import '../doubles/spies.dart';
-import '../doubles/stubs.dart';
-import '../utils/test_setup.dart';
-import 'favoris/offre_emploi_favoris_test.dart';
+import '../../doubles/dummies.dart';
+import '../../doubles/fixtures.dart';
+import '../../doubles/spies.dart';
+import '../../doubles/stubs.dart';
+import '../../utils/test_setup.dart';
+import '../favoris/offre_emploi_favoris_test.dart';
 
 void main() {
   late TestStoreFactory factory;

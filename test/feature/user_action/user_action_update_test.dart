@@ -7,8 +7,8 @@ import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 
-import '../doubles/dummies.dart';
-import '../utils/test_setup.dart';
+import '../../doubles/dummies.dart';
+import '../../utils/test_setup.dart';
 
 void main() {
   test("when user requests an update the action should be updated, put on top of list and user notified", () async {
