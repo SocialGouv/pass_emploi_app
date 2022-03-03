@@ -162,4 +162,5 @@ ServiceCiviqueDetail mockServiceCiviqueDetail() => ServiceCiviqueDetail(
       description: "C'est toi la description",
       descriptionOrganisation: "Bon ça va là les description, ça suffit",
       lienAnnonce: "Bonjour, moi c'est le lien (social ?) mwahaha",
+      codePostal: "75002",
     );

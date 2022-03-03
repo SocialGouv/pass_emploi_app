@@ -40,6 +40,7 @@ void main() {
         description:
             "En lien avec le responsable des activités de l'établissement pénitentiaire, le volontaire pourra dormir",
         descriptionOrganisation: null,
+        codePostal: "75012",
       ),
     );
   });
