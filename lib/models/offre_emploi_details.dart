@@ -238,6 +238,6 @@ List<Language> _extractLanguages(Map<String, dynamic> json) {
 
 DateTime? _extractLastUpdate(Map<String, dynamic> json) {
   return (json["dateActualisation"] is String)
-      ? (json["dateActualisation"] as String).toDateTimeOnLocalTimeZoneFromPoleEmploiPattern()
+      ? (json["dateActualisation"] as String).toDateTimeUtcOnLocalTimeZone()
       : null;
 }

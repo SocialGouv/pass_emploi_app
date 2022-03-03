@@ -87,7 +87,7 @@ OffreEmploiDetails mockOffreEmploiDetails() => OffreEmploiDetails(
         Skill(description: "Connecter une boîte de raccordements", requirement: "E")
       ],
       softSkills: ["Autonomie", "Capacité de décision", "Persévérance"],
-      lastUpdate: parseDateTimeFromPoleEmploiPatternWithCurrentTimeZone("2021-11-22T14:47:29.000Z"),
+      lastUpdate: parseDateTimeUtcWithCurrentTimeZone("2021-11-22T14:47:29.000Z"),
     );
 
 OffreEmploi mockOffreEmploi({String id = "123DXPM", bool isAlternance = false}) => OffreEmploi(

@@ -27,7 +27,7 @@ class ServiceCivique extends Equatable {
       domain: json["domaine"] as String,
       companyName: json["organisation"] as String?,
       location: json["ville"] as String?,
-      startDate: stringDate?.toDateTimeOnLocalTimeZoneFromPoleEmploiPattern().toDayWithFullMonth(),
+      startDate: stringDate?.toDateTimeUtcOnLocalTimeZone().toDayWithFullMonth(),
     );
   }
 

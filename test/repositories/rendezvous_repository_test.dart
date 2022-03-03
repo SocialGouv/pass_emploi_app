@@ -31,7 +31,7 @@ void main() {
       rendezvous.first,
       Rendezvous(
         id: "89092e0a-1111-411b-ac32-4e8cb18498e4",
-        date: parseDateTimeWithCurrentTimeZone("Thu, 31 Mar 2022 22:00:00 Europe/Paris"),
+        date: parseDateTimeUtcWithCurrentTimeZone("2021-11-28T13:34:00.000Z"),
         title: "Rendez-vous conseiller",
         subtitle: "avec Nils",
         comment: "Suivi des actions",
