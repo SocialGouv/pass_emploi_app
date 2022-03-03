@@ -40,8 +40,8 @@ class ServiceCiviqueDetail extends Equatable {
     String? stringDateFin = (json["dateDeFin"] as String?);
     return ServiceCiviqueDetail(
       titre: json["titre"] as String,
-      dateDeDebut: stringDateDebut!.toDateTimeOnLocalTimeZoneFromPoleEmploiPattern().toDayWithFullMonth(),
-      dateDeFin: stringDateFin?.toDateTimeOnLocalTimeZoneFromPoleEmploiPattern().toDayWithFullMonth(),
+      dateDeDebut: stringDateDebut!.toDateTimeUtcOnLocalTimeZone().toDayWithFullMonth(),
+      dateDeFin: stringDateFin?.toDateTimeUtcOnLocalTimeZone().toDayWithFullMonth(),
       domaine: json["domaine"] as String,
       ville: json["ville"] as String,
       organisation: json["organisation"] as String,
