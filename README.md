@@ -106,7 +106,11 @@ $ git push
 $ git tag -a major.minor.patch -m "major.minor.patch" #major.minor.patch étant le version name de l'étape 3
 $ git push --tags 
 ```
-7. A la fin du job, le build de l'appli se retrouve en test interne sur Android
+7. A la fin du job, le build de l'appli se retrouve disponible :
+    * Instantanément en test interne sur le Play Store Android. Il faut cependant attendre un moment
+    avant que les utilisateurs internes puissent le voir dans le Play Store.
+    * Sur Test Flight, même s'il faut environ 10 minutes pour qu'il soit automatiquement poussé au
+    groupe de testeurs internes "Équipe projet".
 
 ### Pour iOS
 1. Aller sur [https://appstoreconnect.apple.com/apps](App Store Connect)
