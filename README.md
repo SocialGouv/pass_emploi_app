@@ -111,9 +111,12 @@ $ git push --tags
 ### Pour iOS
 1. Aller sur [https://appstoreconnect.apple.com/apps](App Store Connect)
 2. Dans l'onglet `Test flight` de l'app `Contrat d'Engagement Jeunes`, attendre que la version tout juste uploadée
-   soit bien présente. Il ne faut pas hésiter à rafraichir la page régulièrement.
-3. Par défaut, un warning apparaît `Attestation manquantes`. Indiquez que *non*, il n'y a pas
+   soit bien présente. Cela peut prendre plus de 10 minutes. Il ne faut pas hésiter à rafraichir
+   la page régulièrement.
+3. Par défaut, un warning `Attestation manquantes` apparaît. Indiquez que *non*, il n'y a pas
    d'algorithme de chiffrement dans l'app.
+4. Patientez quelques minutes, et la version sera automatiquement poussée au groupe de testeurs
+   internes "Équipe projet".
 
 ## Promouvoir la version pour tous les utilisateurs
 ### Pour Android
