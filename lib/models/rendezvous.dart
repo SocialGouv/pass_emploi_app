@@ -23,7 +23,7 @@ class Rendezvous extends Equatable {
   factory Rendezvous.fromJson(dynamic json) {
     return Rendezvous(
       id: json['id'] as String,
-      date: (json['date'] as String).toDateTimeOnLocalTimeZone(),
+      date: (json['dateUtc'] as String).toDateTimeUtcOnLocalTimeZone(),
       title: json['title'] as String,
       subtitle: json['subtitle'] as String,
       comment: json['comment'] as String,
