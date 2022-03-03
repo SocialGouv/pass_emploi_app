@@ -16,6 +16,7 @@ class ServiceCiviqueDetail extends Equatable {
   final String? codeDepartement;
   final String? description;
   final String? descriptionOrganisation;
+  final String? codePostal;
 
   ServiceCiviqueDetail({
     required this.titre,
@@ -31,6 +32,7 @@ class ServiceCiviqueDetail extends Equatable {
     required this.codeDepartement,
     required this.description,
     required this.descriptionOrganisation,
+    required this.codePostal,
   });
 
   factory ServiceCiviqueDetail.fromJson(dynamic json) {
@@ -50,6 +52,7 @@ class ServiceCiviqueDetail extends Equatable {
       codeDepartement: json["codeDepartement"] as String?,
       description: json["description"] as String?,
       descriptionOrganisation: json["descriptionOrganisation"] as String?,
+      codePostal: json["codePostal"] as String?,
     );
   }
 
@@ -68,5 +71,6 @@ class ServiceCiviqueDetail extends Equatable {
         codeDepartement,
         description,
         descriptionOrganisation,
+        codePostal,
       ];
 }

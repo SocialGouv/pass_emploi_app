@@ -88,7 +88,7 @@ class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
                   child: Text(detail.organisation, style: TextStyles.textBaseRegular),
                 ),
                 _tags(detail),
-                if (detail.description != null) _description(detail.description!),
+                _description(detail),
                 _organisation(detail),
                 _spacer(60),
               ],
@@ -130,7 +130,10 @@ class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
     );
   }
 
-  Widget _description(String description) {
+  Widget _description(ServiceCiviqueDetail detail) {
+    String missionFullAdresse = detail.adresseMission != null && detail.codePostal != null
+        ? detail.adresseMission! + ", " + detail.codePostal! + " " + detail.ville
+        : detail.ville;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
@@ -138,9 +141,15 @@ class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
         TitleSection(label: Strings.serviceCiviqueMissionTitle),
         _spacer(Margins.spacing_m),
         Text(
-          description,
+          missionFullAdresse,
           style: TextStyles.textBaseRegular,
         ),
+        if (detail.description != null) _spacer(Margins.spacing_s),
+        if (detail.description != null)
+          Text(
+            detail.description!,
+            style: TextStyles.textBaseRegular,
+          ),
         _spacer(Margins.spacing_m),
       ],
     );
