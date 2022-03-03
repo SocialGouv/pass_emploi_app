@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class RendezvousViewModel {
+  final String id;
   final String title;
   final String subtitle;
   final String dateAndHour;
@@ -13,6 +14,7 @@ class RendezvousViewModel {
   final String comment;
 
   RendezvousViewModel({
+    required this.id,
     required this.title,
     required this.subtitle,
     required this.dateAndHour,
@@ -25,6 +27,7 @@ class RendezvousViewModel {
 
   factory RendezvousViewModel.create(Rendezvous rdv) {
     return RendezvousViewModel(
+      id: rdv.id,
       title: rdv.title,
       subtitle: rdv.subtitle,
       dateAndHour: rdv.date.toDayAndHour(),

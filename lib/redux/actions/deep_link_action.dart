@@ -5,3 +5,5 @@ class DeepLinkAction {
 
   DeepLinkAction(this.message);
 }
+
+class ResetDeeplinkAction {}
