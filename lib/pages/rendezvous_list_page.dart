@@ -1,6 +1,5 @@
 import 'dart:ffi';
 
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
@@ -34,13 +33,9 @@ class RendezvousListPage extends TraceableStatelessWidget {
   }
 
   void _openDeeplinkIfNeeded(RendezvousListPageViewModel viewModel, BuildContext context) {
-    if (viewModel.idRendezVousFromDeeplink != null) {
-      final detailViewModel =
-          viewModel.items.firstWhereOrNull((element) => element.id == viewModel.idRendezVousFromDeeplink);
-      if (detailViewModel != null) {
-        pushAndTrackBack(context, RendezvousPage.materialPageRoute(detailViewModel));
-        viewModel.onDeeplinkUsed();
-      }
+    if (viewModel.deeplinkRendezvous != null) {
+      pushAndTrackBack(context, RendezvousPage.materialPageRoute(viewModel.deeplinkRendezvous!));
+      viewModel.onDeeplinkUsed();
     }
   }
 
