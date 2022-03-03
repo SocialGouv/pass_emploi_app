@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
@@ -27,7 +28,20 @@ class RendezvousListPage extends TraceableStatelessWidget {
       onInit: (store) => store.dispatch(RendezvousAction.request(Void)),
       converter: (store) => RendezvousListPageViewModel.create(store),
       builder: (context, viewModel) => _scaffold(_body(context, viewModel)),
+      onDidChange: (_, viewModel) => _openDeeplinkIfNeeded(viewModel, context),
+      distinct: true,
     );
+  }
+
+  void _openDeeplinkIfNeeded(RendezvousListPageViewModel viewModel, BuildContext context) {
+    if (viewModel.idRendezVousFromDeeplink != null) {
+      final detailViewModel =
+          viewModel.items.firstWhereOrNull((element) => element.id == viewModel.idRendezVousFromDeeplink);
+      if (detailViewModel != null) {
+        pushAndTrackBack(context, RendezvousPage.materialPageRoute(detailViewModel));
+        viewModel.onDeeplinkUsed();
+      }
+    }
   }
 
   Widget _body(BuildContext context, RendezvousListPageViewModel viewModel) {
@@ -44,14 +58,11 @@ class RendezvousListPage extends TraceableStatelessWidget {
       separatorBuilder: (context, index) => Container(
         height: Margins.spacing_base,
       ),
-      itemBuilder: (context, index) => _listItem(context, viewModel.items[index], viewModel.idRendezVousFromDeeplink),
+      itemBuilder: (context, index) => _listItem(context, viewModel.items[index]),
     );
   }
 
-  Widget _listItem(BuildContext context, RendezvousViewModel viewModel, String? idFromDeeplink) {
-    if (viewModel.id == idFromDeeplink) {
-      pushAndTrackBack(context, RendezvousPage.materialPageRoute(viewModel));
-    }
+  Widget _listItem(BuildContext context, RendezvousViewModel viewModel) {
     return CalendarCard(
       date: viewModel.dateAndHour,
       titre: viewModel.title,
