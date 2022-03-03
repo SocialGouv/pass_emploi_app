@@ -1,5 +1,6 @@
 import 'dart:ffi';
 
+import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_view_model.dart';
 import 'package:pass_emploi_app/redux/actions/named_actions.dart';
@@ -8,12 +9,15 @@ import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
 import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:redux/redux.dart';
 
-class RendezvousListPageViewModel {
+import '../redux/actions/deep_link_action.dart';
+
+class RendezvousListPageViewModel extends Equatable {
   final bool withLoading;
   final bool withFailure;
   final bool withEmptyMessage;
   final List<RendezvousViewModel> items;
   final Function() onRetry;
+  final Function() onDeeplinkUsed;
   final String? idRendezVousFromDeeplink;
 
   RendezvousListPageViewModel({
@@ -23,6 +27,7 @@ class RendezvousListPageViewModel {
     required this.items,
     required this.onRetry,
     this.idRendezVousFromDeeplink,
+    required this.onDeeplinkUsed,
   });
 
   factory RendezvousListPageViewModel.create(Store<AppState> store) {
@@ -37,6 +42,9 @@ class RendezvousListPageViewModel {
       idRendezVousFromDeeplink: link.deepLink == DeepLink.ROUTE_TO_RENDEZVOUS ? link.dataId : null,
     );
   }
+
+  @override
+  List<Object?> get props => [withLoading, withFailure, withEmptyMessage, items, idRendezVousFromDeeplink];
 }
 
 bool _isEmpty(State<List<Rendezvous>> state) => state.isSuccess() && state.getResultOrThrow().isEmpty;

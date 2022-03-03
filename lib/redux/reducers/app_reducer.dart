@@ -108,6 +108,8 @@ OffreEmploiSearchState _offreEmploiSearchState(OffreEmploiSearchState current, d
 DeepLinkState _deepLinkState(DeepLinkState current, dynamic action) {
   if (action is GetSavedSearchAction) {
     return DeepLinkState.used();
+  } else if (action is ResetDeeplinkAction) {
+    return DeepLinkState.used();
   } else if (action is DeepLinkAction) {
     return deepLinkReducer(action);
   } else {
