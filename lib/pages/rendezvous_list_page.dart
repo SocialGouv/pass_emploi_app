@@ -44,11 +44,14 @@ class RendezvousListPage extends TraceableStatelessWidget {
       separatorBuilder: (context, index) => Container(
         height: Margins.spacing_base,
       ),
-      itemBuilder: (context, index) => _listItem(context, viewModel.items[index]),
+      itemBuilder: (context, index) => _listItem(context, viewModel.items[index], viewModel.idRendezVousFromDeeplink),
     );
   }
 
-  Widget _listItem(BuildContext context, RendezvousViewModel viewModel) {
+  Widget _listItem(BuildContext context, RendezvousViewModel viewModel, String? idFromDeeplink) {
+    if (viewModel.id == idFromDeeplink) {
+      pushAndTrackBack(context, RendezvousPage.materialPageRoute(viewModel));
+    }
     return CalendarCard(
       date: viewModel.dateAndHour,
       titre: viewModel.title,
