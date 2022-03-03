@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="fr.fabrique.social.gouv.pass_emploi_app">
 
     <application
@@ -25,6 +26,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            tools:replace="android:exported"
+            android:name="com.google.firebase.auth.internal.RecaptchaActivity"
+            android:exported="false" />
+
+        <activity
+            tools:replace="android:exported"
+            android:name="com.google.firebase.auth.internal.GenericIdpActivity"
+            android:exported="false" />
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
