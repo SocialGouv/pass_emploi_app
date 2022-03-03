@@ -40,6 +40,7 @@ class RendezvousListPageViewModel extends Equatable {
       items: _items(state: rendezvousState),
       onRetry: () => store.dispatch(RendezvousAction.request(Void)),
       idRendezVousFromDeeplink: link.deepLink == DeepLink.ROUTE_TO_RENDEZVOUS ? link.dataId : null,
+      onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
     );
   }
 
