@@ -1,10 +1,11 @@
 import 'package:collection/collection.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
+import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
 import 'package:redux/redux.dart';
 
 import '../../redux/states/app_state.dart';
 import '../../redux/states/immersion_search_request_state.dart';
 import '../../redux/states/offre_emploi_search_parameters_state.dart';
-import '../../redux/states/saved_search_state.dart';
 import '../../ui/strings.dart';
 import '../offre_emploi_filtres_parameters.dart';
 import 'immersion_saved_search.dart';
@@ -40,7 +41,9 @@ class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSave
   }
 
   @override
-  bool isFailureState(Store<AppState> store) => store.state.offreEmploiSavedSearchState is SavedSearchFailureState;
+  bool isFailureState(Store<AppState> store) {
+    return store.state.offreEmploiSavedSearchCreateState is SavedSearchCreateFailureState;
+  }
 
   String _setTitleForOffer(String? metier, String? location) {
     if (_stringWithValue(metier) && _stringWithValue(location)) {
@@ -77,13 +80,15 @@ class ImmersionSearchExtractor extends AbstractSearchExtractor<ImmersionSavedSea
   }
 
   @override
-  bool isFailureState(Store<AppState> store) => store.state.immersionSavedSearchState is SavedSearchFailureState;
+  bool isFailureState(Store<AppState> store) {
+    return store.state.immersionSavedSearchCreateState is SavedSearchCreateFailureState;
+  }
 
   String _metier(Store<AppState> store) {
     final requestState = store.state.immersionSearchRequestState as RequestedImmersionSearchRequestState;
-    final state = store.state.immersionSearchState.getResultOrThrow().first;
+    final immersion = (store.state.immersionListState as ImmersionListSuccessState).immersions.first;
     final searchedMetiers = store.state.searchMetierState.metiers;
     return searchedMetiers.firstWhereOrNull((element) => element.codeRome == requestState.codeRome)?.libelle ??
-        state.metier;
+        immersion.metier;
   }
 }

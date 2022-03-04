@@ -24,7 +24,7 @@ void main() {
     final repository = ImmersionRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final immersions = await repository.fetch("ID", _request());
+    final immersions = await repository.getImmersions("ID", _request());
 
     // Then
     expect(immersions, isNotNull);
@@ -47,7 +47,7 @@ void main() {
     final repository = ImmersionRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final immersions = await repository.fetch("ID", _request());
+    final immersions = await repository.getImmersions("ID", _request());
 
     // Then
     expect(immersions, isNull);
@@ -59,7 +59,7 @@ void main() {
     final repository = ImmersionRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
-    final immersions = await repository.fetch("ID", _request());
+    final immersions = await repository.getImmersions("ID", _request());
 
     // Then
     expect(immersions, isNull);

@@ -1,3 +1,4 @@
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/redux/actions/tracking_event_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
@@ -13,10 +14,8 @@ class TrackingEventMiddleware extends MiddlewareClass<AppState> {
     next(action);
     if (action is RequestTrackingEventAction) {
       final loginState = store.state.loginState;
-      if (loginState.isSuccess()) {
-        final userId = loginState.getResultOrThrow().id;
-        final loginMode = loginState.getResultOrThrow().loginMode;
-        _repository.sendEvent(userId: userId, event: action.event, loginMode: loginMode);
+      if (loginState is LoginSuccessState) {
+        _repository.sendEvent(userId: loginState.user.id, event: action.event, loginMode: loginState.user.loginMode);
       }
     }
   }

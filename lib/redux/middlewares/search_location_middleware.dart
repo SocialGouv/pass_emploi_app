@@ -1,3 +1,4 @@
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
@@ -17,9 +18,9 @@ class SearchLocationMiddleware extends MiddlewareClass<AppState> {
       final input = action.input;
       if (input != null && input.length > 1) {
         final loginState = store.state.loginState;
-        if (loginState.isSuccess()) {
+        if (loginState is LoginSuccessState) {
           locations.addAll(await _repository.getLocations(
-            userId: loginState.getResultOrThrow().id,
+            userId: loginState.user.id,
             query: input,
             villesOnly: action.villesOnly,
           ));

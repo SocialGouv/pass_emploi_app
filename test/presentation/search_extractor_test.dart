@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
@@ -9,7 +10,6 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/immersion_search_request_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/search_metier_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
 
 import '../doubles/fixtures.dart';
 import '../utils/test_setup.dart';
@@ -50,7 +50,7 @@ main() {
   test("tests immersion search extractor when immersion result is not empty", () {
     // Given
     final testStoreFactory = TestStoreFactory();
-    final immersionState = State.success([
+    final immersionState = ImmersionListSuccessState([
       Immersion(
         id: "id",
         metier: "metier",
@@ -62,7 +62,7 @@ main() {
     final searchedMetier = Metier.values.first;
     AppState state = AppState.initialState().copyWith(
       searchMetierState: SearchMetierState([searchedMetier]),
-      immersionSearchState: immersionState,
+      immersionListState: immersionState,
       immersionSearchRequestState: RequestedImmersionSearchRequestState(
         codeRome: searchedMetier.codeRome,
         latitude: 12,
@@ -95,7 +95,7 @@ main() {
   test("tests immersion search extractor when immersion result is empty", () {
     // Given
     final testStoreFactory = TestStoreFactory();
-    final immersionState = State.success(<Immersion>[
+    final immersionState = ImmersionListSuccessState(<Immersion>[
       Immersion(
           id: "id",
           metier: "metier",
@@ -106,7 +106,7 @@ main() {
     final searchedMetier = Metier.values.first;
     AppState state = AppState.initialState().copyWith(
       searchMetierState: SearchMetierState([searchedMetier]),
-      immersionSearchState: immersionState,
+      immersionListState: immersionState,
       immersionSearchRequestState: RequestedImmersionSearchRequestState(
         codeRome: searchedMetier.codeRome,
         latitude: 12,

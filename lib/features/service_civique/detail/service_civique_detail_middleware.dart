@@ -12,14 +12,10 @@ class ServiceCiviqueDetailMiddleware extends MiddlewareClass<AppState> {
   @override
   call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
-    final loginState = store.state.loginState;
-    if (loginState.isSuccess()) {
-      if (action is GetServiceCiviqueDetailAction) {
-        store.dispatch(ServiceCiviqueDetailLoadingAction());
-        final detail = await _repository.getServiceCiviqueDetail(action.id);
-        store
-            .dispatch(detail == null ? ServiceCiviqueDetailFailureAction() : ServiceCiviqueDetailSuccessAction(detail));
-      }
+    if (action is GetServiceCiviqueDetailAction) {
+      store.dispatch(ServiceCiviqueDetailLoadingAction());
+      final detail = await _repository.getServiceCiviqueDetail(action.id);
+      store.dispatch(detail == null ? ServiceCiviqueDetailFailureAction() : ServiceCiviqueDetailSuccessAction(detail));
     }
   }
 }

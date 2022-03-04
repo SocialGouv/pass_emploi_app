@@ -1,3 +1,4 @@
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
@@ -41,7 +42,7 @@ class UserActionDetailsViewModel {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is UserActionDetailsViewModel && runtimeType == other.runtimeType && displayState == other.displayState;
+      other is UserActionDetailsViewModel && runtimeType == other.runtimeType && displayState == other.displayState;
 
   @override
   int get hashCode => displayState.hashCode;
@@ -72,12 +73,12 @@ void _refreshStatus(Store<AppState> store, String actionId, UserActionStatus new
   final loginState = store.state.loginState;
   final userActionListState = store.state.userActionListState;
   if (userActionListState is UserActionListSuccessState) {
-    if (loginState.isSuccess()) {
+    if (loginState is LoginSuccessState) {
       final action = userActionListState.userActions.firstWhere((e) => e.id == actionId);
       if (action.status != newStatus) {
         store.dispatch(
           UserActionUpdateRequestAction(
-            userId: loginState.getResultOrThrow().id,
+            userId: loginState.user.id,
             actionId: actionId,
             newStatus: newStatus,
           ),

@@ -1,11 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
+import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_actions.dart';
+import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
+import 'package:pass_emploi_app/features/saved_search/init/saved_search_initialize_action.dart';
+import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_actions.dart';
+import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
-import 'package:pass_emploi_app/redux/actions/saved_search_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/immersion_search_request_state.dart';
-import 'package:pass_emploi_app/redux/states/saved_search_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
 
@@ -25,7 +28,7 @@ main() {
     );
 
     AppState initialState = AppState.initialState().copyWith(
-      immersionSavedSearchState: SavedSearchState.initialized(immersionSavedSearch),
+      immersionSavedSearchCreateState: SavedSearchCreateState.initialized(immersionSavedSearch),
       loginState: successMiloUserState(),
     );
 
@@ -35,15 +38,16 @@ main() {
       testStoreFactory.immersionSavedSearchRepository = ImmersionSavedSearchRepositorySuccessStub();
       testStoreFactory.authenticator = AuthenticatorLoggedInStub();
       final store = testStoreFactory.initializeReduxStore(initialState: initialState);
-      final expected =
-          store.onChange.firstWhere((element) => element.immersionSavedSearchState.status == SavedSearchStatus.SUCCESS);
+      final expected = store.onChange.firstWhere((e) {
+        return e.immersionSavedSearchCreateState.status == SavedSearchCreateStatus.SUCCESS;
+      });
 
       // When
-      store.dispatch(RequestPostSavedSearchAction(immersionSavedSearch, "Boulanger - Paris"));
+      store.dispatch(SavedSearchCreateRequestAction(immersionSavedSearch, "Boulanger - Paris"));
 
       // Then
-      var immersionSavedSearchState = (await expected).immersionSavedSearchState;
-      expect(immersionSavedSearchState is SavedSearchSuccessfullyCreated, true);
+      var immersionSavedSearchState = (await expected).immersionSavedSearchCreateState;
+      expect(immersionSavedSearchState is SavedSearchCreateSuccessfullyCreated, true);
     });
 
     test("savedSearch should fail when savedSearch api call fails", () async {
@@ -52,21 +56,22 @@ main() {
       testStoreFactory.immersionSavedSearchRepository = ImmersionSavedSearchRepositoryFailureStub();
       testStoreFactory.authenticator = AuthenticatorLoggedInStub();
       final store = testStoreFactory.initializeReduxStore(initialState: initialState);
-      final expected =
-          store.onChange.firstWhere((element) => element.immersionSavedSearchState.status == SavedSearchStatus.ERROR);
+      final expected = store.onChange.firstWhere((e) {
+        return e.immersionSavedSearchCreateState.status == SavedSearchCreateStatus.ERROR;
+      });
 
       // When
-      store.dispatch(RequestPostSavedSearchAction(immersionSavedSearch, "Boulanger - Paris"));
+      store.dispatch(SavedSearchCreateRequestAction(immersionSavedSearch, "Boulanger - Paris"));
 
       // Then
-      var immersionSavedSearchState = (await expected).immersionSavedSearchState;
-      expect(immersionSavedSearchState is SavedSearchFailureState, true);
+      var immersionSavedSearchState = (await expected).immersionSavedSearchCreateState;
+      expect(immersionSavedSearchState is SavedSearchCreateFailureState, true);
     });
 
-    test("InitializeSaveSearchAction should update store with rights informations", () async {
+    test("SaveSearchInitializeAction should update store with rights informations", () async {
       // Given
       AppState initialState = AppState.initialState().copyWith(
-        immersionSearchState: State.success([
+        immersionListState: ImmersionListSuccessState([
           Immersion(
               id: "id",
               metier: "metier",
@@ -74,24 +79,29 @@ main() {
               secteurActivite: "secteurActivite",
               ville: "ville")
         ]),
-        immersionSearchRequestState:
-            RequestedImmersionSearchRequestState(codeRome: "codeRome", latitude: 12, longitude: 34, ville: "ville"),
+        immersionSearchRequestState: RequestedImmersionSearchRequestState(
+          codeRome: "codeRome",
+          latitude: 12,
+          longitude: 34,
+          ville: "ville",
+        ),
         loginState: successMiloUserState(),
       );
       final testStoreFactory = TestStoreFactory();
       testStoreFactory.authenticator = AuthenticatorLoggedInStub();
       final store = testStoreFactory.initializeReduxStore(initialState: initialState);
-      final expected =
-          store.onChange.firstWhere((element) => element.immersionSavedSearchState is SavedSearchInitialized);
+      final expected = store.onChange.firstWhere((e) {
+        return e.immersionSavedSearchCreateState is SavedSearchCreateInitialized;
+      });
 
       // When
-      store.dispatch(InitializeSaveSearchAction<ImmersionSavedSearch>());
+      store.dispatch(SaveSearchInitializeAction<ImmersionSavedSearch>());
 
       // Then
-      final immersionSavedSearchState =
-          (await expected).immersionSavedSearchState as SavedSearchInitialized<ImmersionSavedSearch>;
+      final state =
+          (await expected).immersionSavedSearchCreateState as SavedSearchCreateInitialized<ImmersionSavedSearch>;
       expect(
-          immersionSavedSearchState.search,
+          state.search,
           ImmersionSavedSearch(
               id: "",
               title: "metier - ville",
@@ -112,16 +122,18 @@ main() {
       testStoreFactory.getSavedSearchRepository = SavedSearchRepositorySuccessStub();
       final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
 
-      final displayedLoading = store.onChange.any((element) => element.savedSearchesState.isLoading());
-      final successAppState = store.onChange.firstWhere((element) => element.savedSearchesState.isSuccess());
+      final displayedLoading = store.onChange.any((e) => e.savedSearchListState is SavedSearchListLoadingState);
+      final successAppState = store.onChange.firstWhere((e) => e.savedSearchListState is SavedSearchListSuccessState);
       // When
-      store.dispatch(RequestSavedSearchListAction());
+      store.dispatch(SavedSearchListRequestAction());
 
       // Then
       expect(await displayedLoading, true);
       final appState = await successAppState;
-      expect(appState.savedSearchesState.getResultOrThrow().length, 1);
-      expect(appState.savedSearchesState.getResultOrThrow()[0].getTitle(), "Boulangerie - viennoiserie - PARIS-14");
+      final savedSearches = (appState.savedSearchListState as SavedSearchListSuccessState).savedSearches;
+      expect(savedSearches, isNotNull);
+      expect(savedSearches.length, 1);
+      expect(savedSearches[0].getTitle(), "Boulangerie - viennoiserie - PARIS-14");
     });
 
     test("update state with failure if repository returns nothing", () async {
@@ -130,16 +142,16 @@ main() {
       testStoreFactory.getSavedSearchRepository = SavedSearchRepositoryFailureStub();
       final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
 
-      final displayedLoading = store.onChange.any((element) => element.savedSearchesState.isLoading());
-      final failureAppState = store.onChange.firstWhere((element) => element.savedSearchesState.isFailure());
+      final displayedLoading = store.onChange.any((e) => e.savedSearchListState is SavedSearchListLoadingState);
+      final failureAppState = store.onChange.firstWhere((e) => e.savedSearchListState is SavedSearchListFailureState);
 
       // When
-      store.dispatch(RequestSavedSearchListAction());
+      store.dispatch(SavedSearchListRequestAction());
 
       // Then
       expect(await displayedLoading, true);
       final appState = await failureAppState;
-      expect(appState.savedSearchesState.isFailure(), isTrue);
+      expect(appState.savedSearchListState is SavedSearchListFailureState, isTrue);
     });
   });
 }

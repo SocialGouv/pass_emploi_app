@@ -1,18 +1,17 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/user.dart';
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/router_page_view_model.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
 
 void main() {
   test('RouterPageViewModel.create when login not initialized should display splash screen', () {
-    final state = AppState.initialState().copyWith(loginState: State<User>.notInitialized());
+    final state = AppState.initialState().copyWith(loginState: LoginNotInitializedState());
     final store = Store<AppState>(reducer, initialState: state);
 
     final viewModel = RouterPageViewModel.create(store);
@@ -22,7 +21,7 @@ void main() {
 
   group("RouterPageViewModel.create when user not logged in…", () {
     test('…with not logged state in should display login page', () {
-      final state = AppState.initialState().copyWith(loginState: State<User>.failure());
+      final state = AppState.initialState().copyWith(loginState: LoginFailureState());
       final store = Store<AppState>(reducer, initialState: state);
 
       final viewModel = RouterPageViewModel.create(store);
@@ -31,7 +30,7 @@ void main() {
     });
 
     test('…with login loading state should display login page', () {
-      final state = AppState.initialState().copyWith(loginState: State<User>.loading());
+      final state = AppState.initialState().copyWith(loginState: LoginLoadingState());
       final store = Store<AppState>(reducer, initialState: state);
 
       final viewModel = RouterPageViewModel.create(store);
@@ -40,7 +39,7 @@ void main() {
     });
 
     test('…with login failure state should display login page', () {
-      final state = AppState.initialState().copyWith(loginState: State<User>.failure());
+      final state = AppState.initialState().copyWith(loginState: LoginFailureState());
       final store = Store<AppState>(reducer, initialState: state);
 
       final viewModel = RouterPageViewModel.create(store);

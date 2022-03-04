@@ -1,14 +1,12 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
+import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
 import 'package:pass_emploi_app/pages/rendezvous_page.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -24,7 +22,7 @@ class RendezvousListPage extends TraceableStatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RendezvousListPageViewModel>(
-      onInit: (store) => store.dispatch(RendezvousAction.request(Void)),
+      onInit: (store) => store.dispatch(RendezvousRequestAction()),
       converter: (store) => RendezvousListPageViewModel.create(store),
       builder: (context, viewModel) => _scaffold(_body(context, viewModel)),
       onDidChange: (_, viewModel) => _openDeeplinkIfNeeded(viewModel, context),

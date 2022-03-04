@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:redux/src/store.dart';
 
@@ -145,7 +145,7 @@ Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
         {"1", "2", "4"},
         {"1": mockImmersion(), "2": mockImmersion(), "4": mockImmersion()},
       ),
-      immersionSearchState: State<List<Immersion>>.success([mockImmersion(id: '1'), mockImmersion(id: '17')]),
+      immersionListState: ImmersionListSuccessState([mockImmersion(id: '1'), mockImmersion(id: '17')]),
     ),
   );
   return store;
@@ -191,7 +191,7 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
         {"1", "2", "4"},
         {"1": mockImmersion(), "2": mockImmersion(), "4": mockImmersion()},
       ),
-      immersionSearchState: State<List<Immersion>>.success([mockImmersion(id: '1'), mockImmersion(id: '17')]),
+      immersionListState: ImmersionListSuccessState([mockImmersion(id: '1'), mockImmersion(id: '17')]),
     ),
   );
   return store;

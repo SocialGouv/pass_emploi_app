@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
@@ -17,8 +18,8 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
   call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     final loginState = store.state.loginState;
-    if (loginState.isSuccess()) {
-      final userId = loginState.getResultOrThrow().id;
+    if (loginState is LoginSuccessState) {
+      final userId = loginState.user.id;
       if (action is SubscribeToChatAction) {
         _displayLoaderOnFirstTimeAndCurrentMessagesAfter(store);
         _subscribeToChatStream(userId, store);

@@ -1,14 +1,14 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/actions/search_metier_action.dart';
 import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
@@ -36,7 +36,7 @@ class ImmersionSearchViewModel extends Equatable {
   });
 
   factory ImmersionSearchViewModel.create(Store<AppState> store) {
-    final immersionSearchState = store.state.immersionSearchState;
+    final immersionSearchState = store.state.immersionListState;
     return ImmersionSearchViewModel._(
       displayState: _displayState(immersionSearchState),
       locations: store.state.searchLocationState.locations
@@ -48,9 +48,11 @@ class ImmersionSearchViewModel extends Equatable {
       onInputLocation: (input) => store.dispatch(RequestLocationAction(input, villesOnly: true)),
       onInputMetier: (input) => store.dispatch(RequestMetierAction(input)),
       onSearchingRequest: (codeRome, location) {
-        store.dispatch(codeRome != null && location != null
-            ? ImmersionAction.request(ImmersionRequest(codeRome, location))
-            : ImmersionAction.failure());
+        store.dispatch(
+          codeRome != null && location != null
+              ? ImmersionListRequestAction(ImmersionRequest(codeRome, location))
+              : ImmersionListFailureAction(),
+        );
       },
     );
   }
@@ -59,23 +61,23 @@ class ImmersionSearchViewModel extends Equatable {
   List<Object?> get props => [displayState, locations, errorMessage, metiers];
 }
 
-ImmersionSearchDisplayState _displayState(State<List<Immersion>> immersionSearchState) {
-  if (immersionSearchState.isSuccess()) {
+ImmersionSearchDisplayState _displayState(ImmersionListState state) {
+  if (state is ImmersionListSuccessState) {
     return ImmersionSearchDisplayState.SHOW_RESULTS;
-  } else if (immersionSearchState.isLoading()) {
+  } else if (state is ImmersionListLoadingState) {
     return ImmersionSearchDisplayState.SHOW_LOADER;
-  } else if (immersionSearchState.isFailure()) {
+  } else if (state is ImmersionListFailureState) {
     return ImmersionSearchDisplayState.SHOW_ERROR;
   } else {
     return ImmersionSearchDisplayState.SHOW_SEARCH_FORM;
   }
 }
 
-List<Immersion> _immersions(State<List<Immersion>> immersionSearchState) {
-  if (immersionSearchState.isSuccess()) return immersionSearchState.getResultOrThrow();
+List<Immersion> _immersions(ImmersionListState state) {
+  if (state is ImmersionListSuccessState) return state.immersions;
   return [];
 }
 
-String _errorMessage(State<List<Immersion>> immersionSearchState) {
-  return immersionSearchState.isFailure() ? Strings.genericError : "";
+String _errorMessage(ImmersionListState state) {
+  return state is ImmersionListFailureState ? Strings.genericError : "";
 }
