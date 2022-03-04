@@ -1,39 +1,33 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/models/location.dart';
 
-import '../list/immersion_list_request.dart';
+abstract class ImmersionSearchParametersState extends Equatable {
+  ImmersionSearchParametersState._();
+}
 
-abstract class ImmersionSearchState extends Equatable {
+class ImmersionSearchParametersInitializedState extends ImmersionSearchParametersState {
+  final String codeRome;
+  final Location location;
+  final String ville;
+  final ImmersionSearchParametersFiltres filtres;
+  final String? title;
+
+  ImmersionSearchParametersInitializedState({
+    required this.codeRome,
+    required this.location,
+    required this.ville,
+    required this.filtres,
+    this.title,
+  }) : super._();
+
+  @override
+  List<Object> get props => [codeRome, location, ville, filtres, title ?? ""];
+}
+
+class ImmersionSearchParametersNotInitializedState extends ImmersionSearchParametersState {
+  ImmersionSearchParametersNotInitializedState() : super._();
+
   @override
   List<Object> get props => [];
 }
-
-class ImmersionSearchRequestState extends ImmersionSearchState {
-  final String codeRome;
-  final double latitude;
-  final double longitude;
-  final String ville;
-  final String? title;
-
-  ImmersionSearchRequestState({
-    required this.codeRome,
-    required this.latitude,
-    required this.longitude,
-    required this.ville,
-    this.title,
-  });
-
-  static ImmersionSearchRequestState fromRequest(ImmersionListRequest request) {
-    return ImmersionSearchRequestState(
-      codeRome: request.codeRome,
-      latitude: request.location.latitude ?? 0,
-      longitude: request.location.longitude ?? 0,
-      ville: request.location.libelle,
-      title: request.title,
-    );
-  }
-
-  @override
-  List<Object> get props => [codeRome, latitude, longitude, ville, title ?? ""];
-}
-
-class ImmersionSearchEmptyState extends ImmersionSearchState {}

@@ -131,7 +131,13 @@ Configuration configuration({Flavor flavor = Flavor.STAGING}) => Configuration(
       'someKey',
     );
 
-Location mockLocation() => Location(libelle: "", code: "", type: LocationType.DEPARTMENT);
+Location mockLocation({double? lat, double? lon}) => Location(
+      libelle: "",
+      code: "",
+      type: LocationType.DEPARTMENT,
+      latitude: lat,
+      longitude: lon,
+    );
 
 Location mockCommuneLocation() => Location(libelle: "", code: "", type: LocationType.COMMUNE);
 

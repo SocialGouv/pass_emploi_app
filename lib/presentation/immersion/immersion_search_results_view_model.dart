@@ -22,7 +22,7 @@ class ImmersionSearchResultsViewModel extends Equatable {
 
   factory ImmersionSearchResultsViewModel.create(Store<AppState> store) {
     final searchState = store.state.immersionSearchState;
-    final searchParamsState = store.state.immersionSearchRequestState;
+    final searchParamsState = store.state.immersionSearchParametersState;
     return ImmersionSearchResultsViewModel._(
       displayState: _displayState(searchState),
       items: _items(searchState),
@@ -35,7 +35,7 @@ class ImmersionSearchResultsViewModel extends Equatable {
   List<Object?> get props => [displayState, items, filtresCount];
 }
 
-int? _filtresCount(ImmersionSearchRequestState searchParamsState) {
+int? _filtresCount(ImmersionSearchParametersState searchParamsState) {
   return null;
 }
 

@@ -63,18 +63,18 @@ class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSave
 class ImmersionSearchExtractor extends AbstractSearchExtractor<ImmersionSavedSearch> {
   @override
   ImmersionSavedSearch getSearchFilters(Store<AppState> store) {
-    final requestState = store.state.immersionSearchRequestState as ImmersionSearchRequestState;
+    final parametersState = store.state.immersionSearchParametersState as ImmersionSearchParametersInitializedState;
     final String metier = _metier(store);
-    final location = requestState.ville;
+    final location = parametersState.ville;
     return ImmersionSavedSearch(
       id: "",
       title: Strings.savedSearchTitleField(metier, location),
       metier: metier,
       location: location,
       filters: ImmersionSearchParametersFilters.withFilters(
-        codeRome: requestState.codeRome,
-        lat: requestState.latitude,
-        lon: requestState.longitude,
+        codeRome: parametersState.codeRome,
+        lat: parametersState.location.latitude,
+        lon: parametersState.location.longitude,
       ),
     );
   }
@@ -85,11 +85,11 @@ class ImmersionSearchExtractor extends AbstractSearchExtractor<ImmersionSavedSea
   }
 
   String _metier(Store<AppState> store) {
-    final requestState = store.state.immersionSearchRequestState as ImmersionSearchRequestState;
+    final parametersState = store.state.immersionSearchParametersState as ImmersionSearchParametersInitializedState;
     if (requestState.title != null) return requestState.title!;
     final immersion = (store.state.immersionListState as ImmersionListSuccessState).immersions.first;
     final searchedMetiers = store.state.searchMetierState.metiers;
-    return searchedMetiers.firstWhereOrNull((element) => element.codeRome == requestState.codeRome)?.libelle ??
+    return searchedMetiers.firstWhereOrNull((element) => element.codeRome == parametersState.codeRome)?.libelle ??
         immersion.metier;
   }
 }

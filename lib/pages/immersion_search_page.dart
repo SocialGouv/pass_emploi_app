@@ -45,7 +45,8 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
           widget
               .pushAndTrackBack(context, MaterialPageRoute(builder: (context) => ImmersionListPage())).then((_) {
             // Reset state to avoid unexpected SHOW_RESULTS while coming back from ImmersionListPage
-            StoreProvider.of<AppState>(context).dispatch(ImmersionListResetAction());
+            // TODO remettre ça dans le on dispose de la liste, ça pose problème ici - c'est appelé lors du pop des filtres
+            // StoreProvider.of<AppState>(context).dispatch(ImmersionListResetAction());
           });
         }
       },
