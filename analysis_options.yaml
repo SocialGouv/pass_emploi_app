@@ -17,6 +17,7 @@ analyzer:
     prefer_final_locals: error
     sort_child_properties_last: error
     use_decorated_box: error
+    avoid_print: error
     constant_identifier_names: ignore
     prefer_const_constructors: ignore
     prefer_const_literals_to_create_immutables: ignore
