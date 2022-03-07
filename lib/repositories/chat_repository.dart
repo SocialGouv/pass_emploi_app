@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/utils/log.dart';
 
 const String _collectionPath = "chat";
 
@@ -67,7 +67,7 @@ class ChatRepository {
               'seenByConseiller': false,
             });
         })
-        .then((value) => debugPrint("New message sent $message && chat status updated"))
+        .then((value) => Log.d("New message sent $message && chat status updated"))
         .catchError((e, StackTrace stack) => _crashlytics.recordNonNetworkException(e, stack));
   }
 
@@ -81,7 +81,7 @@ class ChatRepository {
           'newConseillerMessageCount': 0,
           'lastJeuneReading': seenByJeuneAt,
         })
-        .then((value) => debugPrint("Last message seen updated"))
+        .then((value) => Log.d("Last message seen updated"))
         .catchError((e, StackTrace stack) => _crashlytics.recordNonNetworkException(e, stack));
   }
 

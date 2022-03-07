@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
@@ -90,9 +89,7 @@ class DummyCrashlytics extends Crashlytics {
   void setCustomKey(String key, value) {}
 
   @override
-  void recordNonNetworkException(dynamic exception, StackTrace stack, [Uri? failingEndpoint]) {
-    debugPrint(exception.toString());
-  }
+  void recordNonNetworkException(dynamic exception, StackTrace stack, [Uri? failingEndpoint]) {}
 }
 
 class DummyOffreEmploiRepository extends OffreEmploiRepository {

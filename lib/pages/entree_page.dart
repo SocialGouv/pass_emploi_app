@@ -26,7 +26,6 @@ class EntreePage extends TraceableStatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    debugPrint("h = $screenHeight");
     return Scaffold(
       body: Stack(
         children: [
