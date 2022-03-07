@@ -1,5 +1,6 @@
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:redux/redux.dart';
@@ -15,7 +16,14 @@ class ImmersionListMiddleware extends MiddlewareClass<AppState> {
     final loginState = store.state.loginState;
     if (loginState is LoginSuccessState && action is ImmersionListRequestAction) {
       store.dispatch(ImmersionListLoadingAction());
-      final immersions = await _repository.getImmersions(loginState.user.id, action.request);
+      final immersions = await _repository.search(
+        userId: loginState.user.id,
+        request: SearchImmersionRequest(
+          codeRome: action.request.codeRome,
+          location: action.request.location,
+          filtres: ImmersionSearchParametersFiltres.noFiltres(),
+        ),
+      );
       store.dispatch(immersions != null ? ImmersionListSuccessAction(immersions) : ImmersionListFailureAction());
     }
   }

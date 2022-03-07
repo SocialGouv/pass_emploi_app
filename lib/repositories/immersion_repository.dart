@@ -28,33 +28,15 @@ class ImmersionRepository {
 
   ImmersionRepository(this._baseUrl, this._httpClient, this._headerBuilder, [this._crashlytics]);
 
-  Future<List<Immersion>?> getImmersions(String userId, ImmersionListRequest request) async {
-    final url = Uri.parse(_baseUrl + "/offres-immersion").replace(queryParameters: {
-      'rome': request.codeRome,
-      'lat': request.location.latitude.toString(),
-      'lon': request.location.longitude.toString(),
-    });
-    try {
-      final response = await _httpClient.get(url, headers: await _headerBuilder.headers(userId: userId));
-      if (response.statusCode.isValid()) {
-        final json = jsonUtf8Decode(response.bodyBytes);
-        return (json as List).map((immersion) => Immersion.fromJson(immersion)).toList();
-      }
-    } catch (e, stack) {
-      _crashlytics?.recordNonNetworkException(e, stack, url);
-    }
-    return null;
-  }
-
   Future<List<Immersion>?> search({required String userId, required SearchImmersionRequest request}) async {
-    final url = Uri.parse(_baseUrl + "/offres-emploi").replace(
+    final url = Uri.parse(_baseUrl + "/offres-immersion").replace(
       query: _createQuery(request),
     );
     try {
       final response = await _httpClient.get(url, headers: await _headerBuilder.headers(userId: userId));
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes);
-        final list = (json["results"] as List).map((offre) => Immersion.fromJson(offre)).toList();
+        final list = (json as List).map((offre) => Immersion.fromJson(offre)).toList();
         return list;
       }
     } catch (e, stack) {

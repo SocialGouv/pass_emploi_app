@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
+import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';
 
 main() {
@@ -71,16 +72,7 @@ class ImmersionRepositorySuccessStub extends ImmersionRepository {
   ImmersionRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<List<Immersion>?> getImmersions(String userId, ImmersionListRequest request) async {
+  Future<List<Immersion>?> search({required String userId, required SearchImmersionRequest request}) async {
     return request.codeRome == "code-rome" ? [mockImmersion()] : [];
-  }
-}
-
-class ImmersionRepositoryFailureStub extends ImmersionRepository {
-  ImmersionRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
-
-  @override
-  Future<List<Immersion>?> getImmersions(String userId, ImmersionListRequest request) async {
-    return null;
   }
 }

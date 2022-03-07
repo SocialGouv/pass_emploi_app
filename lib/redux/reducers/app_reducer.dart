@@ -1,8 +1,8 @@
 import 'package:pass_emploi_app/features/chat/messages/chat_reducer.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_reducer.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_reducer.dart';
-import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_reducer.dart';
+import 'package:pass_emploi_app/features/immersion/search_parameters/immersion_search_parameters_reducer.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_reducer.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_reducer.dart';
@@ -32,7 +32,6 @@ import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/configuration_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
 import 'package:pass_emploi_app/redux/states/favoris_state.dart';
-import 'package:pass_emploi_app/redux/states/immersion_search_request_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
@@ -80,7 +79,7 @@ AppState reducer(AppState current, dynamic action) {
       action,
     ),
     configurationState: _configurationState(current.configurationState, action),
-    immersionSearchParametersState: _immersionSearchParametersState(current.immersionSearchParametersState, action),
+    immersionSearchParametersState: immersionSearchParametersState(current.immersionSearchParametersState, action),
     savedSearchListState: savedSearchListReducer(current.savedSearchListState, action),
     savedSearchDeleteState: savedSearchDeleteReducer(current.savedSearchDeleteState, action),
     serviceCiviqueSearchResultState: serviceCiviqueReducer(current.serviceCiviqueSearchResultState, action),
@@ -237,20 +236,4 @@ SearchMetierState _searchMetierState(SearchMetierState current, dynamic action) 
 
 ConfigurationState _configurationState(ConfigurationState current, dynamic action) {
   return current;
-}
-
-ImmersionSearchParametersState _immersionSearchParametersState(ImmersionSearchParametersState current, dynamic action) {
-  if (action is ImmersionListRequestAction) {
-    //final ImmersionRequest request = action.request;
-    // TODO
-    return current;
-    /*return ImmersionSearchParametersInitializedState(
-      codeRome: request.codeRome,
-      ville: request.location.libelle,
-      latitude: request.location.latitude ?? 0,
-      longitude: request.location.longitude ?? 0,
-    );*/
-  } else {
-    return current;
-  }
 }

@@ -36,7 +36,7 @@ class _ImmersionFiltresPageState extends State<ImmersionFiltresPage> {
       distinct: true,
       onWillChange: (previousVM, newVM) {
         if (previousVM?.displayState == DisplayState.LOADING && newVM.displayState == DisplayState.CONTENT) {
-          Navigator.pop(context, true);
+          Navigator.of(context).pop();
         }
       },
     );
