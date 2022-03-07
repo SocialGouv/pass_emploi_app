@@ -33,6 +33,7 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
   String? _selectedMetierTitle;
   final _metierFormKey = GlobalKey<FormState>();
   final _locationFormKey = GlobalKey<FormState>();
+  var _shouldNavigate = true;
 
   @override
   Widget build(BuildContext context) {
@@ -41,12 +42,10 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
       builder: (context, vm) => _content(context, vm),
       distinct: true,
       onWillChange: (_, viewModel) {
-        if (viewModel.displayState == ImmersionSearchDisplayState.SHOW_RESULTS) {
-          widget
-              .pushAndTrackBack(context, MaterialPageRoute(builder: (context) => ImmersionListPage())).then((_) {
-            // Reset state to avoid unexpected SHOW_RESULTS while coming back from ImmersionListPage
-            // TODO remettre ça dans le on dispose de la liste, ça pose problème ici - c'est appelé lors du pop des filtres
-            // StoreProvider.of<AppState>(context).dispatch(ImmersionListResetAction());
+        if (_shouldNavigate && viewModel.displayState == ImmersionSearchDisplayState.SHOW_RESULTS) {
+          _shouldNavigate = false;
+          widget.pushAndTrackBack(context, MaterialPageRoute(builder: (context) => ImmersionListPage())).then((_) {
+            _shouldNavigate = true;
           });
         }
       },

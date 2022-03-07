@@ -63,7 +63,7 @@ class ImmersionRepository {
     writeParameter("lon", request.location.longitude.toString());
 
     if (request.filtres.distance != null) {
-      writeParameter("rayon", request.filtres.distance.toString());
+      writeParameter("distance", request.filtres.distance.toString());
     }
     return result.toString();
   }

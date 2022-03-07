@@ -97,23 +97,23 @@ void main() {
       });
     }
 
-    group(("when distance is applied should set proper rayon"), () {
+    group(("when distance is applied should set proper distance"), () {
       assertFiltres(
         "when distance is 70",
         ImmersionSearchParametersFiltres.distance(70),
-        (query) => query.contains("rayon=70"),
+        (query) => query.contains("distance=70"),
       );
 
       assertFiltres(
         "when distance is 32",
         ImmersionSearchParametersFiltres.distance(32),
-        (query) => query.contains("rayon=32"),
+        (query) => query.contains("distance=32"),
       );
 
       assertFiltres(
-        "when not filter is set should not set rayon",
+        "when not filter is set should not set distance",
         ImmersionSearchParametersFiltres.noFiltres(),
-        (query) => !query.contains("rayon"),
+        (query) => !query.contains("distance"),
       );
     });
   });
