@@ -79,8 +79,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   void _goToImmersion(BuildContext context, List<Immersion> immersionsResults) {
     _shouldNavigate = false;
     _updateIndex(_indexOfImmersion);
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ImmersionListPage(immersionsResults, true)))
-        .then((value) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ImmersionListPage(true))).then((value) {
       StoreProvider.of<AppState>(context).dispatch(ImmersionListResetAction());
     }).then((_) => _shouldNavigate = true);
   }

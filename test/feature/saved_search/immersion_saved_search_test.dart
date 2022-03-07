@@ -7,8 +7,10 @@ import 'package:pass_emploi_app/features/saved_search/init/saved_search_initiali
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/redux/states/immersion_search_request_state.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
 
@@ -79,11 +81,11 @@ main() {
               secteurActivite: "secteurActivite",
               ville: "ville")
         ]),
-        immersionSearchRequestState: ImmersionSearchRequestState(
+        immersionSearchParametersState: ImmersionSearchParametersInitializedState(
           codeRome: "codeRome",
-          latitude: 12,
-          longitude: 34,
+          location: mockLocation(lat: 12, lon: 34),
           ville: "ville",
+          filtres: ImmersionSearchParametersFiltres.noFiltres(),
         ),
         loginState: successMiloUserState(),
       );

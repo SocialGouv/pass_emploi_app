@@ -4,11 +4,16 @@ import 'package:pass_emploi_app/features/immersion/search/immersion_search_state
 import 'package:pass_emploi_app/features/metier/search_metier_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search_extractors.dart';
+import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/states/immersion_search_request_state.dart';
+import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
+import 'package:pass_emploi_app/redux/states/search_metier_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 
 import '../doubles/fixtures.dart';
@@ -63,10 +68,10 @@ main() {
     AppState state = AppState.initialState().copyWith(
       searchMetierState: SearchMetierState([searchedMetier]),
       immersionListState: immersionState,
-      immersionSearchRequestState: ImmersionSearchRequestState(
+      immersionSearchParametersState: ImmersionSearchParametersInitializedState(
         codeRome: searchedMetier.codeRome,
-        latitude: 12,
-        longitude: 34,
+        location: mockLocation(lat: 12, lon: 34),
+        filtres: ImmersionSearchParametersFiltres.noFiltres(),
         ville: "ville",
       ),
     );
@@ -107,10 +112,10 @@ main() {
     AppState state = AppState.initialState().copyWith(
       searchMetierState: SearchMetierState([searchedMetier]),
       immersionListState: immersionState,
-      immersionSearchRequestState: ImmersionSearchRequestState(
+      immersionSearchParametersState: ImmersionSearchParametersInitializedState(
         codeRome: searchedMetier.codeRome,
-        latitude: 12,
-        longitude: 34,
+        location: mockLocation(lat: 12, lon: 34),
+        filtres: ImmersionSearchParametersFiltres.noFiltres(),
         ville: "ville",
       ),
     );

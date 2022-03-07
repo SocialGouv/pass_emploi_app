@@ -1,5 +1,6 @@
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/redux/actions/immersion_actions.dart';
-import 'package:pass_emploi_app/redux/actions/named_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/immersion_search_request_state.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
@@ -15,9 +16,8 @@ class ImmersionFiltresMiddleware extends MiddlewareClass<AppState> {
     next(action);
     final loginState = store.state.loginState;
     final parametersState = store.state.immersionSearchParametersState;
-    final immersionSearchState = store.state.immersionSearchState;
-    if (loginState.isSuccess()) {
-      final userId = loginState.getResultOrThrow().id;
+    if (loginState is LoginSuccessState) {
+      final userId = loginState.user.id;
       if (action is ImmersionSearchUpdateFiltresAction &&
           parametersState is ImmersionSearchParametersInitializedState) {
         _resetSearchWithUpdatedFiltres(
@@ -38,7 +38,7 @@ class ImmersionFiltresMiddleware extends MiddlewareClass<AppState> {
     required String userId,
     required SearchImmersionRequest request,
   }) async {
-    store.dispatch(ImmersionAction.loading());
+    store.dispatch(ImmersionListLoadingAction());
     final result = await _repository.search(userId: userId, request: request);
     if (result != null) {
       store.dispatch(ImmersionSearchWithUpdateFiltresSuccessAction(immersions: result));

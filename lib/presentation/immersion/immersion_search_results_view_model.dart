@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/immersion_search_request_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
@@ -21,7 +21,7 @@ class ImmersionSearchResultsViewModel extends Equatable {
   });
 
   factory ImmersionSearchResultsViewModel.create(Store<AppState> store) {
-    final searchState = store.state.immersionSearchState;
+    final searchState = store.state.immersionListState;
     final searchParamsState = store.state.immersionSearchParametersState;
     return ImmersionSearchResultsViewModel._(
       displayState: _displayState(searchState),
@@ -39,19 +39,19 @@ int? _filtresCount(ImmersionSearchParametersState searchParamsState) {
   return null;
 }
 
-List<Immersion> _items(State<List<Immersion>> searchState) =>
-    searchState.isSuccess() ? searchState.getResultOrThrow() : [];
+List<Immersion> _items(ImmersionListState searchState) =>
+    searchState is ImmersionListSuccessState ? searchState.immersions : [];
 
-DisplayState _displayState(State<List<Immersion>> searchState) {
-  if (searchState.isSuccess()) {
-    return searchState.getResultOrThrow().isNotEmpty ? DisplayState.CONTENT : DisplayState.EMPTY;
-  } else if (searchState.isLoading()) {
+DisplayState _displayState(ImmersionListState searchState) {
+  if (searchState is ImmersionListSuccessState) {
+    return searchState.immersions.isNotEmpty ? DisplayState.CONTENT : DisplayState.EMPTY;
+  } else if (searchState is ImmersionListLoadingState) {
     return DisplayState.LOADING;
   } else {
     return DisplayState.FAILURE;
   }
 }
 
-String _errorMessage(State<List<Immersion>> searchState) {
-  return searchState.isFailure() ? Strings.genericError : "";
+String _errorMessage(ImmersionListState searchState) {
+  return searchState is ImmersionListFailureState ? Strings.genericError : "";
 }

@@ -39,11 +39,7 @@ import 'package:pass_emploi_app/redux/middlewares/action_logging_middleware.dart
 import 'package:pass_emploi_app/redux/middlewares/crashlytics_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/data_from_id_extractor.dart';
 import 'package:pass_emploi_app/redux/middlewares/favoris_middleware.dart';
-import 'package:pass_emploi_app/redux/middlewares/immersion_details_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/immersion_filtres_middleware.dart';
-import 'package:pass_emploi_app/redux/middlewares/login_middleware.dart';
-import 'package:pass_emploi_app/redux/middlewares/middleware.dart';
-import 'package:pass_emploi_app/redux/middlewares/offre_emploi_details_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/offre_emploi_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/redux/middlewares/search_location_middleware.dart';
@@ -165,11 +161,11 @@ class StoreFactory {
         ImmersionListMiddleware(immersionRepository),
         ImmersionDetailsMiddleware(immersionDetailsRepository),
         ImmersionFiltresMiddleware(immersionRepository),
-        OffreEmploiSavedSearchMiddleware(offreEmploiSavedSearchRepository),
-        ImmersionSavedSearchMiddleware(immersionSavedSearchRepository),
-        InitializeSavedSearchMiddleware(),
-        SavedSearchListRequestMiddleware(getSavedSearchRepository),
-        GetSavedSearchMiddleware(getSavedSearchRepository),
+        OffreEmploiSavedSearchCreateMiddleware(offreEmploiSavedSearchRepository),
+        ImmersionSavedSearchCreateMiddleware(immersionSavedSearchRepository),
+        SavedSearchInitializeMiddleware(),
+        SavedSearchListMiddleware(getSavedSearchRepository),
+        SavedSearchGetMiddleware(getSavedSearchRepository),
         SavedSearchDeleteMiddleware(savedSearchDeleteRepository),
         SearchServiceCiviqueMiddleware(serviceCiviqueRepository),
         ServiceCiviqueDetailMiddleware(serviceCiviqueDetailRepository),

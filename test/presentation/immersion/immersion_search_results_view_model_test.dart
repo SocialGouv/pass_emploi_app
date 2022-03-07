@@ -1,10 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/immersion/immersion_search_results_view_model.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:redux/redux.dart';
 
 import '../../doubles/fixtures.dart';
@@ -15,7 +14,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        immersionSearchState: State<List<Immersion>>.success([mockImmersion()]),
+        immersionListState: ImmersionListSuccessState([mockImmersion()]),
       ),
     );
 
@@ -33,7 +32,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        immersionSearchState: State<List<Immersion>>.success([]),
+        immersionListState: ImmersionListSuccessState([]),
       ),
     );
 
@@ -51,7 +50,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        immersionSearchState: State<List<Immersion>>.loading(),
+        immersionListState: ImmersionListLoadingState(),
       ),
     );
 
@@ -69,7 +68,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        immersionSearchState: State<List<Immersion>>.failure(),
+        immersionListState: ImmersionListFailureState(),
       ),
     );
 
@@ -87,7 +86,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        immersionSearchState: State<List<Immersion>>.success([mockImmersion()]),
+        immersionListState: ImmersionListSuccessState([mockImmersion()]),
       ),
     );
 
