@@ -19,6 +19,7 @@ Ce document liste les différentes pratiques de dev mises en place sur le projet
     * [Expression body vs block body](#expression-body-vs-block-body)
     * [Les arguments nommés](#les-arguments-nommés)
     * [Déclarations des resources](#déclarations-des-resources)
+    * [Log de messages](#log-de-messages)
 * [Gestion des cas non nominaux](#gestion-des-cas-non-nominaux)
     * [Utiliser les types nullables pour les cas simples](#utiliser-les-types-nullables-pour-les-cas-simples)
     * [Utiliser des objets pour les cas plus complexe](#utiliser-des-objets-pour-les-cas-plus-complexe)
@@ -95,7 +96,10 @@ Afin de conserver à part toutes les ressources du projet (wordings, assets…) 
 logging ne sont pas concernés. 
 * Toutes les images affichées dans l'application doivent être déclarées dans le fichier `drawables.dart`.
 
-
+## Log de messages
+Un audit de sécurité nous a fait constater que les messages logués, même avec la méthode `debugPrint()`,
+apparaissaient en production. Pour éviter un tel comportement, les logs doivent se faire via la classe
+[Log](lib/utils/log.dart), afin de s'assurer qu'ils ne s'affichent qu'en debug.
 
 # Gestion des cas non nominaux
 Le langage Dart propose des exceptions, mais il n'y a pas moyen de déclarer qu'une méthode est susceptible d'en lancer 

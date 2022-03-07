@@ -1,10 +1,10 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:pass_emploi_app/auth/auth_logout_request.dart';
 import 'package:pass_emploi_app/auth/auth_refresh_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
+import 'package:pass_emploi_app/utils/log.dart';
 
 class AuthWrapper {
   final FlutterAppAuth _appAuth;
@@ -79,7 +79,7 @@ class AuthWrapper {
       } else if (e.code == "token_failed") {
         throw AuthWrapperRefreshTokenExpiredException();
       } else {
-        debugPrint(e.toString());
+        Log.w(e.toString());
         rethrow;
       }
     }
@@ -93,7 +93,7 @@ class AuthWrapper {
         issuer: request.issuer,
       ));
     } catch (e) {
-      debugPrint(e.toString());
+      Log.w(e.toString());
       throw AuthWrapperLogoutException();
     }
   }

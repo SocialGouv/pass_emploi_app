@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
+import 'package:pass_emploi_app/utils/log.dart';
 
 class FirebaseAuthWrapper {
   Future<bool> signInWithCustomToken(String token) async {
@@ -7,7 +7,7 @@ class FirebaseAuthWrapper {
       await FirebaseAuth.instance.signInWithCustomToken(token);
       return true;
     } catch (e) {
-      debugPrint(e.toString());
+      Log.w(e.toString());
     }
     return false;
   }
