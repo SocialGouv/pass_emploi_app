@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:redux/redux.dart';
 
 import '../../analytics/analytics_constants.dart';
-import '../states/app_state.dart';
+import '../../redux/states/app_state.dart';
 
 class UserTrackingStructureMiddleware extends MiddlewareClass<AppState> {
   @override
