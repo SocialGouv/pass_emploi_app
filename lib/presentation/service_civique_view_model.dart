@@ -6,9 +6,9 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:redux/redux.dart';
 
+import '../features/location/search_location_actions.dart';
 import '../features/service_civique/search/search_service_civique_actions.dart';
 import '../models/service_civique.dart';
-import '../redux/actions/search_location_action.dart';
 import '../redux/states/app_state.dart';
 
 class ServiceCiviqueViewModel extends Equatable {
@@ -34,17 +34,17 @@ class ServiceCiviqueViewModel extends Equatable {
 
   factory ServiceCiviqueViewModel.create(Store<AppState> store) {
     return ServiceCiviqueViewModel._(
-      locations: store.state.searchLocationState.locations
-          .map((location) => LocationViewModel.fromLocation(location))
-          .toList(),
-      displayState: _displayState(store.state.serviceCiviqueSearchResultState),
-      onSearchRequest: (location) {
-        store.dispatch(SearchServiceCiviqueAction(location: location));
-      },
-      onInputLocation: (input) => store.dispatch(RequestLocationAction(input, villesOnly: true)),
-      items: _items(store.state.serviceCiviqueSearchResultState),
-      displayLoaderAtBottomOfList: _displayLoader(store.state.serviceCiviqueSearchResultState),
-      onLoadMore: () => store.dispatch(RequestMoreServiceCiviqueSearchResultsAction()),
+        locations: store.state.searchLocationState.locations
+            .map((location) => LocationViewModel.fromLocation(location))
+            .toList(),
+        displayState: _displayState(store.state.serviceCiviqueSearchResultState),
+        onSearchRequest: (location) {
+          store.dispatch(SearchServiceCiviqueAction(location: location));
+        },
+        onInputLocation: (input) => store.dispatch(SearchLocationRequestAction(input, villesOnly: true)),
+        items: _items(store.state.serviceCiviqueSearchResultState),
+        displayLoaderAtBottomOfList: _displayLoader(store.state.serviceCiviqueSearchResultState),
+        onLoadMore: () => store.dispatch(RequestMoreServiceCiviqueSearchResultsAction()),
         onRetry: () => store.dispatch(RetryServiceCiviqueSearchAction()));
   }
 

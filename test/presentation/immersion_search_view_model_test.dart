@@ -1,15 +1,15 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
+import 'package:pass_emploi_app/features/location/search_location_actions.dart';
+import 'package:pass_emploi_app/features/location/search_location_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/presentation/immersion_search_view_model.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/actions/search_metier_action.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/search_location_state.dart';
 import 'package:pass_emploi_app/redux/states/search_metier_state.dart';
 import 'package:redux/redux.dart';
 
@@ -122,8 +122,8 @@ main() {
 
     viewModel.onInputLocation("mars");
 
-    expect(store.dispatchedAction, isA<RequestLocationAction>());
-    final action = (store.dispatchedAction as RequestLocationAction);
+    expect(store.dispatchedAction, isA<SearchLocationRequestAction>());
+    final action = (store.dispatchedAction as SearchLocationRequestAction);
     expect(action.input, "mars");
     expect(action.villesOnly, isTrue);
   });

@@ -1,13 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/location/search_location_actions.dart';
+import 'package:pass_emploi_app/features/location/search_location_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/search_location_state.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 
-import '../doubles/dummies.dart';
-import '../doubles/fixtures.dart';
-import '../utils/test_setup.dart';
+import '../../doubles/dummies.dart';
+import '../../doubles/fixtures.dart';
+import '../../utils/test_setup.dart';
 
 main() {
   test("Returns locations list when user search location", () async {
@@ -19,7 +19,7 @@ main() {
         store.onChange.firstWhere((state) => state.searchLocationState.locations.isNotEmpty);
 
     // When
-    store.dispatch(RequestLocationAction("input"));
+    store.dispatch(SearchLocationRequestAction("input"));
 
     // Then
     final newState = await newStateFuture;
@@ -36,7 +36,7 @@ main() {
         store.onChange.firstWhere((state) => state.searchLocationState.locations.isNotEmpty);
 
     // When
-    store.dispatch(RequestLocationAction("input", villesOnly: true));
+    store.dispatch(SearchLocationRequestAction("input", villesOnly: true));
 
     // Then
     final newState = await newStateFuture;
@@ -54,7 +54,7 @@ main() {
     final Future<AppState> newStateFuture = store.onChange.first;
 
     // When
-    store.dispatch(RequestLocationAction("i"));
+    store.dispatch(SearchLocationRequestAction("i"));
 
     // Then
     final newState = await newStateFuture;
@@ -73,7 +73,7 @@ main() {
     final Future<AppState> newStateFuture = store.onChange.first;
 
     // When
-    store.dispatch(ResetLocationAction());
+    store.dispatch(SearchLocationResetAction());
 
     // Then
     final newState = await newStateFuture;

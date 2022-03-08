@@ -1,6 +1,6 @@
+import 'package:pass_emploi_app/features/location/search_location_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:redux/redux.dart';
@@ -13,7 +13,7 @@ class SearchLocationMiddleware extends MiddlewareClass<AppState> {
   @override
   call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
-    if (action is RequestLocationAction) {
+    if (action is SearchLocationRequestAction) {
       final List<Location> locations = [];
       final input = action.input;
       if (input != null && input.length > 1) {

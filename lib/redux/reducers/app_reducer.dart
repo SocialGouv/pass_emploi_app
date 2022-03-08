@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/features/favori/list/favori_list_reducer.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_reducer.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_reducer.dart';
 import 'package:pass_emploi_app/features/immersion/search/immersion_search_reducer.dart';
+import 'package:pass_emploi_app/features/location/search_location_reducer.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_reducer.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_reducer.dart';
@@ -26,14 +27,12 @@ import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
-import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/actions/search_metier_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/configuration_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
-import 'package:pass_emploi_app/redux/states/search_location_state.dart';
 import 'package:pass_emploi_app/redux/states/search_metier_state.dart';
 
 import '../../features/favori/update/favori_update_reducer.dart';
@@ -64,7 +63,7 @@ AppState reducer(AppState current, dynamic action) {
     ),
     immersionFavorisState: FavoriListReducer<Immersion>().reduceFavorisState(current.immersionFavorisState, action),
     favoriUpdateState: favoriUpdateReducer(current.favoriUpdateState, action),
-    searchLocationState: _searchLocationState(current.searchLocationState, action),
+    searchLocationState: searchLocationReducer(current.searchLocationState, action),
     searchMetierState: _searchMetierState(current.searchMetierState, action),
     loginState: loginReducer(current.loginState, action),
     rendezvousState: rendezvousReducer(current.rendezvousState, action),
@@ -185,16 +184,6 @@ OffreEmploiSearchParametersState _offreEmploiSearchParametersState(
     } else {
       return current;
     }
-  } else {
-    return current;
-  }
-}
-
-SearchLocationState _searchLocationState(SearchLocationState current, dynamic action) {
-  if (action is SearchLocationsSuccessAction) {
-    return SearchLocationState(action.locations);
-  } else if (action is ResetLocationAction) {
-    return SearchLocationState([]);
   } else {
     return current;
   }

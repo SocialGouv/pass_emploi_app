@@ -3,9 +3,9 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
+import 'package:pass_emploi_app/features/location/search_location_actions.dart';
 import 'package:pass_emploi_app/pages/service_civique/service_civique_list_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -43,7 +43,7 @@ class _ServiceCiviqueSearchPageState extends State<ServiceCiviqueSearchPage> {
         }
       },
       onDispose: (store) {
-        store.dispatch(ResetLocationAction());
+        store.dispatch(SearchLocationResetAction());
       },
       distinct: true,
     );
