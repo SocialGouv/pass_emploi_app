@@ -1,13 +1,13 @@
-import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
+import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
 import 'package:redux/redux.dart';
 
-import '../redux/actions/deep_link_action.dart';
+import '../features/deep_link/deep_link_actions.dart';
 
 class RendezvousListPageViewModel extends Equatable {
   final bool withLoading;

@@ -1,6 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:pass_emploi_app/redux/actions/deep_link_action.dart';
-import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 
 DeepLinkState deepLinkReducer(DeepLinkAction action) {
   return DeepLinkState(
@@ -8,7 +8,7 @@ DeepLinkState deepLinkReducer(DeepLinkAction action) {
 }
 
 String? _extractIdFromMessage(RemoteMessage message) {
-    return message.data["id"] as String?;
+  return message.data["id"] as String?;
 }
 
 DeepLink _extractDeepLinkFromMessage(RemoteMessage message) {
