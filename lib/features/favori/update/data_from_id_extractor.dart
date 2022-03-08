@@ -3,7 +3,7 @@ import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dar
 import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 class OffreEmploiDataFromIdExtractor extends DataFromIdExtractor<OffreEmploi> {

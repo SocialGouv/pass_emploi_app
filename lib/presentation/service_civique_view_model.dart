@@ -9,7 +9,7 @@ import 'package:redux/redux.dart';
 import '../features/location/search_location_actions.dart';
 import '../features/service_civique/search/search_service_civique_actions.dart';
 import '../models/service_civique.dart';
-import '../redux/states/app_state.dart';
+import '../redux/app_state.dart';
 
 class ServiceCiviqueViewModel extends Equatable {
   final List<LocationViewModel> locations;

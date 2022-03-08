@@ -1,6 +1,6 @@
 import 'package:pass_emploi_app/collection/last_in_first_out_queue.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 class CrashlyticsMiddleware extends MiddlewareClass<AppState> {

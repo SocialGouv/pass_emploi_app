@@ -7,7 +7,7 @@ import 'package:redux/redux.dart';
 import '../../../models/saved_search/immersion_saved_search.dart';
 import '../../../models/saved_search/offre_emploi_saved_search.dart';
 import '../../../presentation/saved_search/saved_search_list_view_model.dart';
-import '../../../redux/states/app_state.dart';
+import '../../../redux/app_state.dart';
 
 class SavedSearchGetMiddleware extends MiddlewareClass<AppState> {
   final GetSavedSearchRepository _repository;

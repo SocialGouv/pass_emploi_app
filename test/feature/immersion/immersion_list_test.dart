@@ -3,7 +3,7 @@ import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.d
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_request.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 
 import '../../doubles/dummies.dart';

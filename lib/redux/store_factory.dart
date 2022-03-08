@@ -33,8 +33,8 @@ import 'package:pass_emploi_app/features/user_action/list/user_action_list_middl
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/app_reducer.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
@@ -58,11 +58,11 @@ import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_r
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart' as redux;
 
-import '../../features/saved_search/get/saved_search_get_middleware.dart';
-import '../../features/saved_search/init/saved_search_initialize_middleware.dart';
-import '../../features/service_civique/detail/service_civique_detail_middleware.dart';
-import '../../features/tracking/user_tracking_structure_middleware.dart';
-import '../../repositories/service_civique/service_civique_repository.dart';
+import '../features/saved_search/get/saved_search_get_middleware.dart';
+import '../features/saved_search/init/saved_search_initialize_middleware.dart';
+import '../features/service_civique/detail/service_civique_detail_middleware.dart';
+import '../features/tracking/user_tracking_structure_middleware.dart';
+import '../repositories/service_civique/service_civique_repository.dart';
 
 class StoreFactory {
   final Authenticator authenticator;

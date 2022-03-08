@@ -14,7 +14,7 @@ import 'package:redux/redux.dart';
 
 import '../../features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
 import '../../models/saved_search/saved_search.dart';
-import '../../redux/states/app_state.dart';
+import '../../redux/app_state.dart';
 
 void _emptyFunction(OffreEmploiSavedSearch search) {}
 

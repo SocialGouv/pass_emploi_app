@@ -26,10 +26,10 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 
-import '../../features/favori/update/favori_update_reducer.dart';
-import '../../features/service_civique/detail/service_civique_detail_reducer.dart';
+import '../features/favori/update/favori_update_reducer.dart';
+import '../features/service_civique/detail/service_civique_detail_reducer.dart';
 
 AppState reducer(AppState current, dynamic action) {
   if (action is RequestLogoutAction) {

@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:redux/redux.dart';
 
-import '../redux/states/app_state.dart';
+import '../redux/app_state.dart';
 import '../ui/strings.dart';
 
 class ProfilPageViewModel extends Equatable {

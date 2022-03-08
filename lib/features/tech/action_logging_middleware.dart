@@ -1,4 +1,4 @@
-import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/utils/log.dart';
 import 'package:redux/redux.dart';
 
