@@ -45,7 +45,7 @@ main() {
       reducer,
       initialState: AppState.initialState().copyWith(
         offreEmploiFavorisState: FavoriListState<OffreEmploi>.idsLoaded({"offreId"}),
-        favorisUpdateState: FavoriUpdateState({"offreId": FavoriUpdateStatus.ERROR}),
+        favoriUpdateState: FavoriUpdateState({"offreId": FavoriUpdateStatus.ERROR}),
       ),
     );
     // When
@@ -62,7 +62,7 @@ main() {
       reducer,
       initialState: AppState.initialState().copyWith(
         offreEmploiFavorisState: FavoriListState<OffreEmploi>.idsLoaded({"toto"}),
-        favorisUpdateState: FavoriUpdateState({"offreId": FavoriUpdateStatus.ERROR}),
+        favoriUpdateState: FavoriUpdateState({"offreId": FavoriUpdateStatus.ERROR}),
       ),
     );
     // When
@@ -78,7 +78,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        favorisUpdateState: FavoriUpdateState({"offreId": FavoriUpdateStatus.LOADING}),
+        favoriUpdateState: FavoriUpdateState({"offreId": FavoriUpdateStatus.LOADING}),
       ),
     );
     // When
