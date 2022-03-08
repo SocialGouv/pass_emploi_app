@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
+import 'package:pass_emploi_app/features/immersion/search/immersion_search_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
@@ -7,7 +8,6 @@ import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart'
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search_extractors.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/immersion_search_request_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/search_metier_state.dart';
 
@@ -63,7 +63,7 @@ main() {
     AppState state = AppState.initialState().copyWith(
       searchMetierState: SearchMetierState([searchedMetier]),
       immersionListState: immersionState,
-      immersionSearchRequestState: RequestedImmersionSearchRequestState(
+      immersionSearchRequestState: ImmersionSearchRequestState(
         codeRome: searchedMetier.codeRome,
         latitude: 12,
         longitude: 34,
@@ -107,7 +107,7 @@ main() {
     AppState state = AppState.initialState().copyWith(
       searchMetierState: SearchMetierState([searchedMetier]),
       immersionListState: immersionState,
-      immersionSearchRequestState: RequestedImmersionSearchRequestState(
+      immersionSearchRequestState: ImmersionSearchRequestState(
         codeRome: searchedMetier.codeRome,
         latitude: 12,
         longitude: 34,

@@ -28,7 +28,7 @@ import 'package:pass_emploi_app/redux/states/search_metier_state.dart';
 
 import '../../features/favori/list/favori_list_state.dart';
 import '../../features/favori/update/favori_update_state.dart';
-import 'immersion_search_request_state.dart';
+import '../../features/immersion/search/immersion_search_state.dart';
 import 'offre_emploi_search_results_state.dart';
 import 'offre_emploi_search_state.dart';
 
@@ -51,12 +51,12 @@ class AppState extends Equatable {
   final SearchLocationState searchLocationState;
   final SearchMetierState searchMetierState;
   final RendezvousState rendezvousState;
+  final ImmersionSearchState immersionSearchRequestState;
   final ImmersionListState immersionListState;
   final ImmersionDetailsState immersionDetailsState;
   final SavedSearchCreateState<OffreEmploiSavedSearch> offreEmploiSavedSearchCreateState;
   final SavedSearchCreateState<ImmersionSavedSearch> immersionSavedSearchCreateState;
   final ConfigurationState configurationState;
-  final ImmersionSearchRequestState immersionSearchRequestState;
   final SavedSearchListState savedSearchListState;
   final SavedSearchDeleteState savedSearchDeleteState;
   final ServiceCiviqueSearchResultState serviceCiviqueSearchResultState;
@@ -117,7 +117,7 @@ class AppState extends Equatable {
     final SavedSearchCreateState<OffreEmploiSavedSearch>? offreEmploiSavedSearchCreateState,
     final SavedSearchCreateState<ImmersionSavedSearch>? immersionSavedSearchCreateState,
     final ConfigurationState? configurationState,
-    final ImmersionSearchRequestState? immersionSearchRequestState,
+    final ImmersionSearchState? immersionSearchRequestState,
     final SavedSearchListState? savedSearchListState,
     final SavedSearchDeleteState? savedSearchDeleteState,
     final ServiceCiviqueSearchResultState? serviceCiviqueSearchResultState,
@@ -142,12 +142,12 @@ class AppState extends Equatable {
       searchLocationState: searchLocationState ?? this.searchLocationState,
       searchMetierState: searchMetierState ?? this.searchMetierState,
       rendezvousState: rendezvousState ?? this.rendezvousState,
+      immersionSearchRequestState: immersionSearchRequestState ?? this.immersionSearchRequestState,
       immersionListState: immersionListState ?? this.immersionListState,
       immersionDetailsState: immersionDetailsState ?? this.immersionDetailsState,
       offreEmploiSavedSearchCreateState: offreEmploiSavedSearchCreateState ?? this.offreEmploiSavedSearchCreateState,
       immersionSavedSearchCreateState: immersionSavedSearchCreateState ?? this.immersionSavedSearchCreateState,
       configurationState: configurationState ?? this.configurationState,
-      immersionSearchRequestState: immersionSearchRequestState ?? this.immersionSearchRequestState,
       savedSearchListState: savedSearchListState ?? this.savedSearchListState,
       savedSearchDeleteState: savedSearchDeleteState ?? this.savedSearchDeleteState,
       serviceCiviqueSearchResultState: serviceCiviqueSearchResultState ?? this.serviceCiviqueSearchResultState,
@@ -180,7 +180,7 @@ class AppState extends Equatable {
       offreEmploiSavedSearchCreateState: SavedSearchCreateState<OffreEmploiSavedSearch>.notInitialized(),
       immersionSavedSearchCreateState: SavedSearchCreateState<ImmersionSavedSearch>.notInitialized(),
       configurationState: ConfigurationState(configuration),
-      immersionSearchRequestState: EmptyImmersionSearchRequestState(),
+      immersionSearchRequestState: ImmersionSearchEmptyState(),
       savedSearchListState: SavedSearchListNotInitializedState(),
       savedSearchDeleteState: SavedSearchDeleteNotInitializedState(),
       serviceCiviqueSearchResultState: ServiceCiviqueSearchResultNotInitializedState(),
