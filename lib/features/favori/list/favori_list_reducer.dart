@@ -1,6 +1,6 @@
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_action.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_actions.dart';
-import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
+import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
 import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 
 class FavoriListReducer<T> {

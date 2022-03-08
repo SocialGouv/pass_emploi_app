@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_actions.dart';
+import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
+import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/favoris_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:redux/src/store.dart';
@@ -25,7 +25,7 @@ main() {
         .firstWhere((element) => element.favorisUpdateState.requestStatus["1"] == FavorisUpdateStatus.SUCCESS);
 
     // When
-    store.dispatch(RequestUpdateFavoriAction<OffreEmploi>("1", false));
+    store.dispatch(UpdateFavoriRequestAction<OffreEmploi>("1", false));
 
     // Then
     expect(await loadingState, true);
@@ -45,7 +45,7 @@ main() {
         .firstWhere((element) => element.favorisUpdateState.requestStatus["1"] == FavorisUpdateStatus.ERROR);
 
     // When
-    store.dispatch(RequestUpdateFavoriAction<OffreEmploi>("1", false));
+    store.dispatch(UpdateFavoriRequestAction<OffreEmploi>("1", false));
 
     // Then
     expect(await loadingState, true);
@@ -65,7 +65,7 @@ main() {
         .firstWhere((element) => element.favorisUpdateState.requestStatus["17"] == FavorisUpdateStatus.SUCCESS);
 
     // When
-    store.dispatch(RequestUpdateFavoriAction<OffreEmploi>("17", true));
+    store.dispatch(UpdateFavoriRequestAction<OffreEmploi>("17", true));
 
     // Then
     expect(await loadingState, true);
@@ -88,7 +88,7 @@ main() {
         .firstWhere((element) => element.favorisUpdateState.requestStatus["17"] == FavorisUpdateStatus.ERROR);
 
     // When
-    store.dispatch(RequestUpdateFavoriAction<OffreEmploi>("17", true));
+    store.dispatch(UpdateFavoriRequestAction<OffreEmploi>("17", true));
 
     // Then
     expect(await loadingState, true);

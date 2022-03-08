@@ -1,5 +1,5 @@
-import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.dart';
+import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
+import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
 
 class FavorisUpdateReducer {
   FavorisUpdateState reduceUpdateState<T>(FavorisUpdateState currentState, FavorisAction<T> action) {

@@ -1,12 +1,11 @@
 abstract class FavorisAction<T> {}
 
-/// UPDATE
 
-class RequestUpdateFavoriAction<T> extends FavorisAction<T> {
+class UpdateFavoriRequestAction<T> extends FavorisAction<T> {
   final String favoriId;
   final bool newStatus;
 
-  RequestUpdateFavoriAction(this.favoriId, this.newStatus);
+  UpdateFavoriRequestAction(this.favoriId, this.newStatus);
 }
 
 class UpdateFavoriLoadingAction<T> extends FavorisAction<T> {

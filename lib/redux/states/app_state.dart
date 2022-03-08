@@ -26,9 +26,9 @@ import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_stat
 import 'package:pass_emploi_app/redux/states/search_location_state.dart';
 import 'package:pass_emploi_app/redux/states/search_metier_state.dart';
 
+import '../../features/favori/update/favori_update_state.dart';
 import 'favoris_state.dart';
 import 'immersion_search_request_state.dart';
-import 'offre_emploi_favoris_update_state.dart';
 import 'offre_emploi_search_results_state.dart';
 import 'offre_emploi_search_state.dart';
 
