@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/features/chat/status/chat_status_reducer.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_reducer.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_reducer.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_request.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_reducer.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_reducer.dart';
@@ -28,7 +29,6 @@ import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/actions/search_metier_action.dart';
 import 'package:pass_emploi_app/redux/reducers/deep_link_reducer.dart';
 import 'package:pass_emploi_app/redux/reducers/favoris/favoris_reducer.dart';
-import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/configuration_state.dart';
 import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
@@ -242,7 +242,7 @@ ConfigurationState _configurationState(ConfigurationState current, dynamic actio
 
 ImmersionSearchRequestState _immersionSearchRequestState(ImmersionSearchRequestState current, dynamic action) {
   if (action is ImmersionListRequestAction) {
-    final ImmersionRequest request = action.request;
+    final ImmersionListRequest request = action.request;
     return RequestedImmersionSearchRequestState(
       codeRome: request.codeRome,
       ville: request.location.libelle,

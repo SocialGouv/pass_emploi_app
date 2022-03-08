@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_request.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 
@@ -23,7 +23,7 @@ main() {
     });
 
     // When
-    store.dispatch(ImmersionListRequestAction(ImmersionRequest("code-rome", mockLocation())));
+    store.dispatch(ImmersionListRequestAction(ImmersionListRequest("code-rome", mockLocation())));
 
     // Then
     expect(await displayedLoading, isTrue);
@@ -42,7 +42,7 @@ main() {
     final Future<bool> displayedError = store.onChange.any((e) => e.immersionListState is ImmersionListFailureState);
 
     // When
-    store.dispatch(ImmersionListRequestAction(ImmersionRequest("code-rome", mockLocation())));
+    store.dispatch(ImmersionListRequestAction(ImmersionListRequest("code-rome", mockLocation())));
 
     // Then
     expect(await displayedLoading, true);
@@ -71,7 +71,7 @@ class ImmersionRepositorySuccessStub extends ImmersionRepository {
   ImmersionRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<List<Immersion>?> getImmersions(String userId, ImmersionRequest request) async {
+  Future<List<Immersion>?> getImmersions(String userId, ImmersionListRequest request) async {
     return request.codeRome == "code-rome" ? [mockImmersion()] : [];
   }
 }
@@ -80,7 +80,7 @@ class ImmersionRepositoryFailureStub extends ImmersionRepository {
   ImmersionRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<List<Immersion>?> getImmersions(String userId, ImmersionRequest request) async {
+  Future<List<Immersion>?> getImmersions(String userId, ImmersionListRequest request) async {
     return null;
   }
 }

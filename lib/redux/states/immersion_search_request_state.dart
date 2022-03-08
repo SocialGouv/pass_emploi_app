@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../requests/immersion_request.dart';
+import '../../features/immersion/list/immersion_list_request.dart';
 
 abstract class ImmersionSearchRequestState extends Equatable {
   ImmersionSearchRequestState._();
@@ -19,7 +19,7 @@ class RequestedImmersionSearchRequestState extends ImmersionSearchRequestState {
     required this.ville,
   }) : super._();
 
-  static RequestedImmersionSearchRequestState fromRequest(ImmersionRequest request) {
+  static RequestedImmersionSearchRequestState fromRequest(ImmersionListRequest request) {
     return RequestedImmersionSearchRequestState(
       codeRome: request.codeRome,
       latitude: request.location.latitude ?? 0,

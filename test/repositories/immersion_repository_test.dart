@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_request.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 
 import '../doubles/fixtures.dart';
@@ -66,8 +66,8 @@ void main() {
   });
 }
 
-ImmersionRequest _request() {
-  return ImmersionRequest(
+ImmersionListRequest _request() {
+  return ImmersionListRequest(
     "J1301",
     Location(libelle: "Paris", code: "75", type: LocationType.COMMUNE, latitude: 48.7, longitude: 7.7),
   );
