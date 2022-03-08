@@ -1,4 +1,4 @@
-import 'package:pass_emploi_app/redux/actions/search_metier_action.dart';
+import 'package:pass_emploi_app/features/metier/search_metier_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:redux/redux.dart';
 
@@ -13,7 +13,7 @@ class SearchMetierMiddleware extends MiddlewareClass<AppState> {
   @override
   call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
-    if (action is RequestMetierAction) {
+    if (action is SearchMetierRequestAction) {
       final input = action.input;
       final List<Metier> metiers = input != null ? await _repository.getMetiers(input) : [];
       store.dispatch(SearchMetierSuccessAction(metiers));

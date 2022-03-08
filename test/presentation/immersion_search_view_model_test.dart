@@ -3,14 +3,14 @@ import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.d
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
 import 'package:pass_emploi_app/features/location/search_location_state.dart';
+import 'package:pass_emploi_app/features/metier/search_metier_actions.dart';
+import 'package:pass_emploi_app/features/metier/search_metier_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/presentation/immersion_search_view_model.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/search_metier_action.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/search_metier_state.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
@@ -170,8 +170,8 @@ main() {
 
     viewModel.onInputMetier("boul");
 
-    expect(store.dispatchedAction, isA<RequestMetierAction>());
-    final action = (store.dispatchedAction as RequestMetierAction);
+    expect(store.dispatchedAction, isA<SearchMetierRequestAction>());
+    final action = (store.dispatchedAction as SearchMetierRequestAction);
     expect(action.input, "boul");
   });
 }

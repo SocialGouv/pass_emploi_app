@@ -3,11 +3,11 @@ import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.d
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_request.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
+import 'package:pass_emploi_app/features/metier/search_metier_actions.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/search_metier_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
@@ -46,7 +46,7 @@ class ImmersionSearchViewModel extends Equatable {
       immersions: _immersions(immersionSearchState),
       errorMessage: _errorMessage(immersionSearchState),
       onInputLocation: (input) => store.dispatch(SearchLocationRequestAction(input, villesOnly: true)),
-      onInputMetier: (input) => store.dispatch(RequestMetierAction(input)),
+      onInputMetier: (input) => store.dispatch(SearchMetierRequestAction(input)),
       onSearchingRequest: (codeRome, location) {
         store.dispatch(
           codeRome != null && location != null

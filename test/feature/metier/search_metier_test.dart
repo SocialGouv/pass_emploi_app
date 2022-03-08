@@ -1,12 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/metier/search_metier_actions.dart';
+import 'package:pass_emploi_app/features/metier/search_metier_state.dart';
 import 'package:pass_emploi_app/models/metier.dart';
-import 'package:pass_emploi_app/redux/actions/search_metier_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/search_metier_state.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
 
-import '../doubles/fixtures.dart';
-import '../utils/test_setup.dart';
+import '../../doubles/fixtures.dart';
+import '../../utils/test_setup.dart';
 
 main() {
   test("Returns metiers list when user search metier", () async {
@@ -14,11 +14,10 @@ main() {
     final factory = TestStoreFactory();
     factory.metierRepository = MetierRepositorySuccessStub();
     final store = factory.initializeReduxStore(initialState: loggedInState());
-    final Future<AppState> newStateFuture =
-        store.onChange.firstWhere((state) => state.searchMetierState.metiers.isNotEmpty);
+    final Future<AppState> newStateFuture = store.onChange.firstWhere((e) => e.searchMetierState.metiers.isNotEmpty);
 
     // When
-    store.dispatch(RequestMetierAction("input"));
+    store.dispatch(SearchMetierRequestAction("input"));
 
     // Then
     final newState = await newStateFuture;
@@ -36,7 +35,7 @@ main() {
     final Future<AppState> newStateFuture = store.onChange.first;
 
     // When
-    store.dispatch(ResetMetierAction());
+    store.dispatch(SearchMetierResetAction());
 
     // Then
     final newState = await newStateFuture;
