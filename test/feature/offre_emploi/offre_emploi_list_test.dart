@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_actions.dart';
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 
 import '../../doubles/dummies.dart';
@@ -19,7 +19,7 @@ main() {
       testStoreFactory.offreEmploiRepository = OffreEmploiRepositorySuccessWithMoreDataStub();
       final store = testStoreFactory.initializeReduxStore(
         initialState: loggedInState().copyWith(
-          offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
+          offreEmploiListState: _pageOneLoadedAndMoreDataAvailable(),
           offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
             keywords: "boulanger patissier",
             location: null,
@@ -42,7 +42,7 @@ main() {
       final appState = await successState;
       expect(appState.offreEmploiSearchState is OffreEmploiSearchSuccessState, true);
 
-      var searchResultsState = (appState.offreEmploiSearchResultsState as OffreEmploiSearchResultsDataState);
+      var searchResultsState = (appState.offreEmploiListState as OffreEmploiListSuccessState);
       expect(searchResultsState.offres.length, 2);
       expect(searchResultsState.loadedPage, 2);
     });
@@ -53,7 +53,7 @@ main() {
       testStoreFactory.offreEmploiRepository = OffreEmploiRepositoryFailureStub();
       final store = testStoreFactory.initializeReduxStore(
         initialState: loggedInState().copyWith(
-          offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
+          offreEmploiListState: _pageOneLoadedAndMoreDataAvailable(),
           offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
             keywords: "boulanger patissier",
             location: null,
@@ -76,7 +76,7 @@ main() {
       final appState = await errorState;
       expect(appState.offreEmploiSearchState is OffreEmploiSearchFailureState, true);
 
-      var searchResultsState = (appState.offreEmploiSearchResultsState as OffreEmploiSearchResultsDataState);
+      var searchResultsState = (appState.offreEmploiListState as OffreEmploiListSuccessState);
       expect(searchResultsState.offres.length, 1);
       expect(searchResultsState.loadedPage, 1);
       expect(searchResultsState.isMoreDataAvailable, true);
@@ -88,7 +88,7 @@ main() {
       testStoreFactory.offreEmploiRepository = OffreEmploiRepositorySuccessWithNoMoreDataStub();
       final store = testStoreFactory.initializeReduxStore(
         initialState: loggedInState().copyWith(
-          offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
+          offreEmploiListState: _pageOneLoadedAndMoreDataAvailable(),
           offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
             keywords: "boulanger patissier",
             location: null,
@@ -108,7 +108,7 @@ main() {
       final appState = await successState;
       expect(appState.offreEmploiSearchState is OffreEmploiSearchSuccessState, true);
 
-      var searchResultsState = (appState.offreEmploiSearchResultsState as OffreEmploiSearchResultsDataState);
+      var searchResultsState = (appState.offreEmploiListState as OffreEmploiListSuccessState);
       expect(searchResultsState.offres.length, 2);
       expect(searchResultsState.loadedPage, 2);
       expect(searchResultsState.isMoreDataAvailable, false);
@@ -120,7 +120,7 @@ main() {
       testStoreFactory.offreEmploiRepository = OffreEmploiRepositorySuccessWithMoreDataStub();
       final store = testStoreFactory.initializeReduxStore(
         initialState: loggedInState().copyWith(
-          offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
+          offreEmploiListState: _pageOneLoadedAndMoreDataAvailable(),
           offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
             keywords: "boulanger patissier",
             location: null,
@@ -149,7 +149,7 @@ main() {
         testStoreFactory.offreEmploiRepository = OffreEmploiRepositoryFailureStub();
         final store = testStoreFactory.initializeReduxStore(
           initialState: loggedInState().copyWith(
-            offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
+            offreEmploiListState: _pageOneLoadedAndMoreDataAvailable(),
             offreEmploiSearchState: OffreEmploiSearchState.failure(),
             offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
               keywords: "boulanger patissier",
@@ -173,7 +173,7 @@ main() {
         final appState = await errorState;
         expect(appState.offreEmploiSearchState is OffreEmploiSearchFailureState, true);
 
-        var searchResultsState = (appState.offreEmploiSearchResultsState as OffreEmploiSearchResultsDataState);
+        var searchResultsState = (appState.offreEmploiListState as OffreEmploiListSuccessState);
         expect(searchResultsState.offres.length, 1);
         expect(searchResultsState.loadedPage, 1);
       });
@@ -184,7 +184,7 @@ main() {
         testStoreFactory.offreEmploiRepository = OffreEmploiRepositorySuccessWithMoreDataStub();
         final store = testStoreFactory.initializeReduxStore(
           initialState: loggedInState().copyWith(
-            offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
+            offreEmploiListState: _pageOneLoadedAndMoreDataAvailable(),
             offreEmploiSearchState: OffreEmploiSearchState.failure(),
             offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
               keywords: "boulanger patissier",
@@ -208,7 +208,7 @@ main() {
         final appState = await successState;
         expect(appState.offreEmploiSearchState is OffreEmploiSearchSuccessState, true);
 
-        var searchResultsState = (appState.offreEmploiSearchResultsState as OffreEmploiSearchResultsDataState);
+        var searchResultsState = (appState.offreEmploiListState as OffreEmploiListSuccessState);
         expect(searchResultsState.offres.length, 2);
         expect(searchResultsState.loadedPage, 2);
       });
@@ -216,8 +216,8 @@ main() {
   });
 }
 
-OffreEmploiSearchResultsState _pageOneLoadedAndMoreDataAvailable() {
-  return OffreEmploiSearchResultsState.data(
+OffreEmploiListState _pageOneLoadedAndMoreDataAvailable() {
+  return OffreEmploiListState.data(
     offres: [mockOffreEmploi()],
     loadedPage: 1,
     isMoreDataAvailable: true,

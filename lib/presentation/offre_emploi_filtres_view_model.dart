@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
@@ -7,7 +8,6 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
@@ -44,7 +44,7 @@ class OffreEmploiFiltresViewModel extends Equatable {
   factory OffreEmploiFiltresViewModel.create(Store<AppState> store) {
     final parametersState = store.state.offreEmploiSearchParametersState;
     final searchState = store.state.offreEmploiSearchState;
-    final searchResultsState = store.state.offreEmploiSearchResultsState;
+    final searchResultsState = store.state.offreEmploiListState;
     return OffreEmploiFiltresViewModel._(
       displayState: _displayState(searchState, searchResultsState),
       shouldDisplayDistanceFiltre: _shouldDisplayDistanceFiltre(parametersState),
@@ -68,7 +68,7 @@ class OffreEmploiFiltresViewModel extends Equatable {
       ];
 }
 
-String _errorMessage(OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
+String _errorMessage(OffreEmploiSearchState searchState, OffreEmploiListState searchResultsState) {
   return searchState is OffreEmploiSearchFailureState ? Strings.genericError : "";
 }
 
@@ -147,8 +147,8 @@ bool _shouldDisplayNonDistanceFiltres(OffreEmploiSearchParametersState parameter
   return true;
 }
 
-DisplayState _displayState(OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
-  if (searchState is OffreEmploiSearchSuccessState && searchResultsState is OffreEmploiSearchResultsDataState) {
+DisplayState _displayState(OffreEmploiSearchState searchState, OffreEmploiListState searchResultsState) {
+  if (searchState is OffreEmploiSearchSuccessState && searchResultsState is OffreEmploiListSuccessState) {
     return DisplayState.CONTENT;
   } else if (searchState is OffreEmploiSearchLoadingState) {
     return DisplayState.LOADING;

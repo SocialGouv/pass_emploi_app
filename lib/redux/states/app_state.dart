@@ -29,8 +29,8 @@ import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_stat
 import '../../features/favori/list/favori_list_state.dart';
 import '../../features/favori/update/favori_update_state.dart';
 import '../../features/immersion/search/immersion_search_state.dart';
+import '../../features/offre_emploi/list/offre_emploi_list_state.dart';
 import '../../features/offre_emploi/search/offre_emploi_search_state.dart';
-import 'offre_emploi_search_results_state.dart';
 
 class AppState extends Equatable {
   final ConfigurationState configurationState;
@@ -44,7 +44,7 @@ class AppState extends Equatable {
   final ChatState chatState;
   final OffreEmploiSearchState offreEmploiSearchState;
   final OffreEmploiDetailsState offreEmploiDetailsState;
-  final OffreEmploiSearchResultsState offreEmploiSearchResultsState;
+  final OffreEmploiListState offreEmploiListState;
   final OffreEmploiSearchParametersState offreEmploiSearchParametersState;
   final FavoriListState<OffreEmploi> offreEmploiFavorisState;
   final FavoriListState<Immersion> immersionFavorisState;
@@ -74,7 +74,7 @@ class AppState extends Equatable {
     required this.chatState,
     required this.offreEmploiSearchState,
     required this.offreEmploiDetailsState,
-    required this.offreEmploiSearchResultsState,
+    required this.offreEmploiListState,
     required this.offreEmploiSearchParametersState,
     required this.offreEmploiFavorisState,
     required this.immersionFavorisState,
@@ -103,7 +103,7 @@ class AppState extends Equatable {
     final ChatState? chatState,
     final OffreEmploiSearchState? offreEmploiSearchState,
     final DeepLinkState? deepLinkState,
-    final OffreEmploiSearchResultsState? offreEmploiSearchResultsState,
+    final OffreEmploiListState? offreEmploiListState,
     final OffreEmploiSearchParametersState? offreEmploiSearchParametersState,
     final FavoriListState<OffreEmploi>? offreEmploiFavorisState,
     final FavoriListState<Immersion>? immersionFavorisState,
@@ -134,7 +134,7 @@ class AppState extends Equatable {
       chatState: chatState ?? this.chatState,
       offreEmploiSearchState: offreEmploiSearchState ?? this.offreEmploiSearchState,
       offreEmploiDetailsState: offreEmploiDetailsState ?? this.offreEmploiDetailsState,
-      offreEmploiSearchResultsState: offreEmploiSearchResultsState ?? this.offreEmploiSearchResultsState,
+      offreEmploiListState: offreEmploiListState ?? this.offreEmploiListState,
       offreEmploiSearchParametersState: offreEmploiSearchParametersState ?? this.offreEmploiSearchParametersState,
       offreEmploiFavorisState: offreEmploiFavorisState ?? this.offreEmploiFavorisState,
       immersionFavorisState: immersionFavorisState ?? this.immersionFavorisState,
@@ -167,7 +167,7 @@ class AppState extends Equatable {
       chatState: ChatNotInitializedState(),
       offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
       offreEmploiDetailsState: OffreEmploiDetailsNotInitializedState(),
-      offreEmploiSearchResultsState: OffreEmploiSearchResultsState.notInitialized(),
+      offreEmploiListState: OffreEmploiListState.notInitialized(),
       offreEmploiSearchParametersState: OffreEmploiSearchParametersState.notInitialized(),
       offreEmploiFavorisState: FavoriListState<OffreEmploi>.notInitialized(),
       immersionFavorisState: FavoriListState<Immersion>.notInitialized(),
@@ -189,27 +189,28 @@ class AppState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
-    deepLinkState,
-    userActionCreateState,
-    userActionUpdateState,
-    userActionDeleteState,
-    chatStatusState,
-    chatState,
-    offreEmploiSearchState,
-    offreEmploiDetailsState,
-    offreEmploiSearchResultsState,
-    offreEmploiSearchParametersState,
-    offreEmploiFavorisState,
-    favoriUpdateState,
-    searchLocationState,
-    searchMetierState,
-    loginState,
-    userActionListState,
-    rendezvousState,
-    immersionListState,
-    immersionDetailsState,
-    offreEmploiSavedSearchCreateState,
+  List<Object?> get props =>
+      [
+        deepLinkState,
+        userActionCreateState,
+        userActionUpdateState,
+        userActionDeleteState,
+        chatStatusState,
+        chatState,
+        offreEmploiSearchState,
+        offreEmploiDetailsState,
+        offreEmploiListState,
+        offreEmploiSearchParametersState,
+        offreEmploiFavorisState,
+        favoriUpdateState,
+        searchLocationState,
+        searchMetierState,
+        loginState,
+        userActionListState,
+        rendezvousState,
+        immersionListState,
+        immersionDetailsState,
+        offreEmploiSavedSearchCreateState,
     immersionSavedSearchCreateState,
     immersionSearchRequestState,
     savedSearchListState,

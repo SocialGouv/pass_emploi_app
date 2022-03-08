@@ -3,9 +3,9 @@ import 'package:pass_emploi_app/features/favori/list/favori_list_actions.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:redux/src/store.dart';
 
@@ -148,7 +148,7 @@ Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
           {"1", "2", "4"},
           {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()},
         ),
-        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
+        offreEmploiListState: OffreEmploiListState.data(
           offres: [mockOffreEmploi(id: '1'), mockOffreEmploi(id: '17')],
           loadedPage: 1,
           isMoreDataAvailable: false,
@@ -197,7 +197,7 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
           {"1", "2", "4"},
           {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()},
         ),
-        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
+        offreEmploiListState: OffreEmploiListState.data(
           offres: [mockOffreEmploi(id: '1'), mockOffreEmploi(id: '17')],
           loadedPage: 1,
           isMoreDataAvailable: false,

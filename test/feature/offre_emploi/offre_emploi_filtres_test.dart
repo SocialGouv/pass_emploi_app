@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:redux/src/store.dart';
 
@@ -35,7 +35,7 @@ main() {
     final appState = await successState;
     expect(appState.offreEmploiSearchState is OffreEmploiSearchSuccessState, true);
 
-    final searchResultsState = (appState.offreEmploiSearchResultsState as OffreEmploiSearchResultsDataState);
+    final searchResultsState = (appState.offreEmploiListState as OffreEmploiListSuccessState);
     expect(searchResultsState.offres.length, 3);
     expect(searchResultsState.loadedPage, 1);
 
@@ -84,7 +84,7 @@ main() {
 Store<AppState> _initializeReduxStore(TestStoreFactory testStoreFactory) {
   return testStoreFactory.initializeReduxStore(
     initialState: loggedInState().copyWith(
-      offreEmploiSearchResultsState: _pageOneLoadedAndMoreDataAvailable(),
+      offreEmploiListState: _pageOneLoadedAndMoreDataAvailable(),
       offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
         keywords: "boulanger patissier",
         location: null,
@@ -95,8 +95,8 @@ Store<AppState> _initializeReduxStore(TestStoreFactory testStoreFactory) {
   );
 }
 
-OffreEmploiSearchResultsState _pageOneLoadedAndMoreDataAvailable() {
-  return OffreEmploiSearchResultsState.data(
+OffreEmploiListState _pageOneLoadedAndMoreDataAvailable() {
+  return OffreEmploiListState.data(
     offres: [mockOffreEmploi()],
     loadedPage: 1,
     isMoreDataAvailable: true,

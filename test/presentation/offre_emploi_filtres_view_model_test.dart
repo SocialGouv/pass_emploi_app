@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/presentation/checkbox_value_view_model.dart';
@@ -8,7 +9,6 @@ import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
@@ -21,8 +21,8 @@ main() {
       reducer,
       initialState: AppState.initialState().copyWith(
         offreEmploiSearchState: OffreEmploiSearchState.success(),
-        offreEmploiSearchResultsState:
-            OffreEmploiSearchResultsState.data(offres: [mockOffreEmploi()], loadedPage: 1, isMoreDataAvailable: true),
+        offreEmploiListState:
+            OffreEmploiListState.data(offres: [mockOffreEmploi()], loadedPage: 1, isMoreDataAvailable: true),
       ),
     );
 
@@ -74,8 +74,7 @@ main() {
       reducer,
       initialState: AppState.initialState().copyWith(
           offreEmploiSearchState: OffreEmploiSearchState.success(),
-          offreEmploiSearchResultsState:
-              OffreEmploiSearchResultsState.data(offres: [], loadedPage: 1, isMoreDataAvailable: false)),
+          offreEmploiListState: OffreEmploiListState.data(offres: [], loadedPage: 1, isMoreDataAvailable: false)),
     );
 
     // When

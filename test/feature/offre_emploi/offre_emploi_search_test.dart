@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_actions.dart';
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
@@ -29,7 +29,7 @@ main() {
     expect(await displayedLoading, true);
 
     final successAppState = await successState;
-    final searchState = (successAppState.offreEmploiSearchResultsState as OffreEmploiSearchResultsDataState);
+    final searchState = (successAppState.offreEmploiListState as OffreEmploiListSuccessState);
     expect(searchState.offres.length, 1);
     expect(searchState.loadedPage, 1);
 
