@@ -1,11 +1,5 @@
 abstract class FavorisAction<T> {}
 
-class FavorisIdLoadedAction<T> extends FavorisAction<T> {
-  final Set<String> favorisId;
-
-  FavorisIdLoadedAction(this.favorisId);
-}
-
 class RequestUpdateFavoriAction<T> extends FavorisAction<T> {
   final String favoriId;
   final bool newStatus;

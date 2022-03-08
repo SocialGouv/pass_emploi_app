@@ -32,7 +32,6 @@ import 'package:pass_emploi_app/redux/actions/search_metier_action.dart';
 import 'package:pass_emploi_app/redux/reducers/favoris/favoris_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/configuration_state.dart';
-import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/immersion_search_request_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
@@ -63,8 +62,8 @@ AppState reducer(AppState current, dynamic action) {
       action,
     ),
     offreEmploiDetailsState: offreEmploiDetailsReducer(current.offreEmploiDetailsState, action),
-    offreEmploiFavorisState: _offreEmploiFavorisState(current.offreEmploiFavorisState, action),
-    immersionFavorisState: _immersionFavorisState(current.immersionFavorisState, action),
+    offreEmploiFavorisState: FavorisReducer<OffreEmploi>().reduceFavorisState(current.offreEmploiFavorisState, action),
+    immersionFavorisState: FavorisReducer<Immersion>().reduceFavorisState(current.immersionFavorisState, action),
     favorisUpdateState: _favorisUpdateState(current.favorisUpdateState, action),
     searchLocationState: _searchLocationState(current.searchLocationState, action),
     searchMetierState: _searchMetierState(current.searchMetierState, action),
@@ -187,22 +186,6 @@ OffreEmploiSearchParametersState _offreEmploiSearchParametersState(
     } else {
       return current;
     }
-  } else {
-    return current;
-  }
-}
-
-FavorisState<OffreEmploi> _offreEmploiFavorisState(FavorisState<OffreEmploi> current, dynamic action) {
-  if (action is FavorisAction<OffreEmploi>) {
-    return FavorisReducer<OffreEmploi>().reduceFavorisState(current, action);
-  } else {
-    return current;
-  }
-}
-
-FavorisState<Immersion> _immersionFavorisState(FavorisState<Immersion> current, dynamic action) {
-  if (action is FavorisAction<Immersion>) {
-    return FavorisReducer<Immersion>().reduceFavorisState(current, action);
   } else {
     return current;
   }

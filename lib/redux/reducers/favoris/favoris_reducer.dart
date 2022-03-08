@@ -1,21 +1,22 @@
+import 'package:pass_emploi_app/features/favori/ids/favori_ids_action.dart';
 import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
 import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 
 class FavorisReducer<T> {
-  FavorisState<T> reduceFavorisState(FavorisState<T> currentState, FavorisAction<T> action) {
-    if (action is FavorisIdLoadedAction<T>) {
-      return FavorisState<T>.idsLoaded(action.favorisId);
+  FavorisState<T> reduceFavorisState(FavorisState<T> currentState, dynamic action) {
+    if (action is FavoriIdsLoadedAction<T>) {
+      return FavorisState<T>.idsLoaded(action.favoriIds);
     } else if (action is UpdateFavoriSuccessAction<T>) {
       if (currentState is FavorisLoadedState<T>) {
-        final idList = currentState.favorisId;
+        final ids = currentState.favoriIds;
         final data = currentState.data;
         if (action.confirmedNewStatus) {
-          idList.add(action.favoriId);
+          ids.add(action.favoriId);
         } else {
-          idList.remove(action.favoriId);
+          ids.remove(action.favoriId);
           data?.remove(action.favoriId);
         }
-        return FavorisState<T>.withMap(idList, data);
+        return FavorisState<T>.withMap(ids, data);
       } else {
         return currentState;
       }

@@ -30,7 +30,7 @@ main() {
     expect(await loadingState, true);
     final updatedFavoris = await successState;
     final favorisState = (updatedFavoris.offreEmploiFavorisState as FavorisLoadedState<OffreEmploi>);
-    expect(favorisState.favorisId, {"2", "4"});
+    expect(favorisState.favoriIds, {"2", "4"});
     expect(favorisState.data, {"2": mockOffreEmploi(), "4": mockOffreEmploi()});
   });
 
@@ -50,7 +50,7 @@ main() {
     expect(await loadingState, true);
     final updatedFavoris = await failureState;
     final favorisState = (updatedFavoris.offreEmploiFavorisState as FavorisLoadedState<OffreEmploi>);
-    expect(favorisState.favorisId, {"1", "2", "4"});
+    expect(favorisState.favoriIds, {"1", "2", "4"});
     expect(favorisState.data, {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()});
   });
 
@@ -70,7 +70,7 @@ main() {
     expect(await loadingState, true);
     final updatedFavoris = await successState;
     final favorisState = (updatedFavoris.offreEmploiFavorisState as FavorisLoadedState<OffreEmploi>);
-    expect(favorisState.favorisId, {"1", "2", "4", "17"});
+    expect(favorisState.favoriIds, {"1", "2", "4", "17"});
     expect(
       favorisState.data,
       {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()},
@@ -93,7 +93,7 @@ main() {
     expect(await loadingState, true);
     final updatedFavoris = await failureState;
     final favorisState = (updatedFavoris.offreEmploiFavorisState as FavorisLoadedState<OffreEmploi>);
-    expect(favorisState.favorisId, {"1", "2", "4"});
+    expect(favorisState.favoriIds, {"1", "2", "4"});
     expect(favorisState.data, {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()});
   });
 
@@ -113,7 +113,7 @@ main() {
     // Then
     final loadedFavoris = await successState;
     final favorisState = (loadedFavoris.offreEmploiFavorisState as FavorisLoadedState<OffreEmploi>);
-    expect(favorisState.favorisId, {"1", "2", "4"});
+    expect(favorisState.favoriIds, {"1", "2", "4"});
     expect(favorisState.data, {
       "1": mockOffreEmploi(id: "1"),
       "2": mockOffreEmploi(id: "2"),

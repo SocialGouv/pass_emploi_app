@@ -14,9 +14,9 @@ abstract class FavorisState<T> {
 
 class FavorisLoadedState<T> extends FavorisState<T> {
   final Map<String, T>? data;
-  final Set<String> favorisId;
+  final Set<String> favoriIds;
 
-  FavorisLoadedState._(this.data, this.favorisId) : super._();
+  FavorisLoadedState._(this.data, this.favoriIds) : super._();
 }
 
 class FavorisNotInitialized<T> extends FavorisState<T> {

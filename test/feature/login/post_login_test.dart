@@ -42,7 +42,6 @@ main() {
       final testStoreFactory = TestStoreFactory();
       testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositorySuccessStub();
       final Store<AppState> store = testStoreFactory.initializeReduxStore(initialState: initialState);
-
       final successState =
           store.onChange.firstWhere((e) => e.offreEmploiFavorisState is FavorisLoadedState<OffreEmploi>);
 
@@ -52,7 +51,7 @@ main() {
       // Then
       final loadedFavoris = await successState;
       final favorisState = (loadedFavoris.offreEmploiFavorisState as FavorisLoadedState<OffreEmploi>);
-      expect(favorisState.favorisId, {"1", "2", "4"});
+      expect(favorisState.favoriIds, {"1", "2", "4"});
       expect(favorisState.data, null);
     });
 

@@ -30,7 +30,7 @@ main() {
     expect(await loadingState, true);
     final updatedFavoris = await successState;
     final favorisState = (updatedFavoris.immersionFavorisState as FavorisLoadedState<Immersion>);
-    expect(favorisState.favorisId, {"2", "4"});
+    expect(favorisState.favoriIds, {"2", "4"});
     expect(favorisState.data, {"2": mockImmersion(), "4": mockImmersion()});
   });
 
@@ -50,7 +50,7 @@ main() {
     expect(await loadingState, true);
     final updatedFavoris = await failureState;
     final favorisState = (updatedFavoris.immersionFavorisState as FavorisLoadedState<Immersion>);
-    expect(favorisState.favorisId, {"1", "2", "4"});
+    expect(favorisState.favoriIds, {"1", "2", "4"});
     expect(favorisState.data, {"1": mockImmersion(), "2": mockImmersion(), "4": mockImmersion()});
   });
 
@@ -70,7 +70,7 @@ main() {
     expect(await loadingState, true);
     final updatedFavoris = await successState;
     final favorisState = (updatedFavoris.immersionFavorisState as FavorisLoadedState<Immersion>);
-    expect(favorisState.favorisId, {"1", "2", "4", "17"});
+    expect(favorisState.favoriIds, {"1", "2", "4", "17"});
     expect(
       favorisState.data,
       {"1": mockImmersion(), "2": mockImmersion(), "4": mockImmersion()},
@@ -93,7 +93,7 @@ main() {
     expect(await loadingState, true);
     final updatedFavoris = await failureState;
     final favorisState = (updatedFavoris.immersionFavorisState as FavorisLoadedState<Immersion>);
-    expect(favorisState.favorisId, {"1", "2", "4"});
+    expect(favorisState.favoriIds, {"1", "2", "4"});
     expect(favorisState.data, {"1": mockImmersion(), "2": mockImmersion(), "4": mockImmersion()});
   });
 
@@ -111,7 +111,7 @@ main() {
     // Then
     final loadedFavoris = await successState;
     final favorisState = (loadedFavoris.immersionFavorisState as FavorisLoadedState<Immersion>);
-    expect(favorisState.favorisId, {"1", "2", "4"});
+    expect(favorisState.favoriIds, {"1", "2", "4"});
     expect(favorisState.data, {
       "1": mockImmersion(id: "1"),
       "2": mockImmersion(id: "2"),
