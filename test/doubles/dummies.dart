@@ -31,6 +31,7 @@ import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
+import 'package:synchronized/synchronized.dart';
 
 import 'fixtures.dart';
 import 'spies.dart';
@@ -61,7 +62,7 @@ class DummyAuthenticator extends Authenticator {
 }
 
 class DummyAuthWrapper extends AuthWrapper {
-  DummyAuthWrapper() : super(DummyFlutterAppAuth());
+  DummyAuthWrapper() : super(DummyFlutterAppAuth(), Lock());
 }
 
 class DummyFlutterAppAuth extends FlutterAppAuth {}
