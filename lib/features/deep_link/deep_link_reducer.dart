@@ -1,10 +1,22 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
+import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
 
-DeepLinkState deepLinkReducer(DeepLinkAction action) {
-  return DeepLinkState(
-      _extractDeepLinkFromMessage(action.message), DateTime.now(), _extractIdFromMessage(action.message));
+DeepLinkState deepLinkReducer(DeepLinkState current, dynamic action) {
+  if (action is SavedSearchGetAction) {
+    return DeepLinkState.used();
+  } else if (action is ResetDeeplinkAction) {
+    return DeepLinkState.used();
+  } else if (action is DeepLinkAction) {
+    return DeepLinkState(
+      _extractDeepLinkFromMessage(action.message),
+      DateTime.now(),
+      _extractIdFromMessage(action.message),
+    );
+  } else {
+    return current;
+  }
 }
 
 String? _extractIdFromMessage(RemoteMessage message) {

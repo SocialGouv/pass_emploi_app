@@ -1,9 +1,6 @@
 import 'package:pass_emploi_app/features/chat/messages/chat_reducer.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_reducer.dart';
-import 'package:pass_emploi_app/features/configuration/configuration_state.dart';
-import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_reducer.dart';
-import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_reducer.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_reducer.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_reducer.dart';
@@ -16,7 +13,6 @@ import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_detai
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_reducer.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_reducer.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_reducer.dart';
-import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_reducer.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_reducer.dart';
@@ -42,6 +38,7 @@ AppState reducer(AppState current, dynamic action) {
     return AppState.initialState(configuration: current.configurationState.configuration);
   }
   return AppState(
+    configurationState: current.configurationState,
     userActionListState: userActionListReducer(current.userActionListState, action),
     userActionCreateState: userActionCreateReducer(current.userActionCreateState, action),
     userActionUpdateState: userActionUpdateReducer(current.userActionUpdateState, action),
@@ -49,7 +46,7 @@ AppState reducer(AppState current, dynamic action) {
     chatStatusState: chatStatusReducer(current.chatStatusState, action),
     chatState: chatReducer(current.chatState, action),
     offreEmploiSearchState: _offreEmploiSearchState(current.offreEmploiSearchState, action),
-    deepLinkState: _deepLinkState(current.deepLinkState, action),
+    deepLinkState: deepLinkReducer(current.deepLinkState, action),
     offreEmploiSearchResultsState: _offreEmploiSearchResultsState(current.offreEmploiSearchResultsState, action),
     offreEmploiSearchParametersState: _offreEmploiSearchParametersState(
       current.offreEmploiSearchParametersState,
@@ -77,7 +74,6 @@ AppState reducer(AppState current, dynamic action) {
       current.immersionSavedSearchCreateState,
       action,
     ),
-    configurationState: _configurationState(current.configurationState, action),
     savedSearchListState: savedSearchListReducer(current.savedSearchListState, action),
     savedSearchDeleteState: savedSearchDeleteReducer(current.savedSearchDeleteState, action),
     serviceCiviqueSearchResultState: serviceCiviqueReducer(current.serviceCiviqueSearchResultState, action),
@@ -98,18 +94,6 @@ OffreEmploiSearchState _offreEmploiSearchState(OffreEmploiSearchState current, d
     return OffreEmploiSearchState.failure();
   } else if (action is OffreEmploiSearchWithUpdateFiltresFailureAction) {
     return OffreEmploiSearchState.failure();
-  } else {
-    return current;
-  }
-}
-
-DeepLinkState _deepLinkState(DeepLinkState current, dynamic action) {
-  if (action is SavedSearchGetAction) {
-    return DeepLinkState.used();
-  } else if (action is ResetDeeplinkAction) {
-    return DeepLinkState.used();
-  } else if (action is DeepLinkAction) {
-    return deepLinkReducer(action);
   } else {
     return current;
   }
@@ -186,8 +170,4 @@ OffreEmploiSearchParametersState _offreEmploiSearchParametersState(
   } else {
     return current;
   }
-}
-
-ConfigurationState _configurationState(ConfigurationState current, dynamic action) {
-  return current;
 }

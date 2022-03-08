@@ -33,6 +33,7 @@ import 'offre_emploi_search_results_state.dart';
 import 'offre_emploi_search_state.dart';
 
 class AppState extends Equatable {
+  final ConfigurationState configurationState;
   final LoginState loginState;
   final DeepLinkState deepLinkState;
   final UserActionListState userActionListState;
@@ -56,13 +57,13 @@ class AppState extends Equatable {
   final ImmersionDetailsState immersionDetailsState;
   final SavedSearchCreateState<OffreEmploiSavedSearch> offreEmploiSavedSearchCreateState;
   final SavedSearchCreateState<ImmersionSavedSearch> immersionSavedSearchCreateState;
-  final ConfigurationState configurationState;
   final SavedSearchListState savedSearchListState;
   final SavedSearchDeleteState savedSearchDeleteState;
   final ServiceCiviqueSearchResultState serviceCiviqueSearchResultState;
   final ServiceCiviqueDetailState serviceCiviqueDetailState;
 
   AppState({
+    required this.configurationState,
     required this.loginState,
     required this.deepLinkState,
     required this.userActionListState,
@@ -85,7 +86,6 @@ class AppState extends Equatable {
     required this.immersionDetailsState,
     required this.offreEmploiSavedSearchCreateState,
     required this.immersionSavedSearchCreateState,
-    required this.configurationState,
     required this.immersionSearchRequestState,
     required this.savedSearchListState,
     required this.savedSearchDeleteState,
@@ -190,32 +190,32 @@ class AppState extends Equatable {
 
   @override
   List<Object?> get props => [
-        deepLinkState,
-        userActionCreateState,
-        userActionUpdateState,
-        userActionDeleteState,
-        chatStatusState,
-        chatState,
-        offreEmploiSearchState,
-        offreEmploiDetailsState,
-        offreEmploiSearchResultsState,
-        offreEmploiSearchParametersState,
-        offreEmploiFavorisState,
-        favoriUpdateState,
-        searchLocationState,
-        searchMetierState,
-        loginState,
-        userActionListState,
-        rendezvousState,
-        immersionListState,
-        immersionDetailsState,
-        offreEmploiSavedSearchCreateState,
-        immersionSavedSearchCreateState,
-        immersionSearchRequestState,
-        savedSearchListState,
-        savedSearchDeleteState,
-        serviceCiviqueDetailState,
-      ];
+    deepLinkState,
+    userActionCreateState,
+    userActionUpdateState,
+    userActionDeleteState,
+    chatStatusState,
+    chatState,
+    offreEmploiSearchState,
+    offreEmploiDetailsState,
+    offreEmploiSearchResultsState,
+    offreEmploiSearchParametersState,
+    offreEmploiFavorisState,
+    favoriUpdateState,
+    searchLocationState,
+    searchMetierState,
+    loginState,
+    userActionListState,
+    rendezvousState,
+    immersionListState,
+    immersionDetailsState,
+    offreEmploiSavedSearchCreateState,
+    immersionSavedSearchCreateState,
+    immersionSearchRequestState,
+    savedSearchListState,
+    savedSearchDeleteState,
+    serviceCiviqueDetailState,
+  ];
 
   @override
   bool? get stringify => true;
