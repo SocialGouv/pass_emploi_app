@@ -11,7 +11,7 @@ import 'package:pass_emploi_app/features/login/login_reducer.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_reducer.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_reducer.dart';
 import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_reducer.dart';
-import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_actions.dart';
+import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_reducer.dart';
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_reducer.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_reducer.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_reducer.dart';
@@ -24,12 +24,9 @@ import 'package:pass_emploi_app/features/user_action/list/user_action_list_reduc
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_reducer.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
-import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 
 import '../../features/favori/update/favori_update_reducer.dart';
 import '../../features/service_civique/detail/service_civique_detail_reducer.dart';
@@ -49,7 +46,7 @@ AppState reducer(AppState current, dynamic action) {
     offreEmploiSearchState: offreEmploiSearchReducer(current.offreEmploiSearchState, action),
     deepLinkState: deepLinkReducer(current.deepLinkState, action),
     offreEmploiListState: offreEmploiListReducer(current.offreEmploiListState, action),
-    offreEmploiSearchParametersState: _offreEmploiSearchParametersState(
+    offreEmploiSearchParametersState: offreEmploiSearchParametersReducer(
       current.offreEmploiSearchParametersState,
       action,
     ),
@@ -80,50 +77,4 @@ AppState reducer(AppState current, dynamic action) {
     serviceCiviqueSearchResultState: serviceCiviqueReducer(current.serviceCiviqueSearchResultState, action),
     serviceCiviqueDetailState: serviceCiviqueDetailReducer(current.serviceCiviqueDetailState, action),
   );
-}
-
-
-OffreEmploiSearchParametersState _offreEmploiSearchParametersState(
-  OffreEmploiSearchParametersState current,
-  dynamic action,
-) {
-  if (action is OffreEmploiSearchWithFiltresAction) {
-    return OffreEmploiSearchParametersState.initialized(
-      keywords: action.keywords,
-      location: action.location,
-      onlyAlternance: action.onlyAlternance,
-      filtres: action.updatedFiltres,
-    );
-  } else if (action is OffreEmploiSearchRequestAction) {
-    return OffreEmploiSearchParametersInitializedState(
-      keywords: action.keywords,
-      location: action.location,
-      onlyAlternance: action.onlyAlternance,
-      filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
-    );
-  } else if (action is OffreEmploiSearchUpdateFiltresAction) {
-    if (current is OffreEmploiSearchParametersInitializedState) {
-      return OffreEmploiSearchParametersInitializedState(
-        keywords: current.keywords,
-        location: current.location,
-        onlyAlternance: current.onlyAlternance,
-        filtres: action.updatedFiltres,
-      );
-    } else {
-      return current;
-    }
-  } else if (action is OffreEmploiSearchWithUpdateFiltresFailureAction) {
-    if (current is OffreEmploiSearchParametersInitializedState) {
-      return OffreEmploiSearchParametersState.initialized(
-        keywords: current.keywords,
-        location: current.location,
-        onlyAlternance: current.onlyAlternance,
-        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
-      );
-    } else {
-      return current;
-    }
-  } else {
-    return current;
-  }
 }

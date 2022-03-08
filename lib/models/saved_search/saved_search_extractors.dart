@@ -4,8 +4,8 @@ import 'package:pass_emploi_app/features/saved_search/create/saved_search_create
 import 'package:redux/redux.dart';
 
 import '../../features/immersion/search/immersion_search_state.dart';
+import '../../features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
 import '../../redux/states/app_state.dart';
-import '../../redux/states/offre_emploi_search_parameters_state.dart';
 import '../../ui/strings.dart';
 import '../offre_emploi_filtres_parameters.dart';
 import 'immersion_saved_search.dart';

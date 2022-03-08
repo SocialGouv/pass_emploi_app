@@ -1,14 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_actions.dart';
+import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/presentation/checkbox_value_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_filtres_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
@@ -249,7 +249,8 @@ main() {
     );
 
     // Then
-    final OffreEmploiSearchUpdateFiltresAction action = store.dispatchedAction as OffreEmploiSearchUpdateFiltresAction;
+    final OffreEmploiSearchParametersUpdateFiltresRequestAction action =
+        store.dispatchedAction as OffreEmploiSearchParametersUpdateFiltresRequestAction;
     expect(action.updatedFiltres.distance, 20);
     expect(action.updatedFiltres.contrat, [
       ContratFiltre.cdi,

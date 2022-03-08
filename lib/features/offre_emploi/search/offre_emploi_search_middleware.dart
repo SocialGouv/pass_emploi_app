@@ -1,11 +1,11 @@
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_actions.dart';
+import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_actions.dart';
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
-import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:redux/redux.dart';
 
@@ -50,7 +50,7 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
             filtres: parametersState.filtres,
           ),
         );
-      } else if (action is OffreEmploiSearchUpdateFiltresAction &&
+      } else if (action is OffreEmploiSearchParametersUpdateFiltresRequestAction &&
           parametersState is OffreEmploiSearchParametersInitializedState) {
         _resetSearchWithUpdatedFiltres(
           store: store,
@@ -63,7 +63,7 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
             filtres: action.updatedFiltres,
           ),
         );
-      } else if (action is OffreEmploiSearchWithFiltresAction) {
+      } else if (action is OffreEmploiSearchParametersRequestAction) {
         _resetSearchWithUpdatedFiltres(
           store: store,
           userId: userId,
@@ -105,13 +105,13 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(OffreEmploiSearchLoadingAction());
     final result = await _repository.search(userId: userId, request: request);
     if (result != null) {
-      store.dispatch(OffreEmploiSearchWithUpdateFiltresSuccessAction(
+      store.dispatch(OffreEmploiSearchParametersUpdateFiltresSuccessAction(
         offres: result.offres,
         page: request.page,
         isMoreDataAvailable: result.isMoreDataAvailable,
       ));
     } else {
-      store.dispatch(OffreEmploiSearchWithUpdateFiltresFailureAction());
+      store.dispatch(OffreEmploiSearchParametersUpdateFiltresFailureAction());
     }
   }
 }
