@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/features/chat/status/chat_status_reducer.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_reducer.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_reducer.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_reducer.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_reducer.dart';
@@ -29,7 +30,6 @@ import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
 import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
 import 'package:pass_emploi_app/redux/actions/search_metier_action.dart';
-import 'package:pass_emploi_app/redux/reducers/favoris/favoris_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/configuration_state.dart';
 import 'package:pass_emploi_app/redux/states/immersion_search_request_state.dart';
@@ -62,8 +62,11 @@ AppState reducer(AppState current, dynamic action) {
       action,
     ),
     offreEmploiDetailsState: offreEmploiDetailsReducer(current.offreEmploiDetailsState, action),
-    offreEmploiFavorisState: FavorisReducer<OffreEmploi>().reduceFavorisState(current.offreEmploiFavorisState, action),
-    immersionFavorisState: FavorisReducer<Immersion>().reduceFavorisState(current.immersionFavorisState, action),
+    offreEmploiFavorisState: FavoriListReducer<OffreEmploi>().reduceFavorisState(
+      current.offreEmploiFavorisState,
+      action,
+    ),
+    immersionFavorisState: FavoriListReducer<Immersion>().reduceFavorisState(current.immersionFavorisState, action),
     favorisUpdateState: _favorisUpdateState(current.favorisUpdateState, action),
     searchLocationState: _searchLocationState(current.searchLocationState, action),
     searchMetierState: _searchMetierState(current.searchMetierState, action),

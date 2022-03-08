@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_actions.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:redux/redux.dart';
@@ -27,7 +27,7 @@ class FavorisListViewModel<FAVORIS_MODEL, FAVORIS_VIEW_MODEL> extends Equatable 
     RelevantFavorisExtractor<FAVORIS_MODEL> relevantFavorisExtractor,
     FavorisViewModelTransformer<FAVORIS_MODEL, FAVORIS_VIEW_MODEL> viewModelTransformer,
   ) {
-    retry() => store.dispatch(RequestFavorisAction<FAVORIS_MODEL>());
+    retry() => store.dispatch(FavoriListRequestAction<FAVORIS_MODEL>());
     if (relevantFavorisExtractor.isDataInitialized(store)) {
       final favoris = relevantFavorisExtractor.getRelevantFavoris(store);
       return FavorisListViewModel._(

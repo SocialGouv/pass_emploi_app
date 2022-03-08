@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_actions.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/favoris_list_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -28,7 +28,7 @@ abstract class AbstractFavorisPage<FAVORIS_MODEL, FAVORIS_VIEW_MODEL> extends Tr
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, FavorisListViewModel<FAVORIS_MODEL, FAVORIS_VIEW_MODEL>>(
-      onInit: (store) => store.dispatch(RequestFavorisAction<FAVORIS_MODEL>()),
+      onInit: (store) => store.dispatch(FavoriListRequestAction<FAVORIS_MODEL>()),
       builder: (context, viewModel) => FavorisStateContext<FAVORIS_MODEL>(
         selectState: selectState,
         child: DefaultAnimatedSwitcher(child: _switch(context, viewModel)),

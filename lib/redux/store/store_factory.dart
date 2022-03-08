@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/chat/init/chat_initializer_middleware.d
 import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_middleware.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_middleware.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_middleware.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_middleware.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_middleware.dart';
 import 'package:pass_emploi_app/features/login/login_middleware.dart';
@@ -134,8 +135,10 @@ class StoreFactory {
         OffreEmploiMiddleware(offreEmploiRepository),
         OffreEmploiDetailsMiddleware(offreEmploiDetailsRepository),
         FavoriIdsMiddleware<OffreEmploi>(offreEmploiFavorisRepository),
+        FavoriListMiddleware<OffreEmploi>(offreEmploiFavorisRepository),
         FavorisMiddleware<OffreEmploi>(offreEmploiFavorisRepository, OffreEmploiDataFromIdExtractor()),
         FavoriIdsMiddleware<Immersion>(immersionFavorisRepository),
+        FavoriListMiddleware<Immersion>(immersionFavorisRepository),
         FavorisMiddleware<Immersion>(immersionFavorisRepository, ImmersionDataFromIdExtractor()),
         RegisterPushNotificationTokenMiddleware(registerTokenRepository),
         CrashlyticsMiddleware(crashlytics),

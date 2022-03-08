@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_actions.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
@@ -106,7 +107,7 @@ main() {
         store.onChange.where((element) => element.immersionFavorisState is FavorisLoadedState<Immersion>).skip(1).first;
 
     // When
-    store.dispatch(RequestFavorisAction<Immersion>());
+    store.dispatch(FavoriListRequestAction<Immersion>());
 
     // Then
     final loadedFavoris = await successState;
@@ -127,7 +128,7 @@ main() {
         store.onChange.any((element) => element.immersionFavorisState is FavorisNotInitialized<Immersion>);
 
     // When
-    store.dispatch(RequestFavorisAction<Immersion>());
+    store.dispatch(FavoriListRequestAction<Immersion>());
 
     // Then
     expect(await failureState, true);

@@ -1,5 +1,7 @@
 abstract class FavorisAction<T> {}
 
+/// UPDATE
+
 class RequestUpdateFavoriAction<T> extends FavorisAction<T> {
   final String favoriId;
   final bool newStatus;
@@ -25,13 +27,3 @@ class UpdateFavoriFailureAction<T> extends FavorisAction<T> {
 
   UpdateFavoriFailureAction(this.favoriId);
 }
-
-class RequestFavorisAction<T> extends FavorisAction<T> {}
-
-class FavorisLoadedAction<T> extends FavorisAction<T> {
-  final Map<String, T> favoris;
-
-  FavorisLoadedAction(this.favoris);
-}
-
-class FavorisFailureAction<T> extends FavorisAction<T> {}

@@ -20,17 +20,6 @@ class FavorisMiddleware<T> extends MiddlewareClass<AppState> {
       } else {
         await _removeFavori(store, action, loginState.user.id);
       }
-    } else if (action is RequestFavorisAction<T> && loginState is LoginSuccessState) {
-      await _fetchFavoris(store, action, loginState.user.id);
-    }
-  }
-
-  Future<void> _fetchFavoris(Store<AppState> store, RequestFavorisAction<T> action, String userId) async {
-    final result = await _repository.getFavoris(userId);
-    if (result != null) {
-      store.dispatch(FavorisLoadedAction<T>(result));
-    } else {
-      store.dispatch(FavorisFailureAction<T>());
     }
   }
 

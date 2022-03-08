@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_actions.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/favoris_list_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/favoris_state.dart';
@@ -112,7 +112,7 @@ main() {
 
       viewModel.onRetry();
 
-      expect(store.dispatchedAction is RequestFavorisAction<OffreEmploi>, isTrue);
+      expect(store.dispatchedAction is FavoriListRequestAction<OffreEmploi>, isTrue);
     });
   });
 
@@ -226,7 +226,7 @@ main() {
 
       viewModel.onRetry();
 
-      expect(store.dispatchedAction is RequestFavorisAction<OffreEmploi>, isTrue);
+      expect(store.dispatchedAction is FavoriListRequestAction<OffreEmploi>, isTrue);
     });
   });
 }
