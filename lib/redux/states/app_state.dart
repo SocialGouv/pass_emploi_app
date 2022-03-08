@@ -47,7 +47,7 @@ class AppState extends Equatable {
   final OffreEmploiSearchParametersState offreEmploiSearchParametersState;
   final FavoriListState<OffreEmploi> offreEmploiFavorisState;
   final FavoriListState<Immersion> immersionFavorisState;
-  final FavorisUpdateState favorisUpdateState;
+  final FavoriUpdateState favoriUpdateState;
   final SearchLocationState searchLocationState;
   final SearchMetierState searchMetierState;
   final RendezvousState rendezvousState;
@@ -77,7 +77,7 @@ class AppState extends Equatable {
     required this.offreEmploiSearchParametersState,
     required this.offreEmploiFavorisState,
     required this.immersionFavorisState,
-    required this.favorisUpdateState,
+    required this.favoriUpdateState,
     required this.searchLocationState,
     required this.searchMetierState,
     required this.rendezvousState,
@@ -107,7 +107,7 @@ class AppState extends Equatable {
     final OffreEmploiSearchParametersState? offreEmploiSearchParametersState,
     final FavoriListState<OffreEmploi>? offreEmploiFavorisState,
     final FavoriListState<Immersion>? immersionFavorisState,
-    final FavorisUpdateState? favorisUpdateState,
+    final FavoriUpdateState? favorisUpdateState,
     final SearchLocationState? searchLocationState,
     final SearchMetierState? searchMetierState,
     final RendezvousState? rendezvousState,
@@ -138,7 +138,7 @@ class AppState extends Equatable {
       offreEmploiSearchParametersState: offreEmploiSearchParametersState ?? this.offreEmploiSearchParametersState,
       offreEmploiFavorisState: offreEmploiFavorisState ?? this.offreEmploiFavorisState,
       immersionFavorisState: immersionFavorisState ?? this.immersionFavorisState,
-      favorisUpdateState: favorisUpdateState ?? this.favorisUpdateState,
+      favoriUpdateState: favorisUpdateState ?? this.favoriUpdateState,
       searchLocationState: searchLocationState ?? this.searchLocationState,
       searchMetierState: searchMetierState ?? this.searchMetierState,
       rendezvousState: rendezvousState ?? this.rendezvousState,
@@ -171,7 +171,7 @@ class AppState extends Equatable {
       offreEmploiSearchParametersState: OffreEmploiSearchParametersState.notInitialized(),
       offreEmploiFavorisState: FavoriListState<OffreEmploi>.notInitialized(),
       immersionFavorisState: FavoriListState<Immersion>.notInitialized(),
-      favorisUpdateState: FavorisUpdateState({}),
+      favoriUpdateState: FavoriUpdateState({}),
       searchLocationState: SearchLocationState([]),
       searchMetierState: SearchMetierState([]),
       rendezvousState: RendezvousNotInitializedState(),
@@ -201,7 +201,7 @@ class AppState extends Equatable {
         offreEmploiSearchResultsState,
         offreEmploiSearchParametersState,
         offreEmploiFavorisState,
-        favorisUpdateState,
+        favoriUpdateState,
         searchLocationState,
         searchMetierState,
         loginState,

@@ -45,7 +45,7 @@ main() {
       reducer,
       initialState: AppState.initialState().copyWith(
         immersionFavorisState: FavoriListState<Immersion>.idsLoaded({"offreId"}),
-        favorisUpdateState: FavorisUpdateState({"offreId": FavorisUpdateStatus.ERROR}),
+        favorisUpdateState: FavoriUpdateState({"offreId": FavoriUpdateStatus.ERROR}),
       ),
     );
     // When
@@ -62,7 +62,7 @@ main() {
       reducer,
       initialState: AppState.initialState().copyWith(
         immersionFavorisState: FavoriListState<Immersion>.idsLoaded({"toto"}),
-        favorisUpdateState: FavorisUpdateState({"offreId": FavorisUpdateStatus.ERROR}),
+        favorisUpdateState: FavoriUpdateState({"offreId": FavoriUpdateStatus.ERROR}),
       ),
     );
     // When
@@ -78,7 +78,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        favorisUpdateState: FavorisUpdateState({"offreId": FavorisUpdateStatus.LOADING}),
+        favorisUpdateState: FavoriUpdateState({"offreId": FavoriUpdateStatus.LOADING}),
       ),
     );
     // When

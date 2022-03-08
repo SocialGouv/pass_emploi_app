@@ -7,7 +7,7 @@ class FavoriListReducer<T> {
   FavoriListState<T> reduceFavorisState(FavoriListState<T> currentState, dynamic action) {
     if (action is FavoriIdsLoadedAction<T>) {
       return FavoriListState<T>.idsLoaded(action.favoriIds);
-    } else if (action is UpdateFavoriSuccessAction<T>) {
+    } else if (action is FavoriUpdateSuccessAction<T>) {
       if (currentState is FavoriListLoadedState<T>) {
         final ids = currentState.favoriIds;
         final data = currentState.data;

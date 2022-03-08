@@ -14,7 +14,7 @@ class FavoriUpdateMiddleware<T> extends MiddlewareClass<AppState> {
   call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     final loginState = store.state.loginState;
-    if (action is UpdateFavoriRequestAction<T> && loginState is LoginSuccessState) {
+    if (action is FavoriUpdateRequestAction<T> && loginState is LoginSuccessState) {
       if (action.newStatus) {
         await _addFavori(store, action, loginState.user.id);
       } else {
@@ -23,30 +23,30 @@ class FavoriUpdateMiddleware<T> extends MiddlewareClass<AppState> {
     }
   }
 
-  Future<void> _addFavori(Store<AppState> store, UpdateFavoriRequestAction<T> action, String userId) async {
-    store.dispatch(UpdateFavoriLoadingAction<T>(action.favoriId));
+  Future<void> _addFavori(Store<AppState> store, FavoriUpdateRequestAction<T> action, String userId) async {
+    store.dispatch(FavoriUpdateLoadingAction<T>(action.favoriId));
     final result = await _repository.postFavori(
       userId,
       _dataFromIdExtractor.extractFromId(store, action.favoriId),
     );
     if (result) {
-      store.dispatch(UpdateFavoriSuccessAction<T>(action.favoriId, action.newStatus));
+      store.dispatch(FavoriUpdateSuccessAction<T>(action.favoriId, action.newStatus));
     } else {
-      store.dispatch(UpdateFavoriFailureAction<T>(action.favoriId));
+      store.dispatch(FavoriUpdateFailureAction<T>(action.favoriId));
     }
   }
 
   Future<void> _removeFavori(
     Store<AppState> store,
-    UpdateFavoriRequestAction<T> action,
+    FavoriUpdateRequestAction<T> action,
     String userId,
   ) async {
-    store.dispatch(UpdateFavoriLoadingAction<T>(action.favoriId));
+    store.dispatch(FavoriUpdateLoadingAction<T>(action.favoriId));
     final result = await _repository.deleteFavori(userId, action.favoriId);
     if (result) {
-      store.dispatch(UpdateFavoriSuccessAction<T>(action.favoriId, action.newStatus));
+      store.dispatch(FavoriUpdateSuccessAction<T>(action.favoriId, action.newStatus));
     } else {
-      store.dispatch(UpdateFavoriFailureAction<T>(action.favoriId));
+      store.dispatch(FavoriUpdateFailureAction<T>(action.favoriId));
     }
   }
 }

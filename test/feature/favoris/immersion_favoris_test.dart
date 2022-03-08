@@ -20,12 +20,12 @@ main() {
     final Store<AppState> store = _successStoreWithFavorisAndSearchResultsLoaded();
 
     final loadingState =
-        store.onChange.any((element) => element.favorisUpdateState.requestStatus["1"] == FavorisUpdateStatus.LOADING);
+        store.onChange.any((element) => element.favoriUpdateState.requestStatus["1"] == FavoriUpdateStatus.LOADING);
     final successState = store.onChange
-        .firstWhere((element) => element.favorisUpdateState.requestStatus["1"] == FavorisUpdateStatus.SUCCESS);
+        .firstWhere((element) => element.favoriUpdateState.requestStatus["1"] == FavoriUpdateStatus.SUCCESS);
 
     // When
-    store.dispatch(UpdateFavoriRequestAction<Immersion>("1", false));
+    store.dispatch(FavoriUpdateRequestAction<Immersion>("1", false));
 
     // Then
     expect(await loadingState, true);
@@ -40,12 +40,12 @@ main() {
     final Store<AppState> store = _failureStoreWithFavorisLoaded();
 
     final loadingState =
-        store.onChange.any((element) => element.favorisUpdateState.requestStatus["1"] == FavorisUpdateStatus.LOADING);
+        store.onChange.any((element) => element.favoriUpdateState.requestStatus["1"] == FavoriUpdateStatus.LOADING);
     final failureState = store.onChange
-        .firstWhere((element) => element.favorisUpdateState.requestStatus["1"] == FavorisUpdateStatus.ERROR);
+        .firstWhere((element) => element.favoriUpdateState.requestStatus["1"] == FavoriUpdateStatus.ERROR);
 
     // When
-    store.dispatch(UpdateFavoriRequestAction<Immersion>("1", false));
+    store.dispatch(FavoriUpdateRequestAction<Immersion>("1", false));
 
     // Then
     expect(await loadingState, true);
@@ -60,12 +60,12 @@ main() {
     Store<AppState> store = _successStoreWithFavorisAndSearchResultsLoaded();
 
     final loadingState =
-        store.onChange.any((element) => element.favorisUpdateState.requestStatus["17"] == FavorisUpdateStatus.LOADING);
+        store.onChange.any((element) => element.favoriUpdateState.requestStatus["17"] == FavoriUpdateStatus.LOADING);
     final successState = store.onChange
-        .firstWhere((element) => element.favorisUpdateState.requestStatus["17"] == FavorisUpdateStatus.SUCCESS);
+        .firstWhere((element) => element.favoriUpdateState.requestStatus["17"] == FavoriUpdateStatus.SUCCESS);
 
     // When
-    store.dispatch(UpdateFavoriRequestAction<Immersion>("17", true));
+    store.dispatch(FavoriUpdateRequestAction<Immersion>("17", true));
 
     // Then
     expect(await loadingState, true);
@@ -83,12 +83,12 @@ main() {
     final Store<AppState> store = _failureStoreWithFavorisLoaded();
 
     final loadingState =
-        store.onChange.any((element) => element.favorisUpdateState.requestStatus["17"] == FavorisUpdateStatus.LOADING);
+        store.onChange.any((element) => element.favoriUpdateState.requestStatus["17"] == FavoriUpdateStatus.LOADING);
     final failureState = store.onChange
-        .firstWhere((element) => element.favorisUpdateState.requestStatus["17"] == FavorisUpdateStatus.ERROR);
+        .firstWhere((element) => element.favoriUpdateState.requestStatus["17"] == FavoriUpdateStatus.ERROR);
 
     // When
-    store.dispatch(UpdateFavoriRequestAction<Immersion>("17", true));
+    store.dispatch(FavoriUpdateRequestAction<Immersion>("17", true));
 
     // Then
     expect(await loadingState, true);

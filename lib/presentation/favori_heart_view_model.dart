@@ -21,9 +21,9 @@ class FavoriHeartViewModel<T> extends Equatable {
   factory FavoriHeartViewModel.create(String offreId, Store<AppState> store, FavoriListState<T> favorisState) {
     return FavoriHeartViewModel._(
       isFavori: _isFavori(offreId, favorisState),
-      withError: _withError(offreId, store.state.favorisUpdateState),
-      withLoading: _withLoading(offreId, store.state.favorisUpdateState),
-      update: (newStatus) => store.dispatch(UpdateFavoriRequestAction<T>(offreId, newStatus)),
+      withError: _withError(offreId, store.state.favoriUpdateState),
+      withLoading: _withLoading(offreId, store.state.favoriUpdateState),
+      update: (newStatus) => store.dispatch(FavoriUpdateRequestAction<T>(offreId, newStatus)),
     );
   }
 
@@ -39,10 +39,10 @@ bool _isFavori<T>(String offreId, FavoriListState<T> favorisState) {
   }
 }
 
-bool _withError(String offreId, FavorisUpdateState updateState) {
-  return updateState.requestStatus[offreId] == FavorisUpdateStatus.ERROR;
+bool _withError(String offreId, FavoriUpdateState updateState) {
+  return updateState.requestStatus[offreId] == FavoriUpdateStatus.ERROR;
 }
 
-bool _withLoading(String offreId, FavorisUpdateState updateState) {
-  return updateState.requestStatus[offreId] == FavorisUpdateStatus.LOADING;
+bool _withLoading(String offreId, FavoriUpdateState updateState) {
+  return updateState.requestStatus[offreId] == FavoriUpdateStatus.LOADING;
 }

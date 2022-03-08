@@ -4,8 +4,6 @@ import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_reducer.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_reducer.dart';
-import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
-import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_reducer.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_reducer.dart';
 import 'package:pass_emploi_app/features/immersion/search/immersion_search_reducer.dart';
@@ -65,7 +63,7 @@ AppState reducer(AppState current, dynamic action) {
       action,
     ),
     immersionFavorisState: FavoriListReducer<Immersion>().reduceFavorisState(current.immersionFavorisState, action),
-    favorisUpdateState: _favorisUpdateState(current.favorisUpdateState, action),
+    favoriUpdateState: favoriUpdateReducer(current.favoriUpdateState, action),
     searchLocationState: _searchLocationState(current.searchLocationState, action),
     searchMetierState: _searchMetierState(current.searchMetierState, action),
     loginState: loginReducer(current.loginState, action),
@@ -187,14 +185,6 @@ OffreEmploiSearchParametersState _offreEmploiSearchParametersState(
     } else {
       return current;
     }
-  } else {
-    return current;
-  }
-}
-
-FavorisUpdateState _favorisUpdateState(FavorisUpdateState current, dynamic action) {
-  if (action is FavorisAction) {
-    return FavorisUpdateReducer().reduceUpdateState(current, action);
   } else {
     return current;
   }
