@@ -87,12 +87,10 @@ main() {
         id: "",
         title: "Conduite d'engins agricoles et forestiers - ville",
         metier: "Conduite d'engins agricoles et forestiers",
-        location: "ville",
-        filters: ImmersionSearchParametersFilters.withFilters(
-          codeRome: searchedMetier.codeRome,
-          lat: 12,
-          lon: 34,
-        ),
+        codeRome: searchedMetier.codeRome,
+        location: mockLocation(lat: 12, lon: 34),
+        ville: "ville",
+        filtres: ImmersionSearchParametersFiltres.noFiltres(),
       ),
     );
   });
@@ -131,12 +129,10 @@ main() {
         id: "",
         title: "${searchedMetier.libelle} - ville",
         metier: searchedMetier.libelle,
-        location: "ville",
-        filters: ImmersionSearchParametersFilters.withFilters(
-          codeRome: searchedMetier.codeRome,
-          lat: 12,
-          lon: 34,
-        ),
+        ville: "ville",
+        codeRome: searchedMetier.codeRome,
+        location: mockLocation(lat: 12, lon: 34),
+        filtres: ImmersionSearchParametersFiltres.noFiltres(),
       ),
     );
   });

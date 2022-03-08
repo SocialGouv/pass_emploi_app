@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/network/filtres_request.dart';
@@ -71,7 +72,7 @@ class SavedSearchResponseCriteres {
       contrat: (json["contrat"] as List?)?.map((e) => e as String).toList(),
       duree: (json["duree"] as List?)?.map((e) => e as String).toList(),
       commune: json["commune"] as String?,
-      rayon: (json["rayon"] as num?)?.toInt(),
+      rayon: (json["rayon"] as num?)?.toInt() ?? (json["distance"] as num?)?.toInt(),
       lat: (json["lat"] as num?)?.toDouble(),
       lon: (json["lon"] as num?)?.toDouble(),
       rome: json["rome"] as String?,
@@ -124,16 +125,30 @@ class SavedSearchImmersionExtractor {
       id: savedSearch.id,
       title: savedSearch.titre,
       metier: savedSearch.metier ?? "",
-      location: savedSearch.localisation ?? "",
-      filters: _getFilters(savedSearch.criteres),
+      // TODO Ok le force non-null ?
+      location: _getLocation(savedSearch)!,
+      filtres: _getFiltres(savedSearch.criteres),
+      ville: savedSearch.localisation ?? "",
+      codeRome: savedSearch.criteres.rome!, // TODO Ok le force non-null ?
     );
   }
 
-  ImmersionSearchParametersFilters _getFilters(SavedSearchResponseCriteres criteres) {
-    return ImmersionSearchParametersFilters.withFilters(
-      codeRome: criteres.rome,
-      lat: criteres.lat,
-      lon: criteres.lon,
-    );
+  ImmersionSearchParametersFiltres _getFiltres(SavedSearchResponseCriteres criteres) {
+    return ImmersionSearchParametersFiltres.distance(criteres.rayon);
+  }
+
+  Location? _getLocation(SavedSearchResponse savedSearch) {
+    if (savedSearch.localisation != null) {
+      return Location(
+        type: LocationType.COMMUNE,
+        code: savedSearch.criteres.commune ?? savedSearch.criteres.departement ?? "",
+        libelle: savedSearch.localisation ?? "",
+        codePostal: null,
+        longitude: savedSearch.criteres.lon,
+        latitude: savedSearch.criteres.lat,
+      );
+    } else {
+      return null;
+    }
   }
 }

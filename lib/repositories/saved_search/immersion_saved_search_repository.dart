@@ -26,10 +26,11 @@ class ImmersionSavedSearchRepository extends SavedSearchRepository<ImmersionSave
           PostImmersionSavedSearch(
             title: title,
             metier: savedSearch.metier,
-            localisation: savedSearch.location,
-            codeRome: savedSearch.filters?.codeRome,
-            lat: savedSearch.filters?.lat,
-            lon: savedSearch.filters?.lon,
+            localisation: savedSearch.ville,
+            codeRome: savedSearch.codeRome,
+            lat: savedSearch.location.latitude,
+            lon: savedSearch.location.longitude,
+            distance: savedSearch.filtres.distance,
           ),
         ),
       );

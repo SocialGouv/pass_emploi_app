@@ -70,12 +70,10 @@ class ImmersionSearchExtractor extends AbstractSearchExtractor<ImmersionSavedSea
       id: "",
       title: Strings.savedSearchTitleField(metier, location),
       metier: metier,
-      location: location,
-      filters: ImmersionSearchParametersFilters.withFilters(
-        codeRome: parametersState.codeRome,
-        lat: parametersState.location.latitude,
-        lon: parametersState.location.longitude,
-      ),
+      location: parametersState.location,
+      ville: parametersState.ville,
+      codeRome: parametersState.codeRome,
+      filtres: parametersState.filtres,
     );
   }
 

@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
+import 'package:pass_emploi_app/features/immersion/search_parameters/immersion_search_parameters_actions.dart';
 import 'package:pass_emploi_app/features/immersion/search/immersion_search_state.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
@@ -9,6 +10,7 @@ import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_sta
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
+import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/states/immersion_search_request_state.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repository.dart';
@@ -18,15 +20,18 @@ import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';
+import '../immersion/immersion_list_test.dart';
 
 main() {
   group("When user tries to save an offer search ...", () {
     final immersionSavedSearch = ImmersionSavedSearch(
       id: "id",
       title: "Boulanger - Paris",
-      filters: ImmersionSearchParametersFilters.withoutFilters(),
-      location: "Paris",
+      filtres: ImmersionSearchParametersFiltres.noFiltres(),
+      location: mockLocation(),
       metier: "Boulanger",
+      ville: "Paris",
+      codeRome: "ROME-PARIS",
     );
 
     AppState initialState = AppState.initialState().copyWith(
@@ -70,7 +75,7 @@ main() {
       expect(immersionSavedSearchState is SavedSearchCreateFailureState, true);
     });
 
-    test("SaveSearchInitializeAction should update store with rights informations", () async {
+    test("SaveSearchInitializeAction should update store with rights information", () async {
       // Given
       AppState initialState = AppState.initialState().copyWith(
         immersionListState: ImmersionListSuccessState([
@@ -105,15 +110,60 @@ main() {
       expect(
           state.search,
           ImmersionSavedSearch(
-              id: "",
-              title: "metier - ville",
-              metier: "metier",
-              location: "ville",
-              filters: ImmersionSearchParametersFilters.withFilters(
-                codeRome: "codeRome",
-                lat: 12,
-                lon: 34,
-              )));
+            id: "",
+            title: "metier - ville",
+            codeRome: "codeRome",
+            metier: "metier",
+            location: mockLocation(lat: 12, lon: 34),
+            ville: "ville",
+            filtres: ImmersionSearchParametersFiltres.noFiltres(),
+          ));
+    });
+
+    test("SaveSearchInitializeAction should update store with rights information when search has filtres", () async {
+      // Given
+      AppState initialState = AppState.initialState().copyWith(
+        immersionListState: ImmersionListSuccessState([
+          Immersion(
+            id: "id",
+            metier: "metier",
+            nomEtablissement: "nomEtablissement",
+            secteurActivite: "secteurActivite",
+            ville: "ville",
+          )
+        ]),
+        immersionSearchParametersState: ImmersionSearchParametersInitializedState(
+          codeRome: "codeRome",
+          location: mockLocation(lat: 56, lon: 78),
+          ville: "ville",
+          filtres: ImmersionSearchParametersFiltres.distance(27),
+        ),
+        loginState: successMiloUserState(),
+      );
+      final testStoreFactory = TestStoreFactory();
+      testStoreFactory.authenticator = AuthenticatorLoggedInStub();
+      final store = testStoreFactory.initializeReduxStore(initialState: initialState);
+      final expected = store.onChange.firstWhere((e) {
+        return e.immersionSavedSearchCreateState is SavedSearchCreateInitialized;
+      });
+
+      // When
+      store.dispatch(SaveSearchInitializeAction<ImmersionSavedSearch>());
+
+      // Then
+      final state =
+          (await expected).immersionSavedSearchCreateState as SavedSearchCreateInitialized<ImmersionSavedSearch>;
+      expect(
+          state.search,
+          ImmersionSavedSearch(
+            id: "",
+            title: "metier - ville",
+            codeRome: "codeRome",
+            metier: "metier",
+            location: mockLocation(lat: 56, lon: 78),
+            ville: "ville",
+            filtres: ImmersionSearchParametersFiltres.distance(27),
+          ));
     });
   });
 
@@ -155,6 +205,82 @@ main() {
       final appState = await failureAppState;
       expect(appState.savedSearchListState is SavedSearchListFailureState, isTrue);
     });
+  });
+
+  test(
+      "when user launches a search from a saved search with no filtres should display loading and fetch immersions and properly set parameters state",
+      () async {
+    // Given
+    final testStoreFactory = TestStoreFactory();
+    testStoreFactory.immersionRepository = ImmersionRepositorySuccessStub();
+    final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
+
+    final displayedLoading = store.onChange.any((e) => e.immersionListState is ImmersionListLoadingState);
+    final successAppState = store.onChange.firstWhere((e) => e.immersionListState is ImmersionListSuccessState);
+
+    // When
+    store.dispatch(
+      ImmersionSearchWithFiltresAction(
+        request: ImmersionRequest(
+          "code-rome",
+          mockCommuneLocation(label: "Marseille"),
+        ),
+        filtres: ImmersionSearchParametersFiltres.noFiltres(),
+      ),
+    );
+
+    // Then
+    expect(await displayedLoading, true);
+    final appState = await successAppState;
+    final immersionListState = (appState.immersionListState as ImmersionListSuccessState);
+    final immersionParameterState =
+        (appState.immersionSearchParametersState as ImmersionSearchParametersInitializedState);
+    expect(immersionListState.immersions, isNotEmpty);
+    expect(
+        immersionParameterState,
+        ImmersionSearchParametersInitializedState(
+          codeRome: "code-rome",
+          location: mockCommuneLocation(label: "Marseille"),
+          ville: "Marseille",
+          filtres: ImmersionSearchParametersFiltres.noFiltres(),
+        ));
+  });
+
+  test("when user launches a search from a saved search with distance filtre", () async {
+    // Given
+    final testStoreFactory = TestStoreFactory();
+    testStoreFactory.immersionRepository = ImmersionRepositorySuccessStub();
+    final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
+
+    final displayedLoading = store.onChange.any((e) => e.immersionListState is ImmersionListLoadingState);
+    final successAppState = store.onChange.firstWhere((e) => e.immersionListState is ImmersionListSuccessState);
+
+    // When
+    store.dispatch(
+      ImmersionSearchWithFiltresAction(
+        request: ImmersionRequest(
+          "code-rome",
+          mockCommuneLocation(label: "Strasbourg"),
+        ),
+        filtres: ImmersionSearchParametersFiltres.distance(70),
+      ),
+    );
+
+    // Then
+    expect(await displayedLoading, true);
+    final appState = await successAppState;
+    final immersionListState = (appState.immersionListState as ImmersionListSuccessState);
+    final immersionParameterState =
+        (appState.immersionSearchParametersState as ImmersionSearchParametersInitializedState);
+    expect(immersionListState.immersions, isNotEmpty);
+    expect(
+        immersionParameterState,
+        ImmersionSearchParametersInitializedState(
+          codeRome: "code-rome",
+          location: mockCommuneLocation(label: "Strasbourg"),
+          ville: "Strasbourg",
+          filtres: ImmersionSearchParametersFiltres.distance(70),
+        ));
   });
 }
 
@@ -199,13 +325,11 @@ List<ImmersionSavedSearch> _getImmersionSavedSearchList() {
     ImmersionSavedSearch(
       id: "id",
       title: "Boulangerie - viennoiserie - PARIS-14",
+      codeRome: "D1102",
       metier: "Boulangerie - viennoiserie",
-      location: "PARIS-14",
-      filters: ImmersionSearchParametersFilters.withFilters(
-        codeRome: "D1102",
-        lat: 48.830108,
-        lon: 2.323026,
-      ),
+      location: mockLocation(lat: 48.830108, lon: 2.323026),
+      ville: "PARIS-14",
+      filtres: ImmersionSearchParametersFiltres.noFiltres(),
     )
   ];
 }

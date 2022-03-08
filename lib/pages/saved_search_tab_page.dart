@@ -210,7 +210,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
       onTap: () => viewModel.offreImmersionSelected(savedSearchsImmersion),
       onDeleteTap: () => _showDeleteDialog(viewModel, savedSearchsImmersion.id, SavedSearchType.IMMERSION),
       title: savedSearchsImmersion.title,
-      lieu: savedSearchsImmersion.location,
+      lieu: savedSearchsImmersion.ville,
       dataTag: [savedSearchsImmersion.metier],
     );
   }

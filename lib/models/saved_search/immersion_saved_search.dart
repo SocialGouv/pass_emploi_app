@@ -1,28 +1,36 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
+import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 
 class ImmersionSavedSearch extends Equatable implements SavedSearch {
   final String id;
   final String title;
+  final String codeRome;
   final String metier;
-  final String location;
-  final ImmersionSearchParametersFilters? filters;
+  final Location location;
+  final String ville;
+  final ImmersionSearchParametersFiltres filtres;
 
   ImmersionSavedSearch({
     required this.id,
     required this.title,
+    required this.codeRome,
     required this.metier,
     required this.location,
-    required this.filters,
+    required this.ville,
+    required this.filtres,
   });
 
   ImmersionSavedSearch copyWithTitle(String title) {
     return ImmersionSavedSearch(
       id: id,
       title: title,
+      codeRome: codeRome,
       metier: metier,
       location: location,
-      filters: filters,
+      ville: ville,
+      filtres: filtres,
     );
   }
 
@@ -33,40 +41,5 @@ class ImmersionSavedSearch extends Equatable implements SavedSearch {
   String getTitle() => title;
 
   @override
-  List<Object?> get props => [id, title, metier, location, filters];
-}
-
-class ImmersionSearchParametersFilters extends Equatable {
-  final String? codeRome;
-  final double? lat;
-  final double? lon;
-
-  ImmersionSearchParametersFilters({
-    this.codeRome,
-    this.lat,
-    this.lon,
-  });
-
-  factory ImmersionSearchParametersFilters.withFilters({
-    required String? codeRome,
-    required double? lat,
-    required double? lon,
-  }) {
-    return ImmersionSearchParametersFilters(
-      codeRome: codeRome,
-      lat: lat,
-      lon: lon,
-    );
-  }
-
-  factory ImmersionSearchParametersFilters.withoutFilters() {
-    return ImmersionSearchParametersFilters(
-      codeRome: null,
-      lat: null,
-      lon: null,
-    );
-  }
-
-  @override
-  List<Object?> get props => [codeRome, lat, lon];
+  List<Object?> get props => [id, title, codeRome, metier, location, ville, filtres];
 }

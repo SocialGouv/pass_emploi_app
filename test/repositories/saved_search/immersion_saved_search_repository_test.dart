@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
+import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
@@ -13,11 +14,11 @@ main() {
     test("successfully send request when all fields and filters are full and return TRUE if response is valid (201)",
         () async {
       // Given
-      final httpClient = _mockClientforFullDataWithFilters();
+          final httpClient = _mockClientforFullDataWithFilters();
       final repository = ImmersionSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
       // When
-      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithFilters(), "title");
+      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithFiltres(), "title");
 
       // Then
       expect(result, isTrue);
@@ -27,11 +28,11 @@ main() {
         "successfully send request when all fields are full without filters and return TRUE if response is valid (201)",
         () async {
       // Given
-      final httpClient = _mockClientforFulllDataWithoutFilters();
+          final httpClient = _mockClientforFulllDataWithoutFilters();
       final repository = ImmersionSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
       // When
-      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithoutFilters(), "title");
+      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithoutFiltres(), "title");
 
       // Then
       expect(result, isTrue);
@@ -43,7 +44,7 @@ main() {
       final repository = ImmersionSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
       // When
-      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithFilters(), "title");
+      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithFiltres(), "title");
 
       // Then
       expect(result, isFalse);
@@ -88,26 +89,26 @@ MockClient _mockClientforFulllDataWithoutFilters() {
   });
 }
 
-ImmersionSavedSearch _savedSearchWithoutFilters() {
+ImmersionSavedSearch _savedSearchWithoutFiltres() {
   return ImmersionSavedSearch(
     id: "id",
     title: "title",
     metier: "plombier",
-    location: "Paris",
-    filters: ImmersionSearchParametersFilters.withoutFilters(),
+    ville: "Paris",
+    codeRome: "F1104",
+    location: mockLocation(lat: 48.830108, lon: 2.323026),
+    filtres: ImmersionSearchParametersFiltres.noFiltres(),
   );
 }
 
-ImmersionSavedSearch _savedSearchWithFilters() {
+ImmersionSavedSearch _savedSearchWithFiltres() {
   return ImmersionSavedSearch(
     id: "id",
     title: "title",
     metier: "plombier",
-    location: "Paris",
-    filters: ImmersionSearchParametersFilters.withFilters(
-      codeRome: "F1104",
-      lat: 48.830108,
-      lon: 2.323026,
-    ),
+    ville: "Paris",
+    codeRome: "F1104",
+    location: mockLocation(lat: 48.830108, lon: 2.323026),
+    filtres: ImmersionSearchParametersFiltres.distance(30),
   );
 }

@@ -153,7 +153,7 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
           _buildDataTags([
             TagInfo(Strings.savedSearchImmersionTag, false),
             TagInfo(searchViewModel.metier, false),
-            TagInfo(searchViewModel.location, true),
+            TagInfo(searchViewModel.ville, true),
           ]),
         ],
       ),

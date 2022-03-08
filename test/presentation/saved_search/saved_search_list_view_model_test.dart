@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dar
 import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
+import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
@@ -20,15 +21,19 @@ main() {
       id: "id",
       title: "titreImmersion1",
       metier: "metierImmersion1",
-      location: "ville",
-      filters: null,
+      codeRome: "rome",
+      location: mockLocation(),
+      ville: "ville",
+      filtres: ImmersionSearchParametersFiltres.noFiltres(),
     ),
     ImmersionSavedSearch(
       id: "id",
       title: "titreImmersion2",
       metier: "metierImmersion2",
-      location: "ville",
-      filters: null,
+      codeRome: "rome",
+      location: mockLocation(),
+      ville: "ville",
+      filtres: ImmersionSearchParametersFiltres.noFiltres(),
     ),
     OffreEmploiSavedSearch(
       id: "id",
@@ -116,15 +121,19 @@ main() {
         id: "id",
         title: "titreImmersion1",
         metier: "metierImmersion1",
-        location: "ville",
-        filters: null,
+        codeRome: "rome",
+        location: mockLocation(),
+        ville: "ville",
+        filtres: ImmersionSearchParametersFiltres.noFiltres(),
       ),
       ImmersionSavedSearch(
         id: "id",
         title: "titreImmersion2",
         metier: "metierImmersion2",
-        location: "ville",
-        filters: null,
+        codeRome: "rome",
+        location: mockLocation(),
+        ville: "ville",
+        filtres: ImmersionSearchParametersFiltres.noFiltres(),
       ),
     ]);
   });
