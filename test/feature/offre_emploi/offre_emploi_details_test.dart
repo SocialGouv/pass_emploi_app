@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_actions.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 
 import '../../doubles/dummies.dart';
@@ -60,7 +60,7 @@ main() {
     final store = testStoreFactory.initializeReduxStore(
       initialState: AppState.initialState().copyWith(
           loginState: LoginSuccessState(mockUser()),
-          offreEmploiFavorisState: FavorisState<OffreEmploi>.withMap({"offerId"}, {"offerId": mockOffreEmploi()})),
+          offreEmploiFavorisState: FavoriListState<OffreEmploi>.withMap({"offerId"}, {"offerId": mockOffreEmploi()})),
     );
 
     final displayedLoading = store.onChange.any((e) => e.offreEmploiDetailsState is OffreEmploiDetailsLoadingState);

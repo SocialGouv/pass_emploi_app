@@ -2,11 +2,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:redux/src/store.dart';
@@ -43,14 +43,14 @@ main() {
       testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositorySuccessStub();
       final Store<AppState> store = testStoreFactory.initializeReduxStore(initialState: initialState);
       final successState =
-          store.onChange.firstWhere((e) => e.offreEmploiFavorisState is FavorisLoadedState<OffreEmploi>);
+          store.onChange.firstWhere((e) => e.offreEmploiFavorisState is FavoriListLoadedState<OffreEmploi>);
 
       // When
       store.dispatch(LoginSuccessAction(mockUser()));
 
       // Then
       final loadedFavoris = await successState;
-      final favorisState = (loadedFavoris.offreEmploiFavorisState as FavorisLoadedState<OffreEmploi>);
+      final favorisState = (loadedFavoris.offreEmploiFavorisState as FavoriListLoadedState<OffreEmploi>);
       expect(favorisState.favoriIds, {"1", "2", "4"});
       expect(favorisState.data, null);
     });

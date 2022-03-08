@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_actions.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/favori_list_view_model.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -17,7 +17,7 @@ import 'package:redux/redux.dart';
 
 abstract class AbstractFavorisPage<FAVORIS_MODEL, FAVORIS_VIEW_MODEL> extends TraceableStatelessWidget {
   final String analyticsScreenName;
-  final FavorisState<FAVORIS_MODEL> Function(Store<AppState> store) selectState;
+  final FavoriListState<FAVORIS_MODEL> Function(Store<AppState> store) selectState;
 
   const AbstractFavorisPage({
     required this.analyticsScreenName,

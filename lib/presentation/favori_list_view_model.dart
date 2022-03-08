@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_actions.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:redux/redux.dart';
 
 import 'offre_emploi_item_view_model.dart';
@@ -72,39 +72,39 @@ abstract class RelevantFavorisExtractor<FAVORIS_MODEL> {
 class AlternanceRelevantFavorisExtractor extends RelevantFavorisExtractor<OffreEmploi> {
   @override
   List<OffreEmploi>? getRelevantFavoris(Store<AppState> store) {
-    final state = store.state.offreEmploiFavorisState as FavorisLoadedState<OffreEmploi>;
+    final state = store.state.offreEmploiFavorisState as FavoriListLoadedState<OffreEmploi>;
     return state.data?.values.where((e) => e.isAlternance).toList();
   }
 
   @override
   bool isDataInitialized(Store<AppState> store) {
-    return store.state.offreEmploiFavorisState is FavorisLoadedState<OffreEmploi>;
+    return store.state.offreEmploiFavorisState is FavoriListLoadedState<OffreEmploi>;
   }
 }
 
 class OffreEmploiRelevantFavorisExtractor extends RelevantFavorisExtractor<OffreEmploi> {
   @override
   List<OffreEmploi>? getRelevantFavoris(Store<AppState> store) {
-    final state = store.state.offreEmploiFavorisState as FavorisLoadedState<OffreEmploi>;
+    final state = store.state.offreEmploiFavorisState as FavoriListLoadedState<OffreEmploi>;
     return state.data?.values.toList();
   }
 
   @override
   bool isDataInitialized(Store<AppState> store) {
-    return store.state.offreEmploiFavorisState is FavorisLoadedState<OffreEmploi>;
+    return store.state.offreEmploiFavorisState is FavoriListLoadedState<OffreEmploi>;
   }
 }
 
 class ImmersionRelevantFavorisExtractor extends RelevantFavorisExtractor<Immersion> {
   @override
   List<Immersion>? getRelevantFavoris(Store<AppState> store) {
-    final state = store.state.immersionFavorisState as FavorisLoadedState<Immersion>;
+    final state = store.state.immersionFavorisState as FavoriListLoadedState<Immersion>;
     return state.data?.values.toList();
   }
 
   @override
   bool isDataInitialized(Store<AppState> store) {
-    return store.state.immersionFavorisState is FavorisLoadedState<Immersion>;
+    return store.state.immersionFavorisState is FavoriListLoadedState<Immersion>;
   }
 }
 

@@ -26,8 +26,8 @@ import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_stat
 import 'package:pass_emploi_app/redux/states/search_location_state.dart';
 import 'package:pass_emploi_app/redux/states/search_metier_state.dart';
 
+import '../../features/favori/list/favori_list_state.dart';
 import '../../features/favori/update/favori_update_state.dart';
-import 'favoris_state.dart';
 import 'immersion_search_request_state.dart';
 import 'offre_emploi_search_results_state.dart';
 import 'offre_emploi_search_state.dart';
@@ -45,8 +45,8 @@ class AppState extends Equatable {
   final OffreEmploiDetailsState offreEmploiDetailsState;
   final OffreEmploiSearchResultsState offreEmploiSearchResultsState;
   final OffreEmploiSearchParametersState offreEmploiSearchParametersState;
-  final FavorisState<OffreEmploi> offreEmploiFavorisState;
-  final FavorisState<Immersion> immersionFavorisState;
+  final FavoriListState<OffreEmploi> offreEmploiFavorisState;
+  final FavoriListState<Immersion> immersionFavorisState;
   final FavorisUpdateState favorisUpdateState;
   final SearchLocationState searchLocationState;
   final SearchMetierState searchMetierState;
@@ -105,8 +105,8 @@ class AppState extends Equatable {
     final DeepLinkState? deepLinkState,
     final OffreEmploiSearchResultsState? offreEmploiSearchResultsState,
     final OffreEmploiSearchParametersState? offreEmploiSearchParametersState,
-    final FavorisState<OffreEmploi>? offreEmploiFavorisState,
-    final FavorisState<Immersion>? immersionFavorisState,
+    final FavoriListState<OffreEmploi>? offreEmploiFavorisState,
+    final FavoriListState<Immersion>? immersionFavorisState,
     final FavorisUpdateState? favorisUpdateState,
     final SearchLocationState? searchLocationState,
     final SearchMetierState? searchMetierState,
@@ -169,8 +169,8 @@ class AppState extends Equatable {
       offreEmploiDetailsState: OffreEmploiDetailsNotInitializedState(),
       offreEmploiSearchResultsState: OffreEmploiSearchResultsState.notInitialized(),
       offreEmploiSearchParametersState: OffreEmploiSearchParametersState.notInitialized(),
-      offreEmploiFavorisState: FavorisState<OffreEmploi>.notInitialized(),
-      immersionFavorisState: FavorisState<Immersion>.notInitialized(),
+      offreEmploiFavorisState: FavoriListState<OffreEmploi>.notInitialized(),
+      immersionFavorisState: FavoriListState<Immersion>.notInitialized(),
       favorisUpdateState: FavorisUpdateState({}),
       searchLocationState: SearchLocationState([]),
       searchMetierState: SearchMetierState([]),

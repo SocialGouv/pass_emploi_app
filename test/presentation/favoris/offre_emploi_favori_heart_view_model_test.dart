@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/presentation/favori_heart_view_model.dart';
 import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:redux/redux.dart';
 
 main() {
@@ -13,7 +13,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiFavorisState: FavorisState<OffreEmploi>.idsLoaded({"offreId"}),
+        offreEmploiFavorisState: FavoriListState<OffreEmploi>.idsLoaded({"offreId"}),
       ),
     );
 
@@ -28,7 +28,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiFavorisState: FavorisState<OffreEmploi>.idsLoaded({"notOffreId"}),
+        offreEmploiFavorisState: FavoriListState<OffreEmploi>.idsLoaded({"notOffreId"}),
       ),
     );
 
@@ -44,7 +44,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiFavorisState: FavorisState<OffreEmploi>.idsLoaded({"offreId"}),
+        offreEmploiFavorisState: FavoriListState<OffreEmploi>.idsLoaded({"offreId"}),
         favorisUpdateState: FavorisUpdateState({"offreId": FavorisUpdateStatus.ERROR}),
       ),
     );
@@ -61,7 +61,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiFavorisState: FavorisState<OffreEmploi>.idsLoaded({"toto"}),
+        offreEmploiFavorisState: FavoriListState<OffreEmploi>.idsLoaded({"toto"}),
         favorisUpdateState: FavorisUpdateState({"offreId": FavorisUpdateStatus.ERROR}),
       ),
     );

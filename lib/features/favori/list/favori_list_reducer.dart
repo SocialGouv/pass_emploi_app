@@ -1,14 +1,14 @@
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_action.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_actions.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
-import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 
 class FavoriListReducer<T> {
-  FavorisState<T> reduceFavorisState(FavorisState<T> currentState, dynamic action) {
+  FavoriListState<T> reduceFavorisState(FavoriListState<T> currentState, dynamic action) {
     if (action is FavoriIdsLoadedAction<T>) {
-      return FavorisState<T>.idsLoaded(action.favoriIds);
+      return FavoriListState<T>.idsLoaded(action.favoriIds);
     } else if (action is UpdateFavoriSuccessAction<T>) {
-      if (currentState is FavorisLoadedState<T>) {
+      if (currentState is FavoriListLoadedState<T>) {
         final ids = currentState.favoriIds;
         final data = currentState.data;
         if (action.confirmedNewStatus) {
@@ -17,14 +17,14 @@ class FavoriListReducer<T> {
           ids.remove(action.favoriId);
           data?.remove(action.favoriId);
         }
-        return FavorisState<T>.withMap(ids, data);
+        return FavoriListState<T>.withMap(ids, data);
       } else {
         return currentState;
       }
     } else if (action is FavoriListLoadedAction<T>) {
-      return FavorisState<T>.withMap(action.favoris.keys.toSet(), action.favoris);
+      return FavoriListState<T>.withMap(action.favoris.keys.toSet(), action.favoris);
     } else if (action is FavoriListFailureAction<T>) {
-      return FavorisState<T>.notInitialized();
+      return FavoriListState<T>.notInitialized();
     } else {
       return currentState;
     }

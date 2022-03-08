@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_actions.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/favoris_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:redux/src/store.dart';
@@ -30,7 +30,7 @@ main() {
     // Then
     expect(await loadingState, true);
     final updatedFavoris = await successState;
-    final favorisState = (updatedFavoris.offreEmploiFavorisState as FavorisLoadedState<OffreEmploi>);
+    final favorisState = (updatedFavoris.offreEmploiFavorisState as FavoriListLoadedState<OffreEmploi>);
     expect(favorisState.favoriIds, {"2", "4"});
     expect(favorisState.data, {"2": mockOffreEmploi(), "4": mockOffreEmploi()});
   });
@@ -50,7 +50,7 @@ main() {
     // Then
     expect(await loadingState, true);
     final updatedFavoris = await failureState;
-    final favorisState = (updatedFavoris.offreEmploiFavorisState as FavorisLoadedState<OffreEmploi>);
+    final favorisState = (updatedFavoris.offreEmploiFavorisState as FavoriListLoadedState<OffreEmploi>);
     expect(favorisState.favoriIds, {"1", "2", "4"});
     expect(favorisState.data, {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()});
   });
@@ -70,7 +70,7 @@ main() {
     // Then
     expect(await loadingState, true);
     final updatedFavoris = await successState;
-    final favorisState = (updatedFavoris.offreEmploiFavorisState as FavorisLoadedState<OffreEmploi>);
+    final favorisState = (updatedFavoris.offreEmploiFavorisState as FavoriListLoadedState<OffreEmploi>);
     expect(favorisState.favoriIds, {"1", "2", "4", "17"});
     expect(
       favorisState.data,
@@ -93,7 +93,7 @@ main() {
     // Then
     expect(await loadingState, true);
     final updatedFavoris = await failureState;
-    final favorisState = (updatedFavoris.offreEmploiFavorisState as FavorisLoadedState<OffreEmploi>);
+    final favorisState = (updatedFavoris.offreEmploiFavorisState as FavoriListLoadedState<OffreEmploi>);
     expect(favorisState.favoriIds, {"1", "2", "4"});
     expect(favorisState.data, {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()});
   });
@@ -104,7 +104,7 @@ main() {
 
     // Skip first state, because it is initially in this OffreEmploiFavorisLoadedState.
     final successState = store.onChange
-        .where((element) => element.offreEmploiFavorisState is FavorisLoadedState<OffreEmploi>)
+        .where((element) => element.offreEmploiFavorisState is FavoriListLoadedState<OffreEmploi>)
         .skip(1)
         .first;
 
@@ -113,7 +113,7 @@ main() {
 
     // Then
     final loadedFavoris = await successState;
-    final favorisState = (loadedFavoris.offreEmploiFavorisState as FavorisLoadedState<OffreEmploi>);
+    final favorisState = (loadedFavoris.offreEmploiFavorisState as FavoriListLoadedState<OffreEmploi>);
     expect(favorisState.favoriIds, {"1", "2", "4"});
     expect(favorisState.data, {
       "1": mockOffreEmploi(id: "1"),
@@ -127,7 +127,7 @@ main() {
     final store = _failureStoreWithFavorisIdLoaded();
 
     final failureState =
-        store.onChange.any((element) => element.offreEmploiFavorisState is FavorisNotInitialized<OffreEmploi>);
+        store.onChange.any((element) => element.offreEmploiFavorisState is FavoriListNotInitialized<OffreEmploi>);
 
     // When
     store.dispatch(FavoriListRequestAction<OffreEmploi>());
@@ -144,7 +144,7 @@ Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState().copyWith(
         loginState: successMiloUserState(),
-        offreEmploiFavorisState: FavorisState<OffreEmploi>.withMap(
+        offreEmploiFavorisState: FavoriListState<OffreEmploi>.withMap(
           {"1", "2", "4"},
           {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()},
         ),
@@ -164,7 +164,7 @@ Store<AppState> _successStoreWithFavorisIdLoaded() {
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState().copyWith(
       loginState: successMiloUserState(),
-      offreEmploiFavorisState: FavorisState<OffreEmploi>.idsLoaded({"1", "2", "4"}),
+      offreEmploiFavorisState: FavoriListState<OffreEmploi>.idsLoaded({"1", "2", "4"}),
     ),
   );
   return store;
@@ -177,7 +177,7 @@ Store<AppState> _failureStoreWithFavorisIdLoaded() {
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState().copyWith(
       loginState: successMiloUserState(),
-      offreEmploiFavorisState: FavorisState<OffreEmploi>.withMap(
+      offreEmploiFavorisState: FavoriListState<OffreEmploi>.withMap(
         {"1", "2", "4"},
         {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()},
       ),
@@ -193,7 +193,7 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState().copyWith(
         loginState: successMiloUserState(),
-        offreEmploiFavorisState: FavorisState<OffreEmploi>.withMap(
+        offreEmploiFavorisState: FavoriListState<OffreEmploi>.withMap(
           {"1", "2", "4"},
           {"1": mockOffreEmploi(), "2": mockOffreEmploi(), "4": mockOffreEmploi()},
         ),
