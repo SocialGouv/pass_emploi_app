@@ -17,6 +17,7 @@ import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
+import 'package:synchronized/synchronized.dart';
 
 import 'dummies.dart';
 import 'fixtures.dart';
@@ -167,7 +168,7 @@ class AuthWrapperStub extends AuthWrapper {
   late bool _throwsRefreshExpiredException;
   late bool _throwsRefreshGenericException;
 
-  AuthWrapperStub() : super(DummyFlutterAppAuth());
+  AuthWrapperStub() : super(DummyFlutterAppAuth(), Lock());
 
   withLoginArgsResolves(AuthTokenRequest parameters, AuthTokenResponse result) {
     _loginParameters = parameters;

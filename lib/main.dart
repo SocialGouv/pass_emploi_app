@@ -48,6 +48,7 @@ import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
+import 'package:synchronized/synchronized.dart';
 
 import 'analytics/analytics_constants.dart';
 import 'configuration/app_version_checker.dart';
@@ -114,7 +115,7 @@ Future<Store<AppState>> _initializeReduxStore(
 ) async {
   final headersBuilder = HeadersBuilder();
   final securedPreferences = FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true));
-  final authenticator = Authenticator(AuthWrapper(FlutterAppAuth()), configuration, securedPreferences);
+  final authenticator = Authenticator(AuthWrapper(FlutterAppAuth(), Lock()), configuration, securedPreferences);
   final accessTokenRetriever = AuthAccessTokenRetriever(authenticator);
   final crashlytics = CrashlyticsWithFirebase(FirebaseCrashlytics.instance);
   var defaultContext = SecurityContext.defaultContext;

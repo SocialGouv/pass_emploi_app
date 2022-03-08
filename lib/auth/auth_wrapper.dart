@@ -5,13 +5,21 @@ import 'package:pass_emploi_app/auth/auth_refresh_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/utils/log.dart';
+import 'package:synchronized/synchronized.dart';
 
 class AuthWrapper {
   final FlutterAppAuth _appAuth;
+  final Lock _lock;
 
-  AuthWrapper(this._appAuth);
+  AuthWrapper(this._appAuth, this._lock);
 
   Future<AuthTokenResponse> login(AuthTokenRequest request) async {
+    return _lock.synchronized(() async {
+      return _login(request);
+    });
+  }
+
+  Future<AuthTokenResponse> _login(AuthTokenRequest request) async {
     try {
       final response = await _appAuth.authorizeAndExchangeCode(AuthorizationTokenRequest(
         request.clientId,
@@ -53,6 +61,12 @@ class AuthWrapper {
       e.message == "Failed to authorize: L’opération n’a pas pu s’achever. (org.openid.appauth.general erreur -3.)";
 
   Future<AuthTokenResponse> refreshToken(AuthRefreshTokenRequest request) async {
+    return _lock.synchronized(() async {
+      return _refreshToken(request);
+    });
+  }
+
+  Future<AuthTokenResponse> _refreshToken(AuthRefreshTokenRequest request) async {
     try {
       final response = await _appAuth.token(TokenRequest(
         request.clientId,
@@ -86,6 +100,12 @@ class AuthWrapper {
   }
 
   Future<void> logout(AuthLogoutRequest request) async {
+    return _lock.synchronized(() async {
+      return _logout(request);
+    });
+  }
+
+  Future<void> _logout(AuthLogoutRequest request) async {
     try {
       await _appAuth.endSession(EndSessionRequest(
         idTokenHint: request.idToken,
