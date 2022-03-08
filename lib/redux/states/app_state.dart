@@ -29,8 +29,8 @@ import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_stat
 import '../../features/favori/list/favori_list_state.dart';
 import '../../features/favori/update/favori_update_state.dart';
 import '../../features/immersion/search/immersion_search_state.dart';
+import '../../features/offre_emploi/search/offre_emploi_search_state.dart';
 import 'offre_emploi_search_results_state.dart';
-import 'offre_emploi_search_state.dart';
 
 class AppState extends Equatable {
   final ConfigurationState configurationState;

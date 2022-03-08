@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_actions.dart';
+import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
@@ -42,13 +42,12 @@ class OffreEmploiSearchResultsViewModel extends Equatable {
       withFiltreButton: _withFilterButton(searchParamsState),
       filtresCount: _filtresCount(searchParamsState),
       errorMessage: _errorMessage(searchState, searchResultsState),
-      onLoadMore: () => store.dispatch(RequestMoreOffreEmploiSearchResultsAction()),
+      onLoadMore: () => store.dispatch(OffreEmploiSearchRequestMoreResultsAction()),
     );
   }
 
   @override
   List<Object?> get props => [displayState, items, displayLoaderAtBottomOfList, filtresCount];
-
 }
 
 int? _filtresCount(OffreEmploiSearchParametersState searchParamsState) {

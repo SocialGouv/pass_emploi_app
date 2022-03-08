@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
+import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_actions.dart';
+import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
@@ -22,7 +22,8 @@ main() {
     });
 
     // When
-    store.dispatch(SearchOffreEmploiAction(keywords: "boulanger", location: mockLocation(), onlyAlternance: false));
+    store.dispatch(
+        OffreEmploiSearchRequestAction(keywords: "boulanger", location: mockLocation(), onlyAlternance: false));
 
     // Then
     expect(await displayedLoading, true);
@@ -53,7 +54,8 @@ main() {
     });
 
     // When
-    store.dispatch(SearchOffreEmploiAction(keywords: "boulanger", location: mockLocation(), onlyAlternance: true));
+    store.dispatch(
+        OffreEmploiSearchRequestAction(keywords: "boulanger", location: mockLocation(), onlyAlternance: true));
 
     // Then
     expect(await displayedLoading, true);
@@ -71,7 +73,8 @@ main() {
     final displayedError = store.onChange.any((e) => e.offreEmploiSearchState is OffreEmploiSearchFailureState);
 
     // When
-    store.dispatch(SearchOffreEmploiAction(keywords: "boulanger", location: mockLocation(), onlyAlternance: false));
+    store.dispatch(
+        OffreEmploiSearchRequestAction(keywords: "boulanger", location: mockLocation(), onlyAlternance: false));
 
     // Then
     expect(await displayedLoading, true);

@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
+import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_actions.dart';
+import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
@@ -38,7 +38,7 @@ class OffreEmploiSearchViewModel extends Equatable {
       onInputLocation: (input) => store.dispatch(SearchLocationRequestAction(input)),
       onSearchingRequest: (keywords, location, onlyAlternance) {
         return store.dispatch(
-          SearchOffreEmploiAction(keywords: keywords, location: location, onlyAlternance: onlyAlternance),
+          OffreEmploiSearchRequestAction(keywords: keywords, location: location, onlyAlternance: onlyAlternance),
         );
       },
     );
