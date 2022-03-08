@@ -9,12 +9,12 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/redux/states/app_state.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:redux/src/store.dart';
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
-import '../../redux/middlewares/register_push_notification_token_middleware_test.dart';
 import '../../utils/test_setup.dart';
 import '../favoris/offre_emploi_favoris_test.dart';
 
@@ -24,7 +24,7 @@ main() {
 
     test("push notification token should be registered", () async {
       // Given
-      final tokenRepositorySpy = RegisterTokenRepositorySpy();
+      final tokenRepositorySpy = _RegisterTokenRepositorySpy();
       final testStoreFactory = TestStoreFactory();
       testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositorySuccessStub();
       testStoreFactory.registerTokenRepository = tokenRepositorySpy;
@@ -192,6 +192,18 @@ class _FirebaseAuthRepositorySuccessStub extends FirebaseAuthRepository {
   Future<FirebaseAuthResponse?> getFirebaseAuth(String userId) async {
     if (userId == "id") return FirebaseAuthResponse("FIREBASE-TOKEN", "CLE");
     return null;
+  }
+}
+
+class _RegisterTokenRepositorySpy extends RegisterTokenRepository {
+  bool wasCalled = false;
+
+  _RegisterTokenRepositorySpy() : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPushNotificationManager());
+
+  @override
+  Future<void> registerToken(String userId) async {
+    expect(userId, "1");
+    wasCalled = true;
   }
 }
 
