@@ -3,9 +3,9 @@ import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dar
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
 import 'package:redux/redux.dart';
 
-import '../../redux/states/app_state.dart';
-import '../../redux/states/immersion_search_request_state.dart';
-import '../../redux/states/offre_emploi_search_parameters_state.dart';
+import '../../features/immersion/search/immersion_search_state.dart';
+import '../../features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
+import '../../redux/app_state.dart';
 import '../../ui/strings.dart';
 import '../offre_emploi_filtres_parameters.dart';
 import 'immersion_saved_search.dart';
@@ -63,7 +63,7 @@ class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSave
 class ImmersionSearchExtractor extends AbstractSearchExtractor<ImmersionSavedSearch> {
   @override
   ImmersionSavedSearch getSearchFilters(Store<AppState> store) {
-    final requestState = store.state.immersionSearchRequestState as RequestedImmersionSearchRequestState;
+    final requestState = store.state.immersionSearchRequestState as ImmersionSearchRequestState;
     final String metier = _metier(store);
     final location = requestState.ville;
     return ImmersionSavedSearch(
@@ -85,7 +85,7 @@ class ImmersionSearchExtractor extends AbstractSearchExtractor<ImmersionSavedSea
   }
 
   String _metier(Store<AppState> store) {
-    final requestState = store.state.immersionSearchRequestState as RequestedImmersionSearchRequestState;
+    final requestState = store.state.immersionSearchRequestState as ImmersionSearchRequestState;
     final immersion = (store.state.immersionListState as ImmersionListSuccessState).immersions.first;
     final searchedMetiers = store.state.searchMetierState.metiers;
     return searchedMetiers.firstWhereOrNull((element) => element.codeRome == requestState.codeRome)?.libelle ??

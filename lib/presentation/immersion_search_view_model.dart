@@ -1,14 +1,14 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_request.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
+import 'package:pass_emploi_app/features/location/search_location_actions.dart';
+import 'package:pass_emploi_app/features/metier/search_metier_actions.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
-import 'package:pass_emploi_app/redux/actions/search_metier_action.dart';
-import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
@@ -45,12 +45,12 @@ class ImmersionSearchViewModel extends Equatable {
       metiers: store.state.searchMetierState.metiers,
       immersions: _immersions(immersionSearchState),
       errorMessage: _errorMessage(immersionSearchState),
-      onInputLocation: (input) => store.dispatch(RequestLocationAction(input, villesOnly: true)),
-      onInputMetier: (input) => store.dispatch(RequestMetierAction(input)),
+      onInputLocation: (input) => store.dispatch(SearchLocationRequestAction(input, villesOnly: true)),
+      onInputMetier: (input) => store.dispatch(SearchMetierRequestAction(input)),
       onSearchingRequest: (codeRome, location) {
         store.dispatch(
           codeRome != null && location != null
-              ? ImmersionListRequestAction(ImmersionRequest(codeRome, location))
+              ? ImmersionListRequestAction(ImmersionListRequest(codeRome, location))
               : ImmersionListFailureAction(),
         );
       },

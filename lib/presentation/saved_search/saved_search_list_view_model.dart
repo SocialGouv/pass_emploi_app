@@ -1,20 +1,20 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_request.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
-import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
 import 'package:redux/redux.dart';
 
+import '../../features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
 import '../../models/saved_search/saved_search.dart';
-import '../../redux/states/app_state.dart';
-import '../../redux/states/offre_emploi_search_parameters_state.dart';
+import '../../redux/app_state.dart';
 
 void _emptyFunction(OffreEmploiSavedSearch search) {}
 
@@ -45,7 +45,7 @@ class SavedSearchListViewModel extends Equatable {
 
   factory SavedSearchListViewModel.createFromStore(Store<AppState> store) {
     final state = store.state.savedSearchListState;
-    final searchResultState = store.state.offreEmploiSearchResultsState;
+    final searchResultState = store.state.offreEmploiListState;
     final immersionListState = store.state.immersionListState;
     final searchParamsState = store.state.offreEmploiSearchParametersState;
     if (state is SavedSearchListLoadingState) {
@@ -76,9 +76,9 @@ class SavedSearchListViewModel extends Equatable {
         immersionsResults,
       ];
 
-  static SavedSearchNavigationState _getSearchNavigationState(OffreEmploiSearchResultsState searchResultState,
+  static SavedSearchNavigationState _getSearchNavigationState(OffreEmploiListState searchResultState,
       OffreEmploiSearchParametersState searchParamsState, ImmersionListState immersionListState) {
-    if ((searchResultState is OffreEmploiSearchResultsDataState &&
+    if ((searchResultState is OffreEmploiListSuccessState &&
         searchParamsState is OffreEmploiSearchParametersInitializedState)) {
       return searchParamsState.onlyAlternance
           ? SavedSearchNavigationState.OFFRE_ALTERNANCE
@@ -103,7 +103,7 @@ class SavedSearchListViewModel extends Equatable {
 
   static void onOffreEmploiSelected(OffreEmploiSavedSearch savedSearch, Store<AppState> store) {
     store.dispatch(
-      OffreEmploiSearchWithFiltresAction(
+      OffreEmploiSearchParametersRequestAction(
         keywords: savedSearch.keywords ?? "",
         location: savedSearch.location,
         onlyAlternance: savedSearch.isAlternance,
@@ -115,7 +115,7 @@ class SavedSearchListViewModel extends Equatable {
   static void onOffreImmersionSelected(ImmersionSavedSearch savedSearch, Store<AppState> store) {
     store.dispatch(
       ImmersionListRequestAction(
-        ImmersionRequest(
+        ImmersionListRequest(
           savedSearch.filters!.codeRome!,
           Location(
             type: LocationType.COMMUNE,

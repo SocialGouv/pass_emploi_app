@@ -1,11 +1,11 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/location/search_location_actions.dart';
+import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_actions.dart';
+import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
-import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
@@ -28,17 +28,17 @@ class OffreEmploiSearchViewModel extends Equatable {
 
   factory OffreEmploiSearchViewModel.create(Store<AppState> store) {
     final searchState = store.state.offreEmploiSearchState;
-    final searchResultsState = store.state.offreEmploiSearchResultsState;
+    final searchResultsState = store.state.offreEmploiListState;
     return OffreEmploiSearchViewModel._(
       displayState: _displayState(searchState, searchResultsState),
       locations: store.state.searchLocationState.locations
           .map((location) => LocationViewModel.fromLocation(location))
           .toList(),
       errorMessage: _setErrorMessage(searchState, searchResultsState),
-      onInputLocation: (input) => store.dispatch(RequestLocationAction(input)),
+      onInputLocation: (input) => store.dispatch(SearchLocationRequestAction(input)),
       onSearchingRequest: (keywords, location, onlyAlternance) {
         return store.dispatch(
-          SearchOffreEmploiAction(keywords: keywords, location: location, onlyAlternance: onlyAlternance),
+          OffreEmploiSearchRequestAction(keywords: keywords, location: location, onlyAlternance: onlyAlternance),
         );
       },
     );
@@ -48,12 +48,12 @@ class OffreEmploiSearchViewModel extends Equatable {
   List<Object?> get props => [displayState, errorMessage, locations];
 }
 
-String _setErrorMessage(OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
+String _setErrorMessage(OffreEmploiSearchState searchState, OffreEmploiListState searchResultsState) {
   return searchState is OffreEmploiSearchFailureState ? Strings.genericError : "";
 }
 
-DisplayState _displayState(OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
-  if (searchState is OffreEmploiSearchSuccessState && searchResultsState is OffreEmploiSearchResultsDataState) {
+DisplayState _displayState(OffreEmploiSearchState searchState, OffreEmploiListState searchResultsState) {
+  if (searchState is OffreEmploiSearchSuccessState && searchResultsState is OffreEmploiListSuccessState) {
     return DisplayState.CONTENT;
   } else if (searchState is OffreEmploiSearchLoadingState) {
     return DisplayState.LOADING;

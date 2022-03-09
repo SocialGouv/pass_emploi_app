@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_s
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 
 import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';

@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 enum RouterPageDisplayState { SPLASH, LOGIN, MAIN }

@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/router_page_view_model.dart';
-import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
+import 'package:pass_emploi_app/redux/app_reducer.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';

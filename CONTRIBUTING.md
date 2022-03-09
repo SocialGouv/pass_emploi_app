@@ -130,10 +130,35 @@ projet.
 
 ## L'organisation des fichiers Redux dans le projet
 Afin d'avoir une meilleure organisation de l'ensemble des composants liés à Redux (`actions`, `reducers`,
-`middlewares` et `states`), le projet migre vers un découpage par cas d'usage plutôt que par un découpage
-technique qui était initialement en place.
+`middlewares` et `states`), le projet est organisé avec un découpage par cas d'usage plutôt que par
+un découpage technique.
 Aussi, pour chaque nouveau cas d'usage, il convient de créer un répertoire dédié dans le répertoire
 `lib/features`, et d'y mettre tous les composants Redux correspondants.
+
+## Convention de nommage des `actions` et des `states`
+Pour un cas d'usage donné, le nommage des fichiers `actions` et `states` correspond au dossier dans
+lequel ils se trouvent.
+Par exemple, pour le cas d'usage `user_action/create` :
+* les `actions` correspondantes sont placées dans le fichier `user_action_create_actions.dart`.
+* le `state` correspondant est placé dans le fichier `user_action_create_state.dart`.
+
+Pour ce qui est des `actions` spécifiques, leur type est à renseigner juste avant le suffixe `Action`.
+ex : `UserActionCreateRequestAction`, `UserActionCreateLoadingAction`.
+Dans le cas nominaux d'usage des `actions`, nous utilisons les qualificatifs :
+* `Request`
+* `Loading`
+* `Success`
+* `Failure`
+* `Reset`
+
+Pour ce qui est des sous `state`, leur type est à renseigner juste avant le suffixe `State`.
+ex : `UserActionCreateSuccessState`, `UserActionCreateLoadingState`.
+Dans le cas nominaux d'usage des `actions`, nous utilisons les qualificatifs :
+* `Loading`
+* `Success`
+* `Failure`
+* `NotInitialized`
+
 
 ## Un seul et unique `reducer` pour chaque sous état
 Afin d'améliorer la lisibilité du code, le débogage, et de rester au maximum dans l'esprit

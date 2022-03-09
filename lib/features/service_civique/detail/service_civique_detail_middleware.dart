@@ -1,7 +1,7 @@
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_actions.dart';
 import 'package:redux/redux.dart';
 
-import '../../../redux/states/app_state.dart';
+import '../../../redux/app_state.dart';
 import '../../../repositories/service_civique/service_civique_repository.dart';
 
 class ServiceCiviqueDetailMiddleware extends MiddlewareClass<AppState> {

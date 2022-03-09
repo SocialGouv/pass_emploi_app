@@ -1,7 +1,7 @@
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_actions.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 import '../../../models/service_civique.dart';

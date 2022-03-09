@@ -1,5 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
@@ -7,9 +9,7 @@ import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.da
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/saved_search/saved_search_list_view_model.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../utils/test_setup.dart';
@@ -259,7 +259,7 @@ main() {
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
         savedSearchListState: SavedSearchListSuccessState(_savedSearches),
-        offreEmploiSearchResultsState: OffreEmploiSearchResultsDataState([], 2, true),
+        offreEmploiListState: OffreEmploiListSuccessState([], 2, true),
         offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
           keywords: "",
           onlyAlternance: true,
@@ -282,7 +282,7 @@ main() {
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
         savedSearchListState: SavedSearchListSuccessState(_savedSearches),
-        offreEmploiSearchResultsState: OffreEmploiSearchResultsDataState([], 2, true),
+        offreEmploiListState: OffreEmploiListSuccessState([], 2, true),
         offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
           keywords: "",
           onlyAlternance: false,

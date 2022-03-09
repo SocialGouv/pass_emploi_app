@@ -1,7 +1,7 @@
+import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_actions.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/favoris_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:redux/redux.dart';
@@ -28,7 +28,7 @@ class ImmersionDetailsMiddleware extends MiddlewareClass<AppState> {
   void _dispatchIncompleteDataOrError<T>(Store<AppState> store, OffreDetailsResponse<T> result, String offreId) {
     final favorisState = store.state.immersionFavorisState;
     if (result.isOffreNotFound &&
-        favorisState is FavorisLoadedState<Immersion> &&
+        favorisState is FavoriListLoadedState<Immersion> &&
         favorisState.data != null &&
         favorisState.data![offreId] != null) {
       store.dispatch(ImmersionDetailsIncompleteDataAction(favorisState.data![offreId]!));

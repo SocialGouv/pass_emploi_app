@@ -1,10 +1,10 @@
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_request.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
-import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 
 class ImmersionRepository {
   final String _baseUrl;
@@ -14,7 +14,7 @@ class ImmersionRepository {
 
   ImmersionRepository(this._baseUrl, this._httpClient, this._headerBuilder, [this._crashlytics]);
 
-  Future<List<Immersion>?> getImmersions(String userId, ImmersionRequest request) async {
+  Future<List<Immersion>?> getImmersions(String userId, ImmersionListRequest request) async {
     final url = Uri.parse(_baseUrl + "/offres-immersion").replace(queryParameters: {
       'rome': request.codeRome,
       'lat': request.location.latitude.toString(),
