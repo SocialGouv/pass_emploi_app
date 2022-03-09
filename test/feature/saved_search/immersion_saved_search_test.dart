@@ -165,6 +165,44 @@ main() {
             filtres: ImmersionSearchParametersFiltres.distance(27),
           ));
     });
+
+    test("SaveSearchInitializeAction should update store with right information when search has no result", () async {
+      // Given
+      AppState initialState = AppState.initialState().copyWith(
+        immersionListState: ImmersionListSuccessState([]),
+        immersionSearchParametersState: ImmersionSearchParametersInitializedState(
+          codeRome: "codeRome",
+          location: mockLocation(lat: 56, lon: 78),
+          ville: "ville",
+          filtres: ImmersionSearchParametersFiltres.distance(34),
+        ),
+        loginState: successMiloUserState(),
+      );
+      final testStoreFactory = TestStoreFactory();
+      testStoreFactory.authenticator = AuthenticatorLoggedInStub();
+      final store = testStoreFactory.initializeReduxStore(initialState: initialState);
+      final expected = store.onChange.firstWhere((e) {
+        return e.immersionSavedSearchCreateState is SavedSearchCreateInitialized;
+      });
+
+      // When
+      store.dispatch(SaveSearchInitializeAction<ImmersionSavedSearch>());
+
+      // Then
+      final state =
+          (await expected).immersionSavedSearchCreateState as SavedSearchCreateInitialized<ImmersionSavedSearch>;
+      expect(
+          state.search,
+          ImmersionSavedSearch(
+            id: "",
+            title: " - ville",
+            codeRome: "codeRome",
+            metier: "",
+            location: mockLocation(lat: 56, lon: 78),
+            ville: "ville",
+            filtres: ImmersionSearchParametersFiltres.distance(34),
+          ));
+    });
   });
 
   group("When user tries to get a list of immersion saved searches ...", () {

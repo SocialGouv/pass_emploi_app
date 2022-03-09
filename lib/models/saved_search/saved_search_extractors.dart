@@ -64,7 +64,7 @@ class ImmersionSearchExtractor extends AbstractSearchExtractor<ImmersionSavedSea
   @override
   ImmersionSavedSearch getSearchFilters(Store<AppState> store) {
     final parametersState = store.state.immersionSearchParametersState as ImmersionSearchParametersInitializedState;
-    final String metier = _metier(store);
+    final String metier = _metier(store) ?? "";
     final location = parametersState.ville;
     return ImmersionSavedSearch(
       id: "",
@@ -82,12 +82,12 @@ class ImmersionSearchExtractor extends AbstractSearchExtractor<ImmersionSavedSea
     return store.state.immersionSavedSearchCreateState is SavedSearchCreateFailureState;
   }
 
-  String _metier(Store<AppState> store) {
+  String? _metier(Store<AppState> store) {
     final parametersState = store.state.immersionSearchParametersState as ImmersionSearchParametersInitializedState;
     if (requestState.title != null) return requestState.title!;
-    final immersion = (store.state.immersionListState as ImmersionListSuccessState).immersions.first;
+    final immersion = (store.state.immersionListState as ImmersionListSuccessState).immersions.firstOrNull;
     final searchedMetiers = store.state.searchMetierState.metiers;
     return searchedMetiers.firstWhereOrNull((element) => element.codeRome == parametersState.codeRome)?.libelle ??
-        immersion.metier;
+        immersion?.metier;
   }
 }
