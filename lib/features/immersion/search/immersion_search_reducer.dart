@@ -10,6 +10,7 @@ ImmersionSearchState immersionSearchReducer(ImmersionSearchState current, dynami
       ville: request.location.libelle,
       latitude: request.location.latitude ?? 0,
       longitude: request.location.longitude ?? 0,
+      title: request.title,
     );
   } else {
     return current;

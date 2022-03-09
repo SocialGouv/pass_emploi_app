@@ -173,7 +173,7 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
   bool _isError(ImmersionSearchViewModel vm) => vm.displayState == ImmersionSearchDisplayState.SHOW_ERROR;
 
   void _onSearchButtonPressed(ImmersionSearchViewModel viewModel) {
-    viewModel.onSearchingRequest(_selectedMetierCodeRome, _selectedLocationViewModel?.location);
+    viewModel.onSearchingRequest(_selectedMetierCodeRome, _selectedLocationViewModel?.location, _selectedMetierTitle);
     Keyboard.dismiss(context);
   }
 }

@@ -22,7 +22,7 @@ class ImmersionSearchViewModel extends Equatable {
   final String errorMessage;
   final Function(String? input) onInputLocation;
   final Function(String? input) onInputMetier;
-  final Function(String? codeRome, Location? location) onSearchingRequest;
+  final Function(String? codeRome, Location? location, String? title) onSearchingRequest;
 
   ImmersionSearchViewModel._({
     required this.displayState,
@@ -47,10 +47,10 @@ class ImmersionSearchViewModel extends Equatable {
       errorMessage: _errorMessage(immersionSearchState),
       onInputLocation: (input) => store.dispatch(SearchLocationRequestAction(input, villesOnly: true)),
       onInputMetier: (input) => store.dispatch(SearchMetierRequestAction(input)),
-      onSearchingRequest: (codeRome, location) {
+      onSearchingRequest: (codeRome, location, title) {
         store.dispatch(
           codeRome != null && location != null
-              ? ImmersionListRequestAction(ImmersionListRequest(codeRome, location))
+              ? ImmersionListRequestAction(ImmersionListRequest(codeRome, location, title))
               : ImmersionListFailureAction(),
         );
       },

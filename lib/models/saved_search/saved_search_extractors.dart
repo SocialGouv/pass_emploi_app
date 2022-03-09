@@ -86,6 +86,7 @@ class ImmersionSearchExtractor extends AbstractSearchExtractor<ImmersionSavedSea
 
   String _metier(Store<AppState> store) {
     final requestState = store.state.immersionSearchRequestState as ImmersionSearchRequestState;
+    if (requestState.title != null) return requestState.title!;
     final immersion = (store.state.immersionListState as ImmersionListSuccessState).immersions.first;
     final searchedMetiers = store.state.searchMetierState.metiers;
     return searchedMetiers.firstWhereOrNull((element) => element.codeRome == requestState.codeRome)?.libelle ??
