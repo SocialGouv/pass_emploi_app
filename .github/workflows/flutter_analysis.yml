@@ -14,6 +14,6 @@ jobs:
           java-version: '12.x'
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '2.10.0'
+          flutter-version: '2.10.3'
       - name: Launch Dart & Flutter analysis
         run: flutter analyze
