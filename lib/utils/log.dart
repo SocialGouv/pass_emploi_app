@@ -6,7 +6,7 @@ import 'package:logger/logger.dart';
 class Log {
   static final _normalLogger = Logger(
     filter: CustomLogFilter(),
-    printer: PrettyPrinter(methodCount: 0),
+    printer: SimplePrinter(),
   );
 
   static final _exceptionLogger = Logger(
