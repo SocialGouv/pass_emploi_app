@@ -86,8 +86,7 @@ main() {
         ]),
         immersionSearchParametersState: ImmersionSearchParametersInitializedState(
           codeRome: "codeRome",
-          location: mockLocation(lat: 12, lon: 34),
-          ville: "ville",
+          location: mockCommuneLocation(label: "ville", lat: 12, lon: 34),
           filtres: ImmersionSearchParametersFiltres.noFiltres(),
         ),
         loginState: successMiloUserState(),
@@ -112,7 +111,7 @@ main() {
             title: "metier - ville",
             codeRome: "codeRome",
             metier: "metier",
-            location: mockLocation(lat: 12, lon: 34),
+            location: mockCommuneLocation(label: "ville", lat: 12, lon: 34),
             ville: "ville",
             filtres: ImmersionSearchParametersFiltres.noFiltres(),
           ));
@@ -132,8 +131,7 @@ main() {
         ]),
         immersionSearchParametersState: ImmersionSearchParametersInitializedState(
           codeRome: "codeRome",
-          location: mockLocation(lat: 56, lon: 78),
-          ville: "ville",
+          location: mockCommuneLocation(label: "ville", lat: 56, lon: 78),
           filtres: ImmersionSearchParametersFiltres.distance(27),
         ),
         loginState: successMiloUserState(),
@@ -158,7 +156,7 @@ main() {
             title: "metier - ville",
             codeRome: "codeRome",
             metier: "metier",
-            location: mockLocation(lat: 56, lon: 78),
+            location: mockCommuneLocation(label: "ville", lat: 56, lon: 78),
             ville: "ville",
             filtres: ImmersionSearchParametersFiltres.distance(27),
           ));
@@ -170,8 +168,7 @@ main() {
         immersionListState: ImmersionListSuccessState([]),
         immersionSearchParametersState: ImmersionSearchParametersInitializedState(
           codeRome: "codeRome",
-          location: mockLocation(lat: 56, lon: 78),
-          ville: "ville",
+          location: mockCommuneLocation(label: "ville", lat: 56, lon: 78),
           filtres: ImmersionSearchParametersFiltres.distance(34),
         ),
         loginState: successMiloUserState(),
@@ -196,7 +193,7 @@ main() {
             title: " - ville",
             codeRome: "codeRome",
             metier: "",
-            location: mockLocation(lat: 56, lon: 78),
+            location: mockCommuneLocation(label: "ville", lat: 56, lon: 78),
             ville: "ville",
             filtres: ImmersionSearchParametersFiltres.distance(34),
           ));
@@ -275,7 +272,6 @@ main() {
         ImmersionSearchParametersInitializedState(
           codeRome: "code-rome",
           location: mockCommuneLocation(label: "Marseille"),
-          ville: "Marseille",
           filtres: ImmersionSearchParametersFiltres.noFiltres(),
         ));
   });
@@ -310,7 +306,6 @@ main() {
         ImmersionSearchParametersInitializedState(
           codeRome: "code-rome",
           location: mockCommuneLocation(label: "Strasbourg"),
-          ville: "Strasbourg",
           filtres: ImmersionSearchParametersFiltres.distance(70),
         ));
   });
@@ -359,7 +354,7 @@ List<ImmersionSavedSearch> _getImmersionSavedSearchList() {
       title: "Boulangerie - viennoiserie - PARIS-14",
       codeRome: "D1102",
       metier: "Boulangerie - viennoiserie",
-      location: mockLocation(lat: 48.830108, lon: 2.323026),
+      location: mockCommuneLocation(label: "PARIS-14", lat: 48.830108, lon: 2.323026),
       ville: "PARIS-14",
       filtres: ImmersionSearchParametersFiltres.noFiltres(),
     )

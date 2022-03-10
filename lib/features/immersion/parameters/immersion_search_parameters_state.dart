@@ -9,20 +9,18 @@ abstract class ImmersionSearchParametersState extends Equatable {
 class ImmersionSearchParametersInitializedState extends ImmersionSearchParametersState {
   final String codeRome;
   final Location location;
-  final String ville;
   final ImmersionSearchParametersFiltres filtres;
   final String? title;
 
   ImmersionSearchParametersInitializedState({
     required this.codeRome,
     required this.location,
-    required this.ville,
     required this.filtres,
     this.title,
   }) : super._();
 
   @override
-  List<Object> get props => [codeRome, location, ville, filtres, title ?? ""];
+  List<Object> get props => [codeRome, location, filtres, title ?? ""];
 }
 
 class ImmersionSearchParametersNotInitializedState extends ImmersionSearchParametersState {

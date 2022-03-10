@@ -65,13 +65,13 @@ class ImmersionSearchExtractor extends AbstractSearchExtractor<ImmersionSavedSea
   ImmersionSavedSearch getSearchFilters(Store<AppState> store) {
     final parametersState = store.state.immersionSearchParametersState as ImmersionSearchParametersInitializedState;
     final String metier = _metier(store) ?? "";
-    final location = parametersState.ville;
+    final ville = parametersState.location.libelle;
     return ImmersionSavedSearch(
       id: "",
-      title: Strings.savedSearchTitleField(metier, location),
+      title: Strings.savedSearchTitleField(metier, ville),
       metier: metier,
       location: parametersState.location,
-      ville: parametersState.ville,
+      ville: ville,
       codeRome: parametersState.codeRome,
       filtres: parametersState.filtres,
     );

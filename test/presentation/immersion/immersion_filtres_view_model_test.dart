@@ -96,7 +96,6 @@ main() {
       reducer,
       initialState: AppState.initialState().copyWith(
         immersionSearchParametersState: ImmersionSearchParametersInitializedState(
-          ville: "VILLE",
           codeRome: "ROME",
           location: mockCommuneLocation(),
           filtres: ImmersionSearchParametersFiltres.distance(20),
@@ -134,7 +133,6 @@ Store<AppState> _storeWithNoFiltres({Reducer<AppState> customReducer = reducer})
     customReducer,
     initialState: AppState.initialState().copyWith(
       immersionSearchParametersState: ImmersionSearchParametersInitializedState(
-        ville: "VILLE",
         codeRome: "ROME",
         location: mockCommuneLocation(),
         filtres: ImmersionSearchParametersFiltres.noFiltres(),

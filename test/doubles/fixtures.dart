@@ -139,7 +139,13 @@ Location mockLocation({double? lat, double? lon}) => Location(
       longitude: lon,
     );
 
-Location mockCommuneLocation({String label = ""}) => Location(libelle: label, code: "", type: LocationType.COMMUNE);
+Location mockCommuneLocation({double? lat, double? lon, String label = ""}) => Location(
+      libelle: label,
+      code: "",
+      type: LocationType.COMMUNE,
+      latitude: lat,
+      longitude: lon,
+    );
 
 Immersion mockImmersion({String id = ""}) {
   return Immersion(id: id, metier: "", nomEtablissement: "", secteurActivite: "", ville: "");

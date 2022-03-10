@@ -66,9 +66,8 @@ main() {
       immersionListState: immersionState,
       immersionSearchParametersState: ImmersionSearchParametersInitializedState(
         codeRome: searchedMetier.codeRome,
-        location: mockLocation(lat: 12, lon: 34),
+        location: mockCommuneLocation(label: "ville", lat: 12, lon: 34),
         filtres: ImmersionSearchParametersFiltres.noFiltres(),
-        ville: "ville",
       ),
     );
     final store = testStoreFactory.initializeReduxStore(initialState: state);
@@ -84,7 +83,7 @@ main() {
         title: "Conduite d'engins agricoles et forestiers - ville",
         metier: "Conduite d'engins agricoles et forestiers",
         codeRome: searchedMetier.codeRome,
-        location: mockLocation(lat: 12, lon: 34),
+        location: mockCommuneLocation(label: "ville", lat: 12, lon: 34),
         ville: "ville",
         filtres: ImmersionSearchParametersFiltres.noFiltres(),
       ),
@@ -108,9 +107,8 @@ main() {
       immersionListState: immersionState,
       immersionSearchParametersState: ImmersionSearchParametersInitializedState(
         codeRome: searchedMetier.codeRome,
-        location: mockLocation(lat: 12, lon: 34),
+        location: mockCommuneLocation(label: "ville", lat: 12, lon: 34),
         filtres: ImmersionSearchParametersFiltres.noFiltres(),
-        ville: "ville",
       ),
     );
     final store = testStoreFactory.initializeReduxStore(initialState: state);
@@ -127,7 +125,7 @@ main() {
         metier: searchedMetier.libelle,
         ville: "ville",
         codeRome: searchedMetier.codeRome,
-        location: mockLocation(lat: 12, lon: 34),
+        location: mockCommuneLocation(label: "ville", lat: 12, lon: 34),
         filtres: ImmersionSearchParametersFiltres.noFiltres(),
       ),
     );

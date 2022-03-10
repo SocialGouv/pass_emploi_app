@@ -13,7 +13,6 @@ ImmersionSearchParametersState immersionSearchParametersState(
       location: action.location,
       filtres: ImmersionSearchParametersFiltres.noFiltres(),
       codeRome: action.codeRome,
-      ville: action.location.libelle,
       title: action.title,
     );
   } else if (action is ImmersionSearchUpdateFiltresRequestAction) {
@@ -22,7 +21,6 @@ ImmersionSearchParametersState immersionSearchParametersState(
         location: current.location,
         filtres: action.updatedFiltres,
         codeRome: current.codeRome,
-        ville: current.ville,
       );
     } else {
       return current;
@@ -33,7 +31,6 @@ ImmersionSearchParametersState immersionSearchParametersState(
         location: current.location,
         filtres: ImmersionSearchParametersFiltres.noFiltres(),
         codeRome: current.codeRome,
-        ville: current.ville,
       );
     } else {
       return current;
@@ -43,7 +40,6 @@ ImmersionSearchParametersState immersionSearchParametersState(
       location: action.location,
       filtres: action.filtres,
       codeRome: action.codeRome,
-      ville: action.location.libelle,
     );
   } else {
     return current;

@@ -72,7 +72,6 @@ Store<AppState> _initializeReduxStore(TestStoreFactory testStoreFactory) {
     initialState: loggedInState().copyWith(
       immersionSearchParametersState: ImmersionSearchParametersInitializedState(
         filtres: ImmersionSearchParametersFiltres.noFiltres(),
-        ville: "Paris",
         codeRome: "ROME",
         location: mockLocation(lat: 12, lon: 34),
       ),
