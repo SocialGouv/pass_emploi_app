@@ -11,7 +11,6 @@ import 'package:pass_emploi_app/features/favori/update/data_from_id_extractor.da
 import 'package:pass_emploi_app/features/favori/update/favori_update_middleware.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_middleware.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_middleware.dart';
-import 'package:pass_emploi_app/features/immersion/parameters/immersion_filtres_middleware.dart';
 import 'package:pass_emploi_app/features/location/search_location_middleware.dart';
 import 'package:pass_emploi_app/features/login/login_middleware.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_middleware.dart';
@@ -149,7 +148,6 @@ class StoreFactory {
         UserTrackingStructureMiddleware(),
         ImmersionListMiddleware(immersionRepository),
         ImmersionDetailsMiddleware(immersionDetailsRepository),
-        ImmersionFiltresMiddleware(immersionRepository),
         OffreEmploiSavedSearchCreateMiddleware(offreEmploiSavedSearchRepository),
         ImmersionSavedSearchCreateMiddleware(immersionSavedSearchRepository),
         SavedSearchInitializeMiddleware(),
