@@ -1,5 +1,6 @@
 import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_actions.dart';
 import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/saved_search/offre_emploi_saved_search_actions.dart';
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_actions.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 

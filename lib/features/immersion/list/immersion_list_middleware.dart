@@ -29,17 +29,6 @@ class ImmersionListMiddleware extends MiddlewareClass<AppState> {
           ),
         );
         store.dispatch(immersions != null ? ImmersionListSuccessAction(immersions) : ImmersionListFailureAction());
-      } else if (action is SavedImmersionSearchRequestAction) {
-        store.dispatch(ImmersionListLoadingAction());
-        final immersions = await _repository.search(
-          userId: loginState.user.id,
-          request: SearchImmersionRequest(
-            codeRome: action.codeRome,
-            location: action.location,
-            filtres: action.filtres,
-          ),
-        );
-        store.dispatch(immersions != null ? ImmersionListSuccessAction(immersions) : ImmersionListFailureAction());
       } else if (action is ImmersionSearchUpdateFiltresRequestAction &&
           parametersState is ImmersionSearchParametersInitializedState) {
         _resetSearchWithUpdatedFiltres(

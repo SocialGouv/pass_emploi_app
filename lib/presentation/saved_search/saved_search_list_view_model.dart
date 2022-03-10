@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
+import 'package:pass_emploi_app/features/immersion/saved_search/immersion_saved_search_actions.dart';
 import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
-import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_actions.dart';
+import 'package:pass_emploi_app/features/offre_emploi/saved_search/offre_emploi_saved_search_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
