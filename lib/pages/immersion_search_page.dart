@@ -44,9 +44,7 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
       onWillChange: (_, viewModel) {
         if (_shouldNavigate && viewModel.displayState == ImmersionSearchDisplayState.SHOW_RESULTS) {
           _shouldNavigate = false;
-          widget.pushAndTrackBack(context, MaterialPageRoute(builder: (context) => ImmersionListPage())).then((_) {
-            _shouldNavigate = true;
-          });
+          widget.pushAndTrackBack(context, MaterialPageRoute(builder: (context) => ImmersionListPage()));
         }
       },
       onDispose: (store) {
@@ -171,6 +169,7 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
   bool _isError(ImmersionSearchViewModel vm) => vm.displayState == ImmersionSearchDisplayState.SHOW_ERROR;
 
   void _onSearchButtonPressed(ImmersionSearchViewModel viewModel) {
+    _shouldNavigate = true;
     viewModel.onSearchingRequest(_selectedMetierCodeRome, _selectedLocationViewModel?.location, _selectedMetierTitle);
     Keyboard.dismiss(context);
   }
