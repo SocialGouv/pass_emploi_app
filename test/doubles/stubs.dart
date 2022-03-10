@@ -320,7 +320,7 @@ class ImmersionRepositoryFailureStub extends ImmersionRepository {
   ImmersionRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<List<Immersion>?> getImmersions(String userId, SearchImmersionRequest request) async {
+  Future<List<Immersion>?> search({required String userId, required SearchImmersionRequest request}) async {
     return null;
   }
 }

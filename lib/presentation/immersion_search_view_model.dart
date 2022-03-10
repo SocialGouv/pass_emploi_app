@@ -4,8 +4,6 @@ import 'package:pass_emploi_app/features/immersion/list/immersion_list_request.d
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_actions.dart';
-import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
-import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';

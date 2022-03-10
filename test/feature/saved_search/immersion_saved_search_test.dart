@@ -257,7 +257,7 @@ main() {
 
     // When
     store.dispatch(
-      ImmersionSearchWithFiltresAction(
+      ImmersionSearchParametersRequestAction(
         request: SearchImmersionRequest(
           codeRome: "code-rome",
           location: mockCommuneLocation(label: "Marseille"),
@@ -294,7 +294,7 @@ main() {
 
     // When
     store.dispatch(
-      ImmersionSearchWithFiltresAction(
+      ImmersionSearchParametersRequestAction(
         request: SearchImmersionRequest(
           codeRome: "code-rome",
           location: mockCommuneLocation(label: "Strasbourg"),

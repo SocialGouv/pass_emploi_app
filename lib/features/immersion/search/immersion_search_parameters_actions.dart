@@ -1,6 +1,7 @@
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 
-class ImmersionSearchWithFiltresAction {
+class ImmersionSearchParametersRequestAction {
   final SearchImmersionRequest request;
-  ImmersionSearchWithFiltresAction({required this.request});
+
+  ImmersionSearchParametersRequestAction({required this.request});
 }
