@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
-import 'package:pass_emploi_app/features/immersion/search/immersion_search_parameters_actions.dart';
-import 'package:pass_emploi_app/features/immersion/search/immersion_search_parameters_state.dart';
+import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_actions.dart';
+import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_state.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
 import 'package:pass_emploi_app/features/saved_search/init/saved_search_initialize_action.dart';

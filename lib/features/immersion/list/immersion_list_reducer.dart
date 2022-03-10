@@ -1,6 +1,6 @@
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
-import 'package:pass_emploi_app/features/immersion/search/immersion_search_parameters_actions.dart';
+import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_actions.dart';
 
 ImmersionListState immersionListReducer(ImmersionListState current, dynamic action) {
   if (action is ImmersionListLoadingAction) return ImmersionListLoadingState();
