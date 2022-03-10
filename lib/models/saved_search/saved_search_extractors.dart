@@ -1,9 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
+import 'package:pass_emploi_app/features/immersion/search/immersion_search_parameters_state.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
 import 'package:redux/redux.dart';
 
-import '../../features/immersion/search/immersion_search_state.dart';
 import '../../features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
 import '../../redux/app_state.dart';
 import '../../ui/strings.dart';
@@ -84,7 +84,7 @@ class ImmersionSearchExtractor extends AbstractSearchExtractor<ImmersionSavedSea
 
   String? _metier(Store<AppState> store) {
     final parametersState = store.state.immersionSearchParametersState as ImmersionSearchParametersInitializedState;
-    if (requestState.title != null) return requestState.title!;
+    if (parametersState.title != null) return parametersState.title!;
     final immersion = (store.state.immersionListState as ImmersionListSuccessState).immersions.firstOrNull;
     final searchedMetiers = store.state.searchMetierState.metiers;
     return searchedMetiers.firstWhereOrNull((element) => element.codeRome == parametersState.codeRome)?.libelle ??

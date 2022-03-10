@@ -13,7 +13,6 @@ import 'package:pass_emploi_app/models/service_civique/service_civique_detail.da
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/network/headers.dart';
-import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
@@ -321,7 +320,7 @@ class ImmersionRepositoryFailureStub extends ImmersionRepository {
   ImmersionRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<List<Immersion>?> getImmersions(String userId, ImmersionRequest request) async {
+  Future<List<Immersion>?> getImmersions(String userId, SearchImmersionRequest request) async {
     return null;
   }
 }

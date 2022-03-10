@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
-import 'package:pass_emploi_app/features/immersion/search_parameters/immersion_search_parameters_actions.dart';
-import 'package:pass_emploi_app/features/immersion/search/immersion_search_state.dart';
+import 'package:pass_emploi_app/features/immersion/search/immersion_search_parameters_actions.dart';
+import 'package:pass_emploi_app/features/immersion/search/immersion_search_parameters_state.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
 import 'package:pass_emploi_app/features/saved_search/init/saved_search_initialize_action.dart';
@@ -10,9 +10,8 @@ import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_sta
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
-import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/redux/states/immersion_search_request_state.dart';
+import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
 
@@ -259,9 +258,10 @@ main() {
     // When
     store.dispatch(
       ImmersionSearchWithFiltresAction(
-        request: ImmersionRequest(
-          "code-rome",
-          mockCommuneLocation(label: "Marseille"),
+        request: SearchImmersionRequest(
+          codeRome: "code-rome",
+          location: mockCommuneLocation(label: "Marseille"),
+          filtres: ImmersionSearchParametersFiltres.noFiltres(),
         ),
         filtres: ImmersionSearchParametersFiltres.noFiltres(),
       ),
@@ -296,9 +296,10 @@ main() {
     // When
     store.dispatch(
       ImmersionSearchWithFiltresAction(
-        request: ImmersionRequest(
-          "code-rome",
-          mockCommuneLocation(label: "Strasbourg"),
+        request: SearchImmersionRequest(
+          codeRome: "code-rome",
+          location: mockCommuneLocation(label: "Strasbourg"),
+          filtres: ImmersionSearchParametersFiltres.distance(70),
         ),
         filtres: ImmersionSearchParametersFiltres.distance(70),
       ),

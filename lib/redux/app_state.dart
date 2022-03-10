@@ -28,7 +28,7 @@ import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.da
 
 import '../features/favori/list/favori_list_state.dart';
 import '../features/favori/update/favori_update_state.dart';
-import '../features/immersion/search/immersion_search_state.dart';
+import '../features/immersion/search/immersion_search_parameters_state.dart';
 import '../features/offre_emploi/list/offre_emploi_list_state.dart';
 import '../features/offre_emploi/search/offre_emploi_search_state.dart';
 
@@ -142,7 +142,6 @@ class AppState extends Equatable {
       searchLocationState: searchLocationState ?? this.searchLocationState,
       searchMetierState: searchMetierState ?? this.searchMetierState,
       rendezvousState: rendezvousState ?? this.rendezvousState,
-      immersionSearchRequestState: immersionSearchRequestState ?? this.immersionSearchRequestState,
       immersionListState: immersionListState ?? this.immersionListState,
       immersionDetailsState: immersionDetailsState ?? this.immersionDetailsState,
       offreEmploiSavedSearchCreateState: offreEmploiSavedSearchCreateState ?? this.offreEmploiSavedSearchCreateState,
