@@ -11,7 +11,6 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
 
@@ -258,11 +257,9 @@ main() {
     // When
     store.dispatch(
       ImmersionSearchParametersRequestAction(
-        request: SearchImmersionRequest(
-          codeRome: "code-rome",
-          location: mockCommuneLocation(label: "Marseille"),
-          filtres: ImmersionSearchParametersFiltres.noFiltres(),
-        ),
+        codeRome: "code-rome",
+        location: mockCommuneLocation(label: "Marseille"),
+        filtres: ImmersionSearchParametersFiltres.noFiltres(),
       ),
     );
 
@@ -295,11 +292,9 @@ main() {
     // When
     store.dispatch(
       ImmersionSearchParametersRequestAction(
-        request: SearchImmersionRequest(
-          codeRome: "code-rome",
-          location: mockCommuneLocation(label: "Strasbourg"),
-          filtres: ImmersionSearchParametersFiltres.distance(70),
-        ),
+        codeRome: "code-rome",
+        location: mockCommuneLocation(label: "Strasbourg"),
+        filtres: ImmersionSearchParametersFiltres.distance(70),
       ),
     );
 

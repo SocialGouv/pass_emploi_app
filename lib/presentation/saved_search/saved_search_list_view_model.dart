@@ -9,7 +9,6 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:redux/redux.dart';
 
 import '../../features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
@@ -115,11 +114,9 @@ class SavedSearchListViewModel extends Equatable {
   static void onOffreImmersionSelected(ImmersionSavedSearch savedSearch, Store<AppState> store) {
     store.dispatch(
       ImmersionSearchParametersRequestAction(
-        request: SearchImmersionRequest(
-          codeRome: savedSearch.codeRome,
-          location: savedSearch.location,
-          filtres: savedSearch.filtres,
-        ),
+        codeRome: savedSearch.codeRome,
+        location: savedSearch.location,
+        filtres: savedSearch.filtres,
       ),
     );
   }

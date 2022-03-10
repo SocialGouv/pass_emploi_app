@@ -39,10 +39,10 @@ ImmersionSearchParametersState immersionSearchParametersState(
     }
   } else if (action is ImmersionSearchParametersRequestAction) {
     return ImmersionSearchParametersInitializedState(
-      location: action.request.location,
-      filtres: action.request.filtres,
-      codeRome: action.request.codeRome,
-      ville: action.request.location.libelle,
+      location: action.location,
+      filtres: action.filtres,
+      codeRome: action.codeRome,
+      ville: action.location.libelle,
     );
   } else {
     return current;
