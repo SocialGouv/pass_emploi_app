@@ -263,7 +263,6 @@ main() {
           location: mockCommuneLocation(label: "Marseille"),
           filtres: ImmersionSearchParametersFiltres.noFiltres(),
         ),
-        filtres: ImmersionSearchParametersFiltres.noFiltres(),
       ),
     );
 
@@ -301,7 +300,6 @@ main() {
           location: mockCommuneLocation(label: "Strasbourg"),
           filtres: ImmersionSearchParametersFiltres.distance(70),
         ),
-        filtres: ImmersionSearchParametersFiltres.distance(70),
       ),
     );
 

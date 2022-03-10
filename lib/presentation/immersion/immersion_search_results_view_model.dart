@@ -32,7 +32,7 @@ class ImmersionSearchResultsViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [displayState, items, filtresCount];
+  List<Object?> get props => [displayState, items, filtresCount, errorMessage];
 }
 
 int? _filtresCount(ImmersionSearchParametersState searchParamsState) {

@@ -31,11 +31,7 @@ class ImmersionListMiddleware extends MiddlewareClass<AppState> {
         store.dispatch(ImmersionListLoadingAction());
         final immersions = await _repository.search(
           userId: loginState.user.id,
-          request: SearchImmersionRequest(
-            codeRome: action.request.codeRome,
-            location: action.request.location,
-            filtres: action.filtres,
-          ),
+          request: action.request,
         );
         store.dispatch(immersions != null ? ImmersionListSuccessAction(immersions) : ImmersionListFailureAction());
       }

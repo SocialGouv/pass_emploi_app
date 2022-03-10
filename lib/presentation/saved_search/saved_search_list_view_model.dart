@@ -120,7 +120,6 @@ class SavedSearchListViewModel extends Equatable {
           location: savedSearch.location,
           filtres: savedSearch.filtres,
         ),
-        filtres: savedSearch.filtres,
       ),
     );
   }

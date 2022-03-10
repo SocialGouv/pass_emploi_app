@@ -41,7 +41,7 @@ ImmersionSearchParametersState immersionSearchParametersState(
   } else if (action is ImmersionSearchWithFiltresAction) {
     return ImmersionSearchParametersInitializedState(
       location: action.request.location,
-      filtres: action.filtres,
+      filtres: action.request.filtres,
       codeRome: action.request.codeRome,
       ville: action.request.location.libelle,
     );
