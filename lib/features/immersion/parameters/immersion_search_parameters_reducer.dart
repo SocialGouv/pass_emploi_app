@@ -9,11 +9,11 @@ ImmersionSearchParametersState immersionSearchParametersState(
 ) {
   if (action is ImmersionListRequestAction) {
     return ImmersionSearchParametersInitializedState(
-      location: action.request.location,
+      location: action.location,
       filtres: ImmersionSearchParametersFiltres.noFiltres(),
-      codeRome: action.request.codeRome,
+      codeRome: action.codeRome,
       ville: '',
-      title: action.request.title,
+      title: action.title,
     );
   } else if (action is ImmersionSearchUpdateFiltresRequestAction) {
     if (current is ImmersionSearchParametersInitializedState) {

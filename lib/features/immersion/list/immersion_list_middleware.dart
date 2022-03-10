@@ -23,8 +23,8 @@ class ImmersionListMiddleware extends MiddlewareClass<AppState> {
         final immersions = await _repository.search(
           userId: loginState.user.id,
           request: SearchImmersionRequest(
-            codeRome: action.request.codeRome,
-            location: action.request.location,
+            codeRome: action.codeRome,
+            location: action.location,
             filtres: ImmersionSearchParametersFiltres.noFiltres(),
           ),
         );

@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
-import 'package:pass_emploi_app/features/immersion/list/immersion_list_request.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_actions.dart';
@@ -45,7 +44,7 @@ class ImmersionSearchViewModel extends Equatable {
       onInputMetier: (input) => store.dispatch(SearchMetierRequestAction(input)),
       onSearchingRequest: (codeRome, location, title) {
         store.dispatch(codeRome != null && location != null
-            ? ImmersionListRequestAction(ImmersionListRequest(codeRome, location, title))
+            ? ImmersionListRequestAction(codeRome, location, title)
             : ImmersionListFailureAction());
       },
     );

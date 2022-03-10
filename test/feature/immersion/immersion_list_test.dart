@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
-import 'package:pass_emploi_app/features/immersion/list/immersion_list_request.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -24,7 +23,7 @@ main() {
     });
 
     // When
-    store.dispatch(ImmersionListRequestAction(ImmersionListRequest("code-rome", mockLocation())));
+    store.dispatch(ImmersionListRequestAction("code-rome", mockLocation()));
 
     // Then
     expect(await displayedLoading, isTrue);
@@ -43,7 +42,7 @@ main() {
     final Future<bool> displayedError = store.onChange.any((e) => e.immersionListState is ImmersionListFailureState);
 
     // When
-    store.dispatch(ImmersionListRequestAction(ImmersionListRequest("code-rome", mockLocation())));
+    store.dispatch(ImmersionListRequestAction("code-rome", mockLocation()));
 
     // Then
     expect(await displayedLoading, true);
