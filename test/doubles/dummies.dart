@@ -10,11 +10,12 @@ import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/auth/pole_emploi_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
-import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
@@ -69,6 +70,10 @@ class DummyFlutterAppAuth extends FlutterAppAuth {}
 
 class DummyUserActionRepository extends UserActionRepository {
   DummyUserActionRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+}
+
+class DummyPoleEmploiAuthRepository extends PoleEmploiAuthRepository {
+  DummyPoleEmploiAuthRepository() : super("", DummyHttpClient());
 }
 
 class DummyRendezvousRepository extends RendezvousRepository {

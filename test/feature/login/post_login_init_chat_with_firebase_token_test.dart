@@ -2,59 +2,20 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
-import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
-import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
-import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
-import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:redux/src/store.dart';
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';
-import '../favoris/offre_emploi_favoris_test.dart';
 
 main() {
   group("after login ...", () {
-    final initialState = AppState.initialState().copyWith(loginState: LoginFailureState());
-
-    test("push notification token should be registered", () async {
-      // Given
-      final tokenRepositorySpy = _RegisterTokenRepositorySpy();
-      final testStoreFactory = TestStoreFactory();
-      testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositorySuccessStub();
-      testStoreFactory.registerTokenRepository = tokenRepositorySpy;
-      final Store<AppState> store = testStoreFactory.initializeReduxStore(initialState: initialState);
-
-      // When
-      await store.dispatch(LoginSuccessAction(mockUser(id: "1")));
-
-      // Then
-      expect(tokenRepositorySpy.wasCalled, true);
-    });
-
-    test("favoris id should be loaded", () async {
-      // Given
-      final testStoreFactory = TestStoreFactory();
-      testStoreFactory.offreEmploiFavorisRepository = OffreEmploiFavorisRepositorySuccessStub();
-      final Store<AppState> store = testStoreFactory.initializeReduxStore(initialState: initialState);
-      final successState =
-          store.onChange.firstWhere((e) => e.offreEmploiFavorisState is FavoriListLoadedState<OffreEmploi>);
-
-      // When
-      store.dispatch(LoginSuccessAction(mockUser()));
-
-      // Then
-      final loadedFavoris = await successState;
-      final favorisState = (loadedFavoris.offreEmploiFavorisState as FavoriListLoadedState<OffreEmploi>);
-      expect(favorisState.favoriIds, {"1", "2", "4"});
-      expect(favorisState.data, null);
-    });
-
     group('when coming from a chat deep link…', () {
       final initialState = AppState.initialState().copyWith(
         loginState: LoginFailureState(),
@@ -65,7 +26,7 @@ main() {
           "Firebase Auth token should be fetched and set synchronously to properly prepare ChatPage to be the first opened page",
           () async {
         // Given
-            final factory = TestStoreFactory();
+        final factory = TestStoreFactory();
         final firebaseAuthWrapperSpy = _FirebaseAuthWrapperSpy();
         factory.firebaseAuthWrapper = firebaseAuthWrapperSpy;
         factory.firebaseAuthRepository = _FirebaseAuthRepositorySuccessStub();
@@ -83,7 +44,7 @@ main() {
       test("chat crypto key should be fetched and set  to properly prepare ChatPage to be the first opened page",
           () async {
         // Given
-            final factory = TestStoreFactory();
+        final factory = TestStoreFactory();
         final chatCryptoSpy = _ChatCryptoSpy();
         factory.chatCrypto = chatCryptoSpy;
         factory.firebaseAuthRepository = _FirebaseAuthRepositorySuccessStub();
@@ -146,7 +107,7 @@ main() {
       test("chat crypto key should be fetched and set to properly prepare ChatPage to accelerate sign-in process",
           () async {
         // Given
-            final factory = TestStoreFactory();
+        final factory = TestStoreFactory();
         final chatCryptoSpy = _ChatCryptoSpy();
         factory.chatCrypto = chatCryptoSpy;
         factory.firebaseAuthRepository = _FirebaseAuthRepositorySuccessStub();
@@ -192,18 +153,6 @@ class _FirebaseAuthRepositorySuccessStub extends FirebaseAuthRepository {
   Future<FirebaseAuthResponse?> getFirebaseAuth(String userId) async {
     if (userId == "id") return FirebaseAuthResponse("FIREBASE-TOKEN", "CLE");
     return null;
-  }
-}
-
-class _RegisterTokenRepositorySpy extends RegisterTokenRepository {
-  bool wasCalled = false;
-
-  _RegisterTokenRepositorySpy() : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPushNotificationManager());
-
-  @override
-  Future<void> registerToken(String userId) async {
-    expect(userId, "1");
-    wasCalled = true;
   }
 }
 
