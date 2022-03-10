@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
+import 'package:pass_emploi_app/features/immersion/search/immersion_search_parameters_actions.dart';
 import 'package:pass_emploi_app/features/immersion/search/immersion_search_parameters_state.dart';
 import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/immersion/immersion_filtres_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/immersion_actions.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
@@ -123,7 +123,8 @@ main() {
     );
 
     // Then
-    final ImmersionSearchUpdateFiltresAction action = store.dispatchedAction as ImmersionSearchUpdateFiltresAction;
+    final ImmersionSearchUpdateFiltresRequestAction action =
+        store.dispatchedAction as ImmersionSearchUpdateFiltresRequestAction;
     expect(action.updatedFiltres.distance, 20);
   });
 }

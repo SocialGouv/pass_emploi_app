@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
+import 'package:pass_emploi_app/features/immersion/search/immersion_search_parameters_actions.dart';
 import 'package:pass_emploi_app/features/immersion/search/immersion_search_parameters_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
-import 'package:pass_emploi_app/redux/actions/immersion_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:redux/src/store.dart';
@@ -17,7 +17,7 @@ main() {
   test("applying new filtres when call succeeds should replace all existing data and filtres should be stored",
       () async {
     // Given
-    final testStoreFactory = TestStoreFactory();
+        final testStoreFactory = TestStoreFactory();
     final repositoryMock = ImmersionRepositorySuccessWithMoreDataMock();
     testStoreFactory.immersionRepository = repositoryMock;
     final store = _initializeReduxStore(testStoreFactory);
@@ -27,7 +27,7 @@ main() {
         store.onChange.firstWhere((element) => element.immersionListState is ImmersionListSuccessState);
 
     // When
-    store.dispatch(ImmersionSearchUpdateFiltresAction(ImmersionSearchParametersFiltres.distance(40)));
+    store.dispatch(ImmersionSearchUpdateFiltresRequestAction(ImmersionSearchParametersFiltres.distance(40)));
 
     // Then
     expect(await displayedLoading, true);
@@ -52,7 +52,7 @@ main() {
 
     // When
     store.dispatch(
-      ImmersionSearchUpdateFiltresAction(
+      ImmersionSearchUpdateFiltresRequestAction(
         ImmersionSearchParametersFiltres.distance(40),
       ),
     );
