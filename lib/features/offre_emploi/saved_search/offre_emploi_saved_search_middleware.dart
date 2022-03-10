@@ -6,10 +6,10 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:redux/redux.dart';
 
-class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
+class OffreEmploiSavedSearchMiddleware extends MiddlewareClass<AppState> {
   final OffreEmploiRepository _repository;
 
-  OffreEmploiMiddleware(this._repository);
+  OffreEmploiSavedSearchMiddleware(this._repository);
 
   @override
   call(Store<AppState> store, dynamic action, NextDispatcher next) async {
