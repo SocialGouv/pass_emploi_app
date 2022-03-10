@@ -107,7 +107,7 @@ class SavedSearchListViewModel extends Equatable {
         keywords: savedSearch.keywords ?? "",
         location: savedSearch.location,
         onlyAlternance: savedSearch.isAlternance,
-        updatedFiltres: savedSearch.filters,
+        filtres: savedSearch.filters,
       ),
     );
   }

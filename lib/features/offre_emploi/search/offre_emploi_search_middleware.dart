@@ -72,7 +72,7 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
             location: action.location,
             onlyAlternance: action.onlyAlternance,
             page: 1,
-            filtres: action.updatedFiltres,
+            filtres: action.filtres,
           ),
         );
       }

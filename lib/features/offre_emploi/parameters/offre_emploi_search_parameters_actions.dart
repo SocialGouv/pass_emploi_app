@@ -6,13 +6,13 @@ class OffreEmploiSearchParametersRequestAction {
   final String keywords;
   final Location? location;
   final bool onlyAlternance;
-  final OffreEmploiSearchParametersFiltres updatedFiltres;
+  final OffreEmploiSearchParametersFiltres filtres;
 
   OffreEmploiSearchParametersRequestAction({
     required this.keywords,
     required this.location,
     required this.onlyAlternance,
-    required this.updatedFiltres,
+    required this.filtres,
   });
 }
 

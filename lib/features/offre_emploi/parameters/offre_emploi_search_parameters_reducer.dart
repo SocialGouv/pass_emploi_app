@@ -12,7 +12,7 @@ OffreEmploiSearchParametersState offreEmploiSearchParametersReducer(
       keywords: action.keywords,
       location: action.location,
       onlyAlternance: action.onlyAlternance,
-      filtres: action.updatedFiltres,
+      filtres: action.filtres,
     );
   } else if (action is OffreEmploiSearchRequestAction) {
     return OffreEmploiSearchParametersInitializedState(
