@@ -13,7 +13,7 @@ ImmersionSearchParametersState immersionSearchParametersState(
       location: action.location,
       filtres: ImmersionSearchParametersFiltres.noFiltres(),
       codeRome: action.codeRome,
-      ville: '',
+      ville: action.location.libelle,
       title: action.title,
     );
   } else if (action is ImmersionSearchUpdateFiltresRequestAction) {

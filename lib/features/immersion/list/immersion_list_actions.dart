@@ -20,4 +20,3 @@ class ImmersionListSuccessAction {
 class ImmersionListFailureAction {}
 
 class ImmersionListResetAction {}
-
