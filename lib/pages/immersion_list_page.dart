@@ -173,8 +173,7 @@ class ImmersionListPage extends TraceableStatelessWidget {
   }
 
   Future<void> _onFiltreButtonPressed(BuildContext context) {
-    return pushAndTrackBack(context, ImmersionFiltresPage.materialPageRoute())
-        .then((value) => debugPrint("pushAndTrackback finished"));
+    return pushAndTrackBack(context, ImmersionFiltresPage.materialPageRoute());
   }
 
   void _trackEmptyResult() {

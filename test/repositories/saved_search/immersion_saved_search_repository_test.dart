@@ -14,7 +14,7 @@ main() {
     test("successfully send request when all fields and filters are full and return TRUE if response is valid (201)",
         () async {
       // Given
-          final httpClient = _mockClientforFullDataWithFilters();
+      final httpClient = _mockClientforFullDataWithFilters();
       final repository = ImmersionSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
       // When
@@ -28,7 +28,7 @@ main() {
         "successfully send request when all fields are full without filters and return TRUE if response is valid (201)",
         () async {
       // Given
-          final httpClient = _mockClientforFulllDataWithoutFilters();
+      final httpClient = _mockClientforFulllDataWithoutFilters();
       final repository = ImmersionSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
       // When

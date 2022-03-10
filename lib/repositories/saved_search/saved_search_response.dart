@@ -125,11 +125,10 @@ class SavedSearchImmersionExtractor {
       id: savedSearch.id,
       title: savedSearch.titre,
       metier: savedSearch.metier ?? "",
-      // TODO Ok le force non-null ?
       location: _getLocation(savedSearch)!,
       filtres: _getFiltres(savedSearch.criteres),
       ville: savedSearch.localisation ?? "",
-      codeRome: savedSearch.criteres.rome!, // TODO Ok le force non-null ?
+      codeRome: savedSearch.criteres.rome!,
     );
   }
 

@@ -15,7 +15,7 @@ class ImmersionSavedSearchMiddleware extends MiddlewareClass<AppState> {
     next(action);
     final loginState = store.state.loginState;
     if (loginState is LoginSuccessState) {
-      if (action is SavedImmersionSearchRequestAction) {
+      if (action is ImmersionSavedSearchRequestAction) {
         store.dispatch(ImmersionListLoadingAction());
         final immersions = await _repository.search(
           userId: loginState.user.id,

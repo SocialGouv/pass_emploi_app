@@ -35,7 +35,7 @@ ImmersionSearchParametersState immersionSearchParametersState(
     } else {
       return current;
     }
-  } else if (action is SavedImmersionSearchRequestAction) {
+  } else if (action is ImmersionSavedSearchRequestAction) {
     return ImmersionSearchParametersInitializedState(
       location: action.location,
       filtres: action.filtres,

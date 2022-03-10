@@ -113,7 +113,7 @@ class SavedSearchListViewModel extends Equatable {
 
   static void onOffreImmersionSelected(ImmersionSavedSearch savedSearch, Store<AppState> store) {
     store.dispatch(
-      SavedImmersionSearchRequestAction(
+      ImmersionSavedSearchRequestAction(
         codeRome: savedSearch.codeRome,
         location: savedSearch.location,
         filtres: savedSearch.filtres,

@@ -253,7 +253,7 @@ main() {
 
     // When
     store.dispatch(
-      SavedImmersionSearchRequestAction(
+      ImmersionSavedSearchRequestAction(
         codeRome: "code-rome",
         location: mockCommuneLocation(label: "Marseille"),
         filtres: ImmersionSearchParametersFiltres.noFiltres(),
@@ -287,7 +287,7 @@ main() {
 
     // When
     store.dispatch(
-      SavedImmersionSearchRequestAction(
+      ImmersionSavedSearchRequestAction(
         codeRome: "code-rome",
         location: mockCommuneLocation(label: "Strasbourg"),
         filtres: ImmersionSearchParametersFiltres.distance(70),

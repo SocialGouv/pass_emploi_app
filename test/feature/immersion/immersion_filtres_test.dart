@@ -17,7 +17,7 @@ main() {
   test("applying new filtres when call succeeds should replace all existing data and filtres should be stored",
       () async {
     // Given
-        final testStoreFactory = TestStoreFactory();
+    final testStoreFactory = TestStoreFactory();
     final repositoryMock = ImmersionRepositorySuccessWithMoreDataMock();
     testStoreFactory.immersionRepository = repositoryMock;
     final store = _initializeReduxStore(testStoreFactory);
