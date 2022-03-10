@@ -63,7 +63,7 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
             filtres: action.updatedFiltres,
           ),
         );
-      } else if (action is OffreEmploiSearchParametersRequestAction) {
+      } else if (action is SavedOffreEmploiSearchRequestAction) {
         _resetSearchWithUpdatedFiltres(
           store: store,
           userId: userId,

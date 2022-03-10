@@ -7,7 +7,7 @@ OffreEmploiSearchParametersState offreEmploiSearchParametersReducer(
   OffreEmploiSearchParametersState current,
   dynamic action,
 ) {
-  if (action is OffreEmploiSearchParametersRequestAction) {
+  if (action is SavedOffreEmploiSearchRequestAction) {
     return OffreEmploiSearchParametersState.initialized(
       keywords: action.keywords,
       location: action.location,

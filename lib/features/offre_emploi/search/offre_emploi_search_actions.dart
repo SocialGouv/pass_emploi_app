@@ -26,13 +26,13 @@ class OffreEmploiSearchRequestMoreResultsAction {}
 
 class OffreEmploiSearchResetAction {}
 
-class OffreEmploiSearchParametersRequestAction {
+class SavedOffreEmploiSearchRequestAction {
   final String keywords;
   final Location? location;
   final bool onlyAlternance;
   final OffreEmploiSearchParametersFiltres filtres;
 
-  OffreEmploiSearchParametersRequestAction({
+  SavedOffreEmploiSearchRequestAction({
     required this.keywords,
     required this.location,
     required this.onlyAlternance,

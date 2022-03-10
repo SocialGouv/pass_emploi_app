@@ -22,12 +22,12 @@ class ImmersionListFailureAction {}
 
 class ImmersionListResetAction {}
 
-class ImmersionSearchParametersRequestAction {
+class SavedImmersionSearchRequestAction {
   final String codeRome;
   final Location location;
   final ImmersionSearchParametersFiltres filtres;
 
-  ImmersionSearchParametersRequestAction({
+  SavedImmersionSearchRequestAction({
     required this.codeRome,
     required this.location,
     required this.filtres,

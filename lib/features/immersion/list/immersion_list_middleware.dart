@@ -29,7 +29,7 @@ class ImmersionListMiddleware extends MiddlewareClass<AppState> {
           ),
         );
         store.dispatch(immersions != null ? ImmersionListSuccessAction(immersions) : ImmersionListFailureAction());
-      } else if (action is ImmersionSearchParametersRequestAction) {
+      } else if (action is SavedImmersionSearchRequestAction) {
         store.dispatch(ImmersionListLoadingAction());
         final immersions = await _repository.search(
           userId: loginState.user.id,

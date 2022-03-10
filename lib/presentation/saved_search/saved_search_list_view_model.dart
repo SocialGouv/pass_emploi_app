@@ -102,7 +102,7 @@ class SavedSearchListViewModel extends Equatable {
 
   static void onOffreEmploiSelected(OffreEmploiSavedSearch savedSearch, Store<AppState> store) {
     store.dispatch(
-      OffreEmploiSearchParametersRequestAction(
+      SavedOffreEmploiSearchRequestAction(
         keywords: savedSearch.keywords ?? "",
         location: savedSearch.location,
         onlyAlternance: savedSearch.isAlternance,
@@ -113,7 +113,7 @@ class SavedSearchListViewModel extends Equatable {
 
   static void onOffreImmersionSelected(ImmersionSavedSearch savedSearch, Store<AppState> store) {
     store.dispatch(
-      ImmersionSearchParametersRequestAction(
+      SavedImmersionSearchRequestAction(
         codeRome: savedSearch.codeRome,
         location: savedSearch.location,
         filtres: savedSearch.filtres,
