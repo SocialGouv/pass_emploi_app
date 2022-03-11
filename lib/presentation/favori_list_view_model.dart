@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/features/favori/list/favori_list_actions.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
+import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
@@ -53,6 +54,14 @@ class FavorisListViewModel<FAVORIS_MODEL, FAVORIS_VIEW_MODEL> extends Equatable 
       store,
       ImmersionRelevantFavorisExtractor(),
       ImmersionFavorisViewModelTransformer(),
+    );
+  }
+
+  static FavorisListViewModel<ServiceCivique, ServiceCivique> createForServiceCivique(Store<AppState> store) {
+    return FavorisListViewModel.create(
+      store,
+      ServiceCiviqueRelevantFavorisExtractor(),
+      ServiceCiviqueFavorisViewModelTransformer(),
     );
   }
 }
@@ -123,6 +132,26 @@ class OffreEmploiFavorisViewModelTransformer
 class ImmersionFavorisViewModelTransformer extends FavorisViewModelTransformer<Immersion, Immersion> {
   @override
   Immersion transform(Immersion favorisModel) {
+    return favorisModel;
+  }
+}
+
+class ServiceCiviqueRelevantFavorisExtractor extends RelevantFavorisExtractor<ServiceCivique> {
+  @override
+  List<ServiceCivique>? getRelevantFavoris(Store<AppState> store) {
+    final state = store.state.serviceCiviqueFavorisState as FavoriListLoadedState<ServiceCivique>;
+    return state.data?.values.toList();
+  }
+
+  @override
+  bool isDataInitialized(Store<AppState> store) {
+    return store.state.serviceCiviqueFavorisState is FavoriListLoadedState<ServiceCivique>;
+  }
+}
+
+class ServiceCiviqueFavorisViewModelTransformer extends FavorisViewModelTransformer<ServiceCivique, ServiceCivique> {
+  @override
+  ServiceCivique transform(ServiceCivique favorisModel) {
     return favorisModel;
   }
 }

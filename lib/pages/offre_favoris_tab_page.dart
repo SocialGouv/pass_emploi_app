@@ -5,10 +5,12 @@ import '../ui/strings.dart';
 import '../widgets/buttons/carousel_button.dart';
 import 'favoris/immersion_favoris_page.dart';
 import 'favoris/offre_emploi_favoris_page.dart';
+import 'favoris/service_civique_favoris_page.dart';
 
 const int _indexOfOffresEmploi = 0;
 const int _indexOfAlternance = 1;
 const int _indexOfImmersion = 2;
+const int _indexOfServiceCivique = 3;
 
 class OffreFavorisTabPage extends StatefulWidget {
   @override
@@ -56,6 +58,12 @@ class _OffreFavorisTabPageState extends State<OffreFavorisTabPage> {
             label: Strings.immersionButton,
           ),
           SizedBox(width: 12),
+          CarouselButton(
+            isActive: _selectedIndex == _indexOfServiceCivique,
+            onPressed: () => _updateIndex(_indexOfServiceCivique),
+            label: Strings.serviceCiviqueButton,
+          ),
+          SizedBox(width: 12),
         ],
       ),
     );
@@ -67,8 +75,10 @@ class _OffreFavorisTabPageState extends State<OffreFavorisTabPage> {
         return OffreEmploiFavorisPage(onlyAlternance: false);
       case 1:
         return OffreEmploiFavorisPage(onlyAlternance: true);
-      default:
+      case 2:
         return ImmersionFavorisPage();
+      default:
+        return ServiceCiviqueFavorisPage();
     }
   }
 

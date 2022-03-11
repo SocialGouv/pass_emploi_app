@@ -31,6 +31,7 @@ import '../features/favori/update/favori_update_state.dart';
 import '../features/immersion/parameters/immersion_search_parameters_state.dart';
 import '../features/offre_emploi/list/offre_emploi_list_state.dart';
 import '../features/offre_emploi/search/offre_emploi_search_state.dart';
+import '../models/service_civique.dart';
 
 class AppState extends Equatable {
   final ConfigurationState configurationState;
@@ -48,6 +49,7 @@ class AppState extends Equatable {
   final OffreEmploiSearchParametersState offreEmploiSearchParametersState;
   final FavoriListState<OffreEmploi> offreEmploiFavorisState;
   final FavoriListState<Immersion> immersionFavorisState;
+  final FavoriListState<ServiceCivique> serviceCiviqueFavorisState;
   final FavoriUpdateState favoriUpdateState;
   final SearchLocationState searchLocationState;
   final SearchMetierState searchMetierState;
@@ -78,6 +80,7 @@ class AppState extends Equatable {
     required this.offreEmploiSearchParametersState,
     required this.offreEmploiFavorisState,
     required this.immersionFavorisState,
+    required this.serviceCiviqueFavorisState,
     required this.favoriUpdateState,
     required this.searchLocationState,
     required this.searchMetierState,
@@ -107,6 +110,7 @@ class AppState extends Equatable {
     final OffreEmploiSearchParametersState? offreEmploiSearchParametersState,
     final FavoriListState<OffreEmploi>? offreEmploiFavorisState,
     final FavoriListState<Immersion>? immersionFavorisState,
+    final FavoriListState<ServiceCivique>? serviceCiviqueFavorisState,
     final FavoriUpdateState? favoriUpdateState,
     final SearchLocationState? searchLocationState,
     final SearchMetierState? searchMetierState,
@@ -138,6 +142,7 @@ class AppState extends Equatable {
       offreEmploiSearchParametersState: offreEmploiSearchParametersState ?? this.offreEmploiSearchParametersState,
       offreEmploiFavorisState: offreEmploiFavorisState ?? this.offreEmploiFavorisState,
       immersionFavorisState: immersionFavorisState ?? this.immersionFavorisState,
+      serviceCiviqueFavorisState: serviceCiviqueFavorisState ?? this.serviceCiviqueFavorisState,
       favoriUpdateState: favoriUpdateState ?? this.favoriUpdateState,
       searchLocationState: searchLocationState ?? this.searchLocationState,
       searchMetierState: searchMetierState ?? this.searchMetierState,
@@ -171,6 +176,7 @@ class AppState extends Equatable {
       offreEmploiSearchParametersState: OffreEmploiSearchParametersState.notInitialized(),
       offreEmploiFavorisState: FavoriListState<OffreEmploi>.notInitialized(),
       immersionFavorisState: FavoriListState<Immersion>.notInitialized(),
+      serviceCiviqueFavorisState: FavoriListState<ServiceCivique>.notInitialized(),
       favoriUpdateState: FavoriUpdateState({}),
       searchLocationState: SearchLocationState([]),
       searchMetierState: SearchMetierState([]),

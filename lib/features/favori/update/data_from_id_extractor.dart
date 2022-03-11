@@ -6,6 +6,9 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
+import '../../../models/service_civique.dart';
+import '../../service_civique/search/service_civique_search_result_state.dart';
+
 class OffreEmploiDataFromIdExtractor extends DataFromIdExtractor<OffreEmploi> {
   @override
   OffreEmploi extractFromId(Store<AppState> store, String favoriId) {
@@ -19,5 +22,13 @@ class ImmersionDataFromIdExtractor extends DataFromIdExtractor<Immersion> {
   Immersion extractFromId(Store<AppState> store, String favoriId) {
     final state = store.state.immersionListState as ImmersionListSuccessState;
     return state.immersions.firstWhere((element) => element.id == favoriId);
+  }
+}
+
+class ServiceCiviqueDataFromIdExtractor extends DataFromIdExtractor<ServiceCivique> {
+  @override
+  ServiceCivique extractFromId(Store<AppState> store, String favoriId) {
+    final state = store.state.serviceCiviqueSearchResultState as ServiceCiviqueSearchResultDataState;
+    return state.offres.firstWhere((element) => element.id == favoriId);
   }
 }

@@ -26,6 +26,7 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
+import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 
 import '../features/favori/update/favori_update_reducer.dart';
@@ -56,6 +57,8 @@ AppState reducer(AppState current, dynamic action) {
       action,
     ),
     immersionFavorisState: FavoriListReducer<Immersion>().reduceFavorisState(current.immersionFavorisState, action),
+    serviceCiviqueFavorisState:
+        FavoriListReducer<ServiceCivique>().reduceFavorisState(current.serviceCiviqueFavorisState, action),
     favoriUpdateState: favoriUpdateReducer(current.favoriUpdateState, action),
     searchLocationState: searchLocationReducer(current.searchLocationState, action),
     searchMetierState: searchMetierReducer(current.searchMetierState, action),

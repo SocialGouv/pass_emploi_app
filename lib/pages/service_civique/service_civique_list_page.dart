@@ -4,7 +4,6 @@ import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_actions.dart';
-import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/pages/service_civique/service_civique_detail_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -13,6 +12,8 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
+import 'package:pass_emploi_app/utils/string_extensions.dart';
 import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_offre_widget.dart';
@@ -20,6 +21,7 @@ import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 import '../../presentation/service_civique_view_model.dart';
+import '../offre_page.dart';
 
 class ServiceCiviqueListPage extends TraceableStatefulWidget {
   ServiceCiviqueListPage() : super(name: AnalyticsScreenNames.serviceCiviqueResults);
@@ -57,8 +59,8 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
     return StoreConnector<AppState, ServiceCiviqueViewModel>(
       converter: (store) => ServiceCiviqueViewModel.create(store),
       onInitialBuild: (viewModel) => _currentViewModel = viewModel,
-      builder: (context, viewModel) => FavorisStateContext<OffreEmploi>(
-        selectState: (store) => store.state.offreEmploiFavorisState,
+      builder: (context, viewModel) => FavorisStateContext<ServiceCivique>(
+        selectState: (store) => store.state.serviceCiviqueFavorisState,
         child: _scaffold(_body(context, viewModel)),
       ),
       onDidChange: (previousViewModel, viewModel) {
@@ -132,8 +134,10 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
       lieu: item.location,
       id: item.id,
       dataTag: [
-        if (item.startDate != null) Strings.asSoonAs + item.startDate!,
+        if (item.startDate != null)
+          Strings.asSoonAs + item.startDate!.toDateTimeUtcOnLocalTimeZone().toDayWithFullMonth(),
       ],
+      from: OffrePage.serviceCiviqueResults,
       onTap: () {
         widget.pushAndTrackBack(context, MaterialPageRoute(builder: (_) {
           return ServiceCiviqueDetailPage(item.id);

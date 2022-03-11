@@ -36,6 +36,7 @@ import 'package:pass_emploi_app/features/user_action/list/user_action_list_middl
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
+import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
@@ -67,6 +68,7 @@ import '../features/saved_search/get/saved_search_get_middleware.dart';
 import '../features/saved_search/init/saved_search_initialize_middleware.dart';
 import '../features/service_civique/detail/service_civique_detail_middleware.dart';
 import '../features/tracking/user_tracking_structure_middleware.dart';
+import '../repositories/favoris/service_civique_favoris_repository.dart';
 import '../repositories/service_civique/service_civique_repository.dart';
 
 class StoreFactory {
@@ -82,6 +84,7 @@ class StoreFactory {
   final OffreEmploiDetailsRepository offreEmploiDetailsRepository;
   final OffreEmploiFavorisRepository offreEmploiFavorisRepository;
   final ImmersionFavorisRepository immersionFavorisRepository;
+  final ServiceCiviqueFavorisRepository serviceCiviqueFavorisRepository;
   final SearchLocationRepository searchLocationRepository;
   final MetierRepository metierRepository;
   final ImmersionRepository immersionRepository;
@@ -97,29 +100,28 @@ class StoreFactory {
   final ServiceCiviqueRepository serviceCiviqueRepository;
   final ServiceCiviqueDetailRepository serviceCiviqueDetailRepository;
 
-  StoreFactory(
-    this.authenticator,
-    this.poleEmploiTokenRepository,
-    this.poleEmploiAuthRepository,
-    this.userActionRepository,
-    this.rendezvousRepository,
-    this.offreEmploiRepository,
-    this.chatRepository,
-    this.registerTokenRepository,
-    this.crashlytics,
-    this.offreEmploiDetailsRepository,
-    this.offreEmploiFavorisRepository,
-    this.immersionFavorisRepository,
-    this.searchLocationRepository,
-    this.metierRepository,
-    this.immersionRepository,
-    this.immersionDetailsRepository,
-    this.firebaseAuthRepository,
-    this.firebaseAuthWrapper,
-    this.chatCrypto,
-    this.trackingEventRepository,
-    this.offreEmploiSavedSearchRepository,
-    this.immersionSavedSearchRepository,
+  StoreFactory(this.authenticator,
+      this.poleEmploiTokenRepository,
+    this.poleEmploiAuthRepository,this.userActionRepository,
+      this.rendezvousRepository,
+      this.offreEmploiRepository,
+      this.chatRepository,
+      this.registerTokenRepository,
+      this.crashlytics,
+      this.offreEmploiDetailsRepository,
+      this.offreEmploiFavorisRepository,
+      this.immersionFavorisRepository,
+      this.serviceCiviqueFavorisRepository,
+      this.searchLocationRepository,
+      this.metierRepository,
+      this.immersionRepository,
+      this.immersionDetailsRepository,
+      this.firebaseAuthRepository,
+      this.firebaseAuthWrapper,
+      this.chatCrypto,
+      this.trackingEventRepository,
+      this.offreEmploiSavedSearchRepository,
+      this.immersionSavedSearchRepository,
     this.getSavedSearchRepository,
     this.savedSearchDeleteRepository,
     this.serviceCiviqueRepository,
@@ -151,6 +153,9 @@ class StoreFactory {
         FavoriIdsMiddleware<Immersion>(immersionFavorisRepository),
         FavoriListMiddleware<Immersion>(immersionFavorisRepository),
         FavoriUpdateMiddleware<Immersion>(immersionFavorisRepository, ImmersionDataFromIdExtractor()),
+        FavoriIdsMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository),
+        FavoriListMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository),
+        FavoriUpdateMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository, ServiceCiviqueDataFromIdExtractor()),
         RegisterPushNotificationTokenMiddleware(registerTokenRepository),
         CrashlyticsMiddleware(crashlytics),
         SearchLocationMiddleware(searchLocationRepository),

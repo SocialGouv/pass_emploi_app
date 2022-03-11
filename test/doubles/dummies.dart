@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
+import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
@@ -27,7 +28,6 @@ import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search
 import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
-import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
@@ -170,6 +170,6 @@ class DummyServiceCiviqueRepository extends ServiceCiviqueRepository {
   DummyServiceCiviqueRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
 }
 
-class DummyServiceCiviqueDetailRepository extends ServiceCiviqueDetailRepository {
-  DummyServiceCiviqueDetailRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+class DummyServiceCiviqueFavorisRepository extends ServiceCiviqueFavorisRepository {
+  DummyServiceCiviqueFavorisRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
 }

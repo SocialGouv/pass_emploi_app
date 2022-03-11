@@ -3,8 +3,10 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_actions.dart';
+import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
@@ -21,13 +23,16 @@ import '../../ui/text_styles.dart';
 import '../../widgets/buttons/primary_action_button.dart';
 import '../../widgets/buttons/share_button.dart';
 import '../../widgets/default_app_bar.dart';
+import '../../widgets/favori_heart.dart';
 import '../../widgets/tags/tags.dart';
 import '../../widgets/title_section.dart';
 
 class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
   final String idOffre;
+  final bool popPageWhenFavoriIsRemoved;
 
-  ServiceCiviqueDetailPage(this.idOffre) : super(name: AnalyticsScreenNames.serviceCiviqueDetail);
+  ServiceCiviqueDetailPage(this.idOffre, [this.popPageWhenFavoriIsRemoved = false])
+      : super(name: AnalyticsScreenNames.serviceCiviqueDetail);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +42,7 @@ class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
       builder: (context, viewModel) {
         return FavorisStateContext(
           child: _scaffold(_body(context, viewModel)),
-          selectState: (store) => store.state.offreEmploiFavorisState,
+          selectState: (store) => store.state.serviceCiviqueFavorisState,
         );
       },
     );
@@ -201,6 +206,13 @@ class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
               onPressed: () => _applyToOffer(context, url),
               label: Strings.postulerButtonTitle,
             ),
+          ),
+          SizedBox(width: Margins.spacing_base),
+          FavoriHeart<ServiceCivique>(
+            offreId: idOffre,
+            withBorder: true,
+            from: OffrePage.serviceCiviqueDetail,
+            onFavoriRemoved: popPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
           ),
           SizedBox(width: Margins.spacing_base),
           ShareButton(url, title, () => _shareOffer(context)),
