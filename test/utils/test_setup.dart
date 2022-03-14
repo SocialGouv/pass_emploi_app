@@ -75,6 +75,7 @@ class TestStoreFactory {
       detailedOfferRepository,
       offreEmploiFavorisRepository,
       immersionFavorisRepository,
+      serviceCiviqueFavorisRepository,
       searchLocationRepository,
       metierRepository,
       immersionRepository,
