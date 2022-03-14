@@ -9,7 +9,7 @@ import 'package:pass_emploi_app/network/status_code.dart';
 
 class SearchImmersionRequest {
   final String codeRome;
-  final Location location;
+  final Location? location;
   final ImmersionSearchParametersFiltres filtres;
 
   SearchImmersionRequest({
@@ -57,9 +57,11 @@ class ImmersionRepository {
     }
 
     writeParameter("rome", request.codeRome);
-
-    writeParameter("lat", request.location.latitude.toString());
-    writeParameter("lon", request.location.longitude.toString());
+    final location = request.location;
+    if (location != null) {
+      writeParameter("lat", location.latitude.toString());
+      writeParameter("lon", location.longitude.toString());
+    }
 
     if (request.filtres.distance != null) {
       writeParameter("distance", request.filtres.distance.toString());

@@ -8,7 +8,7 @@ class ImmersionSavedSearch extends Equatable implements SavedSearch {
   final String title;
   final String codeRome;
   final String metier;
-  final Location location;
+  final Location? location;
   final String ville;
   final ImmersionSearchParametersFiltres filtres;
 

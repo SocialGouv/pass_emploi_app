@@ -3,7 +3,7 @@ import 'package:pass_emploi_app/models/location.dart';
 
 class ImmersionSavedSearchRequestAction {
   final String codeRome;
-  final Location location;
+  final Location? location;
   final ImmersionSearchParametersFiltres filtres;
 
   ImmersionSavedSearchRequestAction({
