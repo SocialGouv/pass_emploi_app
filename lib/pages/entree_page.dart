@@ -132,7 +132,7 @@ class Link extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
-          MatomoTracker.trackScreenWithName(link, AnalyticsScreenNames.entree);
+          MatomoTracker.trackOutlink(link);
           launch(link);
         },
         child: Wrap(

@@ -94,7 +94,7 @@ class ChoixOrganismePage extends TraceableStatelessWidget {
                           color: Colors.transparent,
                           child: InkWell(
                             onTap: () {
-                              MatomoTracker.trackScreenWithName(noOrganismeLink, AnalyticsScreenNames.choixOrganisme);
+                              MatomoTracker.trackOutlink(noOrganismeLink);
                               launch(noOrganismeLink);
                             },
                             child: Padding(
