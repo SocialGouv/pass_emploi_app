@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
-import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 
-import '../doubles/fixtures.dart';
-import '../doubles/stubs.dart';
-import '../utils/test_assets.dart';
+import '../../doubles/fixtures.dart';
+import '../../doubles/stubs.dart';
+import '../../utils/test_assets.dart';
 
 void main() {
   test('getFirebaseToken when response is valid with all parameters should return token and key', () async {

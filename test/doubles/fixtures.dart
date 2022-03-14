@@ -15,12 +15,12 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 
 import '../utils/test_datetime.dart';
 
-User mockUser({String id = ""}) => User(
+User mockUser({String id = "", LoginMode loginMode = LoginMode.MILO}) => User(
       id: id,
       firstName: "",
       lastName: "",
       email: "",
-      loginMode: LoginMode.MILO,
+      loginMode: loginMode,
     );
 
 LoginState successMiloUserState() => LoginSuccessState(User(

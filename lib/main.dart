@@ -26,11 +26,13 @@ import 'package:pass_emploi_app/push/firebase_push_notification_manager.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
+import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/auth/pole_emploi/pole_emploi_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/auth/pole_emploi/pole_emploi_token_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
-import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
@@ -116,6 +118,7 @@ Future<Store<AppState>> _initializeReduxStore(
   final headersBuilder = HeadersBuilder();
   final securedPreferences = FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true));
   final authenticator = Authenticator(AuthWrapper(FlutterAppAuth(), Lock()), configuration, securedPreferences);
+  final poleEmploiTokenRepository = PoleEmploiTokenRepository();
   final accessTokenRetriever = AuthAccessTokenRetriever(authenticator);
   final crashlytics = CrashlyticsWithFirebase(FirebaseCrashlytics.instance);
   var defaultContext = SecurityContext.defaultContext;
@@ -127,11 +130,16 @@ Future<Store<AppState>> _initializeReduxStore(
   Client clientWithCertificate = IOClient(HttpClient(context: defaultContext));
   final httpClient = InterceptedClient.build(
     client: clientWithCertificate,
-    interceptors: [AccessTokenInterceptor(accessTokenRetriever), LoggingInterceptor()],
+    interceptors: [
+      AccessTokenInterceptor(accessTokenRetriever, poleEmploiTokenRepository),
+      LoggingInterceptor(),
+    ],
   );
   final chatCrypto = ChatCrypto();
   final reduxStore = StoreFactory(
     authenticator,
+    poleEmploiTokenRepository,
+    PoleEmploiAuthRepository(configuration.authIssuer, httpClient, crashlytics),
     UserActionRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     RendezvousRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     OffreEmploiRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),

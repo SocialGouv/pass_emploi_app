@@ -3,11 +3,13 @@ import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
+import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/auth/pole_emploi/pole_emploi_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/auth/pole_emploi/pole_emploi_token_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
-import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
@@ -30,6 +32,8 @@ import '../doubles/dummies.dart';
 
 class TestStoreFactory {
   Authenticator authenticator = DummyAuthenticator();
+  PoleEmploiTokenRepository poleEmploiTokenRepository = PoleEmploiTokenRepository();
+  PoleEmploiAuthRepository poleEmploiAuthRepository = DummyPoleEmploiAuthRepository();
   UserActionRepository userActionRepository = DummyUserActionRepository();
   RendezvousRepository rendezvousRepository = DummyRendezvousRepository();
   ChatRepository chatRepository = DummyChatRepository();
@@ -57,6 +61,8 @@ class TestStoreFactory {
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
       authenticator,
+      poleEmploiTokenRepository,
+      poleEmploiAuthRepository,
       userActionRepository,
       rendezvousRepository,
       offreEmploiRepository,
