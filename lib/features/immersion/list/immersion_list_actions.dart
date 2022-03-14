@@ -1,10 +1,12 @@
-import 'package:pass_emploi_app/features/immersion/list/immersion_list_request.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/models/location.dart';
 
 class ImmersionListRequestAction {
-  final ImmersionListRequest request;
+  final String codeRome;
+  final Location location;
+  final String? title;
 
-  ImmersionListRequestAction(this.request);
+  ImmersionListRequestAction(this.codeRome, this.location, [this.title]);
 }
 
 class ImmersionListLoadingAction {}

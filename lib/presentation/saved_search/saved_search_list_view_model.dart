@@ -1,12 +1,11 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
-import 'package:pass_emploi_app/features/immersion/list/immersion_list_request.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
+import 'package:pass_emploi_app/features/immersion/saved_search/immersion_saved_search_actions.dart';
 import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
-import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_actions.dart';
+import 'package:pass_emploi_app/features/offre_emploi/saved_search/offre_emploi_saved_search_actions.dart';
+import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -60,8 +59,8 @@ class SavedSearchListViewModel extends Equatable {
         savedSearches: state.savedSearches.toList(),
         searchNavigationState: _getSearchNavigationState(searchResultState, searchParamsState, immersionListState),
         immersionsResults: immersionListState is ImmersionListSuccessState ? immersionListState.immersions : [],
-        offreEmploiSelected: (savedSearch) => onOffreEmploiSelected(savedSearch, store),
-        offreImmersionSelected: (savedSearch) => onOffreImmersionSelected(savedSearch, store),
+        offreEmploiSelected: (savedSearch) => store.dispatch(SavedSearchGetAction(savedSearch.id)),
+        offreImmersionSelected: (savedSearch) => store.dispatch(SavedSearchGetAction(savedSearch.id)),
       );
     }
     return SavedSearchListViewModel._(displayState: DisplayState.LOADING);
@@ -103,28 +102,21 @@ class SavedSearchListViewModel extends Equatable {
 
   static void onOffreEmploiSelected(OffreEmploiSavedSearch savedSearch, Store<AppState> store) {
     store.dispatch(
-      OffreEmploiSearchParametersRequestAction(
+      SavedOffreEmploiSearchRequestAction(
         keywords: savedSearch.keywords ?? "",
         location: savedSearch.location,
         onlyAlternance: savedSearch.isAlternance,
-        updatedFiltres: savedSearch.filters,
+        filtres: savedSearch.filters,
       ),
     );
   }
 
   static void onOffreImmersionSelected(ImmersionSavedSearch savedSearch, Store<AppState> store) {
     store.dispatch(
-      ImmersionListRequestAction(
-        ImmersionListRequest(
-          savedSearch.filters!.codeRome!,
-          Location(
-            type: LocationType.COMMUNE,
-            libelle: savedSearch.location,
-            code: "",
-            latitude: savedSearch.filters!.lat!,
-            longitude: savedSearch.filters!.lon!,
-          ),
-        ),
+      ImmersionSavedSearchRequestAction(
+        codeRome: savedSearch.codeRome,
+        location: savedSearch.location,
+        filtres: savedSearch.filtres,
       ),
     );
   }

@@ -7,6 +7,7 @@ class PostImmersionSavedSearch implements JsonSerializable {
   final String? codeRome;
   final double? lat;
   final double? lon;
+  final int? distance;
 
   PostImmersionSavedSearch({
     required this.title,
@@ -15,6 +16,7 @@ class PostImmersionSavedSearch implements JsonSerializable {
     required this.codeRome,
     required this.lat,
     required this.lon,
+    required this.distance,
   });
 
   @override
@@ -26,6 +28,7 @@ class PostImmersionSavedSearch implements JsonSerializable {
           "rome": codeRome,
           "lat": lat,
           "lon": lon,
+          "distance": distance,
         }
       };
 }

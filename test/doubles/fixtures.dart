@@ -131,9 +131,21 @@ Configuration configuration({Flavor flavor = Flavor.STAGING}) => Configuration(
       'someKey',
     );
 
-Location mockLocation() => Location(libelle: "", code: "", type: LocationType.DEPARTMENT);
+Location mockLocation({double? lat, double? lon}) => Location(
+      libelle: "",
+      code: "",
+      type: LocationType.DEPARTMENT,
+      latitude: lat,
+      longitude: lon,
+    );
 
-Location mockCommuneLocation() => Location(libelle: "", code: "", type: LocationType.COMMUNE);
+Location mockCommuneLocation({double? lat, double? lon, String label = ""}) => Location(
+      libelle: label,
+      code: "",
+      type: LocationType.COMMUNE,
+      latitude: lat,
+      longitude: lon,
+    );
 
 Immersion mockImmersion({String id = ""}) {
   return Immersion(id: id, metier: "", nomEtablissement: "", secteurActivite: "", ville: "");

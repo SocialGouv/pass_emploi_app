@@ -33,6 +33,7 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
   String? _selectedMetierTitle;
   final _metierFormKey = GlobalKey<FormState>();
   final _locationFormKey = GlobalKey<FormState>();
+  var _shouldNavigate = true;
 
   @override
   Widget build(BuildContext context) {
@@ -41,14 +42,9 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
       builder: (context, vm) => _content(context, vm),
       distinct: true,
       onWillChange: (_, viewModel) {
-        if (viewModel.displayState == ImmersionSearchDisplayState.SHOW_RESULTS) {
-          widget
-              .pushAndTrackBack(
-                  context, MaterialPageRoute(builder: (context) => ImmersionListPage(viewModel.immersions)))
-              .then((_) {
-            // Reset state to avoid unexpected SHOW_RESULTS while coming back from ImmersionListPage
-            StoreProvider.of<AppState>(context).dispatch(ImmersionListResetAction());
-          });
+        if (_shouldNavigate && viewModel.displayState == ImmersionSearchDisplayState.SHOW_RESULTS) {
+          _shouldNavigate = false;
+          widget.pushAndTrackBack(context, MaterialPageRoute(builder: (context) => ImmersionListPage()));
         }
       },
       onDispose: (store) {
@@ -173,6 +169,7 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
   bool _isError(ImmersionSearchViewModel vm) => vm.displayState == ImmersionSearchDisplayState.SHOW_ERROR;
 
   void _onSearchButtonPressed(ImmersionSearchViewModel viewModel) {
+    _shouldNavigate = true;
     viewModel.onSearchingRequest(_selectedMetierCodeRome, _selectedLocationViewModel?.location, _selectedMetierTitle);
     Keyboard.dismiss(context);
   }

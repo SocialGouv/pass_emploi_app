@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/features/deep_link/deep_link_reducer.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_reducer.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_reducer.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_reducer.dart';
-import 'package:pass_emploi_app/features/immersion/search/immersion_search_reducer.dart';
+import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_reducer.dart';
 import 'package:pass_emploi_app/features/location/search_location_reducer.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_reducer.dart';
@@ -61,7 +61,7 @@ AppState reducer(AppState current, dynamic action) {
     searchMetierState: searchMetierReducer(current.searchMetierState, action),
     loginState: loginReducer(current.loginState, action),
     rendezvousState: rendezvousReducer(current.rendezvousState, action),
-    immersionSearchRequestState: immersionSearchReducer(current.immersionSearchRequestState, action),
+    immersionSearchParametersState: immersionSearchParametersState(current.immersionSearchParametersState, action),
     immersionListState: immersionListReducer(current.immersionListState, action),
     immersionDetailsState: immersionDetailsReducer(current.immersionDetailsState, action),
     offreEmploiSavedSearchCreateState: savedSearchCreateReducer<OffreEmploiSavedSearch>(

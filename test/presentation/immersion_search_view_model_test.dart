@@ -76,7 +76,6 @@ main() {
 
     // Then
     expect(viewModel.displayState, ImmersionSearchDisplayState.SHOW_RESULTS);
-    expect(viewModel.immersions, [mockImmersion()]);
     expect(viewModel.errorMessage, "");
   });
 
@@ -135,8 +134,8 @@ main() {
     viewModel.onSearchingRequest("code-rome", mockLocation(), "Sexeur de volaille");
 
     expect(store.dispatchedAction, isA<ImmersionListRequestAction>());
-    expect((store.dispatchedAction as ImmersionListRequestAction).request.codeRome, "code-rome");
-    expect((store.dispatchedAction as ImmersionListRequestAction).request.location, mockLocation());
+    expect((store.dispatchedAction as ImmersionListRequestAction).codeRome, "code-rome");
+    expect((store.dispatchedAction as ImmersionListRequestAction).location, mockLocation());
   });
   test('View model triggers ImmersionSearchFailureAction when onSearchingRequest is performed with null params', () {
     final store = StoreSpy();

@@ -1,9 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
+import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_state.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
 import 'package:redux/redux.dart';
 
-import '../../features/immersion/search/immersion_search_state.dart';
 import '../../features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
 import '../../redux/app_state.dart';
 import '../../ui/strings.dart';
@@ -63,19 +63,17 @@ class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSave
 class ImmersionSearchExtractor extends AbstractSearchExtractor<ImmersionSavedSearch> {
   @override
   ImmersionSavedSearch getSearchFilters(Store<AppState> store) {
-    final requestState = store.state.immersionSearchRequestState as ImmersionSearchRequestState;
-    final String metier = _metier(store);
-    final location = requestState.ville;
+    final parametersState = store.state.immersionSearchParametersState as ImmersionSearchParametersInitializedState;
+    final String metier = _metier(store) ?? "";
+    final ville = parametersState.location?.libelle ?? "";
     return ImmersionSavedSearch(
       id: "",
-      title: Strings.savedSearchTitleField(metier, location),
+      title: Strings.savedSearchTitleField(metier, ville),
       metier: metier,
-      location: location,
-      filters: ImmersionSearchParametersFilters.withFilters(
-        codeRome: requestState.codeRome,
-        lat: requestState.latitude,
-        lon: requestState.longitude,
-      ),
+      location: parametersState.location,
+      ville: ville,
+      codeRome: parametersState.codeRome,
+      filtres: parametersState.filtres,
     );
   }
 
@@ -84,12 +82,12 @@ class ImmersionSearchExtractor extends AbstractSearchExtractor<ImmersionSavedSea
     return store.state.immersionSavedSearchCreateState is SavedSearchCreateFailureState;
   }
 
-  String _metier(Store<AppState> store) {
-    final requestState = store.state.immersionSearchRequestState as ImmersionSearchRequestState;
-    if (requestState.title != null) return requestState.title!;
-    final immersion = (store.state.immersionListState as ImmersionListSuccessState).immersions.first;
+  String? _metier(Store<AppState> store) {
+    final parametersState = store.state.immersionSearchParametersState as ImmersionSearchParametersInitializedState;
+    if (parametersState.title != null) return parametersState.title!;
+    final immersion = (store.state.immersionListState as ImmersionListSuccessState).immersions.firstOrNull;
     final searchedMetiers = store.state.searchMetierState.metiers;
-    return searchedMetiers.firstWhereOrNull((element) => element.codeRome == requestState.codeRome)?.libelle ??
-        immersion.metier;
+    return searchedMetiers.firstWhereOrNull((element) => element.codeRome == parametersState.codeRome)?.libelle ??
+        immersion?.metier;
   }
 }

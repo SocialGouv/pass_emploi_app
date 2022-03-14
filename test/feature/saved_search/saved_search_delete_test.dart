@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_state.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
+import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
@@ -87,7 +88,15 @@ main() {
 }
 
 SavedSearch _mockSavedSearch() {
-  return ImmersionSavedSearch(id: "savedSearchId", title: '', metier: '', location: '', filters: null);
+  return ImmersionSavedSearch(
+    id: "savedSearchId",
+    title: "",
+    metier: "",
+    location: mockLocation(),
+    filtres: ImmersionSearchParametersFiltres.noFiltres(),
+    ville: "",
+    codeRome: "",
+  );
 }
 
 class SavedSearchDeleteRepositorySuccessStub extends SavedSearchDeleteRepository {
