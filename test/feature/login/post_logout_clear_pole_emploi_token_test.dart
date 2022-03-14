@@ -12,7 +12,7 @@ main() {
     // Given
     final initialState = AppState.initialState().copyWith(loginState: successPoleEmploiUserState());
     final testStoreFactory = TestStoreFactory();
-    testStoreFactory.poleEmploiAuthenticator.setPoleEmploiAuthToken(
+    testStoreFactory.poleEmploiTokenRepository.setPoleEmploiAuthToken(
       AuthTokenResponse(idToken: 'i', accessToken: 'a', refreshToken: 'r'),
     );
     final Store<AppState> store = testStoreFactory.initializeReduxStore(initialState: initialState);
@@ -21,6 +21,6 @@ main() {
     await store.dispatch(RequestLogoutAction(LogoutRequester.USER));
 
     // Then
-    expect(testStoreFactory.poleEmploiAuthenticator.getPoleEmploiAccessToken(), isNull);
+    expect(testStoreFactory.poleEmploiTokenRepository.getPoleEmploiAccessToken(), isNull);
   });
 }

@@ -1,13 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
-import 'package:pass_emploi_app/auth/pole_emploi/pole_emploi_authenticator.dart';
+import 'package:pass_emploi_app/repositories/auth/pole_emploi/pole_emploi_token_repository.dart';
 
 void main() {
-  final authenticator = PoleEmploiAuthenticator();
+  final repository = PoleEmploiTokenRepository();
 
   test("getPoleEmploiAccessToken when auth token has not been previously set", () async {
     // Given
-    final accessToken = authenticator.getPoleEmploiAccessToken();
+    final accessToken = repository.getPoleEmploiAccessToken();
 
     // Then
     expect(accessToken, isNull);
@@ -15,12 +15,12 @@ void main() {
 
   test("getPoleEmploiAccessToken when auth token has been previously set", () async {
     // Given
-    authenticator.setPoleEmploiAuthToken(
+    repository.setPoleEmploiAuthToken(
       AuthTokenResponse(idToken: 'idToken', accessToken: 'accessToken', refreshToken: 'refreshToken'),
     );
 
     // When
-    final accessToken = authenticator.getPoleEmploiAccessToken();
+    final accessToken = repository.getPoleEmploiAccessToken();
 
     // Then
     expect(accessToken, 'accessToken');
@@ -28,13 +28,13 @@ void main() {
 
   test("getPoleEmploiAccessToken when auth token has been cleared", () async {
     // Given
-    authenticator.setPoleEmploiAuthToken(AuthTokenResponse(idToken: '', accessToken: '', refreshToken: ''));
+    repository.setPoleEmploiAuthToken(AuthTokenResponse(idToken: '', accessToken: '', refreshToken: ''));
 
     // When
-    authenticator.clearPoleEmploiAuthToken();
+    repository.clearPoleEmploiAuthToken();
 
     // Then
-    final accessToken = authenticator.getPoleEmploiAccessToken();
+    final accessToken = repository.getPoleEmploiAccessToken();
     expect(accessToken, isNull);
   });
 }

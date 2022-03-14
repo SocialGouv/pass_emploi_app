@@ -2,10 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
-import 'package:pass_emploi_app/repositories/auth/pole_emploi_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/auth/pole_emploi/pole_emploi_auth_repository.dart';
 
-import '../../doubles/fixtures.dart';
-import '../../utils/test_assets.dart';
+import '../../../doubles/fixtures.dart';
+import '../../../utils/test_assets.dart';
 
 void main() {
   test('getPoleEmploiToken when response is valid should return auth token', () async {

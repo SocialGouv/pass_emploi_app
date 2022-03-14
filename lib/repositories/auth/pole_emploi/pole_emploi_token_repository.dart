@@ -1,6 +1,6 @@
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 
-class PoleEmploiAuthenticator {
+class PoleEmploiTokenRepository {
   AuthTokenResponse? _authTokenResponse;
 
   void setPoleEmploiAuthToken(AuthTokenResponse authTokenResponse) => _authTokenResponse = authTokenResponse;

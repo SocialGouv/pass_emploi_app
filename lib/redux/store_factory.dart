@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
-import 'package:pass_emploi_app/auth/pole_emploi/pole_emploi_authenticator.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/chat/init/chat_initializer_middleware.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
@@ -40,7 +39,8 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
-import 'package:pass_emploi_app/repositories/auth/pole_emploi_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/auth/pole_emploi/pole_emploi_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/auth/pole_emploi/pole_emploi_token_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
@@ -71,7 +71,7 @@ import '../repositories/service_civique/service_civique_repository.dart';
 
 class StoreFactory {
   final Authenticator authenticator;
-  final PoleEmploiAuthenticator poleEmploiAuthenticator;
+  final PoleEmploiTokenRepository poleEmploiTokenRepository;
   final PoleEmploiAuthRepository poleEmploiAuthRepository;
   final UserActionRepository userActionRepository;
   final RendezvousRepository rendezvousRepository;
@@ -99,7 +99,7 @@ class StoreFactory {
 
   StoreFactory(
     this.authenticator,
-    this.poleEmploiAuthenticator,
+    this.poleEmploiTokenRepository,
     this.poleEmploiAuthRepository,
     this.userActionRepository,
     this.rendezvousRepository,
@@ -132,7 +132,7 @@ class StoreFactory {
       initialState: initialState,
       middleware: [
         LoginMiddleware(authenticator, firebaseAuthWrapper),
-        PoleEmploiAuthMiddleware(poleEmploiAuthRepository, poleEmploiAuthenticator),
+        PoleEmploiAuthMiddleware(poleEmploiAuthRepository, poleEmploiTokenRepository),
         UserActionListMiddleware(userActionRepository),
         UserActionCreateMiddleware(userActionRepository),
         UserActionUpdateMiddleware(userActionRepository),
