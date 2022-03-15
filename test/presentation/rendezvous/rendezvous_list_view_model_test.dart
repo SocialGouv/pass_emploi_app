@@ -6,6 +6,8 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_list_view_model.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:redux/redux.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
@@ -55,30 +57,28 @@ main() {
     group('with rendezvous…', () {
       test('should display them and sort them by reverse chronological order', () {
         // Given
-        final store = TestStoreFactory().initializeReduxStore(
-          initialState: loggedInState().copyWith(
-            rendezvousState: RendezvousSuccessState([
-              Rendezvous(
-                id: '1',
-                date: DateTime(2021, 12, 23, 10, 20),
-                comment: '',
-                duration: 60,
-                modality: 'Par téléphone',
-                withConseiller: false,
-                organism: 'Entreprise Bio Carburant',
-                type: RendezvousType(RendezvousTypeCode.ATELIER, 'Atelier'),
-              ),
-              Rendezvous(
-                id: '2',
-                date: DateTime(2021, 12, 24, 13, 40),
-                comment: 'comment2',
-                duration: 30,
-                modality: 'À l\'agence',
-                withConseiller: false,
-                type: RendezvousType(RendezvousTypeCode.VISITE, 'Visite'),
-              ),
-            ]),
-          ),
+        final store = _store(
+          [
+            Rendezvous(
+              id: '1',
+              date: DateTime(2021, 12, 23, 10, 20),
+              comment: '',
+              duration: 60,
+              modality: 'Par téléphone',
+              withConseiller: false,
+              organism: 'Entreprise Bio Carburant',
+              type: RendezvousType(RendezvousTypeCode.ATELIER, 'Atelier'),
+            ),
+            Rendezvous(
+              id: '2',
+              date: DateTime(2021, 12, 24, 13, 40),
+              comment: 'comment2',
+              duration: 30,
+              modality: 'À l\'agence',
+              withConseiller: false,
+              type: RendezvousType(RendezvousTypeCode.VISITE, 'Visite'),
+            ),
+          ],
         );
 
         // When
@@ -124,16 +124,12 @@ main() {
 
       test('should display precision in tag if type is "Autre" and precision is set', () {
         // Given
-        final store = TestStoreFactory().initializeReduxStore(
-          initialState: loggedInState().copyWith(
-            rendezvousState: RendezvousSuccessState([
-              mockRendezvous(
-                precision: 'Precision',
-                type: RendezvousType(RendezvousTypeCode.AUTRE, 'Autre'),
-              ),
-            ]),
+        final store = _store([
+          mockRendezvous(
+            precision: 'Precision',
+            type: RendezvousType(RendezvousTypeCode.AUTRE, 'Autre'),
           ),
-        );
+        ]);
 
         // When
         final viewModel = RendezvousListViewModel.create(store);
@@ -144,16 +140,12 @@ main() {
 
       test('should display type label in tag if type is "Autre" and precision is not set', () {
         // Given
-        final store = TestStoreFactory().initializeReduxStore(
-          initialState: loggedInState().copyWith(
-            rendezvousState: RendezvousSuccessState([
-              mockRendezvous(
-                precision: null,
-                type: RendezvousType(RendezvousTypeCode.AUTRE, 'Autre'),
-              ),
-            ]),
+        final store = _store([
+          mockRendezvous(
+            precision: null,
+            type: RendezvousType(RendezvousTypeCode.AUTRE, 'Autre'),
           ),
-        );
+        ]);
 
         // When
         final viewModel = RendezvousListViewModel.create(store);
@@ -166,15 +158,11 @@ main() {
         // Given
         final now = DateTime.now();
         final tomorrow = DateTime.now().add(Duration(days: 1));
-        final store = TestStoreFactory().initializeReduxStore(
-          initialState: loggedInState().copyWith(
-            rendezvousState: RendezvousSuccessState([
-              mockRendezvous(date: DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 10, 20)),
-              mockRendezvous(date: DateTime(now.year, now.month, now.day, 10, 20)),
-              mockRendezvous(date: DateTime(2022, 3, 1, 10, 20)),
-            ]),
-          ),
-        );
+        final store = _store([
+          mockRendezvous(date: DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 10, 20)),
+          mockRendezvous(date: DateTime(now.year, now.month, now.day, 10, 20)),
+          mockRendezvous(date: DateTime(2022, 3, 1, 10, 20)),
+        ]);
 
         // When
         final viewModel = RendezvousListViewModel.create(store);
@@ -205,9 +193,7 @@ main() {
 
     test('without rendezvous should display an empty content', () {
       // Given
-      final store = TestStoreFactory().initializeReduxStore(
-        initialState: loggedInState().copyWith(rendezvousState: RendezvousSuccessState([])),
-      );
+      final store = _store([]);
 
       // When
       final viewModel = RendezvousListViewModel.create(store);
@@ -229,4 +215,12 @@ main() {
     // Then
     expect(store.dispatchedAction, isA<RendezvousRequestAction>());
   });
+}
+
+Store<AppState> _store(List<Rendezvous> rendezvous) {
+  return TestStoreFactory().initializeReduxStore(
+    initialState: loggedInState().copyWith(
+      rendezvousState: RendezvousSuccessState(rendezvous),
+    ),
+  );
 }
