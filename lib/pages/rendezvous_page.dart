@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/presentation/rendezvous_view_model.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -12,11 +12,11 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 
 class RendezvousPage extends TraceableStatelessWidget {
-  final RendezvousViewModel rendezvous;
+  final RendezvousCardViewModel rendezvous;
 
   RendezvousPage._(this.rendezvous) : super(name: AnalyticsScreenNames.rendezvousDetails);
 
-  static MaterialPageRoute<void> materialPageRoute(RendezvousViewModel rendezvous) {
+  static MaterialPageRoute<void> materialPageRoute(RendezvousCardViewModel rendezvous) {
     return MaterialPageRoute(builder: (context) => RendezvousPage._(rendezvous));
   }
 

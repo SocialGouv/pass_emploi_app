@@ -1,8 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
-class RendezvousViewModel {
+class RendezvousCardViewModel extends Equatable {
   final String id;
   final String title; // not mandatory any more
   final String subtitle; // modality
@@ -13,7 +14,7 @@ class RendezvousViewModel {
   final bool withComment;
   final String comment;
 
-  RendezvousViewModel({
+  RendezvousCardViewModel({
     required this.id,
     required this.title,
     required this.subtitle,
@@ -25,8 +26,8 @@ class RendezvousViewModel {
     required this.comment,
   });
 
-  factory RendezvousViewModel.create(Rendezvous rdv) {
-    return RendezvousViewModel(
+  factory RendezvousCardViewModel.create(Rendezvous rdv) {
+    return RendezvousCardViewModel(
       id: rdv.id,
       title: rdv.title,
       subtitle: rdv.modality,
@@ -37,6 +38,21 @@ class RendezvousViewModel {
       withComment: rdv.comment?.isNotEmpty == true,
       comment: rdv.comment ?? '',
     );
+  }
+
+  @override
+  List<Object?> get props {
+    return [
+      id,
+      title,
+      subtitle,
+      dateAndHour,
+      dateWithoutHour,
+      hourAndDuration,
+      modality,
+      withComment,
+      comment,
+    ];
   }
 }
 

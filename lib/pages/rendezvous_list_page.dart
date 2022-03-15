@@ -5,8 +5,9 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
 import 'package:pass_emploi_app/pages/rendezvous_page.dart';
-import 'package:pass_emploi_app/presentation/rendezvous_list_page_view_model.dart';
-import 'package:pass_emploi_app/presentation/rendezvous_view_model.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_list_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -38,24 +39,28 @@ class RendezvousListPage extends TraceableStatelessWidget {
   }
 
   Widget _body(BuildContext context, RendezvousListPageViewModel viewModel) {
-    if (viewModel.withLoading) return _loader();
-    if (viewModel.withFailure) return Retry(Strings.rendezVousError, () => viewModel.onRetry());
-    if (viewModel.withEmptyMessage) return _empty();
-    return _content(context, viewModel);
+    switch (viewModel.displayState) {
+      case DisplayState.LOADING:
+        return CircularProgressIndicator(color: AppColors.primary);
+      case DisplayState.FAILURE:
+        return Retry(Strings.rendezVousError, () => viewModel.onRetry());
+      case DisplayState.EMPTY:
+        return _empty();
+      case DisplayState.CONTENT:
+        return _content(context, viewModel);
+    }
   }
 
   Widget _content(BuildContext context, RendezvousListPageViewModel viewModel) {
     return ListView.separated(
       itemCount: viewModel.items.length,
       padding: const EdgeInsets.all(Margins.spacing_s),
-      separatorBuilder: (context, index) => Container(
-        height: Margins.spacing_base,
-      ),
+      separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
       itemBuilder: (context, index) => _listItem(context, viewModel.items[index]),
     );
   }
 
-  Widget _listItem(BuildContext context, RendezvousViewModel viewModel) {
+  Widget _listItem(BuildContext context, RendezvousCardViewModel viewModel) {
     return CalendarCard(
       date: viewModel.dateAndHour,
       titre: viewModel.title,
@@ -64,8 +69,6 @@ class RendezvousListPage extends TraceableStatelessWidget {
       onTap: () => pushAndTrackBack(context, RendezvousPage.materialPageRoute(viewModel)),
     );
   }
-
-  Widget _loader() => CircularProgressIndicator(color: AppColors.primary);
 
   Widget _empty() {
     return Padding(

@@ -3,25 +3,22 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
-import 'package:pass_emploi_app/presentation/rendezvous_view_model.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-import '../features/deep_link/deep_link_actions.dart';
+import '../../features/deep_link/deep_link_actions.dart';
 
 class RendezvousListPageViewModel extends Equatable {
-  final bool withLoading;
-  final bool withFailure;
-  final bool withEmptyMessage;
-  final List<RendezvousViewModel> items;
+  final DisplayState displayState;
+  final List<RendezvousCardViewModel> items;
   final Function() onRetry;
   final Function() onDeeplinkUsed;
-  final RendezvousViewModel? deeplinkRendezvous;
+  final RendezvousCardViewModel? deeplinkRendezvous; // TODO move to ID
 
   RendezvousListPageViewModel({
-    required this.withLoading,
-    required this.withFailure,
-    required this.withEmptyMessage,
+    required this.displayState,
     required this.items,
     required this.onRetry,
     required this.deeplinkRendezvous,
@@ -32,9 +29,7 @@ class RendezvousListPageViewModel extends Equatable {
     final rendezvousState = store.state.rendezvousState;
     final items = _items(state: rendezvousState);
     return RendezvousListPageViewModel(
-      withLoading: rendezvousState is RendezvousLoadingState || rendezvousState is RendezvousNotInitializedState,
-      withFailure: rendezvousState is RendezvousFailureState,
-      withEmptyMessage: _isEmpty(rendezvousState),
+      displayState: _displayState(rendezvousState),
       items: items,
       onRetry: () => store.dispatch(RendezvousRequestAction()),
       deeplinkRendezvous: _deeplinkRendezvous(items, store.state.deepLinkState),
@@ -43,21 +38,27 @@ class RendezvousListPageViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [withLoading, withFailure, withEmptyMessage, items, deeplinkRendezvous];
+  List<Object?> get props => [displayState, items, deeplinkRendezvous];
 }
 
-bool _isEmpty(RendezvousState state) => state is RendezvousSuccessState && state.rendezvous.isEmpty;
+DisplayState _displayState(RendezvousState state) {
+  if (state is RendezvousNotInitializedState) return DisplayState.LOADING;
+  if (state is RendezvousLoadingState) return DisplayState.LOADING;
+  if (state is RendezvousSuccessState && state.rendezvous.isNotEmpty) return DisplayState.CONTENT;
+  if (state is RendezvousSuccessState && state.rendezvous.isEmpty) return DisplayState.EMPTY;
+  return DisplayState.FAILURE;
+}
 
-List<RendezvousViewModel> _items({required RendezvousState state}) {
+List<RendezvousCardViewModel> _items({required RendezvousState state}) {
   if (state is RendezvousSuccessState) {
     final rendezvous = state.rendezvous;
     rendezvous.sort((a, b) => b.date.compareTo(a.date));
-    return rendezvous.map((rdv) => RendezvousViewModel.create(rdv)).toList();
+    return rendezvous.map((rdv) => RendezvousCardViewModel.create(rdv)).toList();
   }
   return [];
 }
 
-RendezvousViewModel? _deeplinkRendezvous(List<RendezvousViewModel> viewModels, DeepLinkState state) {
+RendezvousCardViewModel? _deeplinkRendezvous(List<RendezvousCardViewModel> viewModels, DeepLinkState state) {
   if (state.deepLink == DeepLink.ROUTE_TO_RENDEZVOUS) return viewModels.firstWhereOrNull((e) => e.id == state.dataId);
   return null;
 }
