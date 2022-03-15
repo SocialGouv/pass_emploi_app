@@ -84,19 +84,21 @@ main() {
             id: '1',
             date: DateTime(2022, 12, 23, 10, 20),
             title: 'title1',
-            subtitle: 'subtitle1',
             comment: '',
-            duration: '1:00:00',
+            duration: 60,
             modality: 'Par téléphone',
+            withConseiller: false,
+            type: RendezvousType(RendezvousTypeCode.AUTRE, 'Autre'),
           ),
           Rendezvous(
             id: '2',
             date: DateTime(2022, 12, 24, 13, 40),
             title: 'title2',
-            subtitle: 'subtitle2',
             comment: 'comment2',
-            duration: '0:30:00',
+            duration: 30,
             modality: 'À l\'agence',
+            withConseiller: false,
+            type: RendezvousType(RendezvousTypeCode.AUTRE, 'Autre'),
           ),
         ]),
       ),
@@ -112,7 +114,7 @@ main() {
 
     final rdv1 = viewModel.items[0];
     expect(rdv1.title, 'title2');
-    expect(rdv1.subtitle, 'subtitle2');
+    expect(rdv1.subtitle, 'À l\'agence');
     expect(rdv1.dateAndHour, '24/12/2022 à 13:40');
     expect(rdv1.dateWithoutHour, '24 décembre 2022');
     expect(rdv1.hourAndDuration, '13:40 (30min)');
@@ -121,7 +123,7 @@ main() {
     expect(rdv1.modality, 'Le rendez-vous se fera à l\'agence');
     final rdv2 = viewModel.items[1];
     expect(rdv2.title, 'title1');
-    expect(rdv2.subtitle, 'subtitle1');
+    expect(rdv2.subtitle, 'Par téléphone');
     expect(rdv2.dateAndHour, '23/12/2022 à 10:20');
     expect(rdv2.dateWithoutHour, '23 décembre 2022');
     expect(rdv2.hourAndDuration, '10:20 (1h)');
@@ -157,10 +159,11 @@ main() {
             id: '1',
             date: DateTime(2022, 12, 23, 10, 20),
             title: 'title1',
-            subtitle: 'subtitle1',
             comment: '',
-            duration: '1:00:00',
+            duration: 60,
             modality: 'Par téléphone',
+            withConseiller: false,
+            type: RendezvousType(RendezvousTypeCode.AUTRE, 'Autre'),
           )
         ]),
       ),
@@ -173,7 +176,7 @@ main() {
     final rdv = viewModel.deeplinkRendezvous;
     expect(rdv != null, isTrue);
     expect(rdv!.title, 'title1');
-    expect(rdv.subtitle, 'subtitle1');
+    expect(rdv.subtitle, 'Par téléphone');
     expect(rdv.dateAndHour, '23/12/2022 à 10:20');
     expect(rdv.dateWithoutHour, '23 décembre 2022');
     expect(rdv.hourAndDuration, '10:20 (1h)');

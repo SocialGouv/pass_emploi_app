@@ -18,7 +18,7 @@ void main() {
       if (request.url.toString() != 'BASE_URL/jeunes/userId/rendezvous') return invalidHttpResponse();
       return Response.bytes(loadTestAssetsAsBytes('rendezvous.json'), 200);
     });
-    final repository = RendezvousRepositoryV2('BASE_URL', httpClient, HeadersBuilderStub());
+    final repository = RendezvousRepository('BASE_URL', httpClient, HeadersBuilderStub());
 
     // When
     final rendezvous = await repository.getRendezvous('userId');
@@ -28,7 +28,7 @@ void main() {
     expect(rendezvous!.length, 2);
     expect(
       rendezvous[0],
-      RendezvousV2(
+      Rendezvous(
         id: '2d663392-b9ff-4b20-81ca-70a3c779e299',
         date: parseDateTimeUtcWithCurrentTimeZone('2021-11-28T13:34:00.000Z'),
         title: 'Nils Tavernier',
@@ -42,7 +42,7 @@ void main() {
     );
     expect(
       rendezvous[1],
-      RendezvousV2(
+      Rendezvous(
         id: '2d663392-b9ff-4b20-81ca-70a3c779e300',
         date: parseDateTimeUtcWithCurrentTimeZone('2021-11-29T13:34:00.000Z'),
         title: 'title',
@@ -64,7 +64,7 @@ void main() {
       if (request.url.toString() != 'BASE_URL/jeunes/userId/rendezvous') return invalidHttpResponse();
       return Response.bytes(loadTestAssetsAsBytes('rendezvous_with_unknown_type.json'), 200);
     });
-    final repository = RendezvousRepositoryV2('BASE_URL', httpClient, HeadersBuilderStub());
+    final repository = RendezvousRepository('BASE_URL', httpClient, HeadersBuilderStub());
 
     // When
     final rendezvous = await repository.getRendezvous('userId');
@@ -80,7 +80,7 @@ void main() {
   test('getRendezvous when response is invalid should return null', () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
-    final repository = RendezvousRepositoryV2('BASE_URL', httpClient, HeadersBuilderStub());
+    final repository = RendezvousRepository('BASE_URL', httpClient, HeadersBuilderStub());
 
     // When
     final rendezvous = await repository.getRendezvous('userID');
@@ -92,7 +92,7 @@ void main() {
   test('getRendezvous when response throws exception should return null', () async {
     // Given
     final httpClient = MockClient((request) async => throw Exception());
-    final repository = RendezvousRepositoryV2('BASE_URL', httpClient, HeadersBuilderStub());
+    final repository = RendezvousRepository('BASE_URL', httpClient, HeadersBuilderStub());
 
     // When
     final rendezvous = await repository.getRendezvous('userID');

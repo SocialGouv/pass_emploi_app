@@ -4,8 +4,8 @@ import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class RendezvousViewModel {
   final String id;
-  final String title;
-  final String subtitle;
+  final String title; // not mandatory any more
+  final String subtitle; // modality
   final String dateAndHour;
   final String dateWithoutHour;
   final String hourAndDuration;
@@ -29,22 +29,21 @@ class RendezvousViewModel {
     return RendezvousViewModel(
       id: rdv.id,
       title: rdv.title,
-      subtitle: rdv.subtitle,
+      subtitle: rdv.modality,
       dateAndHour: rdv.date.toDayAndHour(),
       dateWithoutHour: rdv.date.toDayWithFullMonth(),
       hourAndDuration: "${rdv.date.toHour()} (${_toDuration(rdv.duration)})",
       modality: Strings.rendezVousModalityMessage(rdv.modality.toLowerCase()),
-      withComment: rdv.comment.isNotEmpty,
-      comment: rdv.comment,
+      withComment: rdv.comment?.isNotEmpty == true,
+      comment: rdv.comment ?? '',
     );
   }
 }
 
-_toDuration(String duration) {
-  final durationSplit = duration.split(':');
-  final hours = durationSplit[0];
-  final minutes = durationSplit[1];
-  if (hours == '0') return '${minutes}min';
-  if (minutes == '00') return '${hours}h';
+_toDuration(int duration) {
+  final hours = duration ~/ 60;
+  final minutes = duration % 60;
+  if (hours == 0) return '${minutes}min';
+  if (minutes == 0) return '${hours}h';
   return '${hours}h$minutes';
 }

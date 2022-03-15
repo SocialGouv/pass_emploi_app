@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
+import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
@@ -76,7 +76,18 @@ class RendezvousRepositorySuccessStub extends RendezvousRepository {
   @override
   Future<List<Rendezvous>?> getRendezvous(String userId) async {
     if (userId != expectedUserId) throw Exception("Unexpected user ID: $userId");
-    return [Rendezvous(id: '', date: DateTime(2022), title: '', subtitle: '', comment: '', duration: '', modality: '')];
+    return [
+      Rendezvous(
+        id: '',
+        date: DateTime(2022),
+        title: '',
+        comment: '',
+        duration: 30,
+        modality: '',
+        type: RendezvousType(RendezvousTypeCode.AUTRE, 'Autre'),
+        withConseiller: false,
+      )
+    ];
   }
 }
 

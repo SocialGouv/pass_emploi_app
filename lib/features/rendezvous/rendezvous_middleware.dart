@@ -1,7 +1,7 @@
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
+import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:redux/redux.dart';
 
 class RendezvousMiddleware extends MiddlewareClass<AppState> {
