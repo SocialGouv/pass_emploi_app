@@ -25,7 +25,7 @@ class RendezvousListPage extends TraceableStatelessWidget {
     return StoreConnector<AppState, RendezvousListPageViewModel>(
       onInit: (store) => store.dispatch(RendezvousRequestAction()),
       converter: (store) => RendezvousListPageViewModel.create(store),
-      builder: (context, viewModel) => _scaffold(_body(context, viewModel)),
+      builder: (context, viewModel) => _Scaffold(body: _body(context, viewModel)),
       onDidChange: (_, viewModel) => _openDeeplinkIfNeeded(viewModel, context),
       distinct: true,
     );
@@ -45,43 +45,65 @@ class RendezvousListPage extends TraceableStatelessWidget {
       case DisplayState.FAILURE:
         return Retry(Strings.rendezVousError, () => viewModel.onRetry());
       case DisplayState.EMPTY:
-        return _empty();
+        return _Empty();
       case DisplayState.CONTENT:
-        return _content(context, viewModel);
+        return _Content(
+          viewModel: viewModel,
+          onTap: (viewModel) => pushAndTrackBack(context, RendezvousPage.materialPageRoute(viewModel)),
+        );
     }
   }
+}
 
-  Widget _content(BuildContext context, RendezvousListPageViewModel viewModel) {
+class _Scaffold extends StatelessWidget {
+  const _Scaffold({Key? key, required this.body}) : super(key: key);
+
+  final Widget body;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.grey100,
+      body: Center(child: DefaultAnimatedSwitcher(child: body)),
+    );
+  }
+}
+
+class _Content extends StatelessWidget {
+  const _Content({Key? key, required this.viewModel, required this.onTap}) : super(key: key);
+
+  final RendezvousListPageViewModel viewModel;
+  final Function(RendezvousCardViewModel) onTap;
+
+  @override
+  Widget build(BuildContext context) {
     return ListView.separated(
       itemCount: viewModel.items.length,
       padding: const EdgeInsets.all(Margins.spacing_s),
       separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
-      itemBuilder: (context, index) => _listItem(context, viewModel.items[index]),
+      itemBuilder: (context, index) {
+        final vm = viewModel.items[index];
+        return CalendarCard(
+          tag: vm.tag,
+          date: vm.date,
+          titre: vm.title,
+          sousTitre: vm.subtitle,
+          texteLien: Strings.linkDetailsRendezVous,
+          onTap: () => onTap(vm),
+        );
+      },
     );
   }
+}
 
-  Widget _listItem(BuildContext context, RendezvousCardViewModel viewModel) {
-    return CalendarCard(
-      tag: viewModel.tag,
-      date: viewModel.date,
-      titre: viewModel.title,
-      sousTitre: viewModel.subtitle,
-      texteLien: Strings.linkDetailsRendezVous,
-      onTap: () => pushAndTrackBack(context, RendezvousPage.materialPageRoute(viewModel)),
-    );
-  }
+class _Empty extends StatelessWidget {
+  const _Empty({Key? key}) : super(key: key);
 
-  Widget _empty() {
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(Margins.spacing_base),
       child: Text(Strings.noUpcomingRendezVous, style: TextStyles.textSRegular()),
-    );
-  }
-
-  Scaffold _scaffold(Widget body) {
-    return Scaffold(
-      backgroundColor: AppColors.grey100,
-      body: Center(child: DefaultAnimatedSwitcher(child: body)),
     );
   }
 }
