@@ -12,12 +12,13 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 
 class RendezvousPage extends TraceableStatelessWidget {
+  final String rendezvousId;
   final RendezvousCardViewModel rendezvous;
 
-  RendezvousPage._(this.rendezvous) : super(name: AnalyticsScreenNames.rendezvousDetails);
+  RendezvousPage._(this.rendezvousId, this.rendezvous) : super(name: AnalyticsScreenNames.rendezvousDetails);
 
-  static MaterialPageRoute<void> materialPageRoute(RendezvousCardViewModel rendezvous) {
-    return MaterialPageRoute(builder: (context) => RendezvousPage._(rendezvous));
+  static MaterialPageRoute<void> materialPageRoute(String rendezvousId, RendezvousCardViewModel rendezvous) {
+    return MaterialPageRoute(builder: (context) => RendezvousPage._(rendezvousId, rendezvous));
   }
 
   @override
