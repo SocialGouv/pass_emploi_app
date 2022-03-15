@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
 import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -36,7 +37,21 @@ class ImmersionSearchResultsViewModel extends Equatable {
 }
 
 int? _filtresCount(ImmersionSearchParametersState searchParamsState) {
-  return null;
+  if (searchParamsState is ImmersionSearchParametersInitializedState) {
+    final distanceCount = _distanceCount(searchParamsState);
+    if (distanceCount == 0) {
+      return null;
+    } else {
+      return distanceCount;
+    }
+  } else {
+    return null;
+  }
+}
+
+int _distanceCount(ImmersionSearchParametersInitializedState searchParamsState) {
+  final distanceFiltre = searchParamsState.filtres.distance;
+  return distanceFiltre != null && distanceFiltre != ImmersionSearchParametersFiltres.defaultDistanceValue ? 1 : 0;
 }
 
 List<Immersion> _items(ImmersionListState searchState) =>
