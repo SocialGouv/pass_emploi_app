@@ -1,4 +1,6 @@
-class Conseiller {
+import 'package:equatable/equatable.dart';
+
+class Conseiller extends Equatable {
   final String id;
   final String firstName;
   final String lastName;
@@ -7,6 +9,12 @@ class Conseiller {
 
   factory Conseiller.fromJson(dynamic json) {
     return Conseiller(
-        id: json['id'] as String, firstName: json['firstName'] as String, lastName: json['lastName'] as String);
+      id: json['id'] as String,
+      firstName: json['prenom'] as String,
+      lastName: json['nom'] as String,
+    );
   }
+
+  @override
+  List<Object?> get props => [id, firstName, lastName];
 }
