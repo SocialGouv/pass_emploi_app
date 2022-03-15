@@ -33,6 +33,7 @@ import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
+import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
@@ -155,6 +156,7 @@ Future<Store<AppState>> _initializeReduxStore(
     OffreEmploiDetailsRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     OffreEmploiFavorisRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     ImmersionFavorisRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
+    ServiceCiviqueFavorisRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     SearchLocationRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),
     MetierRepository(),
     ImmersionRepository(configuration.serverBaseUrl, httpClient, headersBuilder, crashlytics),

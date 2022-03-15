@@ -55,7 +55,7 @@ void main() {
         title: "Accompagnement des publics individuels",
         companyName: "SYNDICAT MIXTE DU CHATEAU DE VALENCAY",
         location: "Valençay",
-        startDate: "01 décembre 2021",
+        startDate: "2021-12-01T00:00:00.000Z",
         domain: "solidarite-insertion",
       ),
     );

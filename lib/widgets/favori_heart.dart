@@ -90,6 +90,12 @@ class FavoriHeartAnalyticsHelper {
         return AnalyticsActionNames.immersionDetailUpdateFavori(isFavori);
       case OffrePage.immersionFavoris:
         return AnalyticsActionNames.immersionFavoriUpdateFavori(isFavori);
+      case OffrePage.serviceCiviqueResults:
+        return AnalyticsActionNames.serviceCiviqueResultUpdateFavori(isFavori);
+      case OffrePage.serviceCiviqueFavoris:
+        return AnalyticsActionNames.serviceCiviqueFavoriUpdateFavori(isFavori);
+      case OffrePage.serviceCiviqueDetail:
+        return AnalyticsActionNames.serviceCiviqueDetailUpdateFavori(isFavori);
     }
   }
 
@@ -113,6 +119,12 @@ class FavoriHeartAnalyticsHelper {
         return AnalyticsScreenNames.immersionDetails;
       case OffrePage.immersionFavoris:
         return AnalyticsScreenNames.immersionFavoris;
+      case OffrePage.serviceCiviqueResults:
+        return AnalyticsScreenNames.serviceCiviqueResults;
+      case OffrePage.serviceCiviqueFavoris:
+        return AnalyticsScreenNames.serviceCiviqueFavoris;
+      case OffrePage.serviceCiviqueDetail:
+        return AnalyticsScreenNames.serviceCiviqueDetail;
     }
   }
 }

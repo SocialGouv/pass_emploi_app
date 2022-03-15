@@ -1,6 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/utils/date_extensions.dart';
-import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 class ServiceCivique extends Equatable {
   final String id;
@@ -27,7 +25,7 @@ class ServiceCivique extends Equatable {
       domain: json["domaine"] as String,
       companyName: json["organisation"] as String?,
       location: json["ville"] as String?,
-      startDate: stringDate?.toDateTimeUtcOnLocalTimeZone().toDayWithFullMonth(),
+      startDate: stringDate,
     );
   }
 

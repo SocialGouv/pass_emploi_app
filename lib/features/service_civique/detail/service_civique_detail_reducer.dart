@@ -8,6 +8,8 @@ ServiceCiviqueDetailState serviceCiviqueDetailReducer(ServiceCiviqueDetailState 
     return ServiceCiviqueDetailSuccessState(action.detail);
   } else if (action is ServiceCiviqueDetailFailureAction) {
     return ServiceCiviqueDetailFailureState();
+  } else if (action is ServiceCiviqueDetailNotFoundAction) {
+    return ServiceCiviqueDetailNotFoundState(action.serviceCivique);
   } else {
     return current;
   }

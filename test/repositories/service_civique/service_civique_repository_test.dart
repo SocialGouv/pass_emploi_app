@@ -22,9 +22,9 @@ void main() {
     final result = await repository.getServiceCiviqueDetail("je_suis_un_id");
 
     // Then
-    expect(result!, isNotNull);
+    expect(result, isNotNull);
     expect(
-      result,
+      (result as SuccessfullServiceCiviqueDetailResponse).detail,
       ServiceCiviqueDetail(
         titre: "Accompagner la mise en place d'actions culturelles en milieu carcéral",
         dateDeDebut: "15 février 2022",
@@ -54,6 +54,6 @@ void main() {
     final search = await repository.getServiceCiviqueDetail("id");
 
     // Then
-    expect(search, isNull);
+    expect(search, NotFoundServiceCiviqueDetailResponse());
   });
 }

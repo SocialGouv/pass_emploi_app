@@ -44,6 +44,7 @@ class AnalyticsScreenNames {
   static const serviceCiviqueResults = "/recherche/service_civique/search_results";
   static const serviceCiviqueNoResults = "/recherche/service_civique/search_no_results";
   static const serviceCiviqueDetail = "/recherche/service_civique/detail";
+  static const serviceCiviqueFavoris = "/favoris/list/service_civique";
 
   static const toolbox = "recherche/boite_a_outils";
   static const emploiFavoris = "favoris/list/emploi";
@@ -80,6 +81,13 @@ class AnalyticsActionNames {
   static String immersionDetailUpdateFavori(bool added) => "/solutions/immersion/detail?favori=$added";
 
   static String immersionFavoriUpdateFavori(bool added) => "/favoris/list/immersion?favori=$added";
+
+  static String serviceCiviqueResultUpdateFavori(bool added) =>
+      "/solutions/service-civique/search_results?favori=$added";
+
+  static String serviceCiviqueDetailUpdateFavori(bool added) => "/solutions/service-civique/detail?favori=$added";
+
+  static String serviceCiviqueFavoriUpdateFavori(bool added) => "/favoris/list/service-civique?favori=$added";
 
   static const deleteUserAction = "actions/list?deleteSuccess=true";
 

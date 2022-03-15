@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 
 abstract class ServiceCiviqueDetailState extends Equatable {
@@ -18,6 +19,12 @@ class ServiceCiviqueDetailFailureState extends ServiceCiviqueDetailState {
 
 class ServiceCiviqueDetailNotInitializedState extends ServiceCiviqueDetailState {
   ServiceCiviqueDetailNotInitializedState() : super._();
+}
+
+class ServiceCiviqueDetailNotFoundState extends ServiceCiviqueDetailState {
+  final ServiceCivique serviceCivique;
+
+  ServiceCiviqueDetailNotFoundState(this.serviceCivique) : super._();
 }
 
 class ServiceCiviqueDetailSuccessState extends ServiceCiviqueDetailState {

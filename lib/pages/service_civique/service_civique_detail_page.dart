@@ -3,8 +3,10 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_actions.dart';
+import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
@@ -18,16 +20,21 @@ import '../../ui/drawables.dart';
 import '../../ui/margins.dart';
 import '../../ui/strings.dart';
 import '../../ui/text_styles.dart';
+import '../../widgets/buttons/delete_favori_button.dart';
 import '../../widgets/buttons/primary_action_button.dart';
 import '../../widgets/buttons/share_button.dart';
 import '../../widgets/default_app_bar.dart';
+import '../../widgets/errors/favori_not_found_error.dart';
+import '../../widgets/favori_heart.dart';
 import '../../widgets/tags/tags.dart';
 import '../../widgets/title_section.dart';
 
 class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
   final String idOffre;
+  final bool popPageWhenFavoriIsRemoved;
 
-  ServiceCiviqueDetailPage(this.idOffre) : super(name: AnalyticsScreenNames.serviceCiviqueDetail);
+  ServiceCiviqueDetailPage(this.idOffre, [this.popPageWhenFavoriIsRemoved = false])
+      : super(name: AnalyticsScreenNames.serviceCiviqueDetail);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +44,7 @@ class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
       builder: (context, viewModel) {
         return FavorisStateContext(
           child: _scaffold(_body(context, viewModel)),
-          selectState: (store) => store.state.offreEmploiFavorisState,
+          selectState: (store) => store.state.serviceCiviqueFavorisState,
         );
       },
     );
@@ -54,10 +61,10 @@ class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
   Widget _body(BuildContext context, ServiceCiviqueDetailViewModel viewModel) {
     switch (viewModel.displayState) {
       case DisplayState.CONTENT:
+      case DisplayState.EMPTY:
         return _content(context, viewModel);
       case DisplayState.LOADING:
         return _loading();
-      case DisplayState.EMPTY:
       case DisplayState.FAILURE:
         return _error();
     }
@@ -68,7 +75,11 @@ class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
   Widget _error() => Center(child: Text(Strings.offreDetailsError));
 
   Widget _content(BuildContext context, ServiceCiviqueDetailViewModel viewModel) {
-    final ServiceCiviqueDetail detail = viewModel.detail!;
+    final ServiceCiviqueDetail? detail = viewModel.detail;
+    final ServiceCivique? serviceCivique = viewModel.serviceCivique;
+    String organisation = detail?.organisation ?? serviceCivique?.companyName ?? "";
+    String titre = detail?.titre ?? serviceCivique?.title ?? "";
+    String domaine = detail?.domaine ?? serviceCivique?.domain ?? "";
     return Stack(
       children: [
         SingleChildScrollView(
@@ -77,27 +88,37 @@ class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(detail.domaine, style: TextStyles.textBaseRegular),
+                if (viewModel.displayState == DisplayState.EMPTY)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: FavoriNotFoundError(),
+                  ),
+                Text(domaine, style: TextStyles.textBaseRegular),
                 _spacer(Margins.spacing_s),
                 Padding(
                   padding: const EdgeInsets.only(bottom: Margins.spacing_s),
-                  child: Text(detail.titre, style: TextStyles.textMBold),
+                  child: Text(titre, style: TextStyles.textMBold),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: Margins.spacing_m),
-                  child: Text(detail.organisation, style: TextStyles.textBaseRegular),
+                  child: Text(organisation, style: TextStyles.textBaseRegular),
                 ),
-                _tags(detail),
-                _description(detail),
-                _organisation(detail),
-                _spacer(60),
+                if (detail != null) _tags(detail),
+                if (detail != null) _description(detail),
+                if (detail != null) _organisation(detail),
+                if (detail != null) _spacer(60),
+                if (viewModel.displayState == DisplayState.EMPTY)
+                  Align(
+                    child: _incompleteDataFooter(),
+                    alignment: Alignment.bottomCenter,
+                  )
               ],
             ),
           ),
         ),
-        if (detail.lienAnnonce != null)
+        if (detail?.lienAnnonce != null)
           Align(
-            child: _footer(context, detail.lienAnnonce!, detail.titre),
+            child: _footer(context, detail!.lienAnnonce!, detail.titre),
             alignment: Alignment.bottomCenter,
           )
       ],
@@ -203,6 +224,13 @@ class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
             ),
           ),
           SizedBox(width: Margins.spacing_base),
+          FavoriHeart<ServiceCivique>(
+            offreId: idOffre,
+            withBorder: true,
+            from: OffrePage.serviceCiviqueDetail,
+            onFavoriRemoved: popPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
+          ),
+          SizedBox(width: Margins.spacing_base),
           ShareButton(url, title, () => _shareOffer(context)),
         ],
       ),
@@ -219,4 +247,16 @@ class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
   EventType _partagerEvent() => EventType.OFFRE_SERVICE_CIVIQUE_PARTAGEE;
 
   EventType _postulerEvent() => EventType.OFFRE_SERVICE_CIVIQUE_POSTULEE;
+
+  Padding _incompleteDataFooter() {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Expanded(child: DeleteFavoriButton<ServiceCivique>(offreId: idOffre, from: OffrePage.serviceCiviqueDetail)),
+        ],
+      ),
+    );
+  }
 }

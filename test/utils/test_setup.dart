@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
+import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
@@ -57,6 +58,7 @@ class TestStoreFactory {
   SavedSearchDeleteRepository savedSearchDeleteRepository = DummySavedSearchDeleteRepository();
   ServiceCiviqueRepository serviceCiviqueRepository = DummyServiceCiviqueRepository();
   ServiceCiviqueDetailRepository serviceCiviqueDetailRepository = DummyServiceCiviqueDetailRepository();
+  ServiceCiviqueFavorisRepository serviceCiviqueFavorisRepository = DummyServiceCiviqueFavorisRepository();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
@@ -72,6 +74,7 @@ class TestStoreFactory {
       detailedOfferRepository,
       offreEmploiFavorisRepository,
       immersionFavorisRepository,
+      serviceCiviqueFavorisRepository,
       searchLocationRepository,
       metierRepository,
       immersionRepository,
