@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
@@ -14,19 +15,37 @@ class ServiceCiviqueDetailRepository {
 
   ServiceCiviqueDetailRepository(this._baseUrl, this._httpClient, this._headersBuilder, [this._crashlytics]);
 
-  Future<ServiceCiviqueDetail?> getServiceCiviqueDetail(String idOffre) async {
+  Future<ServiceCiviqueDetailResponse> getServiceCiviqueDetail(String idOffre) async {
     final url = Uri.parse(_baseUrl + "/services-civique/$idOffre");
     try {
       final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
       if (response.statusCode.isValid()) {
         final Map<dynamic, dynamic> json = jsonUtf8Decode(response.bodyBytes) as Map<dynamic, dynamic>;
-        return ServiceCiviqueDetail.fromJson(json);
+        return SuccessfullServiceCiviqueDetailResponse(ServiceCiviqueDetail.fromJson(json));
       } else {
-        return null;
+        return NotFoundServiceCiviqueDetailResponse();
       }
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);
     }
-    return null;
+    return FailedServiceCiviqueDetailResponse();
   }
 }
+
+abstract class ServiceCiviqueDetailResponse extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
+
+class SuccessfullServiceCiviqueDetailResponse extends ServiceCiviqueDetailResponse {
+  final ServiceCiviqueDetail detail;
+
+  SuccessfullServiceCiviqueDetailResponse(this.detail);
+
+  @override
+  List<Object?> get props => [detail];
+}
+
+class NotFoundServiceCiviqueDetailResponse extends ServiceCiviqueDetailResponse {}
+
+class FailedServiceCiviqueDetailResponse extends ServiceCiviqueDetailResponse {}

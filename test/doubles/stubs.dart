@@ -9,7 +9,6 @@ import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
-import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/network/headers.dart';
@@ -302,8 +301,8 @@ class ServiceCiviqueDetailRepositoryWithDataStub extends ServiceCiviqueDetailRep
   ServiceCiviqueDetailRepositoryWithDataStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<ServiceCiviqueDetail?> getServiceCiviqueDetail(String idOffre) async {
-    return mockServiceCiviqueDetail();
+  Future<ServiceCiviqueDetailResponse> getServiceCiviqueDetail(String idOffre) async {
+    return SuccessfullServiceCiviqueDetailResponse(mockServiceCiviqueDetail());
   }
 }
 
@@ -311,8 +310,8 @@ class ServiceCiviqueDetailRepositoryWithErrorStub extends ServiceCiviqueDetailRe
   ServiceCiviqueDetailRepositoryWithErrorStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
-  Future<ServiceCiviqueDetail?> getServiceCiviqueDetail(String idOffre) async {
-    return null;
+  Future<ServiceCiviqueDetailResponse> getServiceCiviqueDetail(String idOffre) async {
+    return FailedServiceCiviqueDetailResponse();
   }
 }
 
