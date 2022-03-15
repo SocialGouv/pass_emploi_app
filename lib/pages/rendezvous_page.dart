@@ -31,7 +31,7 @@ class RendezvousPage extends TraceableStatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(rendezvous.title, style: TextStyles.textLBold()),
+              if (rendezvous.title != null) Text(rendezvous.title!, style: TextStyles.textLBold()),
               SizedBox(height: Margins.spacing_xs),
               Text(rendezvous.subtitle, style: TextStyles.textBaseRegular),
               SizedBox(height: Margins.spacing_m),

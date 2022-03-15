@@ -109,8 +109,7 @@ class Strings {
   static String cantMakeItNoBigDeal = "Vous n’êtes pas disponible sur ce créneau ?";
   static String shouldInformConseiller =
       "Il est impératif de prévenir votre conseiller et de justifier votre absence. Pour cela, contactez-le grâce à la messagerie.";
-
-  static String rendezVousModalityMessage(modality) => "Le rendez-vous se fera $modality";
+  static String rendezVousModalityMessage(String modality) => "Le rendez-vous se fera $modality";
   static String noUpcomingRendezVous =
       "Vous n’avez pas de rendez-vous prévus.\nContactez votre conseiller pour prendre rendez-vous";
   static String rendezVousError = "Erreur lors de la récupération de vos rendez-vous";

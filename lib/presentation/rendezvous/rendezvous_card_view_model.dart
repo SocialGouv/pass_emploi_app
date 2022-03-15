@@ -4,18 +4,22 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class RendezvousCardViewModel extends Equatable {
-  final String id;
-  final String title; // not mandatory any more
-  final String subtitle; // modality
-  final String dateAndHour;
-  final String dateWithoutHour;
-  final String hourAndDuration;
-  final String modality;
-  final bool withComment;
-  final String comment;
+  final String id; // CARD
+  final String tag; // CARD
+  final String date; // CARD
+  final String? title; // CARD
+  final String subtitle; // CARD
+  final String dateAndHour; // ???
+  final String dateWithoutHour; // ???
+  final String hourAndDuration; // ???
+  final String modality; // ???
+  final bool withComment; // ???
+  final String comment; // ???
 
   RendezvousCardViewModel({
     required this.id,
+    required this.tag,
+    required this.date,
     required this.title,
     required this.subtitle,
     required this.dateAndHour,
@@ -29,9 +33,11 @@ class RendezvousCardViewModel extends Equatable {
   factory RendezvousCardViewModel.create(Rendezvous rdv) {
     return RendezvousCardViewModel(
       id: rdv.id,
-      title: rdv.title,
+      tag: rdv.type.label,
+      date: rdv.date.toDayAndHour(),
+      title: rdv.organism != null ? "Avec : ${rdv.organism}" : null,
       subtitle: rdv.modality,
-      dateAndHour: rdv.date.toDayAndHour(),
+      dateAndHour: rdv.date.toDayAndHourOld(),
       dateWithoutHour: rdv.date.toDayWithFullMonth(),
       hourAndDuration: "${rdv.date.toHour()} (${_toDuration(rdv.duration)})",
       modality: Strings.rendezVousModalityMessage(rdv.modality.toLowerCase()),
@@ -44,6 +50,8 @@ class RendezvousCardViewModel extends Equatable {
   List<Object?> get props {
     return [
       id,
+      tag,
+      date,
       title,
       subtitle,
       dateAndHour,

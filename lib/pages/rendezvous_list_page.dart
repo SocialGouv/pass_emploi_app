@@ -62,7 +62,8 @@ class RendezvousListPage extends TraceableStatelessWidget {
 
   Widget _listItem(BuildContext context, RendezvousCardViewModel viewModel) {
     return CalendarCard(
-      date: viewModel.dateAndHour,
+      tag: viewModel.tag,
+      date: viewModel.date,
       titre: viewModel.title,
       sousTitre: viewModel.subtitle,
       texteLien: Strings.linkDetailsRendezVous,
