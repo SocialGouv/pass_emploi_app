@@ -210,7 +210,6 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
 }
 
 SearchServiceCiviqueRequest _mockSearchServiceCiviqueRequest() {
-  ServiceCivique mock = mockServiceCivique();
   return SearchServiceCiviqueRequest(
     location: mockLocation(),
     domain: null,
