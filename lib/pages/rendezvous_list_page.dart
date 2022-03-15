@@ -25,7 +25,14 @@ class RendezvousListPage extends TraceableStatelessWidget {
     return StoreConnector<AppState, RendezvousListPageViewModel>(
       onInit: (store) => store.dispatch(RendezvousRequestAction()),
       converter: (store) => RendezvousListPageViewModel.create(store),
-      builder: (context, viewModel) => _Scaffold(body: _body(context, viewModel)),
+      builder: (context, viewModel) {
+        return _Scaffold(
+          body: _Body(
+            viewModel: viewModel,
+            onTap: (viewModel) => pushAndTrackBack(context, RendezvousPage.materialPageRoute(viewModel)),
+          ),
+        );
+      },
       onDidChange: (_, viewModel) => _openDeeplinkIfNeeded(viewModel, context),
       distinct: true,
     );
@@ -35,22 +42,6 @@ class RendezvousListPage extends TraceableStatelessWidget {
     if (viewModel.deeplinkRendezvous != null) {
       pushAndTrackBack(context, RendezvousPage.materialPageRoute(viewModel.deeplinkRendezvous!));
       viewModel.onDeeplinkUsed();
-    }
-  }
-
-  Widget _body(BuildContext context, RendezvousListPageViewModel viewModel) {
-    switch (viewModel.displayState) {
-      case DisplayState.LOADING:
-        return CircularProgressIndicator(color: AppColors.primary);
-      case DisplayState.FAILURE:
-        return Retry(Strings.rendezVousError, () => viewModel.onRetry());
-      case DisplayState.EMPTY:
-        return _Empty();
-      case DisplayState.CONTENT:
-        return _Content(
-          viewModel: viewModel,
-          onTap: (viewModel) => pushAndTrackBack(context, RendezvousPage.materialPageRoute(viewModel)),
-        );
     }
   }
 }
@@ -66,6 +57,30 @@ class _Scaffold extends StatelessWidget {
       backgroundColor: AppColors.grey100,
       body: Center(child: DefaultAnimatedSwitcher(child: body)),
     );
+  }
+}
+
+class _Body extends StatelessWidget {
+  const _Body({Key? key, required this.viewModel, required this.onTap}) : super(key: key);
+
+  final RendezvousListPageViewModel viewModel;
+  final Function(RendezvousCardViewModel) onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    switch (viewModel.displayState) {
+      case DisplayState.LOADING:
+        return CircularProgressIndicator();
+      case DisplayState.FAILURE:
+        return Retry(Strings.rendezVousError, () => viewModel.onRetry());
+      case DisplayState.EMPTY:
+        return _Empty();
+      case DisplayState.CONTENT:
+        return _Content(
+          viewModel: viewModel,
+          onTap: (viewModel) => onTap(viewModel),
+        );
+    }
   }
 }
 
