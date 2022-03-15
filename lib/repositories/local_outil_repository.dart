@@ -35,14 +35,6 @@ class LocalOutilRepository {
         imagePath: null,
       ),
       Outil(
-        title: "Je postule pour un job dans entreprise solidaire",
-        description:
-            "Prenez contact avec un employeur solidaire et postulez aux offres qui correspondent à vos attentes.",
-        actionLabel: "Trouver une entreprise solidaire",
-        urlRedirect: "https://emplois.inclusion.beta.gouv.fr/",
-        imagePath: null,
-      ),
-      Outil(
         title: "Bénévolat",
         description: "Trouvez des missions de bénévolat près de chez vous ou à distance.",
         actionLabel: "Je recherche une mission",
@@ -62,6 +54,14 @@ class LocalOutilRepository {
             "Une plateforme pour trouver les sites et applications dédiés à la recherche d'emploi ainsi qu’à la formation et à la création d'entreprise en France et à l'international.",
         actionLabel: "Me diriger vers l’Emploi-Store",
         urlRedirect: "https://www.emploi-store.fr/portail/accueil",
+        imagePath: null,
+      ),
+      Outil(
+        title: "Je postule pour un job dans entreprise solidaire",
+        description:
+            "Prenez contact avec un employeur solidaire et postulez aux offres qui correspondent à vos attentes.",
+        actionLabel: "Trouver une entreprise solidaire",
+        urlRedirect: "https://emplois.inclusion.beta.gouv.fr/",
         imagePath: null,
       ),
       Outil(
