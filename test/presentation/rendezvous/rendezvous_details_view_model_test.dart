@@ -25,7 +25,6 @@ main() {
           Rendezvous(
             id: '1',
             date: DateTime.now(),
-            title: '',
             duration: 60,
             modality: '',
             withConseiller: false,
@@ -47,7 +46,6 @@ main() {
           Rendezvous(
             id: '1',
             date: DateTime(2021, 12, 23, 10, 20),
-            title: 'title1',
             comment: '',
             duration: 60,
             modality: 'Par téléphone',

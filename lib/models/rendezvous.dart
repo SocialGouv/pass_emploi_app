@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/utils/string_extensions.dart';
 class Rendezvous extends Equatable {
   final String id;
   final DateTime date;
-  final String title;
   final int duration;
   final String modality;
   final bool withConseiller;
@@ -19,7 +18,6 @@ class Rendezvous extends Equatable {
   Rendezvous({
     required this.id,
     required this.date,
-    required this.title,
     required this.duration,
     required this.modality,
     required this.withConseiller,
@@ -35,7 +33,6 @@ class Rendezvous extends Equatable {
     return Rendezvous(
       id: json['id'] as String,
       date: (json['date'] as String).toDateTimeUtcOnLocalTimeZone(),
-      title: json['title'] as String,
       duration: json['duration'] as int,
       modality: json['modality'] as String,
       withConseiller: json['presenceConseiller'] as bool,
@@ -53,7 +50,6 @@ class Rendezvous extends Equatable {
     return [
       id,
       date,
-      title,
       duration,
       modality,
       withConseiller,

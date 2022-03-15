@@ -80,7 +80,6 @@ class RendezvousRepositorySuccessStub extends RendezvousRepository {
       Rendezvous(
         id: '',
         date: DateTime(2022),
-        title: '',
         comment: '',
         duration: 30,
         modality: '',

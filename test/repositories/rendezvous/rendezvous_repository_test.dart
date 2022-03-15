@@ -31,7 +31,6 @@ void main() {
       Rendezvous(
         id: '2d663392-b9ff-4b20-81ca-70a3c779e299',
         date: parseDateTimeUtcWithCurrentTimeZone('2021-11-28T13:34:00.000Z'),
-        title: 'Nils Tavernier',
         modality: 'en présentiel : Misson locale / Permanence',
         duration: 23,
         withConseiller: true,
@@ -45,7 +44,6 @@ void main() {
       Rendezvous(
         id: '2d663392-b9ff-4b20-81ca-70a3c779e300',
         date: parseDateTimeUtcWithCurrentTimeZone('2021-11-29T13:34:00.000Z'),
-        title: 'title',
         modality: 'La visite se fera en présentiel',
         duration: 23,
         withConseiller: false,

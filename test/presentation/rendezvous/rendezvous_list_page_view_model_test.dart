@@ -61,7 +61,6 @@ main() {
               Rendezvous(
                 id: '1',
                 date: DateTime(2021, 12, 23, 10, 20),
-                title: 'title1',
                 comment: '',
                 duration: 60,
                 modality: 'Par téléphone',
@@ -72,7 +71,6 @@ main() {
               Rendezvous(
                 id: '2',
                 date: DateTime(2021, 12, 24, 13, 40),
-                title: 'title2',
                 comment: 'comment2',
                 duration: 30,
                 modality: 'À l\'agence',
@@ -156,7 +154,6 @@ main() {
               Rendezvous(
                 id: '1',
                 date: DateTime(2022, 12, 23, 10, 20),
-                title: 'title1',
                 comment: '',
                 duration: 60,
                 modality: 'Par téléphone',
@@ -214,7 +211,6 @@ Rendezvous _rendezvousAtDate(DateTime date) {
   return Rendezvous(
     id: '',
     date: date,
-    title: '',
     duration: 0,
     modality: '',
     withConseiller: false,
