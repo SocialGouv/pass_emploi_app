@@ -1,8 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
+import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_details_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:redux/redux.dart';
 
 import '../../doubles/fixtures.dart';
@@ -122,6 +124,128 @@ main() {
 
       // Then
       expect(viewModel.hourAndDuration, '12:30 (2h30)');
+    });
+
+    test('and conseiller is present', () {
+      // Given
+      final store = _store(mockRendezvous(id: '1', withConseiller: true));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1');
+
+      // Then
+      expect(viewModel.conseillerPresenceLabel, 'Votre conseiller sera présent');
+      expect(viewModel.conseillerPresenceColor, AppColors.secondary);
+    });
+
+    test('and conseiller is not present', () {
+      // Given
+      final store = _store(mockRendezvous(id: '1', withConseiller: false));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1');
+
+      // Then
+      expect(viewModel.conseillerPresenceLabel, 'Votre conseiller ne sera pas présent');
+      expect(viewModel.conseillerPresenceColor, AppColors.warning);
+    });
+
+    test('and comment is not set', () {
+      // Given
+      final store = _store(mockRendezvous(id: '1', comment: null));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1');
+
+      // Then
+      expect(viewModel.comment, null);
+    });
+
+    test('and comment is set but empty', () {
+      // Given
+      final store = _store(mockRendezvous(id: '1', comment: ''));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1');
+
+      // Then
+      expect(viewModel.comment, null);
+      expect(viewModel.commentTitle, null);
+    });
+
+    test('and comment is set but blank', () {
+      // Given
+      final store = _store(mockRendezvous(id: '1', comment: '   '));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1');
+
+      // Then
+      expect(viewModel.comment, null);
+      expect(viewModel.commentTitle, null);
+    });
+
+    test('and comment is set and filled but conseiller is not set', () {
+      // Given
+      final store = _store(mockRendezvous(id: '1', comment: 'comment', conseiller: null));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1');
+
+      // Then
+      expect(viewModel.comment, 'comment');
+      expect(viewModel.commentTitle, 'Commentaire de votre conseiller');
+    });
+
+    test('and comment is set and filled and conseiller is set', () {
+      // Given
+      final store = _store(mockRendezvous(
+        id: '1',
+        comment: 'comment',
+        conseiller: Conseiller(id: 'id', firstName: 'Nils', lastName: 'Tavernier'),
+      ));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1');
+
+      // Then
+      expect(viewModel.comment, 'comment');
+      expect(viewModel.commentTitle, 'Commentaire de Nils');
+    });
+
+    test('full view model test', () {
+      // Given
+      final store = _store(Rendezvous(
+        id: '1',
+        date: DateTime(2022, 3, 1),
+        duration: 30,
+        modality: 'modality',
+        withConseiller: true,
+        type: RendezvousType(RendezvousTypeCode.ATELIER, 'Atelier'),
+        comment: 'comment',
+        organism: 'organism',
+        address: 'address',
+        conseiller: Conseiller(id: 'id', firstName: 'Nils', lastName: 'Tavernier'),
+      ));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1');
+
+      // Then
+      expect(
+        viewModel,
+        RendezvousDetailsViewModel(
+          title: 'Atelier',
+          date: '01 mars 2022',
+          hourAndDuration: '00:00 (30min)',
+          conseillerPresenceLabel: 'Votre conseiller sera présent',
+          conseillerPresenceColor: AppColors.secondary,
+          commentTitle: 'Commentaire de Nils',
+          comment: 'comment',
+          organism: 'organism',
+          address: 'address',
+        ),
+      );
     });
   });
 }

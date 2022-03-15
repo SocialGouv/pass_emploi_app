@@ -185,12 +185,12 @@ Rendezvous mockRendezvous({
   int duration = 0,
   String modality = '',
   bool withConseiller = false,
-  RendezvousType? type,
+  RendezvousType type = const RendezvousType(RendezvousTypeCode.AUTRE, ''),
   String? comment,
   String? organism,
   String? address,
   String? precision,
-  Conseiller? conseiller,
+  Conseiller? conseiller = const Conseiller(id: 'id', firstName: 'F', lastName: 'L'),
 }) {
   return Rendezvous(
     id: id,
@@ -198,11 +198,11 @@ Rendezvous mockRendezvous({
     duration: duration,
     modality: modality,
     withConseiller: withConseiller,
-    type: type ?? RendezvousType(RendezvousTypeCode.AUTRE, ''),
+    type: type,
     comment: comment,
     organism: organism,
     address: address,
     precision: precision,
-    conseiller: conseiller ?? Conseiller(id: 'id', firstName: 'F', lastName: 'L'),
+    conseiller: conseiller,
   );
 }

@@ -67,7 +67,7 @@ class RendezvousType extends Equatable {
   final RendezvousTypeCode code;
   final String label;
 
-  RendezvousType(this.code, this.label);
+  const RendezvousType(this.code, this.label);
 
   factory RendezvousType.fromJson(dynamic json) {
     return RendezvousType(
