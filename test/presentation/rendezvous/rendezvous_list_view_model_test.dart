@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
-import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_list_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_list_view_model.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
@@ -19,7 +19,7 @@ main() {
     );
 
     // When
-    final viewModel = RendezvousListPageViewModel.create(store);
+    final viewModel = RendezvousListViewModel.create(store);
 
     // Then
     expect(viewModel.displayState, DisplayState.LOADING);
@@ -32,7 +32,7 @@ main() {
     );
 
     // When
-    final viewModel = RendezvousListPageViewModel.create(store);
+    final viewModel = RendezvousListViewModel.create(store);
 
     // Then
     expect(viewModel.displayState, DisplayState.LOADING);
@@ -45,7 +45,7 @@ main() {
     );
 
     // When
-    final viewModel = RendezvousListPageViewModel.create(store);
+    final viewModel = RendezvousListViewModel.create(store);
 
     // Then
     expect(viewModel.displayState, DisplayState.FAILURE);
@@ -75,14 +75,14 @@ main() {
                 duration: 30,
                 modality: 'À l\'agence',
                 withConseiller: false,
-                type: RendezvousType(RendezvousTypeCode.AUTRE, 'Autre'),
+                type: RendezvousType(RendezvousTypeCode.VISITE, 'Visite'),
               ),
             ]),
           ),
         );
 
         // When
-        final viewModel = RendezvousListPageViewModel.create(store);
+        final viewModel = RendezvousListViewModel.create(store);
 
         // Then
         expect(viewModel.displayState, DisplayState.CONTENT);
@@ -92,7 +92,7 @@ main() {
           viewModel.items[0],
           RendezvousCardViewModel(
             id: '2',
-            tag: 'Autre',
+            tag: 'Visite',
             date: 'Le 24/12/2021 à 13h40',
             title: null,
             subtitle: 'À l\'agence',
@@ -122,6 +122,46 @@ main() {
         );
       });
 
+      test('should display precision in tag if type is "Autre" and precision is set', () {
+        // Given
+        final store = TestStoreFactory().initializeReduxStore(
+          initialState: loggedInState().copyWith(
+            rendezvousState: RendezvousSuccessState([
+              mockRendezvous(
+                precision: 'Precision',
+                type: RendezvousType(RendezvousTypeCode.AUTRE, 'Autre'),
+              ),
+            ]),
+          ),
+        );
+
+        // When
+        final viewModel = RendezvousListViewModel.create(store);
+
+        // Then
+        expect(viewModel.items.first.tag, "Precision");
+      });
+
+      test('should display type label in tag if type is "Autre" and precision is not set', () {
+        // Given
+        final store = TestStoreFactory().initializeReduxStore(
+          initialState: loggedInState().copyWith(
+            rendezvousState: RendezvousSuccessState([
+              mockRendezvous(
+                precision: null,
+                type: RendezvousType(RendezvousTypeCode.AUTRE, 'Autre'),
+              ),
+            ]),
+          ),
+        );
+
+        // When
+        final viewModel = RendezvousListViewModel.create(store);
+
+        // Then
+        expect(viewModel.items.first.tag, "Autre");
+      });
+
       test('should display date properly depending on current day', () {
         // Given
         final now = DateTime.now();
@@ -129,15 +169,15 @@ main() {
         final store = TestStoreFactory().initializeReduxStore(
           initialState: loggedInState().copyWith(
             rendezvousState: RendezvousSuccessState([
-              _rendezvousAtDate(DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 10, 20)),
-              _rendezvousAtDate(DateTime(now.year, now.month, now.day, 10, 20)),
-              _rendezvousAtDate(DateTime(2022, 3, 1, 10, 20)),
+              mockRendezvous(date: DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 10, 20)),
+              mockRendezvous(date: DateTime(now.year, now.month, now.day, 10, 20)),
+              mockRendezvous(date: DateTime(2022, 3, 1, 10, 20)),
             ]),
           ),
         );
 
         // When
-        final viewModel = RendezvousListPageViewModel.create(store);
+        final viewModel = RendezvousListViewModel.create(store);
 
         // Then
         expect(viewModel.items[0].date, "Demain à 10h20");
@@ -150,32 +190,16 @@ main() {
         final store = TestStoreFactory().initializeReduxStore(
           initialState: loggedInState().copyWith(
             deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_RENDEZVOUS, DateTime.now(), '1'),
-            rendezvousState: RendezvousSuccessState([
-              Rendezvous(
-                id: '1',
-                date: DateTime(2022, 12, 23, 10, 20),
-                comment: '',
-                duration: 60,
-                modality: 'Par téléphone',
-                withConseiller: false,
-                type: RendezvousType(RendezvousTypeCode.AUTRE, 'Autre'),
-              )
-            ]),
+            rendezvousState: RendezvousSuccessState([mockRendezvous(id: '1')]),
           ),
         );
 
         // When
-        final viewModel = RendezvousListPageViewModel.create(store);
+        final viewModel = RendezvousListViewModel.create(store);
 
         // Then
         final rdv = viewModel.deeplinkRendezvous;
-        expect(rdv != null, isTrue);
-        expect(rdv!.subtitle, 'Par téléphone');
-        expect(rdv.dateAndHour, '23/12/2022 à 10:20');
-        expect(rdv.dateWithoutHour, '23 décembre 2022');
-        expect(rdv.hourAndDuration, '10:20 (1h)');
-        expect(rdv.withComment, false);
-        expect(rdv.modality, 'Le rendez-vous se fera par téléphone');
+        expect(rdv, isNotNull);
       });
     });
 
@@ -186,7 +210,7 @@ main() {
       );
 
       // When
-      final viewModel = RendezvousListPageViewModel.create(store);
+      final viewModel = RendezvousListViewModel.create(store);
 
       // Then
       expect(viewModel.displayState, DisplayState.EMPTY);
@@ -197,7 +221,7 @@ main() {
   test('onRetry should trigger a RequestRendezvousAction', () {
     // Given
     final store = StoreSpy();
-    final viewModel = RendezvousListPageViewModel.create(store);
+    final viewModel = RendezvousListViewModel.create(store);
 
     // When
     viewModel.onRetry();
@@ -205,15 +229,4 @@ main() {
     // Then
     expect(store.dispatchedAction, isA<RendezvousRequestAction>());
   });
-}
-
-Rendezvous _rendezvousAtDate(DateTime date) {
-  return Rendezvous(
-    id: '',
-    date: date,
-    duration: 0,
-    modality: '',
-    withConseiller: false,
-    type: RendezvousType(RendezvousTypeCode.AUTRE, ''),
-  );
 }

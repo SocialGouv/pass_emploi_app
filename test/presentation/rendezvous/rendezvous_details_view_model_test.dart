@@ -21,16 +21,7 @@ main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: loggedInState().copyWith(
-        rendezvousState: RendezvousSuccessState([
-          Rendezvous(
-            id: '1',
-            date: DateTime.now(),
-            duration: 60,
-            modality: '',
-            withConseiller: false,
-            type: RendezvousType(RendezvousTypeCode.ATELIER, 'Atelier'),
-          ),
-        ]),
+        rendezvousState: RendezvousSuccessState([mockRendezvous(id: '1')]),
       ),
     );
 
@@ -38,29 +29,141 @@ main() {
     expect(() => RendezvousDetailsViewModel.create(store, '2'), throwsException);
   });
 
-  test('create when rendezvous state is successful', () {
-    // Given
-    final store = TestStoreFactory().initializeReduxStore(
-      initialState: loggedInState().copyWith(
-        rendezvousState: RendezvousSuccessState([
-          Rendezvous(
-            id: '1',
-            date: DateTime(2021, 12, 23, 10, 20),
-            comment: '',
-            duration: 60,
-            modality: 'Par téléphone',
-            withConseiller: false,
-            organism: 'Entreprise Bio Carburant',
-            type: RendezvousType(RendezvousTypeCode.ATELIER, 'Atelier'),
-          )
-        ]),
-      ),
-    );
+  group('create when rendezvous state is successful…', () {
+    test('and type code is not "Autre" should set type label as titre', () {
+      // Given
+      final store = TestStoreFactory().initializeReduxStore(
+        initialState: loggedInState().copyWith(
+          rendezvousState: RendezvousSuccessState([
+            mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.ATELIER, 'Atelier')),
+          ]),
+        ),
+      );
 
-    // When
-    final viewModel = RendezvousDetailsViewModel.create(store, '1');
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1');
 
-    // Then
-    expect(viewModel.title, 'Atelier');
+      // Then
+      expect(viewModel.title, 'Atelier');
+    });
+
+    test('and type code is "Autre" but precision is not set should set type label as titre', () {
+      // Given
+      final store = TestStoreFactory().initializeReduxStore(
+        initialState: loggedInState().copyWith(
+          rendezvousState: RendezvousSuccessState([
+            mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.AUTRE, 'Autre'), precision: null),
+          ]),
+        ),
+      );
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1');
+
+      // Then
+      expect(viewModel.title, 'Autre');
+    });
+
+    test('and type code is "Autre" and precision is set should set precision as titre', () {
+      // Given
+      final store = TestStoreFactory().initializeReduxStore(
+        initialState: loggedInState().copyWith(
+          rendezvousState: RendezvousSuccessState([
+            mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.AUTRE, 'Autre'), precision: 'Precision'),
+          ]),
+        ),
+      );
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1');
+
+      // Then
+      expect(viewModel.title, 'Precision');
+    });
+
+    test('and date is neither today neither tomorrow', () {
+      // Given
+      final store = TestStoreFactory().initializeReduxStore(
+        initialState: loggedInState().copyWith(
+          rendezvousState: RendezvousSuccessState([
+            mockRendezvous(id: '1', date: DateTime(2022, 3, 1)),
+          ]),
+        ),
+      );
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1');
+
+      // Then
+      expect(viewModel.date, '01 mars 2022');
+    });
+
+    test('and date is today', () {
+      // Given
+      final store = TestStoreFactory().initializeReduxStore(
+        initialState: loggedInState().copyWith(
+          rendezvousState: RendezvousSuccessState([
+            mockRendezvous(id: '1', date: DateTime.now()),
+          ]),
+        ),
+      );
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1');
+
+      // Then
+      expect(viewModel.date, 'Aujourd\'hui');
+    });
+
+    test('and date is tomorrow', () {
+      // Given
+      final store = TestStoreFactory().initializeReduxStore(
+        initialState: loggedInState().copyWith(
+          rendezvousState: RendezvousSuccessState([
+            mockRendezvous(id: '1', date: DateTime.now().add(Duration(days: 1))),
+          ]),
+        ),
+      );
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1');
+
+      // Then
+      expect(viewModel.date, 'Demain');
+    });
+
+    test('and duration is less than one hour', () {
+      // Given
+      final store = TestStoreFactory().initializeReduxStore(
+        initialState: loggedInState().copyWith(
+          rendezvousState: RendezvousSuccessState([
+            mockRendezvous(id: '1', date: DateTime(2022, 3, 1, 12, 30), duration: 30),
+          ]),
+        ),
+      );
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1');
+
+      // Then
+      expect(viewModel.hourAndDuration, '12:30 (30min)');
+    });
+
+    test('and duration is more than one hour', () {
+      // Given
+      final store = TestStoreFactory().initializeReduxStore(
+        initialState: loggedInState().copyWith(
+          rendezvousState: RendezvousSuccessState([
+            mockRendezvous(id: '1', date: DateTime(2022, 3, 1, 12, 30), duration: 150),
+          ]),
+        ),
+      );
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1');
+
+      // Then
+      expect(viewModel.hourAndDuration, '12:30 (2h30)');
+    });
   });
 }

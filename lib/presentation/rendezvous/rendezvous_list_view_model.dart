@@ -10,14 +10,14 @@ import 'package:redux/redux.dart';
 
 import '../../features/deep_link/deep_link_actions.dart';
 
-class RendezvousListPageViewModel extends Equatable {
+class RendezvousListViewModel extends Equatable {
   final DisplayState displayState;
   final List<RendezvousCardViewModel> items;
   final Function() onRetry;
   final Function() onDeeplinkUsed;
   final RendezvousCardViewModel? deeplinkRendezvous; // TODO move to ID
 
-  RendezvousListPageViewModel({
+  RendezvousListViewModel({
     required this.displayState,
     required this.items,
     required this.onRetry,
@@ -25,10 +25,10 @@ class RendezvousListPageViewModel extends Equatable {
     required this.onDeeplinkUsed,
   });
 
-  factory RendezvousListPageViewModel.create(Store<AppState> store) {
+  factory RendezvousListViewModel.create(Store<AppState> store) {
     final rendezvousState = store.state.rendezvousState;
     final items = _items(state: rendezvousState);
-    return RendezvousListPageViewModel(
+    return RendezvousListViewModel(
       displayState: _displayState(rendezvousState),
       items: items,
       onRetry: () => store.dispatch(RendezvousRequestAction()),

@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
 import 'package:pass_emploi_app/pages/rendezvous_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
-import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_list_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_list_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -22,9 +22,9 @@ class RendezvousListPage extends TraceableStatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, RendezvousListPageViewModel>(
+    return StoreConnector<AppState, RendezvousListViewModel>(
       onInit: (store) => store.dispatch(RendezvousRequestAction()),
-      converter: (store) => RendezvousListPageViewModel.create(store),
+      converter: (store) => RendezvousListViewModel.create(store),
       builder: (context, viewModel) {
         return _Scaffold(
           body: _Body(
@@ -38,7 +38,7 @@ class RendezvousListPage extends TraceableStatelessWidget {
     );
   }
 
-  void _openDeeplinkIfNeeded(RendezvousListPageViewModel viewModel, BuildContext context) {
+  void _openDeeplinkIfNeeded(RendezvousListViewModel viewModel, BuildContext context) {
     if (viewModel.deeplinkRendezvous != null) {
       pushAndTrackBack(
           context, RendezvousPage.materialPageRoute(viewModel.deeplinkRendezvous!.id, viewModel.deeplinkRendezvous!));
@@ -64,7 +64,7 @@ class _Scaffold extends StatelessWidget {
 class _Body extends StatelessWidget {
   const _Body({Key? key, required this.viewModel, required this.onTap}) : super(key: key);
 
-  final RendezvousListPageViewModel viewModel;
+  final RendezvousListViewModel viewModel;
   final Function(RendezvousCardViewModel) onTap;
 
   @override
@@ -88,7 +88,7 @@ class _Body extends StatelessWidget {
 class _Content extends StatelessWidget {
   const _Content({Key? key, required this.viewModel, required this.onTap}) : super(key: key);
 
-  final RendezvousListPageViewModel viewModel;
+  final RendezvousListViewModel viewModel;
   final Function(RendezvousCardViewModel) onTap;
 
   @override

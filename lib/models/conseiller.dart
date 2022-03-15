@@ -5,7 +5,7 @@ class Conseiller extends Equatable {
   final String firstName;
   final String lastName;
 
-  Conseiller({required this.id, required this.firstName, required this.lastName});
+  const Conseiller({required this.id, required this.firstName, required this.lastName});
 
   factory Conseiller.fromJson(dynamic json) {
     return Conseiller(

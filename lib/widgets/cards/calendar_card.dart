@@ -74,7 +74,11 @@ class _Tag extends StatelessWidget {
         border: Border.all(color: AppColors.primary),
       ),
       padding: const EdgeInsets.symmetric(vertical: Margins.spacing_xs, horizontal: Margins.spacing_base),
-      child: Text(tag, style: TextStyles.textSRegularWithColor(AppColors.primary)),
+      child: Text(
+        tag,
+        style: TextStyles.textSRegularWithColor(AppColors.primary),
+        overflow: TextOverflow.ellipsis,
+      ),
     );
   }
 }

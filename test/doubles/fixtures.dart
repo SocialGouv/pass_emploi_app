@@ -3,10 +3,12 @@ import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
+import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/models/user.dart';
@@ -176,3 +178,31 @@ ServiceCiviqueDetail mockServiceCiviqueDetail() => ServiceCiviqueDetail(
       lienAnnonce: "Bonjour, moi c'est le lien (social ?) mwahaha",
       codePostal: "75002",
     );
+
+Rendezvous mockRendezvous({
+  String id = '',
+  DateTime? date,
+  int duration = 0,
+  String modality = '',
+  bool withConseiller = false,
+  RendezvousType? type,
+  String? comment,
+  String? organism,
+  String? address,
+  String? precision,
+  Conseiller? conseiller,
+}) {
+  return Rendezvous(
+    id: id,
+    date: date ?? DateTime.now(),
+    duration: duration,
+    modality: modality,
+    withConseiller: withConseiller,
+    type: type ?? RendezvousType(RendezvousTypeCode.AUTRE, ''),
+    comment: comment,
+    organism: organism,
+    address: address,
+    precision: precision,
+    conseiller: conseiller ?? Conseiller(id: 'id', firstName: 'F', lastName: 'L'),
+  );
+}

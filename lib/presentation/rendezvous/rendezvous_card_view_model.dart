@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_extensions.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
@@ -33,8 +34,8 @@ class RendezvousCardViewModel extends Equatable {
   factory RendezvousCardViewModel.create(Rendezvous rdv) {
     return RendezvousCardViewModel(
       id: rdv.id,
-      tag: rdv.type.label,
-      date: rdv.date.toDayAndHour(),
+      tag: rdv.takeTypeLabelOrPrecision(),
+      date: rdv.date.toDayAndHourContextualized(),
       title: rdv.organism != null ? "Avec : ${rdv.organism}" : null,
       subtitle: rdv.modality,
       dateAndHour: rdv.date.toDayAndHourOld(),
@@ -64,7 +65,7 @@ class RendezvousCardViewModel extends Equatable {
   }
 }
 
-_toDuration(int duration) {
+String _toDuration(int duration) {
   final hours = duration ~/ 60;
   final minutes = duration % 60;
   if (hours == 0) return '${minutes}min';
