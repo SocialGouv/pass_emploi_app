@@ -65,7 +65,7 @@ main() {
               date: DateTime(2021, 12, 23, 10, 20),
               comment: '',
               duration: 60,
-              modality: 'Par téléphone',
+              modality: 'par téléphone',
               withConseiller: false,
               organism: 'Entreprise Bio Carburant',
               type: RendezvousType(RendezvousTypeCode.ATELIER, 'Atelier'),
@@ -75,7 +75,7 @@ main() {
               date: DateTime(2021, 12, 24, 13, 40),
               comment: 'comment2',
               duration: 30,
-              modality: 'À l\'agence',
+              modality: 'à l\'agence',
               withConseiller: false,
               type: RendezvousType(RendezvousTypeCode.VISITE, 'Visite'),
             ),
@@ -97,12 +97,6 @@ main() {
             date: 'Le 24/12/2021 à 13h40',
             title: null,
             subtitle: 'À l\'agence',
-            dateAndHour: '24/12/2021 à 13:40',
-            dateWithoutHour: '24 décembre 2021',
-            hourAndDuration: '13:40 (30min)',
-            withComment: true,
-            comment: 'comment2',
-            modality: 'Le rendez-vous se fera à l\'agence',
           ),
         );
         expect(
@@ -113,12 +107,6 @@ main() {
             date: 'Le 23/12/2021 à 10h20',
             title: 'Avec : Entreprise Bio Carburant',
             subtitle: 'Par téléphone',
-            dateAndHour: '23/12/2021 à 10:20',
-            dateWithoutHour: '23 décembre 2021',
-            hourAndDuration: '10:20 (1h)',
-            withComment: false,
-            comment: '',
-            modality: 'Le rendez-vous se fera par téléphone',
           ),
         );
       });

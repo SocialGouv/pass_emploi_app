@@ -10,8 +10,6 @@ extension DateExtensions on DateTime {
     return DateFormat('\'Le\' dd/MM/yyyy à HH\'h\'mm').format(this);
   }
 
-  String toDayAndHourOld() => DateFormat('dd/MM/yyyy à HH:mm').format(this);
-
   String toDay() => DateFormat('dd/MM/yyyy').format(this);
 
   String toDayWithFullMonth() {

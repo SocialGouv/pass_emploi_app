@@ -30,8 +30,8 @@ class RendezvousListViewModel extends Equatable {
     return RendezvousListViewModel(
       displayState: _displayState(rendezvousState),
       items: items,
-      onRetry: () => store.dispatch(RendezvousRequestAction()),
       deeplinkRendezvousId: _deeplinkRendezvousId(store.state.deepLinkState),
+      onRetry: () => store.dispatch(RendezvousRequestAction()),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
     );
   }

@@ -45,7 +45,7 @@ class RendezvousDetailsViewModel extends Equatable {
       title: rdv.takeTypeLabelOrPrecision(),
       date: rdv.date.toDayWithFullMonthContextualized(),
       hourAndDuration: "${rdv.date.toHour()} (${_toDuration(rdv.duration)})",
-      modality: rdv.modality,
+      modality: Strings.rendezVousModalityMessage(rdv.modality.toLowerCase()),
       conseillerPresenceLabel: rdv.withConseiller ? Strings.conseillerIsPresent : Strings.conseillerIsNotPresent,
       conseillerPresenceColor: rdv.withConseiller ? AppColors.secondary : AppColors.warning,
       commentTitle: _commentTitle(rdv, comment),
