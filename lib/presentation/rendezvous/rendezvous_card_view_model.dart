@@ -36,7 +36,7 @@ class RendezvousCardViewModel extends Equatable {
       id: rdv.id,
       tag: rdv.takeTypeLabelOrPrecision(),
       date: rdv.date.toDayAndHourContextualized(),
-      title: rdv.organism != null ? "Avec : ${rdv.organism}" : null,
+      title: rdv.organism != null ? Strings.withOrganism(rdv.organism!) : null,
       subtitle: rdv.modality,
       dateAndHour: rdv.date.toDayAndHourOld(),
       dateWithoutHour: rdv.date.toDayWithFullMonth(),
