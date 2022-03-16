@@ -45,11 +45,11 @@ class CalendarCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _Tag(tag: tag),
+                  _Tag(tag),
                   _Date(date: date),
-                  if (titre != null) _Titre(titre: titre),
-                  _SousTitre(sousTitre: sousTitre),
-                  _Link(texteLien: texteLien),
+                  if (titre != null) _Titre(titre!),
+                  _SousTitre(sousTitre),
+                  _Link(texteLien),
                 ],
               ),
             ),
@@ -61,7 +61,7 @@ class CalendarCard extends StatelessWidget {
 }
 
 class _Tag extends StatelessWidget {
-  const _Tag({Key? key, required this.tag}) : super(key: key);
+  const _Tag(this.tag, {Key? key}) : super(key: key);
 
   final String tag;
 
@@ -104,24 +104,21 @@ class _Date extends StatelessWidget {
 }
 
 class _Titre extends StatelessWidget {
-  const _Titre({
-    Key? key,
-    required this.titre,
-  }) : super(key: key);
+  const _Titre(this.titre, {Key? key}) : super(key: key);
 
-  final String? titre;
+  final String titre;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 10),
-      child: Text(titre!, style: TextStyles.textBaseBold),
+      child: Text(titre, style: TextStyles.textBaseBold),
     );
   }
 }
 
 class _SousTitre extends StatelessWidget {
-  const _SousTitre({Key? key, required this.sousTitre}) : super(key: key);
+  const _SousTitre(this.sousTitre, {Key? key}) : super(key: key);
 
   final String sousTitre;
 
@@ -135,7 +132,7 @@ class _SousTitre extends StatelessWidget {
 }
 
 class _Link extends StatelessWidget {
-  const _Link({Key? key, required this.texteLien}) : super(key: key);
+  const _Link(this.texteLien, {Key? key}) : super(key: key);
 
   final String texteLien;
 
