@@ -14,6 +14,7 @@ class RendezvousDetailsViewModel extends Equatable {
   final String title;
   final String date;
   final String hourAndDuration;
+  final String modality;
   final String conseillerPresenceLabel;
   final Color conseillerPresenceColor;
   final String? commentTitle;
@@ -25,6 +26,7 @@ class RendezvousDetailsViewModel extends Equatable {
     required this.title,
     required this.date,
     required this.hourAndDuration,
+    required this.modality,
     required this.conseillerPresenceLabel,
     required this.conseillerPresenceColor,
     this.commentTitle,
@@ -43,6 +45,7 @@ class RendezvousDetailsViewModel extends Equatable {
       title: rdv.takeTypeLabelOrPrecision(),
       date: rdv.date.toDayWithFullMonthContextualized(),
       hourAndDuration: "${rdv.date.toHour()} (${_toDuration(rdv.duration)})",
+      modality: rdv.modality,
       conseillerPresenceLabel: rdv.withConseiller ? Strings.conseillerIsPresent : Strings.conseillerIsNotPresent,
       conseillerPresenceColor: rdv.withConseiller ? AppColors.secondary : AppColors.warning,
       commentTitle: _commentTitle(rdv, comment),
@@ -58,6 +61,7 @@ class RendezvousDetailsViewModel extends Equatable {
       title,
       date,
       hourAndDuration,
+      modality,
       conseillerPresenceLabel,
       conseillerPresenceColor,
       commentTitle,

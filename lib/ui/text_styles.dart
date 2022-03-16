@@ -7,13 +7,6 @@ import 'font_sizes.dart';
 class TextStyles {
   TextStyles._();
 
-  static final textLgMedium = GoogleFonts.rubik(
-    color: AppColors.nightBlue,
-    fontSize: FontSizes.large,
-    fontWeight: FontWeight.w600,
-    letterSpacing: -0.3,
-  );
-
   static TextStyle textLBold({Color color = AppColors.contentColor}) {
     return TextStyle(
       color: color,

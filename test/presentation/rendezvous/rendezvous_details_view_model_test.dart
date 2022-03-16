@@ -240,6 +240,7 @@ main() {
           hourAndDuration: '00:00 (30min)',
           conseillerPresenceLabel: 'Votre conseiller sera présent',
           conseillerPresenceColor: AppColors.secondary,
+          modality: 'modality',
           commentTitle: 'Commentaire de Nils',
           comment: 'comment',
           organism: 'organism',

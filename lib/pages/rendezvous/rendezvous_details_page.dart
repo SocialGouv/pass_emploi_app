@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_details_view_model.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 
 class RendezvousDetailsPage extends TraceableStatelessWidget {
@@ -23,53 +26,130 @@ class RendezvousDetailsPage extends TraceableStatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: Strings.myRendezVous, withBackButton: true),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(Margins.spacing_base),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (rendezvous.title != null) Text(rendezvous.title!, style: TextStyles.textLBold()),
-              SizedBox(height: Margins.spacing_xs),
-              Text(rendezvous.subtitle, style: TextStyles.textBaseRegular),
-              SizedBox(height: Margins.spacing_m),
-              Row(
+    return StoreConnector<AppState, RendezvousDetailsViewModel>(
+      converter: (store) => RendezvousDetailsViewModel.create(store, rendezvousId),
+      builder: (context, viewModel) {
+        return Scaffold(
+          backgroundColor: Colors.white,
+          appBar: passEmploiAppBar(label: Strings.myRendezVous, withBackButton: true),
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(Margins.spacing_base),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SvgPicture.asset(Drawables.icCalendar),
-                  SizedBox(width: Margins.spacing_s),
-                  Text(rendezvous.dateWithoutHour, style: TextStyles.textBaseBold),
-                  Expanded(child: SizedBox()),
-                  SvgPicture.asset(Drawables.icClock),
-                  SizedBox(width: Margins.spacing_s),
-                  Text(rendezvous.hourAndDuration, style: TextStyles.textBaseBold),
+                  _Header(viewModel),
+                  SepLine(Margins.spacing_m, Margins.spacing_m),
+                  _Modality(viewModel),
+                  SepLine(Margins.spacing_m, Margins.spacing_m),
+                  _ConseillerPart(viewModel),
+                  SepLine(Margins.spacing_m, Margins.spacing_m),
+                  _InformIfAbsent(),
                 ],
               ),
-              SizedBox(height: Margins.spacing_m),
-              Container(height: 1, color: AppColors.primaryLighten),
-              SizedBox(height: Margins.spacing_s),
-              Text(rendezvous.modality, style: TextStyles.textBaseBold),
-              SizedBox(height: Margins.spacing_m),
-              Container(height: 1, color: AppColors.primaryLighten),
-              SizedBox(height: Margins.spacing_s),
-              Text(Strings.rendezVousConseillerCommentLabel, style: TextStyles.textBaseBold),
-              SizedBox(height: Margins.spacing_s),
-              TextWithClickableLinks(rendezvous.comment, style: TextStyles.textSRegular()),
-              SizedBox(height: Margins.spacing_m),
-              Container(height: 1, color: AppColors.primaryLighten),
-              SizedBox(height: Margins.spacing_base),
-              Text(Strings.cantMakeItNoBigDeal, style: TextStyles.textBaseBold),
-              SizedBox(height: Margins.spacing_s),
-              Text(
-                Strings.shouldInformConseiller,
-                style: TextStyles.textSRegular(),
-              ),
-            ],
+            ),
           ),
+        );
+      },
+    );
+  }
+}
+
+class _Header extends StatelessWidget {
+  const _Header(this.viewModel, {Key? key}) : super(key: key);
+
+  final RendezvousDetailsViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(viewModel.title, style: TextStyles.textLBold()),
+        SizedBox(height: Margins.spacing_m),
+        Row(
+          children: [
+            SvgPicture.asset(Drawables.icCalendar),
+            SizedBox(width: Margins.spacing_s),
+            Text(viewModel.date, style: TextStyles.textBaseBold),
+            Expanded(child: SizedBox()),
+            SvgPicture.asset(Drawables.icClock),
+            SizedBox(width: Margins.spacing_s),
+            Text(viewModel.hourAndDuration, style: TextStyles.textBaseBold),
+          ],
         ),
-      ),
+      ],
+    );
+  }
+}
+
+class _Modality extends StatelessWidget {
+  const _Modality(this.viewModel, {Key? key}) : super(key: key);
+
+  final RendezvousDetailsViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: Margins.spacing_xs),
+          child: Text(viewModel.modality, style: TextStyles.textBaseBold),
+        ),
+        if (viewModel.organism != null)
+          Padding(
+            padding: const EdgeInsets.only(top: Margins.spacing_m),
+            child: Text(viewModel.organism!, style: TextStyles.textMBold),
+          ),
+        if (viewModel.address != null)
+          Padding(
+            padding: const EdgeInsets.only(top: Margins.spacing_xs),
+            child: Text(viewModel.address!, style: TextStyles.textBaseRegular),
+          ),
+      ],
+    );
+  }
+}
+
+class _ConseillerPart extends StatelessWidget {
+  const _ConseillerPart(this.viewModel, {Key? key}) : super(key: key);
+
+  final RendezvousDetailsViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          viewModel.conseillerPresenceLabel,
+          style: TextStyles.textBaseBoldWithColor(viewModel.conseillerPresenceColor),
+        ),
+        if (viewModel.comment != null) SepLine(Margins.spacing_m, Margins.spacing_m),
+        if (viewModel.commentTitle != null) Text(viewModel.commentTitle!, style: TextStyles.textBaseBold),
+        if (viewModel.comment != null)
+          Padding(
+            padding: const EdgeInsets.only(top: Margins.spacing_s),
+            child: TextWithClickableLinks(viewModel.comment!, style: TextStyles.textBaseRegular),
+          ),
+      ],
+    );
+  }
+}
+
+class _InformIfAbsent extends StatelessWidget {
+  const _InformIfAbsent({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(Strings.cannotGoToRendezvous, style: TextStyles.textBaseBold),
+        SizedBox(height: Margins.spacing_s),
+        Text(Strings.shouldInformConseiller, style: TextStyles.textBaseRegular),
+      ],
     );
   }
 }
