@@ -3,7 +3,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_details_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -16,12 +15,11 @@ import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 
 class RendezvousDetailsPage extends TraceableStatelessWidget {
   final String rendezvousId;
-  final RendezvousCardViewModel rendezvous;
 
-  RendezvousDetailsPage._(this.rendezvousId, this.rendezvous) : super(name: AnalyticsScreenNames.rendezvousDetails);
+  RendezvousDetailsPage._(this.rendezvousId) : super(name: AnalyticsScreenNames.rendezvousDetails);
 
-  static MaterialPageRoute<void> materialPageRoute(String rendezvousId, RendezvousCardViewModel rendezvous) {
-    return MaterialPageRoute(builder: (context) => RendezvousDetailsPage._(rendezvousId, rendezvous));
+  static MaterialPageRoute<void> materialPageRoute(String rendezvousId) {
+    return MaterialPageRoute(builder: (context) => RendezvousDetailsPage._(rendezvousId));
   }
 
   @override

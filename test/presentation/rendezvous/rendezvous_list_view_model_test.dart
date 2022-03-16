@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
@@ -186,8 +187,7 @@ main() {
         final viewModel = RendezvousListViewModel.create(store);
 
         // Then
-        final rdv = viewModel.deeplinkRendezvous;
-        expect(rdv, isNotNull);
+        expect(viewModel.deeplinkRendezvousId, '1');
       });
     });
 
@@ -204,7 +204,7 @@ main() {
     });
   });
 
-  test('onRetry should trigger a RequestRendezvousAction', () {
+  test('onRetry should trigger RequestRendezvousAction', () {
     // Given
     final store = StoreSpy();
     final viewModel = RendezvousListViewModel.create(store);
@@ -214,6 +214,18 @@ main() {
 
     // Then
     expect(store.dispatchedAction, isA<RendezvousRequestAction>());
+  });
+
+  test('onDeeplinkUsed should trigger ResetDeeplinkAction', () {
+    // Given
+    final store = StoreSpy();
+    final viewModel = RendezvousListViewModel.create(store);
+
+    // When
+    viewModel.onDeeplinkUsed();
+
+    // Then
+    expect(store.dispatchedAction, isA<ResetDeeplinkAction>());
   });
 }
 

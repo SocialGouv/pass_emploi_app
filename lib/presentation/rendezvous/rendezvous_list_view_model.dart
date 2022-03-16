@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
@@ -13,15 +12,15 @@ import '../../features/deep_link/deep_link_actions.dart';
 class RendezvousListViewModel extends Equatable {
   final DisplayState displayState;
   final List<RendezvousCardViewModel> items;
+  final String? deeplinkRendezvousId;
   final Function() onRetry;
   final Function() onDeeplinkUsed;
-  final RendezvousCardViewModel? deeplinkRendezvous; // TODO move to ID
 
   RendezvousListViewModel({
     required this.displayState,
     required this.items,
+    required this.deeplinkRendezvousId,
     required this.onRetry,
-    required this.deeplinkRendezvous,
     required this.onDeeplinkUsed,
   });
 
@@ -32,13 +31,13 @@ class RendezvousListViewModel extends Equatable {
       displayState: _displayState(rendezvousState),
       items: items,
       onRetry: () => store.dispatch(RendezvousRequestAction()),
-      deeplinkRendezvous: _deeplinkRendezvous(items, store.state.deepLinkState),
+      deeplinkRendezvousId: _deeplinkRendezvousId(store.state.deepLinkState),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
     );
   }
 
   @override
-  List<Object?> get props => [displayState, items, deeplinkRendezvous];
+  List<Object?> get props => [displayState, items, deeplinkRendezvousId];
 }
 
 DisplayState _displayState(RendezvousState state) {
@@ -58,7 +57,6 @@ List<RendezvousCardViewModel> _items({required RendezvousState state}) {
   return [];
 }
 
-RendezvousCardViewModel? _deeplinkRendezvous(List<RendezvousCardViewModel> viewModels, DeepLinkState state) {
-  if (state.deepLink == DeepLink.ROUTE_TO_RENDEZVOUS) return viewModels.firstWhereOrNull((e) => e.id == state.dataId);
-  return null;
+String? _deeplinkRendezvousId(DeepLinkState state) {
+  return state.deepLink == DeepLink.ROUTE_TO_RENDEZVOUS ? state.dataId : null;
 }

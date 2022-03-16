@@ -120,7 +120,7 @@ class Strings {
 
   static String commentWithConseiller(String firstName) => "Commentaire de $firstName";
 
-  static String withOrganism(String organism) => "Avec $organism";
+  static String withOrganism(String organism) => "Avec : $organism";
 
   // User Action
   static String actionsError = "Erreur lors de la récupération de vos actions";
