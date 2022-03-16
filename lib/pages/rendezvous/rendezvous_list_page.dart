@@ -4,7 +4,7 @@ import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
-import 'package:pass_emploi_app/pages/rendezvous_page.dart';
+import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_list_view_model.dart';
@@ -29,7 +29,8 @@ class RendezvousListPage extends TraceableStatelessWidget {
         return _Scaffold(
           body: _Body(
             viewModel: viewModel,
-            onTap: (viewModel) => pushAndTrackBack(context, RendezvousPage.materialPageRoute(viewModel.id, viewModel)),
+            onTap: (viewModel) =>
+                pushAndTrackBack(context, RendezvousDetailsPage.materialPageRoute(viewModel.id, viewModel)),
           ),
         );
       },
@@ -40,8 +41,8 @@ class RendezvousListPage extends TraceableStatelessWidget {
 
   void _openDeeplinkIfNeeded(RendezvousListViewModel viewModel, BuildContext context) {
     if (viewModel.deeplinkRendezvous != null) {
-      pushAndTrackBack(
-          context, RendezvousPage.materialPageRoute(viewModel.deeplinkRendezvous!.id, viewModel.deeplinkRendezvous!));
+      pushAndTrackBack(context,
+          RendezvousDetailsPage.materialPageRoute(viewModel.deeplinkRendezvous!.id, viewModel.deeplinkRendezvous!));
       viewModel.onDeeplinkUsed();
     }
   }

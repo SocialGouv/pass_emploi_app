@@ -11,14 +11,14 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 
-class RendezvousPage extends TraceableStatelessWidget {
+class RendezvousDetailsPage extends TraceableStatelessWidget {
   final String rendezvousId;
   final RendezvousCardViewModel rendezvous;
 
-  RendezvousPage._(this.rendezvousId, this.rendezvous) : super(name: AnalyticsScreenNames.rendezvousDetails);
+  RendezvousDetailsPage._(this.rendezvousId, this.rendezvous) : super(name: AnalyticsScreenNames.rendezvousDetails);
 
   static MaterialPageRoute<void> materialPageRoute(String rendezvousId, RendezvousCardViewModel rendezvous) {
-    return MaterialPageRoute(builder: (context) => RendezvousPage._(rendezvousId, rendezvous));
+    return MaterialPageRoute(builder: (context) => RendezvousDetailsPage._(rendezvousId, rendezvous));
   }
 
   @override
