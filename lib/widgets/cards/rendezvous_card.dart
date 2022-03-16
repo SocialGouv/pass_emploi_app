@@ -1,28 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
-class CalendarCard extends StatelessWidget {
-  final String tag;
-  final String date;
-  final String? titre;
-  final String sousTitre;
-  final String texteLien;
+class RendezvousCard extends StatelessWidget {
+  final String rendezvousId;
   final VoidCallback onTap;
 
-  const CalendarCard({
-    Key? key,
-    required this.tag,
-    required this.date,
-    this.titre,
-    required this.sousTitre,
-    required this.texteLien,
-    required this.onTap,
-  }) : super(key: key);
+  const RendezvousCard({Key? key, required this.rendezvousId, required this.onTap}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, RendezvousCardViewModel>(
+      converter: (store) => RendezvousCardViewModel.create(store, rendezvousId),
+      builder: (context, viewModel) => _Container(viewModel, onTap),
+    );
+  }
+}
+
+class _Container extends StatelessWidget {
+  const _Container(this.viewModel, this.onTap, {Key? key}) : super(key: key);
+
+  final RendezvousCardViewModel viewModel;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +52,11 @@ class CalendarCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _Tag(tag),
-                  _Date(date: date),
-                  if (titre != null) _Titre(titre!),
-                  _SousTitre(sousTitre),
-                  _Link(texteLien),
+                  _Tag(viewModel.tag),
+                  _Date(viewModel.date),
+                  if (viewModel.title != null) _Titre(viewModel.title!),
+                  _SousTitre(viewModel.subtitle),
+                  _Link(),
                 ],
               ),
             ),
@@ -84,7 +91,7 @@ class _Tag extends StatelessWidget {
 }
 
 class _Date extends StatelessWidget {
-  const _Date({Key? key, required this.date}) : super(key: key);
+  const _Date(this.date, {Key? key}) : super(key: key);
 
   final String date;
 
@@ -132,9 +139,7 @@ class _SousTitre extends StatelessWidget {
 }
 
 class _Link extends StatelessWidget {
-  const _Link(this.texteLien, {Key? key}) : super(key: key);
-
-  final String texteLien;
+  const _Link({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +149,7 @@ class _Link extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(child: Container()),
-          Text(texteLien, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
+          Text(Strings.linkDetailsRendezVous, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
           SizedBox(width: Margins.spacing_s),
           SvgPicture.asset(Drawables.icChevronRight, color: AppColors.contentColor),
         ],

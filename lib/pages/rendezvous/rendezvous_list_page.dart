@@ -6,14 +6,13 @@ import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_list_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/cards/calendar_card.dart';
+import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
@@ -29,7 +28,7 @@ class RendezvousListPage extends TraceableStatelessWidget {
         return _Scaffold(
           body: _Body(
             viewModel: viewModel,
-            onTap: (viewModel) => pushAndTrackBack(context, RendezvousDetailsPage.materialPageRoute(viewModel.id)),
+            onTap: (rdvId) => pushAndTrackBack(context, RendezvousDetailsPage.materialPageRoute(rdvId)),
           ),
         );
       },
@@ -64,7 +63,7 @@ class _Body extends StatelessWidget {
   const _Body({Key? key, required this.viewModel, required this.onTap}) : super(key: key);
 
   final RendezvousListViewModel viewModel;
-  final Function(RendezvousCardViewModel) onTap;
+  final Function(String) onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -76,10 +75,7 @@ class _Body extends StatelessWidget {
       case DisplayState.EMPTY:
         return _Empty();
       case DisplayState.CONTENT:
-        return _Content(
-          viewModel: viewModel,
-          onTap: (viewModel) => onTap(viewModel),
-        );
+        return _Content(viewModel: viewModel, onTap: (rdvId) => onTap(rdvId));
     }
   }
 }
@@ -88,24 +84,17 @@ class _Content extends StatelessWidget {
   const _Content({Key? key, required this.viewModel, required this.onTap}) : super(key: key);
 
   final RendezvousListViewModel viewModel;
-  final Function(RendezvousCardViewModel) onTap;
+  final Function(String) onTap;
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      itemCount: viewModel.items.length,
+      itemCount: viewModel.rendezvousIds.length,
       padding: const EdgeInsets.all(Margins.spacing_s),
       separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
       itemBuilder: (context, index) {
-        final vm = viewModel.items[index];
-        return CalendarCard(
-          tag: vm.tag,
-          date: vm.date,
-          titre: vm.title,
-          sousTitre: vm.subtitle,
-          texteLien: Strings.linkDetailsRendezVous,
-          onTap: () => onTap(vm),
-        );
+        final rdvId = viewModel.rendezvousIds[index];
+        return RendezvousCard(rendezvousId: rdvId, onTap: () => onTap(rdvId));
       },
     );
   }

@@ -1,9 +1,10 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/models/rendezvous.dart';
-import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_extensions.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_view_model_helper.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
+import 'package:redux/redux.dart';
 
 class RendezvousCardViewModel extends Equatable {
   final String id;
@@ -20,10 +21,11 @@ class RendezvousCardViewModel extends Equatable {
     required this.subtitle,
   });
 
-  factory RendezvousCardViewModel.create(Rendezvous rdv) {
+  factory RendezvousCardViewModel.create(Store<AppState> store, String rdvId) {
+    final rdv = getRendezvousFromStore(store, rdvId);
     return RendezvousCardViewModel(
       id: rdv.id,
-      tag: rdv.takeTypeLabelOrPrecision(),
+      tag: takeTypeLabelOrPrecision(rdv),
       date: rdv.date.toDayAndHourContextualized(),
       title: rdv.organism != null ? Strings.withOrganism(rdv.organism!) : null,
       subtitle: rdv.modality.firstLetterUpperCased(),

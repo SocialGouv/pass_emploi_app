@@ -2,9 +2,8 @@ import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
-import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_extensions.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_view_model_helper.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -44,13 +43,10 @@ class RendezvousDetailsViewModel extends Equatable {
   });
 
   factory RendezvousDetailsViewModel.create(Store<AppState> store, String rdvId, Platform platform) {
-    final state = store.state.rendezvousState;
-    if (state is! RendezvousSuccessState) throw Exception('Rendezvous state is not successful');
-    if (state.rendezvous.where((e) => e.id == rdvId).isEmpty) throw Exception('No Rendezvous matching id $rdvId');
-    final rdv = state.rendezvous.firstWhere((e) => e.id == rdvId);
+    final rdv = getRendezvousFromStore(store, rdvId);
     final comment = (rdv.comment != null && rdv.comment!.trim().isNotEmpty) ? rdv.comment : null;
     return RendezvousDetailsViewModel(
-      title: rdv.takeTypeLabelOrPrecision(),
+      title: takeTypeLabelOrPrecision(rdv),
       date: rdv.date.toDayWithFullMonthContextualized(),
       hourAndDuration: "${rdv.date.toHour()} (${_toDuration(rdv.duration)})",
       modality: Strings.rendezvousModalityMessage(rdv.modality.firstLetterLowerCased()),
