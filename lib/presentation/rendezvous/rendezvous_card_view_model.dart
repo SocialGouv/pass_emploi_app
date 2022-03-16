@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_extensions.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
+import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 class RendezvousCardViewModel extends Equatable {
   final String id;
@@ -25,7 +26,7 @@ class RendezvousCardViewModel extends Equatable {
       tag: rdv.takeTypeLabelOrPrecision(),
       date: rdv.date.toDayAndHourContextualized(),
       title: rdv.organism != null ? Strings.withOrganism(rdv.organism!) : null,
-      subtitle: _modalityFirstLetterUpperCased(rdv),
+      subtitle: rdv.modality.firstLetterUpperCased(),
     );
   }
 
@@ -33,9 +34,4 @@ class RendezvousCardViewModel extends Equatable {
   List<Object?> get props {
     return [id, tag, date, title, subtitle];
   }
-}
-
-String _modalityFirstLetterUpperCased(Rendezvous rdv) {
-  if (rdv.modality.length > 1) return rdv.modality.substring(0, 1).toUpperCase() + rdv.modality.substring(1);
-  return rdv.modality;
 }

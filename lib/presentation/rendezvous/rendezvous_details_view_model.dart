@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
+import 'package:pass_emploi_app/utils/string_extensions.dart';
 import 'package:pass_emploi_app/utils/uri_handler.dart';
 import 'package:redux/redux.dart';
 
@@ -52,7 +53,7 @@ class RendezvousDetailsViewModel extends Equatable {
       title: rdv.takeTypeLabelOrPrecision(),
       date: rdv.date.toDayWithFullMonthContextualized(),
       hourAndDuration: "${rdv.date.toHour()} (${_toDuration(rdv.duration)})",
-      modality: Strings.rendezvousModalityMessage(rdv.modality.toLowerCase()),
+      modality: Strings.rendezvousModalityMessage(rdv.modality.firstLetterLowerCased()),
       conseillerPresenceLabel: rdv.withConseiller ? Strings.conseillerIsPresent : Strings.conseillerIsNotPresent,
       conseillerPresenceColor: rdv.withConseiller ? AppColors.secondary : AppColors.warning,
       trackingPageName: _trackingPageName(rdv.type.code),
