@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
-import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_details_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -13,10 +12,10 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 
-class RendezvousDetailsPage extends TraceableStatelessWidget {
+class RendezvousDetailsPage extends StatelessWidget {
   final String rendezvousId;
 
-  RendezvousDetailsPage._(this.rendezvousId) : super(name: AnalyticsScreenNames.rendezvousDetails);
+  RendezvousDetailsPage._(this.rendezvousId) : super();
 
   static MaterialPageRoute<void> materialPageRoute(String rendezvousId) {
     return MaterialPageRoute(builder: (context) => RendezvousDetailsPage._(rendezvousId));
@@ -27,6 +26,7 @@ class RendezvousDetailsPage extends TraceableStatelessWidget {
     return StoreConnector<AppState, RendezvousDetailsViewModel>(
       converter: (store) => RendezvousDetailsViewModel.create(store, rendezvousId),
       builder: (context, viewModel) {
+        MatomoTracker.trackScreenWithName(viewModel.trackingPageName, "");
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: passEmploiAppBar(label: Strings.myRendezVous, withBackButton: true),

@@ -240,6 +240,7 @@ main() {
           hourAndDuration: '00:00 (30min)',
           conseillerPresenceLabel: 'Votre conseiller sera présent',
           conseillerPresenceColor: AppColors.secondary,
+          trackingPageName: 'rdv/atelier',
           modality: 'Le rendez-vous se fera en visio',
           commentTitle: 'Commentaire de Nils',
           comment: 'comment',
@@ -248,6 +249,56 @@ main() {
         ),
       );
     });
+  });
+
+  group("tracking should be set correctly depending on rendezvous type", () {
+    void assertTrackingPageName(Rendezvous rdv, String trackingPageName) {
+      test("${rdv.type.code} -> $trackingPageName", () async {
+        // Given
+        final store = _store(rdv);
+
+        // When
+        final viewModel = RendezvousDetailsViewModel.create(store, '1');
+
+        // Then
+        expect(viewModel.trackingPageName, trackingPageName);
+      });
+    }
+
+    assertTrackingPageName(
+      mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.ACTIVITE_EXTERIEURES, '')),
+      'rdv/activites-exterieures',
+    );
+
+    assertTrackingPageName(
+      mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.ATELIER, '')),
+      'rdv/atelier',
+    );
+
+    assertTrackingPageName(
+      mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER, '')),
+      'rdv/entretien-individuel',
+    );
+
+    assertTrackingPageName(
+      mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.ENTRETIEN_PARTENAIRE, '')),
+      'rdv/entretien-partenaire',
+    );
+
+    assertTrackingPageName(
+      mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.INFORMATION_COLLECTIVE, '')),
+      'rdv/information-collective',
+    );
+
+    assertTrackingPageName(
+      mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.VISITE, '')),
+      'rdv/visite',
+    );
+
+    assertTrackingPageName(
+      mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.AUTRE, '')),
+      'rdv/autre',
+    );
   });
 }
 

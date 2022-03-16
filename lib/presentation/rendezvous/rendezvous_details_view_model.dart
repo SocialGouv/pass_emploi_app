@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_extensions.dart';
@@ -17,6 +18,7 @@ class RendezvousDetailsViewModel extends Equatable {
   final String modality;
   final String conseillerPresenceLabel;
   final Color conseillerPresenceColor;
+  final String trackingPageName;
   final String? commentTitle;
   final String? comment;
   final String? organism;
@@ -29,6 +31,7 @@ class RendezvousDetailsViewModel extends Equatable {
     required this.modality,
     required this.conseillerPresenceLabel,
     required this.conseillerPresenceColor,
+    required this.trackingPageName,
     this.commentTitle,
     this.comment,
     this.organism,
@@ -48,6 +51,7 @@ class RendezvousDetailsViewModel extends Equatable {
       modality: Strings.rendezVousModalityMessage(rdv.modality.toLowerCase()),
       conseillerPresenceLabel: rdv.withConseiller ? Strings.conseillerIsPresent : Strings.conseillerIsNotPresent,
       conseillerPresenceColor: rdv.withConseiller ? AppColors.secondary : AppColors.warning,
+      trackingPageName: _trackingPageName(rdv.type.code),
       commentTitle: _commentTitle(rdv, comment),
       comment: comment,
       organism: rdv.organism,
@@ -64,6 +68,7 @@ class RendezvousDetailsViewModel extends Equatable {
       modality,
       conseillerPresenceLabel,
       conseillerPresenceColor,
+      trackingPageName,
       commentTitle,
       comment,
       organism,
@@ -84,4 +89,23 @@ String? _commentTitle(Rendezvous rdv, String? comment) {
   if (comment != null && rdv.conseiller == null) return Strings.commentWithoutConseiller;
   if (comment != null && rdv.conseiller != null) return Strings.commentWithConseiller(rdv.conseiller!.firstName);
   return null;
+}
+
+String _trackingPageName(RendezvousTypeCode code) {
+  switch (code) {
+    case RendezvousTypeCode.ACTIVITE_EXTERIEURES:
+      return AnalyticsScreenNames.rendezvousActivitesExterieures;
+    case RendezvousTypeCode.ATELIER:
+      return AnalyticsScreenNames.rendezvousAtelier;
+    case RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER:
+      return AnalyticsScreenNames.rendezvousEntretienIndividuel;
+    case RendezvousTypeCode.ENTRETIEN_PARTENAIRE:
+      return AnalyticsScreenNames.rendezvousEntretienPartenaire;
+    case RendezvousTypeCode.INFORMATION_COLLECTIVE:
+      return AnalyticsScreenNames.rendezvousInformationCollective;
+    case RendezvousTypeCode.VISITE:
+      return AnalyticsScreenNames.rendezvousVisite;
+    case RendezvousTypeCode.AUTRE:
+      return AnalyticsScreenNames.rendezvousAutre;
+  }
 }

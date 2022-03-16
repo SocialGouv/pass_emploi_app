@@ -11,13 +11,20 @@ class AnalyticsScreenNames {
   static String cejInformationPage(int pageNumber) => "entree/etape-$pageNumber";
 
   static const login = "login";
-  static const rendezvousList = "rdv/list";
-  static const rendezvousDetails = "rdv/detail";
   static const userActionList = "actions/list";
   static const userActionDetails = "actions/detail";
   static const updateUserAction = "actions/detail?modifySuccess=true";
   static const createUserAction = "actions/create";
   static const chat = "chat";
+
+  static const rendezvousList = "rdv/list";
+  static const rendezvousActivitesExterieures = "rdv/activites-exterieures";
+  static const rendezvousAtelier = "rdv/atelier";
+  static const rendezvousEntretienIndividuel = "rdv/entretien-individuel";
+  static const rendezvousEntretienPartenaire = "rdv/entretien-partenaire";
+  static const rendezvousInformationCollective = "rdv/information-collective";
+  static const rendezvousVisite = "rdv/visite";
+  static const rendezvousAutre = "rdv/autre";
 
   static const emploiResearch = "recherche/emploi/search";
   static const emploiResults = "recherche/emploi/search_results";
