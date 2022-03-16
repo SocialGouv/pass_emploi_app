@@ -9,6 +9,8 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
+import 'package:pass_emploi_app/utils/platform.dart';
+import 'package:pass_emploi_app/utils/uri_handler.dart';
 import 'package:redux/redux.dart';
 
 class RendezvousDetailsViewModel extends Equatable {
@@ -23,6 +25,7 @@ class RendezvousDetailsViewModel extends Equatable {
   final String? comment;
   final String? organism;
   final String? address;
+  final Uri? addressRedirectUri;
 
   RendezvousDetailsViewModel({
     required this.title,
@@ -36,9 +39,10 @@ class RendezvousDetailsViewModel extends Equatable {
     this.comment,
     this.organism,
     this.address,
+    this.addressRedirectUri,
   });
 
-  factory RendezvousDetailsViewModel.create(Store<AppState> store, String rdvId) {
+  factory RendezvousDetailsViewModel.create(Store<AppState> store, String rdvId, Platform platform) {
     final state = store.state.rendezvousState;
     if (state is! RendezvousSuccessState) throw Exception('Rendezvous state is not successful');
     if (state.rendezvous.where((e) => e.id == rdvId).isEmpty) throw Exception('No Rendezvous matching id $rdvId');
@@ -48,7 +52,7 @@ class RendezvousDetailsViewModel extends Equatable {
       title: rdv.takeTypeLabelOrPrecision(),
       date: rdv.date.toDayWithFullMonthContextualized(),
       hourAndDuration: "${rdv.date.toHour()} (${_toDuration(rdv.duration)})",
-      modality: Strings.rendezVousModalityMessage(rdv.modality.toLowerCase()),
+      modality: Strings.rendezvousModalityMessage(rdv.modality.toLowerCase()),
       conseillerPresenceLabel: rdv.withConseiller ? Strings.conseillerIsPresent : Strings.conseillerIsNotPresent,
       conseillerPresenceColor: rdv.withConseiller ? AppColors.secondary : AppColors.warning,
       trackingPageName: _trackingPageName(rdv.type.code),
@@ -56,6 +60,7 @@ class RendezvousDetailsViewModel extends Equatable {
       comment: comment,
       organism: rdv.organism,
       address: rdv.address,
+      addressRedirectUri: rdv.address != null ? UriHandler().mapsUri(rdv.address!, platform) : null,
     );
   }
 
@@ -73,6 +78,7 @@ class RendezvousDetailsViewModel extends Equatable {
       comment,
       organism,
       address,
+      addressRedirectUri?.toString(),
     ];
   }
 }

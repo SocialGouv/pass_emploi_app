@@ -1,3 +1,5 @@
+import 'dart:io' as io;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
@@ -8,9 +10,12 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/platform.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RendezvousDetailsPage extends StatelessWidget {
   final String rendezvousId;
@@ -23,8 +28,9 @@ class RendezvousDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final platform = io.Platform.isIOS ? Platform.IOS : Platform.ANDROID;
     return StoreConnector<AppState, RendezvousDetailsViewModel>(
-      converter: (store) => RendezvousDetailsViewModel.create(store, rendezvousId),
+      converter: (store) => RendezvousDetailsViewModel.create(store, rendezvousId, platform),
       builder: (context, viewModel) {
         MatomoTracker.trackScreenWithName(viewModel.trackingPageName, "");
         return Scaffold(
@@ -104,6 +110,17 @@ class _Modality extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: Margins.spacing_xs),
             child: Text(viewModel.address!, style: TextStyles.textBaseRegular),
+          ),
+        if (viewModel.addressRedirectUri != null)
+          Padding(
+            padding: const EdgeInsets.only(top: Margins.spacing_m),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(minWidth: double.infinity),
+              child: SecondaryButton(
+                label: Strings.seeItinerary,
+                onPressed: () => launch(viewModel.addressRedirectUri!.toString()),
+              ),
+            ),
           ),
       ],
     );
