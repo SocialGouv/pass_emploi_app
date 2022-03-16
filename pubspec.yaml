@@ -41,7 +41,9 @@ dependencies:
   google_fonts: '2.1.0'
   # Analytics
   matomo:
-    git: https://github.com/BonnetM/dart-matomo.git
+    git:
+      url: https://github.com/BonnetM/dart-matomo.git
+      ref: feat/add-outlink-support
 
   encrypt: '5.0.1'
   smooth_page_indicator: ^1.0.0+2

@@ -468,8 +468,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: HEAD
-      resolved-ref: b4a370276f7ac4f0c31623bf954b3c4f3f78cd6f
+      ref: "feat/add-outlink-support"
+      resolved-ref: "745ccc814561e4aeaeec9f867e24d32e21e623c6"
       url: "https://github.com/BonnetM/dart-matomo.git"
     source: git
     version: "1.1.0"

@@ -145,7 +145,7 @@ class ProfilPage extends TraceableStatelessWidget {
   }
 
   void _launchAndTrackExternalLink(String link) {
-    MatomoTracker.trackScreenWithName(link, AnalyticsScreenNames.profil);
+    MatomoTracker.trackOutlink(link);
     launch(link);
   }
 
