@@ -52,6 +52,7 @@ class AnalyticsScreenNames {
   static const serviceCiviqueNoResults = "/recherche/service_civique/search_no_results";
   static const serviceCiviqueDetail = "/recherche/service_civique/detail";
   static const serviceCiviqueFavoris = "/favoris/list/service_civique";
+  static const serviceCiviqueFiltres = "/recherche/service_civique/search_results/filters";
 
   static const toolbox = "recherche/boite_a_outils";
   static const emploiFavoris = "favoris/list/emploi";

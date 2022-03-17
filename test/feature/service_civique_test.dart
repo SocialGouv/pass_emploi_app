@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_actions.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
+import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 
 import '../doubles/fixtures.dart';
@@ -83,6 +84,42 @@ main() {
     final successAppState = await successState;
     final searchState = (successAppState.serviceCiviqueSearchResultState as ServiceCiviqueSearchResultDataState);
     expect(searchState.offres.length, 2);
+    expect(searchState.lastRequest.page, 1);
+  });
+
+  test("service civique can be updated with filters", () async {
+    // Given
+    final factory = TestStoreFactory();
+    factory.serviceCiviqueRepository = ServiceCiviqueRepositorySuccessWithMoreDataStub();
+    final store = factory.initializeReduxStore(
+      initialState: loggedInState().copyWith(
+        serviceCiviqueSearchResultState: ServiceCiviqueSearchResultDataState(
+            offres: [],
+            isMoreDataAvailable: true,
+            lastRequest: SearchServiceCiviqueRequest(
+              page: 0,
+              startDate: null,
+              endDate: null,
+              distance: null,
+              domain: null,
+              location: null,
+            )),
+      ),
+    );
+
+    final successState = store.onChange.firstWhere((e) {
+      var state = e.serviceCiviqueSearchResultState;
+      return state is ServiceCiviqueSearchResultDataState && state.offres.isNotEmpty;
+    });
+
+    // When
+    store.dispatch(
+        ServiceCiviqueSearchUpdateFiltresAction(distance: 30, domain: Domain.values[4], startDate: DateTime.utc(1998)));
+
+    // Then
+    final successAppState = await successState;
+    final searchState = (successAppState.serviceCiviqueSearchResultState as ServiceCiviqueSearchResultDataState);
+    expect(searchState.offres.length, 1);
     expect(searchState.lastRequest.page, 1);
   });
 }

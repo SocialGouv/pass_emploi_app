@@ -5,7 +5,9 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_actions.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
+import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/pages/service_civique/service_civique_detail_page.dart';
+import 'package:pass_emploi_app/pages/service_civique/service_civique_filtres_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -21,6 +23,7 @@ import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 import '../../presentation/service_civique_view_model.dart';
+import '../../widgets/buttons/filtre_button.dart';
 import '../offre_page.dart';
 
 class ServiceCiviqueListPage extends TraceableStatefulWidget {
@@ -90,14 +93,14 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
       case DisplayState.LOADING:
         return _content(context, viewModel);
       case DisplayState.EMPTY:
-        return _empty();
+        return _empty(viewModel);
       case DisplayState.FAILURE:
         return _error(viewModel);
     }
   }
 
   Widget _content(BuildContext context, ServiceCiviqueViewModel viewModel) {
-    if (viewModel.items.isEmpty) return _empty();
+    if (viewModel.items.isEmpty) return _empty(viewModel);
     return Stack(children: [
       ListView.separated(
         padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
@@ -114,7 +117,9 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
             alignment: WrapAlignment.center,
             spacing: 16,
             runSpacing: 16,
-            children: [],
+            children: [
+              _filtrePrimaryButton(viewModel),
+            ],
           ),
         ),
       ),
@@ -129,7 +134,7 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
     final ServiceCivique item = resultsViewModel.items[index];
     return DataCard<ServiceCivique>(
       titre: item.title,
-      category: item.domain,
+      category: Domain.fromTag(item.domain)?.titre,
       sousTitre: item.companyName,
       lieu: item.location,
       id: item.id,
@@ -216,14 +221,47 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
     );
   }
 
-  Widget _empty() {
+  Widget _empty(ServiceCiviqueViewModel viewModel) {
     MatomoTracker.trackScreenWithName(
         AnalyticsScreenNames.serviceCiviqueNoResults, AnalyticsScreenNames.serviceCiviqueNoResults);
     return EmptyOffreWidget(
       additional: Padding(
         padding: const EdgeInsets.only(top: Margins.spacing_base),
-        child: Container(),
+        child: Column(
+          children: [
+            Wrap(
+              spacing: 16,
+              runSpacing: 16,
+              children: [
+                _filtreSecondaryButton(viewModel),
+              ],
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  Widget _filtrePrimaryButton(ServiceCiviqueViewModel viewModel) {
+    return FiltreButton.primary(
+      filtresCount: viewModel.filtresCount,
+      onPressed: () => _onFiltreButtonPressed(),
+    );
+  }
+
+  Widget _filtreSecondaryButton(ServiceCiviqueViewModel viewModel) {
+    return FiltreButton.secondary(
+      filtresCount: viewModel.filtresCount,
+      onPressed: () => _onFiltreButtonPressed(),
+    );
+  }
+
+  Future<void> _onFiltreButtonPressed() async {
+    return widget.pushAndTrackBack(context, ServiceCiviqueFiltresPage.materialPageRoute()).then((value) {
+      if (value == true) {
+        _offsetBeforeLoading = 0;
+        if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
+      }
+    });
   }
 }

@@ -1,6 +1,7 @@
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 
+import '../../../models/service_civique/domain.dart';
 import '../../../repositories/service_civique_repository.dart';
 
 class SearchServiceCiviqueAction {
@@ -26,4 +27,16 @@ class ServiceCiviqueSearchSuccessAction {
   final ServiceCiviqueSearchResponse response;
 
   ServiceCiviqueSearchSuccessAction(this.response);
+}
+
+class ServiceCiviqueSearchUpdateFiltresAction {
+  final int? distance;
+  final DateTime? startDate;
+  final Domain? domain;
+
+  ServiceCiviqueSearchUpdateFiltresAction({
+    this.distance,
+    this.startDate,
+    this.domain,
+  });
 }
