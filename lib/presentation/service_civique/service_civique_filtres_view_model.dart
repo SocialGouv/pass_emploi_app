@@ -101,6 +101,8 @@ Domain _domain(ServiceCiviqueSearchResultState state) {
 DateTime? _startDate(ServiceCiviqueSearchResultState state) {
   if (state is ServiceCiviqueSearchResultDataState) {
     return state.lastRequest.startDate?.toDateTimeUtcOnLocalTimeZone();
+  } else {
+    return null;
   }
 }
 

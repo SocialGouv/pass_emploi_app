@@ -207,7 +207,7 @@ class _ServiceCiviqueFiltresPageState extends State<ServiceCiviqueFiltresPage> {
               color: Color.fromARGB(255, 255, 255, 255),
               child: Column(
                 children: [
-                  Container(
+                  SizedBox(
                     height: 180,
                     child: CupertinoDatePicker(
                         initialDateTime: DateTime.now(),
