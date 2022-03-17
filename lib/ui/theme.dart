@@ -14,6 +14,7 @@ class PassEmploiTheme {
     ),
     checkboxTheme: _checkboxes(),
     sliderTheme: _sliders(),
+    progressIndicatorTheme: _progress(),
   );
 
   static CheckboxThemeData _checkboxes() {
@@ -31,6 +32,12 @@ class PassEmploiTheme {
       thumbColor: AppColors.primary,
       activeTickMarkColor: AppColors.primary,
       inactiveTickMarkColor: AppColors.grey800,
+    );
+  }
+
+  static ProgressIndicatorThemeData _progress() {
+    return ProgressIndicatorThemeData(
+      color: AppColors.primary,
     );
   }
 }

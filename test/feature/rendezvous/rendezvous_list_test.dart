@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
+import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
@@ -44,7 +44,7 @@ void main() {
         expect(await displayedLoading, true);
         final appState = await successAppState;
         expect((appState.rendezvousState as RendezvousSuccessState).rendezvous.length, 1);
-        expect((appState.rendezvousState as RendezvousSuccessState).rendezvous[0].date, DateTime(2022));
+        expect((appState.rendezvousState as RendezvousSuccessState).rendezvous.first.id, '1');
       });
 
       test("update state with failure if repository returns nothing", () async {
@@ -76,7 +76,7 @@ class RendezvousRepositorySuccessStub extends RendezvousRepository {
   @override
   Future<List<Rendezvous>?> getRendezvous(String userId) async {
     if (userId != expectedUserId) throw Exception("Unexpected user ID: $userId");
-    return [Rendezvous(id: '', date: DateTime(2022), title: '', subtitle: '', comment: '', duration: '', modality: '')];
+    return [mockRendezvous(id: '1')];
   }
 }
 

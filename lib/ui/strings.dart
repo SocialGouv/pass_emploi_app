@@ -103,17 +103,30 @@ class Strings {
   static String actionsTabTitle = "Actions";
   static String rendezvousTabTitle = "Rendez-vous";
 
-  // Rendez-Vous
+  // Rendezvous
   static String myRendezVous = "Mon rendez-vous";
   static String rendezVousConseillerCommentLabel = "Commentaire de mon conseiller";
-  static String cantMakeItNoBigDeal = "Vous n’êtes pas disponible sur ce créneau ?";
+  static String cannotGoToRendezvous = "Vous ne pouvez pas vous rendre au rendez-vous ?";
   static String shouldInformConseiller =
-      "Il est impératif de prévenir votre conseiller et de justifier votre absence. Pour cela, contactez-le grâce à la messagerie.";
+      "En cas d’imprévu, il est important de prévenir votre conseiller. Vous pouvez le contacter via la messagerie de l’application CEJ.";
 
-  static String rendezVousModalityMessage(modality) => "Le rendez-vous se fera $modality";
   static String noUpcomingRendezVous =
       "Vous n’avez pas de rendez-vous prévus.\nContactez votre conseiller pour prendre rendez-vous";
   static String rendezVousError = "Erreur lors de la récupération de vos rendez-vous";
+  static String conseillerIsPresent = "Votre conseiller sera présent";
+  static String conseillerIsNotPresent = "Votre conseiller ne sera pas présent";
+  static String commentWithoutConseiller = "Commentaire de votre conseiller";
+  static String seeItinerary = 'Voir l\'itinéraire';
+
+  static String rendezvousModalityDetailsMessage(String modality, String conseiller) {
+    return "Le rendez-vous se fera $modality avec $conseiller";
+  }
+
+  static String rendezvousModalityCardMessage(String modality, String conseiller) => "$modality avec $conseiller";
+
+  static String commentWithConseiller(String firstName) => "Commentaire de $firstName";
+
+  static String withOrganism(String organism) => "Avec : $organism";
 
   // User Action
   static String actionsError = "Erreur lors de la récupération de vos actions";
