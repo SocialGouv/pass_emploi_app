@@ -31,30 +31,32 @@ class RendezvousDetailsPage extends StatelessWidget {
     final platform = io.Platform.isIOS ? Platform.IOS : Platform.ANDROID;
     return StoreConnector<AppState, RendezvousDetailsViewModel>(
       converter: (store) => RendezvousDetailsViewModel.create(store, rendezvousId, platform),
-      builder: (context, viewModel) {
-        MatomoTracker.trackScreenWithName(viewModel.trackingPageName, "");
-        return Scaffold(
-          backgroundColor: Colors.white,
-          appBar: passEmploiAppBar(label: Strings.myRendezVous, withBackButton: true),
-          body: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(Margins.spacing_base),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _Header(viewModel),
-                  SepLine(Margins.spacing_m, Margins.spacing_m),
-                  _Modality(viewModel),
-                  SepLine(Margins.spacing_m, Margins.spacing_m),
-                  _ConseillerPart(viewModel),
-                  SepLine(Margins.spacing_m, Margins.spacing_m),
-                  _InformIfAbsent(),
-                ],
-              ),
-            ),
+      builder: _builder,
+    );
+  }
+
+  Widget _builder(BuildContext context, RendezvousDetailsViewModel viewModel) {
+    MatomoTracker.trackScreenWithName(viewModel.trackingPageName, "");
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: passEmploiAppBar(label: Strings.myRendezVous, withBackButton: true),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(Margins.spacing_base),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _Header(viewModel),
+              SepLine(Margins.spacing_m, Margins.spacing_m),
+              _Modality(viewModel),
+              SepLine(Margins.spacing_m, Margins.spacing_m),
+              _ConseillerPart(viewModel),
+              SepLine(Margins.spacing_m, Margins.spacing_m),
+              _InformIfAbsent(),
+            ],
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }

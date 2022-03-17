@@ -24,16 +24,18 @@ class RendezvousListPage extends TraceableStatelessWidget {
     return StoreConnector<AppState, RendezvousListViewModel>(
       onInit: (store) => store.dispatch(RendezvousRequestAction()),
       converter: (store) => RendezvousListViewModel.create(store),
-      builder: (context, viewModel) {
-        return _Scaffold(
-          body: _Body(
-            viewModel: viewModel,
-            onTap: (rdvId) => pushAndTrackBack(context, RendezvousDetailsPage.materialPageRoute(rdvId)),
-          ),
-        );
-      },
+      builder: _builder,
       onDidChange: (_, viewModel) => _openDeeplinkIfNeeded(viewModel, context),
       distinct: true,
+    );
+  }
+
+  Widget _builder(BuildContext context, RendezvousListViewModel viewModel) {
+    return _Scaffold(
+      body: _Body(
+        viewModel: viewModel,
+        onTap: (rdvId) => pushAndTrackBack(context, RendezvousDetailsPage.materialPageRoute(rdvId)),
+      ),
     );
   }
 
