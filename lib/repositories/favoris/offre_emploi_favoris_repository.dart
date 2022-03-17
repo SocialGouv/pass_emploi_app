@@ -1,3 +1,4 @@
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -12,9 +13,11 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
   final String _baseUrl;
   final Client _httpClient;
   final HeadersBuilder _headersBuilder;
+  final CacheManager _cacheManager;
   final Crashlytics? _crashlytics;
 
-  OffreEmploiFavorisRepository(this._baseUrl, this._httpClient, this._headersBuilder, [this._crashlytics]);
+  OffreEmploiFavorisRepository(this._baseUrl, this._httpClient, this._headersBuilder, this._cacheManager,
+      [this._crashlytics]);
 
   @override
   Future<Set<String>?> getFavorisId(String userId) async {
@@ -35,7 +38,7 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
   @override
   Future<Map<String, OffreEmploi>?> getFavoris(String userId) async {
     final url =
-        Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-emploi").replace(queryParameters: {"detail": "true"});
+    Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-emploi").replace(queryParameters: {"detail": "true"});
     try {
       final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
       if (response.statusCode.isValid()) {
@@ -68,6 +71,8 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
         ),
       );
       if (response.statusCode.isValid() || response.statusCode == 409) {
+        _cacheManager.removeFile(_baseUrl + "/jeunes/$userId/favoris/offres-emploi?detail=true");
+        _cacheManager.removeFile(_baseUrl + "/jeunes/$userId/favoris/offres-emploi?detail=false");
         return true;
       }
     } catch (e, stack) {
@@ -85,6 +90,8 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
         headers: await _headersBuilder.headers(),
       );
       if (response.statusCode.isValid() || response.statusCode == 404) {
+        _cacheManager.removeFile(_baseUrl + "/jeunes/$userId/favoris/offres-emploi?detail=true");
+        _cacheManager.removeFile(_baseUrl + "/jeunes/$userId/favoris/offres-emploi?detail=false");
         return true;
       }
     } catch (e, stack) {

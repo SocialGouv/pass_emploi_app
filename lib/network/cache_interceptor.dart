@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
-import 'package:pass_emploi_app/network/status_code.dart';
 import 'package:pass_emploi_app/utils/log.dart';
 
 class HttpClientWithCache extends BaseClient {
@@ -24,16 +23,7 @@ class HttpClientWithCache extends BaseClient {
 
   @override
   Future<Response> get(Uri url, {Map<String, String>? headers}) async {
-    final fileFromCache = await cacheManager.getSingleFile(url.toString());
-    if (await fileFromCache.exists()) {
-      return Response(await fileFromCache.readAsString(), 200);
-    } else {
-      final response = await httpClient.get(url, headers: headers);
-      if (response.statusCode.isValid()) {
-        cacheManager.putFile(url.toString(), response.bodyBytes);
-      }
-      return response;
-    }
+    return httpClient.get(url, headers: headers);
   }
 
   @override
