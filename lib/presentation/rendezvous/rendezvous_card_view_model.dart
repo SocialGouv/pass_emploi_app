@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_view_model_helper.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -28,7 +29,7 @@ class RendezvousCardViewModel extends Equatable {
       tag: takeTypeLabelOrPrecision(rdv),
       date: rdv.date.toDayAndHourContextualized(),
       title: rdv.organism != null ? Strings.withOrganism(rdv.organism!) : null,
-      subtitle: rdv.modality.firstLetterUpperCased(),
+      subtitle: _subtitle(rdv),
     );
   }
 
@@ -36,4 +37,13 @@ class RendezvousCardViewModel extends Equatable {
   List<Object?> get props {
     return [id, tag, date, title, subtitle];
   }
+}
+
+String _subtitle(Rendezvous rdv) {
+  final modality = rdv.modality.firstLetterUpperCased();
+  final conseiller = rdv.conseiller;
+  if (rdv.withConseiller && conseiller != null) {
+    return Strings.rendezvousModalityCardMessage(modality, '${conseiller.firstName} ${conseiller.lastName}');
+  }
+  return modality;
 }

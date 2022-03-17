@@ -236,6 +236,22 @@ main() {
       expect(viewModel.addressRedirectUri, Uri.parse("geo:0,0?q=Address%201"));
     });
 
+    test('should display modality with conseiller if conseiller is present', () {
+      // Given
+      final store = _store(mockRendezvous(
+        id: '1',
+        modality: "en visio",
+        withConseiller: true,
+        conseiller: Conseiller(id: 'id', firstName: 'Nils', lastName: 'Tavernier'),
+      ));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+
+      // Then
+      expect(viewModel.modality, "Le rendez-vous se fera en visio avec Nils Tavernier");
+    });
+
     test('full view model test', () {
       // Given
       final store = _store(Rendezvous(
@@ -264,7 +280,7 @@ main() {
           conseillerPresenceLabel: 'Votre conseiller sera présent',
           conseillerPresenceColor: AppColors.secondary,
           trackingPageName: 'rdv/atelier',
-          modality: 'Le rendez-vous se fera sur place : Mission Locale',
+          modality: 'Le rendez-vous se fera sur place : Mission Locale avec Nils Tavernier',
           commentTitle: 'Commentaire de Nils',
           comment: 'comment',
           organism: 'organism',

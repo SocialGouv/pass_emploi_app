@@ -118,7 +118,11 @@ class Strings {
   static String commentWithoutConseiller = "Commentaire de votre conseiller";
   static String seeItinerary = 'Voir l\'itinéraire';
 
-  static String rendezvousModalityMessage(String modality) => "Le rendez-vous se fera $modality";
+  static String rendezvousModalityDetailsMessage(String modality, String conseiller) {
+    return "Le rendez-vous se fera $modality avec $conseiller";
+  }
+
+  static String rendezvousModalityCardMessage(String modality, String conseiller) => "$modality avec $conseiller";
 
   static String commentWithConseiller(String firstName) => "Commentaire de $firstName";
 

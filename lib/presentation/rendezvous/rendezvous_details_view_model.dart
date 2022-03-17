@@ -49,7 +49,7 @@ class RendezvousDetailsViewModel extends Equatable {
       title: takeTypeLabelOrPrecision(rdv),
       date: rdv.date.toDayWithFullMonthContextualized(),
       hourAndDuration: "${rdv.date.toHour()} (${_toDuration(rdv.duration)})",
-      modality: Strings.rendezvousModalityMessage(rdv.modality.firstLetterLowerCased()),
+      modality: _modality(rdv),
       conseillerPresenceLabel: rdv.withConseiller ? Strings.conseillerIsPresent : Strings.conseillerIsNotPresent,
       conseillerPresenceColor: rdv.withConseiller ? AppColors.secondary : AppColors.warning,
       trackingPageName: _trackingPageName(rdv.type.code),
@@ -92,6 +92,15 @@ String? _commentTitle(Rendezvous rdv, String? comment) {
   if (comment != null && rdv.conseiller == null) return Strings.commentWithoutConseiller;
   if (comment != null && rdv.conseiller != null) return Strings.commentWithConseiller(rdv.conseiller!.firstName);
   return null;
+}
+
+String _modality(Rendezvous rdv) {
+  final modality = rdv.modality.firstLetterLowerCased();
+  final conseiller = rdv.conseiller;
+  if (rdv.withConseiller && conseiller != null) {
+    return Strings.rendezvousModalityDetailsMessage(modality, '${conseiller.firstName} ${conseiller.lastName}');
+  }
+  return modality;
 }
 
 String _trackingPageName(RendezvousTypeCode code) {

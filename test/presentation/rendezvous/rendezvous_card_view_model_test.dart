@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
+import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -93,6 +94,22 @@ main() {
 
       // Then
       expect(viewModel.date, "Le 01/03/2022 à 10h20");
+    });
+
+    test('should display modality with conseiller if conseiller is present', () {
+      // Given
+      final store = _store(mockRendezvous(
+        id: '1',
+        modality: "en visio",
+        withConseiller: true,
+        conseiller: Conseiller(id: 'id', firstName: 'Nils', lastName: 'Tavernier'),
+      ));
+
+      // When
+      final viewModel = RendezvousCardViewModel.create(store, '1');
+
+      // Then
+      expect(viewModel.subtitle, "En visio avec Nils Tavernier");
     });
 
     test('full view model test', () {
