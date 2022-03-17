@@ -1,3 +1,4 @@
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
@@ -12,9 +13,11 @@ class ImmersionFavorisRepository extends FavorisRepository<Immersion> {
   final String _baseUrl;
   final Client _httpClient;
   final HeadersBuilder _headersBuilder;
+  final CacheManager _cacheManager;
   final Crashlytics? _crashlytics;
 
-  ImmersionFavorisRepository(this._baseUrl, this._httpClient, this._headersBuilder, [this._crashlytics]);
+  ImmersionFavorisRepository(this._baseUrl, this._httpClient, this._headersBuilder, this._cacheManager,
+      [this._crashlytics]);
 
   @override
   Future<Set<String>?> getFavorisId(String userId) async {
@@ -35,7 +38,7 @@ class ImmersionFavorisRepository extends FavorisRepository<Immersion> {
   @override
   Future<Map<String, Immersion>?> getFavoris(String userId) async {
     final url =
-        Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-immersion").replace(queryParameters: {"detail": "true"});
+    Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-immersion").replace(queryParameters: {"detail": "true"});
     try {
       final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
       if (response.statusCode.isValid()) {
@@ -66,6 +69,8 @@ class ImmersionFavorisRepository extends FavorisRepository<Immersion> {
         ),
       );
       if (response.statusCode.isValid() || response.statusCode == 409) {
+        _cacheManager.removeFile(_baseUrl + "/jeunes/$userId/favoris/offres-immersion?detail=true");
+        _cacheManager.removeFile(_baseUrl + "/jeunes/$userId/favoris/offres-immersion?detail=false");
         return true;
       }
     } catch (e, stack) {
@@ -83,6 +88,8 @@ class ImmersionFavorisRepository extends FavorisRepository<Immersion> {
         headers: await _headersBuilder.headers(),
       );
       if (response.statusCode.isValid() || response.statusCode == 404) {
+        _cacheManager.removeFile(_baseUrl + "/jeunes/$userId/favoris/offres-immersion?detail=true");
+        _cacheManager.removeFile(_baseUrl + "/jeunes/$userId/favoris/offres-immersion?detail=false");
         return true;
       }
     } catch (e, stack) {

@@ -1,3 +1,4 @@
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
@@ -11,9 +12,11 @@ class OffreEmploiSavedSearchRepository extends SavedSearchRepository<OffreEmploi
   final String _baseUrl;
   final Client _httpClient;
   final HeadersBuilder _headersBuilder;
+  final CacheManager _cacheManager;
   final Crashlytics? _crashlytics;
 
-  OffreEmploiSavedSearchRepository(this._baseUrl, this._httpClient, this._headersBuilder, [this._crashlytics]);
+  OffreEmploiSavedSearchRepository(this._baseUrl, this._httpClient, this._headersBuilder, this._cacheManager,
+      [this._crashlytics]);
 
   @override
   Future<bool> postSavedSearch(String userId, OffreEmploiSavedSearch savedSearch, String title) async {
@@ -37,6 +40,7 @@ class OffreEmploiSavedSearchRepository extends SavedSearchRepository<OffreEmploi
         ),
       );
       if (response.statusCode.isValid()) {
+        _cacheManager.removeFile(_baseUrl + "/jeunes/" + userId + "/recherches");
         return true;
       }
     } catch (e, stack) {

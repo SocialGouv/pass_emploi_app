@@ -1,3 +1,4 @@
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
@@ -11,9 +12,11 @@ class ImmersionSavedSearchRepository extends SavedSearchRepository<ImmersionSave
   final String _baseUrl;
   final Client _httpClient;
   final HeadersBuilder _headersBuilder;
+  final CacheManager _cacheManager;
   final Crashlytics? _crashlytics;
 
-  ImmersionSavedSearchRepository(this._baseUrl, this._httpClient, this._headersBuilder, [this._crashlytics]);
+  ImmersionSavedSearchRepository(this._baseUrl, this._httpClient, this._headersBuilder, this._cacheManager,
+      [this._crashlytics]);
 
   @override
   Future<bool> postSavedSearch(String userId, ImmersionSavedSearch savedSearch, String title) async {
@@ -35,6 +38,7 @@ class ImmersionSavedSearchRepository extends SavedSearchRepository<ImmersionSave
         ),
       );
       if (response.statusCode.isValid()) {
+        _cacheManager.removeFile(_baseUrl + "/jeunes/" + userId + "/recherches");
         return true;
       }
     } catch (e, stack) {
