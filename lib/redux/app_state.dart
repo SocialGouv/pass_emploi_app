@@ -4,13 +4,18 @@ import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/configuration/configuration_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
+import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
+import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_state.dart';
 import 'package:pass_emploi_app/features/location/search_location_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_state.dart';
@@ -25,13 +30,7 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
-
-import '../features/favori/list/favori_list_state.dart';
-import '../features/favori/update/favori_update_state.dart';
-import '../features/immersion/parameters/immersion_search_parameters_state.dart';
-import '../features/offre_emploi/list/offre_emploi_list_state.dart';
-import '../features/offre_emploi/search/offre_emploi_search_state.dart';
-import '../models/service_civique.dart';
+import 'package:pass_emploi_app/models/service_civique.dart';
 
 class AppState extends Equatable {
   final ConfigurationState configurationState;

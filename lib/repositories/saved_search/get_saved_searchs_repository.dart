@@ -1,11 +1,10 @@
 import 'package:http/http.dart';
+import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
+import 'package:pass_emploi_app/network/headers.dart';
+import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_response.dart';
-
-import '../../crashlytics/crashlytics.dart';
-import '../../models/saved_search/saved_search.dart';
-import '../../network/headers.dart';
-import '../../network/json_utf8_decoder.dart';
 
 class GetSavedSearchRepository {
   final String _baseUrl;

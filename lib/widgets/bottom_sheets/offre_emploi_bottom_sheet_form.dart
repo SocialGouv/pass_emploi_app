@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/presentation/saved_search_view_model.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/immersion_bottom_sheet_form.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
-
-import '../../analytics/analytics_constants.dart';
-import '../../models/saved_search/offre_emploi_saved_search.dart';
-import '../../ui/app_colors.dart';
-import '../../ui/drawables.dart';
-import '../../ui/margins.dart';
-import '../../ui/strings.dart';
-import '../../ui/text_styles.dart';
-import '../buttons/primary_action_button.dart';
-import 'bottom_sheets.dart';
-import 'immersion_bottom_sheet_form.dart';
 
 class OffreEmploiBottomSheetForm extends StatefulWidget {
   final SavedSearchViewModel<OffreEmploiSavedSearch> viewModel;

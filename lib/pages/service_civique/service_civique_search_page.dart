@@ -6,16 +6,15 @@ import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
 import 'package:pass_emploi_app/pages/service_civique/service_civique_list_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/location_view_model.dart';
+import 'package:pass_emploi_app/presentation/service_civique_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
-
-import '../../presentation/location_view_model.dart';
-import '../../presentation/service_civique_view_model.dart';
-import '../../widgets/errors/error_text.dart';
-import '../../widgets/location_autocomplete.dart';
+import 'package:pass_emploi_app/widgets/errors/error_text.dart';
+import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
 
 class ServiceCiviqueSearchPage extends TraceableStatefulWidget {
   ServiceCiviqueSearchPage() : super(name: AnalyticsScreenNames.serviceCiviqueResearch);

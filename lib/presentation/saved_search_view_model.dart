@@ -3,10 +3,9 @@ import 'package:pass_emploi_app/features/saved_search/create/saved_search_create
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
+import 'package:pass_emploi_app/models/saved_search/saved_search_extractors.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
-
-import '../models/saved_search/saved_search_extractors.dart';
 
 enum CreateSavedSearchDisplayState { SHOW_CONTENT, SHOW_LOADING, TO_DISMISS, SHOW_ERROR }
 

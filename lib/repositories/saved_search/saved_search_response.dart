@@ -1,11 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/network/filtres_request.dart';
-
-import '../../models/offre_emploi_filtres_parameters.dart';
-import '../../models/saved_search/immersion_saved_search.dart';
 
 class SavedSearchResponse {
   final String id;

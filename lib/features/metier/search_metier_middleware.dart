@@ -1,9 +1,8 @@
 import 'package:pass_emploi_app/features/metier/search_metier_actions.dart';
+import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:redux/redux.dart';
-
-import '../../models/metier.dart';
-import '../../repositories/metier_repository.dart';
 
 class SearchMetierMiddleware extends MiddlewareClass<AppState> {
   final MetierRepository _repository;

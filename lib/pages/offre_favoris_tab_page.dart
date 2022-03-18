@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
-
-import '../ui/margins.dart';
-import '../ui/strings.dart';
-import '../widgets/buttons/carousel_button.dart';
-import 'favoris/immersion_favoris_page.dart';
-import 'favoris/offre_emploi_favoris_page.dart';
-import 'favoris/service_civique_favoris_page.dart';
+import 'package:pass_emploi_app/pages/favoris/immersion_favoris_page.dart';
+import 'package:pass_emploi_app/pages/favoris/offre_emploi_favoris_page.dart';
+import 'package:pass_emploi_app/pages/favoris/service_civique_favoris_page.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/buttons/carousel_button.dart';
 
 const int _indexOfOffresEmploi = 0;
 const int _indexOfAlternance = 1;

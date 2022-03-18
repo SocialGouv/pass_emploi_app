@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
-import '../ui/drawables.dart';
-import '../ui/margins.dart';
-import '../ui/strings.dart';
-import '../ui/text_styles.dart';
-import 'buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 
 class EmptyOffreWidget extends StatelessWidget {
   final Widget? additional;

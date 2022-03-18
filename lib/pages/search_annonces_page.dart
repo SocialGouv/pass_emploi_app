@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/pages/immersion_search_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_search_page.dart';
+import 'package:pass_emploi_app/pages/service_civique/service_civique_search_page.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/buttons/carousel_button.dart';
-
-import 'immersion_search_page.dart';
-import 'service_civique/service_civique_search_page.dart';
 
 const int _indexOfOffresEmploi = 0;
 const int _indexOfAlternance = 1;

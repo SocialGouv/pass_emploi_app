@@ -3,10 +3,9 @@ import 'package:pass_emploi_app/features/saved_search/create/saved_search_create
 import 'package:pass_emploi_app/features/saved_search/init/saved_search_initialize_action.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
+import 'package:pass_emploi_app/models/saved_search/saved_search_extractors.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
-
-import '../../../models/saved_search/saved_search_extractors.dart';
 
 class SavedSearchInitializeMiddleware extends MiddlewareClass<AppState> {
   @override

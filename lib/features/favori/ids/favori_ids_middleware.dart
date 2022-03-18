@@ -1,9 +1,8 @@
+import 'package:pass_emploi_app/features/favori/ids/favori_ids_action.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/favoris/favoris_repository.dart';
 import 'package:redux/redux.dart';
-
-import 'favori_ids_action.dart';
 
 class FavoriIdsMiddleware<T> extends MiddlewareClass<AppState> {
   final FavorisRepository<T> _repository;

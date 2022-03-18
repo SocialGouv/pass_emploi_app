@@ -5,10 +5,9 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
-
-import 'offre_emploi_item_view_model.dart';
 
 typedef OffreEmploiFavorisListViewModel = FavorisListViewModel<OffreEmploi, OffreEmploiItemViewModel>;
 typedef ImmersionFavorisListViewModel = FavorisListViewModel<Immersion, Immersion>;

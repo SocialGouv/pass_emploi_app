@@ -13,11 +13,10 @@ import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
-
-import '../buttons/primary_action_button.dart';
-import 'bottom_sheets.dart';
 
 class UserActionDetailsBottomSheet extends TraceableStatefulWidget {
   final UserActionViewModel actionViewModel;
