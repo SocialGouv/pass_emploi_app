@@ -24,4 +24,3 @@ analyzer:
     missing_return: error
     dead_code: error
     unused_element: error
-    prefer_double_quotes: error
