@@ -8,7 +8,7 @@ import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import '../../doubles/fixtures.dart';
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   test("Returns metiers list when user search metier", () async {
     // Given
     final factory = TestStoreFactory();

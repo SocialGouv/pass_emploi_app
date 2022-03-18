@@ -59,7 +59,7 @@ import 'configuration/configuration.dart';
 import 'crashlytics/crashlytics.dart';
 import 'network/logging_interceptor.dart';
 
-main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
@@ -122,13 +122,13 @@ Future<Store<AppState>> _initializeReduxStore(
   final poleEmploiTokenRepository = PoleEmploiTokenRepository();
   final accessTokenRetriever = AuthAccessTokenRetriever(authenticator);
   final crashlytics = CrashlyticsWithFirebase(FirebaseCrashlytics.instance);
-  var defaultContext = SecurityContext.defaultContext;
+  final defaultContext = SecurityContext.defaultContext;
   try {
     defaultContext.setTrustedCertificatesBytes(utf8.encode(configuration.iSRGX1CertificateForOldDevices));
   } catch (e, stack) {
     crashlytics.recordNonNetworkException(e, stack);
   }
-  Client clientWithCertificate = IOClient(HttpClient(context: defaultContext));
+  final Client clientWithCertificate = IOClient(HttpClient(context: defaultContext));
   final httpClient = InterceptedClient.build(
     client: clientWithCertificate,
     interceptors: [

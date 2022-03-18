@@ -12,7 +12,7 @@ import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
 
-main() {
+void main() {
   group("create when state is success should convert data to view model", () {
     Store<AppState> _successSetUp({required bool moreData}) {
       final store = Store<AppState>(
@@ -278,7 +278,7 @@ main() {
   group("Filtre button…", () {
     test('when search is not only for alternance should be displayed', () {
       // Given
-      Store<AppState> store = _storeWithParams(onlyAlternance: false, location: null);
+      final Store<AppState> store = _storeWithParams(onlyAlternance: false, location: null);
 
       // When
       final viewModel = OffreEmploiSearchResultsViewModel.create(store);
@@ -290,7 +290,7 @@ main() {
     group('when search is only for alternance…', () {
       test('and location is null should not be displayed', () {
         // Given
-        Store<AppState> store = _storeWithParams(onlyAlternance: true, location: null);
+        final Store<AppState> store = _storeWithParams(onlyAlternance: true, location: null);
 
         // When
         final viewModel = OffreEmploiSearchResultsViewModel.create(store);
@@ -301,7 +301,7 @@ main() {
 
       test('and location is DEPARTMENT should not be displayed', () {
         // Given
-        Store<AppState> store = _storeWithParams(
+        final Store<AppState> store = _storeWithParams(
           onlyAlternance: true,
           location: Location(libelle: '', code: '', type: LocationType.DEPARTMENT),
         );
@@ -315,7 +315,7 @@ main() {
 
       test('and location is COMMUNE should be displayed', () {
         // Given
-        Store<AppState> store = _storeWithParams(
+        final Store<AppState> store = _storeWithParams(
           onlyAlternance: true,
           location: Location(libelle: '', code: '', type: LocationType.COMMUNE),
         );

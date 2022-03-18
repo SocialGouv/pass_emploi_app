@@ -119,7 +119,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
     );
   }
 
-  _update(UserActionStatus newStatus) {
+  void _update(UserActionStatus newStatus) {
     setState(() {
       actionStatus = newStatus;
     });
@@ -263,7 +263,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
     }
   }
 
-  _trackSuccessfulUpdate() {
+  void _trackSuccessfulUpdate() {
     MatomoTracker.trackScreenWithName(AnalyticsScreenNames.updateUserAction, AnalyticsScreenNames.userActionDetails);
   }
 }

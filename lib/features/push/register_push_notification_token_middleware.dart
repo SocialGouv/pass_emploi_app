@@ -9,7 +9,7 @@ class RegisterPushNotificationTokenMiddleware extends MiddlewareClass<AppState> 
   RegisterPushNotificationTokenMiddleware(this._repository);
 
   @override
-  call(Store<AppState> store, action, NextDispatcher next) {
+  void call(Store<AppState> store, action, NextDispatcher next) {
     next(action);
     if (action is LoginSuccessAction) {
       _repository.registerToken(action.user.id);

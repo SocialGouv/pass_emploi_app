@@ -9,7 +9,7 @@ class UserActionUpdateMiddleware extends MiddlewareClass<AppState> {
   UserActionUpdateMiddleware(this._repository);
 
   @override
-  call(Store<AppState> store, action, NextDispatcher next) async {
+  void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     if (action is UserActionUpdateRequestAction) {
       _repository.updateActionStatus(action.userId, action.actionId, action.newStatus);

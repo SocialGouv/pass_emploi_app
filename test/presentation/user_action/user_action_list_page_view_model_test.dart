@@ -13,7 +13,7 @@ import 'package:redux/redux.dart';
 
 import '../../doubles/fixtures.dart';
 
-main() {
+void main() {
   test('create when action state is loading should display loader', () {
     // Given
     final store = Store<AppState>(
@@ -61,7 +61,7 @@ main() {
 
   test('retry, after view model was created with failure, should dispatch a RequestUserActionsAction', () {
     // Given
-    var storeSpy = StoreSpy();
+    final storeSpy = StoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
       initialState: loggedInState().copyWith(userActionListState: UserActionListFailureState()),
@@ -188,7 +188,7 @@ main() {
 
   test('onUserActionDetailsDismissed should dispatch DismissUserActionDetailsAction', () {
     // Given
-    var storeSpy = StoreSpy();
+    final storeSpy = StoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
       initialState: loggedInState(),
@@ -205,7 +205,7 @@ main() {
 
   test('onCreateUserActionDismissed should dispatch DismissCreateUserAction', () {
     // Given
-    var storeSpy = StoreSpy();
+    final storeSpy = StoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
       initialState: loggedInState(),

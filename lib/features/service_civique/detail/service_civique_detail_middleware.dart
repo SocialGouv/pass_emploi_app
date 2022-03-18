@@ -12,7 +12,7 @@ class ServiceCiviqueDetailMiddleware extends MiddlewareClass<AppState> {
   ServiceCiviqueDetailMiddleware(this._repository);
 
   @override
-  call(Store<AppState> store, action, NextDispatcher next) async {
+  void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     if (action is GetServiceCiviqueDetailAction) {
       store.dispatch(ServiceCiviqueDetailLoadingAction());

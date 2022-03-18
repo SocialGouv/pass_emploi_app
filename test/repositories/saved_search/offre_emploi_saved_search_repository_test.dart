@@ -10,7 +10,7 @@ import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_sea
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 
-main() {
+void main() {
   group("When user save new search postSavedSearch should ...", () {
     test(
         "successfully send request when all fields are null - except Title Field - and return TRUE if response is valid (201)",

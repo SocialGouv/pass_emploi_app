@@ -8,7 +8,7 @@ import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   test("offres emploi should be loaded, results displayed, and parameters saved", () async {
     // Given
     final factory = TestStoreFactory();

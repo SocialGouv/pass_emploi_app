@@ -11,7 +11,7 @@ import 'package:redux/redux.dart';
 import '../../doubles/fixtures.dart';
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   test('create when rendezvous state is not successful throws exception', () {
     // Given
     final store = TestStoreFactory().initializeReduxStore(

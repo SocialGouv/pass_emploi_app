@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import '../../doubles/spies.dart';
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   test('create when saved search delete state is not initialized should display content', () {
     // Given
     final store = TestStoreFactory().initializeReduxStore(

@@ -78,9 +78,9 @@ class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
   Widget _content(BuildContext context, ServiceCiviqueDetailViewModel viewModel) {
     final ServiceCiviqueDetail? detail = viewModel.detail;
     final ServiceCivique? serviceCivique = viewModel.serviceCivique;
-    String organisation = detail?.organisation ?? serviceCivique?.companyName ?? "";
-    String titre = detail?.titre ?? serviceCivique?.title ?? "";
-    String domaine = Domaine.fromTag(detail?.domaine)?.titre ?? Domaine.fromTag(serviceCivique?.domain)?.titre ?? "";
+    final String organisation = detail?.organisation ?? serviceCivique?.companyName ?? "";
+    final String titre = detail?.titre ?? serviceCivique?.title ?? "";
+    final String domaine = Domaine.fromTag(detail?.domaine)?.titre ?? Domaine.fromTag(serviceCivique?.domain)?.titre ?? "";
     return Stack(
       children: [
         SingleChildScrollView(
@@ -110,8 +110,8 @@ class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
                 if (detail != null) _spacer(60),
                 if (viewModel.displayState == DisplayState.EMPTY)
                   Align(
-                    child: _incompleteDataFooter(),
                     alignment: Alignment.bottomCenter,
+                    child: _incompleteDataFooter(),
                   )
               ],
             ),
@@ -119,8 +119,8 @@ class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
         ),
         if (detail?.lienAnnonce != null)
           Align(
-            child: _footer(context, detail!.lienAnnonce!, detail.titre),
             alignment: Alignment.bottomCenter,
+            child: _footer(context, detail!.lienAnnonce!, detail.titre),
           )
       ],
     );
@@ -153,7 +153,7 @@ class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
   }
 
   Widget _description(ServiceCiviqueDetail detail) {
-    String missionFullAdresse = detail.adresseMission != null && detail.codePostal != null
+    final String missionFullAdresse = detail.adresseMission != null && detail.codePostal != null
         ? detail.adresseMission! + ", " + detail.codePostal! + " " + detail.ville
         : detail.ville;
     return Column(

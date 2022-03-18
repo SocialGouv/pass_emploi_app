@@ -10,7 +10,7 @@ import 'package:redux/redux.dart';
 
 import '../../doubles/fixtures.dart';
 
-main() {
+void main() {
   test("create when state is success should convert data to view model", () {
     // Given
     final store = Store<AppState>(

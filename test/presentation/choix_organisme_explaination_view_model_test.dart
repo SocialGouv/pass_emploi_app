@@ -7,7 +7,7 @@ import 'package:redux/redux.dart';
 
 import '../doubles/spies.dart';
 
-main() {
+void main() {
   test("create should set proper text when user chose Pole Emploi", () {
     // Given
     final state = AppState.initialState();

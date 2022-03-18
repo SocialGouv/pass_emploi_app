@@ -12,7 +12,7 @@ class PoleEmploiAuthMiddleware extends MiddlewareClass<AppState> {
   PoleEmploiAuthMiddleware(this._repository, this._tokenRepository);
 
   @override
-  call(Store<AppState> store, action, NextDispatcher next) async {
+  void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     if (_shouldGetToken(action)) {
       final token = await _repository.getPoleEmploiToken();

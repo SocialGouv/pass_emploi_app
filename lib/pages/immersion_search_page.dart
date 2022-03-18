@@ -122,7 +122,7 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
     );
   }
 
-  _setSelectedMetier(Metier? selectedMetier) {
+  void _setSelectedMetier(Metier? selectedMetier) {
     if (selectedMetier != null) {
       _selectedMetierCodeRome = selectedMetier.codeRome;
       _selectedMetierTitle = selectedMetier.libelle;

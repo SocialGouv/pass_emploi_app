@@ -18,7 +18,7 @@ class ServiceCivique extends Equatable {
   });
 
   factory ServiceCivique.fromJson(dynamic json) {
-    String? stringDate = (json["dateDeDebut"] as String?);
+    final String? stringDate = (json["dateDeDebut"] as String?);
     return ServiceCivique(
       id: json["id"] as String,
       title: json["titre"] as String,

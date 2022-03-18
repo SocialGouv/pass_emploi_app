@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-main() {
+void main() {
   test("create when id is in favori list should set isFavori to true", () {
     // Given
     final store = Store<AppState>(

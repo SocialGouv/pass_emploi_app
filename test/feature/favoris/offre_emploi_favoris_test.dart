@@ -14,7 +14,7 @@ import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   test("favori state should be updated when favori is removed and api call succeeds", () async {
     // Given
     final Store<AppState> store = _successStoreWithFavorisAndSearchResultsLoaded();
@@ -57,7 +57,7 @@ main() {
 
   test("favori id list should be updated when favori is added and api call succeeds", () async {
     // Given
-    Store<AppState> store = _successStoreWithFavorisAndSearchResultsLoaded();
+    final Store<AppState> store = _successStoreWithFavorisAndSearchResultsLoaded();
 
     final loadingState =
         store.onChange.any((element) => element.favoriUpdateState.requestStatus["17"] == FavoriUpdateStatus.LOADING);

@@ -15,7 +15,7 @@ class SavedSearchGetMiddleware extends MiddlewareClass<AppState> {
   SavedSearchGetMiddleware(this._repository);
 
   @override
-  call(Store<AppState> store, action, NextDispatcher next) async {
+  void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     final loginState = store.state.loginState;
     if (action is SavedSearchGetAction && loginState is LoginSuccessState) {

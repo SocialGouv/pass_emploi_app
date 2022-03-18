@@ -26,8 +26,8 @@ class SavedSearchCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> nonEmptyDataTags = dataTag.where((element) => element.trim().isNotEmpty).toList();
-    return Container(
+    final List<String> nonEmptyDataTags = dataTag.where((element) => element.trim().isNotEmpty).toList();
+    return DecoratedBox(
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(16)), boxShadow: [
         Shadows.boxShadow,
       ]),
@@ -85,16 +85,16 @@ class SavedSearchCard extends StatelessWidget {
     return InkWell(
       splashColor: AppColors.primaryLighten,
       customBorder: CircleBorder(),
+      onTap: onDeleteTap ?? () {},
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: SvgPicture.asset(Drawables.icTrash),
       ),
-      onTap: onDeleteTap ?? () {},
     );
   }
 
   Widget _buildDataTags(List<String> nonEmptyDataTags, String? lieu) {
-    var list = nonEmptyDataTags.map((tag) => DataTag(label: tag)).toList();
+    final list = nonEmptyDataTags.map((tag) => DataTag(label: tag)).toList();
     if (lieu != null) {
       list.add(DataTag(
         label: lieu,

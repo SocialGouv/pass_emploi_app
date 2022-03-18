@@ -119,11 +119,14 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
         ),
         if (viewModel.displayState == ImmersionDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS)
           Align(
-            child: _incompleteDataFooter(viewModel),
             alignment: Alignment.bottomCenter,
+            child: _incompleteDataFooter(viewModel),
           )
         else
-          Align(child: _footer(context, viewModel), alignment: Alignment.bottomCenter)
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: _footer(context, viewModel),
+          )
       ],
     );
   }

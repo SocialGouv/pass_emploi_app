@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 
 import '../doubles/dummies.dart';
 
-main() {
+void main() {
   test("toJson when message has encrypted content should decrypt it", () {
     // Given
     final chatCryptoSpy = _ChatCryptoSpy();

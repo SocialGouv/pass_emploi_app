@@ -9,7 +9,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   test("delete user action when repo succeeds should display loading and then delete user action", () async {
     // Given
     final testStoreFactory = TestStoreFactory();

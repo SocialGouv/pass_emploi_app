@@ -127,6 +127,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
             child: Row(
               children: [
                 Flexible(
+                  flex: 1,
                   child: TextField(
                     controller: _controller,
                     keyboardType: TextInputType.multiline,
@@ -148,9 +149,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                         borderSide: BorderSide(color: AppColors.primaryLighten, width: 1),
                       ),
                     ),
-                    style: TextStyles.textSRegular(),
                   ),
-                  flex: 1,
                 ),
                 SizedBox(width: Margins.spacing_s),
                 FloatingActionButton(

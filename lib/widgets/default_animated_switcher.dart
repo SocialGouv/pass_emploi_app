@@ -4,7 +4,7 @@ class DefaultAnimatedSwitcher extends AnimatedSwitcher {
   DefaultAnimatedSwitcher({required Widget child})
       : super(
           duration: const Duration(milliseconds: 400),
-          transitionBuilder: (child, animation) => FadeTransition(child: child, opacity: animation),
+          transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child),
           switchInCurve: Curves.easeInOutBack,
           switchOutCurve: Curves.easeInOutBack,
           child: child,

@@ -12,7 +12,7 @@ class CrashlyticsMiddleware extends MiddlewareClass<AppState> {
   CrashlyticsMiddleware(this.crashlytics);
 
   @override
-  call(Store<AppState> store, dynamic action, NextDispatcher next) {
+  void call(Store<AppState> store, dynamic action, NextDispatcher next) {
     _lastActions.add(action.toString());
 
     crashlytics.setCustomKey("last_actions", _formatQueueForCrashlytics());

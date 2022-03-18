@@ -7,7 +7,7 @@ import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
 
-main() {
+void main() {
   test("getDetails when state is loading should set display state properly", () {
     // Given
     final store = Store<AppState>(

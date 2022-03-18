@@ -142,13 +142,13 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         ),
         if (url != null && id != null)
           Align(
-            child: _footer(context, url, id, viewModel.title),
             alignment: Alignment.bottomCenter,
+            child: _footer(context, url, id, viewModel.title),
           )
         else if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS && id != null)
           Align(
-            child: _incompleteDataFooter(context, id),
             alignment: Alignment.bottomCenter,
+            child: _incompleteDataFooter(context, id),
           )
       ],
     );
@@ -196,11 +196,11 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
 
   Widget _profileDescription(OffreEmploiDetailsPageViewModel viewModel) {
     final experience = viewModel.experience;
-    Widget? skills = _skillsBlock(skills: viewModel.skills);
-    Widget? softSkills = _softSkillsBlock(softSkills: viewModel.softSkills);
-    Widget? educations = _educationsBlock(educations: viewModel.educations);
-    Widget? languages = _languagesBlock(languages: viewModel.languages);
-    Widget? driverLicences = _driverLicencesBlock(driverLicences: viewModel.driverLicences);
+    final Widget? skills = _skillsBlock(skills: viewModel.skills);
+    final Widget? softSkills = _softSkillsBlock(softSkills: viewModel.softSkills);
+    final Widget? educations = _educationsBlock(educations: viewModel.educations);
+    final Widget? languages = _languagesBlock(languages: viewModel.languages);
+    final Widget? driverLicences = _driverLicencesBlock(driverLicences: viewModel.driverLicences);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

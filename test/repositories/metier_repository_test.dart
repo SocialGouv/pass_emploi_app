@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
 
-main() {
+void main() {
   group("_getMetiers should return ...", () {
     final MetierRepository repository = MetierRepository();
 

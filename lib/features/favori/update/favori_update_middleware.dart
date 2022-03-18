@@ -11,7 +11,7 @@ class FavoriUpdateMiddleware<T> extends MiddlewareClass<AppState> {
   FavoriUpdateMiddleware(this._repository, this._dataFromIdExtractor);
 
   @override
-  call(Store<AppState> store, action, NextDispatcher next) async {
+  void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     final loginState = store.state.loginState;
     if (action is FavoriUpdateRequestAction<T> && loginState is LoginSuccessState) {

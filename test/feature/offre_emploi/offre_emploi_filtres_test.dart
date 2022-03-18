@@ -13,7 +13,7 @@ import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   test("applying new filtres when call succeeds should replace all existing data and filtres should be stored",
       () async {
     // Given

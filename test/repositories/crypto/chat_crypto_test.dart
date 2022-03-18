@@ -3,8 +3,7 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 
-main() {
-
+void main() {
   test("chat crypto should encrypt message and then decrypt it", () {
     // Given
     const String message = "mon super message";

@@ -11,7 +11,7 @@ import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   group("after login ...", () {
     test("with a Pole Emploi user, Pole Emploi token should be fetched and set", () async {
       // Given

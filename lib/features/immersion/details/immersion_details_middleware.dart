@@ -12,7 +12,7 @@ class ImmersionDetailsMiddleware extends MiddlewareClass<AppState> {
   ImmersionDetailsMiddleware(this._repository);
 
   @override
-  call(Store<AppState> store, dynamic action, NextDispatcher next) async {
+  void call(Store<AppState> store, dynamic action, NextDispatcher next) async {
     next(action);
     if (action is ImmersionDetailsRequestAction) {
       store.dispatch(ImmersionDetailsLoadingAction());

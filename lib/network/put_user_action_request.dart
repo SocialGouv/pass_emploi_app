@@ -10,7 +10,7 @@ class PutUserActionRequest implements JsonSerializable {
   @override
   Map<String, dynamic> toJson() => {"status": _toString(status)};
 
-  _toString(UserActionStatus status) {
+  String _toString(UserActionStatus status) {
     switch (status) {
       case UserActionStatus.NOT_STARTED:
         return "not_started";

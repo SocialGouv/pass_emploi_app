@@ -15,14 +15,14 @@ class OffreEmploiMiddleware extends MiddlewareClass<AppState> {
   OffreEmploiMiddleware(this._repository);
 
   @override
-  call(Store<AppState> store, dynamic action, NextDispatcher next) async {
+  void call(Store<AppState> store, dynamic action, NextDispatcher next) async {
     next(action);
     final loginState = store.state.loginState;
     final parametersState = store.state.offreEmploiSearchParametersState;
     final previousResultsState = store.state.offreEmploiListState;
     final offreEmploiSearchState = store.state.offreEmploiSearchState;
     if (loginState is LoginSuccessState) {
-      var userId = loginState.user.id;
+      final userId = loginState.user.id;
       if (action is OffreEmploiSearchRequestAction) {
         _search(
           store: store,

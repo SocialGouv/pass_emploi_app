@@ -24,13 +24,13 @@ class FirebasePushNotificationManager extends PushNotificationManager {
 
   @override
   Future<String?> getToken() async {
-    String? token = await _firebaseMessaging.getToken();
+    final String? token = await _firebaseMessaging.getToken();
     Log.d("FirebaseMessaging token: $token");
     return token;
   }
 
   Future<void> _requestPermission() async {
-    NotificationSettings settings = await _firebaseMessaging.requestPermission(
+    final NotificationSettings settings = await _firebaseMessaging.requestPermission(
       alert: true,
       badge: true,
       sound: true,

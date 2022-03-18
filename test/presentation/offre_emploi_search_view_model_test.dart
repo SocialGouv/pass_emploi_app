@@ -14,7 +14,7 @@ import 'package:redux/redux.dart';
 import '../doubles/fixtures.dart';
 import '../doubles/spies.dart';
 
-main() {
+void main() {
   test("create when state is loading should set display state properly", () {
     // Given
     final store = Store<AppState>(

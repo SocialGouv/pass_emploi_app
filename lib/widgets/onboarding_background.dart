@@ -13,7 +13,7 @@ class OnboardingBackground extends StatelessWidget {
         Container(color: Color(0xFFE5E5E5)),
         SizedBox(
           height: totalHeight / 2 + Dimens.appBarHeight,
-          child: Container(
+          child: DecoratedBox(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(bottomLeft: Radius.circular(200), bottomRight: Radius.circular(200)),
               color: AppColors.primary,

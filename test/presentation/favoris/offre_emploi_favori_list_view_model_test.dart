@@ -11,7 +11,7 @@ import 'package:redux/redux.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
 
-main() {
+void main() {
   group('create when not only alternance…', () {
     test("and favoris have data should show content", () {
       // Given

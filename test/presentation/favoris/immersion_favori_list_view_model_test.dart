@@ -11,7 +11,7 @@ import 'package:redux/redux.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
 
-main() {
+void main() {
   test("create when favoris have data should show content", () {
     // Given
     final store = Store<AppState>(

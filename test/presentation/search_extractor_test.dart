@@ -15,19 +15,19 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import '../doubles/fixtures.dart';
 import '../utils/test_setup.dart';
 
-main() {
+void main() {
   test("tests offre emploi search extractor", () {
     // Given
     final testStoreFactory = TestStoreFactory();
-    var filtres = OffreEmploiSearchParametersFiltres.withFiltres(
+    final filtres = OffreEmploiSearchParametersFiltres.withFiltres(
       distance: 12,
       experience: [ExperienceFiltre.de_un_a_trois_ans],
       duree: [DureeFiltre.temps_partiel],
       contrat: [ContratFiltre.cdd_interim_saisonnier],
     );
-    OffreEmploiSearchParametersState searchParametersState = OffreEmploiSearchParametersState.initialized(
+    final OffreEmploiSearchParametersState searchParametersState = OffreEmploiSearchParametersState.initialized(
         keywords: "Je suis un keyword", location: mockLocation(), onlyAlternance: false, filtres: filtres);
-    AppState state = AppState.initialState().copyWith(
+    final AppState state = AppState.initialState().copyWith(
       offreEmploiSearchParametersState: searchParametersState,
     );
     final store = testStoreFactory.initializeReduxStore(initialState: state);
@@ -61,7 +61,7 @@ main() {
       )
     ]);
     final searchedMetier = Metier.values.first;
-    AppState state = AppState.initialState().copyWith(
+    final AppState state = AppState.initialState().copyWith(
       searchMetierState: SearchMetierState([searchedMetier]),
       immersionListState: immersionState,
       immersionSearchParametersState: ImmersionSearchParametersInitializedState(
@@ -102,7 +102,7 @@ main() {
           ville: "ville"),
     ]);
     final searchedMetier = Metier.values.first;
-    AppState state = AppState.initialState().copyWith(
+    final AppState state = AppState.initialState().copyWith(
       searchMetierState: SearchMetierState([searchedMetier]),
       immersionListState: immersionState,
       immersionSearchParametersState: ImmersionSearchParametersInitializedState(

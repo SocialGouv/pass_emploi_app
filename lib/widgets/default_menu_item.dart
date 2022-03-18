@@ -37,10 +37,10 @@ class DefaultMenuItem extends StatelessWidget {
               clipBehavior: Clip.none,
               children: [
                 SizedBox(
-                  child: SvgPicture.asset(drawableRes, color: color),
                   height: Dimens.bottomNavigationBarItemHeight,
+                  child: SvgPicture.asset(drawableRes, color: color),
                 ),
-                if (withBadge) Positioned(child: SvgPicture.asset(Drawables.icBadge), top: -1, left: 12),
+                if (withBadge) Positioned(top: -1, left: 12, child: SvgPicture.asset(Drawables.icBadge)),
               ],
             ),
             SizedBox(height: Margins.spacing_s),

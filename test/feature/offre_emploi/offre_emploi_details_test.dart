@@ -12,7 +12,7 @@ import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   test("detailed offer should be fetched and displayed when screen loads", () async {
     // Given
     final testStoreFactory = TestStoreFactory();

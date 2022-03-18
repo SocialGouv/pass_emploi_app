@@ -11,7 +11,7 @@ class SearchMetierMiddleware extends MiddlewareClass<AppState> {
   SearchMetierMiddleware(this._repository);
 
   @override
-  call(Store<AppState> store, action, NextDispatcher next) async {
+  void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     if (action is SearchMetierRequestAction) {
       final input = action.input;

@@ -15,7 +15,7 @@ import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   group("When user tries to save an offer search ...", () {
     final offreEmploiSavedSearch = OffreEmploiSavedSearch(
         id: "id",
@@ -26,7 +26,7 @@ main() {
         location: mockLocation(),
         metier: "Boulanger");
 
-    AppState initialState = AppState.initialState().copyWith(
+    final AppState initialState = AppState.initialState().copyWith(
       offreEmploiSavedSearchCreateState: SavedSearchCreateState.initialized(offreEmploiSavedSearch),
       loginState: successMiloUserState(),
     );
@@ -45,7 +45,7 @@ main() {
       store.dispatch(SavedSearchCreateRequestAction(offreEmploiSavedSearch, "Boulanger"));
 
       // Then
-      var offreEmploiSavedSearchCreateState = (await expected).offreEmploiSavedSearchCreateState;
+      final offreEmploiSavedSearchCreateState = (await expected).offreEmploiSavedSearchCreateState;
       expect(offreEmploiSavedSearchCreateState is SavedSearchCreateSuccessfullyCreated, true);
     });
 

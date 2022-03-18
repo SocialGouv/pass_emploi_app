@@ -6,7 +6,7 @@ import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   test("service civique detail should be loaded when asked", () async {
     final factory = TestStoreFactory();
     factory.serviceCiviqueDetailRepository = ServiceCiviqueDetailRepositoryWithDataStub();

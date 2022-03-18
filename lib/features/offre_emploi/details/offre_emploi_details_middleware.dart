@@ -11,7 +11,7 @@ class OffreEmploiDetailsMiddleware extends MiddlewareClass<AppState> {
   OffreEmploiDetailsMiddleware(this._repository);
 
   @override
-  call(Store<AppState> store, dynamic action, NextDispatcher next) async {
+  void call(Store<AppState> store, dynamic action, NextDispatcher next) async {
     next(action);
     if (action is OffreEmploiDetailsRequestAction) {
       store.dispatch(OffreEmploiDetailsLoadingAction());
@@ -25,7 +25,7 @@ class OffreEmploiDetailsMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _dispatchIncompleteDataOrError<T>(Store<AppState> store, OffreDetailsResponse<T> result, String offreId) {
-    var favorisState = store.state.offreEmploiFavorisState;
+    final favorisState = store.state.offreEmploiFavorisState;
     if (result.isOffreNotFound &&
         favorisState is FavoriListLoadedState<OffreEmploi> &&
         favorisState.data != null &&

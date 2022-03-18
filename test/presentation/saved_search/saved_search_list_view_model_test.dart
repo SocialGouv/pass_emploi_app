@@ -15,7 +15,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import '../../doubles/fixtures.dart';
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   final List<SavedSearch> _savedSearches = [
     ImmersionSavedSearch(
       id: "id",

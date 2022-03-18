@@ -23,7 +23,7 @@ class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSave
     final state = store.state.offreEmploiSearchParametersState as OffreEmploiSearchParametersInitializedState;
     final metier = state.keywords;
     final location = state.location;
-    String _title = _setTitleForOffer(metier, location?.libelle);
+    final String _title = _setTitleForOffer(metier, location?.libelle);
     return OffreEmploiSavedSearch(
       id: "",
       title: _title,

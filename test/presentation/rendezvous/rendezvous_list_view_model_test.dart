@@ -13,7 +13,7 @@ import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   test('create when rendezvous state is loading should display loading', () {
     // Given
     final store = TestStoreFactory().initializeReduxStore(

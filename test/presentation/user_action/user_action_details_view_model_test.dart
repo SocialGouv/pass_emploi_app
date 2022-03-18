@@ -12,7 +12,7 @@ import 'package:redux/redux.dart';
 
 import '../../doubles/fixtures.dart';
 
-main() {
+void main() {
   group("create when action has been updated ...", () {
     test("to not_started status should dismiss bottom sheet", () {
       // Given
@@ -135,7 +135,7 @@ main() {
 
   test('refreshStatus when update status has changed should dispatch a UpdateActionStatus', () {
     // Given
-    var storeSpy = StoreSpy();
+    final storeSpy = StoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
       initialState: loggedInState().copyWith(
@@ -172,7 +172,7 @@ main() {
 
   test('refreshStatus when update status has not changed should dispatch UserActionNoUpdateNeededAction', () {
     // Given
-    var storeSpy = StoreSpy();
+    final storeSpy = StoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
       initialState: loggedInState().copyWith(

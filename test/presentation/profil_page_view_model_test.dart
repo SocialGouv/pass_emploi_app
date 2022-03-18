@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 
 import '../utils/test_setup.dart';
 
-main() {
+void main() {
   test("create should properly set user info", () {
     // Given
     final store = TestStoreFactory().initializeReduxStore(

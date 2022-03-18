@@ -10,7 +10,7 @@ import '../../doubles/fixtures.dart';
 import '../../utils/test_setup.dart';
 import '../favoris/offre_emploi_favoris_test.dart';
 
-main() {
+void main() {
   test("after login, favoris id should be loaded", () async {
     // Given
     final initialState = AppState.initialState().copyWith(loginState: LoginFailureState());
