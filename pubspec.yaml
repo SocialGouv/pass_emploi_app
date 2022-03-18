@@ -12,6 +12,8 @@ dependencies:
   # Flutter
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   flutter_svg: '0.22.0'
   flutter_redux: '0.8.2'
   package_info: '2.0.2'

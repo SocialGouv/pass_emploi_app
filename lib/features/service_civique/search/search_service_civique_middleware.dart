@@ -1,6 +1,7 @@
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_actions.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
+import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
@@ -36,6 +37,16 @@ class SearchServiceCiviqueMiddleware extends MiddlewareClass<AppState> {
           location: action.location,
           distance: null,
           startDate: null,
+          endDate: null,
+          page: 1,
+        );
+        await _searchServiceCiviquePage(loginState, store, request, []);
+      } else if (action is ServiceCiviqueSearchUpdateFiltresAction && state is ServiceCiviqueSearchResultDataState) {
+        final request = SearchServiceCiviqueRequest(
+          domain: (action.domain != Domaine.all) ? action.domain?.tag : null,
+          location: state.lastRequest.location,
+          distance: action.distance ?? state.lastRequest.distance,
+          startDate: action.startDate?.toIso8601String(),
           endDate: null,
           page: 1,
         );

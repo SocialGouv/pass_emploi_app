@@ -226,6 +226,10 @@ class Strings {
   static String serviceCiviqueUrl = "https://www.service-civique.gouv.fr/missions/";
   static String serviceCiviquePresentation =
       "Engagez-vous dans un projet d’intérêt général et découvrez de nouveaux horizons";
+  static String serviceCiviqueFiltresTitle = "Filtrer les missions";
+  static String startDateFiltreTitle = "Date de début";
+  static String startDate = "Dès le";
+  static String domainFiltreTitle = "Domaine";
   static String selectACity = "Sélectionner une ville";
   static String knowMoreAboutServiceCivique = "En savoir plus sur le service civique";
   static String knowMoreAboutServiceCiviqueFirstTitle = "De 16 à 25 ans";

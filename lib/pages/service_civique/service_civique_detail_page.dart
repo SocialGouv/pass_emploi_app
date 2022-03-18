@@ -4,6 +4,7 @@ import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_actions.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
+import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
@@ -79,7 +80,7 @@ class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
     final ServiceCivique? serviceCivique = viewModel.serviceCivique;
     String organisation = detail?.organisation ?? serviceCivique?.companyName ?? "";
     String titre = detail?.titre ?? serviceCivique?.title ?? "";
-    String domaine = detail?.domaine ?? serviceCivique?.domain ?? "";
+    String domaine = Domaine.fromTag(detail?.domaine)?.titre ?? Domaine.fromTag(serviceCivique?.domain)?.titre ?? "";
     return Stack(
       children: [
         SingleChildScrollView(
