@@ -32,7 +32,7 @@ class ServiceCiviqueSearchSuccessAction {
 class ServiceCiviqueSearchUpdateFiltresAction {
   final int? distance;
   final DateTime? startDate;
-  final Domain? domain;
+  final Domaine? domain;
 
   ServiceCiviqueSearchUpdateFiltresAction({
     this.distance,

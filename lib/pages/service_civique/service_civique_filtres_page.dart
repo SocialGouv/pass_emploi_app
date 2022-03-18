@@ -33,7 +33,7 @@ class ServiceCiviqueFiltresPage extends TraceableStatefulWidget {
 
 class _ServiceCiviqueFiltresPageState extends State<ServiceCiviqueFiltresPage> {
   double? _currentSliderValue;
-  Domain? _currentDomainValue;
+  Domaine? _currentDomainValue;
   bool _currentActiveDate = false;
   DateTime? _currentStartDate;
   var _isFiltersUpdated = false;
@@ -71,7 +71,7 @@ class _ServiceCiviqueFiltresPageState extends State<ServiceCiviqueFiltresPage> {
             _distanceSlider(context, viewModel),
           ],
           Padding(
-            padding: const EdgeInsets.fromLTRB(24, 36, 24, 36),
+            padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m, vertical: Margins.spacing_l),
             child: _startDateFiltres(context),
           ),
           Padding(
@@ -203,8 +203,8 @@ class _ServiceCiviqueFiltresPageState extends State<ServiceCiviqueFiltresPage> {
     showCupertinoModalPopup(
         context: context,
         builder: (_) => Container(
-              height: 190,
-              color: Color.fromARGB(255, 255, 255, 255),
+          height: 190,
+              color: Colors.white,
               child: Column(
                 children: [
                   SizedBox(
@@ -230,6 +230,7 @@ class _ServiceCiviqueFiltresPageState extends State<ServiceCiviqueFiltresPage> {
       firstDate: DateTime.now(),
       lastDate: DateTime(2101),
       initialDate: DateTime.now(),
+      locale: const Locale("fr", "FR"),
     );
     if (picked != null && picked != _currentStartDate) {
       setState(() {
@@ -255,14 +256,14 @@ class _ServiceCiviqueFiltresPageState extends State<ServiceCiviqueFiltresPage> {
   Column _domainList() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: Domain.values
-          .map((domain) => RadioListTile<Domain>(
+      children: Domaine.values
+          .map((domain) => RadioListTile<Domaine>(
                 controlAffinity: ListTileControlAffinity.trailing,
                 selected: domain == _currentDomainValue,
                 title: Text(domain.titre),
                 value: domain,
                 groupValue: _currentDomainValue,
-                onChanged: (Domain? value) {
+                onChanged: (Domaine? value) {
                   setState(() {
                     _currentDomainValue = value;
                     _isFiltersUpdated = true;

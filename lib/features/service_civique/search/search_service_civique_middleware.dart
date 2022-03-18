@@ -43,7 +43,7 @@ class SearchServiceCiviqueMiddleware extends MiddlewareClass<AppState> {
         await _searchServiceCiviquePage(loginState, store, request, []);
       } else if (action is ServiceCiviqueSearchUpdateFiltresAction && state is ServiceCiviqueSearchResultDataState) {
         final request = SearchServiceCiviqueRequest(
-          domain: (action.domain == Domain.values.first) ? null : action.domain?.tag,
+          domain: (action.domain != Domaine.all) ? action.domain?.tag : null,
           location: state.lastRequest.location,
           distance: action.distance ?? state.lastRequest.distance,
           startDate: action.startDate?.toIso8601String(),

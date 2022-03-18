@@ -81,7 +81,7 @@ int? _filtersCount(ServiceCiviqueSearchResultState state) {
     final SearchServiceCiviqueRequest lastRequest = state.lastRequest;
     int distanceCount = lastRequest.distance != null && lastRequest.distance != defaultDistanceValue ? 1 : 0;
     int startDateCount = lastRequest.startDate != null ? 1 : 0;
-    int domainCount = lastRequest.domain != null && lastRequest.domain != Domain.values.first.tag ? 1 : 0;
+    int domainCount = lastRequest.domain != null && lastRequest.domain != Domaine.all.tag ? 1 : 0;
     return distanceCount + startDateCount + domainCount;
   } else {
     return null;

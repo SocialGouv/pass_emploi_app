@@ -3,7 +3,6 @@ import 'package:pass_emploi_app/features/service_civique/search/service_civique_
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 import 'package:redux/redux.dart';
 
@@ -16,21 +15,19 @@ class ServiceCiviqueFiltresViewModel extends Equatable {
   final DisplayState displayState;
   final bool shouldDisplayDistanceFiltre;
   final int initialDistanceValue;
-  final Domain initialDomainValue;
+  final Domaine initialDomainValue;
   final DateTime? initialStartDateValue;
   final Function(
     int? updatedDistance,
-    Domain? updatedDomain,
+    Domaine? updatedDomain,
     DateTime? updatedStartDate,
   ) updateFiltres;
-  final String errorMessage;
 
   ServiceCiviqueFiltresViewModel._({
     required this.displayState,
     required this.shouldDisplayDistanceFiltre,
     required this.initialDistanceValue,
     required this.updateFiltres,
-    required this.errorMessage,
     required this.initialDomainValue,
     required this.initialStartDateValue,
   });
@@ -46,7 +43,6 @@ class ServiceCiviqueFiltresViewModel extends Equatable {
       updateFiltres: (updatedDistance, updatedDomain, updatedStartDate) {
         _dispatchUpdateFiltresAction(store, updatedDistance, updatedDomain, updatedStartDate);
       },
-      errorMessage: _errorMessage(searchResultsState),
     );
   }
 
@@ -58,10 +54,6 @@ class ServiceCiviqueFiltresViewModel extends Equatable {
         initialDomainValue,
         initialStartDateValue,
       ];
-}
-
-String _errorMessage(ServiceCiviqueSearchResultState searchState) {
-  return searchState is ServiceCiviqueSearchResultErrorState ? Strings.genericError : "";
 }
 
 bool _shouldDisplayDistanceFiltre(ServiceCiviqueSearchResultState state) {
@@ -90,11 +82,11 @@ int _distance(ServiceCiviqueSearchResultState state) {
   }
 }
 
-Domain _domain(ServiceCiviqueSearchResultState state) {
+Domaine _domain(ServiceCiviqueSearchResultState state) {
   if (state is ServiceCiviqueSearchResultDataState) {
-    return Domain.fromTag(state.lastRequest.domain) ?? Domain.values.first;
+    return Domaine.fromTag(state.lastRequest.domain) ?? Domaine.all;
   } else {
-    return Domain.values.first;
+    return Domaine.all;
   }
 }
 
@@ -109,7 +101,7 @@ DateTime? _startDate(ServiceCiviqueSearchResultState state) {
 void _dispatchUpdateFiltresAction(
   Store<AppState> store,
   int? updatedDistanceValue,
-  Domain? updatedDomain,
+  Domaine? updatedDomain,
   DateTime? updatedStartDate,
 ) {
   store.dispatch(

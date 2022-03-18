@@ -113,8 +113,8 @@ main() {
     });
 
     // When
-    store.dispatch(
-        ServiceCiviqueSearchUpdateFiltresAction(distance: 30, domain: Domain.values[4], startDate: DateTime.utc(1998)));
+    store.dispatch(ServiceCiviqueSearchUpdateFiltresAction(
+        distance: 30, domain: Domaine.values[4], startDate: DateTime.utc(1998)));
 
     // Then
     final successAppState = await successState;
