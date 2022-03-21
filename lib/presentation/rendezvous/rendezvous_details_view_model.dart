@@ -96,10 +96,6 @@ String? _commentTitle(Rendezvous rdv, String? comment) {
 
 String _modality(Rendezvous rdv) {
   final modality = rdv.modality.firstLetterLowerCased();
-  if (modality.isEmpty) {
-    return "";
-  }
-
   final conseiller = rdv.conseiller;
   if (rdv.withConseiller && conseiller != null) {
     return Strings.rendezvousModalityWithConseillerDetailsMessage(modality, '${conseiller.firstName} ${conseiller.lastName}');

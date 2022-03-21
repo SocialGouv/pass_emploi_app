@@ -267,21 +267,6 @@ void main() {
       expect(viewModel.modality, "Le rendez-vous se fera en visio");
     });
 
-    test('should not display empty modality', () {
-      // Given
-      final store = _store(mockRendezvous(
-        id: '1',
-        modality: "",
-        withConseiller: false,
-      ));
-
-      // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
-
-      // Then
-      expect(viewModel.modality, "");
-    });
-
     test('full view model test', () {
       // Given
       final store = _store(Rendezvous(
