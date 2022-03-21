@@ -99,10 +99,11 @@ class _Modality extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: Margins.spacing_xs),
-          child: Text(viewModel.modality, style: TextStyles.textBaseBold),
-        ),
+        if (viewModel.modality != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: Margins.spacing_xs),
+            child: Text(viewModel.modality!, style: TextStyles.textBaseBold),
+          ),
         if (viewModel.organism != null)
           Padding(
             padding: const EdgeInsets.only(top: Margins.spacing_m),

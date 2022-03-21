@@ -96,7 +96,7 @@ void main() {
       expect(viewModel.date, "Le 01/03/2022 à 10h20");
     });
 
-    test('should display modality with conseiller if conseiller is present', () {
+    test('should display modality with conseiller', () {
       // Given
       final store = _store(mockRendezvous(
         id: '1',
@@ -110,6 +110,36 @@ void main() {
 
       // Then
       expect(viewModel.subtitle, "En visio avec Nils Tavernier");
+    });
+
+    test('should display modality without conseiller', () {
+      // Given
+      final store = _store(mockRendezvous(
+        id: '1',
+        modality: "en visio",
+        withConseiller: false,
+      ));
+
+      // When
+      final viewModel = RendezvousCardViewModel.create(store, '1');
+
+      // Then
+      expect(viewModel.subtitle, "En visio");
+    });
+
+    test('should not display empty modality', () {
+      // Given
+      final store = _store(mockRendezvous(
+        id: '1',
+        modality: "",
+        withConseiller: false,
+      ));
+
+      // When
+      final viewModel = RendezvousCardViewModel.create(store, '1');
+
+      // Then
+      expect(viewModel.subtitle, isNull);
     });
 
     test('full view model test', () {

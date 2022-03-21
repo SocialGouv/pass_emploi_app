@@ -55,7 +55,7 @@ class _Container extends StatelessWidget {
                   _Tag(viewModel.tag),
                   _Date(viewModel.date),
                   if (viewModel.title != null) _Titre(viewModel.title!),
-                  _SousTitre(viewModel.subtitle),
+                  if (viewModel.subtitle != null) _SousTitre(viewModel.subtitle!),
                   _Link(),
                 ],
               ),
