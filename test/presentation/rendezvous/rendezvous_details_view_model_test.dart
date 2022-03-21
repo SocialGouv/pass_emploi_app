@@ -236,7 +236,7 @@ void main() {
       expect(viewModel.addressRedirectUri, Uri.parse("geo:0,0?q=Address%201"));
     });
 
-    test('should display modality with conseiller if conseiller is present', () {
+    test('should display modality with conseiller', () {
       // Given
       final store = _store(mockRendezvous(
         id: '1',
@@ -250,6 +250,21 @@ void main() {
 
       // Then
       expect(viewModel.modality, "Le rendez-vous se fera en visio avec Nils Tavernier");
+    });
+
+    test('should display modality without conseiller', () {
+      // Given
+      final store = _store(mockRendezvous(
+        id: '1',
+        modality: "en visio",
+        withConseiller: false,
+      ));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+
+      // Then
+      expect(viewModel.modality, "Le rendez-vous se fera en visio");
     });
 
     test('full view model test', () {

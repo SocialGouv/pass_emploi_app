@@ -98,9 +98,9 @@ String _modality(Rendezvous rdv) {
   final modality = rdv.modality.firstLetterLowerCased();
   final conseiller = rdv.conseiller;
   if (rdv.withConseiller && conseiller != null) {
-    return Strings.rendezvousModalityDetailsMessage(modality, '${conseiller.firstName} ${conseiller.lastName}');
+    return Strings.rendezvousModalityWithConseillerDetailsMessage(modality, '${conseiller.firstName} ${conseiller.lastName}');
   }
-  return modality;
+  return Strings.rendezvousModalityDetailsMessage(modality);
 }
 
 String _trackingPageName(RendezvousTypeCode code) {
