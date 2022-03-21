@@ -63,6 +63,8 @@ class TestStoreFactory {
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
       authenticator,
+      crashlytics,
+      chatCrypto,
       poleEmploiTokenRepository,
       poleEmploiAuthRepository,
       userActionRepository,
@@ -70,7 +72,6 @@ class TestStoreFactory {
       offreEmploiRepository,
       chatRepository,
       registerTokenRepository,
-      crashlytics,
       detailedOfferRepository,
       offreEmploiFavorisRepository,
       immersionFavorisRepository,
@@ -81,7 +82,6 @@ class TestStoreFactory {
       immersionDetailsRepository,
       firebaseAuthRepository,
       firebaseAuthWrapper,
-      chatCrypto,
       trackingEventRepository,
       offreEmploiSavedSearchRepository,
       immersionSavedSearchRepository,

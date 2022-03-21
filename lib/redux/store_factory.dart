@@ -70,6 +70,8 @@ import 'package:redux/redux.dart' as redux;
 
 class StoreFactory {
   final Authenticator authenticator;
+  final Crashlytics crashlytics;
+  final ChatCrypto chatCrypto;
   final PoleEmploiTokenRepository poleEmploiTokenRepository;
   final PoleEmploiAuthRepository poleEmploiAuthRepository;
   final UserActionRepository userActionRepository;
@@ -77,7 +79,6 @@ class StoreFactory {
   final OffreEmploiRepository offreEmploiRepository;
   final ChatRepository chatRepository;
   final RegisterTokenRepository registerTokenRepository;
-  final Crashlytics crashlytics;
   final OffreEmploiDetailsRepository offreEmploiDetailsRepository;
   final OffreEmploiFavorisRepository offreEmploiFavorisRepository;
   final ImmersionFavorisRepository immersionFavorisRepository;
@@ -88,7 +89,6 @@ class StoreFactory {
   final ImmersionDetailsRepository immersionDetailsRepository;
   final FirebaseAuthRepository firebaseAuthRepository;
   final FirebaseAuthWrapper firebaseAuthWrapper;
-  final ChatCrypto chatCrypto;
   final TrackingEventRepository trackingEventRepository;
   final OffreEmploiSavedSearchRepository offreEmploiSavedSearchRepository;
   final ImmersionSavedSearchRepository immersionSavedSearchRepository;
@@ -99,6 +99,8 @@ class StoreFactory {
 
   StoreFactory(
     this.authenticator,
+    this.crashlytics,
+    this.chatCrypto,
     this.poleEmploiTokenRepository,
     this.poleEmploiAuthRepository,
     this.userActionRepository,
@@ -106,7 +108,6 @@ class StoreFactory {
     this.offreEmploiRepository,
     this.chatRepository,
     this.registerTokenRepository,
-    this.crashlytics,
     this.offreEmploiDetailsRepository,
     this.offreEmploiFavorisRepository,
     this.immersionFavorisRepository,
@@ -117,7 +118,6 @@ class StoreFactory {
     this.immersionDetailsRepository,
     this.firebaseAuthRepository,
     this.firebaseAuthWrapper,
-    this.chatCrypto,
     this.trackingEventRepository,
     this.offreEmploiSavedSearchRepository,
     this.immersionSavedSearchRepository,
