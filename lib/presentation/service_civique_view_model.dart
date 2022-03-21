@@ -4,9 +4,12 @@ import 'package:pass_emploi_app/features/service_civique/search/search_service_c
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
+import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
+import 'package:pass_emploi_app/presentation/service_civique/service_civique_filtres_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:redux/redux.dart';
 
 class ServiceCiviqueViewModel extends Equatable {

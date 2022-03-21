@@ -1,13 +1,12 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_actions.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 import 'package:redux/redux.dart';
-
-import '../../features/service_civique/search/search_service_civique_actions.dart';
-import '../../models/service_civique/domain.dart';
 
 const int defaultDistanceValue = 10;
 
