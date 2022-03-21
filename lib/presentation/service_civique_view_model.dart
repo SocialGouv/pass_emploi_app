@@ -38,7 +38,7 @@ class ServiceCiviqueViewModel extends Equatable {
   });
 
   factory ServiceCiviqueViewModel.create(Store<AppState> store) {
-    var searchResultState = store.state.serviceCiviqueSearchResultState;
+    final searchResultState = store.state.serviceCiviqueSearchResultState;
     return ServiceCiviqueViewModel._(
         locations: store.state.searchLocationState.locations
             .map((location) => LocationViewModel.fromLocation(location))
@@ -79,9 +79,9 @@ class ServiceCiviqueViewModel extends Equatable {
 int? _filtersCount(ServiceCiviqueSearchResultState state) {
   if (state is ServiceCiviqueSearchResultDataState) {
     final SearchServiceCiviqueRequest lastRequest = state.lastRequest;
-    int distanceCount = lastRequest.distance != null && lastRequest.distance != defaultDistanceValue ? 1 : 0;
-    int startDateCount = lastRequest.startDate != null ? 1 : 0;
-    int domainCount = lastRequest.domain != null && lastRequest.domain != Domaine.all.tag ? 1 : 0;
+    final int distanceCount = lastRequest.distance != null && lastRequest.distance != defaultDistanceValue ? 1 : 0;
+    final int startDateCount = lastRequest.startDate != null ? 1 : 0;
+    final int domainCount = lastRequest.domain != null && lastRequest.domain != Domaine.all.tag ? 1 : 0;
     return distanceCount + startDateCount + domainCount;
   } else {
     return null;

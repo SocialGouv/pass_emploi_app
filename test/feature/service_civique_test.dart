@@ -108,7 +108,7 @@ void main() {
     );
 
     final successState = store.onChange.firstWhere((e) {
-      var state = e.serviceCiviqueSearchResultState;
+      final state = e.serviceCiviqueSearchResultState;
       return state is ServiceCiviqueSearchResultDataState && state.offres.isNotEmpty;
     });
 
