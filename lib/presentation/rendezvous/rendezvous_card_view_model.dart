@@ -12,7 +12,7 @@ class RendezvousCardViewModel extends Equatable {
   final String tag;
   final String date;
   final String? title;
-  final String subtitle;
+  final String? subtitle;
 
   RendezvousCardViewModel({
     required this.id,
@@ -39,7 +39,8 @@ class RendezvousCardViewModel extends Equatable {
   }
 }
 
-String _subtitle(Rendezvous rdv) {
+String? _subtitle(Rendezvous rdv) {
+  if (rdv.modality.isEmpty) return null;
   final modality = rdv.modality.firstLetterUpperCased();
   final conseiller = rdv.conseiller;
   if (rdv.withConseiller && conseiller != null) {

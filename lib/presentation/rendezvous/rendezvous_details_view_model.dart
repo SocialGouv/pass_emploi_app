@@ -17,12 +17,12 @@ class RendezvousDetailsViewModel extends Equatable {
   final String title;
   final String date;
   final String hourAndDuration;
-  final String modality;
   final String conseillerPresenceLabel;
   final Color conseillerPresenceColor;
   final String trackingPageName;
   final String? commentTitle;
   final String? comment;
+  final String? modality;
   final String? organism;
   final String? address;
   final Uri? addressRedirectUri;
@@ -31,12 +31,12 @@ class RendezvousDetailsViewModel extends Equatable {
     required this.title,
     required this.date,
     required this.hourAndDuration,
-    required this.modality,
     required this.conseillerPresenceLabel,
     required this.conseillerPresenceColor,
     required this.trackingPageName,
     this.commentTitle,
     this.comment,
+    this.modality,
     this.organism,
     this.address,
     this.addressRedirectUri,
@@ -94,11 +94,13 @@ String? _commentTitle(Rendezvous rdv, String? comment) {
   return null;
 }
 
-String _modality(Rendezvous rdv) {
+String? _modality(Rendezvous rdv) {
+  if (rdv.modality.isEmpty) return null;
   final modality = rdv.modality.firstLetterLowerCased();
   final conseiller = rdv.conseiller;
   if (rdv.withConseiller && conseiller != null) {
-    return Strings.rendezvousModalityWithConseillerDetailsMessage(modality, '${conseiller.firstName} ${conseiller.lastName}');
+    return Strings.rendezvousModalityWithConseillerDetailsMessage(
+        modality, '${conseiller.firstName} ${conseiller.lastName}');
   }
   return Strings.rendezvousModalityDetailsMessage(modality);
 }
