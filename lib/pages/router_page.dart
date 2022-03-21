@@ -69,7 +69,7 @@ class _RouterPageState extends State<RouterPage> {
   }
 
   Future<void> _handleStoppedApplicationOpenedFromPushNotification() async {
-    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+    final RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) _handleDeepLink(initialMessage);
   }
 

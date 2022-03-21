@@ -161,7 +161,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
       scrollDirection: Axis.vertical,
       itemCount: offreEmplois.length,
       itemBuilder: (context, position) {
-        double topPadding = (position == 0) ? Margins.spacing_m : 0;
+        final double topPadding = (position == 0) ? Margins.spacing_m : 0;
         return Padding(
           padding: EdgeInsets.fromLTRB(Margins.spacing_base, topPadding, Margins.spacing_base, Margins.spacing_base),
           child: _buildCard(context, offreEmplois[position], viewModel),
@@ -192,7 +192,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
       scrollDirection: Axis.vertical,
       itemCount: savedSearchsImmersion.length,
       itemBuilder: (context, position) {
-        double topPadding = (position == 0) ? Margins.spacing_m : 0;
+        final double topPadding = (position == 0) ? Margins.spacing_m : 0;
         return Padding(
           padding: EdgeInsets.fromLTRB(Margins.spacing_base, topPadding, Margins.spacing_base, Margins.spacing_base),
           child: _buildImmersionCard(context, savedSearchsImmersion[position], viewModel),

@@ -40,7 +40,7 @@ class _CheckBoxGroupState<T extends CheckboxValueViewModel> extends State<CheckB
       children: [
         Text(widget.title, style: TextStyles.textBaseBold),
         SizedBox(height: Margins.spacing_base),
-        Container(
+        DecoratedBox(
           decoration:
               BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(16)), boxShadow: [
             Shadows.boxShadow,
@@ -70,7 +70,7 @@ class _CheckBoxGroupState<T extends CheckboxValueViewModel> extends State<CheckB
         setState(() {
           if (value != null) {
             _optionsSelectionStatus[viewModel] = value;
-            var listOfSelectedOptions = _listOfSelectedOptions();
+            final listOfSelectedOptions = _listOfSelectedOptions();
             widget.onSelectedOptionsUpdated(listOfSelectedOptions);
           }
         });

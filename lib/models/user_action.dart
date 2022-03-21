@@ -47,7 +47,7 @@ UserActionCreator _creator(dynamic json) {
   if (creatorType == "jeune") {
     return JeuneActionCreator();
   } else {
-    var creatorName = json["creator"] as String;
+    final creatorName = json["creator"] as String;
     return ConseillerActionCreator(
       name: creatorName,
     );

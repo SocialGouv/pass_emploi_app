@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/models/user_action_creator.dart';
 import '../utils/test_assets.dart';
 import '../utils/test_datetime.dart';
 
-main() {
+void main() {
   test('UserAction.fromJson when complete data should deserialize data correctly with date on local timezone', () {
     // Given
     final String userActionString = loadTestAssets("user_action.json");

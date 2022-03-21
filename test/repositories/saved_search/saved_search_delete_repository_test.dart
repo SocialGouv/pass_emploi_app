@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_re
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 
-main() {
+void main() {
   test('delete should return true when response is valid with proper parameters', () async {
     // Given
     final httpClient = MockClient((request) async {

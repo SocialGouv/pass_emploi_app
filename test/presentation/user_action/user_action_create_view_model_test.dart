@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-main() {
+void main() {
   test("create when state is loading should set display state to loading", () {
     // Given
     final state = AppState.initialState().copyWith(userActionCreateState: UserActionCreateLoadingState());

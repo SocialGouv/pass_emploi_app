@@ -13,7 +13,7 @@ class ImmersionListMiddleware extends MiddlewareClass<AppState> {
   ImmersionListMiddleware(this._repository);
 
   @override
-  call(Store<AppState> store, action, NextDispatcher next) async {
+  void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     final loginState = store.state.loginState;
     final parametersState = store.state.immersionSearchParametersState;

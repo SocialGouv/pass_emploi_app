@@ -10,7 +10,7 @@ class TrackingEventMiddleware extends MiddlewareClass<AppState> {
   TrackingEventMiddleware(this._repository);
 
   @override
-  call(Store<AppState> store, action, NextDispatcher next) {
+  void call(Store<AppState> store, action, NextDispatcher next) {
     next(action);
     if (action is TrackingEventAction) {
       final loginState = store.state.loginState;

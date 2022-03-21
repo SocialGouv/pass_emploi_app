@@ -49,7 +49,7 @@ String? getLocationType(Location? location, LocationType type) =>
     (location != null && location.type == type) ? location.code : null;
 
 List<String> getExperience(List<ExperienceFiltre>? experience) {
-  List<String> list = [];
+  final List<String> list = [];
   if (experience != null && experience.isNotEmpty) {
     for (var element in experience) {
       list.add(FiltresRequest.experienceToUrlParameter(element));
@@ -59,7 +59,7 @@ List<String> getExperience(List<ExperienceFiltre>? experience) {
 }
 
 List<String> getContrat(List<ContratFiltre>? contrat) {
-  List<String> list = [];
+  final List<String> list = [];
   if (contrat != null && contrat.isNotEmpty) {
     for (var element in contrat) {
       list.add(FiltresRequest.contratToUrlParameter(element));
@@ -69,7 +69,7 @@ List<String> getContrat(List<ContratFiltre>? contrat) {
 }
 
 List<String> getDuration(List<DureeFiltre>? duration) {
-  List<String> list = [];
+  final List<String> list = [];
   if (duration != null && duration.isNotEmpty) {
     for (var element in duration) {
       list.add(FiltresRequest.dureeToUrlParameter(element));

@@ -9,7 +9,7 @@ import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   test("Returns locations list when user search location", () async {
     // Given
     final factory = TestStoreFactory();

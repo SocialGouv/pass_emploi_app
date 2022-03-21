@@ -10,7 +10,7 @@ import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   test("immersions should be loaded and results displayed", () async {
     // Given
     final testStoreFactory = TestStoreFactory();

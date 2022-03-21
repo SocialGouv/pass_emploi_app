@@ -19,7 +19,7 @@ class CejInformationContentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(Margins.spacing_m),
-      child: Container(
+      child: DecoratedBox(
         decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
         child: SingleChildScrollView(
           child: Padding(

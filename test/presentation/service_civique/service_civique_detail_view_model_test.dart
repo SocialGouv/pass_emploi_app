@@ -9,7 +9,7 @@ import 'package:redux/redux.dart';
 
 import '../../doubles/fixtures.dart';
 
-main() {
+void main() {
   test("create when state is loading should set display state to loading", () {
     // Given
     final state = AppState.initialState().copyWith(serviceCiviqueDetailState: ServiceCiviqueDetailLoadingState());

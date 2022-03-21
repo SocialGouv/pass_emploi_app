@@ -12,7 +12,7 @@ import 'package:redux/redux.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
 
-main() {
+void main() {
   test("create when search state is success should display success", () {
     // Given
     final store = Store<AppState>(

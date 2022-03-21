@@ -13,7 +13,7 @@ import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   test("immersion should be loaded and result displayed", () async {
     // Given
     final testStoreFactory = TestStoreFactory();

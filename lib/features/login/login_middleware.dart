@@ -15,7 +15,7 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
   LoginMiddleware(this._authenticator, this._firebaseAuthWrapper);
 
   @override
-  call(Store<AppState> store, action, NextDispatcher next) async {
+  void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     if (action is BootstrapAction) {
       _checkIfUserIsLoggedIn(store);
@@ -37,7 +37,7 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
 
   void _logUser(Store<AppState> store, RequestLoginMode mode) async {
     store.dispatch(LoginLoadingAction());
-    var authenticatorResponse = await _authenticator.login(_getAuthenticationMode(mode));
+    final authenticatorResponse = await _authenticator.login(_getAuthenticationMode(mode));
     if (authenticatorResponse == AuthenticatorResponse.SUCCESS) {
       _dispatchLoginSuccess(store);
     } else if (authenticatorResponse == AuthenticatorResponse.FAILURE) {

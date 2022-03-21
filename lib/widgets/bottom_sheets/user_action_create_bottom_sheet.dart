@@ -33,7 +33,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
     _initialStatus = UserActionStatus.NOT_STARTED;
   }
 
-  _update(UserActionStatus newStatus) {
+  void _update(UserActionStatus newStatus) {
     setState(() {
       _initialStatus = newStatus;
     });

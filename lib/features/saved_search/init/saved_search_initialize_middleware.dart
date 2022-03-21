@@ -10,7 +10,7 @@ import '../../../models/saved_search/saved_search_extractors.dart';
 
 class SavedSearchInitializeMiddleware extends MiddlewareClass<AppState> {
   @override
-  call(Store<AppState> store, action, NextDispatcher next) {
+  void call(Store<AppState> store, action, NextDispatcher next) {
     next(action);
     final loginState = store.state.loginState;
     if (action is SaveSearchInitializeAction<OffreEmploiSavedSearch> && loginState is LoginSuccessState) {

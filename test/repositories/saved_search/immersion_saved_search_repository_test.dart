@@ -9,7 +9,7 @@ import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 
-main() {
+void main() {
   group("When user save new search postSavedSearch should ...", () {
     test("successfully send request when all fields and filters are full and return TRUE if response is valid (201)",
         () async {

@@ -36,8 +36,8 @@ class ServiceCiviqueDetail extends Equatable {
   });
 
   factory ServiceCiviqueDetail.fromJson(dynamic json) {
-    String? stringDateDebut = (json["dateDeDebut"] as String?);
-    String? stringDateFin = (json["dateDeFin"] as String?);
+    final String? stringDateDebut = (json["dateDeDebut"] as String?);
+    final String? stringDateFin = (json["dateDeFin"] as String?);
     return ServiceCiviqueDetail(
       titre: json["titre"] as String,
       dateDeDebut: stringDateDebut!.toDateTimeUtcOnLocalTimeZone().toDayWithFullMonth(),

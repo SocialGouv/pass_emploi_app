@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
-main() {
+void main() {
   test("UserActionViewModel.create when creator is jeune should create view model properly", () {
     // Given
     final userAction = UserAction(

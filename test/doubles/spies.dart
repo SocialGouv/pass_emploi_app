@@ -26,7 +26,7 @@ class StoreSpy extends Store<AppState> {
   StoreSpy() : super(reducer, initialState: AppState.initialState(configuration: configuration()));
 
   @override
-  dispatch(dynamic action) => dispatchedAction = action;
+  void dispatch(dynamic action) => dispatchedAction = action;
 }
 
 class SharedPreferencesSpy extends FlutterSecureStorage {

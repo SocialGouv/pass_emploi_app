@@ -13,7 +13,7 @@ import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../utils/test_assets.dart';
 
-main() {
+void main() {
   group("When user want to get a saved search list, getSavedSearch should ...", () {
     test('return saved search offers when response is valid with all parameters', () async {
       // Given

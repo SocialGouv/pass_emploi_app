@@ -10,7 +10,7 @@ class FavoriListMiddleware<T> extends MiddlewareClass<AppState> {
   FavoriListMiddleware(this._repository);
 
   @override
-  call(Store<AppState> store, action, NextDispatcher next) async {
+  void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     final loginState = store.state.loginState;
     if (action is FavoriListRequestAction<T> && loginState is LoginSuccessState) {

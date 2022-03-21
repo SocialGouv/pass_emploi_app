@@ -22,7 +22,7 @@ class UnavailableContent extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: screenHeight * 0.02),
-          Flexible(child: SvgPicture.asset(Drawables.icNoContent), flex: 1),
+          Flexible(flex: 1, child: SvgPicture.asset(Drawables.icNoContent)),
           SizedBox(height: screenHeight * 0.05),
           Text(_setTitle(), style: TextStyles.textBaseBold, textAlign: TextAlign.center),
           SizedBox(height: screenHeight * 0.03),

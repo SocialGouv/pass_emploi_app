@@ -171,45 +171,45 @@ class AuthWrapperStub extends AuthWrapper {
 
   AuthWrapperStub() : super(DummyFlutterAppAuth(), Lock());
 
-  withLoginArgsResolves(AuthTokenRequest parameters, AuthTokenResponse result) {
+  void withLoginArgsResolves(AuthTokenRequest parameters, AuthTokenResponse result) {
     _loginParameters = parameters;
     _loginResult = result;
     _throwsLoginException = false;
   }
 
-  withLogoutArgsResolves(AuthLogoutRequest parameters) {
+  void withLogoutArgsResolves(AuthLogoutRequest parameters) {
     _logoutParameters = parameters;
     _throwsLogoutException = false;
   }
 
-  withCanceledExcption() {
+  void withCanceledExcption() {
     _throwsCanceledException = true;
   }
 
-  withLoginArgsThrows() {
+  void withLoginArgsThrows() {
     _throwsLoginException = true;
   }
 
-  withLogoutArgsThrows() {
+  void withLogoutArgsThrows() {
     _throwsLogoutException = true;
   }
 
-  withRefreshArgsThrowsNetwork() {
+  void withRefreshArgsThrowsNetwork() {
     _throwsRefreshNetworkException = true;
   }
 
-  withRefreshArgsThrowsExpired() {
+  void withRefreshArgsThrowsExpired() {
     _throwsRefreshNetworkException = false;
     _throwsRefreshExpiredException = true;
   }
 
-  withRefreshArgsThrowsGeneric() {
+  void withRefreshArgsThrowsGeneric() {
     _throwsRefreshNetworkException = false;
     _throwsRefreshExpiredException = false;
     _throwsRefreshGenericException = true;
   }
 
-  withRefreshArgsResolves(AuthRefreshTokenRequest parameters, AuthTokenResponse result) {
+  void withRefreshArgsResolves(AuthRefreshTokenRequest parameters, AuthTokenResponse result) {
     _refreshParameters = parameters;
     _refreshResult = result;
     _throwsRefreshNetworkException = false;

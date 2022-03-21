@@ -38,7 +38,7 @@ class OffreEmploiSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<O
   }
 
   @override
-  dismissBottomSheetIfNeeded(BuildContext context, OffreEmploiSavedSearchViewModel newVm) {
+  void dismissBottomSheetIfNeeded(BuildContext context, OffreEmploiSavedSearchViewModel newVm) {
     if (newVm.displayState == CreateSavedSearchDisplayState.TO_DISMISS) {
       Navigator.pop(context);
       showSuccessfulSnackBar(context, Strings.savedSearchSuccessfullyCreated);

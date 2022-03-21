@@ -7,7 +7,7 @@ import 'package:redux/src/store.dart';
 import '../../doubles/fixtures.dart';
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   test("After logout Pole Emploi auth token should be cleared", () async {
     // Given
     final initialState = AppState.initialState().copyWith(loginState: successPoleEmploiUserState());

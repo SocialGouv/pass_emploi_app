@@ -32,8 +32,8 @@ class DataCard<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> nonEmptyDataTags = dataTag.where((element) => element.isNotEmpty).toList();
-    return Container(
+    final List<String> nonEmptyDataTags = dataTag.where((element) => element.isNotEmpty).toList();
+    return DecoratedBox(
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(16)), boxShadow: [
         Shadows.boxShadow,
       ]),

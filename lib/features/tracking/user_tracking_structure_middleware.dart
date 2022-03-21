@@ -8,7 +8,7 @@ import '../../redux/app_state.dart';
 
 class UserTrackingStructureMiddleware extends MiddlewareClass<AppState> {
   @override
-  call(Store<AppState> store, action, NextDispatcher next) {
+  void call(Store<AppState> store, action, NextDispatcher next) {
     next(action);
     if (action is LoginSuccessAction) {
       final structureName = _getStructureName(action.user.loginMode);

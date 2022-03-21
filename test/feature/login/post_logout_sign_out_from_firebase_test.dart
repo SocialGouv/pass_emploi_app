@@ -6,7 +6,7 @@ import 'package:redux/src/store.dart';
 
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   test("After logout user should be signed out from Firebase Auth", () async {
     // Given
     final testStoreFactory = TestStoreFactory();

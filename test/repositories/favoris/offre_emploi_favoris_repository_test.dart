@@ -9,7 +9,7 @@ import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../utils/test_assets.dart';
 
-main() {
+void main() {
   test('getFavorisId when response is valid with all parameters should return offres', () async {
     // Given
     final httpClient = MockClient((request) async {

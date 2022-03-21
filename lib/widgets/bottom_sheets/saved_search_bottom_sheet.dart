@@ -29,5 +29,5 @@ abstract class AbstractSavedSearchBottomSheet<SAVED_SEARCH_MODEL> extends Tracea
 
   Widget buildSaveSearch(BuildContext context, SavedSearchViewModel<SAVED_SEARCH_MODEL> itemViewModel);
 
-  dismissBottomSheetIfNeeded(BuildContext context, SavedSearchViewModel<SAVED_SEARCH_MODEL> newVm);
+  void dismissBottomSheetIfNeeded(BuildContext context, SavedSearchViewModel<SAVED_SEARCH_MODEL> newVm);
 }

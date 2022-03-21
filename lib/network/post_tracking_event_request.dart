@@ -54,7 +54,7 @@ class PostTrackingEvent extends JsonSerializable {
         "emetteur": PostTrackingEmetteur(userId: userId, loginMode: loginMode).toJson(),
       };
 
-  _toString(EventType event) {
+  String _toString(EventType event) {
     switch (event) {
       case EventType.MESSAGE_ENVOYE:
         return "MESSAGE_ENVOYE";

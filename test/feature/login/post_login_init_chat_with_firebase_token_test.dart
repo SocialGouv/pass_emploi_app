@@ -14,7 +14,7 @@ import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   group("after login ...", () {
     group('when coming from a chat deep link…', () {
       final initialState = AppState.initialState().copyWith(

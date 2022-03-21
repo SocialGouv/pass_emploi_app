@@ -62,7 +62,7 @@ class Authenticator {
     if (refreshToken == null) return RefreshTokenStatus.USER_NOT_LOGGED_IN;
 
     try {
-      AuthTokenResponse response = await _authWrapper.refreshToken(
+      final AuthTokenResponse response = await _authWrapper.refreshToken(
         AuthRefreshTokenRequest(
           _configuration.authClientId,
           _configuration.authLoginRedirectUrl,

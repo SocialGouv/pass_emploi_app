@@ -8,7 +8,7 @@ import '../doubles/fixtures.dart';
 import '../doubles/stubs.dart';
 import '../utils/test_setup.dart';
 
-main() {
+void main() {
   test("service civique should be loaded", () async {
     // Given
     final factory = TestStoreFactory();
@@ -108,7 +108,7 @@ main() {
     );
 
     final successState = store.onChange.firstWhere((e) {
-      var state = e.serviceCiviqueSearchResultState;
+      final state = e.serviceCiviqueSearchResultState;
       return state is ServiceCiviqueSearchResultDataState && state.offres.isNotEmpty;
     });
 

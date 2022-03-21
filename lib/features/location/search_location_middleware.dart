@@ -11,7 +11,7 @@ class SearchLocationMiddleware extends MiddlewareClass<AppState> {
   SearchLocationMiddleware(this._repository);
 
   @override
-  call(Store<AppState> store, action, NextDispatcher next) async {
+  void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     if (action is SearchLocationRequestAction) {
       final List<Location> locations = [];

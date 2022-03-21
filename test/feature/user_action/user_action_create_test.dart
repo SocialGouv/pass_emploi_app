@@ -8,7 +8,7 @@ import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   test("create user action when repo succeeds should display loading and then create user action", () async {
     // Given
     final testStoreFactory = TestStoreFactory();

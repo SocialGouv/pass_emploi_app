@@ -11,7 +11,7 @@ class FavoriIdsMiddleware<T> extends MiddlewareClass<AppState> {
   FavoriIdsMiddleware(this._repository);
 
   @override
-  call(Store<AppState> store, action, NextDispatcher next) async {
+  void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     if (action is LoginSuccessAction) {
       final ids = await _repository.getFavorisId(action.user.id);

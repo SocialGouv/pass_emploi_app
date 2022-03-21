@@ -11,7 +11,7 @@ import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   group("When repository succeeds…", () {
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.savedSearchDeleteRepository = SavedSearchDeleteRepositorySuccessStub();

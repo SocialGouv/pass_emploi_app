@@ -11,7 +11,7 @@ import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   group("offre emplois when data has already been loaded ...", () {
     test("and new call succeeds should append newly loaded data to existing list and set new page number", () async {
       // Given
@@ -42,7 +42,7 @@ main() {
       final appState = await successState;
       expect(appState.offreEmploiSearchState is OffreEmploiSearchSuccessState, true);
 
-      var searchResultsState = (appState.offreEmploiListState as OffreEmploiListSuccessState);
+      final searchResultsState = (appState.offreEmploiListState as OffreEmploiListSuccessState);
       expect(searchResultsState.offres.length, 2);
       expect(searchResultsState.loadedPage, 2);
     });
@@ -76,7 +76,7 @@ main() {
       final appState = await errorState;
       expect(appState.offreEmploiSearchState is OffreEmploiSearchFailureState, true);
 
-      var searchResultsState = (appState.offreEmploiListState as OffreEmploiListSuccessState);
+      final searchResultsState = (appState.offreEmploiListState as OffreEmploiListSuccessState);
       expect(searchResultsState.offres.length, 1);
       expect(searchResultsState.loadedPage, 1);
       expect(searchResultsState.isMoreDataAvailable, true);
@@ -108,7 +108,7 @@ main() {
       final appState = await successState;
       expect(appState.offreEmploiSearchState is OffreEmploiSearchSuccessState, true);
 
-      var searchResultsState = (appState.offreEmploiListState as OffreEmploiListSuccessState);
+      final searchResultsState = (appState.offreEmploiListState as OffreEmploiListSuccessState);
       expect(searchResultsState.offres.length, 2);
       expect(searchResultsState.loadedPage, 2);
       expect(searchResultsState.isMoreDataAvailable, false);
@@ -173,7 +173,7 @@ main() {
         final appState = await errorState;
         expect(appState.offreEmploiSearchState is OffreEmploiSearchFailureState, true);
 
-        var searchResultsState = (appState.offreEmploiListState as OffreEmploiListSuccessState);
+        final searchResultsState = (appState.offreEmploiListState as OffreEmploiListSuccessState);
         expect(searchResultsState.offres.length, 1);
         expect(searchResultsState.loadedPage, 1);
       });
@@ -208,7 +208,7 @@ main() {
         final appState = await successState;
         expect(appState.offreEmploiSearchState is OffreEmploiSearchSuccessState, true);
 
-        var searchResultsState = (appState.offreEmploiListState as OffreEmploiListSuccessState);
+        final searchResultsState = (appState.offreEmploiListState as OffreEmploiListSuccessState);
         expect(searchResultsState.offres.length, 2);
         expect(searchResultsState.loadedPage, 2);
       });

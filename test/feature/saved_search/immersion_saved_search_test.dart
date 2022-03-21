@@ -20,7 +20,7 @@ import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';
 import '../immersion/immersion_list_test.dart';
 
-main() {
+void main() {
   group("When user tries to save an offer search ...", () {
     final immersionSavedSearch = ImmersionSavedSearch(
       id: "id",
@@ -32,7 +32,7 @@ main() {
       codeRome: "ROME-PARIS",
     );
 
-    AppState initialState = AppState.initialState().copyWith(
+    final AppState initialState = AppState.initialState().copyWith(
       immersionSavedSearchCreateState: SavedSearchCreateState.initialized(immersionSavedSearch),
       loginState: successMiloUserState(),
     );
@@ -51,7 +51,7 @@ main() {
       store.dispatch(SavedSearchCreateRequestAction(immersionSavedSearch, "Boulanger - Paris"));
 
       // Then
-      var immersionSavedSearchState = (await expected).immersionSavedSearchCreateState;
+      final immersionSavedSearchState = (await expected).immersionSavedSearchCreateState;
       expect(immersionSavedSearchState is SavedSearchCreateSuccessfullyCreated, true);
     });
 
@@ -69,13 +69,13 @@ main() {
       store.dispatch(SavedSearchCreateRequestAction(immersionSavedSearch, "Boulanger - Paris"));
 
       // Then
-      var immersionSavedSearchState = (await expected).immersionSavedSearchCreateState;
+      final immersionSavedSearchState = (await expected).immersionSavedSearchCreateState;
       expect(immersionSavedSearchState is SavedSearchCreateFailureState, true);
     });
 
     test("SaveSearchInitializeAction should update store with rights information", () async {
       // Given
-      AppState initialState = AppState.initialState().copyWith(
+      final AppState initialState = AppState.initialState().copyWith(
         immersionListState: ImmersionListSuccessState([
           Immersion(
               id: "id",
@@ -119,7 +119,7 @@ main() {
 
     test("SaveSearchInitializeAction should update store with rights information when search has filtres", () async {
       // Given
-      AppState initialState = AppState.initialState().copyWith(
+      final AppState initialState = AppState.initialState().copyWith(
         immersionListState: ImmersionListSuccessState([
           Immersion(
             id: "id",
@@ -164,7 +164,7 @@ main() {
 
     test("SaveSearchInitializeAction should update store with right information when search has no result", () async {
       // Given
-      AppState initialState = AppState.initialState().copyWith(
+      final AppState initialState = AppState.initialState().copyWith(
         immersionListState: ImmersionListSuccessState([]),
         immersionSearchParametersState: ImmersionSearchParametersInitializedState(
           codeRome: "codeRome",

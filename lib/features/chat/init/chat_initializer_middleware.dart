@@ -15,7 +15,7 @@ class ChatInitializerMiddleware extends MiddlewareClass<AppState> {
   ChatInitializerMiddleware(this._repository, this._firebaseAuthWrapper, this._chatCrypto);
 
   @override
-  call(Store<AppState> store, action, NextDispatcher next) async {
+  void call(Store<AppState> store, action, NextDispatcher next) async {
     if (action is LoginSuccessAction) {
       if (store.state.deepLinkState.deepLink == DeepLink.ROUTE_TO_CHAT) {
         await _initializeChatFirstThenDispatchLogin(action, next, store);
