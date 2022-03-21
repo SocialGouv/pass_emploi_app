@@ -10,10 +10,9 @@ import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/onboarding_background.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../widgets/buttons/primary_action_button.dart';
 
 class ChoixOrganismePage extends TraceableStatelessWidget {
   static const noOrganismeLink = "https://www.1jeune1solution.gouv.fr/contrat-engagement-jeune";

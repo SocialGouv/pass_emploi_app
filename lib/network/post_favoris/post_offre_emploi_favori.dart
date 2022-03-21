@@ -1,4 +1,4 @@
-import '../json_serializable.dart';
+import 'package:pass_emploi_app/network/json_serializable.dart';
 
 class PostOffreEmploiFavori implements JsonSerializable {
   final String id;
@@ -20,8 +20,7 @@ class PostOffreEmploiFavori implements JsonSerializable {
   );
 
   @override
-  Map<String, dynamic> toJson() =>
-      {
+  Map<String, dynamic> toJson() => {
         "idOffre": id,
         "titre": title,
         "typeContrat": contractType,

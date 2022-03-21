@@ -1,12 +1,11 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
+import 'package:pass_emploi_app/auth/auth_logout_request.dart';
+import 'package:pass_emploi_app/auth/auth_refresh_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
+import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
-
-import 'auth_logout_request.dart';
-import 'auth_refresh_token_request.dart';
-import 'auth_wrapper.dart';
 
 const String _idTokenKey = "idToken";
 const String _accessTokenKey = "accessToken";

@@ -1,15 +1,14 @@
 import 'package:collection/collection.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
 import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
+import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
+import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
-
-import '../../features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
-import '../../redux/app_state.dart';
-import '../../ui/strings.dart';
-import '../offre_emploi_filtres_parameters.dart';
-import 'immersion_saved_search.dart';
-import 'offre_emploi_saved_search.dart';
 
 abstract class AbstractSearchExtractor<SAVED_SEARCH_MODEL> {
   SAVED_SEARCH_MODEL getSearchFilters(Store<AppState> store);

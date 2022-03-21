@@ -8,8 +8,6 @@ import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-import '../../models/user_action.dart';
-
 enum UserActionDetailsDisplayState {
   SHOW_CONTENT,
   SHOW_SUCCESS,

@@ -1,9 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
-
-import '../../ui/strings.dart';
-import '../offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 
 class OffreEmploiSavedSearch extends Equatable implements SavedSearch {
   final String id;

@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/pages/choix_organisme_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/cej_information_content_card.dart';
 import 'package:pass_emploi_app/widgets/onboarding_background.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-import '../ui/strings.dart';
-import '../widgets/buttons/primary_action_button.dart';
-import '../widgets/cej_information_content_card.dart';
-import 'choix_organisme_page.dart';
 
 class CejInformationPage extends StatefulWidget {
   static MaterialPageRoute<void> materialPageRoute() {

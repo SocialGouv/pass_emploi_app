@@ -1,4 +1,4 @@
-import '../json_serializable.dart';
+import 'package:pass_emploi_app/network/json_serializable.dart';
 
 class PostImmersionSavedSearch implements JsonSerializable {
   final String title;

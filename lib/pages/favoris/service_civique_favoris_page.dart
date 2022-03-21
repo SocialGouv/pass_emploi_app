@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
+import 'package:pass_emploi_app/pages/favoris/favoris_page.dart';
+import 'package:pass_emploi_app/pages/offre_page.dart';
+import 'package:pass_emploi_app/pages/service_civique/service_civique_detail_page.dart';
 import 'package:pass_emploi_app/presentation/favori_list_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:redux/redux.dart';
-
-import '../../ui/strings.dart';
-import '../offre_page.dart';
-import '../service_civique/service_civique_detail_page.dart';
-import 'favoris_page.dart';
 
 class ServiceCiviqueFavorisPage extends AbstractFavorisPage<ServiceCivique, ServiceCivique> {
   ServiceCiviqueFavorisPage()

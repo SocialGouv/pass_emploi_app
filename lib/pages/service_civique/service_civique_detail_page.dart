@@ -9,26 +9,25 @@ import 'package:pass_emploi_app/models/service_civique/service_civique_detail.da
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/service_civique/service_civique_detail_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
+import 'package:pass_emploi_app/widgets/buttons/delete_favori_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/share_button.dart';
+import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/errors/favori_not_found_error.dart';
 import 'package:pass_emploi_app/widgets/external_link.dart';
+import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
+import 'package:pass_emploi_app/widgets/tags/tags.dart';
+import 'package:pass_emploi_app/widgets/title_section.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../../presentation/service_civique/service_civique_detail_view_model.dart';
-import '../../ui/app_colors.dart';
-import '../../ui/drawables.dart';
-import '../../ui/margins.dart';
-import '../../ui/strings.dart';
-import '../../ui/text_styles.dart';
-import '../../widgets/buttons/delete_favori_button.dart';
-import '../../widgets/buttons/primary_action_button.dart';
-import '../../widgets/buttons/share_button.dart';
-import '../../widgets/default_app_bar.dart';
-import '../../widgets/errors/favori_not_found_error.dart';
-import '../../widgets/favori_heart.dart';
-import '../../widgets/tags/tags.dart';
-import '../../widgets/title_section.dart';
 
 class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
   final String idOffre;

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'default_menu_item.dart';
+import 'package:pass_emploi_app/widgets/default_menu_item.dart';
 
 class MenuItem extends BottomNavigationBarItem {
   final String drawableRes;

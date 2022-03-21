@@ -6,7 +6,11 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/service_civique/service_civique_filtres_view_model.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -14,11 +18,6 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
-
-import '../../models/service_civique/domain.dart';
-import '../../presentation/service_civique/service_civique_filtres_view_model.dart';
-import '../../redux/app_state.dart';
-import '../../ui/app_colors.dart';
 
 class ServiceCiviqueFiltresPage extends TraceableStatefulWidget {
   ServiceCiviqueFiltresPage() : super(name: AnalyticsScreenNames.serviceCiviqueFiltres);

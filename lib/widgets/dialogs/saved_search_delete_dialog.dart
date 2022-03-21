@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
 import 'package:pass_emploi_app/presentation/saved_search/saved_search_delete_view_model.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
-
-import '../../analytics/analytics_constants.dart';
-import '../../redux/app_state.dart';
-import '../../ui/app_colors.dart';
-import '../../ui/drawables.dart';
-import '../../ui/margins.dart';
-import '../../ui/strings.dart';
-import '../../ui/text_styles.dart';
 
 enum SavedSearchType { EMPLOI, ALTERNANCE, IMMERSION }
 

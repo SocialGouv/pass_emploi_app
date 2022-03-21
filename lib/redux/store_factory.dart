@@ -24,12 +24,15 @@ import 'package:pass_emploi_app/features/rendezvous/rendezvous_middleware.dart';
 import 'package:pass_emploi_app/features/saved_search/create/immersion_saved_search_create_middleware.dart';
 import 'package:pass_emploi_app/features/saved_search/create/offre_emploi_saved_search_create_middleware.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_middleware.dart';
+import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_middleware.dart';
+import 'package:pass_emploi_app/features/saved_search/init/saved_search_initialize_middleware.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_middleware.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_middleware.dart';
 import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_middleware.dart';
 import 'package:pass_emploi_app/features/tech/action_logging_middleware.dart';
 import 'package:pass_emploi_app/features/tech/crashlytics_middleware.dart';
 import 'package:pass_emploi_app/features/tracking/tracking_event_middleware.dart';
+import 'package:pass_emploi_app/features/tracking/user_tracking_structure_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_middleware.dart';
@@ -46,6 +49,7 @@ import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
+import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
@@ -63,13 +67,6 @@ import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart' as redux;
-
-import '../features/saved_search/get/saved_search_get_middleware.dart';
-import '../features/saved_search/init/saved_search_initialize_middleware.dart';
-import '../features/service_civique/detail/service_civique_detail_middleware.dart';
-import '../features/tracking/user_tracking_structure_middleware.dart';
-import '../repositories/favoris/service_civique_favoris_repository.dart';
-import '../repositories/service_civique/service_civique_repository.dart';
 
 class StoreFactory {
   final Authenticator authenticator;
@@ -103,7 +100,8 @@ class StoreFactory {
   StoreFactory(
     this.authenticator,
     this.poleEmploiTokenRepository,
-    this.poleEmploiAuthRepository,this.userActionRepository,
+    this.poleEmploiAuthRepository,
+    this.userActionRepository,
     this.rendezvousRepository,
     this.offreEmploiRepository,
     this.chatRepository,

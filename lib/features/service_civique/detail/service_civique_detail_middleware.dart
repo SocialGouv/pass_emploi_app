@@ -1,10 +1,9 @@
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_actions.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:redux/redux.dart';
-
-import '../../../redux/app_state.dart';
-import '../../../repositories/service_civique/service_civique_repository.dart';
 
 class ServiceCiviqueDetailMiddleware extends MiddlewareClass<AppState> {
   final ServiceCiviqueDetailRepository _repository;
