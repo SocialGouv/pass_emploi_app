@@ -191,7 +191,7 @@ class _ServiceCiviqueFiltresPageState extends State<ServiceCiviqueFiltresPage> {
             borderRadius: BorderRadius.circular(8.0),
             borderSide: BorderSide(color: AppColors.grey800, width: 1.0),
           )),
-      keyboardType: TextInputType.multiline,
+      keyboardType: TextInputType.none,
       textCapitalization: TextCapitalization.sentences,
       onTap: () => Platform.isIOS ? _iOSDatePicker(context) : _androidDatePicker(context),
       showCursor: false,
