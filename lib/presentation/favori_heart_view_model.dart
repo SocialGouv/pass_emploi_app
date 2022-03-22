@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/favoris_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
+import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
+import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 class FavoriHeartViewModel<T> extends Equatable {
@@ -18,12 +18,12 @@ class FavoriHeartViewModel<T> extends Equatable {
     required this.update,
   });
 
-  factory FavoriHeartViewModel.create(String offreId, Store<AppState> store, FavorisState<T> favorisState) {
+  factory FavoriHeartViewModel.create(String offreId, Store<AppState> store, FavoriListState<T> favorisState) {
     return FavoriHeartViewModel._(
       isFavori: _isFavori(offreId, favorisState),
-      withError: _withError(offreId, store.state.favorisUpdateState),
-      withLoading: _withLoading(offreId, store.state.favorisUpdateState),
-      update: (newStatus) => store.dispatch(RequestUpdateFavoriAction<T>(offreId, newStatus)),
+      withError: _withError(offreId, store.state.favoriUpdateState),
+      withLoading: _withLoading(offreId, store.state.favoriUpdateState),
+      update: (newStatus) => store.dispatch(FavoriUpdateRequestAction<T>(offreId, newStatus)),
     );
   }
 
@@ -31,18 +31,18 @@ class FavoriHeartViewModel<T> extends Equatable {
   List<Object?> get props => [isFavori, withError, withLoading];
 }
 
-bool _isFavori<T>(String offreId, FavorisState<T> favorisState) {
-  if (favorisState is FavorisLoadedState<T>) {
-    return favorisState.favorisId.contains(offreId);
+bool _isFavori<T>(String offreId, FavoriListState<T> favorisState) {
+  if (favorisState is FavoriListLoadedState<T>) {
+    return favorisState.favoriIds.contains(offreId);
   } else {
     return false;
   }
 }
 
-bool _withError(String offreId, FavorisUpdateState updateState) {
-  return updateState.requestStatus[offreId] == FavorisUpdateStatus.ERROR;
+bool _withError(String offreId, FavoriUpdateState updateState) {
+  return updateState.requestStatus[offreId] == FavoriUpdateStatus.ERROR;
 }
 
-bool _withLoading(String offreId, FavorisUpdateState updateState) {
-  return updateState.requestStatus[offreId] == FavorisUpdateStatus.LOADING;
+bool _withLoading(String offreId, FavoriUpdateState updateState) {
+  return updateState.requestStatus[offreId] == FavoriUpdateStatus.LOADING;
 }

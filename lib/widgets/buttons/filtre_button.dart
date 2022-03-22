@@ -39,7 +39,7 @@ class FiltreButton extends StatelessWidget {
   }
 
   Widget _buildAsSecondary() {
-    final double verticalPadding = filtresCount == null ? 16 : 14;
+    final double verticalPadding = filtresCount == null || filtresCount == 0 ? 16 : 14;
     return OutlinedButton(
       style: OutlinedButton.styleFrom(
         shape: StadiumBorder(),
@@ -63,7 +63,7 @@ class FiltreButton extends StatelessWidget {
         SizedBox(width: Margins.spacing_base),
         SvgPicture.asset(Drawables.icFilter, height: 18, width: 18, color: accentColor),
         SizedBox(width: Margins.spacing_base),
-        if (filtresCount != null)
+        if (filtresCount != null && filtresCount! > 0)
           Padding(
             padding: const EdgeInsets.only(right: Margins.spacing_s),
             child: Container(

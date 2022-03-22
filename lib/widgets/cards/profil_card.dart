@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../ui/margins.dart';
-import '../../ui/shadows.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/shadows.dart';
 
 class ProfilCard extends StatelessWidget {
   final Widget child;
@@ -15,7 +14,7 @@ class ProfilCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(16)), boxShadow: [
         Shadows.boxShadow,
       ]),

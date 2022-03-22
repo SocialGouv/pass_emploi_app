@@ -83,8 +83,10 @@ class MetierAutocomplete extends StatelessWidget {
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(4.0)),
           ),
+          color: Colors.white,
           child: Container(
             width: constraints.biggest.width,
+            color: Colors.white,
             child: ListView.builder(
               padding: EdgeInsets.zero,
               shrinkWrap: true,
@@ -97,14 +99,12 @@ class MetierAutocomplete extends StatelessWidget {
                 );
               },
             ),
-            color: Colors.white,
           ),
-          color: Colors.white,
         ));
   }
 
   void _putBackLastLocationSetOnFocusLost(bool hasFocus, TextEditingController textEditingController) {
-    var title = getPreviouslySelectedTitle();
+    final title = getPreviouslySelectedTitle();
     if (!hasFocus && title != null) {
       textEditingController.text = title;
     }

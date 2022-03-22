@@ -1,14 +1,14 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
+import 'package:pass_emploi_app/features/location/search_location_actions.dart';
+import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -17,8 +17,6 @@ import 'package:pass_emploi_app/utils/keyboard.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
-
-import 'offre_emploi_list_page.dart';
 
 class OffreEmploiSearchPage extends TraceableStatefulWidget {
   final bool onlyAlternance;
@@ -54,7 +52,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
       },
       distinct: true,
       builder: (context, viewModel) => _body(viewModel),
-      onDispose: (store) => store.dispatch(ResetLocationAction()),
+      onDispose: (store) => store.dispatch(SearchLocationResetAction()),
     );
   }
 

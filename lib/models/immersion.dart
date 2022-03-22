@@ -17,11 +17,11 @@ class Immersion extends Equatable {
 
   factory Immersion.fromJson(dynamic json) {
     return Immersion(
-      id: json['id'],
-      metier: json['metier'],
-      nomEtablissement: json['nomEtablissement'],
-      secteurActivite: json['secteurActivite'],
-      ville: json['ville'],
+      id: json['id'] as String,
+      metier: json['metier'] as String,
+      nomEtablissement: json['nomEtablissement'] as String,
+      secteurActivite: json['secteurActivite'] as String,
+      ville: json['ville'] as String,
     );
   }
 

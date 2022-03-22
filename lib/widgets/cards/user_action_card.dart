@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/tags/status_tag.dart';
-
-import '../../presentation/user_action_view_model.dart';
 
 class UserActionCard extends StatelessWidget {
   final VoidCallback onTap;
@@ -15,7 +14,7 @@ class UserActionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), boxShadow: [
         Shadows.boxShadow,
       ]),
@@ -24,7 +23,7 @@ class UserActionCard extends StatelessWidget {
         child: Material(
           type: MaterialType.transparency,
           child: InkWell(
-            onTap: this.onTap,
+            onTap: onTap,
             splashColor: AppColors.primaryLighten,
             child: Padding(
               padding: const EdgeInsets.all(Margins.spacing_base),

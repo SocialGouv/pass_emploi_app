@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
+import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
@@ -12,7 +13,7 @@ import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../utils/test_assets.dart';
 
-main() {
+void main() {
   group("When user want to get a saved search list, getSavedSearch should ...", () {
     test('return saved search offers when response is valid with all parameters', () async {
       // Given
@@ -92,12 +93,17 @@ List<Equatable> _getMockedSavedSearch() {
       id: "670c413e-b669-4228-850a-9a7307fe79ea",
       title: "Boulangerie - viennoiserie - PARIS-14",
       metier: "Boulangerie - viennoiserie",
-      location: "PARIS-14",
-      filters: ImmersionSearchParametersFilters.withFilters(
-        codeRome: "D1102",
-        lat: 48.830108,
-        lon: 2.323026,
+      ville: "PARIS-14",
+      codeRome: "D1102",
+      location: Location(
+        libelle: "PARIS-14",
+        code: "",
+        codePostal: null,
+        latitude: 48.830108,
+        longitude: 2.323026,
+        type: LocationType.COMMUNE,
       ),
+      filtres: ImmersionSearchParametersFiltres.noFiltres(),
     ),
   ];
 }

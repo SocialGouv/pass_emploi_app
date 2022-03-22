@@ -10,17 +10,16 @@ import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/onboarding_background.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../widgets/buttons/primary_action_button.dart';
 
 class ChoixOrganismePage extends TraceableStatelessWidget {
   static const noOrganismeLink = "https://www.1jeune1solution.gouv.fr/contrat-engagement-jeune";
 
   const ChoixOrganismePage() : super(name: AnalyticsScreenNames.choixOrganisme);
 
-  static MaterialPageRoute materialPageRoute() {
+  static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => ChoixOrganismePage());
   }
 
@@ -42,7 +41,7 @@ class ChoixOrganismePage extends TraceableStatelessWidget {
                         Padding(
                           padding:
                               const EdgeInsets.fromLTRB(Margins.spacing_m, Margins.spacing_m, Margins.spacing_m, 0),
-                          child: Container(
+                          child: DecoratedBox(
                             decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
                             child: Padding(
                               padding: const EdgeInsets.all(Margins.spacing_m),
@@ -94,7 +93,7 @@ class ChoixOrganismePage extends TraceableStatelessWidget {
                           color: Colors.transparent,
                           child: InkWell(
                             onTap: () {
-                              MatomoTracker.trackScreenWithName(noOrganismeLink, AnalyticsScreenNames.choixOrganisme);
+                              MatomoTracker.trackOutlink(noOrganismeLink);
                               launch(noOrganismeLink);
                             },
                             child: Padding(

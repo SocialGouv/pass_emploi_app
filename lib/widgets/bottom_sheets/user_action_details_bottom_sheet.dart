@@ -4,20 +4,19 @@ import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
-import 'package:pass_emploi_app/presentation/user_action_details_view_model.dart';
-import 'package:pass_emploi_app/presentation/user_action_view_model.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
-
-import '../buttons/primary_action_button.dart';
-import 'bottom_sheets.dart';
 
 class UserActionDetailsBottomSheet extends TraceableStatefulWidget {
   final UserActionViewModel actionViewModel;
@@ -47,18 +46,15 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
     );
   }
 
-  _build(BuildContext context, UserActionDetailsViewModel detailsViewModel) {
+  Widget _build(BuildContext context, UserActionDetailsViewModel detailsViewModel) {
     switch (detailsViewModel.displayState) {
       case UserActionDetailsDisplayState.SHOW_CONTENT:
       case UserActionDetailsDisplayState.SHOW_LOADING:
       case UserActionDetailsDisplayState.SHOW_DELETE_ERROR:
         return _bottomSheetContent(context, detailsViewModel);
       case UserActionDetailsDisplayState.SHOW_SUCCESS:
+      default:
         return _congratulations(context);
-      case UserActionDetailsDisplayState.TO_DISMISS_AFTER_UPDATE:
-      case UserActionDetailsDisplayState.TO_DISMISS:
-      case UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION:
-        break;
     }
   }
 
@@ -101,12 +97,10 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
           ),
           SizedBox(height: Margins.spacing_base),
           Expanded(
-            child: Container(
-              child: Text(
-                Strings.conseillerNotifiedActionUpdated,
-                textAlign: TextAlign.center,
-                style: TextStyles.textBaseRegular,
-              ),
+            child: Text(
+              Strings.conseillerNotifiedActionUpdated,
+              textAlign: TextAlign.center,
+              style: TextStyles.textBaseRegular,
             ),
           ),
         ],
@@ -124,7 +118,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
     );
   }
 
-  _update(UserActionStatus newStatus) {
+  void _update(UserActionStatus newStatus) {
     setState(() {
       actionStatus = newStatus;
     });
@@ -268,7 +262,7 @@ class _UserActionDetailsBottomSheetState extends State<UserActionDetailsBottomSh
     }
   }
 
-  _trackSuccessfulUpdate() {
+  void _trackSuccessfulUpdate() {
     MatomoTracker.trackScreenWithName(AnalyticsScreenNames.updateUserAction, AnalyticsScreenNames.userActionDetails);
   }
 }

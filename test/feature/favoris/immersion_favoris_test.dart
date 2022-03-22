@@ -1,10 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_actions.dart';
+import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
+import 'package:pass_emploi_app/features/favori/update/favori_update_actions.dart';
+import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/redux/actions/favoris_action.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/favoris_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_favoris_update_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:redux/src/store.dart';
 
@@ -13,24 +14,24 @@ import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   test("favori state should be updated when favori is removed and api call succeeds", () async {
     // Given
     final Store<AppState> store = _successStoreWithFavorisAndSearchResultsLoaded();
 
     final loadingState =
-        store.onChange.any((element) => element.favorisUpdateState.requestStatus["1"] == FavorisUpdateStatus.LOADING);
+        store.onChange.any((element) => element.favoriUpdateState.requestStatus["1"] == FavoriUpdateStatus.LOADING);
     final successState = store.onChange
-        .firstWhere((element) => element.favorisUpdateState.requestStatus["1"] == FavorisUpdateStatus.SUCCESS);
+        .firstWhere((element) => element.favoriUpdateState.requestStatus["1"] == FavoriUpdateStatus.SUCCESS);
 
     // When
-    store.dispatch(RequestUpdateFavoriAction<Immersion>("1", false));
+    store.dispatch(FavoriUpdateRequestAction<Immersion>("1", false));
 
     // Then
     expect(await loadingState, true);
     final updatedFavoris = await successState;
-    final favorisState = (updatedFavoris.immersionFavorisState as FavorisLoadedState<Immersion>);
-    expect(favorisState.favorisId, {"2", "4"});
+    final favorisState = (updatedFavoris.immersionFavorisState as FavoriListLoadedState<Immersion>);
+    expect(favorisState.favoriIds, {"2", "4"});
     expect(favorisState.data, {"2": mockImmersion(), "4": mockImmersion()});
   });
 
@@ -39,38 +40,38 @@ main() {
     final Store<AppState> store = _failureStoreWithFavorisLoaded();
 
     final loadingState =
-        store.onChange.any((element) => element.favorisUpdateState.requestStatus["1"] == FavorisUpdateStatus.LOADING);
+        store.onChange.any((element) => element.favoriUpdateState.requestStatus["1"] == FavoriUpdateStatus.LOADING);
     final failureState = store.onChange
-        .firstWhere((element) => element.favorisUpdateState.requestStatus["1"] == FavorisUpdateStatus.ERROR);
+        .firstWhere((element) => element.favoriUpdateState.requestStatus["1"] == FavoriUpdateStatus.ERROR);
 
     // When
-    store.dispatch(RequestUpdateFavoriAction<Immersion>("1", false));
+    store.dispatch(FavoriUpdateRequestAction<Immersion>("1", false));
 
     // Then
     expect(await loadingState, true);
     final updatedFavoris = await failureState;
-    final favorisState = (updatedFavoris.immersionFavorisState as FavorisLoadedState<Immersion>);
-    expect(favorisState.favorisId, {"1", "2", "4"});
+    final favorisState = (updatedFavoris.immersionFavorisState as FavoriListLoadedState<Immersion>);
+    expect(favorisState.favoriIds, {"1", "2", "4"});
     expect(favorisState.data, {"1": mockImmersion(), "2": mockImmersion(), "4": mockImmersion()});
   });
 
   test("favori id list should be updated when favori is added and api call succeeds", () async {
     // Given
-    Store<AppState> store = _successStoreWithFavorisAndSearchResultsLoaded();
+    final Store<AppState> store = _successStoreWithFavorisAndSearchResultsLoaded();
 
     final loadingState =
-        store.onChange.any((element) => element.favorisUpdateState.requestStatus["17"] == FavorisUpdateStatus.LOADING);
+        store.onChange.any((element) => element.favoriUpdateState.requestStatus["17"] == FavoriUpdateStatus.LOADING);
     final successState = store.onChange
-        .firstWhere((element) => element.favorisUpdateState.requestStatus["17"] == FavorisUpdateStatus.SUCCESS);
+        .firstWhere((element) => element.favoriUpdateState.requestStatus["17"] == FavoriUpdateStatus.SUCCESS);
 
     // When
-    store.dispatch(RequestUpdateFavoriAction<Immersion>("17", true));
+    store.dispatch(FavoriUpdateRequestAction<Immersion>("17", true));
 
     // Then
     expect(await loadingState, true);
     final updatedFavoris = await successState;
-    final favorisState = (updatedFavoris.immersionFavorisState as FavorisLoadedState<Immersion>);
-    expect(favorisState.favorisId, {"1", "2", "4", "17"});
+    final favorisState = (updatedFavoris.immersionFavorisState as FavoriListLoadedState<Immersion>);
+    expect(favorisState.favoriIds, {"1", "2", "4", "17"});
     expect(
       favorisState.data,
       {"1": mockImmersion(), "2": mockImmersion(), "4": mockImmersion()},
@@ -82,18 +83,18 @@ main() {
     final Store<AppState> store = _failureStoreWithFavorisLoaded();
 
     final loadingState =
-        store.onChange.any((element) => element.favorisUpdateState.requestStatus["17"] == FavorisUpdateStatus.LOADING);
+        store.onChange.any((element) => element.favoriUpdateState.requestStatus["17"] == FavoriUpdateStatus.LOADING);
     final failureState = store.onChange
-        .firstWhere((element) => element.favorisUpdateState.requestStatus["17"] == FavorisUpdateStatus.ERROR);
+        .firstWhere((element) => element.favoriUpdateState.requestStatus["17"] == FavoriUpdateStatus.ERROR);
 
     // When
-    store.dispatch(RequestUpdateFavoriAction<Immersion>("17", true));
+    store.dispatch(FavoriUpdateRequestAction<Immersion>("17", true));
 
     // Then
     expect(await loadingState, true);
     final updatedFavoris = await failureState;
-    final favorisState = (updatedFavoris.immersionFavorisState as FavorisLoadedState<Immersion>);
-    expect(favorisState.favorisId, {"1", "2", "4"});
+    final favorisState = (updatedFavoris.immersionFavorisState as FavoriListLoadedState<Immersion>);
+    expect(favorisState.favoriIds, {"1", "2", "4"});
     expect(favorisState.data, {"1": mockImmersion(), "2": mockImmersion(), "4": mockImmersion()});
   });
 
@@ -102,16 +103,18 @@ main() {
     final store = _successStoreWithFavorisIdLoaded();
 
     // Skip first state, because it is initially in this ImmersionFavorisLoadedState.
-    final successState =
-        store.onChange.where((element) => element.immersionFavorisState is FavorisLoadedState<Immersion>).skip(1).first;
+    final successState = store.onChange
+        .where((element) => element.immersionFavorisState is FavoriListLoadedState<Immersion>)
+        .skip(1)
+        .first;
 
     // When
-    store.dispatch(RequestFavorisAction<Immersion>());
+    store.dispatch(FavoriListRequestAction<Immersion>());
 
     // Then
     final loadedFavoris = await successState;
-    final favorisState = (loadedFavoris.immersionFavorisState as FavorisLoadedState<Immersion>);
-    expect(favorisState.favorisId, {"1", "2", "4"});
+    final favorisState = (loadedFavoris.immersionFavorisState as FavoriListLoadedState<Immersion>);
+    expect(favorisState.favoriIds, {"1", "2", "4"});
     expect(favorisState.data, {
       "1": mockImmersion(id: "1"),
       "2": mockImmersion(id: "2"),
@@ -124,10 +127,10 @@ main() {
     final store = _failureStoreWithFavorisIdLoaded();
 
     final failureState =
-        store.onChange.any((element) => element.immersionFavorisState is FavorisNotInitialized<Immersion>);
+        store.onChange.any((element) => element.immersionFavorisState is FavoriListNotInitialized<Immersion>);
 
     // When
-    store.dispatch(RequestFavorisAction<Immersion>());
+    store.dispatch(FavoriListRequestAction<Immersion>());
 
     // Then
     expect(await failureState, true);
@@ -141,11 +144,11 @@ Store<AppState> _successStoreWithFavorisAndSearchResultsLoaded() {
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState().copyWith(
       loginState: successMiloUserState(),
-      immersionFavorisState: FavorisState<Immersion>.withMap(
+      immersionFavorisState: FavoriListState<Immersion>.withMap(
         {"1", "2", "4"},
         {"1": mockImmersion(), "2": mockImmersion(), "4": mockImmersion()},
       ),
-      immersionSearchState: State<List<Immersion>>.success([mockImmersion(id: '1'), mockImmersion(id: '17')]),
+      immersionListState: ImmersionListSuccessState([mockImmersion(id: '1'), mockImmersion(id: '17')]),
     ),
   );
   return store;
@@ -158,7 +161,7 @@ Store<AppState> _successStoreWithFavorisIdLoaded() {
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState().copyWith(
       loginState: successMiloUserState(),
-      immersionFavorisState: FavorisState<Immersion>.idsLoaded({"1", "2", "4"}),
+      immersionFavorisState: FavoriListState<Immersion>.idsLoaded({"1", "2", "4"}),
     ),
   );
   return store;
@@ -171,7 +174,7 @@ Store<AppState> _failureStoreWithFavorisIdLoaded() {
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState().copyWith(
       loginState: successMiloUserState(),
-      immersionFavorisState: FavorisState<Immersion>.withMap(
+      immersionFavorisState: FavoriListState<Immersion>.withMap(
         {"1", "2", "4"},
         {"1": mockImmersion(), "2": mockImmersion(), "4": mockImmersion()},
       ),
@@ -187,11 +190,11 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
   final store = testStoreFactory.initializeReduxStore(
     initialState: AppState.initialState().copyWith(
       loginState: successMiloUserState(),
-      immersionFavorisState: FavorisState<Immersion>.withMap(
+      immersionFavorisState: FavoriListState<Immersion>.withMap(
         {"1", "2", "4"},
         {"1": mockImmersion(), "2": mockImmersion(), "4": mockImmersion()},
       ),
-      immersionSearchState: State<List<Immersion>>.success([mockImmersion(id: '1'), mockImmersion(id: '17')]),
+      immersionListState: ImmersionListSuccessState([mockImmersion(id: '1'), mockImmersion(id: '17')]),
     ),
   );
   return store;
@@ -200,10 +203,12 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
 class ImmersionFavorisRepositorySuccessStub extends ImmersionFavorisRepository {
   ImmersionFavorisRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
+  @override
   Future<Set<String>?> getFavorisId(String userId) async {
     return {"1", "2", "4"};
   }
 
+  @override
   Future<Map<String, Immersion>?> getFavoris(String userId) async {
     return {
       "1": mockImmersion(id: "1"),
@@ -212,10 +217,12 @@ class ImmersionFavorisRepositorySuccessStub extends ImmersionFavorisRepository {
     };
   }
 
+  @override
   Future<bool> postFavori(String userId, Immersion favori) async {
     return true;
   }
 
+  @override
   Future<bool> deleteFavori(String userId, String offreId) async {
     return true;
   }
@@ -224,18 +231,22 @@ class ImmersionFavorisRepositorySuccessStub extends ImmersionFavorisRepository {
 class ImmersionFavorisRepositoryFailureStub extends ImmersionFavorisRepository {
   ImmersionFavorisRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
+  @override
   Future<Set<String>?> getFavorisId(String userId) async {
     return {"1", "2", "4"};
   }
 
+  @override
   Future<Map<String, Immersion>?> getFavoris(String userId) async {
     return null;
   }
 
+  @override
   Future<bool> postFavori(String userId, Immersion favori) async {
     return false;
   }
 
+  @override
   Future<bool> deleteFavori(String userId, String offreId) async {
     return false;
   }

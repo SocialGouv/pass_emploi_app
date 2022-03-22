@@ -12,6 +12,8 @@ enum EventType {
   OFFRE_IMMERSION_APPEL,
   OFFRE_IMMERSION_ENVOI_EMAIL,
   OFFRE_IMMERSION_LOCALISATION,
+  OFFRE_SERVICE_CIVIQUE_POSTULEE,
+  OFFRE_SERVICE_CIVIQUE_PARTAGEE,
 }
 
 class PostTrackingEmetteur extends JsonSerializable {
@@ -52,7 +54,7 @@ class PostTrackingEvent extends JsonSerializable {
         "emetteur": PostTrackingEmetteur(userId: userId, loginMode: loginMode).toJson(),
       };
 
-  _toString(EventType event) {
+  String _toString(EventType event) {
     switch (event) {
       case EventType.MESSAGE_ENVOYE:
         return "MESSAGE_ENVOYE";
@@ -74,6 +76,10 @@ class PostTrackingEvent extends JsonSerializable {
         return "OFFRE_EMPLOI_AFFICHEE";
       case EventType.OFFRE_IMMERSION_APPEL:
         return "OFFRE_IMMERSION_APPEL";
+      case EventType.OFFRE_SERVICE_CIVIQUE_POSTULEE:
+        return "OFFRE_SERVICE_CIVIQUE_POSTULEE";
+      case EventType.OFFRE_SERVICE_CIVIQUE_PARTAGEE:
+        return "OFFRE_SERVICE_CIVIQUE_PARTAGEE";
     }
   }
 }

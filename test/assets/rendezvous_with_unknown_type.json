@@ -1,0 +1,20 @@
+[
+  {
+    "id": "2d663392-b9ff-4b20-81ca-70a3c779e299",
+    "comment": "Amener votre CV",
+    "date": "2021-11-28T13:34:00.000Z",
+    "modality": "en présentiel : Misson locale / Permanence",
+    "duration": 23,
+    "jeune": {
+      "id": "FLHPT",
+      "prenom": "Gabriel",
+      "nom": "Android"
+    },
+    "type": {
+      "code": "ENTRETIEN_FIN_DE_CEJ",
+      "label": "Entretien fin de CEJ"
+    },
+    "presenceConseiller": false,
+    "title": "title"
+  }
+]

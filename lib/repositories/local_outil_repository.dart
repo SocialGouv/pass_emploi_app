@@ -57,6 +57,14 @@ class LocalOutilRepository {
         imagePath: null,
       ),
       Outil(
+        title: "Je postule pour un job dans une entreprise solidaire",
+        description:
+            "Prenez contact avec un employeur solidaire et postulez aux offres qui correspondent à vos attentes.",
+        actionLabel: "Trouver une entreprise solidaire",
+        urlRedirect: "https://emplois.inclusion.beta.gouv.fr/",
+        imagePath: null,
+      ),
+      Outil(
         title: "La bonne boîte",
         description:
             "Envoyez votre CV à la bonne entreprise ! Découvrez en un clic les entreprises qui recrutent dans votre métier près de chez vous.",

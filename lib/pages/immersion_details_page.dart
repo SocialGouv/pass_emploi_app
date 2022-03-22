@@ -4,31 +4,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/features/immersion/details/immersion_details_actions.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/immersion_details_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/named_actions.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
+import 'package:pass_emploi_app/widgets/buttons/delete_favori_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
-import 'package:pass_emploi_app/widgets/buttons/delete_favori_button.dart';
-import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/errors/favori_not_found_error.dart';
+import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
-import 'package:pass_emploi_app/widgets/tags/immersion_tags.dart';
-import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
-import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/tags/immersion_tags.dart';
 import 'package:pass_emploi_app/widgets/title_section.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import 'offre_page.dart';
 
 class ImmersionDetailsPage extends TraceableStatelessWidget {
   final String _immersionId;
@@ -39,15 +38,9 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
     this.popPageWhenFavoriIsRemoved = false,
   }) : super(name: AnalyticsScreenNames.immersionDetails);
 
-  static MaterialPageRoute materialPageRoute(
-    String id, {
-    bool popPageWhenFavoriIsRemoved = false,
-  }) {
+  static MaterialPageRoute<void> materialPageRoute(String id, {bool popPageWhenFavoriIsRemoved = false}) {
     return MaterialPageRoute(
-      builder: (context) => ImmersionDetailsPage._(
-        id,
-        popPageWhenFavoriIsRemoved: popPageWhenFavoriIsRemoved,
-      ),
+      builder: (context) => ImmersionDetailsPage._(id, popPageWhenFavoriIsRemoved: popPageWhenFavoriIsRemoved),
     );
   }
 
@@ -55,8 +48,8 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
   Widget build(BuildContext context) {
     final platform = io.Platform.isAndroid ? Platform.ANDROID : Platform.IOS;
     return StoreConnector<AppState, ImmersionDetailsViewModel>(
-      onInit: (store) => store.dispatch(ImmersionDetailsAction.request(_immersionId)),
-      onDispose: (store) => store.dispatch(ImmersionDetailsAction.reset()),
+      onInit: (store) => store.dispatch(ImmersionDetailsRequestAction(_immersionId)),
+      onDispose: (store) => store.dispatch(ImmersionDetailsResetAction()),
       converter: (store) => ImmersionDetailsViewModel.create(store, platform),
       builder: (context, viewModel) => FavorisStateContext(
         selectState: (store) => store.state.immersionFavorisState,
@@ -125,11 +118,14 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
         ),
         if (viewModel.displayState == ImmersionDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS)
           Align(
-            child: _incompleteDataFooter(viewModel),
             alignment: Alignment.bottomCenter,
+            child: _incompleteDataFooter(viewModel),
           )
         else
-          Align(child: _footer(context, viewModel), alignment: Alignment.bottomCenter)
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: _footer(context, viewModel),
+          )
       ],
     );
   }

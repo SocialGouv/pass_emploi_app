@@ -1,17 +1,25 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:pass_emploi_app/auth/auth_logout_request.dart';
 import 'package:pass_emploi_app/auth/auth_refresh_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
+import 'package:pass_emploi_app/utils/log.dart';
+import 'package:synchronized/synchronized.dart';
 
 class AuthWrapper {
   final FlutterAppAuth _appAuth;
+  final Lock _lock;
 
-  AuthWrapper(this._appAuth);
+  AuthWrapper(this._appAuth, this._lock);
 
   Future<AuthTokenResponse> login(AuthTokenRequest request) async {
+    return _lock.synchronized(() async {
+      return _login(request);
+    });
+  }
+
+  Future<AuthTokenResponse> _login(AuthTokenRequest request) async {
     try {
       final response = await _appAuth.authorizeAndExchangeCode(AuthorizationTokenRequest(
         request.clientId,
@@ -53,6 +61,12 @@ class AuthWrapper {
       e.message == "Failed to authorize: L’opération n’a pas pu s’achever. (org.openid.appauth.general erreur -3.)";
 
   Future<AuthTokenResponse> refreshToken(AuthRefreshTokenRequest request) async {
+    return _lock.synchronized(() async {
+      return _refreshToken(request);
+    });
+  }
+
+  Future<AuthTokenResponse> _refreshToken(AuthRefreshTokenRequest request) async {
     try {
       final response = await _appAuth.token(TokenRequest(
         request.clientId,
@@ -79,13 +93,19 @@ class AuthWrapper {
       } else if (e.code == "token_failed") {
         throw AuthWrapperRefreshTokenExpiredException();
       } else {
-        debugPrint(e.toString());
-        throw e;
+        Log.w(e.toString());
+        rethrow;
       }
     }
   }
 
   Future<void> logout(AuthLogoutRequest request) async {
+    return _lock.synchronized(() async {
+      return _logout(request);
+    });
+  }
+
+  Future<void> _logout(AuthLogoutRequest request) async {
     try {
       await _appAuth.endSession(EndSessionRequest(
         idTokenHint: request.idToken,
@@ -93,7 +113,7 @@ class AuthWrapper {
         issuer: request.issuer,
       ));
     } catch (e) {
-      debugPrint(e.toString());
+      Log.w(e.toString());
       throw AuthWrapperLogoutException();
     }
   }

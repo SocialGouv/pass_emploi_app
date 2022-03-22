@@ -19,7 +19,7 @@ class DefaultMenuItem extends StatelessWidget {
     required this.withBadge,
   }) : super();
 
-  static List<String> _widgetAlreadyBuildForLabelList = [];
+  static final List<String> _widgetAlreadyBuildForLabelList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -36,11 +36,11 @@ class DefaultMenuItem extends StatelessWidget {
             Stack(
               clipBehavior: Clip.none,
               children: [
-                Container(
-                  child: SvgPicture.asset(drawableRes, color: color),
+                SizedBox(
                   height: Dimens.bottomNavigationBarItemHeight,
+                  child: SvgPicture.asset(drawableRes, color: color),
                 ),
-                if (withBadge) Positioned(child: SvgPicture.asset(Drawables.icBadge), top: -1, left: 12),
+                if (withBadge) Positioned(top: -1, left: 12, child: SvgPicture.asset(Drawables.icBadge)),
               ],
             ),
             SizedBox(height: Margins.spacing_s),

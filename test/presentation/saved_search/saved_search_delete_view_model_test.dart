@@ -1,13 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
+import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_state.dart';
 import 'package:pass_emploi_app/presentation/saved_search/saved_search_delete_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/saved_search_actions.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/saved_search_delete_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 
 import '../../doubles/spies.dart';
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   test('create when saved search delete state is not initialized should display content', () {
     // Given
     final store = TestStoreFactory().initializeReduxStore(

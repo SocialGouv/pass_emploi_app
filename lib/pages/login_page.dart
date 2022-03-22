@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
@@ -7,7 +6,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/cej_information_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/login_view_model.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -20,7 +19,7 @@ import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 class LoginPage extends TraceableStatelessWidget {
   LoginPage() : super(name: AnalyticsScreenNames.login);
 
-  static MaterialPageRoute materialPageRoute() {
+  static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => LoginPage());
   }
 
@@ -79,9 +78,7 @@ class LoginPage extends TraceableStatelessWidget {
                         SizedBox(height: 16),
                         SecondaryButton(
                           label: Strings.askAccount,
-                          onPressed: () {
-                            Navigator.push(context, CejInformationPage.materialPageRoute());
-                          },
+                          onPressed: () => Navigator.push(context, CejInformationPage.materialPageRoute()),
                           backgroundColor: Colors.white,
                         ),
                       ],

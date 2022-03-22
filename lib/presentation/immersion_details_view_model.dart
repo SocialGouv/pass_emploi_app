@@ -1,13 +1,12 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/immersion/details/immersion_details_actions.dart';
+import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/presentation/call_to_action.dart';
-import 'package:pass_emploi_app/redux/actions/named_actions.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/immersion_details_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
@@ -51,8 +50,8 @@ class ImmersionDetailsViewModel extends Equatable {
 
   factory ImmersionDetailsViewModel.create(Store<AppState> store, Platform platform) {
     final state = store.state.immersionDetailsState;
-    if (state.isSuccess()) {
-      final immersionDetails = state.getResultOrThrow();
+    if (state is ImmersionDetailsSuccessState) {
+      final immersionDetails = state.immersion;
       final mainCallToAction = _mainCallToAction(immersionDetails, platform);
       final secondaryCallToActions = _secondaryCallToActions(immersionDetails, platform);
       return _successViewModel(state, immersionDetails, mainCallToAction, secondaryCallToActions, store);
@@ -79,17 +78,17 @@ class ImmersionDetailsViewModel extends Equatable {
       ];
 }
 
-ImmersionDetailsPageDisplayState _displayState(State<ImmersionDetails> offreEmploiDetailsState) {
-  if (offreEmploiDetailsState.isSuccess()) {
+ImmersionDetailsPageDisplayState _displayState(ImmersionDetailsState state) {
+  if (state is ImmersionDetailsSuccessState) {
     return ImmersionDetailsPageDisplayState.SHOW_DETAILS;
-  } else if (offreEmploiDetailsState.isLoading()) {
+  } else if (state is ImmersionDetailsLoadingState) {
     return ImmersionDetailsPageDisplayState.SHOW_LOADER;
   } else {
     return ImmersionDetailsPageDisplayState.SHOW_ERROR;
   }
 }
 
-ImmersionDetailsViewModel _successViewModel(State<ImmersionDetails> state, ImmersionDetails immersionDetails,
+ImmersionDetailsViewModel _successViewModel(ImmersionDetailsState state, ImmersionDetails immersionDetails,
     CallToAction? mainCallToAction, List<CallToAction> secondaryCallToActions, Store<AppState> store) {
   return ImmersionDetailsViewModel._(
     displayState: _displayState(state),
@@ -121,7 +120,7 @@ ImmersionDetailsViewModel _incompleteViewModel(Immersion immersion, Store<AppSta
   );
 }
 
-ImmersionDetailsViewModel _otherCasesViewModel(State<ImmersionDetails> state, Store<AppState> store) {
+ImmersionDetailsViewModel _otherCasesViewModel(ImmersionDetailsState state, Store<AppState> store) {
   return ImmersionDetailsViewModel._(
     displayState: _displayState(state),
     id: "",
@@ -230,4 +229,4 @@ List<CallToAction> _secondaryCallToActions(ImmersionDetails immersion, Platform 
   }
 }
 
-void _retry(Store store, String immersionId) => store.dispatch(ImmersionDetailsAction.request(immersionId));
+void _retry(Store<AppState> store, String immersionId) => store.dispatch(ImmersionDetailsRequestAction(immersionId));

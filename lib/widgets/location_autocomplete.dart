@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
@@ -57,17 +56,17 @@ class LocationAutocomplete extends StatelessWidget {
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.vertical(bottom: Radius.circular(4.0)),
                 ),
+                color: Colors.white,
                 child: Container(
                   width: constraints.biggest.width,
+                  color: Colors.white,
                   child: ListView.builder(
                     padding: EdgeInsets.zero,
                     shrinkWrap: true,
                     itemCount: locationViewModels.length + _fakeItemsAddedToLeverageAdditionalScrollInAutocomplete,
                     itemBuilder: (BuildContext context, int index) => _listTile(index, onSelected),
                   ),
-                  color: Colors.white,
                 ),
-                color: Colors.white,
               ));
         },
         fieldViewBuilder: (
@@ -132,7 +131,7 @@ class LocationAutocomplete extends StatelessWidget {
   }
 
   void _putBackLastLocationSetOnFocusLost(bool hasFocus, TextEditingController textEditingController) {
-    var title = getPreviouslySelectedTitle();
+    final title = getPreviouslySelectedTitle();
     if (!hasFocus && title != null) {
       textEditingController.text = title;
     }

@@ -1,8 +1,7 @@
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
-
-import '../filtres_request.dart';
-import '../json_serializable.dart';
+import 'package:pass_emploi_app/network/filtres_request.dart';
+import 'package:pass_emploi_app/network/json_serializable.dart';
 
 class PostOffreEmploiSavedSearch implements JsonSerializable {
   final String title;
@@ -49,31 +48,31 @@ String? getLocationType(Location? location, LocationType type) =>
     (location != null && location.type == type) ? location.code : null;
 
 List<String> getExperience(List<ExperienceFiltre>? experience) {
-  List<String> list = [];
+  final List<String> list = [];
   if (experience != null && experience.isNotEmpty) {
-    experience.forEach((element) {
+    for (var element in experience) {
       list.add(FiltresRequest.experienceToUrlParameter(element));
-    });
+    }
   }
   return list;
 }
 
 List<String> getContrat(List<ContratFiltre>? contrat) {
-  List<String> list = [];
+  final List<String> list = [];
   if (contrat != null && contrat.isNotEmpty) {
-    contrat.forEach((element) {
+    for (var element in contrat) {
       list.add(FiltresRequest.contratToUrlParameter(element));
-    });
+    }
   }
   return list;
 }
 
 List<String> getDuration(List<DureeFiltre>? duration) {
-  List<String> list = [];
+  final List<String> list = [];
   if (duration != null && duration.isNotEmpty) {
-    duration.forEach((element) {
+    for (var element in duration) {
       list.add(FiltresRequest.dureeToUrlParameter(element));
-    });
+    }
   }
   return list;
 }

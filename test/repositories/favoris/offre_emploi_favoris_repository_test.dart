@@ -9,13 +9,14 @@ import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../utils/test_assets.dart';
 
-main() {
+void main() {
   test('getFavorisId when response is valid with all parameters should return offres', () async {
     // Given
     final httpClient = MockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
-      if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-emploi"))
+      if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-emploi")) {
         return invalidHttpResponse();
+      }
       return Response.bytes(loadTestAssetsAsBytes("offre_emploi_favoris_id.json"), 200);
     });
     final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
@@ -217,8 +218,9 @@ MockClient _successfulClientForQuery() {
   return MockClient((request) async {
     if (request.method != "GET") return invalidHttpResponse();
     if (request.url.queryParameters["detail"] != "true") return invalidHttpResponse(message: "query KO");
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-emploi"))
+    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-emploi")) {
       return invalidHttpResponse();
+    }
     return Response.bytes(loadTestAssetsAsBytes("offre_emploi_favoris_data.json"), 200);
   });
 }
@@ -244,8 +246,9 @@ MockClient _alreadyExistsClient() {
 MockClient _successfulClientForDelete() {
   return MockClient((request) async {
     if (request.method != "DELETE") return invalidHttpResponse();
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-emploi/offreId"))
+    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-emploi/offreId")) {
       return invalidHttpResponse();
+    }
     return Response("", 204);
   });
 }
@@ -253,8 +256,9 @@ MockClient _successfulClientForDelete() {
 MockClient _mockClientForFullData({required bool expectedAlternance}) {
   return MockClient((request) async {
     if (request.method != "POST") return invalidHttpResponse();
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-emploi"))
+    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-emploi")) {
       return invalidHttpResponse();
+    }
     final requestJson = jsonUtf8Decode(request.bodyBytes);
     if (requestJson["idOffre"] != "offreId2") return invalidHttpResponse(message: "idOffre KO");
     if (requestJson["duree"] != "duration") return invalidHttpResponse(message: "idOffre KO");
@@ -270,8 +274,9 @@ MockClient _mockClientForFullData({required bool expectedAlternance}) {
 MockClient _mockClientForPartialData() {
   return MockClient((request) async {
     if (request.method != "POST") return invalidHttpResponse();
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-emploi"))
+    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-emploi")) {
       return invalidHttpResponse();
+    }
     final requestJson = jsonUtf8Decode(request.bodyBytes);
     if (requestJson["idOffre"] != "offreId") return invalidHttpResponse(message: "idOffre KO");
     if (requestJson["titre"] != "title") return invalidHttpResponse(message: "titre KO");

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
-
-import '../../ui/app_colors.dart';
-import '../../ui/shadows.dart';
-import '../../ui/text_styles.dart';
 
 class SavedSearchCard extends StatelessWidget {
   final String title;
@@ -26,8 +25,8 @@ class SavedSearchCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<String> nonEmptyDataTags = dataTag.where((element) => element.trim().isNotEmpty).toList();
-    return Container(
+    final List<String> nonEmptyDataTags = dataTag.where((element) => element.trim().isNotEmpty).toList();
+    return DecoratedBox(
       decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(16)), boxShadow: [
         Shadows.boxShadow,
       ]),
@@ -85,16 +84,16 @@ class SavedSearchCard extends StatelessWidget {
     return InkWell(
       splashColor: AppColors.primaryLighten,
       customBorder: CircleBorder(),
+      onTap: onDeleteTap ?? () {},
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: SvgPicture.asset(Drawables.icTrash),
       ),
-      onTap: this.onDeleteTap ?? () {},
     );
   }
 
   Widget _buildDataTags(List<String> nonEmptyDataTags, String? lieu) {
-    var list = nonEmptyDataTags.map((tag) => DataTag(label: tag)).toList();
+    final list = nonEmptyDataTags.map((tag) => DataTag(label: tag)).toList();
     if (lieu != null) {
       list.add(DataTag(
         label: lieu,

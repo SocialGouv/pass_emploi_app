@@ -1,14 +1,15 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
-
-import '../ui/margins.dart';
 
 class CredentialsPage extends StatefulWidget {
   const CredentialsPage() : super();
 
-  static MaterialPageRoute materialPageRoute() => MaterialPageRoute(builder: (context) => CredentialsPage());
+  static MaterialPageRoute<void> materialPageRoute() {
+    return MaterialPageRoute(builder: (context) => CredentialsPage());
+  }
 
   @override
   State<CredentialsPage> createState() => _CredentialsPageState();

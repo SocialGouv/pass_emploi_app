@@ -11,7 +11,7 @@ class DataTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return DecoratedBox(
       decoration: BoxDecoration(
         color: AppColors.primaryLighten,
         borderRadius: BorderRadius.all(Radius.circular(40)),

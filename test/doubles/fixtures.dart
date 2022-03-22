@@ -2,42 +2,46 @@ import 'package:http/http.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
+import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
+import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/service_civique.dart';
+import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 
 import '../utils/test_datetime.dart';
 
-User mockUser({id: ""}) => User(
+User mockUser({String id = "", LoginMode loginMode = LoginMode.MILO}) => User(
       id: id,
       firstName: "",
       lastName: "",
       email: "",
-      loginMode: LoginMode.MILO,
+      loginMode: loginMode,
     );
 
-State<User> successMiloUserState() => State<User>.success(User(
-  id: "id",
+LoginState successMiloUserState() => LoginSuccessState(User(
+      id: "id",
       firstName: "F",
       lastName: "L",
       email: "first.last@milo.fr",
       loginMode: LoginMode.MILO,
     ));
 
-State<User> successPoleEmploiUserState() => State<User>.success(User(
-  id: "id",
+LoginState successPoleEmploiUserState() => LoginSuccessState(User(
+      id: "id",
       firstName: "F",
       lastName: "L",
       email: "first.last@pole-emploi.fr",
       loginMode: LoginMode.POLE_EMPLOI,
     ));
 
-State<User> successPassEmploiUserState() => State<User>.success(User(
+LoginState successPassEmploiUserState() => LoginSuccessState(User(
       id: "id",
       firstName: "F",
       lastName: "L",
@@ -88,7 +92,7 @@ OffreEmploiDetails mockOffreEmploiDetails() => OffreEmploiDetails(
       lastUpdate: parseDateTimeUtcWithCurrentTimeZone("2021-11-22T14:47:29.000Z"),
     );
 
-OffreEmploi mockOffreEmploi({id = "123DXPM", isAlternance = false}) => OffreEmploi(
+OffreEmploi mockOffreEmploi({String id = "123DXPM", bool isAlternance = false}) => OffreEmploi(
       id: id,
       title: "Technicien / Technicienne en froid et climatisation",
       companyName: "RH TT INTERIM",
@@ -98,7 +102,7 @@ OffreEmploi mockOffreEmploi({id = "123DXPM", isAlternance = false}) => OffreEmpl
       duration: "Temps plein",
     );
 
-OffreEmploiItemViewModel mockOffreEmploiItemViewModel({id = '123DXPM'}) {
+OffreEmploiItemViewModel mockOffreEmploiItemViewModel({String id = '123DXPM'}) {
   return OffreEmploiItemViewModel(
     id: id,
     title: 'Technicien / Technicienne en froid et climatisation',
@@ -115,7 +119,7 @@ AuthTokenResponse authTokenResponse() => AuthTokenResponse(
       refreshToken: 'refreshToken',
     );
 
-Configuration configuration({flavor = Flavor.STAGING}) => Configuration(
+Configuration configuration({Flavor flavor = Flavor.STAGING}) => Configuration(
       flavor,
       'serverBaseUrl',
       'matomoBaseUrl',
@@ -129,9 +133,76 @@ Configuration configuration({flavor = Flavor.STAGING}) => Configuration(
       'someKey',
     );
 
-Location mockLocation() => Location(libelle: "", code: "", type: LocationType.DEPARTMENT);
+Location mockLocation({double? lat, double? lon}) => Location(
+      libelle: "",
+      code: "",
+      type: LocationType.DEPARTMENT,
+      latitude: lat,
+      longitude: lon,
+    );
 
-Location mockCommuneLocation() => Location(libelle: "", code: "", type: LocationType.COMMUNE);
+Location mockCommuneLocation({double? lat, double? lon, String label = ""}) => Location(
+      libelle: label,
+      code: "",
+      type: LocationType.COMMUNE,
+      latitude: lat,
+      longitude: lon,
+    );
 
-Immersion mockImmersion({id = ""}) =>
-    Immersion(id: id, metier: "", nomEtablissement: "", secteurActivite: "", ville: "");
+Immersion mockImmersion({String id = ""}) {
+  return Immersion(id: id, metier: "", nomEtablissement: "", secteurActivite: "", ville: "");
+}
+
+ServiceCivique mockServiceCivique({String id = "123DXPM"}) => ServiceCivique(
+      id: id,
+      startDate: '17/02/2022',
+      title: "Technicien / Technicienne en froid et climatisation",
+      companyName: "RH TT INTERIM",
+      domain: 'Informatique',
+      location: "77 - LOGNES",
+    );
+
+ServiceCiviqueDetail mockServiceCiviqueDetail() => ServiceCiviqueDetail(
+      dateDeDebut: '17/02/2022',
+      dateDeFin: '17/02/2022',
+      titre: "Technicien / Technicienne en froid et climatisation",
+      organisation: "RH TT INTERIM",
+      domaine: 'Informatique',
+      ville: "LOGNES",
+      urlOrganisation: "url de l'organisation",
+      adresseMission: "je suis une addresse",
+      adresseOrganisation: "je suis une addresse",
+      codeDepartement: "77",
+      description: "C'est toi la description",
+      descriptionOrganisation: "Bon ça va là les description, ça suffit",
+      lienAnnonce: "Bonjour, moi c'est le lien (social ?) mwahaha",
+      codePostal: "75002",
+    );
+
+Rendezvous mockRendezvous({
+  String id = '',
+  DateTime? date,
+  int duration = 0,
+  String modality = '',
+  bool withConseiller = false,
+  RendezvousType type = const RendezvousType(RendezvousTypeCode.AUTRE, ''),
+  String? comment,
+  String? organism,
+  String? address,
+  String? precision,
+  Conseiller? conseiller = const Conseiller(id: 'id', firstName: 'F', lastName: 'L'),
+}) {
+  return Rendezvous(
+    id: id,
+    date: date ?? DateTime.now(),
+    duration: duration,
+    modality: modality,
+    withConseiller: withConseiller,
+    type: type,
+    comment: comment,
+    organism: organism,
+    address: address,
+    precision: precision,
+    conseiller: conseiller,
+  );
+}

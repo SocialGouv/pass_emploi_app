@@ -1,14 +1,12 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
+import 'package:pass_emploi_app/features/location/search_location_actions.dart';
+import 'package:pass_emploi_app/features/metier/search_metier_actions.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/named_actions.dart';
-import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
-import 'package:pass_emploi_app/redux/actions/search_metier_action.dart';
-import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
@@ -18,17 +16,15 @@ class ImmersionSearchViewModel extends Equatable {
   final ImmersionSearchDisplayState displayState;
   final List<LocationViewModel> locations;
   final List<Metier> metiers;
-  final List<Immersion> immersions;
   final String errorMessage;
   final Function(String? input) onInputLocation;
   final Function(String? input) onInputMetier;
-  final Function(String? codeRome, Location? location) onSearchingRequest;
+  final Function(String? codeRome, Location? location, String? title) onSearchingRequest;
 
   ImmersionSearchViewModel._({
     required this.displayState,
     required this.locations,
     required this.metiers,
-    required this.immersions,
     required this.errorMessage,
     required this.onInputLocation,
     required this.onInputMetier,
@@ -36,21 +32,20 @@ class ImmersionSearchViewModel extends Equatable {
   });
 
   factory ImmersionSearchViewModel.create(Store<AppState> store) {
-    final immersionSearchState = store.state.immersionSearchState;
+    final immersionListState = store.state.immersionListState;
     return ImmersionSearchViewModel._(
-      displayState: _displayState(immersionSearchState),
+      displayState: _displayState(immersionListState),
       locations: store.state.searchLocationState.locations
           .map((location) => LocationViewModel.fromLocation(location))
           .toList(),
       metiers: store.state.searchMetierState.metiers,
-      immersions: _immersions(immersionSearchState),
-      errorMessage: _errorMessage(immersionSearchState),
-      onInputLocation: (input) => store.dispatch(RequestLocationAction(input, villesOnly: true)),
-      onInputMetier: (input) => store.dispatch(RequestMetierAction(input)),
-      onSearchingRequest: (codeRome, location) {
+      errorMessage: _errorMessage(immersionListState),
+      onInputLocation: (input) => store.dispatch(SearchLocationRequestAction(input, villesOnly: true)),
+      onInputMetier: (input) => store.dispatch(SearchMetierRequestAction(input)),
+      onSearchingRequest: (codeRome, location, title) {
         store.dispatch(codeRome != null && location != null
-            ? ImmersionAction.request(ImmersionRequest(codeRome, location))
-            : ImmersionAction.failure());
+            ? ImmersionListRequestAction(codeRome, location, title)
+            : ImmersionListFailureAction());
       },
     );
   }
@@ -59,23 +54,18 @@ class ImmersionSearchViewModel extends Equatable {
   List<Object?> get props => [displayState, locations, errorMessage, metiers];
 }
 
-ImmersionSearchDisplayState _displayState(State<List<Immersion>> immersionSearchState) {
-  if (immersionSearchState.isSuccess()) {
+ImmersionSearchDisplayState _displayState(ImmersionListState immersionListState) {
+  if (immersionListState is ImmersionListSuccessState) {
     return ImmersionSearchDisplayState.SHOW_RESULTS;
-  } else if (immersionSearchState.isLoading()) {
+  } else if (immersionListState is ImmersionListLoadingState) {
     return ImmersionSearchDisplayState.SHOW_LOADER;
-  } else if (immersionSearchState.isFailure()) {
+  } else if (immersionListState is ImmersionListFailureState) {
     return ImmersionSearchDisplayState.SHOW_ERROR;
   } else {
     return ImmersionSearchDisplayState.SHOW_SEARCH_FORM;
   }
 }
 
-List<Immersion> _immersions(State<List<Immersion>> immersionSearchState) {
-  if (immersionSearchState.isSuccess()) return immersionSearchState.getResultOrThrow();
-  return [];
-}
-
-String _errorMessage(State<List<Immersion>> immersionSearchState) {
-  return immersionSearchState.isFailure() ? Strings.genericError : "";
+String _errorMessage(ImmersionListState immersionListState) {
+  return immersionListState is ImmersionListFailureState ? Strings.genericError : "";
 }

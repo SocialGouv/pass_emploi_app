@@ -1,33 +1,39 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
+import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
+import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/saved_search/saved_search_list_view_model.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   final List<SavedSearch> _savedSearches = [
     ImmersionSavedSearch(
       id: "id",
       title: "titreImmersion1",
       metier: "metierImmersion1",
-      location: "ville",
-      filters: null,
+      codeRome: "rome",
+      location: mockLocation(),
+      ville: "ville",
+      filtres: ImmersionSearchParametersFiltres.noFiltres(),
     ),
     ImmersionSavedSearch(
       id: "id",
       title: "titreImmersion2",
       metier: "metierImmersion2",
-      location: "ville",
-      filters: null,
+      codeRome: "rome",
+      location: mockLocation(),
+      ville: "ville",
+      filtres: ImmersionSearchParametersFiltres.noFiltres(),
     ),
     OffreEmploiSavedSearch(
       id: "id",
@@ -71,7 +77,7 @@ main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchesState: State<List<SavedSearch>>.loading(),
+        savedSearchListState: SavedSearchListLoadingState(),
       ),
     );
 
@@ -86,7 +92,7 @@ main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchesState: State<List<SavedSearch>>.failure(),
+        savedSearchListState: SavedSearchListFailureState(),
       ),
     );
 
@@ -101,7 +107,7 @@ main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchesState: State<List<SavedSearch>>.success(_savedSearches),
+        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
       ),
     );
 
@@ -115,15 +121,19 @@ main() {
         id: "id",
         title: "titreImmersion1",
         metier: "metierImmersion1",
-        location: "ville",
-        filters: null,
+        codeRome: "rome",
+        location: mockLocation(),
+        ville: "ville",
+        filtres: ImmersionSearchParametersFiltres.noFiltres(),
       ),
       ImmersionSavedSearch(
         id: "id",
         title: "titreImmersion2",
         metier: "metierImmersion2",
-        location: "ville",
-        filters: null,
+        codeRome: "rome",
+        location: mockLocation(),
+        ville: "ville",
+        filtres: ImmersionSearchParametersFiltres.noFiltres(),
       ),
     ]);
   });
@@ -132,7 +142,7 @@ main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchesState: State<List<SavedSearch>>.success(_savedSearches),
+        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
       ),
     );
 
@@ -167,7 +177,7 @@ main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchesState: State<List<SavedSearch>>.success(_savedSearches),
+        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
       ),
     );
 
@@ -202,7 +212,7 @@ main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchesState: State<List<SavedSearch>>.success(_savedSearches),
+        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
       ),
     );
 
@@ -218,12 +228,12 @@ main() {
     // Given
     final store1 = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchesState: State<List<SavedSearch>>.success(_savedSearches),
+        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
       ),
     );
     final store2 = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchesState: State<List<SavedSearch>>.success(_savedSearches.sublist(0, 2)),
+        savedSearchListState: SavedSearchListSuccessState(_savedSearches.sublist(0, 2)),
       ),
     );
 
@@ -241,7 +251,7 @@ main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchesState: State<List<SavedSearch>>.success(_savedSearches),
+        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
       ),
     );
     final viewModel = SavedSearchListViewModel.createFromStore(store);
@@ -257,8 +267,8 @@ main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchesState: State<List<SavedSearch>>.success(_savedSearches),
-        offreEmploiSearchResultsState: OffreEmploiSearchResultsDataState([], 2, true),
+        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
+        offreEmploiListState: OffreEmploiListSuccessState([], 2, true),
         offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
           keywords: "",
           onlyAlternance: true,
@@ -280,8 +290,8 @@ main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchesState: State<List<SavedSearch>>.success(_savedSearches),
-        offreEmploiSearchResultsState: OffreEmploiSearchResultsDataState([], 2, true),
+        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
+        offreEmploiListState: OffreEmploiListSuccessState([], 2, true),
         offreEmploiSearchParametersState: OffreEmploiSearchParametersInitializedState(
           keywords: "",
           onlyAlternance: false,
@@ -303,8 +313,8 @@ main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        savedSearchesState: State<List<SavedSearch>>.success(_savedSearches),
-        immersionSearchState: State.success([]),
+        savedSearchListState: SavedSearchListSuccessState(_savedSearches),
+        immersionListState: ImmersionListSuccessState([]),
       ),
     );
     final viewModel = SavedSearchListViewModel.createFromStore(store);

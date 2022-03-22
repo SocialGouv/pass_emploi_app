@@ -8,4 +8,7 @@ enum OffrePage {
   immersionResults,
   immersionDetails,
   immersionFavoris,
+  serviceCiviqueResults,
+  serviceCiviqueFavoris,
+  serviceCiviqueDetail,
 }

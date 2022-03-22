@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
@@ -10,26 +9,31 @@ import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/auth/pole_emploi/pole_emploi_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
-import 'package:pass_emploi_app/repositories/firebase_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
-import 'package:pass_emploi_app/repositories/rendezvous_repository.dart';
+import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
+import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
+import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
+import 'package:synchronized/synchronized.dart';
 
 import 'fixtures.dart';
 import 'spies.dart';
@@ -51,6 +55,7 @@ class DummyPushNotificationManager extends PushNotificationManager {
 class DummyRegisterTokenRepository extends RegisterTokenRepository {
   DummyRegisterTokenRepository() : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPushNotificationManager());
 
+  @override
   Future<void> registerToken(String userId) async {}
 }
 
@@ -59,13 +64,17 @@ class DummyAuthenticator extends Authenticator {
 }
 
 class DummyAuthWrapper extends AuthWrapper {
-  DummyAuthWrapper() : super(DummyFlutterAppAuth());
+  DummyAuthWrapper() : super(DummyFlutterAppAuth(), Lock());
 }
 
 class DummyFlutterAppAuth extends FlutterAppAuth {}
 
 class DummyUserActionRepository extends UserActionRepository {
   DummyUserActionRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+}
+
+class DummyPoleEmploiAuthRepository extends PoleEmploiAuthRepository {
+  DummyPoleEmploiAuthRepository() : super("", DummyHttpClient());
 }
 
 class DummyRendezvousRepository extends RendezvousRepository {
@@ -87,9 +96,7 @@ class DummyCrashlytics extends Crashlytics {
   void setCustomKey(String key, value) {}
 
   @override
-  void recordNonNetworkException(dynamic exception, StackTrace stack, [Uri? failingEndpoint]) {
-    debugPrint(exception);
-  }
+  void recordNonNetworkException(dynamic exception, StackTrace stack, [Uri? failingEndpoint]) {}
 }
 
 class DummyOffreEmploiRepository extends OffreEmploiRepository {
@@ -158,4 +165,16 @@ class DummyGetSavedSearchRepository extends GetSavedSearchRepository {
 
 class DummySavedSearchDeleteRepository extends SavedSearchDeleteRepository {
   DummySavedSearchDeleteRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+}
+
+class DummyServiceCiviqueRepository extends ServiceCiviqueRepository {
+  DummyServiceCiviqueRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+}
+
+class DummyServiceCiviqueDetailRepository extends ServiceCiviqueDetailRepository {
+  DummyServiceCiviqueDetailRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+}
+
+class DummyServiceCiviqueFavorisRepository extends ServiceCiviqueFavorisRepository {
+  DummyServiceCiviqueFavorisRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
 }

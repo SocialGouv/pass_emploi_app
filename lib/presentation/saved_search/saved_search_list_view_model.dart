@@ -1,19 +1,18 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
+import 'package:pass_emploi_app/features/immersion/saved_search/immersion_saved_search_actions.dart';
+import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/saved_search/offre_emploi_saved_search_actions.dart';
+import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
+import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
+import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/redux/actions/named_actions.dart';
-import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
-import 'package:pass_emploi_app/redux/requests/immersion_request.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
-
-import '../../models/saved_search/saved_search.dart';
-import '../../redux/states/app_state.dart';
-import '../../redux/states/offre_emploi_search_parameters_state.dart';
-import '../../redux/states/state.dart';
 
 void _emptyFunction(OffreEmploiSavedSearch search) {}
 
@@ -43,28 +42,24 @@ class SavedSearchListViewModel extends Equatable {
   });
 
   factory SavedSearchListViewModel.createFromStore(Store<AppState> store) {
-    final state = store.state.savedSearchesState;
-    final searchResultState = store.state.offreEmploiSearchResultsState;
-    final immersionSearchState = store.state.immersionSearchState;
+    final state = store.state.savedSearchListState;
+    final searchResultState = store.state.offreEmploiListState;
+    final immersionListState = store.state.immersionListState;
     final searchParamsState = store.state.offreEmploiSearchParametersState;
-    if (state.isLoading()) {
-      return SavedSearchListViewModel._(
-        displayState: DisplayState.LOADING,
-      );
+    if (state is SavedSearchListLoadingState) {
+      return SavedSearchListViewModel._(displayState: DisplayState.LOADING);
     }
-    if (state.isFailure()) {
-      return SavedSearchListViewModel._(
-        displayState: DisplayState.FAILURE,
-      );
+    if (state is SavedSearchListFailureState) {
+      return SavedSearchListViewModel._(displayState: DisplayState.FAILURE);
     }
-    if (state.isSuccess()) {
+    if (state is SavedSearchListSuccessState) {
       return SavedSearchListViewModel._(
         displayState: DisplayState.CONTENT,
-        savedSearches: state.getResultOrThrow().toList(),
-        searchNavigationState: _getSearchNavigationState(searchResultState, searchParamsState, immersionSearchState),
-        immersionsResults: immersionSearchState.isSuccess() ? immersionSearchState.getResultOrThrow() : [],
-        offreEmploiSelected: (savedSearch) => onOffreEmploiSelected(savedSearch, store),
-        offreImmersionSelected: (savedSearch) => onOffreImmersionSelected(savedSearch, store),
+        savedSearches: state.savedSearches.toList(),
+        searchNavigationState: _getSearchNavigationState(searchResultState, searchParamsState, immersionListState),
+        immersionsResults: immersionListState is ImmersionListSuccessState ? immersionListState.immersions : [],
+        offreEmploiSelected: (savedSearch) => store.dispatch(SavedSearchGetAction(savedSearch.id)),
+        offreImmersionSelected: (savedSearch) => store.dispatch(SavedSearchGetAction(savedSearch.id)),
       );
     }
     return SavedSearchListViewModel._(displayState: DisplayState.LOADING);
@@ -79,14 +74,14 @@ class SavedSearchListViewModel extends Equatable {
         immersionsResults,
       ];
 
-  static SavedSearchNavigationState _getSearchNavigationState(OffreEmploiSearchResultsState searchResultState,
-      OffreEmploiSearchParametersState searchParamsState, State<List<Immersion>> immersionSearchState) {
-    if ((searchResultState is OffreEmploiSearchResultsDataState &&
+  static SavedSearchNavigationState _getSearchNavigationState(OffreEmploiListState searchResultState,
+      OffreEmploiSearchParametersState searchParamsState, ImmersionListState immersionListState) {
+    if ((searchResultState is OffreEmploiListSuccessState &&
         searchParamsState is OffreEmploiSearchParametersInitializedState)) {
       return searchParamsState.onlyAlternance
           ? SavedSearchNavigationState.OFFRE_ALTERNANCE
           : SavedSearchNavigationState.OFFRE_EMPLOI;
-    } else if (immersionSearchState.isSuccess()) {
+    } else if (immersionListState is ImmersionListSuccessState) {
       return SavedSearchNavigationState.OFFRE_IMMERSION;
     } else {
       return SavedSearchNavigationState.NONE;
@@ -106,28 +101,21 @@ class SavedSearchListViewModel extends Equatable {
 
   static void onOffreEmploiSelected(OffreEmploiSavedSearch savedSearch, Store<AppState> store) {
     store.dispatch(
-      OffreEmploiSearchWithFiltresAction(
+      SavedOffreEmploiSearchRequestAction(
         keywords: savedSearch.keywords ?? "",
         location: savedSearch.location,
         onlyAlternance: savedSearch.isAlternance,
-        updatedFiltres: savedSearch.filters,
+        filtres: savedSearch.filters,
       ),
     );
   }
 
   static void onOffreImmersionSelected(ImmersionSavedSearch savedSearch, Store<AppState> store) {
     store.dispatch(
-      ImmersionAction.request(
-        ImmersionRequest(
-          savedSearch.filters!.codeRome!,
-          Location(
-            type: LocationType.COMMUNE,
-            libelle: savedSearch.location,
-            code: "",
-            latitude: savedSearch.filters!.lat!,
-            longitude: savedSearch.filters!.lon!,
-          ),
-        ),
+      ImmersionSavedSearchRequestAction(
+        codeRome: savedSearch.codeRome,
+        location: savedSearch.location,
+        filtres: savedSearch.filtres,
       ),
     );
   }

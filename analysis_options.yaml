@@ -1,0 +1,27 @@
+# Doc can be [found here](https://dart.dev/guides/language/analysis-options)
+include:
+  package:flutter_lints/flutter.yaml
+linter:
+  rules:
+    always_declare_return_types: true
+    prefer_final_fields: true
+    prefer_final_locals: true
+    sort_child_properties_last: true
+    use_decorated_box: true
+    avoid_print: true
+    constant_identifier_names: false
+    prefer_const_constructors: false
+    prefer_const_literals_to_create_immutables: false
+    prefer_const_constructors_in_immutables: false
+    use_key_in_widget_constructors: false
+    always_use_package_imports: true
+
+analyzer:
+  exclude: [ build/** ]
+  language:
+    strict-casts: true
+    strict-raw-types: true
+  errors:
+    missing_return: error
+    dead_code: error
+    unused_element: error

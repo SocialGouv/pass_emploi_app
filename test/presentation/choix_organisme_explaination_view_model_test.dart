@@ -1,13 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/presentation/choix_organisme_explaination_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/login_actions.dart';
-import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/app_reducer.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/spies.dart';
 
-main() {
+void main() {
   test("create should set proper text when user chose Pole Emploi", () {
     // Given
     final state = AppState.initialState();

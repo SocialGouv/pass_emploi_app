@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/presentation/saved_search_view_model.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
-
-import '../../analytics/analytics_constants.dart';
-import '../../models/saved_search/immersion_saved_search.dart';
-import '../../ui/app_colors.dart';
-import '../../ui/drawables.dart';
-import '../../ui/margins.dart';
-import '../../ui/strings.dart';
-import '../../ui/text_styles.dart';
-import '../buttons/primary_action_button.dart';
-import 'bottom_sheets.dart';
 
 class ImmersionBottomSheetForm extends StatefulWidget {
   final SavedSearchViewModel<ImmersionSavedSearch> viewModel;
@@ -20,14 +19,17 @@ class ImmersionBottomSheetForm extends StatefulWidget {
   ImmersionBottomSheetForm(this.viewModel);
 
   @override
-  State<ImmersionBottomSheetForm> createState() =>
-      _ImmersionBottomSheetFormState(viewModel.searchModel.title.isNotEmpty ? viewModel.searchModel.title : null);
+  State<ImmersionBottomSheetForm> createState() => _ImmersionBottomSheetFormState();
 }
 
 class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
   String? searchTitle;
 
-  _ImmersionBottomSheetFormState(this.searchTitle);
+  @override
+  void initState() {
+    super.initState();
+    searchTitle = widget.viewModel.searchModel.title.isNotEmpty ? widget.viewModel.searchModel.title : null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +152,7 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
           _buildDataTags([
             TagInfo(Strings.savedSearchImmersionTag, false),
             TagInfo(searchViewModel.metier, false),
-            TagInfo(searchViewModel.location, true),
+            TagInfo(searchViewModel.ville, true),
           ]),
         ],
       ),

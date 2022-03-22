@@ -1,26 +1,26 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_results_view_model.dart';
-import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
+import 'package:pass_emploi_app/redux/app_reducer.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
 
-main() {
+void main() {
   group("create when state is success should convert data to view model", () {
     Store<AppState> _successSetUp({required bool moreData}) {
       final store = Store<AppState>(
         reducer,
         initialState: AppState.initialState().copyWith(
           offreEmploiSearchState: OffreEmploiSearchState.success(),
-          offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
-              offres: [mockOffreEmploi()], loadedPage: 1, isMoreDataAvailable: moreData),
+          offreEmploiListState:
+              OffreEmploiListState.data(offres: [mockOffreEmploi()], loadedPage: 1, isMoreDataAvailable: moreData),
         ),
       );
       return store;
@@ -59,8 +59,8 @@ main() {
       reducer,
       initialState: AppState.initialState().copyWith(
         offreEmploiSearchState: OffreEmploiSearchState.loading(),
-        offreEmploiSearchResultsState:
-            OffreEmploiSearchResultsState.data(offres: [mockOffreEmploi()], loadedPage: 2, isMoreDataAvailable: false),
+        offreEmploiListState:
+            OffreEmploiListState.data(offres: [mockOffreEmploi()], loadedPage: 2, isMoreDataAvailable: false),
       ),
     );
 
@@ -78,7 +78,7 @@ main() {
       reducer,
       initialState: AppState.initialState().copyWith(
         offreEmploiSearchState: OffreEmploiSearchState.failure(),
-        offreEmploiSearchResultsState: OffreEmploiSearchResultsState.data(
+        offreEmploiListState: OffreEmploiListState.data(
           offres: [mockOffreEmploi()],
           loadedPage: 3,
           isMoreDataAvailable: false,
@@ -264,8 +264,7 @@ main() {
       reducer,
       initialState: AppState.initialState().copyWith(
         offreEmploiSearchState: OffreEmploiSearchState.success(),
-        offreEmploiSearchResultsState:
-            OffreEmploiSearchResultsState.data(offres: [], loadedPage: 1, isMoreDataAvailable: false),
+        offreEmploiListState: OffreEmploiListState.data(offres: [], loadedPage: 1, isMoreDataAvailable: false),
       ),
     );
 
@@ -279,7 +278,7 @@ main() {
   group("Filtre button…", () {
     test('when search is not only for alternance should be displayed', () {
       // Given
-      Store<AppState> store = _storeWithParams(onlyAlternance: false, location: null);
+      final Store<AppState> store = _storeWithParams(onlyAlternance: false, location: null);
 
       // When
       final viewModel = OffreEmploiSearchResultsViewModel.create(store);
@@ -291,7 +290,7 @@ main() {
     group('when search is only for alternance…', () {
       test('and location is null should not be displayed', () {
         // Given
-        Store<AppState> store = _storeWithParams(onlyAlternance: true, location: null);
+        final Store<AppState> store = _storeWithParams(onlyAlternance: true, location: null);
 
         // When
         final viewModel = OffreEmploiSearchResultsViewModel.create(store);
@@ -302,7 +301,7 @@ main() {
 
       test('and location is DEPARTMENT should not be displayed', () {
         // Given
-        Store<AppState> store = _storeWithParams(
+        final Store<AppState> store = _storeWithParams(
           onlyAlternance: true,
           location: Location(libelle: '', code: '', type: LocationType.DEPARTMENT),
         );
@@ -316,7 +315,7 @@ main() {
 
       test('and location is COMMUNE should be displayed', () {
         // Given
-        Store<AppState> store = _storeWithParams(
+        final Store<AppState> store = _storeWithParams(
           onlyAlternance: true,
           location: Location(libelle: '', code: '', type: LocationType.COMMUNE),
         );

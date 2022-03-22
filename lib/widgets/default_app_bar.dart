@@ -29,7 +29,7 @@ class FlatDefaultAppBar extends AppBar {
     bool? centerTitle = true,
     Color? backgroundColor,
   }) : super(
-    title: title,
+          title: title,
           centerTitle: centerTitle,
           actions: actions,
           iconTheme: IconThemeData(color: AppColors.contentColor),
@@ -45,10 +45,7 @@ class FlatDefaultAppBar extends AppBar {
         );
 }
 
-FlatDefaultAppBar passEmploiAppBar({
-  required String label,
-  bool withBackButton = false,
-}) {
+FlatDefaultAppBar passEmploiAppBar({required String label, bool withBackButton = false}) {
   return FlatDefaultAppBar(
     title: Text(label, style: TextStyles.textAppBar),
     leading: withBackButton ? _appBarLeading : null,

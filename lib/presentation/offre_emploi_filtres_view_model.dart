@@ -1,13 +1,13 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_actions.dart';
+import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/presentation/checkbox_value_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_parameters_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
@@ -44,19 +44,15 @@ class OffreEmploiFiltresViewModel extends Equatable {
   factory OffreEmploiFiltresViewModel.create(Store<AppState> store) {
     final parametersState = store.state.offreEmploiSearchParametersState;
     final searchState = store.state.offreEmploiSearchState;
-    final searchResultsState = store.state.offreEmploiSearchResultsState;
+    final searchResultsState = store.state.offreEmploiListState;
     return OffreEmploiFiltresViewModel._(
       displayState: _displayState(searchState, searchResultsState),
       shouldDisplayDistanceFiltre: _shouldDisplayDistanceFiltre(parametersState),
       shouldDisplayNonDistanceFiltres: _shouldDisplayNonDistanceFiltres(parametersState),
       initialDistanceValue: _distance(parametersState),
-      updateFiltres: (
-        updatedDistanceValue,
-        experienceFiltres,
-        contratFiltres,
-        dureeFiltres,
-      ) =>
-          _dispatchUpdateFiltresAction(store, updatedDistanceValue, experienceFiltres, contratFiltres, dureeFiltres),
+      updateFiltres: (updatedDistanceValue, experienceFiltres, contratFiltres, dureeFiltres) {
+        _dispatchUpdateFiltresAction(store, updatedDistanceValue, experienceFiltres, contratFiltres, dureeFiltres);
+      },
       experienceFiltres: _experience(parametersState),
       contratFiltres: _contrat(parametersState),
       dureeFiltres: _duree(parametersState),
@@ -72,7 +68,7 @@ class OffreEmploiFiltresViewModel extends Equatable {
       ];
 }
 
-String _errorMessage(OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
+String _errorMessage(OffreEmploiSearchState searchState, OffreEmploiListState searchResultsState) {
   return searchState is OffreEmploiSearchFailureState ? Strings.genericError : "";
 }
 
@@ -151,8 +147,8 @@ bool _shouldDisplayNonDistanceFiltres(OffreEmploiSearchParametersState parameter
   return true;
 }
 
-DisplayState _displayState(OffreEmploiSearchState searchState, OffreEmploiSearchResultsState searchResultsState) {
-  if (searchState is OffreEmploiSearchSuccessState && searchResultsState is OffreEmploiSearchResultsDataState) {
+DisplayState _displayState(OffreEmploiSearchState searchState, OffreEmploiListState searchResultsState) {
+  if (searchState is OffreEmploiSearchSuccessState && searchResultsState is OffreEmploiListSuccessState) {
     return DisplayState.CONTENT;
   } else if (searchState is OffreEmploiSearchLoadingState) {
     return DisplayState.LOADING;
@@ -184,7 +180,7 @@ void _dispatchUpdateFiltresAction(
     List<CheckboxValueViewModel<ContratFiltre>>? contratFiltres,
     List<CheckboxValueViewModel<DureeFiltre>>? dureeFiltres) {
   store.dispatch(
-    OffreEmploiSearchUpdateFiltresAction(
+    OffreEmploiSearchParametersUpdateFiltresRequestAction(
       OffreEmploiSearchParametersFiltres.withFiltres(
         distance: updatedDistanceValue,
         experience: experienceFiltres?.map((e) => e.value).toList(),

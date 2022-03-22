@@ -15,10 +15,10 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: '12.x'
-      - uses: subosito/flutter-action@v1
+      - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '2.10.0'
-      - name: Lancer les tests
+          flutter-version: '2.10.3'
+      - name: Launch tests
         run: flutter test
 
   pre-build:
@@ -40,9 +40,9 @@ jobs:
     needs: pre-build
     steps:
       - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v1
+      - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '2.10.0'
+          flutter-version: '2.10.3'
 
       - name: Write Google configuration for Android
         shell: bash
@@ -99,9 +99,9 @@ jobs:
     needs: pre-build
     steps:
       - uses: actions/checkout@v2
-      - uses: subosito/flutter-action@v1
+      - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '2.10.0'
+          flutter-version: '2.10.3'
 
       - name: Write p12 certificate
         shell: bash

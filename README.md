@@ -106,14 +106,11 @@ $ git push
 $ git tag -a major.minor.patch -m "major.minor.patch" #major.minor.patch étant le version name de l'étape 3
 $ git push --tags 
 ```
-7. A la fin du job, le build de l'appli se retrouve en test interne sur Android
-
-### Pour iOS
-1. Aller sur [https://appstoreconnect.apple.com/apps](App Store Connect)
-2. Dans l'onglet `Test flight` de l'app `Contrat d'Engagement Jeunes`, attendre que la version tout juste uploadée
-   soit bien présente. Il ne faut pas hésiter à rafraichir la page régulièrement.
-3. Par défaut, un warning apparaît `Attestation manquantes`. Indiquez que *non*, il n'y a pas
-   d'algorithme de chiffrement dans l'app.
+7. A la fin du job, le build de l'appli se retrouve disponible :
+    * Instantanément en test interne sur le Play Store Android. Il faut cependant attendre un moment
+    avant que les utilisateurs internes puissent le voir dans le Play Store.
+    * Sur Test Flight, même s'il faut environ 10 minutes pour qu'il soit automatiquement poussé au
+    groupe de testeurs internes "Équipe projet".
 
 ## Promouvoir la version pour tous les utilisateurs
 ### Pour Android

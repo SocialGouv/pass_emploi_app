@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
-
-import '../ui/strings.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 
 class OffreEmploiSearchParametersFiltres extends Equatable {
   static const defaultDistanceValue = 10;

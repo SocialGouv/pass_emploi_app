@@ -8,38 +8,51 @@ class AnalyticsScreenNames {
   static const choixOrganismePE = "entree/choix-organisme/pe";
   static const choixOrganismeMilo = "entree/choix-organisme/milo";
 
-  static cejInformationPage(int pageNumber) => "entree/etape-$pageNumber";
+  static String cejInformationPage(int pageNumber) => "entree/etape-$pageNumber";
 
   static const login = "login";
-  static const rendezvousList = "rdv/list";
-  static const rendezvousDetails = "rdv/detail";
   static const userActionList = "actions/list";
   static const userActionDetails = "actions/detail";
   static const updateUserAction = "actions/detail?modifySuccess=true";
   static const createUserAction = "actions/create";
   static const chat = "chat";
 
+  static const rendezvousList = "rdv/list";
+  static const rendezvousActivitesExterieures = "rdv/activites-exterieures";
+  static const rendezvousAtelier = "rdv/atelier";
+  static const rendezvousEntretienIndividuel = "rdv/entretien-individuel";
+  static const rendezvousEntretienPartenaire = "rdv/entretien-partenaire";
+  static const rendezvousInformationCollective = "rdv/information-collective";
+  static const rendezvousVisite = "rdv/visite";
+  static const rendezvousAutre = "rdv/autre";
+
   static const emploiResearch = "recherche/emploi/search";
   static const emploiResults = "recherche/emploi/search_results";
   static const emploiNoResults = "recherche/emploi/search_no_results";
   static const emploiDetails = "recherche/emploi/detail";
   static const emploiFiltres = "recherche/emploi/search_results/filters";
-  static const emploiCreateAlert= "/saved_search/emploi/create";
+  static const emploiCreateAlert = "/saved_search/emploi/create";
 
   static const alternanceResearch = "recherche/alternance/search";
   static const alternanceResults = "recherche/alternance/search_results";
   static const alternanceNoResults = "recherche/alternance/search_no_results";
   static const alternanceDetails = "recherche/alternance/detail";
   static const alternanceFiltres = "recherche/alternance/search_results/filters";
-  static const alternanceCreateAlert= "/saved_search/alternance/create";
+  static const alternanceCreateAlert = "/saved_search/alternance/create";
 
   static const immersionResearch = "recherche/immersion/search";
   static const immersionResults = "recherche/immersion/search_results";
   static const immersionNoResults = "recherche/immersion/search_no_results";
   static const immersionDetails = "recherche/immersion/detail";
+  static const immersionFiltres = "/recherche/immersion/search_results/filters";
   static const immersionCreateAlert = "/saved_search/immersion/create";
 
   static const serviceCiviqueResearch = "recherche/service_civique/search";
+  static const serviceCiviqueResults = "/recherche/service_civique/search_results";
+  static const serviceCiviqueNoResults = "/recherche/service_civique/search_no_results";
+  static const serviceCiviqueDetail = "/recherche/service_civique/detail";
+  static const serviceCiviqueFavoris = "/favoris/list/service_civique";
+  static const serviceCiviqueFiltres = "/recherche/service_civique/search_results/filters";
 
   static const toolbox = "recherche/boite_a_outils";
   static const emploiFavoris = "favoris/list/emploi";
@@ -76,6 +89,13 @@ class AnalyticsActionNames {
   static String immersionDetailUpdateFavori(bool added) => "/solutions/immersion/detail?favori=$added";
 
   static String immersionFavoriUpdateFavori(bool added) => "/favoris/list/immersion?favori=$added";
+
+  static String serviceCiviqueResultUpdateFavori(bool added) =>
+      "/solutions/service-civique/search_results?favori=$added";
+
+  static String serviceCiviqueDetailUpdateFavori(bool added) => "/solutions/service-civique/detail?favori=$added";
+
+  static String serviceCiviqueFavoriUpdateFavori(bool added) => "/favoris/list/service-civique?favori=$added";
 
   static const deleteUserAction = "actions/list?deleteSuccess=true";
 

@@ -1,20 +1,20 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/location/search_location_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_actions.dart';
+import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
-import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_results_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_search_state.dart';
-import 'package:pass_emploi_app/redux/states/search_location_state.dart';
+import 'package:pass_emploi_app/redux/app_reducer.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
 import '../doubles/spies.dart';
 
-main() {
+void main() {
   test("create when state is loading should set display state properly", () {
     // Given
     final store = Store<AppState>(
@@ -57,8 +57,7 @@ main() {
       reducer,
       initialState: AppState.initialState().copyWith(
         offreEmploiSearchState: OffreEmploiSearchState.success(),
-        offreEmploiSearchResultsState:
-            OffreEmploiSearchResultsState.data(offres: [], loadedPage: 1, isMoreDataAvailable: false),
+        offreEmploiListState: OffreEmploiListState.data(offres: [], loadedPage: 1, isMoreDataAvailable: false),
       ),
     );
 
@@ -76,8 +75,8 @@ main() {
       reducer,
       initialState: AppState.initialState().copyWith(
         offreEmploiSearchState: OffreEmploiSearchState.success(),
-        offreEmploiSearchResultsState:
-            OffreEmploiSearchResultsState.data(offres: [mockOffreEmploi()], loadedPage: 1, isMoreDataAvailable: false),
+        offreEmploiListState:
+            OffreEmploiListState.data(offres: [mockOffreEmploi()], loadedPage: 1, isMoreDataAvailable: false),
       ),
     );
 
@@ -132,7 +131,7 @@ main() {
     viewModel.onSearchingRequest("keywords", mockLocation(), false);
 
     // Then
-    final dispatchedAction = store.dispatchedAction as SearchOffreEmploiAction;
+    final dispatchedAction = store.dispatchedAction as OffreEmploiSearchRequestAction;
     expect(dispatchedAction.keywords, "keywords");
     expect(dispatchedAction.location, mockLocation());
     expect(dispatchedAction.onlyAlternance, false);
@@ -147,7 +146,7 @@ main() {
     viewModel.onSearchingRequest("keywords", mockLocation(), true);
 
     // Then
-    final dispatchedAction = store.dispatchedAction as SearchOffreEmploiAction;
+    final dispatchedAction = store.dispatchedAction as OffreEmploiSearchRequestAction;
     expect(dispatchedAction.keywords, "keywords");
     expect(dispatchedAction.location, mockLocation());
     expect(dispatchedAction.onlyAlternance, true);

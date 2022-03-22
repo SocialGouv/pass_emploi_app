@@ -1,25 +1,24 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/immersion/details/immersion_details_actions.dart';
+import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/presentation/call_to_action.dart';
 import 'package:pass_emploi_app/presentation/immersion_details_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/named_actions.dart';
-import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/immersion_details_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
+import 'package:pass_emploi_app/redux/app_reducer.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/spies.dart';
 
-main() {
+void main() {
   test('create when state is loading should set display state properly', () {
     // Given
-    final store = _store(State<ImmersionDetails>.loading());
+    final store = _store(ImmersionDetailsLoadingState());
 
     // When
     final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
@@ -30,7 +29,7 @@ main() {
 
   test('create when state is failure should set display state properly', () {
     // Given
-    final store = _store(State<ImmersionDetails>.failure());
+    final store = _store(ImmersionDetailsFailureState());
 
     // When
     final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
@@ -41,7 +40,7 @@ main() {
 
   test('create when state is success should set display state properly and fill generic immersion info', () {
     // Given
-    final store = _store(State<ImmersionDetails>.success(_mockImmersion()));
+    final store = _store(ImmersionDetailsSuccessState(_mockImmersion()));
 
     // When
     final viewModel = ImmersionDetailsViewModel.create(store, Platform.ANDROID);
@@ -462,19 +461,19 @@ main() {
 
     viewModel.onRetry("immersion-id");
 
-    expect((store.dispatchedAction as ImmersionDetailsAction).isRequest(), isTrue);
-    expect((store.dispatchedAction as ImmersionDetailsAction).getRequestOrThrow(), "immersion-id");
+    expect(store.dispatchedAction, isA<ImmersionDetailsRequestAction>());
+    expect((store.dispatchedAction as ImmersionDetailsRequestAction).immersionId, "immersion-id");
   });
 }
 
-Store<AppState> _store(State<ImmersionDetails> immersionDetailsState) {
+Store<AppState> _store(ImmersionDetailsState immersionDetailsState) {
   return Store<AppState>(
     reducer,
     initialState: AppState.initialState().copyWith(immersionDetailsState: immersionDetailsState),
   );
 }
 
-Store<AppState> _successStore(ImmersionDetails immersion) => _store(State<ImmersionDetails>.success(immersion));
+Store<AppState> _successStore(ImmersionDetails immersion) => _store(ImmersionDetailsSuccessState(immersion));
 
 ImmersionDetails _mockImmersion({
   bool isVolontaire = false,

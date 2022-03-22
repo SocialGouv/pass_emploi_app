@@ -6,13 +6,19 @@ import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
+import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/message.dart';
+import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
+import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
+import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
+import 'package:synchronized/synchronized.dart';
 
 import 'dummies.dart';
 import 'fixtures.dart';
@@ -36,6 +42,11 @@ class UserActionRepositorySuccessStub extends UserActionRepository {
   }
 
   @override
+  Future<bool> createUserAction(String userId, String? content, String? comment, UserActionStatus status) async {
+    return userId == "id" && content == "content" && comment == "comment" && status == UserActionStatus.NOT_STARTED;
+  }
+
+  @override
   Future<void> updateActionStatus(String userId, String actionId, UserActionStatus newStatus) async {}
 
   @override
@@ -50,6 +61,11 @@ class UserActionRepositoryFailureStub extends UserActionRepository {
   @override
   Future<List<UserAction>?> getUserActions(String userId) async {
     return null;
+  }
+
+  @override
+  Future<bool> createUserAction(String userId, String? content, String? comment, UserActionStatus status) async {
+    return false;
   }
 
   @override
@@ -153,47 +169,47 @@ class AuthWrapperStub extends AuthWrapper {
   late bool _throwsRefreshExpiredException;
   late bool _throwsRefreshGenericException;
 
-  AuthWrapperStub() : super(DummyFlutterAppAuth());
+  AuthWrapperStub() : super(DummyFlutterAppAuth(), Lock());
 
-  withLoginArgsResolves(AuthTokenRequest parameters, AuthTokenResponse result) {
+  void withLoginArgsResolves(AuthTokenRequest parameters, AuthTokenResponse result) {
     _loginParameters = parameters;
     _loginResult = result;
     _throwsLoginException = false;
   }
 
-  withLogoutArgsResolves(AuthLogoutRequest parameters) {
+  void withLogoutArgsResolves(AuthLogoutRequest parameters) {
     _logoutParameters = parameters;
     _throwsLogoutException = false;
   }
 
-  withCanceledExcption() {
+  void withCanceledExcption() {
     _throwsCanceledException = true;
   }
 
-  withLoginArgsThrows() {
+  void withLoginArgsThrows() {
     _throwsLoginException = true;
   }
 
-  withLogoutArgsThrows() {
+  void withLogoutArgsThrows() {
     _throwsLogoutException = true;
   }
 
-  withRefreshArgsThrowsNetwork() {
+  void withRefreshArgsThrowsNetwork() {
     _throwsRefreshNetworkException = true;
   }
 
-  withRefreshArgsThrowsExpired() {
+  void withRefreshArgsThrowsExpired() {
     _throwsRefreshNetworkException = false;
     _throwsRefreshExpiredException = true;
   }
 
-  withRefreshArgsThrowsGeneric() {
+  void withRefreshArgsThrowsGeneric() {
     _throwsRefreshNetworkException = false;
     _throwsRefreshExpiredException = false;
     _throwsRefreshGenericException = true;
   }
 
-  withRefreshArgsResolves(AuthRefreshTokenRequest parameters, AuthTokenResponse result) {
+  void withRefreshArgsResolves(AuthRefreshTokenRequest parameters, AuthTokenResponse result) {
     _refreshParameters = parameters;
     _refreshResult = result;
     _throwsRefreshNetworkException = false;
@@ -221,8 +237,8 @@ class AuthWrapperStub extends AuthWrapper {
   @override
   Future<void> logout(AuthLogoutRequest request) async {
     if (_throwsLogoutException) throw AuthWrapperLogoutException();
-    if (request == _logoutParameters) return Future.value(true);
-    return Future.value(false);
+    if (request == _logoutParameters) return;
+    throw Exception();
   }
 }
 
@@ -244,5 +260,66 @@ class ChatRepositoryStub extends ChatRepository {
   @override
   Stream<ConseillerMessageInfo> chatStatusStream(String userId) async* {
     yield _info;
+  }
+}
+
+class ServiceCiviqueRepositorySuccessWithMoreDataStub extends ServiceCiviqueRepository {
+  int callCount = 0;
+
+  ServiceCiviqueRepositorySuccessWithMoreDataStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+
+  @override
+  Future<ServiceCiviqueSearchResponse?> search({
+    required String userId,
+    required SearchServiceCiviqueRequest request,
+    required List<ServiceCivique> previousOffers,
+  }) async {
+    callCount = callCount + 1;
+    final response = ServiceCiviqueSearchResponse(
+        isMoreDataAvailable: true,
+        offres: List.from(previousOffers)..add(mockServiceCivique()),
+        lastRequest: SearchServiceCiviqueRequest(
+            domain: null, location: null, distance: null, startDate: null, endDate: null, page: request.page));
+    return response;
+  }
+}
+
+class ServiceCiviqueRepositoryFailureStub extends ServiceCiviqueRepository {
+  ServiceCiviqueRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+
+  @override
+  Future<ServiceCiviqueSearchResponse?> search({
+    required String userId,
+    required SearchServiceCiviqueRequest request,
+    required List<ServiceCivique> previousOffers,
+  }) async {
+    return null;
+  }
+}
+
+class ServiceCiviqueDetailRepositoryWithDataStub extends ServiceCiviqueDetailRepository {
+  ServiceCiviqueDetailRepositoryWithDataStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+
+  @override
+  Future<ServiceCiviqueDetailResponse> getServiceCiviqueDetail(String idOffre) async {
+    return SuccessfullServiceCiviqueDetailResponse(mockServiceCiviqueDetail());
+  }
+}
+
+class ServiceCiviqueDetailRepositoryWithErrorStub extends ServiceCiviqueDetailRepository {
+  ServiceCiviqueDetailRepositoryWithErrorStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+
+  @override
+  Future<ServiceCiviqueDetailResponse> getServiceCiviqueDetail(String idOffre) async {
+    return FailedServiceCiviqueDetailResponse();
+  }
+}
+
+class ImmersionRepositoryFailureStub extends ImmersionRepository {
+  ImmersionRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+
+  @override
+  Future<List<Immersion>?> search({required String userId, required SearchImmersionRequest request}) async {
+    return null;
   }
 }

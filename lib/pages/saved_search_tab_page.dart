@@ -2,28 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
+import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
+import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_actions.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
+import 'package:pass_emploi_app/pages/immersion_list_page.dart';
+import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
+import 'package:pass_emploi_app/presentation/saved_search/saved_search_list_view_model.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/buttons/carousel_button.dart';
 import 'package:pass_emploi_app/widgets/cards/saved_search_card.dart';
 import 'package:pass_emploi_app/widgets/dialogs/saved_search_delete_dialog.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
-
-import '../presentation/saved_search/saved_search_list_view_model.dart';
-import '../redux/actions/named_actions.dart';
-import '../redux/actions/saved_search_actions.dart';
-import '../ui/app_colors.dart';
-import '../ui/margins.dart';
-import '../ui/strings.dart';
-import '../ui/text_styles.dart';
-import '../widgets/buttons/carousel_button.dart';
-import '../widgets/snack_bar/show_snack_bar.dart';
-import 'immersion_list_page.dart';
-import 'offre_emploi_list_page.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 const int _indexOfOffresEmploi = 0;
 const int _indexOfAlternance = 1;
@@ -42,10 +41,10 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, SavedSearchListViewModel>(
       onInit: (store) {
-        store.dispatch(RequestSavedSearchListAction());
+        store.dispatch(SavedSearchListRequestAction());
         final DeepLinkState link = store.state.deepLinkState;
         if (link.deepLink == DeepLink.SAVED_SEARCH_RESULTS && link.dataId != null) {
-          store.dispatch(GetSavedSearchAction(link.dataId!));
+          store.dispatch(SavedSearchGetAction(link.dataId!));
         }
       },
       onWillChange: (previousVM, newViewModel) {
@@ -79,9 +78,8 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   void _goToImmersion(BuildContext context, List<Immersion> immersionsResults) {
     _shouldNavigate = false;
     _updateIndex(_indexOfImmersion);
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ImmersionListPage(immersionsResults, true)))
-        .then((value) {
-      StoreProvider.of<AppState>(context).dispatch(ImmersionAction.reset());
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ImmersionListPage(true))).then((value) {
+      StoreProvider.of<AppState>(context).dispatch(ImmersionListResetAction());
     }).then((_) => _shouldNavigate = true);
   }
 
@@ -162,7 +160,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
       scrollDirection: Axis.vertical,
       itemCount: offreEmplois.length,
       itemBuilder: (context, position) {
-        double topPadding = (position == 0) ? Margins.spacing_m : 0;
+        final double topPadding = (position == 0) ? Margins.spacing_m : 0;
         return Padding(
           padding: EdgeInsets.fromLTRB(Margins.spacing_base, topPadding, Margins.spacing_base, Margins.spacing_base),
           child: _buildCard(context, offreEmplois[position], viewModel),
@@ -184,36 +182,16 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     );
   }
 
-  List<String> _getDureeTags(List<DureeFiltre>? duree) {
-    if (duree == null) {
-      return [];
-    }
-    return duree.map((e) => FiltresLabels.fromDureeToString(e)).toList();
-  }
-
-  List<String> _getContratTags(List<ContratFiltre>? contrat) {
-    if (contrat == null) {
-      return [];
-    }
-    return contrat.map((e) => FiltresLabels.fromContratToString(e)).toList();
-  }
-
-  List<String> _getExperienceTags(List<ExperienceFiltre>? experience) {
-    if (experience == null) {
-      return [];
-    }
-    return experience.map((e) => FiltresLabels.fromExperienceToString(e)).toList();
-  }
-
   Widget _getSavedSearchImmersions(SavedSearchListViewModel viewModel) {
     final savedSearchsImmersion = viewModel.getImmersions();
-    if (savedSearchsImmersion.isEmpty)
+    if (savedSearchsImmersion.isEmpty) {
       return Center(child: Text(Strings.noSavedSearchYet, style: TextStyles.textSmRegular()));
+    }
     return ListView.builder(
       scrollDirection: Axis.vertical,
       itemCount: savedSearchsImmersion.length,
       itemBuilder: (context, position) {
-        double topPadding = (position == 0) ? Margins.spacing_m : 0;
+        final double topPadding = (position == 0) ? Margins.spacing_m : 0;
         return Padding(
           padding: EdgeInsets.fromLTRB(Margins.spacing_base, topPadding, Margins.spacing_base, Margins.spacing_base),
           child: _buildImmersionCard(context, savedSearchsImmersion[position], viewModel),
@@ -231,7 +209,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
       onTap: () => viewModel.offreImmersionSelected(savedSearchsImmersion),
       onDeleteTap: () => _showDeleteDialog(viewModel, savedSearchsImmersion.id, SavedSearchType.IMMERSION),
       title: savedSearchsImmersion.title,
-      lieu: savedSearchsImmersion.location,
+      lieu: savedSearchsImmersion.ville,
       dataTag: [savedSearchsImmersion.metier],
     );
   }

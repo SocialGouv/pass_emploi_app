@@ -4,14 +4,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/choix_organisme_explaination_view_model.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/onboarding_background.dart';
-
-import '../widgets/buttons/secondary_button.dart';
 
 class ChoixOrganismeExplainationPage extends TraceableStatelessWidget {
   final bool isPoleEmploi;
@@ -21,7 +20,7 @@ class ChoixOrganismeExplainationPage extends TraceableStatelessWidget {
           name: isPoleEmploi ? AnalyticsScreenNames.choixOrganismePE : AnalyticsScreenNames.choixOrganismeMilo,
         );
 
-  static MaterialPageRoute materialPageRoute({required bool isPoleEmploi}) {
+  static MaterialPageRoute<void> materialPageRoute({required bool isPoleEmploi}) {
     return MaterialPageRoute(builder: (context) => ChoixOrganismeExplainationPage(isPoleEmploi));
   }
 
@@ -46,7 +45,7 @@ class ChoixOrganismeExplainationPage extends TraceableStatelessWidget {
                           Padding(
                             padding:
                                 const EdgeInsets.fromLTRB(Margins.spacing_m, Margins.spacing_m, Margins.spacing_m, 0),
-                            child: Container(
+                            child: DecoratedBox(
                               decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
                               child: Padding(
                                 padding: const EdgeInsets.all(Margins.spacing_m),

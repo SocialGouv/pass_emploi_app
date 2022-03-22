@@ -9,13 +9,12 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-import '../ui/text_styles.dart';
 
 class EntreePage extends TraceableStatelessWidget {
   static const minimum_height_to_see_jeune_face = 656;
@@ -26,7 +25,6 @@ class EntreePage extends TraceableStatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    debugPrint("h = $screenHeight");
     return Scaffold(
       body: Stack(
         children: [
@@ -58,7 +56,7 @@ class EntreePage extends TraceableStatelessWidget {
               alignment: Alignment.bottomCenter,
               child: Padding(
                 padding: const EdgeInsets.all(Margins.spacing_m),
-                child: Container(
+                child: DecoratedBox(
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
@@ -133,7 +131,7 @@ class Link extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
-          MatomoTracker.trackScreenWithName(link, AnalyticsScreenNames.entree);
+          MatomoTracker.trackOutlink(link);
           launch(link);
         },
         child: Wrap(

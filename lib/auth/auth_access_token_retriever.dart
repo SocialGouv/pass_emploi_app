@@ -1,6 +1,6 @@
 import 'package:pass_emploi_app/auth/authenticator.dart';
-import 'package:pass_emploi_app/redux/actions/login_actions.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/features/login/login_actions.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 class AuthAccessTokenRetriever {

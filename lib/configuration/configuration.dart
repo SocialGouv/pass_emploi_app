@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:package_info/package_info.dart';
+import 'package:pass_emploi_app/utils/log.dart';
 
 enum Flavor { STAGING, PROD }
 
@@ -36,7 +36,7 @@ class Configuration {
   static Future<Configuration> build() async {
     final packageName = (await PackageInfo.fromPlatform()).packageName;
     final flavor = packageName.contains("staging") ? Flavor.STAGING : Flavor.PROD;
-    debugPrint("FLAVOR = $flavor");
+    Log.i("Flavor = $flavor");
     await loadEnvironmentVariables(flavor);
     final serverBaseUrl = getOrThrow('SERVER_BASE_URL');
     final matomoBaseUrl = getOrThrow('MATOMO_BASE_URL');

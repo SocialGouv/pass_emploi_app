@@ -3,14 +3,15 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
+import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_actions.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_filtres_page.dart';
+import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_results_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/offre_emploi_actions.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -25,8 +26,6 @@ import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_offre_widget.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
-
-import 'offre_page.dart';
 
 class OffreEmploiListPage extends TraceableStatefulWidget {
   final bool onlyAlternance;
@@ -78,7 +77,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
         _shouldLoadAtBottom = viewModel.displayLoaderAtBottomOfList && viewModel.displayState != DisplayState.FAILURE;
       },
       distinct: true,
-      onDispose: (store) => store.dispatch(OffreEmploiResetResultsAction()),
+      onDispose: (store) => store.dispatch(OffreEmploiSearchResetAction()),
     );
   }
 
@@ -146,7 +145,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
                     spacing: 16,
                     runSpacing: 16,
                     children: [
-                      _alertSecondaryButton(viewModel),
+                      _alertSecondaryButton(),
                       if (viewModel.withFiltreButton) _filtreSecondaryButton(viewModel),
                     ],
                   ),
@@ -240,15 +239,18 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     _offsetBeforeLoading = _scrollController.offset;
     widget
         .pushAndTrackBack(
-            context, OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: widget.onlyAlternance))
+          context,
+          OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: widget.onlyAlternance),
+        )
         .then((_) => _scrollController.jumpTo(_offsetBeforeLoading));
   }
 
   int _itemCount(OffreEmploiSearchResultsViewModel viewModel) {
-    if (viewModel.displayLoaderAtBottomOfList)
+    if (viewModel.displayLoaderAtBottomOfList) {
       return viewModel.items.length + 1;
-    else
+    } else {
       return viewModel.items.length;
+    }
   }
 
   Widget _filtrePrimaryButton(OffreEmploiSearchResultsViewModel viewModel) {
@@ -295,7 +297,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     );
   }
 
-  Widget _alertSecondaryButton(OffreEmploiSearchResultsViewModel viewModel) {
+  Widget _alertSecondaryButton() {
     return SecondaryButton(
       label: Strings.createAlert,
       drawableRes: Drawables.icAlert,

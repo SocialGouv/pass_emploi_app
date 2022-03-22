@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/favori_heart_view_model.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_icon_button.dart';
-
-import 'favori_state_selector.dart';
+import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 
 class FavoriHeart<T> extends StatelessWidget {
   final String offreId;
@@ -28,7 +26,7 @@ class FavoriHeart<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, FavoriHeartViewModel>(
+    return StoreConnector<AppState, FavoriHeartViewModel<T>>(
       converter: (store) => FavoriHeartViewModel<T>.create(
         offreId,
         store,
@@ -50,7 +48,7 @@ class FavoriHeart<T> extends StatelessWidget {
     );
   }
 
-  Widget _buildHeart(BuildContext context, FavoriHeartViewModel viewModel) {
+  Widget _buildHeart(BuildContext context, FavoriHeartViewModel<T> viewModel) {
     return SecondaryIconButton(
       drawableRes: viewModel.isFavori ? Drawables.icHeartFull : Drawables.icHeart,
       iconColor: AppColors.favoriteHeartColor,
@@ -91,6 +89,12 @@ class FavoriHeartAnalyticsHelper {
         return AnalyticsActionNames.immersionDetailUpdateFavori(isFavori);
       case OffrePage.immersionFavoris:
         return AnalyticsActionNames.immersionFavoriUpdateFavori(isFavori);
+      case OffrePage.serviceCiviqueResults:
+        return AnalyticsActionNames.serviceCiviqueResultUpdateFavori(isFavori);
+      case OffrePage.serviceCiviqueFavoris:
+        return AnalyticsActionNames.serviceCiviqueFavoriUpdateFavori(isFavori);
+      case OffrePage.serviceCiviqueDetail:
+        return AnalyticsActionNames.serviceCiviqueDetailUpdateFavori(isFavori);
     }
   }
 
@@ -114,6 +118,12 @@ class FavoriHeartAnalyticsHelper {
         return AnalyticsScreenNames.immersionDetails;
       case OffrePage.immersionFavoris:
         return AnalyticsScreenNames.immersionFavoris;
+      case OffrePage.serviceCiviqueResults:
+        return AnalyticsScreenNames.serviceCiviqueResults;
+      case OffrePage.serviceCiviqueFavoris:
+        return AnalyticsScreenNames.serviceCiviqueFavoris;
+      case OffrePage.serviceCiviqueDetail:
+        return AnalyticsScreenNames.serviceCiviqueDetail;
     }
   }
 }

@@ -25,7 +25,7 @@ class UserAction {
       id: json['id'] as String,
       content: json['content'] as String,
       comment: json['comment'] as String,
-      status: _statusFromString(statusString: json['status']),
+      status: _statusFromString(statusString: json['status'] as String),
       lastUpdate: (json['lastUpdate'] as String).toDateTimeOnLocalTimeZone(),
       creator: _creator(json),
     );
@@ -47,7 +47,7 @@ UserActionCreator _creator(dynamic json) {
   if (creatorType == "jeune") {
     return JeuneActionCreator();
   } else {
-    var creatorName = json["creator"] as String;
+    final creatorName = json["creator"] as String;
     return ConseillerActionCreator(
       name: creatorName,
     );

@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
+import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
@@ -8,7 +9,7 @@ import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 
-main() {
+void main() {
   group("When user save new search postSavedSearch should ...", () {
     test("successfully send request when all fields and filters are full and return TRUE if response is valid (201)",
         () async {
@@ -17,7 +18,7 @@ main() {
       final repository = ImmersionSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
       // When
-      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithFilters(), "title");
+      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithFiltres(), "title");
 
       // Then
       expect(result, isTrue);
@@ -31,7 +32,7 @@ main() {
       final repository = ImmersionSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
       // When
-      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithoutFilters(), "title");
+      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithoutFiltres(), "title");
 
       // Then
       expect(result, isTrue);
@@ -43,7 +44,7 @@ main() {
       final repository = ImmersionSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
       // When
-      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithFilters(), "title");
+      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithFiltres(), "title");
 
       // Then
       expect(result, isFalse);
@@ -60,8 +61,9 @@ MockClient _failureClient() {
 MockClient _mockClientforFullDataWithFilters() {
   return MockClient((request) async {
     if (request.method != "POST") return invalidHttpResponse();
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/recherches/immersions"))
+    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/recherches/immersions")) {
       return invalidHttpResponse();
+    }
     final requestJson = jsonUtf8Decode(request.bodyBytes);
     if (requestJson["titre"] != "title") return invalidHttpResponse(message: "title KO");
     if (requestJson["metier"] != "plombier") return invalidHttpResponse(message: "metier KO");
@@ -76,8 +78,9 @@ MockClient _mockClientforFullDataWithFilters() {
 MockClient _mockClientforFulllDataWithoutFilters() {
   return MockClient((request) async {
     if (request.method != "POST") return invalidHttpResponse();
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/recherches/immersions"))
+    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/recherches/immersions")) {
       return invalidHttpResponse();
+    }
     final requestJson = jsonUtf8Decode(request.bodyBytes);
     if (requestJson["titre"] != "title") return invalidHttpResponse(message: "title KO");
     if (requestJson["metier"] != "plombier") return invalidHttpResponse(message: "metier KO");
@@ -86,26 +89,26 @@ MockClient _mockClientforFulllDataWithoutFilters() {
   });
 }
 
-ImmersionSavedSearch _savedSearchWithoutFilters() {
+ImmersionSavedSearch _savedSearchWithoutFiltres() {
   return ImmersionSavedSearch(
     id: "id",
     title: "title",
     metier: "plombier",
-    location: "Paris",
-    filters: ImmersionSearchParametersFilters.withoutFilters(),
+    ville: "Paris",
+    codeRome: "F1104",
+    location: mockLocation(lat: 48.830108, lon: 2.323026),
+    filtres: ImmersionSearchParametersFiltres.noFiltres(),
   );
 }
 
-ImmersionSavedSearch _savedSearchWithFilters() {
+ImmersionSavedSearch _savedSearchWithFiltres() {
   return ImmersionSavedSearch(
     id: "id",
     title: "title",
     metier: "plombier",
-    location: "Paris",
-    filters: ImmersionSearchParametersFilters.withFilters(
-      codeRome: "F1104",
-      lat: 48.830108,
-      lon: 2.323026,
-    ),
+    ville: "Paris",
+    codeRome: "F1104",
+    location: mockLocation(lat: 48.830108, lon: 2.323026),
+    filtres: ImmersionSearchParametersFiltres.distance(30),
   );
 }

@@ -2,29 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_actions.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_details_page_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/named_actions.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
-import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/buttons/delete_favori_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/share_button.dart';
+import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/errors/favori_not_found_error.dart';
 import 'package:pass_emploi_app/widgets/external_link.dart';
 import 'package:pass_emploi_app/widgets/favori_heart.dart';
-import 'package:pass_emploi_app/widgets/errors/favori_not_found_error.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/help_tooltip.dart';
-import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
-import 'package:pass_emploi_app/widgets/buttons/share_button.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 import 'package:pass_emploi_app/widgets/title_section.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -40,7 +40,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     this.popPageWhenFavoriIsRemoved = false,
   }) : super(name: _fromAlternance ? AnalyticsScreenNames.alternanceDetails : AnalyticsScreenNames.emploiDetails);
 
-  static MaterialPageRoute materialPageRoute(
+  static MaterialPageRoute<void> materialPageRoute(
     String id, {
     required bool fromAlternance,
     bool popPageWhenFavoriIsRemoved = false,
@@ -57,7 +57,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, OffreEmploiDetailsPageViewModel>(
-      onInit: (store) => store.dispatch(OffreEmploiDetailsAction.request(_offreId)),
+      onInit: (store) => store.dispatch(OffreEmploiDetailsRequestAction(_offreId)),
       onInitialBuild: (_) {
         context.trackEvent(_offreAfficheeEvent());
       },
@@ -142,13 +142,13 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         ),
         if (url != null && id != null)
           Align(
-            child: _footer(context, url, id, viewModel.title),
             alignment: Alignment.bottomCenter,
+            child: _footer(context, url, id, viewModel.title),
           )
         else if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS && id != null)
           Align(
-            child: _incompleteDataFooter(context, id),
             alignment: Alignment.bottomCenter,
+            child: _incompleteDataFooter(context, id),
           )
       ],
     );
@@ -196,11 +196,11 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
 
   Widget _profileDescription(OffreEmploiDetailsPageViewModel viewModel) {
     final experience = viewModel.experience;
-    Widget? skills = _skillsBlock(skills: viewModel.skills);
-    Widget? softSkills = _softSkillsBlock(softSkills: viewModel.softSkills);
-    Widget? educations = _educationsBlock(educations: viewModel.educations);
-    Widget? languages = _languagesBlock(languages: viewModel.languages);
-    Widget? driverLicences = _driverLicencesBlock(driverLicences: viewModel.driverLicences);
+    final Widget? skills = _skillsBlock(skills: viewModel.skills);
+    final Widget? softSkills = _softSkillsBlock(softSkills: viewModel.softSkills);
+    final Widget? educations = _educationsBlock(educations: viewModel.educations);
+    final Widget? languages = _languagesBlock(languages: viewModel.languages);
+    final Widget? driverLicences = _driverLicencesBlock(driverLicences: viewModel.driverLicences);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -420,28 +420,13 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     context.trackEvent(_postulerEvent());
   }
 
-  void _shareOffer(BuildContext context) {
-    context.trackEvent(_partagerEvent());
-  }
+  void _shareOffer(BuildContext context) => context.trackEvent(_partagerEvent());
 
   EventType _offreAfficheeEvent() {
-    if (_fromAlternance)
-      return EventType.OFFRE_ALTERNANCE_AFFICHEE;
-    else
-      return EventType.OFFRE_EMPLOI_AFFICHEE;
+    return _fromAlternance ? EventType.OFFRE_ALTERNANCE_AFFICHEE : EventType.OFFRE_EMPLOI_AFFICHEE;
   }
 
-  EventType _postulerEvent() {
-    if (_fromAlternance)
-      return EventType.OFFRE_ALTERNANCE_POSTULEE;
-    else
-      return EventType.OFFRE_EMPLOI_POSTULEE;
-  }
+  EventType _postulerEvent() => _fromAlternance ? EventType.OFFRE_ALTERNANCE_POSTULEE : EventType.OFFRE_EMPLOI_POSTULEE;
 
-  EventType _partagerEvent() {
-    if (_fromAlternance)
-      return EventType.OFFRE_ALTERNANCE_PARTAGEE;
-    else
-      return EventType.OFFRE_EMPLOI_PARTAGEE;
-  }
+  EventType _partagerEvent() => _fromAlternance ? EventType.OFFRE_ALTERNANCE_PARTAGEE : EventType.OFFRE_EMPLOI_PARTAGEE;
 }

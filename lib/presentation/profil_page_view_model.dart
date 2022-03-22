@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
-
-import '../redux/states/app_state.dart';
-import '../ui/strings.dart';
 
 class ProfilPageViewModel extends Equatable {
   final String userName;
@@ -11,10 +11,11 @@ class ProfilPageViewModel extends Equatable {
   ProfilPageViewModel({required this.userName, required this.userEmail});
 
   factory ProfilPageViewModel.create(Store<AppState> store) {
-    final user = store.state.loginState.getResultOrThrow();
+    final state = store.state.loginState;
+    final user = state is LoginSuccessState ? state.user : null;
     return ProfilPageViewModel(
-      userName: "${user.firstName} ${user.lastName}",
-      userEmail: user.email ?? Strings.missingEmailAddressValue,
+      userName: user != null ? "${user.firstName} ${user.lastName}" : "",
+      userEmail: user?.email ?? Strings.missingEmailAddressValue,
     );
   }
 

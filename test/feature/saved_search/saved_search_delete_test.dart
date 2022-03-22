@@ -1,16 +1,17 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
+import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_state.dart';
+import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
+import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
-import 'package:pass_emploi_app/redux/actions/saved_search_actions.dart';
-import 'package:pass_emploi_app/redux/states/saved_search_delete_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../utils/test_setup.dart';
 
-main() {
+void main() {
   group("When repository succeeds…", () {
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.savedSearchDeleteRepository = SavedSearchDeleteRepositorySuccessStub();
@@ -33,7 +34,7 @@ main() {
     test("saved search should be removed from saved searches", () async {
       // Given
       final store = testStoreFactory.initializeReduxStore(
-        initialState: loggedInState().copyWith(savedSearchesState: State.success([_mockSavedSearch()])),
+        initialState: loggedInState().copyWith(savedSearchListState: SavedSearchListSuccessState([_mockSavedSearch()])),
       );
       final displayedLoading = store.onChange.any((e) => e.savedSearchDeleteState is SavedSearchDeleteLoadingState);
       final successState = store.onChange.firstWhere((e) => e.savedSearchDeleteState is SavedSearchDeleteSuccessState);
@@ -44,7 +45,7 @@ main() {
       // Then
       expect(await displayedLoading, isTrue);
       final appState = await successState;
-      expect(appState.savedSearchesState.getResultOrThrow(), isEmpty);
+      expect((appState.savedSearchListState as SavedSearchListSuccessState).savedSearches, isEmpty);
     });
   });
 
@@ -70,7 +71,7 @@ main() {
     test("saved search should not be removed from saved searches", () async {
       // Given
       final store = testStoreFactory.initializeReduxStore(
-        initialState: loggedInState().copyWith(savedSearchesState: State.success([_mockSavedSearch()])),
+        initialState: loggedInState().copyWith(savedSearchListState: SavedSearchListSuccessState([_mockSavedSearch()])),
       );
       final displayedLoading = store.onChange.any((e) => e.savedSearchDeleteState is SavedSearchDeleteLoadingState);
       final failureState = store.onChange.firstWhere((e) => e.savedSearchDeleteState is SavedSearchDeleteFailureState);
@@ -81,13 +82,21 @@ main() {
       // Then
       expect(await displayedLoading, isTrue);
       final appState = await failureState;
-      expect(appState.savedSearchesState.getResultOrThrow(), [_mockSavedSearch()]);
+      expect((appState.savedSearchListState as SavedSearchListSuccessState).savedSearches, [_mockSavedSearch()]);
     });
   });
 }
 
 SavedSearch _mockSavedSearch() {
-  return ImmersionSavedSearch(id: "savedSearchId", title: '', metier: '', location: '', filters: null);
+  return ImmersionSavedSearch(
+    id: "savedSearchId",
+    title: "",
+    metier: "",
+    location: mockLocation(),
+    filtres: ImmersionSearchParametersFiltres.noFiltres(),
+    ville: "",
+    codeRome: "",
+  );
 }
 
 class SavedSearchDeleteRepositorySuccessStub extends SavedSearchDeleteRepository {

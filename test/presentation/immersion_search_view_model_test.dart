@@ -1,28 +1,27 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
+import 'package:pass_emploi_app/features/location/search_location_actions.dart';
+import 'package:pass_emploi_app/features/location/search_location_state.dart';
+import 'package:pass_emploi_app/features/metier/search_metier_actions.dart';
+import 'package:pass_emploi_app/features/metier/search_metier_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/presentation/immersion_search_view_model.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/named_actions.dart';
-import 'package:pass_emploi_app/redux/actions/search_location_action.dart';
-import 'package:pass_emploi_app/redux/actions/search_metier_action.dart';
-import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/search_location_state.dart';
-import 'package:pass_emploi_app/redux/states/search_metier_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
+import 'package:pass_emploi_app/redux/app_reducer.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
 import '../doubles/spies.dart';
 
-main() {
+void main() {
   test("create when state is loading should set display state properly", () {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: AppState.initialState().copyWith(immersionSearchState: State<List<Immersion>>.loading()),
+      initialState: AppState.initialState().copyWith(immersionListState: ImmersionListLoadingState()),
     );
 
     // When
@@ -36,7 +35,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: AppState.initialState().copyWith(immersionSearchState: State<List<Immersion>>.failure()),
+      initialState: AppState.initialState().copyWith(immersionListState: ImmersionListFailureState()),
     );
 
     // When
@@ -53,7 +52,7 @@ main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: AppState.initialState().copyWith(immersionSearchState: State<List<Immersion>>.success([])),
+      initialState: AppState.initialState().copyWith(immersionListState: ImmersionListSuccessState([])),
     );
 
     // When
@@ -68,7 +67,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        immersionSearchState: State<List<Immersion>>.success([mockImmersion()]),
+        immersionListState: ImmersionListSuccessState([mockImmersion()]),
       ),
     );
 
@@ -77,7 +76,6 @@ main() {
 
     // Then
     expect(viewModel.displayState, ImmersionSearchDisplayState.SHOW_RESULTS);
-    expect(viewModel.immersions, [mockImmersion()]);
     expect(viewModel.errorMessage, "");
   });
 
@@ -123,8 +121,8 @@ main() {
 
     viewModel.onInputLocation("mars");
 
-    expect(store.dispatchedAction, isA<RequestLocationAction>());
-    final action = (store.dispatchedAction as RequestLocationAction);
+    expect(store.dispatchedAction, isA<SearchLocationRequestAction>());
+    final action = (store.dispatchedAction as SearchLocationRequestAction);
     expect(action.input, "mars");
     expect(action.villesOnly, isTrue);
   });
@@ -133,20 +131,19 @@ main() {
     final store = StoreSpy();
     final viewModel = ImmersionSearchViewModel.create(store);
 
-    viewModel.onSearchingRequest("code-rome", mockLocation());
+    viewModel.onSearchingRequest("code-rome", mockLocation(), "Sexeur de volaille");
 
-    expect((store.dispatchedAction as ImmersionAction).isRequest(), isTrue);
-    expect((store.dispatchedAction as ImmersionAction).getRequestOrThrow().codeRome, "code-rome");
-    expect((store.dispatchedAction as ImmersionAction).getRequestOrThrow().location, mockLocation());
+    expect(store.dispatchedAction, isA<ImmersionListRequestAction>());
+    expect((store.dispatchedAction as ImmersionListRequestAction).codeRome, "code-rome");
+    expect((store.dispatchedAction as ImmersionListRequestAction).location, mockLocation());
   });
-
   test('View model triggers ImmersionSearchFailureAction when onSearchingRequest is performed with null params', () {
     final store = StoreSpy();
     final viewModel = ImmersionSearchViewModel.create(store);
 
-    viewModel.onSearchingRequest(null, null);
+    viewModel.onSearchingRequest(null, null, "Sexeur de volaille");
 
-    expect((store.dispatchedAction as ImmersionAction).isFailure(), isTrue);
+    expect(store.dispatchedAction, isA<ImmersionListFailureAction>());
   });
 
   test("create returns metier", () {
@@ -171,8 +168,8 @@ main() {
 
     viewModel.onInputMetier("boul");
 
-    expect(store.dispatchedAction, isA<RequestMetierAction>());
-    final action = (store.dispatchedAction as RequestMetierAction);
+    expect(store.dispatchedAction, isA<SearchMetierRequestAction>());
+    final action = (store.dispatchedAction as SearchMetierRequestAction);
     expect(action.input, "boul");
   });
 }

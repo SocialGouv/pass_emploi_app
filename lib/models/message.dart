@@ -25,8 +25,8 @@ class Message extends Equatable {
   }
 
   static String? _content(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
-    final content = json['content'];
-    final iv = json['iv'];
+    final content = json['content'] as String;
+    final iv = json['iv'] as String?;
 
     if (iv == null) {
       crashlytics.recordNonNetworkException("Error while reading message : iv is null", StackTrace.current);

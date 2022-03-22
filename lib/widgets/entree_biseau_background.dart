@@ -10,8 +10,8 @@ class EntreeBiseauBackground extends StatelessWidget {
       children: [
         Container(color: AppColors.primary),
         ClipPath(
-          child: Container(color: AppColors.primaryDarken.withOpacity(0.25)),
           clipper: DiagonalClipper(),
+          child: Container(color: AppColors.primaryDarken.withOpacity(0.25)),
         ),
       ],
     );

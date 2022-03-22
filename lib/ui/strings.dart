@@ -30,9 +30,9 @@ class Strings {
   // Force Update
   static String updateTitle = "Mise à jour";
   static String updateButton = "Mettre à jour";
-  static String forceUpdateOnStoreLabel = "Votre application nécessite d\'être mise à jour pour son bon fonctionnement";
+  static String forceUpdateOnStoreLabel = "Votre application nécessite d'être mise à jour pour son bon fonctionnement";
   static String forceUpdateOnFirebaseLabel =
-      "Votre application nécessite d\'être mise à jour sur Firebase pour son bon fonctionnement";
+      "Votre application nécessite d'être mise à jour sur Firebase pour son bon fonctionnement";
 
   static String hello(firstName) => "Bonjour $firstName";
 
@@ -89,8 +89,8 @@ class Strings {
 
   // Login
   static String performLogin = "Connectez-vous";
-  static String mandatoryAccessCodeError = "Votre code d\'accès doit être renseigné";
-  static String yourAccessCode = "Votre code d\'accès";
+  static String mandatoryAccessCodeError = "Votre code d'accès doit être renseigné";
+  static String yourAccessCode = "Votre code d'accès";
   static String loginError = "Erreur lors de la connexion";
   static String loginPassEmploi = "pass emploi";
   static String loginPoleEmploi = "Pôle emploi";
@@ -103,17 +103,34 @@ class Strings {
   static String actionsTabTitle = "Actions";
   static String rendezvousTabTitle = "Rendez-vous";
 
-  // Rendez-Vous
+  // Rendezvous
   static String myRendezVous = "Mon rendez-vous";
   static String rendezVousConseillerCommentLabel = "Commentaire de mon conseiller";
-  static String cantMakeItNoBigDeal = "Vous n’êtes pas disponible sur ce créneau ?";
+  static String cannotGoToRendezvous = "Vous ne pouvez pas vous rendre au rendez-vous ?";
   static String shouldInformConseiller =
-      "Il est impératif de prévenir votre conseiller et de justifier votre absence. Pour cela, contactez-le grâce à la messagerie.";
+      "En cas d’imprévu, il est important de prévenir votre conseiller. Vous pouvez le contacter via la messagerie de l’application CEJ.";
 
-  static String rendezVousModalityMessage(modality) => "Le rendez-vous se fera $modality";
   static String noUpcomingRendezVous =
       "Vous n’avez pas de rendez-vous prévus.\nContactez votre conseiller pour prendre rendez-vous";
   static String rendezVousError = "Erreur lors de la récupération de vos rendez-vous";
+  static String conseillerIsPresent = "Votre conseiller sera présent";
+  static String conseillerIsNotPresent = "Votre conseiller ne sera pas présent";
+  static String commentWithoutConseiller = "Commentaire de votre conseiller";
+  static String seeItinerary = 'Voir l\'itinéraire';
+
+  static String rendezvousModalityWithConseillerDetailsMessage(String modality, String conseiller) {
+    return "${rendezvousModalityDetailsMessage(modality)} avec $conseiller";
+  }
+
+  static String rendezvousModalityDetailsMessage(String modality) {
+    return "Le rendez-vous se fera $modality";
+  }
+
+  static String rendezvousModalityCardMessage(String modality, String conseiller) => "$modality avec $conseiller";
+
+  static String commentWithConseiller(String firstName) => "Commentaire de $firstName";
+
+  static String withOrganism(String organism) => "Avec : $organism";
 
   // User Action
   static String actionsError = "Erreur lors de la récupération de vos actions";
@@ -171,6 +188,7 @@ class Strings {
   static String immersionLabel = "Découvrez un métier en immersion dans une entreprise.";
   static String metierCompulsoryLabel = "* Métier";
   static String villeCompulsoryLabel = "* Localisation";
+  static String villeNonCompulsoryLabel = "Localisation";
   static String immersionExpansionTileTitle = "En savoir plus sur l’immersion";
   static String immersionObjectifTitle = "Objectif poursuivi ?";
   static String immersionObjectifContent =
@@ -200,7 +218,7 @@ class Strings {
       "· Remplissez une convention d’immersion avec lui";
   static String immersionContactTitle = "Contact";
   static String immersionPhoneButton = "Appeler";
-  static String immersionLocationButton = "Localiser l\'entreprise";
+  static String immersionLocationButton = "Localiser l'entreprise";
   static String immersionEmailButton = "Envoyer un e-mail";
   static String immersionEmailSubject = "Candidature pour une période d'immersion";
 
@@ -210,6 +228,33 @@ class Strings {
       "Le service civique est un engagement volontaire au service de l'intérêt général, accessible sans condition de diplôme. Il est indemnisé et s'effectue en France ou à l'étranger.";
   static String serviceCiviqueButtonAction = "Rechercher un service civique";
   static String serviceCiviqueUrl = "https://www.service-civique.gouv.fr/missions/";
+  static String serviceCiviquePresentation =
+      "Engagez-vous dans un projet d’intérêt général et découvrez de nouveaux horizons";
+  static String serviceCiviqueFiltresTitle = "Filtrer les missions";
+  static String startDateFiltreTitle = "Date de début";
+  static String startDate = "Dès le";
+  static String domainFiltreTitle = "Domaine";
+  static String selectACity = "Sélectionner une ville";
+  static String knowMoreAboutServiceCivique = "En savoir plus sur le service civique";
+  static String knowMoreAboutServiceCiviqueFirstTitle = "De 16 à 25 ans";
+  static String knowMoreAboutServiceCiviqueFirstText =
+      "Les missions sont ouvertes à tous les jeunes de 16 à 25 ans, sans conditions de diplôme et jusqu’à 30 ans pour les jeunes en situation de handicap";
+  static String knowMoreAboutServiceCiviqueSecondTitle = "De 6 à 12 mois";
+  static String knowMoreAboutServiceCiviqueSecondText =
+      "Tous les organismes proposant des missions de Service Civique sont certifiés d’intérêt général et œuvrent dans 9 domaines différents";
+  static String knowMoreAboutServiceCiviqueThirdTitle = "En France et à l’étranger";
+  static String knowMoreAboutServiceCiviqueThirdText =
+      "Découvrir de nouvelles expériences, acquérir de nouvelles compétences tout en étant indemnisé et en bénéficiant de nombreux avantages";
+  static String knowMoreAboutServiceCiviqueFourthTitle = "Une indemnisation";
+  static String knowMoreAboutServiceCiviqueFourthText =
+      "580 € d’indemnisation par mois dont 473,04 € pris en charge par l’État et 107,58 € par l’organisme d’accueil. ";
+  static String knowMoreAboutServiceCiviqueLastTitle =
+      "Vous souhaitez en savoir plus ? Envoyez un message à votre conseiller.";
+  static String serviceCiviqueListTitle = "Offres de service civique";
+  static String asSoonAs = "Dès le ";
+  static String serviceCiviqueDetailTitle = "Détails de l’offre de service civique";
+  static String serviceCiviqueMissionTitle = "Mission";
+  static String serviceCiviqueOrganisationTitle = "Organisation";
 
   // Immersion Errors
   static String immersionMetierError = "Renseignez un secteur d'activité de la liste";

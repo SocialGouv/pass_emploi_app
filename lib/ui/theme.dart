@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'app_colors.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 
 class PassEmploiTheme {
   static final data = ThemeData(
@@ -14,6 +13,7 @@ class PassEmploiTheme {
     ),
     checkboxTheme: _checkboxes(),
     sliderTheme: _sliders(),
+    progressIndicatorTheme: _progress(),
   );
 
   static CheckboxThemeData _checkboxes() {
@@ -31,6 +31,12 @@ class PassEmploiTheme {
       thumbColor: AppColors.primary,
       activeTickMarkColor: AppColors.primary,
       inactiveTickMarkColor: AppColors.grey800,
+    );
+  }
+
+  static ProgressIndicatorThemeData _progress() {
+    return ProgressIndicatorThemeData(
+      color: AppColors.primary,
     );
   }
 }

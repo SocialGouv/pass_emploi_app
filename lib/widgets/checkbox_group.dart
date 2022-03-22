@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/help_tooltip.dart';
 
+// ignore_for_file: strict_raw_type
 class CheckBoxGroup<T> extends StatefulWidget {
   final String title;
   final List<CheckboxValueViewModel<T>> options;
@@ -39,7 +40,7 @@ class _CheckBoxGroupState<T extends CheckboxValueViewModel> extends State<CheckB
       children: [
         Text(widget.title, style: TextStyles.textBaseBold),
         SizedBox(height: Margins.spacing_base),
-        Container(
+        DecoratedBox(
           decoration:
               BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(16)), boxShadow: [
             Shadows.boxShadow,
@@ -69,7 +70,7 @@ class _CheckBoxGroupState<T extends CheckboxValueViewModel> extends State<CheckB
         setState(() {
           if (value != null) {
             _optionsSelectionStatus[viewModel] = value;
-            var listOfSelectedOptions = _listOfSelectedOptions();
+            final listOfSelectedOptions = _listOfSelectedOptions();
             widget.onSelectedOptionsUpdated(listOfSelectedOptions);
           }
         });

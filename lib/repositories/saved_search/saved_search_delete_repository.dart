@@ -1,8 +1,7 @@
 import 'package:http/http.dart';
+import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
-
-import '../../crashlytics/crashlytics.dart';
-import '../../network/headers.dart';
 
 class SavedSearchDeleteRepository {
   final String _baseUrl;

@@ -1,9 +1,8 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_details_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
 
@@ -60,24 +59,20 @@ class OffreEmploiDetailsPageViewModel {
 
   factory OffreEmploiDetailsPageViewModel.getDetails(Store<AppState> store) {
     final offreEmploiDetailsState = store.state.offreEmploiDetailsState;
-    if (offreEmploiDetailsState.isSuccess()) {
-      return _viewModelFromDetails(offreEmploiDetailsState, offreEmploiDetailsState.getResultOrThrow());
+    if (offreEmploiDetailsState is OffreEmploiDetailsSuccessState) {
+      return _viewModelFromDetails(offreEmploiDetailsState, offreEmploiDetailsState.offre);
     } else if (offreEmploiDetailsState is OffreEmploiDetailsIncompleteDataState) {
-      return _viewModelFromIncompleteData(offreEmploiDetailsState.offreEmploi);
+      return _viewModelFromIncompleteData(offreEmploiDetailsState.offre);
     } else {
       return _viewModelForOtherCases(offreEmploiDetailsState);
     }
   }
 }
 
-OffreEmploiDetailsPageDisplayState _displayState(State<OffreEmploiDetails> offreEmploiDetailsState) {
-  if (offreEmploiDetailsState.isSuccess()) {
-    return OffreEmploiDetailsPageDisplayState.SHOW_DETAILS;
-  } else if (offreEmploiDetailsState.isLoading()) {
-    return OffreEmploiDetailsPageDisplayState.SHOW_LOADER;
-  } else {
-    return OffreEmploiDetailsPageDisplayState.SHOW_ERROR;
-  }
+OffreEmploiDetailsPageDisplayState _displayState(OffreEmploiDetailsState state) {
+  if (state is OffreEmploiDetailsSuccessState) return OffreEmploiDetailsPageDisplayState.SHOW_DETAILS;
+  if (state is OffreEmploiDetailsLoadingState) return OffreEmploiDetailsPageDisplayState.SHOW_LOADER;
+  return OffreEmploiDetailsPageDisplayState.SHOW_ERROR;
 }
 
 EducationViewModel _toViewModel(Education education) {
@@ -96,7 +91,7 @@ class EducationViewModel extends Equatable {
 }
 
 OffreEmploiDetailsPageViewModel _viewModelFromDetails(
-  State<OffreEmploiDetails> offreEmploiDetailsState,
+  OffreEmploiDetailsSuccessState offreEmploiDetailsState,
   OffreEmploiDetails? offreDetails,
 ) {
   return OffreEmploiDetailsPageViewModel._(
@@ -137,8 +132,8 @@ OffreEmploiDetailsPageViewModel _viewModelFromIncompleteData(OffreEmploi offreEm
   );
 }
 
-OffreEmploiDetailsPageViewModel _viewModelForOtherCases(State<OffreEmploiDetails> offreEmploiDetailsState) {
+OffreEmploiDetailsPageViewModel _viewModelForOtherCases(OffreEmploiDetailsState state) {
   return OffreEmploiDetailsPageViewModel._(
-    displayState: _displayState(offreEmploiDetailsState),
+    displayState: _displayState(state),
   );
 }

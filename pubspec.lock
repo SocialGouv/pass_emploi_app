@@ -279,6 +279,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.2"
+  flutter_lints:
+    dependency: "direct dev"
+    description:
+      name: flutter_lints
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.4"
   flutter_local_notifications:
     dependency: "direct main"
     description:
@@ -300,6 +307,11 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "5.0.0"
+  flutter_localizations:
+    dependency: "direct main"
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   flutter_redux:
     dependency: "direct main"
     description:
@@ -422,6 +434,20 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.1.0"
+  lints:
+    dependency: transitive
+    description:
+      name: lints
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
+  logger:
+    dependency: "direct main"
+    description:
+      name: logger
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0"
   logging:
     dependency: transitive
     description:
@@ -447,8 +473,8 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: HEAD
-      resolved-ref: b4a370276f7ac4f0c31623bf954b3c4f3f78cd6f
+      ref: "feat/add-outlink-support"
+      resolved-ref: "745ccc814561e4aeaeec9f867e24d32e21e623c6"
       url: "https://github.com/BonnetM/dart-matomo.git"
     source: git
     version: "1.1.0"
@@ -772,6 +798,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.1.0"
+  synchronized:
+    dependency: "direct main"
+    description:
+      name: synchronized
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.0.0"
   term_glyph:
     dependency: transitive
     description:
@@ -892,5 +925,5 @@ packages:
     source: hosted
     version: "5.3.1"
 sdks:
-  dart: "2.16.0"
-  flutter: ">=2.10.0"
+  dart: "2.16.1"
+  flutter: ">=2.10.3"

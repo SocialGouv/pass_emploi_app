@@ -19,7 +19,7 @@ class TextWithClickableLinks extends StatelessWidget {
       linkStyle: linkStyle ?? TextStyles.externalLink,
       onOpen: (link) {
         final String baseUrl = Uri.parse(link.url).origin;
-        MatomoTracker.trackScreenWithName(baseUrl, baseUrl);
+        MatomoTracker.trackOutlink(baseUrl);
         launch(link.url);
       },
       options: LinkifyOptions(

@@ -24,6 +24,7 @@ class CarouselButton extends StatelessWidget {
         shape: MaterialStateProperty.all(StadiumBorder()),
         side: MaterialStateProperty.all(BorderSide(color: isActive ? AppColors.primary : AppColors.grey800, width: 1)),
       ),
+      onPressed: onPressed,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 16),
         child: Row(
@@ -36,7 +37,6 @@ class CarouselButton extends StatelessWidget {
           ],
         ),
       ),
-      onPressed: onPressed,
     );
   }
 }

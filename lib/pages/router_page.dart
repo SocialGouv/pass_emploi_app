@@ -1,14 +1,14 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/pages/entree_page.dart';
 import 'package:pass_emploi_app/pages/main_page.dart';
 import 'package:pass_emploi_app/pages/spash_screen_page.dart';
 import 'package:pass_emploi_app/presentation/router_page_view_model.dart';
-import 'package:pass_emploi_app/redux/actions/bootstrap_action.dart';
-import 'package:pass_emploi_app/redux/actions/deep_link_action.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/deep_link_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 
 class RouterPage extends StatefulWidget {
   @override
@@ -69,7 +69,7 @@ class _RouterPageState extends State<RouterPage> {
   }
 
   Future<void> _handleStoppedApplicationOpenedFromPushNotification() async {
-    RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
+    final RemoteMessage? initialMessage = await FirebaseMessaging.instance.getInitialMessage();
     if (initialMessage != null) _handleDeepLink(initialMessage);
   }
 

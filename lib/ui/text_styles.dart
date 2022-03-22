@@ -1,20 +1,10 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import 'app_colors.dart';
-import 'font_sizes.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/font_sizes.dart';
 
 class TextStyles {
   TextStyles._();
-
-  static final textLgMedium = GoogleFonts.rubik(
-    color: AppColors.nightBlue,
-    fontSize: FontSizes.large,
-    fontWeight: FontWeight.w600,
-    letterSpacing: -0.3,
-  );
 
   static TextStyle textLBold({Color color = AppColors.contentColor}) {
     return TextStyle(
@@ -142,7 +132,7 @@ class TextStyles {
     fontWeight: FontWeight.w700,
   );
 
-  static textSmMedium({Color color = AppColors.nightBlue}) {
+  static TextStyle textSmMedium({Color color = AppColors.nightBlue}) {
     return GoogleFonts.rubik(
       color: color,
       fontSize: FontSizes.normal,
@@ -150,7 +140,7 @@ class TextStyles {
     );
   }
 
-  static textSmRegular({Color color = AppColors.nightBlue}) {
+  static TextStyle textSmRegular({Color color = AppColors.nightBlue}) {
     return GoogleFonts.rubik(
       color: color,
       fontSize: FontSizes.normal,

@@ -1,21 +1,19 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/offre_emploi_details.dart';
+import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_details_page_view_model.dart';
-import 'package:pass_emploi_app/redux/reducers/app_reducer.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
-import 'package:pass_emploi_app/redux/states/offre_emploi_details_state.dart';
-import 'package:pass_emploi_app/redux/states/state.dart';
+import 'package:pass_emploi_app/redux/app_reducer.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
 
-main() {
+void main() {
   test("getDetails when state is loading should set display state properly", () {
     // Given
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiDetailsState: State<OffreEmploiDetails>.loading(),
+        offreEmploiDetailsState: OffreEmploiDetailsLoadingState(),
       ),
     );
 
@@ -31,7 +29,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiDetailsState: State<OffreEmploiDetails>.failure(),
+        offreEmploiDetailsState: OffreEmploiDetailsFailureState(),
       ),
     );
 
@@ -48,7 +46,7 @@ main() {
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(
-        offreEmploiDetailsState: State<OffreEmploiDetails>.success(detailedOffer),
+        offreEmploiDetailsState: OffreEmploiDetailsSuccessState(detailedOffer),
       ),
     );
 
