@@ -57,7 +57,7 @@ class LocalOutilRepository {
         imagePath: null,
       ),
       Outil(
-        title: "Je postule pour un job dans entreprise solidaire",
+        title: "Je postule pour un job dans une entreprise solidaire",
         description:
             "Prenez contact avec un employeur solidaire et postulez aux offres qui correspondent à vos attentes.",
         actionLabel: "Trouver une entreprise solidaire",
