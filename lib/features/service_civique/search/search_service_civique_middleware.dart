@@ -40,6 +40,17 @@ class SearchServiceCiviqueMiddleware extends MiddlewareClass<AppState> {
           page: 1,
         );
         await _searchServiceCiviquePage(loginState, store, request, []);
+      } else if (action is ServiceCiviqueSavedSearchRequestAction) {
+        final savedSearch = action.savedSearch;
+        final request = SearchServiceCiviqueRequest(
+          domain: savedSearch.domaine?.tag,
+          location: savedSearch.location,
+          distance: savedSearch.filtres.distance,
+          startDate: savedSearch.dateDeDebut,
+          endDate: null,
+          page: 1,
+        );
+        await _searchServiceCiviquePage(loginState, store, request, []);
       } else if (action is ServiceCiviqueSearchUpdateFiltresAction && state is ServiceCiviqueSearchResultDataState) {
         final request = SearchServiceCiviqueRequest(
           domain: (action.domain != Domaine.all) ? action.domain?.tag : null,

@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.da
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/pages/immersion_list_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
+import 'package:pass_emploi_app/pages/service_civique/service_civique_list_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/saved_search/saved_search_list_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -58,6 +59,9 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
         } else if (newViewModel.searchNavigationState == SavedSearchNavigationState.OFFRE_IMMERSION &&
             _shouldNavigate) {
           _goToImmersion(context, newViewModel.immersionsResults);
+        } else if (newViewModel.searchNavigationState == SavedSearchNavigationState.SERVICE_CIVIQUE &&
+            _shouldNavigate) {
+          _goToServiceCivique(context);
         }
       },
       builder: (context, viewModel) => _scrollView(viewModel),
@@ -83,6 +87,15 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     Navigator.push(context, MaterialPageRoute(builder: (context) => ImmersionListPage(true))).then((value) {
       StoreProvider.of<AppState>(context).dispatch(ImmersionListResetAction());
     }).then((_) => _shouldNavigate = true);
+  }
+
+  void _goToServiceCivique(
+    BuildContext context,
+  ) {
+    _shouldNavigate = false;
+    _updateIndex(_indexOfServiceCivique);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => ServiceCiviqueListPage()))
+        .then((_) => _shouldNavigate = true);
   }
 
   Widget _scrollView(SavedSearchListViewModel viewModel) {
@@ -122,7 +135,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
           CarouselButton(
             isActive: _selectedIndex == _indexOfServiceCivique,
             onPressed: () => _updateIndex(_indexOfServiceCivique),
-            label: Strings.immersionButton,
+            label: Strings.serviceCiviqueButton,
           ),
           SizedBox(width: 12),
         ],

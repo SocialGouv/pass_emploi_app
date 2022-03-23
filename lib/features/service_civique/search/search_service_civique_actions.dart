@@ -1,4 +1,5 @@
 import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
@@ -38,4 +39,10 @@ class ServiceCiviqueSearchUpdateFiltresAction {
     this.startDate,
     this.domain,
   });
+}
+
+class ServiceCiviqueSavedSearchRequestAction {
+  final ServiceCiviqueSavedSearch savedSearch;
+
+  ServiceCiviqueSavedSearchRequestAction(this.savedSearch);
 }
