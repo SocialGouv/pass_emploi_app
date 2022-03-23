@@ -265,7 +265,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
       onTap: () => viewModel.offreServiceCiviqueSelected(savedSearchsServiceCivique),
       onDeleteTap: () => _showDeleteDialog(viewModel, savedSearchsServiceCivique.id, SavedSearchType.SERVICE_CIVIQUE),
       title: savedSearchsServiceCivique.titre,
-      lieu: savedSearchsServiceCivique.ville,
+      lieu: savedSearchsServiceCivique.ville?.isNotEmpty == true ? savedSearchsServiceCivique.ville : null,
       dataTag: [
         if (domaine != null) domaine,
       ],
