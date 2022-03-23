@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
+import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
@@ -20,6 +21,8 @@ void _emptyVoidFunction() {}
 
 void _emptyImmersionFunction(ImmersionSavedSearch search) {}
 
+void _emptyServiceCiviqueFunction(ServiceCiviqueSavedSearch search) {}
+
 enum SavedSearchNavigationState { OFFRE_EMPLOI, OFFRE_IMMERSION, OFFRE_ALTERNANCE, NONE }
 
 class SavedSearchListViewModel extends Equatable {
@@ -27,6 +30,7 @@ class SavedSearchListViewModel extends Equatable {
   final List<SavedSearch> savedSearches;
   final Function(OffreEmploiSavedSearch) offreEmploiSelected;
   final Function(ImmersionSavedSearch) offreImmersionSelected;
+  final Function(ServiceCiviqueSavedSearch) offreServiceCiviqueSelected;
   final SavedSearchNavigationState searchNavigationState;
   final Function onRetry;
   final List<Immersion> immersionsResults;
@@ -36,6 +40,7 @@ class SavedSearchListViewModel extends Equatable {
     this.savedSearches = const [],
     this.offreEmploiSelected = _emptyFunction,
     this.offreImmersionSelected = _emptyImmersionFunction,
+    this.offreServiceCiviqueSelected = _emptyServiceCiviqueFunction,
     this.searchNavigationState = SavedSearchNavigationState.NONE,
     this.immersionsResults = const [],
     this.onRetry = _emptyVoidFunction,
@@ -97,6 +102,10 @@ class SavedSearchListViewModel extends Equatable {
 
   List<ImmersionSavedSearch> getImmersions() {
     return savedSearches.whereType<ImmersionSavedSearch>().toList();
+  }
+
+  List<ServiceCiviqueSavedSearch> getServiceCivique() {
+    return savedSearches.whereType<ServiceCiviqueSavedSearch>().toList();
   }
 
   static void onOffreEmploiSelected(OffreEmploiSavedSearch savedSearch, Store<AppState> store) {

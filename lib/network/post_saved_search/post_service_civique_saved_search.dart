@@ -2,7 +2,7 @@ import 'package:pass_emploi_app/network/json_serializable.dart';
 
 class PostServiceCiviqueSavedSearch implements JsonSerializable {
   final String titre;
-  final String localisation;
+  final String? localisation;
   final double? lat;
   final double? lon;
   final int? distance;

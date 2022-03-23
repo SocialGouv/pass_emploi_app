@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_act
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
+import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/pages/immersion_list_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -27,6 +28,7 @@ import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 const int _indexOfOffresEmploi = 0;
 const int _indexOfAlternance = 1;
 const int _indexOfImmersion = 2;
+const int _indexOfServiceCivique = 3;
 
 class SavedSearchTabPage extends StatefulWidget {
   @override
@@ -116,6 +118,12 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
             onPressed: () => _updateIndex(_indexOfImmersion),
             label: Strings.immersionButton,
           ),
+          SizedBox(width: Margins.spacing_base),
+          CarouselButton(
+            isActive: _selectedIndex == _indexOfServiceCivique,
+            onPressed: () => _updateIndex(_indexOfServiceCivique),
+            label: Strings.immersionButton,
+          ),
           SizedBox(width: 12),
         ],
       ),
@@ -130,6 +138,10 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
       return Center(child: Retry(Strings.savedSearchGetError, () => viewModel.onRetry()));
     }
     switch (_selectedIndex) {
+      case _indexOfServiceCivique:
+        MatomoTracker.trackScreenWithName(
+            AnalyticsScreenNames.savedSearchServiceCiviqueList, AnalyticsScreenNames.savedSearchServiceCiviqueList);
+        return _getSavedSearchServiceCivique(viewModel);
       case _indexOfOffresEmploi:
         MatomoTracker.trackScreenWithName(
             AnalyticsScreenNames.savedSearchEmploiList, AnalyticsScreenNames.savedSearchEmploiList);
@@ -200,6 +212,24 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     );
   }
 
+  Widget _getSavedSearchServiceCivique(SavedSearchListViewModel viewModel) {
+    final savedSearchsServiceCivique = viewModel.getServiceCivique();
+    if (savedSearchsServiceCivique.isEmpty) {
+      return Center(child: Text(Strings.noSavedSearchYet, style: TextStyles.textSmRegular()));
+    }
+    return ListView.builder(
+      scrollDirection: Axis.vertical,
+      itemCount: savedSearchsServiceCivique.length,
+      itemBuilder: (context, position) {
+        final double topPadding = (position == 0) ? Margins.spacing_m : 0;
+        return Padding(
+          padding: EdgeInsets.fromLTRB(Margins.spacing_base, topPadding, Margins.spacing_base, Margins.spacing_base),
+          child: _buildServiceCiviqueCard(context, savedSearchsServiceCivique[position], viewModel),
+        );
+      },
+    );
+  }
+
   Widget _buildImmersionCard(
     BuildContext context,
     ImmersionSavedSearch savedSearchsImmersion,
@@ -211,6 +241,23 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
       title: savedSearchsImmersion.title,
       lieu: savedSearchsImmersion.ville,
       dataTag: [savedSearchsImmersion.metier],
+    );
+  }
+
+  Widget _buildServiceCiviqueCard(
+    BuildContext context,
+    ServiceCiviqueSavedSearch savedSearchsServiceCivique,
+    SavedSearchListViewModel viewModel,
+  ) {
+    final domaine = savedSearchsServiceCivique.domaine?.titre;
+    return SavedSearchCard(
+      onTap: () => viewModel.offreServiceCiviqueSelected(savedSearchsServiceCivique),
+      onDeleteTap: () => _showDeleteDialog(viewModel, savedSearchsServiceCivique.id, SavedSearchType.IMMERSION),
+      title: savedSearchsServiceCivique.titre,
+      lieu: savedSearchsServiceCivique.ville,
+      dataTag: [
+        if (domaine != null) domaine,
+      ],
     );
   }
 

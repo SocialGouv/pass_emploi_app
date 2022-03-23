@@ -18,12 +18,17 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/service_civique_saved_search_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/filtre_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_offre_widget.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
+
+import '../../ui/drawables.dart';
 
 class ServiceCiviqueListPage extends TraceableStatefulWidget {
   ServiceCiviqueListPage() : super(name: AnalyticsScreenNames.serviceCiviqueResults);
@@ -118,6 +123,7 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
             runSpacing: 16,
             children: [
               _filtrePrimaryButton(viewModel),
+              _alertPrimaryButton(context),
             ],
           ),
         ),
@@ -262,5 +268,21 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
         if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
       }
     });
+  }
+
+  Widget _alertPrimaryButton(BuildContext context) {
+    return PrimaryActionButton(
+      label: Strings.createAlert,
+      drawableRes: Drawables.icAlert,
+      rippleColor: AppColors.primaryDarken,
+      heightPadding: 6,
+      widthPadding: 6,
+      iconSize: 16,
+      onPressed: () => _onAlertButtonPressed(context),
+    );
+  }
+
+  void _onAlertButtonPressed(BuildContext context) {
+    showPassEmploiBottomSheet(context: context, builder: (context) => ServiceCiviqueSavedSearchBottomSheet());
   }
 }

@@ -4,7 +4,11 @@ import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
+import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
+import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/network/filtres_request.dart';
+
+import '../../models/service_civique_filtres_pameters.dart';
 
 class SavedSearchResponse {
   final String id;
@@ -47,6 +51,9 @@ class SavedSearchResponseCriteres {
   final double? lon;
   final double? lat;
   final String? rome;
+  final String? domaine;
+  final int? distance;
+  final String? dateDeDebutMinimum;
 
   SavedSearchResponseCriteres({
     this.q,
@@ -60,6 +67,9 @@ class SavedSearchResponseCriteres {
     this.lon,
     this.lat,
     this.rome,
+    this.domaine,
+    this.distance,
+    this.dateDeDebutMinimum,
   });
 
   factory SavedSearchResponseCriteres.fromJson(dynamic json) {
@@ -75,6 +85,9 @@ class SavedSearchResponseCriteres {
       lat: (json["lat"] as num?)?.toDouble(),
       lon: (json["lon"] as num?)?.toDouble(),
       rome: json["rome"] as String?,
+      domaine: json["domaine"] as String?,
+      distance: (json["distance"] as num?)?.toInt(),
+      dateDeDebutMinimum: json["dateDeDebutMinimum"] as String?,
     );
   }
 }
@@ -140,6 +153,35 @@ class SavedSearchImmersionExtractor {
       return Location(
         type: LocationType.COMMUNE,
         code: savedSearch.criteres.commune ?? savedSearch.criteres.departement ?? "",
+        libelle: savedSearch.localisation ?? "",
+        codePostal: null,
+        longitude: savedSearch.criteres.lon,
+        latitude: savedSearch.criteres.lat,
+      );
+    } else {
+      return null;
+    }
+  }
+}
+
+class SavedSearchServiceCiviqueExtractor {
+  ServiceCiviqueSavedSearch extract(SavedSearchResponse savedSearch) {
+    return ServiceCiviqueSavedSearch(
+      id: savedSearch.id,
+      titre: savedSearch.titre,
+      domaine: Domaine.fromTag(savedSearch.criteres.domaine),
+      ville: savedSearch.localisation,
+      filtres: ServiceCiviqueFiltresParameters.distance(savedSearch.criteres.distance),
+      dateDeDebut: savedSearch.criteres.dateDeDebutMinimum,
+      location: _getLocation(savedSearch),
+    );
+  }
+
+  Location? _getLocation(SavedSearchResponse savedSearch) {
+    if (savedSearch.localisation != null) {
+      return Location(
+        type: LocationType.COMMUNE,
+        code: savedSearch.localisation!,
         libelle: savedSearch.localisation ?? "",
         codePostal: null,
         longitude: savedSearch.criteres.lon,

@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/models/service_civique_filtres_pameters.dart';
 class ServiceCiviqueSavedSearch extends Equatable implements SavedSearch {
   final String id;
   final String titre;
-  final String ville;
+  final String? ville;
   final ServiceCiviqueFiltresParameters filtres;
   final Location? location;
   final Domaine? domaine;
@@ -16,8 +16,8 @@ class ServiceCiviqueSavedSearch extends Equatable implements SavedSearch {
   ServiceCiviqueSavedSearch({
     required this.id,
     required this.titre,
-    required this.ville,
     required this.filtres,
+    this.ville,
     this.location,
     this.domaine,
     this.dateDeDebut,
