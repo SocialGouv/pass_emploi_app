@@ -24,6 +24,7 @@ import 'package:pass_emploi_app/configuration/app_version_checker.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/network/interceptors/access_token_interceptor.dart';
+import 'package:pass_emploi_app/network/cache_interceptor.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/interceptors/logging_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logout_interceptor.dart';
@@ -63,6 +64,8 @@ import 'package:pass_emploi_app/repositories/user_action_pe_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
+
+import 'network/cache_manager.dart';
 
 class AppInitializer {
   Future<Widget> initializeApp() async {
@@ -142,8 +145,9 @@ class AppInitializer {
       crashlytics.recordNonNetworkException(e, stack);
     }
     final Client clientWithCertificate = IOClient(HttpClient(context: defaultContext));
+    final passEmploiCacheManager = PassEmploiCacheManager();
     final httpClient = InterceptedClient.build(
-      client: clientWithCertificate,
+      client: HttpClientWithCache(passEmploiCacheManager, clientWithCertificate),
       interceptors: [
         AccessTokenInterceptor(accessTokenRetriever, poleEmploiTokenRepository),
         LogoutInterceptor(authAccessChecker),
@@ -159,16 +163,16 @@ class AppInitializer {
       chatCrypto,
       poleEmploiTokenRepository,
       PoleEmploiAuthRepository(configuration.authIssuer, httpClient, crashlytics),
-      UserActionRepository(baseUrl, httpClient, headersBuilder, crashlytics),
+      UserActionRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
       UserActionPERepository(baseUrl, httpClient, headersBuilder, poleEmploiTokenRepository, crashlytics),
       RendezvousRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       OffreEmploiRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       ChatRepository(chatCrypto, crashlytics),
       RegisterTokenRepository(baseUrl, httpClient, headersBuilder, pushNotificationManager, crashlytics),
       OffreEmploiDetailsRepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      OffreEmploiFavorisRepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      ImmersionFavorisRepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      ServiceCiviqueFavorisRepository(baseUrl, httpClient, headersBuilder, crashlytics),
+      OffreEmploiFavorisRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
+      ImmersionFavorisRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
+      ServiceCiviqueFavorisRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
       SearchLocationRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       MetierRepository(),
       ImmersionRepository(baseUrl, httpClient, headersBuilder, crashlytics),
@@ -176,11 +180,11 @@ class AppInitializer {
       FirebaseAuthRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       FirebaseAuthWrapper(),
       TrackingEventRepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      OffreEmploiSavedSearchRepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      ImmersionSavedSearchRepository(baseUrl, httpClient, headersBuilder, crashlytics),
+      OffreEmploiSavedSearchRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
+      ImmersionSavedSearchRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
       ServiceCiviqueSavedSearchRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       GetSavedSearchRepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      SavedSearchDeleteRepository(baseUrl, httpClient, headersBuilder, crashlytics),
+      SavedSearchDeleteRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
       ServiceCiviqueRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       ServiceCiviqueDetailRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       ConseillerRepository(baseUrl, httpClient, headersBuilder, crashlytics),
