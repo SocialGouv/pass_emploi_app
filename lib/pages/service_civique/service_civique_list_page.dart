@@ -13,6 +13,7 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/service_civique_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
@@ -27,8 +28,6 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_offre_widget.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
-
-import '../../ui/drawables.dart';
 
 class ServiceCiviqueListPage extends TraceableStatefulWidget {
   ServiceCiviqueListPage() : super(name: AnalyticsScreenNames.serviceCiviqueResults);

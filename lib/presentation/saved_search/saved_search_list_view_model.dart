@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_se
 import 'package:pass_emploi_app/features/offre_emploi/saved_search/offre_emploi_saved_search_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
+import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_actions.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
@@ -15,8 +16,6 @@ import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
-
-import '../../features/service_civique/search/search_service_civique_actions.dart';
 
 void _emptyFunction(OffreEmploiSavedSearch search) {}
 
