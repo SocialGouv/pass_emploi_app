@@ -68,6 +68,7 @@ class AnalyticsScreenNames {
   static const savedSearchEmploiDelete = "/saved_search/emploi/delete";
   static const savedSearchAlternanceDelete = "/saved_search/alternance/delete";
   static const savedSearchImmersionDelete = "/saved_search/immersion/delete";
+  static const savedSearchServiceCiviqueDelete = "/saved_search/service-civique/delete";
 }
 
 class AnalyticsActionNames {
@@ -108,6 +109,7 @@ class AnalyticsActionNames {
   static String deleteSavedSearchEmploi = "/saved_searches/emploi/list?deleteSuccess=true";
   static String deleteSavedSearchAlternance = "/saved_searches/alternance/list?deleteSuccess=true";
   static String deleteSavedSearchImmersion = "/saved_searches/immersion/list?deleteSuccess=true";
+  static String deleteSavedSearchServiceCivique = "/saved_searches/service-civique/list?deleteSuccess=true";
 }
 
 class AnalyticsCustomDimensions {

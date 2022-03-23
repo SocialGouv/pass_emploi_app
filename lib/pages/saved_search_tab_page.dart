@@ -89,9 +89,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     }).then((_) => _shouldNavigate = true);
   }
 
-  void _goToServiceCivique(
-    BuildContext context,
-  ) {
+  void _goToServiceCivique(BuildContext context) {
     _shouldNavigate = false;
     _updateIndex(_indexOfServiceCivique);
     Navigator.push(context, MaterialPageRoute(builder: (context) => ServiceCiviqueListPage()))
@@ -265,7 +263,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     final domaine = savedSearchsServiceCivique.domaine?.titre;
     return SavedSearchCard(
       onTap: () => viewModel.offreServiceCiviqueSelected(savedSearchsServiceCivique),
-      onDeleteTap: () => _showDeleteDialog(viewModel, savedSearchsServiceCivique.id, SavedSearchType.IMMERSION),
+      onDeleteTap: () => _showDeleteDialog(viewModel, savedSearchsServiceCivique.id, SavedSearchType.SERVICE_CIVIQUE),
       title: savedSearchsServiceCivique.titre,
       lieu: savedSearchsServiceCivique.ville,
       dataTag: [

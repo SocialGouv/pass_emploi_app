@@ -122,8 +122,8 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
             spacing: 16,
             runSpacing: 16,
             children: [
-              _filtrePrimaryButton(viewModel),
               _alertPrimaryButton(context),
+              _filtrePrimaryButton(viewModel),
             ],
           ),
         ),
