@@ -27,6 +27,7 @@ import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repo
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
@@ -157,6 +158,10 @@ class DummyOffreEmploiSavedSearchRepository extends OffreEmploiSavedSearchReposi
 
 class DummyImmersionSavedSearchRepository extends ImmersionSavedSearchRepository {
   DummyImmersionSavedSearchRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+}
+
+class DummyServiceCiviqueSavedSearchRepository extends ServiceCiviqueSavedSearchRepository {
+  DummyServiceCiviqueSavedSearchRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
 }
 
 class DummyGetSavedSearchRepository extends GetSavedSearchRepository {
