@@ -4,11 +4,11 @@ import 'package:pass_emploi_app/models/conseiller.dart';
 class Rendezvous extends Equatable {
   final String id;
   final DateTime date;
-  final String modality;
   final bool isInVisio;
   final bool withConseiller;
   final bool isAnnule;
   final RendezvousType type;
+  final String? modality;
   final int? duration;
   final String? comment;
   final String? organism;
@@ -23,11 +23,11 @@ class Rendezvous extends Equatable {
   Rendezvous({
     required this.id,
     required this.date,
-    required this.modality,
     required this.isInVisio,
     required this.withConseiller,
     required this.isAnnule,
     required this.type,
+    this.modality,
     this.duration,
     this.comment,
     this.organism,

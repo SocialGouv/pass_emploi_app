@@ -181,12 +181,12 @@ ServiceCiviqueDetail mockServiceCiviqueDetail() => ServiceCiviqueDetail(
 
 Rendezvous mockRendezvous({
   String id = '',
-  DateTime? date,
-  String modality = '',
   bool isInVisio = false,
   bool withConseiller = false,
   bool isAnnule = false,
   RendezvousType type = const RendezvousType(RendezvousTypeCode.AUTRE, ''),
+  DateTime? date,
+  String? modality,
   int? duration,
   String? comment,
   String? organism,

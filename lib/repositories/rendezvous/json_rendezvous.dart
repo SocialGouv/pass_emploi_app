@@ -73,7 +73,7 @@ class JsonRendezvous {
       id: id,
       date: date,
       duration: duration != 0 ? duration : null,
-      modality: modality,
+      modality: modality.isNotEmpty ? modality : null,
       isInVisio: isInVisio ?? false,
       withConseiller: withConseiller ?? false,
       isAnnule: isAnnule ?? false,

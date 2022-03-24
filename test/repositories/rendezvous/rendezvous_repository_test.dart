@@ -46,7 +46,7 @@ void main() {
       Rendezvous(
         id: '2d663392-b9ff-4b20-81ca-70a3c779e300',
         date: parseDateTimeUtcWithCurrentTimeZone('2021-11-29T13:34:00.000Z'),
-        modality: 'La visite se fera en présentiel',
+        modality: null,
         isInVisio: false,
         duration: 23,
         withConseiller: false,

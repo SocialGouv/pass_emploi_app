@@ -398,7 +398,7 @@ void main() {
       // Given
       final store = _store(mockRendezvous(
         id: '1',
-        modality: '',
+        modality: null,
         address: null,
         phone: null,
         organism: null,

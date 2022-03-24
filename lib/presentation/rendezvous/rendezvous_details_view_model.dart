@@ -140,8 +140,8 @@ String? _commentTitle(Rendezvous rdv, String? comment) {
 
 String? _modality(Rendezvous rdv) {
   if (rdv.isInVisio) return Strings.rendezvousVisioModalityMessage;
-  if (rdv.modality.isEmpty) return null;
-  final modality = rdv.modality.firstLetterLowerCased();
+  if (rdv.modality == null) return null;
+  final modality = rdv.modality!.firstLetterLowerCased();
   final conseiller = rdv.conseiller;
   if (rdv.withConseiller && conseiller != null) {
     return Strings.rendezvousModalityWithConseillerDetailsMessage(
