@@ -30,7 +30,9 @@ import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 class ServiceCiviqueListPage extends TraceableStatefulWidget {
-  ServiceCiviqueListPage() : super(name: AnalyticsScreenNames.serviceCiviqueResults);
+  final bool fromSavedSearch;
+
+  ServiceCiviqueListPage([this.fromSavedSearch = false]) : super(name: AnalyticsScreenNames.serviceCiviqueResults);
 
   @override
   State<ServiceCiviqueListPage> createState() => _ServiceCiviqueListPage();
@@ -229,6 +231,7 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
     MatomoTracker.trackScreenWithName(
         AnalyticsScreenNames.serviceCiviqueNoResults, AnalyticsScreenNames.serviceCiviqueNoResults);
     return EmptyOffreWidget(
+      withModifyButton: !widget.fromSavedSearch,
       additional: Padding(
         padding: const EdgeInsets.only(top: Margins.spacing_base),
         child: Column(

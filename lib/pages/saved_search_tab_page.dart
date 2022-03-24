@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_actions.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
@@ -48,7 +49,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
           store.dispatch(SavedSearchGetAction(link.dataId!));
         }
       },
-      onWillChange: _onWillChange,
+      onWillChange: (_, newVM) => _onWillChange(_, newVM),
       builder: (context, viewModel) => _scrollView(viewModel),
       converter: (store) => SavedSearchListViewModel.createFromStore(store),
       distinct: true,
@@ -65,21 +66,21 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
         _goToPage(context, _indexOfAlternance, OffreEmploiListPage(onlyAlternance: true, fromSavedSearch: true));
         break;
       case SavedSearchNavigationState.OFFRE_IMMERSION:
-        // TODO : Que faire du dispatch(ImmersionListResetAction()) ??? A garder > généraliser, ou supprimer ?
-        _goToPage(context, _indexOfImmersion, ImmersionListPage(true));
+        _goToPage(context, _indexOfImmersion, ImmersionListPage(true))
+            .then((value) => StoreProvider.of<AppState>(context).dispatch(ImmersionListResetAction()));
         break;
       case SavedSearchNavigationState.SERVICE_CIVIQUE:
-        _goToPage(context, _indexOfServiceCivique, ServiceCiviqueListPage());
+        _goToPage(context, _indexOfServiceCivique, ServiceCiviqueListPage(true));
         break;
       case SavedSearchNavigationState.NONE:
         break;
     }
   }
 
-  void _goToPage(BuildContext context, int newIndex, Widget page) {
+  Future<bool> _goToPage(BuildContext context, int newIndex, Widget page) {
     _shouldNavigate = false;
     _updateIndex(newIndex);
-    Navigator.push(context, MaterialPageRoute(builder: (_) => page)).then((_) => _shouldNavigate = true);
+    return Navigator.push(context, MaterialPageRoute(builder: (_) => page)).then((_) => _shouldNavigate = true);
   }
 
   Widget _scrollView(SavedSearchListViewModel viewModel) {
