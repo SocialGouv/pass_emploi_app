@@ -54,7 +54,7 @@ class _CejInformationPageState extends State<CejInformationPage> {
                       _backButton(context),
                       Spacer(),
                       InkWell(
-                        onTap: () => Navigator.push(context, ChoixOrganismePage.materialPageRoute()),
+                        onTap: () => Navigator.pushNamed(context, ChoixOrganismePage.routeName),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                             vertical: Margins.spacing_s,
@@ -89,7 +89,7 @@ class _CejInformationPageState extends State<CejInformationPage> {
                           curve: Curves.linearToEaseOut,
                         );
                       } else {
-                        Navigator.push(context, ChoixOrganismePage.materialPageRoute());
+                        Navigator.pushNamed(context, ChoixOrganismePage.routeName);
                       }
                     },
                   ),
