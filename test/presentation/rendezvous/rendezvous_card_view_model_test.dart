@@ -142,6 +142,19 @@ void main() {
       expect(viewModel.subtitle, isNull);
     });
 
+    test('should display whether rdv is annule or not', () {
+      // Given
+      final store = _store(
+        mockRendezvous(id: '1', isAnnule: true),
+      );
+
+      // When
+      final viewModel = RendezvousCardViewModel.create(store, '1');
+
+      // Then
+      expect(viewModel.isAnnule, isTrue);
+    });
+
     test('full view model test', () {
       // Given
       final store = _store(
@@ -168,6 +181,7 @@ void main() {
           id: '1',
           tag: 'Atelier',
           date: 'Le 23/12/2021 à 10h20',
+          isAnnule: false,
           title: 'Avec : Entreprise Bio Carburant',
           subtitle: 'Par téléphone',
         ),

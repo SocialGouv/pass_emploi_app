@@ -52,6 +52,7 @@ class _Container extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  if (viewModel.isAnnule) _Annule(),
                   _Tag(viewModel.tag),
                   _Date(viewModel.date),
                   if (viewModel.title != null) _Titre(viewModel.title!),
@@ -61,6 +62,30 @@ class _Container extends StatelessWidget {
               ),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class _Annule extends StatelessWidget {
+  const _Annule({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 10),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(40)),
+          color: AppColors.warningLight,
+          border: Border.all(color: AppColors.warning),
+        ),
+        padding: const EdgeInsets.symmetric(vertical: Margins.spacing_xs, horizontal: Margins.spacing_base),
+        child: Text(
+          Strings.rendezvousAnnule,
+          style: TextStyles.textSRegularWithColor(AppColors.warning),
+          overflow: TextOverflow.ellipsis,
         ),
       ),
     );

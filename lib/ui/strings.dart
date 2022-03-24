@@ -105,6 +105,7 @@ class Strings {
 
   // Rendezvous
   static String myRendezVous = "Mon rendez-vous";
+  static String rendezvousAnnule = "Annulé";
   static String rendezVousConseillerCommentLabel = "Commentaire de mon conseiller";
   static String cannotGoToRendezvous = "Vous ne pouvez pas vous rendre au rendez-vous ?";
   static String shouldInformConseiller =
