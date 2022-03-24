@@ -292,7 +292,7 @@ void main() {
 
     test('should not display empty modality', () {
       // Given
-      final store = _store(mockRendezvous(id: '1', modality: ''));
+      final store = _store(mockRendezvous(id: '1', modality: null));
 
       // When
       final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);

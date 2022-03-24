@@ -114,11 +114,7 @@ void main() {
 
     test('should display modality without conseiller', () {
       // Given
-      final store = _store(mockRendezvous(
-        id: '1',
-        modality: "en visio",
-        withConseiller: false,
-      ));
+      final store = _store(mockRendezvous(id: '1', modality: "en visio", withConseiller: false));
 
       // When
       final viewModel = RendezvousCardViewModel.create(store, '1');
@@ -129,11 +125,7 @@ void main() {
 
     test('should not display empty modality', () {
       // Given
-      final store = _store(mockRendezvous(
-        id: '1',
-        modality: "",
-        withConseiller: false,
-      ));
+      final store = _store(mockRendezvous(id: '1', modality: null, withConseiller: false));
 
       // When
       final viewModel = RendezvousCardViewModel.create(store, '1');

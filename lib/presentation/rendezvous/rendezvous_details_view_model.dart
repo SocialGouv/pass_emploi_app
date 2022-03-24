@@ -153,7 +153,7 @@ String? _modality(Rendezvous rdv) {
 }
 
 bool _withModalityPart(Rendezvous rdv) {
-  return rdv.modality != '' || rdv.address != null || rdv.organism != null || rdv.phone != null || rdv.isInVisio;
+  return rdv.modality != null || rdv.address != null || rdv.organism != null || rdv.phone != null || rdv.isInVisio;
 }
 
 VisioButtonState _visioButtonState(Rendezvous rdv) {
