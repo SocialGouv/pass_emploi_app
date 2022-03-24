@@ -14,11 +14,8 @@ import 'package:pass_emploi_app/widgets/onboarding_background.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class CejInformationPage extends StatefulWidget {
-  static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => CejInformationPage());
-  }
 
-  CejInformationPage({Key? key}) : super(key: key);
+  static const routeName = "/entree/information";
 
   @override
   State<CejInformationPage> createState() => _CejInformationPageState();
