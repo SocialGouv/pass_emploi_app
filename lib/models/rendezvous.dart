@@ -1,49 +1,38 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
-import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 class Rendezvous extends Equatable {
   final String id;
   final DateTime date;
-  final int duration;
   final String modality;
+  final bool isInVisio;
   final bool withConseiller;
+  final bool isAnnule;
   final RendezvousType type;
+  final int? duration;
   final String? comment;
   final String? organism;
   final String? address;
+  final String? visioRedirectUrl;
   final String? precision;
   final Conseiller? conseiller;
 
   Rendezvous({
     required this.id,
     required this.date,
-    required this.duration,
     required this.modality,
+    required this.isInVisio,
     required this.withConseiller,
+    required this.isAnnule,
     required this.type,
+    this.duration,
     this.comment,
     this.organism,
     this.address,
+    this.visioRedirectUrl,
     this.precision,
     this.conseiller,
   });
-
-  factory Rendezvous.fromJson(dynamic json) {
-    return Rendezvous(
-      id: json['id'] as String,
-      date: (json['date'] as String).toDateTimeUtcOnLocalTimeZone(),
-      duration: json['duration'] as int,
-      modality: json['modality'] as String,
-      withConseiller: json['presenceConseiller'] as bool,
-      type: RendezvousType.fromJson(json['type']),
-      comment: json['comment'] as String?,
-      organism: json['organisme'] as String?,
-      address: json['adresse'] as String?,
-      precision: json['precision'] as String?,
-      conseiller: json['conseiller'] != null ? Conseiller.fromJson(json['conseiller']) : null,
-    );
-  }
 
   @override
   List<Object?> get props {
@@ -51,12 +40,15 @@ class Rendezvous extends Equatable {
       id,
       date,
       duration,
+      isInVisio,
       modality,
       withConseiller,
+      isAnnule,
       type,
       comment,
       organism,
       address,
+      visioRedirectUrl,
       precision,
       conseiller,
     ];
@@ -69,22 +61,8 @@ class RendezvousType extends Equatable {
 
   const RendezvousType(this.code, this.label);
 
-  factory RendezvousType.fromJson(dynamic json) {
-    return RendezvousType(
-      _parseRendezvousTypeCode(json['code'] as String),
-      json['label'] as String,
-    );
-  }
-
   @override
   List<Object?> get props => [code, label];
-
-  static RendezvousTypeCode _parseRendezvousTypeCode(String rendezvousTypeCode) {
-    return RendezvousTypeCode.values.firstWhere(
-      (e) => e.name == rendezvousTypeCode,
-      orElse: () => RendezvousTypeCode.AUTRE,
-    );
-  }
 }
 
 enum RendezvousTypeCode {
@@ -94,5 +72,6 @@ enum RendezvousTypeCode {
   ENTRETIEN_PARTENAIRE,
   INFORMATION_COLLECTIVE,
   VISITE,
+  PRESTATION,
   AUTRE,
 }

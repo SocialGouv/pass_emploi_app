@@ -48,7 +48,7 @@ class RendezvousDetailsViewModel extends Equatable {
     return RendezvousDetailsViewModel(
       title: takeTypeLabelOrPrecision(rdv),
       date: rdv.date.toDayWithFullMonthContextualized(),
-      hourAndDuration: "${rdv.date.toHour()} (${_toDuration(rdv.duration)})",
+      hourAndDuration: _hourAndDuration(rdv),
       modality: _modality(rdv),
       conseillerPresenceLabel: rdv.withConseiller ? Strings.conseillerIsPresent : Strings.conseillerIsNotPresent,
       conseillerPresenceColor: rdv.withConseiller ? AppColors.secondary : AppColors.warning,
@@ -78,6 +78,11 @@ class RendezvousDetailsViewModel extends Equatable {
       addressRedirectUri?.toString(),
     ];
   }
+}
+
+String _hourAndDuration(Rendezvous rdv) {
+  final hour = rdv.date.toHour();
+  return rdv.duration != null ? "$hour (${_toDuration(rdv.duration!)})" : hour;
 }
 
 String _toDuration(int duration) {
@@ -119,6 +124,8 @@ String _trackingPageName(RendezvousTypeCode code) {
       return AnalyticsScreenNames.rendezvousInformationCollective;
     case RendezvousTypeCode.VISITE:
       return AnalyticsScreenNames.rendezvousVisite;
+    case RendezvousTypeCode.PRESTATION:
+      return AnalyticsScreenNames.rendezvousPrestation;
     case RendezvousTypeCode.AUTRE:
       return AnalyticsScreenNames.rendezvousAutre;
   }

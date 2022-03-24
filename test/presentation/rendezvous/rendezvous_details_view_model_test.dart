@@ -105,6 +105,17 @@ void main() {
       expect(viewModel.date, 'Demain');
     });
 
+    test('and duration is null', () {
+      // Given
+      final store = _store(mockRendezvous(id: '1', date: DateTime(2022, 3, 1, 12, 30), duration: null));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+
+      // Then
+      expect(viewModel.hourAndDuration, '12:30');
+    });
+
     test('and duration is less than one hour', () {
       // Given
       final store = _store(mockRendezvous(id: '1', date: DateTime(2022, 3, 1, 12, 30), duration: 30));
@@ -288,7 +299,9 @@ void main() {
         date: DateTime(2022, 3, 1),
         duration: 30,
         modality: 'Sur place : Mission Locale',
+        isInVisio: false,
         withConseiller: true,
+        isAnnule: false,
         type: RendezvousType(RendezvousTypeCode.ATELIER, 'Atelier'),
         comment: 'comment',
         organism: 'organism',
@@ -362,6 +375,11 @@ void main() {
     assertTrackingPageName(
       mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.VISITE, '')),
       'rdv/visite',
+    );
+
+    assertTrackingPageName(
+      mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.PRESTATION, '')),
+      'rdv/prestation',
     );
 
     assertTrackingPageName(
