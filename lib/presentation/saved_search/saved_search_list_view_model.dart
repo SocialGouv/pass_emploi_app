@@ -65,7 +65,11 @@ class SavedSearchListViewModel extends Equatable {
         displayState: DisplayState.CONTENT,
         savedSearches: state.savedSearches.toList(),
         searchNavigationState: _getSearchNavigationState(
-            searchResultState, searchParamsState, immersionListState, serviceCiviqueListState),
+          searchResultState,
+          searchParamsState,
+          immersionListState,
+          serviceCiviqueListState,
+        ),
         immersionsResults: immersionListState is ImmersionListSuccessState ? immersionListState.immersions : [],
         offreEmploiSelected: (savedSearch) => store.dispatch(SavedSearchGetAction(savedSearch.id)),
         offreImmersionSelected: (savedSearch) => store.dispatch(SavedSearchGetAction(savedSearch.id)),

@@ -13,8 +13,9 @@ class ServiceCiviqueSavedSearchBottomSheet extends AbstractSavedSearchBottomShee
   ServiceCiviqueSavedSearchBottomSheet() : super(analyticsScreenName: AnalyticsScreenNames.immersionCreateAlert);
 
   @override
-  ServiceCiviqueSavedSearchViewModel converter(Store<AppState> store) =>
-      SavedSearchViewModel.createForServiceCivique(store);
+  ServiceCiviqueSavedSearchViewModel converter(Store<AppState> store) {
+    return SavedSearchViewModel.createForServiceCivique(store);
+  }
 
   @override
   Widget buildSaveSearch(BuildContext context, ServiceCiviqueSavedSearchViewModel itemViewModel) {

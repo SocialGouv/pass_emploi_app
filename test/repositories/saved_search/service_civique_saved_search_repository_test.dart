@@ -27,7 +27,7 @@ void main() {
 
     test("return FALSE if response is invalid", () async {
       // Given
-      final httpClient = _failureClient();
+      final httpClient = MockClient((request) async => Response("", 500));
       final repository = ServiceCiviqueSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub());
 
       // When
@@ -36,12 +36,6 @@ void main() {
       // Then
       expect(result, isFalse);
     });
-  });
-}
-
-MockClient _failureClient() {
-  return MockClient((request) async {
-    return Response("", 500);
   });
 }
 
