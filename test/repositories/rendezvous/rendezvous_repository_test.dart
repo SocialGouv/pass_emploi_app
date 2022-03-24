@@ -87,6 +87,9 @@ void main() {
         duration: null,
         address: '11 RUE Paul Vimereu  80142 ABBEVILLE',
         organism: 'Agence Pôle Emploi',
+        phone: '01.02.03.04.05',
+        theme: 'Activ\'Projet',
+        description: 'J\'explore des pistes professionnelles.',
         visioRedirectUrl: 'http://www.visio.fr',
       ),
     );

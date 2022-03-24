@@ -83,7 +83,7 @@ class _Annule extends StatelessWidget {
         ),
         padding: const EdgeInsets.symmetric(vertical: Margins.spacing_xs, horizontal: Margins.spacing_base),
         child: Text(
-          Strings.rendezvousAnnule,
+          Strings.rendezvousCardAnnule,
           style: TextStyles.textSRegularWithColor(AppColors.warning),
           overflow: TextOverflow.ellipsis,
         ),

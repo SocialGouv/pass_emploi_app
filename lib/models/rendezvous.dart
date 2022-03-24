@@ -13,7 +13,10 @@ class Rendezvous extends Equatable {
   final String? comment;
   final String? organism;
   final String? address;
+  final String? phone;
   final String? visioRedirectUrl;
+  final String? theme;
+  final String? description;
   final String? precision;
   final Conseiller? conseiller;
 
@@ -29,7 +32,10 @@ class Rendezvous extends Equatable {
     this.comment,
     this.organism,
     this.address,
+    this.phone,
     this.visioRedirectUrl,
+    this.theme,
+    this.description,
     this.precision,
     this.conseiller,
   });
@@ -48,7 +54,10 @@ class Rendezvous extends Equatable {
       comment,
       organism,
       address,
+      phone,
       visioRedirectUrl,
+      theme,
+      description,
       precision,
       conseiller,
     ];

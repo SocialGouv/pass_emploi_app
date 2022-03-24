@@ -17,8 +17,11 @@ class JsonRendezvous {
   final String? organism;
   final bool? isInAgencePoleEmploi;
   final String? address;
+  final String? phone;
   final String? visioRedirectUrl;
   final String? precision;
+  final String? theme;
+  final String? description;
   final Conseiller? conseiller;
 
   JsonRendezvous._({
@@ -34,7 +37,10 @@ class JsonRendezvous {
     required this.isInAgencePoleEmploi,
     required this.organism,
     required this.address,
+    required this.phone,
     required this.visioRedirectUrl,
+    required this.theme,
+    required this.description,
     required this.precision,
     required this.conseiller,
   });
@@ -53,7 +59,10 @@ class JsonRendezvous {
       organism: json['organisme'] as String?,
       isInAgencePoleEmploi: json['agencePE'] as bool?,
       address: json['adresse'] as String?,
+      phone: json['telephone'] as String?,
       visioRedirectUrl: json['lienVisio'] as String?,
+      theme: json['theme'] as String?,
+      description: json['description'] as String?,
       precision: json['precision'] as String?,
       conseiller: json['conseiller'] != null ? Conseiller.fromJson(json['conseiller']) : null,
     );
@@ -72,7 +81,10 @@ class JsonRendezvous {
       comment: comment,
       organism: isInAgencePoleEmploi == true ? _poleEmploiOrganism : organism,
       address: address,
+      phone: phone,
       visioRedirectUrl: visioRedirectUrl,
+      theme: theme,
+      description: description,
       precision: precision,
       conseiller: conseiller,
     );

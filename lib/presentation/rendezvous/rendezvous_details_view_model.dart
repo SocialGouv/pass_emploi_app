@@ -19,13 +19,22 @@ class RendezvousDetailsViewModel extends Equatable {
   final String hourAndDuration;
   final String conseillerPresenceLabel;
   final Color conseillerPresenceColor;
+  final bool isAnnule;
+  final bool withConseillerPresencePart;
+  final bool withDescriptionPart;
+  final bool withModalityPart;
+  final VisioButtonState visioButtonState;
   final String trackingPageName;
   final String? commentTitle;
   final String? comment;
   final String? modality;
   final String? organism;
+  final String? phone;
   final String? address;
   final Uri? addressRedirectUri;
+  final String? visioRedirectUrl;
+  final String? theme;
+  final String? description;
 
   RendezvousDetailsViewModel({
     required this.title,
@@ -33,18 +42,28 @@ class RendezvousDetailsViewModel extends Equatable {
     required this.hourAndDuration,
     required this.conseillerPresenceLabel,
     required this.conseillerPresenceColor,
+    required this.isAnnule,
+    required this.withConseillerPresencePart,
+    required this.withDescriptionPart,
+    required this.withModalityPart,
+    required this.visioButtonState,
     required this.trackingPageName,
     this.commentTitle,
     this.comment,
     this.modality,
     this.organism,
+    this.phone,
     this.address,
     this.addressRedirectUri,
+    this.visioRedirectUrl,
+    this.theme,
+    this.description,
   });
 
   factory RendezvousDetailsViewModel.create(Store<AppState> store, String rdvId, Platform platform) {
     final rdv = getRendezvousFromStore(store, rdvId);
     final comment = (rdv.comment != null && rdv.comment!.trim().isNotEmpty) ? rdv.comment : null;
+    final address = rdv.isInVisio ? null : rdv.address;
     return RendezvousDetailsViewModel(
       title: takeTypeLabelOrPrecision(rdv),
       date: rdv.date.toDayWithFullMonthContextualized(),
@@ -52,12 +71,21 @@ class RendezvousDetailsViewModel extends Equatable {
       modality: _modality(rdv),
       conseillerPresenceLabel: rdv.withConseiller ? Strings.conseillerIsPresent : Strings.conseillerIsNotPresent,
       conseillerPresenceColor: rdv.withConseiller ? AppColors.secondary : AppColors.warning,
+      isAnnule: rdv.isAnnule,
+      withConseillerPresencePart: rdv.type.code != RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER,
+      withDescriptionPart: rdv.description != null || rdv.theme != null,
+      withModalityPart: _withModalityPart(rdv),
+      visioButtonState: _visioButtonState(rdv),
+      visioRedirectUrl: rdv.visioRedirectUrl,
       trackingPageName: _trackingPageName(rdv.type.code),
       commentTitle: _commentTitle(rdv, comment),
       comment: comment,
       organism: rdv.organism,
-      address: rdv.address,
-      addressRedirectUri: rdv.address != null ? UriHandler().mapsUri(rdv.address!, platform) : null,
+      address: address,
+      phone: rdv.phone != null ? Strings.phone(rdv.phone!) : null,
+      addressRedirectUri: address != null ? UriHandler().mapsUri(address, platform) : null,
+      theme: rdv.theme,
+      description: rdv.description,
     );
   }
 
@@ -70,15 +98,26 @@ class RendezvousDetailsViewModel extends Equatable {
       modality,
       conseillerPresenceLabel,
       conseillerPresenceColor,
+      isAnnule,
+      withConseillerPresencePart,
+      withDescriptionPart,
+      withModalityPart,
+      visioButtonState,
       trackingPageName,
       commentTitle,
       comment,
       organism,
+      phone,
       address,
       addressRedirectUri?.toString(),
+      visioRedirectUrl,
+      theme,
+      description,
     ];
   }
 }
+
+enum VisioButtonState { ACTIVE, INACTIVE, HIDDEN }
 
 String _hourAndDuration(Rendezvous rdv) {
   final hour = rdv.date.toHour();
@@ -100,14 +139,27 @@ String? _commentTitle(Rendezvous rdv, String? comment) {
 }
 
 String? _modality(Rendezvous rdv) {
+  if (rdv.isInVisio) return Strings.rendezvousVisioModalityMessage;
   if (rdv.modality.isEmpty) return null;
   final modality = rdv.modality.firstLetterLowerCased();
   final conseiller = rdv.conseiller;
   if (rdv.withConseiller && conseiller != null) {
     return Strings.rendezvousModalityWithConseillerDetailsMessage(
-        modality, '${conseiller.firstName} ${conseiller.lastName}');
+      modality,
+      '${conseiller.firstName} ${conseiller.lastName}',
+    );
   }
   return Strings.rendezvousModalityDetailsMessage(modality);
+}
+
+bool _withModalityPart(Rendezvous rdv) {
+  return rdv.modality != '' || rdv.address != null || rdv.organism != null || rdv.phone != null || rdv.isInVisio;
+}
+
+VisioButtonState _visioButtonState(Rendezvous rdv) {
+  if (rdv.isInVisio && rdv.visioRedirectUrl != null) return VisioButtonState.ACTIVE;
+  if (rdv.isInVisio && rdv.visioRedirectUrl == null) return VisioButtonState.INACTIVE;
+  return VisioButtonState.HIDDEN;
 }
 
 String _trackingPageName(RendezvousTypeCode code) {

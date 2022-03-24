@@ -191,7 +191,10 @@ Rendezvous mockRendezvous({
   String? comment,
   String? organism,
   String? address,
+  String? phone,
   String? visioRedirectUrl,
+  String? theme,
+  String? description,
   String? precision,
   Conseiller? conseiller = const Conseiller(id: 'id', firstName: 'F', lastName: 'L'),
 }) {
@@ -207,7 +210,10 @@ Rendezvous mockRendezvous({
     comment: comment,
     organism: organism,
     address: address,
+    phone: phone,
     visioRedirectUrl: visioRedirectUrl,
+    theme: theme,
+    description: description,
     precision: precision,
     conseiller: conseiller,
   );

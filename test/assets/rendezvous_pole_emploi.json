@@ -15,12 +15,13 @@
     },
     "modality": "par visio",
     "duration": 0,
-    "description": "J'explore des pistes professionnelles correspondant à mes critères et aux compétences recherchées par les entreprises. Je clarifie mes souhaits et aspirations.",
+    "description": "J'explore des pistes professionnelles.",
     "adresse": "11 RUE Paul Vimereu  80142 ABBEVILLE",
     "agencePE": true,
     "theme": "Activ'Projet",
     "annule": true,
     "visio": true,
+    "telephone": "01.02.03.04.05",
     "lienVisio": "http://www.visio.fr"
   },
   {

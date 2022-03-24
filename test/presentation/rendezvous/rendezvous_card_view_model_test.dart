@@ -144,9 +144,7 @@ void main() {
 
     test('should display whether rdv is annule or not', () {
       // Given
-      final store = _store(
-        mockRendezvous(id: '1', isAnnule: true),
-      );
+      final store = _store(mockRendezvous(id: '1', isAnnule: true));
 
       // When
       final viewModel = RendezvousCardViewModel.create(store, '1');
