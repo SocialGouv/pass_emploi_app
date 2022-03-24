@@ -22,6 +22,7 @@ import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repo
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
@@ -54,6 +55,7 @@ class TestStoreFactory {
   TrackingEventRepository trackingEventRepository = DummyTrackingEventRepository();
   OffreEmploiSavedSearchRepository offreEmploiSavedSearchRepository = DummyOffreEmploiSavedSearchRepository();
   ImmersionSavedSearchRepository immersionSavedSearchRepository = DummyImmersionSavedSearchRepository();
+  ServiceCiviqueSavedSearchRepository serviceCiviqueSavedSearchRepository = DummyServiceCiviqueSavedSearchRepository();
   GetSavedSearchRepository getSavedSearchRepository = DummyGetSavedSearchRepository();
   SavedSearchDeleteRepository savedSearchDeleteRepository = DummySavedSearchDeleteRepository();
   ServiceCiviqueRepository serviceCiviqueRepository = DummyServiceCiviqueRepository();
@@ -85,6 +87,7 @@ class TestStoreFactory {
       trackingEventRepository,
       offreEmploiSavedSearchRepository,
       immersionSavedSearchRepository,
+      serviceCiviqueSavedSearchRepository,
       getSavedSearchRepository,
       savedSearchDeleteRepository,
       serviceCiviqueRepository,

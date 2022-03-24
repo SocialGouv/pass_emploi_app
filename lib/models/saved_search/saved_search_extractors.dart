@@ -3,9 +3,13 @@ import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dar
 import 'package:pass_emploi_app/features/immersion/parameters/immersion_search_parameters_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
+import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
+import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
+import 'package:pass_emploi_app/models/service_civique/domain.dart';
+import 'package:pass_emploi_app/models/service_civique_filtres_pameters.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
@@ -88,5 +92,27 @@ class ImmersionSearchExtractor extends AbstractSearchExtractor<ImmersionSavedSea
     final searchedMetiers = store.state.searchMetierState.metiers;
     return searchedMetiers.firstWhereOrNull((element) => element.codeRome == parametersState.codeRome)?.libelle ??
         immersion?.metier;
+  }
+}
+
+class ServiceCiviqueSearchExtractor extends AbstractSearchExtractor<ServiceCiviqueSavedSearch> {
+  @override
+  ServiceCiviqueSavedSearch getSearchFilters(Store<AppState> store) {
+    final lastRequest =
+        (store.state.serviceCiviqueSearchResultState as ServiceCiviqueSearchResultDataState).lastRequest;
+    return ServiceCiviqueSavedSearch(
+      id: "",
+      titre: Strings.savedSearchTitleField(lastRequest.domain ?? "", lastRequest.location?.libelle),
+      location: lastRequest.location,
+      filtres: ServiceCiviqueFiltresParameters.distance(lastRequest.distance),
+      ville: lastRequest.location?.libelle ?? "",
+      domaine: Domaine.fromTag(lastRequest.domain),
+      dateDeDebut: lastRequest.startDate,
+    );
+  }
+
+  @override
+  bool isFailureState(Store<AppState> store) {
+    return store.state.serviceCiviqueSavedSearchCreateState is SavedSearchCreateFailureState;
   }
 }

@@ -23,6 +23,7 @@ import 'package:pass_emploi_app/features/push/register_push_notification_token_m
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_middleware.dart';
 import 'package:pass_emploi_app/features/saved_search/create/immersion_saved_search_create_middleware.dart';
 import 'package:pass_emploi_app/features/saved_search/create/offre_emploi_saved_search_create_middleware.dart';
+import 'package:pass_emploi_app/features/saved_search/create/service_civique_saved_search_create_middleware.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_middleware.dart';
 import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_middleware.dart';
 import 'package:pass_emploi_app/features/saved_search/init/saved_search_initialize_middleware.dart';
@@ -61,6 +62,7 @@ import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repo
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
@@ -92,6 +94,7 @@ class StoreFactory {
   final TrackingEventRepository trackingEventRepository;
   final OffreEmploiSavedSearchRepository offreEmploiSavedSearchRepository;
   final ImmersionSavedSearchRepository immersionSavedSearchRepository;
+  final ServiceCiviqueSavedSearchRepository serviceCiviqueSavedSearchRepository;
   final GetSavedSearchRepository getSavedSearchRepository;
   final SavedSearchDeleteRepository savedSearchDeleteRepository;
   final ServiceCiviqueRepository serviceCiviqueRepository;
@@ -121,6 +124,7 @@ class StoreFactory {
     this.trackingEventRepository,
     this.offreEmploiSavedSearchRepository,
     this.immersionSavedSearchRepository,
+    this.serviceCiviqueSavedSearchRepository,
     this.getSavedSearchRepository,
     this.savedSearchDeleteRepository,
     this.serviceCiviqueRepository,
@@ -166,6 +170,7 @@ class StoreFactory {
         ImmersionSavedSearchMiddleware(immersionRepository),
         OffreEmploiSavedSearchCreateMiddleware(offreEmploiSavedSearchRepository),
         ImmersionSavedSearchCreateMiddleware(immersionSavedSearchRepository),
+        ServiceCiviqueSavedSearchCreateMiddleware(serviceCiviqueSavedSearchRepository),
         SavedSearchInitializeMiddleware(),
         SavedSearchListMiddleware(getSavedSearchRepository),
         SavedSearchGetMiddleware(getSavedSearchRepository),

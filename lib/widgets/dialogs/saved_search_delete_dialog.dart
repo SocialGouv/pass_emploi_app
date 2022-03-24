@@ -15,7 +15,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 
-enum SavedSearchType { EMPLOI, ALTERNANCE, IMMERSION }
+enum SavedSearchType { EMPLOI, ALTERNANCE, IMMERSION, SERVICE_CIVIQUE }
 
 class SavedSearchDeleteDialog extends TraceableStatelessWidget {
   final String savedSearchId;
@@ -31,6 +31,8 @@ class SavedSearchDeleteDialog extends TraceableStatelessWidget {
         return AnalyticsScreenNames.savedSearchAlternanceDelete;
       case SavedSearchType.IMMERSION:
         return AnalyticsScreenNames.savedSearchImmersionDelete;
+      case SavedSearchType.SERVICE_CIVIQUE:
+        return AnalyticsScreenNames.savedSearchServiceCiviqueDelete;
     }
   }
 
@@ -42,6 +44,8 @@ class SavedSearchDeleteDialog extends TraceableStatelessWidget {
         return AnalyticsActionNames.deleteSavedSearchAlternance;
       case SavedSearchType.IMMERSION:
         return AnalyticsActionNames.deleteSavedSearchImmersion;
+      case SavedSearchType.SERVICE_CIVIQUE:
+        return AnalyticsActionNames.deleteSavedSearchServiceCivique;
     }
   }
 

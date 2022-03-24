@@ -30,6 +30,7 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
+import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 
 class AppState extends Equatable {
@@ -57,6 +58,7 @@ class AppState extends Equatable {
   final ImmersionDetailsState immersionDetailsState;
   final SavedSearchCreateState<OffreEmploiSavedSearch> offreEmploiSavedSearchCreateState;
   final SavedSearchCreateState<ImmersionSavedSearch> immersionSavedSearchCreateState;
+  final SavedSearchCreateState<ServiceCiviqueSavedSearch> serviceCiviqueSavedSearchCreateState;
   final ImmersionSearchParametersState immersionSearchParametersState;
   final SavedSearchListState savedSearchListState;
   final SavedSearchDeleteState savedSearchDeleteState;
@@ -88,6 +90,7 @@ class AppState extends Equatable {
     required this.immersionDetailsState,
     required this.offreEmploiSavedSearchCreateState,
     required this.immersionSavedSearchCreateState,
+    required this.serviceCiviqueSavedSearchCreateState,
     required this.immersionSearchParametersState,
     required this.savedSearchListState,
     required this.savedSearchDeleteState,
@@ -119,6 +122,7 @@ class AppState extends Equatable {
     final ImmersionDetailsState? immersionDetailsState,
     final SavedSearchCreateState<OffreEmploiSavedSearch>? offreEmploiSavedSearchCreateState,
     final SavedSearchCreateState<ImmersionSavedSearch>? immersionSavedSearchCreateState,
+    final SavedSearchCreateState<ServiceCiviqueSavedSearch>? serviceCiviqueSavedSearchCreateState,
     final ConfigurationState? configurationState,
     final ImmersionSearchParametersState? immersionSearchParametersState,
     final SavedSearchListState? savedSearchListState,
@@ -150,6 +154,7 @@ class AppState extends Equatable {
       immersionDetailsState: immersionDetailsState ?? this.immersionDetailsState,
       offreEmploiSavedSearchCreateState: offreEmploiSavedSearchCreateState ?? this.offreEmploiSavedSearchCreateState,
       immersionSavedSearchCreateState: immersionSavedSearchCreateState ?? this.immersionSavedSearchCreateState,
+      serviceCiviqueSavedSearchCreateState: serviceCiviqueSavedSearchCreateState ?? this.serviceCiviqueSavedSearchCreateState,
       configurationState: configurationState ?? this.configurationState,
       immersionSearchParametersState: immersionSearchParametersState ?? this.immersionSearchParametersState,
       savedSearchListState: savedSearchListState ?? this.savedSearchListState,
@@ -184,6 +189,7 @@ class AppState extends Equatable {
       immersionDetailsState: ImmersionDetailsNotInitializedState(),
       offreEmploiSavedSearchCreateState: SavedSearchCreateState<OffreEmploiSavedSearch>.notInitialized(),
       immersionSavedSearchCreateState: SavedSearchCreateState<ImmersionSavedSearch>.notInitialized(),
+      serviceCiviqueSavedSearchCreateState: SavedSearchCreateState<ServiceCiviqueSavedSearch>.notInitialized(),
       configurationState: ConfigurationState(configuration),
       immersionSearchParametersState: ImmersionSearchParametersNotInitializedState(),
       savedSearchListState: SavedSearchListNotInitializedState(),
