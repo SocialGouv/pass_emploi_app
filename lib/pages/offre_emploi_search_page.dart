@@ -43,9 +43,13 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
       onWillChange: (_, newViewModel) {
         if (newViewModel.displayState == DisplayState.CONTENT && _shouldNavigate) {
           _shouldNavigate = false;
-          widget.pushAndTrackBack(context, MaterialPageRoute(builder: (_) {
-            return OffreEmploiListPage(onlyAlternance: widget.onlyAlternance);
-          })).then((_) {
+          widget.pushAndTrackBack(
+            context,
+            MaterialPageRoute(builder: (_) {
+              return OffreEmploiListPage(onlyAlternance: widget.onlyAlternance);
+            }),
+            widget.onlyAlternance ? AnalyticsScreenNames.alternanceResearch : AnalyticsScreenNames.emploiResearch,
+          ).then((_) {
             _shouldNavigate = true;
           });
         }

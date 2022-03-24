@@ -148,9 +148,13 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
       ],
       from: OffrePage.serviceCiviqueResults,
       onTap: () {
-        widget.pushAndTrackBack(context, MaterialPageRoute(builder: (_) {
-          return ServiceCiviqueDetailPage(item.id);
-        }));
+        widget.pushAndTrackBack(
+          context,
+          MaterialPageRoute(builder: (_) {
+            return ServiceCiviqueDetailPage(item.id);
+          }),
+          AnalyticsScreenNames.serviceCiviqueResults,
+        );
       },
     );
   }
@@ -261,7 +265,13 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
   }
 
   Future<void> _onFiltreButtonPressed() async {
-    return widget.pushAndTrackBack(context, ServiceCiviqueFiltresPage.materialPageRoute()).then((value) {
+    return widget
+        .pushAndTrackBack(
+      context,
+      ServiceCiviqueFiltresPage.materialPageRoute(),
+      AnalyticsScreenNames.serviceCiviqueResults,
+    )
+        .then((value) {
       if (value == true) {
         _offsetBeforeLoading = 0;
         if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);

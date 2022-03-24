@@ -44,7 +44,11 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
       onWillChange: (_, viewModel) {
         if (_shouldNavigate && viewModel.displayState == ImmersionSearchDisplayState.SHOW_RESULTS) {
           _shouldNavigate = false;
-          widget.pushAndTrackBack(context, MaterialPageRoute(builder: (context) => ImmersionListPage()));
+          widget.pushAndTrackBack(
+            context,
+            MaterialPageRoute(builder: (context) => ImmersionListPage()),
+            AnalyticsScreenNames.immersionResearch,
+          );
         }
       },
       onDispose: (store) {

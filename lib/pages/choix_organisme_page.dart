@@ -70,6 +70,7 @@ class ChoixOrganismePage extends TraceableStatelessWidget {
                                       pushAndTrackBack(
                                         context,
                                         ChoixOrganismeExplainationPage.materialPageRoute(isPoleEmploi: true),
+                                        AnalyticsScreenNames.choixOrganisme,
                                       );
                                     },
                                   ),
@@ -80,6 +81,7 @@ class ChoixOrganismePage extends TraceableStatelessWidget {
                                       pushAndTrackBack(
                                         context,
                                         ChoixOrganismeExplainationPage.materialPageRoute(isPoleEmploi: false),
+                                        AnalyticsScreenNames.choixOrganisme,
                                       );
                                     },
                                   ),

@@ -241,6 +241,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
         .pushAndTrackBack(
           context,
           OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: widget.onlyAlternance),
+          widget.onlyAlternance ? AnalyticsScreenNames.alternanceResults : AnalyticsScreenNames.emploiResults,
         )
         .then((_) => _scrollController.jumpTo(_offsetBeforeLoading));
   }
@@ -269,7 +270,11 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
 
   Future<void> _onFiltreButtonPressed() {
     return widget
-        .pushAndTrackBack(context, OffreEmploiFiltresPage.materialPageRoute(widget.onlyAlternance))
+        .pushAndTrackBack(
+      context,
+      OffreEmploiFiltresPage.materialPageRoute(widget.onlyAlternance),
+      widget.onlyAlternance ? AnalyticsScreenNames.alternanceResults : AnalyticsScreenNames.emploiResults,
+    )
         .then((value) {
       if (value == true) {
         _offsetBeforeLoading = 0;

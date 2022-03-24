@@ -115,7 +115,11 @@ class ImmersionListPage extends TraceableStatelessWidget {
       sousTitre: immersion.nomEtablissement,
       lieu: immersion.ville,
       dataTag: [immersion.secteurActivite],
-      onTap: () => pushAndTrackBack(context, ImmersionDetailsPage.materialPageRoute(immersion.id)),
+      onTap: () => pushAndTrackBack(
+        context,
+        ImmersionDetailsPage.materialPageRoute(immersion.id),
+        AnalyticsScreenNames.immersionResults,
+      ),
       from: OffrePage.immersionResults,
       id: immersion.id,
     );
@@ -172,7 +176,11 @@ class ImmersionListPage extends TraceableStatelessWidget {
   }
 
   Future<void> _onFiltreButtonPressed(BuildContext context) {
-    return pushAndTrackBack(context, ImmersionFiltresPage.materialPageRoute());
+    return pushAndTrackBack(
+      context,
+      ImmersionFiltresPage.materialPageRoute(),
+      AnalyticsScreenNames.immersionResults,
+    );
   }
 
   void _trackEmptyResult() {
