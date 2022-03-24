@@ -3,10 +3,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
-import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_actions.dart';
-import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
@@ -50,50 +48,38 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
           store.dispatch(SavedSearchGetAction(link.dataId!));
         }
       },
-      onWillChange: (previousVM, newViewModel) {
-        if (newViewModel.searchNavigationState == SavedSearchNavigationState.OFFRE_EMPLOI && _shouldNavigate) {
-          _goToOffresPage(context, false);
-        } else if (newViewModel.searchNavigationState == SavedSearchNavigationState.OFFRE_ALTERNANCE &&
-            _shouldNavigate) {
-          _goToOffresPage(context, true);
-        } else if (newViewModel.searchNavigationState == SavedSearchNavigationState.OFFRE_IMMERSION &&
-            _shouldNavigate) {
-          _goToImmersion(context, newViewModel.immersionsResults);
-        } else if (newViewModel.searchNavigationState == SavedSearchNavigationState.SERVICE_CIVIQUE &&
-            _shouldNavigate) {
-          _goToServiceCivique(context);
-        }
-      },
+      onWillChange: _onWillChange,
       builder: (context, viewModel) => _scrollView(viewModel),
       converter: (store) => SavedSearchListViewModel.createFromStore(store),
       distinct: true,
     );
   }
 
-  void _goToOffresPage(BuildContext context, bool onlyAlternance) {
-    _shouldNavigate = false;
-    _updateIndex(onlyAlternance ? _indexOfAlternance : _indexOfOffresEmploi);
-    Navigator.push(context, MaterialPageRoute(builder: (_) {
-      return OffreEmploiListPage(
-        onlyAlternance: onlyAlternance,
-        fromSavedSearch: true,
-      );
-    })).then((_) => _shouldNavigate = true);
+  void _onWillChange(SavedSearchListViewModel? _, SavedSearchListViewModel? newViewModel) {
+    if (!_shouldNavigate || newViewModel == null) return;
+    switch (newViewModel.searchNavigationState) {
+      case SavedSearchNavigationState.OFFRE_EMPLOI:
+        _goToPage(context, _indexOfOffresEmploi, OffreEmploiListPage(onlyAlternance: false, fromSavedSearch: true));
+        break;
+      case SavedSearchNavigationState.OFFRE_ALTERNANCE:
+        _goToPage(context, _indexOfAlternance, OffreEmploiListPage(onlyAlternance: true, fromSavedSearch: true));
+        break;
+      case SavedSearchNavigationState.OFFRE_IMMERSION:
+        // TODO : Que faire du dispatch(ImmersionListResetAction()) ??? A garder > généraliser, ou supprimer ?
+        _goToPage(context, _indexOfImmersion, ImmersionListPage(true));
+        break;
+      case SavedSearchNavigationState.SERVICE_CIVIQUE:
+        _goToPage(context, _indexOfServiceCivique, ServiceCiviqueListPage());
+        break;
+      case SavedSearchNavigationState.NONE:
+        break;
+    }
   }
 
-  void _goToImmersion(BuildContext context, List<Immersion> immersionsResults) {
+  void _goToPage(BuildContext context, int newIndex, Widget page) {
     _shouldNavigate = false;
-    _updateIndex(_indexOfImmersion);
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ImmersionListPage(true))).then((value) {
-      StoreProvider.of<AppState>(context).dispatch(ImmersionListResetAction());
-    }).then((_) => _shouldNavigate = true);
-  }
-
-  void _goToServiceCivique(BuildContext context) {
-    _shouldNavigate = false;
-    _updateIndex(_indexOfServiceCivique);
-    Navigator.push(context, MaterialPageRoute(builder: (context) => ServiceCiviqueListPage()))
-        .then((_) => _shouldNavigate = true);
+    _updateIndex(newIndex);
+    Navigator.push(context, MaterialPageRoute(builder: (_) => page)).then((_) => _shouldNavigate = true);
   }
 
   Widget _scrollView(SavedSearchListViewModel viewModel) {
