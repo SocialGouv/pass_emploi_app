@@ -91,7 +91,7 @@ class EntreePage extends TraceableStatelessWidget {
         SizedBox(height: Margins.spacing_base),
         SecondaryButton(
           label: Strings.askAccount,
-          onPressed: () => Navigator.push(context, CejInformationPage.materialPageRoute()),
+          onPressed: () => Navigator.pushNamed(context, CejInformationPage.routeName),
         ),
         SepLine(Margins.spacing_base, 0),
         Theme(

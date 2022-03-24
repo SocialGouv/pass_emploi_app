@@ -78,7 +78,7 @@ class LoginPage extends TraceableStatelessWidget {
                         SizedBox(height: 16),
                         SecondaryButton(
                           label: Strings.askAccount,
-                          onPressed: () => Navigator.push(context, CejInformationPage.materialPageRoute()),
+                          onPressed: () => Navigator.pushNamed(context, CejInformationPage.routeName),
                           backgroundColor: Colors.white,
                         ),
                       ],
