@@ -34,14 +34,22 @@ class RendezvousListPage extends TraceableStatelessWidget {
     return _Scaffold(
       body: _Body(
         viewModel: viewModel,
-        onTap: (rdvId) => pushAndTrackBack(context, RendezvousDetailsPage.materialPageRoute(rdvId)),
+        onTap: (rdvId) => pushAndTrackBack(
+          context,
+          RendezvousDetailsPage.materialPageRoute(rdvId),
+          AnalyticsScreenNames.rendezvousList,
+        ),
       ),
     );
   }
 
   void _openDeeplinkIfNeeded(RendezvousListViewModel viewModel, BuildContext context) {
     if (viewModel.deeplinkRendezvousId != null) {
-      pushAndTrackBack(context, RendezvousDetailsPage.materialPageRoute(viewModel.deeplinkRendezvousId!));
+      pushAndTrackBack(
+        context,
+        RendezvousDetailsPage.materialPageRoute(viewModel.deeplinkRendezvousId!),
+        AnalyticsScreenNames.rendezvousList,
+      );
       viewModel.onDeeplinkUsed();
     }
   }
