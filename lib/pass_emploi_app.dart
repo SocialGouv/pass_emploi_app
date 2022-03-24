@@ -29,6 +29,7 @@ class PassEmploiApp extends StatelessWidget {
             RouterPage.routeName: (context) => RouterPage(),
             CejInformationPage.routeName: (context) => CejInformationPage(),
             CredentialsPage.routeName: (context) => CredentialsPage(),
+            ChoixOrganismePage.routeName: (context) => ChoixOrganismePage(),
           },
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,
