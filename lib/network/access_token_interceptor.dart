@@ -13,7 +13,7 @@ class AccessTokenInterceptor implements InterceptorContract {
     data.headers["Authorization"] = "Bearer ${await _accessTokenRetriever.accessToken()}";
     final poleEmploiAccessToken = _poleEmploiTokenRepository.getPoleEmploiAccessToken();
     if (poleEmploiAccessToken != null) {
-      data.headers["x-idp-token"] = "Bearer $poleEmploiAccessToken";
+      data.headers["x-idp-token"] = poleEmploiAccessToken;
     }
     return data;
   }
