@@ -108,7 +108,7 @@ class _Modality extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: Margins.spacing_xs),
             child: Text(viewModel.modality!, style: TextStyles.textBaseBold),
           ),
-        if (viewModel.visioButtonState == VisioButtonState.INACTIVE)
+        if (_withInactiveVisioButton())
           Padding(
             padding: const EdgeInsets.only(top: Margins.spacing_s),
             child: Column(
@@ -118,7 +118,7 @@ class _Modality extends StatelessWidget {
               ],
             ),
           ),
-        if (viewModel.visioButtonState == VisioButtonState.ACTIVE)
+        if (_withActiveVisioButton())
           Padding(
             padding: const EdgeInsets.only(top: Margins.spacing_s),
             child: Column(
@@ -170,6 +170,10 @@ class _Modality extends StatelessWidget {
       ],
     );
   }
+
+  bool _withActiveVisioButton() => viewModel.visioButtonState == VisioButtonState.ACTIVE;
+
+  bool _withInactiveVisioButton() => viewModel.visioButtonState == VisioButtonState.INACTIVE;
 }
 
 class _DescriptionPart extends StatelessWidget {
@@ -209,8 +213,7 @@ class _ConseillerPart extends StatelessWidget {
             viewModel.conseillerPresenceLabel,
             style: TextStyles.textBaseBoldWithColor(viewModel.conseillerPresenceColor),
           ),
-        if (viewModel.withConseillerPresencePart && viewModel.comment != null)
-          SepLine(Margins.spacing_m, Margins.spacing_m),
+        if (_withSepLine()) SepLine(Margins.spacing_m, Margins.spacing_m),
         if (viewModel.commentTitle != null) Text(viewModel.commentTitle!, style: TextStyles.textBaseBold),
         if (viewModel.comment != null)
           Padding(
@@ -220,6 +223,8 @@ class _ConseillerPart extends StatelessWidget {
       ],
     );
   }
+
+  bool _withSepLine() => viewModel.withConseillerPresencePart && viewModel.comment != null;
 }
 
 class _InformIfAbsent extends StatelessWidget {
