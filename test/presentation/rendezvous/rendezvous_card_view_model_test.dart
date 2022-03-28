@@ -114,11 +114,7 @@ void main() {
 
     test('should display modality without conseiller', () {
       // Given
-      final store = _store(mockRendezvous(
-        id: '1',
-        modality: "en visio",
-        withConseiller: false,
-      ));
+      final store = _store(mockRendezvous(id: '1', modality: "en visio", withConseiller: false));
 
       // When
       final viewModel = RendezvousCardViewModel.create(store, '1');
@@ -129,17 +125,24 @@ void main() {
 
     test('should not display empty modality', () {
       // Given
-      final store = _store(mockRendezvous(
-        id: '1',
-        modality: "",
-        withConseiller: false,
-      ));
+      final store = _store(mockRendezvous(id: '1', modality: null, withConseiller: false));
 
       // When
       final viewModel = RendezvousCardViewModel.create(store, '1');
 
       // Then
       expect(viewModel.subtitle, isNull);
+    });
+
+    test('should display whether rdv is annule or not', () {
+      // Given
+      final store = _store(mockRendezvous(id: '1', isAnnule: true));
+
+      // When
+      final viewModel = RendezvousCardViewModel.create(store, '1');
+
+      // Then
+      expect(viewModel.isAnnule, isTrue);
     });
 
     test('full view model test', () {
@@ -150,7 +153,9 @@ void main() {
           date: DateTime(2021, 12, 23, 10, 20),
           duration: 60,
           modality: 'par téléphone',
+          isInVisio: false,
           withConseiller: false,
+          isAnnule: false,
           organism: 'Entreprise Bio Carburant',
           type: RendezvousType(RendezvousTypeCode.ATELIER, 'Atelier'),
         ),
@@ -166,6 +171,7 @@ void main() {
           id: '1',
           tag: 'Atelier',
           date: 'Le 23/12/2021 à 10h20',
+          isAnnule: false,
           title: 'Avec : Entreprise Bio Carburant',
           subtitle: 'Par téléphone',
         ),

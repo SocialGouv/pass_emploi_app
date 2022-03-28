@@ -105,6 +105,17 @@ void main() {
       expect(viewModel.date, 'Demain');
     });
 
+    test('and duration is null', () {
+      // Given
+      final store = _store(mockRendezvous(id: '1', date: DateTime(2022, 3, 1, 12, 30), duration: null));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+
+      // Then
+      expect(viewModel.hourAndDuration, '12:30');
+    });
+
     test('and duration is less than one hour', () {
       // Given
       final store = _store(mockRendezvous(id: '1', date: DateTime(2022, 3, 1, 12, 30), duration: 30));
@@ -137,6 +148,7 @@ void main() {
       // Then
       expect(viewModel.conseillerPresenceLabel, 'Votre conseiller sera présent');
       expect(viewModel.conseillerPresenceColor, AppColors.secondary);
+      expect(viewModel.withConseillerPresencePart, isTrue);
     });
 
     test('and conseiller is not present', () {
@@ -149,6 +161,21 @@ void main() {
       // Then
       expect(viewModel.conseillerPresenceLabel, 'Votre conseiller ne sera pas présent');
       expect(viewModel.conseillerPresenceColor, AppColors.warning);
+      expect(viewModel.withConseillerPresencePart, isTrue);
+    });
+
+    test('should not display conseiller presence part if type is ENTRETIEN_INDIVIDUEL_CONSEILLER', () {
+      // Given
+      final store = _store(mockRendezvous(
+        id: '1',
+        type: RendezvousType(RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER, ''),
+      ));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+
+      // Then
+      expect(viewModel.withConseillerPresencePart, isFalse);
     });
 
     test('and comment is not set', () {
@@ -254,11 +281,7 @@ void main() {
 
     test('should display modality without conseiller', () {
       // Given
-      final store = _store(mockRendezvous(
-        id: '1',
-        modality: "en visio",
-        withConseiller: false,
-      ));
+      final store = _store(mockRendezvous(id: '1', modality: "en visio", withConseiller: false));
 
       // When
       final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
@@ -269,16 +292,124 @@ void main() {
 
     test('should not display empty modality', () {
       // Given
-      final store = _store(mockRendezvous(
-        id: '1',
-        modality: "",
-      ));
+      final store = _store(mockRendezvous(id: '1', modality: null));
 
       // When
       final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.modality, isNull);
+    });
+
+    test('should display whether rdv is annule or not', () {
+      // Given
+      final store = _store(mockRendezvous(id: '1', isAnnule: true));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+
+      // Then
+      expect(viewModel.isAnnule, isTrue);
+    });
+
+    test('should display special visio modality and not display address even if present', () {
+      // Given
+      final store = _store(mockRendezvous(id: '1', isInVisio: true, address: 'address'));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+
+      // Then
+      expect(viewModel.modality, 'Le rendez-vous se fera en visio. La visio sera disponible le jour du rendez-vous.');
+      expect(viewModel.address, isNull);
+      expect(viewModel.addressRedirectUri, isNull);
+    });
+
+    test('should display inactive visio button if rdv is in visio but no link is present', () {
+      // Given
+      final store = _store(mockRendezvous(id: '1', isInVisio: true, visioRedirectUrl: null));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+
+      // Then
+      expect(viewModel.visioButtonState, VisioButtonState.INACTIVE);
+    });
+
+    test('should display active visio button if rdv is in visio and link is present', () {
+      // Given
+      final store = _store(mockRendezvous(id: '1', isInVisio: true, visioRedirectUrl: 'url'));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+
+      // Then
+      expect(viewModel.visioButtonState, VisioButtonState.ACTIVE);
+      expect(viewModel.visioRedirectUrl, 'url');
+    });
+
+    test('should display phone if present', () {
+      // Given
+      final store = _store(mockRendezvous(id: '1', phone: 'phone'));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+
+      // Then
+      expect(viewModel.phone, 'Téléphone : phone');
+    });
+
+    test('should display theme and description if present', () {
+      // Given
+      final store = _store(mockRendezvous(id: '1', theme: 'theme', description: 'description'));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+
+      // Then
+      expect(viewModel.theme, 'theme');
+      expect(viewModel.description, 'description');
+      expect(viewModel.withDescriptionPart, isTrue);
+    });
+
+    test('should display description part even with just theme', () {
+      // Given
+      final store = _store(mockRendezvous(id: '1', theme: 'theme', description: 'description'));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+
+      // Then
+      expect(viewModel.withDescriptionPart, isTrue);
+    });
+
+    test('should display description part even with just description', () {
+      // Given
+      final store = _store(mockRendezvous(id: '1', description: 'description'));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+
+      // Then
+      expect(viewModel.withDescriptionPart, isTrue);
+    });
+
+    test('should not display modality part if no relevant info', () {
+      // Given
+      final store = _store(mockRendezvous(
+        id: '1',
+        modality: null,
+        address: null,
+        phone: null,
+        organism: null,
+        isInVisio: false,
+      ));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+
+      // Then
+      expect(viewModel.withModalityPart, isFalse);
     });
 
     test('full view model test', () {
@@ -288,7 +419,9 @@ void main() {
         date: DateTime(2022, 3, 1),
         duration: 30,
         modality: 'Sur place : Mission Locale',
+        isInVisio: false,
         withConseiller: true,
+        isAnnule: false,
         type: RendezvousType(RendezvousTypeCode.ATELIER, 'Atelier'),
         comment: 'comment',
         organism: 'organism',
@@ -308,6 +441,11 @@ void main() {
           hourAndDuration: '00:00 (30min)',
           conseillerPresenceLabel: 'Votre conseiller sera présent',
           conseillerPresenceColor: AppColors.secondary,
+          isAnnule: false,
+          withConseillerPresencePart: true,
+          withDescriptionPart: false,
+          withModalityPart: true,
+          visioButtonState: VisioButtonState.HIDDEN,
           trackingPageName: 'rdv/atelier',
           modality: 'Le rendez-vous se fera sur place : Mission Locale avec Nils Tavernier',
           commentTitle: 'Commentaire de Nils',
@@ -362,6 +500,11 @@ void main() {
     assertTrackingPageName(
       mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.VISITE, '')),
       'rdv/visite',
+    );
+
+    assertTrackingPageName(
+      mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.PRESTATION, '')),
+      'rdv/prestation',
     );
 
     assertTrackingPageName(

@@ -46,8 +46,8 @@ class MonSuiviTabPage extends StatelessWidget {
     } else {
       return TabBarView(
         children: [
-          UnavailableContent(contentType: ContentType.ACTIONS),
-          UnavailableContent(contentType: ContentType.RENDEZVOUS),
+          UnavailableContent(),
+          RendezvousListPage(),
         ],
       );
     }

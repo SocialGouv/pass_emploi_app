@@ -105,6 +105,8 @@ class Strings {
 
   // Rendezvous
   static String myRendezVous = "Mon rendez-vous";
+  static String rendezvousCardAnnule = "Annulé";
+  static String rendezvousDetailsAnnule = "Rendez-vous annulé";
   static String rendezVousConseillerCommentLabel = "Commentaire de mon conseiller";
   static String cannotGoToRendezvous = "Vous ne pouvez pas vous rendre au rendez-vous ?";
   static String shouldInformConseiller =
@@ -117,6 +119,9 @@ class Strings {
   static String conseillerIsNotPresent = "Votre conseiller ne sera pas présent";
   static String commentWithoutConseiller = "Commentaire de votre conseiller";
   static String seeItinerary = 'Voir l\'itinéraire';
+  static String seeVisio = 'Accéder à la visio';
+  static String rendezvousVisioModalityMessage =
+      'Le rendez-vous se fera en visio. La visio sera disponible le jour du rendez-vous.';
 
   static String rendezvousModalityWithConseillerDetailsMessage(String modality, String conseiller) {
     return "${rendezvousModalityDetailsMessage(modality)} avec $conseiller";
@@ -127,6 +132,8 @@ class Strings {
   }
 
   static String rendezvousModalityCardMessage(String modality, String conseiller) => "$modality avec $conseiller";
+
+  static String phone(String phone) => "Téléphone : $phone";
 
   static String commentWithConseiller(String firstName) => "Commentaire de $firstName";
 
@@ -320,11 +327,7 @@ class Strings {
   static String noFavoris = "Aucun favori";
   static String favorisError = "Erreur lors de la récupération de vos favoris";
 
-  // Unavailable content (actions & rdv) for pole emploi users
-  static String rendezvous = "rendez-vous";
-  static String actions = "actions";
-
-  static String unavailableContentTitle(String content) => "Vos $content ne sont pas accessibles sur l’application.";
+  static String unavailableActions = "Vos actions ne sont pas accessibles sur l’application.";
   static String unvailableContentDescription = "Vous pouvez les consulter sur votre espace personnel Pôle emploi.";
   static String poleEmploiUrlButton = "Accéder à mon espace Pôle emploi";
   static String espacePoleEmploiUrl = "https://candidat.pole-emploi.fr/espacepersonnel/";

@@ -24,6 +24,7 @@ class AnalyticsScreenNames {
   static const rendezvousEntretienPartenaire = "rdv/entretien-partenaire";
   static const rendezvousInformationCollective = "rdv/information-collective";
   static const rendezvousVisite = "rdv/visite";
+  static const rendezvousPrestation = "rdv/prestation";
   static const rendezvousAutre = "rdv/autre";
 
   static const emploiResearch = "recherche/emploi/search";

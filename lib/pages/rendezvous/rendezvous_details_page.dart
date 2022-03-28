@@ -6,11 +6,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_details_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
@@ -47,8 +49,8 @@ class RendezvousDetailsPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _Header(viewModel),
-              SepLine(Margins.spacing_m, Margins.spacing_m),
-              _Modality(viewModel),
+              if (viewModel.withModalityPart) _Modality(viewModel),
+              if (viewModel.withDescriptionPart) _DescriptionPart(viewModel),
               SepLine(Margins.spacing_m, Margins.spacing_m),
               _ConseillerPart(viewModel),
               SepLine(Margins.spacing_m, Margins.spacing_m),
@@ -71,6 +73,7 @@ class _Header extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        if (viewModel.isAnnule) _Annule(),
         Text(viewModel.title, style: TextStyles.textLBold()),
         SizedBox(height: Margins.spacing_m),
         Row(
@@ -99,10 +102,34 @@ class _Modality extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        SepLine(Margins.spacing_m, Margins.spacing_m),
         if (viewModel.modality != null)
           Padding(
             padding: const EdgeInsets.only(bottom: Margins.spacing_xs),
             child: Text(viewModel.modality!, style: TextStyles.textBaseBold),
+          ),
+        if (_withInactiveVisioButton())
+          Padding(
+            padding: const EdgeInsets.only(top: Margins.spacing_s),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                PrimaryActionButton(label: Strings.seeVisio),
+              ],
+            ),
+          ),
+        if (_withActiveVisioButton())
+          Padding(
+            padding: const EdgeInsets.only(top: Margins.spacing_s),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                PrimaryActionButton(
+                  label: Strings.seeVisio,
+                  onPressed: () => launch(viewModel.visioRedirectUrl!),
+                ),
+              ],
+            ),
           ),
         if (viewModel.organism != null)
           Padding(
@@ -112,7 +139,17 @@ class _Modality extends StatelessWidget {
         if (viewModel.address != null)
           Padding(
             padding: const EdgeInsets.only(top: Margins.spacing_xs),
-            child: Text(viewModel.address!, style: TextStyles.textBaseRegular),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: Margins.spacing_xs),
+                  child: SvgPicture.asset(Drawables.icPlace),
+                ),
+                SizedBox(width: Margins.spacing_s),
+                Expanded(child: Text(viewModel.address!, style: TextStyles.textBaseRegular)),
+              ],
+            ),
           ),
         if (viewModel.addressRedirectUri != null)
           Padding(
@@ -124,6 +161,37 @@ class _Modality extends StatelessWidget {
                 onPressed: () => launch(viewModel.addressRedirectUri!.toString()),
               ),
             ),
+          ),
+        if (viewModel.phone != null)
+          Padding(
+            padding: const EdgeInsets.only(top: Margins.spacing_m),
+            child: Text(viewModel.phone!, style: TextStyles.textBaseRegular),
+          ),
+      ],
+    );
+  }
+
+  bool _withActiveVisioButton() => viewModel.visioButtonState == VisioButtonState.ACTIVE;
+
+  bool _withInactiveVisioButton() => viewModel.visioButtonState == VisioButtonState.INACTIVE;
+}
+
+class _DescriptionPart extends StatelessWidget {
+  const _DescriptionPart(this.viewModel, {Key? key}) : super(key: key);
+
+  final RendezvousDetailsViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SepLine(Margins.spacing_m, Margins.spacing_m),
+        if (viewModel.theme != null) Text(viewModel.theme!, style: TextStyles.textBaseBold),
+        if (viewModel.description != null)
+          Padding(
+            padding: const EdgeInsets.only(top: Margins.spacing_s),
+            child: TextWithClickableLinks(viewModel.description!, style: TextStyles.textBaseRegular),
           ),
       ],
     );
@@ -140,11 +208,12 @@ class _ConseillerPart extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          viewModel.conseillerPresenceLabel,
-          style: TextStyles.textBaseBoldWithColor(viewModel.conseillerPresenceColor),
-        ),
-        if (viewModel.comment != null) SepLine(Margins.spacing_m, Margins.spacing_m),
+        if (viewModel.withConseillerPresencePart)
+          Text(
+            viewModel.conseillerPresenceLabel,
+            style: TextStyles.textBaseBoldWithColor(viewModel.conseillerPresenceColor),
+          ),
+        if (_withSepLine()) SepLine(Margins.spacing_m, Margins.spacing_m),
         if (viewModel.commentTitle != null) Text(viewModel.commentTitle!, style: TextStyles.textBaseBold),
         if (viewModel.comment != null)
           Padding(
@@ -154,6 +223,8 @@ class _ConseillerPart extends StatelessWidget {
       ],
     );
   }
+
+  bool _withSepLine() => viewModel.withConseillerPresencePart && viewModel.comment != null;
 }
 
 class _InformIfAbsent extends StatelessWidget {
@@ -168,6 +239,30 @@ class _InformIfAbsent extends StatelessWidget {
         SizedBox(height: Margins.spacing_s),
         Text(Strings.shouldInformConseiller, style: TextStyles.textBaseRegular),
       ],
+    );
+  }
+}
+
+class _Annule extends StatelessWidget {
+  const _Annule({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: Margins.spacing_base),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(40)),
+          color: AppColors.warningLight,
+          border: Border.all(color: AppColors.warning),
+        ),
+        padding: const EdgeInsets.symmetric(vertical: Margins.spacing_xs, horizontal: Margins.spacing_base),
+        child: Text(
+          Strings.rendezvousDetailsAnnule,
+          style: TextStyles.textSRegularWithColor(AppColors.warning),
+          overflow: TextOverflow.ellipsis,
+        ),
+      ),
     );
   }
 }
