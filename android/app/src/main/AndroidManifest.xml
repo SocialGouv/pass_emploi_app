@@ -2,6 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="fr.fabrique.social.gouv.pass_emploi_app">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"

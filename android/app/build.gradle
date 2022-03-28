@@ -61,6 +61,10 @@ android {
     buildTypes {
         release {
             signingConfig signingConfigs.release
+            // In order to fix "[CLOUD_FIRESTORE] The service is currently unavailable" issue
+            // https://github.com/firebase/flutterfire/discussions/5708#discussioncomment-925997
+            shrinkResources false
+            minifyEnabled false
         }
     }
 
