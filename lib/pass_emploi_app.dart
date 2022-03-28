@@ -4,6 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/pages/cej_information_page.dart';
 import 'package:pass_emploi_app/pages/choix_organisme_page.dart';
 import 'package:pass_emploi_app/pages/credentials_page.dart';
+import 'package:pass_emploi_app/pages/login_page.dart';
 import 'package:pass_emploi_app/pages/router_page.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -30,6 +31,7 @@ class PassEmploiApp extends StatelessWidget {
             CejInformationPage.routeName: (context) => CejInformationPage(),
             CredentialsPage.routeName: (context) => CredentialsPage(),
             ChoixOrganismePage.routeName: (context) => ChoixOrganismePage(),
+            LoginPage.routeName: (context) => LoginPage(),
           },
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,
