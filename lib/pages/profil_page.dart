@@ -5,6 +5,7 @@ import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/conseiller/conseiller_actions.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/profil_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -171,9 +172,9 @@ class MonConseillerCard extends StatelessWidget {
 
   Widget _build(BuildContext context, ConseillerProfilePageViewModel vm) {
     final displayState = vm.displayState;
-    if (displayState is ConseillerProfilePageViewModelDisplayStateContent) {
-      return _contentCard(displayState);
-    } else if (displayState is ConseillerProfilePageViewModelDisplayStateLoading) {
+    if (displayState == DisplayState.CONTENT) {
+      return _contentCard(vm.sinceDate, vm.name);
+    } else if (displayState == DisplayState.LOADING) {
       return _loading();
     } else {
       return Container();
@@ -192,7 +193,7 @@ class MonConseillerCard extends StatelessWidget {
     );
   }
 
-  Widget _contentCard(ConseillerProfilePageViewModelDisplayStateContent content) {
+  Widget _contentCard(String sinceDate, String name) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -202,10 +203,10 @@ class MonConseillerCard extends StatelessWidget {
             children: [
               Text(Strings.yourConseiller, style: TextStyles.textMBold),
               SizedBox(height: Margins.spacing_m),
-              Text(content.sinceDate, style: TextStyles.textBaseRegular),
+              Text(sinceDate, style: TextStyles.textBaseRegular),
               SizedBox(height: Margins.spacing_s),
               Text(
-                content.name,
+                name,
                 style: TextStyles.textBaseBold.copyWith(
                   color: AppColors.primary,
                 ),

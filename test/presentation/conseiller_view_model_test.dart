@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/conseiller/conseiller_state.dart';
 import 'package:pass_emploi_app/models/MonConseillerInfo.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/profil_page_view_model.dart';
 
 import '../doubles/fixtures.dart';
@@ -17,7 +18,7 @@ void main() {
     final viewModel = ConseillerProfilePageViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, ConseillerProfilePageViewModelDisplayStateLoading());
+    expect(viewModel.displayState, DisplayState.LOADING);
   });
 
   test('should display content', () {
@@ -31,8 +32,9 @@ void main() {
     final viewModel = ConseillerProfilePageViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState,
-        ConseillerProfilePageViewModelDisplayStateContent(sinceDate: "Depuis le 03/01/05", name: "Alexandre Astier"));
+    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.sinceDate, "Depuis le 03/01/05");
+    expect(viewModel.name, "Alexandre Astier");
   });
 
   test('should be hidden (for failure)', () {
@@ -45,7 +47,7 @@ void main() {
     final viewModel = ConseillerProfilePageViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, ConseillerProfilePageViewModelDisplayStateHidden());
+    expect(viewModel.displayState, DisplayState.EMPTY);
   });
 
   test('should be hidden (at initialization)', () {
@@ -58,6 +60,6 @@ void main() {
     final viewModel = ConseillerProfilePageViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, ConseillerProfilePageViewModelDisplayStateHidden());
+    expect(viewModel.displayState, DisplayState.EMPTY);
   });
 }

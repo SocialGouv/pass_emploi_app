@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/conseiller/conseiller_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
@@ -25,44 +26,26 @@ class ProfilPageViewModel extends Equatable {
 }
 
 class ConseillerProfilePageViewModel extends Equatable {
-  final ConseillerProfilePageViewModelDisplayState displayState;
+  final DisplayState displayState;
+  final String sinceDate;
+  final String name;
 
-  ConseillerProfilePageViewModel({required this.displayState});
+  ConseillerProfilePageViewModel({required this.displayState, this.sinceDate = "", this.name = "", });
 
   factory ConseillerProfilePageViewModel.create(Store<AppState> store) {
     final state = store.state.conseillerState;
     if (state is ConseillerSuccessState) {
       return ConseillerProfilePageViewModel(
-        displayState: ConseillerProfilePageViewModelDisplayStateContent(
-          sinceDate: Strings.sinceDate(state.conseillerInfo.sinceDate),
-          name: "${state.conseillerInfo.firstname} ${state.conseillerInfo.lastname}",
-        ),
+        displayState: DisplayState.CONTENT,
+        sinceDate: Strings.sinceDate(state.conseillerInfo.sinceDate),
+        name: "${state.conseillerInfo.firstname} ${state.conseillerInfo.lastname}",
       );
     } else if (state is ConseillerLoadingState) {
-      return ConseillerProfilePageViewModel(displayState: ConseillerProfilePageViewModelDisplayStateLoading());
+      return ConseillerProfilePageViewModel(displayState: DisplayState.LOADING);
     }
-    return ConseillerProfilePageViewModel(displayState: ConseillerProfilePageViewModelDisplayStateHidden());
+    return ConseillerProfilePageViewModel(displayState: DisplayState.EMPTY);
   }
 
   @override
-  List<Object?> get props => [displayState];
-}
-
-class ConseillerProfilePageViewModelDisplayState extends Equatable {
-  @override
-  List<Object?> get props => [];
-}
-
-class ConseillerProfilePageViewModelDisplayStateLoading extends ConseillerProfilePageViewModelDisplayState {}
-
-class ConseillerProfilePageViewModelDisplayStateHidden extends ConseillerProfilePageViewModelDisplayState {}
-
-class ConseillerProfilePageViewModelDisplayStateContent extends ConseillerProfilePageViewModelDisplayState {
-  final String sinceDate;
-  final String name;
-
-  ConseillerProfilePageViewModelDisplayStateContent({required this.sinceDate, required this.name});
-
-  @override
-  List<Object?> get props => [sinceDate, name];
+  List<Object?> get props => [displayState, sinceDate, name];
 }
