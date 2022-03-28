@@ -334,6 +334,7 @@ class Strings {
 
   // Profil
   static String personalInformation = "Informations personnelles";
+  static String sinceDate(String date) => "Depuis le $date";
   static String emailAddressLabel = "Adresse e-mail";
   static String missingEmailAddressValue = "Non renseignée";
   static String legalInformation = "Informations légales";

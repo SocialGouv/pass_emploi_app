@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/features/conseiller/conseiller_actions.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/presentation/profil_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -61,6 +62,7 @@ class ProfilPage extends TraceableStatelessWidget {
                 ),
               ),
               SizedBox(height: Margins.spacing_m),
+              MonConseillerCard(),
               Text(Strings.legalInformation, style: TextStyles.textLBold()),
               SizedBox(height: Margins.spacing_m),
               ProfilCard(
@@ -154,4 +156,65 @@ class ProfilPage extends TraceableStatelessWidget {
         height: 18,
         color: AppColors.grey800,
       );
+}
+
+class MonConseillerCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, ConseillerProfilePageViewModel>(
+      onInit: (store) => store.dispatch(ConseillerRequestAction()),
+      converter: (store) => ConseillerProfilePageViewModel.create(store),
+      builder: (BuildContext context, ConseillerProfilePageViewModel vm) => _build(context, vm),
+      distinct: true,
+    );
+  }
+
+  Widget _build(BuildContext context, ConseillerProfilePageViewModel vm) {
+    final displayState = vm.displayState;
+    if (displayState is ConseillerProfilePageViewModelDisplayStateContent) {
+      return _contentCard(displayState);
+    } else if (displayState is ConseillerProfilePageViewModelDisplayStateLoading) {
+      return _loading();
+    } else {
+      return Container();
+    }
+  }
+
+  Widget _loading() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Center(
+          child: CircularProgressIndicator(),
+        ),
+        SizedBox(height: Margins.spacing_m),
+      ],
+    );
+  }
+
+  Widget _contentCard(ConseillerProfilePageViewModelDisplayStateContent content) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        ProfilCard(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(Strings.yourConseiller, style: TextStyles.textMBold),
+              SizedBox(height: Margins.spacing_m),
+              Text(content.sinceDate, style: TextStyles.textBaseRegular),
+              SizedBox(height: Margins.spacing_s),
+              Text(
+                content.name,
+                style: TextStyles.textBaseBold.copyWith(
+                  color: AppColors.primary,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: Margins.spacing_m),
+      ],
+    );
+  }
 }

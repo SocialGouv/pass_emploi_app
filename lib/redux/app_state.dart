@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/configuration/configuration_state.dart';
+import 'package:pass_emploi_app/features/conseiller/conseiller_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
@@ -26,6 +27,7 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_s
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
+import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
@@ -41,6 +43,7 @@ class AppState extends Equatable {
   final UserActionCreateState userActionCreateState;
   final UserActionUpdateState userActionUpdateState;
   final UserActionDeleteState userActionDeleteState;
+  final ConseillerState conseillerState;
   final ChatStatusState chatStatusState;
   final ChatState chatState;
   final OffreEmploiSearchState offreEmploiSearchState;
@@ -73,6 +76,7 @@ class AppState extends Equatable {
     required this.userActionCreateState,
     required this.userActionUpdateState,
     required this.userActionDeleteState,
+    required this.conseillerState,
     required this.chatStatusState,
     required this.chatState,
     required this.offreEmploiSearchState,
@@ -104,6 +108,7 @@ class AppState extends Equatable {
     final UserActionCreateState? userActionCreateState,
     final UserActionUpdateState? userActionUpdateState,
     final UserActionDeleteState? userActionDeleteState,
+    final ConseillerState? conseillerState,
     final ChatStatusState? chatStatusState,
     final ChatState? chatState,
     final OffreEmploiSearchState? offreEmploiSearchState,
@@ -137,6 +142,7 @@ class AppState extends Equatable {
       userActionCreateState: userActionCreateState ?? this.userActionCreateState,
       userActionUpdateState: userActionUpdateState ?? this.userActionUpdateState,
       userActionDeleteState: userActionDeleteState ?? this.userActionDeleteState,
+      conseillerState: conseillerState ?? this.conseillerState,
       chatStatusState: chatStatusState ?? this.chatStatusState,
       chatState: chatState ?? this.chatState,
       offreEmploiSearchState: offreEmploiSearchState ?? this.offreEmploiSearchState,
@@ -172,6 +178,7 @@ class AppState extends Equatable {
       userActionCreateState: UserActionCreateNotInitializedState(),
       userActionUpdateState: UserActionNotUpdatingState(),
       userActionDeleteState: UserActionDeleteNotInitializedState(),
+      conseillerState: ConseillerNotInitializedState(),
       chatStatusState: ChatStatusNotInitializedState(),
       chatState: ChatNotInitializedState(),
       offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
@@ -205,6 +212,7 @@ class AppState extends Equatable {
         userActionCreateState,
         userActionUpdateState,
         userActionDeleteState,
+        conseillerState,
         chatStatusState,
         chatState,
         offreEmploiSearchState,
