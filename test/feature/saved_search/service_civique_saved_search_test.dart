@@ -105,7 +105,7 @@ void main() {
         ServiceCiviqueSavedSearch(
           id: "",
           domaine: null,
-          titre: " - ",
+          titre: "",
           location: mockLocation(),
           ville: "",
           filtres: ServiceCiviqueFiltresParameters.distance(10),
