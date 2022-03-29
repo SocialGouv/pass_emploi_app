@@ -9,8 +9,9 @@ import 'package:redux/redux.dart';
 class ProfilPageViewModel extends Equatable {
   final String userName;
   final String userEmail;
+  final bool displayMonConseiller;
 
-  ProfilPageViewModel({required this.userName, required this.userEmail});
+  ProfilPageViewModel({required this.userName, required this.userEmail, required this.displayMonConseiller});
 
   factory ProfilPageViewModel.create(Store<AppState> store) {
     final state = store.state.loginState;
@@ -18,7 +19,13 @@ class ProfilPageViewModel extends Equatable {
     return ProfilPageViewModel(
       userName: user != null ? "${user.firstName} ${user.lastName}" : "",
       userEmail: user?.email ?? Strings.missingEmailAddressValue,
+      displayMonConseiller: _shouldDisplayMonConseiller(store.state.conseillerState),
     );
+  }
+
+  static bool _shouldDisplayMonConseiller(ConseillerState? state) {
+    if (state == null || state is ConseillerNotInitializedState) return false;
+    return true;
   }
 
   @override
@@ -30,7 +37,11 @@ class ConseillerProfilePageViewModel extends Equatable {
   final String sinceDate;
   final String name;
 
-  ConseillerProfilePageViewModel({required this.displayState, this.sinceDate = "", this.name = "", });
+  ConseillerProfilePageViewModel({
+    required this.displayState,
+    this.sinceDate = "",
+    this.name = "",
+  });
 
   factory ConseillerProfilePageViewModel.create(Store<AppState> store) {
     final state = store.state.conseillerState;

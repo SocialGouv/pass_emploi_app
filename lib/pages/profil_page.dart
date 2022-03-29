@@ -63,7 +63,7 @@ class ProfilPage extends TraceableStatelessWidget {
                 ),
               ),
               SizedBox(height: Margins.spacing_m),
-              MonConseillerCard(),
+              if (viewModel.displayMonConseiller) MonConseillerCard(),
               Text(Strings.legalInformation, style: TextStyles.textLBold()),
               SizedBox(height: Margins.spacing_m),
               ProfilCard(
@@ -176,9 +176,8 @@ class MonConseillerCard extends StatelessWidget {
       return _contentCard(vm.sinceDate, vm.name);
     } else if (displayState == DisplayState.LOADING) {
       return _loading();
-    } else {
-      return Container();
     }
+    return Container();
   }
 
   Widget _loading() {
