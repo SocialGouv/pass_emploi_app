@@ -27,15 +27,18 @@ class PassEmploiApp extends StatelessWidget {
           title: Strings.appName,
           theme: PassEmploiTheme.data,
           initialRoute: RouterPage.routeName,
-          routes: {
-            RouterPage.routeName: (context) => RouterPage(),
-            CejInformationPage.routeName: (context) => CejInformationPage(),
-            CredentialsPage.routeName: (context) => CredentialsPage(),
-            ChoixOrganismePage.routeName: (context) => ChoixOrganismePage(),
-            LoginPage.routeName: (context) => LoginPage(),
-          },
           onGenerateRoute: (settings) {
-            if (settings.name == OffreEmploiListPage.routeName) {
+            if (settings.name == RouterPage.routeName) {
+              return MaterialPageRoute(builder: (context) => RouterPage());
+            } else if (settings.name == CejInformationPage.routeName) {
+              return MaterialPageRoute(builder: (context) => CejInformationPage());
+            } else if (settings.name == CredentialsPage.routeName) {
+              return MaterialPageRoute(builder: (context) => CredentialsPage());
+            } else if (settings.name == ChoixOrganismePage.routeName) {
+              return MaterialPageRoute(builder: (context) => ChoixOrganismePage());
+            } else if (settings.name == LoginPage.routeName) {
+              return MaterialPageRoute(builder: (context) => LoginPage());
+            } else if (settings.name == OffreEmploiListPage.routeName) {
               final args = settings.arguments as Map<String, dynamic>;
               return MaterialPageRoute(
                 builder: (context) => OffreEmploiListPage(
@@ -44,6 +47,8 @@ class PassEmploiApp extends StatelessWidget {
                 ),
                 settings: settings,
               );
+            } else {
+              return null;
             }
           },
           localizationsDelegates: [
