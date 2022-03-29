@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/conseiller/conseiller_state.dart';
-import 'package:pass_emploi_app/models/MonConseillerInfo.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/profil/conseiller_profil_page_view_model.dart';
 
@@ -23,9 +22,10 @@ void main() {
 
   test('should display content', () {
     // Given
-    final info = MonConseillerInfo(sinceDate: "03/01/05", firstname: "Alexandre", lastname: "Astier");
     final store = TestStoreFactory().initializeReduxStore(
-      initialState: loggedInState().copyWith(conseillerState: ConseillerSuccessState(conseillerInfo: info)),
+      initialState: loggedInState().copyWith(
+        conseillerState: ConseillerSuccessState(conseillerInfo: monConseillerInfoPerceval()),
+      ),
     );
 
     // When
@@ -34,7 +34,7 @@ void main() {
     // Then
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.sinceDate, "Depuis le 03/01/05");
-    expect(viewModel.name, "Alexandre Astier");
+    expect(viewModel.name, "Perceval de Galles");
   });
 
   test('should be hidden (for failure)', () {

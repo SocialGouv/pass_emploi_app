@@ -11,7 +11,6 @@ import '../../doubles/fixtures.dart';
 import '../../utils/test_setup.dart';
 
 void main() {
-
   test("should display mon conseiller informations", () async {
     // Given
     final store = _storeWithSuccessFetchingRepositories();
@@ -21,12 +20,7 @@ void main() {
     store.dispatch(ConseillerRequestAction());
 
     // Then
-    expect(
-      (await newState).conseillerState,
-      ConseillerSuccessState(
-        conseillerInfo: MonConseillerInfo(sinceDate: "03/01/05", firstname: "Perceval", lastname: "de Galles"),
-      ),
-    );
+    expect((await newState).conseillerState, ConseillerSuccessState(conseillerInfo: monConseillerInfoPerceval()));
   });
 
   test("should display loading", () async {
@@ -54,6 +48,6 @@ class ConseillerRepositorySuccessStub extends ConseillerRepository {
 
   @override
   Future<MonConseillerInfo> fetch() async {
-    return MonConseillerInfo(sinceDate: "03/01/05", firstname: "Perceval", lastname: "de Galles");
+    return monConseillerInfoPerceval();
   }
 }

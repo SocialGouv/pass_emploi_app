@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/models/MonConseillerInfo.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
@@ -218,3 +219,6 @@ Rendezvous mockRendezvous({
     conseiller: conseiller,
   );
 }
+
+MonConseillerInfo monConseillerInfoPerceval() =>
+    MonConseillerInfo(sinceDate: "03/01/05", firstname: "Perceval", lastname: "de Galles");
