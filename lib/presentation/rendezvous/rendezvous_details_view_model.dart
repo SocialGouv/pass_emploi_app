@@ -62,8 +62,8 @@ class RendezvousDetailsViewModel extends Equatable {
 
   factory RendezvousDetailsViewModel.create(Store<AppState> store, String rdvId, Platform platform) {
     final rdv = getRendezvousFromStore(store, rdvId);
+    final address = _address(rdv);
     final comment = (rdv.comment != null && rdv.comment!.trim().isNotEmpty) ? rdv.comment : null;
-    final address = rdv.isInVisio ? null : rdv.address;
     return RendezvousDetailsViewModel(
       title: takeTypeLabelOrPrecision(rdv),
       date: rdv.date.toDayWithFullMonthContextualized(),
@@ -80,7 +80,7 @@ class RendezvousDetailsViewModel extends Equatable {
       trackingPageName: _trackingPageName(rdv.type.code),
       commentTitle: _commentTitle(rdv, comment),
       comment: comment,
-      organism: rdv.organism,
+      organism: _shouldHidePresentielInformations(rdv) ? null : rdv.organism,
       address: address,
       phone: rdv.phone != null ? Strings.phone(rdv.phone!) : null,
       addressRedirectUri: address != null ? UriHandler().mapsUri(address, platform) : null,
@@ -118,6 +118,14 @@ class RendezvousDetailsViewModel extends Equatable {
 }
 
 enum VisioButtonState { ACTIVE, INACTIVE, HIDDEN }
+
+bool _shouldHidePresentielInformations(Rendezvous rdv) {
+  return rdv.isInVisio || rdv.phone != null;
+}
+
+String? _address(Rendezvous rdv) {
+  return _shouldHidePresentielInformations(rdv) ? null : rdv.address;
+}
 
 String _hourAndDuration(Rendezvous rdv) {
   final hour = rdv.date.toHour();

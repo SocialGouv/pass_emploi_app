@@ -312,7 +312,7 @@ void main() {
       expect(viewModel.isAnnule, isTrue);
     });
 
-    test('should display special visio modality and not display address even if present', () {
+    test('should display special visio modality', () {
       // Given
       final store = _store(mockRendezvous(id: '1', isInVisio: true, address: 'address'));
 
@@ -321,8 +321,32 @@ void main() {
 
       // Then
       expect(viewModel.modality, 'Le rendez-vous se fera en visio. La visio sera disponible le jour du rendez-vous.');
+    });
+
+    test('should hide address informations on rendez-vous by visio', () {
+      // Given
+      final store = _store(mockRendezvous(id: '1', isInVisio: true, address: 'address'));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+
+      // Then
       expect(viewModel.address, isNull);
       expect(viewModel.addressRedirectUri, isNull);
+      expect(viewModel.organism, isNull);
+    });
+
+    test('should hide address informations on rendez-vous by phone', () {
+      // Given
+      final store = _store(mockRendezvous(id: '1', phone: "0611223344", modality: "par téléphone", address: 'address'));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+
+      // Then
+      expect(viewModel.address, isNull);
+      expect(viewModel.addressRedirectUri, isNull);
+      expect(viewModel.organism, isNull);
     });
 
     test('should display inactive visio button if rdv is in visio but no link is present', () {
