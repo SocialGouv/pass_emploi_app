@@ -103,7 +103,7 @@ class ServiceCiviqueSearchExtractor extends AbstractSearchExtractor<ServiceCiviq
         (store.state.serviceCiviqueSearchResultState as ServiceCiviqueSearchResultDataState).lastRequest;
     return ServiceCiviqueSavedSearch(
       id: "",
-      titre: savedSearchTitleField(lastRequest),
+      titre: _savedSearchTitleField(lastRequest),
       location: lastRequest.location,
       filtres: ServiceCiviqueFiltresParameters.distance(lastRequest.distance),
       ville: lastRequest.location?.libelle ?? "",
@@ -112,7 +112,7 @@ class ServiceCiviqueSearchExtractor extends AbstractSearchExtractor<ServiceCiviq
     );
   }
 
-  String savedSearchTitleField(SearchServiceCiviqueRequest lastRequest) {
+  String _savedSearchTitleField(SearchServiceCiviqueRequest lastRequest) {
     final ville = lastRequest.location?.libelle;
     final domain = lastRequest.domain;
     if (ville != null && domain != null) {
