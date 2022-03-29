@@ -28,6 +28,9 @@ import 'package:pass_emploi_app/widgets/empty_offre_widget.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 
 class OffreEmploiListPage extends TraceableStatefulWidget {
+
+  static const routeName = "/recherche/search_results";
+
   final bool onlyAlternance;
   final bool fromSavedSearch;
 

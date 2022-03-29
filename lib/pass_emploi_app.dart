@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/pages/cej_information_page.dart';
 import 'package:pass_emploi_app/pages/choix_organisme_page.dart';
 import 'package:pass_emploi_app/pages/credentials_page.dart';
 import 'package:pass_emploi_app/pages/login_page.dart';
+import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
 import 'package:pass_emploi_app/pages/router_page.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -32,6 +33,18 @@ class PassEmploiApp extends StatelessWidget {
             CredentialsPage.routeName: (context) => CredentialsPage(),
             ChoixOrganismePage.routeName: (context) => ChoixOrganismePage(),
             LoginPage.routeName: (context) => LoginPage(),
+          },
+          onGenerateRoute: (settings) {
+            if (settings.name == OffreEmploiListPage.routeName) {
+              final args = settings.arguments as Map<String, dynamic>;
+              return MaterialPageRoute(
+                builder: (context) => OffreEmploiListPage(
+                  onlyAlternance: args["onlyAlternance"] as bool,
+                  fromSavedSearch: (args["fromSavedSearch"] ?? false) as bool,
+                ),
+                settings: settings,
+              );
+            }
           },
           localizationsDelegates: [
             GlobalMaterialLocalizations.delegate,

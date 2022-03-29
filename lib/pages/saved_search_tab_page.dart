@@ -67,10 +67,20 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     if (!_shouldNavigate || newViewModel == null) return;
     switch (newViewModel.searchNavigationState) {
       case SavedSearchNavigationState.OFFRE_EMPLOI:
-        _goToPage(context, _indexOfOffresEmploi, OffreEmploiListPage(onlyAlternance: false, fromSavedSearch: true));
+        _shouldNavigate = false;
+        _updateIndex(_indexOfOffresEmploi);
+        Navigator.pushNamed(context, OffreEmploiListPage.routeName, arguments: {
+          "onlyAlternance": false,
+          "fromSavedSearch": true,
+        }).then((_) => _shouldNavigate = true);
         break;
       case SavedSearchNavigationState.OFFRE_ALTERNANCE:
-        _goToPage(context, _indexOfAlternance, OffreEmploiListPage(onlyAlternance: true, fromSavedSearch: true));
+        _shouldNavigate = false;
+        _updateIndex(_indexOfAlternance);
+        Navigator.pushNamed(context, OffreEmploiListPage.routeName, arguments: {
+          "onlyAlternance": true,
+          "fromSavedSearch": true,
+        }).then((_) => _shouldNavigate = true);
         break;
       case SavedSearchNavigationState.OFFRE_IMMERSION:
         _goToPage(context, _indexOfImmersion, ImmersionListPage(true))

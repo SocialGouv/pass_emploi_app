@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -43,13 +42,11 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
       onWillChange: (_, newViewModel) {
         if (newViewModel.displayState == DisplayState.CONTENT && _shouldNavigate) {
           _shouldNavigate = false;
-          widget.pushAndTrackBack(
+          Navigator.pushNamed(
             context,
-            MaterialPageRoute(builder: (_) {
-              return OffreEmploiListPage(onlyAlternance: widget.onlyAlternance);
-            }),
-            widget.onlyAlternance ? AnalyticsScreenNames.alternanceResearch : AnalyticsScreenNames.emploiResearch,
-          ).then((_) {
+            OffreEmploiListPage.routeName,
+            arguments: {"onlyAlternance": widget.onlyAlternance},
+          ).then((value) {
             _shouldNavigate = true;
           });
         }
