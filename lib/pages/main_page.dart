@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/favoris/favoris_tabs_page.dart';
 import 'package:pass_emploi_app/pages/mon_suivi_tabs_page.dart';
-import 'package:pass_emploi_app/pages/profil_page.dart';
+import 'package:pass_emploi_app/pages/profil/profil_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
