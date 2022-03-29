@@ -14,6 +14,17 @@ void main() {
     expect(tracking, "login");
   });
 
+  test("choix organisme tracking", () {
+    // Given
+    final settings = RouteSettings(name: "/entree/choix-organisme");
+
+    // When
+    final tracking = AnalyticsScreenTracking.onGenerateScreenTracking(settings);
+
+    // Then
+    expect(tracking, "entree/choix-organisme");
+  });
+
   test("offres emploi results tracking", () {
     // Given
     final settings = RouteSettings(name: "/recherche/search_results", arguments: {"onlyAlternance": false});
@@ -34,5 +45,16 @@ void main() {
 
     // Then
     expect(tracking, "recherche/alternance/search_results");
+  });
+
+  test("router should not be tracked", () {
+    // Given
+    final settings = RouteSettings(name: "/router");
+
+    // When
+    final tracking = AnalyticsScreenTracking.onGenerateScreenTracking(settings);
+
+    // Then
+    expect(tracking, isNull);
   });
 }
