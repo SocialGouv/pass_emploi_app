@@ -4,8 +4,7 @@ L'application iOS et Android Pass Emploi
 Celles-ci sont spécifiées dans le fichier [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Renseigner les variables d'environnement
-Créer un repertoire `env` à la racine du projet.
-Créer deux fichiers dans ce répertoire intitulés `env.staging` et `env.prod` en vous inspirant du 
+Créer un fichier dans le répertoire `env` intitulé `env.staging` en vous inspirant du
 fichier `env.template` situé à la racine du projet. Y insérer toutes les bonnes valeurs.
 
 ## Lancer l'application depuis Android Studio
@@ -14,11 +13,11 @@ Il est nécessaire pour cela de créer 2 configurations, en fonction que vous so
 ### Pour le flavor staging 
 1. Dans `Run` > `Edit Configurations`, rajouter une configuration Flutter appelée `staging`
 2. `Dart entrypoint` > `lib/main.dart`
-3. `Additional arguments` > `--flavor staging`
+3. `Additional run arguments` > `--flavor staging`
 ### Pour le flavor prod
 1. Dans `Run` > `Edit Configurations`, rajouter une configuration Flutter appelée `prod`
 2. `Dart entrypoint` > `lib/main.dart`
-3. `Additional arguments` > `--flavor prod`
+3. `Additional run arguments` > `--flavor prod`
 
 ## Renseigner les secrets Firebase
 Le projet utilise plusieurs foncionnalité de firebase. Les secrets ne sont pas et ne doivent pas 
