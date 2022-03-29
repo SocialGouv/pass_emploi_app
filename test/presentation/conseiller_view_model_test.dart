@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/conseiller/conseiller_state.dart';
 import 'package:pass_emploi_app/models/MonConseillerInfo.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/presentation/profil_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/profil/conseiller_profil_page_view_model.dart';
 
 import '../doubles/fixtures.dart';
 import '../utils/test_setup.dart';
