@@ -29,9 +29,8 @@ class AnalyticsNavigatorObserver extends NavigatorObserver {
   void _sendScreenView(Route<dynamic> route) {
     final String? routeScreenName = route.settings.name;
     if (routeScreenName != null) {
-      final analyticsNameGenerator = AnalyticsScreenTracking.trackedScreens[routeScreenName];
-      if (analyticsNameGenerator != null) {
-        final analyticsScreenName = analyticsNameGenerator(route.settings);
+      final analyticsScreenName = AnalyticsScreenTracking.onGenerateScreenTracking(route.settings);
+      if (analyticsScreenName != null) {
         Log.i("[ANALYTICS] tracked - $analyticsScreenName");
         MatomoTracker.trackScreenWithName(analyticsScreenName, "");
       } else {
