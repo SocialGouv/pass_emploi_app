@@ -29,7 +29,7 @@ class ProfilPageViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [userName, userEmail];
+  List<Object?> get props => [userName, userEmail, displayMonConseiller];
 }
 
 class ConseillerProfilePageViewModel extends Equatable {
