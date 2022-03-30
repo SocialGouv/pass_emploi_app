@@ -64,15 +64,16 @@ class RendezvousDetailsViewModel extends Equatable {
     final rdv = getRendezvousFromStore(store, rdvId);
     final address = _address(rdv);
     final comment = (rdv.comment != null && rdv.comment!.trim().isNotEmpty) ? rdv.comment : null;
+    final isConseillerPresent = rdv.withConseiller ?? false;
     return RendezvousDetailsViewModel(
       title: takeTypeLabelOrPrecision(rdv),
       date: rdv.date.toDayWithFullMonthContextualized(),
       hourAndDuration: _hourAndDuration(rdv),
       modality: _modality(rdv),
-      conseillerPresenceLabel: rdv.withConseiller ? Strings.conseillerIsPresent : Strings.conseillerIsNotPresent,
-      conseillerPresenceColor: rdv.withConseiller ? AppColors.secondary : AppColors.warning,
+      conseillerPresenceLabel: isConseillerPresent ? Strings.conseillerIsPresent : Strings.conseillerIsNotPresent,
+      conseillerPresenceColor: isConseillerPresent ? AppColors.secondary : AppColors.warning,
       isAnnule: rdv.isAnnule,
-      withConseillerPresencePart: rdv.type.code != RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER,
+      withConseillerPresencePart: _shouldDisplayConseillerPresence(rdv),
       withDescriptionPart: rdv.description != null || rdv.theme != null,
       withModalityPart: _withModalityPart(rdv),
       visioButtonState: _visioButtonState(rdv),
@@ -123,6 +124,12 @@ bool _shouldHidePresentielInformations(Rendezvous rdv) {
   return rdv.isInVisio || rdv.phone != null;
 }
 
+bool _shouldDisplayConseillerPresence(Rendezvous rdv) {
+  return rdv.type.code != RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER &&
+      rdv.type.code != RendezvousTypeCode.PRESTATION &&
+      rdv.withConseiller != null;
+}
+
 String? _address(Rendezvous rdv) {
   return _shouldHidePresentielInformations(rdv) ? null : rdv.address;
 }
@@ -151,7 +158,8 @@ String? _modality(Rendezvous rdv) {
   if (rdv.modality == null) return null;
   final modality = rdv.modality!.firstLetterLowerCased();
   final conseiller = rdv.conseiller;
-  if (rdv.withConseiller && conseiller != null) {
+  final withConseiller = rdv.withConseiller;
+  if (withConseiller != null && withConseiller && conseiller != null) {
     return Strings.rendezvousModalityWithConseillerDetailsMessage(
       modality,
       '${conseiller.firstName} ${conseiller.lastName}',

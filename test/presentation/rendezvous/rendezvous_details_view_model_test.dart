@@ -164,18 +164,39 @@ void main() {
       expect(viewModel.withConseillerPresencePart, isTrue);
     });
 
-    test('should not display conseiller presence part if type is ENTRETIEN_INDIVIDUEL_CONSEILLER', () {
-      // Given
-      final store = _store(mockRendezvous(
-        id: '1',
-        type: RendezvousType(RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER, ''),
-      ));
+    group('should hide conseiller presence', () {
+      void assertConseillerIsHidden(String title, Rendezvous rdv) {
+        test(title, () {
+          // Given
+          final store = _store(rdv);
 
-      // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+          // When
+          final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
 
-      // Then
-      expect(viewModel.withConseillerPresencePart, isFalse);
+          // Then
+          expect(viewModel.withConseillerPresencePart, isFalse);
+        });
+      }
+
+      assertConseillerIsHidden(
+        "with entretien individuel",
+        mockRendezvous(
+          id: '1',
+          type: RendezvousType(RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER, ''),
+          withConseiller: true,
+        ),
+      );
+
+      assertConseillerIsHidden(
+        "with prestation",
+        mockRendezvous(
+          id: '1',
+          type: RendezvousType(RendezvousTypeCode.PRESTATION, ''),
+          withConseiller: true,
+        ),
+      );
+
+      assertConseillerIsHidden("without conseiller field", mockRendezvous(id: '1', withConseiller: null));
     });
 
     test('and comment is not set', () {

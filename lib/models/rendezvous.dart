@@ -5,9 +5,9 @@ class Rendezvous extends Equatable {
   final String id;
   final DateTime date;
   final bool isInVisio;
-  final bool withConseiller;
   final bool isAnnule;
   final RendezvousType type;
+  final bool? withConseiller;
   final String? modality;
   final int? duration;
   final String? comment;
@@ -24,9 +24,9 @@ class Rendezvous extends Equatable {
     required this.id,
     required this.date,
     required this.isInVisio,
-    required this.withConseiller,
     required this.isAnnule,
     required this.type,
+    this.withConseiller,
     this.modality,
     this.duration,
     this.comment,
@@ -48,9 +48,9 @@ class Rendezvous extends Equatable {
       duration,
       isInVisio,
       modality,
-      withConseiller,
       isAnnule,
       type,
+      withConseiller,
       comment,
       organism,
       address,

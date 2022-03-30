@@ -46,7 +46,8 @@ String? _subtitle(Rendezvous rdv) {
   if (rdv.modality == null) return null;
   final modality = rdv.modality!.firstLetterUpperCased();
   final conseiller = rdv.conseiller;
-  if (rdv.withConseiller && conseiller != null) {
+  final withConseiller = rdv.withConseiller;
+  if (withConseiller != null && withConseiller && conseiller != null) {
     return Strings.rendezvousModalityCardMessage(modality, '${conseiller.firstName} ${conseiller.lastName}');
   }
   return modality;
