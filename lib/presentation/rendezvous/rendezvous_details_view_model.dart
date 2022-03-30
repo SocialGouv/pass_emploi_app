@@ -121,7 +121,7 @@ class RendezvousDetailsViewModel extends Equatable {
 enum VisioButtonState { ACTIVE, INACTIVE, HIDDEN }
 
 bool _shouldHidePresentielInformations(Rendezvous rdv) {
-  return rdv.isInVisio || rdv.phone != null;
+  return rdv.isInVisio || rdv.modalityType() == RendezvousModalityType.TELEPHONE;
 }
 
 bool _shouldDisplayConseillerPresence(Rendezvous rdv) {

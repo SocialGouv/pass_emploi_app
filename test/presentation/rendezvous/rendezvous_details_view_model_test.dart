@@ -359,7 +359,7 @@ void main() {
 
     test('should hide address informations on rendez-vous by phone', () {
       // Given
-      final store = _store(mockRendezvous(id: '1', phone: "0611223344", modality: "par téléphone", address: 'address'));
+      final store = _store(mockRendezvous(id: '1', modality: "par téléphone", address: 'address'));
 
       // When
       final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);

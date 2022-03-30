@@ -40,6 +40,11 @@ class Rendezvous extends Equatable {
     this.conseiller,
   });
 
+  RendezvousModalityType modalityType() {
+    if (modality == "par téléphone") return RendezvousModalityType.TELEPHONE;
+    return RendezvousModalityType.NONE;
+  }
+
   @override
   List<Object?> get props {
     return [
@@ -83,4 +88,9 @@ enum RendezvousTypeCode {
   VISITE,
   PRESTATION,
   AUTRE,
+}
+
+enum RendezvousModalityType {
+  TELEPHONE,
+  NONE
 }
