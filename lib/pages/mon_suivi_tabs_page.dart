@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_list_page.dart';
+import 'package:pass_emploi_app/pages/user_action_PE_list_page.dart';
 import 'package:pass_emploi_app/pages/user_action_list_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -11,20 +12,15 @@ enum MonSuiviTab { ACTIONS, RENDEZVOUS }
 
 class MonSuiviTabPage extends StatelessWidget {
   final MonSuiviTab initialTab;
-  final bool showContent;
+  final bool isPoleEmploiLogin;
 
-  MonSuiviTabPage({required this.initialTab, required this.showContent}) : super();
-
-  final List<String> _monSuiviTabs = [
-    Strings.actionsTabTitle,
-    Strings.rendezvousTabTitle,
-  ];
+  MonSuiviTabPage({required this.initialTab, required this.isPoleEmploiLogin}) : super();
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       initialIndex: initialTab == MonSuiviTab.ACTIONS ? 0 : 1,
-      length: _monSuiviTabs.length,
+      length: _getTabTitles().length,
       child: Scaffold(
         backgroundColor: AppColors.grey100,
         appBar: passEmploiAppBar(
@@ -35,32 +31,38 @@ class MonSuiviTabPage extends StatelessWidget {
     );
   }
 
-  Widget _setTabContent() {
-    if (showContent) {
-      return TabBarView(
-        children: [
-          UserActionListPage(),
-          RendezvousListPage(),
-        ],
-      );
-    } else {
-      return TabBarView(
-        children: [
-          UnavailableContent(),
-          RendezvousListPage(),
-        ],
-      );
-    }
-  }
+  List<String> _getTabTitles() =>
+      [
+        isPoleEmploiLogin ? Strings.demarcheTabTitle : Strings.actionsTabTitle,
+        Strings.rendezvousTabTitle,
+      ];
 
-  Widget _getBody() {
-    return Column(
+Widget _setTabContent() {
+  if (isPoleEmploiLogin) {
+    return TabBarView(
       children: [
-        PassEmploiTabBar(
-          tabLabels: _monSuiviTabs,
-        ),
-        Expanded(child: _setTabContent()),
+        // UserActionListPage(),
+        UserActionPEListPage(),
+        UnavailableContent(contentType: ContentType.RENDEZVOUS),
+      ],
+    );
+  } else {
+    return TabBarView(
+      children: [
+        UserActionListPage(),
+        RendezvousListPage(),
       ],
     );
   }
 }
+
+Widget _getBody() {
+  return Column(
+    children: [
+      PassEmploiTabBar(
+        tabLabels: _getTabTitles(),
+      ),
+      Expanded(child: _setTabContent()),
+    ],
+  );
+}}

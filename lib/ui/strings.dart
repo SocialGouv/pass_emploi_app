@@ -102,6 +102,7 @@ class Strings {
   static String monSuiviAppBarTitle = "Mon suivi";
   static String actionsTabTitle = "Actions";
   static String rendezvousTabTitle = "Rendez-vous";
+  static String demarcheTabTitle = "Démarches";
 
   // Rendezvous
   static String myRendezVous = "Mon rendez-vous";
@@ -170,6 +171,16 @@ class Strings {
 
   static String lastUpdateFormat(String formattedDate) => "Modifiée le $formattedDate";
   static String doneActionsTitle = "Actions terminées";
+
+  //User Action Pole Emploi
+  static String actionPEToDo = "À faire";
+  static String actionPEInProgress = "En cours";
+  static String actionPERetarded = "En retard";
+  static String actionPEDone = "Réalisé";
+  static String actionPECancelled = "Annulé";
+  static String actionPEActiveDateFormat(String formattedDate) => "À réaliser pour le $formattedDate";
+  static String actionPEDoneDateFormat(String formattedDate) => "Réalisé le $formattedDate";
+  static String actionPECancelledDateFormat(String formattedDate) => "Annulé le $formattedDate";
 
   // Solutions
   static String searchingPageTitle = "Recherche de solutions";
@@ -327,10 +338,23 @@ class Strings {
   static String noFavoris = "Aucun favori";
   static String favorisError = "Erreur lors de la récupération de vos favoris";
 
+  // Unavailable content (rdv) for pole emploi users
+  static String rendezvous = "rendez-vous";
+  static String actions = "actions";
+
+  static String unavailableContentTitle(String content) => "Vos $content ne sont pas accessibles sur l’application.";
   static String unavailableActions = "Vos actions ne sont pas accessibles sur l’application.";
   static String unvailableContentDescription = "Vous pouvez les consulter sur votre espace personnel Pôle emploi.";
   static String poleEmploiUrlButton = "Accéder à mon espace Pôle emploi";
   static String espacePoleEmploiUrl = "https://candidat.pole-emploi.fr/espacepersonnel/";
+
+  // Empty Content (actions & rdv)
+  static String demarche = "démarche à réaliser";
+  static String demarches = "démarches";
+
+  static String emptyContentTitle(String content) => "Vous n’avez pas encore de $content";
+  static String emptyContentDescription(String content) =>
+      "Vous pouvez créer vos $content en autonomie depuis votre espace Pôle emploi.";
 
   // Profil
   static String personalInformation = "Informations personnelles";

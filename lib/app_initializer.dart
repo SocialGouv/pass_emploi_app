@@ -57,6 +57,7 @@ import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
+import 'package:pass_emploi_app/repositories/user_action_PE_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
@@ -155,6 +156,7 @@ class AppInitializer {
       poleEmploiTokenRepository,
       PoleEmploiAuthRepository(configuration.authIssuer, httpClient, crashlytics),
       UserActionRepository(baseUrl, httpClient, headersBuilder, crashlytics),
+      UserActionPERepository(baseUrl, httpClient, headersBuilder, crashlytics),
       RendezvousRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       OffreEmploiRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       ChatRepository(chatCrypto, crashlytics),
