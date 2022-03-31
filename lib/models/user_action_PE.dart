@@ -7,7 +7,7 @@ class UserActionPE {
   final String? content;
   final UserActionPEStatus status;
   final DateTime endDate;
-  final DateTime deletionDate;
+  final DateTime? deletionDate;
   final bool createdByAdvisor;
 
   UserActionPE({
@@ -25,7 +25,7 @@ class UserActionPE {
       content: json['contenu'] as String?,
       status: _statusFromString(statusString: json['statut'] as String),
       endDate: (json['dateFin'] as String).toDateTimeUtcOnLocalTimeZone(),
-      deletionDate: (json['dateAnnulation'] as String).toDateTimeUtcOnLocalTimeZone(),
+      deletionDate: (json['dateAnnulation'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
       createdByAdvisor: json['creeeParConseiller'] as bool,
     );
   }

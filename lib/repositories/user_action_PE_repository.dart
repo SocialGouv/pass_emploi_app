@@ -22,54 +22,55 @@ class UserActionPERepository {
       );
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes);
-        // return (json as List).map((action) => UserActionPE.fromJson(action)).toList();
+        (json as List).map((action) => print(action));
+        return (json as List).map((action) => UserActionPE.fromJson(action)).toList();
       }
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);
     }
-    // return null;
-    return [
-      UserActionPE(
-        id: "id",
-        content: "content",
-        status: UserActionPEStatus.NOT_STARTED,
-        endDate: DateTime(2022, 12, 23, 0, 0, 0),
-        deletionDate: DateTime(2022, 12, 23, 0, 0, 0),
-        createdByAdvisor: true,
-      ),
-      UserActionPE(
-        id: "id",
-        content:
-            "content very very very very very very very very very very very very very very very very very very very very long description",
-        status: UserActionPEStatus.IN_PROGRESS,
-        endDate: DateTime(2022, 12, 23, 0, 0, 0),
-        deletionDate: DateTime(2022, 12, 23, 0, 0, 0),
-        createdByAdvisor: true,
-      ),
-      UserActionPE(
-        id: "id",
-        content: "action retardée",
-        status: UserActionPEStatus.RETARDED,
-        endDate: DateTime(2022, 12, 23, 0, 0, 0),
-        deletionDate: DateTime(2022, 12, 23, 0, 0, 0),
-        createdByAdvisor: true,
-      ),
-      UserActionPE(
-        id: "id",
-        content: "action faite",
-        status: UserActionPEStatus.DONE,
-        endDate: DateTime(2022, 12, 23, 0, 0, 0),
-        deletionDate: DateTime(2022, 12, 23, 0, 0, 0),
-        createdByAdvisor: true,
-      ),
-      UserActionPE(
-        id: "id",
-        content: "action annulee",
-        status: UserActionPEStatus.CANCELLED,
-        endDate: DateTime(2022, 12, 23, 0, 0, 0),
-        deletionDate: DateTime(2022, 12, 23, 0, 0, 0),
-        createdByAdvisor: true,
-      ),
-    ];
+    return null;
+    // return [
+    //   UserActionPE(
+    //     id: "id",
+    //     content: "content",
+    //     status: UserActionPEStatus.NOT_STARTED,
+    //     endDate: DateTime(2022, 12, 23, 0, 0, 0),
+    //     deletionDate: DateTime(2022, 12, 23, 0, 0, 0),
+    //     createdByAdvisor: true,
+    //   ),
+    //   UserActionPE(
+    //     id: "id",
+    //     content:
+    //         "content very very very very very very very very very very very very very very very very very very very very long description",
+    //     status: UserActionPEStatus.IN_PROGRESS,
+    //     endDate: DateTime(2022, 12, 23, 0, 0, 0),
+    //     deletionDate: DateTime(2022, 12, 23, 0, 0, 0),
+    //     createdByAdvisor: true,
+    //   ),
+    //   UserActionPE(
+    //     id: "id",
+    //     content: "action retardée",
+    //     status: UserActionPEStatus.RETARDED,
+    //     endDate: DateTime(2022, 12, 23, 0, 0, 0),
+    //     deletionDate: DateTime(2022, 12, 23, 0, 0, 0),
+    //     createdByAdvisor: true,
+    //   ),
+    //   UserActionPE(
+    //     id: "id",
+    //     content: "action faite",
+    //     status: UserActionPEStatus.DONE,
+    //     endDate: DateTime(2022, 12, 23, 0, 0, 0),
+    //     deletionDate: DateTime(2022, 12, 23, 0, 0, 0),
+    //     createdByAdvisor: true,
+    //   ),
+    //   UserActionPE(
+    //     id: "id",
+    //     content: "action annulee",
+    //     status: UserActionPEStatus.CANCELLED,
+    //     endDate: DateTime(2022, 12, 23, 0, 0, 0),
+    //     deletionDate: DateTime(2022, 12, 23, 0, 0, 0),
+    //     createdByAdvisor: true,
+    //   ),
+    // ];
   }
 }

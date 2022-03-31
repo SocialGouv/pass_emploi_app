@@ -12,7 +12,7 @@ class UserActionPEViewModel extends Equatable {
   final String? title;
   final UserActionPEStatus status;
   final String endDate;
-  final String deletionDate;
+  final String? deletionDate;
   final bool createdByAdvisor;
   final UserActionPETagViewModel? tag;
 
@@ -21,7 +21,7 @@ class UserActionPEViewModel extends Equatable {
     required this.title,
     required this.status,
     required this.endDate,
-    required this.deletionDate, //
+    required this.deletionDate,
     required this.createdByAdvisor,
     required this.tag,
   });
@@ -32,7 +32,7 @@ class UserActionPEViewModel extends Equatable {
       title: userAction.content,
       status: userAction.status,
       endDate: userAction.endDate.toDay(),
-      deletionDate: userAction.deletionDate.toDay(),
+      deletionDate: userAction.deletionDate?.toDay(),
       createdByAdvisor: userAction.createdByAdvisor,
       tag: _userActionPETagViewModel(userAction.status),
     );
@@ -62,7 +62,8 @@ class UserActionPEViewModel extends Equatable {
     }
   }
 
-  String getDate() => status == UserActionPEStatus.CANCELLED ? _getDateText(deletionDate) : _getDateText(endDate);
+  // TODO 479: Nullable daletionDate gesture
+  String getDate() => status == UserActionPEStatus.CANCELLED ? _getDateText(deletionDate ?? "") : _getDateText(endDate);
 
   @override
   List<Object?> get props => [id, title, status, endDate, deletionDate, createdByAdvisor, tag];

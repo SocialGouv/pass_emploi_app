@@ -41,9 +41,8 @@ Widget _setTabContent() {
   if (isPoleEmploiLogin) {
     return TabBarView(
       children: [
-        // UserActionListPage(),
         UserActionPEListPage(),
-        UnavailableContent(contentType: ContentType.RENDEZVOUS),
+        UnavailableContent(),
       ],
     );
   } else {
