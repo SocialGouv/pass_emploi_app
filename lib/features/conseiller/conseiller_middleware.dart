@@ -17,6 +17,11 @@ class ConseillerMiddleware extends MiddlewareClass<AppState> {
   Future<void> _handleRequestAction(Store<AppState> store) async {
     store.dispatch(ConseillerLoadingAction());
     final result = await _repository.fetch();
-    store.dispatch(ConseillerSuccessAction(conseillerInfo: result));
+
+    if (result != null) {
+      store.dispatch(ConseillerSuccessAction(conseillerInfo: result));
+    } else {
+      store.dispatch(ConseillerFailureAction());
+    }
   }
 }

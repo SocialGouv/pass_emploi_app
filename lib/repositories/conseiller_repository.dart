@@ -11,7 +11,7 @@ class ConseillerRepository {
 
   ConseillerRepository(this._baseUrl, this._httpClient, this._headerBuilder, [this._crashlytics]);
 
-  Future<MonConseillerInfo> fetch() async {
-    return MonConseillerInfo(sinceDate: "03/01/05", firstname: "Alexandre", lastname: "Astier");
+  Future<MonConseillerInfo?> fetch() async {
+    return null;
   }
 }

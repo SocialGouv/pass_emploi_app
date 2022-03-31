@@ -26,7 +26,7 @@ class ProfilPage extends TraceableStatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ProfilPageViewModel>(
-      onInit: (store) => store.dispatch(ConseillerRequestAction()),
+      // onInit: (store) => store.dispatch(ConseillerRequestAction()), // disabled until work is done on backend and repository
       converter: (store) => ProfilPageViewModel.create(store),
       builder: (BuildContext context, ProfilPageViewModel vm) => _buildScaffold(context, vm),
       distinct: true,
