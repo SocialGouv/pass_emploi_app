@@ -58,18 +58,25 @@ void main() {
     expect(viewModel.userName, "Kenji Dupont");
   });
 
-  test("should display mon conseiller", () {
-    // Given
-    final store = TestStoreFactory().initializeReduxStore(
-      initialState: AppState.initialState().copyWith(
-        conseillerState: ConseillerSuccessState(conseillerInfo: monConseillerInfoPerceval()),
-      ),
-    );
+  group("mon conseiller should be", () {
+    void assertMonConseillerIsDisplayed(bool isDisplayed, ConseillerState state) {
+      final verb = isDisplayed ? "displayed" : "hidden";
+      test("$verb on ${state.runtimeType}", () {
+        // Given
+        final store = TestStoreFactory()
+            .initializeReduxStore(initialState: AppState.initialState().copyWith(conseillerState: state));
 
-    // When
-    final viewModel = ProfilPageViewModel.create(store);
+        // When
+        final viewModel = ProfilPageViewModel.create(store);
 
-    // Then
-    expect(viewModel.displayMonConseiller, true);
+        // Then
+        expect(viewModel.displayMonConseiller, isDisplayed);
+      });
+    }
+
+    assertMonConseillerIsDisplayed(true, ConseillerLoadingState());
+    assertMonConseillerIsDisplayed(true, ConseillerSuccessState(conseillerInfo: monConseillerInfoPerceval()));
+    assertMonConseillerIsDisplayed(true, ConseillerFailureState());
+    assertMonConseillerIsDisplayed(false, ConseillerNotInitializedState());
   });
 }
