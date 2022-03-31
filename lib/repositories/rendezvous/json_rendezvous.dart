@@ -6,7 +6,8 @@ const String _poleEmploiOrganism = 'Agence Pôle Emploi';
 
 class JsonRendezvous {
   final String id;
-  final DateTime date;
+  final String date;
+  final bool isLocaleDate;
   final int duration;
   final String modality;
   final bool? isInVisio;
@@ -27,6 +28,7 @@ class JsonRendezvous {
   JsonRendezvous._({
     required this.id,
     required this.date,
+    required this.isLocaleDate,
     required this.duration,
     required this.modality,
     required this.isInVisio,
@@ -48,7 +50,8 @@ class JsonRendezvous {
   factory JsonRendezvous.fromJson(dynamic json) {
     return JsonRendezvous._(
       id: json['id'] as String,
-      date: (json['date'] as String).toDateTimeUtcOnLocalTimeZone(),
+      date: json['date'] as String,
+      isLocaleDate: json['isLocaleDate'] as bool,
       duration: json['duration'] as int,
       modality: json['modality'] as String,
       isInVisio: json['visio'] as bool?,
@@ -71,7 +74,7 @@ class JsonRendezvous {
   Rendezvous toRendezvous() {
     return Rendezvous(
       id: id,
-      date: date,
+      date: _dateTime(),
       duration: duration != 0 ? duration : null,
       modality: modality.isNotEmpty ? modality : null,
       isInVisio: isInVisio ?? false,
@@ -94,6 +97,11 @@ class JsonRendezvous {
     if (organism != null) return organism;
     if (isInAgencePoleEmploi == true) return _poleEmploiOrganism;
     return null;
+  }
+
+  DateTime _dateTime() {
+    if (isLocaleDate) return date.toDateTimeUnconsideringTimeZone();
+    return date.toDateTimeUtcOnLocalTimeZone();
   }
 }
 

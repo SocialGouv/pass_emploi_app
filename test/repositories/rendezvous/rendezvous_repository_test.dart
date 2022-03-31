@@ -11,7 +11,7 @@ import '../../utils/test_assets.dart';
 import '../../utils/test_datetime.dart';
 
 void main() {
-  test('getRendezvous when response is valid should return rendezvous with date on local timezone', () async {
+  test('should return rendezvous', () async {
     // Given
     final httpClient = MockClient((request) async {
       if (request.method != 'GET') return invalidHttpResponse();
@@ -25,7 +25,7 @@ void main() {
 
     // Then
     expect(rendezvous, isNotNull);
-    expect(rendezvous!.length, 2);
+    expect(rendezvous!.length, 3);
     expect(
       rendezvous[0],
       Rendezvous(
@@ -56,6 +56,10 @@ void main() {
         address: '1 rue de la Boétie, 67000 Strasbourg',
         precision: 'Visite',
       ),
+    );
+    expect(
+      rendezvous[2].date,
+      parseDateTimeUnconsideringTimeZone('2001-01-17T03:43:00.000Z'),
     );
   });
 

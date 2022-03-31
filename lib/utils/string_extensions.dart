@@ -8,6 +8,8 @@ extension StringToDateExtensions on String {
   DateTime toDateTimeUtcOnLocalTimeZone() => DateFormat("yyyy-MM-DDTHH:mm:ss.SSSz").parseUtc(this).toLocal();
 
   DateTime toDateTimeUtcWithoutTimeZone() => DateFormat("yyyy-MM-DDTHH:mm:ss.SSS").parseUtc(this).toLocal();
+
+  DateTime toDateTimeUnconsideringTimeZone() => DateFormat("yyyy-MM-DDTHH:mm:ss.SSSz").parse(this);
 }
 
 extension StringExtensions on String {
