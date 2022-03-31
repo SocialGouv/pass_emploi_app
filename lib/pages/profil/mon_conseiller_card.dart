@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/features/conseiller/conseiller_actions.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/profil/conseiller_profil_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -14,7 +13,6 @@ class MonConseillerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ConseillerProfilePageViewModel>(
-      onInit: (store) => store.dispatch(ConseillerRequestAction()),
       converter: (store) => ConseillerProfilePageViewModel.create(store),
       builder: (BuildContext context, ConseillerProfilePageViewModel vm) => _build(context, vm),
       distinct: true,
