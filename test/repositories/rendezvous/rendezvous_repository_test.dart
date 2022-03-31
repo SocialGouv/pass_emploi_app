@@ -80,7 +80,7 @@ void main() {
         id: '4995ea8a-4f6a-48be-925e-f45593c481f6',
         date: parseDateTimeUtcWithCurrentTimeZone('2021-11-28T13:34:00.000Z'),
         modality: 'par visio',
-        withConseiller: false,
+        withConseiller: null,
         isAnnule: true,
         isInVisio: true,
         type: RendezvousType(RendezvousTypeCode.PRESTATION, 'Prestation'),

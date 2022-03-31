@@ -164,18 +164,39 @@ void main() {
       expect(viewModel.withConseillerPresencePart, isTrue);
     });
 
-    test('should not display conseiller presence part if type is ENTRETIEN_INDIVIDUEL_CONSEILLER', () {
-      // Given
-      final store = _store(mockRendezvous(
-        id: '1',
-        type: RendezvousType(RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER, ''),
-      ));
+    group('should hide conseiller presence', () {
+      void assertConseillerIsHidden(String title, Rendezvous rdv) {
+        test(title, () {
+          // Given
+          final store = _store(rdv);
 
-      // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+          // When
+          final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
 
-      // Then
-      expect(viewModel.withConseillerPresencePart, isFalse);
+          // Then
+          expect(viewModel.withConseillerPresencePart, isFalse);
+        });
+      }
+
+      assertConseillerIsHidden(
+        "with entretien individuel",
+        mockRendezvous(
+          id: '1',
+          type: RendezvousType(RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER, ''),
+          withConseiller: true,
+        ),
+      );
+
+      assertConseillerIsHidden(
+        "with prestation",
+        mockRendezvous(
+          id: '1',
+          type: RendezvousType(RendezvousTypeCode.PRESTATION, ''),
+          withConseiller: true,
+        ),
+      );
+
+      assertConseillerIsHidden("without conseiller field", mockRendezvous(id: '1', withConseiller: null));
     });
 
     test('and comment is not set', () {
@@ -312,7 +333,7 @@ void main() {
       expect(viewModel.isAnnule, isTrue);
     });
 
-    test('should display special visio modality and not display address even if present', () {
+    test('should display special visio modality', () {
       // Given
       final store = _store(mockRendezvous(id: '1', isInVisio: true, address: 'address'));
 
@@ -321,8 +342,32 @@ void main() {
 
       // Then
       expect(viewModel.modality, 'Le rendez-vous se fera en visio. La visio sera disponible le jour du rendez-vous.');
+    });
+
+    test('should hide address informations on rendez-vous by visio', () {
+      // Given
+      final store = _store(mockRendezvous(id: '1', isInVisio: true, address: 'address'));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+
+      // Then
       expect(viewModel.address, isNull);
       expect(viewModel.addressRedirectUri, isNull);
+      expect(viewModel.organism, isNull);
+    });
+
+    test('should hide address informations on rendez-vous by phone', () {
+      // Given
+      final store = _store(mockRendezvous(id: '1', modality: "par téléphone", address: 'address'));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+
+      // Then
+      expect(viewModel.address, isNull);
+      expect(viewModel.addressRedirectUri, isNull);
+      expect(viewModel.organism, isNull);
     });
 
     test('should display inactive visio button if rdv is in visio but no link is present', () {

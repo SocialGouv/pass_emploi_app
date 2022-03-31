@@ -75,7 +75,7 @@ class JsonRendezvous {
       duration: duration != 0 ? duration : null,
       modality: modality.isNotEmpty ? modality : null,
       isInVisio: isInVisio ?? false,
-      withConseiller: withConseiller ?? false,
+      withConseiller: withConseiller,
       isAnnule: isAnnule ?? false,
       type: type,
       comment: comment,

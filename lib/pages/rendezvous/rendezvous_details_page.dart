@@ -53,7 +53,6 @@ class RendezvousDetailsPage extends StatelessWidget {
               if (viewModel.withDescriptionPart) _DescriptionPart(viewModel),
               SepLine(Margins.spacing_m, Margins.spacing_m),
               _ConseillerPart(viewModel),
-              SepLine(Margins.spacing_m, Margins.spacing_m),
               _InformIfAbsent(),
             ],
           ),
@@ -220,11 +219,15 @@ class _ConseillerPart extends StatelessWidget {
             padding: const EdgeInsets.only(top: Margins.spacing_s),
             child: TextWithClickableLinks(viewModel.comment!, style: TextStyles.textBaseRegular),
           ),
+        if (_withEndSepLine()) SepLine(Margins.spacing_m, Margins.spacing_m),
       ],
     );
   }
 
   bool _withSepLine() => viewModel.withConseillerPresencePart && viewModel.comment != null;
+
+  bool _withEndSepLine() =>
+      viewModel.withConseillerPresencePart || viewModel.commentTitle != null || viewModel.comment != null;
 }
 
 class _InformIfAbsent extends StatelessWidget {

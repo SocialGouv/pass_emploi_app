@@ -62,17 +62,18 @@ class RendezvousDetailsViewModel extends Equatable {
 
   factory RendezvousDetailsViewModel.create(Store<AppState> store, String rdvId, Platform platform) {
     final rdv = getRendezvousFromStore(store, rdvId);
+    final address = _address(rdv);
     final comment = (rdv.comment != null && rdv.comment!.trim().isNotEmpty) ? rdv.comment : null;
-    final address = rdv.isInVisio ? null : rdv.address;
+    final isConseillerPresent = rdv.withConseiller ?? false;
     return RendezvousDetailsViewModel(
       title: takeTypeLabelOrPrecision(rdv),
       date: rdv.date.toDayWithFullMonthContextualized(),
       hourAndDuration: _hourAndDuration(rdv),
       modality: _modality(rdv),
-      conseillerPresenceLabel: rdv.withConseiller ? Strings.conseillerIsPresent : Strings.conseillerIsNotPresent,
-      conseillerPresenceColor: rdv.withConseiller ? AppColors.secondary : AppColors.warning,
+      conseillerPresenceLabel: isConseillerPresent ? Strings.conseillerIsPresent : Strings.conseillerIsNotPresent,
+      conseillerPresenceColor: isConseillerPresent ? AppColors.secondary : AppColors.warning,
       isAnnule: rdv.isAnnule,
-      withConseillerPresencePart: rdv.type.code != RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER,
+      withConseillerPresencePart: _shouldDisplayConseillerPresence(rdv),
       withDescriptionPart: rdv.description != null || rdv.theme != null,
       withModalityPart: _withModalityPart(rdv),
       visioButtonState: _visioButtonState(rdv),
@@ -80,7 +81,7 @@ class RendezvousDetailsViewModel extends Equatable {
       trackingPageName: _trackingPageName(rdv.type.code),
       commentTitle: _commentTitle(rdv, comment),
       comment: comment,
-      organism: rdv.organism,
+      organism: _shouldHidePresentielInformations(rdv) ? null : rdv.organism,
       address: address,
       phone: rdv.phone != null ? Strings.phone(rdv.phone!) : null,
       addressRedirectUri: address != null ? UriHandler().mapsUri(address, platform) : null,
@@ -119,6 +120,20 @@ class RendezvousDetailsViewModel extends Equatable {
 
 enum VisioButtonState { ACTIVE, INACTIVE, HIDDEN }
 
+bool _shouldHidePresentielInformations(Rendezvous rdv) {
+  return rdv.isInVisio || rdv.modalityType() == RendezvousModalityType.TELEPHONE;
+}
+
+bool _shouldDisplayConseillerPresence(Rendezvous rdv) {
+  return rdv.type.code != RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER &&
+      rdv.type.code != RendezvousTypeCode.PRESTATION &&
+      rdv.withConseiller != null;
+}
+
+String? _address(Rendezvous rdv) {
+  return _shouldHidePresentielInformations(rdv) ? null : rdv.address;
+}
+
 String _hourAndDuration(Rendezvous rdv) {
   final hour = rdv.date.toHour();
   return rdv.duration != null ? "$hour (${_toDuration(rdv.duration!)})" : hour;
@@ -143,7 +158,8 @@ String? _modality(Rendezvous rdv) {
   if (rdv.modality == null) return null;
   final modality = rdv.modality!.firstLetterLowerCased();
   final conseiller = rdv.conseiller;
-  if (rdv.withConseiller && conseiller != null) {
+  final withConseiller = rdv.withConseiller;
+  if (withConseiller != null && withConseiller && conseiller != null) {
     return Strings.rendezvousModalityWithConseillerDetailsMessage(
       modality,
       '${conseiller.firstName} ${conseiller.lastName}',
