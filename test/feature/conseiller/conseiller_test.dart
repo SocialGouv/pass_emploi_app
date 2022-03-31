@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/conseiller/conseiller_actions.dart';
 import 'package:pass_emploi_app/features/conseiller/conseiller_state.dart';
-import 'package:pass_emploi_app/models/MonConseillerInfo.dart';
+import 'package:pass_emploi_app/models/mon_conseiller_info.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/conseiller_repository.dart';
 import 'package:redux/src/store.dart';

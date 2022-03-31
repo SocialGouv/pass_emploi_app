@@ -9,7 +9,7 @@ class ConseillerMiddleware extends MiddlewareClass<AppState> {
   ConseillerMiddleware(this._repository);
 
   @override
-  call(Store<AppState> store, dynamic action, NextDispatcher next) async {
+  void call(Store<AppState> store, dynamic action, NextDispatcher next) async {
     next(action);
     if (action is ConseillerRequestAction) await _handleRequestAction(store);
   }

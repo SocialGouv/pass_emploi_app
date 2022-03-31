@@ -1,6 +1,6 @@
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
-import 'package:pass_emploi_app/models/MonConseillerInfo.dart';
+import 'package:pass_emploi_app/models/mon_conseiller_info.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 
 class ConseillerRepository {
