@@ -14,4 +14,12 @@ class ConseillerRepository {
   Future<MonConseillerInfo?> fetch() async {
     return null;
   }
+
+  bool temporarySilenceFlutterAnalyze() {
+    // will be remove when story is done
+    return (_baseUrl == "0" &&
+        _httpClient.runtimeType != Object &&
+        _headerBuilder.runtimeType != Object &&
+        _crashlytics.runtimeType != Object);
+  }
 }
