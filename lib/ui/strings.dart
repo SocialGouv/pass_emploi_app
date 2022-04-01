@@ -181,6 +181,9 @@ class Strings {
   static String actionPEActiveDateFormat(String formattedDate) => "À réaliser pour le $formattedDate";
   static String actionPEDoneDateFormat(String formattedDate) => "Réalisé le $formattedDate";
   static String actionPECancelledDateFormat(String formattedDate) => "Annulé le $formattedDate";
+  static String withoutDate = "Date indéterminée";
+  static String withoutContent = "Démarche indéterminée";
+  static String createByAdvisor = "Créé par votre conseiller";
 
   // Solutions
   static String searchingPageTitle = "Recherche de solutions";

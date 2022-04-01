@@ -6,7 +6,7 @@ class UserActionPE {
   final String id;
   final String? content;
   final UserActionPEStatus status;
-  final DateTime endDate;
+  final DateTime? endDate;
   final DateTime? deletionDate;
   final bool createdByAdvisor;
 
@@ -24,7 +24,7 @@ class UserActionPE {
       id: json['id'] as String,
       content: json['contenu'] as String?,
       status: _statusFromString(statusString: json['statut'] as String),
-      endDate: (json['dateFin'] as String).toDateTimeUtcOnLocalTimeZone(),
+      endDate:  (json['dateFin'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
       deletionDate: (json['dateAnnulation'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
       createdByAdvisor: json['creeeParConseiller'] as bool,
     );

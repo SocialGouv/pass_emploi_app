@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/presentation/user_action_PE/user_action_PE_view_
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/tags/status_tag_PE.dart';
 
@@ -33,7 +34,8 @@ class UserActionPECard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (viewModel.tag != null) _buildStatut(viewModel.tag!),
-                  Text(viewModel.title ?? "", style: TextStyles.textBaseBold),
+                  Text(viewModel.title, style: TextStyles.textBaseBold),
+                  if (viewModel.createdByAdvisor) _buildCreatorText(),
                   _buildDate(),
                 ],
               ),
@@ -48,6 +50,13 @@ class UserActionPECard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: Margins.spacing_base),
       child: StatutTagPE(viewModel: viewModel),
+    );
+  }
+
+  Widget _buildCreatorText() {
+    return Padding(
+      padding: const EdgeInsets.only(top: Margins.spacing_base),
+      child: Text(Strings.createByAdvisor, style: TextStyles.textSRegularWithColor(AppColors.primary)),
     );
   }
 
@@ -72,5 +81,4 @@ class UserActionPECard extends StatelessWidget {
       ],
     );
   }
-
 }

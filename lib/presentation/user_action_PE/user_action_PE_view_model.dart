@@ -9,9 +9,9 @@ import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class UserActionPEViewModel extends Equatable {
   final String id;
-  final String? title;
+  final String title;
   final UserActionPEStatus status;
-  final String endDate;
+  final String? endDate;
   final String? deletionDate;
   final bool createdByAdvisor;
   final UserActionPETagViewModel? tag;
@@ -29,9 +29,9 @@ class UserActionPEViewModel extends Equatable {
   factory UserActionPEViewModel.create(UserActionPE userAction) {
     return UserActionPEViewModel(
       id: userAction.id,
-      title: userAction.content,
+      title: userAction.content ?? Strings.withoutContent,
       status: userAction.status,
-      endDate: userAction.endDate.toDay(),
+      endDate: userAction.endDate?.toDay(),
       deletionDate: userAction.deletionDate?.toDay(),
       createdByAdvisor: userAction.createdByAdvisor,
       tag: _userActionPETagViewModel(userAction.status),
@@ -62,8 +62,13 @@ class UserActionPEViewModel extends Equatable {
     }
   }
 
-  // TODO 479: Nullable daletionDate gesture
-  String getDate() => status == UserActionPEStatus.CANCELLED ? _getDateText(deletionDate ?? "") : _getDateText(endDate);
+  String getDate() {
+    if (status == UserActionPEStatus.CANCELLED) {
+      return (deletionDate != null && deletionDate!.isNotEmpty) ? _getDateText(deletionDate!) : Strings.withoutDate;
+    } else {
+      return (endDate != null && endDate!.isNotEmpty) ? _getDateText(endDate!) : Strings.withoutDate;
+    }
+  }
 
   @override
   List<Object?> get props => [id, title, status, endDate, deletionDate, createdByAdvisor, tag];
