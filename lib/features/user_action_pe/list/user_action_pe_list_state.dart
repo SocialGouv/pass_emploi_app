@@ -1,4 +1,4 @@
-import 'package:pass_emploi_app/models/user_action_PE.dart';
+import 'package:pass_emploi_app/models/user_action_pe.dart';
 
 abstract class UserActionPEListState {}
 

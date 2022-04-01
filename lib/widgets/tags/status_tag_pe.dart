@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/presentation/user_action_PE/user_action_PE_view_model.dart';
+import 'package:pass_emploi_app/presentation/user_action_pe/user_action_pe_view_model.dart';
 
 class StatutTagPE extends StatelessWidget {
   final UserActionPETagViewModel viewModel;
 
-  const StatutTagPE({Key? key, required this.viewModel}) : super(key: key);
+  const StatutTagPE({required this.viewModel}) : super();
 
   @override
   Widget build(BuildContext context) {

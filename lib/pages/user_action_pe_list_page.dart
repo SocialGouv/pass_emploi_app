@@ -2,18 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/features/user_action_PE/list/user_action_PE_list_actions.dart';
-import 'package:pass_emploi_app/presentation/user_action_PE/user_action_PE_list_page_view_model.dart';
+import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_actions.dart';
+import 'package:pass_emploi_app/presentation/user_action_pe/user_action_pe_list_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/cards/user_action_PE_card.dart';
+import 'package:pass_emploi_app/widgets/cards/user_action_pe_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
-
-import '../widgets/empty_content.dart';
+import 'package:pass_emploi_app/widgets/empty_content.dart';
 
 class UserActionPEListPage extends TraceableStatelessWidget {
   final ScrollController _scrollController = ScrollController();

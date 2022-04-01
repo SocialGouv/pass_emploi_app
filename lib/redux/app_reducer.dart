@@ -32,7 +32,7 @@ import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.da
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/features/user_action_PE/list/user_action_PE_list_reducer.dart';
+import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_reducer.dart';
 
 AppState reducer(AppState current, dynamic action) {
   if (action is RequestLogoutAction) {

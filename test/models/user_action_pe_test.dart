@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/user_action_PE.dart';
+import 'package:pass_emploi_app/models/user_action_pe.dart';
 
 import '../utils/test_assets.dart';
 import '../utils/test_datetime.dart';
@@ -9,7 +9,7 @@ import '../utils/test_datetime.dart';
 void main() {
   test('UserActionPE.fromJson when complete data should deserialize data correctly with date on local timezone', () {
     // Given
-    final String userActionString = loadTestAssets("user_action_PE.json");
+    final String userActionString = loadTestAssets("user_action_pe.json");
     final userActionJson = json.decode(userActionString);
 
     // When

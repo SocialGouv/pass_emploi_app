@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/user_action_PE/list/user_action_PE_list_actions.dart';
-import 'package:pass_emploi_app/features/user_action_PE/list/user_action_PE_list_state.dart';
-import 'package:pass_emploi_app/presentation/user_action_PE/user_action_PE_view_model.dart';
+import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_actions.dart';
+import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_state.dart';
+import 'package:pass_emploi_app/presentation/user_action_pe/user_action_pe_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
-import 'package:pass_emploi_app/models/user_action_PE.dart';
+import 'package:pass_emploi_app/models/user_action_pe.dart';
 
 class UserActionPEListPageViewModel extends Equatable {
   final bool withLoading;

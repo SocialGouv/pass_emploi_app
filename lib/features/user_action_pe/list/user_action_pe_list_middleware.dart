@@ -1,8 +1,8 @@
 import 'package:pass_emploi_app/features/login/login_state.dart';
-import 'package:pass_emploi_app/features/user_action_PE/list/user_action_PE_list_actions.dart';
+import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
-import 'package:pass_emploi_app/repositories/user_action_PE_repository.dart';
+import 'package:pass_emploi_app/repositories/user_action_pe_repository.dart';
 
 class UserActionPEListMiddleware extends MiddlewareClass<AppState> {
   final UserActionPERepository _repository;
