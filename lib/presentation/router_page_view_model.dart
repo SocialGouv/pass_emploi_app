@@ -44,7 +44,7 @@ MainPageDisplayState _toMainPageDisplayState(DeepLinkState? deepLinkState, Store
   }
   final loginState = store.state.loginState;
   if (loginState is LoginSuccessState && loginState.user.loginMode == LoginMode.POLE_EMPLOI) {
-    return MainPageDisplayState.SEARCH;
+    return MainPageDisplayState.ACTIONS_TAB;
   }
   return MainPageDisplayState.DEFAULT;
 }
