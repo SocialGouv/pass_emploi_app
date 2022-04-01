@@ -59,21 +59,43 @@ void main() {
     );
   });
 
-  test('getRendezvous when response is valid with Pole Emploi rendezvous', () async {
-    // Given
+  RendezvousRepository _rendezvousRepositoryFromPoleEmploi() {
     final httpClient = MockClient((request) async {
       if (request.method != 'GET') return invalidHttpResponse();
       if (request.url.toString() != 'BASE_URL/jeunes/userId/rendezvous') return invalidHttpResponse();
       return Response.bytes(loadTestAssetsAsBytes('rendezvous_pole_emploi.json'), 200);
     });
-    final repository = RendezvousRepository('BASE_URL', httpClient, HeadersBuilderStub());
+    return RendezvousRepository('BASE_URL', httpClient, HeadersBuilderStub());
+  }
 
-    // When
+  test('an organism should be more important than an agence Pole Emploi', () async {
+    final repository = _rendezvousRepositoryFromPoleEmploi();
+
     final rendezvous = await repository.getRendezvous('userId');
 
-    // Then
     expect(rendezvous, isNotNull);
     expect(rendezvous!.length, 10);
+    expect(rendezvous[4].organism, "MBCCE");
+  });
+
+  test('an agence Pole Emploi should be an organism', () async {
+    final repository = _rendezvousRepositoryFromPoleEmploi();
+
+    final rendezvous = await repository.getRendezvous('userId');
+
+    expect(rendezvous, isNotNull);
+    expect(rendezvous!.length, 10);
+    expect(rendezvous[0].organism, "Agence Pôle Emploi");
+  });
+
+  test('getRendezvous when response is valid with Pole Emploi rendezvous', () async {
+    final repository = _rendezvousRepositoryFromPoleEmploi();
+
+    final rendezvous = await repository.getRendezvous('userId');
+
+    expect(rendezvous, isNotNull);
+    expect(rendezvous!.length, 10);
+    expect(rendezvous[0].organism, "Agence Pôle Emploi");
     expect(
       rendezvous[0],
       Rendezvous(
