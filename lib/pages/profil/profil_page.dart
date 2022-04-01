@@ -4,7 +4,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
-import 'package:pass_emploi_app/presentation/profil_page_view_model.dart';
+import 'package:pass_emploi_app/pages/profil/mon_conseiller_card.dart';
+import 'package:pass_emploi_app/presentation/profil/profil_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -24,6 +25,7 @@ class ProfilPage extends TraceableStatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ProfilPageViewModel>(
+      // onInit: (store) => store.dispatch(ConseillerRequestAction()), // disabled until work is done on backend and repository
       converter: (store) => ProfilPageViewModel.create(store),
       builder: (BuildContext context, ProfilPageViewModel vm) => _buildScaffold(context, vm),
       distinct: true,
@@ -61,6 +63,7 @@ class ProfilPage extends TraceableStatelessWidget {
                 ),
               ),
               SizedBox(height: Margins.spacing_m),
+              if (viewModel.displayMonConseiller) MonConseillerCard(),
               Text(Strings.legalInformation, style: TextStyles.textLBold()),
               SizedBox(height: Margins.spacing_m),
               ProfilCard(

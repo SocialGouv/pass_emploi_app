@@ -35,6 +35,7 @@ import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart'
 import 'package:pass_emploi_app/repositories/auth/pole_emploi/pole_emploi_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/pole_emploi/pole_emploi_token_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/repositories/conseiller_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
@@ -163,6 +164,7 @@ class AppInitializer {
       SavedSearchDeleteRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       ServiceCiviqueRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       ServiceCiviqueDetailRepository(baseUrl, httpClient, headersBuilder, crashlytics),
+      ConseillerRepository(baseUrl, httpClient, headersBuilder, crashlytics),
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
     await pushNotificationManager.init(reduxStore);
