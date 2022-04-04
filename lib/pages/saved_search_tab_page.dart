@@ -38,6 +38,13 @@ class SavedSearchTabPage extends StatefulWidget {
 class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   int _selectedIndex = 0;
   bool _shouldNavigate = true;
+  late ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +86,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
 
   Future<bool> _goToPage(BuildContext context, int newIndex, Widget page) {
     _shouldNavigate = false;
-    _updateIndex(newIndex);
+    _updateIndex(newIndex, true);
     return Navigator.push(context, MaterialPageRoute(builder: (_) => page)).then((_) => _shouldNavigate = true);
   }
 
@@ -96,6 +103,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   Widget _carousel() {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
+      controller: _scrollController,
       child: Row(
         children: [
           SizedBox(width: Margins.spacing_base),
@@ -155,10 +163,13 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     }
   }
 
-  void _updateIndex(int index) {
+  void _updateIndex(int index, [bool withScroll = false]) {
     if (_selectedIndex != index) {
       setState(() {
         _selectedIndex = index;
+        if (withScroll) {
+          _scrollController.jumpTo(_selectedIndex * 100);
+        }
       });
     }
   }
