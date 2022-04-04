@@ -8,7 +8,7 @@ class AnalyticsScreenTracking {
   static String? onGenerateScreenTracking(RouteSettings settings) {
     final routeName = settings.name;
     if (routeName == ChoixOrganismePage.routeName) return AnalyticsScreenNames.choixOrganisme;
-    if (routeName == LoginPage.routeName) return AnalyticsScreenNames.login;
+    if (routeName == LoginPage.routeName) return "login";
     if (routeName == OffreEmploiListPage.routeName) {
       final args = settings.arguments as Map<String, dynamic>;
       return args["onlyAlternance"] as bool

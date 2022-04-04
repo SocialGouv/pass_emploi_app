@@ -10,7 +10,6 @@ class AnalyticsScreenNames {
 
   static String cejInformationPage(int pageNumber) => "entree/etape-$pageNumber";
 
-  static const login = "login";
   static const userActionList = "actions/list";
   static const userActionDetails = "actions/detail";
   static const updateUserAction = "actions/detail?modifySuccess=true";

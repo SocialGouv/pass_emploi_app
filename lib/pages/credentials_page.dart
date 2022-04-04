@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 
 class CredentialsPage extends StatefulWidget {
-
   static const routeName = "/credentials";
 
   @override
