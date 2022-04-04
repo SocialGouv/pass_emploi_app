@@ -3,58 +3,27 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/analytics/analytics_screen_tracking.dart';
 
 void main() {
-  test("login tracking", () {
-    // Given
-    final settings = RouteSettings(name: "/login");
+  group("onGenerateScreenTracking should properly build tracking page depending on route settings", () {
+    void assertTracking(RouteSettings settings, String? expectedTracking) {
+      test("${settings.name} with args ${settings.arguments} -> $expectedTracking", () async {
+        // When
+        final tracking = AnalyticsScreenTracking.onGenerateScreenTracking(settings);
 
-    // When
-    final tracking = AnalyticsScreenTracking.onGenerateScreenTracking(settings);
+        // Then
+        expect(tracking, expectedTracking);
+      });
+    }
 
-    // Then
-    expect(tracking, "login");
-  });
-
-  test("choix organisme tracking", () {
-    // Given
-    final settings = RouteSettings(name: "/entree/choix-organisme");
-
-    // When
-    final tracking = AnalyticsScreenTracking.onGenerateScreenTracking(settings);
-
-    // Then
-    expect(tracking, "entree/choix-organisme");
-  });
-
-  test("offres emploi results tracking", () {
-    // Given
-    final settings = RouteSettings(name: "/recherche/search_results", arguments: {"onlyAlternance": false});
-
-    // When
-    final tracking = AnalyticsScreenTracking.onGenerateScreenTracking(settings);
-
-    // Then
-    expect(tracking, "recherche/emploi/search_results");
-  });
-
-  test("offres alternance results tracking", () {
-    // Given
-    final settings = RouteSettings(name: "/recherche/search_results", arguments: {"onlyAlternance": true});
-
-    // When
-    final tracking = AnalyticsScreenTracking.onGenerateScreenTracking(settings);
-
-    // Then
-    expect(tracking, "recherche/alternance/search_results");
-  });
-
-  test("router should not be tracked", () {
-    // Given
-    final settings = RouteSettings(name: "/router");
-
-    // When
-    final tracking = AnalyticsScreenTracking.onGenerateScreenTracking(settings);
-
-    // Then
-    expect(tracking, isNull);
+    assertTracking(RouteSettings(name: "/router"), null);
+    assertTracking(RouteSettings(name: "/login"), "login");
+    assertTracking(RouteSettings(name: "/entree/choix-organisme"), "entree/choix-organisme");
+    assertTracking(
+      RouteSettings(name: "/recherche/search_results", arguments: {"onlyAlternance": false}),
+      "recherche/emploi/search_results",
+    );
+    assertTracking(
+      RouteSettings(name: "/recherche/search_results", arguments: {"onlyAlternance": true}),
+      "recherche/alternance/search_results",
+    );
   });
 }
