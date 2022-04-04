@@ -67,27 +67,41 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     if (!_shouldNavigate || newViewModel == null) return;
     switch (newViewModel.searchNavigationState) {
       case SavedSearchNavigationState.OFFRE_EMPLOI:
-        _goToPage(context, _indexOfOffresEmploi, OffreEmploiListPage(onlyAlternance: false, fromSavedSearch: true));
+        _goToPageNamed(
+          _indexOfOffresEmploi,
+          OffreEmploiListPage.routeName,
+          arguments: {"onlyAlternance": false, "fromSavedSearch": true},
+        );
         break;
       case SavedSearchNavigationState.OFFRE_ALTERNANCE:
-        _goToPage(context, _indexOfAlternance, OffreEmploiListPage(onlyAlternance: true, fromSavedSearch: true));
+        _goToPageNamed(
+          _indexOfAlternance,
+          OffreEmploiListPage.routeName,
+          arguments: {"onlyAlternance": true, "fromSavedSearch": true},
+        );
         break;
       case SavedSearchNavigationState.OFFRE_IMMERSION:
-        _goToPage(context, _indexOfImmersion, ImmersionListPage(true))
+        _goToPage(_indexOfImmersion, ImmersionListPage(true))
             .then((value) => StoreProvider.of<AppState>(context).dispatch(ImmersionListResetAction()));
         break;
       case SavedSearchNavigationState.SERVICE_CIVIQUE:
-        _goToPage(context, _indexOfServiceCivique, ServiceCiviqueListPage(true));
+        _goToPage(_indexOfServiceCivique, ServiceCiviqueListPage(true));
         break;
       case SavedSearchNavigationState.NONE:
         break;
     }
   }
 
-  Future<bool> _goToPage(BuildContext context, int newIndex, Widget page) {
+  Future<bool> _goToPage(int newIndex, Widget page) {
     _shouldNavigate = false;
     _updateIndex(newIndex, true);
     return Navigator.push(context, MaterialPageRoute(builder: (_) => page)).then((_) => _shouldNavigate = true);
+  }
+
+  Future<bool> _goToPageNamed(int newIndex, String routeName, {Object? arguments}) {
+    _shouldNavigate = false;
+    _updateIndex(newIndex, true);
+    return Navigator.pushNamed(context, routeName, arguments: arguments).then((_) => _shouldNavigate = true);
   }
 
   Widget _scrollView(SavedSearchListViewModel viewModel) {

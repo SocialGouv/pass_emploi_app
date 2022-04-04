@@ -14,14 +14,10 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/onboarding_background.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class ChoixOrganismePage extends TraceableStatelessWidget {
+class ChoixOrganismePage extends StatelessWidget {
+  static const routeName = "/entree/choix-organisme";
+
   static const noOrganismeLink = "https://www.1jeune1solution.gouv.fr/contrat-engagement-jeune";
-
-  const ChoixOrganismePage() : super(name: AnalyticsScreenNames.choixOrganisme);
-
-  static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => ChoixOrganismePage());
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +66,7 @@ class ChoixOrganismePage extends TraceableStatelessWidget {
                                       pushAndTrackBack(
                                         context,
                                         ChoixOrganismeExplainationPage.materialPageRoute(isPoleEmploi: true),
+                                        AnalyticsScreenNames.choixOrganisme,
                                       );
                                     },
                                   ),
@@ -80,6 +77,7 @@ class ChoixOrganismePage extends TraceableStatelessWidget {
                                       pushAndTrackBack(
                                         context,
                                         ChoixOrganismeExplainationPage.materialPageRoute(isPoleEmploi: false),
+                                        AnalyticsScreenNames.choixOrganisme,
                                       );
                                     },
                                   ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/app_router.dart';
 import 'package:pass_emploi_app/pages/router_page.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -10,6 +11,7 @@ import 'package:redux/redux.dart';
 
 class PassEmploiApp extends StatelessWidget {
   final Store<AppState> _store;
+  final _router = AppRouter();
 
   PassEmploiApp(this._store);
 
@@ -18,19 +20,21 @@ class PassEmploiApp extends StatelessWidget {
     return StoreProvider<AppState>(
       store: _store,
       child: MaterialApp(
-          scaffoldMessengerKey: snackbarKey,
-          title: Strings.appName,
-          theme: PassEmploiTheme.data,
-          home: RouterPage(),
-          localizationsDelegates: [
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: [
-            Locale('en'),
-            Locale('fr'),
-          ]),
+        scaffoldMessengerKey: snackbarKey,
+        title: Strings.appName,
+        theme: PassEmploiTheme.data,
+        initialRoute: RouterPage.routeName,
+        onGenerateRoute: (settings) => _router.getMaterialPageRoute(settings),
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: [
+          Locale('en'),
+          Locale('fr'),
+        ],
+      ),
     );
   }
 }

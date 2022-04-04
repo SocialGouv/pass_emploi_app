@@ -86,12 +86,12 @@ class EntreePage extends TraceableStatelessWidget {
       children: [
         PrimaryActionButton(
           label: Strings.loginAction,
-          onPressed: () => Navigator.push(context, LoginPage.materialPageRoute()),
+          onPressed: () => Navigator.pushNamed(context, LoginPage.routeName),
         ),
         SizedBox(height: Margins.spacing_base),
         SecondaryButton(
           label: Strings.askAccount,
-          onPressed: () => Navigator.push(context, CejInformationPage.materialPageRoute()),
+          onPressed: () => Navigator.pushNamed(context, CejInformationPage.routeName),
         ),
         SepLine(Margins.spacing_base, 0),
         Theme(

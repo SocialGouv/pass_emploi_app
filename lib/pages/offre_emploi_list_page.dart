@@ -27,12 +27,13 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_offre_widget.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 
-class OffreEmploiListPage extends TraceableStatefulWidget {
+class OffreEmploiListPage extends StatefulWidget {
+  static const routeName = "/recherche/search_results";
+
   final bool onlyAlternance;
   final bool fromSavedSearch;
 
-  OffreEmploiListPage({required this.onlyAlternance, this.fromSavedSearch = false})
-      : super(name: onlyAlternance ? AnalyticsScreenNames.alternanceResults : AnalyticsScreenNames.emploiResults);
+  OffreEmploiListPage({required this.onlyAlternance, this.fromSavedSearch = false});
 
   @override
   State<OffreEmploiListPage> createState() => _OffreEmploiListPageState();
@@ -241,6 +242,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
         .pushAndTrackBack(
           context,
           OffreEmploiDetailsPage.materialPageRoute(offreId, fromAlternance: widget.onlyAlternance),
+          widget.onlyAlternance ? AnalyticsScreenNames.alternanceResults : AnalyticsScreenNames.emploiResults,
         )
         .then((_) => _scrollController.jumpTo(_offsetBeforeLoading));
   }
@@ -269,7 +271,11 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
 
   Future<void> _onFiltreButtonPressed() {
     return widget
-        .pushAndTrackBack(context, OffreEmploiFiltresPage.materialPageRoute(widget.onlyAlternance))
+        .pushAndTrackBack(
+      context,
+      OffreEmploiFiltresPage.materialPageRoute(widget.onlyAlternance),
+      widget.onlyAlternance ? AnalyticsScreenNames.alternanceResults : AnalyticsScreenNames.emploiResults,
+    )
         .then((value) {
       if (value == true) {
         _offsetBeforeLoading = 0;

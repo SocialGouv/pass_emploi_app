@@ -35,6 +35,7 @@ class ImmersionFavorisPage extends AbstractFavorisPage<Immersion, Immersion> {
           itemViewModel.id,
           popPageWhenFavoriIsRemoved: true,
         ),
+        AnalyticsScreenNames.immersionFavoris,
       ),
       from: OffrePage.immersionFavoris,
       id: itemViewModel.id,
