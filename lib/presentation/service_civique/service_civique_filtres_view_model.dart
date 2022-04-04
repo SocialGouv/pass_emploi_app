@@ -57,7 +57,8 @@ class ServiceCiviqueFiltresViewModel extends Equatable {
 
 bool _shouldDisplayDistanceFiltre(ServiceCiviqueSearchResultState state) {
   if (state is ServiceCiviqueSearchResultDataState) {
-    return state.lastRequest.location?.type == LocationType.COMMUNE;
+    final location = state.lastRequest.location;
+    return location?.type == LocationType.COMMUNE && location?.longitude != null && location?.latitude != null;
   } else {
     return false;
   }

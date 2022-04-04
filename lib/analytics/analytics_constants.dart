@@ -54,6 +54,7 @@ class AnalyticsScreenNames {
   static const serviceCiviqueDetail = "/recherche/service_civique/detail";
   static const serviceCiviqueFavoris = "/favoris/list/service_civique";
   static const serviceCiviqueFiltres = "/recherche/service_civique/search_results/filters";
+  static const serviceCiviqueCreateAlert = "/saved_search/service_civique/create";
 
   static const toolbox = "recherche/boite_a_outils";
   static const emploiFavoris = "favoris/list/emploi";
@@ -94,11 +95,11 @@ class AnalyticsActionNames {
   static String immersionFavoriUpdateFavori(bool added) => "/favoris/list/immersion?favori=$added";
 
   static String serviceCiviqueResultUpdateFavori(bool added) =>
-      "/solutions/service-civique/search_results?favori=$added";
+      "/solutions/service_civique/search_results?favori=$added";
 
-  static String serviceCiviqueDetailUpdateFavori(bool added) => "/solutions/service-civique/detail?favori=$added";
+  static String serviceCiviqueDetailUpdateFavori(bool added) => "/solutions/service_civique/detail?favori=$added";
 
-  static String serviceCiviqueFavoriUpdateFavori(bool added) => "/favoris/list/service-civique?favori=$added";
+  static String serviceCiviqueFavoriUpdateFavori(bool added) => "/favoris/list/service_civique?favori=$added";
 
   static const deleteUserAction = "actions/list?deleteSuccess=true";
 
@@ -110,7 +111,7 @@ class AnalyticsActionNames {
   static String deleteSavedSearchEmploi = "/saved_searches/emploi/list?deleteSuccess=true";
   static String deleteSavedSearchAlternance = "/saved_searches/alternance/list?deleteSuccess=true";
   static String deleteSavedSearchImmersion = "/saved_searches/immersion/list?deleteSuccess=true";
-  static String deleteSavedSearchServiceCivique = "/saved_searches/service-civique/list?deleteSuccess=true";
+  static String deleteSavedSearchServiceCivique = "/saved_searches/service_civique/list?deleteSuccess=true";
 }
 
 class AnalyticsCustomDimensions {
