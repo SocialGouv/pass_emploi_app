@@ -16,6 +16,8 @@ class UserActionPERepository {
   Future<List<UserActionPE>?> getUserActions(String userId) async {
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/pole-emploi/actions");
     try {
+      // have to wait to get PE token
+      await Future.delayed(Duration(seconds: 2));
       final response = await _httpClient.get(
         url,
         headers: await _headerBuilder.headers(userId: userId),
