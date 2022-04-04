@@ -51,6 +51,8 @@ LoginState successPassEmploiUserState() => LoginSuccessState(User(
     ));
 
 AppState loggedInState() => AppState.initialState().copyWith(loginState: successMiloUserState());
+AppState loggedInMiloState() => AppState.initialState().copyWith(loginState: successMiloUserState());
+AppState loggedInPoleEmploiState() => AppState.initialState().copyWith(loginState: successPoleEmploiUserState());
 
 Response invalidHttpResponse({String message = ""}) => Response(message, 500);
 

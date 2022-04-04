@@ -55,24 +55,32 @@ void main() {
 
   group('create when rendezvous state is success…', () {
     group('with rendezvous…', () {
-      test('should display them and sort them by reverse chronological order', () {
-        // Given
-        final store = _store(
-          [
-            mockRendezvous(id: '1', date: DateTime(2021, 12, 23, 10, 20)),
-            mockRendezvous(id: '2', date: DateTime(2021, 12, 24, 13, 40)),
-          ],
-        );
 
-        // When
-        final viewModel = RendezvousListViewModel.create(store);
+      group('should display list', () {
+        final rendezvous = [
+          mockRendezvous(id: '1', date: DateTime(2021, 12, 23, 10, 20)),
+          mockRendezvous(id: '2', date: DateTime(2021, 12, 24, 13, 40)),
+        ];
 
-        // Then
-        expect(viewModel.displayState, DisplayState.CONTENT);
-        expect(viewModel.rendezvousIds.length, 2);
+        test('and sort them by chronological order for Pole Emploi', () {
+          // Given
+          final store = _loggedInPEStore(rendezvous);
+          // When
+          final viewModel = RendezvousListViewModel.create(store);
+          // Then
+          expect(viewModel.displayState, DisplayState.CONTENT);
+          expect(viewModel.rendezvousIds, ['1', '2']);
+        });
 
-        expect(viewModel.rendezvousIds[0], '2');
-        expect(viewModel.rendezvousIds[1], '1');
+        test('and sort them by most recent for Mission Locale', () {
+          // Given
+          final store = _loggedInMiloStore(rendezvous);
+          // When
+          final viewModel = RendezvousListViewModel.create(store);
+          // Then
+          expect(viewModel.displayState, DisplayState.CONTENT);
+          expect(viewModel.rendezvousIds, ['2', '1']);
+        });
       });
 
       test('and coming from deeplink', () {
@@ -149,6 +157,22 @@ void main() {
 Store<AppState> _store(List<Rendezvous> rendezvous) {
   return TestStoreFactory().initializeReduxStore(
     initialState: loggedInState().copyWith(
+      rendezvousState: RendezvousSuccessState(rendezvous),
+    ),
+  );
+}
+
+Store<AppState> _loggedInPEStore(List<Rendezvous> rendezvous) {
+  return TestStoreFactory().initializeReduxStore(
+    initialState: loggedInPoleEmploiState().copyWith(
+      rendezvousState: RendezvousSuccessState(rendezvous),
+    ),
+  );
+}
+
+Store<AppState> _loggedInMiloStore(List<Rendezvous> rendezvous) {
+  return TestStoreFactory().initializeReduxStore(
+    initialState: loggedInMiloState().copyWith(
       rendezvousState: RendezvousSuccessState(rendezvous),
     ),
   );

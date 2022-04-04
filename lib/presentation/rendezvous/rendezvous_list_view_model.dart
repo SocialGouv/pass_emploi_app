@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -23,8 +25,9 @@ class RendezvousListViewModel extends Equatable {
   });
 
   factory RendezvousListViewModel.create(Store<AppState> store) {
+    final loginState = store.state.loginState;
     final rendezvousState = store.state.rendezvousState;
-    final rendezvousIds = _rendezvousIds(rendezvousState);
+    final rendezvousIds = _rendezvousIds(rendezvousState, loginState);
     return RendezvousListViewModel(
       displayState: _displayState(rendezvousState),
       rendezvousIds: rendezvousIds,
@@ -46,13 +49,19 @@ DisplayState _displayState(RendezvousState state) {
   return DisplayState.FAILURE;
 }
 
-List<String> _rendezvousIds(RendezvousState state) {
-  if (state is RendezvousSuccessState) {
-    final rendezvous = state.rendezvous;
+List<String> _rendezvousIds(RendezvousState rendezvousState, LoginState loginState) {
+  if (rendezvousState is! RendezvousSuccessState) return [];
+  if (loginState is! LoginSuccessState) return [];
+
+  final rendezvous = rendezvousState.rendezvous;
+
+  if (loginState.user.loginMode == LoginMode.POLE_EMPLOI) {
+    rendezvous.sort((a, b) => a.date.compareTo(b.date));
+  } else {
     rendezvous.sort((a, b) => b.date.compareTo(a.date));
-    return rendezvous.map((rdv) => rdv.id).toList();
   }
-  return [];
+
+  return rendezvous.map((rdv) => rdv.id).toList();
 }
 
 String? _deeplinkRendezvousId(DeepLinkState state, List<String> rdvIds) {
