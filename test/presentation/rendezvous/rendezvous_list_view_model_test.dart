@@ -62,7 +62,7 @@ void main() {
           mockRendezvous(id: '2', date: DateTime(2021, 12, 24, 13, 40)),
         ];
 
-        test('and sort them by chronological order', () {
+        test('and sort them by chronological order for Pole Emploi', () {
           // Given
           final store = _loggedInPEStore(rendezvous);
           // When
@@ -72,7 +72,7 @@ void main() {
           expect(viewModel.rendezvousIds, ['1', '2']);
         });
 
-        test('and sort them by most recent', () {
+        test('and sort them by most recent for Mission Locale', () {
           // Given
           final store = _loggedInMiloStore(rendezvous);
           // When
@@ -164,7 +164,7 @@ Store<AppState> _store(List<Rendezvous> rendezvous) {
 
 Store<AppState> _loggedInPEStore(List<Rendezvous> rendezvous) {
   return TestStoreFactory().initializeReduxStore(
-    initialState: loggedInStatePE().copyWith(
+    initialState: loggedInPoleEmploiState().copyWith(
       rendezvousState: RendezvousSuccessState(rendezvous),
     ),
   );
@@ -172,7 +172,7 @@ Store<AppState> _loggedInPEStore(List<Rendezvous> rendezvous) {
 
 Store<AppState> _loggedInMiloStore(List<Rendezvous> rendezvous) {
   return TestStoreFactory().initializeReduxStore(
-    initialState: loggedInStateMilo().copyWith(
+    initialState: loggedInMiloState().copyWith(
       rendezvousState: RendezvousSuccessState(rendezvous),
     ),
   );

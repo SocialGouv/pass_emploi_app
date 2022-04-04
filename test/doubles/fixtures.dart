@@ -51,8 +51,8 @@ LoginState successPassEmploiUserState() => LoginSuccessState(User(
     ));
 
 AppState loggedInState() => AppState.initialState().copyWith(loginState: successMiloUserState());
-AppState loggedInStateMilo() => AppState.initialState().copyWith(loginState: successMiloUserState());
-AppState loggedInStatePE() => AppState.initialState().copyWith(loginState: successPoleEmploiUserState());
+AppState loggedInMiloState() => AppState.initialState().copyWith(loginState: successMiloUserState());
+AppState loggedInPoleEmploiState() => AppState.initialState().copyWith(loginState: successPoleEmploiUserState());
 
 Response invalidHttpResponse({String message = ""}) => Response(message, 500);
 
