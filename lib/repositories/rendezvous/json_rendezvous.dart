@@ -79,7 +79,7 @@ class JsonRendezvous {
       isAnnule: isAnnule ?? false,
       type: type,
       comment: comment,
-      organism: isInAgencePoleEmploi == true ? _poleEmploiOrganism : organism,
+      organism: _organism(),
       address: address,
       phone: phone,
       visioRedirectUrl: visioRedirectUrl,
@@ -88,6 +88,12 @@ class JsonRendezvous {
       precision: precision,
       conseiller: conseiller,
     );
+  }
+
+  String? _organism() {
+    if (organism != null) return organism;
+    if (isInAgencePoleEmploi == true) return _poleEmploiOrganism;
+    return null;
   }
 }
 
