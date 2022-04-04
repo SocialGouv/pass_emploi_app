@@ -23,6 +23,7 @@ import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/service_civique_saved_search_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/filtre_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_offre_widget.dart';
@@ -240,6 +241,7 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
               spacing: 16,
               runSpacing: 16,
               children: [
+                _alertSecondaryButton(context),
                 _filtreSecondaryButton(viewModel),
               ],
             ),
@@ -253,6 +255,14 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
     return FiltreButton.primary(
       filtresCount: viewModel.filtresCount,
       onPressed: () => _onFiltreButtonPressed(),
+    );
+  }
+
+  Widget _alertSecondaryButton(BuildContext context) {
+    return SecondaryButton(
+      label: Strings.createAlert,
+      drawableRes: Drawables.icAlert,
+      onPressed: () => _onAlertButtonPressed(context),
     );
   }
 

@@ -68,7 +68,7 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
                 ? () {
                     viewModel.createSavedSearch(searchTitle!);
                     MatomoTracker.trackScreenWithName(AnalyticsActionNames.createSavedSearchServiceCivique,
-                        AnalyticsScreenNames.immersionCreateAlert);
+                        AnalyticsScreenNames.serviceCiviqueCreateAlert);
                   }
                 : null,
           ),
