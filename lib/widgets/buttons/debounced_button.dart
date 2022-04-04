@@ -11,9 +11,9 @@ class DebouncedButton extends StatefulWidget {
     required Widget Function(void Function()? onTapDebounced) childBuilder,
     required Function() onTap,
     int debounceTimeMs = 300,
-  })  : this._childBuilder = childBuilder,
-        this._onTap = onTap,
-        this._duration = Duration(milliseconds: debounceTimeMs);
+  })  : _childBuilder = childBuilder,
+        _onTap = onTap,
+        _duration = Duration(milliseconds: debounceTimeMs);
 
   @override
   _DebouncedButtonState createState() => _DebouncedButtonState();
