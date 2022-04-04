@@ -51,11 +51,11 @@ class FavoriHeart<T> extends StatelessWidget {
 
   Widget _buildHeart(BuildContext context, FavoriHeartViewModel<T> viewModel) {
     return DebouncedButton(
-      childBuilder: (tapDebounced) => SecondaryIconButton(
+      childBuilder: (onTapDebounced) => SecondaryIconButton(
         drawableRes: viewModel.isFavori ? Drawables.icHeartFull : Drawables.icHeart,
         iconColor: AppColors.favoriteHeartColor,
         borderColor: withBorder ? AppColors.primary : Colors.transparent,
-        onTap: tapDebounced,
+        onTap: onTapDebounced,
       ),
       onTap: () {
         viewModel.update(!viewModel.isFavori);
