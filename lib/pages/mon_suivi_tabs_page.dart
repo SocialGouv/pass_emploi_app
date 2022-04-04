@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_list_page.dart';
-import 'package:pass_emploi_app/pages/user_action_pe_list_page.dart';
 import 'package:pass_emploi_app/pages/user_action_list_page.dart';
+import 'package:pass_emploi_app/pages/user_action_pe_list_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_tab_bar.dart';
-import 'package:pass_emploi_app/widgets/unavailable_content.dart';
 
 enum MonSuiviTab { ACTIONS, RENDEZVOUS }
 
@@ -31,37 +30,28 @@ class MonSuiviTabPage extends StatelessWidget {
     );
   }
 
-  List<String> _getTabTitles() =>
-      [
+  List<String> _getTabTitles() => [
         isPoleEmploiLogin ? Strings.demarcheTabTitle : Strings.actionsTabTitle,
         Strings.rendezvousTabTitle,
       ];
 
-Widget _setTabContent() {
-  if (isPoleEmploiLogin) {
+  Widget _setTabContent() {
     return TabBarView(
       children: [
-        UserActionPEListPage(),
-        UnavailableContent(),
-      ],
-    );
-  } else {
-    return TabBarView(
-      children: [
-        UserActionListPage(),
+        isPoleEmploiLogin ? UserActionPEListPage() : UserActionListPage(),
         RendezvousListPage(),
       ],
     );
   }
-}
 
-Widget _getBody() {
-  return Column(
-    children: [
-      PassEmploiTabBar(
-        tabLabels: _getTabTitles(),
-      ),
-      Expanded(child: _setTabContent()),
-    ],
-  );
-}}
+  Widget _getBody() {
+    return Column(
+      children: [
+        PassEmploiTabBar(
+          tabLabels: _getTabTitles(),
+        ),
+        Expanded(child: _setTabContent()),
+      ],
+    );
+  }
+}

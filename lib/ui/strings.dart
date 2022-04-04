@@ -341,16 +341,6 @@ class Strings {
   static String noFavoris = "Aucun favori";
   static String favorisError = "Erreur lors de la récupération de vos favoris";
 
-  // Unavailable content (rdv) for pole emploi users
-  static String rendezvous = "rendez-vous";
-  static String actions = "actions";
-
-  static String unavailableContentTitle(String content) => "Vos $content ne sont pas accessibles sur l’application.";
-  static String unavailableActions = "Vos actions ne sont pas accessibles sur l’application.";
-  static String unvailableContentDescription = "Vous pouvez les consulter sur votre espace personnel Pôle emploi.";
-  static String poleEmploiUrlButton = "Accéder à mon espace Pôle emploi";
-  static String espacePoleEmploiUrl = "https://candidat.pole-emploi.fr/espacepersonnel/";
-
   // Empty Content (actions & rdv)
   static String demarche = "démarche à réaliser";
   static String demarches = "démarches";
