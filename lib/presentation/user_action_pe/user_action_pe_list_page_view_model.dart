@@ -1,22 +1,20 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_actions.dart';
 import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_state.dart';
+import 'package:pass_emploi_app/models/user_action_pe.dart';
 import 'package:pass_emploi_app/presentation/user_action_pe/user_action_pe_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
-import 'package:pass_emploi_app/models/user_action_pe.dart';
+
+enum UserActionPEListPageDisplayState { CONTENT, LOADING, FAILURE, EMPTY }
 
 class UserActionPEListPageViewModel extends Equatable {
-  final bool withLoading;
-  final bool withFailure;
-  final bool withEmptyMessage;
-  final List<UserActionPEListPageItem> items;
+  final UserActionPEListPageDisplayState displayState;
+  final List<UserActionPEListItemViewModel> items;
   final Function() onRetry;
 
   UserActionPEListPageViewModel({
-    required this.withLoading,
-    required this.withFailure,
-    required this.withEmptyMessage,
+    required this.displayState,
     required this.items,
     required this.onRetry,
   });
@@ -24,9 +22,7 @@ class UserActionPEListPageViewModel extends Equatable {
   factory UserActionPEListPageViewModel.create(Store<AppState> store) {
     final state = store.state.userActionPEListState;
     return UserActionPEListPageViewModel(
-      withLoading: state is UserActionPEListLoadingState || state is UserActionPEListNotInitializedState,
-      withFailure: state is UserActionPEListFailureState,
-      withEmptyMessage: _isEmpty(state),
+      displayState: _displayState(state),
       items: _listItems(
         retardedItems: _retardedItems(state: state),
         activeItems: _activeItems(state: state),
@@ -37,10 +33,20 @@ class UserActionPEListPageViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [withLoading, withFailure, withEmptyMessage, items];
+  List<Object?> get props => [displayState, items];
 }
 
-bool _isEmpty(UserActionPEListState state) => state is UserActionPEListSuccessState && state.userActions.isEmpty;
+UserActionPEListPageDisplayState _displayState(UserActionPEListState state) {
+  if (state is UserActionPEListSuccessState) {
+    return state.userActions.isNotEmpty
+        ? UserActionPEListPageDisplayState.CONTENT
+        : UserActionPEListPageDisplayState.EMPTY;
+  } else if (state is UserActionPEListLoadingState) {
+    return UserActionPEListPageDisplayState.LOADING;
+  } else {
+    return UserActionPEListPageDisplayState.FAILURE;
+  }
+}
 
 List<UserActionPEViewModel> _retardedItems({required UserActionPEListState state}) {
   if (state is UserActionPEListSuccessState) {
@@ -73,21 +79,16 @@ List<UserActionPEViewModel> _inactiveItems({required UserActionPEListState state
   return [];
 }
 
-List<UserActionPEListPageItem> _listItems({
+List<UserActionPEListItemViewModel> _listItems({
   required List<UserActionPEViewModel> retardedItems,
   required List<UserActionPEViewModel> activeItems,
   required List<UserActionPEViewModel> inactiveItems,
 }) {
-  return [
-    ...retardedItems.map((e) => UserActionPEListItemViewModel(e)),
-    ...activeItems.map((e) => UserActionPEListItemViewModel(e)),
-    ...inactiveItems.map((e) => UserActionPEListItemViewModel(e)),
-  ];
+  return (retardedItems + activeItems + inactiveItems).map((e) => UserActionPEListItemViewModel(e)).toList();
 }
 
-abstract class UserActionPEListPageItem extends Equatable {}
 
-class UserActionPEListItemViewModel extends UserActionPEListPageItem {
+class UserActionPEListItemViewModel extends Equatable {
   final UserActionPEViewModel viewModel;
 
   UserActionPEListItemViewModel(this.viewModel);

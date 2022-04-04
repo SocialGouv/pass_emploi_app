@@ -342,8 +342,13 @@ class Strings {
   static String favorisError = "Erreur lors de la récupération de vos favoris";
 
   // Empty Content (actions & rdv)
-  static String demarche = "démarche à réaliser";
+  static String rendezvous = "rendez-vous";
+  static String actions = "actions";
+  static String demarcheToDo = "démarches à réaliser.";
   static String demarches = "démarches";
+
+  static String poleEmploiUrlButton = "Accéder à mon espace Pôle emploi";
+  static String espacePoleEmploiUrl = "https://candidat.pole-emploi.fr/espacepersonnel/";
 
   static String emptyContentTitle(String content) => "Vous n’avez pas encore de $content";
   static String emptyContentDescription(String content) =>

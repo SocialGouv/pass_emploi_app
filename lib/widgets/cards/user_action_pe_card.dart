@@ -74,7 +74,7 @@ class UserActionPECard extends StatelessWidget {
           children: [
             SvgPicture.asset(Drawables.icClock, color: viewModel.getDateColor()),
             SizedBox(width: Margins.spacing_s),
-            Text(viewModel.getDate(), style: TextStyles.textSRegularWithColor(viewModel.getDateColor())),
+            Text(viewModel.formattedDate, style: TextStyles.textSRegularWithColor(viewModel.getDateColor())),
           ],
         ),
       ],

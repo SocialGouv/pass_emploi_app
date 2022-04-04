@@ -35,7 +35,7 @@ class EmptyContent extends StatelessWidget {
               label: Strings.poleEmploiUrlButton,
             ),
           ),
-          SizedBox(height: screenHeight * 0.01),
+          SizedBox(height: screenHeight * 0.1),
         ],
       ),
     );
@@ -44,7 +44,7 @@ class EmptyContent extends StatelessWidget {
   String _setTitle() {
     switch (contentType) {
       case ContentType.ACTIONS:
-        return Strings.emptyContentTitle(Strings.demarche);
+        return Strings.emptyContentTitle(Strings.demarcheToDo);
       case ContentType.RENDEZVOUS:
         return Strings.emptyContentTitle(Strings.rendezvous);
     }

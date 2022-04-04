@@ -11,19 +11,17 @@ class UserActionPEViewModel extends Equatable {
   final String id;
   final String title;
   final UserActionPEStatus status;
-  final String? endDate;
-  final String? deletionDate;
   final bool createdByAdvisor;
   final UserActionPETagViewModel? tag;
+  final String formattedDate;
 
   UserActionPEViewModel({
     required this.id,
     required this.title,
     required this.status,
-    required this.endDate,
-    required this.deletionDate,
     required this.createdByAdvisor,
     required this.tag,
+    required this.formattedDate,
   });
 
   factory UserActionPEViewModel.create(UserActionPE userAction) {
@@ -31,22 +29,11 @@ class UserActionPEViewModel extends Equatable {
       id: userAction.id,
       title: userAction.content ?? Strings.withoutContent,
       status: userAction.status,
-      endDate: userAction.endDate?.toDay(),
-      deletionDate: userAction.deletionDate?.toDay(),
       createdByAdvisor: userAction.createdByAdvisor,
       tag: _userActionPETagViewModel(userAction.status),
+      formattedDate:
+          _setFormattedDate(userAction.status, userAction.endDate?.toDay(), userAction.deletionDate?.toDay()),
     );
-  }
-
-  String _getDateText(String date) {
-    switch (status) {
-      case UserActionPEStatus.DONE:
-        return Strings.actionPEDoneDateFormat(date);
-      case UserActionPEStatus.CANCELLED:
-        return Strings.actionPECancelledDateFormat(date);
-      default:
-        return Strings.actionPEActiveDateFormat(date);
-    }
   }
 
   Color getDateColor() {
@@ -62,16 +49,29 @@ class UserActionPEViewModel extends Equatable {
     }
   }
 
-  String getDate() {
-    if (status == UserActionPEStatus.CANCELLED) {
-      return (deletionDate != null && deletionDate!.isNotEmpty) ? _getDateText(deletionDate!) : Strings.withoutDate;
-    } else {
-      return (endDate != null && endDate!.isNotEmpty) ? _getDateText(endDate!) : Strings.withoutDate;
-    }
-  }
-
   @override
-  List<Object?> get props => [id, title, status, endDate, deletionDate, createdByAdvisor, tag];
+  List<Object?> get props => [id, title, status, formattedDate, createdByAdvisor, tag];
+}
+
+String _setFormattedDate(UserActionPEStatus status, String? endDate, String? deletionDate) {
+  if (status == UserActionPEStatus.CANCELLED) {
+    return (deletionDate != null && deletionDate.isNotEmpty)
+        ? _getDateText(status, deletionDate)
+        : Strings.withoutDate;
+  } else {
+    return (endDate != null && endDate.isNotEmpty) ? _getDateText(status, endDate) : Strings.withoutDate;
+  }
+}
+
+String _getDateText(UserActionPEStatus status, String date) {
+  switch (status) {
+    case UserActionPEStatus.DONE:
+      return Strings.actionPEDoneDateFormat(date);
+    case UserActionPEStatus.CANCELLED:
+      return Strings.actionPECancelledDateFormat(date);
+    default:
+      return Strings.actionPEActiveDateFormat(date);
+  }
 }
 
 UserActionPETagViewModel? _userActionPETagViewModel(UserActionPEStatus status) {

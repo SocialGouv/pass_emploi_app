@@ -10,8 +10,8 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_pe_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
-import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/empty_content.dart';
+import 'package:pass_emploi_app/widgets/retry.dart';
 
 class UserActionPEListPage extends TraceableStatelessWidget {
   final ScrollController _scrollController = ScrollController();
@@ -25,9 +25,6 @@ class UserActionPEListPage extends TraceableStatelessWidget {
       builder: (context, viewModel) => _scaffold(context, viewModel),
       converter: (store) => UserActionPEListPageViewModel.create(store),
       distinct: true,
-      onDidChange: (previousViewModel, viewModel) {
-        if (_scrollController.hasClients) _scrollController.jumpTo(0);
-      },
       onDispose: (store) => store.dispatch(UserActionPEListResetAction()),
     );
   }
@@ -35,29 +32,31 @@ class UserActionPEListPage extends TraceableStatelessWidget {
   Widget _scaffold(BuildContext context, UserActionPEListPageViewModel viewModel) {
     return Scaffold(
       backgroundColor: AppColors.grey100,
-      body: Stack(
-        children: [
-          DefaultAnimatedSwitcher(child: _animatedBody(context, viewModel)),
-        ],
-      ),
+      body: DefaultAnimatedSwitcher(child: _animatedBody(context, viewModel)),
     );
   }
 
   Widget _animatedBody(BuildContext context, UserActionPEListPageViewModel viewModel) {
-    if (viewModel.withLoading) return _loader();
-    if (viewModel.withFailure) return Center(child: Retry(Strings.actionsError, () => viewModel.onRetry()));
-    if (viewModel.withEmptyMessage) return _empty();
-    return _userActionsList(context, viewModel);
+    switch (viewModel.displayState) {
+      case UserActionPEListPageDisplayState.CONTENT:
+        return  _userActionsList(context, viewModel);
+      case UserActionPEListPageDisplayState.LOADING:
+        return _loader();
+      case UserActionPEListPageDisplayState.EMPTY:
+        return _empty();
+      case UserActionPEListPageDisplayState.FAILURE:
+        return Center(child: Retry(Strings.actionsError, () => viewModel.onRetry()));
+    }
   }
 
-  Widget _loader() => Center(child: CircularProgressIndicator(color: AppColors.primary));
+  Widget _loader() => Center(child: CircularProgressIndicator());
 
-  Widget _empty() =>  EmptyContent(contentType: ContentType.ACTIONS);
+  Widget _empty() => EmptyContent(contentType: ContentType.ACTIONS);
 
   Widget _userActionsList(BuildContext context, UserActionPEListPageViewModel viewModel) {
     return ListView.separated(
       controller: _scrollController,
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
+      padding: const EdgeInsets.all(Margins.spacing_base),
       itemCount: viewModel.items.length,
       itemBuilder: (context, i) => _listItem(context, viewModel.items[i], viewModel),
       separatorBuilder: (context, i) => _listSeparator(),
@@ -66,7 +65,7 @@ class UserActionPEListPage extends TraceableStatelessWidget {
 
   Container _listSeparator() => Container(height: Margins.spacing_base);
 
-  Widget _listItem(BuildContext context, UserActionPEListPageItem item, UserActionPEListPageViewModel viewModel) {
-    return UserActionPECard(viewModel: (item as UserActionPEListItemViewModel).viewModel);
+  Widget _listItem(BuildContext context, UserActionPEListItemViewModel item, UserActionPEListPageViewModel viewModel) {
+    return UserActionPECard(viewModel: item.viewModel);
   }
 }
