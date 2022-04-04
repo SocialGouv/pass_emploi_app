@@ -81,7 +81,7 @@ class RendezvousDetailsViewModel extends Equatable {
       trackingPageName: _trackingPageName(rdv.type.code),
       commentTitle: _commentTitle(rdv, comment),
       comment: comment,
-      organism: _shouldHidePresentielInformations(rdv) ? null : rdv.organism,
+      organism: _shouldHidePresentielInformation(rdv) ? null : rdv.organism,
       address: address,
       phone: rdv.phone != null ? Strings.phone(rdv.phone!) : null,
       addressRedirectUri: address != null ? UriHandler().mapsUri(address, platform) : null,
@@ -120,7 +120,7 @@ class RendezvousDetailsViewModel extends Equatable {
 
 enum VisioButtonState { ACTIVE, INACTIVE, HIDDEN }
 
-bool _shouldHidePresentielInformations(Rendezvous rdv) {
+bool _shouldHidePresentielInformation(Rendezvous rdv) {
   return rdv.isInVisio || rdv.modalityType() == RendezvousModalityType.TELEPHONE;
 }
 
@@ -131,7 +131,7 @@ bool _shouldDisplayConseillerPresence(Rendezvous rdv) {
 }
 
 String? _address(Rendezvous rdv) {
-  return _shouldHidePresentielInformations(rdv) ? null : rdv.address;
+  return _shouldHidePresentielInformation(rdv) ? null : rdv.address;
 }
 
 String _hourAndDuration(Rendezvous rdv) {
