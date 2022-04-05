@@ -2,18 +2,18 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+typedef ChildBuilder = Widget Function(void Function()? onTapDebounced);
+
 class DebouncedButton extends StatefulWidget {
-  final Widget Function(void Function()? onTapDebounced) _childBuilder;
-  final Function() _onTap;
+  final ChildBuilder childBuilder;
+  final Function() onTap;
   final Duration _duration;
 
   DebouncedButton({
-    required Widget Function(void Function()? onTapDebounced) childBuilder,
-    required Function() onTap,
+    required this.childBuilder,
+    required this.onTap,
     int debounceTimeMs = 300,
-  })  : _childBuilder = childBuilder,
-        _onTap = onTap,
-        _duration = Duration(milliseconds: debounceTimeMs);
+  }) : _duration = Duration(milliseconds: debounceTimeMs);
 
   @override
   _DebouncedButtonState createState() => _DebouncedButtonState();
@@ -33,13 +33,13 @@ class _DebouncedButtonState extends State<DebouncedButton> {
   Widget build(BuildContext context) {
     return ValueListenableBuilder<bool>(
       valueListenable: _isEnabled,
-      builder: (context, isEnabled, child) => widget._childBuilder(isEnabled ? _executeTap : () => {}),
+      builder: (context, isEnabled, child) => widget.childBuilder(isEnabled ? _executeTap : () => {}),
     );
   }
 
   void _executeTap() {
     _isEnabled.value = false;
-    widget._onTap();
+    widget.onTap();
     _timer = Timer(widget._duration, () => _isEnabled.value = true);
   }
 }
