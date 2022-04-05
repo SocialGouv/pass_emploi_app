@@ -245,8 +245,8 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
               spacing: 16,
               runSpacing: 16,
               children: [
-                _alertSecondaryButton(context),
-                _filtreSecondaryButton(viewModel),
+                if (!widget.fromSavedSearch) _alertSecondaryButton(context),
+                if (!widget.fromSavedSearch) _filtreSecondaryButton(viewModel),
               ],
             ),
           ],
