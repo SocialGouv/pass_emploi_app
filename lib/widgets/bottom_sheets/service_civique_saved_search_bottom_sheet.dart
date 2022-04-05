@@ -10,7 +10,7 @@ import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:redux/redux.dart';
 
 class ServiceCiviqueSavedSearchBottomSheet extends AbstractSavedSearchBottomSheet<ServiceCiviqueSavedSearch> {
-  ServiceCiviqueSavedSearchBottomSheet() : super(analyticsScreenName: AnalyticsScreenNames.immersionCreateAlert);
+  ServiceCiviqueSavedSearchBottomSheet() : super(analyticsScreenName: AnalyticsScreenNames.serviceCiviqueCreateAlert);
 
   @override
   ServiceCiviqueSavedSearchViewModel converter(Store<AppState> store) {
