@@ -4,13 +4,10 @@ import 'package:pass_emploi_app/pages/choix_organisme_page.dart';
 import 'package:pass_emploi_app/pages/credentials_page.dart';
 import 'package:pass_emploi_app/pages/login_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
-import 'package:pass_emploi_app/pages/router_page.dart';
 
 class AppRouter {
   MaterialPageRoute<dynamic>? getMaterialPageRoute(RouteSettings settings) {
     switch (settings.name) {
-      case RouterPage.routeName:
-        return MaterialPageRoute(builder: (context) => RouterPage());
       case CejInformationPage.routeName:
         return MaterialPageRoute(builder: (context) => CejInformationPage());
       case CredentialsPage.routeName:

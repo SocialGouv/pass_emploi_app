@@ -11,8 +11,6 @@ import 'package:pass_emploi_app/presentation/router_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 
 class RouterPage extends StatefulWidget {
-  static const routeName = "/router";
-
   @override
   State<RouterPage> createState() => _RouterPageState();
 }

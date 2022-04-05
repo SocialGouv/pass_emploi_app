@@ -23,7 +23,7 @@ class PassEmploiApp extends StatelessWidget {
         scaffoldMessengerKey: snackbarKey,
         title: Strings.appName,
         theme: PassEmploiTheme.data,
-        initialRoute: RouterPage.routeName,
+        home: RouterPage(),
         onGenerateRoute: (settings) => _router.getMaterialPageRoute(settings),
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
