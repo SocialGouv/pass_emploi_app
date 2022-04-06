@@ -42,6 +42,7 @@ import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_reposi
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
+import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
@@ -112,13 +113,24 @@ class AppInitializer {
   }
 
   Future<Store<AppState>> _initializeReduxStore(Configuration configuration) async {
+    final crashlytics = CrashlyticsWithFirebase(FirebaseCrashlytics.instance);
     final PushNotificationManager pushNotificationManager = FirebasePushNotificationManager();
     final headersBuilder = HeadersBuilder();
     final securedPreferences = FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true));
-    final authenticator = Authenticator(AuthWrapper(FlutterAppAuth(), Lock()), configuration, securedPreferences);
+    final logoutRepository = LogoutRepository(
+      configuration.authIssuer,
+      configuration.authClientSecret,
+      configuration.authClientId,
+      crashlytics,
+    );
+    final authenticator = Authenticator(
+      AuthWrapper(FlutterAppAuth(), Lock()),
+      logoutRepository,
+      configuration,
+      securedPreferences,
+    );
     final poleEmploiTokenRepository = PoleEmploiTokenRepository();
     final accessTokenRetriever = AuthAccessTokenRetriever(authenticator);
-    final crashlytics = CrashlyticsWithFirebase(FirebaseCrashlytics.instance);
     final defaultContext = SecurityContext.defaultContext;
     try {
       defaultContext.setTrustedCertificatesBytes(utf8.encode(configuration.iSRGX1CertificateForOldDevices));
@@ -133,6 +145,7 @@ class AppInitializer {
         LoggingInterceptor(),
       ],
     );
+    logoutRepository.setHttpClient(httpClient);
     final chatCrypto = ChatCrypto();
     final baseUrl = configuration.serverBaseUrl;
     final reduxStore = StoreFactory(

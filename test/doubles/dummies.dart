@@ -20,6 +20,7 @@ import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_reposi
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
+import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
@@ -62,7 +63,7 @@ class DummyRegisterTokenRepository extends RegisterTokenRepository {
 }
 
 class DummyAuthenticator extends Authenticator {
-  DummyAuthenticator() : super(DummyAuthWrapper(), configuration(), SharedPreferencesSpy());
+  DummyAuthenticator() : super(DummyAuthWrapper(), DummyLogoutRepository(), configuration(), SharedPreferencesSpy());
 }
 
 class DummyAuthWrapper extends AuthWrapper {
@@ -187,4 +188,8 @@ class DummyServiceCiviqueFavorisRepository extends ServiceCiviqueFavorisReposito
 
 class DummyConseillerRepository extends ConseillerRepository {
   DummyConseillerRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+}
+
+class DummyLogoutRepository extends LogoutRepository {
+  DummyLogoutRepository() : super('', '', '');
 }
