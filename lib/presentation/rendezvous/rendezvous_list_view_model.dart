@@ -22,6 +22,7 @@ class RendezvousListViewModel extends Equatable {
   final bool withNextButton;
   final String title;
   final String dateLabel;
+  final String emptyLabel;
 
   RendezvousListViewModel({
     required this.displayState,
@@ -33,6 +34,7 @@ class RendezvousListViewModel extends Equatable {
     this.withNextButton = false,
     required this.title,
     required this.dateLabel,
+    required this.emptyLabel,
   });
 
   factory RendezvousListViewModel.create(Store<AppState> store, DateTime now, int offset) {
@@ -49,6 +51,7 @@ class RendezvousListViewModel extends Equatable {
       dateLabel: _buildDateLabel(now, offset),
       withNextButton: _withNextButton(rendezvousState, now, offset),
       withPreviousButton: offset >= 0,
+      emptyLabel: _emptyLabel(offset, rendezvousState, now),
     );
   }
 
@@ -70,7 +73,7 @@ String _buildDateLabel(DateTime now, int offset) {
   } else {
     final firstDay = now.add(Duration(days: 7 * offset)).toDay();
     final lastDay = now.add(Duration(days: (7 * offset) + 6)).toDay();
-    return "du $firstDay au $lastDay";
+    return "$firstDay au $lastDay";
   }
 }
 
@@ -85,6 +88,12 @@ String _buildTitle(int offset) {
   if (offset < 0) return Strings.rendezVousPassesTitre;
   if (offset == 0) return Strings.rendezVousCetteSemaineTitre;
   return Strings.rendezVousFutursTitre;
+}
+
+String _emptyLabel(int offset, RendezvousState rendezvousState, DateTime now) {
+  if (offset < 0) return Strings.noRendezAvantCetteSemaine;
+  if (offset == 0) return Strings.noRendezVousCetteSemaineTitre;
+  return Strings.noRendezAutreCetteSemainePrefix + _buildDateLabel(now, offset);
 }
 
 List<RendezVousItem> _rendezvousIds(RendezvousState rendezvousState, LoginState loginState, DateTime now, int offset) {

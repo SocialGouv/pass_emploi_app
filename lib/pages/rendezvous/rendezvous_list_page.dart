@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
@@ -125,21 +125,44 @@ class _Content extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _DateHeader(viewModel: viewModel, onOffsetChanged: onOffsetChanged),
-        Expanded(
-          child: ListView.separated(
-            itemCount: viewModel.rendezvousIds.length,
-            padding: const EdgeInsets.all(Margins.spacing_s),
-            separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
-            itemBuilder: (context, index) {
-              final rdvId = viewModel.rendezvousIds[index];
-              if (rdvId.isRendezVous)
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: RendezvousCard(rendezvousId: rdvId.id, onTap: () => onTap(rdvId.id)),
-                );
-              return _DayDivider(rdvId.id);
-            },
+        if (viewModel.rendezvousIds.isEmpty) _EmptyWeek(viewModel.emptyLabel),
+        if (viewModel.rendezvousIds.isNotEmpty)
+          Expanded(
+            child: ListView.separated(
+              itemCount: viewModel.rendezvousIds.length,
+              padding: const EdgeInsets.all(Margins.spacing_s),
+              separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
+              itemBuilder: (context, index) {
+                final rdvId = viewModel.rendezvousIds[index];
+                if (rdvId.isRendezVous) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: RendezvousCard(rendezvousId: rdvId.id, onTap: () => onTap(rdvId.id)),
+                  );
+                }
+                return _DayDivider(rdvId.id);
+              },
+            ),
           ),
+      ],
+    );
+  }
+}
+
+class _EmptyWeek extends StatelessWidget {
+  final String label;
+
+  _EmptyWeek(this.label);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Flexible(child: SvgPicture.asset(Drawables.icEmptyOffres)),
+        Padding(
+          padding: const EdgeInsets.only(top: 20, left: 24, right: 24),
+          child: Text(label, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
         ),
       ],
     );
