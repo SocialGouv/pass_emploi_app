@@ -19,6 +19,10 @@ extension DateExtensions on DateTime {
     return toDayWithFullMonth();
   }
 
+  String toFullMonthAndYear() {
+    return DateFormat('MMMM yyyy', 'fr').format(this);
+  }
+
   String toHour() => DateFormat('HH:mm').format(this);
 
   bool isAtSameDayAs(DateTime other) {

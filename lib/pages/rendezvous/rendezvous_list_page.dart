@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
@@ -131,9 +132,47 @@ class _Content extends StatelessWidget {
             separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
             itemBuilder: (context, index) {
               final rdvId = viewModel.rendezvousIds[index];
-              return RendezvousCard(rendezvousId: rdvId, onTap: () => onTap(rdvId));
+              if (rdvId.isRendezVous)
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: RendezvousCard(rendezvousId: rdvId.id, onTap: () => onTap(rdvId.id)),
+                );
+              return _DayDivider(rdvId.id);
             },
           ),
+        ),
+      ],
+    );
+  }
+}
+
+class _DayDivider extends StatelessWidget {
+  final String label;
+
+  _DayDivider(this.label);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: 48,
+          height: 2,
+          color: AppColors.contentColor,
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            label,
+            style: TextStyles.textMBold,
+          ),
+        ),
+        Container(
+          width: 48,
+          height: 2,
+          color: AppColors.contentColor,
         ),
       ],
     );

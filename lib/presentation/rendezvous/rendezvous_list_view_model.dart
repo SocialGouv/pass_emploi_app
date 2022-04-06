@@ -1,6 +1,6 @@
+import "package:collection/collection.dart";
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
@@ -14,7 +14,7 @@ import 'package:redux/redux.dart';
 
 class RendezvousListViewModel extends Equatable {
   final DisplayState displayState;
-  final List<String> rendezvousIds;
+  final List<RendezVousItem> rendezvousIds;
   final String? deeplinkRendezvousId;
   final Function() onRetry;
   final Function() onDeeplinkUsed;
@@ -42,7 +42,7 @@ class RendezvousListViewModel extends Equatable {
     return RendezvousListViewModel(
       displayState: _displayState(rendezvousState),
       rendezvousIds: rendezvousIds,
-      deeplinkRendezvousId: _deeplinkRendezvousId(store.state.deepLinkState, rendezvousIds),
+      deeplinkRendezvousId: _deeplinkRendezvousId(store.state.deepLinkState, rendezvousIds.map((e) => e.id).toList()),
       onRetry: () => store.dispatch(RendezvousRequestAction()),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
       title: _buildTitle(offset),
@@ -87,27 +87,45 @@ String _buildTitle(int offset) {
   return Strings.rendezVousFutursTitre;
 }
 
-List<String> _rendezvousIds(RendezvousState rendezvousState, LoginState loginState, DateTime now, int offset) {
+List<RendezVousItem> _rendezvousIds(RendezvousState rendezvousState, LoginState loginState, DateTime now, int offset) {
   if (rendezvousState is! RendezvousSuccessState) return [];
-  if (loginState is! LoginSuccessState) return [];
   final firstDay = DateUtils.dateOnly(now.add(Duration(days: 7 * offset)));
   final lastDay = DateUtils.dateOnly(now.add(Duration(days: (7 * offset) + 7)));
 
   final rendezvous = rendezvousState.rendezvous;
 
-  if (loginState.user.loginMode == LoginMode.POLE_EMPLOI) {
+  if (offset >= 0) {
     rendezvous.sort((a, b) => a.date.compareTo(b.date));
   } else {
     rendezvous.sort((a, b) => b.date.compareTo(a.date));
   }
 
-  return rendezvous
+  final filteredRendezVous = rendezvous
       .where((element) => offset < 0 || element.date.isAfter(firstDay))
-      .where((element) => element.date.isBefore(lastDay))
-      .map((rdv) => rdv.id)
+      .where((element) => element.date.isBefore(lastDay));
+  final groupByDate = filteredRendezVous.groupListsBy((element) {
+    if (offset < 0) {
+      return element.date.toFullMonthAndYear();
+    } else {
+      return element.date.toDayWithFullMonthContextualized();
+    }
+  });
+  return groupByDate.keys
+      .map((date) => [
+            RendezVousItem(false, date),
+            ...groupByDate[date]!.map((e) => RendezVousItem(true, e.id)).toList(),
+          ])
+      .flattened
       .toList();
 }
 
 String? _deeplinkRendezvousId(DeepLinkState state, List<String> rdvIds) {
   return (state.deepLink == DeepLink.ROUTE_TO_RENDEZVOUS && rdvIds.contains(state.dataId)) ? state.dataId : null;
+}
+
+class RendezVousItem {
+  final bool isRendezVous;
+  final String id;
+
+  RendezVousItem(this.isRendezVous, this.id);
 }
