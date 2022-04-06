@@ -6,12 +6,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-enum ContentType { ACTIONS, RENDEZVOUS }
-
-class EmptyContent extends StatelessWidget {
-  final ContentType contentType;
-
-  EmptyContent({required this.contentType});
+class EmptyPoleEmploiContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +19,7 @@ class EmptyContent extends StatelessWidget {
           SizedBox(height: screenHeight * 0.02),
           Flexible(flex: 1, child: SvgPicture.asset(Drawables.icEmpty)),
           SizedBox(height: screenHeight * 0.05),
-          Text(_setTitle(), style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+          Text(Strings.emptyContentTitle(Strings.demarcheToDo), style: TextStyles.textBaseBold, textAlign: TextAlign.center),
           SizedBox(height: screenHeight * 0.03),
           Text(Strings.emptyContentDescription(Strings.demarches), style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
           SizedBox(height: screenHeight * 0.04),
@@ -39,14 +34,5 @@ class EmptyContent extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String _setTitle() {
-    switch (contentType) {
-      case ContentType.ACTIONS:
-        return Strings.emptyContentTitle(Strings.demarcheToDo);
-      case ContentType.RENDEZVOUS:
-        return Strings.emptyContentTitle(Strings.rendezvous);
-    }
   }
 }

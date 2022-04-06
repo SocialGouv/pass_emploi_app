@@ -41,10 +41,10 @@ UserActionPEListPageDisplayState _displayState(UserActionPEListState state) {
     return state.userActions.isNotEmpty
         ? UserActionPEListPageDisplayState.CONTENT
         : UserActionPEListPageDisplayState.EMPTY;
-  } else if (state is UserActionPEListLoadingState) {
-    return UserActionPEListPageDisplayState.LOADING;
-  } else {
+  } else if (state is UserActionPEListFailureState) {
     return UserActionPEListPageDisplayState.FAILURE;
+  } else {
+    return UserActionPEListPageDisplayState.LOADING;
   }
 }
 

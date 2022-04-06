@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/pole_emploi/pole_emploi_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/auth/pole_emploi/pole_emploi_token_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/conseiller_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
@@ -43,6 +44,8 @@ import 'fixtures.dart';
 import 'spies.dart';
 
 class DummyHeadersBuilder extends HeadersBuilder {}
+
+class DummyPoleEmploiTokenRepository extends PoleEmploiTokenRepository {}
 
 class DummyHttpClient extends MockClient {
   DummyHttpClient() : super((request) async => Response("", 200));
@@ -78,7 +81,7 @@ class DummyUserActionRepository extends UserActionRepository {
 }
 
 class DummyUserActionPERepository extends UserActionPERepository {
-  DummyUserActionPERepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  DummyUserActionPERepository() : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPoleEmploiTokenRepository());
 }
 
 class DummyPoleEmploiAuthRepository extends PoleEmploiAuthRepository {

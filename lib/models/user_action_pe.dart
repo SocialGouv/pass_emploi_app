@@ -1,8 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 enum UserActionPEStatus { NOT_STARTED, IN_PROGRESS, RETARDED, DONE, CANCELLED }
 
-class UserActionPE {
+class UserActionPE extends Equatable {
   final String id;
   final String? content;
   final UserActionPEStatus status;
@@ -29,6 +30,9 @@ class UserActionPE {
       createdByAdvisor: json['creeeParConseiller'] as bool,
     );
   }
+
+  @override
+  List<Object?> get props => [id, content, status, endDate, deletionDate, createdByAdvisor];
 }
 
 UserActionPEStatus _statusFromString({required String statusString}) {

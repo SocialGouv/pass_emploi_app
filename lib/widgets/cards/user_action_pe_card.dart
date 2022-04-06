@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_pe/user_action_pe_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/tags/status_tag_pe.dart';
-import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/widgets/tags/status_tag.dart';
 
 class UserActionPECard extends StatelessWidget {
   final UserActionPEViewModel viewModel;
@@ -45,10 +46,14 @@ class UserActionPECard extends StatelessWidget {
     );
   }
 
-  Widget _buildStatut(UserActionPETagViewModel viewModel) {
+  Widget _buildStatut(UserActionTagViewModel viewModel) {
     return Padding(
       padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-      child: StatutTagPE(viewModel: viewModel),
+      child: StatutTag(
+        backgroundColor: viewModel.backgroundColor,
+        textColor: viewModel.textColor,
+        title: viewModel.title,
+      ),
     );
   }
 

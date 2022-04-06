@@ -6,13 +6,14 @@ import 'package:pass_emploi_app/models/user_action_pe.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 
 class UserActionPEViewModel extends Equatable {
   final String id;
   final String title;
   final UserActionPEStatus status;
   final bool createdByAdvisor;
-  final UserActionPETagViewModel? tag;
+  final UserActionTagViewModel? tag;
   final String formattedDate;
 
   UserActionPEViewModel({
@@ -74,52 +75,37 @@ String _getDateText(UserActionPEStatus status, String date) {
   }
 }
 
-UserActionPETagViewModel? _userActionPETagViewModel(UserActionPEStatus status) {
+UserActionTagViewModel? _userActionPETagViewModel(UserActionPEStatus status) {
   switch (status) {
     case UserActionPEStatus.NOT_STARTED:
-      return UserActionPETagViewModel(
+      return UserActionTagViewModel(
         title: Strings.actionPEToDo,
         backgroundColor: AppColors.accent1Lighten,
         textColor: AppColors.accent1,
       );
     case UserActionPEStatus.IN_PROGRESS:
-      return UserActionPETagViewModel(
+      return UserActionTagViewModel(
         title: Strings.actionPEInProgress,
         backgroundColor: AppColors.accent3Lighten,
         textColor: AppColors.accent3,
       );
     case UserActionPEStatus.RETARDED:
-      return UserActionPETagViewModel(
+      return UserActionTagViewModel(
         title: Strings.actionPERetarded,
         backgroundColor: AppColors.warningLighten,
         textColor: AppColors.warning,
       );
     case UserActionPEStatus.DONE:
-      return UserActionPETagViewModel(
+      return UserActionTagViewModel(
         title: Strings.actionPEDone,
         backgroundColor: AppColors.accent2Lighten,
         textColor: AppColors.accent2,
       );
     case UserActionPEStatus.CANCELLED:
-      return UserActionPETagViewModel(
+      return UserActionTagViewModel(
         title: Strings.actionPECancelled,
         backgroundColor: AppColors.accent2Lighten,
         textColor: AppColors.accent2,
       );
   }
-}
-
-class UserActionPETagViewModel extends Equatable {
-  final String title;
-  final Color backgroundColor;
-  final Color textColor;
-
-  UserActionPETagViewModel({
-    required this.title,
-    required this.backgroundColor,
-    required this.textColor,
-  });
-
-  @override
-  List<Object?> get props => [title, backgroundColor, textColor];
 }

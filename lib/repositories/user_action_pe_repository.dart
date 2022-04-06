@@ -11,13 +11,14 @@ class UserActionPERepository {
   final Client _httpClient;
   final HeadersBuilder _headerBuilder;
   final Crashlytics? _crashlytics;
+  final PoleEmploiTokenRepository _poleEmploiTokenRepository;
 
-  UserActionPERepository(this._baseUrl, this._httpClient, this._headerBuilder, [this._crashlytics]);
+  UserActionPERepository(this._baseUrl, this._httpClient, this._headerBuilder, this._poleEmploiTokenRepository, [this._crashlytics]);
 
   Future<List<UserActionPE>?> getUserActions(String userId) async {
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/pole-emploi/actions");
     // have to wait to get PE token
-    if (PoleEmploiTokenRepository().getPoleEmploiAccessToken() == null) {
+    if (_poleEmploiTokenRepository.getPoleEmploiAccessToken() == null) {
       await Future.delayed(Duration(seconds: 2));
     }
       try {

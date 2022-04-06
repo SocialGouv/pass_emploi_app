@@ -9,8 +9,8 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
-import 'package:pass_emploi_app/models/user_action_pe.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
+import 'package:pass_emploi_app/models/user_action_pe.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
@@ -79,7 +79,8 @@ class UserActionRepositoryFailureStub extends UserActionRepository {
 }
 
 class UserActionPERepositorySuccessStub extends UserActionPERepository {
-  UserActionPERepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  UserActionPERepositorySuccessStub()
+      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPoleEmploiTokenRepository());
 
   @override
   Future<List<UserActionPE>?> getUserActions(String userId) async {
@@ -93,6 +94,26 @@ class UserActionPERepositorySuccessStub extends UserActionPERepository {
         createdByAdvisor: true,
       ),
     ];
+  }
+}
+
+class UserActionPERepositoryFailureStub extends UserActionPERepository {
+  UserActionPERepositoryFailureStub()
+      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPoleEmploiTokenRepository());
+
+  @override
+  Future<List<UserActionPE>?> getUserActions(String userId) async {
+    return null;
+  }
+}
+
+class UserActionPERepositoryEmptyStub extends UserActionPERepository {
+  UserActionPERepositoryEmptyStub()
+      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPoleEmploiTokenRepository());
+
+  @override
+  Future<List<UserActionPE>?> getUserActions(String userId) async {
+    return [];
   }
 }
 

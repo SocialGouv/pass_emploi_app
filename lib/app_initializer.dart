@@ -156,7 +156,7 @@ class AppInitializer {
       poleEmploiTokenRepository,
       PoleEmploiAuthRepository(configuration.authIssuer, httpClient, crashlytics),
       UserActionRepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      UserActionPERepository(baseUrl, httpClient, headersBuilder, crashlytics),
+      UserActionPERepository(baseUrl, httpClient, headersBuilder, poleEmploiTokenRepository, crashlytics),
       RendezvousRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       OffreEmploiRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       ChatRepository(chatCrypto, crashlytics),

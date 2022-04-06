@@ -51,7 +51,7 @@ class UserActionPEListPage extends TraceableStatelessWidget {
 
   Widget _loader() => Center(child: CircularProgressIndicator());
 
-  Widget _empty() => EmptyContent(contentType: ContentType.ACTIONS);
+  Widget _empty() => EmptyPoleEmploiContent();
 
   Widget _userActionsList(BuildContext context, UserActionPEListPageViewModel viewModel) {
     return ListView.separated(
