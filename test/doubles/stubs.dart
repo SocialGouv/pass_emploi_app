@@ -119,6 +119,7 @@ class AuthenticatorLoggedInStub extends Authenticator {
   AuthenticatorLoggedInStub({this.expectedMode, this.authIdTokenLoginMode})
       : super(
           DummyAuthWrapper(),
+          DummyLogoutRepository(),
           configuration(),
           SharedPreferencesSpy(),
         );
@@ -144,7 +145,8 @@ class AuthenticatorLoggedInStub extends Authenticator {
 }
 
 class AuthenticatorNotLoggedInStub extends Authenticator {
-  AuthenticatorNotLoggedInStub() : super(DummyAuthWrapper(), configuration(), SharedPreferencesSpy());
+  AuthenticatorNotLoggedInStub()
+      : super(DummyAuthWrapper(), DummyLogoutRepository(), configuration(), SharedPreferencesSpy());
 
   @override
   Future<AuthenticatorResponse> login(AuthenticationMode mode) => Future.value(AuthenticatorResponse.FAILURE);

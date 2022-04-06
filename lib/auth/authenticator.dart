@@ -22,11 +22,11 @@ enum AuthenticatorResponse { SUCCESS, FAILURE, CANCELLED }
 
 class Authenticator {
   final AuthWrapper _authWrapper;
+  final LogoutRepository _logoutRepository;
   final Configuration _configuration;
   final FlutterSecureStorage _preferences;
-  final LogoutRepository _logoutRepository;
 
-  Authenticator(this._authWrapper, this._configuration, this._preferences, this._logoutRepository);
+  Authenticator(this._authWrapper, this._logoutRepository, this._configuration, this._preferences);
 
   Future<AuthenticatorResponse> login(AuthenticationMode mode) async {
     try {
@@ -86,13 +86,9 @@ class Authenticator {
   Future<bool> logout() async {
     final String? refreshToken = await _preferences.read(key: _refreshTokenKey);
     if (refreshToken == null) return false;
-    try {
-      await _logoutRepository.logout(refreshToken);
-      _deleteToken();
-      return true;
-    } catch (e) {
-      return false;
-    }
+    await _logoutRepository.logout(refreshToken);
+    _deleteToken();
+    return true;
   }
 
   void _saveToken(AuthTokenResponse response) {

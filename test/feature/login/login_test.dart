@@ -211,11 +211,11 @@ void main() {
 class AuthenticatorSpy extends Authenticator {
   bool logoutCalled = false;
 
-  AuthenticatorSpy() : super(DummyAuthWrapper(), configuration(), SharedPreferencesSpy());
+  AuthenticatorSpy() : super(DummyAuthWrapper(), DummyLogoutRepository(), configuration(), SharedPreferencesSpy());
 
   @override
-  Future<bool> logout() {
+  Future<bool> logout() async {
     logoutCalled = true;
-    return Future.value(true);
+    return true;
   }
 }

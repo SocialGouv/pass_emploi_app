@@ -90,7 +90,8 @@ void main() {
 }
 
 class AuthenticatorLoggedInAndValidIdTokenStub extends Authenticator {
-  AuthenticatorLoggedInAndValidIdTokenStub() : super(DummyAuthWrapper(), configuration(), SharedPreferencesSpy());
+  AuthenticatorLoggedInAndValidIdTokenStub()
+      : super(DummyAuthWrapper(), DummyLogoutRepository(), configuration(), SharedPreferencesSpy());
 
   @override
   Future<AuthIdToken?> idToken() async => AuthIdToken(
@@ -110,7 +111,7 @@ class AuthenticatorLoggedInAndInvalidIdTokenStub extends Authenticator {
   final RefreshTokenStatus refreshTokenStatus;
 
   AuthenticatorLoggedInAndInvalidIdTokenStub(this.refreshTokenStatus)
-      : super(DummyAuthWrapper(), configuration(), SharedPreferencesSpy());
+      : super(DummyAuthWrapper(), DummyLogoutRepository(), configuration(), SharedPreferencesSpy());
 
   @override
   Future<AuthIdToken?> idToken() async => AuthIdToken(

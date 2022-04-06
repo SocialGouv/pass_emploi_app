@@ -125,9 +125,9 @@ class AppInitializer {
     );
     final authenticator = Authenticator(
       AuthWrapper(FlutterAppAuth(), Lock()),
+      logoutRepository,
       configuration,
       securedPreferences,
-      logoutRepository,
     );
     final poleEmploiTokenRepository = PoleEmploiTokenRepository();
     final accessTokenRetriever = AuthAccessTokenRetriever(authenticator);
