@@ -127,6 +127,9 @@ class Strings {
   static String seeVisio = 'Accéder à la visio';
   static String rendezvousVisioModalityMessage =
       'Le rendez-vous se fera en visio. La visio sera disponible le jour du rendez-vous.';
+  static String rendezVousPassesTitre = "Rendez-vous passés";
+  static String rendezVousCetteSemaineTitre = "Cette semaine";
+  static String rendezVousFutursTitre = "Semaine du";
 
   static String rendezvousModalityWithConseillerDetailsMessage(String modality, String conseiller) {
     return "${rendezvousModalityDetailsMessage(modality)} avec $conseiller";

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
@@ -9,21 +8,30 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_list_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_icon_button.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
-class RendezvousListPage extends TraceableStatelessWidget {
-  RendezvousListPage() : super(name: AnalyticsScreenNames.rendezvousList);
+class RendezvousListPage extends StatefulWidget {
+  @override
+  State<RendezvousListPage> createState() => _RendezvousListPageState();
+}
+
+class _RendezvousListPageState extends State<RendezvousListPage> {
+  int _offset = 0;
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RendezvousListViewModel>(
-      onInit: (store) => store.dispatch(RendezvousRequestAction()),
-      converter: (store) => RendezvousListViewModel.create(store),
+      onInit: (store) {
+        if (_offset == 0) store.dispatch(RendezvousRequestAction());
+      },
+      converter: (store) => RendezvousListViewModel.create(store, DateTime.now(), _offset),
       builder: _builder,
       onDidChange: (_, viewModel) => _openDeeplinkIfNeeded(viewModel, context),
       distinct: true,
@@ -34,7 +42,12 @@ class RendezvousListPage extends TraceableStatelessWidget {
     return _Scaffold(
       body: _Body(
         viewModel: viewModel,
-        onTap: (rdvId) => pushAndTrackBack(
+        onOffsetChanged: (i) {
+          setState(() {
+            _offset = _offset + i;
+          });
+        },
+        onTap: (rdvId) => widget.pushAndTrackBack(
           context,
           RendezvousDetailsPage.materialPageRoute(rdvId),
           AnalyticsScreenNames.rendezvousList,
@@ -45,7 +58,7 @@ class RendezvousListPage extends TraceableStatelessWidget {
 
   void _openDeeplinkIfNeeded(RendezvousListViewModel viewModel, BuildContext context) {
     if (viewModel.deeplinkRendezvousId != null) {
-      pushAndTrackBack(
+      widget.pushAndTrackBack(
         context,
         RendezvousDetailsPage.materialPageRoute(viewModel.deeplinkRendezvousId!),
         AnalyticsScreenNames.rendezvousList,
@@ -70,10 +83,12 @@ class _Scaffold extends StatelessWidget {
 }
 
 class _Body extends StatelessWidget {
-  const _Body({Key? key, required this.viewModel, required this.onTap}) : super(key: key);
+  const _Body({Key? key, required this.viewModel, required this.onOffsetChanged, required this.onTap})
+      : super(key: key);
 
   final RendezvousListViewModel viewModel;
   final Function(String) onTap;
+  final Function(int) onOffsetChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -85,27 +100,42 @@ class _Body extends StatelessWidget {
       case DisplayState.EMPTY:
         return _Empty();
       case DisplayState.CONTENT:
-        return _Content(viewModel: viewModel, onTap: (rdvId) => onTap(rdvId));
+        return _Content(
+          viewModel: viewModel,
+          onTap: (rdvId) => onTap(rdvId),
+          onOffsetChanged: onOffsetChanged,
+        );
     }
   }
 }
 
 class _Content extends StatelessWidget {
-  const _Content({Key? key, required this.viewModel, required this.onTap}) : super(key: key);
+  const _Content({Key? key, required this.viewModel, required this.onTap, required this.onOffsetChanged})
+      : super(key: key);
 
   final RendezvousListViewModel viewModel;
   final Function(String) onTap;
+  final Function(int) onOffsetChanged;
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      itemCount: viewModel.rendezvousIds.length,
-      padding: const EdgeInsets.all(Margins.spacing_s),
-      separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
-      itemBuilder: (context, index) {
-        final rdvId = viewModel.rendezvousIds[index];
-        return RendezvousCard(rendezvousId: rdvId, onTap: () => onTap(rdvId));
-      },
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _DateHeader(viewModel: viewModel, onOffsetChanged: onOffsetChanged),
+        Expanded(
+          child: ListView.separated(
+            itemCount: viewModel.rendezvousIds.length,
+            padding: const EdgeInsets.all(Margins.spacing_s),
+            separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
+            itemBuilder: (context, index) {
+              final rdvId = viewModel.rendezvousIds[index];
+              return RendezvousCard(rendezvousId: rdvId, onTap: () => onTap(rdvId));
+            },
+          ),
+        ),
+      ],
     );
   }
 }
@@ -118,6 +148,61 @@ class _Empty extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(Margins.spacing_base),
       child: Text(Strings.noUpcomingRendezVous, style: TextStyles.textSRegular()),
+    );
+  }
+}
+
+class _DateHeader extends StatelessWidget {
+  final RendezvousListViewModel viewModel;
+  final Function(int) onOffsetChanged;
+
+  const _DateHeader({Key? key, required this.viewModel, required this.onOffsetChanged}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 24),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          if (viewModel.withPreviousButton)
+            SecondaryIconButton(
+              drawableRes: Drawables.icChevronLeft,
+              iconColor: AppColors.primary,
+              borderColor: Colors.transparent,
+              onTap: () {
+                onOffsetChanged(-1);
+              },
+            ),
+          if (!viewModel.withPreviousButton) SizedBox(width: 59),
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  viewModel.title,
+                  style: TextStyles.textMBold,
+                ),
+                SizedBox(height: 4),
+                Text(
+                  viewModel.dateLabel,
+                  style: TextStyles.textBaseRegular,
+                ),
+              ],
+            ),
+          ),
+          if (viewModel.withNextButton)
+            SecondaryIconButton(
+              drawableRes: Drawables.icChevronRight,
+              iconColor: AppColors.primary,
+              borderColor: Colors.transparent,
+              onTap: () {
+                onOffsetChanged(1);
+              },
+            ),
+          if (!viewModel.withNextButton) SizedBox(width: 59),
+        ],
+      ),
     );
   }
 }
