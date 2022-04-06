@@ -21,7 +21,7 @@ class NextDispatcherSpy {
 }
 
 class StoreSpy extends Store<AppState> {
-  late dynamic dispatchedAction;
+  dynamic dispatchedAction;
 
   StoreSpy() : super(reducer, initialState: AppState.initialState(configuration: configuration()));
 
