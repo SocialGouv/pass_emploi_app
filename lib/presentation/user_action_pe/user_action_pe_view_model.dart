@@ -31,7 +31,7 @@ class UserActionPEViewModel extends Equatable {
       title: userAction.content ?? Strings.withoutContent,
       status: userAction.status,
       createdByAdvisor: userAction.createdByAdvisor,
-      tag: _userActionPETagViewModel(userAction.status),
+      tag: _userActionTagViewModel(userAction.status),
       formattedDate:
           _setFormattedDate(userAction.status, userAction.endDate?.toDay(), userAction.deletionDate?.toDay()),
     );
@@ -75,7 +75,7 @@ String _getDateText(UserActionPEStatus status, String date) {
   }
 }
 
-UserActionTagViewModel? _userActionPETagViewModel(UserActionPEStatus status) {
+UserActionTagViewModel? _userActionTagViewModel(UserActionPEStatus status) {
   switch (status) {
     case UserActionPEStatus.NOT_STARTED:
       return UserActionTagViewModel(

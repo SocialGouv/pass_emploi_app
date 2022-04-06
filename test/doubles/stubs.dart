@@ -107,16 +107,6 @@ class UserActionPERepositoryFailureStub extends UserActionPERepository {
   }
 }
 
-class UserActionPERepositoryEmptyStub extends UserActionPERepository {
-  UserActionPERepositoryEmptyStub()
-      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPoleEmploiTokenRepository());
-
-  @override
-  Future<List<UserActionPE>?> getUserActions(String userId) async {
-    return [];
-  }
-}
-
 class OffreEmploiRepositorySuccessWithMoreDataStub extends OffreEmploiRepository {
   bool? _onlyAlternance;
   int callCount = 0;

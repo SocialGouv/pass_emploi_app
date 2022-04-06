@@ -27,26 +27,7 @@ void main() {
     expect((appState.userActionPEListState as UserActionPEListSuccessState).userActions[0].id, "id");
   });
 
-  test("actions pôle emploi should be fetched and displayed empty page if there no actions", () async {
-    // Given
-    final testStoreFactory = TestStoreFactory();
-    testStoreFactory.userActionPERepository = UserActionPERepositoryEmptyStub();
-    final store = testStoreFactory.initializeReduxStore(initialState: loggedInPoleEmploiState());
-
-    final displayedLoading = store.onChange.any((e) => e.userActionPEListState is UserActionPEListLoadingState);
-    final successAppState = store.onChange.firstWhere((e) => e.userActionPEListState is UserActionPEListSuccessState);
-
-    // When
-    await store.dispatch(UserActionPEListRequestAction());
-
-    // Then
-    expect(await displayedLoading, true);
-    final appState = await successAppState;
-    expect(appState.userActionPEListState is UserActionPEListSuccessState, isTrue);
-    expect((appState.userActionPEListState as UserActionPEListSuccessState).userActions.length, 0);
-  });
-
-  test("actions pôle emploi should display un error when fetching failed", () async {
+  test("actions pôle emploi should display an error when fetching failed", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.userActionPERepository = UserActionPERepositoryFailureStub();

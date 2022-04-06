@@ -2,14 +2,13 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_actions.dart';
 import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_state.dart';
 import 'package:pass_emploi_app/models/user_action_pe.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action_pe/user_action_pe_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-enum UserActionPEListPageDisplayState { CONTENT, LOADING, FAILURE, EMPTY }
-
 class UserActionPEListPageViewModel extends Equatable {
-  final UserActionPEListPageDisplayState displayState;
+  final DisplayState displayState;
   final List<UserActionPEListItemViewModel> items;
   final Function() onRetry;
 
@@ -36,15 +35,13 @@ class UserActionPEListPageViewModel extends Equatable {
   List<Object?> get props => [displayState, items];
 }
 
-UserActionPEListPageDisplayState _displayState(UserActionPEListState state) {
+DisplayState _displayState(UserActionPEListState state) {
   if (state is UserActionPEListSuccessState) {
-    return state.userActions.isNotEmpty
-        ? UserActionPEListPageDisplayState.CONTENT
-        : UserActionPEListPageDisplayState.EMPTY;
+    return state.userActions.isNotEmpty ? DisplayState.CONTENT : DisplayState.EMPTY;
   } else if (state is UserActionPEListFailureState) {
-    return UserActionPEListPageDisplayState.FAILURE;
+    return DisplayState.FAILURE;
   } else {
-    return UserActionPEListPageDisplayState.LOADING;
+    return DisplayState.LOADING;
   }
 }
 
@@ -86,7 +83,6 @@ List<UserActionPEListItemViewModel> _listItems({
 }) {
   return (retardedItems + activeItems + inactiveItems).map((e) => UserActionPEListItemViewModel(e)).toList();
 }
-
 
 class UserActionPEListItemViewModel extends Equatable {
   final UserActionPEViewModel viewModel;

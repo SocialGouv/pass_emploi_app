@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_actions.dart';
 import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_state.dart';
 import 'package:pass_emploi_app/models/user_action_pe.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action_pe/user_action_pe_list_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -22,7 +23,7 @@ void main() {
     final viewModel = UserActionPEListPageViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, UserActionPEListPageDisplayState.LOADING);
+    expect(viewModel.displayState, DisplayState.LOADING);
   });
 
   test('create when action state is not initialized should display loader', () {
@@ -36,7 +37,7 @@ void main() {
     final viewModel = UserActionPEListPageViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, UserActionPEListPageDisplayState.LOADING);
+    expect(viewModel.displayState, DisplayState.LOADING);
   });
 
   test('create when action state is a failure should display failure', () {
@@ -50,7 +51,7 @@ void main() {
     final viewModel = UserActionPEListPageViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, UserActionPEListPageDisplayState.FAILURE);
+    expect(viewModel.displayState, DisplayState.FAILURE);
   });
 
   test('retry, after view model was created with failure, should dispatch a RequestUserActionPEAction', () {
@@ -132,7 +133,7 @@ void main() {
     final viewModel = UserActionPEListPageViewModel.create(store);
 
     // Then
-    expect(viewModel.displayState, UserActionPEListPageDisplayState.EMPTY);
+    expect(viewModel.displayState, DisplayState.EMPTY);
     expect(viewModel.items.length, 0);
   });
 }

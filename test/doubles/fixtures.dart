@@ -54,8 +54,6 @@ AppState loggedInState() => AppState.initialState().copyWith(loginState: success
 AppState loggedInMiloState() => AppState.initialState().copyWith(loginState: successMiloUserState());
 AppState loggedInPoleEmploiState() => AppState.initialState().copyWith(loginState: successPoleEmploiUserState());
 
-AppState loggedInPoleEmploiState() => AppState.initialState().copyWith(loginState: successPoleEmploiUserState());
-
 Response invalidHttpResponse({String message = ""}) => Response(message, 500);
 
 OffreEmploiDetails mockOffreEmploiDetails() => OffreEmploiDetails(

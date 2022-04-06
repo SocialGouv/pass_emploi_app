@@ -13,7 +13,8 @@ class UserActionPERepository {
   final Crashlytics? _crashlytics;
   final PoleEmploiTokenRepository _poleEmploiTokenRepository;
 
-  UserActionPERepository(this._baseUrl, this._httpClient, this._headerBuilder, this._poleEmploiTokenRepository, [this._crashlytics]);
+  UserActionPERepository(this._baseUrl, this._httpClient, this._headerBuilder, this._poleEmploiTokenRepository,
+      [this._crashlytics]);
 
   Future<List<UserActionPE>?> getUserActions(String userId) async {
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/pole-emploi/actions");
@@ -21,18 +22,18 @@ class UserActionPERepository {
     if (_poleEmploiTokenRepository.getPoleEmploiAccessToken() == null) {
       await Future.delayed(Duration(seconds: 2));
     }
-      try {
-        final response = await _httpClient.get(
-          url,
-          headers: await _headerBuilder.headers(userId: userId),
-        );
-        if (response.statusCode.isValid()) {
-          final json = jsonUtf8Decode(response.bodyBytes);
-          return (json as List).map((action) => UserActionPE.fromJson(action)).toList();
-        }
-      } catch (e, stack) {
-        _crashlytics?.recordNonNetworkException(e, stack, url);
+    try {
+      final response = await _httpClient.get(
+        url,
+        headers: await _headerBuilder.headers(userId: userId),
+      );
+      if (response.statusCode.isValid()) {
+        final json = jsonUtf8Decode(response.bodyBytes);
+        return (json as List).map((action) => UserActionPE.fromJson(action)).toList();
       }
-      return null;
+    } catch (e, stack) {
+      _crashlytics?.recordNonNetworkException(e, stack, url);
     }
+    return null;
+  }
 }
