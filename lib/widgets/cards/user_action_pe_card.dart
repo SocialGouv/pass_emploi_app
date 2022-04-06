@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
+import 'package:pass_emploi_app/presentation/user_action_pe/user_action_pe_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/tags/status_tag.dart';
 
-class UserActionCard extends StatelessWidget {
-  final VoidCallback onTap;
-  final UserActionViewModel viewModel;
+class UserActionPECard extends StatelessWidget {
+  final UserActionPEViewModel viewModel;
 
-  const UserActionCard({Key? key, required this.onTap, required this.viewModel}) : super(key: key);
+  const UserActionPECard({required this.viewModel}) : super();
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,6 @@ class UserActionCard extends StatelessWidget {
         child: Material(
           type: MaterialType.transparency,
           child: InkWell(
-            onTap: onTap,
             splashColor: AppColors.primaryLighten,
             child: Padding(
               padding: const EdgeInsets.all(Margins.spacing_base),
@@ -33,21 +35,14 @@ class UserActionCard extends StatelessWidget {
                 children: [
                   if (viewModel.tag != null) _buildStatut(viewModel.tag!),
                   Text(viewModel.title, style: TextStyles.textBaseBold),
-                  if (viewModel.withSubtitle) _buildSousTitre(),
-                  _buildDerniereModification(),
+                  if (viewModel.createdByAdvisor) _buildCreatorText(),
+                  _buildDate(),
                 ],
               ),
             ),
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildSousTitre() {
-    return Padding(
-      padding: const EdgeInsets.only(top: Margins.spacing_s),
-      child: Text(viewModel.subtitle, style: TextStyles.textSRegular(color: AppColors.contentColor)),
     );
   }
 
@@ -62,7 +57,14 @@ class UserActionCard extends StatelessWidget {
     );
   }
 
-  Widget _buildDerniereModification() {
+  Widget _buildCreatorText() {
+    return Padding(
+      padding: const EdgeInsets.only(top: Margins.spacing_base),
+      child: Text(Strings.createByAdvisor, style: TextStyles.textSRegularWithColor(AppColors.primary)),
+    );
+  }
+
+  Widget _buildDate() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -73,7 +75,13 @@ class UserActionCard extends StatelessWidget {
             color: AppColors.primaryLighten,
           ),
         ),
-        Text(viewModel.lastUpdate, style: TextStyles.textSRegular(color: AppColors.contentColor)),
+        Row(
+          children: [
+            SvgPicture.asset(Drawables.icClock, color: viewModel.getDateColor()),
+            SizedBox(width: Margins.spacing_s),
+            Text(viewModel.formattedDate, style: TextStyles.textSRegularWithColor(viewModel.getDateColor())),
+          ],
+        ),
       ],
     );
   }

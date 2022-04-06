@@ -10,12 +10,14 @@ import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
+import 'package:pass_emploi_app/models/user_action_pe.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
+import 'package:pass_emploi_app/repositories/user_action_pe_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -73,6 +75,35 @@ class UserActionRepositoryFailureStub extends UserActionRepository {
   @override
   Future<bool> deleteUserAction(String actionId) async {
     return false;
+  }
+}
+
+class UserActionPERepositorySuccessStub extends UserActionPERepository {
+  UserActionPERepositorySuccessStub()
+      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPoleEmploiTokenRepository());
+
+  @override
+  Future<List<UserActionPE>?> getUserActions(String userId) async {
+    return [
+      UserActionPE(
+        id: "id",
+        content: "content",
+        status: UserActionPEStatus.NOT_STARTED,
+        endDate: DateTime(2022, 12, 23, 0, 0, 0),
+        deletionDate: DateTime(2022, 12, 23, 0, 0, 0),
+        createdByAdvisor: true,
+      ),
+    ];
+  }
+}
+
+class UserActionPERepositoryFailureStub extends UserActionPERepository {
+  UserActionPERepositoryFailureStub()
+      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPoleEmploiTokenRepository());
+
+  @override
+  Future<List<UserActionPE>?> getUserActions(String userId) async {
+    return null;
   }
 }
 

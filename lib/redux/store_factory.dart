@@ -39,6 +39,7 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_m
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
+import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_middleware.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
@@ -69,6 +70,7 @@ import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
+import 'package:pass_emploi_app/repositories/user_action_pe_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart' as redux;
 
@@ -79,6 +81,7 @@ class StoreFactory {
   final PoleEmploiTokenRepository poleEmploiTokenRepository;
   final PoleEmploiAuthRepository poleEmploiAuthRepository;
   final UserActionRepository userActionRepository;
+  final UserActionPERepository userActionPERepository;
   final RendezvousRepository rendezvousRepository;
   final OffreEmploiRepository offreEmploiRepository;
   final ChatRepository chatRepository;
@@ -110,6 +113,7 @@ class StoreFactory {
     this.poleEmploiTokenRepository,
     this.poleEmploiAuthRepository,
     this.userActionRepository,
+    this.userActionPERepository,
     this.rendezvousRepository,
     this.offreEmploiRepository,
     this.chatRepository,
@@ -146,6 +150,7 @@ class StoreFactory {
         UserActionCreateMiddleware(userActionRepository),
         UserActionUpdateMiddleware(userActionRepository),
         UserActionDeleteMiddleware(userActionRepository),
+        UserActionPEListMiddleware(userActionPERepository),
         ConseillerMiddleware(conseillerRepository),
         ChatInitializerMiddleware(firebaseAuthRepository, firebaseAuthWrapper, chatCrypto),
         ChatMiddleware(chatRepository),

@@ -34,7 +34,6 @@ class Drawables {
   static String icMail = _assets + "ic_mail" + _svg;
   static String icFilter = _assets + "ic_filter" + _svg;
   static String icChevronRight = _assets + "chevron_right" + _svg;
-  static String icNoContent = _assets + "ic_no_content" + _svg;
   static String icChevronLeft = _assets + "chevron_left" + _svg;
   static String icLaunch = _assets + "launch" + _svg;
   static String icDoneCircle = _assets + "ic_done_circle" + _svg;
@@ -45,6 +44,7 @@ class Drawables {
   static String icSearch = _assets + "ic_search" + _svg;
   static String icPeople = _assets + "ic_people" + _svg;
   static String puzzle = _assets + "puzzle" + _svg;
+  static String icEmpty = _assets + "ic_empty" + _svg;
 
   static String cejAppLogo = _assets + "logo_app_cej" + _svg;
   static String icAlert = _assets + "ic_alert" + _svg;

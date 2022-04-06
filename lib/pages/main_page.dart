@@ -102,7 +102,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case _indexOfMonSuiviPage:
         final initialTab = _displayMonSuiviOnRendezvousTab ? MonSuiviTab.RENDEZVOUS : MonSuiviTab.ACTIONS;
         _displayMonSuiviOnRendezvousTab = false;
-        return MonSuiviTabPage(initialTab: initialTab, showContent: !viewModel.isPoleEmploiLogin);
+        return MonSuiviTabPage(initialTab: initialTab, isPoleEmploiLogin: viewModel.isPoleEmploiLogin);
       case _indexOfChatPage:
         return ChatPage();
       case _indexOfSolutionsPage:
@@ -112,7 +112,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case _indexOfPlusPage:
         return ProfilPage();
       default:
-        return MonSuiviTabPage(initialTab: MonSuiviTab.ACTIONS, showContent: !viewModel.isPoleEmploiLogin);
+        return MonSuiviTabPage(initialTab: MonSuiviTab.ACTIONS, isPoleEmploiLogin: viewModel.isPoleEmploiLogin);
     }
   }
 

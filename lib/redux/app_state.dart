@@ -27,6 +27,7 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_s
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
+import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
@@ -42,6 +43,7 @@ class AppState extends Equatable {
   final UserActionCreateState userActionCreateState;
   final UserActionUpdateState userActionUpdateState;
   final UserActionDeleteState userActionDeleteState;
+  final UserActionPEListState userActionPEListState;
   final ConseillerState conseillerState;
   final ChatStatusState chatStatusState;
   final ChatState chatState;
@@ -75,6 +77,7 @@ class AppState extends Equatable {
     required this.userActionCreateState,
     required this.userActionUpdateState,
     required this.userActionDeleteState,
+    required this.userActionPEListState,
     required this.conseillerState,
     required this.chatStatusState,
     required this.chatState,
@@ -107,6 +110,7 @@ class AppState extends Equatable {
     final UserActionCreateState? userActionCreateState,
     final UserActionUpdateState? userActionUpdateState,
     final UserActionDeleteState? userActionDeleteState,
+    final UserActionPEListState? userActionPEListState,
     final ConseillerState? conseillerState,
     final ChatStatusState? chatStatusState,
     final ChatState? chatState,
@@ -141,6 +145,7 @@ class AppState extends Equatable {
       userActionCreateState: userActionCreateState ?? this.userActionCreateState,
       userActionUpdateState: userActionUpdateState ?? this.userActionUpdateState,
       userActionDeleteState: userActionDeleteState ?? this.userActionDeleteState,
+      userActionPEListState: userActionPEListState ?? this.userActionPEListState,
       conseillerState: conseillerState ?? this.conseillerState,
       chatStatusState: chatStatusState ?? this.chatStatusState,
       chatState: chatState ?? this.chatState,
@@ -177,6 +182,7 @@ class AppState extends Equatable {
       userActionCreateState: UserActionCreateNotInitializedState(),
       userActionUpdateState: UserActionNotUpdatingState(),
       userActionDeleteState: UserActionDeleteNotInitializedState(),
+      userActionPEListState: UserActionPEListNotInitializedState(),
       conseillerState: ConseillerNotInitializedState(),
       chatStatusState: ChatStatusNotInitializedState(),
       chatState: ChatNotInitializedState(),
@@ -224,6 +230,7 @@ class AppState extends Equatable {
         searchMetierState,
         loginState,
         userActionListState,
+        userActionPEListState,
         rendezvousState,
         immersionListState,
         immersionDetailsState,

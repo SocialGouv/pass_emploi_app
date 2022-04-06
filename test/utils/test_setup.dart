@@ -28,6 +28,7 @@ import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
+import 'package:pass_emploi_app/repositories/user_action_pe_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
 
@@ -38,6 +39,7 @@ class TestStoreFactory {
   PoleEmploiTokenRepository poleEmploiTokenRepository = PoleEmploiTokenRepository();
   PoleEmploiAuthRepository poleEmploiAuthRepository = DummyPoleEmploiAuthRepository();
   UserActionRepository userActionRepository = DummyUserActionRepository();
+  UserActionPERepository userActionPERepository = DummyUserActionPERepository();
   RendezvousRepository rendezvousRepository = DummyRendezvousRepository();
   ChatRepository chatRepository = DummyChatRepository();
   OffreEmploiRepository offreEmploiRepository = DummyOffreEmploiRepository();
@@ -72,6 +74,7 @@ class TestStoreFactory {
       poleEmploiTokenRepository,
       poleEmploiAuthRepository,
       userActionRepository,
+      userActionPERepository,
       rendezvousRepository,
       offreEmploiRepository,
       chatRepository,
