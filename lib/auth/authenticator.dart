@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
-import 'package:pass_emploi_app/repositories/logout_repository.dart';
+import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 
 const String _idTokenKey = "idToken";
 const String _accessTokenKey = "accessToken";

@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:http_interceptor/http/intercepted_client.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 
 class LogoutRepository {
@@ -36,7 +35,7 @@ class LogoutRepository {
     }
   }
 
-  void setHttpClient(InterceptedClient httpClient) {
+  void setHttpClient(Client httpClient) {
     _httpClient = httpClient;
   }
 }
