@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 
 abstract class ChatItem extends Equatable {}
-//TODO US-508 gerer le nouveau type de msg
 
 class DayItem extends ChatItem {
   final String dayLabel;
@@ -10,6 +9,16 @@ class DayItem extends ChatItem {
 
   @override
   List<Object?> get props => [dayLabel];
+}
+
+class InformationItem extends ChatItem {
+  final String title;
+  final String description;
+
+  InformationItem(this.title, this.description);
+
+  @override
+  List<Object?> get props => [title, description];
 }
 
 abstract class MessageItem extends ChatItem {

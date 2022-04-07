@@ -69,4 +69,51 @@ void main() {
       JeuneMessageItem(content: '5', caption: '12:00 · Envoyé'),
     ]);
   });
+
+  test('create when chat state is SUCCESS and message type is NOUVEAU_CONSEILLER', () {
+    // Given
+    final state = AppState.initialState().copyWith(
+      chatStatusState: ChatStatusSuccessState(unreadMessageCount: 0, lastConseillerReading: DateTime(2021, 1, 2, 18)),
+      chatState: ChatSuccessState(
+        [
+          Message('Jean-Paul', DateTime(2021, 1, 1, 12, 30), Sender.conseiller, MessageType.nouveauConseiller),
+        ],
+      ),
+    );
+    final store = Store<AppState>(reducer, initialState: state);
+
+    // When
+    final viewModel = ChatPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.items, [
+      DayItem("Le 01/01/2021"),
+      InformationItem("Vous échangez avec votre nouveau conseiller", "Il a accès à l’historique de vos échanges"),
+    ]);
+  });
+
+  test('create when chat state is SUCCESS and message type is UNKNOWN', () {
+    // Given
+    final state = AppState.initialState().copyWith(
+      chatStatusState: ChatStatusSuccessState(unreadMessageCount: 0, lastConseillerReading: DateTime(2021, 1, 2, 18)),
+      chatState: ChatSuccessState(
+        [
+          Message('Jean-Paul', DateTime(2021, 1, 1, 12, 30), Sender.conseiller, MessageType.unknown),
+        ],
+      ),
+    );
+    final store = Store<AppState>(reducer, initialState: state);
+
+    // When
+    final viewModel = ChatPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.items, [
+      DayItem("Le 01/01/2021"),
+      InformationItem(
+          "Le message est incassessible", "Pour avoir l'accès au contenu veuillez mettre à jour l'application"),
+    ]);
+  });
 }
