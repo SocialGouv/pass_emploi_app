@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 final DateTime minDateTime = DateTime.fromMicrosecondsSinceEpoch(0);
 
@@ -17,6 +18,13 @@ extension DateExtensions on DateTime {
     if (isTomorrow()) return "Demain";
     if (isToday()) return "Aujourd'hui";
     return toDayWithFullMonth();
+  }
+
+  String toDayOfWeekWithFullMonthContextualized() {
+    if (isTomorrow()) return "Demain";
+    if (isToday()) return "Aujourd'hui";
+    initializeDateFormatting();
+    return DateFormat('EEEE dd MMMM', 'fr').format(this).firstLetterUpperCased();
   }
 
   String toFullMonthAndYear() {

@@ -44,7 +44,7 @@ class RendezvousListViewModel extends Equatable {
     return RendezvousListViewModel(
       displayState: _displayState(rendezvousState),
       rendezvousIds: rendezvousIds,
-      deeplinkRendezvousId: _deeplinkRendezvousId(store.state.deepLinkState, rendezvousIds.map((e) => e.id).toList()),
+      deeplinkRendezvousId: _deeplinkRendezvousId(store.state.deepLinkState, rendezvousState),
       onRetry: () => store.dispatch(RendezvousRequestAction()),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
       title: _buildTitle(offset),
@@ -116,7 +116,7 @@ List<RendezVousItem> _rendezvousIds(RendezvousState rendezvousState, LoginState 
     if (offset < 0) {
       return element.date.toFullMonthAndYear();
     } else {
-      return element.date.toDayWithFullMonthContextualized();
+      return element.date.toDayOfWeekWithFullMonthContextualized();
     }
   });
   return groupByDate.keys
@@ -128,13 +128,18 @@ List<RendezVousItem> _rendezvousIds(RendezvousState rendezvousState, LoginState 
       .toList();
 }
 
-String? _deeplinkRendezvousId(DeepLinkState state, List<String> rdvIds) {
+String? _deeplinkRendezvousId(DeepLinkState state, RendezvousState rendezVousState) {
+  if (rendezVousState is! RendezvousSuccessState) return null;
+  final rdvIds = rendezVousState.rendezvous.map((e) => e.id);
   return (state.deepLink == DeepLink.ROUTE_TO_RENDEZVOUS && rdvIds.contains(state.dataId)) ? state.dataId : null;
 }
 
-class RendezVousItem {
+class RendezVousItem extends Equatable {
   final bool isRendezVous;
   final String id;
 
   RendezVousItem(this.isRendezVous, this.id);
+
+  @override
+  List<Object?> get props => [isRendezVous, id];
 }
