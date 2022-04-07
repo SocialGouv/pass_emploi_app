@@ -127,15 +127,15 @@ class _Content extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _DateHeader(viewModel: viewModel, onOffsetChanged: onOffsetChanged),
-        if (viewModel.rendezvousItem.isEmpty) _EmptyWeek(viewModel.emptyLabel),
-        if (viewModel.rendezvousItem.isNotEmpty)
+        if (viewModel.rendezvousItems.isEmpty) _EmptyWeek(viewModel.emptyLabel),
+        if (viewModel.rendezvousItems.isNotEmpty)
           Expanded(
             child: ListView.separated(
-              itemCount: viewModel.rendezvousItem.length,
+              itemCount: viewModel.rendezvousItems.length,
               padding: const EdgeInsets.all(Margins.spacing_s),
               separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
               itemBuilder: (context, index) {
-                final rdvItem = viewModel.rendezvousItem[index];
+                final rdvItem = viewModel.rendezvousItems[index];
                 if (rdvItem is RendezVousCardItem) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),

@@ -15,7 +15,7 @@ import 'package:redux/redux.dart';
 
 class RendezvousListViewModel extends Equatable {
   final DisplayState displayState;
-  final List<RendezVousItem> rendezvousItem;
+  final List<RendezVousItem> rendezvousItems;
   final String? deeplinkRendezvousId;
   final Function() onRetry;
   final Function() onDeeplinkUsed;
@@ -28,7 +28,7 @@ class RendezvousListViewModel extends Equatable {
 
   RendezvousListViewModel({
     required this.displayState,
-    required this.rendezvousItem,
+    required this.rendezvousItems,
     required this.deeplinkRendezvousId,
     required this.onRetry,
     required this.onDeeplinkUsed,
@@ -43,15 +43,15 @@ class RendezvousListViewModel extends Equatable {
   factory RendezvousListViewModel.create(Store<AppState> store, DateTime now, int offset) {
     final loginState = store.state.loginState;
     final rendezvousState = store.state.rendezvousState;
-    final rendezvousIds = _rendezvousItems(rendezvousState, loginState, now, offset);
+    final rendezvousItems = _rendezvousItems(rendezvousState, loginState, now, offset);
     return RendezvousListViewModel(
       displayState: _displayState(rendezvousState),
-      rendezvousItem: rendezvousIds,
+      rendezvousItems: rendezvousItems,
       deeplinkRendezvousId: _deeplinkRendezvousId(store.state.deepLinkState, rendezvousState),
       onRetry: () => store.dispatch(RendezvousRequestAction()),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
       title: _buildTitle(offset),
-      dateLabel: _buildDateLabel(now, offset),
+      dateLabel: _buildDateLabel(now, offset, rendezvousState),
       withNextButton: _withNextButton(rendezvousState, now, offset),
       withPreviousButton: offset >= 0,
       emptyLabel: _emptyLabel(offset, rendezvousState, now),
@@ -60,7 +60,7 @@ class RendezvousListViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [displayState, rendezvousItem, deeplinkRendezvousId];
+  List<Object?> get props => [displayState, rendezvousItems, deeplinkRendezvousId];
 }
 
 String _analyticsLabel(int offset) {
@@ -76,9 +76,12 @@ DisplayState _displayState(RendezvousState state) {
   return DisplayState.FAILURE;
 }
 
-String _buildDateLabel(DateTime now, int offset) {
+String _buildDateLabel(DateTime now, int offset, RendezvousState rdvState) {
   if (offset < 0) {
-    return "du 01/01/2022 à hier"; // TODO demander à aurélie ce qu'il faut mettre
+    if (rdvState is! RendezvousSuccessState) return "";
+    final firstRdvDate =
+        rdvState.rendezvous.reduce((value, element) => value.date.isAfter(element.date) ? element : value).date;
+    return Strings.rendezvousFromTo(firstRdvDate.toDay());
   } else {
     final firstDay = now.add(Duration(days: 7 * offset)).toDay();
     final lastDay = now.add(Duration(days: (7 * offset) + 6)).toDay();
@@ -102,7 +105,7 @@ String _buildTitle(int offset) {
 String _emptyLabel(int offset, RendezvousState rendezvousState, DateTime now) {
   if (offset < 0) return Strings.noRendezAvantCetteSemaine;
   if (offset == 0) return Strings.noRendezVousCetteSemaineTitre;
-  return Strings.noRendezAutreCetteSemainePrefix + _buildDateLabel(now, offset);
+  return Strings.noRendezAutreCetteSemainePrefix + _buildDateLabel(now, offset, rendezvousState);
 }
 
 List<RendezVousItem> _rendezvousItems(

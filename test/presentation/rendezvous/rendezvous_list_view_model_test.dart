@@ -77,7 +77,7 @@ void main() {
           expect(viewModel.displayState, DisplayState.CONTENT);
           expect(viewModel.withNextButton, true);
           expect(viewModel.withPreviousButton, true);
-          expect(viewModel.rendezvousItem, [
+          expect(viewModel.rendezvousItems, [
             RendezVousDayDivider("Vendredi 4 février"),
             RendezVousCardItem("cette semaine 3"),
             RendezVousCardItem("cette semaine 1"),
@@ -95,7 +95,8 @@ void main() {
           expect(viewModel.displayState, DisplayState.CONTENT);
           expect(viewModel.withNextButton, true);
           expect(viewModel.withPreviousButton, false);
-          expect(viewModel.rendezvousItem, [
+          expect(viewModel.dateLabel, "du 04/12/2021 à hier");
+          expect(viewModel.rendezvousItems, [
             RendezVousDayDivider("janvier 2022"),
             RendezVousCardItem("passés 1"),
             RendezVousDayDivider("décembre 2021"),
@@ -112,7 +113,7 @@ void main() {
           expect(viewModel.displayState, DisplayState.CONTENT);
           expect(viewModel.withNextButton, false);
           expect(viewModel.withPreviousButton, true);
-          expect(viewModel.rendezvousItem, [
+          expect(viewModel.rendezvousItems, [
             RendezVousDayDivider("Samedi 12 février"),
             RendezVousCardItem("semaine prochaine 1"),
             RendezVousDayDivider("Dimanche 13 février"),
@@ -163,7 +164,7 @@ void main() {
 
       // Then
       expect(viewModel.displayState, DisplayState.EMPTY);
-      expect(viewModel.rendezvousItem.length, 0);
+      expect(viewModel.rendezvousItems.length, 0);
     });
   });
 
