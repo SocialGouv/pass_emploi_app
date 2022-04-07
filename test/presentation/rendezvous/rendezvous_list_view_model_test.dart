@@ -95,7 +95,7 @@ void main() {
           expect(viewModel.displayState, DisplayState.CONTENT);
           expect(viewModel.withNextButton, true);
           expect(viewModel.withPreviousButton, false);
-          expect(viewModel.dateLabel, "du 04/12/2021 à hier");
+          expect(viewModel.dateLabel, "depuis le 04/12/2021");
           expect(viewModel.rendezvousItems, [
             RendezVousDayDivider("janvier 2022"),
             RendezVousCardItem("passés 1"),

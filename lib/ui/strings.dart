@@ -133,8 +133,8 @@ class Strings {
   static String noRendezVousCetteSemaineTitre = "Vous n’avez pas d’autres rendez-vous prévus cette semaine.";
   static String noRendezAutreCetteSemainePrefix = "Vous n’avez pas encore de rendez-vous prévus pour la semaine du ";
   static String noRendezAvantCetteSemaine = "Vous n’avez pas encore de rendez-vous passés";
-static String rendezvousFromTo(String from) {
-  return "du $from à hier";
+static String rendezvousSinceDate(String date) {
+  return "depuis le $date";
 }
 
   static String rendezvousModalityWithConseillerDetailsMessage(String modality, String conseiller) {

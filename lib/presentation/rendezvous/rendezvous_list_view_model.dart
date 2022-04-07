@@ -82,7 +82,7 @@ String _buildDateLabel(DateTime now, int weekOffset, RendezvousState rdvState) {
     if (rdvState is! RendezvousSuccessState) return "";
     final firstRdvDate =
         rdvState.rendezvous.reduce((value, element) => value.date.isAfter(element.date) ? element : value).date;
-    return Strings.rendezvousFromTo(firstRdvDate.toDay());
+    return Strings.rendezvousSinceDate(firstRdvDate.toDay());
   } else {
     final firstDay = now.add(Duration(days: 7 * weekOffset)).toDay();
     final lastDay = now.add(Duration(days: (7 * weekOffset) + 6)).toDay();
