@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
@@ -40,6 +40,7 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
   }
 
   Widget _builder(BuildContext context, RendezvousListViewModel viewModel) {
+    MatomoTracker.trackScreenWithName(viewModel.analyticsLabel, viewModel.analyticsLabel);
     return _Scaffold(
       body: _Body(
         viewModel: viewModel,
@@ -51,7 +52,7 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
         onTap: (rdvId) => widget.pushAndTrackBack(
           context,
           RendezvousDetailsPage.materialPageRoute(rdvId),
-          AnalyticsScreenNames.rendezvousList,
+          viewModel.analyticsLabel,
         ),
       ),
     );
@@ -62,7 +63,7 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
       widget.pushAndTrackBack(
         context,
         RendezvousDetailsPage.materialPageRoute(viewModel.deeplinkRendezvousId!),
-        AnalyticsScreenNames.rendezvousList,
+        viewModel.analyticsLabel,
       );
       viewModel.onDeeplinkUsed();
     }

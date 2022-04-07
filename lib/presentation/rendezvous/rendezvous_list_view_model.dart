@@ -1,6 +1,7 @@
 import "package:collection/collection.dart";
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
@@ -23,6 +24,7 @@ class RendezvousListViewModel extends Equatable {
   final String title;
   final String dateLabel;
   final String emptyLabel;
+  final String analyticsLabel;
 
   RendezvousListViewModel({
     required this.displayState,
@@ -35,6 +37,7 @@ class RendezvousListViewModel extends Equatable {
     required this.title,
     required this.dateLabel,
     required this.emptyLabel,
+    required this.analyticsLabel,
   });
 
   factory RendezvousListViewModel.create(Store<AppState> store, DateTime now, int offset) {
@@ -52,11 +55,17 @@ class RendezvousListViewModel extends Equatable {
       withNextButton: _withNextButton(rendezvousState, now, offset),
       withPreviousButton: offset >= 0,
       emptyLabel: _emptyLabel(offset, rendezvousState, now),
+      analyticsLabel: _analyticsLabel(offset),
     );
   }
 
   @override
   List<Object?> get props => [displayState, rendezvousIds, deeplinkRendezvousId];
+}
+
+String _analyticsLabel(int offset) {
+  if (offset < 0) return AnalyticsScreenNames.rendezvousListPast;
+  return AnalyticsScreenNames.rendezvousListWeek + offset.toString();
 }
 
 DisplayState _displayState(RendezvousState state) {

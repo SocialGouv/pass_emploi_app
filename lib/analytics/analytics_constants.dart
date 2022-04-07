@@ -16,7 +16,8 @@ class AnalyticsScreenNames {
   static const createUserAction = "actions/create";
   static const chat = "chat";
 
-  static const rendezvousList = "rdv/list";
+  static const rendezvousListPast = "rdv/list-past";
+  static const rendezvousListWeek = "rdv/list-week-";
   static const rendezvousActivitesExterieures = "rdv/activites-exterieures";
   static const rendezvousAtelier = "rdv/atelier";
   static const rendezvousEntretienIndividuel = "rdv/entretien-individuel";
