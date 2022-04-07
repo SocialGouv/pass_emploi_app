@@ -41,22 +41,22 @@ class RendezvousListViewModel extends Equatable {
     required this.analyticsLabel,
   });
 
-  factory RendezvousListViewModel.create(Store<AppState> store, DateTime now, int offset) {
+  factory RendezvousListViewModel.create(Store<AppState> store, DateTime now, int weekOffset) {
     final loginState = store.state.loginState;
     final rendezvousState = store.state.rendezvousState;
-    final rendezvousItems = _rendezvousItems(rendezvousState, loginState, now, offset);
+    final rendezvousItems = _rendezvousItems(rendezvousState, loginState, now, weekOffset);
     return RendezvousListViewModel(
       displayState: _displayState(rendezvousState),
       rendezvousItems: rendezvousItems,
       deeplinkRendezvousId: _deeplinkRendezvousId(store.state.deepLinkState, rendezvousState),
       onRetry: () => store.dispatch(RendezvousRequestAction()),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
-      title: _buildTitle(offset),
-      dateLabel: _buildDateLabel(now, offset, rendezvousState),
-      withNextButton: _withNextButton(rendezvousState, now, offset),
-      withPreviousButton: offset >= 0,
-      emptyLabel: _emptyLabel(offset, rendezvousState, now),
-      analyticsLabel: _analyticsLabel(offset),
+      title: _buildTitle(weekOffset),
+      dateLabel: _buildDateLabel(now, weekOffset, rendezvousState),
+      withNextButton: _withNextButton(rendezvousState, now, weekOffset),
+      withPreviousButton: weekOffset >= 0,
+      emptyLabel: _emptyLabel(weekOffset, rendezvousState, now),
+      analyticsLabel: _analyticsLabel(weekOffset),
     );
   }
 
@@ -64,9 +64,9 @@ class RendezvousListViewModel extends Equatable {
   List<Object?> get props => [displayState, rendezvousItems, deeplinkRendezvousId];
 }
 
-String _analyticsLabel(int offset) {
-  if (offset.isInPast()) return AnalyticsScreenNames.rendezvousListPast;
-  return AnalyticsScreenNames.rendezvousListWeek + offset.toString();
+String _analyticsLabel(int weekOffset) {
+  if (weekOffset.isInPast()) return AnalyticsScreenNames.rendezvousListPast;
+  return AnalyticsScreenNames.rendezvousListWeek + weekOffset.toString();
 }
 
 DisplayState _displayState(RendezvousState state) {
@@ -77,57 +77,57 @@ DisplayState _displayState(RendezvousState state) {
   return DisplayState.FAILURE;
 }
 
-String _buildDateLabel(DateTime now, int offset, RendezvousState rdvState) {
-  if (offset.isInPast()) {
+String _buildDateLabel(DateTime now, int weekOffset, RendezvousState rdvState) {
+  if (weekOffset.isInPast()) {
     if (rdvState is! RendezvousSuccessState) return "";
     final firstRdvDate =
         rdvState.rendezvous.reduce((value, element) => value.date.isAfter(element.date) ? element : value).date;
     return Strings.rendezvousFromTo(firstRdvDate.toDay());
   } else {
-    final firstDay = now.add(Duration(days: 7 * offset)).toDay();
-    final lastDay = now.add(Duration(days: (7 * offset) + 6)).toDay();
+    final firstDay = now.add(Duration(days: 7 * weekOffset)).toDay();
+    final lastDay = now.add(Duration(days: (7 * weekOffset) + 6)).toDay();
     return "$firstDay au $lastDay";
   }
 }
 
-bool _withNextButton(RendezvousState rendezvousState, DateTime now, int offset) {
-  if (offset.isInPast()) return true;
+bool _withNextButton(RendezvousState rendezvousState, DateTime now, int weekOffset) {
+  if (weekOffset.isInPast()) return true;
   if (rendezvousState is! RendezvousSuccessState) return false;
-  final lastDay = DateUtils.dateOnly(now.add(Duration(days: (7 * offset) + 7)));
+  final lastDay = DateUtils.dateOnly(now.add(Duration(days: (7 * weekOffset) + 7)));
   return rendezvousState.rendezvous.any((element) => element.date.isAfter(lastDay));
 }
 
-String _buildTitle(int offset) {
-  if (offset.isInPast()) return Strings.rendezVousPassesTitre;
-  if (offset.isThisWeek()) return Strings.rendezVousCetteSemaineTitre;
+String _buildTitle(int weekOffset) {
+  if (weekOffset.isInPast()) return Strings.rendezVousPassesTitre;
+  if (weekOffset.isThisWeek()) return Strings.rendezVousCetteSemaineTitre;
   return Strings.rendezVousFutursTitre;
 }
 
-String _emptyLabel(int offset, RendezvousState rendezvousState, DateTime now) {
-  if (offset.isInPast()) return Strings.noRendezAvantCetteSemaine;
-  if (offset.isThisWeek()) return Strings.noRendezVousCetteSemaineTitre;
-  return Strings.noRendezAutreCetteSemainePrefix + _buildDateLabel(now, offset, rendezvousState);
+String _emptyLabel(int weekOffset, RendezvousState rendezvousState, DateTime now) {
+  if (weekOffset.isInPast()) return Strings.noRendezAvantCetteSemaine;
+  if (weekOffset.isThisWeek()) return Strings.noRendezVousCetteSemaineTitre;
+  return Strings.noRendezAutreCetteSemainePrefix + _buildDateLabel(now, weekOffset, rendezvousState);
 }
 
 List<RendezVousItem> _rendezvousItems(
-    RendezvousState rendezvousState, LoginState loginState, DateTime now, int offset) {
+    RendezvousState rendezvousState, LoginState loginState, DateTime now, int weekOffset) {
   if (rendezvousState is! RendezvousSuccessState) return [];
-  final firstDay = DateUtils.dateOnly(now.add(Duration(days: 7 * offset)));
-  final lastDay = DateUtils.dateOnly(now.add(Duration(days: (7 * offset) + 7)));
+  final firstDay = DateUtils.dateOnly(now.add(Duration(days: 7 * weekOffset)));
+  final lastDay = DateUtils.dateOnly(now.add(Duration(days: (7 * weekOffset) + 7)));
 
   final rendezvous = rendezvousState.rendezvous;
 
-  if (offset.isInPast()) {
+  if (weekOffset.isInPast()) {
     rendezvous.sortFromRecentToOldest();
   } else {
     rendezvous.sortFromRecentToFuture();
   }
 
   final filteredRendezVous = rendezvous
-      .where((element) => offset.isInPast() || element.date.isAfter(firstDay))
+      .where((element) => weekOffset.isInPast() || element.date.isAfter(firstDay))
       .where((element) => element.date.isBefore(lastDay));
   final groupByDate = filteredRendezVous.groupListsBy((element) {
-    if (offset.isInPast()) {
+    if (weekOffset.isInPast()) {
       return element.date.toFullMonthAndYear();
     } else {
       return element.date.toDayOfWeekWithFullMonthContextualized();
@@ -142,7 +142,7 @@ List<RendezVousItem> _rendezvousItems(
       .toList();
 }
 
-extension _OffsetExtension on int {
+extension _WeekOffsetExtension on int {
   bool isInPast() {
     return this < 0;
   }
