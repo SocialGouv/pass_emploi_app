@@ -73,11 +73,8 @@ void main() {
   test('create when chat state is SUCCESS and message type is NOUVEAU_CONSEILLER', () {
     // Given
     final state = AppState.initialState().copyWith(
-      chatStatusState: ChatStatusSuccessState(unreadMessageCount: 0, lastConseillerReading: DateTime(2021, 1, 2, 18)),
       chatState: ChatSuccessState(
-        [
-          Message('Jean-Paul', DateTime(2021, 1, 1, 12, 30), Sender.conseiller, MessageType.nouveauConseiller),
-        ],
+        [Message('Jean-Paul', DateTime(2021, 1, 1, 12, 30), Sender.conseiller, MessageType.nouveauConseiller)],
       ),
     );
     final store = Store<AppState>(reducer, initialState: state);
@@ -96,11 +93,8 @@ void main() {
   test('create when chat state is SUCCESS and message type is UNKNOWN', () {
     // Given
     final state = AppState.initialState().copyWith(
-      chatStatusState: ChatStatusSuccessState(unreadMessageCount: 0, lastConseillerReading: DateTime(2021, 1, 2, 18)),
       chatState: ChatSuccessState(
-        [
-          Message('Jean-Paul', DateTime(2021, 1, 1, 12, 30), Sender.conseiller, MessageType.unknown),
-        ],
+        [Message('Jean-Paul', DateTime(2021, 1, 1, 12, 30), Sender.conseiller, MessageType.unknown)],
       ),
     );
     final store = Store<AppState>(reducer, initialState: state);
