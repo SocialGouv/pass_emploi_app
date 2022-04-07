@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
+import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -64,7 +65,7 @@ class RendezvousListViewModel extends Equatable {
 }
 
 String _analyticsLabel(int offset) {
-  if (offset < 0) return AnalyticsScreenNames.rendezvousListPast;
+  if (offset.isInPast()) return AnalyticsScreenNames.rendezvousListPast;
   return AnalyticsScreenNames.rendezvousListWeek + offset.toString();
 }
 
@@ -77,7 +78,7 @@ DisplayState _displayState(RendezvousState state) {
 }
 
 String _buildDateLabel(DateTime now, int offset, RendezvousState rdvState) {
-  if (offset < 0) {
+  if (offset.isInPast()) {
     if (rdvState is! RendezvousSuccessState) return "";
     final firstRdvDate =
         rdvState.rendezvous.reduce((value, element) => value.date.isAfter(element.date) ? element : value).date;
@@ -90,21 +91,21 @@ String _buildDateLabel(DateTime now, int offset, RendezvousState rdvState) {
 }
 
 bool _withNextButton(RendezvousState rendezvousState, DateTime now, int offset) {
-  if (offset < 0) return true;
+  if (offset.isInPast()) return true;
   if (rendezvousState is! RendezvousSuccessState) return false;
   final lastDay = DateUtils.dateOnly(now.add(Duration(days: (7 * offset) + 7)));
   return rendezvousState.rendezvous.any((element) => element.date.isAfter(lastDay));
 }
 
 String _buildTitle(int offset) {
-  if (offset < 0) return Strings.rendezVousPassesTitre;
-  if (offset == 0) return Strings.rendezVousCetteSemaineTitre;
+  if (offset.isInPast()) return Strings.rendezVousPassesTitre;
+  if (offset.isThisWeek()) return Strings.rendezVousCetteSemaineTitre;
   return Strings.rendezVousFutursTitre;
 }
 
 String _emptyLabel(int offset, RendezvousState rendezvousState, DateTime now) {
-  if (offset < 0) return Strings.noRendezAvantCetteSemaine;
-  if (offset == 0) return Strings.noRendezVousCetteSemaineTitre;
+  if (offset.isInPast()) return Strings.noRendezAvantCetteSemaine;
+  if (offset.isThisWeek()) return Strings.noRendezVousCetteSemaineTitre;
   return Strings.noRendezAutreCetteSemainePrefix + _buildDateLabel(now, offset, rendezvousState);
 }
 
@@ -116,17 +117,17 @@ List<RendezVousItem> _rendezvousItems(
 
   final rendezvous = rendezvousState.rendezvous;
 
-  if (offset >= 0) {
-    rendezvous.sort((a, b) => a.date.compareTo(b.date));
+  if (offset.isInPast()) {
+    rendezvous.sortFromRecentToOldest();
   } else {
-    rendezvous.sort((a, b) => b.date.compareTo(a.date));
+    rendezvous.sortFromRecentToFuture();
   }
 
   final filteredRendezVous = rendezvous
-      .where((element) => offset < 0 || element.date.isAfter(firstDay))
+      .where((element) => offset.isInPast() || element.date.isAfter(firstDay))
       .where((element) => element.date.isBefore(lastDay));
   final groupByDate = filteredRendezVous.groupListsBy((element) {
-    if (offset < 0) {
+    if (offset.isInPast()) {
       return element.date.toFullMonthAndYear();
     } else {
       return element.date.toDayOfWeekWithFullMonthContextualized();
@@ -139,6 +140,26 @@ List<RendezVousItem> _rendezvousItems(
           ])
       .flattened
       .toList();
+}
+
+extension _OffsetExtension on int {
+  bool isInPast() {
+    return this < 0;
+  }
+
+  bool isThisWeek() {
+    return this == 0;
+  }
+}
+
+extension _RendezvousListExtension on List<Rendezvous> {
+  void sortFromRecentToOldest() {
+    sort((a, b) => b.date.compareTo(a.date));
+  }
+
+  void sortFromRecentToFuture() {
+    sort((a, b) => a.date.compareTo(b.date));
+  }
 }
 
 String? _deeplinkRendezvousId(DeepLinkState state, RendezvousState rendezVousState) {
