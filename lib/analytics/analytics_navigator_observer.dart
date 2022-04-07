@@ -37,7 +37,7 @@ class AnalyticsNavigatorObserver extends NavigatorObserver {
         Log.i("[ANALYTICS] untracked - $routeScreenName");
       }
     } else {
-      Log.w("[ANALYTICS] screen name was null");
+      Log.i("[ANALYTICS] screen name was null");
     }
   }
 }
