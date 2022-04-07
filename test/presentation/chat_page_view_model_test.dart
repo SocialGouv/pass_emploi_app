@@ -113,7 +113,9 @@ void main() {
     expect(viewModel.items, [
       DayItem("Le 01/01/2021"),
       InformationItem(
-          "Le message est incassessible", "Pour avoir l'accès au contenu veuillez mettre à jour l'application"),
+        "Le message est incassessible",
+        "Pour avoir l'accès au contenu veuillez mettre à jour l'application",
+      ),
     ]);
   });
 }

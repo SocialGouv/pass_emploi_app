@@ -52,20 +52,26 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
       return DayItem(element);
     } else {
       final message = element as Message;
-      if (message.type != MessageType.message) {
-        return message.type == MessageType.nouveauConseiller
-            ? InformationItem(Strings.newAdvisorTitle, Strings.newAdvisorDescription)
-            : InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
-      }
-      final hourLabel = message.creationDate.toHour();
-      if (message.sentBy == Sender.jeune) {
-        final redState = lastConseillerReading.isAfter(message.creationDate) ? Strings.read : Strings.sent;
-        return JeuneMessageItem(content: message.content, caption: "$hourLabel · $redState");
-      } else {
-        return ConseillerMessageItem(content: message.content, caption: hourLabel);
+      switch (message.type) {
+        case MessageType.message:
+          return _buildMessageItem(message, lastConseillerReading);
+        case MessageType.nouveauConseiller:
+          return InformationItem(Strings.newAdvisorTitle, Strings.newAdvisorDescription);
+        case MessageType.unknown:
+          return InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
       }
     }
   }).toList();
+}
+
+MessageItem _buildMessageItem(Message message, DateTime lastConseillerReading) {
+  final hourLabel = message.creationDate.toHour();
+  if (message.sentBy == Sender.jeune) {
+    final redState = lastConseillerReading.isAfter(message.creationDate) ? Strings.read : Strings.sent;
+    return JeuneMessageItem(content: message.content, caption: "$hourLabel · $redState");
+  } else {
+    return ConseillerMessageItem(content: message.content, caption: hourLabel);
+  }
 }
 
 List<dynamic> _messagesWithDaySections(List<Message> messages) {
