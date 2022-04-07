@@ -15,7 +15,7 @@ import 'package:redux/redux.dart';
 
 class RendezvousListViewModel extends Equatable {
   final DisplayState displayState;
-  final List<RendezVousItem> rendezvousIds;
+  final List<RendezVousItem> rendezvousItem;
   final String? deeplinkRendezvousId;
   final Function() onRetry;
   final Function() onDeeplinkUsed;
@@ -28,7 +28,7 @@ class RendezvousListViewModel extends Equatable {
 
   RendezvousListViewModel({
     required this.displayState,
-    required this.rendezvousIds,
+    required this.rendezvousItem,
     required this.deeplinkRendezvousId,
     required this.onRetry,
     required this.onDeeplinkUsed,
@@ -43,10 +43,10 @@ class RendezvousListViewModel extends Equatable {
   factory RendezvousListViewModel.create(Store<AppState> store, DateTime now, int offset) {
     final loginState = store.state.loginState;
     final rendezvousState = store.state.rendezvousState;
-    final rendezvousIds = _rendezvousIds(rendezvousState, loginState, now, offset);
+    final rendezvousIds = _rendezvousItems(rendezvousState, loginState, now, offset);
     return RendezvousListViewModel(
       displayState: _displayState(rendezvousState),
-      rendezvousIds: rendezvousIds,
+      rendezvousItem: rendezvousIds,
       deeplinkRendezvousId: _deeplinkRendezvousId(store.state.deepLinkState, rendezvousState),
       onRetry: () => store.dispatch(RendezvousRequestAction()),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
@@ -60,7 +60,7 @@ class RendezvousListViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [displayState, rendezvousIds, deeplinkRendezvousId];
+  List<Object?> get props => [displayState, rendezvousItem, deeplinkRendezvousId];
 }
 
 String _analyticsLabel(int offset) {
@@ -78,7 +78,7 @@ DisplayState _displayState(RendezvousState state) {
 
 String _buildDateLabel(DateTime now, int offset) {
   if (offset < 0) {
-    return "du 01/01/2022 à hier";
+    return "du 01/01/2022 à hier"; // TODO demander à aurélie ce qu'il faut mettre
   } else {
     final firstDay = now.add(Duration(days: 7 * offset)).toDay();
     final lastDay = now.add(Duration(days: (7 * offset) + 6)).toDay();
@@ -105,7 +105,8 @@ String _emptyLabel(int offset, RendezvousState rendezvousState, DateTime now) {
   return Strings.noRendezAutreCetteSemainePrefix + _buildDateLabel(now, offset);
 }
 
-List<RendezVousItem> _rendezvousIds(RendezvousState rendezvousState, LoginState loginState, DateTime now, int offset) {
+List<RendezVousItem> _rendezvousItems(
+    RendezvousState rendezvousState, LoginState loginState, DateTime now, int offset) {
   if (rendezvousState is! RendezvousSuccessState) return [];
   final firstDay = DateUtils.dateOnly(now.add(Duration(days: 7 * offset)));
   final lastDay = DateUtils.dateOnly(now.add(Duration(days: (7 * offset) + 7)));
@@ -143,12 +144,15 @@ String? _deeplinkRendezvousId(DeepLinkState state, RendezvousState rendezVousSta
   return (state.deepLink == DeepLink.ROUTE_TO_RENDEZVOUS && rdvIds.contains(state.dataId)) ? state.dataId : null;
 }
 
-class RendezVousItem extends Equatable {
-  final bool isRendezVous;
+abstract class RendezVousItem extends Equatable {}
+
+class RendezVousCardItem extends RendezVousItem {
   final String id;
 
-  RendezVousItem(this.isRendezVous, this.id);
+  RendezVousCardItem(this.id);
 
   @override
-  List<Object?> get props => [isRendezVous, id];
+  List<Object?> get props => [id];
 }
+
+class RendezVousDayDivider extends RendezVousItem {}

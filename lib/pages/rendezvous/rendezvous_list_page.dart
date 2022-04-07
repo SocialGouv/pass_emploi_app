@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
+import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_list_view_model.dart';
@@ -30,7 +31,7 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RendezvousListViewModel>(
       onInit: (store) {
-        if (_offset == 0) store.dispatch(RendezvousRequestAction());
+        if (store.state.rendezvousState is! RendezvousSuccessState) store.dispatch(RendezvousRequestAction());
       },
       converter: (store) => RendezvousListViewModel.create(store, DateTime.now(), _offset),
       builder: _builder,
@@ -126,15 +127,15 @@ class _Content extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _DateHeader(viewModel: viewModel, onOffsetChanged: onOffsetChanged),
-        if (viewModel.rendezvousIds.isEmpty) _EmptyWeek(viewModel.emptyLabel),
-        if (viewModel.rendezvousIds.isNotEmpty)
+        if (viewModel.rendezvousItem.isEmpty) _EmptyWeek(viewModel.emptyLabel),
+        if (viewModel.rendezvousItem.isNotEmpty)
           Expanded(
             child: ListView.separated(
-              itemCount: viewModel.rendezvousIds.length,
+              itemCount: viewModel.rendezvousItem.length,
               padding: const EdgeInsets.all(Margins.spacing_s),
               separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
               itemBuilder: (context, index) {
-                final rdvId = viewModel.rendezvousIds[index];
+                final rdvId = viewModel.rendezvousItem[index];
                 if (rdvId.isRendezVous) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),

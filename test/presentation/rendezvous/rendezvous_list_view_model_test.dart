@@ -62,6 +62,7 @@ void main() {
           mockRendezvous(id: 'passés 1', date: DateTime(2022, 1, 4, 4, 5, 30)),
           mockRendezvous(id: 'passés 2', date: DateTime(2021, 12, 4, 4, 5, 30)),
           mockRendezvous(id: 'cette semaine 1', date: DateTime(2022, 2, 4, 4, 5, 30)),
+          mockRendezvous(id: 'cette semaine 3', date: DateTime(2022, 2, 4, 2, 5, 30)),
           mockRendezvous(id: 'cette semaine 2', date: DateTime(2022, 2, 5, 4, 5, 30)),
           mockRendezvous(id: 'semaine prochaine 1', date: DateTime(2022, 2, 12, 4, 5, 30)),
           mockRendezvous(id: 'semaine prochaine 2', date: DateTime(2022, 2, 13, 4, 5, 30)),
@@ -76,10 +77,11 @@ void main() {
           expect(viewModel.displayState, DisplayState.CONTENT);
           expect(viewModel.withNextButton, true);
           expect(viewModel.withPreviousButton, true);
-          expect(viewModel.rendezvousIds, [
-            RendezVousItem(false, "Vendredi 04 février"),
+          expect(viewModel.rendezvousItem, [
+            RendezVousItem(false, "Vendredi 4 février"),
+            RendezVousItem(true, "cette semaine 3"),
             RendezVousItem(true, "cette semaine 1"),
-            RendezVousItem(false, "Samedi 05 février"),
+            RendezVousItem(false, "Samedi 5 février"),
             RendezVousItem(true, "cette semaine 2"),
           ]);
         });
@@ -93,7 +95,7 @@ void main() {
           expect(viewModel.displayState, DisplayState.CONTENT);
           expect(viewModel.withNextButton, true);
           expect(viewModel.withPreviousButton, false);
-          expect(viewModel.rendezvousIds, [
+          expect(viewModel.rendezvousItem, [
             RendezVousItem(false, "janvier 2022"),
             RendezVousItem(true, "passés 1"),
             RendezVousItem(false, "décembre 2021"),
@@ -110,7 +112,7 @@ void main() {
           expect(viewModel.displayState, DisplayState.CONTENT);
           expect(viewModel.withNextButton, false);
           expect(viewModel.withPreviousButton, true);
-          expect(viewModel.rendezvousIds, [
+          expect(viewModel.rendezvousItem, [
             RendezVousItem(false, "Samedi 12 février"),
             RendezVousItem(true, "semaine prochaine 1"),
             RendezVousItem(false, "Dimanche 13 février"),
@@ -161,7 +163,7 @@ void main() {
 
       // Then
       expect(viewModel.displayState, DisplayState.EMPTY);
-      expect(viewModel.rendezvousIds.length, 0);
+      expect(viewModel.rendezvousItem.length, 0);
     });
   });
 

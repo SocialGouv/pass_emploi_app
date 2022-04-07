@@ -24,7 +24,7 @@ extension DateExtensions on DateTime {
     if (isTomorrow()) return "Demain";
     if (isToday()) return "Aujourd'hui";
     initializeDateFormatting();
-    return DateFormat('EEEE dd MMMM', 'fr').format(this).firstLetterUpperCased();
+    return DateFormat('EEEE d MMMM', 'fr').format(this).firstLetterUpperCased();
   }
 
   String toFullMonthAndYear() {
