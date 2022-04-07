@@ -19,6 +19,14 @@ class ServiceCiviqueFavorisRepository extends FavorisRepository<ServiceCivique> 
   ServiceCiviqueFavorisRepository(this._baseUrl, this._httpClient, this._headersBuilder, this._cacheManager,
       [this._crashlytics]);
 
+  static Uri getFavorisIdUri({required String baseUrl, required String userId}) {
+    return Uri.parse(baseUrl + "/jeunes/$userId/favoris/services-civique");
+  }
+
+  static Uri getFavorisUri({required String baseUrl, required String userId}) {
+    return getFavorisIdUri(baseUrl: baseUrl, userId: userId).replace(queryParameters: {"detail": "true"});
+  }
+
   @override
   Future<bool> deleteFavori(String userId, String favoriId) async {
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris/services-civique/$favoriId");
@@ -39,8 +47,7 @@ class ServiceCiviqueFavorisRepository extends FavorisRepository<ServiceCivique> 
 
   @override
   Future<Map<String, ServiceCivique>?> getFavoris(String userId) async {
-    final url =
-    Uri.parse(_baseUrl + "/jeunes/$userId/favoris/services-civique").replace(queryParameters: {"detail": "true"});
+    final url = getFavorisUri(baseUrl: _baseUrl, userId: userId);
     try {
       final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
       if (response.statusCode.isValid()) {
@@ -55,7 +62,7 @@ class ServiceCiviqueFavorisRepository extends FavorisRepository<ServiceCivique> 
 
   @override
   Future<Set<String>?> getFavorisId(String userId) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris/services-civique");
+    final url = getFavorisIdUri(baseUrl: _baseUrl, userId: userId);
     try {
       final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
 

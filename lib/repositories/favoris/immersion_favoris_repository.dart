@@ -19,9 +19,17 @@ class ImmersionFavorisRepository extends FavorisRepository<Immersion> {
   ImmersionFavorisRepository(this._baseUrl, this._httpClient, this._headersBuilder, this._cacheManager,
       [this._crashlytics]);
 
+  static Uri getFavorisIdUri({required String baseUrl, required String userId}) {
+    return Uri.parse(baseUrl + "/jeunes/$userId/favoris/offres-immersion");
+  }
+
+  static Uri getFavorisUri({required String baseUrl, required String userId}) {
+    return getFavorisIdUri(baseUrl: baseUrl, userId: userId).replace(queryParameters: {"detail": "true"});
+  }
+
   @override
   Future<Set<String>?> getFavorisId(String userId) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-immersion");
+    final url = getFavorisIdUri(baseUrl: _baseUrl, userId: userId);
     try {
       final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
 
@@ -37,8 +45,7 @@ class ImmersionFavorisRepository extends FavorisRepository<Immersion> {
 
   @override
   Future<Map<String, Immersion>?> getFavoris(String userId) async {
-    final url =
-    Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-immersion").replace(queryParameters: {"detail": "true"});
+    final url = getFavorisUri(baseUrl: _baseUrl, userId: userId);;
     try {
       final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
       if (response.statusCode.isValid()) {
