@@ -114,6 +114,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
               } else if (item is MessageItem) {
                 return ChatMessageWidget(item);
               } else {
+                //TODO gerer l'affichage de nouveau type de msg
                 return Container();
               }
             }).toList(),

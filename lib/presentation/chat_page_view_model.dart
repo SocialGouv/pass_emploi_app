@@ -11,6 +11,8 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
 
+//TODO US-508 create tests
+
 class ChatPageViewModel extends Equatable {
   final String title;
   final DisplayState displayState;

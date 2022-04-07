@@ -4,13 +4,15 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 
 enum Sender { jeune, conseiller }
+enum MessageType { message, nouveauConseiller, unknown }
 
 class Message extends Equatable {
   final String content;
   final DateTime creationDate;
   final Sender sentBy;
+  final MessageType type;
 
-  Message(this.content, this.creationDate, this.sentBy);
+  Message(this.content, this.creationDate, this.sentBy, this.type);
 
   static Message? fromJson(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
     final creationDateValue = json['creationDate'];
@@ -21,6 +23,7 @@ class Message extends Equatable {
       content,
       creationDate,
       json['sentBy'] as String == 'jeune' ? Sender.jeune : Sender.conseiller,
+      _type(json),
     );
   }
 
@@ -41,6 +44,19 @@ class Message extends Equatable {
     }
   }
 
+  static MessageType _type(dynamic json) {
+    final type = json["type"] as String?;
+    switch (type) {
+      case "NOUVEAU_CONSEILLER":
+        return MessageType.nouveauConseiller;
+      case "MESSAGE":
+      case null:
+        return MessageType.message;
+      default:
+        return MessageType.unknown;
+    }
+  }
+
   @override
-  List<Object?> get props => [content, creationDate, sentBy];
+  List<Object?> get props => [content, creationDate, sentBy, type];
 }

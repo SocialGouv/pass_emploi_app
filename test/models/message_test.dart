@@ -25,7 +25,71 @@ void main() {
     // Then
     expect(chatCryptoSpy.content, "qsldmkjqslmdj");
     expect(chatCryptoSpy.iv, "ivvv");
-    expect(message, Message("toto", DateTime(2021, 7, 30, 9, 43, 9), Sender.jeune));
+    expect(message, Message("toto", DateTime(2021, 7, 30, 9, 43, 9), Sender.jeune, MessageType.message));
+  });
+
+  test("toJson when message typed as MESSAGE", () {
+    // Given
+    final chatCryptoSpy = _ChatCryptoSpy();
+
+    // When
+    final message = Message.fromJson(
+      {
+        "content": "qsldmkjqslmdj",
+        "creationDate": Timestamp.fromDate(DateTime(2021, 7, 30, 9, 43, 9)),
+        "iv": "ivvv",
+        "sentBy": "jeune",
+        "type": "MESSAGE"
+      },
+      chatCryptoSpy,
+      DummyCrashlytics(),
+    );
+
+    // Then
+    expect(message!.type, MessageType.message);
+  });
+
+  test("toJson when message typed as NOUVEAU_CONSEILLER", () {
+    // Given
+    final chatCryptoSpy = _ChatCryptoSpy();
+
+    // When
+    final message = Message.fromJson(
+      {
+        "content": "qsldmkjqslmdj",
+        "creationDate": Timestamp.fromDate(DateTime(2021, 7, 30, 9, 43, 9)),
+        "iv": "ivvv",
+        "sentBy": "jeune",
+        "type": "NOUVEAU_CONSEILLER"
+      },
+      chatCryptoSpy,
+      DummyCrashlytics(),
+    );
+
+    // Then
+    expect(message!.type, MessageType.nouveauConseiller);
+  });
+
+
+  test("toJson when message type is unknown", () {
+    // Given
+    final chatCryptoSpy = _ChatCryptoSpy();
+
+    // When
+    final message = Message.fromJson(
+      {
+        "content": "qsldmkjqslmdj",
+        "creationDate": Timestamp.fromDate(DateTime(2021, 7, 30, 9, 43, 9)),
+        "iv": "ivvv",
+        "sentBy": "jeune",
+        "type": "PIECE_JOINTE"
+      },
+      chatCryptoSpy,
+      DummyCrashlytics(),
+    );
+
+    // Then
+    expect(message!.type, MessageType.unknown);
   });
 
   test("toJson when message has no iv should return null", () {
