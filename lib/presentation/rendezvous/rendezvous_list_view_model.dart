@@ -131,8 +131,8 @@ List<RendezVousItem> _rendezvousItems(
   });
   return groupByDate.keys
       .map((date) => [
-            RendezVousItem(false, date),
-            ...groupByDate[date]!.map((e) => RendezVousItem(true, e.id)).toList(),
+            RendezVousDayDivider(date),
+            ...groupByDate[date]!.map((e) => RendezVousCardItem(e.id)).toList(),
           ])
       .flattened
       .toList();
@@ -155,4 +155,11 @@ class RendezVousCardItem extends RendezVousItem {
   List<Object?> get props => [id];
 }
 
-class RendezVousDayDivider extends RendezVousItem {}
+class RendezVousDayDivider extends RendezVousItem {
+  final String label;
+
+  RendezVousDayDivider(this.label);
+
+  @override
+  List<Object?> get props => [label];
+}

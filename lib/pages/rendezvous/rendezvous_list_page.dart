@@ -135,14 +135,15 @@ class _Content extends StatelessWidget {
               padding: const EdgeInsets.all(Margins.spacing_s),
               separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
               itemBuilder: (context, index) {
-                final rdvId = viewModel.rendezvousItem[index];
-                if (rdvId.isRendezVous) {
+                final rdvItem = viewModel.rendezvousItem[index];
+                if (rdvItem is RendezVousCardItem) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: RendezvousCard(rendezvousId: rdvId.id, onTap: () => onTap(rdvId.id)),
+                    child: RendezvousCard(rendezvousId: rdvItem.id, onTap: () => onTap(rdvItem.id)),
                   );
                 }
-                return _DayDivider(rdvId.id);
+                if (rdvItem is RendezVousDayDivider) return _DayDivider(rdvItem.label);
+                return Container();
               },
             ),
           ),

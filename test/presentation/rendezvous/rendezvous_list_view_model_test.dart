@@ -78,11 +78,11 @@ void main() {
           expect(viewModel.withNextButton, true);
           expect(viewModel.withPreviousButton, true);
           expect(viewModel.rendezvousItem, [
-            RendezVousItem(false, "Vendredi 4 février"),
-            RendezVousItem(true, "cette semaine 3"),
-            RendezVousItem(true, "cette semaine 1"),
-            RendezVousItem(false, "Samedi 5 février"),
-            RendezVousItem(true, "cette semaine 2"),
+            RendezVousDayDivider("Vendredi 4 février"),
+            RendezVousCardItem("cette semaine 3"),
+            RendezVousCardItem("cette semaine 1"),
+            RendezVousDayDivider("Samedi 5 février"),
+            RendezVousCardItem("cette semaine 2"),
           ]);
         });
 
@@ -96,10 +96,10 @@ void main() {
           expect(viewModel.withNextButton, true);
           expect(viewModel.withPreviousButton, false);
           expect(viewModel.rendezvousItem, [
-            RendezVousItem(false, "janvier 2022"),
-            RendezVousItem(true, "passés 1"),
-            RendezVousItem(false, "décembre 2021"),
-            RendezVousItem(true, "passés 2"),
+            RendezVousDayDivider("janvier 2022"),
+            RendezVousCardItem("passés 1"),
+            RendezVousDayDivider("décembre 2021"),
+            RendezVousCardItem("passés 2"),
           ]);
         });
 
@@ -113,10 +113,10 @@ void main() {
           expect(viewModel.withNextButton, false);
           expect(viewModel.withPreviousButton, true);
           expect(viewModel.rendezvousItem, [
-            RendezVousItem(false, "Samedi 12 février"),
-            RendezVousItem(true, "semaine prochaine 1"),
-            RendezVousItem(false, "Dimanche 13 février"),
-            RendezVousItem(true, "semaine prochaine 2"),
+            RendezVousDayDivider("Samedi 12 février"),
+            RendezVousCardItem("semaine prochaine 1"),
+            RendezVousDayDivider("Dimanche 13 février"),
+            RendezVousCardItem("semaine prochaine 2"),
           ]);
         });
       });
