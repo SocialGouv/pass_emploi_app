@@ -56,7 +56,7 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
         case MessageType.message:
           return _buildMessageItem(message, lastConseillerReading);
         case MessageType.nouveauConseiller:
-          return InformationItem(Strings.newAdvisorTitle, Strings.newAdvisorDescription);
+          return InformationItem(Strings.newConseillerTitle, Strings.newConseillerDescription);
         case MessageType.unknown:
           return InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
       }

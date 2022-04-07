@@ -45,15 +45,20 @@ class Message extends Equatable {
   }
 
   static MessageType _type(dynamic json) {
-    final type = json["type"] as String?;
-    switch (type) {
-      case "NOUVEAU_CONSEILLER":
-        return MessageType.nouveauConseiller;
-      case "MESSAGE":
-      case null:
-        return MessageType.message;
-      default:
-        return MessageType.unknown;
+    // We MUST try-catch the retrieval of type attribute.
+    // Because Firebase object throws a StateError when attempting to get an absent value.
+    try {
+      final type = json['type'] as String;
+      switch (type) {
+        case "MESSAGE":
+          return MessageType.message;
+        case "NOUVEAU_CONSEILLER":
+          return MessageType.nouveauConseiller;
+        default:
+          return MessageType.unknown;
+      }
+    } catch (e) {
+      return MessageType.message;
     }
   }
 
