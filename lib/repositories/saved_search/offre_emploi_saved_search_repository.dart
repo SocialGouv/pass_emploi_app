@@ -1,7 +1,7 @@
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
+import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/post_saved_search/post_offre_emploi_saved_search.dart';
@@ -12,7 +12,7 @@ class OffreEmploiSavedSearchRepository extends SavedSearchRepository<OffreEmploi
   final String _baseUrl;
   final Client _httpClient;
   final HeadersBuilder _headersBuilder;
-  final CacheManager _cacheManager;
+  final PassEmploiCacheManager _cacheManager;
   final Crashlytics? _crashlytics;
 
   OffreEmploiSavedSearchRepository(this._baseUrl, this._httpClient, this._headersBuilder, this._cacheManager,
@@ -40,7 +40,7 @@ class OffreEmploiSavedSearchRepository extends SavedSearchRepository<OffreEmploi
         ),
       );
       if (response.statusCode.isValid()) {
-        _cacheManager.removeFile(_baseUrl + "/jeunes/" + userId + "/recherches");
+        _cacheManager.removeRessource(CachedRessource.SAVED_SEARCH, userId, _baseUrl);
         return true;
       }
     } catch (e, stack) {

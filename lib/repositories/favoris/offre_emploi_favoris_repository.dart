@@ -1,7 +1,7 @@
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
+import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
@@ -13,7 +13,7 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
   final String _baseUrl;
   final Client _httpClient;
   final HeadersBuilder _headersBuilder;
-  final CacheManager _cacheManager;
+  final PassEmploiCacheManager _cacheManager;
   final Crashlytics? _crashlytics;
 
   OffreEmploiFavorisRepository(this._baseUrl, this._httpClient, this._headersBuilder, this._cacheManager,
@@ -71,8 +71,7 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
         ),
       );
       if (response.statusCode.isValid() || response.statusCode == 409) {
-        _cacheManager.removeFile(_baseUrl + "/jeunes/$userId/favoris/offres-emploi?detail=true");
-        _cacheManager.removeFile(_baseUrl + "/jeunes/$userId/favoris/offres-emploi?detail=false");
+        _cacheManager.removeRessource(CachedRessource.OFFRE_EMPLOI_FAVORIS, userId, _baseUrl);
         return true;
       }
     } catch (e, stack) {
@@ -90,8 +89,7 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
         headers: await _headersBuilder.headers(),
       );
       if (response.statusCode.isValid() || response.statusCode == 404) {
-        _cacheManager.removeFile(_baseUrl + "/jeunes/$userId/favoris/offres-emploi?detail=true");
-        _cacheManager.removeFile(_baseUrl + "/jeunes/$userId/favoris/offres-emploi?detail=false");
+        _cacheManager.removeRessource(CachedRessource.OFFRE_EMPLOI_FAVORIS, userId, _baseUrl);
         return true;
       }
     } catch (e, stack) {

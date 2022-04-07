@@ -1,7 +1,7 @@
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
+import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
@@ -13,7 +13,7 @@ class ImmersionFavorisRepository extends FavorisRepository<Immersion> {
   final String _baseUrl;
   final Client _httpClient;
   final HeadersBuilder _headersBuilder;
-  final CacheManager _cacheManager;
+  final PassEmploiCacheManager _cacheManager;
   final Crashlytics? _crashlytics;
 
   ImmersionFavorisRepository(this._baseUrl, this._httpClient, this._headersBuilder, this._cacheManager,
@@ -69,8 +69,7 @@ class ImmersionFavorisRepository extends FavorisRepository<Immersion> {
         ),
       );
       if (response.statusCode.isValid() || response.statusCode == 409) {
-        _cacheManager.removeFile(_baseUrl + "/jeunes/$userId/favoris/offres-immersion?detail=true");
-        _cacheManager.removeFile(_baseUrl + "/jeunes/$userId/favoris/offres-immersion?detail=false");
+        _cacheManager.removeRessource(CachedRessource.IMMERSION_FAVORIS, userId, _baseUrl);
         return true;
       }
     } catch (e, stack) {
@@ -88,8 +87,7 @@ class ImmersionFavorisRepository extends FavorisRepository<Immersion> {
         headers: await _headersBuilder.headers(),
       );
       if (response.statusCode.isValid() || response.statusCode == 404) {
-        _cacheManager.removeFile(_baseUrl + "/jeunes/$userId/favoris/offres-immersion?detail=true");
-        _cacheManager.removeFile(_baseUrl + "/jeunes/$userId/favoris/offres-immersion?detail=false");
+        _cacheManager.removeRessource(CachedRessource.IMMERSION_FAVORIS, userId, _baseUrl);
         return true;
       }
     } catch (e, stack) {

@@ -43,9 +43,6 @@ class UserActionRepository {
         headers: await _headerBuilder.headers(userId: userId, contentType: 'application/json'),
         body: customJsonEncode(PutUserActionRequest(status: newStatus)),
       );
-      if (response.statusCode.isValid()) {
-        _cacheManager.removeFile(_baseUrl + "/jeunes/$userId/actions");
-      }
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);
     }
@@ -60,7 +57,6 @@ class UserActionRepository {
         body: customJsonEncode(PostUserActionRequest(content: content!, comment: comment, status: status)),
       );
       if (response.statusCode.isValid()) {
-        _cacheManager.removeFile(_baseUrl + "/jeunes/$userId/actions");
         return true;
       }
     } catch (e, stack) {
@@ -74,7 +70,6 @@ class UserActionRepository {
     try {
       final response = await _httpClient.delete(url, headers: await _headerBuilder.headers());
       if (response.statusCode.isValid()) {
-        _cacheManager.removeFile(_baseUrl + "/jeunes/$userId/actions");
         return true;
       }
     } catch (e, stack) {

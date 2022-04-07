@@ -1,7 +1,7 @@
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
+import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/json_serializable.dart';
@@ -13,7 +13,7 @@ class ServiceCiviqueFavorisRepository extends FavorisRepository<ServiceCivique> 
   final String _baseUrl;
   final Client _httpClient;
   final HeadersBuilder _headersBuilder;
-  final CacheManager _cacheManager;
+  final PassEmploiCacheManager _cacheManager;
   final Crashlytics? _crashlytics;
 
   ServiceCiviqueFavorisRepository(this._baseUrl, this._httpClient, this._headersBuilder, this._cacheManager,
@@ -28,8 +28,7 @@ class ServiceCiviqueFavorisRepository extends FavorisRepository<ServiceCivique> 
         headers: await _headersBuilder.headers(),
       );
       if (response.statusCode.isValid() || response.statusCode == 404) {
-        _cacheManager.removeFile(_baseUrl + "/jeunes/$userId/favoris/services-civique?detail=false");
-        _cacheManager.removeFile(_baseUrl + "/jeunes/$userId/favoris/services-civique?detail=true");
+        _cacheManager.removeRessource(CachedRessource.SERVICE_CIVIQUE_FAVORIS, userId, _baseUrl);
         return true;
       }
     } catch (e, stack) {
@@ -88,8 +87,7 @@ class ServiceCiviqueFavorisRepository extends FavorisRepository<ServiceCivique> 
         ),
       );
       if (response.statusCode.isValid() || response.statusCode == 409) {
-        _cacheManager.removeFile(_baseUrl + "/jeunes/$userId/favoris/services-civique?detail=false");
-        _cacheManager.removeFile(_baseUrl + "/jeunes/$userId/favoris/services-civique?detail=true");
+        _cacheManager.removeRessource(CachedRessource.SERVICE_CIVIQUE_FAVORIS, userId, _baseUrl);
         return true;
       }
     } catch (e, stack) {

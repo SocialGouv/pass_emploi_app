@@ -23,9 +23,9 @@ import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/configuration/app_version_checker.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
-import 'package:pass_emploi_app/network/interceptors/access_token_interceptor.dart';
 import 'package:pass_emploi_app/network/cache_interceptor.dart';
 import 'package:pass_emploi_app/network/headers.dart';
+import 'package:pass_emploi_app/network/interceptors/access_token_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logging_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logout_interceptor.dart';
 import 'package:pass_emploi_app/pages/force_update_page.dart';
@@ -35,6 +35,7 @@ import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/pole_emploi/pole_emploi_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/pole_emploi/pole_emploi_token_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
@@ -45,7 +46,6 @@ import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_reposi
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
-import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
@@ -182,7 +182,7 @@ class AppInitializer {
       TrackingEventRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       OffreEmploiSavedSearchRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
       ImmersionSavedSearchRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
-      ServiceCiviqueSavedSearchRepository(baseUrl, httpClient, headersBuilder, crashlytics),
+      ServiceCiviqueSavedSearchRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
       GetSavedSearchRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       SavedSearchDeleteRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
       ServiceCiviqueRepository(baseUrl, httpClient, headersBuilder, crashlytics),

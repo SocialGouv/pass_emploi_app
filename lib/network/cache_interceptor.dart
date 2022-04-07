@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
-import 'package:pass_emploi_app/utils/log.dart';
 
 class HttpClientWithCache extends BaseClient {
   final PassEmploiCacheManager cacheManager;
@@ -58,18 +57,22 @@ class HttpClientWithCache extends BaseClient {
 
   @override
   Future<StreamedResponse> send(BaseRequest request) async {
-    if (request.method == "GET") {
-      String url = request.url.toString();
-      final fileFromCache = await cacheManager.getFileFromCache(url);
+    final stringUrl = request.url.toString();
+    if (request.method == "GET" && stringUrl.isWhitelisted()) {
+      final fileFromCache = await cacheManager.getFileFromCache(stringUrl);
       if (fileFromCache != null && await fileFromCache.file.exists()) {
-        Log.i("Bonjour, je n'ai pas fait d'appel réseau");
         return StreamedResponse(fileFromCache.file.openRead(), 200);
       } else {
-        Log.i("Bonjour, j'ai fait un appel réseau");
-        final response = await cacheManager.getSingleFile(url, headers: request.headers);
+        final response = await cacheManager.getSingleFile(stringUrl, headers: request.headers);
         return StreamedResponse(response.openRead(), 200);
       }
     }
     return httpClient.send(request);
+  }
+}
+
+extension _Whiteliste on String {
+  bool isWhitelisted() {
+    return !contains("/rendezvous") && !contains("/actions");
   }
 }
