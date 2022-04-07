@@ -15,6 +15,7 @@ import 'package:http_interceptor/http/intercepted_client.dart';
 import 'package:matomo/matomo.dart';
 import 'package:package_info/package_info.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/auth/auth_access_checker.dart';
 import 'package:pass_emploi_app/auth/auth_access_token_retriever.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
@@ -22,9 +23,10 @@ import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/configuration/app_version_checker.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
-import 'package:pass_emploi_app/network/access_token_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/access_token_interceptor.dart';
 import 'package:pass_emploi_app/network/headers.dart';
-import 'package:pass_emploi_app/network/logging_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/logging_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/logout_interceptor.dart';
 import 'package:pass_emploi_app/pages/force_update_page.dart';
 import 'package:pass_emploi_app/pass_emploi_app.dart';
 import 'package:pass_emploi_app/push/firebase_push_notification_manager.dart';
@@ -132,6 +134,7 @@ class AppInitializer {
     );
     final poleEmploiTokenRepository = PoleEmploiTokenRepository();
     final accessTokenRetriever = AuthAccessTokenRetriever(authenticator);
+    final authAccessChecker = AuthAccessChecker();
     final defaultContext = SecurityContext.defaultContext;
     try {
       defaultContext.setTrustedCertificatesBytes(utf8.encode(configuration.iSRGX1CertificateForOldDevices));
@@ -143,6 +146,7 @@ class AppInitializer {
       client: clientWithCertificate,
       interceptors: [
         AccessTokenInterceptor(accessTokenRetriever, poleEmploiTokenRepository),
+        LogoutInterceptor(authAccessChecker),
         LoggingInterceptor(),
       ],
     );
@@ -182,6 +186,7 @@ class AppInitializer {
       ConseillerRepository(baseUrl, httpClient, headersBuilder, crashlytics),
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
+    authAccessChecker.setStore(reduxStore);
     await pushNotificationManager.init(reduxStore);
     return reduxStore;
   }

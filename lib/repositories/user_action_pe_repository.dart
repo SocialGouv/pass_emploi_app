@@ -18,7 +18,7 @@ class UserActionPERepository {
 
   Future<List<UserActionPE>?> getUserActions(String userId) async {
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/pole-emploi/actions");
-    // have to wait to get PE token
+    // TODO: temp solution to remove when token would be handled by backend
     if (_poleEmploiTokenRepository.getPoleEmploiAccessToken() == null) {
       await Future.delayed(Duration(seconds: 2));
     }
