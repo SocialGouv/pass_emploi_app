@@ -11,17 +11,13 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
 
-//TODO US-508 create tests
-
 class ChatPageViewModel extends Equatable {
-  final String title;
   final DisplayState displayState;
   final List<ChatItem> items;
   final Function(String message) onSendMessage;
   final Function() onRetry;
 
   ChatPageViewModel({
-    required this.title,
     required this.displayState,
     required this.items,
     required this.onSendMessage,
@@ -33,7 +29,6 @@ class ChatPageViewModel extends Equatable {
     final statusState = store.state.chatStatusState;
     final lastReading = (statusState is ChatStatusSuccessState) ? statusState.lastConseillerReading : minDateTime;
     return ChatPageViewModel(
-      title: Strings.yourConseiller,
       displayState: _displayState(chatState),
       items: chatState is ChatSuccessState ? _messagesToChatItems(chatState.messages, lastReading) : [],
       onSendMessage: (String message) => store.dispatch(SendMessageAction(message)),
@@ -42,7 +37,7 @@ class ChatPageViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [title, displayState, items];
+  List<Object?> get props => [displayState, items];
 }
 
 DisplayState _displayState(ChatState state) {

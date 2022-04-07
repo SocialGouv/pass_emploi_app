@@ -74,7 +74,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
 
   Widget _scaffold(ChatPageViewModel viewModel, Widget body) {
     return Scaffold(
-      appBar: passEmploiAppBar(label: viewModel.title),
+      appBar: passEmploiAppBar(label: Strings.yourConseiller),
       body: Column(
         children: [
           SepLine(0, 0),
