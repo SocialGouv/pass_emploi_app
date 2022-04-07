@@ -65,7 +65,7 @@ class UserActionRepository {
     return false;
   }
 
-  Future<bool> deleteUserAction(String actionId, String userId) async {
+  Future<bool> deleteUserAction(String actionId) async {
     final url = Uri.parse(_baseUrl + "/actions/$actionId");
     try {
       final response = await _httpClient.delete(url, headers: await _headerBuilder.headers());

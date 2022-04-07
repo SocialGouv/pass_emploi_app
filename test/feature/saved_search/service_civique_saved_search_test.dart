@@ -154,7 +154,8 @@ void main() {
 }
 
 class ServiceCiviqueSavedSearchRepositorySuccessStub extends ServiceCiviqueSavedSearchRepository {
-  ServiceCiviqueSavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  ServiceCiviqueSavedSearchRepositorySuccessStub()
+      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> postSavedSearch(String userId, ServiceCiviqueSavedSearch savedSearch, String title) async {
@@ -163,7 +164,8 @@ class ServiceCiviqueSavedSearchRepositorySuccessStub extends ServiceCiviqueSaved
 }
 
 class ServiceCiviqueSavedSearchRepositoryFailureStub extends ServiceCiviqueSavedSearchRepository {
-  ServiceCiviqueSavedSearchRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  ServiceCiviqueSavedSearchRepositoryFailureStub()
+      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> postSavedSearch(String userId, ServiceCiviqueSavedSearch savedSearch, String title) async {

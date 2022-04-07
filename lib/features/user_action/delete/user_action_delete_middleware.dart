@@ -15,7 +15,7 @@ class UserActionDeleteMiddleware extends MiddlewareClass<AppState> {
     final loginState = store.state.loginState;
     if (loginState is LoginSuccessState && action is UserActionDeleteRequestAction) {
       store.dispatch(UserActionDeleteLoadingAction());
-      final result = await _repository.deleteUserAction(action.actionId, loginState.user.id);
+      final result = await _repository.deleteUserAction(action.actionId);
       store.dispatch(result ? UserActionDeleteSuccessAction(action.actionId) : UserActionDeleteFailureAction());
     }
   }

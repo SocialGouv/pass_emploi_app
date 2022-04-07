@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.da
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
 
+import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 
@@ -17,7 +18,8 @@ void main() {
         () async {
       // Given
       final httpClient = _mockClientforPartialDataWithoutFilters();
-      final repository = OffreEmploiSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub());
+      final repository =
+          OffreEmploiSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
       // When
       final result = await repository.postSavedSearch("jeuneId", _savedSearchWithoutFilters(), "title");
@@ -29,7 +31,8 @@ void main() {
     test("successfully send request when all fields are filled and return TRUE if response is valid (201)", () async {
       // Given
       final httpClient = _mockClientforFullDataWithFilters(expectedAlternance: false);
-      final repository = OffreEmploiSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub());
+      final repository =
+          OffreEmploiSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
       // When
       final result = await repository.postSavedSearch("jeuneId", _savedSearchWithFilters(isAlternance: false), "title");
@@ -41,7 +44,8 @@ void main() {
     test("successfully send request when user search alternance and return TRUE if response is valid (201)", () async {
       // Given
       final httpClient = _mockClientforFullDataWithFilters(expectedAlternance: true);
-      final repository = OffreEmploiSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub());
+      final repository =
+          OffreEmploiSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
       // When
       final result = await repository.postSavedSearch("jeuneId", _savedSearchWithFilters(isAlternance: true), "title");
@@ -53,7 +57,8 @@ void main() {
     test("return FALSE if response is invalid", () async {
       // Given
       final httpClient = _failureClient();
-      final repository = OffreEmploiSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub());
+      final repository =
+          OffreEmploiSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
       // When
       final result = await repository.postSavedSearch("jeuneId", _savedSearchWithoutFilters(), "title");
