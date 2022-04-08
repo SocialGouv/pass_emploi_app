@@ -142,7 +142,7 @@ class _Content extends StatelessWidget {
                     child: RendezvousCard(rendezvousId: rdvItem.id, onTap: () => onTap(rdvItem.id)),
                   );
                 }
-                if (rdvItem is RendezVousDayDivider) return _DayDivider(rdvItem.label);
+                if (rdvItem is RendezVousDivider) return _DayDivider(rdvItem.label);
                 return Container();
               },
             ),

@@ -65,8 +65,17 @@ void main() {
           mockRendezvous(id: 'cette semaine 1', date: DateTime(2022, 2, 4, 4, 5, 30)),
           mockRendezvous(id: 'cette semaine 3', date: DateTime(2022, 2, 4, 2, 5, 30)),
           mockRendezvous(id: 'cette semaine 2', date: DateTime(2022, 2, 5, 4, 5, 30)),
-          mockRendezvous(id: 'semaine prochaine 1', date: DateTime(2022, 2, 12, 4, 5, 30)),
-          mockRendezvous(id: 'semaine prochaine 2', date: DateTime(2022, 2, 13, 4, 5, 30)),
+          mockRendezvous(id: 'semaine+1 A', date: DateTime(2022, 2, 12, 4, 5, 30)),
+          mockRendezvous(id: 'semaine+1 B', date: DateTime(2022, 2, 13, 4, 5, 30)),
+          mockRendezvous(id: 'semaine+2 A', date: DateTime(2022, 2, 17, 4, 5, 30)),
+          mockRendezvous(id: 'semaine+2 B', date: DateTime(2022, 2, 18, 4, 5, 30)),
+          mockRendezvous(id: 'semaine+3 A', date: DateTime(2022, 2, 24, 4, 5, 30)),
+          mockRendezvous(id: 'semaine+3 B', date: DateTime(2022, 2, 25, 4, 5, 30)),
+          mockRendezvous(id: 'semaine+4 A', date: DateTime(2022, 3, 3, 4, 5, 30)),
+          mockRendezvous(id: 'semaine+4 B', date: DateTime(2022, 3, 4, 4, 5, 30)),
+          mockRendezvous(id: 'mois futur avril A', date: DateTime(2022, 4, 28, 4, 5, 30)),
+          mockRendezvous(id: 'mois futur avril B', date: DateTime(2022, 4, 29, 4, 5, 30)),
+          mockRendezvous(id: 'mois futur mai', date: DateTime(2022, 5, 1, 4, 5, 30)),
         ];
 
         test('and sort them by last recent for this week', () {
@@ -79,10 +88,10 @@ void main() {
           expect(viewModel.withNextButton, true);
           expect(viewModel.withPreviousButton, true);
           expect(viewModel.rendezvousItems, [
-            RendezVousDayDivider("Vendredi 4 février"),
+            RendezVousDivider("Vendredi 4 février"),
             RendezVousCardItem("cette semaine 3"),
             RendezVousCardItem("cette semaine 1"),
-            RendezVousDayDivider("Samedi 5 février"),
+            RendezVousDivider("Samedi 5 février"),
             RendezVousCardItem("cette semaine 2"),
           ]);
         });
@@ -98,27 +107,96 @@ void main() {
           expect(viewModel.withPreviousButton, false);
           expect(viewModel.dateLabel, "depuis le 04/12/2021");
           expect(viewModel.rendezvousItems, [
-            RendezVousDayDivider("janvier 2022"),
+            RendezVousDivider("janvier 2022"),
             RendezVousCardItem("passés 1"),
-            RendezVousDayDivider("décembre 2021"),
+            RendezVousDivider("décembre 2021"),
             RendezVousCardItem("passés 2"),
           ]);
         });
 
-        test('and sort them by last recent for next week', () {
+        test('and sort them by last recent for next week 1', () {
           // Given
           final store = _loggedInMiloStore(rendezvous);
           // When
           final viewModel = RendezvousListViewModel.create(store, fakeNow, 1);
           // Then
           expect(viewModel.displayState, DisplayState.CONTENT);
+          expect(viewModel.withNextButton, true);
+          expect(viewModel.withPreviousButton, true);
+          expect(viewModel.rendezvousItems, [
+            RendezVousDivider("Samedi 12 février"),
+            RendezVousCardItem("semaine+1 A"),
+            RendezVousDivider("Dimanche 13 février"),
+            RendezVousCardItem("semaine+1 B"),
+          ]);
+        });
+
+        test('and sort them by last recent for next week 2', () {
+          // Given
+          final store = _loggedInMiloStore(rendezvous);
+          // When
+          final viewModel = RendezvousListViewModel.create(store, fakeNow, 2);
+          // Then
+          expect(viewModel.displayState, DisplayState.CONTENT);
+          expect(viewModel.withNextButton, true);
+          expect(viewModel.withPreviousButton, true);
+          expect(viewModel.rendezvousItems, [
+            RendezVousDivider("Jeudi 17 février"),
+            RendezVousCardItem("semaine+2 A"),
+            RendezVousDivider("Vendredi 18 février"),
+            RendezVousCardItem("semaine+2 B"),
+          ]);
+        });
+
+        test('and sort them by last recent for next week 3', () {
+          // Given
+          final store = _loggedInMiloStore(rendezvous);
+          // When
+          final viewModel = RendezvousListViewModel.create(store, fakeNow, 3);
+          // Then
+          expect(viewModel.displayState, DisplayState.CONTENT);
+          expect(viewModel.withNextButton, true);
+          expect(viewModel.withPreviousButton, true);
+          expect(viewModel.rendezvousItems, [
+            RendezVousDivider("Jeudi 24 février"),
+            RendezVousCardItem("semaine+3 A"),
+            RendezVousDivider("Vendredi 25 février"),
+            RendezVousCardItem("semaine+3 B"),
+          ]);
+        });
+
+        test('and sort them by last recent for next week 4', () {
+          // Given
+          final store = _loggedInMiloStore(rendezvous);
+          // When
+          final viewModel = RendezvousListViewModel.create(store, fakeNow, 4);
+          // Then
+          expect(viewModel.displayState, DisplayState.CONTENT);
+          expect(viewModel.withNextButton, true);
+          expect(viewModel.withPreviousButton, true);
+          expect(viewModel.rendezvousItems, [
+            RendezVousDivider("Jeudi 3 mars"),
+            RendezVousCardItem("semaine+4 A"),
+            RendezVousDivider("Vendredi 4 mars"),
+            RendezVousCardItem("semaine+4 B"),
+          ]);
+        });
+
+        test('and sort them by last recent and grouped by month for next month', () {
+          // Given
+          final store = _loggedInMiloStore(rendezvous);
+          // When
+          final viewModel = RendezvousListViewModel.create(store, fakeNow, 5);
+          // Then
+          expect(viewModel.displayState, DisplayState.CONTENT);
           expect(viewModel.withNextButton, false);
           expect(viewModel.withPreviousButton, true);
           expect(viewModel.rendezvousItems, [
-            RendezVousDayDivider("Samedi 12 février"),
-            RendezVousCardItem("semaine prochaine 1"),
-            RendezVousDayDivider("Dimanche 13 février"),
-            RendezVousCardItem("semaine prochaine 2"),
+            RendezVousDivider("avril 2022"),
+            RendezVousCardItem("mois futur avril A"),
+            RendezVousCardItem("mois futur avril B"),
+            RendezVousDivider("mai 2022"),
+            RendezVousCardItem("mois futur mai A"),
           ]);
         });
       });
