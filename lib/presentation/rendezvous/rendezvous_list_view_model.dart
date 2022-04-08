@@ -53,7 +53,7 @@ class RendezvousListViewModel extends Equatable {
       onRetry: () => store.dispatch(RendezvousRequestAction()),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
       title: builder.makeTitle(),
-      dateLabel: _buildDateLabel(now, weekOffset, rendezvousState),
+      dateLabel: builder.makeDateLabel(now, weekOffset, rendezvousState),
       withNextButton: weekOffset < 5,
       withPreviousButton: weekOffset >= 0,
       emptyLabel: _emptyLabel(weekOffset, rendezvousState, now),
@@ -94,7 +94,7 @@ String _pastDateLabel(RendezvousState rdvState, DateTime now) {
 
   final oldestRendezvousDate =
       rdvState.rendezvous.reduce((value, element) => value.date.isAfter(element.date) ? element : value).date;
-  
+
   if (oldestRendezvousDate.isInPreviousDay(now)) {
     return Strings.rendezvousSinceDate(oldestRendezvousDate.toDay());
   } else {
@@ -201,22 +201,52 @@ class RendezVousListBuilderFactory {
 
 abstract class RendezVousListBuilder {
   String makeTitle();
+  String makeDateLabel(DateTime now, int weekOffset, RendezvousState rendezvousState);
 }
 
 class PastRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   String makeTitle() => Strings.rendezVousPassesTitre;
+
+  @override
+  String makeDateLabel(DateTime now, int weekOffset, RendezvousState rendezvousState) {
+    if (rendezvousState is! RendezvousSuccessState) return "";
+    if (rendezvousState.rendezvous.isEmpty) return "";
+
+    final oldestRendezvousDate =
+        rendezvousState.rendezvous.reduce((value, element) => value.date.isAfter(element.date) ? element : value).date;
+
+    if (oldestRendezvousDate.isInPreviousDay(now)) {
+      return Strings.rendezvousSinceDate(oldestRendezvousDate.toDay());
+    } else {
+      return "";
+    }
+  }
 }
 
 class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   String makeTitle() => Strings.rendezVousCetteSemaineTitre;
+
+  @override
+  String makeDateLabel(DateTime now, int weekOffset, RendezvousState rendezvousState) {
+    final firstDay = now.toDay();
+    final lastDay = now.add(Duration(days: 6)).toDay();
+    return "$firstDay au $lastDay";
+  }
 }
 
 class FutureWeekRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   String makeTitle() => Strings.rendezVousFutursTitre;
+
+  @override
+  String makeDateLabel(DateTime now, int weekOffset, RendezvousState rendezvousState) {
+    final firstDay = now.add(Duration(days: 7 * weekOffset)).toDay();
+    final lastDay = now.add(Duration(days: (7 * weekOffset) + 6)).toDay();
+    return "$firstDay au $lastDay";
+  }
 }
