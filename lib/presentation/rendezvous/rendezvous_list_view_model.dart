@@ -53,7 +53,7 @@ class RendezvousListViewModel extends Equatable {
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
       title: _buildTitle(weekOffset),
       dateLabel: _buildDateLabel(now, weekOffset, rendezvousState),
-      withNextButton: _withNextButton(rendezvousState, now, weekOffset),
+      withNextButton: weekOffset < 5,
       withPreviousButton: weekOffset >= 0,
       emptyLabel: _emptyLabel(weekOffset, rendezvousState, now),
       analyticsLabel: _analyticsLabel(weekOffset),
@@ -99,13 +99,6 @@ String _pastDateLabel(RendezvousState rdvState, DateTime now) {
   } else {
     return "";
   }
-}
-
-bool _withNextButton(RendezvousState rendezvousState, DateTime now, int weekOffset) {
-  if (weekOffset.isInPast()) return true;
-  if (rendezvousState is! RendezvousSuccessState) return false;
-  final lastDay = DateUtils.dateOnly(now.add(Duration(days: (7 * weekOffset) + 7)));
-  return rendezvousState.rendezvous.any((element) => element.date.isAfter(lastDay));
 }
 
 String _buildTitle(int weekOffset) {
