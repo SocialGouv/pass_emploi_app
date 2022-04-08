@@ -12,14 +12,12 @@ import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
 
 class ChatPageViewModel extends Equatable {
-  final String title;
   final DisplayState displayState;
   final List<ChatItem> items;
   final Function(String message) onSendMessage;
   final Function() onRetry;
 
   ChatPageViewModel({
-    required this.title,
     required this.displayState,
     required this.items,
     required this.onSendMessage,
@@ -31,7 +29,6 @@ class ChatPageViewModel extends Equatable {
     final statusState = store.state.chatStatusState;
     final lastReading = (statusState is ChatStatusSuccessState) ? statusState.lastConseillerReading : minDateTime;
     return ChatPageViewModel(
-      title: Strings.yourConseiller,
       displayState: _displayState(chatState),
       items: chatState is ChatSuccessState ? _messagesToChatItems(chatState.messages, lastReading) : [],
       onSendMessage: (String message) => store.dispatch(SendMessageAction(message)),
@@ -40,7 +37,7 @@ class ChatPageViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [title, displayState, items];
+  List<Object?> get props => [displayState, items];
 }
 
 DisplayState _displayState(ChatState state) {
@@ -55,15 +52,26 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
       return DayItem(element);
     } else {
       final message = element as Message;
-      final hourLabel = message.creationDate.toHour();
-      if (message.sentBy == Sender.jeune) {
-        final redState = lastConseillerReading.isAfter(message.creationDate) ? Strings.read : Strings.sent;
-        return JeuneMessageItem(content: message.content, caption: "$hourLabel · $redState");
-      } else {
-        return ConseillerMessageItem(content: message.content, caption: hourLabel);
+      switch (message.type) {
+        case MessageType.message:
+          return _buildMessageItem(message, lastConseillerReading);
+        case MessageType.nouveauConseiller:
+          return InformationItem(Strings.newConseillerTitle, Strings.newConseillerDescription);
+        case MessageType.inconnu:
+          return InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
       }
     }
   }).toList();
+}
+
+MessageItem _buildMessageItem(Message message, DateTime lastConseillerReading) {
+  final hourLabel = message.creationDate.toHour();
+  if (message.sentBy == Sender.jeune) {
+    final redState = lastConseillerReading.isAfter(message.creationDate) ? Strings.read : Strings.sent;
+    return JeuneMessageItem(content: message.content, caption: "$hourLabel · $redState");
+  } else {
+    return ConseillerMessageItem(content: message.content, caption: hourLabel);
+  }
 }
 
 List<dynamic> _messagesWithDaySections(List<Message> messages) {

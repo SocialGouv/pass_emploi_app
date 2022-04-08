@@ -53,4 +53,11 @@ void main() {
   });
 }
 
-Message _mockMessage([String id = '1']) => Message("content $id", DateTime.utc(2022, 1, 1), Sender.conseiller);
+Message _mockMessage([String id = '1']) {
+  return Message(
+    "content $id",
+    DateTime.utc(2022, 1, 1),
+    Sender.conseiller,
+    MessageType.message,
+  );
+}
