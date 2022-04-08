@@ -41,6 +41,7 @@ import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
 
+import 'dummies_for_cache.dart';
 import 'fixtures.dart';
 import 'spies.dart';
 
@@ -211,6 +212,8 @@ class DummyLogoutRepository extends LogoutRepository {
 }
 
 class DummyPassEmploiCacheManager extends PassEmploiCacheManager {
+  DummyPassEmploiCacheManager() : super(DummyConfig());
+
   @override
   void removeRessource(CachedRessource ressourceToRemove, String userId, String baseUrl) {}
 }

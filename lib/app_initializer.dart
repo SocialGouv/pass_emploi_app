@@ -8,6 +8,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:http/io_client.dart';
@@ -145,7 +146,11 @@ class AppInitializer {
       crashlytics.recordNonNetworkException(e, stack);
     }
     final Client clientWithCertificate = IOClient(HttpClient(context: defaultContext));
-    final passEmploiCacheManager = PassEmploiCacheManager();
+    final passEmploiCacheManager = PassEmploiCacheManager(Config(
+      PassEmploiCacheManager.cacheKey,
+      stalePeriod: Duration(minutes: 20),
+      maxNrOfCacheObjects: 30,
+    ));
     final httpClient = InterceptedClient.build(
       client: HttpClientWithCache(passEmploiCacheManager, clientWithCertificate),
       interceptors: [
