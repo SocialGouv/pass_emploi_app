@@ -56,7 +56,7 @@ class RendezvousListViewModel extends Equatable {
       dateLabel: builder.makeDateLabel(now, weekOffset, rendezvousState),
       withNextButton: weekOffset < 5,
       withPreviousButton: weekOffset >= 0,
-      emptyLabel: _emptyLabel(weekOffset, rendezvousState, now),
+      emptyLabel: builder.makeEmptyLabel(weekOffset, rendezvousState, now),
       analyticsLabel: _analyticsLabel(weekOffset),
     );
   }
@@ -76,36 +76,6 @@ DisplayState _displayState(RendezvousState state) {
   if (state is RendezvousSuccessState && state.rendezvous.isNotEmpty) return DisplayState.CONTENT;
   if (state is RendezvousSuccessState && state.rendezvous.isEmpty) return DisplayState.EMPTY;
   return DisplayState.FAILURE;
-}
-
-String _buildDateLabel(DateTime now, int weekOffset, RendezvousState rdvState) {
-  if (weekOffset.isInPast()) {
-    return _pastDateLabel(rdvState, now);
-  } else {
-    final firstDay = now.add(Duration(days: 7 * weekOffset)).toDay();
-    final lastDay = now.add(Duration(days: (7 * weekOffset) + 6)).toDay();
-    return "$firstDay au $lastDay";
-  }
-}
-
-String _pastDateLabel(RendezvousState rdvState, DateTime now) {
-  if (rdvState is! RendezvousSuccessState) return "";
-  if (rdvState.rendezvous.isEmpty) return "";
-
-  final oldestRendezvousDate =
-      rdvState.rendezvous.reduce((value, element) => value.date.isAfter(element.date) ? element : value).date;
-
-  if (oldestRendezvousDate.isInPreviousDay(now)) {
-    return Strings.rendezvousSinceDate(oldestRendezvousDate.toDay());
-  } else {
-    return "";
-  }
-}
-
-String _emptyLabel(int weekOffset, RendezvousState rendezvousState, DateTime now) {
-  if (weekOffset.isInPast()) return Strings.noRendezAvantCetteSemaine;
-  if (weekOffset.isThisWeek()) return Strings.noRendezVousCetteSemaineTitre;
-  return Strings.noRendezAutreCetteSemainePrefix + _buildDateLabel(now, weekOffset, rendezvousState);
 }
 
 List<RendezVousItem> _rendezvousItems(
@@ -187,8 +157,8 @@ class RendezVousDivider extends RendezVousItem {
   List<Object?> get props => [label];
 }
 
-class RendezVousListBuilderFactory {
 
+class RendezVousListBuilderFactory {
   static RendezVousListBuilder create(int weekOffset) {
     if (weekOffset.isInPast()) {
       return PastRendezVousListBuilder();
@@ -201,11 +171,13 @@ class RendezVousListBuilderFactory {
 
 abstract class RendezVousListBuilder {
   String makeTitle();
+
   String makeDateLabel(DateTime now, int weekOffset, RendezvousState rendezvousState);
+
+  String makeEmptyLabel(int weekOffset, RendezvousState rendezvousState, DateTime now);
 }
 
 class PastRendezVousListBuilder implements RendezVousListBuilder {
-
   @override
   String makeTitle() => Strings.rendezVousPassesTitre;
 
@@ -223,10 +195,13 @@ class PastRendezVousListBuilder implements RendezVousListBuilder {
       return "";
     }
   }
+
+  @override
+  String makeEmptyLabel(int weekOffset, RendezvousState rendezvousState, DateTime now) =>
+      Strings.noRendezAvantCetteSemaine;
 }
 
 class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
-
   @override
   String makeTitle() => Strings.rendezVousCetteSemaineTitre;
 
@@ -236,10 +211,13 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
     final lastDay = now.add(Duration(days: 6)).toDay();
     return "$firstDay au $lastDay";
   }
+
+  @override
+  String makeEmptyLabel(int weekOffset, RendezvousState rendezvousState, DateTime now) =>
+      Strings.noRendezVousCetteSemaineTitre;
 }
 
 class FutureWeekRendezVousListBuilder implements RendezVousListBuilder {
-
   @override
   String makeTitle() => Strings.rendezVousFutursTitre;
 
@@ -248,5 +226,10 @@ class FutureWeekRendezVousListBuilder implements RendezVousListBuilder {
     final firstDay = now.add(Duration(days: 7 * weekOffset)).toDay();
     final lastDay = now.add(Duration(days: (7 * weekOffset) + 6)).toDay();
     return "$firstDay au $lastDay";
+  }
+
+  @override
+  String makeEmptyLabel(int weekOffset, RendezvousState rendezvousState, DateTime now) {
+    return Strings.noRendezAutreCetteSemainePrefix + makeDateLabel(now, weekOffset, rendezvousState);
   }
 }
