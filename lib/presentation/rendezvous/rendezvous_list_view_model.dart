@@ -57,17 +57,12 @@ class RendezvousListViewModel extends Equatable {
       withNextButton: weekOffset < 5,
       withPreviousButton: weekOffset >= 0,
       emptyLabel: builder.makeEmptyLabel(weekOffset, rendezvousState, now),
-      analyticsLabel: _analyticsLabel(weekOffset),
+      analyticsLabel: builder.makeAnalyticsLabel(weekOffset),
     );
   }
 
   @override
   List<Object?> get props => [displayState, rendezvousItems, deeplinkRendezvousId];
-}
-
-String _analyticsLabel(int weekOffset) {
-  if (weekOffset.isInPast()) return AnalyticsScreenNames.rendezvousListPast;
-  return AnalyticsScreenNames.rendezvousListWeek + weekOffset.toString();
 }
 
 DisplayState _displayState(RendezvousState state) {
@@ -171,10 +166,9 @@ class RendezVousListBuilderFactory {
 
 abstract class RendezVousListBuilder {
   String makeTitle();
-
   String makeDateLabel(DateTime now, int weekOffset, RendezvousState rendezvousState);
-
   String makeEmptyLabel(int weekOffset, RendezvousState rendezvousState, DateTime now);
+  String makeAnalyticsLabel(int weekOffset);
 }
 
 class PastRendezVousListBuilder implements RendezVousListBuilder {
@@ -199,6 +193,9 @@ class PastRendezVousListBuilder implements RendezVousListBuilder {
   @override
   String makeEmptyLabel(int weekOffset, RendezvousState rendezvousState, DateTime now) =>
       Strings.noRendezAvantCetteSemaine;
+
+  @override
+  String makeAnalyticsLabel(int weekOffset) => AnalyticsScreenNames.rendezvousListPast;
 }
 
 class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
@@ -215,6 +212,9 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
   @override
   String makeEmptyLabel(int weekOffset, RendezvousState rendezvousState, DateTime now) =>
       Strings.noRendezVousCetteSemaineTitre;
+
+  @override
+  String makeAnalyticsLabel(int weekOffset) => AnalyticsScreenNames.rendezvousListWeek + weekOffset.toString();
 }
 
 class FutureWeekRendezVousListBuilder implements RendezVousListBuilder {
@@ -232,4 +232,7 @@ class FutureWeekRendezVousListBuilder implements RendezVousListBuilder {
   String makeEmptyLabel(int weekOffset, RendezvousState rendezvousState, DateTime now) {
     return Strings.noRendezAutreCetteSemainePrefix + makeDateLabel(now, weekOffset, rendezvousState);
   }
+
+  @override
+  String makeAnalyticsLabel(int weekOffset) => AnalyticsScreenNames.rendezvousListWeek + weekOffset.toString();
 }
