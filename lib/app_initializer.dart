@@ -25,6 +25,7 @@ import 'package:pass_emploi_app/configuration/app_version_checker.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/network/cache_interceptor.dart';
+import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/interceptors/access_token_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logging_interceptor.dart';
@@ -65,8 +66,6 @@ import 'package:pass_emploi_app/repositories/user_action_pe_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
-
-import 'network/cache_manager.dart';
 
 class AppInitializer {
   Future<Widget> initializeApp() async {
@@ -168,7 +167,7 @@ class AppInitializer {
       chatCrypto,
       poleEmploiTokenRepository,
       PoleEmploiAuthRepository(configuration.authIssuer, httpClient, crashlytics),
-      UserActionRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
+      UserActionRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       UserActionPERepository(baseUrl, httpClient, headersBuilder, poleEmploiTokenRepository, crashlytics),
       RendezvousRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       OffreEmploiRepository(baseUrl, httpClient, headersBuilder, crashlytics),

@@ -1,7 +1,6 @@
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
-import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';

@@ -1,4 +1,3 @@
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
@@ -13,10 +12,9 @@ class UserActionRepository {
   final String _baseUrl;
   final Client _httpClient;
   final HeadersBuilder _headerBuilder;
-  final CacheManager _cacheManager;
   final Crashlytics? _crashlytics;
 
-  UserActionRepository(this._baseUrl, this._httpClient, this._headerBuilder, this._cacheManager, [this._crashlytics]);
+  UserActionRepository(this._baseUrl, this._httpClient, this._headerBuilder, [this._crashlytics]);
 
   Future<List<UserAction>?> getUserActions(String userId) async {
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/actions");
@@ -38,7 +36,7 @@ class UserActionRepository {
   Future<void> updateActionStatus(String userId, String actionId, UserActionStatus newStatus) async {
     final url = Uri.parse(_baseUrl + "/actions/$actionId");
     try {
-      final response = await _httpClient.put(
+      await _httpClient.put(
         url,
         headers: await _headerBuilder.headers(userId: userId, contentType: 'application/json'),
         body: customJsonEncode(PutUserActionRequest(status: newStatus)),

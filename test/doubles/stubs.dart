@@ -26,8 +26,7 @@ import 'fixtures.dart';
 import 'spies.dart';
 
 class UserActionRepositorySuccessStub extends UserActionRepository {
-  UserActionRepositorySuccessStub()
-      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
+  UserActionRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
   Future<List<UserAction>?> getUserActions(String userId) async {
@@ -58,8 +57,7 @@ class UserActionRepositorySuccessStub extends UserActionRepository {
 }
 
 class UserActionRepositoryFailureStub extends UserActionRepository {
-  UserActionRepositoryFailureStub()
-      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
+  UserActionRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
   Future<List<UserAction>?> getUserActions(String userId) async {

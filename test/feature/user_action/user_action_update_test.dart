@@ -65,7 +65,7 @@ UserAction _notStartedAction({required String actionId}) {
 class UserActionRepositorySpy extends UserActionRepository {
   var isActionUpdated = false;
 
-  UserActionRepositorySpy() : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
+  UserActionRepositorySpy() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
   Future<List<UserAction>?> getUserActions(String userId) async => [];

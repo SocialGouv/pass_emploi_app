@@ -79,7 +79,7 @@ class DummyAuthWrapper extends AuthWrapper {
 class DummyFlutterAppAuth extends FlutterAppAuth {}
 
 class DummyUserActionRepository extends UserActionRepository {
-  DummyUserActionRepository() : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
+  DummyUserActionRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
 }
 
 class DummyUserActionPERepository extends UserActionPERepository {

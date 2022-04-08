@@ -45,7 +45,7 @@ class ImmersionFavorisRepository extends FavorisRepository<Immersion> {
 
   @override
   Future<Map<String, Immersion>?> getFavoris(String userId) async {
-    final url = getFavorisUri(baseUrl: _baseUrl, userId: userId);;
+    final url = getFavorisUri(baseUrl: _baseUrl, userId: userId);
     try {
       final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
       if (response.statusCode.isValid()) {
