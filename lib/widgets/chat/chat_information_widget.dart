@@ -24,16 +24,23 @@ class ChatInformationWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _title(),
+            _Title(title: title),
             SizedBox(height: Margins.spacing_s),
-            _description(),
+            _Description(description: description),
           ],
         ),
       ),
     );
   }
+}
 
-  Widget _title() {
+class _Title extends StatelessWidget {
+  final String title;
+
+  const _Title({Key? key, required this.title}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -51,8 +58,15 @@ class ChatInformationWidget extends StatelessWidget {
       ],
     );
   }
+}
 
-  Widget _description() {
+class _Description extends StatelessWidget {
+  final String description;
+
+  const _Description({Key? key, required this.description}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
     return Text(
       description,
       style: TextStyles.textBaseRegularWithColor(AppColors.primary),

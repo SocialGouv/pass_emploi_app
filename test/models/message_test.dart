@@ -89,7 +89,7 @@ void main() {
     );
 
     // Then
-    expect(message!.type, MessageType.unknown);
+    expect(message!.type, MessageType.inconnu);
   });
 
   test("toJson when message has no iv should return null", () {

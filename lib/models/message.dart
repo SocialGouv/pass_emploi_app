@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 
 enum Sender { jeune, conseiller }
-enum MessageType { message, nouveauConseiller, unknown }
+enum MessageType { message, nouveauConseiller, inconnu }
 
 class Message extends Equatable {
   final String content;
@@ -55,7 +55,7 @@ class Message extends Equatable {
         case "NOUVEAU_CONSEILLER":
           return MessageType.nouveauConseiller;
         default:
-          return MessageType.unknown;
+          return MessageType.inconnu;
       }
     } catch (e) {
       return MessageType.message;
