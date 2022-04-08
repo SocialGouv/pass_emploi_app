@@ -79,14 +79,25 @@ DisplayState _displayState(RendezvousState state) {
 
 String _buildDateLabel(DateTime now, int weekOffset, RendezvousState rdvState) {
   if (weekOffset.isInPast()) {
-    if (rdvState is! RendezvousSuccessState) return "";
-    final firstRdvDate =
-        rdvState.rendezvous.reduce((value, element) => value.date.isAfter(element.date) ? element : value).date;
-    return Strings.rendezvousSinceDate(firstRdvDate.toDay());
+    return _pastDateLabel(rdvState, now);
   } else {
     final firstDay = now.add(Duration(days: 7 * weekOffset)).toDay();
     final lastDay = now.add(Duration(days: (7 * weekOffset) + 6)).toDay();
     return "$firstDay au $lastDay";
+  }
+}
+
+String _pastDateLabel(RendezvousState rdvState, DateTime now) {
+  if (rdvState is! RendezvousSuccessState) return "";
+  if (rdvState.rendezvous.isEmpty) return "";
+
+  final oldestRendezvousDate =
+      rdvState.rendezvous.reduce((value, element) => value.date.isAfter(element.date) ? element : value).date;
+  
+  if (oldestRendezvousDate.isInPreviousDay(now)) {
+    return Strings.rendezvousSinceDate(oldestRendezvousDate.toDay());
+  } else {
+    return "";
   }
 }
 

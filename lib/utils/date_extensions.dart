@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
@@ -23,7 +24,6 @@ extension DateExtensions on DateTime {
   String toDayOfWeekWithFullMonthContextualized() {
     if (isTomorrow()) return "Demain";
     if (isToday()) return "Aujourd'hui";
-    initializeDateFormatting();
     return DateFormat('EEEE d MMMM', 'fr').format(this).firstLetterUpperCased();
   }
 
@@ -40,4 +40,10 @@ extension DateExtensions on DateTime {
   bool isToday() => isAtSameDayAs(DateTime.now());
 
   bool isTomorrow() => isAtSameDayAs(DateTime.now().add(Duration(days: 1)));
+
+  bool isInPreviousDay(DateTime anotherDate) {
+    final anotherDayDate = DateUtils.dateOnly(anotherDate);
+    final thisDayDate = DateUtils.dateOnly(this);
+    return thisDayDate.isBefore(anotherDayDate);
+  }
 }

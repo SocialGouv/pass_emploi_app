@@ -57,6 +57,7 @@ void main() {
 
   group('create when rendezvous state is success…', () {
     group('with rendezvous…', () {
+
       group('should display list', () {
         final rendezvous = [
           mockRendezvous(id: 'passés 1', date: DateTime(2022, 1, 4, 4, 5, 30)),
@@ -152,6 +153,19 @@ void main() {
 
         // Then
         expect(viewModel.deeplinkRendezvousId, isNull);
+      });
+
+      test("should not display date label when there isn't past rendezvous", () {
+        // Given
+        final DateTime now = DateTime(2022, 11, 30, 4, 5, 0);
+        final rendezvous = [mockRendezvous(id: 'cette semaine 1', date: DateTime(2022, 11, 30, 4, 0, 0))];
+        final store = _loggedInMiloStore(rendezvous);
+
+        // When
+        final viewModel = RendezvousListViewModel.create(store, now, -1);
+
+        // Then
+        expect(viewModel.dateLabel, "");
       });
     });
 
