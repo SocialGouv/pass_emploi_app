@@ -45,13 +45,14 @@ class RendezvousListViewModel extends Equatable {
     final loginState = store.state.loginState;
     final rendezvousState = store.state.rendezvousState;
     final rendezvousItems = _rendezvousItems(rendezvousState, loginState, now, weekOffset);
+    final builder = RendezVousListBuilderFactory.create(weekOffset);
     return RendezvousListViewModel(
       displayState: _displayState(rendezvousState),
       rendezvousItems: rendezvousItems,
       deeplinkRendezvousId: _deeplinkRendezvousId(store.state.deepLinkState, rendezvousState),
       onRetry: () => store.dispatch(RendezvousRequestAction()),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
-      title: _buildTitle(weekOffset),
+      title: builder.makeTitle(),
       dateLabel: _buildDateLabel(now, weekOffset, rendezvousState),
       withNextButton: weekOffset < 5,
       withPreviousButton: weekOffset >= 0,
@@ -99,12 +100,6 @@ String _pastDateLabel(RendezvousState rdvState, DateTime now) {
   } else {
     return "";
   }
-}
-
-String _buildTitle(int weekOffset) {
-  if (weekOffset.isInPast()) return Strings.rendezVousPassesTitre;
-  if (weekOffset.isThisWeek()) return Strings.rendezVousCetteSemaineTitre;
-  return Strings.rendezVousFutursTitre;
 }
 
 String _emptyLabel(int weekOffset, RendezvousState rendezvousState, DateTime now) {
@@ -190,4 +185,38 @@ class RendezVousDivider extends RendezVousItem {
 
   @override
   List<Object?> get props => [label];
+}
+
+class RendezVousListBuilderFactory {
+
+  static RendezVousListBuilder create(int weekOffset) {
+    if (weekOffset.isInPast()) {
+      return PastRendezVousListBuilder();
+    } else if (weekOffset.isThisWeek()) {
+      return CurrentWeekRendezVousListBuilder();
+    }
+    return FutureWeekRendezVousListBuilder();
+  }
+}
+
+abstract class RendezVousListBuilder {
+  String makeTitle();
+}
+
+class PastRendezVousListBuilder implements RendezVousListBuilder {
+
+  @override
+  String makeTitle() => Strings.rendezVousPassesTitre;
+}
+
+class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
+
+  @override
+  String makeTitle() => Strings.rendezVousCetteSemaineTitre;
+}
+
+class FutureWeekRendezVousListBuilder implements RendezVousListBuilder {
+
+  @override
+  String makeTitle() => Strings.rendezVousFutursTitre;
 }
