@@ -91,6 +91,12 @@ extension _RendezvousIterableExtension on Iterable<Rendezvous> {
     return sorted((a, b) => a.date.compareTo(b.date));
   }
 
+  Iterable<Rendezvous> filterSemaineGlissante(int weekOffset, DateTime now) {
+    final firstDay = DateUtils.dateOnly(now.add(Duration(days: 7 * weekOffset)));
+    final lastDay = DateUtils.dateOnly(now.add(Duration(days: (7 * weekOffset) + 7)));
+    return where((element) => (element.date.isAfter(firstDay) && element.date.isBefore(lastDay)));
+  }
+
   List<RendezVousItem> groupedItemsBy(String Function(Rendezvous) fn) {
     final groupedRendezvous = groupListsBy(fn);
     return groupedRendezvous.keys
@@ -214,13 +220,10 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
   List<RendezVousItem> rendezvousItems(
       RendezvousState rendezvousState, LoginState loginState, DateTime now, int weekOffset) {
     if (rendezvousState is! RendezvousSuccessState) return [];
-    final firstDay = DateUtils.dateOnly(now.add(Duration(days: 7 * weekOffset)));
-    final lastDay = DateUtils.dateOnly(now.add(Duration(days: (7 * weekOffset) + 7)));
-
 
     return rendezvousState.rendezvous
         .sortedFromRecentToFuture()
-        .where((element) => (element.date.isAfter(firstDay) && element.date.isBefore(lastDay)))
+        .filterSemaineGlissante(weekOffset, now)
         .groupedItemsBy((element) => element.date.toDayOfWeekWithFullMonthContextualized());
   }
 }
@@ -248,13 +251,10 @@ class FutureWeekRendezVousListBuilder implements RendezVousListBuilder {
   List<RendezVousItem> rendezvousItems(
       RendezvousState rendezvousState, LoginState loginState, DateTime now, int weekOffset) {
     if (rendezvousState is! RendezvousSuccessState) return [];
-    final firstDay = DateUtils.dateOnly(now.add(Duration(days: 7 * weekOffset)));
-    final lastDay = DateUtils.dateOnly(now.add(Duration(days: (7 * weekOffset) + 7)));
-
 
     return rendezvousState.rendezvous
         .sortedFromRecentToFuture()
-        .where((element) => (element.date.isAfter(firstDay) && element.date.isBefore(lastDay)))
+        .filterSemaineGlissante(weekOffset, now)
         .groupedItemsBy((element) => element.date.toDayOfWeekWithFullMonthContextualized());
   }
 }
