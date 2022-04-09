@@ -44,11 +44,10 @@ class RendezvousListViewModel extends Equatable {
   factory RendezvousListViewModel.create(Store<AppState> store, DateTime now, int weekOffset) {
     final loginState = store.state.loginState;
     final rendezvousState = store.state.rendezvousState;
-    final rendezvousItems = _rendezvousItems(rendezvousState, loginState, now, weekOffset);
     final builder = RendezVousListBuilderFactory.create(weekOffset);
     return RendezvousListViewModel(
       displayState: _displayState(rendezvousState),
-      rendezvousItems: rendezvousItems,
+      rendezvousItems: builder.rendezvousItems(rendezvousState, loginState, now, weekOffset),
       deeplinkRendezvousId: _deeplinkRendezvousId(store.state.deepLinkState, rendezvousState),
       onRetry: () => store.dispatch(RendezvousRequestAction()),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
@@ -71,39 +70,6 @@ DisplayState _displayState(RendezvousState state) {
   if (state is RendezvousSuccessState && state.rendezvous.isNotEmpty) return DisplayState.CONTENT;
   if (state is RendezvousSuccessState && state.rendezvous.isEmpty) return DisplayState.EMPTY;
   return DisplayState.FAILURE;
-}
-
-List<RendezVousItem> _rendezvousItems(
-    RendezvousState rendezvousState, LoginState loginState, DateTime now, int weekOffset) {
-  if (rendezvousState is! RendezvousSuccessState) return [];
-  final firstDay = DateUtils.dateOnly(now.add(Duration(days: 7 * weekOffset)));
-  final lastDay = DateUtils.dateOnly(now.add(Duration(days: (7 * weekOffset) + 7)));
-
-  final rendezvous = rendezvousState.rendezvous;
-
-  if (weekOffset.isInPast()) {
-    rendezvous.sortFromRecentToOldest();
-  } else {
-    rendezvous.sortFromRecentToFuture();
-  }
-
-  final filteredRendezVous = rendezvous
-      .where((element) => weekOffset.isInPast() || element.date.isAfter(firstDay))
-      .where((element) => element.date.isBefore(lastDay));
-  final groupByDate = filteredRendezVous.groupListsBy((element) {
-    if (weekOffset.isInPast()) {
-      return element.date.toFullMonthAndYear();
-    } else {
-      return element.date.toDayOfWeekWithFullMonthContextualized();
-    }
-  });
-  return groupByDate.keys
-      .map((date) => [
-            RendezVousDivider(date),
-            ...groupByDate[date]!.map((e) => RendezVousCardItem(e.id)).toList(),
-          ])
-      .flattened
-      .toList();
 }
 
 extension _WeekOffsetExtension on int {
@@ -166,9 +132,15 @@ class RendezVousListBuilderFactory {
 
 abstract class RendezVousListBuilder {
   String makeTitle();
+
   String makeDateLabel(DateTime now, int weekOffset, RendezvousState rendezvousState);
+
   String makeEmptyLabel(int weekOffset, RendezvousState rendezvousState, DateTime now);
+
   String makeAnalyticsLabel(int weekOffset);
+
+  List<RendezVousItem> rendezvousItems(
+      RendezvousState rendezvousState, LoginState loginState, DateTime now, int weekOffset);
 }
 
 class PastRendezVousListBuilder implements RendezVousListBuilder {
@@ -196,6 +168,30 @@ class PastRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   String makeAnalyticsLabel(int weekOffset) => AnalyticsScreenNames.rendezvousListPast;
+
+  @override
+  List<RendezVousItem> rendezvousItems(
+      RendezvousState rendezvousState, LoginState loginState, DateTime now, int weekOffset) {
+    if (rendezvousState is! RendezvousSuccessState) return [];
+
+    final rendezvous = rendezvousState.rendezvous;
+
+    rendezvous.sortFromRecentToOldest();
+
+    final filteredRendezVous = rendezvous.where((element) => element.date.isBefore(DateUtils.dateOnly(now)));
+
+    final groupByDate = filteredRendezVous.groupListsBy((element) {
+      return element.date.toFullMonthAndYear();
+    });
+
+    return groupByDate.keys
+        .map((date) => [
+              RendezVousDivider(date),
+              ...groupByDate[date]!.map((e) => RendezVousCardItem(e.id)).toList(),
+            ])
+        .flattened
+        .toList();
+  }
 }
 
 class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
@@ -215,6 +211,33 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   String makeAnalyticsLabel(int weekOffset) => AnalyticsScreenNames.rendezvousListWeek + weekOffset.toString();
+
+  @override
+  List<RendezVousItem> rendezvousItems(
+      RendezvousState rendezvousState, LoginState loginState, DateTime now, int weekOffset) {
+    if (rendezvousState is! RendezvousSuccessState) return [];
+    final firstDay = DateUtils.dateOnly(now.add(Duration(days: 7 * weekOffset)));
+    final lastDay = DateUtils.dateOnly(now.add(Duration(days: (7 * weekOffset) + 7)));
+
+    final rendezvous = rendezvousState.rendezvous;
+
+    rendezvous.sortFromRecentToFuture();
+
+    final filteredRendezVous = rendezvous
+        .where((element) => element.date.isAfter(firstDay))
+        .where((element) => element.date.isBefore(lastDay));
+
+    final groupByDate = filteredRendezVous.groupListsBy((element) {
+      return element.date.toDayOfWeekWithFullMonthContextualized();
+    });
+    return groupByDate.keys
+        .map((date) => [
+              RendezVousDivider(date),
+              ...groupByDate[date]!.map((e) => RendezVousCardItem(e.id)).toList(),
+            ])
+        .flattened
+        .toList();
+  }
 }
 
 class FutureWeekRendezVousListBuilder implements RendezVousListBuilder {
@@ -235,4 +258,31 @@ class FutureWeekRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   String makeAnalyticsLabel(int weekOffset) => AnalyticsScreenNames.rendezvousListWeek + weekOffset.toString();
+
+  @override
+  List<RendezVousItem> rendezvousItems(
+      RendezvousState rendezvousState, LoginState loginState, DateTime now, int weekOffset) {
+    if (rendezvousState is! RendezvousSuccessState) return [];
+    final firstDay = DateUtils.dateOnly(now.add(Duration(days: 7 * weekOffset)));
+    final lastDay = DateUtils.dateOnly(now.add(Duration(days: (7 * weekOffset) + 7)));
+
+    final rendezvous = rendezvousState.rendezvous;
+
+    rendezvous.sortFromRecentToFuture();
+
+    final filteredRendezVous = rendezvous
+        .where((element) => element.date.isAfter(firstDay))
+        .where((element) => element.date.isBefore(lastDay));
+
+    final groupByDate = filteredRendezVous.groupListsBy((element) {
+      return element.date.toDayOfWeekWithFullMonthContextualized();
+    });
+    return groupByDate.keys
+        .map((date) => [
+              RendezVousDivider(date),
+              ...groupByDate[date]!.map((e) => RendezVousCardItem(e.id)).toList(),
+            ])
+        .flattened
+        .toList();
+  }
 }
