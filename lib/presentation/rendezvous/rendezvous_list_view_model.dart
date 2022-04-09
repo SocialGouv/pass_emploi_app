@@ -82,13 +82,24 @@ extension _WeekOffsetExtension on int {
   }
 }
 
-extension _RendezvousListExtension on List<Rendezvous> {
+extension _RendezvousIterableExtension on Iterable<Rendezvous> {
   List<Rendezvous> sortedFromRecentToOldest() {
     return sorted((a, b) => b.date.compareTo(a.date));
   }
 
   List<Rendezvous> sortedFromRecentToFuture() {
     return sorted((a, b) => a.date.compareTo(b.date));
+  }
+
+  List<RendezVousItem> groupedItemsBy(String Function(Rendezvous) fn) {
+    final groupedRendezvous = groupListsBy(fn);
+    return groupedRendezvous.keys
+        .map((date) => [
+      RendezVousDivider(date),
+      ...groupedRendezvous[date]!.map((e) => RendezVousCardItem(e.id)).toList(),
+    ])
+        .flattened
+        .toList();
   }
 }
 
@@ -174,19 +185,10 @@ class PastRendezVousListBuilder implements RendezVousListBuilder {
       RendezvousState rendezvousState, LoginState loginState, DateTime now, int weekOffset) {
     if (rendezvousState is! RendezvousSuccessState) return [];
 
-    final rendezvous = rendezvousState.rendezvous
+    return rendezvousState.rendezvous
         .sortedFromRecentToOldest()
         .where((element) => element.date.isBefore(DateUtils.dateOnly(now)))
-        .groupListsBy((element) => element.date.toFullMonthAndYear());
-
-
-    return rendezvous.keys
-        .map((date) => [
-              RendezVousDivider(date),
-              ...rendezvous[date]!.map((e) => RendezVousCardItem(e.id)).toList(),
-            ])
-        .flattened
-        .toList();
+        .groupedItemsBy((element) => element.date.toFullMonthAndYear());
   }
 }
 
@@ -216,18 +218,10 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
     final lastDay = DateUtils.dateOnly(now.add(Duration(days: (7 * weekOffset) + 7)));
 
 
-    final rendezvous = rendezvousState.rendezvous
+    return rendezvousState.rendezvous
         .sortedFromRecentToFuture()
         .where((element) => (element.date.isAfter(firstDay) && element.date.isBefore(lastDay)))
-        .groupListsBy((element) => element.date.toDayOfWeekWithFullMonthContextualized());
-
-    return rendezvous.keys
-        .map((date) => [
-              RendezVousDivider(date),
-              ...rendezvous[date]!.map((e) => RendezVousCardItem(e.id)).toList(),
-            ])
-        .flattened
-        .toList();
+        .groupedItemsBy((element) => element.date.toDayOfWeekWithFullMonthContextualized());
   }
 }
 
@@ -258,17 +252,9 @@ class FutureWeekRendezVousListBuilder implements RendezVousListBuilder {
     final lastDay = DateUtils.dateOnly(now.add(Duration(days: (7 * weekOffset) + 7)));
 
 
-    final rendezvous = rendezvousState.rendezvous
+    return rendezvousState.rendezvous
         .sortedFromRecentToFuture()
         .where((element) => (element.date.isAfter(firstDay) && element.date.isBefore(lastDay)))
-        .groupListsBy((element) => element.date.toDayOfWeekWithFullMonthContextualized());
-
-    return rendezvous.keys
-        .map((date) => [
-              RendezVousDivider(date),
-              ...rendezvous[date]!.map((e) => RendezVousCardItem(e.id)).toList(),
-            ])
-        .flattened
-        .toList();
+        .groupedItemsBy((element) => element.date.toDayOfWeekWithFullMonthContextualized());
   }
 }
