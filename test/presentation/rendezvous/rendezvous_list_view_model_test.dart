@@ -75,7 +75,7 @@ void main() {
           mockRendezvous(id: 'semaine+4 B', date: DateTime(2022, 3, 4, 4, 5, 30)),
           mockRendezvous(id: 'mois futur avril A', date: DateTime(2022, 4, 28, 4, 5, 30)),
           mockRendezvous(id: 'mois futur avril B', date: DateTime(2022, 4, 29, 4, 5, 30)),
-          mockRendezvous(id: 'mois futur mai', date: DateTime(2022, 5, 1, 4, 5, 30)),
+          mockRendezvous(id: 'mois futur mai A', date: DateTime(2022, 5, 1, 4, 5, 30)),
         ];
 
         test('and sort them by last recent for this week', () {
@@ -191,6 +191,10 @@ void main() {
           expect(viewModel.displayState, DisplayState.CONTENT);
           expect(viewModel.withNextButton, false);
           expect(viewModel.withPreviousButton, true);
+          expect(viewModel.title, "Rendez-vous futurs");
+          expect(viewModel.dateLabel, "à partir du JJ/MM/AAAA (mais quel jour ?)");
+          expect(viewModel.emptyLabel, "Vous n’avez pas encore de rendez-vous prévus");
+          expect(viewModel.analyticsLabel, "rdv/list-future");
           expect(viewModel.rendezvousItems, [
             RendezVousDivider("avril 2022"),
             RendezVousCardItem("mois futur avril A"),

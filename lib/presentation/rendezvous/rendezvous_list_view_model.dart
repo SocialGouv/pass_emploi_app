@@ -97,6 +97,11 @@ extension _RendezvousIterableExtension on Iterable<Rendezvous> {
     return where((element) => (element.date.isAfter(firstDay) && element.date.isBefore(lastDay)));
   }
 
+  Iterable<Rendezvous> filterAfterFourWeeks(DateTime now) {
+    final firstDay = DateUtils.dateOnly(now.add(Duration(days: 7 * 5)));
+    return where((element) => element.date.isAfter(firstDay));
+  }
+
   List<RendezVousItem> groupedItemsBy(String Function(Rendezvous) fn) {
     final groupedRendezvous = groupListsBy(fn);
     return groupedRendezvous.keys
@@ -142,8 +147,11 @@ class RendezVousListBuilderFactory {
       return PastRendezVousListBuilder();
     } else if (weekOffset.isThisWeek()) {
       return CurrentWeekRendezVousListBuilder();
+    } else if (weekOffset >= 1 && weekOffset < 5) {
+      return FutureWeekRendezVousListBuilder();
+    } else {
+      return FutureMonthsRendezVousListBuilder();
     }
-    return FutureWeekRendezVousListBuilder();
   }
 }
 
@@ -256,5 +264,34 @@ class FutureWeekRendezVousListBuilder implements RendezVousListBuilder {
         .sortedFromRecentToFuture()
         .filterSemaineGlissante(weekOffset, now)
         .groupedItemsBy((element) => element.date.toDayOfWeekWithFullMonthContextualized());
+  }
+}
+
+class FutureMonthsRendezVousListBuilder implements RendezVousListBuilder {
+  @override
+  String makeTitle() => Strings.rendezVousFutursTitre;
+
+  @override
+  String makeDateLabel(int weekOffset, RendezvousState rendezvousState, DateTime now) {
+    return "todo";
+  }
+
+  @override
+  String makeEmptyLabel(int weekOffset, RendezvousState rendezvousState, DateTime now) {
+    return Strings.noRendezVousFutur;
+  }
+
+  @override
+  String makeAnalyticsLabel(int weekOffset) => AnalyticsScreenNames.rendezvousListFuture;
+
+  @override
+  List<RendezVousItem> rendezvousItems(
+      RendezvousState rendezvousState, LoginState loginState, DateTime now, int weekOffset) {
+    if (rendezvousState is! RendezvousSuccessState) return [];
+
+    return rendezvousState.rendezvous
+        .sortedFromRecentToFuture()
+        .filterAfterFourWeeks(now)
+        .groupedItemsBy((element) => element.date.toFullMonthAndYear());
   }
 }
