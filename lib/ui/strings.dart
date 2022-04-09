@@ -134,9 +134,14 @@ class Strings {
   static String noRendezAutreCetteSemainePrefix = "Vous n’avez pas encore de rendez-vous prévus pour la semaine du ";
   static String noRendezAvantCetteSemaine = "Vous n’avez pas encore de rendez-vous passés";
   static String noRendezVousFutur = "Vous n’avez pas encore de rendez-vous prévus";
-static String rendezvousSinceDate(String date) {
-  return "depuis le $date";
-}
+
+  static String rendezvousSinceDate(String date) {
+    return "depuis le $date";
+  }
+
+  static String rendezvousStartingAtDate(String date) {
+    return "à partir du $date";
+  }
 
   static String rendezvousModalityWithConseillerDetailsMessage(String modality, String conseiller) {
     return "${rendezvousModalityDetailsMessage(modality)} avec $conseiller";
@@ -192,8 +197,11 @@ static String rendezvousSinceDate(String date) {
   static String actionPERetarded = "En retard";
   static String actionPEDone = "Réalisé";
   static String actionPECancelled = "Annulé";
+
   static String actionPEActiveDateFormat(String formattedDate) => "À réaliser pour le $formattedDate";
+
   static String actionPEDoneDateFormat(String formattedDate) => "Réalisé le $formattedDate";
+
   static String actionPECancelledDateFormat(String formattedDate) => "Annulé le $formattedDate";
   static String withoutDate = "Date indéterminée";
   static String withoutContent = "Démarche indéterminée";
@@ -365,11 +373,13 @@ static String rendezvousSinceDate(String date) {
   static String espacePoleEmploiUrl = "https://candidat.pole-emploi.fr/espacepersonnel/";
 
   static String emptyContentTitle(String content) => "Vous n’avez pas encore de $content";
+
   static String emptyContentDescription(String content) =>
       "Vous pouvez créer vos $content en autonomie depuis votre espace Pôle emploi.";
 
   // Profil
   static String personalInformation = "Informations personnelles";
+
   static String sinceDate(String date) => "Depuis le $date";
   static String emailAddressLabel = "Adresse e-mail";
   static String missingEmailAddressValue = "Non renseignée";

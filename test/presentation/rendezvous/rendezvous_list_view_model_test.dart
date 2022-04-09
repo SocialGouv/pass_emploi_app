@@ -218,7 +218,7 @@ void main() {
           expect(viewModel.withNextButton, false);
           expect(viewModel.withPreviousButton, true);
           expect(viewModel.title, "Rendez-vous futurs");
-          expect(viewModel.dateLabel, "à partir du JJ/MM/AAAA (mais quel jour ?)");
+          expect(viewModel.dateLabel, "à partir du 10/03/2022");
           expect(viewModel.emptyLabel, "Vous n’avez pas encore de rendez-vous prévus");
           expect(viewModel.analyticsLabel, "rdv/list-future");
           expect(viewModel.rendezvousItems, [

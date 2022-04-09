@@ -273,7 +273,8 @@ class FutureMonthsRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   String makeDateLabel(int weekOffset, RendezvousState rendezvousState, DateTime now) {
-    return "todo";
+    final startingDay = now.add(Duration(days: (7 * 5))).toDay();
+    return Strings.rendezvousStartingAtDate(startingDay);
   }
 
   @override
