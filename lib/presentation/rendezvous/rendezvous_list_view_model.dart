@@ -106,9 +106,9 @@ extension _RendezvousIterableExtension on Iterable<Rendezvous> {
     final groupedRendezvous = groupListsBy(fn);
     return groupedRendezvous.keys
         .map((date) => [
-      RendezVousDivider(date),
-      ...groupedRendezvous[date]!.map((e) => RendezVousCardItem(e.id)).toList(),
-    ])
+              RendezVousDivider(date),
+              ...groupedRendezvous[date]!.map((e) => RendezVousCardItem(e.id)).toList(),
+            ])
         .flattened
         .toList();
   }

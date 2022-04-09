@@ -57,7 +57,6 @@ void main() {
 
   group('create when rendezvous state is success…', () {
     group('with rendezvous…', () {
-
       group('should display list', () {
         final rendezvous = [
           mockRendezvous(id: 'passés 1', date: DateTime(2022, 1, 4, 4, 5, 30)),
@@ -132,7 +131,8 @@ void main() {
           expect(viewModel.withPreviousButton, true);
           expect(viewModel.title, "Rendez-vous futurs");
           expect(viewModel.dateLabel, "10/02/2022 au 16/02/2022");
-          expect(viewModel.emptyLabel, "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 10/02/2022 au 16/02/2022");
+          expect(viewModel.emptyLabel,
+              "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 10/02/2022 au 16/02/2022");
           expect(viewModel.analyticsLabel, "rdv/list-week-1");
           expect(viewModel.rendezvousItems, [
             RendezVousDivider("Samedi 12 février"),
@@ -153,7 +153,8 @@ void main() {
           expect(viewModel.withPreviousButton, true);
           expect(viewModel.title, "Rendez-vous futurs");
           expect(viewModel.dateLabel, "17/02/2022 au 23/02/2022");
-          expect(viewModel.emptyLabel, "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 17/02/2022 au 23/02/2022");
+          expect(viewModel.emptyLabel,
+              "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 17/02/2022 au 23/02/2022");
           expect(viewModel.analyticsLabel, "rdv/list-week-2");
           expect(viewModel.rendezvousItems, [
             RendezVousDivider("Jeudi 17 février"),
@@ -174,7 +175,8 @@ void main() {
           expect(viewModel.withPreviousButton, true);
           expect(viewModel.title, "Rendez-vous futurs");
           expect(viewModel.dateLabel, "24/02/2022 au 02/03/2022");
-          expect(viewModel.emptyLabel, "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 24/02/2022 au 02/03/2022");
+          expect(viewModel.emptyLabel,
+              "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 24/02/2022 au 02/03/2022");
           expect(viewModel.analyticsLabel, "rdv/list-week-3");
           expect(viewModel.rendezvousItems, [
             RendezVousDivider("Jeudi 24 février"),
@@ -195,7 +197,8 @@ void main() {
           expect(viewModel.withPreviousButton, true);
           expect(viewModel.title, "Rendez-vous futurs");
           expect(viewModel.dateLabel, "03/03/2022 au 09/03/2022");
-          expect(viewModel.emptyLabel, "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 03/03/2022 au 09/03/2022");
+          expect(viewModel.emptyLabel,
+              "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 03/03/2022 au 09/03/2022");
           expect(viewModel.analyticsLabel, "rdv/list-week-4");
           expect(viewModel.rendezvousItems, [
             RendezVousDivider("Jeudi 3 mars"),
