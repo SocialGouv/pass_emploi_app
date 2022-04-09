@@ -80,7 +80,7 @@ void main() {
 
         test('and sort them by last recent for this week', () {
           // Given
-          final store = _loggedInMiloStore(rendezvous);
+          final store = _store(rendezvous);
           // When
           final viewModel = RendezvousListViewModel.create(store, fakeNow, 0);
           // Then
@@ -98,7 +98,7 @@ void main() {
 
         test('and sort them by most recent for past', () {
           // Given
-          final store = _loggedInMiloStore(rendezvous);
+          final store = _store(rendezvous);
           // When
           final viewModel = RendezvousListViewModel.create(store, fakeNow, -1);
           // Then
@@ -116,7 +116,7 @@ void main() {
 
         test('and sort them by last recent for next week 1', () {
           // Given
-          final store = _loggedInMiloStore(rendezvous);
+          final store = _store(rendezvous);
           // When
           final viewModel = RendezvousListViewModel.create(store, fakeNow, 1);
           // Then
@@ -133,7 +133,7 @@ void main() {
 
         test('and sort them by last recent for next week 2', () {
           // Given
-          final store = _loggedInMiloStore(rendezvous);
+          final store = _store(rendezvous);
           // When
           final viewModel = RendezvousListViewModel.create(store, fakeNow, 2);
           // Then
@@ -150,7 +150,7 @@ void main() {
 
         test('and sort them by last recent for next week 3', () {
           // Given
-          final store = _loggedInMiloStore(rendezvous);
+          final store = _store(rendezvous);
           // When
           final viewModel = RendezvousListViewModel.create(store, fakeNow, 3);
           // Then
@@ -167,7 +167,7 @@ void main() {
 
         test('and sort them by last recent for next week 4', () {
           // Given
-          final store = _loggedInMiloStore(rendezvous);
+          final store = _store(rendezvous);
           // When
           final viewModel = RendezvousListViewModel.create(store, fakeNow, 4);
           // Then
@@ -184,7 +184,7 @@ void main() {
 
         test('and sort them by last recent and grouped by month for next month', () {
           // Given
-          final store = _loggedInMiloStore(rendezvous);
+          final store = _store(rendezvous);
           // When
           final viewModel = RendezvousListViewModel.create(store, fakeNow, 5);
           // Then
@@ -241,7 +241,7 @@ void main() {
         // Given
         final DateTime now = DateTime(2022, 11, 30, 4, 5, 0);
         final rendezvous = [mockRendezvous(id: 'cette semaine 1', date: DateTime(2022, 11, 30, 4, 0, 0))];
-        final store = _loggedInMiloStore(rendezvous);
+        final store = _store(rendezvous);
 
         // When
         final viewModel = RendezvousListViewModel.create(store, now, -1);
@@ -292,14 +292,6 @@ void main() {
 Store<AppState> _store(List<Rendezvous> rendezvous) {
   return TestStoreFactory().initializeReduxStore(
     initialState: loggedInState().copyWith(
-      rendezvousState: RendezvousSuccessState(rendezvous),
-    ),
-  );
-}
-
-Store<AppState> _loggedInMiloStore(List<Rendezvous> rendezvous) {
-  return TestStoreFactory().initializeReduxStore(
-    initialState: loggedInMiloState().copyWith(
       rendezvousState: RendezvousSuccessState(rendezvous),
     ),
   );
