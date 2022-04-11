@@ -157,7 +157,7 @@ class StoreFactory {
         UserActionDeleteMiddleware(userActionRepository),
         UserActionPEListMiddleware(userActionPERepository),
         ConseillerMiddleware(conseillerRepository),
-        ChatInitializerMiddleware(firebaseAuthRepository, firebaseAuthWrapper, chatCrypto),
+        ChatInitializerMiddleware(firebaseAuthRepository, firebaseAuthWrapper, chatCrypto, modeDemoRepository),
         ChatMiddleware(chatRepository),
         ChatStatusMiddleware(chatRepository),
         RendezvousMiddleware(rendezvousRepository),

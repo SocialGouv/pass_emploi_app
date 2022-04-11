@@ -62,7 +62,13 @@ flutter:
   uses-material-design: true
 
   assets:
+    - yolo.json
+    - assets/mode_demo/yolo.json
+    - assets/mode_demo/
     - assets/
+    - res/
+    - res/mode_demo/
+    - res/mode_demo/yolo.json
     - env/
 
   fonts:
