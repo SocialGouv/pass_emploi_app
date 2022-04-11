@@ -127,6 +127,21 @@ class Strings {
   static String seeVisio = 'Accéder à la visio';
   static String rendezvousVisioModalityMessage =
       'Le rendez-vous se fera en visio. La visio sera disponible le jour du rendez-vous.';
+  static String rendezVousPassesTitre = "Rendez-vous passés";
+  static String rendezVousCetteSemaineTitre = "Cette semaine";
+  static String rendezVousFutursTitre = "Rendez-vous futurs";
+  static String noRendezVousCetteSemaineTitre = "Vous n’avez pas d’autres rendez-vous prévus cette semaine.";
+  static String noRendezAutreCetteSemainePrefix = "Vous n’avez pas encore de rendez-vous prévus pour la semaine du ";
+  static String noRendezAvantCetteSemaine = "Vous n’avez pas encore de rendez-vous passés";
+  static String noRendezVousFutur = "Vous n’avez pas encore de rendez-vous prévus";
+
+  static String rendezvousSinceDate(String date) {
+    return "depuis le $date";
+  }
+
+  static String rendezvousStartingAtDate(String date) {
+    return "à partir du $date";
+  }
 
   static String rendezvousModalityWithConseillerDetailsMessage(String modality, String conseiller) {
     return "${rendezvousModalityDetailsMessage(modality)} avec $conseiller";
@@ -182,8 +197,11 @@ class Strings {
   static String actionPERetarded = "En retard";
   static String actionPEDone = "Réalisé";
   static String actionPECancelled = "Annulé";
+
   static String actionPEActiveDateFormat(String formattedDate) => "À réaliser pour le $formattedDate";
+
   static String actionPEDoneDateFormat(String formattedDate) => "Réalisé le $formattedDate";
+
   static String actionPECancelledDateFormat(String formattedDate) => "Annulé le $formattedDate";
   static String withoutDate = "Date indéterminée";
   static String withoutContent = "Démarche indéterminée";
@@ -355,11 +373,13 @@ class Strings {
   static String espacePoleEmploiUrl = "https://candidat.pole-emploi.fr/espacepersonnel/";
 
   static String emptyContentTitle(String content) => "Vous n’avez pas encore de $content";
+
   static String emptyContentDescription(String content) =>
       "Vous pouvez créer vos $content en autonomie depuis votre espace Pôle emploi.";
 
   // Profil
   static String personalInformation = "Informations personnelles";
+
   static String sinceDate(String date) => "Depuis le $date";
   static String emailAddressLabel = "Adresse e-mail";
   static String missingEmailAddressValue = "Non renseignée";

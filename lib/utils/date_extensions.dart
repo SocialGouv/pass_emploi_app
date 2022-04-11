@@ -1,4 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 final DateTime minDateTime = DateTime.fromMicrosecondsSinceEpoch(0);
 
@@ -19,6 +21,16 @@ extension DateExtensions on DateTime {
     return toDayWithFullMonth();
   }
 
+  String toDayOfWeekWithFullMonthContextualized() {
+    if (isTomorrow()) return "Demain";
+    if (isToday()) return "Aujourd'hui";
+    return DateFormat('EEEE d MMMM', 'fr').format(this).firstLetterUpperCased();
+  }
+
+  String toFullMonthAndYear() {
+    return DateFormat('MMMM yyyy', 'fr').format(this);
+  }
+
   String toHour() => DateFormat('HH:mm').format(this);
 
   bool isAtSameDayAs(DateTime other) {
@@ -28,4 +40,10 @@ extension DateExtensions on DateTime {
   bool isToday() => isAtSameDayAs(DateTime.now());
 
   bool isTomorrow() => isAtSameDayAs(DateTime.now().add(Duration(days: 1)));
+
+  bool isInPreviousDay(DateTime anotherDate) {
+    final anotherDayDate = DateUtils.dateOnly(anotherDate);
+    final thisDayDate = DateUtils.dateOnly(this);
+    return thisDayDate.isBefore(anotherDayDate);
+  }
 }
