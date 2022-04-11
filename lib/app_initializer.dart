@@ -13,6 +13,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:http/io_client.dart';
 import 'package:http_interceptor/http/intercepted_client.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:matomo/matomo.dart';
 import 'package:package_info/package_info.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
@@ -71,6 +72,7 @@ class AppInitializer {
   Future<Widget> initializeApp() async {
     await Firebase.initializeApp();
     await _initializeCrashlytics();
+    await initializeDateFormatting();
     final configuration = await Configuration.build();
     await _initializeMatomoTracker(configuration);
     final remoteConfig = await _remoteConfig();
