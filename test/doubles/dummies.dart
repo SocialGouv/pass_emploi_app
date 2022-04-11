@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
@@ -86,7 +87,7 @@ class DummyRendezvousRepository extends RendezvousRepository {
 }
 
 class DummyChatRepository extends ChatRepository {
-  DummyChatRepository() : super(DummyChatCrypto(), DummyCrashlytics());
+  DummyChatRepository() : super(DummyChatCrypto(), DummyCrashlytics(), ModeDemoRepository());
 
   @override
   Stream<List<Message>> messagesStream(String userId) async* {}

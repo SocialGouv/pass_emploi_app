@@ -1,0 +1,13 @@
+{
+  "id": "39366221800022-D1102",
+  "metier": "Boulangerie - viennoiserie",
+  "nomEtablissement": "AUX GAMINS DE MENILMONTANT",
+  "secteurActivite": "Fabrication de pain et de pâtisserie fraîche",
+  "ville": "COURBEVOIE",
+  "adresse": "19 AVENUE MARCEAU, 92400 COURBEVOIE",
+  "estVolontaire": false,
+  "localisation": {
+    "latitude": 48.898768,
+    "longitude": 2.246445
+  }
+}
