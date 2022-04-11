@@ -10,6 +10,7 @@ class ModeDemoClient extends BaseClient {
 
   @override
   Future<StreamedResponse> send(BaseRequest request) async {
+    if (!repository.getModeDemo() || !request.url.toString().isSupposedToBeMocked()) return httpClient.send(request);
     if (request.method != "GET") {
       return StreamedResponse(Stream.empty(), 201);
     } else {
@@ -27,6 +28,13 @@ class ModeDemoClient extends BaseClient {
     if (url.endsWith("/favoris/offres-emploi")) return "favoris_ids_offres_emploi";
     if (url.endsWith("/favoris/services-civique")) return "favoris_ids_service_civique";
     if (url.endsWith("/actions")) return "actions_list";
+    if (url.endsWith("/rendezvous")) return "rendez_vous_list";
     return "";
+  }
+}
+
+extension _UrlExtensions on String {
+  bool isSupposedToBeMocked() {
+    return !contains("referentiels");
   }
 }
