@@ -2,6 +2,7 @@ import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
+import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
@@ -11,12 +12,13 @@ class ChatInitializerMiddleware extends MiddlewareClass<AppState> {
   final FirebaseAuthRepository _repository;
   final FirebaseAuthWrapper _firebaseAuthWrapper;
   final ChatCrypto _chatCrypto;
+  final ModeDemoRepository _demoRepository;
 
-  ChatInitializerMiddleware(this._repository, this._firebaseAuthWrapper, this._chatCrypto);
+  ChatInitializerMiddleware(this._repository, this._firebaseAuthWrapper, this._chatCrypto, this._demoRepository);
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
-    if (action is LoginSuccessAction) {
+    if (action is LoginSuccessAction && !_demoRepository.getModeDemo()) {
       if (store.state.deepLinkState.deepLink == DeepLink.ROUTE_TO_CHAT) {
         await _initializeChatFirstThenDispatchLogin(action, next, store);
       } else {
