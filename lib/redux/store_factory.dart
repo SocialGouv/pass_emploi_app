@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/features/bootstrap/bootstrap_middleware.dart';
 import 'package:pass_emploi_app/features/chat/init/chat_initializer_middleware.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_middleware.dart';
@@ -144,6 +145,7 @@ class StoreFactory {
       reducer,
       initialState: initialState,
       middleware: [
+        BootstrapMiddleware(),
         LoginMiddleware(authenticator, firebaseAuthWrapper),
         PoleEmploiAuthMiddleware(poleEmploiAuthRepository, poleEmploiTokenRepository),
         UserActionListMiddleware(userActionRepository),
