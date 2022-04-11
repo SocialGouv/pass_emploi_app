@@ -47,8 +47,8 @@ class RendezvousListViewModel extends Equatable {
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
       title: builder.makeTitle(),
       dateLabel: builder.makeDateLabel(pageOffset, rendezvousState, now),
-      withNextButton: pageOffset < 5,
-      withPreviousButton: pageOffset >= 0,
+      withPreviousButton: RendezVousListBuilder.hasPreviousPage(pageOffset),
+      withNextButton: RendezVousListBuilder.hasNextPage(pageOffset),
       emptyLabel: builder.makeEmptyLabel(pageOffset, rendezvousState, now),
       analyticsLabel: builder.makeAnalyticsLabel(pageOffset),
     );

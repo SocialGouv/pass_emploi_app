@@ -32,6 +32,9 @@ abstract class RendezVousListBuilder {
       return FutureMonthsRendezVousListBuilder();
     }
   }
+
+  static bool hasPreviousPage(int pageOffset) => pageOffset >= 0;
+  static bool hasNextPage(int pageOffset) => pageOffset < 5;
 }
 
 extension _PageOffsetExtension on int {
