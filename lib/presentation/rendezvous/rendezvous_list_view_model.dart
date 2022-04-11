@@ -41,22 +41,22 @@ class RendezvousListViewModel extends Equatable {
     required this.analyticsLabel,
   });
 
-  factory RendezvousListViewModel.create(Store<AppState> store, DateTime now, int weekOffset) {
+  factory RendezvousListViewModel.create(Store<AppState> store, DateTime now, int pageOffset) {
     final loginState = store.state.loginState;
     final rendezvousState = store.state.rendezvousState;
-    final builder = RendezVousListBuilder.create(weekOffset);
+    final builder = RendezVousListBuilder.create(pageOffset);
     return RendezvousListViewModel(
       displayState: _displayState(rendezvousState),
-      rendezvousItems: builder.rendezvousItems(rendezvousState, loginState, now, weekOffset),
+      rendezvousItems: builder.rendezvousItems(rendezvousState, loginState, now, pageOffset),
       deeplinkRendezvousId: _deeplinkRendezvousId(store.state.deepLinkState, rendezvousState),
       onRetry: () => store.dispatch(RendezvousRequestAction()),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
       title: builder.makeTitle(),
-      dateLabel: builder.makeDateLabel(weekOffset, rendezvousState, now),
-      withNextButton: weekOffset < 5,
-      withPreviousButton: weekOffset >= 0,
-      emptyLabel: builder.makeEmptyLabel(weekOffset, rendezvousState, now),
-      analyticsLabel: builder.makeAnalyticsLabel(weekOffset),
+      dateLabel: builder.makeDateLabel(pageOffset, rendezvousState, now),
+      withNextButton: pageOffset < 5,
+      withPreviousButton: pageOffset >= 0,
+      emptyLabel: builder.makeEmptyLabel(pageOffset, rendezvousState, now),
+      analyticsLabel: builder.makeAnalyticsLabel(pageOffset),
     );
   }
 
@@ -72,7 +72,7 @@ DisplayState _displayState(RendezvousState state) {
   return DisplayState.FAILURE;
 }
 
-extension _WeekOffsetExtension on int {
+extension _PageOffsetExtension on int {
   bool isInPast() {
     return this < 0;
   }
@@ -91,9 +91,9 @@ extension _RendezvousIterableExtension on Iterable<Rendezvous> {
     return sorted((a, b) => a.date.compareTo(b.date));
   }
 
-  Iterable<Rendezvous> filterSemaineGlissante(int weekOffset, DateTime now) {
-    final firstDay = DateUtils.dateOnly(now.add(Duration(days: 7 * weekOffset)));
-    final lastDay = DateUtils.dateOnly(now.add(Duration(days: (7 * weekOffset) + 7)));
+  Iterable<Rendezvous> filterSemaineGlissante(int pageOffset, DateTime now) {
+    final firstDay = DateUtils.dateOnly(now.add(Duration(days: 7 * pageOffset)));
+    final lastDay = DateUtils.dateOnly(now.add(Duration(days: (7 * pageOffset) + 7)));
     return where((element) => (element.date.isAfter(firstDay) && element.date.isBefore(lastDay)));
   }
 
@@ -144,21 +144,21 @@ class RendezVousDivider extends RendezVousItem {
 abstract class RendezVousListBuilder {
   String makeTitle();
 
-  String makeDateLabel(int weekOffset, RendezvousState rendezvousState, DateTime now);
+  String makeDateLabel(int pageOffset, RendezvousState rendezvousState, DateTime now);
 
-  String makeEmptyLabel(int weekOffset, RendezvousState rendezvousState, DateTime now);
+  String makeEmptyLabel(int pageOffset, RendezvousState rendezvousState, DateTime now);
 
-  String makeAnalyticsLabel(int weekOffset);
+  String makeAnalyticsLabel(int pageOffset);
 
   List<RendezVousItem> rendezvousItems(
-      RendezvousState rendezvousState, LoginState loginState, DateTime now, int weekOffset);
+      RendezvousState rendezvousState, LoginState loginState, DateTime now, int pageOffset);
 
-  factory RendezVousListBuilder.create(int weekOffset) {
-    if (weekOffset.isInPast()) {
+  factory RendezVousListBuilder.create(int pageOffset) {
+    if (pageOffset.isInPast()) {
       return PastRendezVousListBuilder();
-    } else if (weekOffset.isThisWeek()) {
+    } else if (pageOffset.isThisWeek()) {
       return CurrentWeekRendezVousListBuilder();
-    } else if (weekOffset >= 1 && weekOffset < 5) {
+    } else if (pageOffset >= 1 && pageOffset < 5) {
       return FutureWeekRendezVousListBuilder();
     } else {
       return FutureMonthsRendezVousListBuilder();
@@ -171,7 +171,7 @@ class PastRendezVousListBuilder implements RendezVousListBuilder {
   String makeTitle() => Strings.rendezVousPassesTitre;
 
   @override
-  String makeDateLabel(int weekOffset, RendezvousState rendezvousState, DateTime now) {
+  String makeDateLabel(int pageOffset, RendezvousState rendezvousState, DateTime now) {
     if (rendezvousState is! RendezvousSuccessState) return "";
     if (rendezvousState.rendezvous.isEmpty) return "";
 
@@ -186,15 +186,15 @@ class PastRendezVousListBuilder implements RendezVousListBuilder {
   }
 
   @override
-  String makeEmptyLabel(int weekOffset, RendezvousState rendezvousState, DateTime now) =>
+  String makeEmptyLabel(int pageOffset, RendezvousState rendezvousState, DateTime now) =>
       Strings.noRendezAvantCetteSemaine;
 
   @override
-  String makeAnalyticsLabel(int weekOffset) => AnalyticsScreenNames.rendezvousListPast;
+  String makeAnalyticsLabel(int pageOffset) => AnalyticsScreenNames.rendezvousListPast;
 
   @override
   List<RendezVousItem> rendezvousItems(
-      RendezvousState rendezvousState, LoginState loginState, DateTime now, int weekOffset) {
+      RendezvousState rendezvousState, LoginState loginState, DateTime now, int pageOffset) {
     if (rendezvousState is! RendezvousSuccessState) return [];
 
     return rendezvousState.rendezvous
@@ -209,27 +209,27 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
   String makeTitle() => Strings.rendezVousCetteSemaineTitre;
 
   @override
-  String makeDateLabel(int weekOffset, RendezvousState rendezvousState, DateTime now) {
+  String makeDateLabel(int pageOffset, RendezvousState rendezvousState, DateTime now) {
     final firstDay = now.toDay();
     final lastDay = now.add(Duration(days: 6)).toDay();
     return "$firstDay au $lastDay";
   }
 
   @override
-  String makeEmptyLabel(int weekOffset, RendezvousState rendezvousState, DateTime now) =>
+  String makeEmptyLabel(int pageOffset, RendezvousState rendezvousState, DateTime now) =>
       Strings.noRendezVousCetteSemaineTitre;
 
   @override
-  String makeAnalyticsLabel(int weekOffset) => AnalyticsScreenNames.rendezvousListWeek + weekOffset.toString();
+  String makeAnalyticsLabel(int pageOffset) => AnalyticsScreenNames.rendezvousListWeek + pageOffset.toString();
 
   @override
   List<RendezVousItem> rendezvousItems(
-      RendezvousState rendezvousState, LoginState loginState, DateTime now, int weekOffset) {
+      RendezvousState rendezvousState, LoginState loginState, DateTime now, int pageOffset) {
     if (rendezvousState is! RendezvousSuccessState) return [];
 
     return rendezvousState.rendezvous
         .sortedFromRecentToFuture()
-        .filterSemaineGlissante(weekOffset, now)
+        .filterSemaineGlissante(pageOffset, now)
         .groupedItemsBy((element) => element.date.toDayOfWeekWithFullMonthContextualized());
   }
 }
@@ -239,28 +239,28 @@ class FutureWeekRendezVousListBuilder implements RendezVousListBuilder {
   String makeTitle() => Strings.rendezVousFutursTitre;
 
   @override
-  String makeDateLabel(int weekOffset, RendezvousState rendezvousState, DateTime now) {
-    final firstDay = now.add(Duration(days: 7 * weekOffset)).toDay();
-    final lastDay = now.add(Duration(days: (7 * weekOffset) + 6)).toDay();
+  String makeDateLabel(int pageOffset, RendezvousState rendezvousState, DateTime now) {
+    final firstDay = now.add(Duration(days: 7 * pageOffset)).toDay();
+    final lastDay = now.add(Duration(days: (7 * pageOffset) + 6)).toDay();
     return "$firstDay au $lastDay";
   }
 
   @override
-  String makeEmptyLabel(int weekOffset, RendezvousState rendezvousState, DateTime now) {
-    return Strings.noRendezAutreCetteSemainePrefix + makeDateLabel(weekOffset, rendezvousState, now);
+  String makeEmptyLabel(int pageOffset, RendezvousState rendezvousState, DateTime now) {
+    return Strings.noRendezAutreCetteSemainePrefix + makeDateLabel(pageOffset, rendezvousState, now);
   }
 
   @override
-  String makeAnalyticsLabel(int weekOffset) => AnalyticsScreenNames.rendezvousListWeek + weekOffset.toString();
+  String makeAnalyticsLabel(int pageOffset) => AnalyticsScreenNames.rendezvousListWeek + pageOffset.toString();
 
   @override
   List<RendezVousItem> rendezvousItems(
-      RendezvousState rendezvousState, LoginState loginState, DateTime now, int weekOffset) {
+      RendezvousState rendezvousState, LoginState loginState, DateTime now, int pageOffset) {
     if (rendezvousState is! RendezvousSuccessState) return [];
 
     return rendezvousState.rendezvous
         .sortedFromRecentToFuture()
-        .filterSemaineGlissante(weekOffset, now)
+        .filterSemaineGlissante(pageOffset, now)
         .groupedItemsBy((element) => element.date.toDayOfWeekWithFullMonthContextualized());
   }
 }
@@ -270,22 +270,22 @@ class FutureMonthsRendezVousListBuilder implements RendezVousListBuilder {
   String makeTitle() => Strings.rendezVousFutursTitre;
 
   @override
-  String makeDateLabel(int weekOffset, RendezvousState rendezvousState, DateTime now) {
+  String makeDateLabel(int pageOffset, RendezvousState rendezvousState, DateTime now) {
     final startingDay = now.add(Duration(days: (7 * 5))).toDay();
     return Strings.rendezvousStartingAtDate(startingDay);
   }
 
   @override
-  String makeEmptyLabel(int weekOffset, RendezvousState rendezvousState, DateTime now) {
+  String makeEmptyLabel(int pageOffset, RendezvousState rendezvousState, DateTime now) {
     return Strings.noRendezVousFutur;
   }
 
   @override
-  String makeAnalyticsLabel(int weekOffset) => AnalyticsScreenNames.rendezvousListFuture;
+  String makeAnalyticsLabel(int pageOffset) => AnalyticsScreenNames.rendezvousListFuture;
 
   @override
   List<RendezVousItem> rendezvousItems(
-      RendezvousState rendezvousState, LoginState loginState, DateTime now, int weekOffset) {
+      RendezvousState rendezvousState, LoginState loginState, DateTime now, int pageOffset) {
     if (rendezvousState is! RendezvousSuccessState) return [];
 
     return rendezvousState.rendezvous

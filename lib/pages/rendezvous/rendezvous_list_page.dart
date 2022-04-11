@@ -25,7 +25,7 @@ class RendezvousListPage extends StatefulWidget {
 }
 
 class _RendezvousListPageState extends State<RendezvousListPage> {
-  int _weekOffset = 0;
+  int _pageOffset = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +33,7 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
       onInit: (store) {
         if (store.state.rendezvousState is! RendezvousSuccessState) store.dispatch(RendezvousRequestAction());
       },
-      converter: (store) => RendezvousListViewModel.create(store, DateTime.now(), _weekOffset),
+      converter: (store) => RendezvousListViewModel.create(store, DateTime.now(), _pageOffset),
       builder: _builder,
       onDidChange: (_, viewModel) => _openDeeplinkIfNeeded(viewModel, context),
       distinct: true,
@@ -45,9 +45,9 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
     return _Scaffold(
       body: _Body(
         viewModel: viewModel,
-        onWeekOffsetChanged: (i) {
+        onPageOffsetChanged: (i) {
           setState(() {
-            _weekOffset = _weekOffset + i;
+            _pageOffset = _pageOffset + i;
           });
         },
         onTap: (rdvId) => widget.pushAndTrackBack(
@@ -86,12 +86,12 @@ class _Scaffold extends StatelessWidget {
 }
 
 class _Body extends StatelessWidget {
-  const _Body({Key? key, required this.viewModel, required this.onWeekOffsetChanged, required this.onTap})
+  const _Body({Key? key, required this.viewModel, required this.onPageOffsetChanged, required this.onTap})
       : super(key: key);
 
   final RendezvousListViewModel viewModel;
   final Function(String) onTap;
-  final Function(int) onWeekOffsetChanged;
+  final Function(int) onPageOffsetChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -106,19 +106,19 @@ class _Body extends StatelessWidget {
         return _Content(
           viewModel: viewModel,
           onTap: (rdvId) => onTap(rdvId),
-          onWeekOffsetChanged: onWeekOffsetChanged,
+          onPageOffsetChanged: onPageOffsetChanged,
         );
     }
   }
 }
 
 class _Content extends StatelessWidget {
-  const _Content({Key? key, required this.viewModel, required this.onTap, required this.onWeekOffsetChanged})
+  const _Content({Key? key, required this.viewModel, required this.onTap, required this.onPageOffsetChanged})
       : super(key: key);
 
   final RendezvousListViewModel viewModel;
   final Function(String) onTap;
-  final Function(int) onWeekOffsetChanged;
+  final Function(int) onPageOffsetChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +126,7 @@ class _Content extends StatelessWidget {
       mainAxisSize: MainAxisSize.max,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _DateHeader(viewModel: viewModel, onWeekOffsetChanged: onWeekOffsetChanged),
+        _DateHeader(viewModel: viewModel, onPageOffsetChanged: onPageOffsetChanged),
         if (viewModel.rendezvousItems.isEmpty) _EmptyWeek(viewModel.emptyLabel),
         if (viewModel.rendezvousItems.isNotEmpty)
           Expanded(
@@ -219,9 +219,9 @@ class _Empty extends StatelessWidget {
 
 class _DateHeader extends StatelessWidget {
   final RendezvousListViewModel viewModel;
-  final Function(int) onWeekOffsetChanged;
+  final Function(int) onPageOffsetChanged;
 
-  const _DateHeader({Key? key, required this.viewModel, required this.onWeekOffsetChanged}) : super(key: key);
+  const _DateHeader({Key? key, required this.viewModel, required this.onPageOffsetChanged}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -236,7 +236,7 @@ class _DateHeader extends StatelessWidget {
               iconColor: AppColors.primary,
               borderColor: Colors.transparent,
               onTap: () {
-                onWeekOffsetChanged(-1);
+                onPageOffsetChanged(-1);
               },
             ),
           if (!viewModel.withPreviousButton) SizedBox(width: 59),
@@ -262,7 +262,7 @@ class _DateHeader extends StatelessWidget {
               iconColor: AppColors.primary,
               borderColor: Colors.transparent,
               onTap: () {
-                onWeekOffsetChanged(1);
+                onPageOffsetChanged(1);
               },
             ),
           if (!viewModel.withNextButton) SizedBox(width: 59),
