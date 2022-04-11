@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "id": "131BSMS",
+    "alternance": false,
+    "duree": "Temps plein",
+    "localisation": {
+      "nom": "44 - NANTES",
+      "codePostal": "",
+      "commune": ""
+    },
+    "typeContrat": "CDI",
+    "nomEntreprise": "BOULANGERIE ANGE",
+    "titre": "Boulanger / Boulangère"
+  }
+]

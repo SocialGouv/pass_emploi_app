@@ -29,6 +29,7 @@ class ForceUpdatePage extends TraceableStatelessWidget {
       home: Scaffold(
         appBar: passEmploiAppBar(
           label: Strings.updateTitle,
+          context: context,
         ),
         body: Padding(
           padding: const EdgeInsets.all(Margins.spacing_base),
