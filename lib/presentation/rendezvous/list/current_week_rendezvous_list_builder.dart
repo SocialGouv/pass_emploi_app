@@ -18,15 +18,20 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
   }
 
   @override
-  String makeEmptyLabel(int pageOffset, RendezvousState rendezvousState, DateTime now) =>
-      Strings.noRendezVousCetteSemaineTitre;
+  String makeEmptyLabel(int pageOffset, RendezvousState rendezvousState, DateTime now) {
+    return Strings.noRendezVousCetteSemaineTitre;
+  }
 
   @override
   String makeAnalyticsLabel(int pageOffset) => AnalyticsScreenNames.rendezvousListWeek + pageOffset.toString();
 
   @override
   List<RendezVousItem> rendezvousItems(
-      RendezvousState rendezvousState, LoginState loginState, DateTime now, int pageOffset) {
+    RendezvousState rendezvousState,
+    LoginState loginState,
+    DateTime now,
+    int pageOffset,
+  ) {
     if (rendezvousState is! RendezvousSuccessState) return [];
 
     return rendezvousState.rendezvous

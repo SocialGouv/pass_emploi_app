@@ -27,7 +27,11 @@ class FutureWeekRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   List<RendezVousItem> rendezvousItems(
-      RendezvousState rendezvousState, LoginState loginState, DateTime now, int pageOffset) {
+    RendezvousState rendezvousState,
+    LoginState loginState,
+    DateTime now,
+    int pageOffset,
+  ) {
     if (rendezvousState is! RendezvousSuccessState) return [];
 
     return rendezvousState.rendezvous

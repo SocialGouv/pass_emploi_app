@@ -19,7 +19,11 @@ abstract class RendezVousListBuilder {
   String makeAnalyticsLabel(int pageOffset);
 
   List<RendezVousItem> rendezvousItems(
-      RendezvousState rendezvousState, LoginState loginState, DateTime now, int pageOffset);
+    RendezvousState rendezvousState,
+    LoginState loginState,
+    DateTime now,
+    int pageOffset,
+  );
 
   factory RendezVousListBuilder.create(int pageOffset) {
     if (pageOffset.isInPast()) {
@@ -34,27 +38,20 @@ abstract class RendezVousListBuilder {
   }
 
   static bool hasPreviousPage(int pageOffset) => pageOffset >= 0;
+
   static bool hasNextPage(int pageOffset) => pageOffset < 5;
 }
 
 extension _PageOffsetExtension on int {
-  bool isInPast() {
-    return this < 0;
-  }
+  bool isInPast() => this < 0;
 
-  bool isThisWeek() {
-    return this == 0;
-  }
+  bool isThisWeek() => this == 0;
 }
 
 extension RendezvousIterableExtension on Iterable<Rendezvous> {
-  List<Rendezvous> sortedFromRecentToOldest() {
-    return sorted((a, b) => b.date.compareTo(a.date));
-  }
+  List<Rendezvous> sortedFromRecentToOldest() => sorted((a, b) => b.date.compareTo(a.date));
 
-  List<Rendezvous> sortedFromRecentToFuture() {
-    return sorted((a, b) => a.date.compareTo(b.date));
-  }
+  List<Rendezvous> sortedFromRecentToFuture() => sorted((a, b) => a.date.compareTo(b.date));
 
   Iterable<Rendezvous> filterSemaineGlissante(int pageOffset, DateTime now) {
     final firstDay = DateUtils.dateOnly(now.add(Duration(days: 7 * pageOffset)));
@@ -71,9 +68,9 @@ extension RendezvousIterableExtension on Iterable<Rendezvous> {
     final groupedRendezvous = groupListsBy(fn);
     return groupedRendezvous.keys
         .map((date) => [
-      RendezVousDivider(date),
-      ...groupedRendezvous[date]!.map((e) => RendezVousCardItem(e.id)).toList(),
-    ])
+              RendezVousDivider(date),
+              ...groupedRendezvous[date]!.map((e) => RendezVousCardItem(e.id)).toList(),
+            ])
         .flattened
         .toList();
   }
