@@ -86,6 +86,8 @@ class ChatRepository {
   }
 
   Future<String?> _getChatDocumentId(String userId) async {
+    // TODO handle chat
+    return null;
     final chats =
         await FirebaseFirestore.instance.collection(_collectionPath).where('jeuneId', isEqualTo: userId).get();
     return chats.docs.first.id;

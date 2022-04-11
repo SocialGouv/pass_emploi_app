@@ -13,7 +13,7 @@ const String _refreshTokenKey = "refreshToken";
 
 enum RefreshTokenStatus { SUCCESSFUL, GENERIC_ERROR, USER_NOT_LOGGED_IN, NETWORK_UNREACHABLE, EXPIRED_REFRESH_TOKEN }
 
-enum AuthenticationMode { GENERIC, SIMILO, POLE_EMPLOI }
+enum AuthenticationMode { GENERIC, SIMILO, POLE_EMPLOI, DEMO }
 
 const Map<String, String> similoAdditionalParameters = {"kc_idp_hint": "similo-jeune"};
 const Map<String, String> poleEmploiAdditionalParameters = {"kc_idp_hint": "pe-jeune"};

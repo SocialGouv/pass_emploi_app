@@ -18,6 +18,7 @@ import 'package:pass_emploi_app/features/location/search_location_middleware.dar
 import 'package:pass_emploi_app/features/login/login_middleware.dart';
 import 'package:pass_emploi_app/features/login/pole_emploi/pole_emploi_auth_middleware.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_middleware.dart';
+import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_middleware.dart';
 import 'package:pass_emploi_app/features/offre_emploi/saved_search/offre_emploi_saved_search_middleware.dart';
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_middleware.dart';
@@ -106,6 +107,7 @@ class StoreFactory {
   final ServiceCiviqueRepository serviceCiviqueRepository;
   final ServiceCiviqueDetailRepository serviceCiviqueDetailRepository;
   final ConseillerRepository conseillerRepository;
+  final ModeDemoRepository modeDemoRepository;
 
   StoreFactory(
     this.authenticator,
@@ -138,6 +140,7 @@ class StoreFactory {
     this.serviceCiviqueRepository,
     this.serviceCiviqueDetailRepository,
     this.conseillerRepository,
+    this.modeDemoRepository,
   );
 
   redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -146,7 +149,7 @@ class StoreFactory {
       initialState: initialState,
       middleware: [
         BootstrapMiddleware(),
-        LoginMiddleware(authenticator, firebaseAuthWrapper),
+        LoginMiddleware(authenticator, firebaseAuthWrapper, modeDemoRepository),
         PoleEmploiAuthMiddleware(poleEmploiAuthRepository, poleEmploiTokenRepository),
         UserActionListMiddleware(userActionRepository),
         UserActionCreateMiddleware(userActionRepository),

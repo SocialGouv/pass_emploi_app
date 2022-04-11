@@ -24,6 +24,8 @@ import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/configuration/app_version_checker.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
+import 'package:pass_emploi_app/features/mode_demo/mode_demo_client.dart';
 import 'package:pass_emploi_app/network/cache_interceptor.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/network/headers.dart';
@@ -139,6 +141,7 @@ class AppInitializer {
     final accessTokenRetriever = AuthAccessTokenRetriever(authenticator);
     final authAccessChecker = AuthAccessChecker();
     final defaultContext = SecurityContext.defaultContext;
+    final modeDemoRepository = ModeDemoRepository();
     try {
       defaultContext.setTrustedCertificatesBytes(utf8.encode(configuration.iSRGX1CertificateForOldDevices));
     } catch (e, stack) {
@@ -150,8 +153,10 @@ class AppInitializer {
       stalePeriod: Duration(minutes: 20),
       maxNrOfCacheObjects: 30,
     ));
+    final modeDemoClient =
+        ModeDemoClient(modeDemoRepository, HttpClientWithCache(passEmploiCacheManager, clientWithCertificate));
     final httpClient = InterceptedClient.build(
-      client: HttpClientWithCache(passEmploiCacheManager, clientWithCertificate),
+      client: modeDemoClient,
       interceptors: [
         AccessTokenInterceptor(accessTokenRetriever, poleEmploiTokenRepository),
         LogoutInterceptor(authAccessChecker),
@@ -192,6 +197,7 @@ class AppInitializer {
       ServiceCiviqueRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       ServiceCiviqueDetailRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       ConseillerRepository(baseUrl, httpClient, headersBuilder, crashlytics),
+      modeDemoRepository,
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
     authAccessChecker.setStore(reduxStore);
