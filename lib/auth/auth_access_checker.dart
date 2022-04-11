@@ -7,7 +7,7 @@ class AuthAccessChecker {
 
   void logoutUserIfTokenIsExpired(String? message, int statusCode) {
     if (message == 'token_pole_emploi_expired' && statusCode == 401) {
-      _store.dispatch(RequestLogoutAction(LogoutRequester.SYSTEM));
+      _store.dispatch(RequestLogoutAction());
     }
   }
 

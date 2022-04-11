@@ -20,7 +20,6 @@ void main() {
         // Then
         if (expectLogout) {
           expect(store.dispatchedAction, isA<RequestLogoutAction>());
-          expect((store.dispatchedAction as RequestLogoutAction).logoutRequester, LogoutRequester.SYSTEM);
         } else {
           expect(store.dispatchedAction, isNull);
         }

@@ -18,7 +18,7 @@ void main() {
     final Store<AppState> store = testStoreFactory.initializeReduxStore(initialState: initialState);
 
     // When
-    await store.dispatch(RequestLogoutAction(LogoutRequester.USER));
+    await store.dispatch(RequestLogoutAction());
 
     // Then
     expect(testStoreFactory.poleEmploiTokenRepository.getPoleEmploiAccessToken(), isNull);

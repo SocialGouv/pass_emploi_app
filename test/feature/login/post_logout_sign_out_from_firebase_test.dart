@@ -15,7 +15,7 @@ void main() {
     final Store<AppState> store = testStoreFactory.initializeReduxStore(initialState: AppState.initialState());
 
     // When
-    await store.dispatch(RequestLogoutAction(LogoutRequester.USER));
+    await store.dispatch(RequestLogoutAction());
 
     // Then
     expect(firebaseAuthWrapperSpy.signOutHasBeenCalled, isTrue);

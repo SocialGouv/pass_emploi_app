@@ -85,7 +85,6 @@ void main() {
 
     // Then
     expect(store.dispatchedAction, isA<RequestLogoutAction>());
-    expect((store.dispatchedAction as RequestLogoutAction).logoutRequester, LogoutRequester.SYSTEM);
   });
 }
 

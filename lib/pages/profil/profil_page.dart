@@ -135,7 +135,7 @@ class ProfilPage extends TraceableStatelessWidget {
               SizedBox(height: Margins.spacing_m),
               SecondaryButton(
                 onPressed: () {
-                  StoreProvider.of<AppState>(context).dispatch(RequestLogoutAction(LogoutRequester.USER));
+                  StoreProvider.of<AppState>(context).dispatch(RequestLogoutAction());
                 },
                 label: Strings.logoutAction,
               ),
