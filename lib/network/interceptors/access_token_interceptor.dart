@@ -8,6 +8,8 @@ class AccessTokenInterceptor implements InterceptorContract {
 
   @override
   Future<RequestData> interceptRequest({required RequestData data}) async {
+    // TODO remove
+    return data;
     data.headers["Authorization"] = "Bearer ${await _accessTokenRetriever.accessToken()}";
     return data;
   }

@@ -1,6 +1,6 @@
 import 'package:pass_emploi_app/models/user.dart';
 
-enum RequestLoginMode { PASS_EMPLOI, SIMILO, POLE_EMPLOI }
+enum RequestLoginMode { PASS_EMPLOI, SIMILO, POLE_EMPLOI, DEMO }
 
 class LoginRequestAction {}
 
