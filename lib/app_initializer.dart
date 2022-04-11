@@ -157,7 +157,7 @@ class AppInitializer {
       client: modeDemoClient,
       interceptors: [
         monitoringInterceptor,
-        AccessTokenInterceptor(accessTokenRetriever),
+        AccessTokenInterceptor(accessTokenRetriever, poleEmploiTokenRepository, modeDemoRepository),
         LogoutInterceptor(authAccessChecker),
         LoggingInterceptor(),
       ],
@@ -174,7 +174,7 @@ class AppInitializer {
       UserActionPERepository(baseUrl, httpClient, crashlytics),
       RendezvousRepository(baseUrl, httpClient, crashlytics),
       OffreEmploiRepository(baseUrl, httpClient, crashlytics),
-      ChatRepository(chatCrypto, crashlytics),
+      ChatRepository(chatCrypto, crashlytics, modeDemoRepository),
       RegisterTokenRepository(baseUrl, httpClient, pushNotificationManager, crashlytics),
       OffreEmploiDetailsRepository(baseUrl, httpClient, crashlytics),
       OffreEmploiFavorisRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
