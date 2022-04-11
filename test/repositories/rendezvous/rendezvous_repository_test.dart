@@ -164,4 +164,9 @@ void main() {
     // Then
     expect(rendezvous, isNull);
   });
+
+  test("yolo", () {
+    final uri = Uri.parse("https://api.pass-emploi.incubateur.net/offres-emploi?page=1&limit=50");
+    expect(uri.path, "/offres-emploi");
+  });
 }

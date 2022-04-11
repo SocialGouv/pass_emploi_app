@@ -1,0 +1,75 @@
+{
+  "id": "131MXFF",
+  "urlRedirectPourPostulation": "https://candidat.pole-emploi.fr/offres/recherche/detail/131MXFF",
+  "data": {
+    "id": "131MXFF",
+    "intitule": "Employé / Employée de rayon produits frais",
+    "description": "Vous serez chargé(e) de l'accueil des clients, de la vente et de la mise en place des produits frais selon les règles d'hygiène, de propreté et de sécurité alimentaires.\n\nUne expérience dans le secteur de la distribution serait idéale mais ce poste reste ouvert aux personnes débutantes.\n\nPoste à pourvoir dès que possible.",
+    "dateCreation": "2022-04-11T15:54:16.000Z",
+    "dateActualisation": "2022-04-11T15:54:16.000Z",
+    "lieuTravail": {
+      "libelle": "29 - LOCTUDY",
+      "latitude": 47.82486,
+      "longitude": -4.186168,
+      "codePostal": "29750",
+      "commune": "29135"
+    },
+    "romeCode": "D1507",
+    "romeLibelle": "Mise en rayon libre-service",
+    "appellationlibelle": "Employé / Employée de rayon produits frais",
+    "entreprise": {
+      "nom": "Carrefour Market",
+      "entrepriseAdaptee": false
+    },
+    "typeContrat": "CDI",
+    "typeContratLibelle": "Contrat à durée indéterminée",
+    "natureContrat": "Contrat travail",
+    "experienceExige": "D",
+    "experienceLibelle": "Débutant accepté",
+    "competences": [
+      {
+        "code": "117532",
+        "libelle": "Disposer des produits sur le lieu de vente",
+        "exigence": "S"
+      },
+      {
+        "code": "117547",
+        "libelle": "Réceptionner un produit",
+        "exigence": "S"
+      },
+      {
+        "code": "119851",
+        "libelle": "Vérifier la conformité de la livraison",
+        "exigence": "S"
+      },
+      {
+        "code": "121228",
+        "libelle": "Contrôler le balisage et l'étiquetage des produits en rayon",
+        "exigence": "S"
+      },
+      {
+        "code": "121230",
+        "libelle": "Réaliser le balisage et l'étiquetage des produits en rayon",
+        "exigence": "S"
+      }
+    ],
+    "salaire": {
+      "commentaire": "Selon experience",
+      "complement1": "Autre"
+    },
+    "dureeTravailLibelle": "35H Horaires normaux",
+    "dureeTravailLibelleConverti": "Temps plein",
+    "alternance": false,
+    "contact": {},
+    "nombrePostes": 1,
+    "accessibleTH": false,
+    "qualificationCode": "6",
+    "qualificationLibelle": "Employé qualifié",
+    "secteurActivite": "70",
+    "secteurActiviteLibelle": "Activités des sièges sociaux",
+    "origineOffre": {
+      "origine": "1",
+      "urlOrigine": "https://candidat.pole-emploi.fr/offres/recherche/detail/131MXFF"
+    }
+  }
+}

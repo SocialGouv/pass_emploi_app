@@ -14,7 +14,7 @@ class ModeDemoClient extends BaseClient {
     if (request.method != "GET") {
       return StreamedResponse(Stream.empty(), 201);
     } else {
-      final stringUrl = _getFileName(request.url.path.toString());
+      final stringUrl = _getFileName(request.url.path);
       final stream = rootBundle
           .load("assets/mode_demo/" + stringUrl + ".json")
           .asStream()
@@ -30,7 +30,12 @@ class ModeDemoClient extends BaseClient {
     if (url.endsWith("/actions")) return "actions_list";
     if (url.endsWith("/rendezvous")) return "rendez_vous_list";
     if (url.endsWith("/recherches")) return "saved_search";
-    if (url.endsWith("/offres_emploi")) return "offres_emploi_list";
+    if (url.endsWith("/offres-emploi")) return "offres_emploi_list";
+    if (url.endsWith("/offres-immersion")) return "offres_immersion_list";
+    if (url.endsWith("/services-civique")) return "offres_services_civique";
+    if (url.contains("/services-civique/")) return "service_civique_detail";
+    if (url.contains("/offres-immersion/")) return "immersion_detail";
+    if (url.contains("/offres-emploi/")) return "offre_emploi_detail";
     return "";
   }
 }
