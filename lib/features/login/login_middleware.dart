@@ -22,8 +22,7 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
     } else if (action is RequestLoginAction) {
       _logUser(store, action.mode);
     } else if (action is RequestLogoutAction) {
-      _logout(store, action.logoutRequester);
-      _firebaseAuthWrapper.signOut();
+      _logout(store);
     }
   }
 
@@ -59,10 +58,11 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(LoginSuccessAction(user));
   }
 
-  void _logout(Store<AppState> store, LogoutRequester logoutRequester) async {
-    if (logoutRequester == LogoutRequester.USER) await _authenticator.logout();
+  void _logout(Store<AppState> store) async {
+    await _authenticator.logout();
     store.dispatch(UnsubscribeFromChatStatusAction());
     store.dispatch(BootstrapAction());
+    _firebaseAuthWrapper.signOut();
   }
 
   AuthenticationMode _getAuthenticationMode(RequestLoginMode mode) {
