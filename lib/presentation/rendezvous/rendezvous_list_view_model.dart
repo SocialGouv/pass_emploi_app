@@ -44,7 +44,7 @@ class RendezvousListViewModel extends Equatable {
   factory RendezvousListViewModel.create(Store<AppState> store, DateTime now, int weekOffset) {
     final loginState = store.state.loginState;
     final rendezvousState = store.state.rendezvousState;
-    final builder = RendezVousListBuilderFactory.create(weekOffset);
+    final builder = RendezVousListBuilder.create(weekOffset);
     return RendezvousListViewModel(
       displayState: _displayState(rendezvousState),
       rendezvousItems: builder.rendezvousItems(rendezvousState, loginState, now, weekOffset),
@@ -141,20 +141,6 @@ class RendezVousDivider extends RendezVousItem {
 }
 
 
-class RendezVousListBuilderFactory {
-  static RendezVousListBuilder create(int weekOffset) {
-    if (weekOffset.isInPast()) {
-      return PastRendezVousListBuilder();
-    } else if (weekOffset.isThisWeek()) {
-      return CurrentWeekRendezVousListBuilder();
-    } else if (weekOffset >= 1 && weekOffset < 5) {
-      return FutureWeekRendezVousListBuilder();
-    } else {
-      return FutureMonthsRendezVousListBuilder();
-    }
-  }
-}
-
 abstract class RendezVousListBuilder {
   String makeTitle();
 
@@ -166,6 +152,18 @@ abstract class RendezVousListBuilder {
 
   List<RendezVousItem> rendezvousItems(
       RendezvousState rendezvousState, LoginState loginState, DateTime now, int weekOffset);
+
+  factory RendezVousListBuilder.create(int weekOffset) {
+    if (weekOffset.isInPast()) {
+      return PastRendezVousListBuilder();
+    } else if (weekOffset.isThisWeek()) {
+      return CurrentWeekRendezVousListBuilder();
+    } else if (weekOffset >= 1 && weekOffset < 5) {
+      return FutureWeekRendezVousListBuilder();
+    } else {
+      return FutureMonthsRendezVousListBuilder();
+    }
+  }
 }
 
 class PastRendezVousListBuilder implements RendezVousListBuilder {
