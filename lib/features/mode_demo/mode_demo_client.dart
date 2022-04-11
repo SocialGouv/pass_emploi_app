@@ -14,7 +14,7 @@ class ModeDemoClient extends BaseClient {
     if (request.method != "GET") {
       return StreamedResponse(Stream.empty(), 201);
     } else {
-      final stringUrl = _getFileName(request.url.toString());
+      final stringUrl = _getFileName(request.url.path.toString());
       final stream = rootBundle
           .load("assets/mode_demo/" + stringUrl + ".json")
           .asStream()
@@ -30,6 +30,7 @@ class ModeDemoClient extends BaseClient {
     if (url.endsWith("/actions")) return "actions_list";
     if (url.endsWith("/rendezvous")) return "rendez_vous_list";
     if (url.endsWith("/recherches")) return "saved_search";
+    if (url.endsWith("/offres_emploi")) return "offres_emploi_list";
     return "";
   }
 }

@@ -158,7 +158,7 @@ class AppInitializer {
     final httpClient = InterceptedClient.build(
       client: modeDemoClient,
       interceptors: [
-        AccessTokenInterceptor(accessTokenRetriever, poleEmploiTokenRepository),
+        AccessTokenInterceptor(accessTokenRetriever, poleEmploiTokenRepository, modeDemoRepository),
         LogoutInterceptor(authAccessChecker),
         LoggingInterceptor(),
       ],
@@ -176,7 +176,7 @@ class AppInitializer {
       UserActionPERepository(baseUrl, httpClient, headersBuilder, poleEmploiTokenRepository, crashlytics),
       RendezvousRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       OffreEmploiRepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      ChatRepository(chatCrypto, crashlytics),
+      ChatRepository(chatCrypto, crashlytics, modeDemoRepository),
       RegisterTokenRepository(baseUrl, httpClient, headersBuilder, pushNotificationManager, crashlytics),
       OffreEmploiDetailsRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       OffreEmploiFavorisRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
