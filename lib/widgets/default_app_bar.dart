@@ -7,8 +7,7 @@ import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-
-import '../redux/app_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 
 class DefaultAppBar extends AppBar {
   DefaultAppBar({Widget? title, List<Widget>? actions, bool? centerTitle})
