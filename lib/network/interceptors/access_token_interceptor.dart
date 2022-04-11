@@ -11,7 +11,7 @@ class AccessTokenInterceptor implements InterceptorContract {
   @override
   Future<RequestData> interceptRequest({required RequestData data}) async {
     // TODO remove
-    return data;
+    // return data;
     data.headers["Authorization"] = "Bearer ${await _accessTokenRetriever.accessToken()}";
     // TODO: temp solution to remove when token would be handled by backend
     final poleEmploiAccessToken = _poleEmploiTokenRepository.getPoleEmploiAccessToken();

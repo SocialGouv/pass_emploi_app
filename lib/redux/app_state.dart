@@ -68,6 +68,7 @@ class AppState extends Equatable {
   final SavedSearchDeleteState savedSearchDeleteState;
   final ServiceCiviqueSearchResultState serviceCiviqueSearchResultState;
   final ServiceCiviqueDetailState serviceCiviqueDetailState;
+  final bool demoState;
 
   AppState({
     required this.configurationState,
@@ -102,6 +103,7 @@ class AppState extends Equatable {
     required this.savedSearchDeleteState,
     required this.serviceCiviqueSearchResultState,
     required this.serviceCiviqueDetailState,
+    required this.demoState,
   });
 
   AppState copyWith({
@@ -137,6 +139,7 @@ class AppState extends Equatable {
     final SavedSearchDeleteState? savedSearchDeleteState,
     final ServiceCiviqueSearchResultState? serviceCiviqueSearchResultState,
     final ServiceCiviqueDetailState? serviceCiviqueDetailState,
+    final bool? demoState,
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
@@ -171,6 +174,7 @@ class AppState extends Equatable {
       savedSearchDeleteState: savedSearchDeleteState ?? this.savedSearchDeleteState,
       serviceCiviqueSearchResultState: serviceCiviqueSearchResultState ?? this.serviceCiviqueSearchResultState,
       serviceCiviqueDetailState: serviceCiviqueDetailState ?? this.serviceCiviqueDetailState,
+      demoState: demoState ?? this.demoState,
     );
   }
 
@@ -208,6 +212,7 @@ class AppState extends Equatable {
       savedSearchDeleteState: SavedSearchDeleteNotInitializedState(),
       serviceCiviqueSearchResultState: ServiceCiviqueSearchResultNotInitializedState(),
       serviceCiviqueDetailState: ServiceCiviqueDetailNotInitializedState(),
+      demoState: false,
     );
   }
 
@@ -240,6 +245,7 @@ class AppState extends Equatable {
         savedSearchListState,
         savedSearchDeleteState,
         serviceCiviqueDetailState,
+        demoState,
       ];
 
   @override

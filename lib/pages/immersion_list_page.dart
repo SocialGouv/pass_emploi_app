@@ -38,7 +38,7 @@ class ImmersionListPage extends TraceableStatelessWidget {
         selectState: (store) => store.state.immersionFavorisState,
         child: Scaffold(
           backgroundColor: AppColors.grey100,
-          appBar: passEmploiAppBar(label: Strings.immersionsTitle, withBackButton: true),
+          appBar: passEmploiAppBar(label: Strings.immersionsTitle, context: context, withBackButton: true),
           body: _body(context, viewModel),
         ),
       ),

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+
+import '../redux/app_state.dart';
 
 class DefaultAppBar extends AppBar {
   DefaultAppBar({Widget? title, List<Widget>? actions, bool? centerTitle})
@@ -45,9 +48,10 @@ class FlatDefaultAppBar extends AppBar {
         );
 }
 
-FlatDefaultAppBar passEmploiAppBar({required String label, bool withBackButton = false}) {
+FlatDefaultAppBar passEmploiAppBar({required String label, required BuildContext context, bool withBackButton = false}) {
+  final store = StoreProvider.of<AppState>(context);
   return FlatDefaultAppBar(
-    title: Text(label, style: TextStyles.textAppBar),
+    title: Text(store.state.demoState ? label + " (Demo mode)" : label , style: TextStyles.textAppBar),
     leading: withBackButton ? _appBarLeading : null,
   );
 }

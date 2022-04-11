@@ -17,6 +17,7 @@ import 'package:pass_emploi_app/widgets/cards/profil_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/label_value_row.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:redux/src/store.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfilPage extends TraceableStatelessWidget {
@@ -35,7 +36,7 @@ class ProfilPage extends TraceableStatelessWidget {
   Scaffold _buildScaffold(BuildContext context, ProfilPageViewModel viewModel) {
     return Scaffold(
       backgroundColor: AppColors.grey100,
-      appBar: passEmploiAppBar(label: Strings.menuProfil),
+      appBar: passEmploiAppBar(label: Strings.menuProfil, context: context),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(Margins.spacing_m),

@@ -43,17 +43,17 @@ class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
       converter: (store) => ServiceCiviqueDetailViewModel.create(store),
       builder: (context, viewModel) {
         return FavorisStateContext(
-          child: _scaffold(_body(context, viewModel)),
+          child: _scaffold(_body(context, viewModel), context),
           selectState: (store) => store.state.serviceCiviqueFavorisState,
         );
       },
     );
   }
 
-  Scaffold _scaffold(Widget body) {
+  Scaffold _scaffold(Widget body, BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: Strings.serviceCiviqueDetailTitle, withBackButton: true),
+      appBar: passEmploiAppBar(label: Strings.serviceCiviqueDetailTitle, context: context, withBackButton: true),
       body: body,
     );
   }

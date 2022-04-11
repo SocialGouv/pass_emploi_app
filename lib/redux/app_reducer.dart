@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/features/location/search_location_reducer.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_reducer.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_reducer.dart';
+import 'package:pass_emploi_app/features/mode_demo/mode_demo_reducer.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_reducer.dart';
 import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_reducer.dart';
 import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_reducer.dart';
@@ -87,5 +88,6 @@ AppState reducer(AppState current, dynamic action) {
     savedSearchDeleteState: savedSearchDeleteReducer(current.savedSearchDeleteState, action),
     serviceCiviqueSearchResultState: serviceCiviqueReducer(current.serviceCiviqueSearchResultState, action),
     serviceCiviqueDetailState: serviceCiviqueDetailReducer(current.serviceCiviqueDetailState, action),
+    demoState: modeDemoReducer(current, action),
   );
 }

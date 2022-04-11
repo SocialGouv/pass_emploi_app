@@ -24,6 +24,7 @@ class MonSuiviTabPage extends StatelessWidget {
         backgroundColor: AppColors.grey100,
         appBar: passEmploiAppBar(
           label: Strings.monSuiviAppBarTitle,
+          context: context,
         ),
         body: _getBody(),
       ),
