@@ -48,10 +48,29 @@ class FlatDefaultAppBar extends AppBar {
         );
 }
 
-FlatDefaultAppBar passEmploiAppBar({required String label, required BuildContext context, bool withBackButton = false}) {
+FlatDefaultAppBar passEmploiAppBar(
+    {required String label, required BuildContext context, bool withBackButton = false}) {
   final store = StoreProvider.of<AppState>(context);
   return FlatDefaultAppBar(
-    title: Text(store.state.demoState ? label + " (Demo mode)" : label , style: TextStyles.textAppBar),
+    title: Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (store.state.demoState)
+          Container(
+            decoration: BoxDecoration(
+                color: AppColors.secondaryLighten,
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: AppColors.secondary)),
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            child: Text(
+              "Vous êtes en mode démo, les données sont fictives",
+              style: TextStyles.textMenuRegular(AppColors.secondary),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        Text(label, style: TextStyles.textAppBar),
+      ],
+    ),
     leading: withBackButton ? _appBarLeading : null,
   );
 }
