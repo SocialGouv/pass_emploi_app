@@ -9,7 +9,7 @@ import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search
 import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/models/service_civique_filtres_pameters.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 
@@ -154,7 +154,8 @@ void main() {
 }
 
 class ServiceCiviqueSavedSearchRepositorySuccessStub extends ServiceCiviqueSavedSearchRepository {
-  ServiceCiviqueSavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  ServiceCiviqueSavedSearchRepositorySuccessStub()
+      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> postSavedSearch(String userId, ServiceCiviqueSavedSearch savedSearch, String title) async {
@@ -163,7 +164,8 @@ class ServiceCiviqueSavedSearchRepositorySuccessStub extends ServiceCiviqueSaved
 }
 
 class ServiceCiviqueSavedSearchRepositoryFailureStub extends ServiceCiviqueSavedSearchRepository {
-  ServiceCiviqueSavedSearchRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  ServiceCiviqueSavedSearchRepositoryFailureStub()
+      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> postSavedSearch(String userId, ServiceCiviqueSavedSearch savedSearch, String title) async {

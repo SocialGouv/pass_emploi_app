@@ -8,6 +8,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:http/io_client.dart';
@@ -23,8 +24,10 @@ import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/configuration/app_version_checker.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
-import 'package:pass_emploi_app/network/interceptors/access_token_interceptor.dart';
+import 'package:pass_emploi_app/network/cache_interceptor.dart';
+import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/network/headers.dart';
+import 'package:pass_emploi_app/network/interceptors/access_token_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logging_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logout_interceptor.dart';
 import 'package:pass_emploi_app/pages/force_update_page.dart';
@@ -34,6 +37,7 @@ import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/pole_emploi/pole_emploi_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/pole_emploi/pole_emploi_token_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
@@ -44,13 +48,12 @@ import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_reposi
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
-import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
-import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
@@ -142,8 +145,13 @@ class AppInitializer {
       crashlytics.recordNonNetworkException(e, stack);
     }
     final Client clientWithCertificate = IOClient(HttpClient(context: defaultContext));
+    final passEmploiCacheManager = PassEmploiCacheManager(Config(
+      PassEmploiCacheManager.cacheKey,
+      stalePeriod: Duration(minutes: 20),
+      maxNrOfCacheObjects: 30,
+    ));
     final httpClient = InterceptedClient.build(
-      client: clientWithCertificate,
+      client: HttpClientWithCache(passEmploiCacheManager, clientWithCertificate),
       interceptors: [
         AccessTokenInterceptor(accessTokenRetriever, poleEmploiTokenRepository),
         LogoutInterceptor(authAccessChecker),
@@ -166,9 +174,9 @@ class AppInitializer {
       ChatRepository(chatCrypto, crashlytics),
       RegisterTokenRepository(baseUrl, httpClient, headersBuilder, pushNotificationManager, crashlytics),
       OffreEmploiDetailsRepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      OffreEmploiFavorisRepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      ImmersionFavorisRepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      ServiceCiviqueFavorisRepository(baseUrl, httpClient, headersBuilder, crashlytics),
+      OffreEmploiFavorisRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
+      ImmersionFavorisRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
+      ServiceCiviqueFavorisRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
       SearchLocationRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       MetierRepository(),
       ImmersionRepository(baseUrl, httpClient, headersBuilder, crashlytics),
@@ -176,11 +184,11 @@ class AppInitializer {
       FirebaseAuthRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       FirebaseAuthWrapper(),
       TrackingEventRepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      OffreEmploiSavedSearchRepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      ImmersionSavedSearchRepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      ServiceCiviqueSavedSearchRepository(baseUrl, httpClient, headersBuilder, crashlytics),
+      OffreEmploiSavedSearchRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
+      ImmersionSavedSearchRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
+      ServiceCiviqueSavedSearchRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
       GetSavedSearchRepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      SavedSearchDeleteRepository(baseUrl, httpClient, headersBuilder, crashlytics),
+      SavedSearchDeleteRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
       ServiceCiviqueRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       ServiceCiviqueDetailRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       ConseillerRepository(baseUrl, httpClient, headersBuilder, crashlytics),

@@ -61,7 +61,7 @@ import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dar
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
-import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';

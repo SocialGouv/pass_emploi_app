@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 
+import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';
 
@@ -15,7 +16,10 @@ void main() {
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.userActionRepository = UserActionRepositorySuccessStub();
     final store = testStoreFactory.initializeReduxStore(
-      initialState: AppState.initialState().copyWith(userActionListState: UserActionListSuccessState(_userActions())),
+      initialState: AppState.initialState().copyWith(
+        userActionListState: UserActionListSuccessState(_userActions()),
+        loginState: successMiloUserState(),
+      ),
     );
     final displayedLoading = store.onChange.any((e) => e.userActionDeleteState is UserActionDeleteLoadingState);
     final success = store.onChange.firstWhere((e) => e.userActionDeleteState is UserActionDeleteSuccessState);
@@ -35,7 +39,10 @@ void main() {
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.userActionRepository = UserActionRepositoryFailureStub();
     final store = testStoreFactory.initializeReduxStore(
-      initialState: AppState.initialState().copyWith(userActionListState: UserActionListSuccessState(_userActions())),
+      initialState: AppState.initialState().copyWith(
+        userActionListState: UserActionListSuccessState(_userActions()),
+        loginState: successMiloUserState(),
+      ),
     );
     final displayedLoading = store.onChange.any((e) => e.userActionDeleteState is UserActionDeleteLoadingState);
     final failure = store.onChange.firstWhere((e) => e.userActionDeleteState is UserActionDeleteFailureState);

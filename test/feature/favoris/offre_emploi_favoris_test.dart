@@ -207,7 +207,8 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
 }
 
 class OffreEmploiFavorisRepositorySuccessStub extends OffreEmploiFavorisRepository {
-  OffreEmploiFavorisRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  OffreEmploiFavorisRepositorySuccessStub()
+      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
 
   @override
   Future<Set<String>?> getFavorisId(String userId) async {
@@ -235,7 +236,8 @@ class OffreEmploiFavorisRepositorySuccessStub extends OffreEmploiFavorisReposito
 }
 
 class OffreEmploiFavorisRepositoryFailureStub extends OffreEmploiFavorisRepository {
-  OffreEmploiFavorisRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  OffreEmploiFavorisRepositoryFailureStub()
+      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
 
   @override
   Future<Set<String>?> getFavorisId(String userId) async {

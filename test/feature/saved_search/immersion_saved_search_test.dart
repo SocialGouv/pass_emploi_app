@@ -11,7 +11,7 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
 
 import '../../doubles/dummies.dart';
@@ -312,7 +312,8 @@ void main() {
 }
 
 class ImmersionSavedSearchRepositorySuccessStub extends ImmersionSavedSearchRepository {
-  ImmersionSavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  ImmersionSavedSearchRepositorySuccessStub()
+      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> postSavedSearch(String userId, ImmersionSavedSearch savedSearch, String title) async {
@@ -321,7 +322,8 @@ class ImmersionSavedSearchRepositorySuccessStub extends ImmersionSavedSearchRepo
 }
 
 class ImmersionSavedSearchRepositoryFailureStub extends ImmersionSavedSearchRepository {
-  ImmersionSavedSearchRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  ImmersionSavedSearchRepositoryFailureStub()
+      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> postSavedSearch(String userId, ImmersionSavedSearch savedSearch, String title) async {

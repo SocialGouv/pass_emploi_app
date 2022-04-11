@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 
+import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../utils/test_assets.dart';
@@ -19,7 +20,8 @@ void main() {
       }
       return Response.bytes(loadTestAssetsAsBytes("immersion_favoris_id.json"), 200);
     });
-    final repository = ImmersionFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository =
+        ImmersionFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
     // When
     final favoris = await repository.getFavorisId("jeuneId");
@@ -35,7 +37,8 @@ void main() {
   test('getFavorisId when response is invalid should return null', () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
-    final repository = ImmersionFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository =
+        ImmersionFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
     // When
     final favoris = await repository.getFavorisId("jeuneId");
@@ -50,7 +53,8 @@ void main() {
     // Given
     final httpClient = _mockClientForFullData();
 
-    final repository = ImmersionFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository =
+        ImmersionFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
     // When
     final result = await repository.postFavori("jeuneId", _offreWithFullData());
@@ -63,7 +67,8 @@ void main() {
       () async {
     // Given
     final httpClient = _successfulClientForDelete();
-    final repository = ImmersionFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository =
+        ImmersionFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
     // When
     final result = await repository.deleteFavori("jeuneId", "offreId");
@@ -75,7 +80,8 @@ void main() {
   test("deleteFavori when removing favori should return true when response is a 404", () async {
     // Given
     final httpClient = _notFoundClient();
-    final repository = ImmersionFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository =
+        ImmersionFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
     // When
     final result = await repository.deleteFavori("jeuneId", "offreId");
@@ -87,7 +93,8 @@ void main() {
   test("deleteFavori when removing favori should return false when response is invalid", () async {
     // Given
     final httpClient = _failureClient();
-    final repository = ImmersionFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository =
+        ImmersionFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
     // When
     final result = await repository.deleteFavori("jeuneId", "offreId");
@@ -99,7 +106,8 @@ void main() {
   test("postFavori when adding favori should return false when response is invalid", () async {
     // Given
     final httpClient = _failureClient();
-    final repository = ImmersionFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository =
+        ImmersionFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
     // When
     final result = await repository.postFavori("jeuneId", _offreWithFullData());
@@ -111,7 +119,8 @@ void main() {
   test("postFavori when adding favori should return true when response is 409", () async {
     // Given
     final httpClient = _alreadyExistsClient();
-    final repository = ImmersionFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository =
+        ImmersionFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
     // When
     final result = await repository.postFavori("jeuneId", _offreWithFullData());
@@ -123,7 +132,8 @@ void main() {
   test('getFavoris when response is valid with all parameters should return offres', () async {
     // Given
     final httpClient = _successfulClientForQuery();
-    final repository = ImmersionFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository =
+        ImmersionFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
     // When
     final favoris = await repository.getFavoris("jeuneId");
@@ -157,7 +167,8 @@ void main() {
   test('getFavoris when response is invalid should return null', () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
-    final repository = ImmersionFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository =
+        ImmersionFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
     // When
     final favoris = await repository.getFavoris("jeuneId");

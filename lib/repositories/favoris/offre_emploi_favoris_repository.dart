@@ -1,6 +1,7 @@
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
+import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
@@ -12,13 +13,23 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
   final String _baseUrl;
   final Client _httpClient;
   final HeadersBuilder _headersBuilder;
+  final PassEmploiCacheManager _cacheManager;
   final Crashlytics? _crashlytics;
 
-  OffreEmploiFavorisRepository(this._baseUrl, this._httpClient, this._headersBuilder, [this._crashlytics]);
+  OffreEmploiFavorisRepository(this._baseUrl, this._httpClient, this._headersBuilder, this._cacheManager,
+      [this._crashlytics]);
+
+  static Uri getFavorisIdUri({required String baseUrl, required String userId}) {
+    return Uri.parse(baseUrl + "/jeunes/$userId/favoris/offres-emploi");
+  }
+
+  static Uri getFavorisUri({required String baseUrl, required String userId}) {
+    return getFavorisIdUri(baseUrl: baseUrl, userId: userId).replace(queryParameters: {"detail": "true"});
+  }
 
   @override
   Future<Set<String>?> getFavorisId(String userId) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-emploi");
+    final url = getFavorisIdUri(baseUrl: _baseUrl, userId: userId);
     try {
       final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
 
@@ -34,8 +45,7 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
 
   @override
   Future<Map<String, OffreEmploi>?> getFavoris(String userId) async {
-    final url =
-        Uri.parse(_baseUrl + "/jeunes/$userId/favoris/offres-emploi").replace(queryParameters: {"detail": "true"});
+    final url = getFavorisUri(baseUrl: _baseUrl, userId: userId);
     try {
       final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
       if (response.statusCode.isValid()) {
@@ -68,6 +78,7 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
         ),
       );
       if (response.statusCode.isValid() || response.statusCode == 409) {
+        _cacheManager.removeRessource(CachedRessource.OFFRE_EMPLOI_FAVORIS, userId, _baseUrl);
         return true;
       }
     } catch (e, stack) {
@@ -85,6 +96,7 @@ class OffreEmploiFavorisRepository extends FavorisRepository<OffreEmploi> {
         headers: await _headersBuilder.headers(),
       );
       if (response.statusCode.isValid() || response.statusCode == 404) {
+        _cacheManager.removeRessource(CachedRessource.OFFRE_EMPLOI_FAVORIS, userId, _baseUrl);
         return true;
       }
     } catch (e, stack) {

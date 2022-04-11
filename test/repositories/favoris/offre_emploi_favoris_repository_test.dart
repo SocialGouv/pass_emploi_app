@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 
+import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../utils/test_assets.dart';
@@ -19,7 +20,8 @@ void main() {
       }
       return Response.bytes(loadTestAssetsAsBytes("offre_emploi_favoris_id.json"), 200);
     });
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository =
+        OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
     // When
     final favoris = await repository.getFavorisId("jeuneId");
@@ -31,7 +33,8 @@ void main() {
   test('getFavorisId when response is invalid should return null', () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository =
+        OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
     // When
     final favoris = await repository.getFavorisId("jeuneId");
@@ -45,7 +48,8 @@ void main() {
       () async {
     // Given
     final httpClient = _mockClientForPartialData();
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository =
+        OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
     // When
     final result = await repository.postFavori("jeuneId", _offreWithPartialData());
@@ -60,7 +64,8 @@ void main() {
     // Given
     final httpClient = _mockClientForFullData(expectedAlternance: false);
 
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository =
+        OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
     // When
     final result = await repository.postFavori("jeuneId", _offreWithFullData(isAlternance: false));
@@ -73,7 +78,8 @@ void main() {
     // Given
     final httpClient = _mockClientForFullData(expectedAlternance: true);
 
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository =
+        OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
     // When
     final result = await repository.postFavori("jeuneId", _offreWithFullData(isAlternance: true));
@@ -86,7 +92,8 @@ void main() {
       () async {
     // Given
     final httpClient = _successfulClientForDelete();
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository =
+        OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
     // When
     final result = await repository.deleteFavori("jeuneId", "offreId");
@@ -98,7 +105,8 @@ void main() {
   test("deleteFavori when removing favori should return true when response is a 404", () async {
     // Given
     final httpClient = _notFoundClient();
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository =
+        OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
     // When
     final result = await repository.deleteFavori("jeuneId", "offreId");
@@ -110,7 +118,8 @@ void main() {
   test("deleteFavori when removing favori should return false when response is invalid", () async {
     // Given
     final httpClient = _failureClient();
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository =
+        OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
     // When
     final result = await repository.deleteFavori("jeuneId", "offreId");
@@ -122,7 +131,8 @@ void main() {
   test("postFavori when adding favori should return false when response is invalid", () async {
     // Given
     final httpClient = _failureClient();
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository =
+        OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
     // When
     final result = await repository.postFavori("jeuneId", _offreWithPartialData());
@@ -134,7 +144,8 @@ void main() {
   test("postFavori when adding favori should return true when response is 409", () async {
     // Given
     final httpClient = _alreadyExistsClient();
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository =
+        OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
     // When
     final result = await repository.postFavori("jeuneId", _offreWithPartialData());
@@ -146,7 +157,8 @@ void main() {
   test('getFavoris when response is valid with all parameters should return offres', () async {
     // Given
     final httpClient = _successfulClientForQuery();
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository =
+        OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
     // When
     final favoris = await repository.getFavoris("jeuneId");
@@ -204,7 +216,8 @@ void main() {
   test('getFavoris when response is invalid should return null', () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository =
+        OffreEmploiFavorisRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
 
     // When
     final favoris = await repository.getFavoris("jeuneId");

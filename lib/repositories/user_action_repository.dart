@@ -36,7 +36,7 @@ class UserActionRepository {
   Future<void> updateActionStatus(String userId, String actionId, UserActionStatus newStatus) async {
     final url = Uri.parse(_baseUrl + "/actions/$actionId");
     try {
-      _httpClient.put(
+      await _httpClient.put(
         url,
         headers: await _headerBuilder.headers(userId: userId, contentType: 'application/json'),
         body: customJsonEncode(PutUserActionRequest(status: newStatus)),
@@ -54,7 +54,9 @@ class UserActionRepository {
         headers: await _headerBuilder.headers(userId: userId, contentType: 'application/json'),
         body: customJsonEncode(PostUserActionRequest(content: content!, comment: comment, status: status)),
       );
-      if (response.statusCode.isValid()) return true;
+      if (response.statusCode.isValid()) {
+        return true;
+      }
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);
     }
@@ -65,7 +67,9 @@ class UserActionRepository {
     final url = Uri.parse(_baseUrl + "/actions/$actionId");
     try {
       final response = await _httpClient.delete(url, headers: await _headerBuilder.headers());
-      if (response.statusCode.isValid()) return true;
+      if (response.statusCode.isValid()) {
+        return true;
+      }
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);
     }
