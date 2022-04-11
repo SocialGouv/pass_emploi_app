@@ -24,6 +24,7 @@ class JsonRendezvous {
   final String? theme;
   final String? description;
   final Conseiller? conseiller;
+  final Conseiller? createur;
 
   JsonRendezvous._({
     required this.id,
@@ -45,9 +46,12 @@ class JsonRendezvous {
     required this.description,
     required this.precision,
     required this.conseiller,
+    required this.createur,
   });
 
   factory JsonRendezvous.fromJson(dynamic json) {
+    final conseiller = json['conseiller'] != null ? Conseiller.fromJson(json['conseiller']) : null;
+    final createur = json['createur'] != null ? Conseiller.fromJson(json['createur']) : null;
     return JsonRendezvous._(
       id: json['id'] as String,
       date: json['date'] as String,
@@ -67,7 +71,8 @@ class JsonRendezvous {
       theme: json['theme'] as String?,
       description: json['description'] as String?,
       precision: json['precision'] as String?,
-      conseiller: json['conseiller'] != null ? Conseiller.fromJson(json['conseiller']) : null,
+      conseiller: conseiller,
+      createur: createur != conseiller ? createur : null,
     );
   }
 
@@ -90,6 +95,7 @@ class JsonRendezvous {
       description: description,
       precision: precision,
       conseiller: conseiller,
+      createur: createur,
     );
   }
 

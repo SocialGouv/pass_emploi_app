@@ -39,6 +39,7 @@ void main() {
         type: RendezvousType(RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER, 'Entretien individuel conseiller'),
         comment: 'Amener votre CV',
         conseiller: Conseiller(id: '1', firstName: 'Nils', lastName: 'Tavernier'),
+        createur: Conseiller(id: '2', firstName: 'Joe', lastName: 'Pesci'),
       ),
     );
     expect(
@@ -61,6 +62,19 @@ void main() {
       rendezvous[2].date,
       parseDateTimeUnconsideringTimeZone('2001-01-17T03:43:00.000Z'),
     );
+  });
+
+  test('a rendezvous where conseiller and createur is same in payload should fonctionnaly return a null createur',
+      () async {
+    final httpClient = MockClient((request) async {
+      return Response.bytes(loadTestAssetsAsBytes('rendezvous_where_conseiller_is_createur.json'), 200);
+    });
+    final repository = RendezvousRepository('BASE_URL', httpClient, HeadersBuilderStub());
+
+    final rendezvous = await repository.getRendezvous('userId');
+
+    expect(rendezvous!.first.conseiller, Conseiller(id: '1', firstName: 'Nils', lastName: 'Tavernier'));
+    expect(rendezvous.first.createur, isNull);
   });
 
   RendezvousRepository _rendezvousRepositoryFromPoleEmploi() {
