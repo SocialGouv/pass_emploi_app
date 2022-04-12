@@ -8,7 +8,7 @@ import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class FutureWeekRendezVousListBuilder implements RendezVousListBuilder {
   @override
-  String makeTitle() => Strings.rendezVousFutursTitre;
+  String makeTitle() => Strings.rendezSemaineTitre;
 
   @override
   String makeDateLabel(int pageOffset, RendezvousState rendezvousState, DateTime now) {

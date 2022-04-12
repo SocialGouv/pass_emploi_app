@@ -77,6 +77,21 @@ void main() {
           mockRendezvous(id: 'mois futur mai A', date: DateTime(2022, 5, 1, 4, 5, 30)),
         ];
 
+        test('pas de bouton dans le passé si pas de RDV', () {});
+
+        test('semaine courante du lundi au vendredi', () {});
+
+        test('semaine courante, ne voit pas les rdv passés de la semaine (je suis mercredi, je ne vois pas lundi)',
+            () {});
+
+        test('semaines futurs aussi du lundi au dimanche', () {});
+
+        test('mois futurs, ça commence aussi un lundi', () {});
+
+        // TODO wordings
+        // todo mise en page bleu
+        // todo nombre de rendez-vous écrits entre parenthèses dans le titre du mois
+
         test('and sort them by last recent for this week', () {
           // Given
           final store = _store(rendezvous);
@@ -129,7 +144,7 @@ void main() {
           expect(viewModel.displayState, DisplayState.CONTENT);
           expect(viewModel.withNextButton, true);
           expect(viewModel.withPreviousButton, true);
-          expect(viewModel.title, "Rendez-vous futurs");
+          expect(viewModel.title, "Semaine du");
           expect(viewModel.dateLabel, "10/02/2022 au 16/02/2022");
           expect(viewModel.emptyLabel,
               "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 10/02/2022 au 16/02/2022");
@@ -151,7 +166,7 @@ void main() {
           expect(viewModel.displayState, DisplayState.CONTENT);
           expect(viewModel.withNextButton, true);
           expect(viewModel.withPreviousButton, true);
-          expect(viewModel.title, "Rendez-vous futurs");
+          expect(viewModel.title, "Semaine du");
           expect(viewModel.dateLabel, "17/02/2022 au 23/02/2022");
           expect(viewModel.emptyLabel,
               "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 17/02/2022 au 23/02/2022");
@@ -173,7 +188,7 @@ void main() {
           expect(viewModel.displayState, DisplayState.CONTENT);
           expect(viewModel.withNextButton, true);
           expect(viewModel.withPreviousButton, true);
-          expect(viewModel.title, "Rendez-vous futurs");
+          expect(viewModel.title, "Semaine du");
           expect(viewModel.dateLabel, "24/02/2022 au 02/03/2022");
           expect(viewModel.emptyLabel,
               "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 24/02/2022 au 02/03/2022");
@@ -195,7 +210,7 @@ void main() {
           expect(viewModel.displayState, DisplayState.CONTENT);
           expect(viewModel.withNextButton, true);
           expect(viewModel.withPreviousButton, true);
-          expect(viewModel.title, "Rendez-vous futurs");
+          expect(viewModel.title, "Semaine du");
           expect(viewModel.dateLabel, "03/03/2022 au 09/03/2022");
           expect(viewModel.emptyLabel,
               "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 03/03/2022 au 09/03/2022");

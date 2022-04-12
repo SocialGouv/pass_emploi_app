@@ -129,6 +129,7 @@ class Strings {
       'Le rendez-vous se fera en visio. La visio sera disponible le jour du rendez-vous.';
   static String rendezVousPassesTitre = "Rendez-vous passés";
   static String rendezVousCetteSemaineTitre = "Cette semaine";
+  static String rendezSemaineTitre = "Semaine du";
   static String rendezVousFutursTitre = "Rendez-vous futurs";
   static String noRendezVousCetteSemaineTitre = "Vous n’avez pas d’autres rendez-vous prévus cette semaine.";
   static String noRendezAutreCetteSemainePrefix = "Vous n’avez pas encore de rendez-vous prévus pour la semaine du ";
