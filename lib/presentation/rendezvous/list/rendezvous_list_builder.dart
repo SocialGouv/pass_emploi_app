@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/current_week_rendezvous_list_builder.dart';
@@ -14,29 +13,29 @@ import 'package:pass_emploi_app/utils/string_extensions.dart';
 abstract class RendezVousListBuilder {
   String makeTitle();
 
-  String makeDateLabel(int pageOffset, RendezvousState rendezvousState, DateTime now);
+  String makeDateLabel();
 
-  String makeEmptyLabel(int pageOffset, RendezvousState rendezvousState, DateTime now);
+  String makeEmptyLabel();
 
-  String makeAnalyticsLabel(int pageOffset);
+  String makeAnalyticsLabel();
 
-  List<RendezVousItem> rendezvousItems(
+  List<RendezVousItem> rendezvousItems();
+
+  factory RendezVousListBuilder.create(
     RendezvousState rendezvousState,
-    LoginState loginState,
-    DateTime now,
     int pageOffset,
-  );
-
-  factory RendezVousListBuilder.create(int pageOffset) {
+    DateTime now,
+  ) {
     if (pageOffset.isInPast()) {
-      return PastRendezVousListBuilder();
+      return PastRendezVousListBuilder(rendezvousState, now);
     } else if (pageOffset.isThisWeek()) {
-      return CurrentWeekRendezVousListBuilder();
+      return CurrentWeekRendezVousListBuilder(rendezvousState, pageOffset, now);
     } else if (pageOffset >= 1 && pageOffset < 5) {
-      return FutureWeekRendezVousListBuilder();
+      return FutureWeekRendezVousListBuilder(rendezvousState, pageOffset, now);
     } else {
-      return FutureMonthsRendezVousListBuilder();
+      return FutureMonthsRendezVousListBuilder(rendezvousState, now);
     }
+    // todo : mettre en privé les variables d'instances des builders
   }
 
   static bool hasPreviousPage(int pageOffset) => pageOffset >= 0;

@@ -36,21 +36,20 @@ class RendezvousListViewModel extends Equatable {
   });
 
   factory RendezvousListViewModel.create(Store<AppState> store, DateTime now, int pageOffset) {
-    final loginState = store.state.loginState;
     final rendezvousState = store.state.rendezvousState;
-    final builder = RendezVousListBuilder.create(pageOffset);
+    final builder = RendezVousListBuilder.create(rendezvousState, pageOffset, now);
     return RendezvousListViewModel(
       displayState: _displayState(rendezvousState),
-      rendezvousItems: builder.rendezvousItems(rendezvousState, loginState, now, pageOffset),
+      rendezvousItems: builder.rendezvousItems(),
       deeplinkRendezvousId: _deeplinkRendezvousId(store.state.deepLinkState, rendezvousState),
       onRetry: () => store.dispatch(RendezvousRequestAction()),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
       title: builder.makeTitle(),
-      dateLabel: builder.makeDateLabel(pageOffset, rendezvousState, now),
+      dateLabel: builder.makeDateLabel(),
       withPreviousButton: RendezVousListBuilder.hasPreviousPage(pageOffset),
       withNextButton: RendezVousListBuilder.hasNextPage(pageOffset),
-      emptyLabel: builder.makeEmptyLabel(pageOffset, rendezvousState, now),
-      analyticsLabel: builder.makeAnalyticsLabel(pageOffset),
+      emptyLabel: builder.makeEmptyLabel(),
+      analyticsLabel: builder.makeAnalyticsLabel(),
     );
   }
 

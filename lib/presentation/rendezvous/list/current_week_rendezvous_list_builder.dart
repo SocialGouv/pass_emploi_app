@@ -1,5 +1,4 @@
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_builder.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_view_model.dart';
@@ -7,31 +6,33 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
+  final RendezvousState rendezvousState;
+  final int pageOffset;
+  final DateTime now;
+
+  CurrentWeekRendezVousListBuilder(this.rendezvousState, this.pageOffset, this.now);
+
   @override
   String makeTitle() => Strings.rendezVousCetteSemaineTitre;
 
   @override
-  String makeDateLabel(int pageOffset, RendezvousState rendezvousState, DateTime now) {
+  String makeDateLabel() {
     final firstDay = now.toMondayOnThisWeek().toDay();
     final lastDay = now.toSundayOnThisWeek().toDay();
     return "$firstDay au $lastDay";
   }
 
   @override
-  String makeEmptyLabel(int pageOffset, RendezvousState rendezvousState, DateTime now) {
+  String makeEmptyLabel() {
     return Strings.noRendezVousCetteSemaineTitre;
   }
 
   @override
-  String makeAnalyticsLabel(int pageOffset) => AnalyticsScreenNames.rendezvousListWeek + pageOffset.toString();
+  String makeAnalyticsLabel() => AnalyticsScreenNames.rendezvousListWeek + pageOffset.toString();
 
   @override
-  List<RendezVousItem> rendezvousItems(
-    RendezvousState rendezvousState,
-    LoginState loginState,
-    DateTime now,
-    int pageOffset,
-  ) {
+  List<RendezVousItem> rendezvousItems() {
+    final rendezvousState = this.rendezvousState;
     if (rendezvousState is! RendezvousSuccessState) return [];
 
     return rendezvousState.rendezvous
