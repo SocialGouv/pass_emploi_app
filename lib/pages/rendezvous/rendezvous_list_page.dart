@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
-import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_view_model.dart';
@@ -31,7 +30,7 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RendezvousListViewModel>(
       onInit: (store) {
-        if (store.state.rendezvousState is! RendezvousSuccessState) store.dispatch(RendezvousRequestAction());
+        if (_pageOffset == 0) store.dispatch(RendezvousRequestAction());
       },
       converter: (store) => RendezvousListViewModel.create(store, DateTime.now(), _pageOffset),
       builder: _builder,
