@@ -79,8 +79,7 @@ class UserActionRepositoryFailureStub extends UserActionRepository {
 }
 
 class UserActionPERepositorySuccessStub extends UserActionPERepository {
-  UserActionPERepositorySuccessStub()
-      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPoleEmploiTokenRepository());
+  UserActionPERepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
   Future<List<UserActionPE>?> getUserActions(String userId) async {
@@ -98,8 +97,7 @@ class UserActionPERepositorySuccessStub extends UserActionPERepository {
 }
 
 class UserActionPERepositoryFailureStub extends UserActionPERepository {
-  UserActionPERepositoryFailureStub()
-      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPoleEmploiTokenRepository());
+  UserActionPERepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
 
   @override
   Future<List<UserActionPE>?> getUserActions(String userId) async {

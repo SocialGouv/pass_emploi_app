@@ -6,7 +6,7 @@ class AuthAccessChecker {
   late Store<AppState> _store;
 
   void logoutUserIfTokenIsExpired(String? message, int statusCode) {
-    if (message == 'token_pole_emploi_expired' && statusCode == 401) {
+    if (message?.contains('token_pole_emploi_expired') == true && statusCode == 401) {
       _store.dispatch(RequestLogoutAction());
     }
   }
