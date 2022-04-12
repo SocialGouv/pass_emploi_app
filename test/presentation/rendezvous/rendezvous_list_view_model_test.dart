@@ -77,42 +77,36 @@ void main() {
           mockRendezvous(id: 'mois futur mai A', date: DateTime(2022, 5, 1, 4, 5, 30)),
         ];
 
-        test('pas de bouton dans le passé si pas de RDV', () {});
-
-        test('semaine courante du lundi au vendredi', () {});
-
-        test('semaine courante, ne voit pas les rdv passés de la semaine (je suis mercredi, je ne vois pas lundi)',
-            () {});
-
-        test('semaines futurs aussi du lundi au dimanche', () {});
-
-        test('mois futurs, ça commence aussi un lundi', () {});
-
-        // TODO wordings
-        // todo mise en page bleu
-        // todo nombre de rendez-vous écrits entre parenthèses dans le titre du mois
-
-        test('and sort them by last recent for this week', () {
-          // Given
-          final store = _store(rendezvous);
-          // When
-          final viewModel = RendezvousListViewModel.create(store, fakeNow, 0);
-          // Then
-          expect(viewModel.displayState, DisplayState.CONTENT);
-          expect(viewModel.withNextButton, true);
-          expect(viewModel.withPreviousButton, true);
-          expect(viewModel.title, "Cette semaine");
-          expect(viewModel.dateLabel, "03/02/2022 au 09/02/2022");
-          expect(viewModel.emptyLabel, "Vous n’avez pas d’autres rendez-vous prévus cette semaine.");
-          expect(viewModel.analyticsLabel, "rdv/list-week-0");
-          expect(viewModel.rendezvousItems, [
-            RendezVousDivider("Vendredi 4 février"),
-            RendezVousCardItem("cette semaine 3"),
-            RendezVousCardItem("cette semaine 1"),
-            RendezVousDivider("Samedi 5 février"),
-            RendezVousCardItem("cette semaine 2"),
-          ]);
+        test('todo pas de bouton dans le passé si pas de RDV', () {
+          expect(true, false);
         });
+
+        test('todo semaine courante du lundi au vendredi', () {
+          expect(true, false);
+        });
+
+        test('todo semaine courante, ne voit pas les rdv passés de la semaine (je suis mercredi, je ne vois pas lundi)',
+            () {
+          expect(true, false);
+        });
+
+        test('todo semaines futurs aussi du lundi au dimanche', () {
+          expect(true, false);
+        });
+
+        test('todo mois futurs, ça commence aussi un lundi', () {
+          expect(true, false);
+        });
+
+        test('todo état AUCUN rendez-vous du tout : titre et sous-titre dans semaine courante, chevrons bloqués', () {
+          expect(true, false);
+        });
+
+        test('todo cette semaine en bleu', () {
+          expect(true, false);
+        });
+
+        // todo : mois en majuscules dans les séparateurs
 
         test('and sort them by most recent for past', () {
           // Given
@@ -128,10 +122,33 @@ void main() {
           expect(viewModel.emptyLabel, "Vous n’avez pas encore de rendez-vous passés");
           expect(viewModel.analyticsLabel, "rdv/list-past");
           expect(viewModel.rendezvousItems, [
-            RendezVousDivider("janvier 2022"),
+            RendezVousDivider("janvier 2022 (1)"),
             RendezVousCardItem("passés 1"),
-            RendezVousDivider("décembre 2021"),
+            RendezVousDivider("décembre 2021 (1)"),
             RendezVousCardItem("passés 2"),
+          ]);
+        });
+
+        test('and sort them by last recent for this week', () {
+          // Given
+          final store = _store(rendezvous);
+          // When
+          final viewModel = RendezvousListViewModel.create(store, fakeNow, 0);
+          // Then
+          expect(viewModel.displayState, DisplayState.CONTENT);
+          expect(viewModel.withNextButton, true);
+          expect(viewModel.withPreviousButton, true);
+          expect(viewModel.title, "Cette semaine");
+          expect(viewModel.dateLabel, "03/02/2022 au 09/02/2022");
+          expect(viewModel.emptyLabel, "Vous n’avez pas d’autres rendez-vous prévus cette semaine.");
+          expect(viewModel.analyticsLabel, "rdv/list-week-0");
+          expect(viewModel.rendezvousItems, [
+            // todo add : aujourd'hui, demain
+            RendezVousDivider("Vendredi 4 février"),
+            RendezVousCardItem("cette semaine 3"),
+            RendezVousCardItem("cette semaine 1"),
+            RendezVousDivider("Samedi 5 février"),
+            RendezVousCardItem("cette semaine 2"),
           ]);
         });
 
@@ -237,10 +254,10 @@ void main() {
           expect(viewModel.emptyLabel, "Vous n’avez pas encore de rendez-vous prévus");
           expect(viewModel.analyticsLabel, "rdv/list-future");
           expect(viewModel.rendezvousItems, [
-            RendezVousDivider("avril 2022"),
+            RendezVousDivider("avril 2022 (2)"),
             RendezVousCardItem("mois futur avril A"),
             RendezVousCardItem("mois futur avril B"),
-            RendezVousDivider("mai 2022"),
+            RendezVousDivider("mai 2022 (1)"),
             RendezVousCardItem("mois futur mai A"),
           ]);
         });

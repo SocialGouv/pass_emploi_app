@@ -36,7 +36,7 @@ class FutureWeekRendezVousListBuilder implements RendezVousListBuilder {
 
     return rendezvousState.rendezvous
         .sortedFromRecentToFuture()
-        .filterSemaineGlissante(pageOffset, now)
-        .groupedItemsBy((element) => element.date.toDayOfWeekWithFullMonthContextualized());
+        .filteredOnSemaineGlissante(pageOffset, now)
+        .groupedItems(groupedBy: (element) => element.date.toDayOfWeekWithFullMonthContextualized());
   }
 }

@@ -53,22 +53,22 @@ extension RendezvousIterableExtension on Iterable<Rendezvous> {
 
   List<Rendezvous> sortedFromRecentToFuture() => sorted((a, b) => a.date.compareTo(b.date));
 
-  Iterable<Rendezvous> filterSemaineGlissante(int pageOffset, DateTime now) {
+  Iterable<Rendezvous> filteredOnSemaineGlissante(int pageOffset, DateTime now) {
     final firstDay = DateUtils.dateOnly(now.add(Duration(days: 7 * pageOffset)));
     final lastDay = DateUtils.dateOnly(now.add(Duration(days: (7 * pageOffset) + 7)));
     return where((element) => (element.date.isAfter(firstDay) && element.date.isBefore(lastDay)));
   }
 
-  Iterable<Rendezvous> filterAfterFourWeeks(DateTime now) {
+  Iterable<Rendezvous> filteredAfterFourWeeks(DateTime now) {
     final firstDay = DateUtils.dateOnly(now.add(Duration(days: 7 * 5)));
     return where((element) => element.date.isAfter(firstDay));
   }
 
-  List<RendezVousItem> groupedItemsBy(String Function(Rendezvous) fn) {
-    final groupedRendezvous = groupListsBy(fn);
+  List<RendezVousItem> groupedItems({bool displayCount = false, required String Function(Rendezvous) groupedBy}) {
+    final groupedRendezvous = groupListsBy(groupedBy);
     return groupedRendezvous.keys
         .map((date) => [
-              RendezVousDivider(date),
+              RendezVousDivider(displayCount ? "$date (${groupedRendezvous[date]!.length})" : date),
               ...groupedRendezvous[date]!.map((e) => RendezVousCardItem(e.id)).toList(),
             ])
         .flattened
