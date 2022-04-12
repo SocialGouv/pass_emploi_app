@@ -107,6 +107,17 @@ class _Modality extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: Margins.spacing_xs),
             child: Text(viewModel.modality!, style: TextStyles.textBaseBold),
           ),
+        if (viewModel.conseiller != null)
+          Padding(
+            padding: const EdgeInsets.only(top: Margins.spacing_s, bottom: Margins.spacing_xs),
+            child: Row(
+              children: [
+                Text(Strings.withConseiller, style: TextStyles.textBaseRegular),
+                SizedBox(width: Margins.spacing_xs),
+                Text(viewModel.conseiller!, style: TextStyles.textBaseBold),
+              ],
+            ),
+          ),
         if (_withInactiveVisioButton())
           Padding(
             padding: const EdgeInsets.only(top: Margins.spacing_s),

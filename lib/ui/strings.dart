@@ -134,22 +134,15 @@ class Strings {
   static String noRendezAutreCetteSemainePrefix = "Vous n’avez pas encore de rendez-vous prévus pour la semaine du ";
   static String noRendezAvantCetteSemaine = "Vous n’avez pas encore de rendez-vous passés";
   static String noRendezVousFutur = "Vous n’avez pas encore de rendez-vous prévus";
+  static String withConseiller = "avec";
 
-  static String rendezvousSinceDate(String date) {
-    return "depuis le $date";
-  }
+  static String rendezvousSinceDate(String date) => "depuis le $date";
 
-  static String rendezvousStartingAtDate(String date) {
-    return "à partir du $date";
-  }
+  static String rendezvousStartingAtDate(String date) => "à partir du $date";
 
-  static String rendezvousModalityWithConseillerDetailsMessage(String modality, String conseiller) {
-    return "${rendezvousModalityDetailsMessage(modality)} avec $conseiller";
-  }
+  static String rendezvousWithConseiller(String conseiller) => "votre conseiller $conseiller";
 
-  static String rendezvousModalityDetailsMessage(String modality) {
-    return "Le rendez-vous se fera $modality";
-  }
+  static String rendezvousModalityDetailsMessage(String modality) => "Le rendez-vous se fera $modality";
 
   static String rendezvousModalityCardMessage(String modality, String conseiller) => "$modality avec $conseiller";
 

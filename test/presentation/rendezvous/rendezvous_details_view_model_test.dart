@@ -297,7 +297,8 @@ void main() {
       final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
 
       // Then
-      expect(viewModel.modality, "Le rendez-vous se fera en visio avec Nils Tavernier");
+      expect(viewModel.modality, "Le rendez-vous se fera en visio");
+      expect(viewModel.conseiller, "votre conseiller Nils Tavernier");
     });
 
     test('should display modality without conseiller', () {
@@ -492,7 +493,8 @@ void main() {
           withModalityPart: true,
           visioButtonState: VisioButtonState.HIDDEN,
           trackingPageName: 'rdv/atelier',
-          modality: 'Le rendez-vous se fera sur place : Mission Locale avec Nils Tavernier',
+          modality: 'Le rendez-vous se fera sur place : Mission Locale',
+          conseiller: 'votre conseiller Nils Tavernier',
           commentTitle: 'Commentaire de Nils',
           comment: 'comment',
           organism: 'organism',
