@@ -12,7 +12,7 @@ class FutureMonthsRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   String makeDateLabel(int pageOffset, RendezvousState rendezvousState, DateTime now) {
-    final startingDay = now.add(Duration(days: (7 * 5))).toDay();
+    final startingDay = now.addWeeks(5).toMondayOnThisWeek().toDay();
     return Strings.rendezvousStartingAtDate(startingDay);
   }
 

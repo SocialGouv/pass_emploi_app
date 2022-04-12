@@ -46,4 +46,20 @@ extension DateExtensions on DateTime {
     final thisDayDate = DateUtils.dateOnly(this);
     return thisDayDate.isBefore(anotherDayDate);
   }
+
+  DateTime toMondayOnThisWeek() {
+    return subtract(Duration(days: this.weekday - 1));
+  }
+
+  DateTime toSundayOnThisWeek() {
+    return add(Duration(days: 7 - this.weekday));
+  }
+
+  DateTime toMondayOnNextWeek() {
+    return add(Duration(days: 7 - this.weekday + 1));
+  }
+
+  DateTime addWeeks(int weeks) {
+    return add(Duration(days: 7 * weeks));
+  }
 }

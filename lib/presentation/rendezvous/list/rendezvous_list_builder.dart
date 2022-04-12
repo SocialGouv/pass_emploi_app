@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/presentation/rendezvous/list/future_months_rende
 import 'package:pass_emploi_app/presentation/rendezvous/list/future_week_rendezvous_list_builder.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/past_rendezvous_list_builder.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_view_model.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 abstract class RendezVousListBuilder {
@@ -54,14 +55,14 @@ extension RendezvousIterableExtension on Iterable<Rendezvous> {
 
   List<Rendezvous> sortedFromRecentToFuture() => sorted((a, b) => a.date.compareTo(b.date));
 
-  Iterable<Rendezvous> filteredOnSemaineGlissante(int pageOffset, DateTime now) {
-    final firstDay = DateUtils.dateOnly(now.add(Duration(days: 7 * pageOffset)));
-    final lastDay = DateUtils.dateOnly(now.add(Duration(days: (7 * pageOffset) + 7)));
+  Iterable<Rendezvous> filteredOnWeek(int pageOffset, DateTime now) {
+    final firstDay = DateUtils.dateOnly(now.addWeeks(pageOffset).toMondayOnThisWeek());
+    final lastDay = DateUtils.dateOnly(now.addWeeks(pageOffset).toMondayOnNextWeek());
     return where((element) => (element.date.isAfter(firstDay) && element.date.isBefore(lastDay)));
   }
 
   Iterable<Rendezvous> filteredAfterFourWeeks(DateTime now) {
-    final firstDay = DateUtils.dateOnly(now.add(Duration(days: 7 * 5)));
+    final firstDay = DateUtils.dateOnly(now.addWeeks(5).toMondayOnThisWeek());
     return where((element) => element.date.isAfter(firstDay));
   }
 

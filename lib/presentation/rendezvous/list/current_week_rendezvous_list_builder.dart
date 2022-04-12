@@ -12,8 +12,8 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   String makeDateLabel(int pageOffset, RendezvousState rendezvousState, DateTime now) {
-    final firstDay = now.toDay();
-    final lastDay = now.add(Duration(days: 6)).toDay();
+    final firstDay = now.toMondayOnThisWeek().toDay();
+    final lastDay = now.toSundayOnThisWeek().toDay();
     return "$firstDay au $lastDay";
   }
 
@@ -36,7 +36,7 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
 
     return rendezvousState.rendezvous
         .sortedFromRecentToFuture()
-        .filteredOnSemaineGlissante(pageOffset, now)
+        .filteredOnWeek(pageOffset, now)
         .groupedItems(groupedBy: (element) => element.date.toDayOfWeekWithFullMonthContextualized());
   }
 }
