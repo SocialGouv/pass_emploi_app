@@ -301,6 +301,21 @@ void main() {
       expect(viewModel.conseiller, "votre conseiller Nils Tavernier");
     });
 
+    test('should display createur if present', () {
+      // Given
+      final store = _store(mockRendezvous(
+        id: '1',
+        withConseiller: true,
+        createur: Conseiller(id: 'id', firstName: 'Nils', lastName: 'Tavernier'),
+      ));
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+
+      // Then
+      expect(viewModel.createur, "Le rendez-vous a été programmé par votre conseiller précédent Nils Tavernier");
+    });
+
     test('should display modality without conseiller', () {
       // Given
       final store = _store(mockRendezvous(id: '1', modality: "en visio", withConseiller: false));

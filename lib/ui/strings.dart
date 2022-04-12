@@ -142,6 +142,10 @@ class Strings {
 
   static String rendezvousWithConseiller(String conseiller) => "votre conseiller $conseiller";
 
+  static String rendezvousCreateur(String createur) {
+    return "Le rendez-vous a été programmé par votre conseiller précédent $createur";
+  }
+
   static String rendezvousModalityDetailsMessage(String modality) => "Le rendez-vous se fera $modality";
 
   static String rendezvousModalityCardMessage(String modality, String conseiller) => "$modality avec $conseiller";

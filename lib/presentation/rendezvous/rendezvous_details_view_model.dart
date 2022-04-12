@@ -29,6 +29,7 @@ class RendezvousDetailsViewModel extends Equatable {
   final String? comment;
   final String? modality;
   final String? conseiller;
+  final String? createur;
   final String? organism;
   final String? phone;
   final String? address;
@@ -53,6 +54,7 @@ class RendezvousDetailsViewModel extends Equatable {
     this.comment,
     this.modality,
     this.conseiller,
+    this.createur,
     this.organism,
     this.phone,
     this.address,
@@ -73,6 +75,7 @@ class RendezvousDetailsViewModel extends Equatable {
       hourAndDuration: _hourAndDuration(rdv),
       modality: _modality(rdv),
       conseiller: _conseiller(rdv),
+      createur: _createur(rdv),
       conseillerPresenceLabel: isConseillerPresent ? Strings.conseillerIsPresent : Strings.conseillerIsNotPresent,
       conseillerPresenceColor: isConseillerPresent ? AppColors.secondary : AppColors.warning,
       isAnnule: rdv.isAnnule,
@@ -101,6 +104,7 @@ class RendezvousDetailsViewModel extends Equatable {
       hourAndDuration,
       modality,
       conseiller,
+      createur,
       conseillerPresenceLabel,
       conseillerPresenceColor,
       isAnnule,
@@ -171,6 +175,11 @@ String? _conseiller(Rendezvous rdv) {
     return Strings.rendezvousWithConseiller('${conseiller.firstName} ${conseiller.lastName}');
   }
   return null;
+}
+
+String? _createur(Rendezvous rdv) {
+  final createur = rdv.createur;
+  return createur != null ? Strings.rendezvousCreateur('${createur.firstName} ${createur.lastName}') : null;
 }
 
 bool _withModalityPart(Rendezvous rdv) {
