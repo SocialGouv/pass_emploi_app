@@ -21,6 +21,11 @@
       "id": "1",
       "prenom": "Nils",
       "nom": "Tavernier"
+    },
+    "createur": {
+      "id": "2",
+      "prenom": "Joe",
+      "nom": "Pesci"
     }
   },
   {

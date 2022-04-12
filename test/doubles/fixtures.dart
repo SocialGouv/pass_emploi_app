@@ -200,6 +200,7 @@ Rendezvous mockRendezvous({
   String? description,
   String? precision,
   Conseiller? conseiller = const Conseiller(id: 'id', firstName: 'F', lastName: 'L'),
+  Conseiller? createur,
 }) {
   return Rendezvous(
     id: id,
@@ -219,6 +220,7 @@ Rendezvous mockRendezvous({
     description: description,
     precision: precision,
     conseiller: conseiller,
+    createur: createur,
   );
 }
 

@@ -107,6 +107,22 @@ class _Modality extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: Margins.spacing_xs),
             child: Text(viewModel.modality!, style: TextStyles.textBaseBold),
           ),
+        if (viewModel.conseiller != null)
+          Padding(
+            padding: const EdgeInsets.only(top: Margins.spacing_s, bottom: Margins.spacing_xs),
+            child: Row(
+              children: [
+                Text(Strings.withConseiller, style: TextStyles.textBaseRegular),
+                SizedBox(width: Margins.spacing_xs),
+                Text(viewModel.conseiller!, style: TextStyles.textBaseBold),
+              ],
+            ),
+          ),
+        if (viewModel.createur != null)
+          Padding(
+            padding: const EdgeInsets.only(top: Margins.spacing_s),
+            child: _Createur(viewModel.createur!),
+          ),
         if (_withInactiveVisioButton())
           Padding(
             padding: const EdgeInsets.only(top: Margins.spacing_s),
@@ -264,6 +280,37 @@ class _Annule extends StatelessWidget {
           Strings.rendezvousDetailsAnnule,
           style: TextStyles.textSRegularWithColor(AppColors.warning),
           overflow: TextOverflow.ellipsis,
+        ),
+      ),
+    );
+  }
+}
+
+class _Createur extends StatelessWidget {
+  final String label;
+
+  const _Createur(this.label, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: Margins.spacing_s),
+      decoration: BoxDecoration(
+        color: AppColors.primaryLighten,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(Margins.spacing_m),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(Margins.spacing_xs),
+              child: SvgPicture.asset(Drawables.icInfo, color: AppColors.primary),
+            ),
+            SizedBox(width: Margins.spacing_s),
+            Flexible(child: Text(label, style: TextStyles.textBaseRegularWithColor(AppColors.primary))),
+          ],
         ),
       ),
     );

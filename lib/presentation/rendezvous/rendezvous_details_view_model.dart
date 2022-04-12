@@ -28,6 +28,8 @@ class RendezvousDetailsViewModel extends Equatable {
   final String? commentTitle;
   final String? comment;
   final String? modality;
+  final String? conseiller;
+  final String? createur;
   final String? organism;
   final String? phone;
   final String? address;
@@ -51,6 +53,8 @@ class RendezvousDetailsViewModel extends Equatable {
     this.commentTitle,
     this.comment,
     this.modality,
+    this.conseiller,
+    this.createur,
     this.organism,
     this.phone,
     this.address,
@@ -70,6 +74,8 @@ class RendezvousDetailsViewModel extends Equatable {
       date: rdv.date.toDayWithFullMonthContextualized(),
       hourAndDuration: _hourAndDuration(rdv),
       modality: _modality(rdv),
+      conseiller: _conseiller(rdv),
+      createur: _createur(rdv),
       conseillerPresenceLabel: isConseillerPresent ? Strings.conseillerIsPresent : Strings.conseillerIsNotPresent,
       conseillerPresenceColor: isConseillerPresent ? AppColors.secondary : AppColors.warning,
       isAnnule: rdv.isAnnule,
@@ -97,6 +103,8 @@ class RendezvousDetailsViewModel extends Equatable {
       date,
       hourAndDuration,
       modality,
+      conseiller,
+      createur,
       conseillerPresenceLabel,
       conseillerPresenceColor,
       isAnnule,
@@ -156,16 +164,22 @@ String? _commentTitle(Rendezvous rdv, String? comment) {
 String? _modality(Rendezvous rdv) {
   if (rdv.isInVisio) return Strings.rendezvousVisioModalityMessage;
   if (rdv.modality == null) return null;
-  final modality = rdv.modality!.firstLetterLowerCased();
+  return Strings.rendezvousModalityDetailsMessage(rdv.modality!.firstLetterLowerCased());
+}
+
+String? _conseiller(Rendezvous rdv) {
+  if (rdv.isInVisio || rdv.modality == null) return null;
   final conseiller = rdv.conseiller;
   final withConseiller = rdv.withConseiller;
   if (withConseiller != null && withConseiller && conseiller != null) {
-    return Strings.rendezvousModalityWithConseillerDetailsMessage(
-      modality,
-      '${conseiller.firstName} ${conseiller.lastName}',
-    );
+    return Strings.rendezvousWithConseiller('${conseiller.firstName} ${conseiller.lastName}');
   }
-  return Strings.rendezvousModalityDetailsMessage(modality);
+  return null;
+}
+
+String? _createur(Rendezvous rdv) {
+  final createur = rdv.createur;
+  return createur != null ? Strings.rendezvousCreateur('${createur.firstName} ${createur.lastName}') : null;
 }
 
 bool _withModalityPart(Rendezvous rdv) {
