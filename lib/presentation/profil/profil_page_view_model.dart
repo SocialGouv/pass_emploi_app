@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/conseiller/conseiller_state.dart';
+import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -18,12 +18,12 @@ class ProfilPageViewModel extends Equatable {
     return ProfilPageViewModel(
       userName: user != null ? "${user.firstName} ${user.lastName}" : "",
       userEmail: user?.email ?? Strings.missingEmailAddressValue,
-      displayMonConseiller: _shouldDisplayMonConseiller(store.state.conseillerState),
+      displayMonConseiller: _shouldDisplayMonConseiller(store.state.detailsJeuneState),
     );
   }
 
-  static bool _shouldDisplayMonConseiller(ConseillerState? state) {
-    if (state == null || state is ConseillerNotInitializedState) return false;
+  static bool _shouldDisplayMonConseiller(DetailsJeuneState? state) {
+    if (state == null || state is DetailsJeuneNotInitializedState) return false;
     return true;
   }
 

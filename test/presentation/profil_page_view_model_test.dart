@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
-import 'package:pass_emploi_app/features/conseiller/conseiller_state.dart';
+import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/presentation/profil/profil_page_view_model.dart';
@@ -59,12 +59,12 @@ void main() {
   });
 
   group("mon conseiller should be", () {
-    void assertMonConseillerIsDisplayed(bool isDisplayed, ConseillerState state) {
+    void assertMonConseillerIsDisplayed(bool isDisplayed, DetailsJeuneState state) {
       final verb = isDisplayed ? "displayed" : "hidden";
       test("$verb on ${state.runtimeType}", () {
         // Given
         final store = TestStoreFactory()
-            .initializeReduxStore(initialState: AppState.initialState().copyWith(conseillerState: state));
+            .initializeReduxStore(initialState: AppState.initialState().copyWith(detailsJeuneState: state));
 
         // When
         final viewModel = ProfilPageViewModel.create(store);
@@ -74,9 +74,9 @@ void main() {
       });
     }
 
-    assertMonConseillerIsDisplayed(true, ConseillerLoadingState());
-    assertMonConseillerIsDisplayed(true, ConseillerSuccessState(conseillerInfo: monConseillerInfoPerceval()));
-    assertMonConseillerIsDisplayed(true, ConseillerFailureState());
-    assertMonConseillerIsDisplayed(false, ConseillerNotInitializedState());
+    assertMonConseillerIsDisplayed(true, DetailsJeuneLoadingState());
+    assertMonConseillerIsDisplayed(true, DetailsJeuneSuccessState(detailsJeune: detailsJeune()));
+    assertMonConseillerIsDisplayed(true, DetailsJeuneFailureState());
+    assertMonConseillerIsDisplayed(false, DetailsJeuneNotInitializedState());
   });
 }

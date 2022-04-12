@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
-import 'package:pass_emploi_app/repositories/conseiller_repository.dart';
+import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
@@ -60,7 +60,7 @@ class TestStoreFactory {
   ServiceCiviqueRepository serviceCiviqueRepository = DummyServiceCiviqueRepository();
   ServiceCiviqueDetailRepository serviceCiviqueDetailRepository = DummyServiceCiviqueDetailRepository();
   ServiceCiviqueFavorisRepository serviceCiviqueFavorisRepository = DummyServiceCiviqueFavorisRepository();
-  ConseillerRepository conseillerRepository = DummyConseillerRepository();
+  DetailsJeuneRepository detailsJeuneRepository = DummyDetailsJeuneRepository();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
@@ -91,7 +91,7 @@ class TestStoreFactory {
       savedSearchDeleteRepository,
       serviceCiviqueRepository,
       serviceCiviqueDetailRepository,
-      conseillerRepository,
+      detailsJeuneRepository,
     ).initializeReduxStore(initialState: initialState);
   }
 }

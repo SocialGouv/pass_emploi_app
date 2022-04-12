@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/features/bootstrap/bootstrap_middleware.dart';
 import 'package:pass_emploi_app/features/chat/init/chat_initializer_middleware.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_middleware.dart';
-import 'package:pass_emploi_app/features/conseiller/conseiller_middleware.dart';
+import 'package:pass_emploi_app/features/details_jeune/details_jeune_middleware.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_middleware.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_middleware.dart';
 import 'package:pass_emploi_app/features/favori/update/data_from_id_extractor.dart';
@@ -47,7 +47,7 @@ import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
-import 'package:pass_emploi_app/repositories/conseiller_repository.dart';
+import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
@@ -100,7 +100,7 @@ class StoreFactory {
   final SavedSearchDeleteRepository savedSearchDeleteRepository;
   final ServiceCiviqueRepository serviceCiviqueRepository;
   final ServiceCiviqueDetailRepository serviceCiviqueDetailRepository;
-  final ConseillerRepository conseillerRepository;
+  final DetailsJeuneRepository detailsJeuneRepository;
 
   StoreFactory(
     this.authenticator,
@@ -130,7 +130,7 @@ class StoreFactory {
     this.savedSearchDeleteRepository,
     this.serviceCiviqueRepository,
     this.serviceCiviqueDetailRepository,
-    this.conseillerRepository,
+    this.detailsJeuneRepository,
   );
 
   redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -145,7 +145,7 @@ class StoreFactory {
         UserActionUpdateMiddleware(userActionRepository),
         UserActionDeleteMiddleware(userActionRepository),
         UserActionPEListMiddleware(userActionPERepository),
-        ConseillerMiddleware(conseillerRepository),
+        DetailsJeuneMiddleware(detailsJeuneRepository),
         ChatInitializerMiddleware(firebaseAuthRepository, firebaseAuthWrapper, chatCrypto),
         ChatMiddleware(chatRepository),
         ChatStatusMiddleware(chatRepository),

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/conseiller/conseiller_state.dart';
+import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/profil/conseiller_profil_page_view_model.dart';
 
@@ -10,7 +10,7 @@ void main() {
   test('should display loading', () {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
-      initialState: loggedInState().copyWith(conseillerState: ConseillerLoadingState()),
+      initialState: loggedInState().copyWith(detailsJeuneState: DetailsJeuneLoadingState()),
     );
 
     // When
@@ -24,7 +24,7 @@ void main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: loggedInState().copyWith(
-        conseillerState: ConseillerSuccessState(conseillerInfo: monConseillerInfoPerceval()),
+        detailsJeuneState: DetailsJeuneSuccessState(detailsJeune: detailsJeune()),
       ),
     );
 
@@ -33,14 +33,14 @@ void main() {
 
     // Then
     expect(viewModel.displayState, DisplayState.CONTENT);
-    expect(viewModel.sinceDate, "Depuis le 03/01/05");
+    expect(viewModel.sinceDate, "Depuis le 03/01/2005");
     expect(viewModel.name, "Perceval de Galles");
   });
 
   test('should be hidden (for failure)', () {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
-      initialState: loggedInState().copyWith(conseillerState: ConseillerFailureState()),
+      initialState: loggedInState().copyWith(detailsJeuneState: DetailsJeuneFailureState()),
     );
 
     // When
@@ -53,7 +53,7 @@ void main() {
   test('should be hidden (at initialization)', () {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
-      initialState: loggedInState().copyWith(conseillerState: ConseillerNotInitializedState()),
+      initialState: loggedInState().copyWith(detailsJeuneState: DetailsJeuneNotInitializedState()),
     );
 
     // When

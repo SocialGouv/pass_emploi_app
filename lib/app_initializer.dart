@@ -39,8 +39,8 @@ import 'package:pass_emploi_app/redux/store_factory.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
-import 'package:pass_emploi_app/repositories/conseiller_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
@@ -187,7 +187,7 @@ class AppInitializer {
       SavedSearchDeleteRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
       ServiceCiviqueRepository(baseUrl, httpClient, crashlytics),
       ServiceCiviqueDetailRepository(baseUrl, httpClient, crashlytics),
-      ConseillerRepository(baseUrl, httpClient, crashlytics),
+      DetailsJeuneRepository(baseUrl, httpClient, crashlytics),
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
     authAccessChecker.setStore(reduxStore);
