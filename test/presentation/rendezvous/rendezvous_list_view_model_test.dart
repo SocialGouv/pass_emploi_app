@@ -106,8 +106,6 @@ void main() {
           expect(true, false);
         });
 
-        // todo : mois en majuscules dans les séparateurs
-
         test('and sort them by most recent for past', () {
           // Given
           final store = _store(rendezvous);
@@ -122,9 +120,9 @@ void main() {
           expect(viewModel.emptyLabel, "Vous n’avez pas encore de rendez-vous passés");
           expect(viewModel.analyticsLabel, "rdv/list-past");
           expect(viewModel.rendezvousItems, [
-            RendezVousDivider("janvier 2022 (1)"),
+            RendezVousDivider("Janvier 2022 (1)"),
             RendezVousCardItem("passés 1"),
-            RendezVousDivider("décembre 2021 (1)"),
+            RendezVousDivider("Décembre 2021 (1)"),
             RendezVousCardItem("passés 2"),
           ]);
         });
@@ -254,10 +252,10 @@ void main() {
           expect(viewModel.emptyLabel, "Vous n’avez pas encore de rendez-vous prévus");
           expect(viewModel.analyticsLabel, "rdv/list-future");
           expect(viewModel.rendezvousItems, [
-            RendezVousDivider("avril 2022 (2)"),
+            RendezVousDivider("Avril 2022 (2)"),
             RendezVousCardItem("mois futur avril A"),
             RendezVousCardItem("mois futur avril B"),
-            RendezVousDivider("mai 2022 (1)"),
+            RendezVousDivider("Mai 2022 (1)"),
             RendezVousCardItem("mois futur mai A"),
           ]);
         });

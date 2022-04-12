@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/presentation/rendezvous/list/future_months_rende
 import 'package:pass_emploi_app/presentation/rendezvous/list/future_week_rendezvous_list_builder.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/past_rendezvous_list_builder.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_view_model.dart';
+import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 abstract class RendezVousListBuilder {
   String makeTitle();
@@ -68,10 +69,16 @@ extension RendezvousIterableExtension on Iterable<Rendezvous> {
     final groupedRendezvous = groupListsBy(groupedBy);
     return groupedRendezvous.keys
         .map((date) => [
-              RendezVousDivider(displayCount ? "$date (${groupedRendezvous[date]!.length})" : date),
+              _divider(displayCount, date, groupedRendezvous),
               ...groupedRendezvous[date]!.map((e) => RendezVousCardItem(e.id)).toList(),
             ])
         .flattened
         .toList();
   }
+}
+
+RendezVousDivider _divider(bool displayCount, String date, Map<String, List<Rendezvous>> groupedRendezvous) {
+  final dateLabel = date.firstLetterUpperCased();
+  final dividerLabel = displayCount ? "$dateLabel (${groupedRendezvous[date]!.length})" : dateLabel;
+  return RendezVousDivider(dividerLabel);
 }
