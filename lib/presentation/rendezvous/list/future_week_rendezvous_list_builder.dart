@@ -6,19 +6,19 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class FutureWeekRendezVousListBuilder implements RendezVousListBuilder {
-  final RendezvousState rendezvousState;
-  final int pageOffset;
-  final DateTime now;
+  final RendezvousState _rendezvousState;
+  final int _pageOffset;
+  final DateTime _now;
 
-  FutureWeekRendezVousListBuilder(this.rendezvousState, this.pageOffset, this.now);
+  FutureWeekRendezVousListBuilder(this._rendezvousState, this._pageOffset, this._now);
 
   @override
   String makeTitle() => Strings.rendezSemaineTitre;
 
   @override
   String makeDateLabel() {
-    final firstDay = now.addWeeks(pageOffset).toMondayOnThisWeek().toDay();
-    final lastDay = now.addWeeks(pageOffset).toSundayOnThisWeek().toDay();
+    final firstDay = _now.addWeeks(_pageOffset).toMondayOnThisWeek().toDay();
+    final lastDay = _now.addWeeks(_pageOffset).toSundayOnThisWeek().toDay();
     return "$firstDay au $lastDay";
   }
 
@@ -28,16 +28,16 @@ class FutureWeekRendezVousListBuilder implements RendezVousListBuilder {
   }
 
   @override
-  String makeAnalyticsLabel() => AnalyticsScreenNames.rendezvousListWeek + pageOffset.toString();
+  String makeAnalyticsLabel() => AnalyticsScreenNames.rendezvousListWeek + _pageOffset.toString();
 
   @override
   List<RendezVousItem> rendezvousItems() {
-    final rendezvousState = this.rendezvousState;
+    final rendezvousState = _rendezvousState;
     if (rendezvousState is! RendezvousSuccessState) return [];
 
     return rendezvousState.rendezvous
         .sortedFromRecentToFuture()
-        .filteredOnWeek(pageOffset, now)
+        .filteredOnWeek(_pageOffset, _now)
         .groupedItems(groupedBy: (element) => element.date.toDayOfWeekWithFullMonthContextualized());
   }
 }

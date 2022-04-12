@@ -8,23 +8,23 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class PastRendezVousListBuilder implements RendezVousListBuilder {
-  final RendezvousState rendezvousState;
-  final DateTime now;
+  final RendezvousState _rendezvousState;
+  final DateTime _now;
 
-  PastRendezVousListBuilder(this.rendezvousState, this.now);
+  PastRendezVousListBuilder(this._rendezvousState, this._now);
 
   @override
   String makeTitle() => Strings.rendezVousPassesTitre;
 
   @override
   String makeDateLabel() {
-    final rendezvousState = this.rendezvousState;
+    final rendezvousState = _rendezvousState;
     if (rendezvousState is! RendezvousSuccessState) return "";
 
     final oldestRendezvousDate = _oldestRendezvousDate(rendezvousState.rendezvous);
     if (oldestRendezvousDate == null) return "";
 
-    if (oldestRendezvousDate.isInPreviousDay(now)) {
+    if (oldestRendezvousDate.isInPreviousDay(_now)) {
       return Strings.rendezvousSinceDate(oldestRendezvousDate.toDay());
     } else {
       return "";
@@ -39,12 +39,12 @@ class PastRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   List<RendezVousItem> rendezvousItems() {
-    final rendezvousState = this.rendezvousState;
+    final rendezvousState = _rendezvousState;
     if (rendezvousState is! RendezvousSuccessState) return [];
 
     return rendezvousState.rendezvous
         .sortedFromRecentToOldest()
-        .where((element) => element.date.isBefore(DateUtils.dateOnly(now)))
+        .where((element) => element.date.isBefore(DateUtils.dateOnly(_now)))
         .groupedItems(displayCount: true, groupedBy: (element) => element.date.toFullMonthAndYear());
   }
 }

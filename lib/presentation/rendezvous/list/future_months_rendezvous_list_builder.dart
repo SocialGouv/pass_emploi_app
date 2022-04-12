@@ -6,17 +6,17 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class FutureMonthsRendezVousListBuilder implements RendezVousListBuilder {
-  final RendezvousState rendezvousState;
-  final DateTime now;
+  final RendezvousState _rendezvousState;
+  final DateTime _now;
 
-  FutureMonthsRendezVousListBuilder(this.rendezvousState, this.now);
+  FutureMonthsRendezVousListBuilder(this._rendezvousState, this._now);
 
   @override
   String makeTitle() => Strings.rendezVousFutursTitre;
 
   @override
   String makeDateLabel() {
-    final startingDay = now.addWeeks(5).toMondayOnThisWeek().toDay();
+    final startingDay = _now.addWeeks(5).toMondayOnThisWeek().toDay();
     return Strings.rendezvousStartingAtDate(startingDay);
   }
 
@@ -30,12 +30,12 @@ class FutureMonthsRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   List<RendezVousItem> rendezvousItems() {
-    final rendezvousState = this.rendezvousState;
+    final rendezvousState = _rendezvousState;
     if (rendezvousState is! RendezvousSuccessState) return [];
 
     return rendezvousState.rendezvous
         .sortedFromRecentToFuture()
-        .filteredAfterFourWeeks(now)
+        .filteredAfterFourWeeks(_now)
         .groupedItems(displayCount: true, groupedBy: (element) => element.date.toFullMonthAndYear());
   }
 }

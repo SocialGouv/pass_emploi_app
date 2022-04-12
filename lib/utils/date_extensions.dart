@@ -48,15 +48,15 @@ extension DateExtensions on DateTime {
   }
 
   DateTime toMondayOnThisWeek() {
-    return subtract(Duration(days: this.weekday - 1));
+    return subtract(Duration(days: weekday - 1));
   }
 
   DateTime toSundayOnThisWeek() {
-    return add(Duration(days: 7 - this.weekday));
+    return add(Duration(days: 7 - weekday));
   }
 
   DateTime toMondayOnNextWeek() {
-    return add(Duration(days: 7 - this.weekday + 1));
+    return add(Duration(days: 7 - weekday + 1));
   }
 
   DateTime addWeeks(int weeks) {

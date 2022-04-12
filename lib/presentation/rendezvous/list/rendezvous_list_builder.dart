@@ -35,7 +35,6 @@ abstract class RendezVousListBuilder {
     } else {
       return FutureMonthsRendezVousListBuilder(rendezvousState, now);
     }
-    // todo : mettre en privé les variables d'instances des builders
   }
 
   static bool hasPreviousPage(int pageOffset) => pageOffset >= 0;
