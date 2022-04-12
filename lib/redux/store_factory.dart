@@ -16,7 +16,6 @@ import 'package:pass_emploi_app/features/immersion/list/immersion_list_middlewar
 import 'package:pass_emploi_app/features/immersion/saved_search/immersion_saved_search_middleware.dart';
 import 'package:pass_emploi_app/features/location/search_location_middleware.dart';
 import 'package:pass_emploi_app/features/login/login_middleware.dart';
-import 'package:pass_emploi_app/features/login/pole_emploi/pole_emploi_auth_middleware.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_middleware.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_middleware.dart';
 import 'package:pass_emploi_app/features/offre_emploi/saved_search/offre_emploi_saved_search_middleware.dart';
@@ -47,8 +46,6 @@ import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
-import 'package:pass_emploi_app/repositories/auth/pole_emploi/pole_emploi_auth_repository.dart';
-import 'package:pass_emploi_app/repositories/auth/pole_emploi/pole_emploi_token_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/conseiller_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
@@ -79,8 +76,6 @@ class StoreFactory {
   final Authenticator authenticator;
   final Crashlytics crashlytics;
   final ChatCrypto chatCrypto;
-  final PoleEmploiTokenRepository poleEmploiTokenRepository;
-  final PoleEmploiAuthRepository poleEmploiAuthRepository;
   final UserActionRepository userActionRepository;
   final UserActionPERepository userActionPERepository;
   final RendezvousRepository rendezvousRepository;
@@ -111,8 +106,6 @@ class StoreFactory {
     this.authenticator,
     this.crashlytics,
     this.chatCrypto,
-    this.poleEmploiTokenRepository,
-    this.poleEmploiAuthRepository,
     this.userActionRepository,
     this.userActionPERepository,
     this.rendezvousRepository,
@@ -147,7 +140,6 @@ class StoreFactory {
       middleware: [
         BootstrapMiddleware(),
         LoginMiddleware(authenticator, firebaseAuthWrapper),
-        PoleEmploiAuthMiddleware(poleEmploiAuthRepository, poleEmploiTokenRepository),
         UserActionListMiddleware(userActionRepository),
         UserActionCreateMiddleware(userActionRepository),
         UserActionUpdateMiddleware(userActionRepository),

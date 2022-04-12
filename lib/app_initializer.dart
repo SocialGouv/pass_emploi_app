@@ -38,8 +38,6 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
-import 'package:pass_emploi_app/repositories/auth/pole_emploi/pole_emploi_auth_repository.dart';
-import 'package:pass_emploi_app/repositories/auth/pole_emploi/pole_emploi_token_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/conseiller_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
@@ -135,7 +133,6 @@ class AppInitializer {
       configuration,
       securedPreferences,
     );
-    final poleEmploiTokenRepository = PoleEmploiTokenRepository();
     final accessTokenRetriever = AuthAccessTokenRetriever(authenticator);
     final authAccessChecker = AuthAccessChecker();
     final defaultContext = SecurityContext.defaultContext;
@@ -153,7 +150,7 @@ class AppInitializer {
     final httpClient = InterceptedClient.build(
       client: HttpClientWithCache(passEmploiCacheManager, clientWithCertificate),
       interceptors: [
-        AccessTokenInterceptor(accessTokenRetriever, poleEmploiTokenRepository),
+        AccessTokenInterceptor(accessTokenRetriever),
         LogoutInterceptor(authAccessChecker),
         LoggingInterceptor(),
       ],
@@ -165,10 +162,8 @@ class AppInitializer {
       authenticator,
       crashlytics,
       chatCrypto,
-      poleEmploiTokenRepository,
-      PoleEmploiAuthRepository(configuration.authIssuer, httpClient, crashlytics),
       UserActionRepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      UserActionPERepository(baseUrl, httpClient, headersBuilder, poleEmploiTokenRepository, crashlytics),
+      UserActionPERepository(baseUrl, httpClient, headersBuilder, crashlytics),
       RendezvousRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       OffreEmploiRepository(baseUrl, httpClient, headersBuilder, crashlytics),
       ChatRepository(chatCrypto, crashlytics),

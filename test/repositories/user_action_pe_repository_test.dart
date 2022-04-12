@@ -4,7 +4,6 @@ import 'package:http/testing.dart';
 import 'package:pass_emploi_app/models/user_action_pe.dart';
 import 'package:pass_emploi_app/repositories/user_action_pe_repository.dart';
 
-import '../doubles/dummies.dart';
 import '../doubles/fixtures.dart';
 import '../doubles/stubs.dart';
 import '../utils/test_assets.dart';
@@ -18,8 +17,7 @@ void main() {
       if (!request.url.toString().startsWith("BASE_URL/jeunes/UID/pole-emploi/actions")) return invalidHttpResponse();
       return Response.bytes(loadTestAssetsAsBytes("user_action_pe.json"), 200);
     });
-    final repository =
-        UserActionPERepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPoleEmploiTokenRepository());
+    final repository = UserActionPERepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
     final List<UserActionPE>? result = await repository.getUserActions("UID");
@@ -54,8 +52,7 @@ void main() {
   test('get user actions pôle emploi when response is invalid should return null', () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
-    final repository =
-        UserActionPERepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPoleEmploiTokenRepository());
+    final repository = UserActionPERepository("BASE_URL", httpClient, HeadersBuilderStub());
 
     // When
     final search = await repository.getUserActions("UserID");
