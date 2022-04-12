@@ -55,8 +55,46 @@ void main() {
     expect(viewModel.displayState, DisplayState.FAILURE);
   });
 
+  // todo état AUCUN rendez-vous du tout : titre et sous-titre dans semaine courante, chevrons bloqués
+  // todo cette semaine en bleu
+  // todo tests pour les aujourd'hui / demain, requiert d'injecter la date.now
+
   group('create when rendezvous state is success…', () {
     group('with rendezvous…', () {
+      group('past rendezvous of the current week', () {
+        final rendezvous = [
+          mockRendezvous(id: 'cette semaine lundi', date: DateTime(2022, 2, 1, 4, 5, 30)),
+          mockRendezvous(id: 'cette semaine mardi', date: DateTime(2022, 2, 2, 4, 5, 30)),
+          mockRendezvous(id: 'cette semaine dimanche', date: DateTime(2022, 2, 6, 4, 5, 30)),
+        ];
+
+        test("should not be displayed on current week page", () {
+          // Given
+          final store = _store(rendezvous);
+          // When
+          final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+          // Then
+          expect(viewModel.withPreviousButton, true);
+          expect(viewModel.rendezvousItems, [
+            RendezVousDivider("Dimanche 6 février"),
+            RendezVousCardItem("cette semaine dimanche"),
+          ]);
+        });
+
+        test("should be displayed on past page", () {
+          // Given
+          final store = _store(rendezvous);
+          // When
+          final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
+          // Then
+          expect(viewModel.rendezvousItems, [
+            RendezVousDivider("Février 2022 (2)"),
+            RendezVousCardItem("cette semaine mardi"),
+            RendezVousCardItem("cette semaine lundi"),
+          ]);
+        });
+      });
+
       group('should display list', () {
         final rendezvous = [
           mockRendezvous(id: 'semaine passée 1', date: DateTime(2022, 1, 30, 4, 5, 30)),
@@ -83,12 +121,6 @@ void main() {
           mockRendezvous(id: 'mois futur avril A', date: DateTime(2022, 4, 28, 4, 5, 30)),
           mockRendezvous(id: 'mois futur avril B', date: DateTime(2022, 4, 29, 4, 5, 30)),
         ];
-
-        // todo pas de bouton dans le passé si pas de RDV
-        // todo semaine courante, ne voit pas les rdv passés de la semaine (je suis mercredi, je ne vois pas lundi)
-        // todo état AUCUN rendez-vous du tout : titre et sous-titre dans semaine courante, chevrons bloqués
-        // todo cette semaine en bleu
-        // todo tests pour les aujourd'hui / demain, requiert d'injecter la date.now
 
         test('and sort them by most recent for past', () {
           // Given

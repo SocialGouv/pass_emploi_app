@@ -59,6 +59,12 @@ extension RendezvousIterableExtension on Iterable<Rendezvous> {
     return where((element) => (element.date.isAfter(firstDay) && element.date.isBefore(lastDay)));
   }
 
+  Iterable<Rendezvous> filteredFromTodayToSunday(DateTime now) {
+    final firstDay = DateUtils.dateOnly(now);
+    final lastDay = DateUtils.dateOnly(now.toMondayOnNextWeek());
+    return where((element) => (element.date.isAfter(firstDay) && element.date.isBefore(lastDay)));
+  }
+
   Iterable<Rendezvous> filteredAfterFourWeeks(DateTime now) {
     final firstDay = DateUtils.dateOnly(now.addWeeks(5).toMondayOnThisWeek());
     return where((element) => element.date.isAfter(firstDay));
