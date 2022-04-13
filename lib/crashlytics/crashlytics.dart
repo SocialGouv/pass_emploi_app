@@ -6,6 +6,8 @@ import 'package:pass_emploi_app/utils/log.dart';
 abstract class Crashlytics {
   void setCustomKey(String key, String value);
 
+  void setUserIdentifier(String identifier);
+
   void recordNonNetworkException(dynamic exception, StackTrace stack, [Uri? failingEndpoint]);
 }
 
@@ -15,9 +17,10 @@ class CrashlyticsWithFirebase extends Crashlytics {
   CrashlyticsWithFirebase(this.instance);
 
   @override
-  void setCustomKey(String key, String value) {
-    instance.setCustomKey(key, value);
-  }
+  void setCustomKey(String key, String value) => instance.setCustomKey(key, value);
+
+  @override
+  void setUserIdentifier(String identifier) => instance.setUserIdentifier(identifier);
 
   @override
   void recordNonNetworkException(dynamic exception, StackTrace stack, [Uri? failingEndpoint]) {

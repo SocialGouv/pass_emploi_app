@@ -98,6 +98,9 @@ class DummyCrashlytics extends Crashlytics {
   void setCustomKey(String key, value) {}
 
   @override
+  void setUserIdentifier(String identifier) {}
+
+  @override
   void recordNonNetworkException(dynamic exception, StackTrace stack, [Uri? failingEndpoint]) {}
 }
 
