@@ -259,7 +259,9 @@ class _DateHeader extends StatelessWidget {
               children: [
                 Text(
                   viewModel.title,
-                  style: TextStyles.textMBold,
+                  style: viewModel.pageOffset == 0
+                      ? TextStyles.textMBold.copyWith(color: AppColors.primary)
+                      : TextStyles.textMBold,
                 ),
                 SizedBox(height: 4),
                 Text(

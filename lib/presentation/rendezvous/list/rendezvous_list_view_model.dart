@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 class RendezvousListViewModel extends Equatable {
+  final int pageOffset;
   final DisplayState displayState;
   final List<RendezVousItem> rendezvousItems;
   final String? deeplinkRendezvousId;
@@ -23,6 +24,7 @@ class RendezvousListViewModel extends Equatable {
   final String analyticsLabel;
 
   RendezvousListViewModel({
+    required this.pageOffset,
     required this.displayState,
     required this.rendezvousItems,
     required this.deeplinkRendezvousId,
@@ -41,6 +43,7 @@ class RendezvousListViewModel extends Equatable {
     final rendezvousState = store.state.rendezvousState;
     final builder = RendezVousListBuilder.create(rendezvousState, pageOffset, now);
     return RendezvousListViewModel(
+      pageOffset: pageOffset,
       displayState: _displayState(rendezvousState),
       rendezvousItems: builder.rendezvousItems(),
       deeplinkRendezvousId: _deeplinkRendezvousId(store.state.deepLinkState, rendezvousState),
@@ -57,7 +60,7 @@ class RendezvousListViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [displayState, rendezvousItems, deeplinkRendezvousId];
+  List<Object?> get props => [pageOffset, displayState, rendezvousItems, deeplinkRendezvousId];
 }
 
 DisplayState _displayState(RendezvousState state) {
