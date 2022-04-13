@@ -30,6 +30,7 @@ import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/interceptors/access_token_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logging_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logout_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/monitoring_interceptor.dart';
 import 'package:pass_emploi_app/pages/force_update_page.dart';
 import 'package:pass_emploi_app/pass_emploi_app.dart';
 import 'package:pass_emploi_app/push/firebase_push_notification_manager.dart';
@@ -147,9 +148,11 @@ class AppInitializer {
       stalePeriod: Duration(minutes: 20),
       maxNrOfCacheObjects: 30,
     ));
+    final monitoringInterceptor = MonitoringInterceptor();
     final httpClient = InterceptedClient.build(
       client: HttpClientWithCache(passEmploiCacheManager, clientWithCertificate),
       interceptors: [
+        monitoringInterceptor,
         AccessTokenInterceptor(accessTokenRetriever),
         LogoutInterceptor(authAccessChecker),
         LoggingInterceptor(),
@@ -190,6 +193,7 @@ class AppInitializer {
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
     authAccessChecker.setStore(reduxStore);
+    monitoringInterceptor.setStore(reduxStore);
     await pushNotificationManager.init(reduxStore);
     return reduxStore;
   }
