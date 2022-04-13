@@ -17,6 +17,7 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_icon_button.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
+import 'package:pass_emploi_app/widgets/sepline.dart';
 
 class RendezvousListPage extends StatefulWidget {
   @override
@@ -38,6 +39,9 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
       distinct: true,
     );
   }
+
+  // todo cette semaine offset 0 en bleu
+  // todo actuellement les chevrons sont cachés plutôt que d'être non cliquable. Cacher Ou Désactiver ?
 
   Widget _builder(BuildContext context, RendezvousListViewModel viewModel) {
     MatomoTracker.trackScreenWithName(viewModel.analyticsLabel, viewModel.analyticsLabel);
@@ -126,7 +130,8 @@ class _Content extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _DateHeader(viewModel: viewModel, onPageOffsetChanged: onPageOffsetChanged),
-        if (viewModel.rendezvousItems.isEmpty) _EmptyWeek(viewModel.emptyLabel),
+        if (viewModel.rendezvousItems.isEmpty)
+          _EmptyWeek(title: viewModel.emptyLabel, subtitle: viewModel.emptySubtitleLabel),
         if (viewModel.rendezvousItems.isNotEmpty)
           Expanded(
             child: ListView.separated(
@@ -152,9 +157,10 @@ class _Content extends StatelessWidget {
 }
 
 class _EmptyWeek extends StatelessWidget {
-  final String label;
+  final String title;
+  final String? subtitle;
 
-  _EmptyWeek(this.label);
+  _EmptyWeek({required this.title, required this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +170,15 @@ class _EmptyWeek extends StatelessWidget {
         Flexible(child: SvgPicture.asset(Drawables.icEmptyOffres)),
         Padding(
           padding: const EdgeInsets.only(top: 20, left: 24, right: 24),
-          child: Text(label, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+          child: Column(
+            children: [
+              Text(title, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+              if (subtitle != null) ...[
+                SepLine(Margins.spacing_s, Margins.spacing_s),
+                Text(subtitle ?? "", style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
+              ],
+            ],
+          ),
         ),
       ],
     );

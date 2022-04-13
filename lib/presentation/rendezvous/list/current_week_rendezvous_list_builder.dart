@@ -24,7 +24,18 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   String makeEmptyLabel() {
+    final rendezvousState = _rendezvousState;
+    if (rendezvousState is RendezvousSuccessState && rendezvousState.rendezvous.isEmpty) return Strings.noRendezYet;
     return Strings.noRendezVousCetteSemaineTitre;
+  }
+
+  @override
+  String? makeEmptySubtitleLabel() {
+    final rendezvousState = _rendezvousState;
+    if (rendezvousState is RendezvousSuccessState && rendezvousState.rendezvous.isEmpty) {
+      return Strings.noRendezYetSubtitle;
+    }
+    return null;
   }
 
   @override

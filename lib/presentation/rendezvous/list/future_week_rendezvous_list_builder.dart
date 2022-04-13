@@ -28,6 +28,9 @@ class FutureWeekRendezVousListBuilder implements RendezVousListBuilder {
   }
 
   @override
+  String? makeEmptySubtitleLabel() => null;
+
+  @override
   String makeAnalyticsLabel() => AnalyticsScreenNames.rendezvousListWeek + _pageOffset.toString();
 
   @override

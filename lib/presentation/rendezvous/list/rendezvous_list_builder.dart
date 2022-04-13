@@ -17,6 +17,8 @@ abstract class RendezVousListBuilder {
 
   String makeEmptyLabel();
 
+  String? makeEmptySubtitleLabel();
+
   String makeAnalyticsLabel();
 
   List<RendezVousItem> rendezvousItems();
@@ -44,7 +46,12 @@ abstract class RendezVousListBuilder {
     return PastRendezVousListBuilder(rendezvousState, now).rendezvousItems().isNotEmpty;
   }
 
-  static bool hasNextPage(int pageOffset) => pageOffset < 5;
+  static bool hasNextPage(int pageOffset, RendezvousState rendezvousState, DateTime now) {
+    if (pageOffset == 0) {
+      return PastRendezVousListBuilder(rendezvousState, now).rendezvousItems().isNotEmpty;
+    }
+    return pageOffset < 5;
+  }
 }
 
 extension _PageOffsetExtension on int {

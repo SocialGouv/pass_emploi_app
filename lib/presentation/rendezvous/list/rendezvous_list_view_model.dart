@@ -19,6 +19,7 @@ class RendezvousListViewModel extends Equatable {
   final String title;
   final String dateLabel;
   final String emptyLabel;
+  final String? emptySubtitleLabel;
   final String analyticsLabel;
 
   RendezvousListViewModel({
@@ -32,6 +33,7 @@ class RendezvousListViewModel extends Equatable {
     required this.title,
     required this.dateLabel,
     required this.emptyLabel,
+    required this.emptySubtitleLabel,
     required this.analyticsLabel,
   });
 
@@ -47,8 +49,9 @@ class RendezvousListViewModel extends Equatable {
       title: builder.makeTitle(),
       dateLabel: builder.makeDateLabel(),
       withPreviousButton: RendezVousListBuilder.hasPreviousPage(pageOffset, rendezvousState, now),
-      withNextButton: RendezVousListBuilder.hasNextPage(pageOffset),
+      withNextButton: RendezVousListBuilder.hasNextPage(pageOffset, rendezvousState, now),
       emptyLabel: builder.makeEmptyLabel(),
+      emptySubtitleLabel: builder.makeEmptySubtitleLabel(),
       analyticsLabel: builder.makeAnalyticsLabel(),
     );
   }
@@ -60,8 +63,7 @@ class RendezvousListViewModel extends Equatable {
 DisplayState _displayState(RendezvousState state) {
   if (state is RendezvousNotInitializedState) return DisplayState.LOADING;
   if (state is RendezvousLoadingState) return DisplayState.LOADING;
-  if (state is RendezvousSuccessState && state.rendezvous.isNotEmpty) return DisplayState.CONTENT;
-  if (state is RendezvousSuccessState && state.rendezvous.isEmpty) return DisplayState.EMPTY;
+  if (state is RendezvousSuccessState) return DisplayState.CONTENT;
   return DisplayState.FAILURE;
 }
 

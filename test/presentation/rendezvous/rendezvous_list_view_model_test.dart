@@ -55,10 +55,6 @@ void main() {
     expect(viewModel.displayState, DisplayState.FAILURE);
   });
 
-  // todo état AUCUN rendez-vous du tout : titre et sous-titre dans semaine courante, chevrons bloqués
-  // todo cette semaine en bleu
-  // todo tests pour les aujourd'hui / demain, requiert d'injecter la date.now
-
   group('create when rendezvous state is success…', () {
     group('with rendezvous…', () {
       test("should not navigate to past if there isn't past rendez-vous", () {
@@ -69,6 +65,20 @@ void main() {
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
         // Then
         expect(viewModel.withPreviousButton, false);
+      });
+
+      test("should have an empty rendezvous display", () {
+        // Given
+        final store = _store([]);
+        // When
+        final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+        // Then
+        expect(viewModel.displayState, DisplayState.CONTENT);
+        expect(viewModel.withPreviousButton, false);
+        expect(viewModel.withNextButton, false);
+        expect(viewModel.emptyLabel, "Vous n'avez pas encore de rendez-vous prévus");
+        expect(viewModel.emptySubtitleLabel,
+            "Vous pourrez consulter ceux passés et à venir en utilisant les flèches en haut de page.");
       });
 
       group('past rendezvous of the current week', () {
@@ -144,6 +154,7 @@ void main() {
           expect(viewModel.title, "Rendez-vous passés");
           expect(viewModel.dateLabel, "depuis le 04/12/2021");
           expect(viewModel.emptyLabel, "Vous n’avez pas encore de rendez-vous passés");
+          expect(viewModel.emptySubtitleLabel, isNull);
           expect(viewModel.analyticsLabel, "rdv/list-past");
           expect(viewModel.rendezvousItems, [
             RendezVousDivider("Janvier 2022 (2)"),
@@ -165,7 +176,8 @@ void main() {
           expect(viewModel.withPreviousButton, true);
           expect(viewModel.title, "Cette semaine");
           expect(viewModel.dateLabel, "31/01/2022 au 06/02/2022");
-          expect(viewModel.emptyLabel, "Vous n’avez pas d’autres rendez-vous prévus cette semaine.");
+          expect(viewModel.emptyLabel, "Vous n'avez pas encore de rendez-vous prévus cette semaine");
+          expect(viewModel.emptySubtitleLabel, isNull);
           expect(viewModel.analyticsLabel, "rdv/list-week-0");
           expect(viewModel.rendezvousItems, [
             // RendezVousDivider("Aujourd'hui"),
@@ -193,6 +205,7 @@ void main() {
           expect(viewModel.dateLabel, "07/02/2022 au 13/02/2022");
           expect(viewModel.emptyLabel,
               "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 07/02/2022 au 13/02/2022");
+          expect(viewModel.emptySubtitleLabel, isNull);
           expect(viewModel.analyticsLabel, "rdv/list-week-1");
           expect(viewModel.rendezvousItems, [
             RendezVousDivider("Lundi 7 février"),
@@ -217,6 +230,7 @@ void main() {
           expect(viewModel.dateLabel, "14/02/2022 au 20/02/2022");
           expect(viewModel.emptyLabel,
               "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 14/02/2022 au 20/02/2022");
+          expect(viewModel.emptySubtitleLabel, isNull);
           expect(viewModel.analyticsLabel, "rdv/list-week-2");
           expect(viewModel.rendezvousItems, [
             RendezVousDivider("Lundi 14 février"),
@@ -241,6 +255,7 @@ void main() {
           expect(viewModel.dateLabel, "21/02/2022 au 27/02/2022");
           expect(viewModel.emptyLabel,
               "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 21/02/2022 au 27/02/2022");
+          expect(viewModel.emptySubtitleLabel, isNull);
           expect(viewModel.analyticsLabel, "rdv/list-week-3");
           expect(viewModel.rendezvousItems, [
             RendezVousDivider("Lundi 21 février"),
@@ -265,6 +280,7 @@ void main() {
           expect(viewModel.dateLabel, "28/02/2022 au 06/03/2022");
           expect(viewModel.emptyLabel,
               "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 28/02/2022 au 06/03/2022");
+          expect(viewModel.emptySubtitleLabel, isNull);
           expect(viewModel.analyticsLabel, "rdv/list-week-4");
           expect(viewModel.rendezvousItems, [
             RendezVousDivider("Lundi 28 février"),
@@ -288,6 +304,7 @@ void main() {
           expect(viewModel.title, "Rendez-vous futurs");
           expect(viewModel.dateLabel, "à partir du 07/03/2022");
           expect(viewModel.emptyLabel, "Vous n’avez pas encore de rendez-vous prévus");
+          expect(viewModel.emptySubtitleLabel, isNull);
           expect(viewModel.analyticsLabel, "rdv/list-future");
           expect(viewModel.rendezvousItems, [
             RendezVousDivider("Mars 2022 (1)"),
@@ -343,18 +360,6 @@ void main() {
         // Then
         expect(viewModel.dateLabel, "");
       });
-    });
-
-    test('without rendezvous should display an empty content', () {
-      // Given
-      final store = _store([]);
-
-      // When
-      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
-
-      // Then
-      expect(viewModel.displayState, DisplayState.EMPTY);
-      expect(viewModel.rendezvousItems.length, 0);
     });
   });
 

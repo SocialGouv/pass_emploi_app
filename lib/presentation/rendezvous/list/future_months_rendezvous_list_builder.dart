@@ -26,6 +26,9 @@ class FutureMonthsRendezVousListBuilder implements RendezVousListBuilder {
   }
 
   @override
+  String? makeEmptySubtitleLabel() => null;
+
+  @override
   String makeAnalyticsLabel() => AnalyticsScreenNames.rendezvousListFuture;
 
   @override

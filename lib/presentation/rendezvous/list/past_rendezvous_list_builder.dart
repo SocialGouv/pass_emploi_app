@@ -35,6 +35,9 @@ class PastRendezVousListBuilder implements RendezVousListBuilder {
   String makeEmptyLabel() => Strings.noRendezAvantCetteSemaine;
 
   @override
+  String? makeEmptySubtitleLabel() => null;
+
+  @override
   String makeAnalyticsLabel() => AnalyticsScreenNames.rendezvousListPast;
 
   @override

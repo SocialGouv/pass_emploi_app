@@ -131,7 +131,10 @@ class Strings {
   static String rendezVousCetteSemaineTitre = "Cette semaine";
   static String rendezSemaineTitre = "Semaine du";
   static String rendezVousFutursTitre = "Rendez-vous futurs";
-  static String noRendezVousCetteSemaineTitre = "Vous n’avez pas d’autres rendez-vous prévus cette semaine.";
+  static String noRendezVousCetteSemaineTitre = "Vous n'avez pas encore de rendez-vous prévus cette semaine";
+  static String noRendezYet = "Vous n'avez pas encore de rendez-vous prévus";
+  static String noRendezYetSubtitle =
+      "Vous pourrez consulter ceux passés et à venir en utilisant les flèches en haut de page.";
   static String noRendezAutreCetteSemainePrefix = "Vous n’avez pas encore de rendez-vous prévus pour la semaine du ";
   static String noRendezAvantCetteSemaine = "Vous n’avez pas encore de rendez-vous passés";
   static String noRendezVousFutur = "Vous n’avez pas encore de rendez-vous prévus";
