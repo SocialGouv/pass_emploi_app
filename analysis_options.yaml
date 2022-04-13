@@ -25,3 +25,14 @@ analyzer:
     missing_return: error
     dead_code: error
     unused_element: error
+  plugins:
+    - dart_code_metrics
+
+dart_code_metrics:
+  rules:
+    - ban-name:
+        entries:
+          - ident: launch
+            description: You should use launchExternalUrl instead
+          - ident: push
+            description: You should use pushAndBackTrack instead
