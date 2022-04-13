@@ -12,12 +12,12 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/profil_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/label_value_row.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ProfilPage extends TraceableStatelessWidget {
   ProfilPage() : super(name: AnalyticsScreenNames.profil);
@@ -148,7 +148,7 @@ class ProfilPage extends TraceableStatelessWidget {
 
   void _launchAndTrackExternalLink(String link) {
     MatomoTracker.trackOutlink(link);
-    launch(link);
+    launchExternalUrl(link);
   }
 
   SvgPicture _redirectIcon() => SvgPicture.asset(

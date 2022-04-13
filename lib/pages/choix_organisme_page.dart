@@ -10,9 +10,9 @@ import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/onboarding_background.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ChoixOrganismePage extends StatelessWidget {
   static const routeName = "/entree/choix-organisme";
@@ -92,7 +92,7 @@ class ChoixOrganismePage extends StatelessWidget {
                           child: InkWell(
                             onTap: () {
                               MatomoTracker.trackOutlink(noOrganismeLink);
-                              launch(noOrganismeLink);
+                              launchExternalUrl(noOrganismeLink);
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(Margins.spacing_s),

@@ -17,6 +17,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
+import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/widgets/buttons/delete_favori_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/share_button.dart';
@@ -27,7 +28,6 @@ import 'package:pass_emploi_app/widgets/favori_heart.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 import 'package:pass_emploi_app/widgets/title_section.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
   final String idOffre;
@@ -238,7 +238,7 @@ class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
   }
 
   void _applyToOffer(BuildContext context, String url) {
-    launch(url);
+    launchExternalUrl(url);
     context.trackEvent(_postulerEvent());
   }
 
