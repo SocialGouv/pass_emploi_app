@@ -56,4 +56,19 @@ void main() {
     expect(offre.isGenericFailure, isTrue);
     expect(offre.isOffreNotFound, isFalse);
   });
+
+  test('getOffreEmploiDetails when response throws exception with 404 code should flag response as not found',
+      () async {
+    // Given
+    final httpClient = MockClient((request) async => throw deletedOfferHttpResponse());
+    final repository = OffreEmploiDetailsRepository("BASE_URL", httpClient, HeadersBuilderStub());
+
+    // When
+    final offre = await repository.getOffreEmploiDetails(offreId: "ID");
+
+    // Then
+    expect(offre.details, isNull);
+    expect(offre.isGenericFailure, isFalse);
+    expect(offre.isOffreNotFound, isTrue);
+  });
 }
