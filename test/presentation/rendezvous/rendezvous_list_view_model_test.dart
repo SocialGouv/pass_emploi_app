@@ -14,7 +14,7 @@ import '../../doubles/spies.dart';
 import '../../utils/test_setup.dart';
 
 void main() {
-  final DateTime fakeNow = DateTime(2022, 2, 3, 4, 5, 30);
+  final DateTime thursday3thFebruary = DateTime(2022, 2, 3, 4, 5, 30);
 
   test('create when rendezvous state is loading should display loading', () {
     // Given
@@ -23,7 +23,7 @@ void main() {
     );
 
     // When
-    final viewModel = RendezvousListViewModel.create(store, fakeNow, 0);
+    final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
 
     // Then
     expect(viewModel.displayState, DisplayState.LOADING);
@@ -36,7 +36,7 @@ void main() {
     );
 
     // When
-    final viewModel = RendezvousListViewModel.create(store, fakeNow, 0);
+    final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
 
     // Then
     expect(viewModel.displayState, DisplayState.LOADING);
@@ -49,7 +49,7 @@ void main() {
     );
 
     // When
-    final viewModel = RendezvousListViewModel.create(store, fakeNow, 0);
+    final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
 
     // Then
     expect(viewModel.displayState, DisplayState.FAILURE);
@@ -57,53 +57,96 @@ void main() {
 
   group('create when rendezvous state is success…', () {
     group('with rendezvous…', () {
-      group('should display list', () {
+      test("should not navigate to past if there isn't past rendez-vous", () {
+        // Given
+        final rendezvous = [mockRendezvous(id: 'après-demain', date: DateTime(2022, 2, 5, 4, 5, 30))];
+        final store = _store(rendezvous);
+        // When
+        final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+        // Then
+        expect(viewModel.withPreviousButton, false);
+      });
+
+      test("should have an empty rendezvous display", () {
+        // Given
+        final store = _store([]);
+        // When
+        final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+        // Then
+        expect(viewModel.displayState, DisplayState.CONTENT);
+        expect(viewModel.withPreviousButton, false);
+        expect(viewModel.withNextButton, false);
+        expect(viewModel.emptyLabel, "Vous n'avez pas encore de rendez-vous prévus");
+        expect(viewModel.emptySubtitleLabel,
+            "Vous pourrez consulter ceux passés et à venir en utilisant les flèches en haut de page.");
+      });
+
+      group('past rendezvous of the current week', () {
         final rendezvous = [
-          mockRendezvous(id: 'passés 1', date: DateTime(2022, 1, 4, 4, 5, 30)),
-          mockRendezvous(id: 'passés 2', date: DateTime(2021, 12, 4, 4, 5, 30)),
-          mockRendezvous(id: 'cette semaine 1', date: DateTime(2022, 2, 4, 4, 5, 30)),
-          mockRendezvous(id: 'cette semaine 3', date: DateTime(2022, 2, 4, 2, 5, 30)),
-          mockRendezvous(id: 'cette semaine 2', date: DateTime(2022, 2, 5, 4, 5, 30)),
-          mockRendezvous(id: 'semaine+1 A', date: DateTime(2022, 2, 12, 4, 5, 30)),
-          mockRendezvous(id: 'semaine+1 B', date: DateTime(2022, 2, 13, 4, 5, 30)),
-          mockRendezvous(id: 'semaine+2 A', date: DateTime(2022, 2, 17, 4, 5, 30)),
-          mockRendezvous(id: 'semaine+2 B', date: DateTime(2022, 2, 18, 4, 5, 30)),
-          mockRendezvous(id: 'semaine+3 A', date: DateTime(2022, 2, 24, 4, 5, 30)),
-          mockRendezvous(id: 'semaine+3 B', date: DateTime(2022, 2, 25, 4, 5, 30)),
-          mockRendezvous(id: 'semaine+4 A', date: DateTime(2022, 3, 3, 4, 5, 30)),
-          mockRendezvous(id: 'semaine+4 B', date: DateTime(2022, 3, 4, 4, 5, 30)),
-          mockRendezvous(id: 'mois futur avril A', date: DateTime(2022, 4, 28, 4, 5, 30)),
-          mockRendezvous(id: 'mois futur avril B', date: DateTime(2022, 4, 29, 4, 5, 30)),
-          mockRendezvous(id: 'mois futur mai A', date: DateTime(2022, 5, 1, 4, 5, 30)),
+          mockRendezvous(id: 'cette semaine lundi', date: DateTime(2022, 2, 1, 4, 5, 30)),
+          mockRendezvous(id: 'cette semaine mardi', date: DateTime(2022, 2, 2, 4, 5, 30)),
+          mockRendezvous(id: 'cette semaine dimanche', date: DateTime(2022, 2, 6, 4, 5, 30)),
         ];
 
-        test('and sort them by last recent for this week', () {
+        test("should not be displayed on current week page", () {
           // Given
           final store = _store(rendezvous);
           // When
-          final viewModel = RendezvousListViewModel.create(store, fakeNow, 0);
+          final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
           // Then
-          expect(viewModel.displayState, DisplayState.CONTENT);
-          expect(viewModel.withNextButton, true);
           expect(viewModel.withPreviousButton, true);
-          expect(viewModel.title, "Cette semaine");
-          expect(viewModel.dateLabel, "03/02/2022 au 09/02/2022");
-          expect(viewModel.emptyLabel, "Vous n’avez pas d’autres rendez-vous prévus cette semaine.");
-          expect(viewModel.analyticsLabel, "rdv/list-week-0");
           expect(viewModel.rendezvousItems, [
-            RendezVousDivider("Vendredi 4 février"),
-            RendezVousCardItem("cette semaine 3"),
-            RendezVousCardItem("cette semaine 1"),
-            RendezVousDivider("Samedi 5 février"),
-            RendezVousCardItem("cette semaine 2"),
+            RendezVousDivider("Dimanche 6 février"),
+            RendezVousCardItem("cette semaine dimanche"),
           ]);
         });
+
+        test("should be displayed on past page", () {
+          // Given
+          final store = _store(rendezvous);
+          // When
+          final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
+          // Then
+          expect(viewModel.rendezvousItems, [
+            RendezVousDivider("Février 2022 (2)"),
+            RendezVousCardItem("cette semaine mardi"),
+            RendezVousCardItem("cette semaine lundi"),
+          ]);
+        });
+      });
+
+      group('should display list', () {
+        final rendezvous = [
+          mockRendezvous(id: 'semaine passée 1', date: DateTime(2022, 1, 30, 4, 5, 30)),
+          mockRendezvous(id: 'passés lointain 1', date: DateTime(2022, 1, 4, 4, 5, 30)),
+          mockRendezvous(id: 'passés lointain 2', date: DateTime(2021, 12, 4, 4, 5, 30)),
+          // mockRendezvous(id: 'cette semaine aujourdhui', date: DateTime(2022, 2, 3, 4, 5, 30)),
+          // mockRendezvous(id: 'cette semaine demain 1', date: DateTime(2022, 2, 4, 1, 0, 0)),
+          // mockRendezvous(id: 'cette semaine demain 2', date: DateTime(2022, 2, 4, 2, 5, 30)),
+          mockRendezvous(id: 'cette semaine après-demain 1', date: DateTime(2022, 2, 5, 4, 5, 30)),
+          mockRendezvous(id: 'cette semaine dimanche', date: DateTime(2022, 2, 6, 4, 5, 30)),
+          mockRendezvous(id: 'semaine+1 lundi', date: DateTime(2022, 2, 7, 4, 5, 30)),
+          mockRendezvous(id: 'semaine+1 jeudi', date: DateTime(2022, 2, 10, 4, 5, 30)),
+          mockRendezvous(id: 'semaine+1 dimanche', date: DateTime(2022, 2, 13, 4, 5, 30)),
+          mockRendezvous(id: 'semaine+2 lundi', date: DateTime(2022, 2, 14, 4, 5, 30)),
+          mockRendezvous(id: 'semaine+2 jeudi', date: DateTime(2022, 2, 17, 4, 5, 30)),
+          mockRendezvous(id: 'semaine+2 dimanche', date: DateTime(2022, 2, 20, 4, 5, 30)),
+          mockRendezvous(id: 'semaine+3 lundi', date: DateTime(2022, 2, 21, 4, 5, 30)),
+          mockRendezvous(id: 'semaine+3 jeudi', date: DateTime(2022, 2, 24, 4, 5, 30)),
+          mockRendezvous(id: 'semaine+3 dimanche', date: DateTime(2022, 2, 27, 4, 5, 30)),
+          mockRendezvous(id: 'semaine+4 lundi', date: DateTime(2022, 2, 28, 4, 5, 30)),
+          mockRendezvous(id: 'semaine+4 jeudi', date: DateTime(2022, 3, 3, 4, 5, 30)),
+          mockRendezvous(id: 'semaine+4 dimanche', date: DateTime(2022, 3, 6, 4, 5, 30)),
+          mockRendezvous(id: 'mois futur lundi 7 mars', date: DateTime(2022, 3, 7, 4, 5, 30)),
+          mockRendezvous(id: 'mois futur avril A', date: DateTime(2022, 4, 28, 4, 5, 30)),
+          mockRendezvous(id: 'mois futur avril B', date: DateTime(2022, 4, 29, 4, 5, 30)),
+        ];
 
         test('and sort them by most recent for past', () {
           // Given
           final store = _store(rendezvous);
           // When
-          final viewModel = RendezvousListViewModel.create(store, fakeNow, -1);
+          final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
           // Then
           expect(viewModel.displayState, DisplayState.CONTENT);
           expect(viewModel.withNextButton, true);
@@ -111,12 +154,41 @@ void main() {
           expect(viewModel.title, "Rendez-vous passés");
           expect(viewModel.dateLabel, "depuis le 04/12/2021");
           expect(viewModel.emptyLabel, "Vous n’avez pas encore de rendez-vous passés");
+          expect(viewModel.emptySubtitleLabel, isNull);
           expect(viewModel.analyticsLabel, "rdv/list-past");
           expect(viewModel.rendezvousItems, [
-            RendezVousDivider("janvier 2022"),
-            RendezVousCardItem("passés 1"),
-            RendezVousDivider("décembre 2021"),
-            RendezVousCardItem("passés 2"),
+            RendezVousDivider("Janvier 2022 (2)"),
+            RendezVousCardItem("semaine passée 1"),
+            RendezVousCardItem("passés lointain 1"),
+            RendezVousDivider("Décembre 2021 (1)"),
+            RendezVousCardItem("passés lointain 2"),
+          ]);
+        });
+
+        test('and sort them by last recent for this week', () {
+          // Given
+          final store = _store(rendezvous);
+          // When
+          final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+          // Then
+          expect(viewModel.displayState, DisplayState.CONTENT);
+          expect(viewModel.withNextButton, true);
+          expect(viewModel.withPreviousButton, true);
+          expect(viewModel.title, "Cette semaine");
+          expect(viewModel.dateLabel, "31/01/2022 au 06/02/2022");
+          expect(viewModel.emptyLabel, "Vous n'avez pas encore de rendez-vous prévus cette semaine");
+          expect(viewModel.emptySubtitleLabel, isNull);
+          expect(viewModel.analyticsLabel, "rdv/list-week-0");
+          expect(viewModel.rendezvousItems, [
+            // RendezVousDivider("Aujourd'hui"),
+            // RendezVousCardItem("cette semaine aujourdhui"),
+            // RendezVousDivider("Demain"),
+            // RendezVousCardItem("cette semaine demain 1"),
+            // RendezVousCardItem("cette semaine demain 2"),
+            RendezVousDivider("Samedi 5 février"),
+            RendezVousCardItem("cette semaine après-demain 1"),
+            RendezVousDivider("Dimanche 6 février"),
+            RendezVousCardItem("cette semaine dimanche"),
           ]);
         });
 
@@ -124,21 +196,24 @@ void main() {
           // Given
           final store = _store(rendezvous);
           // When
-          final viewModel = RendezvousListViewModel.create(store, fakeNow, 1);
+          final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 1);
           // Then
           expect(viewModel.displayState, DisplayState.CONTENT);
           expect(viewModel.withNextButton, true);
           expect(viewModel.withPreviousButton, true);
-          expect(viewModel.title, "Rendez-vous futurs");
-          expect(viewModel.dateLabel, "10/02/2022 au 16/02/2022");
+          expect(viewModel.title, "Semaine du");
+          expect(viewModel.dateLabel, "07/02/2022 au 13/02/2022");
           expect(viewModel.emptyLabel,
-              "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 10/02/2022 au 16/02/2022");
+              "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 07/02/2022 au 13/02/2022");
+          expect(viewModel.emptySubtitleLabel, isNull);
           expect(viewModel.analyticsLabel, "rdv/list-week-1");
           expect(viewModel.rendezvousItems, [
-            RendezVousDivider("Samedi 12 février"),
-            RendezVousCardItem("semaine+1 A"),
+            RendezVousDivider("Lundi 7 février"),
+            RendezVousCardItem("semaine+1 lundi"),
+            RendezVousDivider("Jeudi 10 février"),
+            RendezVousCardItem("semaine+1 jeudi"),
             RendezVousDivider("Dimanche 13 février"),
-            RendezVousCardItem("semaine+1 B"),
+            RendezVousCardItem("semaine+1 dimanche"),
           ]);
         });
 
@@ -146,21 +221,24 @@ void main() {
           // Given
           final store = _store(rendezvous);
           // When
-          final viewModel = RendezvousListViewModel.create(store, fakeNow, 2);
+          final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 2);
           // Then
           expect(viewModel.displayState, DisplayState.CONTENT);
           expect(viewModel.withNextButton, true);
           expect(viewModel.withPreviousButton, true);
-          expect(viewModel.title, "Rendez-vous futurs");
-          expect(viewModel.dateLabel, "17/02/2022 au 23/02/2022");
+          expect(viewModel.title, "Semaine du");
+          expect(viewModel.dateLabel, "14/02/2022 au 20/02/2022");
           expect(viewModel.emptyLabel,
-              "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 17/02/2022 au 23/02/2022");
+              "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 14/02/2022 au 20/02/2022");
+          expect(viewModel.emptySubtitleLabel, isNull);
           expect(viewModel.analyticsLabel, "rdv/list-week-2");
           expect(viewModel.rendezvousItems, [
+            RendezVousDivider("Lundi 14 février"),
+            RendezVousCardItem("semaine+2 lundi"),
             RendezVousDivider("Jeudi 17 février"),
-            RendezVousCardItem("semaine+2 A"),
-            RendezVousDivider("Vendredi 18 février"),
-            RendezVousCardItem("semaine+2 B"),
+            RendezVousCardItem("semaine+2 jeudi"),
+            RendezVousDivider("Dimanche 20 février"),
+            RendezVousCardItem("semaine+2 dimanche"),
           ]);
         });
 
@@ -168,21 +246,24 @@ void main() {
           // Given
           final store = _store(rendezvous);
           // When
-          final viewModel = RendezvousListViewModel.create(store, fakeNow, 3);
+          final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 3);
           // Then
           expect(viewModel.displayState, DisplayState.CONTENT);
           expect(viewModel.withNextButton, true);
           expect(viewModel.withPreviousButton, true);
-          expect(viewModel.title, "Rendez-vous futurs");
-          expect(viewModel.dateLabel, "24/02/2022 au 02/03/2022");
+          expect(viewModel.title, "Semaine du");
+          expect(viewModel.dateLabel, "21/02/2022 au 27/02/2022");
           expect(viewModel.emptyLabel,
-              "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 24/02/2022 au 02/03/2022");
+              "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 21/02/2022 au 27/02/2022");
+          expect(viewModel.emptySubtitleLabel, isNull);
           expect(viewModel.analyticsLabel, "rdv/list-week-3");
           expect(viewModel.rendezvousItems, [
+            RendezVousDivider("Lundi 21 février"),
+            RendezVousCardItem("semaine+3 lundi"),
             RendezVousDivider("Jeudi 24 février"),
-            RendezVousCardItem("semaine+3 A"),
-            RendezVousDivider("Vendredi 25 février"),
-            RendezVousCardItem("semaine+3 B"),
+            RendezVousCardItem("semaine+3 jeudi"),
+            RendezVousDivider("Dimanche 27 février"),
+            RendezVousCardItem("semaine+3 dimanche"),
           ]);
         });
 
@@ -190,21 +271,24 @@ void main() {
           // Given
           final store = _store(rendezvous);
           // When
-          final viewModel = RendezvousListViewModel.create(store, fakeNow, 4);
+          final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 4);
           // Then
           expect(viewModel.displayState, DisplayState.CONTENT);
           expect(viewModel.withNextButton, true);
           expect(viewModel.withPreviousButton, true);
-          expect(viewModel.title, "Rendez-vous futurs");
-          expect(viewModel.dateLabel, "03/03/2022 au 09/03/2022");
+          expect(viewModel.title, "Semaine du");
+          expect(viewModel.dateLabel, "28/02/2022 au 06/03/2022");
           expect(viewModel.emptyLabel,
-              "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 03/03/2022 au 09/03/2022");
+              "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 28/02/2022 au 06/03/2022");
+          expect(viewModel.emptySubtitleLabel, isNull);
           expect(viewModel.analyticsLabel, "rdv/list-week-4");
           expect(viewModel.rendezvousItems, [
+            RendezVousDivider("Lundi 28 février"),
+            RendezVousCardItem("semaine+4 lundi"),
             RendezVousDivider("Jeudi 3 mars"),
-            RendezVousCardItem("semaine+4 A"),
-            RendezVousDivider("Vendredi 4 mars"),
-            RendezVousCardItem("semaine+4 B"),
+            RendezVousCardItem("semaine+4 jeudi"),
+            RendezVousDivider("Dimanche 6 mars"),
+            RendezVousCardItem("semaine+4 dimanche"),
           ]);
         });
 
@@ -212,21 +296,22 @@ void main() {
           // Given
           final store = _store(rendezvous);
           // When
-          final viewModel = RendezvousListViewModel.create(store, fakeNow, 5);
+          final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 5);
           // Then
           expect(viewModel.displayState, DisplayState.CONTENT);
           expect(viewModel.withNextButton, false);
           expect(viewModel.withPreviousButton, true);
           expect(viewModel.title, "Rendez-vous futurs");
-          expect(viewModel.dateLabel, "à partir du 10/03/2022");
+          expect(viewModel.dateLabel, "à partir du 07/03/2022");
           expect(viewModel.emptyLabel, "Vous n’avez pas encore de rendez-vous prévus");
+          expect(viewModel.emptySubtitleLabel, isNull);
           expect(viewModel.analyticsLabel, "rdv/list-future");
           expect(viewModel.rendezvousItems, [
-            RendezVousDivider("avril 2022"),
+            RendezVousDivider("Mars 2022 (1)"),
+            RendezVousCardItem("mois futur lundi 7 mars"),
+            RendezVousDivider("Avril 2022 (2)"),
             RendezVousCardItem("mois futur avril A"),
             RendezVousCardItem("mois futur avril B"),
-            RendezVousDivider("mai 2022"),
-            RendezVousCardItem("mois futur mai A"),
           ]);
         });
       });
@@ -241,7 +326,7 @@ void main() {
         );
 
         // When
-        final viewModel = RendezvousListViewModel.create(store, fakeNow, 0);
+        final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
 
         // Then
         expect(viewModel.deeplinkRendezvousId, '1');
@@ -257,7 +342,7 @@ void main() {
         );
 
         // When
-        final viewModel = RendezvousListViewModel.create(store, fakeNow, 0);
+        final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
 
         // Then
         expect(viewModel.deeplinkRendezvousId, isNull);
@@ -276,24 +361,12 @@ void main() {
         expect(viewModel.dateLabel, "");
       });
     });
-
-    test('without rendezvous should display an empty content', () {
-      // Given
-      final store = _store([]);
-
-      // When
-      final viewModel = RendezvousListViewModel.create(store, fakeNow, 0);
-
-      // Then
-      expect(viewModel.displayState, DisplayState.EMPTY);
-      expect(viewModel.rendezvousItems.length, 0);
-    });
   });
 
   test('onRetry should trigger RequestRendezvousAction', () {
     // Given
     final store = StoreSpy();
-    final viewModel = RendezvousListViewModel.create(store, fakeNow, 0);
+    final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
 
     // When
     viewModel.onRetry();
@@ -305,7 +378,7 @@ void main() {
   test('onDeeplinkUsed should trigger ResetDeeplinkAction', () {
     // Given
     final store = StoreSpy();
-    final viewModel = RendezvousListViewModel.create(store, fakeNow, 0);
+    final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
 
     // When
     viewModel.onDeeplinkUsed();

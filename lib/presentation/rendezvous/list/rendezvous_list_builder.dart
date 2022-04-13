@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/current_week_rendezvous_list_builder.dart';
@@ -8,38 +7,51 @@ import 'package:pass_emploi_app/presentation/rendezvous/list/future_months_rende
 import 'package:pass_emploi_app/presentation/rendezvous/list/future_week_rendezvous_list_builder.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/past_rendezvous_list_builder.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_view_model.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
+import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 abstract class RendezVousListBuilder {
   String makeTitle();
 
-  String makeDateLabel(int pageOffset, RendezvousState rendezvousState, DateTime now);
+  String makeDateLabel();
 
-  String makeEmptyLabel(int pageOffset, RendezvousState rendezvousState, DateTime now);
+  String makeEmptyLabel();
 
-  String makeAnalyticsLabel(int pageOffset);
+  String? makeEmptySubtitleLabel();
 
-  List<RendezVousItem> rendezvousItems(
+  String makeAnalyticsLabel();
+
+  List<RendezVousItem> rendezvousItems();
+
+  factory RendezVousListBuilder.create(
     RendezvousState rendezvousState,
-    LoginState loginState,
-    DateTime now,
     int pageOffset,
-  );
-
-  factory RendezVousListBuilder.create(int pageOffset) {
+    DateTime now,
+  ) {
     if (pageOffset.isInPast()) {
-      return PastRendezVousListBuilder();
+      return PastRendezVousListBuilder(rendezvousState, now);
     } else if (pageOffset.isThisWeek()) {
-      return CurrentWeekRendezVousListBuilder();
+      return CurrentWeekRendezVousListBuilder(rendezvousState, pageOffset, now);
     } else if (pageOffset >= 1 && pageOffset < 5) {
-      return FutureWeekRendezVousListBuilder();
+      return FutureWeekRendezVousListBuilder(rendezvousState, pageOffset, now);
     } else {
-      return FutureMonthsRendezVousListBuilder();
+      return FutureMonthsRendezVousListBuilder(rendezvousState, now);
     }
   }
 
-  static bool hasPreviousPage(int pageOffset) => pageOffset >= 0;
+  static bool hasPreviousPage(int pageOffset, RendezvousState rendezvousState, DateTime now) {
+    if (pageOffset > 0) return true;
+    if (pageOffset < 0) return false;
 
-  static bool hasNextPage(int pageOffset) => pageOffset < 5;
+    return PastRendezVousListBuilder(rendezvousState, now).rendezvousItems().isNotEmpty;
+  }
+
+  static bool hasNextPage(int pageOffset, RendezvousState rendezvousState, DateTime now) {
+    if (pageOffset == 0) {
+      return PastRendezVousListBuilder(rendezvousState, now).rendezvousItems().isNotEmpty;
+    }
+    return pageOffset < 5;
+  }
 }
 
 extension _PageOffsetExtension on int {
@@ -53,25 +65,37 @@ extension RendezvousIterableExtension on Iterable<Rendezvous> {
 
   List<Rendezvous> sortedFromRecentToFuture() => sorted((a, b) => a.date.compareTo(b.date));
 
-  Iterable<Rendezvous> filterSemaineGlissante(int pageOffset, DateTime now) {
-    final firstDay = DateUtils.dateOnly(now.add(Duration(days: 7 * pageOffset)));
-    final lastDay = DateUtils.dateOnly(now.add(Duration(days: (7 * pageOffset) + 7)));
+  Iterable<Rendezvous> filteredOnWeek(int pageOffset, DateTime now) {
+    final firstDay = DateUtils.dateOnly(now.addWeeks(pageOffset).toMondayOnThisWeek());
+    final lastDay = DateUtils.dateOnly(now.addWeeks(pageOffset).toMondayOnNextWeek());
     return where((element) => (element.date.isAfter(firstDay) && element.date.isBefore(lastDay)));
   }
 
-  Iterable<Rendezvous> filterAfterFourWeeks(DateTime now) {
-    final firstDay = DateUtils.dateOnly(now.add(Duration(days: 7 * 5)));
+  Iterable<Rendezvous> filteredFromTodayToSunday(DateTime now) {
+    final firstDay = DateUtils.dateOnly(now);
+    final lastDay = DateUtils.dateOnly(now.toMondayOnNextWeek());
+    return where((element) => (element.date.isAfter(firstDay) && element.date.isBefore(lastDay)));
+  }
+
+  Iterable<Rendezvous> filteredAfterFourWeeks(DateTime now) {
+    final firstDay = DateUtils.dateOnly(now.addWeeks(5).toMondayOnThisWeek());
     return where((element) => element.date.isAfter(firstDay));
   }
 
-  List<RendezVousItem> groupedItemsBy(String Function(Rendezvous) fn) {
-    final groupedRendezvous = groupListsBy(fn);
+  List<RendezVousItem> groupedItems({bool displayCount = false, required String Function(Rendezvous) groupedBy}) {
+    final groupedRendezvous = groupListsBy(groupedBy);
     return groupedRendezvous.keys
         .map((date) => [
-              RendezVousDivider(date),
+              _divider(displayCount, date, groupedRendezvous),
               ...groupedRendezvous[date]!.map((e) => RendezVousCardItem(e.id)).toList(),
             ])
         .flattened
         .toList();
   }
+}
+
+RendezVousDivider _divider(bool displayCount, String date, Map<String, List<Rendezvous>> groupedRendezvous) {
+  final dateLabel = date.firstLetterUpperCased();
+  final dividerLabel = displayCount ? "$dateLabel (${groupedRendezvous[date]!.length})" : dateLabel;
+  return RendezVousDivider(dividerLabel);
 }

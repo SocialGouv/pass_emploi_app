@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 class RendezvousListViewModel extends Equatable {
+  final int pageOffset;
   final DisplayState displayState;
   final List<RendezVousItem> rendezvousItems;
   final String? deeplinkRendezvousId;
@@ -19,9 +20,11 @@ class RendezvousListViewModel extends Equatable {
   final String title;
   final String dateLabel;
   final String emptyLabel;
+  final String? emptySubtitleLabel;
   final String analyticsLabel;
 
   RendezvousListViewModel({
+    required this.pageOffset,
     required this.displayState,
     required this.rendezvousItems,
     required this.deeplinkRendezvousId,
@@ -32,37 +35,38 @@ class RendezvousListViewModel extends Equatable {
     required this.title,
     required this.dateLabel,
     required this.emptyLabel,
+    required this.emptySubtitleLabel,
     required this.analyticsLabel,
   });
 
   factory RendezvousListViewModel.create(Store<AppState> store, DateTime now, int pageOffset) {
-    final loginState = store.state.loginState;
     final rendezvousState = store.state.rendezvousState;
-    final builder = RendezVousListBuilder.create(pageOffset);
+    final builder = RendezVousListBuilder.create(rendezvousState, pageOffset, now);
     return RendezvousListViewModel(
+      pageOffset: pageOffset,
       displayState: _displayState(rendezvousState),
-      rendezvousItems: builder.rendezvousItems(rendezvousState, loginState, now, pageOffset),
+      rendezvousItems: builder.rendezvousItems(),
       deeplinkRendezvousId: _deeplinkRendezvousId(store.state.deepLinkState, rendezvousState),
       onRetry: () => store.dispatch(RendezvousRequestAction()),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
       title: builder.makeTitle(),
-      dateLabel: builder.makeDateLabel(pageOffset, rendezvousState, now),
-      withPreviousButton: RendezVousListBuilder.hasPreviousPage(pageOffset),
-      withNextButton: RendezVousListBuilder.hasNextPage(pageOffset),
-      emptyLabel: builder.makeEmptyLabel(pageOffset, rendezvousState, now),
-      analyticsLabel: builder.makeAnalyticsLabel(pageOffset),
+      dateLabel: builder.makeDateLabel(),
+      withPreviousButton: RendezVousListBuilder.hasPreviousPage(pageOffset, rendezvousState, now),
+      withNextButton: RendezVousListBuilder.hasNextPage(pageOffset, rendezvousState, now),
+      emptyLabel: builder.makeEmptyLabel(),
+      emptySubtitleLabel: builder.makeEmptySubtitleLabel(),
+      analyticsLabel: builder.makeAnalyticsLabel(),
     );
   }
 
   @override
-  List<Object?> get props => [displayState, rendezvousItems, deeplinkRendezvousId];
+  List<Object?> get props => [pageOffset, displayState, rendezvousItems, deeplinkRendezvousId];
 }
 
 DisplayState _displayState(RendezvousState state) {
   if (state is RendezvousNotInitializedState) return DisplayState.LOADING;
   if (state is RendezvousLoadingState) return DisplayState.LOADING;
-  if (state is RendezvousSuccessState && state.rendezvous.isNotEmpty) return DisplayState.CONTENT;
-  if (state is RendezvousSuccessState && state.rendezvous.isEmpty) return DisplayState.EMPTY;
+  if (state is RendezvousSuccessState) return DisplayState.CONTENT;
   return DisplayState.FAILURE;
 }
 
