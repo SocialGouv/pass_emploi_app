@@ -1,3 +1,4 @@
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
@@ -32,6 +33,13 @@ class ImmersionDetailsRepository {
         );
       }
     } catch (e, stack) {
+      if (e is HttpExceptionWithStatus && e.statusCode == 404) {
+        return OffreDetailsResponse<ImmersionDetails>(
+          isGenericFailure: false,
+          isOffreNotFound: true,
+          details: null,
+        );
+      }
       _crashlytics?.recordNonNetworkException(e, stack, url);
     }
     return OffreDetailsResponse<ImmersionDetails>(

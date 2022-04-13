@@ -56,4 +56,17 @@ void main() {
     // Then
     expect(search, NotFoundServiceCiviqueDetailResponse());
   });
+
+  test('search when response throws exception with 404 code should flag response as not found', () async {
+    // Given
+    final httpClient = MockClient((request) async => throw deletedOfferHttpResponse());
+    final repository = ServiceCiviqueDetailRepository("BASE_URL", httpClient, HeadersBuilderStub());
+
+    // When
+    final search = await repository.getServiceCiviqueDetail("id");
+
+    // Then
+    expect(search, NotFoundServiceCiviqueDetailResponse());
+  });
+
 }

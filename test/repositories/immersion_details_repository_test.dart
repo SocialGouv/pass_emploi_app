@@ -106,4 +106,18 @@ void main() {
     expect(response.isGenericFailure, isTrue);
     expect(response.isOffreNotFound, isFalse);
   });
+
+  test('fetch when response throws exception with 404 code should flag response as not found', () async {
+    // Given
+    final httpClient = MockClient((request) async => throw deletedOfferHttpResponse());
+    final repository = ImmersionDetailsRepository("BASE_URL", httpClient, HeadersBuilderStub());
+
+    // When
+    final response = await repository.fetch("id-immersion");
+
+    // Then
+    expect(response.details, isNull);
+    expect(response.isGenericFailure, isFalse);
+    expect(response.isOffreNotFound, isTrue);
+  });
 }

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
@@ -25,7 +26,10 @@ class ServiceCiviqueDetailRepository {
         return NotFoundServiceCiviqueDetailResponse();
       }
     } catch (e, stack) {
-      _crashlytics?.recordNonNetworkException(e, stack, url);
+      if (e is HttpExceptionWithStatus && e.statusCode == 404) {
+        return NotFoundServiceCiviqueDetailResponse();
+      }
+        _crashlytics?.recordNonNetworkException(e, stack, url);
     }
     return FailedServiceCiviqueDetailResponse();
   }
