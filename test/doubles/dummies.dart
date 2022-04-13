@@ -8,7 +8,6 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
-import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
@@ -43,8 +42,6 @@ import 'dummies_for_cache.dart';
 import 'fixtures.dart';
 import 'spies.dart';
 
-class DummyHeadersBuilder extends HeadersBuilder {}
-
 class DummyHttpClient extends MockClient {
   DummyHttpClient() : super((request) async => Response("", 200));
 }
@@ -58,7 +55,7 @@ class DummyPushNotificationManager extends PushNotificationManager {
 }
 
 class DummyRegisterTokenRepository extends RegisterTokenRepository {
-  DummyRegisterTokenRepository() : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPushNotificationManager());
+  DummyRegisterTokenRepository() : super("", DummyHttpClient(), DummyPushNotificationManager());
 
   @override
   Future<void> registerToken(String userId) async {}
@@ -75,15 +72,15 @@ class DummyAuthWrapper extends AuthWrapper {
 class DummyFlutterAppAuth extends FlutterAppAuth {}
 
 class DummyUserActionRepository extends UserActionRepository {
-  DummyUserActionRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  DummyUserActionRepository() : super("", DummyHttpClient());
 }
 
 class DummyUserActionPERepository extends UserActionPERepository {
-  DummyUserActionPERepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  DummyUserActionPERepository() : super("", DummyHttpClient());
 }
 
 class DummyRendezvousRepository extends RendezvousRepository {
-  DummyRendezvousRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  DummyRendezvousRepository() : super("", DummyHttpClient());
 }
 
 class DummyChatRepository extends ChatRepository {
@@ -105,24 +102,23 @@ class DummyCrashlytics extends Crashlytics {
 }
 
 class DummyOffreEmploiRepository extends OffreEmploiRepository {
-  DummyOffreEmploiRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  DummyOffreEmploiRepository() : super("", DummyHttpClient());
 }
 
 class DummyDetailedRepository extends OffreEmploiDetailsRepository {
-  DummyDetailedRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  DummyDetailedRepository() : super("", DummyHttpClient());
 }
 
 class DummyOffreEmploiFavorisRepository extends OffreEmploiFavorisRepository {
-  DummyOffreEmploiFavorisRepository()
-      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
+  DummyOffreEmploiFavorisRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 }
 
 class DummySearchLocationRepository extends SearchLocationRepository {
-  DummySearchLocationRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  DummySearchLocationRepository() : super("", DummyHttpClient());
 }
 
 class DummyFirebaseAuthRepository extends FirebaseAuthRepository {
-  DummyFirebaseAuthRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  DummyFirebaseAuthRepository() : super("", DummyHttpClient());
 }
 
 class DummyFirebaseAuthWrapper extends FirebaseAuthWrapper {
@@ -138,11 +134,11 @@ class DummyFirebaseAuthWrapper extends FirebaseAuthWrapper {
 }
 
 class DummyImmersionRepository extends ImmersionRepository {
-  DummyImmersionRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  DummyImmersionRepository() : super("", DummyHttpClient());
 }
 
 class DummyImmersionDetailsRepository extends ImmersionDetailsRepository {
-  DummyImmersionDetailsRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  DummyImmersionDetailsRepository() : super("", DummyHttpClient());
 }
 
 class DummyChatCrypto extends ChatCrypto {
@@ -150,53 +146,47 @@ class DummyChatCrypto extends ChatCrypto {
 }
 
 class DummyTrackingEventRepository extends TrackingEventRepository {
-  DummyTrackingEventRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  DummyTrackingEventRepository() : super("", DummyHttpClient());
 }
 
 class DummyImmersionFavorisRepository extends ImmersionFavorisRepository {
-  DummyImmersionFavorisRepository()
-      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
+  DummyImmersionFavorisRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 }
 
 class DummyOffreEmploiSavedSearchRepository extends OffreEmploiSavedSearchRepository {
-  DummyOffreEmploiSavedSearchRepository()
-      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
+  DummyOffreEmploiSavedSearchRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 }
 
 class DummyImmersionSavedSearchRepository extends ImmersionSavedSearchRepository {
-  DummyImmersionSavedSearchRepository()
-      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
+  DummyImmersionSavedSearchRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 }
 
 class DummyServiceCiviqueSavedSearchRepository extends ServiceCiviqueSavedSearchRepository {
-  DummyServiceCiviqueSavedSearchRepository()
-      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
+  DummyServiceCiviqueSavedSearchRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 }
 
 class DummyGetSavedSearchRepository extends GetSavedSearchRepository {
-  DummyGetSavedSearchRepository() : super("", DummyHttpClient(), DummyHeadersBuilder(), null);
+  DummyGetSavedSearchRepository() : super("", DummyHttpClient(), null);
 }
 
 class DummySavedSearchDeleteRepository extends SavedSearchDeleteRepository {
-  DummySavedSearchDeleteRepository()
-      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
+  DummySavedSearchDeleteRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 }
 
 class DummyServiceCiviqueRepository extends ServiceCiviqueRepository {
-  DummyServiceCiviqueRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  DummyServiceCiviqueRepository() : super("", DummyHttpClient());
 }
 
 class DummyServiceCiviqueDetailRepository extends ServiceCiviqueDetailRepository {
-  DummyServiceCiviqueDetailRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  DummyServiceCiviqueDetailRepository() : super("", DummyHttpClient());
 }
 
 class DummyServiceCiviqueFavorisRepository extends ServiceCiviqueFavorisRepository {
-  DummyServiceCiviqueFavorisRepository()
-      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
+  DummyServiceCiviqueFavorisRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 }
 
 class DummyConseillerRepository extends ConseillerRepository {
-  DummyConseillerRepository() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  DummyConseillerRepository() : super("", DummyHttpClient());
 }
 
 class DummyLogoutRepository extends LogoutRepository {

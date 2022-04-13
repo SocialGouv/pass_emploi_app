@@ -154,8 +154,7 @@ void main() {
 }
 
 class ServiceCiviqueSavedSearchRepositorySuccessStub extends ServiceCiviqueSavedSearchRepository {
-  ServiceCiviqueSavedSearchRepositorySuccessStub()
-      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
+  ServiceCiviqueSavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> postSavedSearch(String userId, ServiceCiviqueSavedSearch savedSearch, String title) async {
@@ -164,8 +163,7 @@ class ServiceCiviqueSavedSearchRepositorySuccessStub extends ServiceCiviqueSaved
 }
 
 class ServiceCiviqueSavedSearchRepositoryFailureStub extends ServiceCiviqueSavedSearchRepository {
-  ServiceCiviqueSavedSearchRepositoryFailureStub()
-      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
+  ServiceCiviqueSavedSearchRepositoryFailureStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> postSavedSearch(String userId, ServiceCiviqueSavedSearch savedSearch, String title) async {
@@ -174,7 +172,7 @@ class ServiceCiviqueSavedSearchRepositoryFailureStub extends ServiceCiviqueSaved
 }
 
 class SavedSearchRepositorySuccessStub extends GetSavedSearchRepository {
-  SavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyCrashlytics());
+  SavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyCrashlytics());
 
   @override
   Future<List<ServiceCiviqueSavedSearch>?> getSavedSearch(String userId) async {
@@ -183,7 +181,7 @@ class SavedSearchRepositorySuccessStub extends GetSavedSearchRepository {
 }
 
 class SavedSearchRepositoryFailureStub extends GetSavedSearchRepository {
-  SavedSearchRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyCrashlytics());
+  SavedSearchRepositoryFailureStub() : super("", DummyHttpClient(), DummyCrashlytics());
 
   @override
   Future<List<ServiceCiviqueSavedSearch>?> getSavedSearch(String userId) async {

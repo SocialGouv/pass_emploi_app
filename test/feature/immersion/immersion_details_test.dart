@@ -98,7 +98,7 @@ void main() {
 }
 
 class ImmersionDetailsRepositorySuccessStub extends ImmersionDetailsRepository {
-  ImmersionDetailsRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  ImmersionDetailsRepositorySuccessStub() : super("", DummyHttpClient());
 
   @override
   Future<OffreDetailsResponse<ImmersionDetails>> fetch(String offreId) async {
@@ -117,7 +117,7 @@ class ImmersionDetailsRepositorySuccessStub extends ImmersionDetailsRepository {
 }
 
 class ImmersionDetailsRepositoryFailureStub extends ImmersionDetailsRepository {
-  ImmersionDetailsRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  ImmersionDetailsRepositoryFailureStub() : super("", DummyHttpClient());
 
   @override
   Future<OffreDetailsResponse<ImmersionDetails>> fetch(String offreId) async {
@@ -143,7 +143,7 @@ ImmersionDetails _mockImmersionDetails() {
 }
 
 class ImmersionDetailsRepositoryNotFoundFailureStub extends ImmersionDetailsRepository {
-  ImmersionDetailsRepositoryNotFoundFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  ImmersionDetailsRepositoryNotFoundFailureStub() : super("", DummyHttpClient());
 
   @override
   Future<OffreDetailsResponse<ImmersionDetails>> fetch(String offreId) async {

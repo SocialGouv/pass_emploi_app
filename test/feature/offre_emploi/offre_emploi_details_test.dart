@@ -79,7 +79,7 @@ void main() {
 }
 
 class OffreEmploiDetailsRepositorySuccessStub extends OffreEmploiDetailsRepository {
-  OffreEmploiDetailsRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  OffreEmploiDetailsRepositorySuccessStub() : super("", DummyHttpClient());
 
   @override
   Future<OffreDetailsResponse<OffreEmploiDetails>> getOffreEmploiDetails({required String offreId}) async {
@@ -92,7 +92,7 @@ class OffreEmploiDetailsRepositorySuccessStub extends OffreEmploiDetailsReposito
 }
 
 class OffreEmploiDetailsRepositoryGenericFailureStub extends OffreEmploiDetailsRepository {
-  OffreEmploiDetailsRepositoryGenericFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  OffreEmploiDetailsRepositoryGenericFailureStub() : super("", DummyHttpClient());
 
   @override
   Future<OffreDetailsResponse<OffreEmploiDetails>> getOffreEmploiDetails({required String offreId}) async {
@@ -105,7 +105,7 @@ class OffreEmploiDetailsRepositoryGenericFailureStub extends OffreEmploiDetailsR
 }
 
 class OffreEmploiDetailsRepositoryNotFoundFailureStub extends OffreEmploiDetailsRepository {
-  OffreEmploiDetailsRepositoryNotFoundFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  OffreEmploiDetailsRepositoryNotFoundFailureStub() : super("", DummyHttpClient());
 
   @override
   Future<OffreDetailsResponse<OffreEmploiDetails>> getOffreEmploiDetails({required String offreId}) async {

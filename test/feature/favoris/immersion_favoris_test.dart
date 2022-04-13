@@ -201,8 +201,7 @@ Store<AppState> _failureStoreWithFavorisLoaded() {
 }
 
 class ImmersionFavorisRepositorySuccessStub extends ImmersionFavorisRepository {
-  ImmersionFavorisRepositorySuccessStub()
-      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
+  ImmersionFavorisRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
   Future<Set<String>?> getFavorisId(String userId) async {
@@ -230,8 +229,7 @@ class ImmersionFavorisRepositorySuccessStub extends ImmersionFavorisRepository {
 }
 
 class ImmersionFavorisRepositoryFailureStub extends ImmersionFavorisRepository {
-  ImmersionFavorisRepositoryFailureStub()
-      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
+  ImmersionFavorisRepositoryFailureStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
   Future<Set<String>?> getFavorisId(String userId) async {

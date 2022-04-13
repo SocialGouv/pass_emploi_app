@@ -2,7 +2,6 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
-import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
 
@@ -17,15 +16,15 @@ class OffreDetailsResponse<T> {
 class OffreEmploiDetailsRepository {
   final String _baseUrl;
   final Client _httpClient;
-  final HeadersBuilder _headersBuilder;
+
   final Crashlytics? _crashlytics;
 
-  OffreEmploiDetailsRepository(this._baseUrl, this._httpClient, this._headersBuilder, [this._crashlytics]);
+  OffreEmploiDetailsRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
 
   Future<OffreDetailsResponse<OffreEmploiDetails>> getOffreEmploiDetails({required String offreId}) async {
     final url = Uri.parse(_baseUrl + "/offres-emploi/$offreId");
     try {
-      final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
+      final response = await _httpClient.get(url);
       if (response.statusCode.isValid()) {
         final Map<dynamic, dynamic> json = jsonUtf8Decode(response.bodyBytes) as Map<dynamic, dynamic>;
         if (json.containsKey("data")) {

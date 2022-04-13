@@ -110,8 +110,7 @@ void main() {
 }
 
 class OffreEmploiSavedSearchRepositorySuccessStub extends OffreEmploiSavedSearchRepository {
-  OffreEmploiSavedSearchRepositorySuccessStub()
-      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
+  OffreEmploiSavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> postSavedSearch(String userId, OffreEmploiSavedSearch savedSearch, String title) async {
@@ -120,8 +119,7 @@ class OffreEmploiSavedSearchRepositorySuccessStub extends OffreEmploiSavedSearch
 }
 
 class OffreEmploiSavedSearchRepositoryFailureStub extends OffreEmploiSavedSearchRepository {
-  OffreEmploiSavedSearchRepositoryFailureStub()
-      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
+  OffreEmploiSavedSearchRepositoryFailureStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> postSavedSearch(String userId, OffreEmploiSavedSearch savedSearch, String title) async {
@@ -130,7 +128,7 @@ class OffreEmploiSavedSearchRepositoryFailureStub extends OffreEmploiSavedSearch
 }
 
 class SavedSearchRepositorySuccessStub extends GetSavedSearchRepository {
-  SavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyCrashlytics());
+  SavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyCrashlytics());
 
   @override
   Future<List<OffreEmploiSavedSearch>?> getSavedSearch(String userId) async {
@@ -139,7 +137,7 @@ class SavedSearchRepositorySuccessStub extends GetSavedSearchRepository {
 }
 
 class SavedSearchRepositoryFailureStub extends GetSavedSearchRepository {
-  SavedSearchRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyCrashlytics());
+  SavedSearchRepositoryFailureStub() : super("", DummyHttpClient(), DummyCrashlytics());
 
   @override
   Future<List<OffreEmploiSavedSearch>?> getSavedSearch(String userId) async {

@@ -68,7 +68,7 @@ void main() {
 }
 
 class ImmersionRepositorySuccessStub extends ImmersionRepository {
-  ImmersionRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  ImmersionRepositorySuccessStub() : super("", DummyHttpClient());
 
   @override
   Future<List<Immersion>?> search({required String userId, required SearchImmersionRequest request}) async {

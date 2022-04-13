@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 
 import '../doubles/fixtures.dart';
-import '../doubles/stubs.dart';
 import '../utils/test_assets.dart';
 
 void main() {
@@ -18,7 +17,7 @@ void main() {
       }
       return Response.bytes(loadTestAssetsAsBytes("search_location.json"), 200);
     });
-    final repository = SearchLocationRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = SearchLocationRepository("BASE_URL", httpClient);
 
     // When
     final List<Location> locations = await repository.getLocations(userId: "ID", query: "paris");
@@ -42,7 +41,7 @@ void main() {
   test('getLocations when response is invalid should return empty list', () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
-    final repository = SearchLocationRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = SearchLocationRepository("BASE_URL", httpClient);
 
     // When
     final List<Location> locations = await repository.getLocations(userId: "ID", query: "pari");
@@ -54,7 +53,7 @@ void main() {
   test('getLocations when response throws exception should return empty list', () async {
     // Given
     final httpClient = MockClient((request) async => throw Exception());
-    final repository = SearchLocationRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = SearchLocationRepository("BASE_URL", httpClient);
 
     // When
     final List<Location> locations = await repository.getLocations(userId: "ID", query: "pari");
@@ -72,7 +71,7 @@ void main() {
       }
       return Response.bytes(loadTestAssetsAsBytes("search_location.json"), 200);
     });
-    final repository = SearchLocationRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = SearchLocationRepository("BASE_URL", httpClient);
 
     // When
     final result = await repository.getLocations(userId: "ID", query: "pari", villesOnly: true);
