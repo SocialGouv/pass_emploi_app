@@ -11,13 +11,13 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class RendezvousDetailsPage extends StatelessWidget {
   final String rendezvousId;
@@ -141,7 +141,7 @@ class _Modality extends StatelessWidget {
               children: [
                 PrimaryActionButton(
                   label: Strings.seeVisio,
-                  onPressed: () => launch(viewModel.visioRedirectUrl!),
+                  onPressed: () => launchExternalUrl(viewModel.visioRedirectUrl!),
                 ),
               ],
             ),
@@ -173,7 +173,7 @@ class _Modality extends StatelessWidget {
               constraints: const BoxConstraints(minWidth: double.infinity),
               child: SecondaryButton(
                 label: Strings.seeItinerary,
-                onPressed: () => launch(viewModel.addressRedirectUri!.toString()),
+                onPressed: () => launchExternalUrl(viewModel.addressRedirectUri!.toString()),
               ),
             ),
           ),
