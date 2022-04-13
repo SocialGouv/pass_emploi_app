@@ -37,7 +37,12 @@ abstract class RendezVousListBuilder {
     }
   }
 
-  static bool hasPreviousPage(int pageOffset) => pageOffset >= 0;
+  static bool hasPreviousPage(int pageOffset, RendezvousState rendezvousState, DateTime now) {
+    if (pageOffset > 0) return true;
+    if (pageOffset < 0) return false;
+
+    return PastRendezVousListBuilder(rendezvousState, now).rendezvousItems().isNotEmpty;
+  }
 
   static bool hasNextPage(int pageOffset) => pageOffset < 5;
 }

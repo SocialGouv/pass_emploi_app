@@ -61,6 +61,16 @@ void main() {
 
   group('create when rendezvous state is success…', () {
     group('with rendezvous…', () {
+      test("should not navigate to past if there isn't past rendez-vous", () {
+        // Given
+        final rendezvous = [mockRendezvous(id: 'après-demain', date: DateTime(2022, 2, 5, 4, 5, 30))];
+        final store = _store(rendezvous);
+        // When
+        final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+        // Then
+        expect(viewModel.withPreviousButton, false);
+      });
+
       group('past rendezvous of the current week', () {
         final rendezvous = [
           mockRendezvous(id: 'cette semaine lundi', date: DateTime(2022, 2, 1, 4, 5, 30)),
