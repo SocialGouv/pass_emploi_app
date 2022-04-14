@@ -13,6 +13,9 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   Log.d("Handling a background message: ${message.messageId}");
 }
 
+const String _channelId = 'high_importance_channel';
+const String _channelName = 'Notifications importantes';
+
 class FirebasePushNotificationManager extends PushNotificationManager {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
 
@@ -20,7 +23,7 @@ class FirebasePushNotificationManager extends PushNotificationManager {
   Future<void> init(Store<AppState> store) async {
     await _requestPermission();
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-    if (Platform.isAndroid) {
+    if (Platform.isIOS) {
       await _firebaseMessaging.setForegroundNotificationPresentationOptions(
         alert: true,
         badge: true,
@@ -51,8 +54,8 @@ class FirebasePushNotificationManager extends PushNotificationManager {
 
   Future<void> _createHighImportanceAndroidChannel() async {
     const AndroidNotificationChannel channel = AndroidNotificationChannel(
-      'high_importance_channel',
-      'Notifications importantes',
+      _channelId,
+      _channelName,
       importance: Importance.max,
     );
     await FlutterLocalNotificationsPlugin()
@@ -73,8 +76,7 @@ class FirebasePushNotificationManager extends PushNotificationManager {
             notification.title,
             notification.body,
             NotificationDetails(
-              android: AndroidNotificationDetails("high_importance_channel", "Notifications importantes",
-                  color: const Color(0xFF3B69D1)),
+              android: AndroidNotificationDetails(_channelId, _channelName, color: const Color(0xFF3B69D1)),
             ));
       }
     });
