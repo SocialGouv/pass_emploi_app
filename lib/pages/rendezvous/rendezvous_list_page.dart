@@ -164,23 +164,25 @@ class _EmptyWeek extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Flexible(child: SvgPicture.asset(Drawables.icEmptyOffres)),
-        Padding(
-          padding: const EdgeInsets.only(top: 20, left: 24, right: 24),
-          child: Column(
-            children: [
-              Text(title, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
-              if (subtitle != null) ...[
-                SepLine(Margins.spacing_s, Margins.spacing_s),
-                Text(subtitle ?? "", style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
+    return Expanded(
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Flexible(child: SvgPicture.asset(Drawables.icEmptyOffres)),
+          Padding(
+            padding: const EdgeInsets.only(top: 20, left: 24, right: 24, bottom: 20),
+            child: Column(
+              children: [
+                Text(title, style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+                if (subtitle != null) ...[
+                  SepLine(Margins.spacing_s, Margins.spacing_s),
+                  Text(subtitle ?? "", style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
+                ],
               ],
-            ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

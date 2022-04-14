@@ -259,7 +259,7 @@ void main() {
 
       // Then
       expect(viewModel.comment, 'comment');
-      expect(viewModel.commentTitle, 'Commentaire de Nils');
+      expect(viewModel.commentTitle, 'Commentaire de mon conseiller');
     });
 
     test('and address is set should properly format addressRedirectUri (on iOS)', () {
@@ -510,7 +510,7 @@ void main() {
           trackingPageName: 'rdv/atelier',
           modality: 'Le rendez-vous se fera sur place : Mission Locale',
           conseiller: 'votre conseiller Nils Tavernier',
-          commentTitle: 'Commentaire de Nils',
+          commentTitle: 'Commentaire de mon conseiller',
           comment: 'comment',
           organism: 'organism',
           address: 'address',

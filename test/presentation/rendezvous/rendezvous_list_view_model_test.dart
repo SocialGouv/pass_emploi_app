@@ -299,7 +299,7 @@ void main() {
           final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 5);
           // Then
           expect(viewModel.displayState, DisplayState.CONTENT);
-          expect(viewModel.withNextButton, false);
+          expect(viewModel.withNextButton, true);
           expect(viewModel.withPreviousButton, true);
           expect(viewModel.title, "Rendez-vous futurs");
           expect(viewModel.dateLabel, "à partir du 07/03/2022");
