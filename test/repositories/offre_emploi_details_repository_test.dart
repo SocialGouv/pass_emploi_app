@@ -60,7 +60,7 @@ void main() {
       () async {
     // Given
     final httpClient = MockClient((request) async => throw deletedOfferHttpResponse());
-    final repository = OffreEmploiDetailsRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = OffreEmploiDetailsRepository("BASE_URL", httpClient);
 
     // When
     final offre = await repository.getOffreEmploiDetails(offreId: "ID");
