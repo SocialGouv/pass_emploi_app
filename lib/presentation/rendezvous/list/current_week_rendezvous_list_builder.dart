@@ -1,5 +1,6 @@
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
+import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_builder.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_view_model.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -26,7 +27,15 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
   String makeEmptyLabel() {
     final rendezvousState = _rendezvousState;
     if (rendezvousState is RendezvousSuccessState && rendezvousState.rendezvous.isEmpty) return Strings.noRendezYet;
+    if (rendezvousState is RendezvousSuccessState && _haveRendezVousPreviousThisWeek(rendezvousState.rendezvous))
+      return Strings.noMoreRendezVousThisWeek;
     return Strings.noRendezVousCetteSemaineTitre;
+  }
+
+  bool _haveRendezVousPreviousThisWeek(List<Rendezvous> rendezvous) {
+    return rendezvous.any((element) {
+      return element.date.isAfter(_now.toMondayOnThisWeek()) && element.date.isBefore(_now);
+    });
   }
 
   @override

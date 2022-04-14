@@ -133,6 +133,7 @@ class Strings {
   static String rendezVousFutursTitre = "Rendez-vous futurs";
   static String noRendezVousCetteSemaineTitre = "Vous n'avez pas encore de rendez-vous prévus cette semaine";
   static String noRendezYet = "Vous n'avez pas encore de rendez-vous prévus";
+  static String noMoreRendezVousThisWeek = "Vous n'avez pas d'autres rendez-vous prévus cette semaine.";
   static String noRendezYetSubtitle =
       "Vous pourrez consulter ceux passés et à venir en utilisant les flèches en haut de page.";
   static String noRendezAutreCetteSemainePrefix = "Vous n’avez pas encore de rendez-vous prévus pour la semaine du ";
@@ -155,8 +156,6 @@ class Strings {
   static String rendezvousModalityCardMessage(String modality, String conseiller) => "$modality avec $conseiller";
 
   static String phone(String phone) => "Téléphone : $phone";
-
-  static String commentWithConseiller(String firstName) => "Commentaire de $firstName";
 
   static String withOrganism(String organism) => "Avec : $organism";
 

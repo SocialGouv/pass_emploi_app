@@ -47,10 +47,12 @@ abstract class RendezVousListBuilder {
   }
 
   static bool hasNextPage(int pageOffset, RendezvousState rendezvousState, DateTime now) {
-    if (pageOffset == 0) {
-      return PastRendezVousListBuilder(rendezvousState, now).rendezvousItems().isNotEmpty;
+    if (pageOffset >= 0) {
+      return rendezvousState is RendezvousSuccessState &&
+          rendezvousState.rendezvous.any(
+              (element) => element.date.isAfter(now.toMondayOnThisWeek().add(Duration(days: 7 * (pageOffset + 1)))));
     }
-    return pageOffset < 5;
+    return true;
   }
 }
 

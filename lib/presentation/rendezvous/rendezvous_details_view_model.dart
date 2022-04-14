@@ -157,7 +157,7 @@ String _toDuration(int duration) {
 
 String? _commentTitle(Rendezvous rdv, String? comment) {
   if (comment != null && rdv.conseiller == null) return Strings.commentWithoutConseiller;
-  if (comment != null && rdv.conseiller != null) return Strings.commentWithConseiller(rdv.conseiller!.firstName);
+  if (comment != null && rdv.conseiller != null) return Strings.rendezVousConseillerCommentLabel;
   return null;
 }
 
