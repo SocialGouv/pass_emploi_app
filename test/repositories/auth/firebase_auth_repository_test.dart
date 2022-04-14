@@ -4,7 +4,6 @@ import 'package:http/testing.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 
 import '../../doubles/fixtures.dart';
-import '../../doubles/stubs.dart';
 import '../../utils/test_assets.dart';
 
 void main() {
@@ -15,7 +14,7 @@ void main() {
       if (!request.url.toString().startsWith("BASE_URL/auth/firebase/token")) return invalidHttpResponse();
       return Response.bytes(loadTestAssetsAsBytes("firebase_auth_token.json"), 201);
     });
-    final repository = FirebaseAuthRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = FirebaseAuthRepository("BASE_URL", httpClient);
 
     // When
     final token = await repository.getFirebaseAuth("ID");
@@ -27,7 +26,7 @@ void main() {
   test('getFirebaseToken when response is invalid should return null', () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
-    final repository = FirebaseAuthRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = FirebaseAuthRepository("BASE_URL", httpClient);
 
     // When
     final token = await repository.getFirebaseAuth("ID");
@@ -39,7 +38,7 @@ void main() {
   test('getFirebaseToken when response throws exception should return null', () async {
     // Given
     final httpClient = MockClient((request) async => throw Exception());
-    final repository = FirebaseAuthRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = FirebaseAuthRepository("BASE_URL", httpClient);
 
     // When
     final token = await repository.getFirebaseAuth("ID");

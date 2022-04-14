@@ -27,7 +27,7 @@ void main() {
 class TrackingEventRepositoryMock extends TrackingEventRepository {
   bool wasCalled = false;
 
-  TrackingEventRepositoryMock() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  TrackingEventRepositoryMock() : super("", DummyHttpClient());
 
   @override
   Future<bool> sendEvent({required String userId, required EventType event, required LoginMode loginMode}) async {

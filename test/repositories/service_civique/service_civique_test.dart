@@ -6,7 +6,6 @@ import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 
 import '../../doubles/fixtures.dart';
-import '../../doubles/stubs.dart';
 import '../../utils/test_assets.dart';
 
 void main() {
@@ -21,7 +20,7 @@ void main() {
       if (request.url.queryParameters["limit"] != "50") return invalidHttpResponse();
       return Response.bytes(loadTestAssetsAsBytes("service_civique_offres.json"), 200);
     });
-    final repository = ServiceCiviqueRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = ServiceCiviqueRepository("BASE_URL", httpClient);
 
     // When
     final location = Location(
@@ -61,11 +60,10 @@ void main() {
     );
   });
 
-
   test('search when response is invalid should return null', () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
-    final repository = ServiceCiviqueRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = ServiceCiviqueRepository("BASE_URL", httpClient);
 
     // When
     final search = await repository.search(

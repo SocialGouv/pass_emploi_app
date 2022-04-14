@@ -26,10 +26,10 @@ import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/network/cache_interceptor.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
-import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/interceptors/access_token_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logging_interceptor.dart';
 import 'package:pass_emploi_app/network/interceptors/logout_interceptor.dart';
+import 'package:pass_emploi_app/network/interceptors/monitoring_interceptor.dart';
 import 'package:pass_emploi_app/pages/force_update_page.dart';
 import 'package:pass_emploi_app/pass_emploi_app.dart';
 import 'package:pass_emploi_app/push/firebase_push_notification_manager.dart';
@@ -119,7 +119,6 @@ class AppInitializer {
   Future<Store<AppState>> _initializeReduxStore(Configuration configuration) async {
     final crashlytics = CrashlyticsWithFirebase(FirebaseCrashlytics.instance);
     final PushNotificationManager pushNotificationManager = FirebasePushNotificationManager();
-    final headersBuilder = HeadersBuilder();
     final securedPreferences = FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true));
     final logoutRepository = LogoutRepository(
       configuration.authIssuer,
@@ -147,9 +146,11 @@ class AppInitializer {
       stalePeriod: Duration(minutes: 20),
       maxNrOfCacheObjects: 30,
     ));
+    final monitoringInterceptor = MonitoringInterceptor();
     final httpClient = InterceptedClient.build(
       client: HttpClientWithCache(passEmploiCacheManager, clientWithCertificate),
       interceptors: [
+        monitoringInterceptor,
         AccessTokenInterceptor(accessTokenRetriever),
         LogoutInterceptor(authAccessChecker),
         LoggingInterceptor(),
@@ -162,34 +163,35 @@ class AppInitializer {
       authenticator,
       crashlytics,
       chatCrypto,
-      UserActionRepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      UserActionPERepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      RendezvousRepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      OffreEmploiRepository(baseUrl, httpClient, headersBuilder, crashlytics),
+      UserActionRepository(baseUrl, httpClient, crashlytics),
+      UserActionPERepository(baseUrl, httpClient, crashlytics),
+      RendezvousRepository(baseUrl, httpClient, crashlytics),
+      OffreEmploiRepository(baseUrl, httpClient, crashlytics),
       ChatRepository(chatCrypto, crashlytics),
-      RegisterTokenRepository(baseUrl, httpClient, headersBuilder, pushNotificationManager, crashlytics),
-      OffreEmploiDetailsRepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      OffreEmploiFavorisRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
-      ImmersionFavorisRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
-      ServiceCiviqueFavorisRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
-      SearchLocationRepository(baseUrl, httpClient, headersBuilder, crashlytics),
+      RegisterTokenRepository(baseUrl, httpClient, pushNotificationManager, crashlytics),
+      OffreEmploiDetailsRepository(baseUrl, httpClient, crashlytics),
+      OffreEmploiFavorisRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
+      ImmersionFavorisRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
+      ServiceCiviqueFavorisRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
+      SearchLocationRepository(baseUrl, httpClient, crashlytics),
       MetierRepository(),
-      ImmersionRepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      ImmersionDetailsRepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      FirebaseAuthRepository(baseUrl, httpClient, headersBuilder, crashlytics),
+      ImmersionRepository(baseUrl, httpClient, crashlytics),
+      ImmersionDetailsRepository(baseUrl, httpClient, crashlytics),
+      FirebaseAuthRepository(baseUrl, httpClient, crashlytics),
       FirebaseAuthWrapper(),
-      TrackingEventRepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      OffreEmploiSavedSearchRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
-      ImmersionSavedSearchRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
-      ServiceCiviqueSavedSearchRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
-      GetSavedSearchRepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      SavedSearchDeleteRepository(baseUrl, httpClient, headersBuilder, passEmploiCacheManager, crashlytics),
-      ServiceCiviqueRepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      ServiceCiviqueDetailRepository(baseUrl, httpClient, headersBuilder, crashlytics),
-      ConseillerRepository(baseUrl, httpClient, headersBuilder, crashlytics),
+      TrackingEventRepository(baseUrl, httpClient, crashlytics),
+      OffreEmploiSavedSearchRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
+      ImmersionSavedSearchRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
+      ServiceCiviqueSavedSearchRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
+      GetSavedSearchRepository(baseUrl, httpClient, crashlytics),
+      SavedSearchDeleteRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
+      ServiceCiviqueRepository(baseUrl, httpClient, crashlytics),
+      ServiceCiviqueDetailRepository(baseUrl, httpClient, crashlytics),
+      ConseillerRepository(baseUrl, httpClient, crashlytics),
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
     authAccessChecker.setStore(reduxStore);
+    monitoringInterceptor.setStore(reduxStore);
     await pushNotificationManager.init(reduxStore);
     return reduxStore;
   }

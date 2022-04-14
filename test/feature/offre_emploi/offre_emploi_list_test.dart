@@ -225,7 +225,7 @@ OffreEmploiListState _pageOneLoadedAndMoreDataAvailable() {
 }
 
 class OffreEmploiRepositorySuccessWithNoMoreDataStub extends OffreEmploiRepository {
-  OffreEmploiRepositorySuccessWithNoMoreDataStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  OffreEmploiRepositorySuccessWithNoMoreDataStub() : super("", DummyHttpClient());
 
   @override
   Future<OffreEmploiSearchResponse?> search({required String userId, required SearchOffreEmploiRequest request}) async {

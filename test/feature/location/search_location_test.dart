@@ -47,7 +47,7 @@ void main() {
   test("Does not call repository user search input is less than 2 characters… and return empty locations result",
       () async {
     // Given
-        final factory = TestStoreFactory();
+    final factory = TestStoreFactory();
     final repositorySpy = SearchLocationRepositorySpy();
     factory.searchLocationRepository = repositorySpy;
     final store = factory.initializeReduxStore(initialState: loggedInState());
@@ -82,7 +82,7 @@ void main() {
 }
 
 class SearchLocationRepositorySuccessStub extends SearchLocationRepository {
-  SearchLocationRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  SearchLocationRepositorySuccessStub() : super("", DummyHttpClient());
 
   @override
   Future<List<Location>> getLocations({required String userId, required String query, bool villesOnly = false}) async {
@@ -95,7 +95,7 @@ class SearchLocationRepositorySpy extends SearchLocationRepository {
   bool getLocationsHasBeenCalled = false;
   bool getLocationsHasBeenCalledWithVillesOnly = false;
 
-  SearchLocationRepositorySpy() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  SearchLocationRepositorySpy() : super("", DummyHttpClient());
 
   @override
   Future<List<Location>> getLocations({required String userId, required String query, bool villesOnly = false}) async {

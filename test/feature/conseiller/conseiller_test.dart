@@ -44,7 +44,7 @@ Store<AppState> _storeWithSuccessFetchingRepositories() {
 }
 
 class ConseillerRepositorySuccessStub extends ConseillerRepository {
-  ConseillerRepositorySuccessStub() : super('', DummyHttpClient(), DummyHeadersBuilder());
+  ConseillerRepositorySuccessStub() : super('', DummyHttpClient());
 
   @override
   Future<MonConseillerInfo> fetch() async {

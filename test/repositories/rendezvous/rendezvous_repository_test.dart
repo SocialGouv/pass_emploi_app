@@ -6,7 +6,6 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 
 import '../../doubles/fixtures.dart';
-import '../../doubles/stubs.dart';
 import '../../utils/test_assets.dart';
 import '../../utils/test_datetime.dart';
 
@@ -18,7 +17,7 @@ void main() {
       if (request.url.toString() != 'BASE_URL/jeunes/userId/rendezvous') return invalidHttpResponse();
       return Response.bytes(loadTestAssetsAsBytes('rendezvous.json'), 200);
     });
-    final repository = RendezvousRepository('BASE_URL', httpClient, HeadersBuilderStub());
+    final repository = RendezvousRepository('BASE_URL', httpClient);
 
     // When
     final rendezvous = await repository.getRendezvous('userId');
@@ -66,10 +65,10 @@ void main() {
 
   test('a rendezvous where conseiller and createur is same in payload should fonctionnaly return a null createur',
       () async {
-    final httpClient = MockClient((request) async {
+        final httpClient = MockClient((request) async {
       return Response.bytes(loadTestAssetsAsBytes('rendezvous_where_conseiller_is_createur.json'), 200);
     });
-    final repository = RendezvousRepository('BASE_URL', httpClient, HeadersBuilderStub());
+    final repository = RendezvousRepository('BASE_URL', httpClient);
 
     final rendezvous = await repository.getRendezvous('userId');
 
@@ -83,7 +82,7 @@ void main() {
       if (request.url.toString() != 'BASE_URL/jeunes/userId/rendezvous') return invalidHttpResponse();
       return Response.bytes(loadTestAssetsAsBytes('rendezvous_pole_emploi.json'), 200);
     });
-    return RendezvousRepository('BASE_URL', httpClient, HeadersBuilderStub());
+    return RendezvousRepository('BASE_URL', httpClient);
   }
 
   test('an organism should be more important than an agence Pole Emploi', () async {
@@ -142,7 +141,7 @@ void main() {
       if (request.url.toString() != 'BASE_URL/jeunes/userId/rendezvous') return invalidHttpResponse();
       return Response.bytes(loadTestAssetsAsBytes('rendezvous_with_unknown_type.json'), 200);
     });
-    final repository = RendezvousRepository('BASE_URL', httpClient, HeadersBuilderStub());
+    final repository = RendezvousRepository('BASE_URL', httpClient);
 
     // When
     final rendezvous = await repository.getRendezvous('userId');
@@ -158,7 +157,7 @@ void main() {
   test('getRendezvous when response is invalid should return null', () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
-    final repository = RendezvousRepository('BASE_URL', httpClient, HeadersBuilderStub());
+    final repository = RendezvousRepository('BASE_URL', httpClient);
 
     // When
     final rendezvous = await repository.getRendezvous('userID');
@@ -170,7 +169,7 @@ void main() {
   test('getRendezvous when response throws exception should return null', () async {
     // Given
     final httpClient = MockClient((request) async => throw Exception());
-    final repository = RendezvousRepository('BASE_URL', httpClient, HeadersBuilderStub());
+    final repository = RendezvousRepository('BASE_URL', httpClient);
 
     // When
     final rendezvous = await repository.getRendezvous('userID');

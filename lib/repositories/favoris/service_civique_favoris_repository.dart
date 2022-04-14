@@ -2,7 +2,6 @@ import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
-import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/json_serializable.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
@@ -12,12 +11,10 @@ import 'package:pass_emploi_app/repositories/favoris/favoris_repository.dart';
 class ServiceCiviqueFavorisRepository extends FavorisRepository<ServiceCivique> {
   final String _baseUrl;
   final Client _httpClient;
-  final HeadersBuilder _headersBuilder;
   final PassEmploiCacheManager _cacheManager;
   final Crashlytics? _crashlytics;
 
-  ServiceCiviqueFavorisRepository(this._baseUrl, this._httpClient, this._headersBuilder, this._cacheManager,
-      [this._crashlytics]);
+  ServiceCiviqueFavorisRepository(this._baseUrl, this._httpClient, this._cacheManager, [this._crashlytics]);
 
   static Uri getFavorisIdUri({required String baseUrl, required String userId}) {
     return Uri.parse(baseUrl + "/jeunes/$userId/favoris/services-civique");
@@ -31,10 +28,7 @@ class ServiceCiviqueFavorisRepository extends FavorisRepository<ServiceCivique> 
   Future<bool> deleteFavori(String userId, String favoriId) async {
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/favoris/services-civique/$favoriId");
     try {
-      final response = await _httpClient.delete(
-        url,
-        headers: await _headersBuilder.headers(),
-      );
+      final response = await _httpClient.delete(url);
       if (response.statusCode.isValid() || response.statusCode == 404) {
         _cacheManager.removeRessource(CachedRessource.SERVICE_CIVIQUE_FAVORIS, userId, _baseUrl);
         return true;
@@ -49,7 +43,7 @@ class ServiceCiviqueFavorisRepository extends FavorisRepository<ServiceCivique> 
   Future<Map<String, ServiceCivique>?> getFavoris(String userId) async {
     final url = getFavorisUri(baseUrl: _baseUrl, userId: userId);
     try {
-      final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
+      final response = await _httpClient.get(url);
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes) as List;
         return {for (var element in json) element["id"] as String: ServiceCivique.fromJson(element)};
@@ -64,7 +58,7 @@ class ServiceCiviqueFavorisRepository extends FavorisRepository<ServiceCivique> 
   Future<Set<String>?> getFavorisId(String userId) async {
     final url = getFavorisIdUri(baseUrl: _baseUrl, userId: userId);
     try {
-      final response = await _httpClient.get(url, headers: await _headersBuilder.headers());
+      final response = await _httpClient.get(url);
 
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes) as List;
@@ -82,7 +76,6 @@ class ServiceCiviqueFavorisRepository extends FavorisRepository<ServiceCivique> 
     try {
       final response = await _httpClient.post(
         url,
-        headers: await _headersBuilder.headers(contentType: 'application/json'),
         body: customJsonEncode(
           PostServiceCiviqueFavori(
               id: favori.id,
@@ -123,11 +116,11 @@ class PostServiceCiviqueFavori implements JsonSerializable {
 
   @override
   Map<String, dynamic> toJson() => {
-    "id": id,
-    "titre": title,
-    "domaine": domain,
-    "ville": ville,
-    "dateDeDebut": dateDeDebut,
-    "organisation": organisation,
-  };
+        "id": id,
+        "titre": title,
+        "domaine": domain,
+        "ville": ville,
+        "dateDeDebut": dateDeDebut,
+        "organisation": organisation,
+      };
 }

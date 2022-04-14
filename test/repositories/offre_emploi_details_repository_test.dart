@@ -4,7 +4,6 @@ import 'package:http/testing.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 
 import '../doubles/fixtures.dart';
-import '../doubles/stubs.dart';
 import '../utils/test_assets.dart';
 
 void main() {
@@ -17,7 +16,7 @@ void main() {
       if (!request.url.toString().startsWith("BASE_URL/offres-emploi/ID")) return invalidHttpResponse();
       return Response.bytes(loadTestAssetsAsBytes("offre_emploi_details.json"), 200);
     });
-    final repository = OffreEmploiDetailsRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = OffreEmploiDetailsRepository("BASE_URL", httpClient);
 
     // When
     final offre = await repository.getOffreEmploiDetails(offreId: "ID");
@@ -32,7 +31,7 @@ void main() {
   test('getOffreEmploiDetails when response is invalid should flag response as not found', () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
-    final repository = OffreEmploiDetailsRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = OffreEmploiDetailsRepository("BASE_URL", httpClient);
 
     // When
     final offre = await repository.getOffreEmploiDetails(offreId: "ID");
@@ -46,7 +45,7 @@ void main() {
   test('getOffreEmploiDetails when response throws exception should flag response as generic failure', () async {
     // Given
     final httpClient = MockClient((request) async => throw Exception());
-    final repository = OffreEmploiDetailsRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = OffreEmploiDetailsRepository("BASE_URL", httpClient);
 
     // When
     final offre = await repository.getOffreEmploiDetails(offreId: "ID");
@@ -61,7 +60,7 @@ void main() {
       () async {
     // Given
     final httpClient = MockClient((request) async => throw deletedOfferHttpResponse());
-    final repository = OffreEmploiDetailsRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = OffreEmploiDetailsRepository("BASE_URL", httpClient);
 
     // When
     final offre = await repository.getOffreEmploiDetails(offreId: "ID");

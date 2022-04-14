@@ -105,7 +105,7 @@ OffreEmploiListState _pageOneLoadedAndMoreDataAvailable() {
 }
 
 class OffreEmploiRepositorySuccessWithMoreDataMock extends OffreEmploiRepository {
-  OffreEmploiRepositorySuccessWithMoreDataMock() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  OffreEmploiRepositorySuccessWithMoreDataMock() : super("", DummyHttpClient());
 
   bool wasCalledWithFiltres = false;
 

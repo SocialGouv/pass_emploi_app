@@ -10,7 +10,6 @@ import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.da
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 
 import '../../doubles/fixtures.dart';
-import '../../doubles/stubs.dart';
 import '../../utils/test_assets.dart';
 
 void main() {
@@ -22,7 +21,7 @@ void main() {
         if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/recherches")) return invalidHttpResponse();
         return Response.bytes(loadTestAssetsAsBytes("saved_search_data.json"), 200);
       });
-      final repository = GetSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub());
+      final repository = GetSavedSearchRepository("BASE_URL", httpClient);
 
       // When
       final savedSearch = await repository.getSavedSearch("jeuneId");
@@ -34,7 +33,7 @@ void main() {
     test('return null when response is invalid should return null', () async {
       // Given
       final httpClient = MockClient((request) async => invalidHttpResponse());
-      final repository = GetSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub());
+      final repository = GetSavedSearchRepository("BASE_URL", httpClient);
 
       // When
       final savedSearch = await repository.getSavedSearch("jeuneId");

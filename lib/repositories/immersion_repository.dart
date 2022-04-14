@@ -3,7 +3,6 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
 
@@ -22,17 +21,17 @@ class SearchImmersionRequest {
 class ImmersionRepository {
   final String _baseUrl;
   final Client _httpClient;
-  final HeadersBuilder _headerBuilder;
+
   final Crashlytics? _crashlytics;
 
-  ImmersionRepository(this._baseUrl, this._httpClient, this._headerBuilder, [this._crashlytics]);
+  ImmersionRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
 
   Future<List<Immersion>?> search({required String userId, required SearchImmersionRequest request}) async {
     final url = Uri.parse(_baseUrl + "/offres-immersion").replace(
       query: _createQuery(request),
     );
     try {
-      final response = await _httpClient.get(url, headers: await _headerBuilder.headers(userId: userId));
+      final response = await _httpClient.get(url);
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes);
         final list = (json as List).map((offre) => Immersion.fromJson(offre)).toList();

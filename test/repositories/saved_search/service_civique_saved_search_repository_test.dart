@@ -9,29 +9,26 @@ import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
-import '../../doubles/stubs.dart';
 
 void main() {
   group("When user save new search postSavedSearch should ...", () {
     test("successfully send request when all fields and filters are full and return TRUE if response is valid (201)",
-            () async {
-          // Given
-          final httpClient = _mockClientforFullDataWithFilters();
-          final repository = ServiceCiviqueSavedSearchRepository(
-              "BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
+        () async {
+      // Given
+      final httpClient = _mockClientforFullDataWithFilters();
+      final repository = ServiceCiviqueSavedSearchRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
-              // When
-              final result = await repository.postSavedSearch("jeuneId", _savedSearchWithFiltres(), "ronaldo");
+      // When
+      final result = await repository.postSavedSearch("jeuneId", _savedSearchWithFiltres(), "ronaldo");
 
-          // Then
-          expect(result, isTrue);
-        });
+      // Then
+      expect(result, isTrue);
+    });
 
     test("return FALSE if response is invalid", () async {
       // Given
       final httpClient = MockClient((request) async => Response("", 500));
-      final repository = ServiceCiviqueSavedSearchRepository(
-          "BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
+      final repository = ServiceCiviqueSavedSearchRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
       // When
       final result = await repository.postSavedSearch("jeuneId", _savedSearchWithFiltres(), "ronaldo");

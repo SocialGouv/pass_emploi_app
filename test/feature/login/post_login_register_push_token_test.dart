@@ -31,7 +31,7 @@ void main() {
 class _RegisterTokenRepositorySpy extends RegisterTokenRepository {
   bool wasCalled = false;
 
-  _RegisterTokenRepositorySpy() : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPushNotificationManager());
+  _RegisterTokenRepositorySpy() : super("", DummyHttpClient(), DummyPushNotificationManager());
 
   @override
   Future<void> registerToken(String userId) async {

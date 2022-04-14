@@ -8,7 +8,6 @@ import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
-import '../../doubles/stubs.dart';
 
 void main() {
   group("When user save new search postSavedSearch should ...", () {
@@ -16,8 +15,7 @@ void main() {
         () async {
       // Given
       final httpClient = _mockClientforFullDataWithFilters();
-      final repository =
-          ImmersionSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
+      final repository = ImmersionSavedSearchRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
       // When
       final result = await repository.postSavedSearch("jeuneId", _savedSearchWithFiltres(), "title");
@@ -30,9 +28,8 @@ void main() {
         "successfully send request when all fields are full without filters and return TRUE if response is valid (201)",
         () async {
       // Given
-      final httpClient = _mockClientforFulllDataWithoutFilters();
-      final repository =
-          ImmersionSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
+          final httpClient = _mockClientforFulllDataWithoutFilters();
+      final repository = ImmersionSavedSearchRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
       // When
       final result = await repository.postSavedSearch("jeuneId", _savedSearchWithoutFiltres(), "title");
@@ -44,8 +41,7 @@ void main() {
     test("return FALSE if response is invalid", () async {
       // Given
       final httpClient = _failureClient();
-      final repository =
-          ImmersionSavedSearchRepository("BASE_URL", httpClient, HeadersBuilderStub(), DummyPassEmploiCacheManager());
+      final repository = ImmersionSavedSearchRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
       // When
       final result = await repository.postSavedSearch("jeuneId", _savedSearchWithFiltres(), "title");

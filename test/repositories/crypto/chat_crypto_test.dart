@@ -37,7 +37,7 @@ void main() {
 
     // When
     expect(
-          () => chatCrypto.encrypt("toto"),
+      () => chatCrypto.encrypt("toto"),
       // Then
       throwsException,
     );

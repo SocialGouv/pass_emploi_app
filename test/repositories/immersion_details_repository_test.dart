@@ -6,7 +6,6 @@ import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 
 import '../doubles/fixtures.dart';
-import '../doubles/stubs.dart';
 import '../utils/test_assets.dart';
 
 void main() {
@@ -17,7 +16,7 @@ void main() {
       if (!request.url.toString().startsWith("BASE_URL/offres-immersion/id-immersion")) return invalidHttpResponse();
       return Response(loadTestAssets("immersion_details_without_contact.json"), 200);
     });
-    final repository = ImmersionDetailsRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = ImmersionDetailsRepository("BASE_URL", httpClient);
 
     // When
     final response = await repository.fetch("id-immersion");
@@ -48,7 +47,7 @@ void main() {
       if (!request.url.toString().startsWith("BASE_URL/offres-immersion/id-immersion")) return invalidHttpResponse();
       return Response(loadTestAssets("immersion_details_with_contact.json"), 200);
     });
-    final repository = ImmersionDetailsRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = ImmersionDetailsRepository("BASE_URL", httpClient);
 
     // When
     final response = await repository.fetch("id-immersion");
@@ -82,7 +81,7 @@ void main() {
   test('fetch when response is invalid should flag response as not found', () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
-    final repository = ImmersionDetailsRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = ImmersionDetailsRepository("BASE_URL", httpClient);
 
     // When
     final response = await repository.fetch("id-immersion");
@@ -96,7 +95,7 @@ void main() {
   test('fetch when response throws exception should flag response as generic failure', () async {
     // Given
     final httpClient = MockClient((request) async => throw Exception());
-    final repository = ImmersionDetailsRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = ImmersionDetailsRepository("BASE_URL", httpClient);
 
     // When
     final response = await repository.fetch("id-immersion");
@@ -110,7 +109,7 @@ void main() {
   test('fetch when response throws exception with 404 code should flag response as not found', () async {
     // Given
     final httpClient = MockClient((request) async => throw deletedOfferHttpResponse());
-    final repository = ImmersionDetailsRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = ImmersionDetailsRepository("BASE_URL", httpClient);
 
     // When
     final response = await repository.fetch("id-immersion");

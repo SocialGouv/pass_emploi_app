@@ -312,8 +312,7 @@ void main() {
 }
 
 class ImmersionSavedSearchRepositorySuccessStub extends ImmersionSavedSearchRepository {
-  ImmersionSavedSearchRepositorySuccessStub()
-      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
+  ImmersionSavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> postSavedSearch(String userId, ImmersionSavedSearch savedSearch, String title) async {
@@ -322,8 +321,7 @@ class ImmersionSavedSearchRepositorySuccessStub extends ImmersionSavedSearchRepo
 }
 
 class ImmersionSavedSearchRepositoryFailureStub extends ImmersionSavedSearchRepository {
-  ImmersionSavedSearchRepositoryFailureStub()
-      : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyPassEmploiCacheManager());
+  ImmersionSavedSearchRepositoryFailureStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> postSavedSearch(String userId, ImmersionSavedSearch savedSearch, String title) async {
@@ -332,7 +330,7 @@ class ImmersionSavedSearchRepositoryFailureStub extends ImmersionSavedSearchRepo
 }
 
 class SavedSearchRepositorySuccessStub extends GetSavedSearchRepository {
-  SavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyCrashlytics());
+  SavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyCrashlytics());
 
   @override
   Future<List<ImmersionSavedSearch>?> getSavedSearch(String userId) async {
@@ -341,7 +339,7 @@ class SavedSearchRepositorySuccessStub extends GetSavedSearchRepository {
 }
 
 class SavedSearchRepositoryFailureStub extends GetSavedSearchRepository {
-  SavedSearchRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyCrashlytics());
+  SavedSearchRepositoryFailureStub() : super("", DummyHttpClient(), DummyCrashlytics());
 
   @override
   Future<List<ImmersionSavedSearch>?> getSavedSearch(String userId) async {

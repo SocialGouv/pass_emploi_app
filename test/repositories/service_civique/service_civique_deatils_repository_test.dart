@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/models/service_civique/service_civique_detail.da
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 
 import '../../doubles/fixtures.dart';
-import '../../doubles/stubs.dart';
 import '../../utils/test_assets.dart';
 
 void main() {
@@ -16,7 +15,7 @@ void main() {
       if (!request.url.toString().startsWith("BASE_URL/services-civique/je_suis_un_id")) return invalidHttpResponse();
       return Response.bytes(loadTestAssetsAsBytes("service_civique_detail.json"), 200);
     });
-    final repository = ServiceCiviqueDetailRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = ServiceCiviqueDetailRepository("BASE_URL", httpClient);
 
     // When
     final result = await repository.getServiceCiviqueDetail("je_suis_un_id");
@@ -48,7 +47,7 @@ void main() {
   test('search when response is invalid should return null', () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
-    final repository = ServiceCiviqueDetailRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = ServiceCiviqueDetailRepository("BASE_URL", httpClient);
 
     // When
     final search = await repository.getServiceCiviqueDetail("id");
@@ -60,7 +59,7 @@ void main() {
   test('search when response throws exception with 404 code should flag response as not found', () async {
     // Given
     final httpClient = MockClient((request) async => throw deletedOfferHttpResponse());
-    final repository = ServiceCiviqueDetailRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = ServiceCiviqueDetailRepository("BASE_URL", httpClient);
 
     // When
     final search = await repository.getServiceCiviqueDetail("id");

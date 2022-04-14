@@ -11,7 +11,6 @@ import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/models/user_action_pe.dart';
-import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
@@ -26,7 +25,7 @@ import 'fixtures.dart';
 import 'spies.dart';
 
 class UserActionRepositorySuccessStub extends UserActionRepository {
-  UserActionRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  UserActionRepositorySuccessStub() : super("", DummyHttpClient());
 
   @override
   Future<List<UserAction>?> getUserActions(String userId) async {
@@ -57,7 +56,7 @@ class UserActionRepositorySuccessStub extends UserActionRepository {
 }
 
 class UserActionRepositoryFailureStub extends UserActionRepository {
-  UserActionRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  UserActionRepositoryFailureStub() : super("", DummyHttpClient());
 
   @override
   Future<List<UserAction>?> getUserActions(String userId) async {
@@ -79,7 +78,7 @@ class UserActionRepositoryFailureStub extends UserActionRepository {
 }
 
 class UserActionPERepositorySuccessStub extends UserActionPERepository {
-  UserActionPERepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  UserActionPERepositorySuccessStub() : super("", DummyHttpClient());
 
   @override
   Future<List<UserActionPE>?> getUserActions(String userId) async {
@@ -97,7 +96,7 @@ class UserActionPERepositorySuccessStub extends UserActionPERepository {
 }
 
 class UserActionPERepositoryFailureStub extends UserActionPERepository {
-  UserActionPERepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  UserActionPERepositoryFailureStub() : super("", DummyHttpClient());
 
   @override
   Future<List<UserActionPE>?> getUserActions(String userId) async {
@@ -109,7 +108,7 @@ class OffreEmploiRepositorySuccessWithMoreDataStub extends OffreEmploiRepository
   bool? _onlyAlternance;
   int callCount = 0;
 
-  OffreEmploiRepositorySuccessWithMoreDataStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  OffreEmploiRepositorySuccessWithMoreDataStub() : super("", DummyHttpClient());
 
   void withOnlyAlternanceResolves(bool onlyAlternance) => _onlyAlternance = onlyAlternance;
 
@@ -123,20 +122,11 @@ class OffreEmploiRepositorySuccessWithMoreDataStub extends OffreEmploiRepository
 }
 
 class OffreEmploiRepositoryFailureStub extends OffreEmploiRepository {
-  OffreEmploiRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  OffreEmploiRepositoryFailureStub() : super("", DummyHttpClient());
 
   @override
   Future<OffreEmploiSearchResponse?> search({required String userId, required SearchOffreEmploiRequest request}) async {
     return null;
-  }
-}
-
-class HeadersBuilderStub extends HeadersBuilder {
-  @override
-  Future<Map<String, String>> headers({String? userId, String? contentType}) async {
-    return {
-      if (contentType != null) 'Content-Type': contentType,
-    };
   }
 }
 
@@ -278,7 +268,7 @@ class ChatRepositoryStub extends ChatRepository {
 class ServiceCiviqueRepositorySuccessWithMoreDataStub extends ServiceCiviqueRepository {
   int callCount = 0;
 
-  ServiceCiviqueRepositorySuccessWithMoreDataStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  ServiceCiviqueRepositorySuccessWithMoreDataStub() : super("", DummyHttpClient());
 
   @override
   Future<ServiceCiviqueSearchResponse?> search({
@@ -297,7 +287,7 @@ class ServiceCiviqueRepositorySuccessWithMoreDataStub extends ServiceCiviqueRepo
 }
 
 class ServiceCiviqueRepositoryFailureStub extends ServiceCiviqueRepository {
-  ServiceCiviqueRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  ServiceCiviqueRepositoryFailureStub() : super("", DummyHttpClient());
 
   @override
   Future<ServiceCiviqueSearchResponse?> search({
@@ -310,7 +300,7 @@ class ServiceCiviqueRepositoryFailureStub extends ServiceCiviqueRepository {
 }
 
 class ServiceCiviqueDetailRepositoryWithDataStub extends ServiceCiviqueDetailRepository {
-  ServiceCiviqueDetailRepositoryWithDataStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  ServiceCiviqueDetailRepositoryWithDataStub() : super("", DummyHttpClient());
 
   @override
   Future<ServiceCiviqueDetailResponse> getServiceCiviqueDetail(String idOffre) async {
@@ -319,7 +309,7 @@ class ServiceCiviqueDetailRepositoryWithDataStub extends ServiceCiviqueDetailRep
 }
 
 class ServiceCiviqueDetailRepositoryWithErrorStub extends ServiceCiviqueDetailRepository {
-  ServiceCiviqueDetailRepositoryWithErrorStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  ServiceCiviqueDetailRepositoryWithErrorStub() : super("", DummyHttpClient());
 
   @override
   Future<ServiceCiviqueDetailResponse> getServiceCiviqueDetail(String idOffre) async {
@@ -328,7 +318,7 @@ class ServiceCiviqueDetailRepositoryWithErrorStub extends ServiceCiviqueDetailRe
 }
 
 class ImmersionRepositoryFailureStub extends ImmersionRepository {
-  ImmersionRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  ImmersionRepositoryFailureStub() : super("", DummyHttpClient());
 
   @override
   Future<List<Immersion>?> search({required String userId, required SearchImmersionRequest request}) async {
