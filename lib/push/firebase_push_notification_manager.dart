@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -19,7 +20,17 @@ class FirebasePushNotificationManager extends PushNotificationManager {
   Future<void> init(Store<AppState> store) async {
     await _requestPermission();
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-    if (Platform.isAndroid) await _createHighImportanceAndroidChannel();
+    if (Platform.isAndroid) {
+      await _firebaseMessaging.setForegroundNotificationPresentationOptions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+    }
+    if (Platform.isAndroid) {
+      await _createHighImportanceAndroidChannel();
+      _createForegroundListener();
+    }
   }
 
   @override
@@ -47,5 +58,25 @@ class FirebasePushNotificationManager extends PushNotificationManager {
     await FlutterLocalNotificationsPlugin()
         .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
+  }
+
+  void _createForegroundListener() {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      final RemoteNotification? notification = message.notification;
+      if (notification != null) {
+        final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+        flutterLocalNotificationsPlugin.initialize(InitializationSettings(
+          android: AndroidInitializationSettings('ic_notification'),
+        ));
+        flutterLocalNotificationsPlugin.show(
+            notification.hashCode,
+            notification.title,
+            notification.body,
+            NotificationDetails(
+              android: AndroidNotificationDetails("high_importance_channel", "Notifications importantes",
+                  color: const Color(0xFF3B69D1)),
+            ));
+      }
+    });
   }
 }
