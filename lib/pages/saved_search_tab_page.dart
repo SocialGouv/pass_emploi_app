@@ -95,6 +95,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   Future<bool> _goToPage(int newIndex, Widget page) {
     _shouldNavigate = false;
     _updateIndex(newIndex, true);
+    // ignore: ban-name
     return Navigator.push(context, MaterialPageRoute(builder: (_) => page)).then((_) => _shouldNavigate = true);
   }
 

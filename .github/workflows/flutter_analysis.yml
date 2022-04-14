@@ -15,5 +15,8 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: '2.10.3'
-      - name: Launch Dart & Flutter analysis
-        run: flutter analyze
+      - name: Launch Dart, Flutter & custom analysis
+        run: |
+          flutter analyze
+          dart run dart_code_metrics:metrics analyze lib
+          dart run dart_code_metrics:metrics analyze test
