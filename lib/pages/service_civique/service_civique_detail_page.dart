@@ -79,7 +79,8 @@ class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
     final ServiceCivique? serviceCivique = viewModel.serviceCivique;
     final String organisation = detail?.organisation ?? serviceCivique?.companyName ?? "";
     final String titre = detail?.titre ?? serviceCivique?.title ?? "";
-    final String domaine = Domaine.fromTag(detail?.domaine)?.titre ?? Domaine.fromTag(serviceCivique?.domain)?.titre ?? "";
+    final String domaine =
+        Domaine.fromTag(detail?.domaine)?.titre ?? Domaine.fromTag(serviceCivique?.domain)?.titre ?? "";
     return Stack(
       children: [
         SingleChildScrollView(

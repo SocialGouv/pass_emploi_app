@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
@@ -212,7 +211,6 @@ void main() {
       test(title, () async {
         // Given
         final httpClient = MockClient((request) async {
-          debugPrint(request.url.query);
           if (!assertion(request.url.query)) return invalidHttpResponse();
           return Response(loadTestAssets("offres_emploi.json"), 200);
         });
