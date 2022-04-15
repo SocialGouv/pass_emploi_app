@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
@@ -18,6 +19,7 @@ class UserActionListPageViewModel extends Equatable {
   final Function() onRetry;
   final Function() onUserActionDetailsDismissed;
   final Function() onCreateUserActionDismissed;
+  final UserActionViewModel? actionDetails;
 
   UserActionListPageViewModel({
     required this.withLoading,
@@ -27,6 +29,7 @@ class UserActionListPageViewModel extends Equatable {
     required this.onRetry,
     required this.onUserActionDetailsDismissed,
     required this.onCreateUserActionDismissed,
+    required this.actionDetails,
   });
 
   factory UserActionListPageViewModel.create(Store<AppState> store) {
@@ -45,6 +48,7 @@ class UserActionListPageViewModel extends Equatable {
         store.dispatch(UserActionDeleteResetAction());
       },
       onCreateUserActionDismissed: () => store.dispatch(UserActionCreateResetAction()),
+      actionDetails: _getDetails(deeplinkState: store.state.deepLinkState, userActionState: state),
     );
   }
 
@@ -85,6 +89,34 @@ List<UserActionListPageItem> _listItems({
       ...doneItems.map((e) => UserActionListItemViewModel(e)),
     ]
   ];
+}
+
+String? _deeplinkActionId(DeepLinkState state, UserActionListState userActionListStateState) {
+  if (userActionListStateState is! UserActionListSuccessState) return null;
+  final acttionsIds = userActionListStateState.userActions.map((e) => e.id);
+  return (state.deepLink == DeepLink.ROUTE_TO_ACTION && acttionsIds.contains(state.dataId)) ? state.dataId : null;
+}
+
+List<UserActionListPageItem> _getActions(UserActionListState state) {
+  if (state is UserActionListSuccessState) {
+    final models = state.userActions.map((action) => UserActionViewModel.create(action)).toList();
+    return models.map((e) => UserActionListItemViewModel(e)).toList();
+  }
+  return [];
+}
+
+UserActionViewModel? _getDetails({
+  required DeepLinkState deeplinkState,
+  required UserActionListState userActionState,
+}) {
+  final deeplinkId = _deeplinkActionId(deeplinkState, userActionState);
+  final actions = _getActions(userActionState);
+  if (deeplinkId != null && actions.isNotEmpty) {
+    final UserActionListPageItem? detailedaction =
+        actions.firstWhere((action) => action is UserActionListItemViewModel && action.viewModel.id == deeplinkId);
+    if ((detailedaction as UserActionListItemViewModel?) != null) return detailedaction!.viewModel;
+  }
+  return null;
 }
 
 abstract class UserActionListPageItem extends Equatable {}
