@@ -15,17 +15,6 @@ void main() {
     // Given
     final store = _storeWithSuccessFetchingRepositories();
     final newState = store.onChange.firstWhere((element) => element.detailsJeuneState is DetailsJeuneSuccessState);
-
-    // When
-    store.dispatch(DetailsJeuneRequestAction());
-
-    // Then
-    expect((await newState).detailsJeuneState, DetailsJeuneSuccessState(detailsJeune: detailsJeune()));
-  });
-
-  test("should display loading", () async {
-    // Given
-    final store = _storeWithSuccessFetchingRepositories();
     final loadingDisplayed = store.onChange.any((element) => element.detailsJeuneState is DetailsJeuneLoadingState);
 
     // When
@@ -33,6 +22,7 @@ void main() {
 
     // Then
     expect(await loadingDisplayed, true);
+    expect((await newState).detailsJeuneState, DetailsJeuneSuccessState(detailsJeune: detailsJeune()));
   });
 }
 
