@@ -18,7 +18,7 @@ class MonitoringInterceptor implements InterceptorContract {
     data.headers['X-CorrelationId'] = userId + '-' + DateTime.now().millisecondsSinceEpoch.toString();
     data.headers['X-AppVersion'] = await _getAppVersion();
     data.headers['X-Platform'] = Platform.operatingSystem;
-    data.headers['Content-Type'] = 'application/json';
+    if (data.headers['Content-Type'] == null) data.headers['Content-Type'] = 'application/json; charset=utf-8';
     return data;
   }
 
