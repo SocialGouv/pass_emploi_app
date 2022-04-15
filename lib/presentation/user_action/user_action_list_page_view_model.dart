@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
@@ -19,6 +20,7 @@ class UserActionListPageViewModel extends Equatable {
   final Function() onRetry;
   final Function() onUserActionDetailsDismissed;
   final Function() onCreateUserActionDismissed;
+  final Function() onDeeplinkUsed;
   final UserActionViewModel? actionDetails;
 
   UserActionListPageViewModel({
@@ -29,6 +31,7 @@ class UserActionListPageViewModel extends Equatable {
     required this.onRetry,
     required this.onUserActionDetailsDismissed,
     required this.onCreateUserActionDismissed,
+    required this.onDeeplinkUsed,
     required this.actionDetails,
   });
 
@@ -48,6 +51,7 @@ class UserActionListPageViewModel extends Equatable {
         store.dispatch(UserActionDeleteResetAction());
       },
       onCreateUserActionDismissed: () => store.dispatch(UserActionCreateResetAction()),
+      onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
       actionDetails: _getDetails(deeplinkState: store.state.deepLinkState, userActionState: state),
     );
   }

@@ -62,6 +62,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
       showPassEmploiBottomSheet(
         context: context,
         builder: (context) => UserActionDetailsBottomSheet(viewModel.actionDetails!));
+      viewModel.onDeeplinkUsed();
     }
   }
 
