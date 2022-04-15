@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/features/details_jeune/details_jeune_actions.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/pages/profil/mon_conseiller_card.dart';
 import 'package:pass_emploi_app/presentation/profil/profil_page_view_model.dart';
@@ -25,7 +26,7 @@ class ProfilPage extends TraceableStatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ProfilPageViewModel>(
-      // onInit: (store) => store.dispatch(ConseillerRequestAction()), // disabled until work is done on backend and repository
+      onInit: (store) => store.dispatch(DetailsJeuneRequestAction()),
       converter: (store) => ProfilPageViewModel.create(store),
       builder: (BuildContext context, ProfilPageViewModel vm) => _buildScaffold(context, vm),
       distinct: true,

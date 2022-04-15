@@ -1,6 +1,6 @@
 import 'package:pass_emploi_app/features/chat/messages/chat_reducer.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_reducer.dart';
-import 'package:pass_emploi_app/features/conseiller/conseiller_reducer.dart';
+import 'package:pass_emploi_app/features/details_jeune/details_jeune_reducer.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_reducer.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_reducer.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_reducer.dart';
@@ -45,7 +45,7 @@ AppState reducer(AppState current, dynamic action) {
     userActionUpdateState: userActionUpdateReducer(current.userActionUpdateState, action),
     userActionDeleteState: userActionDeleteReducer(current.userActionDeleteState, action),
     userActionPEListState: userActionPEListReducer(current.userActionPEListState, action),
-    conseillerState: conseillerReducer(current.conseillerState, action),
+    detailsJeuneState: detailsJeuneReducer(current.detailsJeuneState, action),
     chatStatusState: chatStatusReducer(current.chatStatusState, action),
     chatState: chatReducer(current.chatState, action),
     offreEmploiSearchState: offreEmploiSearchReducer(current.offreEmploiSearchState, action),

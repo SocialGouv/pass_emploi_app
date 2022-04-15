@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/models/mon_conseiller_info.dart';
+import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
@@ -229,5 +229,8 @@ Rendezvous mockRendezvous({
   );
 }
 
-MonConseillerInfo monConseillerInfoPerceval() =>
-    MonConseillerInfo(sinceDate: "03/01/05", firstname: "Perceval", lastname: "de Galles");
+DetailsJeune detailsJeune() {
+  return DetailsJeune(
+    conseiller: DetailsJeuneConseiller(firstname: "Perceval", lastname: "de Galles", sinceDate: DateTime(2005, 1, 3)),
+  );
+}

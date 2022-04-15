@@ -13,7 +13,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
-import 'package:pass_emploi_app/repositories/conseiller_repository.dart';
+import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
@@ -188,8 +188,8 @@ class DummyServiceCiviqueFavorisRepository extends ServiceCiviqueFavorisReposito
   DummyServiceCiviqueFavorisRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 }
 
-class DummyConseillerRepository extends ConseillerRepository {
-  DummyConseillerRepository() : super("", DummyHttpClient());
+class DummyDetailsJeuneRepository extends DetailsJeuneRepository {
+  DummyDetailsJeuneRepository() : super("", DummyHttpClient());
 }
 
 class DummyLogoutRepository extends LogoutRepository {
