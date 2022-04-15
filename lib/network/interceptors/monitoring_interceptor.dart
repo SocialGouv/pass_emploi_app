@@ -18,9 +18,12 @@ class MonitoringInterceptor implements InterceptorContract {
     data.headers['X-CorrelationId'] = userId + '-' + DateTime.now().millisecondsSinceEpoch.toString();
     data.headers['X-AppVersion'] = await _getAppVersion();
     data.headers['X-Platform'] = Platform.operatingSystem;
-    if (data.headers['Content-Type'] == null) data.headers['Content-Type'] = 'application/json; charset=utf-8';
+    if (_isNotContainTypeValid(data)) data.headers['Content-Type'] = 'application/json; charset=utf-8';
     return data;
   }
+
+  bool _isNotContainTypeValid(RequestData data) =>
+      data.headers['Content-Type'] == null || data.headers['Content-Type']!.contains("text/plain");
 
   @override
   Future<ResponseData> interceptResponse({required ResponseData data}) async => data;
