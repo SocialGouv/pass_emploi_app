@@ -4,7 +4,7 @@ on:
   push:
     tags:
       - '*'
-  workflow_dispatchZ:
+  workflow_dispatch:
     inputs:
       target:
         description: 'App(s) to build'
