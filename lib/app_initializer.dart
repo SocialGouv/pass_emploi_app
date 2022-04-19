@@ -33,7 +33,6 @@ import 'package:pass_emploi_app/network/interceptors/monitoring_interceptor.dart
 import 'package:pass_emploi_app/pages/force_update_page.dart';
 import 'package:pass_emploi_app/pass_emploi_app.dart';
 import 'package:pass_emploi_app/push/firebase_push_notification_manager.dart';
-import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
@@ -46,6 +45,7 @@ import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_reposi
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
+import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
@@ -118,7 +118,7 @@ class AppInitializer {
 
   Future<Store<AppState>> _initializeReduxStore(Configuration configuration) async {
     final crashlytics = CrashlyticsWithFirebase(FirebaseCrashlytics.instance);
-    final PushNotificationManager pushNotificationManager = FirebasePushNotificationManager();
+    final pushNotificationManager = FirebasePushNotificationManager();
     final securedPreferences = FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true));
     final logoutRepository = LogoutRepository(
       configuration.authIssuer,
@@ -146,7 +146,7 @@ class AppInitializer {
       stalePeriod: Duration(minutes: 20),
       maxNrOfCacheObjects: 30,
     ));
-    final monitoringInterceptor = MonitoringInterceptor();
+    final monitoringInterceptor = MonitoringInterceptor(InstallationIdRepository(securedPreferences));
     final httpClient = InterceptedClient.build(
       client: HttpClientWithCache(passEmploiCacheManager, clientWithCertificate),
       interceptors: [
