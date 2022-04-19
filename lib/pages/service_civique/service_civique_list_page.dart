@@ -13,12 +13,17 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/service_civique_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/service_civique_saved_search_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/filtre_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/data_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_offre_widget.dart';
@@ -26,7 +31,9 @@ import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 class ServiceCiviqueListPage extends TraceableStatefulWidget {
-  ServiceCiviqueListPage() : super(name: AnalyticsScreenNames.serviceCiviqueResults);
+  final bool fromSavedSearch;
+
+  ServiceCiviqueListPage([this.fromSavedSearch = false]) : super(name: AnalyticsScreenNames.serviceCiviqueResults);
 
   @override
   State<ServiceCiviqueListPage> createState() => _ServiceCiviqueListPage();
@@ -117,6 +124,7 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
             spacing: 16,
             runSpacing: 16,
             children: [
+              _alertPrimaryButton(context),
               _filtrePrimaryButton(viewModel),
             ],
           ),
@@ -143,9 +151,13 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
       ],
       from: OffrePage.serviceCiviqueResults,
       onTap: () {
-        widget.pushAndTrackBack(context, MaterialPageRoute(builder: (_) {
-          return ServiceCiviqueDetailPage(item.id);
-        }));
+        widget.pushAndTrackBack(
+          context,
+          MaterialPageRoute(builder: (_) {
+            return ServiceCiviqueDetailPage(item.id);
+          }),
+          AnalyticsScreenNames.serviceCiviqueResults,
+        );
       },
     );
   }
@@ -224,6 +236,7 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
     MatomoTracker.trackScreenWithName(
         AnalyticsScreenNames.serviceCiviqueNoResults, AnalyticsScreenNames.serviceCiviqueNoResults);
     return EmptyOffreWidget(
+      withModifyButton: !widget.fromSavedSearch,
       additional: Padding(
         padding: const EdgeInsets.only(top: Margins.spacing_base),
         child: Column(
@@ -232,7 +245,8 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
               spacing: 16,
               runSpacing: 16,
               children: [
-                _filtreSecondaryButton(viewModel),
+                if (!widget.fromSavedSearch) _alertSecondaryButton(context),
+                if (!widget.fromSavedSearch) _filtreSecondaryButton(viewModel),
               ],
             ),
           ],
@@ -248,6 +262,14 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
     );
   }
 
+  Widget _alertSecondaryButton(BuildContext context) {
+    return SecondaryButton(
+      label: Strings.createAlert,
+      drawableRes: Drawables.icAlert,
+      onPressed: () => _onAlertButtonPressed(context),
+    );
+  }
+
   Widget _filtreSecondaryButton(ServiceCiviqueViewModel viewModel) {
     return FiltreButton.secondary(
       filtresCount: viewModel.filtresCount,
@@ -256,11 +278,33 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
   }
 
   Future<void> _onFiltreButtonPressed() async {
-    return widget.pushAndTrackBack(context, ServiceCiviqueFiltresPage.materialPageRoute()).then((value) {
+    return widget
+        .pushAndTrackBack(
+      context,
+      ServiceCiviqueFiltresPage.materialPageRoute(),
+      AnalyticsScreenNames.serviceCiviqueResults,
+    )
+        .then((value) {
       if (value == true) {
         _offsetBeforeLoading = 0;
         if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
       }
     });
+  }
+
+  Widget _alertPrimaryButton(BuildContext context) {
+    return PrimaryActionButton(
+      label: Strings.createAlert,
+      drawableRes: Drawables.icAlert,
+      rippleColor: AppColors.primaryDarken,
+      heightPadding: 6,
+      widthPadding: 6,
+      iconSize: 16,
+      onPressed: () => _onAlertButtonPressed(context),
+    );
+  }
+
+  void _onAlertButtonPressed(BuildContext context) {
+    showPassEmploiBottomSheet(context: context, builder: (context) => ServiceCiviqueSavedSearchBottomSheet());
   }
 }

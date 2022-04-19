@@ -1,48 +1,50 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
-import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 class Rendezvous extends Equatable {
   final String id;
   final DateTime date;
-  final int duration;
-  final String modality;
-  final bool withConseiller;
+  final bool isInVisio;
+  final bool isAnnule;
   final RendezvousType type;
+  final bool? withConseiller;
+  final String? modality;
+  final int? duration;
   final String? comment;
   final String? organism;
   final String? address;
+  final String? phone;
+  final String? visioRedirectUrl;
+  final String? theme;
+  final String? description;
   final String? precision;
   final Conseiller? conseiller;
+  final Conseiller? createur;
 
   Rendezvous({
     required this.id,
     required this.date,
-    required this.duration,
-    required this.modality,
-    required this.withConseiller,
+    required this.isInVisio,
+    required this.isAnnule,
     required this.type,
+    this.withConseiller,
+    this.modality,
+    this.duration,
     this.comment,
     this.organism,
     this.address,
+    this.phone,
+    this.visioRedirectUrl,
+    this.theme,
+    this.description,
     this.precision,
     this.conseiller,
+    this.createur,
   });
 
-  factory Rendezvous.fromJson(dynamic json) {
-    return Rendezvous(
-      id: json['id'] as String,
-      date: (json['date'] as String).toDateTimeUtcOnLocalTimeZone(),
-      duration: json['duration'] as int,
-      modality: json['modality'] as String,
-      withConseiller: json['presenceConseiller'] as bool,
-      type: RendezvousType.fromJson(json['type']),
-      comment: json['comment'] as String?,
-      organism: json['organisme'] as String?,
-      address: json['adresse'] as String?,
-      precision: json['precision'] as String?,
-      conseiller: json['conseiller'] != null ? Conseiller.fromJson(json['conseiller']) : null,
-    );
+  RendezvousModalityType modalityType() {
+    if (modality == "par téléphone") return RendezvousModalityType.TELEPHONE;
+    return RendezvousModalityType.NONE;
   }
 
   @override
@@ -51,14 +53,21 @@ class Rendezvous extends Equatable {
       id,
       date,
       duration,
+      isInVisio,
       modality,
-      withConseiller,
+      isAnnule,
       type,
+      withConseiller,
       comment,
       organism,
       address,
+      phone,
+      visioRedirectUrl,
+      theme,
+      description,
       precision,
       conseiller,
+      createur,
     ];
   }
 }
@@ -69,22 +78,8 @@ class RendezvousType extends Equatable {
 
   const RendezvousType(this.code, this.label);
 
-  factory RendezvousType.fromJson(dynamic json) {
-    return RendezvousType(
-      _parseRendezvousTypeCode(json['code'] as String),
-      json['label'] as String,
-    );
-  }
-
   @override
   List<Object?> get props => [code, label];
-
-  static RendezvousTypeCode _parseRendezvousTypeCode(String rendezvousTypeCode) {
-    return RendezvousTypeCode.values.firstWhere(
-      (e) => e.name == rendezvousTypeCode,
-      orElse: () => RendezvousTypeCode.AUTRE,
-    );
-  }
 }
 
 enum RendezvousTypeCode {
@@ -94,5 +89,11 @@ enum RendezvousTypeCode {
   ENTRETIEN_PARTENAIRE,
   INFORMATION_COLLECTIVE,
   VISITE,
+  PRESTATION,
   AUTRE,
+}
+
+enum RendezvousModalityType {
+  TELEPHONE,
+  NONE
 }

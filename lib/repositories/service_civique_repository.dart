@@ -2,7 +2,6 @@ import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
-import 'package:pass_emploi_app/network/headers.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
 
@@ -29,10 +28,10 @@ class ServiceCiviqueRepository {
 
   final String _baseUrl;
   final Client _httpClient;
-  final HeadersBuilder _headerBuilder;
+
   final Crashlytics? _crashlytics;
 
-  ServiceCiviqueRepository(this._baseUrl, this._httpClient, this._headerBuilder, [this._crashlytics]);
+  ServiceCiviqueRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
 
   Future<ServiceCiviqueSearchResponse?> search({
     required String userId,
@@ -43,7 +42,7 @@ class ServiceCiviqueRepository {
       query: _createQuery(request),
     );
     try {
-      final response = await _httpClient.get(url, headers: await _headerBuilder.headers(userId: userId));
+      final response = await _httpClient.get(url);
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes);
         final list = (json as List).map((offre) => ServiceCivique.fromJson(offre)).toList();

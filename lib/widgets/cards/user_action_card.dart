@@ -54,7 +54,11 @@ class UserActionCard extends StatelessWidget {
   Widget _buildStatut(UserActionTagViewModel viewModel) {
     return Padding(
       padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-      child: StatutTag(viewModel: viewModel),
+      child: StatutTag(
+        backgroundColor: viewModel.backgroundColor,
+        textColor: viewModel.textColor,
+        title: viewModel.title,
+      ),
     );
   }
 

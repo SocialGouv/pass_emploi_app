@@ -7,7 +7,6 @@ import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 
 import '../doubles/fixtures.dart';
-import '../doubles/stubs.dart';
 import '../utils/test_assets.dart';
 
 void main() {
@@ -21,7 +20,7 @@ void main() {
       if (request.url.queryParameters["lon"] != "7.7") return invalidHttpResponse();
       return Response(loadTestAssets("immersions.json"), 200);
     });
-    final repository = ImmersionRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = ImmersionRepository("BASE_URL", httpClient);
 
     // When
     final immersions = await repository.search(userId: "ID", request: _requestWithoutFiltres());
@@ -44,7 +43,7 @@ void main() {
   test('search when response is invalid should return null', () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
-    final repository = ImmersionRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = ImmersionRepository("BASE_URL", httpClient);
 
     // When
     final immersions = await repository.search(userId: "ID", request: _requestWithoutFiltres());
@@ -56,7 +55,7 @@ void main() {
   test('search when response throws exception should return null', () async {
     // Given
     final httpClient = MockClient((request) async => throw Exception());
-    final repository = ImmersionRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = ImmersionRepository("BASE_URL", httpClient);
 
     // When
     final immersions = await repository.search(userId: "ID", request: _requestWithoutFiltres());
@@ -77,7 +76,7 @@ void main() {
           if (!assertion(request.url.query)) return invalidHttpResponse();
           return Response(loadTestAssets("immersions.json"), 200);
         });
-        final repository = ImmersionRepository("BASE_URL", httpClient, HeadersBuilderStub());
+        final repository = ImmersionRepository("BASE_URL", httpClient);
 
         // When
         final location =

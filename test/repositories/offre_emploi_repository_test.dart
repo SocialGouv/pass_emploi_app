@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
@@ -8,7 +7,6 @@ import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 
 import '../doubles/fixtures.dart';
-import '../doubles/stubs.dart';
 import '../utils/test_assets.dart';
 
 void main() {
@@ -23,7 +21,7 @@ void main() {
       if (request.url.queryParameters["limit"] != "50") return invalidHttpResponse();
       return Response(loadTestAssets("offres_emploi.json"), 200);
     });
-    final repository = OffreEmploiRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = OffreEmploiRepository("BASE_URL", httpClient);
 
     // When
     final location = Location(libelle: "Paris", code: "75", type: LocationType.DEPARTMENT);
@@ -80,7 +78,7 @@ void main() {
       if (request.url.queryParameters["limit"] != "50") return invalidHttpResponse();
       return Response(loadTestAssets("offres_emploi.json"), 200);
     });
-    final repository = OffreEmploiRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = OffreEmploiRepository("BASE_URL", httpClient);
 
     // When
     final location = Location(libelle: "Marseille 02", code: "13202", codePostal: "13002", type: LocationType.COMMUNE);
@@ -110,7 +108,7 @@ void main() {
       if (request.url.queryParameters["limit"] != "50") return invalidHttpResponse();
       return Response(loadTestAssets("offres_emploi.json"), 200);
     });
-    final repository = OffreEmploiRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = OffreEmploiRepository("BASE_URL", httpClient);
 
     // When
 
@@ -141,7 +139,7 @@ void main() {
       if (request.url.queryParameters["limit"] != "50") return invalidHttpResponse();
       return Response(loadTestAssets("offres_emploi.json"), 200);
     });
-    final repository = OffreEmploiRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = OffreEmploiRepository("BASE_URL", httpClient);
 
     // When
     final search = await repository.search(
@@ -170,7 +168,7 @@ void main() {
       if (request.url.queryParameters["limit"] != "50") return invalidHttpResponse();
       return Response(loadTestAssets("offres_emploi.json"), 200);
     });
-    final repository = OffreEmploiRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = OffreEmploiRepository("BASE_URL", httpClient);
 
     // When
     final location = Location(libelle: "Paris", code: "75", type: LocationType.DEPARTMENT);
@@ -212,11 +210,10 @@ void main() {
       test(title, () async {
         // Given
         final httpClient = MockClient((request) async {
-          debugPrint(request.url.query);
           if (!assertion(request.url.query)) return invalidHttpResponse();
           return Response(loadTestAssets("offres_emploi.json"), 200);
         });
-        final repository = OffreEmploiRepository("BASE_URL", httpClient, HeadersBuilderStub());
+        final repository = OffreEmploiRepository("BASE_URL", httpClient);
 
         // When
         final location =
@@ -390,7 +387,7 @@ void main() {
   test('search when response is invalid should return null', () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
-    final repository = OffreEmploiRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = OffreEmploiRepository("BASE_URL", httpClient);
 
     // When
     final search = await repository.search(

@@ -7,7 +7,6 @@ import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 
 import '../doubles/fixtures.dart';
-import '../doubles/stubs.dart';
 
 void main() {
   group("sendEvent when EventType ...", () {
@@ -20,7 +19,7 @@ void main() {
           }
           return Response("", 201);
         });
-        final repository = TrackingEventRepository("BASE_URL", httpClient, HeadersBuilderStub());
+        final repository = TrackingEventRepository("BASE_URL", httpClient);
 
         // When
         final isEventSentWithSuccess = await repository.sendEvent(
@@ -53,7 +52,7 @@ void main() {
       if (!request.url.toString().startsWith("BASE_URL/evenements")) return invalidHttpResponse();
       return Response("", 201);
     });
-    final repository = TrackingEventRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = TrackingEventRepository("BASE_URL", httpClient);
 
     // When
     final isEventSentWithSuccess = await repository.sendEvent(
@@ -69,7 +68,7 @@ void main() {
   test('sendEvent should return false when response in invalid', () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
-    final repository = TrackingEventRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = TrackingEventRepository("BASE_URL", httpClient);
 
     // When
     final isEventSentWithSuccess = await repository.sendEvent(
@@ -85,7 +84,7 @@ void main() {
   test('sendEvent should return false when response throws exception', () async {
     // Given
     final httpClient = MockClient((request) async => throw Exception());
-    final repository = TrackingEventRepository("BASE_URL", httpClient, HeadersBuilderStub());
+    final repository = TrackingEventRepository("BASE_URL", httpClient);
 
     // When
     final isEventSentWithSuccess = await repository.sendEvent(

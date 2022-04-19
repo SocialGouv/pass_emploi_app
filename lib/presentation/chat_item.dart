@@ -11,6 +11,16 @@ class DayItem extends ChatItem {
   List<Object?> get props => [dayLabel];
 }
 
+class InformationItem extends ChatItem {
+  final String title;
+  final String description;
+
+  InformationItem(this.title, this.description);
+
+  @override
+  List<Object?> get props => [title, description];
+}
+
 abstract class MessageItem extends ChatItem {
   final String content;
   final String caption;

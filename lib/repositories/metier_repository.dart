@@ -1,7 +1,7 @@
 import 'package:pass_emploi_app/models/metier.dart';
 
 class MetierRepository {
-   Future<List<Metier>> getMetiers(String userInput) async {
+  Future<List<Metier>> getMetiers(String userInput) async {
     if (userInput.length < 2 || userInput.isEmpty) return [];
     return Metier.values.where((metier) {
       return _sanitizeString(metier.libelle).contains(_sanitizeString(userInput));

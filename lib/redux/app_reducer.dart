@@ -1,5 +1,6 @@
 import 'package:pass_emploi_app/features/chat/messages/chat_reducer.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_reducer.dart';
+import 'package:pass_emploi_app/features/details_jeune/details_jeune_reducer.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_reducer.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_reducer.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_reducer.dart';
@@ -28,8 +29,10 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
+import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_reducer.dart';
 
 AppState reducer(AppState current, dynamic action) {
   if (action is RequestLogoutAction) {
@@ -41,6 +44,8 @@ AppState reducer(AppState current, dynamic action) {
     userActionCreateState: userActionCreateReducer(current.userActionCreateState, action),
     userActionUpdateState: userActionUpdateReducer(current.userActionUpdateState, action),
     userActionDeleteState: userActionDeleteReducer(current.userActionDeleteState, action),
+    userActionPEListState: userActionPEListReducer(current.userActionPEListState, action),
+    detailsJeuneState: detailsJeuneReducer(current.detailsJeuneState, action),
     chatStatusState: chatStatusReducer(current.chatStatusState, action),
     chatState: chatReducer(current.chatState, action),
     offreEmploiSearchState: offreEmploiSearchReducer(current.offreEmploiSearchState, action),
@@ -72,6 +77,10 @@ AppState reducer(AppState current, dynamic action) {
     ),
     immersionSavedSearchCreateState: savedSearchCreateReducer<ImmersionSavedSearch>(
       current.immersionSavedSearchCreateState,
+      action,
+    ),
+    serviceCiviqueSavedSearchCreateState: savedSearchCreateReducer<ServiceCiviqueSavedSearch>(
+      current.serviceCiviqueSavedSearchCreateState,
       action,
     ),
     savedSearchListState: savedSearchListReducer(current.savedSearchListState, action),

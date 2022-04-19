@@ -1,6 +1,5 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
-import 'package:pass_emploi_app/auth/auth_logout_request.dart';
 import 'package:pass_emploi_app/auth/auth_refresh_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
@@ -96,25 +95,6 @@ class AuthWrapper {
         Log.w(e.toString());
         rethrow;
       }
-    }
-  }
-
-  Future<void> logout(AuthLogoutRequest request) async {
-    return _lock.synchronized(() async {
-      return _logout(request);
-    });
-  }
-
-  Future<void> _logout(AuthLogoutRequest request) async {
-    try {
-      await _appAuth.endSession(EndSessionRequest(
-        idTokenHint: request.idToken,
-        postLogoutRedirectUrl: request.logoutRedirectUrl,
-        issuer: request.issuer,
-      ));
-    } catch (e) {
-      Log.w(e.toString());
-      throw AuthWrapperLogoutException();
     }
   }
 }

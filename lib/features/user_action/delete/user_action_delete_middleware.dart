@@ -1,3 +1,4 @@
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
@@ -11,7 +12,8 @@ class UserActionDeleteMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
-    if (action is UserActionDeleteRequestAction) {
+    final loginState = store.state.loginState;
+    if (loginState is LoginSuccessState && action is UserActionDeleteRequestAction) {
       store.dispatch(UserActionDeleteLoadingAction());
       final result = await _repository.deleteUserAction(action.actionId);
       store.dispatch(result ? UserActionDeleteSuccessAction(action.actionId) : UserActionDeleteFailureAction());

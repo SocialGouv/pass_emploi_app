@@ -1,0 +1,32 @@
+import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart';
+import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:redux/redux.dart';
+
+class ProfilPageViewModel extends Equatable {
+  final String userName;
+  final String userEmail;
+  final bool displayMonConseiller;
+
+  ProfilPageViewModel({required this.userName, required this.userEmail, required this.displayMonConseiller});
+
+  factory ProfilPageViewModel.create(Store<AppState> store) {
+    final state = store.state.loginState;
+    final user = state is LoginSuccessState ? state.user : null;
+    return ProfilPageViewModel(
+      userName: user != null ? "${user.firstName} ${user.lastName}" : "",
+      userEmail: user?.email ?? Strings.missingEmailAddressValue,
+      displayMonConseiller: _shouldDisplayMonConseiller(store.state.detailsJeuneState),
+    );
+  }
+
+  static bool _shouldDisplayMonConseiller(DetailsJeuneState? state) {
+    if (state == null || state is DetailsJeuneNotInitializedState) return false;
+    return true;
+  }
+
+  @override
+  List<Object?> get props => [userName, userEmail, displayMonConseiller];
+}

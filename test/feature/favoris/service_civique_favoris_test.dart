@@ -221,7 +221,7 @@ SearchServiceCiviqueRequest _mockSearchServiceCiviqueRequest() {
 }
 
 class ServiceCiviqueFavorisRepositorySuccessStub extends ServiceCiviqueFavorisRepository {
-  ServiceCiviqueFavorisRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  ServiceCiviqueFavorisRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
   Future<Set<String>?> getFavorisId(String userId) async {
@@ -249,7 +249,7 @@ class ServiceCiviqueFavorisRepositorySuccessStub extends ServiceCiviqueFavorisRe
 }
 
 class ServiceCiviqueFavorisRepositoryFailureStub extends ServiceCiviqueFavorisRepository {
-  ServiceCiviqueFavorisRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  ServiceCiviqueFavorisRepositoryFailureStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
   Future<Set<String>?> getFavorisId(String userId) async {

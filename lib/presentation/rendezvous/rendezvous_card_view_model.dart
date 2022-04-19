@@ -11,6 +11,7 @@ class RendezvousCardViewModel extends Equatable {
   final String id;
   final String tag;
   final String date;
+  final bool isAnnule;
   final String? title;
   final String? subtitle;
 
@@ -18,6 +19,7 @@ class RendezvousCardViewModel extends Equatable {
     required this.id,
     required this.tag,
     required this.date,
+    required this.isAnnule,
     required this.title,
     required this.subtitle,
   });
@@ -28,6 +30,7 @@ class RendezvousCardViewModel extends Equatable {
       id: rdv.id,
       tag: takeTypeLabelOrPrecision(rdv),
       date: rdv.date.toDayAndHourContextualized(),
+      isAnnule: rdv.isAnnule,
       title: rdv.organism != null ? Strings.withOrganism(rdv.organism!) : null,
       subtitle: _subtitle(rdv),
     );
@@ -35,15 +38,16 @@ class RendezvousCardViewModel extends Equatable {
 
   @override
   List<Object?> get props {
-    return [id, tag, date, title, subtitle];
+    return [id, tag, date, isAnnule, title, subtitle];
   }
 }
 
 String? _subtitle(Rendezvous rdv) {
-  if (rdv.modality.isEmpty) return null;
-  final modality = rdv.modality.firstLetterUpperCased();
+  if (rdv.modality == null) return null;
+  final modality = rdv.modality!.firstLetterUpperCased();
   final conseiller = rdv.conseiller;
-  if (rdv.withConseiller && conseiller != null) {
+  final withConseiller = rdv.withConseiller;
+  if (withConseiller != null && withConseiller && conseiller != null) {
     return Strings.rendezvousModalityCardMessage(modality, '${conseiller.firstName} ${conseiller.lastName}');
   }
   return modality;

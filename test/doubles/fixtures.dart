@@ -1,3 +1,4 @@
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
@@ -6,6 +7,7 @@ import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
@@ -51,7 +53,13 @@ LoginState successPassEmploiUserState() => LoginSuccessState(User(
 
 AppState loggedInState() => AppState.initialState().copyWith(loginState: successMiloUserState());
 
+AppState loggedInMiloState() => AppState.initialState().copyWith(loginState: successMiloUserState());
+
+AppState loggedInPoleEmploiState() => AppState.initialState().copyWith(loginState: successPoleEmploiUserState());
+
 Response invalidHttpResponse({String message = ""}) => Response(message, 500);
+
+HttpExceptionWithStatus deletedOfferHttpResponse() => throw HttpExceptionWithStatus(404,"Offer was delete");
 
 OffreEmploiDetails mockOffreEmploiDetails() => OffreEmploiDetails(
       id: "123TZKB",
@@ -181,28 +189,48 @@ ServiceCiviqueDetail mockServiceCiviqueDetail() => ServiceCiviqueDetail(
 
 Rendezvous mockRendezvous({
   String id = '',
-  DateTime? date,
-  int duration = 0,
-  String modality = '',
-  bool withConseiller = false,
+  bool isInVisio = false,
+  bool isAnnule = false,
   RendezvousType type = const RendezvousType(RendezvousTypeCode.AUTRE, ''),
+  bool? withConseiller,
+  DateTime? date,
+  String? modality,
+  int? duration,
   String? comment,
   String? organism,
   String? address,
+  String? phone,
+  String? visioRedirectUrl,
+  String? theme,
+  String? description,
   String? precision,
   Conseiller? conseiller = const Conseiller(id: 'id', firstName: 'F', lastName: 'L'),
+  Conseiller? createur,
 }) {
   return Rendezvous(
     id: id,
     date: date ?? DateTime.now(),
     duration: duration,
     modality: modality,
-    withConseiller: withConseiller,
+    isInVisio: isInVisio,
+    isAnnule: isAnnule,
     type: type,
+    withConseiller: withConseiller,
     comment: comment,
     organism: organism,
     address: address,
+    phone: phone,
+    visioRedirectUrl: visioRedirectUrl,
+    theme: theme,
+    description: description,
     precision: precision,
     conseiller: conseiller,
+    createur: createur,
+  );
+}
+
+DetailsJeune detailsJeune() {
+  return DetailsJeune(
+    conseiller: DetailsJeuneConseiller(firstname: "Perceval", lastname: "de Galles", sinceDate: DateTime(2005, 1, 3)),
   );
 }

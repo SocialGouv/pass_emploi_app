@@ -1,11 +1,11 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
-import 'package:pass_emploi_app/auth/auth_logout_request.dart';
 import 'package:pass_emploi_app/auth/auth_refresh_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
+import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 
 const String _idTokenKey = "idToken";
 const String _accessTokenKey = "accessToken";
@@ -22,10 +22,11 @@ enum AuthenticatorResponse { SUCCESS, FAILURE, CANCELLED }
 
 class Authenticator {
   final AuthWrapper _authWrapper;
+  final LogoutRepository _logoutRepository;
   final Configuration _configuration;
   final FlutterSecureStorage _preferences;
 
-  Authenticator(this._authWrapper, this._configuration, this._preferences);
+  Authenticator(this._authWrapper, this._logoutRepository, this._configuration, this._preferences);
 
   Future<AuthenticatorResponse> login(AuthenticationMode mode) async {
     try {
@@ -83,19 +84,11 @@ class Authenticator {
   }
 
   Future<bool> logout() async {
-    final String? idToken = await _preferences.read(key: _idTokenKey);
-    if (idToken == null) return false;
-    try {
-      await _authWrapper.logout(AuthLogoutRequest(
-        idToken,
-        _configuration.authLogoutRedirectUrl,
-        _configuration.authIssuer,
-      ));
-      _deleteToken();
-      return true;
-    } catch (e) {
-      return false;
-    }
+    final String? refreshToken = await _preferences.read(key: _refreshTokenKey);
+    if (refreshToken == null) return false;
+    await _logoutRepository.logout(refreshToken);
+    _deleteToken();
+    return true;
   }
 
   void _saveToken(AuthTokenResponse response) {

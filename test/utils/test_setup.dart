@@ -4,9 +4,8 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
-import 'package:pass_emploi_app/repositories/auth/pole_emploi/pole_emploi_auth_repository.dart';
-import 'package:pass_emploi_app/repositories/auth/pole_emploi/pole_emploi_token_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
@@ -18,14 +17,16 @@ import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dar
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
-import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/immersion_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/saved_search_delete_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_search_repository.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
+import 'package:pass_emploi_app/repositories/user_action_pe_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
 
@@ -33,9 +34,8 @@ import '../doubles/dummies.dart';
 
 class TestStoreFactory {
   Authenticator authenticator = DummyAuthenticator();
-  PoleEmploiTokenRepository poleEmploiTokenRepository = PoleEmploiTokenRepository();
-  PoleEmploiAuthRepository poleEmploiAuthRepository = DummyPoleEmploiAuthRepository();
   UserActionRepository userActionRepository = DummyUserActionRepository();
+  UserActionPERepository userActionPERepository = DummyUserActionPERepository();
   RendezvousRepository rendezvousRepository = DummyRendezvousRepository();
   ChatRepository chatRepository = DummyChatRepository();
   OffreEmploiRepository offreEmploiRepository = DummyOffreEmploiRepository();
@@ -54,20 +54,21 @@ class TestStoreFactory {
   TrackingEventRepository trackingEventRepository = DummyTrackingEventRepository();
   OffreEmploiSavedSearchRepository offreEmploiSavedSearchRepository = DummyOffreEmploiSavedSearchRepository();
   ImmersionSavedSearchRepository immersionSavedSearchRepository = DummyImmersionSavedSearchRepository();
+  ServiceCiviqueSavedSearchRepository serviceCiviqueSavedSearchRepository = DummyServiceCiviqueSavedSearchRepository();
   GetSavedSearchRepository getSavedSearchRepository = DummyGetSavedSearchRepository();
   SavedSearchDeleteRepository savedSearchDeleteRepository = DummySavedSearchDeleteRepository();
   ServiceCiviqueRepository serviceCiviqueRepository = DummyServiceCiviqueRepository();
   ServiceCiviqueDetailRepository serviceCiviqueDetailRepository = DummyServiceCiviqueDetailRepository();
   ServiceCiviqueFavorisRepository serviceCiviqueFavorisRepository = DummyServiceCiviqueFavorisRepository();
+  DetailsJeuneRepository detailsJeuneRepository = DummyDetailsJeuneRepository();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
       authenticator,
       crashlytics,
       chatCrypto,
-      poleEmploiTokenRepository,
-      poleEmploiAuthRepository,
       userActionRepository,
+      userActionPERepository,
       rendezvousRepository,
       offreEmploiRepository,
       chatRepository,
@@ -85,10 +86,12 @@ class TestStoreFactory {
       trackingEventRepository,
       offreEmploiSavedSearchRepository,
       immersionSavedSearchRepository,
+      serviceCiviqueSavedSearchRepository,
       getSavedSearchRepository,
       savedSearchDeleteRepository,
       serviceCiviqueRepository,
       serviceCiviqueDetailRepository,
+      detailsJeuneRepository,
     ).initializeReduxStore(initialState: initialState);
   }
 }

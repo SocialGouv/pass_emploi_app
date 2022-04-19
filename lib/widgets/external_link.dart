@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:pass_emploi_app/utils/launcher_utils.dart';
 
 class ExternalLink extends StatelessWidget {
   final String label;
@@ -18,7 +18,7 @@ class ExternalLink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => launch(url),
+      onTap: () => launchExternalUrl(url),
       splashColor: AppColors.primaryLighten,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),

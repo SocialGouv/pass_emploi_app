@@ -6,10 +6,13 @@ import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_se
 import 'package:pass_emploi_app/features/offre_emploi/saved_search/offre_emploi_saved_search_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
+import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_actions.dart';
+import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
+import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
@@ -20,13 +23,16 @@ void _emptyVoidFunction() {}
 
 void _emptyImmersionFunction(ImmersionSavedSearch search) {}
 
-enum SavedSearchNavigationState { OFFRE_EMPLOI, OFFRE_IMMERSION, OFFRE_ALTERNANCE, NONE }
+void _emptyServiceCiviqueFunction(ServiceCiviqueSavedSearch search) {}
+
+enum SavedSearchNavigationState { OFFRE_EMPLOI, OFFRE_IMMERSION, OFFRE_ALTERNANCE, SERVICE_CIVIQUE, NONE }
 
 class SavedSearchListViewModel extends Equatable {
   final DisplayState displayState;
   final List<SavedSearch> savedSearches;
   final Function(OffreEmploiSavedSearch) offreEmploiSelected;
   final Function(ImmersionSavedSearch) offreImmersionSelected;
+  final Function(ServiceCiviqueSavedSearch) offreServiceCiviqueSelected;
   final SavedSearchNavigationState searchNavigationState;
   final Function onRetry;
   final List<Immersion> immersionsResults;
@@ -36,6 +42,7 @@ class SavedSearchListViewModel extends Equatable {
     this.savedSearches = const [],
     this.offreEmploiSelected = _emptyFunction,
     this.offreImmersionSelected = _emptyImmersionFunction,
+    this.offreServiceCiviqueSelected = _emptyServiceCiviqueFunction,
     this.searchNavigationState = SavedSearchNavigationState.NONE,
     this.immersionsResults = const [],
     this.onRetry = _emptyVoidFunction,
@@ -46,6 +53,7 @@ class SavedSearchListViewModel extends Equatable {
     final searchResultState = store.state.offreEmploiListState;
     final immersionListState = store.state.immersionListState;
     final searchParamsState = store.state.offreEmploiSearchParametersState;
+    final serviceCiviqueListState = store.state.serviceCiviqueSearchResultState;
     if (state is SavedSearchListLoadingState) {
       return SavedSearchListViewModel._(displayState: DisplayState.LOADING);
     }
@@ -56,10 +64,16 @@ class SavedSearchListViewModel extends Equatable {
       return SavedSearchListViewModel._(
         displayState: DisplayState.CONTENT,
         savedSearches: state.savedSearches.toList(),
-        searchNavigationState: _getSearchNavigationState(searchResultState, searchParamsState, immersionListState),
+        searchNavigationState: _getSearchNavigationState(
+          searchResultState,
+          searchParamsState,
+          immersionListState,
+          serviceCiviqueListState,
+        ),
         immersionsResults: immersionListState is ImmersionListSuccessState ? immersionListState.immersions : [],
         offreEmploiSelected: (savedSearch) => store.dispatch(SavedSearchGetAction(savedSearch.id)),
         offreImmersionSelected: (savedSearch) => store.dispatch(SavedSearchGetAction(savedSearch.id)),
+        offreServiceCiviqueSelected: (savedSearch) => store.dispatch(SavedSearchGetAction(savedSearch.id)),
       );
     }
     return SavedSearchListViewModel._(displayState: DisplayState.LOADING);
@@ -74,8 +88,12 @@ class SavedSearchListViewModel extends Equatable {
         immersionsResults,
       ];
 
-  static SavedSearchNavigationState _getSearchNavigationState(OffreEmploiListState searchResultState,
-      OffreEmploiSearchParametersState searchParamsState, ImmersionListState immersionListState) {
+  static SavedSearchNavigationState _getSearchNavigationState(
+    OffreEmploiListState searchResultState,
+    OffreEmploiSearchParametersState searchParamsState,
+    ImmersionListState immersionListState,
+    ServiceCiviqueSearchResultState serviceCiviqueSearchResultState,
+  ) {
     if ((searchResultState is OffreEmploiListSuccessState &&
         searchParamsState is OffreEmploiSearchParametersInitializedState)) {
       return searchParamsState.onlyAlternance
@@ -83,6 +101,8 @@ class SavedSearchListViewModel extends Equatable {
           : SavedSearchNavigationState.OFFRE_EMPLOI;
     } else if (immersionListState is ImmersionListSuccessState) {
       return SavedSearchNavigationState.OFFRE_IMMERSION;
+    } else if (serviceCiviqueSearchResultState is ServiceCiviqueSearchResultDataState) {
+      return SavedSearchNavigationState.SERVICE_CIVIQUE;
     } else {
       return SavedSearchNavigationState.NONE;
     }
@@ -97,6 +117,10 @@ class SavedSearchListViewModel extends Equatable {
 
   List<ImmersionSavedSearch> getImmersions() {
     return savedSearches.whereType<ImmersionSavedSearch>().toList();
+  }
+
+  List<ServiceCiviqueSavedSearch> getServiceCivique() {
+    return savedSearches.whereType<ServiceCiviqueSavedSearch>().toList();
   }
 
   static void onOffreEmploiSelected(OffreEmploiSavedSearch savedSearch, Store<AppState> store) {
@@ -117,6 +141,12 @@ class SavedSearchListViewModel extends Equatable {
         location: savedSearch.location,
         filtres: savedSearch.filtres,
       ),
+    );
+  }
+
+  static void onServiceCiviqueSelected(ServiceCiviqueSavedSearch savedSearch, Store<AppState> store) {
+    store.dispatch(
+      ServiceCiviqueSavedSearchRequestAction(savedSearch),
     );
   }
 }

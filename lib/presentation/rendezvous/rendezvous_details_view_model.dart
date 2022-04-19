@@ -19,13 +19,24 @@ class RendezvousDetailsViewModel extends Equatable {
   final String hourAndDuration;
   final String conseillerPresenceLabel;
   final Color conseillerPresenceColor;
+  final bool isAnnule;
+  final bool withConseillerPresencePart;
+  final bool withDescriptionPart;
+  final bool withModalityPart;
+  final VisioButtonState visioButtonState;
   final String trackingPageName;
   final String? commentTitle;
   final String? comment;
   final String? modality;
+  final String? conseiller;
+  final String? createur;
   final String? organism;
+  final String? phone;
   final String? address;
   final Uri? addressRedirectUri;
+  final String? visioRedirectUrl;
+  final String? theme;
+  final String? description;
 
   RendezvousDetailsViewModel({
     required this.title,
@@ -33,31 +44,55 @@ class RendezvousDetailsViewModel extends Equatable {
     required this.hourAndDuration,
     required this.conseillerPresenceLabel,
     required this.conseillerPresenceColor,
+    required this.isAnnule,
+    required this.withConseillerPresencePart,
+    required this.withDescriptionPart,
+    required this.withModalityPart,
+    required this.visioButtonState,
     required this.trackingPageName,
     this.commentTitle,
     this.comment,
     this.modality,
+    this.conseiller,
+    this.createur,
     this.organism,
+    this.phone,
     this.address,
     this.addressRedirectUri,
+    this.visioRedirectUrl,
+    this.theme,
+    this.description,
   });
 
   factory RendezvousDetailsViewModel.create(Store<AppState> store, String rdvId, Platform platform) {
     final rdv = getRendezvousFromStore(store, rdvId);
+    final address = _address(rdv);
     final comment = (rdv.comment != null && rdv.comment!.trim().isNotEmpty) ? rdv.comment : null;
+    final isConseillerPresent = rdv.withConseiller ?? false;
     return RendezvousDetailsViewModel(
       title: takeTypeLabelOrPrecision(rdv),
       date: rdv.date.toDayWithFullMonthContextualized(),
-      hourAndDuration: "${rdv.date.toHour()} (${_toDuration(rdv.duration)})",
+      hourAndDuration: _hourAndDuration(rdv),
       modality: _modality(rdv),
-      conseillerPresenceLabel: rdv.withConseiller ? Strings.conseillerIsPresent : Strings.conseillerIsNotPresent,
-      conseillerPresenceColor: rdv.withConseiller ? AppColors.secondary : AppColors.warning,
+      conseiller: _conseiller(rdv),
+      createur: _createur(rdv),
+      conseillerPresenceLabel: isConseillerPresent ? Strings.conseillerIsPresent : Strings.conseillerIsNotPresent,
+      conseillerPresenceColor: isConseillerPresent ? AppColors.secondary : AppColors.warning,
+      isAnnule: rdv.isAnnule,
+      withConseillerPresencePart: _shouldDisplayConseillerPresence(rdv),
+      withDescriptionPart: rdv.description != null || rdv.theme != null,
+      withModalityPart: _withModalityPart(rdv),
+      visioButtonState: _visioButtonState(rdv),
+      visioRedirectUrl: rdv.visioRedirectUrl,
       trackingPageName: _trackingPageName(rdv.type.code),
       commentTitle: _commentTitle(rdv, comment),
       comment: comment,
-      organism: rdv.organism,
-      address: rdv.address,
-      addressRedirectUri: rdv.address != null ? UriHandler().mapsUri(rdv.address!, platform) : null,
+      organism: _shouldHidePresentielInformation(rdv) ? null : rdv.organism,
+      address: address,
+      phone: rdv.phone != null ? Strings.phone(rdv.phone!) : null,
+      addressRedirectUri: address != null ? UriHandler().mapsUri(address, platform) : null,
+      theme: rdv.theme,
+      description: rdv.description,
     );
   }
 
@@ -68,16 +103,48 @@ class RendezvousDetailsViewModel extends Equatable {
       date,
       hourAndDuration,
       modality,
+      conseiller,
+      createur,
       conseillerPresenceLabel,
       conseillerPresenceColor,
+      isAnnule,
+      withConseillerPresencePart,
+      withDescriptionPart,
+      withModalityPart,
+      visioButtonState,
       trackingPageName,
       commentTitle,
       comment,
       organism,
+      phone,
       address,
       addressRedirectUri?.toString(),
+      visioRedirectUrl,
+      theme,
+      description,
     ];
   }
+}
+
+enum VisioButtonState { ACTIVE, INACTIVE, HIDDEN }
+
+bool _shouldHidePresentielInformation(Rendezvous rdv) {
+  return rdv.isInVisio || rdv.modalityType() == RendezvousModalityType.TELEPHONE;
+}
+
+bool _shouldDisplayConseillerPresence(Rendezvous rdv) {
+  return rdv.type.code != RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER &&
+      rdv.type.code != RendezvousTypeCode.PRESTATION &&
+      rdv.withConseiller != null;
+}
+
+String? _address(Rendezvous rdv) {
+  return _shouldHidePresentielInformation(rdv) ? null : rdv.address;
+}
+
+String _hourAndDuration(Rendezvous rdv) {
+  final hour = rdv.date.toHour();
+  return rdv.duration != null ? "$hour (${_toDuration(rdv.duration!)})" : hour;
 }
 
 String _toDuration(int duration) {
@@ -90,19 +157,39 @@ String _toDuration(int duration) {
 
 String? _commentTitle(Rendezvous rdv, String? comment) {
   if (comment != null && rdv.conseiller == null) return Strings.commentWithoutConseiller;
-  if (comment != null && rdv.conseiller != null) return Strings.commentWithConseiller(rdv.conseiller!.firstName);
+  if (comment != null && rdv.conseiller != null) return Strings.rendezVousConseillerCommentLabel;
   return null;
 }
 
 String? _modality(Rendezvous rdv) {
-  if (rdv.modality.isEmpty) return null;
-  final modality = rdv.modality.firstLetterLowerCased();
+  if (rdv.isInVisio) return Strings.rendezvousVisioModalityMessage;
+  if (rdv.modality == null) return null;
+  return Strings.rendezvousModalityDetailsMessage(rdv.modality!.firstLetterLowerCased());
+}
+
+String? _conseiller(Rendezvous rdv) {
+  if (rdv.isInVisio || rdv.modality == null) return null;
   final conseiller = rdv.conseiller;
-  if (rdv.withConseiller && conseiller != null) {
-    return Strings.rendezvousModalityWithConseillerDetailsMessage(
-        modality, '${conseiller.firstName} ${conseiller.lastName}');
+  final withConseiller = rdv.withConseiller;
+  if (withConseiller != null && withConseiller && conseiller != null) {
+    return Strings.rendezvousWithConseiller('${conseiller.firstName} ${conseiller.lastName}');
   }
-  return Strings.rendezvousModalityDetailsMessage(modality);
+  return null;
+}
+
+String? _createur(Rendezvous rdv) {
+  final createur = rdv.createur;
+  return createur != null ? Strings.rendezvousCreateur('${createur.firstName} ${createur.lastName}') : null;
+}
+
+bool _withModalityPart(Rendezvous rdv) {
+  return rdv.modality != null || rdv.address != null || rdv.organism != null || rdv.phone != null || rdv.isInVisio;
+}
+
+VisioButtonState _visioButtonState(Rendezvous rdv) {
+  if (rdv.isInVisio && rdv.visioRedirectUrl != null) return VisioButtonState.ACTIVE;
+  if (rdv.isInVisio && rdv.visioRedirectUrl == null) return VisioButtonState.INACTIVE;
+  return VisioButtonState.HIDDEN;
 }
 
 String _trackingPageName(RendezvousTypeCode code) {
@@ -119,6 +206,8 @@ String _trackingPageName(RendezvousTypeCode code) {
       return AnalyticsScreenNames.rendezvousInformationCollective;
     case RendezvousTypeCode.VISITE:
       return AnalyticsScreenNames.rendezvousVisite;
+    case RendezvousTypeCode.PRESTATION:
+      return AnalyticsScreenNames.rendezvousPrestation;
     case RendezvousTypeCode.AUTRE:
       return AnalyticsScreenNames.rendezvousAutre;
   }

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:matomo/matomo.dart';
-import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/cej_information_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/login_view_model.dart';
@@ -16,12 +14,8 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 
-class LoginPage extends TraceableStatelessWidget {
-  LoginPage() : super(name: AnalyticsScreenNames.login);
-
-  static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => LoginPage());
-  }
+class LoginPage extends StatelessWidget {
+  static const routeName = "/login";
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +72,7 @@ class LoginPage extends TraceableStatelessWidget {
                         SizedBox(height: 16),
                         SecondaryButton(
                           label: Strings.askAccount,
-                          onPressed: () => Navigator.push(context, CejInformationPage.materialPageRoute()),
+                          onPressed: () => Navigator.pushNamed(context, CejInformationPage.routeName),
                           backgroundColor: Colors.white,
                         ),
                       ],

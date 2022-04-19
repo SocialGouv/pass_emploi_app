@@ -36,9 +36,13 @@ class ServiceCiviqueFavorisPage extends AbstractFavorisPage<ServiceCivique, Serv
           Strings.asSoonAs + itemViewModel.startDate!.toDateTimeUtcOnLocalTimeZone().toDayWithFullMonth()
       ],
       onTap: () {
-        pushAndTrackBack(context, MaterialPageRoute(builder: (_) {
-          return ServiceCiviqueDetailPage(itemViewModel.id, true);
-        }));
+        pushAndTrackBack(
+          context,
+          MaterialPageRoute(builder: (_) {
+            return ServiceCiviqueDetailPage(itemViewModel.id, true);
+          }),
+          AnalyticsScreenNames.immersionFavoris,
+        );
       },
       from: OffrePage.serviceCiviqueFavoris,
       id: itemViewModel.id,

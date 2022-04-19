@@ -59,7 +59,7 @@ class _RouterPageState extends State<RouterPage> {
 
   void _removeAllScreensAboveRouterPage() {
     if (Navigator.canPop(context)) {
-      Navigator.popUntil(context, (route) => route.settings.name?.contains("/") ?? false);
+      Navigator.popUntil(context, (route) => route.settings.name == Navigator.defaultRouteName);
     }
   }
 

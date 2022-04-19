@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/saved_search/get_saved_searchs_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_search_repository.dart';
 
 import '../../doubles/dummies.dart';
@@ -110,7 +110,7 @@ void main() {
 }
 
 class OffreEmploiSavedSearchRepositorySuccessStub extends OffreEmploiSavedSearchRepository {
-  OffreEmploiSavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  OffreEmploiSavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> postSavedSearch(String userId, OffreEmploiSavedSearch savedSearch, String title) async {
@@ -119,7 +119,7 @@ class OffreEmploiSavedSearchRepositorySuccessStub extends OffreEmploiSavedSearch
 }
 
 class OffreEmploiSavedSearchRepositoryFailureStub extends OffreEmploiSavedSearchRepository {
-  OffreEmploiSavedSearchRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  OffreEmploiSavedSearchRepositoryFailureStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> postSavedSearch(String userId, OffreEmploiSavedSearch savedSearch, String title) async {
@@ -128,7 +128,7 @@ class OffreEmploiSavedSearchRepositoryFailureStub extends OffreEmploiSavedSearch
 }
 
 class SavedSearchRepositorySuccessStub extends GetSavedSearchRepository {
-  SavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyCrashlytics());
+  SavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyCrashlytics());
 
   @override
   Future<List<OffreEmploiSavedSearch>?> getSavedSearch(String userId) async {
@@ -137,7 +137,7 @@ class SavedSearchRepositorySuccessStub extends GetSavedSearchRepository {
 }
 
 class SavedSearchRepositoryFailureStub extends GetSavedSearchRepository {
-  SavedSearchRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder(), DummyCrashlytics());
+  SavedSearchRepositoryFailureStub() : super("", DummyHttpClient(), DummyCrashlytics());
 
   @override
   Future<List<OffreEmploiSavedSearch>?> getSavedSearch(String userId) async {

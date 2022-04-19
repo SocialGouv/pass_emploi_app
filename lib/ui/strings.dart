@@ -22,6 +22,10 @@ class Strings {
   static String read = "Lu";
   static String sent = "Envoyé";
   static String chatError = "Erreur lors de la récupération de votre messagerie";
+  static String newConseillerTitle = "Vous échangez avec votre nouveau conseiller";
+  static String newConseillerDescription = "Il a accès à l’historique de vos échanges";
+  static String unknownTypeTitle = "Le message est incassessible";
+  static String unknownTypeDescription = "Pour avoir l'accès au contenu veuillez mettre à jour l'application";
 
   static String chatWith(firstName) => "Discuter avec $firstName";
 
@@ -102,9 +106,12 @@ class Strings {
   static String monSuiviAppBarTitle = "Mon suivi";
   static String actionsTabTitle = "Actions";
   static String rendezvousTabTitle = "Rendez-vous";
+  static String demarcheTabTitle = "Démarches";
 
   // Rendezvous
   static String myRendezVous = "Mon rendez-vous";
+  static String rendezvousCardAnnule = "Annulé";
+  static String rendezvousDetailsAnnule = "Rendez-vous annulé";
   static String rendezVousConseillerCommentLabel = "Commentaire de mon conseiller";
   static String cannotGoToRendezvous = "Vous ne pouvez pas vous rendre au rendez-vous ?";
   static String shouldInformConseiller =
@@ -117,18 +124,38 @@ class Strings {
   static String conseillerIsNotPresent = "Votre conseiller ne sera pas présent";
   static String commentWithoutConseiller = "Commentaire de votre conseiller";
   static String seeItinerary = 'Voir l\'itinéraire';
+  static String seeVisio = 'Accéder à la visio';
+  static String rendezvousVisioModalityMessage =
+      'Le rendez-vous se fera en visio. La visio sera disponible le jour du rendez-vous.';
+  static String rendezVousPassesTitre = "Rendez-vous passés";
+  static String rendezVousCetteSemaineTitre = "Cette semaine";
+  static String rendezSemaineTitre = "Semaine du";
+  static String rendezVousFutursTitre = "Rendez-vous futurs";
+  static String noRendezVousCetteSemaineTitre = "Vous n'avez pas encore de rendez-vous prévus cette semaine";
+  static String noRendezYet = "Vous n'avez pas encore de rendez-vous prévus";
+  static String noMoreRendezVousThisWeek = "Vous n'avez pas d'autres rendez-vous prévus cette semaine.";
+  static String noRendezYetSubtitle =
+      "Vous pourrez consulter ceux passés et à venir en utilisant les flèches en haut de page.";
+  static String noRendezAutreCetteSemainePrefix = "Vous n’avez pas encore de rendez-vous prévus pour la semaine du ";
+  static String noRendezAvantCetteSemaine = "Vous n’avez pas encore de rendez-vous passés";
+  static String noRendezVousFutur = "Vous n’avez pas encore de rendez-vous prévus";
+  static String withConseiller = "avec";
 
-  static String rendezvousModalityWithConseillerDetailsMessage(String modality, String conseiller) {
-    return "${rendezvousModalityDetailsMessage(modality)} avec $conseiller";
+  static String rendezvousSinceDate(String date) => "depuis le $date";
+
+  static String rendezvousStartingAtDate(String date) => "à partir du $date";
+
+  static String rendezvousWithConseiller(String conseiller) => "votre conseiller $conseiller";
+
+  static String rendezvousCreateur(String createur) {
+    return "Le rendez-vous a été programmé par votre conseiller précédent $createur";
   }
 
-  static String rendezvousModalityDetailsMessage(String modality) {
-    return "Le rendez-vous se fera $modality";
-  }
+  static String rendezvousModalityDetailsMessage(String modality) => "Le rendez-vous se fera $modality";
 
   static String rendezvousModalityCardMessage(String modality, String conseiller) => "$modality avec $conseiller";
 
-  static String commentWithConseiller(String firstName) => "Commentaire de $firstName";
+  static String phone(String phone) => "Téléphone : $phone";
 
   static String withOrganism(String organism) => "Avec : $organism";
 
@@ -163,6 +190,22 @@ class Strings {
 
   static String lastUpdateFormat(String formattedDate) => "Modifiée le $formattedDate";
   static String doneActionsTitle = "Actions terminées";
+
+  //User Action Pole Emploi
+  static String actionPEToDo = "À faire";
+  static String actionPEInProgress = "En cours";
+  static String actionPERetarded = "En retard";
+  static String actionPEDone = "Réalisé";
+  static String actionPECancelled = "Annulé";
+
+  static String actionPEActiveDateFormat(String formattedDate) => "À réaliser pour le $formattedDate";
+
+  static String actionPEDoneDateFormat(String formattedDate) => "Réalisé le $formattedDate";
+
+  static String actionPECancelledDateFormat(String formattedDate) => "Annulé le $formattedDate";
+  static String withoutDate = "Date indéterminée";
+  static String withoutContent = "Démarche indéterminée";
+  static String createByAdvisor = "Créé par votre conseiller";
 
   // Solutions
   static String searchingPageTitle = "Recherche de solutions";
@@ -320,17 +363,24 @@ class Strings {
   static String noFavoris = "Aucun favori";
   static String favorisError = "Erreur lors de la récupération de vos favoris";
 
-  // Unavailable content (actions & rdv) for pole emploi users
+  // Empty Content (actions & rdv)
   static String rendezvous = "rendez-vous";
   static String actions = "actions";
+  static String demarcheToDo = "démarches à réaliser.";
+  static String demarches = "démarches";
 
-  static String unavailableContentTitle(String content) => "Vos $content ne sont pas accessibles sur l’application.";
-  static String unvailableContentDescription = "Vous pouvez les consulter sur votre espace personnel Pôle emploi.";
   static String poleEmploiUrlButton = "Accéder à mon espace Pôle emploi";
   static String espacePoleEmploiUrl = "https://candidat.pole-emploi.fr/espacepersonnel/";
 
+  static String emptyContentTitle(String content) => "Vous n’avez pas encore de $content";
+
+  static String emptyContentDescription(String content) =>
+      "Vous pouvez créer vos $content en autonomie depuis votre espace Pôle emploi.";
+
   // Profil
   static String personalInformation = "Informations personnelles";
+
+  static String sinceDate(String date) => "Depuis le $date";
   static String emailAddressLabel = "Adresse e-mail";
   static String missingEmailAddressValue = "Non renseignée";
   static String legalInformation = "Informations légales";
@@ -360,6 +410,7 @@ class Strings {
   static String savedSearchEmploiTag = "Offre d’emploi";
   static String savedSearchAlternanceTag = "Alternance";
   static String savedSearchImmersionTag = "Immersion";
+  static String savedSearchServiceCiviqueTag = "Service civique";
   static String savedSearchSuccessfullyCreated =
       "Votre recherche a bien été enregistrée en favoris. Retrouvez-la dans la page favoris.";
   static String creationSavedSearchError = "Erreur lors de la création de la recherche sauvegardée. Veuillez réessayer";

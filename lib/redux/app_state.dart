@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/configuration/configuration_state.dart';
+import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
@@ -26,10 +27,12 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_s
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
+import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
+import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 
 class AppState extends Equatable {
@@ -40,6 +43,8 @@ class AppState extends Equatable {
   final UserActionCreateState userActionCreateState;
   final UserActionUpdateState userActionUpdateState;
   final UserActionDeleteState userActionDeleteState;
+  final UserActionPEListState userActionPEListState;
+  final DetailsJeuneState detailsJeuneState;
   final ChatStatusState chatStatusState;
   final ChatState chatState;
   final OffreEmploiSearchState offreEmploiSearchState;
@@ -57,6 +62,7 @@ class AppState extends Equatable {
   final ImmersionDetailsState immersionDetailsState;
   final SavedSearchCreateState<OffreEmploiSavedSearch> offreEmploiSavedSearchCreateState;
   final SavedSearchCreateState<ImmersionSavedSearch> immersionSavedSearchCreateState;
+  final SavedSearchCreateState<ServiceCiviqueSavedSearch> serviceCiviqueSavedSearchCreateState;
   final ImmersionSearchParametersState immersionSearchParametersState;
   final SavedSearchListState savedSearchListState;
   final SavedSearchDeleteState savedSearchDeleteState;
@@ -71,6 +77,8 @@ class AppState extends Equatable {
     required this.userActionCreateState,
     required this.userActionUpdateState,
     required this.userActionDeleteState,
+    required this.userActionPEListState,
+    required this.detailsJeuneState,
     required this.chatStatusState,
     required this.chatState,
     required this.offreEmploiSearchState,
@@ -88,6 +96,7 @@ class AppState extends Equatable {
     required this.immersionDetailsState,
     required this.offreEmploiSavedSearchCreateState,
     required this.immersionSavedSearchCreateState,
+    required this.serviceCiviqueSavedSearchCreateState,
     required this.immersionSearchParametersState,
     required this.savedSearchListState,
     required this.savedSearchDeleteState,
@@ -101,6 +110,8 @@ class AppState extends Equatable {
     final UserActionCreateState? userActionCreateState,
     final UserActionUpdateState? userActionUpdateState,
     final UserActionDeleteState? userActionDeleteState,
+    final UserActionPEListState? userActionPEListState,
+    final DetailsJeuneState? detailsJeuneState,
     final ChatStatusState? chatStatusState,
     final ChatState? chatState,
     final OffreEmploiSearchState? offreEmploiSearchState,
@@ -119,6 +130,7 @@ class AppState extends Equatable {
     final ImmersionDetailsState? immersionDetailsState,
     final SavedSearchCreateState<OffreEmploiSavedSearch>? offreEmploiSavedSearchCreateState,
     final SavedSearchCreateState<ImmersionSavedSearch>? immersionSavedSearchCreateState,
+    final SavedSearchCreateState<ServiceCiviqueSavedSearch>? serviceCiviqueSavedSearchCreateState,
     final ConfigurationState? configurationState,
     final ImmersionSearchParametersState? immersionSearchParametersState,
     final SavedSearchListState? savedSearchListState,
@@ -133,6 +145,8 @@ class AppState extends Equatable {
       userActionCreateState: userActionCreateState ?? this.userActionCreateState,
       userActionUpdateState: userActionUpdateState ?? this.userActionUpdateState,
       userActionDeleteState: userActionDeleteState ?? this.userActionDeleteState,
+      userActionPEListState: userActionPEListState ?? this.userActionPEListState,
+      detailsJeuneState: detailsJeuneState ?? this.detailsJeuneState,
       chatStatusState: chatStatusState ?? this.chatStatusState,
       chatState: chatState ?? this.chatState,
       offreEmploiSearchState: offreEmploiSearchState ?? this.offreEmploiSearchState,
@@ -150,6 +164,7 @@ class AppState extends Equatable {
       immersionDetailsState: immersionDetailsState ?? this.immersionDetailsState,
       offreEmploiSavedSearchCreateState: offreEmploiSavedSearchCreateState ?? this.offreEmploiSavedSearchCreateState,
       immersionSavedSearchCreateState: immersionSavedSearchCreateState ?? this.immersionSavedSearchCreateState,
+      serviceCiviqueSavedSearchCreateState: serviceCiviqueSavedSearchCreateState ?? this.serviceCiviqueSavedSearchCreateState,
       configurationState: configurationState ?? this.configurationState,
       immersionSearchParametersState: immersionSearchParametersState ?? this.immersionSearchParametersState,
       savedSearchListState: savedSearchListState ?? this.savedSearchListState,
@@ -167,6 +182,8 @@ class AppState extends Equatable {
       userActionCreateState: UserActionCreateNotInitializedState(),
       userActionUpdateState: UserActionNotUpdatingState(),
       userActionDeleteState: UserActionDeleteNotInitializedState(),
+      userActionPEListState: UserActionPEListNotInitializedState(),
+      detailsJeuneState: DetailsJeuneNotInitializedState(),
       chatStatusState: ChatStatusNotInitializedState(),
       chatState: ChatNotInitializedState(),
       offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
@@ -184,6 +201,7 @@ class AppState extends Equatable {
       immersionDetailsState: ImmersionDetailsNotInitializedState(),
       offreEmploiSavedSearchCreateState: SavedSearchCreateState<OffreEmploiSavedSearch>.notInitialized(),
       immersionSavedSearchCreateState: SavedSearchCreateState<ImmersionSavedSearch>.notInitialized(),
+      serviceCiviqueSavedSearchCreateState: SavedSearchCreateState<ServiceCiviqueSavedSearch>.notInitialized(),
       configurationState: ConfigurationState(configuration),
       immersionSearchParametersState: ImmersionSearchParametersNotInitializedState(),
       savedSearchListState: SavedSearchListNotInitializedState(),
@@ -199,6 +217,7 @@ class AppState extends Equatable {
         userActionCreateState,
         userActionUpdateState,
         userActionDeleteState,
+        detailsJeuneState,
         chatStatusState,
         chatState,
         offreEmploiSearchState,
@@ -211,6 +230,7 @@ class AppState extends Equatable {
         searchMetierState,
         loginState,
         userActionListState,
+        userActionPEListState,
         rendezvousState,
         immersionListState,
         immersionDetailsState,

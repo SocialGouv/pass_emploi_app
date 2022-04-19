@@ -100,7 +100,7 @@ SavedSearch _mockSavedSearch() {
 }
 
 class SavedSearchDeleteRepositorySuccessStub extends SavedSearchDeleteRepository {
-  SavedSearchDeleteRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  SavedSearchDeleteRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> delete(String userId, String savedSearchId) async {
@@ -110,7 +110,7 @@ class SavedSearchDeleteRepositorySuccessStub extends SavedSearchDeleteRepository
 }
 
 class SavedSearchDeleteRepositoryFailureStub extends SavedSearchDeleteRepository {
-  SavedSearchDeleteRepositoryFailureStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  SavedSearchDeleteRepositoryFailureStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> delete(String userId, String savedSearchId) async => false;

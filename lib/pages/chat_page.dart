@@ -16,7 +16,8 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
-import 'package:pass_emploi_app/widgets/chat_message_widget.dart';
+import 'package:pass_emploi_app/widgets/chat/chat_information_widget.dart';
+import 'package:pass_emploi_app/widgets/chat/chat_message_widget.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
@@ -74,7 +75,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
 
   Widget _scaffold(ChatPageViewModel viewModel, Widget body) {
     return Scaffold(
-      appBar: passEmploiAppBar(label: viewModel.title),
+      appBar: passEmploiAppBar(label: Strings.yourConseiller),
       body: Column(
         children: [
           SepLine(0, 0),
@@ -113,6 +114,8 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                 );
               } else if (item is MessageItem) {
                 return ChatMessageWidget(item);
+              } else if (item is InformationItem) {
+                return ChatInformationWidget(item.title, item.description);
               } else {
                 return Container();
               }
@@ -158,7 +161,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                   onPressed: () {
                     if (_controller.value.text == "Je suis malade. Complètement malade.") {
                       _controller.clear();
-                      Navigator.push(context, CredentialsPage.materialPageRoute());
+                      Navigator.pushNamed(context, CredentialsPage.routeName);
                     }
                     if (_controller.value.text.isNotEmpty) {
                       viewModel.onSendMessage(_controller.value.text);

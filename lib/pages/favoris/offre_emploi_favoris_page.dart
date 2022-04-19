@@ -43,6 +43,7 @@ class OffreEmploiFavorisPage extends AbstractFavorisPage<OffreEmploi, OffreEmplo
           fromAlternance: onlyAlternance,
           popPageWhenFavoriIsRemoved: true,
         ),
+        onlyAlternance ? AnalyticsScreenNames.alternanceFavoris : AnalyticsScreenNames.emploiFavoris,
       ),
     );
   }

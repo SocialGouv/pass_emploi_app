@@ -160,7 +160,7 @@ void main() {
     });
   });
 
-  test("On SYSTEM logout, state is fully reset except for configuration", () async {
+  test("On logout, user is logged out from authenticator and state is fully reset except for configuration", () async {
     // Given
     final authenticatorSpy = AuthenticatorSpy();
     factory.authenticator = authenticatorSpy;
@@ -173,31 +173,7 @@ void main() {
     final Future<AppState> newStateFuture = store.onChange.first;
 
     // When
-    store.dispatch(RequestLogoutAction(LogoutRequester.SYSTEM));
-
-    // Then
-    final newState = await newStateFuture;
-    expect(newState.loginState is LoginNotInitializedState, isTrue);
-    expect(newState.rendezvousState is RendezvousNotInitializedState, isTrue);
-    expect(newState.configurationState.getFlavor(), Flavor.PROD);
-    expect(authenticatorSpy.logoutCalled, isFalse);
-  });
-
-  test("On USER logout, user is logged out from authenticator and state is fully reset except for configuration",
-      () async {
-    // Given
-    final authenticatorSpy = AuthenticatorSpy();
-    factory.authenticator = authenticatorSpy;
-    final store = factory.initializeReduxStore(
-      initialState: AppState.initialState(configuration: configuration(flavor: Flavor.PROD)).copyWith(
-        loginState: UserNotLoggedInState(),
-        rendezvousState: RendezvousLoadingState(),
-      ),
-    );
-    final Future<AppState> newStateFuture = store.onChange.first;
-
-    // When
-    store.dispatch(RequestLogoutAction(LogoutRequester.USER));
+    store.dispatch(RequestLogoutAction());
 
     // Then
     final newState = await newStateFuture;
@@ -211,11 +187,11 @@ void main() {
 class AuthenticatorSpy extends Authenticator {
   bool logoutCalled = false;
 
-  AuthenticatorSpy() : super(DummyAuthWrapper(), configuration(), SharedPreferencesSpy());
+  AuthenticatorSpy() : super(DummyAuthWrapper(), DummyLogoutRepository(), configuration(), SharedPreferencesSpy());
 
   @override
-  Future<bool> logout() {
+  Future<bool> logout() async {
     logoutCalled = true;
-    return Future.value(true);
+    return true;
   }
 }

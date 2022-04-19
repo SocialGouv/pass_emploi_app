@@ -1,11 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
-import 'package:pass_emploi_app/auth/auth_logout_request.dart';
 import 'package:pass_emploi_app/auth/auth_refresh_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 
+import '../doubles/dummies.dart';
 import '../doubles/fixtures.dart';
 import '../doubles/spies.dart';
 import '../doubles/stubs.dart';
@@ -18,7 +18,7 @@ void main() {
   setUp(() {
     authWrapperStub = AuthWrapperStub();
     prefs = SharedPreferencesSpy();
-    authenticator = Authenticator(authWrapperStub, configuration(), prefs);
+    authenticator = Authenticator(authWrapperStub, DummyLogoutRepository(), configuration(), prefs);
   });
 
   group('Login tests', () {
@@ -195,10 +195,9 @@ void main() {
   });
 
   group('Logout tests', () {
-    test('TRUE is returned and tokens are deleted when user was logged in and logout is successful', () async {
+    test('TRUE is returned and tokens are deleted when user was logged in', () async {
       // Given
       authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
-      authWrapperStub.withLogoutArgsResolves(_authLogoutRequest());
       await authenticator.login(AuthenticationMode.GENERIC);
 
       // When
@@ -209,22 +208,8 @@ void main() {
       expect(await authenticator.isLoggedIn(), false);
     });
 
-    test('FALSE is returned if user was logged in but logout fails', () async {
-      // Given user not logged in and…
-      authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
-      authWrapperStub.withLogoutArgsThrows();
-      await authenticator.login(AuthenticationMode.GENERIC);
-
-      // When
-      final result = await authenticator.logout();
-
-      // Then
-      expect(result, isFalse);
-    });
-
     test('FALSE is returned if user was not logged in', () async {
-      // Given user not logged in and…
-      authWrapperStub.withLogoutArgsResolves(_authLogoutRequest());
+      // Given user not logged in
 
       // When
       final result = await authenticator.logout();
@@ -345,14 +330,6 @@ AuthRefreshTokenRequest _authRefreshTokenRequest() {
     configuration().authIssuer,
     'refreshToken',
     configuration().authClientSecret,
-  );
-}
-
-AuthLogoutRequest _authLogoutRequest() {
-  return AuthLogoutRequest(
-    "idToken",
-    configuration().authLogoutRedirectUrl,
-    configuration().authIssuer,
   );
 }
 

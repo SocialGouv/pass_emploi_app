@@ -14,11 +14,7 @@ import 'package:pass_emploi_app/widgets/onboarding_background.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class CejInformationPage extends StatefulWidget {
-  static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => CejInformationPage());
-  }
-
-  CejInformationPage({Key? key}) : super(key: key);
+  static const routeName = "/entree/information";
 
   @override
   State<CejInformationPage> createState() => _CejInformationPageState();
@@ -57,7 +53,7 @@ class _CejInformationPageState extends State<CejInformationPage> {
                       _backButton(context),
                       Spacer(),
                       InkWell(
-                        onTap: () => Navigator.push(context, ChoixOrganismePage.materialPageRoute()),
+                        onTap: () => Navigator.pushNamed(context, ChoixOrganismePage.routeName),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                             vertical: Margins.spacing_s,
@@ -92,7 +88,7 @@ class _CejInformationPageState extends State<CejInformationPage> {
                           curve: Curves.linearToEaseOut,
                         );
                       } else {
-                        Navigator.push(context, ChoixOrganismePage.materialPageRoute());
+                        Navigator.pushNamed(context, ChoixOrganismePage.routeName);
                       }
                     },
                   ),

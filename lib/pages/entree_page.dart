@@ -10,11 +10,11 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class EntreePage extends TraceableStatelessWidget {
   static const minimum_height_to_see_jeune_face = 656;
@@ -86,12 +86,12 @@ class EntreePage extends TraceableStatelessWidget {
       children: [
         PrimaryActionButton(
           label: Strings.loginAction,
-          onPressed: () => Navigator.push(context, LoginPage.materialPageRoute()),
+          onPressed: () => Navigator.pushNamed(context, LoginPage.routeName),
         ),
         SizedBox(height: Margins.spacing_base),
         SecondaryButton(
           label: Strings.askAccount,
-          onPressed: () => Navigator.push(context, CejInformationPage.materialPageRoute()),
+          onPressed: () => Navigator.pushNamed(context, CejInformationPage.routeName),
         ),
         SepLine(Margins.spacing_base, 0),
         Theme(
@@ -132,7 +132,7 @@ class Link extends StatelessWidget {
       child: InkWell(
         onTap: () {
           MatomoTracker.trackOutlink(link);
-          launch(link);
+          launchExternalUrl(link);
         },
         child: Wrap(
           crossAxisAlignment: WrapCrossAlignment.end,

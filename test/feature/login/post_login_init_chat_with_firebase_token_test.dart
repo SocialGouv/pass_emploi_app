@@ -147,7 +147,7 @@ void main() {
 }
 
 class _FirebaseAuthRepositorySuccessStub extends FirebaseAuthRepository {
-  _FirebaseAuthRepositorySuccessStub() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  _FirebaseAuthRepositorySuccessStub() : super("", DummyHttpClient());
 
   @override
   Future<FirebaseAuthResponse?> getFirebaseAuth(String userId) async {

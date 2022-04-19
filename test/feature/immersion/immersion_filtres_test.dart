@@ -80,7 +80,7 @@ Store<AppState> _initializeReduxStore(TestStoreFactory testStoreFactory) {
 }
 
 class ImmersionRepositorySuccessWithMoreDataMock extends ImmersionRepository {
-  ImmersionRepositorySuccessWithMoreDataMock() : super("", DummyHttpClient(), DummyHeadersBuilder());
+  ImmersionRepositorySuccessWithMoreDataMock() : super("", DummyHttpClient());
 
   bool wasCalledWithFiltres = false;
 

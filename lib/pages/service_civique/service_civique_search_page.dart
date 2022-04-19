@@ -37,7 +37,11 @@ class _ServiceCiviqueSearchPageState extends State<ServiceCiviqueSearchPage> {
         if (newViewModel.displayState == DisplayState.CONTENT) {
           if (_shouldNavigate) {
             _shouldNavigate = false;
-            widget.pushAndTrackBack(context, MaterialPageRoute(builder: (context) => ServiceCiviqueListPage()));
+            widget.pushAndTrackBack(
+              context,
+              MaterialPageRoute(builder: (context) => ServiceCiviqueListPage()),
+              AnalyticsScreenNames.serviceCiviqueResearch,
+            );
           }
         }
       },

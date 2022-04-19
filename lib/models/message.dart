@@ -4,13 +4,15 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 
 enum Sender { jeune, conseiller }
+enum MessageType { message, nouveauConseiller, inconnu }
 
 class Message extends Equatable {
   final String content;
   final DateTime creationDate;
   final Sender sentBy;
+  final MessageType type;
 
-  Message(this.content, this.creationDate, this.sentBy);
+  Message(this.content, this.creationDate, this.sentBy, this.type);
 
   static Message? fromJson(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
     final creationDateValue = json['creationDate'];
@@ -21,6 +23,7 @@ class Message extends Equatable {
       content,
       creationDate,
       json['sentBy'] as String == 'jeune' ? Sender.jeune : Sender.conseiller,
+      _type(json),
     );
   }
 
@@ -41,6 +44,24 @@ class Message extends Equatable {
     }
   }
 
+  static MessageType _type(dynamic json) {
+    // We MUST try-catch the retrieval of type attribute.
+    // Because Firebase object throws a StateError when attempting to get an absent value.
+    try {
+      final type = json['type'] as String;
+      switch (type) {
+        case "MESSAGE":
+          return MessageType.message;
+        case "NOUVEAU_CONSEILLER":
+          return MessageType.nouveauConseiller;
+        default:
+          return MessageType.inconnu;
+      }
+    } catch (e) {
+      return MessageType.message;
+    }
+  }
+
   @override
-  List<Object?> get props => [content, creationDate, sentBy];
+  List<Object?> get props => [content, creationDate, sentBy, type];
 }
