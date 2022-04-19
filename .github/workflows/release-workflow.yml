@@ -12,9 +12,20 @@ on:
         default: 'both'
         type: choice
         options:
-          - both
-          - iOS
-          - Android
+          - 'both'
+          - 'iOS'
+          - 'Android'
+  #workflow_dispatch:
+  #  inputs:
+  #    target:
+  #      description: 'App(s) to build'
+  #      required: true
+  #      default: 'both'
+  #      type: choice
+  #      options:
+  #        - both
+  #        - iOS
+  #        - Android
 
 jobs:
   printInputs:
