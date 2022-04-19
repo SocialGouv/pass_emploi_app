@@ -31,6 +31,7 @@ dependencies:
   collection: '1.15.0'
   equatable: '2.0.3'
   logger: '1.1.0'
+  uuid: '3.0.6'
   # Firebase
   firebase_core: '1.10.6'
   firebase_crashlytics: '2.4.4'
