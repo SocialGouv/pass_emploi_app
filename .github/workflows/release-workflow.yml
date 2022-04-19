@@ -4,8 +4,25 @@ on:
   push:
     tags:
       - '*'
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'App(s) to build'
+        required: true
+        default: 'both'
+        type: choice
+        options:
+          - both
+          - iOS
+          - Android
 
 jobs:
+  printInputs:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Target: ${{ github.event.inputs.target }}"
+
   test:
     runs-on: ubuntu-latest
     steps:
@@ -32,6 +49,7 @@ jobs:
 
 
   build-android-prod:
+    if: ${{ github.event.inputs.target == 'both' || github.event.inputs.target == 'Android'}}
     runs-on: ubuntu-latest
     needs: pre-build
     steps:
@@ -88,6 +106,7 @@ jobs:
           status: completed
 
   build-ios-prod:
+    if: ${{ github.event.inputs.target == 'both' || github.event.inputs.target == 'iOS'}}
     runs-on: macos-11
     needs: pre-build
     steps:
