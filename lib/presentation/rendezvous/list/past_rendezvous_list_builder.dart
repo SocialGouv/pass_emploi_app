@@ -38,10 +38,13 @@ class PastRendezVousListBuilder implements RendezVousListBuilder {
   String? makeEmptySubtitleLabel() => null;
 
   @override
+  bool withNextRendezvousButton() => false;
+
+  @override
   String makeAnalyticsLabel() => AnalyticsScreenNames.rendezvousListPast;
 
   @override
-  List<RendezVousItem> rendezvousItems() {
+  List<RendezvousItem> rendezvousItems() {
     final rendezvousState = _rendezvousState;
     if (rendezvousState is! RendezvousSuccessState) return [];
 

@@ -140,13 +140,13 @@ class _Content extends StatelessWidget {
               separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
               itemBuilder: (context, index) {
                 final rdvItem = viewModel.rendezvousItems[index];
-                if (rdvItem is RendezVousCardItem) {
+                if (rdvItem is RendezvousCardItem) {
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: RendezvousCard(rendezvousId: rdvItem.id, onTap: () => onTap(rdvItem.id)),
                   );
                 }
-                if (rdvItem is RendezVousDivider) return _DayDivider(rdvItem.label);
+                if (rdvItem is RendezvousDivider) return _DayDivider(rdvItem.label);
                 return Container();
               },
             ),
@@ -245,7 +245,7 @@ class _DateHeader extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
-          if (viewModel.withPreviousButton)
+          if (viewModel.withPreviousPageButton)
             SecondaryIconButton(
               drawableRes: Drawables.icChevronLeft,
               iconColor: AppColors.primary,
@@ -254,7 +254,7 @@ class _DateHeader extends StatelessWidget {
                 onPageOffsetChanged(-1);
               },
             ),
-          if (!viewModel.withPreviousButton) SizedBox(width: 59),
+          if (!viewModel.withPreviousPageButton) SizedBox(width: 59),
           Expanded(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -273,7 +273,7 @@ class _DateHeader extends StatelessWidget {
               ],
             ),
           ),
-          if (viewModel.withNextButton)
+          if (viewModel.withNextPageButton)
             SecondaryIconButton(
               drawableRes: Drawables.icChevronRight,
               iconColor: AppColors.primary,
@@ -282,7 +282,7 @@ class _DateHeader extends StatelessWidget {
                 onPageOffsetChanged(1);
               },
             ),
-          if (!viewModel.withNextButton) SizedBox(width: 59),
+          if (!viewModel.withNextPageButton) SizedBox(width: 59),
         ],
       ),
     );

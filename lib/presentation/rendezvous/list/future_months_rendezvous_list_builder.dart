@@ -29,10 +29,13 @@ class FutureMonthsRendezVousListBuilder implements RendezVousListBuilder {
   String? makeEmptySubtitleLabel() => null;
 
   @override
+  bool withNextRendezvousButton() => false;
+
+  @override
   String makeAnalyticsLabel() => AnalyticsScreenNames.rendezvousListFuture;
 
   @override
-  List<RendezVousItem> rendezvousItems() {
+  List<RendezvousItem> rendezvousItems() {
     final rendezvousState = _rendezvousState;
     if (rendezvousState is! RendezvousSuccessState) return [];
 
