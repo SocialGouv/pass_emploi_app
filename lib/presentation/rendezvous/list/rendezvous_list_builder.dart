@@ -19,9 +19,11 @@ abstract class RendezVousListBuilder {
 
   String? makeEmptySubtitleLabel();
 
+  int? nextRendezvousPageOffset();
+
   String makeAnalyticsLabel();
 
-  List<RendezVousItem> rendezvousItems();
+  List<RendezvousItem> rendezvousItems();
 
   factory RendezVousListBuilder.create(
     RendezvousState rendezvousState,
@@ -82,20 +84,20 @@ extension RendezvousIterableExtension on Iterable<Rendezvous> {
     return where((element) => element.date.isAfter(firstDay));
   }
 
-  List<RendezVousItem> groupedItems({bool displayCount = false, required String Function(Rendezvous) groupedBy}) {
+  List<RendezvousItem> groupedItems({bool displayCount = false, required String Function(Rendezvous) groupedBy}) {
     final groupedRendezvous = groupListsBy(groupedBy);
     return groupedRendezvous.keys
         .map((date) => [
               _divider(displayCount, date, groupedRendezvous),
-              ...groupedRendezvous[date]!.map((e) => RendezVousCardItem(e.id)).toList(),
+              ...groupedRendezvous[date]!.map((e) => RendezvousCardItem(e.id)).toList(),
             ])
         .flattened
         .toList();
   }
 }
 
-RendezVousDivider _divider(bool displayCount, String date, Map<String, List<Rendezvous>> groupedRendezvous) {
+RendezvousDivider _divider(bool displayCount, String date, Map<String, List<Rendezvous>> groupedRendezvous) {
   final dateLabel = date.firstLetterUpperCased();
   final dividerLabel = displayCount ? "$dateLabel (${groupedRendezvous[date]!.length})" : dateLabel;
-  return RendezVousDivider(dividerLabel);
+  return RendezvousDivider(dividerLabel);
 }

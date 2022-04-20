@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
@@ -5,6 +7,9 @@ import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_bui
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_view_model.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
+
+const int _daysInAWeek = 7;
+const int _maxPageOffset = 5;
 
 class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
   final RendezvousState _rendezvousState;
@@ -27,13 +32,13 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
   String makeEmptyLabel() {
     final rendezvousState = _rendezvousState;
     if (rendezvousState is RendezvousSuccessState && rendezvousState.rendezvous.isEmpty) return Strings.noRendezYet;
-    if (rendezvousState is RendezvousSuccessState && _haveRendezVousPreviousThisWeek(rendezvousState.rendezvous)) {
+    if (rendezvousState is RendezvousSuccessState && _haveRendezvousPreviousThisWeek(rendezvousState.rendezvous)) {
       return Strings.noMoreRendezVousThisWeek;
     }
     return Strings.noRendezVousCetteSemaineTitre;
   }
 
-  bool _haveRendezVousPreviousThisWeek(List<Rendezvous> rendezvous) {
+  bool _haveRendezvousPreviousThisWeek(List<Rendezvous> rendezvous) {
     return rendezvous.any((element) {
       return element.date.isAfter(_now.toMondayOnThisWeek()) && element.date.isBefore(_now);
     });
@@ -49,10 +54,30 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
   }
 
   @override
+  int? nextRendezvousPageOffset() {
+    final state = _rendezvousState;
+    final List<Rendezvous> rendezvous = state is RendezvousSuccessState ? state.rendezvous : [];
+    final sortedRendezvous = rendezvous.sortedFromRecentToFuture();
+    final currentWeekRendezvous = sortedRendezvous.filteredFromTodayToSunday(_now);
+    final futureRendezvous = sortedRendezvous.where((rdv) => rdv.date.isAfter(_now));
+    if (currentWeekRendezvous.isEmpty && futureRendezvous.isNotEmpty) {
+      return _futureRendezvousPageOffset(futureRendezvous.first);
+    } else {
+      return null;
+    }
+  }
+
+  int _futureRendezvousPageOffset(Rendezvous futureRendezvous) {
+    final nextMonday = _now.toMondayOnNextWeek();
+    final differenceInDays = nextMonday.difference(futureRendezvous.date).abs().inDays;
+    return min(1 + differenceInDays ~/ _daysInAWeek, _maxPageOffset);
+  }
+
+  @override
   String makeAnalyticsLabel() => AnalyticsScreenNames.rendezvousListWeek + _pageOffset.toString();
 
   @override
-  List<RendezVousItem> rendezvousItems() {
+  List<RendezvousItem> rendezvousItems() {
     final rendezvousState = _rendezvousState;
     if (rendezvousState is! RendezvousSuccessState) return [];
 
