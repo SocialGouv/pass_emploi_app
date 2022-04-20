@@ -41,7 +41,6 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
     );
   }
 
-  // todo actuellement les chevrons sont cachés plutôt que d'être non cliquable. Cacher Ou Désactiver ?
   Widget _builder(BuildContext context, RendezvousListViewModel viewModel) {
     MatomoTracker.trackScreenWithName(viewModel.analyticsLabel, viewModel.analyticsLabel);
     return _Scaffold(
