@@ -13,6 +13,7 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_icon_button.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
@@ -40,9 +41,7 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
     );
   }
 
-  // todo cette semaine offset 0 en bleu
   // todo actuellement les chevrons sont cachés plutôt que d'être non cliquable. Cacher Ou Désactiver ?
-
   Widget _builder(BuildContext context, RendezvousListViewModel viewModel) {
     MatomoTracker.trackScreenWithName(viewModel.analyticsLabel, viewModel.analyticsLabel);
     return _Scaffold(
@@ -51,6 +50,11 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
         onPageOffsetChanged: (i) {
           setState(() {
             _pageOffset = _pageOffset + i;
+          });
+        },
+        onNextRendezvousButtonTap: () {
+          setState(() {
+            _pageOffset = viewModel.nextRendezvousPageOffset;
           });
         },
         onTap: (rdvId) => widget.pushAndTrackBack(
@@ -89,39 +93,51 @@ class _Scaffold extends StatelessWidget {
 }
 
 class _Body extends StatelessWidget {
-  const _Body({Key? key, required this.viewModel, required this.onPageOffsetChanged, required this.onTap})
-      : super(key: key);
+  const _Body({
+    Key? key,
+    required this.viewModel,
+    required this.onPageOffsetChanged,
+    required this.onNextRendezvousButtonTap,
+    required this.onTap,
+  }) : super(key: key);
 
   final RendezvousListViewModel viewModel;
   final Function(String) onTap;
   final Function(int) onPageOffsetChanged;
+  final Function() onNextRendezvousButtonTap;
 
   @override
   Widget build(BuildContext context) {
     switch (viewModel.displayState) {
       case DisplayState.LOADING:
         return CircularProgressIndicator();
-      case DisplayState.FAILURE:
-        return Retry(Strings.rendezVousError, () => viewModel.onRetry());
-      case DisplayState.EMPTY:
-        return _Empty();
       case DisplayState.CONTENT:
         return _Content(
           viewModel: viewModel,
           onTap: (rdvId) => onTap(rdvId),
           onPageOffsetChanged: onPageOffsetChanged,
+          onNextRendezvousButtonTap: onNextRendezvousButtonTap,
         );
+      case DisplayState.FAILURE:
+      default:
+        return Retry(Strings.rendezVousError, () => viewModel.onRetry());
     }
   }
 }
 
 class _Content extends StatelessWidget {
-  const _Content({Key? key, required this.viewModel, required this.onTap, required this.onPageOffsetChanged})
-      : super(key: key);
+  const _Content({
+    Key? key,
+    required this.viewModel,
+    required this.onTap,
+    required this.onPageOffsetChanged,
+    required this.onNextRendezvousButtonTap,
+  }) : super(key: key);
 
   final RendezvousListViewModel viewModel;
   final Function(String) onTap;
   final Function(int) onPageOffsetChanged;
+  final Function() onNextRendezvousButtonTap;
 
   @override
   Widget build(BuildContext context) {
@@ -131,7 +147,12 @@ class _Content extends StatelessWidget {
       children: [
         _DateHeader(viewModel: viewModel, onPageOffsetChanged: onPageOffsetChanged),
         if (viewModel.rendezvousItems.isEmpty)
-          _EmptyWeek(title: viewModel.emptyLabel, subtitle: viewModel.emptySubtitleLabel),
+          _EmptyWeek(
+            title: viewModel.emptyLabel,
+            subtitle: viewModel.emptySubtitleLabel,
+            withNextRendezvousButton: viewModel.withNextRendezvousButton,
+            onNextRendezvousButtonTap: onNextRendezvousButtonTap,
+          ),
         if (viewModel.rendezvousItems.isNotEmpty)
           Expanded(
             child: ListView.separated(
@@ -159,8 +180,15 @@ class _Content extends StatelessWidget {
 class _EmptyWeek extends StatelessWidget {
   final String title;
   final String? subtitle;
+  final bool withNextRendezvousButton;
+  final Function() onNextRendezvousButtonTap;
 
-  _EmptyWeek({required this.title, required this.subtitle});
+  _EmptyWeek({
+    required this.title,
+    required this.subtitle,
+    required this.withNextRendezvousButton,
+    required this.onNextRendezvousButtonTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -178,6 +206,11 @@ class _EmptyWeek extends StatelessWidget {
                   SepLine(Margins.spacing_s, Margins.spacing_s),
                   Text(subtitle ?? "", style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
                 ],
+                if (withNextRendezvousButton)
+                  Padding(
+                    padding: const EdgeInsets.only(top: Margins.spacing_base),
+                    child: PrimaryActionButton(onPressed: onNextRendezvousButtonTap, label: Strings.goToNextRendezvous),
+                  ),
               ],
             ),
           ),
@@ -216,18 +249,6 @@ class _DayDivider extends StatelessWidget {
           color: AppColors.contentColor,
         ),
       ],
-    );
-  }
-}
-
-class _Empty extends StatelessWidget {
-  const _Empty({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(Margins.spacing_base),
-      child: Text(Strings.noUpcomingRendezVous, style: TextStyles.textSRegular()),
     );
   }
 }
