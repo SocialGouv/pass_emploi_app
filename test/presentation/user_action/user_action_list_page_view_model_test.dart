@@ -1,4 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
@@ -12,6 +14,8 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 import '../../doubles/fixtures.dart';
+import '../../doubles/spies.dart';
+import '../../utils/test_setup.dart';
 
 void main() {
   test('create when action state is loading should display loader', () {
@@ -61,7 +65,7 @@ void main() {
 
   test('retry, after view model was created with failure, should dispatch a RequestUserActionsAction', () {
     // Given
-    final storeSpy = StoreSpy();
+    final storeSpy = LocalStoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
       initialState: loggedInState().copyWith(userActionListState: UserActionListFailureState()),
@@ -186,9 +190,41 @@ void main() {
     }
   });
 
+  test('create when action state is success and coming from deeplink', () {
+    // Given
+    final store = TestStoreFactory().initializeReduxStore(
+      initialState: loggedInState().copyWith(
+        deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_ACTION, DateTime.now(), 'id'),
+        userActionListState: UserActionListSuccessState([_userAction(status: UserActionStatus.NOT_STARTED)]),
+      ),
+    );
+
+    // When
+    final viewModel = UserActionListPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.actionDetails?.id, 'id');
+  });
+
+  test('return isNull when action state is success and coming from deeplink but ID is not valid anymore', () {
+    // Given
+    final store = TestStoreFactory().initializeReduxStore(
+      initialState: loggedInState().copyWith(
+        deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_ACTION, DateTime.now(), '1'),
+        userActionListState: UserActionListSuccessState([_userAction(status: UserActionStatus.NOT_STARTED)]),
+      ),
+    );
+
+    // When
+    final viewModel = UserActionListPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.actionDetails?.id, isNull);
+  });
+
   test('onUserActionDetailsDismissed should dispatch DismissUserActionDetailsAction', () {
     // Given
-    final storeSpy = StoreSpy();
+    final storeSpy = LocalStoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
       initialState: loggedInState(),
@@ -205,7 +241,7 @@ void main() {
 
   test('onCreateUserActionDismissed should dispatch DismissCreateUserAction', () {
     // Given
-    final storeSpy = StoreSpy();
+    final storeSpy = LocalStoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
       initialState: loggedInState(),
@@ -217,6 +253,19 @@ void main() {
 
     // Then
     expect(storeSpy.calledWithResetCreate, true);
+  });
+
+  test('onDeeplinkUsed should trigger ResetDeeplinkAction', () {
+    // Given
+    final store = StoreSpy();
+
+    final viewModel = UserActionListPageViewModel.create(store);
+
+    // When
+    viewModel.onDeeplinkUsed();
+
+    // Then
+    expect(store.dispatchedAction, isA<ResetDeeplinkAction>());
   });
 }
 
@@ -231,7 +280,7 @@ UserAction _userAction({required UserActionStatus status}) {
   );
 }
 
-class StoreSpy {
+class LocalStoreSpy {
   var calledWithRetry = false;
   var calledWithUpdate = false;
   var calledWithResetUpdate = false;
@@ -247,3 +296,4 @@ class StoreSpy {
     return currentState;
   }
 }
+

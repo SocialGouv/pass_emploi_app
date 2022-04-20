@@ -51,9 +51,19 @@ class _UserActionListPageState extends State<UserActionListPage> {
       distinct: true,
       onDidChange: (previousViewModel, viewModel) {
         if (_scrollController.hasClients) _scrollController.jumpTo(0);
+        _openDeeplinkIfNeeded(viewModel, context);
       },
       onDispose: (store) => store.dispatch(UserActionListResetAction()),
     );
+  }
+
+  void _openDeeplinkIfNeeded(UserActionListPageViewModel viewModel, BuildContext context) {
+    if (viewModel.actionDetails != null) {
+      showPassEmploiBottomSheet(
+        context: context,
+        builder: (context) => UserActionDetailsBottomSheet(viewModel.actionDetails!));
+      viewModel.onDeeplinkUsed();
+    }
   }
 
   Widget _scaffold(BuildContext context, UserActionListPageViewModel viewModel) {
