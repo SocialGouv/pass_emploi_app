@@ -17,8 +17,7 @@ class RendezvousListViewModel extends Equatable {
   final Function() onDeeplinkUsed;
   final bool withPreviousPageButton;
   final bool withNextPageButton;
-  final bool withNextRendezvousButton;
-  final int nextRendezvousPageOffset;
+  final int? nextRendezvousPageOffset;
   final String title;
   final String dateLabel;
   final String emptyLabel;
@@ -34,7 +33,6 @@ class RendezvousListViewModel extends Equatable {
     required this.onDeeplinkUsed,
     required this.withPreviousPageButton,
     required this.withNextPageButton,
-    required this.withNextRendezvousButton,
     required this.nextRendezvousPageOffset,
     required this.title,
     required this.dateLabel,
@@ -57,7 +55,6 @@ class RendezvousListViewModel extends Equatable {
       dateLabel: builder.makeDateLabel(),
       withPreviousPageButton: RendezVousListBuilder.hasPreviousPage(pageOffset, rendezvousState, now),
       withNextPageButton: RendezVousListBuilder.hasNextPage(pageOffset, rendezvousState, now),
-      withNextRendezvousButton: builder.withNextRendezvousButton(),
       nextRendezvousPageOffset: builder.nextRendezvousPageOffset(),
       emptyLabel: builder.makeEmptyLabel(),
       emptySubtitleLabel: builder.makeEmptySubtitleLabel(),
@@ -74,7 +71,6 @@ class RendezvousListViewModel extends Equatable {
         deeplinkRendezvousId,
         withPreviousPageButton,
         withNextPageButton,
-        withNextRendezvousButton,
         nextRendezvousPageOffset,
       ];
 }

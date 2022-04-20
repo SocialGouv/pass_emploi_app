@@ -31,10 +31,7 @@ class FutureWeekRendezVousListBuilder implements RendezVousListBuilder {
   String? makeEmptySubtitleLabel() => null;
 
   @override
-  bool withNextRendezvousButton() => false;
-
-  @override
-  int nextRendezvousPageOffset() => -1;
+  int? nextRendezvousPageOffset() => null;
 
   @override
   String makeAnalyticsLabel() => AnalyticsScreenNames.rendezvousListWeek + _pageOffset.toString();

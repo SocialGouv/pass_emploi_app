@@ -54,10 +54,7 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
   }
 
   @override
-  bool withNextRendezvousButton() => nextRendezvousPageOffset() != -1;
-
-  @override
-  int nextRendezvousPageOffset() {
+  int? nextRendezvousPageOffset() {
     final state = _rendezvousState;
     final List<Rendezvous> rendezvous = state is RendezvousSuccessState ? state.rendezvous : [];
     final sortedRendezvous = rendezvous.sortedFromRecentToFuture();
@@ -66,7 +63,7 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
     if (currentWeekRendezvous.isEmpty && futureRendezvous.isNotEmpty) {
       return _futureRendezvousPageOffset(futureRendezvous.first);
     } else {
-      return -1;
+      return null;
     }
   }
 

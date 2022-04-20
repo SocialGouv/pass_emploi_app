@@ -19,9 +19,7 @@ abstract class RendezVousListBuilder {
 
   String? makeEmptySubtitleLabel();
 
-  bool withNextRendezvousButton();
-
-  int nextRendezvousPageOffset();
+  int? nextRendezvousPageOffset();
 
   String makeAnalyticsLabel();
 

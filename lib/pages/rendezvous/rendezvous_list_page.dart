@@ -54,7 +54,7 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
         },
         onNextRendezvousButtonTap: () {
           setState(() {
-            _pageOffset = viewModel.nextRendezvousPageOffset;
+            _pageOffset = viewModel.nextRendezvousPageOffset!;
           });
         },
         onTap: (rdvId) => widget.pushAndTrackBack(
@@ -150,7 +150,7 @@ class _Content extends StatelessWidget {
           _EmptyWeek(
             title: viewModel.emptyLabel,
             subtitle: viewModel.emptySubtitleLabel,
-            withNextRendezvousButton: viewModel.withNextRendezvousButton,
+            withNextRendezvousButton: viewModel.nextRendezvousPageOffset != null,
             onNextRendezvousButtonTap: onNextRendezvousButtonTap,
           ),
         if (viewModel.rendezvousItems.isNotEmpty)

@@ -308,13 +308,12 @@ void main() {
     });
 
     group('should handle next rendezvous button…', () {
-      void assertNextRendezvousButtonVisibility({
+      void assertPageOffsetOfNextRendezvous({
         required List<Rendezvous> rendezvous,
         required int pageOffset,
-        required bool expectedVisibility,
-        required int expectedPageOffset,
+        required int? expectedPageOffsetOfNextRendezvous,
       }) {
-        test("${rendezvous.map((e) => e.id)} at page $pageOffset-> $expectedVisibility - $expectedPageOffset", () {
+        test("${rendezvous.map((e) => e.id)} at page $pageOffset-> $expectedPageOffsetOfNextRendezvous", () {
           // Given
           final store = _store(rendezvous);
 
@@ -322,102 +321,89 @@ void main() {
           final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, pageOffset);
 
           // Then
-          expect(viewModel.withNextRendezvousButton, expectedVisibility);
-          expect(viewModel.nextRendezvousPageOffset, expectedPageOffset);
+          expect(viewModel.nextRendezvousPageOffset, expectedPageOffsetOfNextRendezvous);
         });
       }
 
-      assertNextRendezvousButtonVisibility(
+      assertPageOffsetOfNextRendezvous(
         rendezvous: [
           mockRendezvous(id: 'semaine passée 1', date: DateTime(2022, 1, 30, 4, 5, 30)),
           mockRendezvous(id: 'passés lointain 1', date: DateTime(2022, 1, 4, 4, 5, 30)),
         ],
         pageOffset: 0,
-        expectedVisibility: false,
-        expectedPageOffset: -1,
+        expectedPageOffsetOfNextRendezvous: null,
       );
 
-      assertNextRendezvousButtonVisibility(
+      assertPageOffsetOfNextRendezvous(
         rendezvous: [
           mockRendezvous(id: 'cette semaine après-demain 1', date: DateTime(2022, 2, 5, 4, 5, 30)),
           mockRendezvous(id: 'semaine+1 lundi', date: DateTime(2022, 2, 7, 4, 5, 30)),
         ],
         pageOffset: 0,
-        expectedVisibility: false,
-        expectedPageOffset: -1,
+        expectedPageOffsetOfNextRendezvous: null,
       );
 
-      assertNextRendezvousButtonVisibility(
+      assertPageOffsetOfNextRendezvous(
         rendezvous: [mockRendezvous(id: 'semaine+2 lundi', date: DateTime(2022, 2, 14, 4, 5, 30))],
         pageOffset: 1,
-        expectedVisibility: false,
-        expectedPageOffset: -1,
+        expectedPageOffsetOfNextRendezvous: null,
       );
 
-      assertNextRendezvousButtonVisibility(
+      assertPageOffsetOfNextRendezvous(
         rendezvous: [mockRendezvous(id: 'semaine+1 lundi', date: DateTime(2022, 2, 7, 4, 5, 30))],
         pageOffset: 0,
-        expectedVisibility: true,
-        expectedPageOffset: 1,
+        expectedPageOffsetOfNextRendezvous: 1,
       );
 
-      assertNextRendezvousButtonVisibility(
+      assertPageOffsetOfNextRendezvous(
         rendezvous: [
           mockRendezvous(id: 'cette semaine hier', date: DateTime(2022, 2, 2, 4, 5, 30)),
           mockRendezvous(id: 'semaine+1 lundi', date: DateTime(2022, 2, 7, 4, 5, 30)),
         ],
         pageOffset: 0,
-        expectedVisibility: true,
-        expectedPageOffset: 1,
+        expectedPageOffsetOfNextRendezvous: 1,
       );
 
-      assertNextRendezvousButtonVisibility(
+      assertPageOffsetOfNextRendezvous(
         rendezvous: [mockRendezvous(id: 'semaine+2 lundi', date: DateTime(2022, 2, 14, 4, 5, 30))],
         pageOffset: 0,
-        expectedVisibility: true,
-        expectedPageOffset: 2,
+        expectedPageOffsetOfNextRendezvous: 2,
       );
 
-      assertNextRendezvousButtonVisibility(
+      assertPageOffsetOfNextRendezvous(
         rendezvous: [mockRendezvous(id: 'semaine+2 mardi', date: DateTime(2022, 2, 15, 4, 5, 30))],
         pageOffset: 0,
-        expectedVisibility: true,
-        expectedPageOffset: 2,
+        expectedPageOffsetOfNextRendezvous: 2,
       );
 
-      assertNextRendezvousButtonVisibility(
+      assertPageOffsetOfNextRendezvous(
         rendezvous: [mockRendezvous(id: 'semaine+3 lundi', date: DateTime(2022, 2, 21, 4, 5, 30))],
         pageOffset: 0,
-        expectedVisibility: true,
-        expectedPageOffset: 3,
+        expectedPageOffsetOfNextRendezvous: 3,
       );
 
-      assertNextRendezvousButtonVisibility(
+      assertPageOffsetOfNextRendezvous(
         rendezvous: [mockRendezvous(id: 'semaine+4 jeudi', date: DateTime(2022, 3, 3, 4, 5, 30))],
         pageOffset: 0,
-        expectedVisibility: true,
-        expectedPageOffset: 4,
+        expectedPageOffsetOfNextRendezvous: 4,
       );
 
-      assertNextRendezvousButtonVisibility(
+      assertPageOffsetOfNextRendezvous(
         rendezvous: [mockRendezvous(id: 'semaine+4 dimanche', date: DateTime(2022, 3, 6, 4, 5, 30))],
         pageOffset: 0,
-        expectedVisibility: true,
-        expectedPageOffset: 4,
+        expectedPageOffsetOfNextRendezvous: 4,
       );
 
-      assertNextRendezvousButtonVisibility(
+      assertPageOffsetOfNextRendezvous(
         rendezvous: [mockRendezvous(id: 'mois futur lundi 7 mars', date: DateTime(2022, 3, 7, 4, 5, 30))],
         pageOffset: 0,
-        expectedVisibility: true,
-        expectedPageOffset: 5,
+        expectedPageOffsetOfNextRendezvous: 5,
       );
 
-      assertNextRendezvousButtonVisibility(
+      assertPageOffsetOfNextRendezvous(
         rendezvous: [mockRendezvous(id: '2 mois futur mardi 12 avril', date: DateTime(2022, 4, 12, 4, 5, 30))],
         pageOffset: 0,
-        expectedVisibility: true,
-        expectedPageOffset: 5,
+        expectedPageOffsetOfNextRendezvous: 5,
       );
     });
 
