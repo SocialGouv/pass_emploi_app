@@ -21,6 +21,8 @@ abstract class RendezVousListBuilder {
 
   bool withNextRendezvousButton();
 
+  int nextRendezvousPageOffset();
+
   String makeAnalyticsLabel();
 
   List<RendezvousItem> rendezvousItems();

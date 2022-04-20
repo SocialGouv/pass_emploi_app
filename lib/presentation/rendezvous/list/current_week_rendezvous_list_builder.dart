@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
@@ -5,6 +7,9 @@ import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_bui
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_view_model.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
+
+const int _daysInAWeek = 7;
+const int _maxPageOffset = 5;
 
 class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
   final RendezvousState _rendezvousState;
@@ -49,13 +54,26 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
   }
 
   @override
-  bool withNextRendezvousButton() {
+  bool withNextRendezvousButton() => nextRendezvousPageOffset() != -1;
+
+  @override
+  int nextRendezvousPageOffset() {
     final state = _rendezvousState;
     final List<Rendezvous> rendezvous = state is RendezvousSuccessState ? state.rendezvous : [];
     final sortedRendezvous = rendezvous.sortedFromRecentToFuture();
     final currentWeekRendezvous = sortedRendezvous.filteredFromTodayToSunday(_now);
     final futureRendezvous = sortedRendezvous.where((rdv) => rdv.date.isAfter(_now));
-    return currentWeekRendezvous.isEmpty && futureRendezvous.isNotEmpty;
+    if (currentWeekRendezvous.isEmpty && futureRendezvous.isNotEmpty) {
+      return _futureRendezvousPageOffset(futureRendezvous.first);
+    } else {
+      return -1;
+    }
+  }
+
+  int _futureRendezvousPageOffset(Rendezvous futureRendezvous) {
+    final nextMonday = _now.toMondayOnNextWeek();
+    final differenceInDays = nextMonday.difference(futureRendezvous.date).abs().inDays;
+    return min(1 + differenceInDays ~/ _daysInAWeek, _maxPageOffset);
   }
 
   @override

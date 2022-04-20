@@ -18,6 +18,7 @@ class RendezvousListViewModel extends Equatable {
   final bool withPreviousPageButton;
   final bool withNextPageButton;
   final bool withNextRendezvousButton;
+  final int nextRendezvousPageOffset;
   final String title;
   final String dateLabel;
   final String emptyLabel;
@@ -34,6 +35,7 @@ class RendezvousListViewModel extends Equatable {
     required this.withPreviousPageButton,
     required this.withNextPageButton,
     required this.withNextRendezvousButton,
+    required this.nextRendezvousPageOffset,
     required this.title,
     required this.dateLabel,
     required this.emptyLabel,
@@ -56,6 +58,7 @@ class RendezvousListViewModel extends Equatable {
       withPreviousPageButton: RendezVousListBuilder.hasPreviousPage(pageOffset, rendezvousState, now),
       withNextPageButton: RendezVousListBuilder.hasNextPage(pageOffset, rendezvousState, now),
       withNextRendezvousButton: builder.withNextRendezvousButton(),
+      nextRendezvousPageOffset: builder.nextRendezvousPageOffset(),
       emptyLabel: builder.makeEmptyLabel(),
       emptySubtitleLabel: builder.makeEmptySubtitleLabel(),
       analyticsLabel: builder.makeAnalyticsLabel(),
@@ -63,7 +66,8 @@ class RendezvousListViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         pageOffset,
         displayState,
         rendezvousItems,
@@ -71,6 +75,7 @@ class RendezvousListViewModel extends Equatable {
         withPreviousPageButton,
         withNextPageButton,
         withNextRendezvousButton,
+        nextRendezvousPageOffset,
       ];
 }
 
