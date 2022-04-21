@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_rep
 
 class PassEmploiCacheManager extends CacheManager {
   static const String cacheKey = "PassEmploiCacheKey";
+  static const Duration cacheDuration = Duration(minutes: 20);
 
   PassEmploiCacheManager(Config config) : super(config);
 

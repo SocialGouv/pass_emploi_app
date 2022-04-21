@@ -51,7 +51,7 @@ void main() {
   test("when call is a GET, should use cache", () async {
     // Given
     final networkClient = StubSuccessHttpClient();
-    final cacheManager = FullCacheMock();
+    final cacheManager = FullCacheMock(DateTime.now());
     final clientWithCache = HttpClientWithCache(cacheManager, networkClient);
 
     // When
@@ -90,14 +90,29 @@ class StubSuccessHttpClient extends BaseClient {
 }
 
 class FullCacheMock extends PassEmploiCacheManager {
-  FullCacheMock() : super(DummyConfig());
+  final DateTime? validUntill;
+
+  FullCacheMock([this.validUntill]) : super(DummyConfig());
 
   @override
-  Future<FileInfo?> getFileFromCache(String key, {bool ignoreMemCache = false}) async {
+  Future<FileInfo?> getFileFromCache(
+    String key, {
+    bool ignoreMemCache = false,
+  }) async {
     return FileInfo(
       MockFile(),
       FileSource.Online,
-      DateTime.now().add(Duration(days: 1)),
+      validUntill ?? DateTime.now().add(Duration(days: 1)),
+      "je suis un url",
+    );
+  }
+
+  @override
+  Future<FileInfo> downloadFile(String url, {String? key, Map<String, String>? authHeaders, bool force = false}) async {
+    return FileInfo(
+      MockFile(),
+      FileSource.Online,
+      validUntill ?? DateTime.now().add(Duration(days: 1)),
       "je suis un url",
     );
   }

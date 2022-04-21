@@ -1,8 +1,11 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
+
+final Duration defaultCacheDuration = Duration(days: 7);
 
 class HttpClientWithCache extends BaseClient {
   final PassEmploiCacheManager cacheManager;
@@ -60,14 +63,24 @@ class HttpClientWithCache extends BaseClient {
     final stringUrl = request.url.toString();
     if (request.method == "GET" && stringUrl.isWhitelisted()) {
       final fileFromCache = await cacheManager.getFileFromCache(stringUrl);
-      if (fileFromCache != null && await fileFromCache.file.exists()) {
+      if (fileFromCache != null &&
+          await fileFromCache.file.exists() &&
+          _isStillUpToDate(fileFromCache)) {
         return StreamedResponse(fileFromCache.file.openRead(), 200);
       } else {
-        final response = await cacheManager.getSingleFile(stringUrl, headers: request.headers);
-        return StreamedResponse(response.openRead(), 200);
+        final response = await cacheManager.downloadFile(stringUrl, key: stringUrl, authHeaders: request.headers);
+        return StreamedResponse(response.file.openRead(), 200);
       }
     }
     return httpClient.send(request);
+  }
+
+  bool _isStillUpToDate(FileInfo file) {
+    // The lib set a default value to 7-days cache when there isn't cache-control headers in our HTTP responses.
+    // And our backend do not set these headers.
+    // In future : directly use `getSingleFile` without checking date.
+    final now = DateTime.now().add(defaultCacheDuration).subtract(PassEmploiCacheManager.cacheDuration);
+    return file.validTill.isAfter(now);
   }
 }
 
