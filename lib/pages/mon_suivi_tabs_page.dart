@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_list_page.dart';
 import 'package:pass_emploi_app/pages/user_action_list_page.dart';
 import 'package:pass_emploi_app/pages/user_action_pe_list_page.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_tab_bar.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
 
 enum MonSuiviTab { ACTIONS, RENDEZVOUS }
 
@@ -22,30 +22,32 @@ class MonSuiviTabPage extends StatelessWidget {
       length: _getTabTitles().length,
       child: Scaffold(
         backgroundColor: AppColors.grey100,
-        body: CustomScrollView(
-          slivers: [
-            SliverAppBar(
-              pinned: false,
-              snap: true,
-              floating: true,
-              expandedHeight: 40.0,
-              backgroundColor: AppColors.grey100,
-              flexibleSpace: FlexibleSpaceBar(
-                title: Text(Strings.monSuiviAppBarTitle, style: TextStyles.textAppBar),
-                centerTitle: true,
-              ),
-            ),
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: PersistentHeader(widget: _getBody()),
-            ),
-          ],
+        body: SafeArea(
+          child: NestedScrollView(
+              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+                return [
+                  SliverAppBar(
+                    pinned: false,
+                    snap: true,
+                    floating: true,
+                    expandedHeight: 40.0,
+                    backgroundColor: AppColors.grey100,
+                    flexibleSpace: FlexibleSpaceBar(
+                      title: Text(Strings.monSuiviAppBarTitle, style: TextStyles.textAppBar),
+                      centerTitle: true,
+                    ),
+                  ),
+                ];
+              },
+              body: _getBody(),
+          ),
         ),
       ),
     );
   }
 
-  List<String> _getTabTitles() => [
+  List<String> _getTabTitles() =>
+      [
         isPoleEmploiLogin ? Strings.demarcheTabTitle : Strings.actionsTabTitle,
         Strings.rendezvousTabTitle,
       ];
@@ -78,22 +80,14 @@ class PersistentHeader extends SliverPersistentHeaderDelegate {
 
   @override
   Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return SizedBox(
-      width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.84,
-      child: Card(
-        margin: EdgeInsets.all(0),
-        color: Colors.white,
-        child: Center(child: widget),
-      ),
-    );
+    return Container();
   }
 
   @override
-  double get maxExtent => 2000;
+  double get maxExtent => 0;
 
   @override
-  double get minExtent => 300.0;
+  double get minExtent => 0;
 
   @override
   bool shouldRebuild(SliverPersistentHeaderDelegate oldDelegate) {
