@@ -11,12 +11,13 @@ import 'package:redux/redux.dart';
 class RendezvousListViewModel extends Equatable {
   final int pageOffset;
   final DisplayState displayState;
-  final List<RendezVousItem> rendezvousItems;
+  final List<RendezvousItem> rendezvousItems;
   final String? deeplinkRendezvousId;
   final Function() onRetry;
   final Function() onDeeplinkUsed;
-  final bool withPreviousButton;
-  final bool withNextButton;
+  final bool withPreviousPageButton;
+  final bool withNextPageButton;
+  final int? nextRendezvousPageOffset;
   final String title;
   final String dateLabel;
   final String emptyLabel;
@@ -30,8 +31,9 @@ class RendezvousListViewModel extends Equatable {
     required this.deeplinkRendezvousId,
     required this.onRetry,
     required this.onDeeplinkUsed,
-    this.withPreviousButton = false,
-    this.withNextButton = false,
+    required this.withPreviousPageButton,
+    required this.withNextPageButton,
+    required this.nextRendezvousPageOffset,
     required this.title,
     required this.dateLabel,
     required this.emptyLabel,
@@ -51,8 +53,9 @@ class RendezvousListViewModel extends Equatable {
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
       title: builder.makeTitle(),
       dateLabel: builder.makeDateLabel(),
-      withPreviousButton: RendezVousListBuilder.hasPreviousPage(pageOffset, rendezvousState, now),
-      withNextButton: RendezVousListBuilder.hasNextPage(pageOffset, rendezvousState, now),
+      withPreviousPageButton: RendezVousListBuilder.hasPreviousPage(pageOffset, rendezvousState, now),
+      withNextPageButton: RendezVousListBuilder.hasNextPage(pageOffset, rendezvousState, now),
+      nextRendezvousPageOffset: builder.nextRendezvousPageOffset(),
       emptyLabel: builder.makeEmptyLabel(),
       emptySubtitleLabel: builder.makeEmptySubtitleLabel(),
       analyticsLabel: builder.makeAnalyticsLabel(),
@@ -60,7 +63,16 @@ class RendezvousListViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [pageOffset, displayState, rendezvousItems, deeplinkRendezvousId];
+  List<Object?> get props =>
+      [
+        pageOffset,
+        displayState,
+        rendezvousItems,
+        deeplinkRendezvousId,
+        withPreviousPageButton,
+        withNextPageButton,
+        nextRendezvousPageOffset,
+      ];
 }
 
 DisplayState _displayState(RendezvousState state) {
@@ -70,27 +82,27 @@ DisplayState _displayState(RendezvousState state) {
   return DisplayState.FAILURE;
 }
 
-String? _deeplinkRendezvousId(DeepLinkState state, RendezvousState rendezVousState) {
-  if (rendezVousState is! RendezvousSuccessState) return null;
-  final rdvIds = rendezVousState.rendezvous.map((e) => e.id);
+String? _deeplinkRendezvousId(DeepLinkState state, RendezvousState rendezvousState) {
+  if (rendezvousState is! RendezvousSuccessState) return null;
+  final rdvIds = rendezvousState.rendezvous.map((e) => e.id);
   return (state.deepLink == DeepLink.ROUTE_TO_RENDEZVOUS && rdvIds.contains(state.dataId)) ? state.dataId : null;
 }
 
-abstract class RendezVousItem extends Equatable {}
+abstract class RendezvousItem extends Equatable {}
 
-class RendezVousCardItem extends RendezVousItem {
+class RendezvousCardItem extends RendezvousItem {
   final String id;
 
-  RendezVousCardItem(this.id);
+  RendezvousCardItem(this.id);
 
   @override
   List<Object?> get props => [id];
 }
 
-class RendezVousDivider extends RendezVousItem {
+class RendezvousDivider extends RendezvousItem {
   final String label;
 
-  RendezVousDivider(this.label);
+  RendezvousDivider(this.label);
 
   @override
   List<Object?> get props => [label];

@@ -31,10 +31,13 @@ class FutureWeekRendezVousListBuilder implements RendezVousListBuilder {
   String? makeEmptySubtitleLabel() => null;
 
   @override
+  int? nextRendezvousPageOffset() => null;
+
+  @override
   String makeAnalyticsLabel() => AnalyticsScreenNames.rendezvousListWeek + _pageOffset.toString();
 
   @override
-  List<RendezVousItem> rendezvousItems() {
+  List<RendezvousItem> rendezvousItems() {
     final rendezvousState = _rendezvousState;
     if (rendezvousState is! RendezvousSuccessState) return [];
 
