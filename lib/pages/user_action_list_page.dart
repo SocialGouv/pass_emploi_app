@@ -28,17 +28,14 @@ class UserActionListPage extends TraceableStatefulWidget {
 }
 
 class _UserActionListPageState extends State<UserActionListPage> {
-  late ScrollController _scrollController;
 
   @override
   void initState() {
-    _scrollController = ScrollController();
     super.initState();
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
     super.dispose();
   }
 
@@ -50,7 +47,6 @@ class _UserActionListPageState extends State<UserActionListPage> {
       converter: (store) => UserActionListPageViewModel.create(store),
       distinct: true,
       onDidChange: (previousViewModel, viewModel) {
-        if (_scrollController.hasClients) _scrollController.jumpTo(0);
         _openDeeplinkIfNeeded(viewModel, context);
       },
       onDispose: (store) => store.dispatch(UserActionListResetAction()),
@@ -94,7 +90,6 @@ class _UserActionListPageState extends State<UserActionListPage> {
 
   Widget _userActionsList(BuildContext context, UserActionListPageViewModel viewModel) {
     return ListView.separated(
-      controller: _scrollController,
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
       itemCount: viewModel.items.length,
       itemBuilder: (context, i) => _listItem(context, viewModel.items[i], viewModel),
