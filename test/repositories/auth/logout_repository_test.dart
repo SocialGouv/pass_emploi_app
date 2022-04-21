@@ -5,6 +5,7 @@ import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 
+import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 
 void main() {
@@ -26,6 +27,7 @@ void main() {
     });
     final repository = LogoutRepository('AUTH_ISSUER', 'CLIENT_SECRET', 'CLIENT_ID');
     repository.setHttpClient(httpClient);
+    repository.setCacheManager(DummyPassEmploiCacheManager());
 
     // When
     await repository.logout('REFRESH_TOKEN');

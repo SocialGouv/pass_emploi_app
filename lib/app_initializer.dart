@@ -157,6 +157,7 @@ class AppInitializer {
       ],
     );
     logoutRepository.setHttpClient(httpClient);
+    logoutRepository.setCacheManager(passEmploiCacheManager);
     final chatCrypto = ChatCrypto();
     final baseUrl = configuration.serverBaseUrl;
     final reduxStore = StoreFactory(

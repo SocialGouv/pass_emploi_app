@@ -18,7 +18,9 @@ void main() {
   setUp(() {
     authWrapperStub = AuthWrapperStub();
     prefs = SharedPreferencesSpy();
-    authenticator = Authenticator(authWrapperStub, DummyLogoutRepository(), configuration(), prefs);
+    final logoutRepository = DummyLogoutRepository();
+    logoutRepository.setCacheManager(DummyPassEmploiCacheManager());
+    authenticator = Authenticator(authWrapperStub, logoutRepository, configuration(), prefs);
   });
 
   group('Login tests', () {

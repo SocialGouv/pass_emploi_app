@@ -1,3 +1,4 @@
+
 import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
@@ -201,4 +202,7 @@ class DummyPassEmploiCacheManager extends PassEmploiCacheManager {
 
   @override
   void removeRessource(CachedRessource ressourceToRemove, String userId, String baseUrl) {}
+
+  @override
+  Future<void> emptyCache() => Future<void>.value();
 }
