@@ -143,7 +143,7 @@ class AppInitializer {
     final Client clientWithCertificate = IOClient(HttpClient(context: defaultContext));
     final passEmploiCacheManager = PassEmploiCacheManager(Config(
       PassEmploiCacheManager.cacheKey,
-      stalePeriod: Duration(minutes: 20),
+      stalePeriod: PassEmploiCacheManager.cacheDuration,
       maxNrOfCacheObjects: 30,
     ));
     final monitoringInterceptor = MonitoringInterceptor(InstallationIdRepository(securedPreferences));

@@ -4,6 +4,8 @@ import 'dart:typed_data';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 
+final Duration defaultCacheDuration = Duration(days: 7);
+
 class HttpClientWithCache extends BaseClient {
   final PassEmploiCacheManager cacheManager;
   final Client httpClient;
@@ -60,11 +62,16 @@ class HttpClientWithCache extends BaseClient {
     final stringUrl = request.url.toString();
     if (request.method == "GET" && stringUrl.isWhitelisted()) {
       final fileFromCache = await cacheManager.getFileFromCache(stringUrl);
-      if (fileFromCache != null && await fileFromCache.file.exists()) {
+      if (fileFromCache != null &&
+          await fileFromCache.file.exists()
+          // TODO remove this line and replace with fileFromCache.validTill.isAfter(DateTime.now()) when back has implemented cache-control
+          &&
+          fileFromCache.validTill
+              .isAfter(DateTime.now().add(defaultCacheDuration).subtract(PassEmploiCacheManager.cacheDuration))) {
         return StreamedResponse(fileFromCache.file.openRead(), 200);
       } else {
-        final response = await cacheManager.getSingleFile(stringUrl, headers: request.headers);
-        return StreamedResponse(response.openRead(), 200);
+        final response = await cacheManager.downloadFile(stringUrl, key: stringUrl, authHeaders: request.headers);
+        return StreamedResponse(response.file.openRead(), 200);
       }
     }
     return httpClient.send(request);
