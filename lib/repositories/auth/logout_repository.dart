@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/network/cache_manager.dart';
 
 class LogoutRepository {
   final String _authIssuer;
@@ -9,6 +10,7 @@ class LogoutRepository {
   final String _clientId;
   final Crashlytics? _crashlytics;
   late Client _httpClient;
+  late PassEmploiCacheManager _cacheManager;
 
   LogoutRepository(
     this._authIssuer,
@@ -32,10 +34,16 @@ class LogoutRepository {
       );
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);
+    } finally {
+      _cacheManager.emptyCache();
     }
   }
 
   void setHttpClient(Client httpClient) {
     _httpClient = httpClient;
+  }
+
+  void setCacheManager(PassEmploiCacheManager cacheManager) {
+    _cacheManager = cacheManager;
   }
 }
