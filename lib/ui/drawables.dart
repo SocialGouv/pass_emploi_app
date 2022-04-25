@@ -54,4 +54,5 @@ class Drawables {
   static String icEmptyOffres = _assets + "ic_empty_offres" + _svg;
   static String icTrash = _assets + "ic_trash" + _svg;
   static String icTrashAlert = _assets + "ic_trash_alert" + _svg;
+  static String icDelete = _assets + "ic_delete" + _svg;
 }

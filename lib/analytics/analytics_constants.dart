@@ -72,6 +72,10 @@ class AnalyticsScreenNames {
   static const savedSearchAlternanceDelete = "/saved_search/alternance/delete";
   static const savedSearchImmersionDelete = "/saved_search/immersion/delete";
   static const savedSearchServiceCiviqueDelete = "/saved_search/service-civique/delete";
+
+  static const suppressionAccount = "/profil/suppression-compte";
+  static const suppressionAccountConfirmation = "/profil/suppression-compte/confirm";
+  static const suppressionAccountSucceded = "/login?deleteSuccess=true";
 }
 
 class AnalyticsActionNames {
