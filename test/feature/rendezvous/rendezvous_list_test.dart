@@ -18,7 +18,7 @@ void main() {
       final store = testStoreFactory.initializeReduxStore(
         initialState: AppState.initialState().copyWith(loginState: LoginFailureState()),
       );
-      final unchangedRendezvousState = store.onChange.any((e) => e.rendezvousState is RendezvousNotInitializedState);
+      final unchangedRendezvousState = store.onChange.any((e) => e.rendezvousState.isNotInitialized());
 
       // When
       store.dispatch(RendezvousRequestAction());
@@ -34,8 +34,8 @@ void main() {
         testStoreFactory.rendezvousRepository = RendezvousRepositorySuccessStub(expectedUserId: "id");
         final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
 
-        final displayedLoading = store.onChange.any((e) => e.rendezvousState is RendezvousLoadingState);
-        final successAppState = store.onChange.firstWhere((e) => e.rendezvousState is RendezvousSuccessState);
+        final displayedLoading = store.onChange.any((e) => e.rendezvousState.futurRendezVousStatus == RendezvousStatus.LOADING);
+        final successAppState = store.onChange.firstWhere((e) => e.rendezvousState.futurRendezVousStatus == RendezvousStatus.SUCCESS);
 
         // When
         store.dispatch(RendezvousRequestAction());
@@ -43,8 +43,8 @@ void main() {
         // Then
         expect(await displayedLoading, true);
         final appState = await successAppState;
-        expect((appState.rendezvousState as RendezvousSuccessState).rendezvous.length, 1);
-        expect((appState.rendezvousState as RendezvousSuccessState).rendezvous.first.id, '1');
+        expect(appState.rendezvousState.rendezvous.length, 1);
+        expect(appState.rendezvousState.rendezvous.first.id, '1');
       });
 
       test("update state with failure if repository returns nothing", () async {
@@ -53,8 +53,8 @@ void main() {
         testStoreFactory.rendezvousRepository = RendezvousRepositoryFailureStub(expectedUserId: "id");
         final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
 
-        final displayedLoading = store.onChange.any((e) => e.rendezvousState is RendezvousLoadingState);
-        final failureAppState = store.onChange.firstWhere((e) => e.rendezvousState is RendezvousFailureState);
+        final displayedLoading = store.onChange.any((e) => e.rendezvousState.futurRendezVousStatus == RendezvousStatus.LOADING);
+        final failureAppState = store.onChange.firstWhere((e) => e.rendezvousState.futurRendezVousStatus == RendezvousStatus.FAILURE);
 
         // When
         store.dispatch(RendezvousRequestAction());
@@ -62,7 +62,7 @@ void main() {
         // Then
         expect(await displayedLoading, true);
         final appState = await failureAppState;
-        expect(appState.rendezvousState is RendezvousFailureState, isTrue);
+        expect(appState.rendezvousState.futurRendezVousStatus == RendezvousStatus.FAILURE, isTrue);
       });
     });
   });

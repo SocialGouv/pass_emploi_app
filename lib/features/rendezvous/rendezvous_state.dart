@@ -1,15 +1,47 @@
 import 'package:pass_emploi_app/models/rendezvous.dart';
 
-abstract class RendezvousState {}
+enum RendezvousStatus { NOT_INITIALIZED, LOADING, SUCCESS, FAILURE }
 
-class RendezvousNotInitializedState extends RendezvousState {}
-
-class RendezvousLoadingState extends RendezvousState {}
-
-class RendezvousSuccessState extends RendezvousState {
+class RendezvousState {
+  final RendezvousStatus futurRendezVousStatus;
+  final RendezvousStatus pastRendezVousStatus;
   final List<Rendezvous> rendezvous;
 
-  RendezvousSuccessState(this.rendezvous);
-}
+  RendezvousState(this.futurRendezVousStatus, this.pastRendezVousStatus, this.rendezvous);
 
-class RendezvousFailureState extends RendezvousState {}
+  RendezvousState.notInitialized()
+      : futurRendezVousStatus = RendezvousStatus.NOT_INITIALIZED,
+        pastRendezVousStatus = RendezvousStatus.NOT_INITIALIZED,
+        rendezvous = [];
+
+  RendezvousState.loadingFuture()
+      : futurRendezVousStatus = RendezvousStatus.LOADING,
+        pastRendezVousStatus = RendezvousStatus.NOT_INITIALIZED,
+        rendezvous = [];
+
+  RendezvousState.failedFuture()
+      : futurRendezVousStatus = RendezvousStatus.FAILURE,
+        pastRendezVousStatus = RendezvousStatus.NOT_INITIALIZED,
+        rendezvous = [];
+
+  RendezvousState.successfulFuture(this.rendezvous)
+      : futurRendezVousStatus = RendezvousStatus.SUCCESS,
+        pastRendezVousStatus = RendezvousStatus.NOT_INITIALIZED;
+
+  RendezvousState copyWith({
+    final RendezvousStatus? futurRendezVousStatus,
+    final RendezvousStatus? pastRendezVousStatus,
+    final List<Rendezvous>? rendezvous,
+  }) {
+    return RendezvousState(
+      futurRendezVousStatus ?? this.futurRendezVousStatus,
+      pastRendezVousStatus ?? this.pastRendezVousStatus,
+      rendezvous ?? this.rendezvous,
+    );
+  }
+
+  bool isNotInitialized() {
+    return futurRendezVousStatus == RendezvousStatus.NOT_INITIALIZED &&
+        pastRendezVousStatus == RendezvousStatus.NOT_INITIALIZED;
+  }
+}

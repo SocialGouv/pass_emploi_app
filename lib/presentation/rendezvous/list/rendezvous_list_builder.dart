@@ -50,7 +50,7 @@ abstract class RendezVousListBuilder {
 
   static bool hasNextPage(int pageOffset, RendezvousState rendezvousState, DateTime now) {
     if (pageOffset < 5) {
-      return rendezvousState is RendezvousSuccessState && rendezvousState.rendezvous.isNotEmpty;
+      return rendezvousState.futurRendezVousStatus == RendezvousStatus.SUCCESS && rendezvousState.rendezvous.isNotEmpty;
     }
     return false;
   }

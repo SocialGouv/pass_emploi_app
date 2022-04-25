@@ -46,7 +46,7 @@ class RendezvousListViewModel extends Equatable {
     final builder = RendezVousListBuilder.create(rendezvousState, pageOffset, now);
     return RendezvousListViewModel(
       pageOffset: pageOffset,
-      displayState: _displayState(rendezvousState),
+      displayState: _displayState(rendezvousState, pageOffset),
       rendezvousItems: builder.rendezvousItems(),
       deeplinkRendezvousId: _deeplinkRendezvousId(store.state.deepLinkState, rendezvousState),
       onRetry: () => store.dispatch(RendezvousRequestAction()),
@@ -75,15 +75,15 @@ class RendezvousListViewModel extends Equatable {
       ];
 }
 
-DisplayState _displayState(RendezvousState state) {
-  if (state is RendezvousNotInitializedState) return DisplayState.LOADING;
-  if (state is RendezvousLoadingState) return DisplayState.LOADING;
-  if (state is RendezvousSuccessState) return DisplayState.CONTENT;
+DisplayState _displayState(RendezvousState state, int pageOffset) {
+  if (state.isNotInitialized()) return DisplayState.LOADING;
+
+  if (state.futurRendezVousStatus == RendezvousStatus.LOADING) return DisplayState.LOADING;
+  if (state.futurRendezVousStatus == RendezvousStatus.SUCCESS) return DisplayState.CONTENT;
   return DisplayState.FAILURE;
 }
 
 String? _deeplinkRendezvousId(DeepLinkState state, RendezvousState rendezvousState) {
-  if (rendezvousState is! RendezvousSuccessState) return null;
   final rdvIds = rendezvousState.rendezvous.map((e) => e.id);
   return (state.deepLink == DeepLink.ROUTE_TO_RENDEZVOUS && rdvIds.contains(state.dataId)) ? state.dataId : null;
 }

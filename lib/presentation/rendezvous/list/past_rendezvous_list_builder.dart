@@ -18,10 +18,9 @@ class PastRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   String makeDateLabel() {
-    final rendezvousState = _rendezvousState;
-    if (rendezvousState is! RendezvousSuccessState) return "";
+    if (_rendezvousState.futurRendezVousStatus != RendezvousStatus.SUCCESS) return "";
 
-    final oldestRendezvousDate = _oldestRendezvousDate(rendezvousState.rendezvous);
+    final oldestRendezvousDate = _oldestRendezvousDate(_rendezvousState.rendezvous);
     if (oldestRendezvousDate == null) return "";
 
     if (oldestRendezvousDate.isInPreviousDay(_now)) {
@@ -45,10 +44,9 @@ class PastRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   List<RendezvousItem> rendezvousItems() {
-    final rendezvousState = _rendezvousState;
-    if (rendezvousState is! RendezvousSuccessState) return [];
+    if (_rendezvousState.futurRendezVousStatus != RendezvousStatus.SUCCESS) return [];
 
-    return rendezvousState.rendezvous
+    return _rendezvousState.rendezvous
         .sortedFromRecentToOldest()
         .where((element) => element.date.isBefore(DateUtils.dateOnly(_now)))
         .groupedItems(displayCount: true, groupedBy: (element) => element.date.toFullMonthAndYear());

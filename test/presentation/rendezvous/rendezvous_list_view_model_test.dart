@@ -19,7 +19,7 @@ void main() {
   test('create when rendezvous state is loading should display loading', () {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
-      initialState: loggedInState().copyWith(rendezvousState: RendezvousLoadingState()),
+      initialState: loggedInState().copyWith(rendezvousState: RendezvousState.loadingFuture()),
     );
 
     // When
@@ -32,7 +32,7 @@ void main() {
   test('create when rendezvous state is not initialized should display loading', () {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
-      initialState: loggedInState().copyWith(rendezvousState: RendezvousNotInitializedState()),
+      initialState: loggedInState().copyWith(rendezvousState: RendezvousState.notInitialized()),
     );
 
     // When
@@ -45,7 +45,7 @@ void main() {
   test('create when rendezvous state is a failure should display failure', () {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
-      initialState: loggedInState().copyWith(rendezvousState: RendezvousFailureState()),
+      initialState: loggedInState().copyWith(rendezvousState: RendezvousState.failedFuture()),
     );
 
     // When
@@ -412,7 +412,7 @@ void main() {
       final store = TestStoreFactory().initializeReduxStore(
         initialState: loggedInState().copyWith(
           deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_RENDEZVOUS, DateTime.now(), '1'),
-          rendezvousState: RendezvousSuccessState([mockRendezvous(id: '1')]),
+          rendezvousState: RendezvousState.successfulFuture([mockRendezvous(id: '1')]),
         ),
       );
 
@@ -428,7 +428,7 @@ void main() {
       final store = TestStoreFactory().initializeReduxStore(
         initialState: loggedInState().copyWith(
           deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_RENDEZVOUS, DateTime.now(), '1'),
-          rendezvousState: RendezvousSuccessState([mockRendezvous(id: '2')]),
+          rendezvousState: RendezvousState.successfulFuture([mockRendezvous(id: '2')]),
         ),
       );
 
@@ -481,7 +481,7 @@ void main() {
 Store<AppState> _store(List<Rendezvous> rendezvous) {
   return TestStoreFactory().initializeReduxStore(
     initialState: loggedInState().copyWith(
-      rendezvousState: RendezvousSuccessState(rendezvous),
+      rendezvousState: RendezvousState.successfulFuture(rendezvous),
     ),
   );
 }

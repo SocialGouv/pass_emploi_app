@@ -13,7 +13,7 @@ void main() {
   test('create when rendezvous state is not successful throws exception', () {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
-      initialState: loggedInState().copyWith(rendezvousState: RendezvousLoadingState()),
+      initialState: loggedInState().copyWith(rendezvousState: RendezvousState.loadingFuture()),
     );
 
     // Then
@@ -24,7 +24,7 @@ void main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: loggedInState().copyWith(
-        rendezvousState: RendezvousSuccessState([mockRendezvous(id: '1')]),
+        rendezvousState: RendezvousState.successfulFuture([mockRendezvous(id: '1')]),
       ),
     );
 
@@ -183,7 +183,7 @@ void main() {
 Store<AppState> _store(Rendezvous rendezvous) {
   return TestStoreFactory().initializeReduxStore(
     initialState: loggedInState().copyWith(
-      rendezvousState: RendezvousSuccessState([rendezvous]),
+      rendezvousState: RendezvousState.successfulFuture([rendezvous]),
     ),
   );
 }

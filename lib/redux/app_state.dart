@@ -196,7 +196,7 @@ class AppState extends Equatable {
       favoriUpdateState: FavoriUpdateState({}),
       searchLocationState: SearchLocationState([]),
       searchMetierState: SearchMetierState([]),
-      rendezvousState: RendezvousNotInitializedState(),
+      rendezvousState: RendezvousState.notInitialized(),
       immersionListState: ImmersionListNotInitializedState(),
       immersionDetailsState: ImmersionDetailsNotInitializedState(),
       offreEmploiSavedSearchCreateState: SavedSearchCreateState<OffreEmploiSavedSearch>.notInitialized(),

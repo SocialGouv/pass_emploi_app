@@ -38,10 +38,9 @@ class FutureWeekRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   List<RendezvousItem> rendezvousItems() {
-    final rendezvousState = _rendezvousState;
-    if (rendezvousState is! RendezvousSuccessState) return [];
+    if (_rendezvousState.futurRendezVousStatus != RendezvousStatus.SUCCESS) return [];
 
-    return rendezvousState.rendezvous
+    return _rendezvousState.rendezvous
         .sortedFromRecentToFuture()
         .filteredOnWeek(_pageOffset, _now)
         .groupedItems(groupedBy: (element) => element.date.toDayOfWeekWithFullMonthContextualized());
