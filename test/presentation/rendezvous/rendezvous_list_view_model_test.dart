@@ -56,14 +56,23 @@ void main() {
   });
 
   group('create when rendezvous state is success…', () {
-    test("should not navigate to past if there isn't past rendezvous", () {
+
+    test("should not navigate to past when logged in Pole Emploi", () {
       // Given
-      final rendezvous = [mockRendezvous(id: 'après-demain', date: DateTime(2022, 2, 5, 4, 5, 30))];
-      final store = _store(rendezvous);
+      final store = _storeLoggedInPoleEmploi([]);
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
       // Then
       expect(viewModel.withPreviousPageButton, false);
+    });
+
+    test("should navigate to past when logged in MiLo", () {
+      // Given
+      final store = _storeLoggedInMilo([]);
+      // When
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+      // Then
+      expect(viewModel.withPreviousPageButton, true);
     });
 
     test("should have an empty rendezvous display", () {
@@ -73,11 +82,11 @@ void main() {
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
       // Then
       expect(viewModel.displayState, DisplayState.CONTENT);
-      expect(viewModel.withPreviousPageButton, false);
-      expect(viewModel.withNextPageButton, false);
+      expect(viewModel.withPreviousPageButton, true);
+      expect(viewModel.withNextPageButton, true);
       expect(viewModel.emptyLabel, "Vous n'avez pas encore de rendez-vous prévus");
       expect(viewModel.emptySubtitleLabel,
-          "Vous pourrez consulter ceux passés et à venir en utilisant les flèches en haut de page.");
+          "Vous pouvez consulter ceux passés et à venir en utilisant les flèches en haut de page.");
     });
 
     group('past rendezvous of the current week', () {
@@ -481,7 +490,23 @@ void main() {
 Store<AppState> _store(List<Rendezvous> rendezvous) {
   return TestStoreFactory().initializeReduxStore(
     initialState: loggedInState().copyWith(
-      rendezvousState: RendezvousState.successfulFuture(rendezvous),
+      rendezvousState: RendezvousState.successful(rendezvous),
+    ),
+  );
+}
+
+Store<AppState> _storeLoggedInMilo(List<Rendezvous> rendezvous) {
+  return TestStoreFactory().initializeReduxStore(
+    initialState: loggedInMiloState().copyWith(
+      rendezvousState: RendezvousState.successful(rendezvous),
+    ),
+  );
+}
+
+Store<AppState> _storeLoggedInPoleEmploi(List<Rendezvous> rendezvous) {
+  return TestStoreFactory().initializeReduxStore(
+    initialState: loggedInPoleEmploiState().copyWith(
+      rendezvousState: RendezvousState.successful(rendezvous),
     ),
   );
 }

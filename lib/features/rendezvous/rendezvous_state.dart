@@ -28,6 +28,10 @@ class RendezvousState {
       : futurRendezVousStatus = RendezvousStatus.SUCCESS,
         pastRendezVousStatus = RendezvousStatus.NOT_INITIALIZED;
 
+  RendezvousState.successful(this.rendezvous)
+      : futurRendezVousStatus = RendezvousStatus.SUCCESS,
+        pastRendezVousStatus = RendezvousStatus.SUCCESS;
+
   RendezvousState copyWith({
     final RendezvousStatus? futurRendezVousStatus,
     final RendezvousStatus? pastRendezVousStatus,

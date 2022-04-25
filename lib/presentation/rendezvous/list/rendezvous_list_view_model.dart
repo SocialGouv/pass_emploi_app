@@ -53,8 +53,8 @@ class RendezvousListViewModel extends Equatable {
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
       title: builder.makeTitle(),
       dateLabel: builder.makeDateLabel(),
-      withPreviousPageButton: RendezVousListBuilder.hasPreviousPage(pageOffset, rendezvousState, now),
-      withNextPageButton: RendezVousListBuilder.hasNextPage(pageOffset, rendezvousState, now),
+      withPreviousPageButton: RendezVousListBuilder.hasPreviousPage(pageOffset, store.state.loginState),
+      withNextPageButton: RendezVousListBuilder.hasNextPage(pageOffset),
       nextRendezvousPageOffset: builder.nextRendezvousPageOffset(),
       emptyLabel: builder.makeEmptyLabel(),
       emptySubtitleLabel: builder.makeEmptySubtitleLabel(),
@@ -77,10 +77,15 @@ class RendezvousListViewModel extends Equatable {
 
 DisplayState _displayState(RendezvousState state, int pageOffset) {
   if (state.isNotInitialized()) return DisplayState.LOADING;
-
-  if (state.futurRendezVousStatus == RendezvousStatus.LOADING) return DisplayState.LOADING;
-  if (state.futurRendezVousStatus == RendezvousStatus.SUCCESS) return DisplayState.CONTENT;
-  return DisplayState.FAILURE;
+  if (pageOffset.isInPast()) {
+    if (state.pastRendezVousStatus == RendezvousStatus.LOADING) return DisplayState.LOADING;
+    if (state.pastRendezVousStatus == RendezvousStatus.SUCCESS) return DisplayState.CONTENT;
+    return DisplayState.FAILURE;
+  } else {
+    if (state.futurRendezVousStatus == RendezvousStatus.LOADING) return DisplayState.LOADING;
+    if (state.futurRendezVousStatus == RendezvousStatus.SUCCESS) return DisplayState.CONTENT;
+    return DisplayState.FAILURE;
+  }
 }
 
 String? _deeplinkRendezvousId(DeepLinkState state, RendezvousState rendezvousState) {
