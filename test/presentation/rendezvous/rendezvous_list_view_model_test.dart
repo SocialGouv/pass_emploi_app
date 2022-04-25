@@ -17,7 +17,6 @@ void main() {
   final DateTime thursday3thFebruary = DateTime(2022, 2, 3, 4, 5, 30);
 
   group('when fetching rendez-vous futurs', () {
-    // todo dupliquer pour passé ?
     test('when not initialized should display loading', () {
       // Given
       final store = TestStoreFactory().initializeReduxStore(
@@ -31,7 +30,6 @@ void main() {
       expect(viewModel.displayState, DisplayState.LOADING);
     });
 
-    // todo dupliquer pour passé ?
     test('when loading should display loading', () {
       // Given
       final store = TestStoreFactory().initializeReduxStore(
@@ -45,7 +43,6 @@ void main() {
       expect(viewModel.displayState, DisplayState.LOADING);
     });
 
-    // todo dupliquer pour passé ?
     test('should display failure', () {
       // Given
       final store = TestStoreFactory().initializeReduxStore(
@@ -80,7 +77,46 @@ void main() {
     });
   });
 
-  group('when having rendez-vous futurs and fetching rendez-vous passés', () {});
+  group('when having rendez-vous futurs and fetching rendez-vous passés', () {
+    test('when not initialized should display loading', () {
+      // Given
+      final store = TestStoreFactory().initializeReduxStore(
+        initialState: loggedInState().copyWith(rendezvousState: RendezvousState.notInitialized()),
+      );
+
+      // When
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.LOADING);
+    });
+
+    test('when loading should display loading', () {
+      // Given
+      final store = TestStoreFactory().initializeReduxStore(
+        initialState: loggedInState().copyWith(rendezvousState: RendezvousState.loadingPast()),
+      );
+
+      // When
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.LOADING);
+    });
+
+    test('should display failure', () {
+      // Given
+      final store = TestStoreFactory().initializeReduxStore(
+        initialState: loggedInState().copyWith(rendezvousState: RendezvousState.failedPast()),
+      );
+
+      // When
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.FAILURE);
+    });
+  });
 
   group('when having rendez-vous futurs and passés', () {
     group('should display pages', () {

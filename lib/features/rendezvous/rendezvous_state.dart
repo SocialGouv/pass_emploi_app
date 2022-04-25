@@ -19,9 +19,19 @@ class RendezvousState {
         pastRendezVousStatus = RendezvousStatus.NOT_INITIALIZED,
         rendezvous = [];
 
+  RendezvousState.loadingPast()
+      : futurRendezVousStatus = RendezvousStatus.SUCCESS,
+        pastRendezVousStatus = RendezvousStatus.LOADING,
+        rendezvous = [];
+
   RendezvousState.failedFuture()
       : futurRendezVousStatus = RendezvousStatus.FAILURE,
         pastRendezVousStatus = RendezvousStatus.NOT_INITIALIZED,
+        rendezvous = [];
+
+  RendezvousState.failedPast()
+      : futurRendezVousStatus = RendezvousStatus.SUCCESS,
+        pastRendezVousStatus = RendezvousStatus.FAILURE,
         rendezvous = [];
 
   RendezvousState.successfulFuture(this.rendezvous)
