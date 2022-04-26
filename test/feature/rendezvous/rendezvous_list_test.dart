@@ -47,7 +47,7 @@ void main() {
           expect(await displayedLoading, true);
           final appState = await successAppState;
           expect(appState.rendezvousState.rendezvous.length, 1);
-          expect(appState.rendezvousState.rendezvous.first.id, '1');
+          expect(appState.rendezvousState.rendezvous.first.id, 'futur');
         });
 
         test("should update to failure state", () async {
@@ -72,11 +72,14 @@ void main() {
       });
 
       group("when fetching rendez-vous passés", () {
-        test("should update to success state", () async {
+        test("should update to success state and concatenate rendezvous", () async {
           // Given
           final testStoreFactory = TestStoreFactory();
           testStoreFactory.rendezvousRepository = RendezvousRepositorySuccessStub(expectedUserId: "id");
-          final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
+          final rendezvousState = RendezvousState.successfulFuture([mockRendezvous(id: "futur")]);
+          final store = testStoreFactory.initializeReduxStore(
+            initialState: loggedInState().copyWith(rendezvousState: rendezvousState),
+          );
 
           final displayedLoading =
               store.onChange.any((e) => e.rendezvousState.pastRendezVousStatus == RendezvousStatus.LOADING);
@@ -89,8 +92,9 @@ void main() {
           // Then
           expect(await displayedLoading, true);
           final appState = await successAppState;
-          expect(appState.rendezvousState.rendezvous.length, 1);
-          expect(appState.rendezvousState.rendezvous.first.id, '1');
+          expect(appState.rendezvousState.rendezvous.length, 2);
+          expect(appState.rendezvousState.rendezvous[0].id, 'passe');
+          expect(appState.rendezvousState.rendezvous[1].id, 'futur');
         });
 
         test("should update to failure state", () async {
@@ -125,7 +129,8 @@ class RendezvousRepositorySuccessStub extends RendezvousRepository {
   @override
   Future<List<Rendezvous>?> getRendezvous(String userId, RendezvousPeriod period) async {
     if (userId != expectedUserId) throw Exception("Unexpected user ID: $userId");
-    return [mockRendezvous(id: '1')];
+    final id = period == RendezvousPeriod.PASSE ? "passe" : "futur";
+    return [mockRendezvous(id: id)];
   }
 }
 

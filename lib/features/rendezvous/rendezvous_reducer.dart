@@ -20,7 +20,8 @@ RendezvousState rendezvousReducer(RendezvousState current, dynamic action) {
     if (action.period == RendezvousPeriod.FUTUR) {
       return current.copyWith(futurRendezVousStatus: RendezvousStatus.SUCCESS, rendezvous: action.rendezvous);
     } else {
-      return current.copyWith(pastRendezVousStatus: RendezvousStatus.SUCCESS, rendezvous: action.rendezvous);
+      final rendezvous = action.rendezvous + current.rendezvous;
+      return current.copyWith(pastRendezVousStatus: RendezvousStatus.SUCCESS, rendezvous: rendezvous);
     }
   }
   if (action is RendezvousResetAction) return RendezvousState.notInitialized();
