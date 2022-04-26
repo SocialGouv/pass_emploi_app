@@ -24,6 +24,7 @@ class StoreSpy extends Store<AppState> {
   dynamic dispatchedAction;
 
   StoreSpy() : super(reducer, initialState: AppState.initialState(configuration: configuration()));
+  StoreSpy.withState(AppState appState) : super(reducer, initialState: appState);
 
   @override
   void dispatch(dynamic action) => dispatchedAction = action;

@@ -537,6 +537,50 @@ void main() {
     });
   });
 
+  group('onOffsetChanged', () {
+    void assertOn({required int pageOffset, required bool hasFetchedPast, required bool shouldRequestPast}) {
+      // Given
+      final rendezvousState = hasFetchedPast ? RendezvousState.successful([]) : RendezvousState.successfulFuture([]);
+      final store = StoreSpy.withState(AppState.initialState().copyWith(rendezvousState: rendezvousState));
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, pageOffset);
+
+      // When
+      viewModel.onOffsetChanged(pageOffset);
+
+      // Then
+      if (shouldRequestPast) {
+        final dispatchedAction = store.dispatchedAction;
+        expect(dispatchedAction, isA<RendezvousRequestAction>());
+        if (dispatchedAction is RendezvousRequestAction) {
+          expect(dispatchedAction.period, RendezvousPeriod.PASSE);
+        }
+      } else {
+        expect(store.dispatchedAction, isNull);
+      }
+    }
+
+    test('should trigger nothing on future pages', () {
+      assertOn(pageOffset: 0, hasFetchedPast: false, shouldRequestPast: false);
+      assertOn(pageOffset: 1, hasFetchedPast: false, shouldRequestPast: false);
+      assertOn(pageOffset: 2, hasFetchedPast: false, shouldRequestPast: false);
+      assertOn(pageOffset: 3, hasFetchedPast: false, shouldRequestPast: false);
+      assertOn(pageOffset: 4, hasFetchedPast: false, shouldRequestPast: false);
+      assertOn(pageOffset: 5, hasFetchedPast: false, shouldRequestPast: false);
+      assertOn(pageOffset: 0, hasFetchedPast: true, shouldRequestPast: false);
+      assertOn(pageOffset: 1, hasFetchedPast: true, shouldRequestPast: false);
+      assertOn(pageOffset: 2, hasFetchedPast: true, shouldRequestPast: false);
+      assertOn(pageOffset: 3, hasFetchedPast: true, shouldRequestPast: false);
+      assertOn(pageOffset: 4, hasFetchedPast: true, shouldRequestPast: false);
+      assertOn(pageOffset: 5, hasFetchedPast: true, shouldRequestPast: false);
+    });
+
+    test('should trigger nothing on past page already fetched', () {
+      assertOn(pageOffset: -1, hasFetchedPast: true, shouldRequestPast: false);
+    });
+
+    test('should request past action on past page not fetched yet', () {
+      assertOn(pageOffset: -1, hasFetchedPast: false, shouldRequestPast: true);
+    });
   });
 
   test('onDeeplinkUsed should trigger ResetDeeplinkAction', () {

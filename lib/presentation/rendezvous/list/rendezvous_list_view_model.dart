@@ -15,6 +15,7 @@ class RendezvousListViewModel extends Equatable {
   final String? deeplinkRendezvousId;
   final Function() onRetry;
   final Function() onDeeplinkUsed;
+  final Function(int) onOffsetChanged;
   final bool withPreviousPageButton;
   final bool withNextPageButton;
   final int? nextRendezvousPageOffset;
@@ -31,6 +32,7 @@ class RendezvousListViewModel extends Equatable {
     required this.deeplinkRendezvousId,
     required this.onRetry,
     required this.onDeeplinkUsed,
+    required this.onOffsetChanged,
     required this.withPreviousPageButton,
     required this.withNextPageButton,
     required this.nextRendezvousPageOffset,
@@ -51,6 +53,7 @@ class RendezvousListViewModel extends Equatable {
       deeplinkRendezvousId: _deeplinkRendezvousId(store.state.deepLinkState, rendezvousState),
       onRetry: () => _retry(store, pageOffset),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
+      onOffsetChanged: (offset) => _onOffsetChanged(store, offset),
       title: builder.makeTitle(),
       dateLabel: builder.makeDateLabel(),
       withPreviousPageButton: RendezVousListBuilder.hasPreviousPage(pageOffset, store.state.loginState),
@@ -73,6 +76,13 @@ class RendezvousListViewModel extends Equatable {
         withNextPageButton,
         nextRendezvousPageOffset,
       ];
+}
+
+void _onOffsetChanged(Store<AppState> store, int pageOffset) {
+  if (!pageOffset.isInPast() || store.state.rendezvousState.pastRendezVousStatus != RendezvousStatus.NOT_INITIALIZED) {
+    return;
+  }
+  store.dispatch(RendezvousRequestAction(RendezvousPeriod.PASSE));
 }
 
 DisplayState _displayState(RendezvousState state, int pageOffset) {

@@ -50,8 +50,10 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
       body: _Body(
         viewModel: viewModel,
         onPageOffsetChanged: (i) {
+          final newOffset = _pageOffset + i;
+          viewModel.onOffsetChanged(newOffset);
           setState(() {
-            _pageOffset = _pageOffset + i;
+            _pageOffset = newOffset;
           });
         },
         onNextRendezvousButtonTap: () {
