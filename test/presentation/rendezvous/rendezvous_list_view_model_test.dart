@@ -506,16 +506,37 @@ void main() {
     });
   });
 
-  test('onRetry should trigger RequestRendezvousAction', () {
-    // Given
-    final store = StoreSpy();
-    final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+  group('onRetry should trigger RequestRendezvousAction', () {
+    void assertOn({required int pageOffset, required RendezvousPeriod expectedPeriod}) {
+      // Given
+      final store = StoreSpy();
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, pageOffset);
 
-    // When
-    viewModel.onRetry();
+      // When
+      viewModel.onRetry();
 
-    // Then
-    expect(store.dispatchedAction, isA<RendezvousRequestAction>());
+      // Then
+      final dispatchedAction = store.dispatchedAction;
+      expect(dispatchedAction, isA<RendezvousRequestAction>());
+      if (dispatchedAction is RendezvousRequestAction) {
+        expect(dispatchedAction.period, expectedPeriod);
+      }
+    }
+
+    test("on past", () {
+      assertOn(pageOffset: -1, expectedPeriod: RendezvousPeriod.PASSE);
+    });
+
+    test("on future", () {
+      assertOn(pageOffset: 0, expectedPeriod: RendezvousPeriod.FUTUR);
+      assertOn(pageOffset: 1, expectedPeriod: RendezvousPeriod.FUTUR);
+      assertOn(pageOffset: 2, expectedPeriod: RendezvousPeriod.FUTUR);
+      assertOn(pageOffset: 3, expectedPeriod: RendezvousPeriod.FUTUR);
+      assertOn(pageOffset: 4, expectedPeriod: RendezvousPeriod.FUTUR);
+      assertOn(pageOffset: 5, expectedPeriod: RendezvousPeriod.FUTUR);
+    });
+  });
+
   });
 
   test('onDeeplinkUsed should trigger ResetDeeplinkAction', () {

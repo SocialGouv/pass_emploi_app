@@ -49,7 +49,7 @@ class RendezvousListViewModel extends Equatable {
       displayState: _displayState(rendezvousState, pageOffset),
       rendezvousItems: builder.rendezvousItems(),
       deeplinkRendezvousId: _deeplinkRendezvousId(store.state.deepLinkState, rendezvousState),
-      onRetry: () => store.dispatch(RendezvousRequestAction()),
+      onRetry: () => _retry(store, pageOffset),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
       title: builder.makeTitle(),
       dateLabel: builder.makeDateLabel(),
@@ -85,6 +85,14 @@ DisplayState _displayState(RendezvousState state, int pageOffset) {
     if (state.futurRendezVousStatus == RendezvousStatus.LOADING) return DisplayState.LOADING;
     if (state.futurRendezVousStatus == RendezvousStatus.SUCCESS) return DisplayState.CONTENT;
     return DisplayState.FAILURE;
+  }
+}
+
+void _retry(Store<AppState> store, int pageOffset) {
+  if (pageOffset.isInPast()) {
+    store.dispatch(RendezvousRequestAction(RendezvousPeriod.PASSE));
+  } else {
+    store.dispatch(RendezvousRequestAction(RendezvousPeriod.FUTUR));
   }
 }
 
