@@ -18,7 +18,7 @@ class PastRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   String makeDateLabel() {
-    if (_rendezvousState.futurRendezVousStatus != RendezvousStatus.SUCCESS) return "";
+    if (_rendezvousState.pastRendezVousStatus != RendezvousStatus.SUCCESS) return "";
 
     final oldestRendezvousDate = _oldestRendezvousDate(_rendezvousState.rendezvous);
     if (oldestRendezvousDate == null) return "";
@@ -44,7 +44,7 @@ class PastRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   List<RendezvousItem> rendezvousItems() {
-    if (_rendezvousState.futurRendezVousStatus != RendezvousStatus.SUCCESS) return [];
+    if (_rendezvousState.pastRendezVousStatus != RendezvousStatus.SUCCESS) return [];
 
     return _rendezvousState.rendezvous
         .sortedFromRecentToOldest()
