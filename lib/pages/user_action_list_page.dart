@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
+import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
@@ -12,6 +13,7 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_details_bottom_sheet.dart';
@@ -28,7 +30,6 @@ class UserActionListPage extends TraceableStatefulWidget {
 }
 
 class _UserActionListPageState extends State<UserActionListPage> {
-
   @override
   void initState() {
     super.initState();
@@ -56,8 +57,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
   void _openDeeplinkIfNeeded(UserActionListPageViewModel viewModel, BuildContext context) {
     if (viewModel.actionDetails != null) {
       showPassEmploiBottomSheet(
-        context: context,
-        builder: (context) => UserActionDetailsBottomSheet(viewModel.actionDetails!));
+          context: context, builder: (context) => UserActionDetailsBottomSheet(viewModel.actionDetails!));
       viewModel.onDeeplinkUsed();
     }
   }
@@ -112,10 +112,13 @@ class _UserActionListPageState extends State<UserActionListPage> {
 
   Widget _tapListener(BuildContext context, UserActionViewModel item, UserActionListPageViewModel viewModel) {
     return UserActionCard(
-      onTap: () => showPassEmploiBottomSheet(
-        context: context,
-        builder: (context) => UserActionDetailsBottomSheet(item),
-      ).then((value) => _onUserActionDetailsDismissed(context, value, viewModel)),
+      onTap: () {
+        context.trackEvent(EventType.ACTION_DETAIL);
+        showPassEmploiBottomSheet(
+          context: context,
+          builder: (context) => UserActionDetailsBottomSheet(item),
+        ).then((value) => _onUserActionDetailsDismissed(context, value, viewModel));
+      },
       viewModel: item,
     );
   }

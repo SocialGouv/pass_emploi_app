@@ -42,7 +42,9 @@ void main() {
     assertMapping(EventType.OFFRE_IMMERSION_ENVOI_EMAIL, "OFFRE_IMMERSION_ENVOI_EMAIL");
     assertMapping(EventType.OFFRE_IMMERSION_LOCALISATION, "OFFRE_IMMERSION_LOCALISATION");
     assertMapping(EventType.OFFRE_ALTERNANCE_AFFICHEE, "OFFRE_ALTERNANCE_AFFICHEE");
-    assertMapping(EventType.OFFRE_EMPLOI_AFFICHEE, "OFFRE_EMPLOI_AFFICHEE");
+    assertMapping(EventType.ACTION_LISTE, "ACTION_LISTE");
+    assertMapping(EventType.ACTION_DETAIL, "ACTION_DETAIL");
+    assertMapping(EventType.RDV_DETAIL, "RDV_DETAIL");
   });
 
   test('sendEvent should successfully send event when response is valid', () async {

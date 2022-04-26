@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
+import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_view_model.dart';
@@ -13,6 +14,7 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_icon_button.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
@@ -56,11 +58,14 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
             _pageOffset = viewModel.nextRendezvousPageOffset!;
           });
         },
-        onTap: (rdvId) => widget.pushAndTrackBack(
-          context,
-          RendezvousDetailsPage.materialPageRoute(rdvId),
-          viewModel.analyticsLabel,
-        ),
+        onTap: (rdvId) {
+          context.trackEvent(EventType.RDV_DETAIL);
+          return widget.pushAndTrackBack(
+            context,
+            RendezvousDetailsPage.materialPageRoute(rdvId),
+            viewModel.analyticsLabel,
+          );
+        },
       ),
     );
   }
