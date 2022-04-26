@@ -136,9 +136,10 @@ class DeleteAccountButton extends StatelessWidget {
   }
 }
 
-class DeleteAlertDialog extends StatelessWidget {
-  const DeleteAlertDialog();
+String? _fieldContent;
 
+class DeleteAlertDialog extends StatelessWidget {
+  final TextEditingController _inputController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -153,32 +154,51 @@ class DeleteAlertDialog extends StatelessWidget {
             child: Text(Strings.lastWarningBeforeSuppression,
                 style: TextStyles.textBaseRegular, textAlign: TextAlign.start),
           ),
-          DeleteAlertTextField(),
+          DeleteAlertTextField(controller: _inputController),
         ],
       ),
       actions: [
         SecondaryButton(
           label: Strings.cancelLabel,
           fontSize: FontSizes.medium,
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => {
+            _fieldContent = null,
+            Navigator.pop(context),
+          },
         ),
-        PrimaryActionButton(
-          label: Strings.suppressionLabel,
-          textColor: AppColors.warning,
-          backgroundColor: AppColors.warningLighten,
-          disabledBackgroundColor: AppColors.warningLight,
-          rippleColor: AppColors.warningLight,
-          withShadow: false,
-          heightPadding: Margins.spacing_s,
-          onPressed: () => Navigator.pop(context),
-        ),
+        ValueListenableBuilder<TextEditingValue>(
+            valueListenable: _inputController,
+            builder: (context, value, child) {
+              return PrimaryActionButton(
+                label: Strings.suppressionLabel,
+                textColor: AppColors.warning,
+                backgroundColor: AppColors.warningLighten,
+                disabledBackgroundColor: AppColors.warningLight,
+                rippleColor: AppColors.warningLight,
+                withShadow: false,
+                heightPadding: Margins.spacing_s,
+                onPressed: (_isStringValid())
+                    ? () {
+                        _fieldContent = null;
+                        Navigator.pop(context);
+                      }
+                    : null,
+              );
+            })
       ],
       actionsAlignment: MainAxisAlignment.center,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Margins.spacing_m)),
-      actionsPadding: EdgeInsets.only(bottom: Margins.spacing_base),
+      actionsPadding: EdgeInsets.only(bottom: Margins.spacing_xl),
     );
   }
 
+  bool _isFormValid() => _fieldContent != null && _fieldContent!.isNotEmpty;
+
+  bool _isStringValid() {
+    if (!_isFormValid()) return false;
+    final stringToCheck = _fieldContent!.toLowerCase().trim();
+    return stringToCheck == Strings.suppressionLabel.toLowerCase();
+  }
 }
 
 class DeleteAlertCrossButton extends StatelessWidget {
@@ -188,7 +208,11 @@ class DeleteAlertCrossButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return IconButton(
       alignment: Alignment.topRight,
-      onPressed: () => Navigator.pop(context),
+      onPressed: () => {
+        _fieldContent = null,
+        Navigator.pop(context),
+      },
+      iconSize: 20,
       tooltip: Strings.close,
       icon: SvgPicture.asset(
         Drawables.icClose,
@@ -199,37 +223,44 @@ class DeleteAlertCrossButton extends StatelessWidget {
 }
 
 class DeleteAlertTextField extends StatefulWidget {
+  final TextEditingController controller;
 
-  const DeleteAlertTextField();
+  const DeleteAlertTextField({required this.controller});
 
   @override
   State<DeleteAlertTextField> createState() => _DeleteAlertTextFieldState();
 }
 
 class _DeleteAlertTextFieldState extends State<DeleteAlertTextField> {
-  String? _fieldContent;
-
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      enabled: true,
-      minLines: 1,
-      maxLines: 1,
+      controller: widget.controller,
       decoration: InputDecoration(
           contentPadding: const EdgeInsets.all(16),
+          errorText: (_isNotValid()) ? Strings.mandatorySuppressionLabelError : null,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0),
             borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
           )),
       keyboardType: TextInputType.multiline,
-      textCapitalization: TextCapitalization.sentences,
+      textCapitalization: TextCapitalization.none,
       textInputAction: TextInputAction.done,
       style: TextStyles.textSBold,
-      validator: (value) {
-        if ((value == null || value.isEmpty)) return Strings.mandatorySuppressionLabelError;
-        return null;
+      onChanged: (value) {
+        setState(() {
+          _fieldContent = value;
+        });
       },
-      onChanged: (value) => _fieldContent = value,
     );
+  }
+
+  bool _isNotValid() {
+    if (_fieldContent != null) {
+      if (_fieldContent!.isEmpty) return true;
+      final stringToCheck = _fieldContent!.toLowerCase().trim();
+      return stringToCheck != Strings.suppressionLabel.toLowerCase();
+    }
+    return false;
   }
 }
