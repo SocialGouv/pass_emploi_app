@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
+import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/chat_page.dart';
 import 'package:pass_emploi_app/pages/favoris/favoris_tabs_page.dart';
 import 'package:pass_emploi_app/pages/mon_suivi_tabs_page.dart';
@@ -11,6 +12,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/menu_item.dart';
 
 const int _indexOfMonSuiviPage = 0;
@@ -65,12 +67,12 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       converter: (store) => MainPageViewModel.create(store),
       onInit: (store) => store.dispatch(SubscribeToChatStatusAction()),
       onDispose: (store) => store.dispatch(UnsubscribeFromChatStatusAction()),
-      builder: (context, viewModel) => _body(viewModel),
+      builder: (context, viewModel) => _body(viewModel, context),
       distinct: true,
     );
   }
 
-  Widget _body(MainPageViewModel viewModel) {
+  Widget _body(MainPageViewModel viewModel, BuildContext context) {
     return Scaffold(
       body: Container(
         color: AppColors.grey100,
@@ -90,12 +92,17 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
           MenuItem(drawableRes: Drawables.icMenuPlus, label: Strings.menuProfil),
         ],
         currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
+        onTap: (index) => _onItemTapped(index, context),
       ),
     );
   }
 
-  void _onItemTapped(int index) => setState(() => _selectedIndex = index);
+  void _onItemTapped(int index, BuildContext context) {
+    if (index == _indexOfMonSuiviPage) {
+      context.trackEvent(EventType.ACTION_LISTE);
+    }
+    setState(() => _selectedIndex = index);
+  }
 
   Widget _content(int index, MainPageViewModel viewModel) {
     switch (index) {
