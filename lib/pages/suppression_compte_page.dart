@@ -58,18 +58,19 @@ class SuppressionComptePage extends TraceableStatelessWidget {
               Spacer(),
               if (viewModel.isPoleEmploiLogin == null && viewModel.isPoleEmploiLogin!)
                 Text(Strings.warningInformationPoleEmploi, style: TextStyles.textSRegular()),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(child: DeleteAccountButton(viewModel: viewModel)),
-                    ],
-                  ),
-                ),
-              )
+              Spacer(height: 100),
+            ],
+          ),
+        ),
+      ),
+      Align(
+        alignment: Alignment.bottomCenter,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: Margins.spacing_xl, horizontal: Margins.spacing_base),
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Expanded(child: _DeleteAccountButton(viewModel: viewModel)),
             ],
           ),
         ),
@@ -77,7 +78,7 @@ class SuppressionComptePage extends TraceableStatelessWidget {
     ]);
   }
 }
-
+// ???
 class Spacer extends StatelessWidget {
   final double height;
 
@@ -109,10 +110,10 @@ class ListedItems extends StatelessWidget {
   }
 }
 
-class DeleteAccountButton extends StatelessWidget {
+class _DeleteAccountButton extends StatelessWidget {
   final ParametersProfilePageViewModel viewModel;
 
-  DeleteAccountButton({required this.viewModel});
+  _DeleteAccountButton({required this.viewModel});
 
   @override
   Widget build(BuildContext context) {
