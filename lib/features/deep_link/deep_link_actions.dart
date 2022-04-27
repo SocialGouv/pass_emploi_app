@@ -6,4 +6,10 @@ class DeepLinkAction {
   DeepLinkAction(this.message);
 }
 
+class LocalDeeplinkAction {
+  final Map<String, dynamic> data;
+
+  LocalDeeplinkAction(this.data);
+}
+
 class ResetDeeplinkAction {}
