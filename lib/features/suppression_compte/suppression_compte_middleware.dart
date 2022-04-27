@@ -1,3 +1,4 @@
+import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_action.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -16,7 +17,12 @@ class SuppressionCompteMiddleware extends MiddlewareClass<AppState> {
     if (loginState is LoginSuccessState && action is SuppressionCompteRequestAction) {
       store.dispatch(SuppressionCompteLoadingAction());
       final result = await _repository.deleteUser(loginState.user.id);
-      store.dispatch(result ? SuppressionCompteSuccessAction() : SuppressionCompteFailureAction());
+      if (result) {
+        store.dispatch(SuppressionCompteSuccessAction());
+        store.dispatch(RequestLogoutAction());
+      } else {
+        store.dispatch(SuppressionCompteFailureAction());
+      }
     }
   }
 }

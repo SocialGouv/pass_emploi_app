@@ -12,7 +12,7 @@ class ParametersProfilePageViewModel extends Equatable {
   final bool? isPoleEmploiLogin;
   final bool error;
   final bool withLoading;
-  final Function() onDeleteUserDissmissed;
+  final Function() onDeleteUser;
 
   ParametersProfilePageViewModel({
     this.userId,
@@ -20,7 +20,7 @@ class ParametersProfilePageViewModel extends Equatable {
     this.isPoleEmploiLogin,
     this.error = false,
     this.withLoading = false,
-    required this.onDeleteUserDissmissed,
+    required this.onDeleteUser,
   });
 
   factory ParametersProfilePageViewModel.create(Store<AppState> store) {
@@ -30,10 +30,11 @@ class ParametersProfilePageViewModel extends Equatable {
       final loginMode = loginState.user.loginMode;
       return ParametersProfilePageViewModel(
         userId: id,
-        warningSuppressionFeatures: loginMode == LoginMode.POLE_EMPLOI ? Strings.warningPointsPoleEmploi : Strings.warningPointsMILO,
+        warningSuppressionFeatures:
+            loginMode == LoginMode.POLE_EMPLOI ? Strings.warningPointsPoleEmploi : Strings.warningPointsMILO,
         isPoleEmploiLogin: loginMode == LoginMode.POLE_EMPLOI ? true : false,
         error: false,
-        onDeleteUserDissmissed: () => store.dispatch(SuppressionCompteRequestAction()),
+        onDeleteUser: () => store.dispatch(SuppressionCompteRequestAction()),
       );
     }
     return ParametersProfilePageViewModel(
@@ -41,7 +42,7 @@ class ParametersProfilePageViewModel extends Equatable {
       warningSuppressionFeatures: null,
       isPoleEmploiLogin: null,
       error: true,
-      onDeleteUserDissmissed: () => {},
+      onDeleteUser: () => {},
     );
   }
 

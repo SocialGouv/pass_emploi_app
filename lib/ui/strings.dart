@@ -420,6 +420,7 @@ class Strings {
   ];
   static String lastWarningBeforeSuppression = "Tappez “supprimer” pour confirmer la suppression de votre compte";
   static String mandatorySuppressionLabelError = "Vérifiez que vous avez bien tappé “supprimer”";
+  static String accountDeletionSuccess = "Votre compte a bien été supprimé de l’application CEJ";
 
   // saved search
   static String createAlert = "Créer une alerte";

@@ -56,7 +56,7 @@ class SuppressionComptePage extends TraceableStatelessWidget {
               if (!viewModel.error) ListedItems(list: viewModel.warningSuppressionFeatures!),
               Text(Strings.warningInformationParagraph2, style: TextStyles.textSRegular()),
               Spacer(),
-              if (viewModel.isPoleEmploiLogin == null && viewModel.isPoleEmploiLogin!)
+              if (viewModel.isPoleEmploiLogin != null)
                 Text(Strings.warningInformationPoleEmploi, style: TextStyles.textSRegular()),
               Spacer(height: 100),
             ],
@@ -134,7 +134,7 @@ class _DeleteAccountButton extends StatelessWidget {
       context: context,
       builder: (_) => DeleteAlertDialog(viewModel: viewModel),
     ).then((result) {
-      showSuccessfulSnackBar(context, Strings.savedSearchDeleteSuccess);
+      showSuccessfulSnackBar(context, Strings.accountDeletionSuccess);
     });
   }
 }
@@ -185,8 +185,8 @@ class DeleteAlertDialog extends StatelessWidget {
                 heightPadding: Margins.spacing_s,
                 onPressed: (_isStringValid())
                     ? () {
-                        _fieldContent = null;
-                        viewModel.onDeleteUserDissmissed();
+                  _fieldContent = null;
+                        viewModel.onDeleteUser();
                         Navigator.pop(context);
                       }
                     : null,
