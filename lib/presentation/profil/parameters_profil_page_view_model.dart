@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
+import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_action.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
@@ -11,6 +12,7 @@ class ParametersProfilePageViewModel extends Equatable {
   final bool? isPoleEmploiLogin;
   final bool error;
   final bool withLoading;
+  final Function() onDeleteUserDissmissed;
 
   ParametersProfilePageViewModel({
     this.userId,
@@ -18,6 +20,7 @@ class ParametersProfilePageViewModel extends Equatable {
     this.isPoleEmploiLogin,
     this.error = false,
     this.withLoading = false,
+    required this.onDeleteUserDissmissed,
   });
 
   factory ParametersProfilePageViewModel.create(Store<AppState> store) {
@@ -30,6 +33,7 @@ class ParametersProfilePageViewModel extends Equatable {
         warningSuppressionFeatures: loginMode == LoginMode.POLE_EMPLOI ? Strings.warningPointsPoleEmploi : Strings.warningPointsMILO,
         isPoleEmploiLogin: loginMode == LoginMode.POLE_EMPLOI ? true : false,
         error: false,
+        onDeleteUserDissmissed: () => store.dispatch(SuppressionCompteRequestAction()),
       );
     }
     return ParametersProfilePageViewModel(
@@ -37,6 +41,7 @@ class ParametersProfilePageViewModel extends Equatable {
       warningSuppressionFeatures: null,
       isPoleEmploiLogin: null,
       error: true,
+      onDeleteUserDissmissed: () => {},
     );
   }
 

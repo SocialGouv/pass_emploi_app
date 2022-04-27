@@ -65,7 +65,7 @@ class SuppressionComptePage extends TraceableStatelessWidget {
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      Expanded(child: DeleteAccountButton()),
+                      Expanded(child: DeleteAccountButton(viewModel: viewModel)),
                     ],
                   ),
                 ),
@@ -110,7 +110,9 @@ class ListedItems extends StatelessWidget {
 }
 
 class DeleteAccountButton extends StatelessWidget {
-  const DeleteAccountButton();
+  final ParametersProfilePageViewModel viewModel;
+
+  DeleteAccountButton({required this.viewModel});
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +131,7 @@ class DeleteAccountButton extends StatelessWidget {
   void _showDeleteDialog(BuildContext context) {
     showDialog(
       context: context,
-      builder: (_) => DeleteAlertDialog(),
+      builder: (_) => DeleteAlertDialog(viewModel: viewModel),
     ).then((result) {
       showSuccessfulSnackBar(context, Strings.savedSearchDeleteSuccess);
     });
@@ -140,6 +142,9 @@ String? _fieldContent;
 
 class DeleteAlertDialog extends StatelessWidget {
   final TextEditingController _inputController = TextEditingController();
+  final ParametersProfilePageViewModel viewModel;
+
+  DeleteAlertDialog({required this.viewModel});
 
   @override
   Widget build(BuildContext context) {
@@ -180,6 +185,7 @@ class DeleteAlertDialog extends StatelessWidget {
                 onPressed: (_isStringValid())
                     ? () {
                         _fieldContent = null;
+                        viewModel.onDeleteUserDissmissed();
                         Navigator.pop(context);
                       }
                     : null,

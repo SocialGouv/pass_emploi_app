@@ -31,6 +31,7 @@ import 'package:pass_emploi_app/features/saved_search/init/saved_search_initiali
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_middleware.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_middleware.dart';
 import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_middleware.dart';
+import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_middleware.dart';
 import 'package:pass_emploi_app/features/tech/action_logging_middleware.dart';
 import 'package:pass_emploi_app/features/tech/crashlytics_middleware.dart';
 import 'package:pass_emploi_app/features/tracking/tracking_event_middleware.dart';
@@ -47,8 +48,8 @@ import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
-import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
@@ -67,6 +68,7 @@ import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
+import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_pe_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
@@ -101,6 +103,7 @@ class StoreFactory {
   final ServiceCiviqueRepository serviceCiviqueRepository;
   final ServiceCiviqueDetailRepository serviceCiviqueDetailRepository;
   final DetailsJeuneRepository detailsJeuneRepository;
+  final SuppressionCompteRepository suppressionCompteRepository;
 
   StoreFactory(
     this.authenticator,
@@ -131,6 +134,7 @@ class StoreFactory {
     this.serviceCiviqueRepository,
     this.serviceCiviqueDetailRepository,
     this.detailsJeuneRepository,
+    this.suppressionCompteRepository,
   );
 
   redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -181,6 +185,7 @@ class StoreFactory {
         SavedSearchDeleteMiddleware(savedSearchDeleteRepository),
         SearchServiceCiviqueMiddleware(serviceCiviqueRepository),
         ServiceCiviqueDetailMiddleware(serviceCiviqueDetailRepository),
+        SuppressionCompteMiddleware(suppressionCompteRepository),
         ..._debugMiddleware(),
       ],
     );

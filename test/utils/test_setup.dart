@@ -25,6 +25,7 @@ import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
+import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_pe_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
@@ -61,6 +62,7 @@ class TestStoreFactory {
   ServiceCiviqueDetailRepository serviceCiviqueDetailRepository = DummyServiceCiviqueDetailRepository();
   ServiceCiviqueFavorisRepository serviceCiviqueFavorisRepository = DummyServiceCiviqueFavorisRepository();
   DetailsJeuneRepository detailsJeuneRepository = DummyDetailsJeuneRepository();
+  SuppressionCompteRepository suppressionCompteRepository = DummySuppressionCompteRepository();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
@@ -92,6 +94,7 @@ class TestStoreFactory {
       serviceCiviqueRepository,
       serviceCiviqueDetailRepository,
       detailsJeuneRepository,
+      suppressionCompteRepository,
     ).initializeReduxStore(initialState: initialState);
   }
 }
