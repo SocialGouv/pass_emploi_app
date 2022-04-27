@@ -34,7 +34,8 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RendezvousListViewModel>(
       onInit: (store) {
-        if (_pageOffset == 0) store.dispatch(RendezvousRequestAction(RendezvousPeriod.FUTUR));
+        // Past rendezvous are retrieved via ViewModel when page offset is -1
+        store.dispatch(RendezvousRequestAction(RendezvousPeriod.FUTUR));
       },
       converter: (store) => RendezvousListViewModel.create(store, DateTime.now(), _pageOffset),
       builder: _builder,
