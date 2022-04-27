@@ -30,10 +30,12 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   String makeEmptyLabel() {
-    final rendezvousState = _rendezvousState;
-    if (rendezvousState is RendezvousSuccessState && rendezvousState.rendezvous.isEmpty) return Strings.noRendezYet;
-    if (rendezvousState is RendezvousSuccessState && _haveRendezvousPreviousThisWeek(rendezvousState.rendezvous)) {
-      return Strings.noMoreRendezVousThisWeek;
+    if (_rendezvousState.futurRendezVousStatus == RendezvousStatus.SUCCESS) {
+      if (_rendezvousState.rendezvous.isEmpty) {
+        return Strings.noRendezYet;
+      } else if (_haveRendezvousPreviousThisWeek(_rendezvousState.rendezvous)) {
+        return Strings.noMoreRendezVousThisWeek;
+      }
     }
     return Strings.noRendezVousCetteSemaineTitre;
   }
@@ -46,8 +48,7 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   String? makeEmptySubtitleLabel() {
-    final rendezvousState = _rendezvousState;
-    if (rendezvousState is RendezvousSuccessState && rendezvousState.rendezvous.isEmpty) {
+    if (_rendezvousState.futurRendezVousStatus == RendezvousStatus.SUCCESS && _rendezvousState.rendezvous.isEmpty) {
       return Strings.noRendezYetSubtitle;
     }
     return null;
@@ -55,8 +56,7 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   int? nextRendezvousPageOffset() {
-    final state = _rendezvousState;
-    final List<Rendezvous> rendezvous = state is RendezvousSuccessState ? state.rendezvous : [];
+    final List<Rendezvous> rendezvous = _rendezvousState.futurRendezVousStatus == RendezvousStatus.SUCCESS ? _rendezvousState.rendezvous : [];
     final sortedRendezvous = rendezvous.sortedFromRecentToFuture();
     final currentWeekRendezvous = sortedRendezvous.filteredFromTodayToSunday(_now);
     final futureRendezvous = sortedRendezvous.where((rdv) => rdv.date.isAfter(_now));
@@ -78,10 +78,9 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   List<RendezvousItem> rendezvousItems() {
-    final rendezvousState = _rendezvousState;
-    if (rendezvousState is! RendezvousSuccessState) return [];
+    if (_rendezvousState.futurRendezVousStatus != RendezvousStatus.SUCCESS) return [];
 
-    return rendezvousState.rendezvous
+    return _rendezvousState.rendezvous
         .sortedFromRecentToFuture()
         .filteredFromTodayToSunday(_now)
         .groupedItems(groupedBy: (element) => element.date.toDayOfWeekWithFullMonthContextualized());

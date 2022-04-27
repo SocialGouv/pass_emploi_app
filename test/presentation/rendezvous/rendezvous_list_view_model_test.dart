@@ -16,105 +16,110 @@ import '../../utils/test_setup.dart';
 void main() {
   final DateTime thursday3thFebruary = DateTime(2022, 2, 3, 4, 5, 30);
 
-  test('create when rendezvous state is loading should display loading', () {
-    // Given
-    final store = TestStoreFactory().initializeReduxStore(
-      initialState: loggedInState().copyWith(rendezvousState: RendezvousLoadingState()),
-    );
-
-    // When
-    final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
-
-    // Then
-    expect(viewModel.displayState, DisplayState.LOADING);
-  });
-
-  test('create when rendezvous state is not initialized should display loading', () {
-    // Given
-    final store = TestStoreFactory().initializeReduxStore(
-      initialState: loggedInState().copyWith(rendezvousState: RendezvousNotInitializedState()),
-    );
-
-    // When
-    final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
-
-    // Then
-    expect(viewModel.displayState, DisplayState.LOADING);
-  });
-
-  test('create when rendezvous state is a failure should display failure', () {
-    // Given
-    final store = TestStoreFactory().initializeReduxStore(
-      initialState: loggedInState().copyWith(rendezvousState: RendezvousFailureState()),
-    );
-
-    // When
-    final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
-
-    // Then
-    expect(viewModel.displayState, DisplayState.FAILURE);
-  });
-
-  group('create when rendezvous state is success…', () {
-    test("should not navigate to past if there isn't past rendezvous", () {
+  group('when fetching rendez-vous futurs', () {
+    test('when not initialized should display loading', () {
       // Given
-      final rendezvous = [mockRendezvous(id: 'après-demain', date: DateTime(2022, 2, 5, 4, 5, 30))];
-      final store = _store(rendezvous);
+      final store = TestStoreFactory().initializeReduxStore(
+        initialState: loggedInState().copyWith(rendezvousState: RendezvousState.notInitialized()),
+      );
+
+      // When
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.LOADING);
+    });
+
+    test('when loading should display loading', () {
+      // Given
+      final store = TestStoreFactory().initializeReduxStore(
+        initialState: loggedInState().copyWith(rendezvousState: RendezvousState.loadingFuture()),
+      );
+
+      // When
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.LOADING);
+    });
+
+    test('should display failure', () {
+      // Given
+      final store = TestStoreFactory().initializeReduxStore(
+        initialState: loggedInState().copyWith(rendezvousState: RendezvousState.failedFuture()),
+      );
+
+      // When
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.FAILURE);
+    });
+  });
+
+  group('when having rendez-vous futurs', () {
+    test("should not navigate to past when logged in Pole Emploi", () {
+      // Given
+      final store = _storeLoggedInPoleEmploi([]);
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
       // Then
       expect(viewModel.withPreviousPageButton, false);
     });
 
-    test("should have an empty rendezvous display", () {
+    test("should navigate to past when logged in MiLo", () {
       // Given
-      final store = _store([]);
+      final store = _storeLoggedInMilo([]);
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
       // Then
-      expect(viewModel.displayState, DisplayState.CONTENT);
-      expect(viewModel.withPreviousPageButton, false);
-      expect(viewModel.withNextPageButton, false);
-      expect(viewModel.emptyLabel, "Vous n'avez pas encore de rendez-vous prévus");
-      expect(viewModel.emptySubtitleLabel,
-          "Vous pourrez consulter ceux passés et à venir en utilisant les flèches en haut de page.");
+      expect(viewModel.withPreviousPageButton, true);
+    });
+  });
+
+  group('when having rendez-vous futurs and fetching rendez-vous passés', () {
+    test('when not initialized should display loading', () {
+      // Given
+      final store = TestStoreFactory().initializeReduxStore(
+        initialState: loggedInState().copyWith(rendezvousState: RendezvousState.notInitialized()),
+      );
+
+      // When
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.LOADING);
     });
 
-    group('past rendezvous of the current week', () {
-      final rendezvous = [
-        mockRendezvous(id: 'cette semaine lundi', date: DateTime(2022, 2, 1, 4, 5, 30)),
-        mockRendezvous(id: 'cette semaine mardi', date: DateTime(2022, 2, 2, 4, 5, 30)),
-        mockRendezvous(id: 'cette semaine dimanche', date: DateTime(2022, 2, 6, 4, 5, 30)),
-      ];
+    test('when loading should display loading', () {
+      // Given
+      final store = TestStoreFactory().initializeReduxStore(
+        initialState: loggedInState().copyWith(rendezvousState: RendezvousState.loadingPast()),
+      );
 
-      test("should not be displayed on current week page", () {
-        // Given
-        final store = _store(rendezvous);
-        // When
-        final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
-        // Then
-        expect(viewModel.withPreviousPageButton, true);
-        expect(viewModel.rendezvousItems, [
-          RendezvousDivider("Dimanche 6 février"),
-          RendezvousCardItem("cette semaine dimanche"),
-        ]);
-      });
+      // When
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
 
-      test("should be displayed on past page", () {
-        // Given
-        final store = _store(rendezvous);
-        // When
-        final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
-        // Then
-        expect(viewModel.rendezvousItems, [
-          RendezvousDivider("Février 2022 (2)"),
-          RendezvousCardItem("cette semaine mardi"),
-          RendezvousCardItem("cette semaine lundi"),
-        ]);
-      });
+      // Then
+      expect(viewModel.displayState, DisplayState.LOADING);
     });
 
-    group('should display list', () {
+    test('should display failure', () {
+      // Given
+      final store = TestStoreFactory().initializeReduxStore(
+        initialState: loggedInState().copyWith(rendezvousState: RendezvousState.failedPast()),
+      );
+
+      // When
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.FAILURE);
+    });
+  });
+
+  group('when having rendez-vous futurs and passés', () {
+    group('should display pages', () {
       final rendezvous = [
         mockRendezvous(id: 'semaine passée 1', date: DateTime(2022, 1, 30, 4, 5, 30)),
         mockRendezvous(id: 'passés lointain 1', date: DateTime(2022, 1, 4, 4, 5, 30)),
@@ -307,6 +312,54 @@ void main() {
       });
     });
 
+    group('past rendezvous of the current week', () {
+      final rendezvous = [
+        mockRendezvous(id: 'cette semaine lundi', date: DateTime(2022, 2, 1, 4, 5, 30)),
+        mockRendezvous(id: 'cette semaine mardi', date: DateTime(2022, 2, 2, 4, 5, 30)),
+        mockRendezvous(id: 'cette semaine dimanche', date: DateTime(2022, 2, 6, 4, 5, 30)),
+      ];
+
+      test("should not be displayed on current week page", () {
+        // Given
+        final store = _store(rendezvous);
+        // When
+        final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+        // Then
+        expect(viewModel.withPreviousPageButton, true);
+        expect(viewModel.rendezvousItems, [
+          RendezvousDivider("Dimanche 6 février"),
+          RendezvousCardItem("cette semaine dimanche"),
+        ]);
+      });
+
+      test("should be displayed on past page", () {
+        // Given
+        final store = _store(rendezvous);
+        // When
+        final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
+        // Then
+        expect(viewModel.rendezvousItems, [
+          RendezvousDivider("Février 2022 (2)"),
+          RendezvousCardItem("cette semaine mardi"),
+          RendezvousCardItem("cette semaine lundi"),
+        ]);
+      });
+    });
+
+    test("should have an empty rendezvous display", () {
+      // Given
+      final store = _store([]);
+      // When
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+      // Then
+      expect(viewModel.displayState, DisplayState.CONTENT);
+      expect(viewModel.withPreviousPageButton, true);
+      expect(viewModel.withNextPageButton, true);
+      expect(viewModel.emptyLabel, "Vous n'avez pas encore de rendez-vous prévus");
+      expect(viewModel.emptySubtitleLabel,
+          "Vous pouvez consulter ceux passés et à venir en utilisant les flèches en haut de page.");
+    });
+
     group('should handle next rendezvous button…', () {
       void assertPageOffsetOfNextRendezvous({
         required List<Rendezvous> rendezvous,
@@ -407,38 +460,6 @@ void main() {
       );
     });
 
-    test('and coming from deeplink', () {
-      // Given
-      final store = TestStoreFactory().initializeReduxStore(
-        initialState: loggedInState().copyWith(
-          deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_RENDEZVOUS, DateTime.now(), '1'),
-          rendezvousState: RendezvousSuccessState([mockRendezvous(id: '1')]),
-        ),
-      );
-
-      // When
-      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
-
-      // Then
-      expect(viewModel.deeplinkRendezvousId, '1');
-    });
-
-    test('and coming from deeplink but ID is not valid anymore', () {
-      // Given
-      final store = TestStoreFactory().initializeReduxStore(
-        initialState: loggedInState().copyWith(
-          deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_RENDEZVOUS, DateTime.now(), '1'),
-          rendezvousState: RendezvousSuccessState([mockRendezvous(id: '2')]),
-        ),
-      );
-
-      // When
-      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
-
-      // Then
-      expect(viewModel.deeplinkRendezvousId, isNull);
-    });
-
     test("should not display date label when there isn't past rendezvous", () {
       // Given
       final DateTime now = DateTime(2022, 11, 30, 4, 5, 0);
@@ -451,18 +472,115 @@ void main() {
       // Then
       expect(viewModel.dateLabel, "");
     });
+
+    test('should handle deeplink with valid ID', () {
+      // Given
+      final store = TestStoreFactory().initializeReduxStore(
+        initialState: loggedInState().copyWith(
+          deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_RENDEZVOUS, DateTime.now(), '1'),
+          rendezvousState: RendezvousState.successfulFuture([mockRendezvous(id: '1')]),
+        ),
+      );
+
+      // When
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+
+      // Then
+      expect(viewModel.deeplinkRendezvousId, '1');
+    });
+
+    test('should handle deeplink with invalid ID', () {
+      // Given
+      final store = TestStoreFactory().initializeReduxStore(
+        initialState: loggedInState().copyWith(
+          deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_RENDEZVOUS, DateTime.now(), '1'),
+          rendezvousState: RendezvousState.successfulFuture([mockRendezvous(id: '2')]),
+        ),
+      );
+
+      // When
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+
+      // Then
+      expect(viewModel.deeplinkRendezvousId, isNull);
+    });
   });
 
-  test('onRetry should trigger RequestRendezvousAction', () {
-    // Given
-    final store = StoreSpy();
-    final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
+  group('onRetry should trigger RequestRendezvousAction', () {
+    void assertOn({required int pageOffset, required RendezvousPeriod expectedPeriod}) {
+      // Given
+      final store = StoreSpy();
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, pageOffset);
 
-    // When
-    viewModel.onRetry();
+      // When
+      viewModel.onRetry();
 
-    // Then
-    expect(store.dispatchedAction, isA<RendezvousRequestAction>());
+      // Then
+      final dispatchedAction = store.dispatchedAction;
+      expect(dispatchedAction, isA<RendezvousRequestAction>());
+      if (dispatchedAction is RendezvousRequestAction) {
+        expect(dispatchedAction.period, expectedPeriod);
+      }
+    }
+
+    test("on past", () {
+      assertOn(pageOffset: -1, expectedPeriod: RendezvousPeriod.PASSE);
+    });
+
+    test("on future", () {
+      assertOn(pageOffset: 0, expectedPeriod: RendezvousPeriod.FUTUR);
+      assertOn(pageOffset: 1, expectedPeriod: RendezvousPeriod.FUTUR);
+      assertOn(pageOffset: 2, expectedPeriod: RendezvousPeriod.FUTUR);
+      assertOn(pageOffset: 3, expectedPeriod: RendezvousPeriod.FUTUR);
+      assertOn(pageOffset: 4, expectedPeriod: RendezvousPeriod.FUTUR);
+      assertOn(pageOffset: 5, expectedPeriod: RendezvousPeriod.FUTUR);
+    });
+  });
+
+  group('onOffsetChanged', () {
+    void assertOn({required int pageOffset, required bool hasFetchedPast, required bool shouldRequestPast}) {
+      // Given
+      final rendezvousState = hasFetchedPast ? RendezvousState.successful([]) : RendezvousState.successfulFuture([]);
+      final store = StoreSpy.withState(AppState.initialState().copyWith(rendezvousState: rendezvousState));
+      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, pageOffset);
+
+      // When
+      viewModel.onOffsetChanged(pageOffset);
+
+      // Then
+      if (shouldRequestPast) {
+        final dispatchedAction = store.dispatchedAction;
+        expect(dispatchedAction, isA<RendezvousRequestAction>());
+        if (dispatchedAction is RendezvousRequestAction) {
+          expect(dispatchedAction.period, RendezvousPeriod.PASSE);
+        }
+      } else {
+        expect(store.dispatchedAction, isNull);
+      }
+    }
+
+    test('should trigger nothing on future pages', () {
+      assertOn(pageOffset: 0, hasFetchedPast: false, shouldRequestPast: false);
+      assertOn(pageOffset: 1, hasFetchedPast: false, shouldRequestPast: false);
+      assertOn(pageOffset: 2, hasFetchedPast: false, shouldRequestPast: false);
+      assertOn(pageOffset: 3, hasFetchedPast: false, shouldRequestPast: false);
+      assertOn(pageOffset: 4, hasFetchedPast: false, shouldRequestPast: false);
+      assertOn(pageOffset: 5, hasFetchedPast: false, shouldRequestPast: false);
+      assertOn(pageOffset: 0, hasFetchedPast: true, shouldRequestPast: false);
+      assertOn(pageOffset: 1, hasFetchedPast: true, shouldRequestPast: false);
+      assertOn(pageOffset: 2, hasFetchedPast: true, shouldRequestPast: false);
+      assertOn(pageOffset: 3, hasFetchedPast: true, shouldRequestPast: false);
+      assertOn(pageOffset: 4, hasFetchedPast: true, shouldRequestPast: false);
+      assertOn(pageOffset: 5, hasFetchedPast: true, shouldRequestPast: false);
+    });
+
+    test('should trigger nothing on past page already fetched', () {
+      assertOn(pageOffset: -1, hasFetchedPast: true, shouldRequestPast: false);
+    });
+
+    test('should request past action on past page not fetched yet', () {
+      assertOn(pageOffset: -1, hasFetchedPast: false, shouldRequestPast: true);
+    });
   });
 
   test('onDeeplinkUsed should trigger ResetDeeplinkAction', () {
@@ -481,7 +599,23 @@ void main() {
 Store<AppState> _store(List<Rendezvous> rendezvous) {
   return TestStoreFactory().initializeReduxStore(
     initialState: loggedInState().copyWith(
-      rendezvousState: RendezvousSuccessState(rendezvous),
+      rendezvousState: RendezvousState.successful(rendezvous),
+    ),
+  );
+}
+
+Store<AppState> _storeLoggedInMilo(List<Rendezvous> rendezvous) {
+  return TestStoreFactory().initializeReduxStore(
+    initialState: loggedInMiloState().copyWith(
+      rendezvousState: RendezvousState.successful(rendezvous),
+    ),
+  );
+}
+
+Store<AppState> _storeLoggedInPoleEmploi(List<Rendezvous> rendezvous) {
+  return TestStoreFactory().initializeReduxStore(
+    initialState: loggedInPoleEmploiState().copyWith(
+      rendezvousState: RendezvousState.successful(rendezvous),
     ),
   );
 }
