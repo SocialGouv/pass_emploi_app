@@ -33,11 +33,10 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RendezvousListViewModel>(
-      onInit: (store) {
-        // Past rendezvous are retrieved via ViewModel when page offset is -1
-        store.dispatch(RendezvousRequestAction(RendezvousPeriod.FUTUR));
+      converter: (store) {
+        RendezvousListViewModel.fetchRendezvous(store, _pageOffset);
+        return RendezvousListViewModel.create(store, DateTime.now(), _pageOffset);
       },
-      converter: (store) => RendezvousListViewModel.create(store, DateTime.now(), _pageOffset),
       builder: _builder,
       onDidChange: (_, viewModel) => _openDeeplinkIfNeeded(viewModel, context),
       distinct: true,
@@ -52,7 +51,6 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
         viewModel: viewModel,
         onPageOffsetChanged: (i) {
           final newOffset = _pageOffset + i;
-          viewModel.onOffsetChanged(newOffset);
           setState(() {
             _pageOffset = newOffset;
           });

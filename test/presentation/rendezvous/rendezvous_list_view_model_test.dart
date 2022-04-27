@@ -537,49 +537,75 @@ void main() {
     });
   });
 
-  group('onOffsetChanged', () {
-    void assertOn({required int pageOffset, required bool hasFetchedPast, required bool shouldRequestPast}) {
-      // Given
-      final rendezvousState = hasFetchedPast ? RendezvousState.successful([]) : RendezvousState.successfulFuture([]);
-      final store = StoreSpy.withState(AppState.initialState().copyWith(rendezvousState: rendezvousState));
-      final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, pageOffset);
+  group('fetchRendezvous…', () {
+    group('for past rendezvous', () {
+      void assertOn({required int pageOffset, required bool hasFetchedPast, required bool shouldRequestPast}) {
+        final msg = "$pageOffset "
+            "& ${hasFetchedPast ? "fetched" : "not fetched"} "
+            "-> ${shouldRequestPast ? "should request" : "should not request"}";
+        test(msg, () {
+          // Given
+          final state = hasFetchedPast ? RendezvousState.successful([]) : RendezvousState.successfulFuture([]);
+          final store = StoreSpy.withState(AppState.initialState().copyWith(rendezvousState: state));
 
-      // When
-      viewModel.onOffsetChanged(pageOffset);
+          // When
+          RendezvousListViewModel.fetchRendezvous(store, pageOffset);
 
-      // Then
-      if (shouldRequestPast) {
-        final dispatchedAction = store.dispatchedAction;
-        expect(dispatchedAction, isA<RendezvousRequestAction>());
-        if (dispatchedAction is RendezvousRequestAction) {
-          expect(dispatchedAction.period, RendezvousPeriod.PASSE);
-        }
-      } else {
-        expect(store.dispatchedAction, isNull);
+          // Then
+          if (shouldRequestPast) {
+            final dispatchedAction = store.dispatchedAction;
+            expect(dispatchedAction, isA<RendezvousRequestAction>());
+            if (dispatchedAction is RendezvousRequestAction) {
+              expect(dispatchedAction.period, RendezvousPeriod.PASSE);
+            }
+          } else {
+            expect(store.dispatchedAction, isNull);
+          }
+        });
       }
-    }
 
-    test('should trigger nothing on future pages', () {
-      assertOn(pageOffset: 0, hasFetchedPast: false, shouldRequestPast: false);
-      assertOn(pageOffset: 1, hasFetchedPast: false, shouldRequestPast: false);
-      assertOn(pageOffset: 2, hasFetchedPast: false, shouldRequestPast: false);
-      assertOn(pageOffset: 3, hasFetchedPast: false, shouldRequestPast: false);
-      assertOn(pageOffset: 4, hasFetchedPast: false, shouldRequestPast: false);
-      assertOn(pageOffset: 5, hasFetchedPast: false, shouldRequestPast: false);
-      assertOn(pageOffset: 0, hasFetchedPast: true, shouldRequestPast: false);
-      assertOn(pageOffset: 1, hasFetchedPast: true, shouldRequestPast: false);
-      assertOn(pageOffset: 2, hasFetchedPast: true, shouldRequestPast: false);
-      assertOn(pageOffset: 3, hasFetchedPast: true, shouldRequestPast: false);
-      assertOn(pageOffset: 4, hasFetchedPast: true, shouldRequestPast: false);
-      assertOn(pageOffset: 5, hasFetchedPast: true, shouldRequestPast: false);
-    });
-
-    test('should trigger nothing on past page already fetched', () {
       assertOn(pageOffset: -1, hasFetchedPast: true, shouldRequestPast: false);
+      assertOn(pageOffset: -1, hasFetchedPast: false, shouldRequestPast: true);
     });
 
-    test('should request past action on past page not fetched yet', () {
-      assertOn(pageOffset: -1, hasFetchedPast: false, shouldRequestPast: true);
+    group('for future rendezvous', () {
+      void assertOn({required int pageOffset, required bool hasFetchedFuture, required bool shouldRequestFuture}) {
+        final msg = "$pageOffset "
+            "& ${hasFetchedFuture ? "fetched" : "not fetched"} "
+            "-> ${shouldRequestFuture ? "should request" : "should not request"}";
+        test(msg, () {
+          // Given
+          final state = hasFetchedFuture ? RendezvousState.successfulFuture([]) : RendezvousState.notInitialized();
+          final store = StoreSpy.withState(AppState.initialState().copyWith(rendezvousState: state));
+
+          // When
+          RendezvousListViewModel.fetchRendezvous(store, pageOffset);
+
+          // Then
+          if (shouldRequestFuture) {
+            final dispatchedAction = store.dispatchedAction;
+            expect(dispatchedAction, isA<RendezvousRequestAction>());
+            if (dispatchedAction is RendezvousRequestAction) {
+              expect(dispatchedAction.period, RendezvousPeriod.FUTUR);
+            }
+          } else {
+            expect(store.dispatchedAction, isNull);
+          }
+        });
+      }
+
+      assertOn(pageOffset: 0, hasFetchedFuture: false, shouldRequestFuture: true);
+      assertOn(pageOffset: 1, hasFetchedFuture: false, shouldRequestFuture: true);
+      assertOn(pageOffset: 2, hasFetchedFuture: false, shouldRequestFuture: true);
+      assertOn(pageOffset: 3, hasFetchedFuture: false, shouldRequestFuture: true);
+      assertOn(pageOffset: 4, hasFetchedFuture: false, shouldRequestFuture: true);
+      assertOn(pageOffset: 5, hasFetchedFuture: false, shouldRequestFuture: true);
+      assertOn(pageOffset: 0, hasFetchedFuture: true, shouldRequestFuture: false);
+      assertOn(pageOffset: 1, hasFetchedFuture: true, shouldRequestFuture: false);
+      assertOn(pageOffset: 2, hasFetchedFuture: true, shouldRequestFuture: false);
+      assertOn(pageOffset: 3, hasFetchedFuture: true, shouldRequestFuture: false);
+      assertOn(pageOffset: 4, hasFetchedFuture: true, shouldRequestFuture: false);
+      assertOn(pageOffset: 5, hasFetchedFuture: true, shouldRequestFuture: false);
     });
   });
 
