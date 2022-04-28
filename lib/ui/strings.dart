@@ -396,6 +396,33 @@ class Strings {
   static const termsOfServiceUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_conditions_generales";
   static const accessibilityUrl = "https://doc.pass-emploi.beta.gouv.fr/legal/mobile_accessibilite_application";
 
+  // Profil: Settings & account suppression
+  static String settingsLabel = "Paramètres application";
+  static String suppressionPageTitle = "Suppression de compte";
+  static String suppressionAccountLabel = "Supprimer mon compte de l’application CEJ";
+  static String warning = "Attention";
+  static String suppressionButtonLabel = "Supprimer mon compte";
+  static String warningInformationParagraph1 =
+      "En supprimant votre compte de l’application Contrat d’Engagement Jeune, vous perdrez définitivement toutes les données présentes sur l’application :";
+  static String warningInformationParagraph2 =
+      "La suppression de votre compte sur l’application CEJ n’entraine pas la suppression de votre compte Contrat d’Engagement Jeune.";
+  static String warningInformationPoleEmploi =
+      "Vos démarches et rendez-vous seront toujours disponibles dans votre portail Pôle emploi.";
+  static List<String> warningPointsMilo = [
+    "vos actions",
+    "vos messages avec votre conseiller",
+    "vos rendez-vous",
+    "vos recherches et offres sauvergardées"
+  ];
+
+  static List<String> warningPointsPoleEmploi = [
+    "vos messages avec votre conseiller",
+    "vos recherches et offres sauvergardées"
+  ];
+  static String lastWarningBeforeSuppression = "Tappez “supprimer” pour confirmer la suppression de votre compte";
+  static String mandatorySuppressionLabelError = "Vérifiez que vous avez bien tappé “supprimer”";
+  static String accountDeletionSuccess = "Votre compte a bien été supprimé de l’application CEJ";
+
   // saved search
   static String createAlert = "Créer une alerte";
   static String createSavedSearchTitle = "Enregistrer la recherche en favoris";
@@ -422,8 +449,8 @@ class Strings {
   static String savedSearchSeeResults = "Voir les résultats";
 
   static String savedSearchDeleteMessage = "Voulez-vous vraiment supprimer la recherche sauvegardée ?";
-  static String savedSearchDeleteCancel = "Annuler";
-  static String savedSearchDeleteConfirm = "Supprimer";
+  static String cancelLabel = "Annuler";
+  static String suppressionLabel = "Supprimer";
   static String savedSearchDeleteError = "Erreur lors de la suppression de la recherche.";
   static String savedSearchDeleteSuccess = "Votre recherche sauvegardée a été supprimée avec succès.";
 }

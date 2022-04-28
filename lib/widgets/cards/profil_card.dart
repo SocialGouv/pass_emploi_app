@@ -14,13 +14,17 @@ class ProfilCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(16)), boxShadow: [
-        Shadows.boxShadow,
-      ]),
-      child: Padding(
-        padding: padding,
-        child: child,
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(16),
+      clipBehavior: Clip.hardEdge,
+      child: Ink(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [Shadows.boxShadow],
+        ),
+        child: Padding(padding: padding, child: child),
       ),
     );
   }

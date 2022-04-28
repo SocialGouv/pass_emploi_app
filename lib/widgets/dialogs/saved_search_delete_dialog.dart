@@ -77,12 +77,12 @@ class SavedSearchDeleteDialog extends TraceableStatelessWidget {
       ),
       actions: [
         SecondaryButton(
-          label: Strings.savedSearchDeleteCancel,
+          label: Strings.cancelLabel,
           fontSize: FontSizes.medium,
           onPressed: () => Navigator.pop(context),
         ),
         PrimaryActionButton(
-          label: Strings.savedSearchDeleteConfirm,
+          label: Strings.suppressionLabel,
           textColor: AppColors.warning,
           backgroundColor: AppColors.warningLighten,
           disabledBackgroundColor: AppColors.warningLight,

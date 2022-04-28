@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
+import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_pe_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:synchronized/synchronized.dart';
@@ -323,5 +324,23 @@ class ImmersionRepositoryFailureStub extends ImmersionRepository {
   @override
   Future<List<Immersion>?> search({required String userId, required SearchImmersionRequest request}) async {
     return null;
+  }
+}
+
+class SuppressionCompteRepositorySuccessStub extends SuppressionCompteRepository {
+  SuppressionCompteRepositorySuccessStub() : super("", DummyHttpClient());
+
+  @override
+  Future<bool> deleteUser(String userId) async {
+    return true;
+  }
+}
+
+class SuppressionCompteRepositoryFailureStub extends SuppressionCompteRepository {
+  SuppressionCompteRepositoryFailureStub() : super("", DummyHttpClient());
+
+  @override
+  Future<bool> deleteUser(String userId) async {
+    return false;
   }
 }
