@@ -48,15 +48,15 @@ class SuppressionComptePage extends TraceableStatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(child: Text(Strings.warning, style: TextStyles.textMBold)),
-              Spacer(),
+              SizedBox(height: Margins.spacing_base),
               Text(Strings.warningInformationParagraph1, style: TextStyles.textSRegular()),
-              Spacer(),
-              ListedItems(list: viewModel.warningSuppressionFeatures!),
+              SizedBox(height: Margins.spacing_base),
+              _ListedItems(list: viewModel.warningSuppressionFeatures!),
               Text(Strings.warningInformationParagraph2, style: TextStyles.textSRegular()),
-              Spacer(),
+              SizedBox(height: Margins.spacing_base),
               if (viewModel.isPoleEmploiLogin != null)
                 Text(Strings.warningInformationPoleEmploi, style: TextStyles.textSRegular()),
-              Spacer(height: 100),
+              SizedBox(height: 100),
             ],
           ),
         ),
@@ -77,22 +77,10 @@ class SuppressionComptePage extends TraceableStatelessWidget {
   }
 }
 
-// ???
-class Spacer extends StatelessWidget {
-  final double height;
-
-  const Spacer({this.height = Margins.spacing_base});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(height: height);
-  }
-}
-
-class ListedItems extends StatelessWidget {
+class _ListedItems extends StatelessWidget {
   final List<String> list;
 
-  const ListedItems({required this.list});
+  const _ListedItems({required this.list});
 
   @override
   Widget build(BuildContext context) {
