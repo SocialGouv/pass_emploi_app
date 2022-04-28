@@ -33,15 +33,19 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RendezvousListViewModel>(
-      converter: (store) {
-        RendezvousListViewModel.fetchRendezvous(store, _pageOffset);
-        return RendezvousListViewModel.create(store, DateTime.now(), _pageOffset);
-      },
+      onInit: (store) => RendezvousListViewModel.fetchRendezvous(store, _pageOffset),
+      converter: (store) => RendezvousListViewModel.create(store, DateTime.now(), _pageOffset),
       builder: _builder,
       onDidChange: (_, viewModel) => _openDeeplinkIfNeeded(viewModel, context),
       distinct: true,
-      onDispose: (store) => store.dispatch(RendezvousResetAction()),
+      key: ValueKey(_pageOffset),
     );
+  }
+
+  @override
+  void deactivate() {
+    StoreProvider.of<AppState>(context).dispatch(RendezvousResetAction());
+    super.deactivate();
   }
 
   Widget _builder(BuildContext context, RendezvousListViewModel viewModel) {
