@@ -13,12 +13,14 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 class ParametresCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        ProfilCard(
-          child: InkWell(
-            onTap: () => _showAccountSuppressionPage(context),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: Margins.spacing_m),
+      child: ProfilCard(
+        padding: EdgeInsets.zero,
+        child: InkWell(
+          onTap: () => _showAccountSuppressionPage(context),
+          child: Padding(
+            padding: const EdgeInsets.all(Margins.spacing_base),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -40,15 +42,14 @@ class ParametresCard extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: Margins.spacing_m),
-      ],
+      ),
     );
   }
 
   void _showAccountSuppressionPage(BuildContext context) {
     pushAndTrackBack(
       context,
-      SuppressionComptePage.materialPageRoute("offreId"),
+      SuppressionComptePage.materialPageRoute(),
       AnalyticsScreenNames.choixOrganisme,
     );
   }

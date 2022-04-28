@@ -22,7 +22,7 @@ void main() {
 
     // Then
     expect(viewModel.isPoleEmploiLogin, false);
-    expect(viewModel.warningSuppressionFeatures, Strings.warningPointsMILO);
+    expect(viewModel.warningSuppressionFeatures, Strings.warningPointsMilo);
     expect(viewModel.displayState, isNull);
   });
 

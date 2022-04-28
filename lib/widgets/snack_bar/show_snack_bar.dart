@@ -6,52 +6,18 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 final GlobalKey<ScaffoldMessengerState> snackbarKey = GlobalKey<ScaffoldMessengerState>();
 
 void showSuccessfulSnackBar(BuildContext context, String label) {
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      padding: const EdgeInsets.only(left: 24, bottom: 14),
-      backgroundColor: AppColors.secondaryLighten,
-      content: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 14),
-            child: SvgPicture.asset(
-              Drawables.icDoneCircle,
-              color: AppColors.secondary,
-            ),
-          ),
-          Expanded(
-            child: Padding(
-              padding: EdgeInsets.only(left: 8, top: 14),
-              child: Text(
-                label,
-                style: TextStyle(color: AppColors.secondary),
-              ),
-            ),
-          ),
-          InkWell(
-            onTap: () => snackbarKey.currentState?.hideCurrentSnackBar(),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 16, 24, 16),
-              child: SvgPicture.asset(
-                Drawables.icClose,
-                color: AppColors.secondary,
-              ),
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
+  _showSnackBar(context, label, success: true);
 }
-
 
 void showFailedSnackBar(BuildContext context, String label) {
+  _showSnackBar(context, label, success: false);
+}
+
+void _showSnackBar(BuildContext context, String label, {required bool success}) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       padding: const EdgeInsets.only(left: 24, bottom: 14),
-      backgroundColor: AppColors.warningLight,
+      backgroundColor: success ? AppColors.secondaryLighten : AppColors.warningLight,
       content: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.max,
@@ -59,8 +25,8 @@ void showFailedSnackBar(BuildContext context, String label) {
           Padding(
             padding: const EdgeInsets.only(top: 14),
             child: SvgPicture.asset(
-              Drawables.icImportant,
-              color: AppColors.warning,
+              success ? Drawables.icDoneCircle : Drawables.icImportant,
+              color: success ? AppColors.secondary : AppColors.warning,
             ),
           ),
           Expanded(
@@ -68,7 +34,7 @@ void showFailedSnackBar(BuildContext context, String label) {
               padding: EdgeInsets.only(left: 8, top: 14),
               child: Text(
                 label,
-                style: TextStyle(color: AppColors.warning),
+                style: TextStyle(color: success ? AppColors.secondary : AppColors.warning),
               ),
             ),
           ),
@@ -78,7 +44,7 @@ void showFailedSnackBar(BuildContext context, String label) {
               padding: const EdgeInsets.fromLTRB(16, 16, 24, 16),
               child: SvgPicture.asset(
                 Drawables.icClose,
-                color: AppColors.warning,
+                color: success ? AppColors.secondary : AppColors.warning,
               ),
             ),
           ),
@@ -87,4 +53,3 @@ void showFailedSnackBar(BuildContext context, String label) {
     ),
   );
 }
-

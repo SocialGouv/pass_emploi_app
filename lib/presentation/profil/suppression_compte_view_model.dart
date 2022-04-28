@@ -9,10 +9,10 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
 class SuppressionCompteViewModel extends Equatable {
-  final List<String>? warningSuppressionFeatures;
-  final bool? isPoleEmploiLogin;
-  final Function() onDeleteUser;
+  final List<String> warningSuppressionFeatures;
+  final bool isPoleEmploiLogin;
   final DisplayState? displayState;
+  final Function() onDeleteUser;
 
   SuppressionCompteViewModel({
     required this.warningSuppressionFeatures,
@@ -26,7 +26,7 @@ class SuppressionCompteViewModel extends Equatable {
     final isPoleEmploiLogin = loginState is LoginSuccessState && loginState.user.loginMode == LoginMode.POLE_EMPLOI;
     final suppessionState = store.state.suppressionCompteState;
     return SuppressionCompteViewModel(
-      warningSuppressionFeatures: isPoleEmploiLogin ? Strings.warningPointsPoleEmploi : Strings.warningPointsMILO,
+      warningSuppressionFeatures: isPoleEmploiLogin ? Strings.warningPointsPoleEmploi : Strings.warningPointsMilo,
       isPoleEmploiLogin: isPoleEmploiLogin,
       onDeleteUser: () => store.dispatch(SuppressionCompteRequestAction()),
       displayState: _displayState(suppessionState),

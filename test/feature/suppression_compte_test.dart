@@ -52,5 +52,6 @@ void main() {
     expect(await displayedLoading, true);
     final successAppState = await failure;
     expect(successAppState.suppressionCompteState is SuppressionCompteFailureState, isTrue);
+    expect(successAppState.loginState is LoginSuccessState, isTrue);
   });
 }

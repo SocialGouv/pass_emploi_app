@@ -17,6 +17,10 @@ import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 class SuppressionComptePage extends TraceableStatelessWidget {
   SuppressionComptePage._() : super(name: AnalyticsScreenNames.suppressionAccount);
 
+  static MaterialPageRoute<void> materialPageRoute() {
+    return MaterialPageRoute(builder: (context) => SuppressionComptePage._());
+  }
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, SuppressionCompteViewModel>(
@@ -27,23 +31,16 @@ class SuppressionComptePage extends TraceableStatelessWidget {
 
   Widget _scaffold(BuildContext context, SuppressionCompteViewModel viewModel) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: passEmploiAppBar(label: Strings.suppressionPageTitle, withBackButton: true),
       body: _body(viewModel),
     );
-  }
-
-  static MaterialPageRoute<void> materialPageRoute(String id) {
-    return MaterialPageRoute(builder: (context) {
-      return SuppressionComptePage._();
-    });
   }
 
   Widget _body(SuppressionCompteViewModel viewModel) {
     return Stack(children: [
       SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(Margins.spacing_m, Margins.spacing_m, Margins.spacing_m, 64),
+          padding: const EdgeInsets.fromLTRB(Margins.spacing_m, Margins.spacing_m, Margins.spacing_m, 120),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -51,12 +48,12 @@ class SuppressionComptePage extends TraceableStatelessWidget {
               SizedBox(height: Margins.spacing_base),
               Text(Strings.warningInformationParagraph1, style: TextStyles.textSRegular()),
               SizedBox(height: Margins.spacing_base),
-              _ListedItems(list: viewModel.warningSuppressionFeatures!),
+              _ListedItems(list: viewModel.warningSuppressionFeatures),
+              SizedBox(height: Margins.spacing_base),
               Text(Strings.warningInformationParagraph2, style: TextStyles.textSRegular()),
               SizedBox(height: Margins.spacing_base),
-              if (viewModel.isPoleEmploiLogin != null)
+              if (viewModel.isPoleEmploiLogin)
                 Text(Strings.warningInformationPoleEmploi, style: TextStyles.textSRegular()),
-              SizedBox(height: 100),
             ],
           ),
         ),
@@ -89,7 +86,7 @@ class _ListedItems extends StatelessWidget {
       children: [
         for (final item in list)
           Padding(
-            padding: const EdgeInsets.only(bottom: Margins.spacing_base),
+            padding: const EdgeInsets.only(bottom: Margins.spacing_xs),
             child: Text("· $item", style: TextStyles.textSRegular()),
           ),
       ],

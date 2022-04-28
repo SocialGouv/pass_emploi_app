@@ -44,8 +44,11 @@ class DeleteAlertDialog extends StatelessWidget {
               Center(child: SvgPicture.asset(Drawables.icDelete)),
               Padding(
                 padding: const EdgeInsets.all(12.0),
-                child: Text(Strings.lastWarningBeforeSuppression,
-                    style: TextStyles.textBaseRegular, textAlign: TextAlign.start),
+                child: Text(
+                  Strings.lastWarningBeforeSuppression,
+                  style: TextStyles.textBaseRegular,
+                  textAlign: TextAlign.start,
+                ),
               ),
               _DeleteAlertTextField(controller: _inputController),
             ],

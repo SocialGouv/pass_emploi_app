@@ -408,12 +408,13 @@ class Strings {
       "La suppression de votre compte sur l’application CEJ n’entraine pas la suppression de votre compte Contrat d’Engagement Jeune.";
   static String warningInformationPoleEmploi =
       "Vos démarches et rendez-vous seront toujours disponibles dans votre portail Pôle emploi.";
-  static List<String> warningPointsMILO = [
+  static List<String> warningPointsMilo = [
     "vos actions",
     "vos messages avec votre conseiller",
     "vos rendez-vous",
     "vos recherches et offres sauvergardées"
   ];
+
   static List<String> warningPointsPoleEmploi = [
     "vos messages avec votre conseiller",
     "vos recherches et offres sauvergardées"
