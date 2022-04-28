@@ -73,7 +73,7 @@ class DeleteAlertDialog extends StatelessWidget {
                 rippleColor: AppColors.warningLight,
                 withShadow: false,
                 heightPadding: Margins.spacing_s,
-                onPressed: (_isStringValid())
+                onPressed: (_isStringValid() && viewModel.displayState != DisplayState.LOADING)
                     ? () {
                         _fieldContent = null;
                         viewModel.onDeleteUser();
