@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/presentation/profil/parameters_profil_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/profil/suppression_compte_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
@@ -19,13 +19,13 @@ class SuppressionComptePage extends TraceableStatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, ParametersProfilePageViewModel>(
-      converter: (store) => ParametersProfilePageViewModel.create(store),
+    return StoreConnector<AppState, SuppressionCompteViewModel>(
+      converter: (store) => SuppressionCompteViewModel.create(store),
       builder: (context, viewModel) => _scaffold(context, viewModel),
     );
   }
 
-  Widget _scaffold(BuildContext context, ParametersProfilePageViewModel viewModel) {
+  Widget _scaffold(BuildContext context, SuppressionCompteViewModel viewModel) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: passEmploiAppBar(label: Strings.suppressionPageTitle, withBackButton: true),
@@ -39,7 +39,7 @@ class SuppressionComptePage extends TraceableStatelessWidget {
     });
   }
 
-  Widget _body(ParametersProfilePageViewModel viewModel) {
+  Widget _body(SuppressionCompteViewModel viewModel) {
     return Stack(children: [
       SingleChildScrollView(
         child: Padding(
@@ -51,7 +51,7 @@ class SuppressionComptePage extends TraceableStatelessWidget {
               Spacer(),
               Text(Strings.warningInformationParagraph1, style: TextStyles.textSRegular()),
               Spacer(),
-              if (!viewModel.error) ListedItems(list: viewModel.warningSuppressionFeatures!),
+              ListedItems(list: viewModel.warningSuppressionFeatures!),
               Text(Strings.warningInformationParagraph2, style: TextStyles.textSRegular()),
               Spacer(),
               if (viewModel.isPoleEmploiLogin != null)
@@ -68,7 +68,7 @@ class SuppressionComptePage extends TraceableStatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.max,
             children: [
-              Expanded(child: _DeleteAccountButton(viewModel: viewModel)),
+              Expanded(child: _DeleteAccountButton()),
             ],
           ),
         ),
@@ -110,10 +110,6 @@ class ListedItems extends StatelessWidget {
 }
 
 class _DeleteAccountButton extends StatelessWidget {
-  final ParametersProfilePageViewModel viewModel;
-
-  _DeleteAccountButton({required this.viewModel});
-
   @override
   Widget build(BuildContext context) {
     return PrimaryActionButton(
@@ -129,22 +125,25 @@ class _DeleteAccountButton extends StatelessWidget {
   }
 
   void _showDeleteDialog(BuildContext context) async {
-    final result = await showDialog(
+    await showDialog(
       context: context,
       builder: (_) {
         MatomoTracker.trackScreenWithName(
-            AnalyticsActionNames.suppressionAccountConfirmation, AnalyticsScreenNames.suppressionAccount);
-        return DeleteAlertDialog(viewModel: viewModel);
+          AnalyticsActionNames.suppressionAccountConfirmation,
+          AnalyticsScreenNames.suppressionAccount,
+        );
+        return DeleteAlertDialog();
       },
     ).then((result) {
       if (result == true) {
         showSuccessfulSnackBar(context, Strings.accountDeletionSuccess);
         MatomoTracker.trackScreenWithName(
-            AnalyticsActionNames.suppressionAccountSucceded, AnalyticsScreenNames.suppressionAccount);
+          AnalyticsActionNames.suppressionAccountSucceded,
+          AnalyticsScreenNames.suppressionAccount,
+        );
       } else if (result == false) {
         showFailedSnackBar(context, Strings.savedSearchDeleteError);
       }
     });
-    print(result);
   }
 }

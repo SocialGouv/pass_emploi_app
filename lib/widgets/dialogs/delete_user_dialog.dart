@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pass_emploi_app/presentation/profil/parameters_profil_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/profil/suppression_compte_view_model.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
@@ -14,24 +17,40 @@ String? _fieldContent;
 
 class DeleteAlertDialog extends StatelessWidget {
   final TextEditingController _inputController = TextEditingController();
-  final ParametersProfilePageViewModel viewModel;
-
-  DeleteAlertDialog({required this.viewModel});
 
   @override
   Widget build(BuildContext context) {
+    return StoreConnector<AppState, SuppressionCompteViewModel>(
+      converter: (store) => SuppressionCompteViewModel.create(store),
+      builder: (context, viewModel) => _build(context, viewModel),
+      onDidChange: (_, newVM) {
+        if (newVM.displayState == DisplayState.FAILURE) {
+          Navigator.pop(context, false);
+        } else if (newVM.displayState == DisplayState.CONTENT) {
+          Navigator.pop(context, true);
+        }
+      },
+      distinct: true,
+    );
+  }
+
+  Widget _build(BuildContext context, SuppressionCompteViewModel viewModel) {
     return AlertDialog(
-      title: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
+      title: Stack(
         children: [
-          _DeleteAlertCrossButton(),
-          Center(child: SvgPicture.asset(Drawables.icDelete)),
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Text(Strings.lastWarningBeforeSuppression,
-                style: TextStyles.textBaseRegular, textAlign: TextAlign.start),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Center(child: SvgPicture.asset(Drawables.icDelete)),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Text(Strings.lastWarningBeforeSuppression,
+                    style: TextStyles.textBaseRegular, textAlign: TextAlign.start),
+              ),
+              _DeleteAlertTextField(controller: _inputController),
+            ],
           ),
-          _DeleteAlertTextField(controller: _inputController),
+          _DeleteAlertCrossButton(),
         ],
       ),
       actions: [
@@ -56,17 +75,16 @@ class DeleteAlertDialog extends StatelessWidget {
                 heightPadding: Margins.spacing_s,
                 onPressed: (_isStringValid())
                     ? () {
-                  _fieldContent = null;
-                  viewModel.onDeleteUser();
-                  Navigator.pop(context);
-                }
+                        _fieldContent = null;
+                        viewModel.onDeleteUser();
+                      }
                     : null,
               );
             })
       ],
       actionsAlignment: MainAxisAlignment.center,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Margins.spacing_m)),
-      actionsPadding: EdgeInsets.only(bottom: Margins.spacing_xl),
+      actionsPadding: EdgeInsets.only(bottom: Margins.spacing_base),
     );
   }
 
@@ -84,17 +102,18 @@ class _DeleteAlertCrossButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(
+    return Align(
       alignment: Alignment.topRight,
-      onPressed: () => {
-        _fieldContent = null,
-        Navigator.pop(context),
-      },
-      iconSize: 20,
-      tooltip: Strings.close,
-      icon: SvgPicture.asset(
-        Drawables.icClose,
-        color: AppColors.contentColor,
+      child: IconButton(
+        onPressed: () => {
+          _fieldContent = null,
+          Navigator.pop(context),
+        },
+        tooltip: Strings.close,
+        icon: SvgPicture.asset(
+          Drawables.icClose,
+          color: AppColors.contentColor,
+        ),
       ),
     );
   }

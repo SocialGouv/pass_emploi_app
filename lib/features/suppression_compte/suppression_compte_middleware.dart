@@ -19,6 +19,8 @@ class SuppressionCompteMiddleware extends MiddlewareClass<AppState> {
       final result = await _repository.deleteUser(loginState.user.id);
       if (result) {
         store.dispatch(SuppressionCompteSuccessAction());
+        // Wait some delay to ensure suppression state call success snack bar
+        await Future.delayed(Duration(milliseconds: 5));
         store.dispatch(RequestLogoutAction());
       } else {
         store.dispatch(SuppressionCompteFailureAction());
