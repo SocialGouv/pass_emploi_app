@@ -1,17 +1,15 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
-import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:redux/redux.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
-import '../../utils/test_setup.dart';
+import '../../dsl/app_state_dsl.dart';
 
 void main() {
   final DateTime thursday3thFebruary = DateTime(2022, 2, 3, 4, 5, 30);
@@ -19,9 +17,7 @@ void main() {
   group('when fetching rendez-vous futurs', () {
     test('when not initialized should display loading', () {
       // Given
-      final store = TestStoreFactory().initializeReduxStore(
-        initialState: loggedInState().copyWith(rendezvousState: RendezvousState.notInitialized()),
-      );
+      final store = givenState().loggedInUser().rendezvousNotInitialized().store();
 
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
@@ -32,9 +28,7 @@ void main() {
 
     test('when loading should display loading', () {
       // Given
-      final store = TestStoreFactory().initializeReduxStore(
-        initialState: loggedInState().copyWith(rendezvousState: RendezvousState.loadingFuture()),
-      );
+      final store = givenState().loggedInUser().loadingFutureRendezvous().store();
 
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
@@ -45,9 +39,7 @@ void main() {
 
     test('should display failure', () {
       // Given
-      final store = TestStoreFactory().initializeReduxStore(
-        initialState: loggedInState().copyWith(rendezvousState: RendezvousState.failedFuture()),
-      );
+      final store = givenState().loggedInUser().failedFutureRendezvous().store();
 
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
@@ -60,7 +52,7 @@ void main() {
   group('when having rendez-vous futurs', () {
     test("should not navigate to past when logged in Pole Emploi", () {
       // Given
-      final store = _storeLoggedInPoleEmploi([]);
+      final store = givenState().loggedInPoleEmploiUser().rendezvous([]).store();
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
       // Then
@@ -69,7 +61,7 @@ void main() {
 
     test("should navigate to past when logged in MiLo", () {
       // Given
-      final store = _storeLoggedInMilo([]);
+      final store = givenState().loggedInMiloUser().rendezvous([]).store();
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
       // Then
@@ -80,9 +72,7 @@ void main() {
   group('when having rendez-vous futurs and fetching rendez-vous passés', () {
     test('when not initialized should display loading', () {
       // Given
-      final store = TestStoreFactory().initializeReduxStore(
-        initialState: loggedInState().copyWith(rendezvousState: RendezvousState.notInitialized()),
-      );
+      final store = givenState().loggedInUser().rendezvousNotInitialized().store();
 
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
@@ -93,9 +83,7 @@ void main() {
 
     test('when loading should display loading', () {
       // Given
-      final store = TestStoreFactory().initializeReduxStore(
-        initialState: loggedInState().copyWith(rendezvousState: RendezvousState.loadingPast()),
-      );
+      final store = givenState().loggedInUser().loadingPastRendezvous().store();
 
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
@@ -106,9 +94,7 @@ void main() {
 
     test('should display failure', () {
       // Given
-      final store = TestStoreFactory().initializeReduxStore(
-        initialState: loggedInState().copyWith(rendezvousState: RendezvousState.failedPast()),
-      );
+      final store = givenState().loggedInUser().failedPastRendezvous().store();
 
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
@@ -145,7 +131,7 @@ void main() {
 
       test('and sort them by most recent for past', () {
         // Given
-        final store = _store(rendezvous);
+        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
         // Then
@@ -168,7 +154,7 @@ void main() {
 
       test('and sort them by last recent for this week', () {
         // Given
-        final store = _store(rendezvous);
+        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
         // Then
@@ -190,7 +176,7 @@ void main() {
 
       test('and sort them by last recent for next week 1', () {
         // Given
-        final store = _store(rendezvous);
+        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 1);
         // Then
@@ -215,7 +201,7 @@ void main() {
 
       test('and sort them by last recent for next week 2', () {
         // Given
-        final store = _store(rendezvous);
+        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 2);
         // Then
@@ -240,7 +226,7 @@ void main() {
 
       test('and sort them by last recent for next week 3', () {
         // Given
-        final store = _store(rendezvous);
+        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 3);
         // Then
@@ -265,7 +251,7 @@ void main() {
 
       test('and sort them by last recent for next week 4', () {
         // Given
-        final store = _store(rendezvous);
+        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 4);
         // Then
@@ -290,7 +276,7 @@ void main() {
 
       test('and sort them by last recent and grouped by month for next month', () {
         // Given
-        final store = _store(rendezvous);
+        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 5);
         // Then
@@ -321,7 +307,7 @@ void main() {
 
       test("should not be displayed on current week page", () {
         // Given
-        final store = _store(rendezvous);
+        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
         // Then
@@ -334,7 +320,7 @@ void main() {
 
       test("should be displayed on past page", () {
         // Given
-        final store = _store(rendezvous);
+        final store = givenState().loggedInUser().rendezvous(rendezvous).store();
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
         // Then
@@ -348,7 +334,7 @@ void main() {
 
     test("should have an empty rendezvous display", () {
       // Given
-      final store = _store([]);
+      final store = givenState().loggedInUser().rendezvous([]).store();
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
       // Then
@@ -368,7 +354,7 @@ void main() {
       }) {
         test("${rendezvous.map((e) => e.id)} at page $pageOffset-> $expectedPageOffsetOfNextRendezvous", () {
           // Given
-          final store = _store(rendezvous);
+          final store = givenState().loggedInUser().rendezvous(rendezvous).store();
 
           // When
           final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, pageOffset);
@@ -464,7 +450,7 @@ void main() {
       // Given
       final DateTime now = DateTime(2022, 11, 30, 4, 5, 0);
       final rendezvous = [mockRendezvous(id: 'cette semaine 1', date: DateTime(2022, 11, 30, 4, 0, 0))];
-      final store = _store(rendezvous);
+      final store = givenState().loggedInUser().rendezvous(rendezvous).store();
 
       // When
       final viewModel = RendezvousListViewModel.create(store, now, -1);
@@ -475,12 +461,7 @@ void main() {
 
     test('should handle deeplink with valid ID', () {
       // Given
-      final store = TestStoreFactory().initializeReduxStore(
-        initialState: loggedInState().copyWith(
-          deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_RENDEZVOUS, DateTime.now(), '1'),
-          rendezvousState: RendezvousState.successfulFuture([mockRendezvous(id: '1')]),
-        ),
-      );
+      final store = givenState().rendezvous([mockRendezvous(id: '1')]).deeplinkToRendezvous('1').store();
 
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
@@ -491,12 +472,7 @@ void main() {
 
     test('should handle deeplink with invalid ID', () {
       // Given
-      final store = TestStoreFactory().initializeReduxStore(
-        initialState: loggedInState().copyWith(
-          deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_RENDEZVOUS, DateTime.now(), '1'),
-          rendezvousState: RendezvousState.successfulFuture([mockRendezvous(id: '2')]),
-        ),
-      );
+      final store = givenState().rendezvous([mockRendezvous(id: '1')]).deeplinkToRendezvous('22').store();
 
       // When
       final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
@@ -620,28 +596,4 @@ void main() {
     // Then
     expect(store.dispatchedAction, isA<ResetDeeplinkAction>());
   });
-}
-
-Store<AppState> _store(List<Rendezvous> rendezvous) {
-  return TestStoreFactory().initializeReduxStore(
-    initialState: loggedInState().copyWith(
-      rendezvousState: RendezvousState.successful(rendezvous),
-    ),
-  );
-}
-
-Store<AppState> _storeLoggedInMilo(List<Rendezvous> rendezvous) {
-  return TestStoreFactory().initializeReduxStore(
-    initialState: loggedInMiloState().copyWith(
-      rendezvousState: RendezvousState.successful(rendezvous),
-    ),
-  );
-}
-
-Store<AppState> _storeLoggedInPoleEmploi(List<Rendezvous> rendezvous) {
-  return TestStoreFactory().initializeReduxStore(
-    initialState: loggedInPoleEmploiState().copyWith(
-      rendezvousState: RendezvousState.successful(rendezvous),
-    ),
-  );
 }
