@@ -111,7 +111,7 @@ void main() {
       expect((viewModel.items[i] as UserActionListItemViewModel).viewModel.status != UserActionStatus.DONE, isTrue);
     }
     expect(viewModel.items[5] is UserActionListSubtitle, isTrue);
-    expect((viewModel.items[5] as UserActionListSubtitle).title, "Actions terminées");
+    expect((viewModel.items[5] as UserActionListSubtitle).title, "Actions terminées et annulées");
     for (var i = 6; i < 9; ++i) {
       expect(viewModel.items[i] is UserActionListItemViewModel, isTrue);
       expect((viewModel.items[i] as UserActionListItemViewModel).viewModel.status == UserActionStatus.DONE, isTrue);
@@ -183,7 +183,7 @@ void main() {
     // Then
     expect(viewModel.items.length, 3);
     expect(viewModel.items[0] is UserActionListSubtitle, isTrue);
-    expect((viewModel.items[0] as UserActionListSubtitle).title, "Actions terminées");
+    expect((viewModel.items[0] as UserActionListSubtitle).title, "Actions terminées et annulées");
     for (var i = 1; i < 3; ++i) {
       expect(viewModel.items[i] is UserActionListItemViewModel, isTrue);
       expect((viewModel.items[i] as UserActionListItemViewModel).viewModel.status == UserActionStatus.DONE, isTrue);

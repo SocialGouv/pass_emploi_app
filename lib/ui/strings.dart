@@ -191,7 +191,7 @@ class Strings {
   static String linkDetailsRendezVous = "Voir les détails du rendez-vous";
 
   static String lastUpdateFormat(String formattedDate) => "Modifiée le $formattedDate";
-  static String doneActionsTitle = "Actions terminées";
+  static String doneActionsTitle = "Actions terminées et annulées";
 
   //User Action Pole Emploi
   static String actionPEToDo = "À faire";
