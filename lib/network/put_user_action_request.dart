@@ -15,6 +15,8 @@ class PutUserActionRequest implements JsonSerializable {
         return "not_started";
       case UserActionStatus.IN_PROGRESS:
         return "in_progress";
+      case UserActionStatus.CANCELED:
+        return "canceled";
       case UserActionStatus.DONE:
         return "done";
     }
