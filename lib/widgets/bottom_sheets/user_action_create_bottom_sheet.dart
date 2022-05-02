@@ -147,6 +147,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
           UserActionStatusGroup(
             status: _initialStatus,
             update: (wantedStatus) => _update(wantedStatus),
+            isCreated: true,
             isEnabled: viewModel.displayState != UserActionCreateDisplayState.SHOW_LOADING,
           ),
         ],
