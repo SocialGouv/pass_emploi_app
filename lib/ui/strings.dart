@@ -405,7 +405,7 @@ class Strings {
   static String warningInformationParagraph1 =
       "En supprimant votre compte de l’application Contrat d’Engagement Jeune, vous perdrez définitivement toutes les données présentes sur l’application :";
   static String warningInformationParagraph2 =
-      "La suppression de votre compte sur l’application CEJ n’entraine pas la suppression de votre compte Contrat d’Engagement Jeune.";
+      "La suppression de votre compte sur l’application CEJ n'entraine pas la suppression de votre accompagnement dans le cadre du Contrat d'Engagement Jeune.";
   static String warningInformationPoleEmploi =
       "Vos démarches et rendez-vous seront toujours disponibles dans votre portail Pôle emploi.";
   static List<String> warningPointsMilo = [
@@ -419,7 +419,7 @@ class Strings {
     "vos messages avec votre conseiller",
     "vos recherches et offres sauvergardées"
   ];
-  static String lastWarningBeforeSuppression = "Tappez “supprimer” pour confirmer la suppression de votre compte";
+  static String lastWarningBeforeSuppression = "Tapez “supprimer” pour confirmer la suppression de votre compte";
   static String mandatorySuppressionLabelError = "Vérifiez que vous avez bien tappé “supprimer”";
   static String accountDeletionSuccess = "Votre compte a bien été supprimé de l’application CEJ";
 
