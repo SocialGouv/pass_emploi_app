@@ -8,8 +8,8 @@ import 'package:pass_emploi_app/widgets/buttons/carousel_button.dart';
 
 const int _indexOfOffresEmploi = 0;
 const int _indexOfAlternance = 1;
-const int _indexOfImmersion = 2;
-const int _indexOfServiceCivique = 3;
+const int _indexOfServiceCivique = 2;
+const int _indexOfImmersion = 3;
 
 class OffreFavorisTabPage extends StatefulWidget {
   @override
@@ -50,17 +50,17 @@ class _OffreFavorisTabPageState extends State<OffreFavorisTabPage> {
             onPressed: () => _updateIndex(_indexOfAlternance),
             label: Strings.alternanceButton,
           ),
-          SizedBox(width: Margins.spacing_base),
-          CarouselButton(
-            isActive: _selectedIndex == _indexOfImmersion,
-            onPressed: () => _updateIndex(_indexOfImmersion),
-            label: Strings.immersionButton,
-          ),
           SizedBox(width: 12),
           CarouselButton(
             isActive: _selectedIndex == _indexOfServiceCivique,
             onPressed: () => _updateIndex(_indexOfServiceCivique),
             label: Strings.serviceCiviqueButton,
+          ),
+          SizedBox(width: Margins.spacing_base),
+          CarouselButton(
+            isActive: _selectedIndex == _indexOfImmersion,
+            onPressed: () => _updateIndex(_indexOfImmersion),
+            label: Strings.immersionButton,
           ),
           SizedBox(width: 12),
         ],
