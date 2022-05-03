@@ -3,6 +3,12 @@ import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 enum UserActionStatus { NOT_STARTED, IN_PROGRESS, CANCELED, DONE }
 
+extension UserActionStatusExtension on UserActionStatus {
+  bool isCanceledOrDone() {
+    return this == UserActionStatus.CANCELED || this == UserActionStatus.DONE;
+  }
+}
+
 class UserAction {
   final String id;
   final String content;
