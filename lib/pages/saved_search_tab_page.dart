@@ -25,10 +25,7 @@ import 'package:pass_emploi_app/widgets/dialogs/saved_search_delete_dialog.dart'
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
-const int _indexOfOffresEmploi = 0;
-const int _indexOfAlternance = 1;
-const int _indexOfServiceCivique = 2;
-const int _indexOfImmersion = 3;
+enum IndexOf { OFFRES_EMPLOI, ALTERNANCE, SERVICE_CIVIQUE, IMMERSION }
 
 class SavedSearchTabPage extends StatefulWidget {
   @override
@@ -36,7 +33,7 @@ class SavedSearchTabPage extends StatefulWidget {
 }
 
 class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
-  int _selectedIndex = 0;
+  IndexOf _selectedIndex = IndexOf.OFFRES_EMPLOI;
   bool _shouldNavigate = true;
   late ScrollController _scrollController;
 
@@ -68,38 +65,38 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     switch (newViewModel.searchNavigationState) {
       case SavedSearchNavigationState.OFFRE_EMPLOI:
         _goToPageNamed(
-          _indexOfOffresEmploi,
+          IndexOf.OFFRES_EMPLOI,
           OffreEmploiListPage.routeName,
           arguments: {"onlyAlternance": false, "fromSavedSearch": true},
         );
         break;
       case SavedSearchNavigationState.OFFRE_ALTERNANCE:
         _goToPageNamed(
-          _indexOfAlternance,
+          IndexOf.ALTERNANCE,
           OffreEmploiListPage.routeName,
           arguments: {"onlyAlternance": true, "fromSavedSearch": true},
         );
         break;
       case SavedSearchNavigationState.OFFRE_IMMERSION:
-        _goToPage(_indexOfImmersion, ImmersionListPage(true))
+        _goToPage(IndexOf.IMMERSION, ImmersionListPage(true))
             .then((value) => StoreProvider.of<AppState>(context).dispatch(ImmersionListResetAction()));
         break;
       case SavedSearchNavigationState.SERVICE_CIVIQUE:
-        _goToPage(_indexOfServiceCivique, ServiceCiviqueListPage(true));
+        _goToPage(IndexOf.SERVICE_CIVIQUE, ServiceCiviqueListPage(true));
         break;
       case SavedSearchNavigationState.NONE:
         break;
     }
   }
 
-  Future<bool> _goToPage(int newIndex, Widget page) {
+  Future<bool> _goToPage(IndexOf newIndex, Widget page) {
     _shouldNavigate = false;
     _updateIndex(newIndex, true);
     // ignore: ban-name
     return Navigator.push(context, MaterialPageRoute(builder: (_) => page)).then((_) => _shouldNavigate = true);
   }
 
-  Future<bool> _goToPageNamed(int newIndex, String routeName, {Object? arguments}) {
+  Future<bool> _goToPageNamed(IndexOf newIndex, String routeName, {Object? arguments}) {
     _shouldNavigate = false;
     _updateIndex(newIndex, true);
     return Navigator.pushNamed(context, routeName, arguments: arguments).then((_) => _shouldNavigate = true);
@@ -123,26 +120,26 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
         children: [
           SizedBox(width: Margins.spacing_base),
           CarouselButton(
-            isActive: _selectedIndex == _indexOfOffresEmploi,
-            onPressed: () => _updateIndex(_indexOfOffresEmploi),
+            isActive: _selectedIndex == IndexOf.OFFRES_EMPLOI,
+            onPressed: () => _updateIndex(IndexOf.OFFRES_EMPLOI),
             label: Strings.offresEmploiButton,
           ),
           SizedBox(width: Margins.spacing_base),
           CarouselButton(
-            isActive: _selectedIndex == _indexOfAlternance,
-            onPressed: () => _updateIndex(_indexOfAlternance),
+            isActive: _selectedIndex == IndexOf.ALTERNANCE,
+            onPressed: () => _updateIndex(IndexOf.ALTERNANCE),
             label: Strings.alternanceButton,
           ),
           SizedBox(width: Margins.spacing_base),
           CarouselButton(
-            isActive: _selectedIndex == _indexOfServiceCivique,
-            onPressed: () => _updateIndex(_indexOfServiceCivique),
+            isActive: _selectedIndex == IndexOf.SERVICE_CIVIQUE,
+            onPressed: () => _updateIndex(IndexOf.SERVICE_CIVIQUE),
             label: Strings.serviceCiviqueButton,
           ),
           SizedBox(width: Margins.spacing_base),
           CarouselButton(
-            isActive: _selectedIndex == _indexOfImmersion,
-            onPressed: () => _updateIndex(_indexOfImmersion),
+            isActive: _selectedIndex == IndexOf.IMMERSION,
+            onPressed: () => _updateIndex(IndexOf.IMMERSION),
             label: Strings.immersionButton,
           ),
           SizedBox(width: 12),
@@ -159,15 +156,15 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
       return Center(child: Retry(Strings.savedSearchGetError, () => viewModel.onRetry()));
     }
     switch (_selectedIndex) {
-      case _indexOfServiceCivique:
+      case IndexOf.SERVICE_CIVIQUE:
         MatomoTracker.trackScreenWithName(
             AnalyticsScreenNames.savedSearchServiceCiviqueList, AnalyticsScreenNames.savedSearchServiceCiviqueList);
         return _getSavedSearchServiceCivique(viewModel);
-      case _indexOfOffresEmploi:
+      case IndexOf.OFFRES_EMPLOI:
         MatomoTracker.trackScreenWithName(
             AnalyticsScreenNames.savedSearchEmploiList, AnalyticsScreenNames.savedSearchEmploiList);
         return _getSavedSearchOffreEmploi(viewModel, false);
-      case _indexOfAlternance:
+      case IndexOf.ALTERNANCE:
         MatomoTracker.trackScreenWithName(
             AnalyticsScreenNames.savedSearchAlternanceList, AnalyticsScreenNames.savedSearchAlternanceList);
         return _getSavedSearchOffreEmploi(viewModel, true);
@@ -178,12 +175,12 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     }
   }
 
-  void _updateIndex(int index, [bool withScroll = false]) {
+  void _updateIndex(IndexOf index, [bool withScroll = false]) {
     if (_selectedIndex != index) {
       setState(() {
         _selectedIndex = index;
         if (withScroll) {
-          _scrollController.jumpTo(_selectedIndex * 100);
+          _scrollController.jumpTo(_selectedIndex.index * 100);
         }
       });
     }

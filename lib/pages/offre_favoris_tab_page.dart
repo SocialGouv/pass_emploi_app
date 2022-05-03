@@ -6,10 +6,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/buttons/carousel_button.dart';
 
-const int _indexOfOffresEmploi = 0;
-const int _indexOfAlternance = 1;
-const int _indexOfServiceCivique = 2;
-const int _indexOfImmersion = 3;
+enum IndexOf { OFFRES_EMPLOI, ALTERNANCE, SERVICE_CIVIQUE, IMMERSION }
 
 class OffreFavorisTabPage extends StatefulWidget {
   @override
@@ -17,7 +14,7 @@ class OffreFavorisTabPage extends StatefulWidget {
 }
 
 class _OffreFavorisTabPageState extends State<OffreFavorisTabPage> {
-  int _selectedIndex = 0;
+  IndexOf _selectedIndex = IndexOf.OFFRES_EMPLOI;
 
   @override
   Widget build(BuildContext context) {
@@ -40,26 +37,26 @@ class _OffreFavorisTabPageState extends State<OffreFavorisTabPage> {
         children: [
           SizedBox(width: Margins.spacing_base),
           CarouselButton(
-            isActive: _selectedIndex == _indexOfOffresEmploi,
-            onPressed: () => _updateIndex(_indexOfOffresEmploi),
+            isActive: _selectedIndex == IndexOf.OFFRES_EMPLOI,
+            onPressed: () => _updateIndex(IndexOf.OFFRES_EMPLOI),
             label: Strings.offresEmploiButton,
           ),
           SizedBox(width: Margins.spacing_base),
           CarouselButton(
-            isActive: _selectedIndex == _indexOfAlternance,
-            onPressed: () => _updateIndex(_indexOfAlternance),
+            isActive: _selectedIndex == IndexOf.ALTERNANCE,
+            onPressed: () => _updateIndex(IndexOf.ALTERNANCE),
             label: Strings.alternanceButton,
           ),
           SizedBox(width: 12),
           CarouselButton(
-            isActive: _selectedIndex == _indexOfServiceCivique,
-            onPressed: () => _updateIndex(_indexOfServiceCivique),
+            isActive: _selectedIndex == IndexOf.SERVICE_CIVIQUE,
+            onPressed: () => _updateIndex(IndexOf.SERVICE_CIVIQUE),
             label: Strings.serviceCiviqueButton,
           ),
           SizedBox(width: Margins.spacing_base),
           CarouselButton(
-            isActive: _selectedIndex == _indexOfImmersion,
-            onPressed: () => _updateIndex(_indexOfImmersion),
+            isActive: _selectedIndex == IndexOf.IMMERSION,
+            onPressed: () => _updateIndex(IndexOf.IMMERSION),
             label: Strings.immersionButton,
           ),
           SizedBox(width: 12),
@@ -70,18 +67,18 @@ class _OffreFavorisTabPageState extends State<OffreFavorisTabPage> {
 
   Widget _content() {
     switch (_selectedIndex) {
-      case 0:
+      case IndexOf.OFFRES_EMPLOI:
         return OffreEmploiFavorisPage(onlyAlternance: false);
-      case 1:
+      case IndexOf.ALTERNANCE:
         return OffreEmploiFavorisPage(onlyAlternance: true);
-      case 2:
+      case IndexOf.IMMERSION:
         return ImmersionFavorisPage();
       default:
         return ServiceCiviqueFavorisPage();
     }
   }
 
-  void _updateIndex(int index) {
+  void _updateIndex(IndexOf index) {
     setState(() {
       _selectedIndex = index;
     });
