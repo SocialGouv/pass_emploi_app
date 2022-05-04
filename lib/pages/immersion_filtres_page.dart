@@ -124,12 +124,12 @@ class _ImmersionFiltresPageState extends State<ImmersionFiltresPage> {
 
   Widget _stretchedButton(ImmersionFiltresViewModel viewModel) {
     return PrimaryActionButton(
-      onPressed: _ifButtonEnabled(viewModel) ? () => _onButtonClick(viewModel) : null,
+      onPressed: _isButtonEnabled(viewModel) ? () => _onButtonClick(viewModel) : null,
       label: Strings.applyFiltres,
     );
   }
 
-  bool _ifButtonEnabled(ImmersionFiltresViewModel viewModel) =>
+  bool _isButtonEnabled(ImmersionFiltresViewModel viewModel) =>
       _hasFormChanged && viewModel.displayState != DisplayState.LOADING;
 
   void _onButtonClick(ImmersionFiltresViewModel viewModel) {
