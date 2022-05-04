@@ -13,10 +13,14 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 
-String? _fieldContent;
+class DeleteAlertDialog extends StatefulWidget {
+  @override
+  State<DeleteAlertDialog> createState() => _DeleteAlertDialogState();
+}
 
-class DeleteAlertDialog extends StatelessWidget {
+class _DeleteAlertDialogState extends State<DeleteAlertDialog> {
   final TextEditingController _inputController = TextEditingController();
+  String? _fieldContent;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +54,11 @@ class DeleteAlertDialog extends StatelessWidget {
                   textAlign: TextAlign.start,
                 ),
               ),
-              _DeleteAlertTextField(controller: _inputController),
+              _DeleteAlertTextField(
+                controller: _inputController,
+                getFieldContent: () => _fieldContent,
+                setFieldContent: (value) => _fieldContent = value,
+              ),
             ],
           ),
           _DeleteAlertCrossButton(),
@@ -60,10 +68,7 @@ class DeleteAlertDialog extends StatelessWidget {
         SecondaryButton(
           label: Strings.cancelLabel,
           fontSize: FontSizes.medium,
-          onPressed: () => {
-            _fieldContent = null,
-            Navigator.pop(context),
-          },
+          onPressed: () => Navigator.pop(context),
         ),
         ValueListenableBuilder<TextEditingValue>(
             valueListenable: _inputController,
@@ -76,12 +81,7 @@ class DeleteAlertDialog extends StatelessWidget {
                 rippleColor: AppColors.warningLight,
                 withShadow: false,
                 heightPadding: Margins.spacing_s,
-                onPressed: (_isStringValid() && viewModel.displayState != DisplayState.LOADING)
-                    ? () {
-                        _fieldContent = null;
-                        viewModel.onDeleteUser();
-                      }
-                    : null,
+                onPressed: _shouldActivateButton(viewModel) ? () => viewModel.onDeleteUser() : null,
               );
             })
       ],
@@ -91,13 +91,17 @@ class DeleteAlertDialog extends StatelessWidget {
     );
   }
 
-  bool _isFormValid() => _fieldContent != null && _fieldContent!.isNotEmpty;
+  bool _shouldActivateButton(SuppressionCompteViewModel viewModel) {
+    return _isStringValid() && viewModel.displayState != DisplayState.LOADING;
+  }
 
   bool _isStringValid() {
     if (!_isFormValid()) return false;
     final stringToCheck = _fieldContent!.toLowerCase().trim();
     return stringToCheck == Strings.suppressionLabel.toLowerCase();
   }
+
+  bool _isFormValid() => _fieldContent != null && _fieldContent!.isNotEmpty;
 }
 
 class _DeleteAlertCrossButton extends StatelessWidget {
@@ -108,10 +112,7 @@ class _DeleteAlertCrossButton extends StatelessWidget {
     return Align(
       alignment: Alignment.topRight,
       child: IconButton(
-        onPressed: () => {
-          _fieldContent = null,
-          Navigator.pop(context),
-        },
+        onPressed: () => Navigator.pop(context),
         tooltip: Strings.close,
         icon: SvgPicture.asset(
           Drawables.icClose,
@@ -124,8 +125,10 @@ class _DeleteAlertCrossButton extends StatelessWidget {
 
 class _DeleteAlertTextField extends StatefulWidget {
   final TextEditingController controller;
+  final String? Function() getFieldContent;
+  final Function(String) setFieldContent;
 
-  const _DeleteAlertTextField({required this.controller});
+  const _DeleteAlertTextField({required this.controller, required this.getFieldContent, required this.setFieldContent});
 
   @override
   State<_DeleteAlertTextField> createState() => _DeleteAlertTextFieldState();
@@ -150,16 +153,17 @@ class _DeleteAlertTextFieldState extends State<_DeleteAlertTextField> {
       style: TextStyles.textSBold,
       onChanged: (value) {
         setState(() {
-          _fieldContent = value;
+          widget.setFieldContent(value);
         });
       },
     );
   }
 
   bool _isNotValid() {
-    if (_fieldContent != null) {
-      if (_fieldContent!.isEmpty) return true;
-      final stringToCheck = _fieldContent!.toLowerCase().trim();
+    final fieldContent = widget.getFieldContent();
+    if (fieldContent != null) {
+      if (fieldContent.isEmpty) return true;
+      final stringToCheck = fieldContent.toLowerCase().trim();
       return stringToCheck != Strings.suppressionLabel.toLowerCase();
     }
     return false;
