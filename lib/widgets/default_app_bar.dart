@@ -53,13 +53,7 @@ FlatDefaultAppBar passEmploiAppBar(
   final store = StoreProvider.of<AppState>(context);
   if (store.state.demoState) {
     return FlatDefaultAppBar(
-      title: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          if (store.state.demoState) _ModeDemoPlaceholder(),
-        ],
-      ),
+      title: _ModeDemoPlaceholder(),
       bottom: label != null
           ? FlatDefaultAppBar(
               title: Text(label, style: TextStyles.textAppBar),
