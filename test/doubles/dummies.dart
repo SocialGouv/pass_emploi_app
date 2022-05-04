@@ -1,5 +1,5 @@
-
 import 'package:flutter_appauth/flutter_appauth.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
@@ -14,8 +14,8 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
-import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
@@ -42,7 +42,6 @@ import 'package:synchronized/synchronized.dart';
 
 import 'dummies_for_cache.dart';
 import 'fixtures.dart';
-import 'spies.dart';
 
 class DummyHttpClient extends MockClient {
   DummyHttpClient() : super((request) async => Response("", 200));
@@ -63,8 +62,46 @@ class DummyRegisterTokenRepository extends RegisterTokenRepository {
   Future<void> registerToken(String userId) async {}
 }
 
+class DummySharedPreferences extends FlutterSecureStorage {
+  @override
+  Future<String?> read({
+    required String key,
+    IOSOptions? iOptions,
+    AndroidOptions? aOptions,
+    LinuxOptions? lOptions,
+    WebOptions? webOptions,
+    MacOsOptions? mOptions,
+    WindowsOptions? wOptions,
+  }) async {
+    return null;
+  }
+
+  @override
+  Future<void> write({
+    required String key,
+    required String? value,
+    IOSOptions? iOptions,
+    AndroidOptions? aOptions,
+    LinuxOptions? lOptions,
+    WebOptions? webOptions,
+    MacOsOptions? mOptions,
+    WindowsOptions? wOptions,
+  }) async {}
+
+  @override
+  Future<void> delete({
+    required String key,
+    IOSOptions? iOptions,
+    AndroidOptions? aOptions,
+    LinuxOptions? lOptions,
+    WebOptions? webOptions,
+    MacOsOptions? mOptions,
+    WindowsOptions? wOptions,
+  }) async {}
+}
+
 class DummyAuthenticator extends Authenticator {
-  DummyAuthenticator() : super(DummyAuthWrapper(), DummyLogoutRepository(), configuration(), SharedPreferencesSpy());
+  DummyAuthenticator() : super(DummyAuthWrapper(), DummyLogoutRepository(), configuration(), DummySharedPreferences());
 }
 
 class DummyAuthWrapper extends AuthWrapper {
