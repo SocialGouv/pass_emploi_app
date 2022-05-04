@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 
 import '../doubles/fixtures.dart';
+import '../utils/mock_demo_client.dart';
 import '../utils/test_assets.dart';
 import '../utils/test_datetime.dart';
 
@@ -44,5 +45,17 @@ void main() {
 
     // Then
     expect(response, isNull);
+  });
+
+  test('should return details jeune on valid request', () async {
+    // Given
+    final httpClient = MockModeDemoClient();
+    final repository = DetailsJeuneRepository("BASE_URL", httpClient);
+
+    // When
+    final response = await repository.fetch("id-jeune");
+
+    // Then
+    expect(response, isNotNull);
   });
 }

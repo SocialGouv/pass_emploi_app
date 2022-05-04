@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/models/service_civique/service_civique_detail.da
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 
 import '../../doubles/fixtures.dart';
+import '../../utils/mock_demo_client.dart';
 import '../../utils/test_assets.dart';
 
 void main() {
@@ -68,4 +69,16 @@ void main() {
     expect(search, NotFoundServiceCiviqueDetailResponse());
   });
 
+  test('get detail when response is valid should return detail', () async {
+    // Given
+    final httpClient = MockModeDemoClient();
+    final repository = ServiceCiviqueDetailRepository("BASE_URL", httpClient);
+
+    // When
+    final result = await repository.getServiceCiviqueDetail("je_suis_un_id");
+
+    // Then
+    expect(result, isNotNull);
+    expect((result as SuccessfullServiceCiviqueDetailResponse).detail, isNotNull);
+  });
 }

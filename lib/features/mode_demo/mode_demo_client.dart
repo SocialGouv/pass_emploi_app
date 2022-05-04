@@ -40,6 +40,7 @@ class ModeDemoClient extends BaseClient {
     if (url.contains("/services-civique/")) return "service_civique_detail";
     if (url.contains("/offres-immersion/")) return "immersion_detail";
     if (url.contains("/offres-emploi/")) return "offre_emploi_detail";
+    if (url.contains("/jeunes/")) return "jeune_detail";
     return "";
   }
 }
