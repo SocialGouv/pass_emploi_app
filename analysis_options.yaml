@@ -32,7 +32,7 @@ dart_code_metrics:
   rules:
     - ban-name:
         entries:
-          - ident: launch
+          - ident: launchUrl
             description: You should use launchExternalUrl instead (to avoid avoid iOS app to target only users above 18 years old)
           - ident: push
             description: You should use pushAndBackTrack instead (to ensure tracking works as expected)
