@@ -157,7 +157,7 @@ class AppInitializer {
       client: modeDemoClient,
       interceptors: [
         monitoringInterceptor,
-        AccessTokenInterceptor(accessTokenRetriever, poleEmploiTokenRepository, modeDemoRepository),
+        AccessTokenInterceptor(accessTokenRetriever, modeDemoRepository),
         LogoutInterceptor(authAccessChecker),
         LoggingInterceptor(),
       ],

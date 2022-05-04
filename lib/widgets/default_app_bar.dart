@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/dimens.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/redux/app_state.dart';
 
 class DefaultAppBar extends AppBar {
   DefaultAppBar({Widget? title, List<Widget>? actions, bool? centerTitle})
@@ -48,28 +49,27 @@ class FlatDefaultAppBar extends AppBar {
 }
 
 FlatDefaultAppBar passEmploiAppBar(
-    {required String label, required BuildContext context, bool withBackButton = false}) {
+    {required String? label, required BuildContext context, bool withBackButton = false}) {
   final store = StoreProvider.of<AppState>(context);
+  if (store.state.demoState) {
+    return FlatDefaultAppBar(
+      title: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (store.state.demoState) _ModeDemoPlaceholder(),
+        ],
+      ),
+      bottom: label != null
+          ? FlatDefaultAppBar(
+              title: Text(label, style: TextStyles.textAppBar),
+              leading: withBackButton ? _appBarLeading : null,
+            )
+          : null,
+    );
+  }
   return FlatDefaultAppBar(
-    title: Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        if (store.state.demoState)
-          Container(
-            decoration: BoxDecoration(
-                color: AppColors.secondaryLighten,
-                borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: AppColors.secondary)),
-            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-            child: Text(
-              "Vous êtes en mode démo, les données sont fictives",
-              style: TextStyles.textMenuRegular(AppColors.secondary),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        Text(label, style: TextStyles.textAppBar),
-      ],
-    ),
+    title: label != null ? Text(label, style: TextStyles.textAppBar) : null,
     leading: withBackButton ? _appBarLeading : null,
   );
 }
@@ -88,3 +88,32 @@ Widget _appBarLeading = Builder(
     );
   },
 );
+
+class _ModeDemoPlaceholder extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(color: AppColors.warningLighten, borderRadius: BorderRadius.circular(8)),
+      padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 24),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          SvgPicture.asset(
+            Drawables.icInfo,
+            color: AppColors.warning,
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: Text(
+                Strings.modeDemoAppBarLabel,
+                style: TextStyles.textBaseBoldWithColor(AppColors.warning),
+                textAlign: TextAlign.left,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
