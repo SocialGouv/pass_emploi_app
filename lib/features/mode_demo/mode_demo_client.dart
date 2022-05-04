@@ -14,13 +14,17 @@ class ModeDemoClient extends BaseClient {
     if (request.method != "GET") {
       return StreamedResponse(Stream.empty(), 201);
     } else {
-      final stringUrl = _getFileName(request.url.path);
-      final stream = rootBundle
-          .load("assets/mode_demo/" + stringUrl + ".json")
-          .asStream()
-          .map((event) => event.buffer.asUint8List());
-      return StreamedResponse(stream, 200);
+      final fileName = _getFileName(request.url.path);
+      return StreamedResponse(readFileBytes(fileName), 200);
     }
+  }
+
+  Stream<List<int>> readFileBytes(String stringUrl) {
+    final stream = rootBundle
+        .load("assets/mode_demo/" + stringUrl + ".json")
+        .asStream()
+        .map((event) => event.buffer.asUint8List());
+    return stream;
   }
 
   String _getFileName(String url) {
