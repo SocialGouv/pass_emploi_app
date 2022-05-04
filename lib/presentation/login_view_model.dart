@@ -48,11 +48,6 @@ List<LoginButtonViewModel> _loginButtons(Store<AppState> store, Flavor flavor) {
         backgroundColor: AppColors.primary,
         action: () => store.dispatch(RequestLoginAction(RequestLoginMode.PASS_EMPLOI)),
       ),
-    LoginButtonViewModel(
-      label: "Mode demo",
-      backgroundColor: AppColors.purple,
-      action: () => store.dispatch(RequestLoginAction(RequestLoginMode.DEMO)),
-    ),
   ];
 }
 
