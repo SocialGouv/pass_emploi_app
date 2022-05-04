@@ -60,7 +60,7 @@ class _ImmersionFiltresPageState extends State<ImmersionFiltresPage> {
           if (_isError(viewModel)) ErrorText(viewModel.errorMessage),
           Padding(
             padding: const EdgeInsets.all(Margins.spacing_m),
-            child: _stretchedButton(context, viewModel),
+            child: _stretchedButton(viewModel),
           ),
         ],
       ),
@@ -122,18 +122,18 @@ class _ImmersionFiltresPageState extends State<ImmersionFiltresPage> {
     );
   }
 
-  Widget _stretchedButton(BuildContext context, ImmersionFiltresViewModel viewModel) {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(minWidth: double.infinity),
-      child: PrimaryActionButton(
-        onPressed: _hasFormChanged && viewModel.displayState != DisplayState.LOADING
-            ? () => viewModel.updateFiltres(
-                  _sliderValueToDisplay(viewModel).toInt(),
-                )
-            : null,
-        label: Strings.applyFiltres,
-      ),
+  Widget _stretchedButton(ImmersionFiltresViewModel viewModel) {
+    return PrimaryActionButton(
+      onPressed: _ifButtonEnabled(viewModel) ? () => _onButtonClick(viewModel) : null,
+      label: Strings.applyFiltres,
     );
+  }
+
+  bool _ifButtonEnabled(ImmersionFiltresViewModel viewModel) =>
+      _hasFormChanged && viewModel.displayState != DisplayState.LOADING;
+
+  void _onButtonClick(ImmersionFiltresViewModel viewModel) {
+    viewModel.updateFiltres(_sliderValueToDisplay(viewModel).toInt());
   }
 
   Widget _sepLine() {

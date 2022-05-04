@@ -62,27 +62,33 @@ class _ServiceCiviqueFiltresPageState extends State<ServiceCiviqueFiltresPage> {
   }
 
   Widget _content(BuildContext context, ServiceCiviqueFiltresViewModel viewModel) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          if (viewModel.shouldDisplayDistanceFiltre) ...[
-            SizedBox(height: Margins.spacing_l),
-            _distanceSlider(context, viewModel),
-          ],
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m, vertical: Margins.spacing_l),
-            child: _startDateFiltres(context),
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              if (viewModel.shouldDisplayDistanceFiltre) ...[
+                SizedBox(height: Margins.spacing_l),
+                _distanceSlider(context, viewModel),
+              ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m, vertical: Margins.spacing_l),
+                child: _startDateFiltres(context),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+                child: _domainFilters(),
+              ),
+              SizedBox(height: 100),
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-            child: _domainFilters(),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(Margins.spacing_m),
-            child: _stretchedButton(viewModel),
-          ),
-        ],
-      ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(Margins.spacing_m),
+          child: _stretchedButton(viewModel),
+        ),
+      ],
     );
   }
 
@@ -202,7 +208,7 @@ class _ServiceCiviqueFiltresPageState extends State<ServiceCiviqueFiltresPage> {
     showCupertinoModalPopup(
         context: context,
         builder: (_) => Container(
-          height: 190,
+              height: 190,
               color: Colors.white,
               child: Column(
                 children: [
@@ -274,21 +280,17 @@ class _ServiceCiviqueFiltresPageState extends State<ServiceCiviqueFiltresPage> {
   }
 
   Widget _stretchedButton(ServiceCiviqueFiltresViewModel viewModel) {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(minWidth: double.infinity),
-      child: PrimaryActionButton(
-        onPressed: _isFiltersUpdated && viewModel.displayState != DisplayState.LOADING
-            ? () {
-                viewModel.updateFiltres(
-                  _sliderValueToDisplay(viewModel).toInt(),
-                  _currentDomainValue,
-                  _currentStartDate,
-                );
-                Navigator.pop(context, true);
-              }
-            : null,
-        label: Strings.applyFiltres,
-      ),
+    return PrimaryActionButton(
+      onPressed: _ifButtonEnabled(viewModel) ? () => _onButtonClick(viewModel) : null,
+      label: Strings.applyFiltres,
     );
+  }
+
+  bool _ifButtonEnabled(ServiceCiviqueFiltresViewModel viewModel) =>
+      _isFiltersUpdated && viewModel.displayState != DisplayState.LOADING;
+
+  void _onButtonClick(ServiceCiviqueFiltresViewModel viewModel) {
+    viewModel.updateFiltres(_sliderValueToDisplay(viewModel).toInt(), _currentDomainValue, _currentStartDate);
+    Navigator.pop(context, true);
   }
 }

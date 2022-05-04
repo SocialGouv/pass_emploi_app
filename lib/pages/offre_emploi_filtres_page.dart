@@ -63,68 +63,74 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
   }
 
   Widget _content(BuildContext context, OffreEmploiFiltresViewModel viewModel) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          SizedBox(height: Margins.spacing_l),
-          if (viewModel.shouldDisplayDistanceFiltre) ...[
-            _distanceSlider(context, viewModel),
-            _sepLine(),
-          ],
-          if (viewModel.shouldDisplayNonDistanceFiltres) ...[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
-              child: CheckBoxGroup<ExperienceFiltre>(
-                title: Strings.experienceSectionTitle,
-                options: viewModel.experienceFiltres,
-                onSelectedOptionsUpdated: (selectedOptions) {
-                  setState(() {
-                    _hasFormChanged = true;
-                    _currentExperienceFiltres = selectedOptions as List<CheckboxValueViewModel<ExperienceFiltre>>;
-                  });
-                },
-              ),
-            ),
-            SizedBox(
-              height: Margins.spacing_m,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-              child: CheckBoxGroup<ContratFiltre>(
-                title: Strings.contratSectionTitle,
-                options: viewModel.contratFiltres,
-                onSelectedOptionsUpdated: (selectedOptions) {
-                  setState(() {
-                    _hasFormChanged = true;
-                    _currentContratFiltres = selectedOptions as List<CheckboxValueViewModel<ContratFiltre>>;
-                  });
-                },
-              ),
-            ),
-            SizedBox(
-              height: Margins.spacing_l,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-              child: CheckBoxGroup<DureeFiltre>(
-                title: Strings.dureeSectionTitle,
-                options: viewModel.dureeFiltres,
-                onSelectedOptionsUpdated: (selectedOptions) {
-                  setState(() {
-                    _hasFormChanged = true;
-                    _currentDureeFiltres = selectedOptions as List<CheckboxValueViewModel<DureeFiltre>>;
-                  });
-                },
-              ),
-            ),
-          ],
-          if (_isError(viewModel)) ErrorText(viewModel.errorMessage),
-          Padding(
-            padding: const EdgeInsets.all(Margins.spacing_m),
-            child: _stretchedButton(context, viewModel),
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: Margins.spacing_l),
+              if (viewModel.shouldDisplayDistanceFiltre) ...[
+                _distanceSlider(context, viewModel),
+                _sepLine(),
+              ],
+              if (viewModel.shouldDisplayNonDistanceFiltres) ...[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
+                  child: CheckBoxGroup<ExperienceFiltre>(
+                    title: Strings.experienceSectionTitle,
+                    options: viewModel.experienceFiltres,
+                    onSelectedOptionsUpdated: (selectedOptions) {
+                      setState(() {
+                        _hasFormChanged = true;
+                        _currentExperienceFiltres = selectedOptions as List<CheckboxValueViewModel<ExperienceFiltre>>;
+                      });
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: Margins.spacing_m,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+                  child: CheckBoxGroup<ContratFiltre>(
+                    title: Strings.contratSectionTitle,
+                    options: viewModel.contratFiltres,
+                    onSelectedOptionsUpdated: (selectedOptions) {
+                      setState(() {
+                        _hasFormChanged = true;
+                        _currentContratFiltres = selectedOptions as List<CheckboxValueViewModel<ContratFiltre>>;
+                      });
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: Margins.spacing_l,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+                  child: CheckBoxGroup<DureeFiltre>(
+                    title: Strings.dureeSectionTitle,
+                    options: viewModel.dureeFiltres,
+                    onSelectedOptionsUpdated: (selectedOptions) {
+                      setState(() {
+                        _hasFormChanged = true;
+                        _currentDureeFiltres = selectedOptions as List<CheckboxValueViewModel<DureeFiltre>>;
+                      });
+                    },
+                  ),
+                ),
+              ],
+              if (_isError(viewModel)) ErrorText(viewModel.errorMessage),
+              SizedBox(height: 100),
+            ],
           ),
-        ],
-      ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(Margins.spacing_m),
+          child: _stretchedButton(viewModel),
+        ),
+      ],
     );
   }
 
@@ -183,20 +189,22 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
     );
   }
 
-  Widget _stretchedButton(BuildContext context, OffreEmploiFiltresViewModel viewModel) {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(minWidth: double.infinity),
-      child: PrimaryActionButton(
-        onPressed: _hasFormChanged && viewModel.displayState != DisplayState.LOADING
-            ? () => viewModel.updateFiltres(
-          _sliderValueToDisplay(viewModel).toInt(),
-                  _currentExperienceFiltres ?? [],
-                  _currentContratFiltres ?? [],
-                  _currentDureeFiltres ?? [],
-                )
-            : null,
-        label: Strings.applyFiltres,
-      ),
+  Widget _stretchedButton(OffreEmploiFiltresViewModel viewModel) {
+    return PrimaryActionButton(
+      onPressed: _ifButtonEnabled(viewModel) ? () => _onButtonClick(viewModel) : null,
+      label: Strings.applyFiltres,
+    );
+  }
+
+  bool _ifButtonEnabled(OffreEmploiFiltresViewModel viewModel) =>
+      _hasFormChanged && viewModel.displayState != DisplayState.LOADING;
+
+  void _onButtonClick(OffreEmploiFiltresViewModel viewModel) {
+    viewModel.updateFiltres(
+      _sliderValueToDisplay(viewModel).toInt(),
+      _currentExperienceFiltres ?? [],
+      _currentContratFiltres ?? [],
+      _currentDureeFiltres ?? [],
     );
   }
 
