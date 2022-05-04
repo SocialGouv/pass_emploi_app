@@ -31,4 +31,20 @@ void main() {
     expect(installationId1, installationId2);
     expect(installationId1, installationId3);
   });
+
+  test('getInstallationId should always return same value even if called in parallel', () async {
+    // Given
+    late List<String> installationIds;
+
+    // When
+    await Future.wait([
+      repository.getInstallationId(),
+      repository.getInstallationId(),
+      repository.getInstallationId(),
+    ]).then((results) => installationIds = results);
+
+    // Then
+    expect(installationIds[0], installationIds[1]);
+    expect(installationIds[1], installationIds[2]);
+  });
 }
