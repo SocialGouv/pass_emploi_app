@@ -14,8 +14,12 @@ import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/slider/slider_caption.dart';
 import 'package:pass_emploi_app/widgets/slider/slider_value.dart';
 
+double? _currentSliderValue;
+var _hasFormChanged = false;
+
 class ImmersionFiltresPage extends TraceableStatefulWidget {
-  const ImmersionFiltresPage() : super(name: AnalyticsScreenNames.immersionFiltres);
+  const ImmersionFiltresPage()
+      : super(name: AnalyticsScreenNames.immersionFiltres);
 
   static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(builder: (_) => ImmersionFiltresPage());
@@ -26,9 +30,6 @@ class ImmersionFiltresPage extends TraceableStatefulWidget {
 }
 
 class _ImmersionFiltresPageState extends State<ImmersionFiltresPage> {
-  double? _currentSliderValue;
-  var _hasFormChanged = false;
-
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ImmersionFiltresViewModel>(
@@ -36,7 +37,8 @@ class _ImmersionFiltresPageState extends State<ImmersionFiltresPage> {
       builder: (context, viewModel) => _scaffold(viewModel),
       distinct: true,
       onWillChange: (previousVM, newVM) {
-        if (previousVM?.displayState == DisplayState.LOADING && newVM.displayState == DisplayState.CONTENT) {
+        if (previousVM?.displayState == DisplayState.LOADING &&
+            newVM.displayState == DisplayState.CONTENT) {
           Navigator.pop(context);
         }
       },
@@ -46,36 +48,71 @@ class _ImmersionFiltresPageState extends State<ImmersionFiltresPage> {
   Widget _scaffold(ImmersionFiltresViewModel viewModel) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: Strings.offresEmploiFiltresTitle, context: context, withBackButton: true),
+      appBar: passEmploiAppBar(
+          label: Strings.offresEmploiFiltresTitle,
+          context: context,
+          withBackButton: true),
       body: _content(context, viewModel),
     );
   }
+}
 
-  Widget _content(ImmersionFiltresViewModel viewModel) {
+double _sliderValueToDisplay(ImmersionFiltresViewModel viewModel) =>
+    _currentSliderValue != null
+        ? _currentSliderValue!
+        : viewModel.initialDistanceValue.toDouble();
+
+class _Content extends StatelessWidget {
+  final ImmersionFiltresViewModel viewModel;
+
+  _Content({required this.viewModel});
+
+  @override
+  Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
           SizedBox(height: Margins.spacing_l),
-          _distanceSlider(viewModel),
+          _DistanceSlider(viewModel: viewModel),
           SepLineWithPadding(),
           if (_isError(viewModel)) ErrorText(viewModel.errorMessage),
           Padding(
             padding: const EdgeInsets.all(Margins.spacing_m),
-            child: FilterButton(isEnabled: _isButtonEnabled(viewModel), onPressed: () => _onButtonClick(viewModel)),
+            child: FilterButton(
+                isEnabled: _isButtonEnabled(viewModel),
+                onPressed: () => _onButtonClick(viewModel)),
           ),
         ],
       ),
     );
   }
 
-  Column _distanceSlider(ImmersionFiltresViewModel viewModel) {
+  bool _isButtonEnabled(ImmersionFiltresViewModel viewModel) =>
+      _hasFormChanged && viewModel.displayState != DisplayState.LOADING;
+
+  void _onButtonClick(ImmersionFiltresViewModel viewModel) =>
+      viewModel.updateFiltres(_sliderValueToDisplay(viewModel).toInt());
+
+  bool _isError(ImmersionFiltresViewModel viewModel) {
+    return viewModel.displayState == DisplayState.FAILURE ||
+        viewModel.displayState == DisplayState.EMPTY;
+  }
+}
+
+class _DistanceSlider extends StatelessWidget {
+  final ImmersionFiltresViewModel viewModel;
+
+  _DistanceSlider({required this.viewModel});
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           child: SliderValue(value: _sliderValueToDisplay(viewModel).toInt()),
         ),
-        _slider(viewModel),
+        _Slider(viewModel: viewModel),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: SliderCaption(),
@@ -83,10 +120,22 @@ class _ImmersionFiltresPageState extends State<ImmersionFiltresPage> {
       ],
     );
   }
+}
 
-  Widget _slider(ImmersionFiltresViewModel viewModel) {
+class _Slider extends StatefulWidget {
+  final ImmersionFiltresViewModel viewModel;
+
+  _Slider({required this.viewModel});
+
+  @override
+  State<_Slider> createState() => _SliderState();
+}
+
+class _SliderState extends State<_Slider> {
+  @override
+  Widget build(BuildContext context) {
     return Slider(
-      value: _sliderValueToDisplay(viewModel),
+      value: _sliderValueToDisplay(widget.viewModel),
       min: 0,
       max: 100,
       divisions: 10,
@@ -99,18 +148,5 @@ class _ImmersionFiltresPageState extends State<ImmersionFiltresPage> {
         }
       },
     );
-  }
-
-  double _sliderValueToDisplay(ImmersionFiltresViewModel viewModel) =>
-      _currentSliderValue != null ? _currentSliderValue! : viewModel.initialDistanceValue.toDouble();
-
-  bool _isButtonEnabled(ImmersionFiltresViewModel viewModel) =>
-      _hasFormChanged && viewModel.displayState != DisplayState.LOADING;
-
-  void _onButtonClick(ImmersionFiltresViewModel viewModel) =>
-    viewModel.updateFiltres(_sliderValueToDisplay(viewModel).toInt());
-
-  bool _isError(ImmersionFiltresViewModel viewModel) {
-    return viewModel.displayState == DisplayState.FAILURE || viewModel.displayState == DisplayState.EMPTY;
   }
 }
