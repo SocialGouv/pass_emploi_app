@@ -364,6 +364,26 @@ void main() {
         });
       }
 
+      test("Bug fix with today on monday morning, to week + 2 on monday afternoon", () {
+        // Given
+        final rendezVous = [mockRendezvous(id: 'semaine+2 lundi matin', date: DateTime(2022, 2, 14, 3, 5, 30))];
+        final store = givenState().loggedInUser().rendezvous(rendezVous).store();
+        final monday31JanuaryAfternoon = DateTime(2022, 1, 31, 16, 5, 30);
+        // When
+        final viewModel = RendezvousListViewModel.create(store, monday31JanuaryAfternoon, 0);
+        // Then
+        expect(viewModel.nextRendezvousPageOffset, 2);
+      });
+
+      assertPageOffsetOfNextRendezvous(
+        rendezvous: [
+          mockRendezvous(id: 'semaine passée 1', date: DateTime(2022, 1, 30, 4, 5, 30)),
+          mockRendezvous(id: 'passés lointain 1', date: DateTime(2022, 1, 4, 4, 5, 30)),
+        ],
+        pageOffset: 0,
+        expectedPageOffsetOfNextRendezvous: null,
+      );
+
       assertPageOffsetOfNextRendezvous(
         rendezvous: [
           mockRendezvous(id: 'semaine passée 1', date: DateTime(2022, 1, 30, 4, 5, 30)),
