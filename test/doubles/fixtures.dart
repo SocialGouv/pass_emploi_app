@@ -5,9 +5,9 @@ import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
+import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/models/service_civique/service_civique_detail.da
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 
 import '../utils/test_datetime.dart';
 
@@ -168,6 +169,15 @@ ServiceCivique mockServiceCivique({String id = "123DXPM"}) => ServiceCivique(
       companyName: "RH TT INTERIM",
       domain: 'Informatique',
       location: "77 - LOGNES",
+    );
+
+SearchServiceCiviqueRequest mockServiceCiviqueRequest({String id = "123DXPM"}) => SearchServiceCiviqueRequest(
+      location: mockLocation(),
+      endDate: '17/05/2022',
+      page: 1,
+      distance: null,
+      startDate: '17/02/2022',
+      domain: 'Informatique',
     );
 
 ServiceCiviqueDetail mockServiceCiviqueDetail() => ServiceCiviqueDetail(

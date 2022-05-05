@@ -44,14 +44,7 @@ class EntreePage extends TraceableStatelessWidget {
                 SvgPicture.asset(Drawables.icUnJeuneUneSolution, width: screenWidth * 0.25),
                 SizedBox(height: 32),
                 GestureDetector(
-                  onTap: () {
-                    if (_modeDemoClicks == 2) {
-                      _modeDemoClicks = 0;
-                      StoreProvider.of<AppState>(context).dispatch(RequestLoginAction(RequestLoginMode.DEMO));
-                    } else {
-                      _modeDemoClicks = _modeDemoClicks + 1;
-                    }
-                  },
+                  onTap: () => _onModeDemoClick(context),
                   child: SvgPicture.asset(Drawables.cejAppLogo, width: screenWidth * 0.6),
                 ),
                 SizedBox(height: 16),
@@ -93,6 +86,15 @@ class EntreePage extends TraceableStatelessWidget {
         ],
       ),
     );
+  }
+
+  void _onModeDemoClick(BuildContext context) {
+    if (_modeDemoClicks == 2) {
+      _modeDemoClicks = 0;
+      StoreProvider.of<AppState>(context).dispatch(RequestLoginAction(RequestLoginMode.DEMO));
+    } else {
+      _modeDemoClicks = _modeDemoClicks + 1;
+    }
   }
 
   Column _buttonCard(BuildContext context) {

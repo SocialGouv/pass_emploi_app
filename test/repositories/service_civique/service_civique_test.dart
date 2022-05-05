@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 
 import '../../doubles/fixtures.dart';
+import '../../utils/mock_demo_client.dart';
 import '../../utils/test_assets.dart';
 
 void main() {
@@ -85,35 +86,13 @@ void main() {
 
   test('search when response is valid with department location should return offres', () async {
     // Given
-    final httpClient = MockClient((request) async {
-      if (request.method != "GET") return invalidHttpResponse();
-      if (!request.url.toString().startsWith("BASE_URL/services-civique")) return invalidHttpResponse();
-      if (request.url.queryParameters["lat"] != "47.239367") return invalidHttpResponse();
-      if (request.url.queryParameters["lon"] != "1.555335") return invalidHttpResponse();
-      if (request.url.queryParameters["page"] != "1") return invalidHttpResponse();
-      if (request.url.queryParameters["limit"] != "50") return invalidHttpResponse();
-      return Response.bytes(loadTestAssetsAsBytes("service_civique_offres.json"), 200);
-    });
+    final httpClient = MockModeDemoClient();
     final repository = ServiceCiviqueRepository("BASE_URL", httpClient);
 
     // When
-    final location = Location(
-      libelle: "Nantes",
-      code: "44300",
-      type: LocationType.DEPARTMENT,
-      latitude: 47.239367,
-      longitude: 1.555335,
-    );
     final search = await repository.search(
       userId: "ID",
-      request: SearchServiceCiviqueRequest(
-        location: location,
-        startDate: '',
-        domain: '',
-        endDate: '',
-        page: 1,
-        distance: null,
-      ),
+      request: mockServiceCiviqueRequest(),
       previousOffers: [],
     );
 

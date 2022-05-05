@@ -40,13 +40,7 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(LoginLoadingAction());
     if (mode == RequestLoginMode.DEMO) {
       _modeDemoRepository.setModeDemo(true);
-      final user = User(
-        id: "token de demo",
-        firstName: "Super Lana",
-        lastName: "2",
-        email: "mode@demo.com",
-        loginMode: LoginMode.DEMO,
-      );
+      final user = _modeDemoUser();
       store.dispatch(LoginSuccessAction(user));
     } else {
       _modeDemoRepository.setModeDemo(false);
@@ -59,6 +53,16 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
         store.dispatch(NotLoggedInAction());
       }
     }
+  }
+
+  User _modeDemoUser() {
+    return User(
+      id: "token de demo",
+      firstName: "Super Lana",
+      lastName: "2",
+      email: "mode@demo.com",
+      loginMode: LoginMode.DEMO,
+    );
   }
 
   void _dispatchLoginSuccess(Store<AppState> store) async {
