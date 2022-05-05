@@ -163,6 +163,7 @@ class Strings {
   // User Action
   static String actionsError = "Erreur lors de la récupération de vos actions";
   static String actionDone = "Terminée";
+  static String actionCanceled = "Annulée";
   static String aboutThisAction = "À propos de cette action";
   static String actionDetails = "Détail de l'action";
   static String updateStatus = "Changer le statut";
@@ -190,7 +191,7 @@ class Strings {
   static String linkDetailsRendezVous = "Voir les détails du rendez-vous";
 
   static String lastUpdateFormat(String formattedDate) => "Modifiée le $formattedDate";
-  static String doneActionsTitle = "Actions terminées";
+  static String doneActionsTitle = "Actions terminées et annulées";
 
   //User Action Pole Emploi
   static String actionPEToDo = "À faire";

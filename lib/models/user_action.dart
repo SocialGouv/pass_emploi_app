@@ -1,7 +1,13 @@
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
-enum UserActionStatus { NOT_STARTED, IN_PROGRESS, DONE }
+enum UserActionStatus { NOT_STARTED, IN_PROGRESS, CANCELED, DONE }
+
+extension UserActionStatusExtension on UserActionStatus {
+  bool isCanceledOrDone() {
+    return this == UserActionStatus.CANCELED || this == UserActionStatus.DONE;
+  }
+}
 
 class UserAction {
   final String id;
@@ -37,6 +43,8 @@ UserActionStatus _statusFromString({required String statusString}) {
     return UserActionStatus.NOT_STARTED;
   } else if (statusString == "in_progress") {
     return UserActionStatus.IN_PROGRESS;
+  } else if (statusString == "canceled") {
+    return UserActionStatus.CANCELED;
   } else {
     return UserActionStatus.DONE;
   }
