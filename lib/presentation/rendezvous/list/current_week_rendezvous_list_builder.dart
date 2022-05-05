@@ -1,15 +1,12 @@
-import 'dart:math';
-
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/list/future_months_rendezvous_list_builder.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/list/future_week_rendezvous_list_builder.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_builder.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_view_model.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
-
-const int _daysInAWeek = 7;
-const int _maxPageOffset = 5;
 
 class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
   final RendezvousState _rendezvousState;
@@ -56,21 +53,19 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   int? nextRendezvousPageOffset() {
-    final List<Rendezvous> rendezvous = _rendezvousState.futurRendezVousStatus == RendezvousStatus.SUCCESS ? _rendezvousState.rendezvous : [];
-    final sortedRendezvous = rendezvous.sortedFromRecentToFuture();
-    final currentWeekRendezvous = sortedRendezvous.filteredFromTodayToSunday(_now);
-    final futureRendezvous = sortedRendezvous.where((rdv) => rdv.date.isAfter(_now));
-    if (currentWeekRendezvous.isEmpty && futureRendezvous.isNotEmpty) {
-      return _futureRendezvousPageOffset(futureRendezvous.first);
-    } else {
-      return null;
-    }
-  }
+    if (_rendezvousState.rendezvous.isEmpty) return null;
+    if (rendezvousItems().isNotEmpty) return null;
 
-  int _futureRendezvousPageOffset(Rendezvous futureRendezvous) {
-    final nextMonday = _now.toMondayOnNextWeek();
-    final differenceInDays = nextMonday.difference(futureRendezvous.date).abs().inDays;
-    return min(1 + differenceInDays ~/ _daysInAWeek, _maxPageOffset);
+    final futureBuilders = [
+      FutureWeekRendezVousListBuilder(_rendezvousState, 1, _now),
+      FutureWeekRendezVousListBuilder(_rendezvousState, 2, _now),
+      FutureWeekRendezVousListBuilder(_rendezvousState, 3, _now),
+      FutureWeekRendezVousListBuilder(_rendezvousState, 4, _now),
+      FutureMonthsRendezVousListBuilder(_rendezvousState, _now),
+    ];
+
+    final index = futureBuilders.indexWhere((element) => element.rendezvousItems().isNotEmpty);
+    return index == -1 ? null : index + 1;
   }
 
   @override
