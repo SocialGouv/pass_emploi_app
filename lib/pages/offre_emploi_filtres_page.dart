@@ -9,12 +9,13 @@ import 'package:pass_emploi_app/presentation/offre_emploi_filtres_view_model.dar
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/filter_button.dart';
 import 'package:pass_emploi_app/widgets/checkbox_group.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/slider/slider_caption.dart';
+import 'package:pass_emploi_app/widgets/slider/slider_value.dart';
 
 class OffreEmploiFiltresPage extends TraceableStatefulWidget {
   OffreEmploiFiltresPage(bool fromAlternance)
@@ -44,7 +45,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
         _currentDureeFiltres = viewModel.dureeFiltres.where((element) => element.isInitiallyChecked).toList();
       },
       converter: (store) => OffreEmploiFiltresViewModel.create(store),
-      builder: (context, viewModel) => _scaffold(context, viewModel),
+      builder: (context, viewModel) => _scaffold(viewModel),
       distinct: true,
       onWillChange: (previousVM, newVM) {
         if (previousVM?.displayState == DisplayState.LOADING && newVM.displayState == DisplayState.CONTENT) {
@@ -54,7 +55,7 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
     );
   }
 
-  Widget _scaffold(BuildContext context, OffreEmploiFiltresViewModel viewModel) {
+  Widget _scaffold(OffreEmploiFiltresViewModel viewModel) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: passEmploiAppBar(label: Strings.offresEmploiFiltresTitle, context: context, withBackButton: true),
@@ -62,27 +63,27 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
     );
   }
 
-  Widget _content(BuildContext context, OffreEmploiFiltresViewModel viewModel) {
+  Widget _content(OffreEmploiFiltresViewModel viewModel) {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
-        _offersList(context, viewModel),
+        _offersList(viewModel),
         Padding(
           padding: const EdgeInsets.all(Margins.spacing_m),
-          child: _stretchedButton(viewModel),
+          child: FilterButton(isEnabled: _isButtonEnabled(viewModel), onPressed: () => _onButtonClick(viewModel)),
         ),
       ],
     );
   }
 
-  Widget _offersList(BuildContext context, OffreEmploiFiltresViewModel viewModel) {
+  Widget _offersList(OffreEmploiFiltresViewModel viewModel) {
     return SingleChildScrollView(
       child: Column(
         children: [
           SizedBox(height: Margins.spacing_l),
           if (viewModel.shouldDisplayDistanceFiltre) ...[
-            _distanceSlider(context, viewModel),
-            _sepLine(),
+            _distanceSlider(viewModel),
+            SepLineWithPadding(),
           ],
           if (viewModel.shouldDisplayNonDistanceFiltres) ...[
             Padding(
@@ -132,35 +133,24 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
             ),
           ],
           if (_isError(viewModel)) ErrorText(viewModel.errorMessage),
-          _bottomScrollMargin(),
+          SizedBox(height: 100),
         ],
       ),
     );
   }
 
-  Widget _bottomScrollMargin() => SizedBox(height: 100);
-
-  Column _distanceSlider(BuildContext context, OffreEmploiFiltresViewModel viewModel) {
+  Column _distanceSlider(OffreEmploiFiltresViewModel viewModel) {
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: _sliderValue(viewModel),
+          child: SliderValue(value: _sliderValueToDisplay(viewModel).toInt()),
         ),
         _slider(viewModel),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: _sliderCaption(),
+          child: SliderCaption(),
         ),
-      ],
-    );
-  }
-
-  Widget _sliderValue(OffreEmploiFiltresViewModel viewModel) {
-    return Row(
-      children: [
-        Text(Strings.searchRadius, style: TextStyles.textBaseBold),
-        Text(Strings.kmFormat(_sliderValueToDisplay(viewModel).toInt()), style: TextStyles.textBaseBold),
       ],
     );
   }
@@ -185,22 +175,6 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
   double _sliderValueToDisplay(OffreEmploiFiltresViewModel viewModel) =>
       _currentSliderValue != null ? _currentSliderValue! : viewModel.initialDistanceValue.toDouble();
 
-  Widget _sliderCaption() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(Strings.kmFormat(0), style: TextStyles.textSBold),
-        Text(Strings.kmFormat(100), style: TextStyles.textSBold),
-      ],
-    );
-  }
-
-  Widget _stretchedButton(OffreEmploiFiltresViewModel viewModel) {
-    return PrimaryActionButton(
-      onPressed: _isButtonEnabled(viewModel) ? () => _onButtonClick(viewModel) : null,
-      label: Strings.applyFiltres,
-    );
-  }
 
   bool _isButtonEnabled(OffreEmploiFiltresViewModel viewModel) =>
       _hasFormChanged && viewModel.displayState != DisplayState.LOADING;
@@ -211,13 +185,6 @@ class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
       _currentExperienceFiltres ?? [],
       _currentContratFiltres ?? [],
       _currentDureeFiltres ?? [],
-    );
-  }
-
-  Widget _sepLine() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: SepLine(24, 24),
     );
   }
 

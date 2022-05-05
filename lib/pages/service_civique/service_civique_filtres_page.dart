@@ -16,8 +16,10 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
-import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/filter_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/slider/slider_caption.dart';
+import 'package:pass_emploi_app/widgets/slider/slider_value.dart';
 
 class ServiceCiviqueFiltresPage extends TraceableStatefulWidget {
   ServiceCiviqueFiltresPage() : super(name: AnalyticsScreenNames.serviceCiviqueFiltres);
@@ -68,7 +70,7 @@ class _ServiceCiviqueFiltresPageState extends State<ServiceCiviqueFiltresPage> {
        _offersList(context, viewModel),
         Padding(
           padding: const EdgeInsets.all(Margins.spacing_m),
-          child: _stretchedButton(viewModel),
+          child: FilterButton(isEnabled: _isButtonEnabled(viewModel), onPressed: () => _onButtonClick(viewModel)),
         ),
       ],
     );
@@ -90,35 +92,24 @@ class _ServiceCiviqueFiltresPageState extends State<ServiceCiviqueFiltresPage> {
             padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
             child: _domainFilters(),
           ),
-          _bottomScrollMargin(),
+          SizedBox(height: 100),
         ],
       ),
     );
   }
-
-  Widget _bottomScrollMargin() => SizedBox(height: 100);
 
   Column _distanceSlider(BuildContext context, ServiceCiviqueFiltresViewModel viewModel) {
     return Column(
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: _sliderValue(viewModel),
+          child: SliderValue(value: _sliderValueToDisplay(viewModel).toInt()),
         ),
         _slider(viewModel),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: _sliderCaption(),
+          child: SliderCaption(),
         ),
-      ],
-    );
-  }
-
-  Widget _sliderValue(ServiceCiviqueFiltresViewModel viewModel) {
-    return Row(
-      children: [
-        Text(Strings.searchRadius, style: TextStyles.textSRegular()),
-        Text(Strings.kmFormat(_sliderValueToDisplay(viewModel).toInt()), style: TextStyles.textBaseBold),
       ],
     );
   }
@@ -143,15 +134,6 @@ class _ServiceCiviqueFiltresPageState extends State<ServiceCiviqueFiltresPage> {
   double _sliderValueToDisplay(ServiceCiviqueFiltresViewModel viewModel) =>
       _currentSliderValue != null ? _currentSliderValue! : viewModel.initialDistanceValue.toDouble();
 
-  Widget _sliderCaption() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(Strings.kmFormat(0), style: TextStyles.textSBold),
-        Text(Strings.kmFormat(100), style: TextStyles.textSBold),
-      ],
-    );
-  }
 
   Column _startDateFiltres(BuildContext context) {
     return Column(
@@ -282,13 +264,6 @@ class _ServiceCiviqueFiltresPageState extends State<ServiceCiviqueFiltresPage> {
                 },
               ))
           .toList(),
-    );
-  }
-
-  Widget _stretchedButton(ServiceCiviqueFiltresViewModel viewModel) {
-    return PrimaryActionButton(
-      onPressed: _isButtonEnabled(viewModel) ? () => _onButtonClick(viewModel) : null,
-      label: Strings.applyFiltres,
     );
   }
 
