@@ -87,6 +87,7 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
       backgroundColor: AppColors.grey100,
       appBar: passEmploiAppBar(
         label: Strings.serviceCiviqueListTitle,
+        context: context,
         withBackButton: true,
       ),
       body: body,

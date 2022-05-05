@@ -37,7 +37,7 @@ class ProfilPage extends TraceableStatelessWidget {
   Scaffold _buildScaffold(BuildContext context, ProfilPageViewModel viewModel) {
     return Scaffold(
       backgroundColor: AppColors.grey100,
-      appBar: passEmploiAppBar(label: Strings.menuProfil),
+      appBar: passEmploiAppBar(label: Strings.menuProfil, context: context),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(Margins.spacing_m),

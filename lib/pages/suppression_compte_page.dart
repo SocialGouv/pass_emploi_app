@@ -31,7 +31,7 @@ class SuppressionComptePage extends TraceableStatelessWidget {
 
   Widget _scaffold(BuildContext context, SuppressionCompteViewModel viewModel) {
     return Scaffold(
-      appBar: passEmploiAppBar(label: Strings.suppressionPageTitle, withBackButton: true),
+      appBar: passEmploiAppBar(context: context, label: Strings.suppressionPageTitle, withBackButton: true),
       body: _body(viewModel),
     );
   }

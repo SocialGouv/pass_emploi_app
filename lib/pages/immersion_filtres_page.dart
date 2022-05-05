@@ -45,7 +45,7 @@ class _ImmersionFiltresPageState extends State<ImmersionFiltresPage> {
   Widget _scaffold(BuildContext context, ImmersionFiltresViewModel viewModel) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: Strings.offresEmploiFiltresTitle, withBackButton: true),
+      appBar: passEmploiAppBar(label: Strings.offresEmploiFiltresTitle, context: context, withBackButton: true),
       body: _content(context, viewModel),
     );
   }

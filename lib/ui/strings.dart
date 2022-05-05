@@ -453,4 +453,7 @@ class Strings {
   static String suppressionLabel = "Supprimer";
   static String savedSearchDeleteError = "Erreur lors de la suppression de la recherche.";
   static String savedSearchDeleteSuccess = "Votre recherche sauvegardée a été supprimée avec succès.";
+
+  // Mode démo
+  static String modeDemoAppBarLabel = "Version démo conseiller";
 }

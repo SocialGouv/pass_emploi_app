@@ -79,4 +79,22 @@ void main() {
     // Then
     expect(result, isNotEmpty);
   });
+
+  test('getLocations when mode demo', () async {
+    // Given
+    final httpClient = MockClient((request) async {
+      if (request.method != "GET") return invalidHttpResponse();
+      if (request.url.toString() != "BASE_URL/referentiels/communes-et-departements?recherche=paris&villesOnly=false") {
+        return invalidHttpResponse();
+      }
+      return Response.bytes(loadTestAssetsAsBytes("search_location.json"), 200);
+    });
+    final repository = SearchLocationRepository("BASE_URL", httpClient);
+
+    // When
+    final List<Location> locations = await repository.getLocations(userId: "ID", query: "paris");
+
+    // Then
+    expect(locations, isNotEmpty);
+  });
 }

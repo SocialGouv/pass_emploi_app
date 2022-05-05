@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 
 import '../../doubles/fixtures.dart';
+import '../../utils/mock_demo_client.dart';
 import '../../utils/test_assets.dart';
 import '../../utils/test_datetime.dart';
 
@@ -193,5 +194,17 @@ void main() {
 
     // Then
     expect(rendezvous, isNull);
+  });
+
+  test('getRendezvous when mode demo', () async {
+    // Given
+    final httpClient = MockModeDemoClient();
+    final repository = RendezvousRepository('BASE_URL', httpClient);
+
+    // When
+    final rendezvous = await repository.getRendezvous('userID', RendezvousPeriod.FUTUR);
+
+    // Then
+    expect(rendezvous, isNotNull);
   });
 }
