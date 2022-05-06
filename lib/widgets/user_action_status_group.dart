@@ -19,36 +19,33 @@ class UserActionStatusGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Wrap(
-        spacing: 8,
-        runSpacing: 8,
-        alignment: WrapAlignment.start,
-        children: [
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      alignment: WrapAlignment.start,
+      children: [
+        UserActionStatusButton(
+          label: Strings.actionToDo,
+          onPressed: isEnabled ? () => {update(UserActionStatus.NOT_STARTED)} : null,
+          isSelected: status == UserActionStatus.NOT_STARTED,
+        ),
+        UserActionStatusButton(
+          label: Strings.actionInProgress,
+          onPressed: isEnabled ? () => update(UserActionStatus.IN_PROGRESS) : null,
+          isSelected: status == UserActionStatus.IN_PROGRESS,
+        ),
+        UserActionStatusButton(
+          label: Strings.actionDone,
+          onPressed: isEnabled ? () => update(UserActionStatus.DONE) : null,
+          isSelected: status == UserActionStatus.DONE,
+        ),
+        if (!isCreated)
           UserActionStatusButton(
-            label: Strings.actionToDo,
-            onPressed: isEnabled ? () => {update(UserActionStatus.NOT_STARTED)} : null,
-            isSelected: status == UserActionStatus.NOT_STARTED,
+            label: Strings.actionCanceled,
+            onPressed: isEnabled ? () => update(UserActionStatus.CANCELED) : null,
+            isSelected: status == UserActionStatus.CANCELED,
           ),
-          UserActionStatusButton(
-            label: Strings.actionInProgress,
-            onPressed: isEnabled ? () => update(UserActionStatus.IN_PROGRESS) : null,
-            isSelected: status == UserActionStatus.IN_PROGRESS,
-          ),
-          UserActionStatusButton(
-            label: Strings.actionDone,
-            onPressed: isEnabled ? () => update(UserActionStatus.DONE) : null,
-            isSelected: status == UserActionStatus.DONE,
-          ),
-          if (!isCreated)
-            UserActionStatusButton(
-              label: Strings.actionCanceled,
-              onPressed: isEnabled ? () => update(UserActionStatus.CANCELED) : null,
-              isSelected: status == UserActionStatus.CANCELED,
-            ),
-        ],
-      ),
+      ],
     );
   }
 }
