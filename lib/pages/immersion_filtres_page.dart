@@ -14,8 +14,7 @@ import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/slider/distance_slider.dart';
 
 class ImmersionFiltresPage extends TraceableStatefulWidget {
-  const ImmersionFiltresPage()
-      : super(name: AnalyticsScreenNames.immersionFiltres);
+  const ImmersionFiltresPage() : super(name: AnalyticsScreenNames.immersionFiltres);
 
   static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(builder: (_) => ImmersionFiltresPage());
@@ -33,8 +32,7 @@ class _ImmersionFiltresPageState extends State<ImmersionFiltresPage> {
       builder: (context, viewModel) => _scaffold(viewModel),
       distinct: true,
       onWillChange: (previousVM, newVM) {
-        if (previousVM?.displayState == DisplayState.LOADING &&
-            newVM.displayState == DisplayState.CONTENT) {
+        if (previousVM?.displayState == DisplayState.LOADING && newVM.displayState == DisplayState.CONTENT) {
           Navigator.pop(context);
         }
       },
@@ -44,21 +42,13 @@ class _ImmersionFiltresPageState extends State<ImmersionFiltresPage> {
   Widget _scaffold(ImmersionFiltresViewModel viewModel) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(
-          label: Strings.offresEmploiFiltresTitle,
-          context: context,
-          withBackButton: true),
-      body: _content(context, viewModel),
+      appBar: passEmploiAppBar(label: Strings.offresEmploiFiltresTitle, context: context, withBackButton: true),
+      body: _Content(viewModel: viewModel),
     );
   }
 }
 
-double _sliderValueToDisplay(ImmersionFiltresViewModel viewModel) =>
-    _currentSliderValue != null
-        ? _currentSliderValue!
-        : viewModel.initialDistanceValue.toDouble();
-
-class _Content extends StatelessWidget {
+class _Content extends StatefulWidget {
   final ImmersionFiltresViewModel viewModel;
 
   _Content({required this.viewModel});
@@ -78,18 +68,15 @@ class _ContentState extends State<_Content> {
         children: [
           SizedBox(height: Margins.spacing_l),
           DistanceSlider(
-            initialDistanceValue:
-                widget.viewModel.initialDistanceValue.toDouble(),
+            initialDistanceValue: widget.viewModel.initialDistanceValue.toDouble(),
             onValueChange: (value) => _setDistanceFilterState(value),
           ),
           SepLineWithPadding(),
-          if (_isError(widget.viewModel))
-            ErrorText(widget.viewModel.errorMessage),
+          if (_isError(widget.viewModel)) ErrorText(widget.viewModel.errorMessage),
           Padding(
             padding: const EdgeInsets.all(Margins.spacing_m),
             child: FilterButton(
-                isEnabled: _isButtonEnabled(viewModel),
-                onPressed: () => _onButtonClick(viewModel)),
+                isEnabled: _isButtonEnabled(widget.viewModel), onPressed: () => _onButtonClick(widget.viewModel)),
           ),
         ],
       ),
@@ -110,12 +97,9 @@ class _ContentState extends State<_Content> {
       viewModel.updateFiltres(_sliderValueToDisplay(viewModel).toInt());
 
   bool _isError(ImmersionFiltresViewModel viewModel) {
-    return viewModel.displayState == DisplayState.FAILURE ||
-        viewModel.displayState == DisplayState.EMPTY;
+    return viewModel.displayState == DisplayState.FAILURE || viewModel.displayState == DisplayState.EMPTY;
   }
 
   double _sliderValueToDisplay(ImmersionFiltresViewModel viewModel) =>
-      _currentSliderValue != null
-          ? _currentSliderValue!
-          : viewModel.initialDistanceValue.toDouble();
+      _currentSliderValue != null ? _currentSliderValue! : viewModel.initialDistanceValue.toDouble();
 }
