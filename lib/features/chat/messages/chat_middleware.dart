@@ -29,7 +29,7 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
           _displayLoaderOnFirstTimeAndCurrentMessagesAfter(store);
           _subscribeToChatStream(userId, store);
         }
-      } else if (loginState.user.loginMode.isDemo()) {
+      } else if (!loginState.user.loginMode.isDemo()) {
         if (action is UnsubscribeFromChatAction) {
           _subscription?.cancel();
         } else if (action is SendMessageAction) {
