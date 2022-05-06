@@ -47,25 +47,20 @@ class _DistanceSliderState extends State<DistanceSlider> {
 }
 
 
-class _Slider extends StatefulWidget {
+class _Slider extends StatelessWidget {
   final Function(double) onValueChange;
   final double currentValue;
 
   _Slider({required this.onValueChange, required this.currentValue});
 
   @override
-  State<_Slider> createState() => _SliderState();
-}
-
-class _SliderState extends State<_Slider> {
-  @override
   Widget build(BuildContext context) {
     return Slider(
-      value: widget.currentValue,
+      value: currentValue,
       min: 0,
       max: 100,
       divisions: 10,
-      onChanged: (value) => widget.onValueChange(value),
+      onChanged: (value) => onValueChange(value),
     );
   }
 }
