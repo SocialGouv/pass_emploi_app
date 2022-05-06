@@ -4,11 +4,11 @@ import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/features/mode_demo/mode_demo_chat_repository.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:redux/redux.dart';
-import 'package:pass_emploi_app/features/mode_demo/mode_demo_chat_repository.dart';
 
 class ChatMiddleware extends MiddlewareClass<AppState> {
   final ChatRepository _repository;
@@ -23,20 +23,20 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
     if (loginState is LoginSuccessState) {
       final userId = loginState.user.id;
       if (action is SubscribeToChatAction) {
-        if (loginState.user.loginMode == LoginMode.DEMO) {
+        if (loginState.user.loginMode == LoginMode.DEMO_MILO || loginState.user.loginMode == LoginMode.DEMO_PE) {
           store.dispatch(ChatSuccessAction(modeDemoChat()));
         } else {
           _displayLoaderOnFirstTimeAndCurrentMessagesAfter(store);
           _subscribeToChatStream(userId, store);
         }
-      } else if (loginState.user.loginMode != LoginMode.DEMO) {
-       if (action is UnsubscribeFromChatAction) {
-         _subscription?.cancel();
-       } else if (action is SendMessageAction) {
-         _repository.sendMessage(userId, action.message);
-       } else if (action is LastMessageSeenAction) {
-         _repository.setLastMessageSeen(userId);
-       }
+      } else if (loginState.user.loginMode != LoginMode.DEMO_MILO || loginState.user.loginMode == LoginMode.DEMO_PE) {
+        if (action is UnsubscribeFromChatAction) {
+          _subscription?.cancel();
+        } else if (action is SendMessageAction) {
+          _repository.sendMessage(userId, action.message);
+        } else if (action is LastMessageSeenAction) {
+          _repository.setLastMessageSeen(userId);
+        }
       }
     }
   }

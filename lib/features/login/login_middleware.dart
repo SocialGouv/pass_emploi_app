@@ -38,9 +38,9 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
 
   void _logUser(Store<AppState> store, RequestLoginMode mode) async {
     store.dispatch(LoginLoadingAction());
-    if (mode == RequestLoginMode.DEMO) {
+    if (mode == RequestLoginMode.DEMO_MILO || mode == RequestLoginMode.DEMO_PE) {
       _modeDemoRepository.setModeDemo(true);
-      final user = _modeDemoUser();
+      final user = _modeDemoUser(mode);
       store.dispatch(LoginSuccessAction(user));
     } else {
       _modeDemoRepository.setModeDemo(false);
@@ -55,13 +55,13 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
-  User _modeDemoUser() {
+  User _modeDemoUser(RequestLoginMode mode) {
     return User(
       id: "token de demo",
       firstName: "Super Lana",
       lastName: "2",
       email: "mode@demo.com",
-      loginMode: LoginMode.DEMO,
+      loginMode: mode == RequestLoginMode.DEMO_PE ? LoginMode.DEMO_PE : LoginMode.DEMO_MILO,
     );
   }
 
@@ -92,7 +92,8 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
         return AuthenticationMode.SIMILO;
       case RequestLoginMode.POLE_EMPLOI:
         return AuthenticationMode.POLE_EMPLOI;
-      case RequestLoginMode.DEMO:
+      case RequestLoginMode.DEMO_MILO:
+      case RequestLoginMode.DEMO_PE:
         return AuthenticationMode.DEMO;
     }
   }

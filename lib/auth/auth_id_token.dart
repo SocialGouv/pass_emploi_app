@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 
 const int _additionalExpirationSecurityIsSeconds = 15;
 
-enum LoginMode { MILO, POLE_EMPLOI, PASS_EMPLOI, DEMO }
+enum LoginMode { MILO, POLE_EMPLOI, PASS_EMPLOI, DEMO_PE, DEMO_MILO }
 
 class AuthIdToken extends Equatable {
   final String userId;

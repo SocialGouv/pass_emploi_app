@@ -466,4 +466,5 @@ class Strings {
   static String modeDemoExplicationTroisiemePoint1 = "→ Les actions sur l'application sont possibles et ";
   static String modeDemoExplicationTroisiemePoint2 = "n'impacteront pas";
   static String modeDemoExplicationTroisiemePoint3 = " les données affichées à titre d'exemple.";
+  static String modeDemoExplicationChoix = "Veuillez sélectionner le mode démonstration";
 }

@@ -23,7 +23,8 @@ class SuppressionCompteViewModel extends Equatable {
 
   factory SuppressionCompteViewModel.create(Store<AppState> store) {
     final loginState = store.state.loginState;
-    final isPoleEmploiLogin = loginState is LoginSuccessState && loginState.user.loginMode == LoginMode.POLE_EMPLOI;
+    final isPoleEmploiLogin = loginState is LoginSuccessState &&
+        (loginState.user.loginMode == LoginMode.POLE_EMPLOI || loginState.user.loginMode == LoginMode.DEMO_PE);
     final suppessionState = store.state.suppressionCompteState;
     return SuppressionCompteViewModel(
       warningSuppressionFeatures: isPoleEmploiLogin ? Strings.warningPointsPoleEmploi : Strings.warningPointsMilo,

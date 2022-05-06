@@ -20,7 +20,7 @@ class MainPageViewModel extends Equatable {
 
     return MainPageViewModel(
       withChatBadge: (chatStatusState is ChatStatusSuccessState) && (chatStatusState.unreadMessageCount > 0),
-      isPoleEmploiLogin: loginMode == LoginMode.POLE_EMPLOI,
+      isPoleEmploiLogin: loginMode == LoginMode.POLE_EMPLOI || loginMode == LoginMode.DEMO_PE,
     );
   }
 
