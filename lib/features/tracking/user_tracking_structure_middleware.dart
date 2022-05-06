@@ -23,7 +23,8 @@ class UserTrackingStructureMiddleware extends MiddlewareClass<AppState> {
         return "Pôle emploi";
       case LoginMode.PASS_EMPLOI:
         return "pass emploi";
-      case LoginMode.DEMO:
+      case LoginMode.DEMO_PE:
+      case LoginMode.DEMO_MILO:
         return "Mode demo";
     }
   }

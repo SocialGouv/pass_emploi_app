@@ -40,7 +40,8 @@ class PostTrackingEmetteur extends JsonSerializable {
         return "POLE_EMPLOI";
       case LoginMode.PASS_EMPLOI:
         return "PASS_EMPLOI";
-      case LoginMode.DEMO:
+      case LoginMode.DEMO_PE:
+      case LoginMode.DEMO_MILO:
         return "DEMO";
     }
   }
