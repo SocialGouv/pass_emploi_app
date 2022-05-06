@@ -38,7 +38,7 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
 
   void _logUser(Store<AppState> store, RequestLoginMode mode) async {
     store.dispatch(LoginLoadingAction());
-    if (mode == RequestLoginMode.DEMO_MILO || mode == RequestLoginMode.DEMO_PE) {
+    if (mode.isDemo()) {
       _modeDemoRepository.setModeDemo(true);
       final user = _modeDemoUser(mode);
       store.dispatch(LoginSuccessAction(user));
