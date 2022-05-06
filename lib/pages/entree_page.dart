@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/features/login/login_actions.dart';
+import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
+import 'package:pass_emploi_app/features/mode_demo/explication_page_mode_demo.dart';
 import 'package:pass_emploi_app/pages/cej_information_page.dart';
 import 'package:pass_emploi_app/pages/login_page.dart';
-import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -91,7 +90,7 @@ class EntreePage extends TraceableStatelessWidget {
   void _onModeDemoClick(BuildContext context) {
     if (_modeDemoClicks == 2) {
       _modeDemoClicks = 0;
-      StoreProvider.of<AppState>(context).dispatch(RequestLoginAction(RequestLoginMode.DEMO));
+      pushAndTrackBack(context, ExplicationModeDemoPage.materialPageRoute(), AnalyticsScreenNames.entree);
     } else {
       _modeDemoClicks = _modeDemoClicks + 1;
     }

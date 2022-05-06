@@ -457,4 +457,13 @@ class Strings {
 
   // Mode démo
   static String modeDemoAppBarLabel = "Version démo conseiller";
+  static String modeDemoExplicationTitre = "Espace démo conseiller";
+  static String modeDemoExplicationPremierPoint1 = "→ Cette version vous ";
+  static String modeDemoExplicationPremierPoint2 = "permet d’explorer";
+  static String modeDemoExplicationPremierPoint3 = " l’application CEJ utilisée par vos bénéficiaires.";
+  static String modeDemoExplicationSecondPoint1 = "→ Les données présentées ";
+  static String modeDemoExplicationSecondPoint2 = "sont factices.";
+  static String modeDemoExplicationTroisiemePoint1 = "→ Les actions sur l'application sont possibles et ";
+  static String modeDemoExplicationTroisiemePoint2 = "n'impacteront pas";
+  static String modeDemoExplicationTroisiemePoint3 = " les données affichées à titre d'exemple.";
 }
