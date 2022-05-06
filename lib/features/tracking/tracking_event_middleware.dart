@@ -15,7 +15,7 @@ class TrackingEventMiddleware extends MiddlewareClass<AppState> {
     next(action);
     if (action is TrackingEventAction) {
       final loginState = store.state.loginState;
-      if (loginState is LoginSuccessState && loginState.user.loginMode.isDemo()) {
+      if (loginState is LoginSuccessState && !loginState.user.loginMode.isDemo()) {
         _repository.sendEvent(userId: loginState.user.id, event: action.event, loginMode: loginState.user.loginMode);
       }
     }

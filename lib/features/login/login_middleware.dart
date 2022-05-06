@@ -14,8 +14,9 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
   final Authenticator _authenticator;
   final FirebaseAuthWrapper _firebaseAuthWrapper;
   final ModeDemoRepository _modeDemoRepository;
+  final MatomoTracker _matomoTracker;
 
-  LoginMiddleware(this._authenticator, this._firebaseAuthWrapper, this._modeDemoRepository);
+  LoginMiddleware(this._authenticator, this._firebaseAuthWrapper, this._modeDemoRepository, this._matomoTracker);
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
@@ -43,8 +44,9 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
       _modeDemoRepository.setModeDemo(true);
       final user = _modeDemoUser(mode);
       store.dispatch(LoginSuccessAction(user));
-      MatomoTracker().setOptOut(true);
+      _matomoTracker.setOptOut(true);
     } else {
+      _matomoTracker.setOptOut(false);
       _modeDemoRepository.setModeDemo(false);
       final authenticatorResponse = await _authenticator.login(_getAuthenticationMode(mode));
       if (authenticatorResponse == AuthenticatorResponse.SUCCESS) {
@@ -80,7 +82,7 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _logout(Store<AppState> store) async {
-    MatomoTracker().setOptOut(false);
+    _matomoTracker.setOptOut(false);
     await _authenticator.logout();
     store.dispatch(UnsubscribeFromChatStatusAction());
     store.dispatch(BootstrapAction());
