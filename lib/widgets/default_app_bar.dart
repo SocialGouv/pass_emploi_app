@@ -31,6 +31,7 @@ class FlatDefaultAppBar extends AppBar {
     List<Widget>? actions,
     bool? centerTitle = true,
     Color? backgroundColor,
+    bool automaticallyImplyLeading = true,
   }) : super(
           title: title,
           centerTitle: centerTitle,
@@ -45,6 +46,7 @@ class FlatDefaultAppBar extends AppBar {
           elevation: 0,
           leading: leading,
           bottom: bottom,
+          automaticallyImplyLeading: automaticallyImplyLeading,
         );
 }
 
@@ -54,6 +56,7 @@ FlatDefaultAppBar passEmploiAppBar(
   if (store.state.demoState) {
     return FlatDefaultAppBar(
       title: _ModeDemoPlaceholder(),
+      automaticallyImplyLeading: false,
       bottom: label != null
           ? FlatDefaultAppBar(
               title: Text(label, style: TextStyles.textAppBar),

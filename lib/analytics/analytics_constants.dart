@@ -74,6 +74,7 @@ class AnalyticsScreenNames {
   static const savedSearchServiceCiviqueDelete = "/saved_search/service-civique/delete";
 
   static const suppressionAccount = "/profil/suppression-compte";
+  static const explicationModeDemo = "/entree/mode-demo";
 }
 
 class AnalyticsActionNames {
