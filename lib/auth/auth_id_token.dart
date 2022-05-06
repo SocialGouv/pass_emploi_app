@@ -6,8 +6,10 @@ const int _additionalExpirationSecurityIsSeconds = 15;
 
 enum LoginMode { MILO, POLE_EMPLOI, PASS_EMPLOI, DEMO_PE, DEMO_MILO }
 
-extension LoginModeExtension on LoginMode {
+extension LoginModeExtension on LoginMode? {
   bool isDemo() => this == LoginMode.DEMO_PE || this == LoginMode.DEMO_MILO;
+
+  bool isPe() => this == LoginMode.DEMO_PE || this == LoginMode.POLE_EMPLOI;
 }
 
 class AuthIdToken extends Equatable {
