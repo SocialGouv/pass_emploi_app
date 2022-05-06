@@ -112,7 +112,7 @@ class _ContentState extends State<_Content> {
   void _setStartDateFilterState(DateTime? date, bool isActive) {
     setState(() {
       _isFiltersUpdated = true;
-      _currentStartDate = date;
+      _currentStartDate = isActive ? date : null;
     });
   }
 
@@ -166,7 +166,8 @@ class _FiltersState extends State<_Filters> {
   @override
   void initState() {
     super.initState();
-    _currentStartDate = widget.viewModel.initialStartDateValue;
+    _currentStartDate =
+        widget.viewModel.initialStartDateValue ?? DateTime.now();
     _isActiveDate = widget.viewModel.initialStartDateValue != null;
     _currentDomainValue = widget.viewModel.initialDomainValue;
   }
@@ -191,6 +192,9 @@ class _FiltersState extends State<_Filters> {
               onValueChange: (date, isActive) =>
                   widget.onStartDateValueChange(date, isActive),
               initialDateValue: _currentStartDate,
+              onIsActiveChange: _onIsActiveChange,
+              onDateChange: _onDateChange,
+              initialDateValue: _isActiveDate ? _currentStartDate : null,
               isActiveDate: _isActiveDate,
             ),
           ),
@@ -206,32 +210,34 @@ class _FiltersState extends State<_Filters> {
       ),
     );
   }
+
+  void _onIsActiveChange(bool isActive) {
+    setState(() {
+      _isActiveDate = isActive;
+    });
+    widget.onStartDateValueChange(_currentStartDate, isActive);
+  }
+
+  void _onDateChange(DateTime date) {
+    setState(() {
+      _currentStartDate = date;
+    });
+    widget.onStartDateValueChange(date, _isActiveDate);
+  }
 }
 
-class _StartDateFiltres extends StatefulWidget {
-  final Function(DateTime?, bool) onValueChange;
+class _StartDateFiltres extends StatelessWidget {
+  final Function(bool) onIsActiveChange;
+  final Function(DateTime) onDateChange;
   final DateTime? initialDateValue;
   final bool isActiveDate;
 
-  _StartDateFiltres(
-      {required this.onValueChange,
-      required this.initialDateValue,
-      required this.isActiveDate});
-
-  @override
-  State<_StartDateFiltres> createState() => _StartDateFiltresState();
-}
-
-class _StartDateFiltresState extends State<_StartDateFiltres> {
-  bool _isActiveDate = false;
-  DateTime? _currentStartDate;
-
-  @override
-  void initState() {
-    super.initState();
-    _isActiveDate = widget.isActiveDate;
-    _currentStartDate = widget.initialDateValue;
-  }
+  _StartDateFiltres({
+    required this.onIsActiveChange,
+    required this.onDateChange,
+    required this.initialDateValue,
+    required this.isActiveDate,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -243,51 +249,24 @@ class _StartDateFiltresState extends State<_StartDateFiltres> {
           onValueChange: (date, isActive) =>
               _onToggleDateValueChange(date, isActive),
           isActiveDate: _isActiveDate,
+          onIsActiveChange: onIsActiveChange,
+          isActiveDate: isActiveDate,
         ),
         _DatePicker(
-          onValueChange: (value) => _onDateValueChange(value),
-          initialDateValue: _currentStartDate,
-          isActiveDate: _isActiveDate,
+          onValueChange: onDateChange,
+          initialDateValue: initialDateValue,
+          isActiveDate: isActiveDate,
         )
       ],
     );
   }
-
-  void _onDateValueChange(DateTime value) {
-    setState(() {
-      _isActiveDate = true;
-      _currentStartDate = value;
-    });
-    widget.onValueChange(_currentStartDate, _isActiveDate);
-  }
-
-  void _onToggleDateValueChange(DateTime? value, bool isActive) {
-    setState(() {
-      _isActiveDate = isActive;
-      _currentStartDate = value;
-    });
-    widget.onValueChange(_currentStartDate, _isActiveDate);
-  }
 }
 
-class _DateToggle extends StatefulWidget {
-  final Function(DateTime?, bool) onValueChange;
+class _DateToggle extends StatelessWidget {
+  final Function(bool) onIsActiveChange;
   final bool isActiveDate;
 
-  _DateToggle({required this.onValueChange, required this.isActiveDate});
-
-  @override
-  State<_DateToggle> createState() => _DateToggleState();
-}
-
-class _DateToggleState extends State<_DateToggle> {
-  bool _isActiveDate = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _isActiveDate = widget.isActiveDate;
-  }
+  _DateToggle({required this.onIsActiveChange, required this.isActiveDate});
 
   @override
   Widget build(BuildContext context) {
@@ -303,6 +282,8 @@ class _DateToggleState extends State<_DateToggle> {
                 onValueChange: (date, isActive) =>
                     _onToggleDateValueChange(date, isActive),
                 isActiveDate: _isActiveDate,
+                onIsActiveChange: onIsActiveChange,
+                isActiveDate: isActiveDate,
               ),
             ],
           ),
@@ -310,51 +291,29 @@ class _DateToggleState extends State<_DateToggle> {
       ],
     );
   }
-
-  void _onToggleDateValueChange(DateTime? value, bool isActive) {
-    setState(() {
-      _isActiveDate = isActive;
-    });
-    widget.onValueChange(value, isActive);
-  }
 }
 
-class _StartDateToggle extends StatefulWidget {
-  final Function(DateTime?, bool) onValueChange;
+class _StartDateToggle extends StatelessWidget {
+  final Function(bool) onIsActiveChange;
   final bool isActiveDate;
 
-  _StartDateToggle({required this.onValueChange, required this.isActiveDate});
-
-  @override
-  State<_StartDateToggle> createState() => _StartDateToggleState();
-}
-
-class _StartDateToggleState extends State<_StartDateToggle> {
-  bool _isActiveDate = false;
-  DateTime? _currentStartDate;
-
-  @override
-  void initState() {
-    super.initState();
-    _isActiveDate = widget.isActiveDate;
-  }
+  _StartDateToggle({
+    required this.onIsActiveChange,
+    required this.isActiveDate,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Switch.adaptive(
-      value: _isActiveDate,
+      value: isActiveDate,
       onChanged: (newValue) {
-        setState(() {
-          _isActiveDate = newValue;
-          _currentStartDate = _isActiveDate ? DateTime.now() : null;
-        });
-        widget.onValueChange(_currentStartDate, _isActiveDate);
+        onIsActiveChange(newValue);
       },
     );
   }
 }
 
-class _DatePicker extends StatefulWidget {
+class _DatePicker extends StatelessWidget {
   final Function(DateTime) onValueChange;
   final DateTime? initialDateValue;
   final bool isActiveDate;
@@ -365,26 +324,16 @@ class _DatePicker extends StatefulWidget {
       required this.isActiveDate});
 
   @override
-  State<_DatePicker> createState() => _DatePickerState();
-}
-
-class _DatePickerState extends State<_DatePicker> {
-  DateTime? _currentStartDate;
-
-  @override
-  void initState() {
-    super.initState();
-    _currentStartDate = widget.initialDateValue;
-  }
-
-  @override
   Widget build(BuildContext context) {
     return TextField(
-      enabled: widget.isActiveDate,
+      enabled: isActiveDate,
       decoration: InputDecoration(
           suffixIcon: SvgPicture.asset(Drawables.icCalendar,
               color: AppColors.grey800, fit: BoxFit.scaleDown),
           hintText: _currentStartDate != null ? _currentStartDate!.toDay() : "",
+          suffixIcon: SvgPicture.asset(Drawables.icCalendar,
+              color: AppColors.grey800, fit: BoxFit.scaleDown),
+          hintText: initialDateValue != null ? initialDateValue!.toDay() : "",
           contentPadding: const EdgeInsets.all(16),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8.0),
@@ -413,10 +362,7 @@ class _DatePickerState extends State<_DatePicker> {
                         initialDateTime: DateTime.now(),
                         mode: CupertinoDatePickerMode.date,
                         onDateTimeChanged: (value) {
-                          widget.onValueChange(value);
-                          setState(() {
-                            _currentStartDate = value;
-                          });
+                          onValueChange(value);
                         }),
                   ),
                 ],
@@ -432,11 +378,8 @@ class _DatePickerState extends State<_DatePicker> {
       initialDate: DateTime.now(),
       locale: const Locale("fr", "FR"),
     );
-    if (picked != null && picked != _currentStartDate) {
-      widget.onValueChange(picked);
-      setState(() {
-        _currentStartDate = picked;
-      });
+    if (picked != null && picked != initialDateValue) {
+      onValueChange(picked);
     }
   }
 }
