@@ -18,135 +18,279 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/widgets/buttons/filter_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
-import 'package:pass_emploi_app/widgets/slider/slider_caption.dart';
-import 'package:pass_emploi_app/widgets/slider/slider_value.dart';
+import 'package:pass_emploi_app/widgets/slider/distance_slider.dart';
 
 class ServiceCiviqueFiltresPage extends TraceableStatefulWidget {
-  ServiceCiviqueFiltresPage() : super(name: AnalyticsScreenNames.serviceCiviqueFiltres);
+  ServiceCiviqueFiltresPage()
+      : super(name: AnalyticsScreenNames.serviceCiviqueFiltres);
 
   static MaterialPageRoute<bool> materialPageRoute() {
     return MaterialPageRoute(builder: (_) => ServiceCiviqueFiltresPage());
   }
 
   @override
-  State<ServiceCiviqueFiltresPage> createState() => _ServiceCiviqueFiltresPageState();
+  State<ServiceCiviqueFiltresPage> createState() =>
+      _ServiceCiviqueFiltresPageState();
 }
 
 class _ServiceCiviqueFiltresPageState extends State<ServiceCiviqueFiltresPage> {
-  double? _currentSliderValue;
-  Domaine? _currentDomainValue;
-  bool _currentActiveDate = false;
-  DateTime? _currentStartDate;
-  var _isFiltersUpdated = false;
-
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ServiceCiviqueFiltresViewModel>(
-      onInitialBuild: (viewModel) {
-        setState(() {
-          _currentStartDate = viewModel.initialStartDateValue;
-          _currentActiveDate = viewModel.initialStartDateValue != null;
-          _currentDomainValue = viewModel.initialDomainValue;
-        });
-      },
       converter: (store) => ServiceCiviqueFiltresViewModel.create(store),
       builder: (context, viewModel) => _scaffold(context, viewModel),
       distinct: true,
     );
   }
 
-  Widget _scaffold(BuildContext context, ServiceCiviqueFiltresViewModel viewModel) {
+  Widget _scaffold(
+      BuildContext context, ServiceCiviqueFiltresViewModel viewModel) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: Strings.serviceCiviqueFiltresTitle, context: context, withBackButton: true),
+      appBar: passEmploiAppBar(
+          label: Strings.serviceCiviqueFiltresTitle,
+          context: context,
+          withBackButton: true),
       body: _content(context, viewModel),
     );
   }
+}
 
-  Widget _content(BuildContext context, ServiceCiviqueFiltresViewModel viewModel) {
+class _Content extends StatefulWidget {
+  final ServiceCiviqueFiltresViewModel viewModel;
+
+  _Content({required this.viewModel});
+
+  @override
+  State<_Content> createState() => _ContentState();
+}
+
+class _ContentState extends State<_Content> {
+  double? _currentSliderValue;
+  DateTime? _currentStartDate;
+  Domaine? _currentDomainValue;
+  var _isFiltersUpdated = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentStartDate = widget.viewModel.initialStartDateValue;
+    _currentDomainValue = widget.viewModel.initialDomainValue;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Stack(
       alignment: Alignment.bottomCenter,
       children: [
-       _offersList(context, viewModel),
+        _Filters(
+          viewModel: widget.viewModel,
+          onDistanceValueChange: (distance) =>
+              _setDistanceFilterState(distance),
+          onStartDateValueChange: (date, isActive) =>
+              _setStartDateFilterState(date, isActive),
+          onDomainValueChange: (domain) => _setDomainFilterState(domain),
+        ),
         Padding(
           padding: const EdgeInsets.all(Margins.spacing_m),
-          child: FilterButton(isEnabled: _isButtonEnabled(viewModel), onPressed: () => _onButtonClick(viewModel)),
+          child: FilterButton(
+            isEnabled: _isButtonEnabled(widget.viewModel),
+            onPressed: () => _onButtonClick(widget.viewModel),
+          ),
         ),
       ],
     );
   }
 
-  Widget _offersList(BuildContext context, ServiceCiviqueFiltresViewModel viewModel) {
-    return  SingleChildScrollView(
+  void _setDistanceFilterState(double value) {
+    setState(() {
+      _isFiltersUpdated = true;
+      _currentSliderValue = value;
+    });
+  }
+
+  void _setStartDateFilterState(DateTime? date, bool isActive) {
+    setState(() {
+      _isFiltersUpdated = true;
+      _currentStartDate = date;
+    });
+  }
+
+  void _setDomainFilterState(Domaine? domain) {
+    setState(() {
+      _isFiltersUpdated = true;
+      _currentDomainValue = domain;
+    });
+  }
+
+  bool _isButtonEnabled(ServiceCiviqueFiltresViewModel viewModel) =>
+      _isFiltersUpdated && viewModel.displayState != DisplayState.LOADING;
+
+  void _onButtonClick(ServiceCiviqueFiltresViewModel viewModel) {
+    viewModel.updateFiltres(
+      _sliderValueToDisplay(viewModel.initialDistanceValue),
+      _currentDomainValue,
+      _currentStartDate,
+    );
+    Navigator.pop(context, true);
+  }
+
+  int _sliderValueToDisplay(int viewModelInitialDistanceValue) =>
+      _currentSliderValue != null
+          ? _currentSliderValue!.toInt()
+          : viewModelInitialDistanceValue;
+}
+
+class _Filters extends StatefulWidget {
+  final ServiceCiviqueFiltresViewModel viewModel;
+  final Function(double) onDistanceValueChange;
+  final Function(DateTime?, bool) onStartDateValueChange;
+  final Function(Domaine) onDomainValueChange;
+
+  _Filters({
+    required this.viewModel,
+    required this.onDistanceValueChange,
+    required this.onStartDateValueChange,
+    required this.onDomainValueChange,
+  });
+
+  @override
+  State<_Filters> createState() => _FiltersState();
+}
+
+class _FiltersState extends State<_Filters> {
+  bool _isActiveDate = false;
+  DateTime? _currentStartDate;
+  Domaine? _currentDomainValue;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentStartDate = widget.viewModel.initialStartDateValue;
+    _isActiveDate = widget.viewModel.initialStartDateValue != null;
+    _currentDomainValue = widget.viewModel.initialDomainValue;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
       child: Column(
         children: [
-          if (viewModel.shouldDisplayDistanceFiltre) ...[
+          if (widget.viewModel.shouldDisplayDistanceFiltre) ...[
             SizedBox(height: Margins.spacing_l),
-            _distanceSlider(context, viewModel),
+            DistanceSlider(
+              initialDistanceValue:
+                  widget.viewModel.initialDistanceValue.toDouble(),
+              onValueChange: (value) => widget.onDistanceValueChange(value),
+            ),
           ],
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m, vertical: Margins.spacing_l),
-            child: _startDateFiltres(context),
+            padding: const EdgeInsets.symmetric(
+                horizontal: Margins.spacing_m, vertical: Margins.spacing_l),
+            child: _StartDateFiltres(
+              onValueChange: (date, isActive) =>
+                  widget.onStartDateValueChange(date, isActive),
+              initialDateValue: _currentStartDate,
+              isActiveDate: _isActiveDate,
+            ),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-            child: _domainFilters(),
+            child: _DomainFilters(
+              currentDomainValue: _currentDomainValue!,
+              onValueChange: (value) => widget.onDomainValueChange(value),
+            ),
           ),
           SizedBox(height: 100),
         ],
       ),
     );
   }
+}
 
-  Column _distanceSlider(BuildContext context, ServiceCiviqueFiltresViewModel viewModel) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: SliderValue(value: _sliderValueToDisplay(viewModel).toInt()),
-        ),
-        _slider(viewModel),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: SliderCaption(),
-        ),
-      ],
-    );
+class _StartDateFiltres extends StatefulWidget {
+  final Function(DateTime?, bool) onValueChange;
+  final DateTime? initialDateValue;
+  final bool isActiveDate;
+
+  _StartDateFiltres(
+      {required this.onValueChange,
+      required this.initialDateValue,
+      required this.isActiveDate});
+
+  @override
+  State<_StartDateFiltres> createState() => _StartDateFiltresState();
+}
+
+class _StartDateFiltresState extends State<_StartDateFiltres> {
+  bool _isActiveDate = false;
+  DateTime? _currentStartDate;
+
+  @override
+  void initState() {
+    super.initState();
+    _isActiveDate = widget.isActiveDate;
+    _currentStartDate = widget.initialDateValue;
   }
 
-  Widget _slider(ServiceCiviqueFiltresViewModel viewModel) {
-    return Slider(
-      value: _sliderValueToDisplay(viewModel),
-      min: 0,
-      max: 100,
-      divisions: 10,
-      onChanged: (value) {
-        if (value > 0) {
-          setState(() {
-            _currentSliderValue = value;
-            _isFiltersUpdated = true;
-          });
-        }
-      },
-    );
-  }
-
-  double _sliderValueToDisplay(ServiceCiviqueFiltresViewModel viewModel) =>
-      _currentSliderValue != null ? _currentSliderValue! : viewModel.initialDistanceValue.toDouble();
-
-
-  Column _startDateFiltres(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(Strings.startDateFiltreTitle, style: TextStyles.textBaseBold),
-        _dateToggle(),
-        _datePicker(context),
+        _DateToggle(
+          onValueChange: (date, isActive) =>
+              _onToggleDateValueChange(date, isActive),
+          isActiveDate: _isActiveDate,
+        ),
+        _DatePicker(
+          onValueChange: (value) => _onDateValueChange(value),
+          initialDateValue: _currentStartDate,
+          isActiveDate: _isActiveDate,
+        )
       ],
     );
   }
 
-  Widget _dateToggle() {
+  void _onDateValueChange(DateTime value) {
+    setState(() {
+      _isActiveDate = true;
+      _currentStartDate = value;
+    });
+    widget.onValueChange(_currentStartDate, _isActiveDate);
+  }
+
+  void _onToggleDateValueChange(DateTime? value, bool isActive) {
+    setState(() {
+      _isActiveDate = isActive;
+      _currentStartDate = value;
+    });
+    widget.onValueChange(_currentStartDate, _isActiveDate);
+  }
+}
+
+class _DateToggle extends StatefulWidget {
+  final Function(DateTime?, bool) onValueChange;
+  final bool isActiveDate;
+
+  _DateToggle({required this.onValueChange, required this.isActiveDate});
+
+  @override
+  State<_DateToggle> createState() => _DateToggleState();
+}
+
+class _DateToggleState extends State<_DateToggle> {
+  bool _isActiveDate = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _isActiveDate = widget.isActiveDate;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         Padding(
@@ -155,7 +299,11 @@ class _ServiceCiviqueFiltresPageState extends State<ServiceCiviqueFiltresPage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(Strings.startDate, style: TextStyles.textSRegular()),
-              _startDateToggle(),
+              _StartDateToggle(
+                onValueChange: (date, isActive) =>
+                    _onToggleDateValueChange(date, isActive),
+                isActiveDate: _isActiveDate,
+              ),
             ],
           ),
         ),
@@ -163,22 +311,79 @@ class _ServiceCiviqueFiltresPageState extends State<ServiceCiviqueFiltresPage> {
     );
   }
 
-  Switch _startDateToggle() {
-    return Switch.adaptive(
-      value: _currentActiveDate,
-      onChanged: (newValue) => setState(() {
-        _currentActiveDate = newValue;
-        _isFiltersUpdated = true;
-        _currentStartDate = _currentActiveDate ? DateTime.now() : null;
-      }),
-    );
+  void _onToggleDateValueChange(DateTime? value, bool isActive) {
+    setState(() {
+      _isActiveDate = isActive;
+    });
+    widget.onValueChange(value, isActive);
+  }
+}
+
+class _StartDateToggle extends StatefulWidget {
+  final Function(DateTime?, bool) onValueChange;
+  final bool isActiveDate;
+
+  _StartDateToggle({required this.onValueChange, required this.isActiveDate});
+
+  @override
+  State<_StartDateToggle> createState() => _StartDateToggleState();
+}
+
+class _StartDateToggleState extends State<_StartDateToggle> {
+  bool _isActiveDate = false;
+  DateTime? _currentStartDate;
+
+  @override
+  void initState() {
+    super.initState();
+    _isActiveDate = widget.isActiveDate;
   }
 
-  Widget _datePicker(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
+    return Switch.adaptive(
+      value: _isActiveDate,
+      onChanged: (newValue) {
+        setState(() {
+          _isActiveDate = newValue;
+          _currentStartDate = _isActiveDate ? DateTime.now() : null;
+        });
+        widget.onValueChange(_currentStartDate, _isActiveDate);
+      },
+    );
+  }
+}
+
+class _DatePicker extends StatefulWidget {
+  final Function(DateTime) onValueChange;
+  final DateTime? initialDateValue;
+  final bool isActiveDate;
+
+  _DatePicker(
+      {required this.onValueChange,
+      required this.initialDateValue,
+      required this.isActiveDate});
+
+  @override
+  State<_DatePicker> createState() => _DatePickerState();
+}
+
+class _DatePickerState extends State<_DatePicker> {
+  DateTime? _currentStartDate;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentStartDate = widget.initialDateValue;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return TextField(
-      enabled: _currentActiveDate,
+      enabled: widget.isActiveDate,
       decoration: InputDecoration(
-          suffixIcon: SvgPicture.asset(Drawables.icCalendar, color: AppColors.grey800, fit: BoxFit.scaleDown),
+          suffixIcon: SvgPicture.asset(Drawables.icCalendar,
+              color: AppColors.grey800, fit: BoxFit.scaleDown),
           hintText: _currentStartDate != null ? _currentStartDate!.toDay() : "",
           contentPadding: const EdgeInsets.all(16),
           border: OutlineInputBorder(
@@ -187,7 +392,9 @@ class _ServiceCiviqueFiltresPageState extends State<ServiceCiviqueFiltresPage> {
           )),
       keyboardType: TextInputType.none,
       textCapitalization: TextCapitalization.sentences,
-      onTap: () => Platform.isIOS ? _iOSDatePicker(context) : _androidDatePicker(context),
+      onTap: () => Platform.isIOS
+          ? _iOSDatePicker(context)
+          : _androidDatePicker(context),
       showCursor: false,
     );
   }
@@ -205,10 +412,10 @@ class _ServiceCiviqueFiltresPageState extends State<ServiceCiviqueFiltresPage> {
                     child: CupertinoDatePicker(
                         initialDateTime: DateTime.now(),
                         mode: CupertinoDatePickerMode.date,
-                        onDateTimeChanged: (val) {
+                        onDateTimeChanged: (value) {
+                          widget.onValueChange(value);
                           setState(() {
-                            _currentStartDate = val;
-                            _isFiltersUpdated = true;
+                            _currentStartDate = value;
                           });
                         }),
                   ),
@@ -226,52 +433,80 @@ class _ServiceCiviqueFiltresPageState extends State<ServiceCiviqueFiltresPage> {
       locale: const Locale("fr", "FR"),
     );
     if (picked != null && picked != _currentStartDate) {
+      widget.onValueChange(picked);
       setState(() {
         _currentStartDate = picked;
-        _isFiltersUpdated = true;
       });
     }
   }
+}
 
-  Column _domainFilters() {
+class _DomainFilters extends StatefulWidget {
+  final Function(Domaine) onValueChange;
+  final Domaine currentDomainValue;
+
+  _DomainFilters(
+      {required this.onValueChange, required this.currentDomainValue});
+
+  @override
+  State<_DomainFilters> createState() => _DomainFiltersState();
+}
+
+class _DomainFiltersState extends State<_DomainFilters> {
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.only(bottom: 10.0),
-          child: Text(Strings.domainFiltreTitle, style: TextStyles.textBaseBold),
+          child:
+              Text(Strings.domainFiltreTitle, style: TextStyles.textBaseBold),
         ),
-        _domainList(),
+        _DomainList(
+          onValueChange: (value) => widget.onValueChange(value),
+          initialDomainValue: widget.currentDomainValue,
+        ),
       ],
     );
   }
+}
 
-  Column _domainList() {
+class _DomainList extends StatefulWidget {
+  final Function(Domaine) onValueChange;
+  final Domaine initialDomainValue;
+
+  _DomainList({required this.onValueChange, required this.initialDomainValue});
+
+  @override
+  State<_DomainList> createState() => _DomainListState();
+}
+
+class _DomainListState extends State<_DomainList> {
+  Domaine? _currentValue;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentValue = widget.initialDomainValue;
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: Domaine.values
           .map((domain) => RadioListTile<Domaine>(
-                controlAffinity: ListTileControlAffinity.trailing,
-                selected: domain == _currentDomainValue,
-                title: Text(domain.titre),
-                value: domain,
-                groupValue: _currentDomainValue,
-                onChanged: (Domaine? value) {
-                  setState(() {
-                    _currentDomainValue = value;
-                    _isFiltersUpdated = true;
-                  });
-                },
-              ))
+              controlAffinity: ListTileControlAffinity.trailing,
+              selected: domain == _currentValue,
+              title: Text(domain.titre),
+              value: domain,
+              groupValue: _currentValue,
+              onChanged: (value) {
+                widget.onValueChange(value!);
+                setState(() => _currentValue = value);
+              }))
           .toList(),
     );
-  }
-
-  bool _isButtonEnabled(ServiceCiviqueFiltresViewModel viewModel) =>
-      _isFiltersUpdated && viewModel.displayState != DisplayState.LOADING;
-
-  void _onButtonClick(ServiceCiviqueFiltresViewModel viewModel) {
-    viewModel.updateFiltres(_sliderValueToDisplay(viewModel).toInt(), _currentDomainValue, _currentStartDate);
-    Navigator.pop(context, true);
   }
 }

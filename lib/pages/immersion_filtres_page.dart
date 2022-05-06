@@ -11,11 +11,7 @@ import 'package:pass_emploi_app/widgets/buttons/filter_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
-import 'package:pass_emploi_app/widgets/slider/slider_caption.dart';
-import 'package:pass_emploi_app/widgets/slider/slider_value.dart';
-
-double? _currentSliderValue;
-var _hasFormChanged = false;
+import 'package:pass_emploi_app/widgets/slider/distance_slider.dart';
 
 class ImmersionFiltresPage extends TraceableStatefulWidget {
   const ImmersionFiltresPage()
@@ -68,14 +64,27 @@ class _Content extends StatelessWidget {
   _Content({required this.viewModel});
 
   @override
+  State<_Content> createState() => _ContentState();
+}
+
+class _ContentState extends State<_Content> {
+  var _hasFormChanged = false;
+  double? _currentSliderValue;
+
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
           SizedBox(height: Margins.spacing_l),
-          _DistanceSlider(viewModel: viewModel),
+          DistanceSlider(
+            initialDistanceValue:
+                widget.viewModel.initialDistanceValue.toDouble(),
+            onValueChange: (value) => _setDistanceFilterState(value),
+          ),
           SepLineWithPadding(),
-          if (_isError(viewModel)) ErrorText(viewModel.errorMessage),
+          if (_isError(widget.viewModel))
+            ErrorText(widget.viewModel.errorMessage),
           Padding(
             padding: const EdgeInsets.all(Margins.spacing_m),
             child: FilterButton(
@@ -85,6 +94,13 @@ class _Content extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void _setDistanceFilterState(double value) {
+    setState(() {
+      _hasFormChanged = true;
+      _currentSliderValue = value;
+    });
   }
 
   bool _isButtonEnabled(ImmersionFiltresViewModel viewModel) =>
@@ -97,56 +113,9 @@ class _Content extends StatelessWidget {
     return viewModel.displayState == DisplayState.FAILURE ||
         viewModel.displayState == DisplayState.EMPTY;
   }
-}
 
-class _DistanceSlider extends StatelessWidget {
-  final ImmersionFiltresViewModel viewModel;
-
-  _DistanceSlider({required this.viewModel});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: SliderValue(value: _sliderValueToDisplay(viewModel).toInt()),
-        ),
-        _Slider(viewModel: viewModel),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: SliderCaption(),
-        ),
-      ],
-    );
-  }
-}
-
-class _Slider extends StatefulWidget {
-  final ImmersionFiltresViewModel viewModel;
-
-  _Slider({required this.viewModel});
-
-  @override
-  State<_Slider> createState() => _SliderState();
-}
-
-class _SliderState extends State<_Slider> {
-  @override
-  Widget build(BuildContext context) {
-    return Slider(
-      value: _sliderValueToDisplay(widget.viewModel),
-      min: 0,
-      max: 100,
-      divisions: 10,
-      onChanged: (value) {
-        if (value > 0) {
-          setState(() {
-            _currentSliderValue = value;
-            _hasFormChanged = true;
-          });
-        }
-      },
-    );
-  }
+  double _sliderValueToDisplay(ImmersionFiltresViewModel viewModel) =>
+      _currentSliderValue != null
+          ? _currentSliderValue!
+          : viewModel.initialDistanceValue.toDouble();
 }
