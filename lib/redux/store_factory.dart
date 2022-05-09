@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
@@ -106,6 +107,7 @@ class StoreFactory {
   final DetailsJeuneRepository detailsJeuneRepository;
   final SuppressionCompteRepository suppressionCompteRepository;
   final ModeDemoRepository modeDemoRepository;
+  final MatomoTracker matomoTracker;
 
   StoreFactory(
     this.authenticator,
@@ -138,6 +140,7 @@ class StoreFactory {
     this.detailsJeuneRepository,
     this.suppressionCompteRepository,
     this.modeDemoRepository,
+    this.matomoTracker,
   );
 
   redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -146,7 +149,7 @@ class StoreFactory {
       initialState: initialState,
       middleware: [
         BootstrapMiddleware(),
-        LoginMiddleware(authenticator, firebaseAuthWrapper, modeDemoRepository),
+        LoginMiddleware(authenticator, firebaseAuthWrapper, modeDemoRepository, matomoTracker),
         UserActionListMiddleware(userActionRepository),
         UserActionCreateMiddleware(userActionRepository),
         UserActionUpdateMiddleware(userActionRepository),

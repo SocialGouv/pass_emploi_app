@@ -39,7 +39,7 @@ class ChoixModeDemoPage extends TraceableStatelessWidget {
                 child: _Contenu(),
               ),
               SizedBox(
-                height: 110,
+                height: 20,
               ),
             ],
           ),
@@ -53,7 +53,7 @@ class _Contenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: Colors.white,

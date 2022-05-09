@@ -1,3 +1,4 @@
+import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
@@ -6,8 +7,8 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
-import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
@@ -65,6 +66,7 @@ class TestStoreFactory {
   DetailsJeuneRepository detailsJeuneRepository = DummyDetailsJeuneRepository();
   SuppressionCompteRepository suppressionCompteRepository = DummySuppressionCompteRepository();
   ModeDemoRepository demoRepository = ModeDemoRepository();
+  MatomoTracker matomoTracker = DummyMatomoTracker();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
@@ -98,6 +100,7 @@ class TestStoreFactory {
       detailsJeuneRepository,
       suppressionCompteRepository,
       demoRepository,
+      matomoTracker,
     ).initializeReduxStore(initialState: initialState);
   }
 }

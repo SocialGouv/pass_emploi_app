@@ -1,3 +1,4 @@
+import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
@@ -13,8 +14,9 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
   final Authenticator _authenticator;
   final FirebaseAuthWrapper _firebaseAuthWrapper;
   final ModeDemoRepository _modeDemoRepository;
+  final MatomoTracker _matomoTracker;
 
-  LoginMiddleware(this._authenticator, this._firebaseAuthWrapper, this._modeDemoRepository);
+  LoginMiddleware(this._authenticator, this._firebaseAuthWrapper, this._modeDemoRepository, this._matomoTracker);
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
@@ -42,7 +44,9 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
       _modeDemoRepository.setModeDemo(true);
       final user = _modeDemoUser(mode);
       store.dispatch(LoginSuccessAction(user));
+      _matomoTracker.setOptOut(true);
     } else {
+      _matomoTracker.setOptOut(false);
       _modeDemoRepository.setModeDemo(false);
       final authenticatorResponse = await _authenticator.login(_getAuthenticationMode(mode));
       if (authenticatorResponse == AuthenticatorResponse.SUCCESS) {
@@ -78,6 +82,7 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _logout(Store<AppState> store) async {
+    _matomoTracker.setOptOut(false);
     await _authenticator.logout();
     store.dispatch(UnsubscribeFromChatStatusAction());
     store.dispatch(BootstrapAction());

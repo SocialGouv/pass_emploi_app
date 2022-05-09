@@ -50,7 +50,7 @@ class _Contenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.fromLTRB(24, 16, 24, 16),
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -79,7 +79,7 @@ class _Contenu extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 24, top: 40, right: 24),
+                padding: const EdgeInsets.only(left: 24, right: 24),
                 child: RichText(
                   text: TextSpan(
                     children: [
@@ -91,7 +91,7 @@ class _Contenu extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
                 child: RichText(
                   text: TextSpan(
                     children: [
@@ -165,7 +165,7 @@ class _BoutonContinuer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 30, left: 20, right: 20),
+      padding: const EdgeInsets.only(bottom: 16, left: 20, right: 20),
       child: PrimaryActionButton(
         label: Strings.continueLabel,
         onPressed: () {
