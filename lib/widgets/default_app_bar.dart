@@ -89,27 +89,30 @@ Widget _appBarLeading = Builder(
 class _ModeDemoPlaceholder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(color: AppColors.warningLighten, borderRadius: BorderRadius.circular(8)),
-      padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 24),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          SvgPicture.asset(
-            Drawables.icInfo,
-            color: AppColors.warning,
-          ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Text(
-                Strings.modeDemoAppBarLabel,
-                style: TextStyles.textBaseBoldWithColor(AppColors.warning),
-                textAlign: TextAlign.left,
+    return Padding(
+      padding: const EdgeInsets.only(top: 16),
+      child: Container(
+        decoration: BoxDecoration(color: AppColors.warningLighten, borderRadius: BorderRadius.circular(8)),
+        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 24),
+        child: Row(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            SvgPicture.asset(
+              Drawables.icInfo,
+              color: AppColors.warning,
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: Text(
+                  Strings.modeDemoAppBarLabel,
+                  style: TextStyles.textBaseBoldWithColor(AppColors.warning),
+                  textAlign: TextAlign.left,
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -79,7 +79,7 @@ class _Contenu extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 24, top: 40, right: 24),
+                padding: const EdgeInsets.only(left: 24, right: 24),
                 child: RichText(
                   text: TextSpan(
                     children: [
@@ -91,7 +91,7 @@ class _Contenu extends StatelessWidget {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
                 child: RichText(
                   text: TextSpan(
                     children: [
