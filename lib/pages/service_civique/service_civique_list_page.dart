@@ -222,15 +222,9 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
   }
 
   Widget _error(ServiceCiviqueViewModel viewModel) {
-    return Stack(
-      children: [
-        Center(child: Retry(Strings.genericError, viewModel.onRetry)), // if (viewModel.withFiltreButton)
-        //   Align(
-        //     alignment: Alignment.bottomCenter,
-        //     child: Padding(padding: const EdgeInsets.only(bottom: 24), child: null),
-        //   ),
-      ],
-    );
+    return Stack(children: [
+      Center(child: Retry(Strings.genericError, viewModel.onRetry)),
+    ]);
   }
 
   Widget _empty(ServiceCiviqueViewModel viewModel) {
