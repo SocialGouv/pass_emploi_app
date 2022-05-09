@@ -61,9 +61,9 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
 
   User _modeDemoUser(RequestLoginMode mode) {
     return User(
-      id: "token de demo",
-      firstName: "Super Lana",
-      lastName: "2",
+      id: "SEVP",
+      firstName: "Paul",
+      lastName: "Sevier",
       email: "mode@demo.com",
       loginMode: mode == RequestLoginMode.DEMO_PE ? LoginMode.DEMO_PE : LoginMode.DEMO_MILO,
     );

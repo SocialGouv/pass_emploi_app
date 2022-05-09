@@ -1,31 +1,31 @@
 {
-  "id": "131MXFF",
-  "urlRedirectPourPostulation": "https://candidat.pole-emploi.fr/offres/recherche/detail/131MXFF",
+  "id": "133FCMF",
+  "urlRedirectPourPostulation": "https://candidat.pole-emploi.fr/offres/recherche/detail/133FCMF",
   "data": {
-    "id": "131MXFF",
-    "intitule": "Employé / Employée de rayon produits frais",
-    "description": "Vous serez chargé(e) de l'accueil des clients, de la vente et de la mise en place des produits frais selon les règles d'hygiène, de propreté et de sécurité alimentaires.\n\nUne expérience dans le secteur de la distribution serait idéale mais ce poste reste ouvert aux personnes débutantes.\n\nPoste à pourvoir dès que possible.",
-    "dateCreation": "2022-04-11T15:54:16.000Z",
-    "dateActualisation": "2022-04-11T15:54:16.000Z",
+    "id": "133FCMF",
+    "intitule": "Employé / Employée de libre-service (H/F)",
+    "description": "Gestion d'un rayon: mise en rayon, inventaire, facing, contrôle, balisage étiquettes\nTenue de caisse",
+    "dateCreation": "2022-05-09T16:10:22.000Z",
+    "dateActualisation": "2022-05-09T16:16:00.000Z",
     "lieuTravail": {
-      "libelle": "29 - LOCTUDY",
-      "latitude": 47.82486,
-      "longitude": -4.186168,
-      "codePostal": "29750",
-      "commune": "29135"
+      "libelle": "69 - VENISSIEUX",
+      "latitude": 45.707095,
+      "longitude": 4.881379,
+      "codePostal": "69200",
+      "commune": "69259"
     },
     "romeCode": "D1507",
     "romeLibelle": "Mise en rayon libre-service",
-    "appellationlibelle": "Employé / Employée de rayon produits frais",
+    "appellationlibelle": "Employé / Employée de libre-service",
     "entreprise": {
-      "nom": "Carrefour Market",
+      "nom": "NETTO",
       "entrepriseAdaptee": false
     },
     "typeContrat": "CDI",
     "typeContratLibelle": "Contrat à durée indéterminée",
     "natureContrat": "Contrat travail",
-    "experienceExige": "D",
-    "experienceLibelle": "Débutant accepté",
+    "experienceExige": "E",
+    "experienceLibelle": "3 mois",
     "competences": [
       {
         "code": "117532",
@@ -54,22 +54,44 @@
       }
     ],
     "salaire": {
-      "commentaire": "Selon experience",
-      "complement1": "Autre"
+      "libelle": "Mensuel de 1646 Euros à 1646 Euros sur 12 mois"
     },
     "dureeTravailLibelle": "35H Horaires normaux",
     "dureeTravailLibelleConverti": "Temps plein",
     "alternance": false,
-    "contact": {},
+    "contact": {
+      "nom": "Pôle Emploi VENISSIEUX",
+      "coordonnees1": "27 AVENUE DE LA REPUBLIQUE",
+      "coordonnees2": "69200 VENISSIEUX",
+      "coordonnees3": "Pour postuler, utiliser le lien suivant : https://candidat.pole-emploi.fr/offres/recherche/detail/133FCMF"
+    },
+    "agence": {
+      "courriel": "Pour postuler, utiliser le lien suivant : https://candidat.pole-emploi.fr/offres/recherche/detail/133FCMF"
+    },
     "nombrePostes": 1,
     "accessibleTH": false,
-    "qualificationCode": "6",
-    "qualificationLibelle": "Employé qualifié",
-    "secteurActivite": "70",
-    "secteurActiviteLibelle": "Activités des sièges sociaux",
+    "qualificationCode": "5",
+    "qualificationLibelle": "Employé non qualifié",
+    "secteurActivite": "47",
+    "secteurActiviteLibelle": "Supermarchés",
+    "qualitesProfessionnelles": [
+      {
+        "libelle": "Autonomie",
+        "description": "Capacité à prendre en charge son activité sans devoir être encadré de façon continue. Exemple : travailler efficacement sans responsable"
+      },
+      {
+        "libelle": "Capacité d'adaptation",
+        "description": "Capacité à s'adapter à des situations variées et à s'ajuster à des organisations, des collectifs de travail, des habitudes et des valeurs propres à l'entreprise. Exemple : être souple, agile, s'adapter à une situation imprévue"
+      },
+      {
+        "libelle": "Réactivité",
+        "description": "Capacité à réagir rapidement face à des évènements et à des imprévus, en hiérarchisant les actions, en fonction de leur degré d'urgence / d'importance. Exemple : faire preuve de dynamisme, vivacité, énergie, comprendre vite"
+      }
+    ],
     "origineOffre": {
       "origine": "1",
-      "urlOrigine": "https://candidat.pole-emploi.fr/offres/recherche/detail/131MXFF"
-    }
+      "urlOrigine": "https://candidat.pole-emploi.fr/offres/recherche/detail/133FCMF"
+    },
+    "offresManqueCandidats": false
   }
 }
