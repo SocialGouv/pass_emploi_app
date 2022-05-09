@@ -1,15 +1,16 @@
 {
-  "titre": "Oeuvrer au bien être animal dans un refuge",
-  "dateDeDebut": "2022-01-10T00:00:00.000Z",
-  "dateDeFin": "2022-09-09T23:00:00.000Z",
   "domaine": "solidarite-insertion",
-  "ville": "Saint-Dié-des-Vosges",
-  "organisation": "SPA DEODATIENNE",
-  "lienAnnonce": "https://api.api-engagement.beta.gouv.fr/r/61dd75cbd016777c442bdf77/61716de019fb03075a0b0d19",
-  "adresseMission": "chemin de chaumont",
-  "adresseOrganisation": "chemin de chaumont , 88100 Saint-Dié-des-Vosges, FR",
-  "codeDepartement": "88",
-  "description": "La mission se déroulera à la SPA Déodatienne. La personne sera chargée en\ncollaboration avec les salariés de l'Association de contribuer au bien être des\nanimaux (entretien des espaces des animaux, visite chez le vétérinaire,\npromenades...) et elle pourra également avoir un rôle de contact avec des\nfamilles se présentant au refuge pour des renseignements et adoptions.\n\nSi vous souhaitez des informations complémentaires, merci d'adresser uniquement\npar mail vos demandes à l'adresse suivante: myriam.paquet88@ornge.fr",
-  "codePostal": "88100",
-  "descriptionOrganisation": "La SPA Déodatienne accueille des animaux qui sont abandonnés à qui elle dispense des soins quotidiens afin qu'ils puissent être adoptés.\n\nEn parallèle, elle procède à des fourrières à la demande des communes."
+  "titre": "Pour une société plus inclusive : lutte contre les discriminations",
+  "ville": "Lyon 07",
+  "organisation": "Crous de Lyon",
+  "dateDeDebut": "2022-08-29T00:00:00.000Z",
+  "dateDeFin": "2023-04-29T00:00:00.000Z",
+  "description": "·      Favoriser l’expression des étudiants sur la thématique de la lutte contre\nles discriminations en proposant des rencontres avec des professionnels et des\nassociations.\n\n·      Mettre en œuvre des actions afin de sensibiliser le public étudiant aux\ndifférentes formes de discriminations.\n\n·      Apporter aux étudiants un premier niveau d’information sur toutes les\nactions en matière de lutte contre les discriminations menées sur le territoire.",
+  "lienAnnonce": "https://api.api-engagement.beta.gouv.fr/r/6269faad4df2dc07b0db64ad/61716de019fb03075a0b0d19",
+  "adresseOrganisation": "59 rue de la Madeleine , 69007 Lyon 07, FR",
+  "adresseMission": "59 rue de la Madeleine",
+  "urlOrganisation": "http://www.crous-lyon.fr",
+  "codeDepartement": "69",
+  "codePostal": "69007",
+  "descriptionOrganisation": "Le Crous de Lyon est l'opérateur de l'Etat en matière de vie étudiante. En plus de ses six missions (logement, aides sociales, restauration, job, culture, internationaux), le Crous a aussi une mission d'animation de la vie étudiante et de la vie de campus. Pour ce faire, chaque année, une dizaine de volontaires en service civique sont engagés afin de contribuer à l'animation des différents sites et pour lutter contre l'isolement social des jeunes. "
 }

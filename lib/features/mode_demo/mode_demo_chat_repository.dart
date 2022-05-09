@@ -2,15 +2,21 @@ import 'package:pass_emploi_app/models/message.dart';
 
 List<Message> modeDemoChat() => [
       Message(
-        "Hello !",
+        "Bonjour Paul, avez-vous commencé à  rechercher des entreprises pour effectuer une période d'immersion ?",
+        DateTime.now().subtract(Duration(minutes: 40)),
+        Sender.conseiller,
+        MessageType.message,
+      ),
+      Message(
+        "Bonjour, oui j'ai contacté Carrefour et on a rendez-vous la semaine prochaine !",
         DateTime.now().subtract(Duration(minutes: 34)),
         Sender.jeune,
         MessageType.message,
       ),
       Message(
-        " Bonjour Monsieur",
-        DateTime.now().subtract(Duration(minutes: 30)),
+        "Super ! Nous pouvons nous voir mercredi prochain à 11H00 pour préparer l'entretien si cela vous convient !",
+        DateTime.now().subtract(Duration(minutes: 21)),
         Sender.conseiller,
         MessageType.message,
-      )
+      ),
     ];
