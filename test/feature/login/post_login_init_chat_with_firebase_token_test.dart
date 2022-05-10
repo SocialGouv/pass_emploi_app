@@ -34,7 +34,7 @@ void main() {
         final Future<AppState> newState = store.onChange.firstWhere((e) => e.loginState is LoginSuccessState);
 
         // When
-        store.dispatch(LoginSuccessAction(mockUser(id: "id")));
+        await store.dispatch(LoginSuccessAction(mockUser(id: "id")));
 
         // Then
         await newState;
@@ -44,7 +44,7 @@ void main() {
       test("chat crypto key should be fetched and set  to properly prepare ChatPage to be the first opened page",
           () async {
         // Given
-        final factory = TestStoreFactory();
+            final factory = TestStoreFactory();
         final chatCryptoSpy = _ChatCryptoSpy();
         factory.chatCrypto = chatCryptoSpy;
         factory.firebaseAuthRepository = _FirebaseAuthRepositorySuccessStub();
@@ -52,7 +52,7 @@ void main() {
         final Future<AppState> newState = store.onChange.firstWhere((e) => e.loginState is LoginSuccessState);
 
         // When
-        store.dispatch(LoginSuccessAction(mockUser(id: "id")));
+        await store.dispatch(LoginSuccessAction(mockUser(id: "id")));
 
         // Then
         await newState;
