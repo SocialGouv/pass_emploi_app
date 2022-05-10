@@ -17,12 +17,7 @@
       "label": "Entretien individuel conseiller"
     },
     "presenceConseiller": true,
-    "invitation": false,
-    "createur": {
-      "id": "1",
-      "nom": "Tavernier",
-      "prenom": "Nils"
-    }
+    "invitation": false
   },
   {
     "id": "020fe52d-50c8-4ea2-a8f8-73a7771ca3d9",
@@ -41,12 +36,7 @@
       "label": "Entretien individuel conseiller"
     },
     "presenceConseiller": true,
-    "invitation": false,
-    "createur": {
-      "id": "1",
-      "nom": "Tavernier",
-      "prenom": "Nils"
-    }
+    "invitation": false
   },
   {
     "id": "a8477802-0888-4363-b4f8-7563c26d4613",
@@ -66,12 +56,7 @@
       "label": "Entretien individuel conseiller"
     },
     "presenceConseiller": true,
-    "invitation": false,
-    "createur": {
-      "id": "1",
-      "nom": "Tavernier",
-      "prenom": "Nils"
-    }
+    "invitation": false
   },
   {
     "id": "03f249fb-b3e6-4dce-89c9-361be54a04f5",
@@ -91,11 +76,6 @@
       "label": "Atelier"
     },
     "presenceConseiller": true,
-    "invitation": false,
-    "createur": {
-      "id": "1",
-      "nom": "Tavernier",
-      "prenom": "Nils"
-    }
+    "invitation": false
   }
 ]
