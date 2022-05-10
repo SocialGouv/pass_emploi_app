@@ -14,7 +14,7 @@ class ModeDemoClient extends BaseClient {
     if (request.method != "GET") {
       return StreamedResponse(Stream.empty(), 201);
     } else {
-      final fileName = _getFileName(request.url.path);
+      final fileName = _getFileName(request.url.path, request.url.query);
       return StreamedResponse(readFileBytes(fileName), 200);
     }
   }
@@ -27,7 +27,7 @@ class ModeDemoClient extends BaseClient {
     return stream;
   }
 
-  String _getFileName(String url) {
+  String _getFileName(String url, String query) {
     if (url.endsWith("/pole-emploi/actions")) return "actions_liste_pe";
     if (url.endsWith("/favoris/offres-immersion")) return "favoris_ids_immersion";
     if (url.endsWith("/favoris/offres-emploi")) return "favoris_ids_offres_emploi";
@@ -35,7 +35,9 @@ class ModeDemoClient extends BaseClient {
     if (url.endsWith("/actions")) return "actions_list";
     if (url.endsWith("/rendezvous")) return "rendez_vous_list";
     if (url.endsWith("/recherches")) return "saved_search";
+    if (url.endsWith("/offres-emploi") && query.contains("alternance=true")) return "alternance_list";
     if (url.endsWith("/offres-emploi")) return "offres_emploi_list";
+    if (url.endsWith("alternance_detail")) return "alternance_detail";
     if (url.endsWith("/offres-immersion")) return "offres_immersion_list";
     if (url.endsWith("/services-civique")) return "offres_services_civique";
     if (url.contains("/services-civique/")) return "service_civique_detail";

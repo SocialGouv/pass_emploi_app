@@ -1,0 +1,106 @@
+{
+  "pagination": {
+    "page": 1,
+    "limit": 49
+  },
+  "results": [
+    {
+      "id": "3746940alternance_detail",
+      "titre": "CONSEILLER VENDEUR (H/F)",
+      "typeContrat": "CDD",
+      "alternance": true,
+      "localisation": {
+        "nom": "69 - LYON 01",
+        "codePostal": "69001",
+        "commune": "69381"
+      }
+    },
+    {
+      "id": "3746252alternance_detail",
+      "titre": "CONSEILLER VENDEUR (H/F)",
+      "typeContrat": "CDD",
+      "alternance": true,
+      "localisation": {
+        "nom": "69 - LYON 01",
+        "codePostal": "69001",
+        "commune": "69381"
+      }
+    },
+    {
+      "id": "3542753alternance_detail",
+      "titre": "CONSEILLER VENDEUR (H/F)",
+      "typeContrat": "CDD",
+      "alternance": true,
+      "localisation": {
+        "nom": "69 - ST PRIEST",
+        "codePostal": "69800",
+        "commune": "69290"
+      }
+    },
+    {
+      "id": "132LZNTalternance_detail",
+      "titre": "Conseiller relation clientèle à distance en alternance   (H/F)",
+      "typeContrat": "CDD",
+      "alternance": true,
+      "duree": "Temps plein",
+      "nomEntreprise": "KEEP CALL CONTACT CLIENT",
+      "localisation": {
+        "nom": "69 - ST GENIS LAVAL",
+        "codePostal": "69230",
+        "commune": "69204"
+      }
+    },
+    {
+      "id": "132KGMWalternance_detail",
+      "titre": "CONSEILLER DE VENTE POLYVALENT  EN APPRENTISSAGE   (H/F)",
+      "typeContrat": "CDD",
+      "alternance": true,
+      "duree": "Temps plein",
+      "nomEntreprise": "SPEEDWAY",
+      "localisation": {
+        "nom": "69 - LYON 03",
+        "codePostal": "69003",
+        "commune": "69383"
+      }
+    },
+    {
+      "id": "131YZLSalternance_detail",
+      "titre": "Conseiller client en boutique h/f",
+      "typeContrat": "CDD",
+      "alternance": true,
+      "duree": "Temps plein",
+      "nomEntreprise": "ORANGE",
+      "localisation": {
+        "nom": "69 - ECULLY",
+        "codePostal": "69130",
+        "commune": "69081"
+      }
+    },
+    {
+      "id": "131YZGWalternance_detail",
+      "titre": "Conseiller client en boutique h/f",
+      "typeContrat": "CDD",
+      "alternance": true,
+      "duree": "Temps plein",
+      "nomEntreprise": "Orange",
+      "localisation": {
+        "nom": "69 - ST GENIS LAVAL",
+        "codePostal": "69230",
+        "commune": "69204"
+      }
+    },
+    {
+      "id": "131YWBNalternance_detail",
+      "titre": "Conseiller client en boutique h/f",
+      "typeContrat": "CDD",
+      "alternance": true,
+      "duree": "Temps plein",
+      "nomEntreprise": "ORANGE",
+      "localisation": {
+        "nom": "69 - VENISSIEUX",
+        "codePostal": "69200",
+        "commune": "69259"
+      }
+    }
+  ]
+}
