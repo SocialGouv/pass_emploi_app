@@ -22,20 +22,26 @@ class ChatInitializerMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
     final loginState = store.state.loginState;
-    if (action is TryConnectChatAgainAction && !_demoRepository.getModeDemo() && loginState is LoginSuccessState) {
+    if (!_demoRepository.getModeDemo()) {
+      await _handleChatInitialization(action, loginState, store, next);
+    }
+    next(action);
+  }
+
+  Future<void> _handleChatInitialization(
+      action, LoginState loginState, Store<AppState> store, NextDispatcher next) async {
+    if (action is TryConnectChatAgainAction && loginState is LoginSuccessState) {
       if (DateTime.now().isAfter(lastTry.add(Duration(seconds: 10)))) {
         lastTry = DateTime.now();
         await _initializeChatAndSubscribeToChatStatus(loginState.user.id);
         store.dispatch(SubscribeToChatAction());
       }
-    } else if (action is LoginSuccessAction && !_demoRepository.getModeDemo()) {
+    } else if (action is LoginSuccessAction) {
       if (store.state.deepLinkState.deepLink == DeepLink.ROUTE_TO_CHAT) {
         await _initializeChatFirstThenDispatchLogin(action, next, store);
       } else {
         await _dispatchLoginFirstThenInitializeChat(action, next, store);
       }
-    } else {
-      next(action);
     }
   }
 
