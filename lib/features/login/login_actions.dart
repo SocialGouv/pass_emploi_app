@@ -10,6 +10,8 @@ class LoginRequestAction {}
 
 class LoginLoadingAction {}
 
+class TryConnectChatAgainAction {}
+
 class LoginSuccessAction {
   final User user;
 
