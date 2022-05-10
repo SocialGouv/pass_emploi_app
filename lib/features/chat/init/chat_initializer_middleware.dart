@@ -22,10 +22,10 @@ class ChatInitializerMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
     final loginState = store.state.loginState;
+    next(action);
     if (!_demoRepository.getModeDemo()) {
       await _handleChatInitialization(action, loginState, store, next);
     }
-    next(action);
   }
 
   Future<void> _handleChatInitialization(
