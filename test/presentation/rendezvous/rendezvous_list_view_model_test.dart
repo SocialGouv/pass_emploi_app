@@ -143,12 +143,15 @@ void main() {
         expect(viewModel.emptyLabel, "Vous n’avez pas encore de rendez-vous passés");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-past");
-        expect(viewModel.rendezvousItems, [
-          RendezvousDivider("Janvier 2022 (2)"),
-          RendezvousCardItem("semaine passée 1"),
-          RendezvousCardItem("passés lointain 1"),
-          RendezvousDivider("Décembre 2021 (1)"),
-          RendezvousCardItem("passés lointain 2"),
+        expect(viewModel.rendezvous, [
+          RendezvousSection(
+            title: "Janvier 2022 (2)",
+            rendezvousIds: ["semaine passée 1", "passés lointain 1"],
+          ),
+          RendezvousSection(
+            title: "Décembre 2021 (1)",
+            rendezvousIds: ["passés lointain 2"],
+          ),
         ]);
       });
 
@@ -166,11 +169,15 @@ void main() {
         expect(viewModel.emptyLabel, "Vous n'avez pas encore de rendez-vous prévus cette semaine");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-week-0");
-        expect(viewModel.rendezvousItems, [
-          RendezvousDivider("Samedi 5 février"),
-          RendezvousCardItem("cette semaine après-demain 1"),
-          RendezvousDivider("Dimanche 6 février"),
-          RendezvousCardItem("cette semaine dimanche"),
+        expect(viewModel.rendezvous, [
+          RendezvousSection(
+            title: "Samedi 5 février",
+            rendezvousIds: ["cette semaine après-demain 1"],
+          ),
+          RendezvousSection(
+            title: "Dimanche 6 février",
+            rendezvousIds: ["cette semaine dimanche"],
+          ),
         ]);
       });
 
@@ -189,13 +196,19 @@ void main() {
             "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 07/02/2022 au 13/02/2022");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-week-1");
-        expect(viewModel.rendezvousItems, [
-          RendezvousDivider("Lundi 7 février"),
-          RendezvousCardItem("semaine+1 lundi"),
-          RendezvousDivider("Jeudi 10 février"),
-          RendezvousCardItem("semaine+1 jeudi"),
-          RendezvousDivider("Dimanche 13 février"),
-          RendezvousCardItem("semaine+1 dimanche"),
+        expect(viewModel.rendezvous, [
+          RendezvousSection(
+            title: "Lundi 7 février",
+            rendezvousIds: ["semaine+1 lundi"],
+          ),
+          RendezvousSection(
+            title: "Jeudi 10 février",
+            rendezvousIds: ["semaine+1 jeudi"],
+          ),
+          RendezvousSection(
+            title: "Dimanche 13 février",
+            rendezvousIds: ["semaine+1 dimanche"],
+          ),
         ]);
       });
 
@@ -214,13 +227,19 @@ void main() {
             "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 14/02/2022 au 20/02/2022");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-week-2");
-        expect(viewModel.rendezvousItems, [
-          RendezvousDivider("Lundi 14 février"),
-          RendezvousCardItem("semaine+2 lundi"),
-          RendezvousDivider("Jeudi 17 février"),
-          RendezvousCardItem("semaine+2 jeudi"),
-          RendezvousDivider("Dimanche 20 février"),
-          RendezvousCardItem("semaine+2 dimanche"),
+        expect(viewModel.rendezvous, [
+          RendezvousSection(
+            title: "Lundi 14 février",
+            rendezvousIds: ["semaine+2 lundi"],
+          ),
+          RendezvousSection(
+            title: "Jeudi 17 février",
+            rendezvousIds: ["semaine+2 jeudi"],
+          ),
+          RendezvousSection(
+            title: "Dimanche 20 février",
+            rendezvousIds: ["semaine+2 dimanche"],
+          ),
         ]);
       });
 
@@ -239,13 +258,19 @@ void main() {
             "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 21/02/2022 au 27/02/2022");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-week-3");
-        expect(viewModel.rendezvousItems, [
-          RendezvousDivider("Lundi 21 février"),
-          RendezvousCardItem("semaine+3 lundi"),
-          RendezvousDivider("Jeudi 24 février"),
-          RendezvousCardItem("semaine+3 jeudi"),
-          RendezvousDivider("Dimanche 27 février"),
-          RendezvousCardItem("semaine+3 dimanche"),
+        expect(viewModel.rendezvous, [
+          RendezvousSection(
+            title: "Lundi 21 février",
+            rendezvousIds: ["semaine+3 lundi"],
+          ),
+          RendezvousSection(
+            title: "Jeudi 24 février",
+            rendezvousIds: ["semaine+3 jeudi"],
+          ),
+          RendezvousSection(
+            title: "Dimanche 27 février",
+            rendezvousIds: ["semaine+3 dimanche"],
+          ),
         ]);
       });
 
@@ -264,13 +289,19 @@ void main() {
             "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 28/02/2022 au 06/03/2022");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-week-4");
-        expect(viewModel.rendezvousItems, [
-          RendezvousDivider("Lundi 28 février"),
-          RendezvousCardItem("semaine+4 lundi"),
-          RendezvousDivider("Jeudi 3 mars"),
-          RendezvousCardItem("semaine+4 jeudi"),
-          RendezvousDivider("Dimanche 6 mars"),
-          RendezvousCardItem("semaine+4 dimanche"),
+        expect(viewModel.rendezvous, [
+          RendezvousSection(
+            title: "Lundi 28 février",
+            rendezvousIds: ["semaine+4 lundi"],
+          ),
+          RendezvousSection(
+            title: "Jeudi 3 mars",
+            rendezvousIds: ["semaine+4 jeudi"],
+          ),
+          RendezvousSection(
+            title: "Dimanche 6 mars",
+            rendezvousIds: ["semaine+4 dimanche"],
+          ),
         ]);
       });
 
@@ -288,12 +319,15 @@ void main() {
         expect(viewModel.emptyLabel, "Vous n’avez pas encore de rendez-vous prévus");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-future");
-        expect(viewModel.rendezvousItems, [
-          RendezvousDivider("Mars 2022 (1)"),
-          RendezvousCardItem("mois futur lundi 7 mars"),
-          RendezvousDivider("Avril 2022 (2)"),
-          RendezvousCardItem("mois futur avril A"),
-          RendezvousCardItem("mois futur avril B"),
+        expect(viewModel.rendezvous, [
+          RendezvousSection(
+            title: "Mars 2022 (1)",
+            rendezvousIds: ["mois futur lundi 7 mars"],
+          ),
+          RendezvousSection(
+            title: "Avril 2022 (2)",
+            rendezvousIds: ["mois futur avril A", "mois futur avril B"],
+          ),
         ]);
       });
     });
@@ -312,9 +346,11 @@ void main() {
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
         // Then
         expect(viewModel.withPreviousPageButton, true);
-        expect(viewModel.rendezvousItems, [
-          RendezvousDivider("Dimanche 6 février"),
-          RendezvousCardItem("cette semaine dimanche"),
+        expect(viewModel.rendezvous, [
+          RendezvousSection(
+            title: "Dimanche 6 février",
+            rendezvousIds: ["cette semaine dimanche"],
+          ),
         ]);
       });
 
@@ -324,10 +360,11 @@ void main() {
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
         // Then
-        expect(viewModel.rendezvousItems, [
-          RendezvousDivider("Février 2022 (2)"),
-          RendezvousCardItem("cette semaine mardi"),
-          RendezvousCardItem("cette semaine lundi"),
+        expect(viewModel.rendezvous, [
+          RendezvousSection(
+            title: "Février 2022 (2)",
+            rendezvousIds: ["cette semaine mardi", "cette semaine lundi"],
+          ),
         ]);
       });
     });

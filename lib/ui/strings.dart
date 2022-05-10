@@ -141,6 +141,7 @@ class Strings {
   static String noRendezVousFutur = "Vous n’avez pas encore de rendez-vous prévus";
   static String withConseiller = "avec";
   static String goToNextRendezvous = "Aller au prochain rendez-vous";
+  static String seeMoreRendezvous = "Voir plus de rendez-vous";
 
   static String rendezvousSinceDate(String date) => "depuis le $date";
 

@@ -11,7 +11,7 @@ import 'package:redux/redux.dart';
 class RendezvousListViewModel extends Equatable {
   final int pageOffset;
   final DisplayState displayState;
-  final List<RendezvousItem> rendezvousItems;
+  final List<RendezvousSection> rendezvous;
   final String? deeplinkRendezvousId;
   final Function() onRetry;
   final Function() onDeeplinkUsed;
@@ -27,7 +27,7 @@ class RendezvousListViewModel extends Equatable {
   RendezvousListViewModel({
     required this.pageOffset,
     required this.displayState,
-    required this.rendezvousItems,
+    required this.rendezvous,
     required this.deeplinkRendezvousId,
     required this.onRetry,
     required this.onDeeplinkUsed,
@@ -47,7 +47,7 @@ class RendezvousListViewModel extends Equatable {
     return RendezvousListViewModel(
       pageOffset: pageOffset,
       displayState: _displayState(rendezvousState, pageOffset),
-      rendezvousItems: builder.rendezvousItems(),
+      rendezvous: builder.rendezvous(),
       deeplinkRendezvousId: _deeplinkRendezvousId(store.state.deepLinkState, rendezvousState),
       onRetry: () => _retry(store, pageOffset),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
@@ -79,7 +79,7 @@ class RendezvousListViewModel extends Equatable {
   List<Object?> get props => [
         pageOffset,
         displayState,
-        rendezvousItems,
+        rendezvous,
         deeplinkRendezvousId,
         withPreviousPageButton,
         withNextPageButton,
@@ -113,22 +113,12 @@ String? _deeplinkRendezvousId(DeepLinkState state, RendezvousState rendezvousSta
   return (state.deepLink == DeepLink.ROUTE_TO_RENDEZVOUS && rdvIds.contains(state.dataId)) ? state.dataId : null;
 }
 
-abstract class RendezvousItem extends Equatable {}
+class RendezvousSection extends Equatable {
+  final String title;
+  final List<String> rendezvousIds;
 
-class RendezvousCardItem extends RendezvousItem {
-  final String id;
-
-  RendezvousCardItem(this.id);
-
-  @override
-  List<Object?> get props => [id];
-}
-
-class RendezvousDivider extends RendezvousItem {
-  final String label;
-
-  RendezvousDivider(this.label);
+  RendezvousSection({required this.title, required this.rendezvousIds});
 
   @override
-  List<Object?> get props => [label];
+  List<Object?> get props => [title, rendezvousIds];
 }

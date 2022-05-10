@@ -37,12 +37,12 @@ class FutureWeekRendezVousListBuilder implements RendezVousListBuilder {
   String makeAnalyticsLabel() => AnalyticsScreenNames.rendezvousListWeek + _pageOffset.toString();
 
   @override
-  List<RendezvousItem> rendezvousItems() {
+  List<RendezvousSection> rendezvous() {
     if (_rendezvousState.futurRendezVousStatus != RendezvousStatus.SUCCESS) return [];
 
     return _rendezvousState.rendezvous
         .sortedFromRecentToFuture()
         .filteredOnWeek(_pageOffset, _now)
-        .groupedItems(groupedBy: (element) => element.date.toDayOfWeekWithFullMonthContextualized());
+        .sections(groupedBy: (element) => element.date.toDayOfWeekWithFullMonthContextualized());
   }
 }
