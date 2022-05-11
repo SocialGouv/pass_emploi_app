@@ -114,7 +114,7 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
         controller: _scrollController,
         itemBuilder: (context, index) => _buildItem(context, index, viewModel),
         separatorBuilder: (context, index) => _listSeparator(),
-        itemCount: _itemCount(viewModel),
+        itemCount: viewModel.items.length + 1,
       ),
       Align(
         alignment: Alignment.bottomCenter,
@@ -177,11 +177,13 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
     }
   }
 
-  Padding _buildLastItem(ServiceCiviqueViewModel resultsViewModel) {
+  Widget _buildLastItem(ServiceCiviqueViewModel resultsViewModel) {
     if (resultsViewModel.displayState == DisplayState.FAILURE) {
       return _buildErrorItem();
-    } else {
+    } else if (resultsViewModel.displayLoaderAtBottomOfList) {
       return _buildLoaderItem();
+    } else {
+      return SizedBox(height: 80);
     }
   }
 
@@ -212,14 +214,6 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
   }
 
   Widget _listSeparator() => Container(height: Margins.spacing_base);
-
-  int _itemCount(ServiceCiviqueViewModel viewModel) {
-    if (viewModel.displayLoaderAtBottomOfList) {
-      return viewModel.items.length + 1;
-    } else {
-      return viewModel.items.length;
-    }
-  }
 
   Widget _error(ServiceCiviqueViewModel viewModel) {
     return Stack(children: [
