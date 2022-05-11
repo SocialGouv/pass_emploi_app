@@ -19,7 +19,7 @@ class AuthAccessTokenRetriever {
         return (await _authenticator.accessToken())!;
       case RefreshTokenStatus.EXPIRED_REFRESH_TOKEN:
         _store.dispatch(RequestLogoutAction());
-        throw Exception("ID Token is null");
+        throw Exception("Refresh token is expired");
       default:
         throw Exception(refreshTokenStatus);
     }
