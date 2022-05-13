@@ -81,14 +81,22 @@ extension RendezvousIterableExtension on Iterable<Rendezvous> {
     return where((element) => element.date.isAfter(firstDay));
   }
 
-  List<RendezvousSection> sections({bool displayCount = false, required String Function(Rendezvous) groupedBy}) {
+  List<RendezvousSection> sections({
+    bool displayCount = false,
+    bool expandable = false,
+    required String Function(Rendezvous) groupedBy,
+  }) {
     final groupedRendezvous = groupListsBy(groupedBy);
 
-    return groupedRendezvous.keys
-        .map((date) => RendezvousSection(
-            title: _title(displayCount, date, groupedRendezvous),
-            rendezvousIds: groupedRendezvous[date]!.map((e) => e.id).toList()))
-        .toList();
+    return groupedRendezvous.keys.map((date) {
+      final title = _title(displayCount, date, groupedRendezvous);
+      final rendezvous = groupedRendezvous[date]!.map((e) => e.id).toList();
+      if (expandable) {
+        return RendezvousSection.expandable(title: title, rendezvous: rendezvous, count: 3);
+      } else {
+        return RendezvousSection.normal(title: title, rendezvous: rendezvous);
+      }
+    }).toList();
   }
 }
 

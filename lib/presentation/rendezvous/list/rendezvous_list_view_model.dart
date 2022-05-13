@@ -115,10 +115,23 @@ String? _deeplinkRendezvousId(DeepLinkState state, RendezvousState rendezvousSta
 
 class RendezvousSection extends Equatable {
   final String title;
-  final List<String> rendezvousIds;
+  final List<String> displayedRendezvous;
+  final List<String> expandableRendezvous;
 
-  RendezvousSection({required this.title, required this.rendezvousIds});
+  RendezvousSection({required this.title, required this.displayedRendezvous, this.expandableRendezvous = const []});
+
+  RendezvousSection.normal({required this.title, required List<String> rendezvous})
+      : displayedRendezvous = rendezvous,
+        expandableRendezvous = [];
+
+  factory RendezvousSection.expandable({required String title, required List<String> rendezvous, required int count}) {
+    return RendezvousSection(
+      title: title,
+      displayedRendezvous: rendezvous.take(count).toList(),
+      expandableRendezvous: rendezvous.skip(count).toList(),
+    );
+  }
 
   @override
-  List<Object?> get props => [title, rendezvousIds];
+  List<Object?> get props => [title, displayedRendezvous, expandableRendezvous];
 }

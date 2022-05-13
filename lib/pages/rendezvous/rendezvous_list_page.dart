@@ -188,17 +188,32 @@ class _RendezvousSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final rendezvousCards = section.rendezvousIds.map((id) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: Margins.spacing_s),
-          child: RendezvousCard(rendezvousId: id, onTap: () => onTap(id)),
-        ));
     return Column(
       children: [
         _DayDivider(section.title),
-        ...rendezvousCards,
+        ...section.displayedRendezvous.cards(onTap: onTap),
+        if (section.expandableRendezvous.isNotEmpty)
+          Theme(
+            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+            child: ExpansionTile(
+              title: Center(child: Text(Strings.seeMoreRendezvous)),
+              children: section.expandableRendezvous.cards(onTap: onTap),
+            ),
+          ),
         Container(),
       ],
     );
+  }
+}
+
+extension _RendezvousIdCards on List<String> {
+  List<Widget> cards({required Function(String) onTap}) {
+    return map(
+      (id) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: Margins.spacing_s),
+        child: RendezvousCard(rendezvousId: id, onTap: () => onTap(id)),
+      ),
+    ).toList();
   }
 }
 

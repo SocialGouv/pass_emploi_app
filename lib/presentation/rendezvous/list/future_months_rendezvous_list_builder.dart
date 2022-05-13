@@ -41,6 +41,6 @@ class FutureMonthsRendezVousListBuilder implements RendezVousListBuilder {
     return _rendezvousState.rendezvous
         .sortedFromRecentToFuture()
         .filteredAfterFourWeeks(_now)
-        .sections(displayCount: true, groupedBy: (element) => element.date.toFullMonthAndYear());
+        .sections(displayCount: true, expandable: true, groupedBy: (element) => element.date.toFullMonthAndYear());
   }
 }

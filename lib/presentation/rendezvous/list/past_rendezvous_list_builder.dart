@@ -49,7 +49,7 @@ class PastRendezVousListBuilder implements RendezVousListBuilder {
     return _rendezvousState.rendezvous
         .sortedFromRecentToOldest()
         .where((element) => element.date.isBefore(DateUtils.dateOnly(_now)))
-        .sections(displayCount: true, groupedBy: (element) => element.date.toFullMonthAndYear());
+        .sections(displayCount: true, expandable: true, groupedBy: (element) => element.date.toFullMonthAndYear());
   }
 }
 
