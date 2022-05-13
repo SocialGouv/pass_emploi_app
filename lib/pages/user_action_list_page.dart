@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
-import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
+import 'package:pass_emploi_app/pages/actions/actions_detail_page.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -16,7 +17,6 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_create_bottom_sheet.dart';
-import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_details_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
@@ -56,8 +56,8 @@ class _UserActionListPageState extends State<UserActionListPage> {
 
   void _openDeeplinkIfNeeded(UserActionListPageViewModel viewModel, BuildContext context) {
     if (viewModel.actionDetails != null) {
-      showPassEmploiBottomSheet(
-          context: context, builder: (context) => UserActionDetailsBottomSheet(viewModel.actionDetails!));
+      widget.pushAndTrackBack(
+          context, ActionDetailPage.materialPageRoute(viewModel.actionDetails!), AnalyticsScreenNames.userActionList);
       viewModel.onDeeplinkUsed();
     }
   }
@@ -114,10 +114,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
     return UserActionCard(
       onTap: () {
         context.trackEvent(EventType.ACTION_DETAIL);
-        showPassEmploiBottomSheet(
-          context: context,
-          builder: (context) => UserActionDetailsBottomSheet(item),
-        ).then((value) => _onUserActionDetailsDismissed(context, value, viewModel));
+        widget.pushAndTrackBack(context, ActionDetailPage.materialPageRoute(item), AnalyticsScreenNames.userActionList);
       },
       viewModel: item,
     );
@@ -133,15 +130,6 @@ class _UserActionListPageState extends State<UserActionListPage> {
         builder: (context) => CreateUserActionBottomSheet(),
       ).then((value) => _onCreateUserActionDismissed(viewModel)),
     );
-  }
-
-  void _onUserActionDetailsDismissed(BuildContext context, dynamic value, UserActionListPageViewModel viewModel) {
-    if (value != null) {
-      if (value == UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(Strings.deleteActionSuccess)));
-      }
-    }
-    viewModel.onUserActionDetailsDismissed();
   }
 
   void _onCreateUserActionDismissed(UserActionListPageViewModel viewModel) {
