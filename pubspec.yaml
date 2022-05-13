@@ -5,8 +5,8 @@ publish_to: 'none'
 version: 1.4.1
 
 environment:
-  sdk: "2.16.2" # Dart version
-  flutter: 2.10.5
+  sdk: "2.17.0" # Dart version
+  flutter: 3.0.0
 
 dependencies:
   # Flutter
@@ -28,7 +28,7 @@ dependencies:
   http: '0.13.4'
   http_interceptor: '1.0.2'
   intl: '0.17.0'
-  collection: '1.15.0'
+  collection: '1.16.0'
   equatable: '2.0.3'
   logger: '1.1.0'
   uuid: '3.0.6'

@@ -48,7 +48,9 @@ class UserActionDetailsViewModel {
 
 UserActionDetailsDisplayState _displayState(AppState state) {
   final updateState = state.userActionUpdateState;
-  if (updateState is UserActionUpdatedState) {
+  if (state.userActionDeleteState is UserActionDeleteSuccessState) {
+    return UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION;
+  } else if (updateState is UserActionUpdatedState) {
     if (updateState.newStatus == UserActionStatus.DONE) {
       return UserActionDetailsDisplayState.SHOW_SUCCESS;
     } else {
@@ -56,8 +58,6 @@ UserActionDetailsDisplayState _displayState(AppState state) {
     }
   } else if (updateState is UserActionNoUpdateNeededState) {
     return UserActionDetailsDisplayState.TO_DISMISS;
-  } else if (state.userActionDeleteState is UserActionDeleteSuccessState) {
-    return UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION;
   } else if (state.userActionDeleteState is UserActionDeleteLoadingState) {
     return UserActionDetailsDisplayState.SHOW_LOADING;
   } else if (state.userActionDeleteState is UserActionDeleteFailureState) {
