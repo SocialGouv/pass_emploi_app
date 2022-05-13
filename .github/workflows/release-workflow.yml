@@ -15,7 +15,7 @@ jobs:
           java-version: '12.x'
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '2.10.5'
+          flutter-version: '3.0.0'
       - name: Launch tests
         run: flutter test
 
@@ -38,7 +38,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '2.10.5'
+          flutter-version: '3.0.0'
 
       - name: Write Google configuration for Android
         shell: bash
@@ -94,7 +94,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '2.10.5'
+          flutter-version: '3.0.0'
 
       - name: Install Codemagic CLI tools
         shell: bash
