@@ -47,7 +47,11 @@ UserActionDetailsDisplayState _displayState(AppState state) {
   if (state.userActionDeleteState is UserActionDeleteSuccessState) {
     return UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION;
   } else if (updateState is UserActionUpdatedState) {
-    return UserActionDetailsDisplayState.TO_DISMISS_AFTER_UPDATE;
+    if (updateState.newStatus == UserActionStatus.DONE) {
+      return UserActionDetailsDisplayState.SHOW_SUCCESS;
+    } else {
+      return UserActionDetailsDisplayState.TO_DISMISS_AFTER_UPDATE;
+    }
   } else if (updateState is UserActionNoUpdateNeededState) {
     return UserActionDetailsDisplayState.TO_DISMISS;
   } else if (state.userActionDeleteState is UserActionDeleteLoadingState) {
