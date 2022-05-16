@@ -200,7 +200,6 @@ class _RendezvousSection extends StatelessWidget {
               children: section.expandableRendezvous.cards(onTap: onTap),
             ),
           ),
-        Container(),
       ],
     );
   }
