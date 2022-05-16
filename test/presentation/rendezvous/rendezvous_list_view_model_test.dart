@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
@@ -143,12 +144,15 @@ void main() {
         expect(viewModel.emptyLabel, "Vous n’avez pas encore de rendez-vous passés");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-past");
-        expect(viewModel.rendezvousItems, [
-          RendezvousDivider("Janvier 2022 (2)"),
-          RendezvousCardItem("semaine passée 1"),
-          RendezvousCardItem("passés lointain 1"),
-          RendezvousDivider("Décembre 2021 (1)"),
-          RendezvousCardItem("passés lointain 2"),
+        expect(viewModel.rendezvous, [
+          RendezvousSection(
+            title: "Janvier 2022 (2)",
+            displayedRendezvous: ["semaine passée 1", "passés lointain 1"],
+          ),
+          RendezvousSection(
+            title: "Décembre 2021 (1)",
+            displayedRendezvous: ["passés lointain 2"],
+          ),
         ]);
       });
 
@@ -166,11 +170,15 @@ void main() {
         expect(viewModel.emptyLabel, "Vous n'avez pas encore de rendez-vous prévus cette semaine");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-week-0");
-        expect(viewModel.rendezvousItems, [
-          RendezvousDivider("Samedi 5 février"),
-          RendezvousCardItem("cette semaine après-demain 1"),
-          RendezvousDivider("Dimanche 6 février"),
-          RendezvousCardItem("cette semaine dimanche"),
+        expect(viewModel.rendezvous, [
+          RendezvousSection(
+            title: "Samedi 5 février",
+            displayedRendezvous: ["cette semaine après-demain 1"],
+          ),
+          RendezvousSection(
+            title: "Dimanche 6 février",
+            displayedRendezvous: ["cette semaine dimanche"],
+          ),
         ]);
       });
 
@@ -189,13 +197,19 @@ void main() {
             "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 07/02/2022 au 13/02/2022");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-week-1");
-        expect(viewModel.rendezvousItems, [
-          RendezvousDivider("Lundi 7 février"),
-          RendezvousCardItem("semaine+1 lundi"),
-          RendezvousDivider("Jeudi 10 février"),
-          RendezvousCardItem("semaine+1 jeudi"),
-          RendezvousDivider("Dimanche 13 février"),
-          RendezvousCardItem("semaine+1 dimanche"),
+        expect(viewModel.rendezvous, [
+          RendezvousSection(
+            title: "Lundi 7 février",
+            displayedRendezvous: ["semaine+1 lundi"],
+          ),
+          RendezvousSection(
+            title: "Jeudi 10 février",
+            displayedRendezvous: ["semaine+1 jeudi"],
+          ),
+          RendezvousSection(
+            title: "Dimanche 13 février",
+            displayedRendezvous: ["semaine+1 dimanche"],
+          ),
         ]);
       });
 
@@ -214,13 +228,19 @@ void main() {
             "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 14/02/2022 au 20/02/2022");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-week-2");
-        expect(viewModel.rendezvousItems, [
-          RendezvousDivider("Lundi 14 février"),
-          RendezvousCardItem("semaine+2 lundi"),
-          RendezvousDivider("Jeudi 17 février"),
-          RendezvousCardItem("semaine+2 jeudi"),
-          RendezvousDivider("Dimanche 20 février"),
-          RendezvousCardItem("semaine+2 dimanche"),
+        expect(viewModel.rendezvous, [
+          RendezvousSection(
+            title: "Lundi 14 février",
+            displayedRendezvous: ["semaine+2 lundi"],
+          ),
+          RendezvousSection(
+            title: "Jeudi 17 février",
+            displayedRendezvous: ["semaine+2 jeudi"],
+          ),
+          RendezvousSection(
+            title: "Dimanche 20 février",
+            displayedRendezvous: ["semaine+2 dimanche"],
+          ),
         ]);
       });
 
@@ -239,13 +259,19 @@ void main() {
             "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 21/02/2022 au 27/02/2022");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-week-3");
-        expect(viewModel.rendezvousItems, [
-          RendezvousDivider("Lundi 21 février"),
-          RendezvousCardItem("semaine+3 lundi"),
-          RendezvousDivider("Jeudi 24 février"),
-          RendezvousCardItem("semaine+3 jeudi"),
-          RendezvousDivider("Dimanche 27 février"),
-          RendezvousCardItem("semaine+3 dimanche"),
+        expect(viewModel.rendezvous, [
+          RendezvousSection(
+            title: "Lundi 21 février",
+            displayedRendezvous: ["semaine+3 lundi"],
+          ),
+          RendezvousSection(
+            title: "Jeudi 24 février",
+            displayedRendezvous: ["semaine+3 jeudi"],
+          ),
+          RendezvousSection(
+            title: "Dimanche 27 février",
+            displayedRendezvous: ["semaine+3 dimanche"],
+          ),
         ]);
       });
 
@@ -264,13 +290,19 @@ void main() {
             "Vous n’avez pas encore de rendez-vous prévus pour la semaine du 28/02/2022 au 06/03/2022");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-week-4");
-        expect(viewModel.rendezvousItems, [
-          RendezvousDivider("Lundi 28 février"),
-          RendezvousCardItem("semaine+4 lundi"),
-          RendezvousDivider("Jeudi 3 mars"),
-          RendezvousCardItem("semaine+4 jeudi"),
-          RendezvousDivider("Dimanche 6 mars"),
-          RendezvousCardItem("semaine+4 dimanche"),
+        expect(viewModel.rendezvous, [
+          RendezvousSection(
+            title: "Lundi 28 février",
+            displayedRendezvous: ["semaine+4 lundi"],
+          ),
+          RendezvousSection(
+            title: "Jeudi 3 mars",
+            displayedRendezvous: ["semaine+4 jeudi"],
+          ),
+          RendezvousSection(
+            title: "Dimanche 6 mars",
+            displayedRendezvous: ["semaine+4 dimanche"],
+          ),
         ]);
       });
 
@@ -288,14 +320,99 @@ void main() {
         expect(viewModel.emptyLabel, "Vous n’avez pas encore de rendez-vous prévus");
         expect(viewModel.emptySubtitleLabel, isNull);
         expect(viewModel.analyticsLabel, "rdv/list-future");
-        expect(viewModel.rendezvousItems, [
-          RendezvousDivider("Mars 2022 (1)"),
-          RendezvousCardItem("mois futur lundi 7 mars"),
-          RendezvousDivider("Avril 2022 (2)"),
-          RendezvousCardItem("mois futur avril A"),
-          RendezvousCardItem("mois futur avril B"),
+        expect(viewModel.rendezvous, [
+          RendezvousSection(
+            title: "Mars 2022 (1)",
+            displayedRendezvous: ["mois futur lundi 7 mars"],
+          ),
+          RendezvousSection(
+            title: "Avril 2022 (2)",
+            displayedRendezvous: ["mois futur avril A", "mois futur avril B"],
+          ),
         ]);
       });
+    });
+
+    group('expandable sections', () {
+      final threeRendezvous = [
+        mockRendezvous(id: 'lundi', date: DateTime(2022, 2, 1, 4, 5, 30)),
+        mockRendezvous(id: 'mardi', date: DateTime(2022, 2, 2, 4, 5, 30)),
+        mockRendezvous(id: 'dimanche', date: DateTime(2022, 2, 6, 4, 5, 30)),
+      ];
+      final fourRendezvous = [
+        mockRendezvous(id: 'lundi', date: DateTime(2022, 2, 1, 4, 5, 30)),
+        mockRendezvous(id: 'mardi', date: DateTime(2022, 2, 2, 4, 5, 30)),
+        mockRendezvous(id: 'mercredi', date: DateTime(2022, 2, 3, 4, 5, 30)),
+        mockRendezvous(id: 'dimanche', date: DateTime(2022, 2, 6, 4, 5, 30)),
+      ];
+
+      void assertSections({
+        required int pageOffset,
+        required List<Rendezvous> rendezvous,
+        required bool shouldBeExpandable,
+        required String message,
+      }) {
+        test(message, () {
+          // Given
+          final rendezvousOnPage = rendezvous.map((e) {
+            return mockRendezvous(id: e.id, date: e.date.addWeeks(pageOffset));
+          }).toList();
+          final store = givenState().loggedInUser().rendezvous(rendezvousOnPage).store();
+          // When
+          final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, pageOffset);
+          // Then
+          expect(
+            viewModel.rendezvous.indexWhere((section) => section.expandableRendezvous.isNotEmpty) != -1,
+            shouldBeExpandable,
+          );
+        });
+      }
+
+      assertSections(
+          pageOffset: 0,
+          rendezvous: fourRendezvous,
+          shouldBeExpandable: false,
+          message: "should not be on present page");
+      assertSections(
+          pageOffset: 1,
+          rendezvous: fourRendezvous,
+          shouldBeExpandable: false,
+          message: "should not be on week+1 page");
+      assertSections(
+          pageOffset: 2,
+          rendezvous: fourRendezvous,
+          shouldBeExpandable: false,
+          message: "should not be on week+2 page");
+      assertSections(
+          pageOffset: 3,
+          rendezvous: fourRendezvous,
+          shouldBeExpandable: false,
+          message: "should not be on week+3 page");
+      assertSections(
+          pageOffset: 4,
+          rendezvous: fourRendezvous,
+          shouldBeExpandable: false,
+          message: "should not be on week+4 page");
+      assertSections(
+          pageOffset: -1,
+          rendezvous: threeRendezvous,
+          shouldBeExpandable: false,
+          message: "should not be on past page with less than 3 rdv");
+      assertSections(
+          pageOffset: 5,
+          rendezvous: threeRendezvous,
+          shouldBeExpandable: false,
+          message: "should not be on future months page with less than 3 rdv");
+      assertSections(
+          pageOffset: -1,
+          rendezvous: fourRendezvous,
+          shouldBeExpandable: true,
+          message: "should be on past page with more than 3 rdv");
+      assertSections(
+          pageOffset: 5,
+          rendezvous: fourRendezvous,
+          shouldBeExpandable: true,
+          message: "should be on future months page with more than 3 rdv");
     });
 
     group('past rendezvous of the current week', () {
@@ -312,9 +429,11 @@ void main() {
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, 0);
         // Then
         expect(viewModel.withPreviousPageButton, true);
-        expect(viewModel.rendezvousItems, [
-          RendezvousDivider("Dimanche 6 février"),
-          RendezvousCardItem("cette semaine dimanche"),
+        expect(viewModel.rendezvous, [
+          RendezvousSection(
+            title: "Dimanche 6 février",
+            displayedRendezvous: ["cette semaine dimanche"],
+          ),
         ]);
       });
 
@@ -324,10 +443,11 @@ void main() {
         // When
         final viewModel = RendezvousListViewModel.create(store, thursday3thFebruary, -1);
         // Then
-        expect(viewModel.rendezvousItems, [
-          RendezvousDivider("Février 2022 (2)"),
-          RendezvousCardItem("cette semaine mardi"),
-          RendezvousCardItem("cette semaine lundi"),
+        expect(viewModel.rendezvous, [
+          RendezvousSection(
+            title: "Février 2022 (2)",
+            displayedRendezvous: ["cette semaine mardi", "cette semaine lundi"],
+          ),
         ]);
       });
     });

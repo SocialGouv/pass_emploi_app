@@ -43,13 +43,13 @@ class PastRendezVousListBuilder implements RendezVousListBuilder {
   String makeAnalyticsLabel() => AnalyticsScreenNames.rendezvousListPast;
 
   @override
-  List<RendezvousItem> rendezvousItems() {
+  List<RendezvousSection> rendezvous() {
     if (_rendezvousState.pastRendezVousStatus != RendezvousStatus.SUCCESS) return [];
 
     return _rendezvousState.rendezvous
         .sortedFromRecentToOldest()
         .where((element) => element.date.isBefore(DateUtils.dateOnly(_now)))
-        .groupedItems(displayCount: true, groupedBy: (element) => element.date.toFullMonthAndYear());
+        .sections(displayCount: true, expandable: true, groupedBy: (element) => element.date.toFullMonthAndYear());
   }
 }
 

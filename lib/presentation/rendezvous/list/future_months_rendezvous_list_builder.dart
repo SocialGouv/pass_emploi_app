@@ -35,12 +35,12 @@ class FutureMonthsRendezVousListBuilder implements RendezVousListBuilder {
   String makeAnalyticsLabel() => AnalyticsScreenNames.rendezvousListFuture;
 
   @override
-  List<RendezvousItem> rendezvousItems() {
+  List<RendezvousSection> rendezvous() {
     if (_rendezvousState.futurRendezVousStatus != RendezvousStatus.SUCCESS) return [];
 
     return _rendezvousState.rendezvous
         .sortedFromRecentToFuture()
         .filteredAfterFourWeeks(_now)
-        .groupedItems(displayCount: true, groupedBy: (element) => element.date.toFullMonthAndYear());
+        .sections(displayCount: true, expandable: true, groupedBy: (element) => element.date.toFullMonthAndYear());
   }
 }

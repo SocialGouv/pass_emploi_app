@@ -54,7 +54,7 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
   @override
   int? nextRendezvousPageOffset() {
     if (_rendezvousState.rendezvous.isEmpty) return null;
-    if (rendezvousItems().isNotEmpty) return null;
+    if (rendezvous().isNotEmpty) return null;
 
     final futureBuilders = [
       FutureWeekRendezVousListBuilder(_rendezvousState, 1, _now),
@@ -64,7 +64,7 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
       FutureMonthsRendezVousListBuilder(_rendezvousState, _now),
     ];
 
-    final index = futureBuilders.indexWhere((element) => element.rendezvousItems().isNotEmpty);
+    final index = futureBuilders.indexWhere((element) => element.rendezvous().isNotEmpty);
     return index == -1 ? null : index + 1;
   }
 
@@ -72,12 +72,12 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
   String makeAnalyticsLabel() => AnalyticsScreenNames.rendezvousListWeek + _pageOffset.toString();
 
   @override
-  List<RendezvousItem> rendezvousItems() {
+  List<RendezvousSection> rendezvous() {
     if (_rendezvousState.futurRendezVousStatus != RendezvousStatus.SUCCESS) return [];
 
     return _rendezvousState.rendezvous
         .sortedFromRecentToFuture()
         .filteredFromTodayToSunday(_now)
-        .groupedItems(groupedBy: (element) => element.date.toDayOfWeekWithFullMonthContextualized());
+        .sections(groupedBy: (element) => element.date.toDayOfWeekWithFullMonthContextualized());
   }
 }

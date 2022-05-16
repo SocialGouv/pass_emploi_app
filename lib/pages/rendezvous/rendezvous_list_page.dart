@@ -156,34 +156,63 @@ class _Content extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _DateHeader(viewModel: viewModel, onPageOffsetChanged: onPageOffsetChanged),
-        if (viewModel.rendezvousItems.isEmpty)
+        if (viewModel.rendezvous.isEmpty)
           _EmptyWeek(
             title: viewModel.emptyLabel,
             subtitle: viewModel.emptySubtitleLabel,
             withNextRendezvousButton: viewModel.nextRendezvousPageOffset != null,
             onNextRendezvousButtonTap: onNextRendezvousButtonTap,
           ),
-        if (viewModel.rendezvousItems.isNotEmpty)
+        if (viewModel.rendezvous.isNotEmpty)
           Expanded(
             child: ListView.separated(
-              itemCount: viewModel.rendezvousItems.length,
+              itemCount: viewModel.rendezvous.length,
               padding: const EdgeInsets.all(Margins.spacing_s),
               separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
               itemBuilder: (context, index) {
-                final rdvItem = viewModel.rendezvousItems[index];
-                if (rdvItem is RendezvousCardItem) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: RendezvousCard(rendezvousId: rdvItem.id, onTap: () => onTap(rdvItem.id)),
-                  );
-                }
-                if (rdvItem is RendezvousDivider) return _DayDivider(rdvItem.label);
-                return Container();
+                final section = viewModel.rendezvous[index];
+                return _RendezvousSection(section: section, onTap: onTap);
               },
             ),
           ),
       ],
     );
+  }
+}
+
+class _RendezvousSection extends StatelessWidget {
+  final RendezvousSection section;
+  final Function(String) onTap;
+
+  _RendezvousSection({required this.section, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        _DayDivider(section.title),
+        ...section.displayedRendezvous.cards(onTap: onTap),
+        if (section.expandableRendezvous.isNotEmpty)
+          Theme(
+            data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+            child: ExpansionTile(
+              title: Center(child: Text(Strings.seeMoreRendezvous)),
+              children: section.expandableRendezvous.cards(onTap: onTap),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
+extension _RendezvousIdCards on List<String> {
+  List<Widget> cards({required Function(String) onTap}) {
+    return map(
+      (id) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: Margins.spacing_s),
+        child: RendezvousCard(rendezvousId: id, onTap: () => onTap(id)),
+      ),
+    ).toList();
   }
 }
 
