@@ -68,8 +68,8 @@ UserActionTagViewModel? _userActionTagViewModel(UserActionStatus status) {
     case UserActionStatus.CANCELED:
       return UserActionTagViewModel(
         title: Strings.actionCanceled,
-        backgroundColor: AppColors.warningLighten,
-        textColor: AppColors.warning,
+        backgroundColor: AppColors.accent2Lighten,
+        textColor: AppColors.accent2,
       );
     case UserActionStatus.DONE:
       return UserActionTagViewModel(
