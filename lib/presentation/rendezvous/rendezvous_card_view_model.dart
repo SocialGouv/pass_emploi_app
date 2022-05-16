@@ -14,6 +14,7 @@ class RendezvousCardViewModel extends Equatable {
   final bool isAnnule;
   final String? title;
   final String? subtitle;
+  final bool greenTag;
 
   RendezvousCardViewModel({
     required this.id,
@@ -22,6 +23,7 @@ class RendezvousCardViewModel extends Equatable {
     required this.isAnnule,
     required this.title,
     required this.subtitle,
+    required this.greenTag,
   });
 
   factory RendezvousCardViewModel.create(Store<AppState> store, String rdvId) {
@@ -33,12 +35,14 @@ class RendezvousCardViewModel extends Equatable {
       isAnnule: rdv.isAnnule,
       title: rdv.organism != null ? Strings.withOrganism(rdv.organism!) : null,
       subtitle: _subtitle(rdv),
+      greenTag: takeTypeLabelOrPrecision(rdv) == Strings.individualInterview ||
+          takeTypeLabelOrPrecision(rdv) == Strings.publicInfo,
     );
   }
 
   @override
   List<Object?> get props {
-    return [id, tag, date, isAnnule, title, subtitle];
+    return [id, tag, date, isAnnule, title, subtitle, greenTag];
   }
 }
 

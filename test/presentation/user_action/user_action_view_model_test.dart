@@ -139,8 +139,8 @@ void main() {
         viewModel.tag,
         UserActionTagViewModel(
           title: "Annulée",
-          backgroundColor: AppColors.warningLighten,
-          textColor: AppColors.warning,
+          backgroundColor: AppColors.accent2Lighten,
+          textColor: AppColors.accent2,
         ));
   });
 
