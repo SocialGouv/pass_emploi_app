@@ -5,5 +5,6 @@ UserActionUpdateState userActionUpdateReducer(UserActionUpdateState current, dyn
   if (action is UserActionNoUpdateNeededAction) return UserActionNoUpdateNeededState();
   if (action is UserActionUpdateResetAction) return UserActionNotUpdatingState();
   if (action is UserActionUpdateRequestAction) return UserActionUpdatedState(action.newStatus);
+  if (action is UserActionNotUpdatingState) return UserActionNotUpdatingState();
   return current;
 }
