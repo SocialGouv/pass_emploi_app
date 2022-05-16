@@ -59,7 +59,7 @@ void main() {
       final viewModel = UserActionDetailsViewModel.create(store);
 
       // Then
-      expect(viewModel.displayState, UserActionDetailsDisplayState.SHOW_SUCCESS);
+      expect(viewModel.displayState, UserActionDetailsDisplayState.TO_DISMISS_AFTER_UPDATE);
     });
   });
 

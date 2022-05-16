@@ -201,7 +201,7 @@ class _ActionDetailPageState extends State<ActionDetailPage> {
       Navigator.pop(context);
     } else if (viewModel.displayState == UserActionDetailsDisplayState.TO_DISMISS_AFTER_UPDATE) {
       _trackSuccessfulUpdate();
-      Navigator.pop(context);
+      Navigator.pop(context, UserActionDetailsDisplayState.TO_DISMISS_AFTER_UPDATE);
     } else if (viewModel.displayState == UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION) {
       Navigator.pop(context, UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION);
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(Strings.deleteActionSuccess)));
