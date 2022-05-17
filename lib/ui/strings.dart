@@ -541,5 +541,5 @@ class Strings {
   static String modeDemoExplicationTroisiemePoint3 =
       " les données affichées à titre d'exemple.";
   static String modeDemoExplicationChoix =
-      "Veuillez sélectionner le mode démonstration";
+      "Veuillez sélectionner le mode de démonstration";
 }
