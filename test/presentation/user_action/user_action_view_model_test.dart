@@ -60,7 +60,13 @@ void main() {
 
     // Then
     expect(viewModel.status, UserActionStatus.DONE);
-    expect(viewModel.tag, null);
+    expect(
+        viewModel.tag,
+        UserActionTagViewModel(
+          title: "Terminée",
+          backgroundColor: AppColors.accent2Lighten,
+          textColor: AppColors.accent2,
+        ));
   });
 
   test("UserActionViewModel.create when status is not started should create view model properly", () {
@@ -110,6 +116,31 @@ void main() {
           title: Strings.actionInProgress,
           backgroundColor: AppColors.accent3Lighten,
           textColor: AppColors.accent3,
+        ));
+  });
+
+  test("UserActionViewModel.create when status is canceled should create view model properly", () {
+    // Given
+    final userAction = UserAction(
+      id: "id",
+      content: "content",
+      comment: "comment",
+      status: UserActionStatus.CANCELED,
+      lastUpdate: DateTime(2022),
+      creator: ConseillerActionCreator(name: "Nils Tavernier"),
+    );
+
+    // When
+    final viewModel = UserActionViewModel.create(userAction);
+
+    // Then
+    expect(viewModel.status, UserActionStatus.CANCELED);
+    expect(
+        viewModel.tag,
+        UserActionTagViewModel(
+          title: "Annulée",
+          backgroundColor: AppColors.accent2Lighten,
+          textColor: AppColors.accent2,
         ));
   });
 

@@ -1,9 +1,11 @@
+import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_actions.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
+import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
@@ -11,8 +13,10 @@ import 'package:redux/redux.dart';
 class LoginMiddleware extends MiddlewareClass<AppState> {
   final Authenticator _authenticator;
   final FirebaseAuthWrapper _firebaseAuthWrapper;
+  final ModeDemoRepository _modeDemoRepository;
+  final MatomoTracker _matomoTracker;
 
-  LoginMiddleware(this._authenticator, this._firebaseAuthWrapper);
+  LoginMiddleware(this._authenticator, this._firebaseAuthWrapper, this._modeDemoRepository, this._matomoTracker);
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
@@ -36,14 +40,33 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
 
   void _logUser(Store<AppState> store, RequestLoginMode mode) async {
     store.dispatch(LoginLoadingAction());
-    final authenticatorResponse = await _authenticator.login(_getAuthenticationMode(mode));
-    if (authenticatorResponse == AuthenticatorResponse.SUCCESS) {
-      _dispatchLoginSuccess(store);
-    } else if (authenticatorResponse == AuthenticatorResponse.FAILURE) {
-      store.dispatch(LoginFailureAction());
+    if (mode.isDemo()) {
+      _modeDemoRepository.setModeDemo(true);
+      final user = _modeDemoUser(mode);
+      store.dispatch(LoginSuccessAction(user));
+      _matomoTracker.setOptOut(true);
     } else {
-      store.dispatch(NotLoggedInAction());
+      _matomoTracker.setOptOut(false);
+      _modeDemoRepository.setModeDemo(false);
+      final authenticatorResponse = await _authenticator.login(_getAuthenticationMode(mode));
+      if (authenticatorResponse == AuthenticatorResponse.SUCCESS) {
+        _dispatchLoginSuccess(store);
+      } else if (authenticatorResponse == AuthenticatorResponse.FAILURE) {
+        store.dispatch(LoginFailureAction());
+      } else {
+        store.dispatch(NotLoggedInAction());
+      }
     }
+  }
+
+  User _modeDemoUser(RequestLoginMode mode) {
+    return User(
+      id: "SEVP",
+      firstName: "Paul",
+      lastName: "Sevier",
+      email: "mode@demo.com",
+      loginMode: mode == RequestLoginMode.DEMO_PE ? LoginMode.DEMO_PE : LoginMode.DEMO_MILO,
+    );
   }
 
   void _dispatchLoginSuccess(Store<AppState> store) async {
@@ -59,6 +82,7 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _logout(Store<AppState> store) async {
+    _matomoTracker.setOptOut(false);
     await _authenticator.logout();
     store.dispatch(UnsubscribeFromChatStatusAction());
     store.dispatch(BootstrapAction());
@@ -73,6 +97,9 @@ class LoginMiddleware extends MiddlewareClass<AppState> {
         return AuthenticationMode.SIMILO;
       case RequestLoginMode.POLE_EMPLOI:
         return AuthenticationMode.POLE_EMPLOI;
+      case RequestLoginMode.DEMO_MILO:
+      case RequestLoginMode.DEMO_PE:
+        return AuthenticationMode.DEMO;
     }
   }
 }

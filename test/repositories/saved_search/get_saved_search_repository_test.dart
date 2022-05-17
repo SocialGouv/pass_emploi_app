@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.da
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 
 import '../../doubles/fixtures.dart';
+import '../../utils/mock_demo_client.dart';
 import '../../utils/test_assets.dart';
 
 void main() {
@@ -40,6 +41,17 @@ void main() {
 
       // Then
       expect(savedSearch, isNull);
+    });
+
+    test('return saved search offers when demo mode', () async {
+      // Given
+      final repository = GetSavedSearchRepository("BASE_URL", MockModeDemoClient());
+
+      // When
+      final savedSearch = await repository.getSavedSearch("jeuneId");
+
+      // Then
+      expect(savedSearch?.isEmpty, false);
     });
   });
 }

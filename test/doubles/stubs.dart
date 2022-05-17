@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
+import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/message.dart';
@@ -16,6 +17,7 @@ import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
+import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_pe_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:synchronized/synchronized.dart';
@@ -248,7 +250,7 @@ class ChatRepositoryStub extends ChatRepository {
   List<Message> _messages = [];
   ConseillerMessageInfo _info = ConseillerMessageInfo(null, null);
 
-  ChatRepositoryStub() : super(DummyChatCrypto(), DummyCrashlytics());
+  ChatRepositoryStub() : super(DummyChatCrypto(), DummyCrashlytics(), ModeDemoRepository());
 
   void onMessageStreamReturns(List<Message> messages) => _messages = messages;
 
@@ -323,5 +325,23 @@ class ImmersionRepositoryFailureStub extends ImmersionRepository {
   @override
   Future<List<Immersion>?> search({required String userId, required SearchImmersionRequest request}) async {
     return null;
+  }
+}
+
+class SuppressionCompteRepositorySuccessStub extends SuppressionCompteRepository {
+  SuppressionCompteRepositorySuccessStub() : super("", DummyHttpClient());
+
+  @override
+  Future<bool> deleteUser(String userId) async {
+    return true;
+  }
+}
+
+class SuppressionCompteRepositoryFailureStub extends SuppressionCompteRepository {
+  SuppressionCompteRepositoryFailureStub() : super("", DummyHttpClient());
+
+  @override
+  Future<bool> deleteUser(String userId) async {
+    return false;
   }
 }

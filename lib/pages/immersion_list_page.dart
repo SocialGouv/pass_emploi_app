@@ -38,7 +38,7 @@ class ImmersionListPage extends TraceableStatelessWidget {
         selectState: (store) => store.state.immersionFavorisState,
         child: Scaffold(
           backgroundColor: AppColors.grey100,
-          appBar: passEmploiAppBar(label: Strings.immersionsTitle, withBackButton: true),
+          appBar: passEmploiAppBar(label: Strings.immersionsTitle, context: context, withBackButton: true),
           body: _body(context, viewModel),
         ),
       ),
@@ -87,9 +87,9 @@ class ImmersionListPage extends TraceableStatelessWidget {
       children: [
         ListView.separated(
           padding: const EdgeInsets.all(16),
-          itemBuilder: (context, index) => _buildItem(context, viewModel.items[index], index),
+          itemBuilder: (context, index) => _buildItem(context, viewModel, index),
           separatorBuilder: (context, index) => Container(height: Margins.spacing_base),
-          itemCount: viewModel.items.length,
+          itemCount: viewModel.items.length + 1,
         ),
         Align(
           alignment: Alignment.bottomCenter,
@@ -109,7 +109,9 @@ class ImmersionListPage extends TraceableStatelessWidget {
     );
   }
 
-  Widget _buildItem(BuildContext context, Immersion immersion, int index) {
+  Widget _buildItem(BuildContext context, ImmersionSearchResultsViewModel viewModel, int index) {
+    if (index == viewModel.items.length) return SizedBox(height: 80);
+    final immersion = viewModel.items[index];
     return DataCard<Immersion>(
       titre: immersion.metier,
       sousTitre: immersion.nomEtablissement,

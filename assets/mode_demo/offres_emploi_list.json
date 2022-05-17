@@ -1,0 +1,597 @@
+{
+  "pagination": {
+    "page": 1,
+    "limit": 49
+  },
+  "results": [
+    {
+      "id": "133FCMF",
+      "titre": "Employé / Employée de libre-service (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "duree": "Temps plein",
+      "nomEntreprise": "NETTO",
+      "localisation": {
+        "nom": "69 - VENISSIEUX",
+        "codePostal": "69200",
+        "commune": "69259"
+      }
+    },
+    {
+      "id": "3708446",
+      "titre": "Employé qualifié libre service poissonnerie (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "nomEntreprise": "Auchan Retail France",
+      "localisation": {
+        "nom": "69 - CALUIRE ET CUIRE",
+        "codePostal": "69300",
+        "commune": "69034"
+      }
+    },
+    {
+      "id": "3707876",
+      "titre": "Employé qualifié libre service épicerie sucrée (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "nomEntreprise": "Auchan Retail France",
+      "localisation": {
+        "nom": "69 - CALUIRE ET CUIRE",
+        "codePostal": "69300",
+        "commune": "69034"
+      }
+    },
+    {
+      "id": "3722222",
+      "titre": "Employé / Employée de rayon produits alimentaires (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "duree": "Temps plein",
+      "localisation": {
+        "nom": "69 - VAULX EN VELIN",
+        "codePostal": "69120",
+        "commune": "69256"
+      }
+    },
+    {
+      "id": "3714195",
+      "titre": "Employé de réserve hypermarché  CACES 1 OBLIGATOIRE H/F",
+      "typeContrat": "MIS",
+      "alternance": false,
+      "nomEntreprise": "TEMPORIS",
+      "localisation": {
+        "nom": "69 - BRON",
+        "codePostal": "69500",
+        "commune": "69029"
+      }
+    },
+    {
+      "id": "3700299",
+      "titre": "Employé / Employée de rayon (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "localisation": {
+        "nom": "69 - LYON 05",
+        "codePostal": "69005",
+        "commune": "69385"
+      }
+    },
+    {
+      "id": "3700130",
+      "titre": "Employé / Employée de rayon (H/F)",
+      "typeContrat": "CDD",
+      "alternance": false,
+      "localisation": {
+        "nom": "69 - ECULLY",
+        "codePostal": "69130",
+        "commune": "69081"
+      }
+    },
+    {
+      "id": "3687241",
+      "titre": "Employé / Employée de rayon produits non alimentaires (H/F)",
+      "typeContrat": "CDD",
+      "alternance": false,
+      "duree": "Temps plein",
+      "localisation": {
+        "nom": "69 - ECULLY",
+        "codePostal": "69130",
+        "commune": "69081"
+      }
+    },
+    {
+      "id": "3654032",
+      "titre": "Employé de rayon produits frais boucherie (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "localisation": {
+        "nom": "69 - ECULLY",
+        "codePostal": "69130",
+        "commune": "69081"
+      }
+    },
+    {
+      "id": "3719669",
+      "titre": "Employé / Employée de rayon fruits et légumes h/f",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "localisation": {
+        "nom": "69 - PIERRE BENITE",
+        "codePostal": "69310",
+        "commune": "69152"
+      }
+    },
+    {
+      "id": "3682994",
+      "titre": "Employé / Employée de rayon fruits et légumes (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "nomEntreprise": "Grand Frais",
+      "localisation": {
+        "nom": "69 - LIMONEST",
+        "codePostal": "69760",
+        "commune": "69116"
+      }
+    },
+    {
+      "id": "3674015",
+      "titre": "EMPLOYÉ DE COMMERCE (H/F)",
+      "typeContrat": "CDD",
+      "alternance": true,
+      "localisation": {
+        "nom": "69 - ST GENIS LAVAL",
+        "codePostal": "69230",
+        "commune": "69204"
+      }
+    },
+    {
+      "id": "3628383",
+      "titre": "Employé / Employée de rayon libre-service (H/F)",
+      "typeContrat": "CDD",
+      "alternance": true,
+      "nomEntreprise": "IFCDis",
+      "localisation": {
+        "nom": "69 - LYON 01",
+        "codePostal": "69001",
+        "commune": "69381"
+      }
+    },
+    {
+      "id": "3599755",
+      "titre": "Employé / Employée de rayon libre-service (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "nomEntreprise": "Monoprix.",
+      "localisation": {
+        "nom": "69 - LYON 01",
+        "codePostal": "69001",
+        "commune": "69381"
+      }
+    },
+    {
+      "id": "3599412",
+      "titre": "Employé / Employée de rayon libre-service (H/F)",
+      "typeContrat": "CDD",
+      "alternance": false,
+      "nomEntreprise": "Monoprix.",
+      "localisation": {
+        "nom": "69 - LYON 01",
+        "codePostal": "69001",
+        "commune": "69381"
+      }
+    },
+    {
+      "id": "3599356",
+      "titre": "Employé / Employée de rayon libre-service (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "nomEntreprise": "Monoprix.",
+      "localisation": {
+        "nom": "69 - LYON 01",
+        "codePostal": "69001",
+        "commune": "69381"
+      }
+    },
+    {
+      "id": "133CGTK",
+      "titre": "Employé de libre service F/H (H/F)",
+      "typeContrat": "MIS",
+      "alternance": false,
+      "duree": "Temps plein",
+      "nomEntreprise": "SYNERGIE",
+      "localisation": {
+        "nom": "69 - RILLIEUX LA PAPE",
+        "codePostal": "69140",
+        "commune": "69286"
+      }
+    },
+    {
+      "id": "3574918",
+      "titre": "Employe libre service (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "nomEntreprise": "RAS INTERIM",
+      "localisation": {
+        "nom": "69 - DECINES CHARPIEU",
+        "codePostal": "69150",
+        "commune": "69275"
+      }
+    },
+    {
+      "id": "3604643",
+      "titre": "Employé / Employée de rayon boulangerie/pâtisserie h/f",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "localisation": {
+        "nom": "69 - PIERRE BENITE",
+        "codePostal": "69310",
+        "commune": "69152"
+      }
+    },
+    {
+      "id": "3575336",
+      "titre": "Employé boulangerie (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "nomEntreprise": "Intermarché",
+      "localisation": {
+        "nom": "69 - PIERRE BENITE",
+        "codePostal": "69310",
+        "commune": "69152"
+      }
+    },
+    {
+      "id": "3611858",
+      "titre": "Employé(e) commercial(e) rayon Frais - CDI - 35h - F/H (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "localisation": {
+        "nom": "69 - IRIGNY",
+        "codePostal": "69540",
+        "commune": "69100"
+      }
+    },
+    {
+      "id": "133BRXR",
+      "titre": "Employé / Employée de rayon libre-service    (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "duree": "Temps plein",
+      "localisation": {
+        "nom": "69 - LYON 03",
+        "codePostal": "69003",
+        "commune": "69383"
+      }
+    },
+    {
+      "id": "3560397",
+      "titre": "Employé / Employée de rayon (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "localisation": {
+        "nom": "69 - LYON 05",
+        "codePostal": "69005",
+        "commune": "69385"
+      }
+    },
+    {
+      "id": "3560313",
+      "titre": "Employé / Employée de rayon (H/F)",
+      "typeContrat": "CDD",
+      "alternance": false,
+      "localisation": {
+        "nom": "69 - BRON",
+        "codePostal": "69500",
+        "commune": "69029"
+      }
+    },
+    {
+      "id": "133BDDF",
+      "titre": "Employé polyvalent H/F",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "duree": "Temps partiel",
+      "nomEntreprise": "LIDL",
+      "localisation": {
+        "nom": "69 - VENISSIEUX",
+        "codePostal": "69200",
+        "commune": "69259"
+      }
+    },
+    {
+      "id": "3543899",
+      "titre": "EMPLOYÉ DE LIBRE SERVICE (H/F)",
+      "typeContrat": "MIS",
+      "alternance": false,
+      "localisation": {
+        "nom": "69 - ST PRIEST",
+        "codePostal": "69800",
+        "commune": "69290"
+      }
+    },
+    {
+      "id": "3425325",
+      "titre": "Employé / Employée de rayon libre-service (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "nomEntreprise": "Monoprix.",
+      "localisation": {
+        "nom": "69 - LYON 01",
+        "codePostal": "69001",
+        "commune": "69381"
+      }
+    },
+    {
+      "id": "3387220",
+      "titre": "Employé qualifié libre service équipe pgc (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "nomEntreprise": "Auchan Retail France",
+      "localisation": {
+        "nom": "69 - CALUIRE ET CUIRE",
+        "codePostal": "69300",
+        "commune": "69034"
+      }
+    },
+    {
+      "id": "132WNLT",
+      "titre": "Employé / Employée de rayon libre-service (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "duree": "Temps plein",
+      "nomEntreprise": "AUCHAN",
+      "localisation": {
+        "nom": "69 - DARDILLY",
+        "codePostal": "69570",
+        "commune": "69072"
+      }
+    },
+    {
+      "id": "132WMLM",
+      "titre": "Employé polyvalent de libre-service H/F",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "duree": "Temps partiel",
+      "nomEntreprise": "LIDL",
+      "localisation": {
+        "nom": "69 - CRAPONNE",
+        "codePostal": "69290",
+        "commune": "69069"
+      }
+    },
+    {
+      "id": "3337882",
+      "titre": "Employé / Employée de rayon textile (H/F)",
+      "typeContrat": "CDD",
+      "alternance": false,
+      "nomEntreprise": "Monoprix",
+      "localisation": {
+        "nom": "69 - OULLINS",
+        "codePostal": "69600",
+        "commune": "69149"
+      }
+    },
+    {
+      "id": "3395314",
+      "titre": "Employé / Employée de rayon produits alimentaires (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "nomEntreprise": "Monoprix.",
+      "localisation": {
+        "nom": "69 - LYON 01",
+        "codePostal": "69001",
+        "commune": "69381"
+      }
+    },
+    {
+      "id": "3386576",
+      "titre": "Employé magasin fruits et légumes (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "nomEntreprise": "Auchan Retail France",
+      "localisation": {
+        "nom": "69 - CALUIRE ET CUIRE",
+        "codePostal": "69300",
+        "commune": "69034"
+      }
+    },
+    {
+      "id": "3337726",
+      "titre": "Employé / Employée de rayon boulangerie/pâtisserie (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "nomEntreprise": "Monoprix",
+      "localisation": {
+        "nom": "69 - LYON 07",
+        "codePostal": "69007",
+        "commune": "69387"
+      }
+    },
+    {
+      "id": "3396510",
+      "titre": "Employé / Employée de rayon produits alimentaires (H/F)",
+      "typeContrat": "CDD",
+      "alternance": false,
+      "nomEntreprise": "Monoprix.",
+      "localisation": {
+        "nom": "69 - BRON",
+        "codePostal": "69500",
+        "commune": "69029"
+      }
+    },
+    {
+      "id": "3386489",
+      "titre": "Employé non alimentaire (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "nomEntreprise": "Auchan Retail France",
+      "localisation": {
+        "nom": "69 - DARDILLY",
+        "codePostal": "69570",
+        "commune": "69072"
+      }
+    },
+    {
+      "id": "3407902",
+      "titre": "Employé / Employée de libre-service h/f",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "localisation": {
+        "nom": "69 - CHASSIEU",
+        "codePostal": "69680",
+        "commune": "69271"
+      }
+    },
+    {
+      "id": "3388024",
+      "titre": "Employé commercial produits de la mer libre service (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "nomEntreprise": "Intermarché",
+      "localisation": {
+        "nom": "69 - CHASSIEU",
+        "codePostal": "69680",
+        "commune": "69271"
+      }
+    },
+    {
+      "id": "3385729",
+      "titre": "Employé qualifié alimentaire libre service polyvalent (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "nomEntreprise": "Auchan Retail France",
+      "localisation": {
+        "nom": "69 - ST PRIEST",
+        "codePostal": "69800",
+        "commune": "69290"
+      }
+    },
+    {
+      "id": "132SZMV",
+      "titre": "Employé / Employée de rayon secteur PGC Epicerie et Parfumerie (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "duree": "Temps plein",
+      "nomEntreprise": "CASINO SUPERMARCHE",
+      "localisation": {
+        "nom": "69 - LYON 09",
+        "codePostal": "69009",
+        "commune": "69389"
+      }
+    },
+    {
+      "id": "132THXM",
+      "titre": "Employé de commerce polyvalent en magasin H/F",
+      "typeContrat": "CDD",
+      "alternance": true,
+      "duree": "Temps plein",
+      "nomEntreprise": "OPUS/AUCHAN ",
+      "localisation": {
+        "nom": "69 - ST GENIS LAVAL",
+        "codePostal": "69230",
+        "commune": "69204"
+      }
+    },
+    {
+      "id": "3235216",
+      "titre": "Employé / Employée de rayon libre-service (H/F)",
+      "typeContrat": "CDD",
+      "alternance": false,
+      "nomEntreprise": "Monoprix.",
+      "localisation": {
+        "nom": "69 - LYON 01",
+        "codePostal": "69001",
+        "commune": "69381"
+      }
+    },
+    {
+      "id": "132SSGM",
+      "titre": "Employé / Employée de rayon libre-service (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "duree": "Temps plein",
+      "nomEntreprise": "AUCHAN SUPERMARCHE",
+      "localisation": {
+        "nom": "69 - LYON 05",
+        "codePostal": "69005",
+        "commune": "69385"
+      }
+    },
+    {
+      "id": "3235429",
+      "titre": "Employé / Employée de rayon libre-service (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "nomEntreprise": "Monoprix.",
+      "localisation": {
+        "nom": "69 - VILLEURBANNE",
+        "codePostal": "69100",
+        "commune": "69266"
+      }
+    },
+    {
+      "id": "3236873",
+      "titre": "Employé / Employée de rayon libre-service (H/F)",
+      "typeContrat": "CDD",
+      "alternance": false,
+      "nomEntreprise": "Monoprix.",
+      "localisation": {
+        "nom": "69 - OULLINS",
+        "codePostal": "69600",
+        "commune": "69149"
+      }
+    },
+    {
+      "id": "132RFLY",
+      "titre": "Employé / Employée de libre-service                         (H/F)",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "duree": "Temps plein",
+      "nomEntreprise": "LE PETIT CASINO",
+      "localisation": {
+        "nom": "69 - MARCY L ETOILE",
+        "codePostal": "69280",
+        "commune": "69127"
+      }
+    },
+    {
+      "id": "132QZWQ",
+      "titre": "Employé Rayon Epicerie H/F",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "duree": "Temps partiel",
+      "nomEntreprise": "SUPER U",
+      "localisation": {
+        "nom": "69 - VILLEURBANNE",
+        "codePostal": "69100",
+        "commune": "69266"
+      }
+    },
+    {
+      "id": "132QZQY",
+      "titre": "Employé Rayon Frais H/F",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "duree": "Temps partiel",
+      "nomEntreprise": "SUPER U",
+      "localisation": {
+        "nom": "69 - VILLEURBANNE",
+        "codePostal": "69100",
+        "commune": "69266"
+      }
+    },
+    {
+      "id": "132RDWL",
+      "titre": "Employé / Employée de rayon",
+      "typeContrat": "CDI",
+      "alternance": false,
+      "duree": "Temps plein",
+      "nomEntreprise": "GRANDE PHARMACIE DE LA PART DIEU",
+      "localisation": {
+        "nom": "69 - LYON 03",
+        "codePostal": "69003",
+        "commune": "69383"
+      }
+    }
+  ]
+}

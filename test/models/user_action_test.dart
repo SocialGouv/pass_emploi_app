@@ -16,7 +16,8 @@ void main() {
     // When
     final notStartedAction = UserAction.fromJson(userActionJson[0]);
     final inProgressAction = UserAction.fromJson(userActionJson[1]);
-    final doneAction = UserAction.fromJson(userActionJson[2]);
+    final canceledAction = UserAction.fromJson(userActionJson[2]);
+    final doneAction = UserAction.fromJson(userActionJson[3]);
 
     // Then
     expect(notStartedAction.content, "Changer de prénom");
@@ -32,6 +33,13 @@ void main() {
     expect(inProgressAction.status, UserActionStatus.IN_PROGRESS);
     expect(inProgressAction.lastUpdate, parseDateTimeWithCurrentTimeZone("Fri, 24 Jul 2021 19:11:10 GMT"));
     expect(inProgressAction.creator, ConseillerActionCreator(name: "Nils Tavernier"));
+
+    expect(canceledAction.content, "Passer le code");
+    expect(canceledAction.comment, "");
+    expect(canceledAction.id, "117343");
+    expect(canceledAction.status, UserActionStatus.CANCELED);
+    expect(canceledAction.lastUpdate, parseDateTimeWithCurrentTimeZone("Fri, 30 Jul 2021 09:00:00 GMT"));
+    expect(canceledAction.creator, ConseillerActionCreator(name: "Autre Conseiller"));
 
     expect(doneAction.content, "M'inscrire au permis de conduire");
     expect(doneAction.comment, "Pour conduire");

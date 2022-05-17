@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
@@ -12,8 +13,9 @@ const String _collectionPath = "chat";
 class ChatRepository {
   final Crashlytics _crashlytics;
   final ChatCrypto _chatCrypto;
+  final ModeDemoRepository _demoRepository;
 
-  ChatRepository(this._chatCrypto, this._crashlytics);
+  ChatRepository(this._chatCrypto, this._crashlytics, this._demoRepository);
 
   Stream<List<Message>> messagesStream(String userId) async* {
     final chatDocumentId = await _getChatDocumentId(userId);
@@ -86,6 +88,9 @@ class ChatRepository {
   }
 
   Future<String?> _getChatDocumentId(String userId) async {
+    if (_demoRepository.getModeDemo()) {
+      return null;
+    }
     final chats =
         await FirebaseFirestore.instance.collection(_collectionPath).where('jeuneId', isEqualTo: userId).get();
     return chats.docs.first.id;

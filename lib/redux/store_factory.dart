@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
@@ -17,6 +18,7 @@ import 'package:pass_emploi_app/features/immersion/saved_search/immersion_saved_
 import 'package:pass_emploi_app/features/location/search_location_middleware.dart';
 import 'package:pass_emploi_app/features/login/login_middleware.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_middleware.dart';
+import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_middleware.dart';
 import 'package:pass_emploi_app/features/offre_emploi/saved_search/offre_emploi_saved_search_middleware.dart';
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_middleware.dart';
@@ -31,6 +33,7 @@ import 'package:pass_emploi_app/features/saved_search/init/saved_search_initiali
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_middleware.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_middleware.dart';
 import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_middleware.dart';
+import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_middleware.dart';
 import 'package:pass_emploi_app/features/tech/action_logging_middleware.dart';
 import 'package:pass_emploi_app/features/tech/crashlytics_middleware.dart';
 import 'package:pass_emploi_app/features/tracking/tracking_event_middleware.dart';
@@ -47,8 +50,8 @@ import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
-import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
@@ -67,6 +70,7 @@ import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
+import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_pe_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
@@ -101,6 +105,9 @@ class StoreFactory {
   final ServiceCiviqueRepository serviceCiviqueRepository;
   final ServiceCiviqueDetailRepository serviceCiviqueDetailRepository;
   final DetailsJeuneRepository detailsJeuneRepository;
+  final SuppressionCompteRepository suppressionCompteRepository;
+  final ModeDemoRepository modeDemoRepository;
+  final MatomoTracker matomoTracker;
 
   StoreFactory(
     this.authenticator,
@@ -131,6 +138,9 @@ class StoreFactory {
     this.serviceCiviqueRepository,
     this.serviceCiviqueDetailRepository,
     this.detailsJeuneRepository,
+    this.suppressionCompteRepository,
+    this.modeDemoRepository,
+    this.matomoTracker,
   );
 
   redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -139,14 +149,14 @@ class StoreFactory {
       initialState: initialState,
       middleware: [
         BootstrapMiddleware(),
-        LoginMiddleware(authenticator, firebaseAuthWrapper),
+        LoginMiddleware(authenticator, firebaseAuthWrapper, modeDemoRepository, matomoTracker),
         UserActionListMiddleware(userActionRepository),
         UserActionCreateMiddleware(userActionRepository),
         UserActionUpdateMiddleware(userActionRepository),
         UserActionDeleteMiddleware(userActionRepository),
         UserActionPEListMiddleware(userActionPERepository),
         DetailsJeuneMiddleware(detailsJeuneRepository),
-        ChatInitializerMiddleware(firebaseAuthRepository, firebaseAuthWrapper, chatCrypto),
+        ChatInitializerMiddleware(firebaseAuthRepository, firebaseAuthWrapper, chatCrypto, modeDemoRepository),
         ChatMiddleware(chatRepository),
         ChatStatusMiddleware(chatRepository),
         RendezvousMiddleware(rendezvousRepository),
@@ -181,6 +191,7 @@ class StoreFactory {
         SavedSearchDeleteMiddleware(savedSearchDeleteRepository),
         SearchServiceCiviqueMiddleware(serviceCiviqueRepository),
         ServiceCiviqueDetailMiddleware(serviceCiviqueDetailRepository),
+        SuppressionCompteMiddleware(suppressionCompteRepository),
         ..._debugMiddleware(),
       ],
     );

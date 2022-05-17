@@ -1,14 +1,21 @@
 import 'package:encrypt/encrypt.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/login/login_actions.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:redux/redux.dart';
 
 class ChatCrypto {
   Encrypter? _encrypter;
+  Store<AppState>? _store;
 
   ChatCrypto();
+
+  void setStore(Store<AppState> store) => _store = store;
 
   EncryptedTextWithIv encrypt(String plainText) {
     final encrypter = _encrypter;
     if (encrypter == null) {
+      _store?.dispatch(TryConnectChatAgainAction());
       throw Exception("Trying to encrypt without a key.");
     }
     final initializationVector = IV.fromSecureRandom(16);
@@ -21,6 +28,7 @@ class ChatCrypto {
   String decrypt(EncryptedTextWithIv encrypted) {
     final encrypter = _encrypter;
     if (encrypter == null) {
+      _store?.dispatch(TryConnectChatAgainAction());
       throw Exception("Trying to decrypt without a key.");
     }
     return encrypter.decrypt(

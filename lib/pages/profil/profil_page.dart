@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_actions.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/pages/profil/mon_conseiller_card.dart';
+import 'package:pass_emploi_app/pages/profil/parametres_card.dart';
 import 'package:pass_emploi_app/presentation/profil/profil_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -36,7 +37,7 @@ class ProfilPage extends TraceableStatelessWidget {
   Scaffold _buildScaffold(BuildContext context, ProfilPageViewModel viewModel) {
     return Scaffold(
       backgroundColor: AppColors.grey100,
-      appBar: passEmploiAppBar(label: Strings.menuProfil),
+      appBar: passEmploiAppBar(label: Strings.menuProfil, context: context),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(Margins.spacing_m),
@@ -65,6 +66,9 @@ class ProfilPage extends TraceableStatelessWidget {
               ),
               SizedBox(height: Margins.spacing_m),
               if (viewModel.displayMonConseiller) MonConseillerCard(),
+              Text(Strings.settingsLabel, style: TextStyles.textLBold()),
+              SizedBox(height: Margins.spacing_m),
+              ParametresCard(),
               Text(Strings.legalInformation, style: TextStyles.textLBold()),
               SizedBox(height: Margins.spacing_m),
               ProfilCard(

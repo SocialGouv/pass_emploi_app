@@ -1,0 +1,14 @@
+{
+  "id": "SEVP",
+  "firstName": "Paul",
+  "lastName": "Sevier",
+  "email": "mode@demo.com",
+  "creationDate": "2022-05-02T06:45:55.750Z",
+  "isActivated": true,
+  "conseiller": {
+    "email": "pass.emploi@gmail.com",
+    "prenom": "Nils",
+    "nom": "Tavernier",
+    "depuis": "2022-05-02T06:45:55.750Z"
+  }
+}

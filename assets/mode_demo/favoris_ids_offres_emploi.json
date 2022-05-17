@@ -1,0 +1,106 @@
+[
+  {
+    "id": "132WNLT",
+    "alternance": false,
+    "duree": "Temps plein",
+    "localisation": {
+      "nom": "69 - DARDILLY",
+      "codePostal": "",
+      "commune": ""
+    },
+    "typeContrat": "CDI",
+    "nomEntreprise": "AUCHAN",
+    "titre": "Employé / Employée de rayon libre-service (H/F)"
+  },
+  {
+    "id": "132RDWL",
+    "alternance": false,
+    "duree": "Temps plein",
+    "localisation": {
+      "nom": "69 - LYON 03",
+      "codePostal": "",
+      "commune": ""
+    },
+    "typeContrat": "CDI",
+    "nomEntreprise": "GRANDE PHARMACIE DE LA PART DIEU",
+    "titre": "Employé / Employée de rayon"
+  },
+  {
+    "id": "132XPKY",
+    "alternance": true,
+    "duree": "Temps plein",
+    "localisation": {
+      "nom": "69 - LYON 01",
+      "codePostal": "",
+      "commune": ""
+    },
+    "typeContrat": "CDD",
+    "nomEntreprise": "DUCRETET",
+    "titre": "Vendeur / Vendeuse en électroménager   (H/F)"
+  },
+  {
+    "id": "3331608",
+    "alternance": true,
+    "duree": null,
+    "localisation": {
+      "nom": "69 - LYON 01",
+      "codePostal": "",
+      "commune": ""
+    },
+    "typeContrat": "CDD",
+    "nomEntreprise": null,
+    "titre": "CONSEILLER VENDEUR (H/F)"
+  },
+  {
+    "id": "132MXMC",
+    "alternance": true,
+    "duree": "Temps plein",
+    "localisation": {
+      "nom": "69 - OULLINS",
+      "codePostal": "",
+      "commune": ""
+    },
+    "typeContrat": "CDD",
+    "nomEntreprise": "PEUGEOT",
+    "titre": "Vendeur / Vendeuse automobile en alternance  (H/F)"
+  },
+  {
+    "id": "132WMLM",
+    "alternance": false,
+    "duree": "Temps partiel",
+    "localisation": {
+      "nom": "69 - CRAPONNE",
+      "codePostal": "",
+      "commune": ""
+    },
+    "typeContrat": "CDI",
+    "nomEntreprise": "LIDL",
+    "titre": "Employé polyvalent de libre-service H/F"
+  },
+  {
+    "id": "132SSGM",
+    "alternance": false,
+    "duree": "Temps plein",
+    "localisation": {
+      "nom": "69 - LYON 05",
+      "codePostal": "",
+      "commune": ""
+    },
+    "typeContrat": "CDI",
+    "nomEntreprise": "AUCHAN SUPERMARCHE",
+    "titre": "Employé / Employée de rayon libre-service (H/F)"
+  },
+  {
+    "id": "132KGMW",
+    "alternance": true,
+    "duree": "Temps plein",
+    "localisation": {
+      "nom": "69 - LYON 03",
+      "codePostal": "",
+      "commune": ""
+    },
+    "typeContrat": "CDD",
+    "nomEntreprise": "SPEEDWAY",
+    "titre": "CONSEILLER DE VENTE POLYVALENT  EN APPRENTISSAGE   (H/F)"
+  }
+]

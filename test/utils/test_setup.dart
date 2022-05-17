@@ -1,12 +1,14 @@
+import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
-import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
@@ -25,6 +27,7 @@ import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
+import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_pe_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
@@ -61,6 +64,9 @@ class TestStoreFactory {
   ServiceCiviqueDetailRepository serviceCiviqueDetailRepository = DummyServiceCiviqueDetailRepository();
   ServiceCiviqueFavorisRepository serviceCiviqueFavorisRepository = DummyServiceCiviqueFavorisRepository();
   DetailsJeuneRepository detailsJeuneRepository = DummyDetailsJeuneRepository();
+  SuppressionCompteRepository suppressionCompteRepository = DummySuppressionCompteRepository();
+  ModeDemoRepository demoRepository = ModeDemoRepository();
+  MatomoTracker matomoTracker = DummyMatomoTracker();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
@@ -92,6 +98,9 @@ class TestStoreFactory {
       serviceCiviqueRepository,
       serviceCiviqueDetailRepository,
       detailsJeuneRepository,
+      suppressionCompteRepository,
+      demoRepository,
+      matomoTracker,
     ).initializeReduxStore(initialState: initialState);
   }
 }

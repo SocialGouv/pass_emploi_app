@@ -1,0 +1,69 @@
+[
+  {
+    "id": "d461b99c-0fb1-43f2-8c96-10cb89b66577",
+    "titre": "Employé Libre-Service - LYON 01",
+    "type": "OFFRES_EMPLOI",
+    "metier": "Employé Libre-Service",
+    "localisation": "LYON 01",
+    "criteres": {
+      "q": "Employé Libre-Service",
+      "duree": [
+        "1"
+      ],
+      "rayon": 10,
+      "commune": "69381",
+      "contrat": [
+        "CDI",
+        "CDD-interim-saisonnier"
+      ],
+      "alternance": false,
+      "experience": [
+        "1"
+      ],
+      "departement": null
+    }
+  },
+  {
+    "id": "8f3484d9-0719-4a67-a0ee-c895b229cb2f",
+    "titre": "Vendeur - LYON 01",
+    "type": "OFFRES_ALTERNANCE",
+    "metier": "Vendeur",
+    "localisation": "LYON 01",
+    "criteres": {
+      "q": "Vendeur",
+      "duree": [],
+      "rayon": null,
+      "commune": "69381",
+      "contrat": [],
+      "alternance": true,
+      "experience": [],
+      "departement": null
+    }
+  },
+  {
+    "id": "8588ab61-ed44-403c-888f-8ada38c172d8",
+    "titre": "solidarite-insertion - LYON 01",
+    "type": "OFFRES_SERVICES_CIVIQUE",
+    "localisation": "LYON 01",
+    "criteres": {
+      "lat": 45.758,
+      "lon": 4.835,
+      "domaine": "solidarite-insertion",
+      "distance": 10,
+      "dateDeDebutMinimum": "2022-05-05T00:00:00.000"
+    }
+  },
+  {
+    "id": "52887145-6aa8-41fd-9b01-1acd5dc04e45",
+    "titre": "Adjoint / Adjointe au chef de rayon produits alimentaires - LYON 01",
+    "type": "OFFRES_IMMERSION",
+    "metier": "Adjoint / Adjointe au chef de rayon produits alimentaires",
+    "localisation": "LYON 01",
+    "criteres": {
+      "lat": 45.758,
+      "lon": 4.835,
+      "rome": "D1502",
+      "distance": null
+    }
+  }
+]

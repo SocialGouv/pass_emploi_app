@@ -1,15 +1,12 @@
-import 'dart:math';
-
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/list/future_months_rendezvous_list_builder.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/list/future_week_rendezvous_list_builder.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_builder.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_view_model.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
-
-const int _daysInAWeek = 7;
-const int _maxPageOffset = 5;
 
 class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
   final RendezvousState _rendezvousState;
@@ -30,10 +27,12 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   String makeEmptyLabel() {
-    final rendezvousState = _rendezvousState;
-    if (rendezvousState is RendezvousSuccessState && rendezvousState.rendezvous.isEmpty) return Strings.noRendezYet;
-    if (rendezvousState is RendezvousSuccessState && _haveRendezvousPreviousThisWeek(rendezvousState.rendezvous)) {
-      return Strings.noMoreRendezVousThisWeek;
+    if (_rendezvousState.futurRendezVousStatus == RendezvousStatus.SUCCESS) {
+      if (_rendezvousState.rendezvous.isEmpty) {
+        return Strings.noRendezYet;
+      } else if (_haveRendezvousPreviousThisWeek(_rendezvousState.rendezvous)) {
+        return Strings.noMoreRendezVousThisWeek;
+      }
     }
     return Strings.noRendezVousCetteSemaineTitre;
   }
@@ -46,8 +45,7 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   String? makeEmptySubtitleLabel() {
-    final rendezvousState = _rendezvousState;
-    if (rendezvousState is RendezvousSuccessState && rendezvousState.rendezvous.isEmpty) {
+    if (_rendezvousState.futurRendezVousStatus == RendezvousStatus.SUCCESS && _rendezvousState.rendezvous.isEmpty) {
       return Strings.noRendezYetSubtitle;
     }
     return null;
@@ -55,35 +53,31 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   int? nextRendezvousPageOffset() {
-    final state = _rendezvousState;
-    final List<Rendezvous> rendezvous = state is RendezvousSuccessState ? state.rendezvous : [];
-    final sortedRendezvous = rendezvous.sortedFromRecentToFuture();
-    final currentWeekRendezvous = sortedRendezvous.filteredFromTodayToSunday(_now);
-    final futureRendezvous = sortedRendezvous.where((rdv) => rdv.date.isAfter(_now));
-    if (currentWeekRendezvous.isEmpty && futureRendezvous.isNotEmpty) {
-      return _futureRendezvousPageOffset(futureRendezvous.first);
-    } else {
-      return null;
-    }
-  }
+    if (_rendezvousState.rendezvous.isEmpty) return null;
+    if (rendezvous().isNotEmpty) return null;
 
-  int _futureRendezvousPageOffset(Rendezvous futureRendezvous) {
-    final nextMonday = _now.toMondayOnNextWeek();
-    final differenceInDays = nextMonday.difference(futureRendezvous.date).abs().inDays;
-    return min(1 + differenceInDays ~/ _daysInAWeek, _maxPageOffset);
+    final futureBuilders = [
+      FutureWeekRendezVousListBuilder(_rendezvousState, 1, _now),
+      FutureWeekRendezVousListBuilder(_rendezvousState, 2, _now),
+      FutureWeekRendezVousListBuilder(_rendezvousState, 3, _now),
+      FutureWeekRendezVousListBuilder(_rendezvousState, 4, _now),
+      FutureMonthsRendezVousListBuilder(_rendezvousState, _now),
+    ];
+
+    final index = futureBuilders.indexWhere((element) => element.rendezvous().isNotEmpty);
+    return index == -1 ? null : index + 1;
   }
 
   @override
   String makeAnalyticsLabel() => AnalyticsScreenNames.rendezvousListWeek + _pageOffset.toString();
 
   @override
-  List<RendezvousItem> rendezvousItems() {
-    final rendezvousState = _rendezvousState;
-    if (rendezvousState is! RendezvousSuccessState) return [];
+  List<RendezvousSection> rendezvous() {
+    if (_rendezvousState.futurRendezVousStatus != RendezvousStatus.SUCCESS) return [];
 
-    return rendezvousState.rendezvous
+    return _rendezvousState.rendezvous
         .sortedFromRecentToFuture()
         .filteredFromTodayToSunday(_now)
-        .groupedItems(groupedBy: (element) => element.date.toDayOfWeekWithFullMonthContextualized());
+        .sections(groupedBy: (element) => element.date.toDayOfWeekWithFullMonthContextualized());
   }
 }

@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/utils/log.dart';
@@ -32,7 +34,7 @@ class FirebasePushNotificationManager extends PushNotificationManager {
     }
     if (Platform.isAndroid) {
       await _createHighImportanceAndroidChannel();
-      _createForegroundListener();
+      _createForegroundListener(store);
     }
   }
 
@@ -63,22 +65,31 @@ class FirebasePushNotificationManager extends PushNotificationManager {
         ?.createNotificationChannel(channel);
   }
 
-  void _createForegroundListener() {
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  void _createForegroundListener(Store<AppState> store) {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       final RemoteNotification? notification = message.notification;
       if (notification != null) {
         final flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-        flutterLocalNotificationsPlugin.initialize(InitializationSettings(
-          android: AndroidInitializationSettings('ic_notification'),
-        ));
+        await flutterLocalNotificationsPlugin.initialize(
+            InitializationSettings(
+              android: AndroidInitializationSettings('ic_notification'),
+            ),
+            onSelectNotification: (payload) => _onLocalNotificationOpened(payload, store));
         flutterLocalNotificationsPlugin.show(
             notification.hashCode,
             notification.title,
             notification.body,
             NotificationDetails(
               android: AndroidNotificationDetails(_channelId, _channelName, color: const Color(0xFF3B69D1)),
-            ));
+            ),
+            payload: jsonEncode(message.data));
       }
     });
+  }
+
+  void _onLocalNotificationOpened(String? payload, Store<AppState> store) {
+    if (payload != null) {
+      store.dispatch(LocalDeeplinkAction(jsonDecode(payload) as Map<String, dynamic>));
+    }
   }
 }

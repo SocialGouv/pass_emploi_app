@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 
 import '../doubles/fixtures.dart';
+import '../utils/mock_demo_client.dart';
 import '../utils/test_assets.dart';
 
 void main() {
@@ -114,6 +115,18 @@ void main() {
         (query) => !query.contains("distance"),
       );
     });
+  });
+
+  test('search when mode demo', () async {
+    // Given
+    final httpClient = MockModeDemoClient();
+    final repository = ImmersionRepository("BASE_URL", httpClient);
+
+    // When
+    final immersions = await repository.search(userId: "ID", request: _requestWithoutFiltres());
+
+    // Then
+    expect(immersions, isNotEmpty);
   });
 }
 

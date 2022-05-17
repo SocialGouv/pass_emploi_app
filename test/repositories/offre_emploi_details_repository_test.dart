@@ -4,6 +4,7 @@ import 'package:http/testing.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 
 import '../doubles/fixtures.dart';
+import '../utils/mock_demo_client.dart';
 import '../utils/test_assets.dart';
 
 void main() {
@@ -69,5 +70,17 @@ void main() {
     expect(offre.details, isNull);
     expect(offre.isGenericFailure, isFalse);
     expect(offre.isOffreNotFound, isTrue);
+  });
+
+  test('getOffreEmploiDetails when mode demo', () async {
+    // Given
+    final httpClient = MockModeDemoClient();
+    final repository = OffreEmploiDetailsRepository("BASE_URL", httpClient);
+
+    // When
+    final offre = await repository.getOffreEmploiDetails(offreId: "ID");
+
+    // Then
+    expect(offre.details, isNotNull);
   });
 }

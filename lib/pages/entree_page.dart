@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
+import 'package:pass_emploi_app/features/mode_demo/explication_page_mode_demo.dart';
 import 'package:pass_emploi_app/pages/cej_information_page.dart';
 import 'package:pass_emploi_app/pages/login_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -16,10 +18,13 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
+// ignore: must_be_immutable
 class EntreePage extends TraceableStatelessWidget {
   static const minimum_height_to_see_jeune_face = 656;
 
-  const EntreePage() : super(name: AnalyticsScreenNames.entree);
+  EntreePage() : super(name: AnalyticsScreenNames.entree);
+
+  int _modeDemoClicks = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +42,10 @@ class EntreePage extends TraceableStatelessWidget {
                 SizedBox(height: 16),
                 SvgPicture.asset(Drawables.icUnJeuneUneSolution, width: screenWidth * 0.25),
                 SizedBox(height: 32),
-                SvgPicture.asset(Drawables.cejAppLogo, width: screenWidth * 0.6),
+                GestureDetector(
+                  onTap: () => _onModeDemoClick(context),
+                  child: SvgPicture.asset(Drawables.cejAppLogo, width: screenWidth * 0.6),
+                ),
                 SizedBox(height: 16),
                 Expanded(
                   child: Align(
@@ -77,6 +85,15 @@ class EntreePage extends TraceableStatelessWidget {
         ],
       ),
     );
+  }
+
+  void _onModeDemoClick(BuildContext context) {
+    if (_modeDemoClicks == 2) {
+      _modeDemoClicks = 0;
+      pushAndTrackBack(context, ExplicationModeDemoPage.materialPageRoute(), AnalyticsScreenNames.entree);
+    } else {
+      _modeDemoClicks = _modeDemoClicks + 1;
+    }
   }
 
   Column _buttonCard(BuildContext context) {

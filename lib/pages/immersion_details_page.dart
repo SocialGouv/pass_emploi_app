@@ -53,7 +53,7 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
       converter: (store) => ImmersionDetailsViewModel.create(store, platform),
       builder: (context, viewModel) => FavorisStateContext(
         selectState: (store) => store.state.immersionFavorisState,
-        child: _scaffold(_body(context, viewModel)),
+        child: _scaffold(_body(context, viewModel), context),
       ),
       distinct: true,
     );
@@ -71,10 +71,10 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
     }
   }
 
-  Scaffold _scaffold(Widget body) {
+  Scaffold _scaffold(Widget body, BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: Strings.offreDetails, withBackButton: true),
+      appBar: passEmploiAppBar(label: Strings.offreDetails, context: context,  withBackButton: true),
       body: DefaultAnimatedSwitcher(child: body),
     );
   }

@@ -1,5 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/auth/auth_id_token.dart';
+import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/current_week_rendezvous_list_builder.dart';
@@ -23,7 +25,7 @@ abstract class RendezVousListBuilder {
 
   String makeAnalyticsLabel();
 
-  List<RendezvousItem> rendezvousItems();
+  List<RendezvousSection> rendezvous();
 
   factory RendezVousListBuilder.create(
     RendezvousState rendezvousState,
@@ -41,22 +43,17 @@ abstract class RendezVousListBuilder {
     }
   }
 
-  static bool hasPreviousPage(int pageOffset, RendezvousState rendezvousState, DateTime now) {
+  static bool hasPreviousPage(int pageOffset, LoginState loginState) {
     if (pageOffset > 0) return true;
     if (pageOffset < 0) return false;
 
-    return PastRendezVousListBuilder(rendezvousState, now).rendezvousItems().isNotEmpty;
+    return (loginState is LoginSuccessState && loginState.user.loginMode != LoginMode.POLE_EMPLOI);
   }
 
-  static bool hasNextPage(int pageOffset, RendezvousState rendezvousState, DateTime now) {
-    if (pageOffset < 5) {
-      return rendezvousState is RendezvousSuccessState && rendezvousState.rendezvous.isNotEmpty;
-    }
-    return false;
-  }
+  static bool hasNextPage(int pageOffset) => pageOffset < 5;
 }
 
-extension _PageOffsetExtension on int {
+extension PageOffsetExtension on int {
   bool isInPast() => this < 0;
 
   bool isThisWeek() => this == 0;
@@ -84,20 +81,26 @@ extension RendezvousIterableExtension on Iterable<Rendezvous> {
     return where((element) => element.date.isAfter(firstDay));
   }
 
-  List<RendezvousItem> groupedItems({bool displayCount = false, required String Function(Rendezvous) groupedBy}) {
+  List<RendezvousSection> sections({
+    bool displayCount = false,
+    bool expandable = false,
+    required String Function(Rendezvous) groupedBy,
+  }) {
     final groupedRendezvous = groupListsBy(groupedBy);
-    return groupedRendezvous.keys
-        .map((date) => [
-              _divider(displayCount, date, groupedRendezvous),
-              ...groupedRendezvous[date]!.map((e) => RendezvousCardItem(e.id)).toList(),
-            ])
-        .flattened
-        .toList();
+
+    return groupedRendezvous.keys.map((date) {
+      final title = _title(displayCount, date, groupedRendezvous);
+      final rendezvous = groupedRendezvous[date]!.map((e) => e.id).toList();
+      if (expandable) {
+        return RendezvousSection.expandable(title: title, rendezvous: rendezvous, count: 3);
+      } else {
+        return RendezvousSection.normal(title: title, rendezvous: rendezvous);
+      }
+    }).toList();
   }
 }
 
-RendezvousDivider _divider(bool displayCount, String date, Map<String, List<Rendezvous>> groupedRendezvous) {
+String _title(bool displayCount, String date, Map<String, List<Rendezvous>> groupedRendezvous) {
   final dateLabel = date.firstLetterUpperCased();
-  final dividerLabel = displayCount ? "$dateLabel (${groupedRendezvous[date]!.length})" : dateLabel;
-  return RendezvousDivider(dividerLabel);
+  return displayCount ? "$dateLabel (${groupedRendezvous[date]!.length})" : dateLabel;
 }

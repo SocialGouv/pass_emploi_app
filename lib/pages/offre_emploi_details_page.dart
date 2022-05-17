@@ -64,7 +64,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       converter: (store) => OffreEmploiDetailsPageViewModel.getDetails(store),
       builder: (context, viewModel) => FavorisStateContext<OffreEmploi>(
         selectState: (store) => store.state.offreEmploiFavorisState,
-        child: _scaffold(_body(context, viewModel)),
+        child: _scaffold(_body(context, viewModel), context),
       ),
     );
   }
@@ -81,10 +81,10 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     }
   }
 
-  Scaffold _scaffold(Widget body) {
+  Scaffold _scaffold(Widget body, BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: Strings.offreDetails, withBackButton: true),
+      appBar: passEmploiAppBar(label: Strings.offreDetails, context: context,  withBackButton: true),
       body: body,
     );
   }

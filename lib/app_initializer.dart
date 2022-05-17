@@ -24,6 +24,8 @@ import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/configuration/app_version_checker.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
+import 'package:pass_emploi_app/features/mode_demo/mode_demo_client.dart';
 import 'package:pass_emploi_app/network/cache_interceptor.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/network/interceptors/access_token_interceptor.dart';
@@ -59,6 +61,7 @@ import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
+import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_pe_repository.dart';
 import 'package:pass_emploi_app/repositories/user_action_repository.dart';
@@ -93,8 +96,8 @@ class AppInitializer {
     MatomoTracker.setCustomDimension(AnalyticsCustomDimensions.userTypeId, AnalyticsCustomDimensions.appUserType);
   }
 
-  Future<RemoteConfig?> _remoteConfig() async {
-    final RemoteConfig remoteConfig = RemoteConfig.instance;
+  Future<FirebaseRemoteConfig?> _remoteConfig() async {
+    final FirebaseRemoteConfig remoteConfig = FirebaseRemoteConfig.instance;
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: Duration(seconds: 5),
       minimumFetchInterval: Duration(minutes: 5),
@@ -107,7 +110,7 @@ class AppInitializer {
     return remoteConfig;
   }
 
-  Future<bool> _shouldForceUpdate(RemoteConfig? remoteConfig) async {
+  Future<bool> _shouldForceUpdate(FirebaseRemoteConfig? remoteConfig) async {
     if (remoteConfig == null) return false;
     final PackageInfo packageInfo = await PackageInfo.fromPlatform();
     final minimumVersionKey = Platform.isAndroid ? 'app_android_min_required_version' : 'app_ios_min_required_version';
@@ -135,6 +138,7 @@ class AppInitializer {
     final accessTokenRetriever = AuthAccessTokenRetriever(authenticator);
     final authAccessChecker = AuthAccessChecker();
     final defaultContext = SecurityContext.defaultContext;
+    final modeDemoRepository = ModeDemoRepository();
     try {
       defaultContext.setTrustedCertificatesBytes(utf8.encode(configuration.iSRGX1CertificateForOldDevices));
     } catch (e, stack) {
@@ -147,16 +151,19 @@ class AppInitializer {
       maxNrOfCacheObjects: 30,
     ));
     final monitoringInterceptor = MonitoringInterceptor(InstallationIdRepository(securedPreferences));
+    final modeDemoClient =
+        ModeDemoClient(modeDemoRepository, HttpClientWithCache(passEmploiCacheManager, clientWithCertificate));
     final httpClient = InterceptedClient.build(
-      client: HttpClientWithCache(passEmploiCacheManager, clientWithCertificate),
+      client: modeDemoClient,
       interceptors: [
         monitoringInterceptor,
-        AccessTokenInterceptor(accessTokenRetriever),
+        AccessTokenInterceptor(accessTokenRetriever, modeDemoRepository),
         LogoutInterceptor(authAccessChecker),
         LoggingInterceptor(),
       ],
     );
     logoutRepository.setHttpClient(httpClient);
+    logoutRepository.setCacheManager(passEmploiCacheManager);
     final chatCrypto = ChatCrypto();
     final baseUrl = configuration.serverBaseUrl;
     final reduxStore = StoreFactory(
@@ -167,7 +174,7 @@ class AppInitializer {
       UserActionPERepository(baseUrl, httpClient, crashlytics),
       RendezvousRepository(baseUrl, httpClient, crashlytics),
       OffreEmploiRepository(baseUrl, httpClient, crashlytics),
-      ChatRepository(chatCrypto, crashlytics),
+      ChatRepository(chatCrypto, crashlytics, modeDemoRepository),
       RegisterTokenRepository(baseUrl, httpClient, pushNotificationManager, crashlytics),
       OffreEmploiDetailsRepository(baseUrl, httpClient, crashlytics),
       OffreEmploiFavorisRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
@@ -188,10 +195,14 @@ class AppInitializer {
       ServiceCiviqueRepository(baseUrl, httpClient, crashlytics),
       ServiceCiviqueDetailRepository(baseUrl, httpClient, crashlytics),
       DetailsJeuneRepository(baseUrl, httpClient, crashlytics),
+      SuppressionCompteRepository(baseUrl, httpClient, crashlytics),
+      modeDemoRepository,
+      MatomoTracker(),
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
     authAccessChecker.setStore(reduxStore);
     monitoringInterceptor.setStore(reduxStore);
+    chatCrypto.setStore(reduxStore);
     await pushNotificationManager.init(reduxStore);
     return reduxStore;
   }

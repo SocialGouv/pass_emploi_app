@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 
 import '../doubles/fixtures.dart';
+import '../utils/mock_demo_client.dart';
 import '../utils/test_assets.dart';
 
 void main() {
@@ -118,5 +119,17 @@ void main() {
     expect(response.details, isNull);
     expect(response.isGenericFailure, isFalse);
     expect(response.isOffreNotFound, isTrue);
+  });
+
+  test('fetch when mode demo', () async {
+    // Given
+    final httpClient = MockModeDemoClient();
+    final repository = ImmersionDetailsRepository("BASE_URL", httpClient);
+
+    // When
+    final response = await repository.fetch("id-immersion");
+
+    // Then
+    expect(response.details, isNotNull);
   });
 }

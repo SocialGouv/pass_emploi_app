@@ -72,6 +72,9 @@ class AnalyticsScreenNames {
   static const savedSearchAlternanceDelete = "/saved_search/alternance/delete";
   static const savedSearchImmersionDelete = "/saved_search/immersion/delete";
   static const savedSearchServiceCiviqueDelete = "/saved_search/service-civique/delete";
+
+  static const suppressionAccount = "/profil/suppression-compte";
+  static const explicationModeDemo = "/entree/mode-demo";
 }
 
 class AnalyticsActionNames {
@@ -113,6 +116,9 @@ class AnalyticsActionNames {
   static String deleteSavedSearchAlternance = "/saved_searches/alternance/list?deleteSuccess=true";
   static String deleteSavedSearchImmersion = "/saved_searches/immersion/list?deleteSuccess=true";
   static String deleteSavedSearchServiceCivique = "/saved_searches/service_civique/list?deleteSuccess=true";
+
+  static const suppressionAccountConfirmation = "/profil/suppression-compte/confirm";
+  static const suppressionAccountSucceded = "/login?deleteSuccess=true";
 }
 
 class AnalyticsCustomDimensions {

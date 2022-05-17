@@ -1,4 +1,3 @@
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
@@ -10,21 +9,27 @@ DeepLinkState deepLinkReducer(DeepLinkState current, dynamic action) {
     return DeepLinkState.used();
   } else if (action is DeepLinkAction) {
     return DeepLinkState(
-      _extractDeepLinkFromMessage(action.message),
+      _extractDeepLinkFromMessage(action.message.data),
       DateTime.now(),
-      _extractIdFromMessage(action.message),
+      _extractIdFromMessage(action.message.data),
+    );
+  } else if (action is LocalDeeplinkAction) {
+    return DeepLinkState(
+      _extractDeepLinkFromMessage(action.data),
+      DateTime.now(),
+      _extractIdFromMessage(action.data),
     );
   } else {
     return current;
   }
 }
 
-String? _extractIdFromMessage(RemoteMessage message) {
-  return message.data["id"] as String?;
+String? _extractIdFromMessage(Map<String, dynamic> data) {
+  return data["id"] as String?;
 }
 
-DeepLink _extractDeepLinkFromMessage(RemoteMessage message) {
-  switch (message.data["type"]) {
+DeepLink _extractDeepLinkFromMessage(Map<String, dynamic> data) {
+  switch (data["type"]) {
     case "NEW_ACTION":
       return DeepLink.ROUTE_TO_ACTION;
     case "NEW_MESSAGE":

@@ -89,6 +89,7 @@ void main() {
         userActionListState: UserActionListSuccessState(
           [
             _userAction(status: UserActionStatus.DONE),
+            _userAction(status: UserActionStatus.CANCELED),
             _userAction(status: UserActionStatus.IN_PROGRESS),
             _userAction(status: UserActionStatus.DONE),
             _userAction(status: UserActionStatus.NOT_STARTED),
@@ -105,16 +106,16 @@ void main() {
     final viewModel = UserActionListPageViewModel.create(store);
 
     // Then
-    expect(viewModel.items.length, 9);
+    expect(viewModel.items.length, 10);
     for (var i = 0; i < 5; ++i) {
       expect(viewModel.items[i] is UserActionListItemViewModel, isTrue);
-      expect((viewModel.items[i] as UserActionListItemViewModel).viewModel.status != UserActionStatus.DONE, isTrue);
+      expect((viewModel.items[i] as UserActionListItemViewModel).viewModel.status.isCanceledOrDone(), false);
     }
     expect(viewModel.items[5] is UserActionListSubtitle, isTrue);
-    expect((viewModel.items[5] as UserActionListSubtitle).title, "Actions terminées");
-    for (var i = 6; i < 9; ++i) {
+    expect((viewModel.items[5] as UserActionListSubtitle).title, "Actions terminées et annulées");
+    for (var i = 6; i < 10; ++i) {
       expect(viewModel.items[i] is UserActionListItemViewModel, isTrue);
-      expect((viewModel.items[i] as UserActionListItemViewModel).viewModel.status == UserActionStatus.DONE, isTrue);
+      expect((viewModel.items[i] as UserActionListItemViewModel).viewModel.status.isCanceledOrDone(), true);
     }
   });
 
@@ -159,11 +160,11 @@ void main() {
     expect(viewModel.items.length, 5);
     for (var i = 0; i < 5; ++i) {
       expect(viewModel.items[i] is UserActionListItemViewModel, isTrue);
-      expect((viewModel.items[i] as UserActionListItemViewModel).viewModel.status != UserActionStatus.DONE, isTrue);
+      expect((viewModel.items[i] as UserActionListItemViewModel).viewModel.status.isCanceledOrDone(), false);
     }
   });
 
-  test("create when all actions are done should set item count to actions count + 1 to display title", () {
+  test("create when all actions are done/canceled should set item count to actions count + 1 to display title", () {
     // Given
     final store = Store<AppState>(
       reducer,
@@ -172,6 +173,7 @@ void main() {
           [
             _userAction(status: UserActionStatus.DONE),
             _userAction(status: UserActionStatus.DONE),
+            _userAction(status: UserActionStatus.CANCELED),
           ],
         ),
       ),
@@ -181,12 +183,12 @@ void main() {
     final viewModel = UserActionListPageViewModel.create(store);
 
     // Then
-    expect(viewModel.items.length, 3);
+    expect(viewModel.items.length, 4);
     expect(viewModel.items[0] is UserActionListSubtitle, isTrue);
-    expect((viewModel.items[0] as UserActionListSubtitle).title, "Actions terminées");
-    for (var i = 1; i < 3; ++i) {
+    expect((viewModel.items[0] as UserActionListSubtitle).title, "Actions terminées et annulées");
+    for (var i = 1; i < 4; ++i) {
       expect(viewModel.items[i] is UserActionListItemViewModel, isTrue);
-      expect((viewModel.items[i] as UserActionListItemViewModel).viewModel.status == UserActionStatus.DONE, isTrue);
+      expect((viewModel.items[i] as UserActionListItemViewModel).viewModel.status.isCanceledOrDone(), true);
     }
   });
 

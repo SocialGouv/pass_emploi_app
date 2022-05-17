@@ -20,6 +20,7 @@ class SolutionsTabPage extends StatelessWidget {
         backgroundColor: AppColors.grey100,
         appBar: passEmploiAppBar(
           label: Strings.solutionsAppBarTitle,
+          context: context
         ),
         body: _buildTabBarView(),
       ),

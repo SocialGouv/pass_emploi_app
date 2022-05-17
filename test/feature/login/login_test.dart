@@ -167,7 +167,7 @@ void main() {
     final store = factory.initializeReduxStore(
       initialState: AppState.initialState(configuration: configuration(flavor: Flavor.PROD)).copyWith(
         loginState: UserNotLoggedInState(),
-        rendezvousState: RendezvousLoadingState(),
+        rendezvousState: RendezvousState.loadingFuture(),
       ),
     );
     final Future<AppState> newStateFuture = store.onChange.first;
@@ -178,7 +178,7 @@ void main() {
     // Then
     final newState = await newStateFuture;
     expect(newState.loginState is LoginNotInitializedState, isTrue);
-    expect(newState.rendezvousState is RendezvousNotInitializedState, isTrue);
+    expect(newState.rendezvousState.isNotInitialized(), isTrue);
     expect(newState.configurationState.getFlavor(), Flavor.PROD);
     expect(authenticatorSpy.logoutCalled, isTrue);
   });

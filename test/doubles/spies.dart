@@ -25,12 +25,14 @@ class StoreSpy extends Store<AppState> {
 
   StoreSpy() : super(reducer, initialState: AppState.initialState(configuration: configuration()));
 
+  StoreSpy.withState(AppState appState) : super(reducer, initialState: appState);
+
   @override
   void dispatch(dynamic action) => dispatchedAction = action;
 }
 
 class SharedPreferencesSpy extends FlutterSecureStorage {
-  final Map<String, String> storedValues = {};
+  final Map<String, String> _storedValues = {};
 
   @override
   Future<void> write({
@@ -43,7 +45,8 @@ class SharedPreferencesSpy extends FlutterSecureStorage {
     MacOsOptions? mOptions,
     WindowsOptions? wOptions,
   }) async {
-    storedValues[key] = value!;
+    await simulateIoOperation();
+    _storedValues[key] = value!;
   }
 
   @override
@@ -55,7 +58,10 @@ class SharedPreferencesSpy extends FlutterSecureStorage {
     WebOptions? webOptions,
     MacOsOptions? mOptions,
     WindowsOptions? wOptions,
-  }) async => storedValues[key];
+  }) async {
+    await simulateIoOperation();
+    return _storedValues[key];
+  }
 
   @override
   Future<void> delete({
@@ -67,6 +73,9 @@ class SharedPreferencesSpy extends FlutterSecureStorage {
     MacOsOptions? mOptions,
     WindowsOptions? wOptions,
   }) async {
-    storedValues.remove(key);
+    await simulateIoOperation();
+    _storedValues.remove(key);
   }
+
+  Future<void> simulateIoOperation() async => await Future.delayed(Duration(milliseconds: 10));
 }

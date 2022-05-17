@@ -1,0 +1,26 @@
+[
+  {
+    "id": "61ddb063d016777c442c111b",
+    "domaine": "solidarite-insertion",
+    "ville": "Villeurbanne",
+    "titre": "Contribuer à des actions de solidarité au sein d’un centre d’hébergement d’urgence.",
+    "organisation": "Fondation Armée du Salut Villeurbanne",
+    "dateDeDebut": "2022-05-15T22:00:00.000Z"
+  },
+  {
+    "id": "61ded642d016777c442c779b",
+    "domaine": "solidarite-insertion",
+    "ville": "Décines-Charpieu",
+    "titre": "CHARGÉ(E) RELATIONNEL AUPRÈS DES ASSOCIATIONS DE LA BANQUE ALIMENTAIRE DU RHÔNE",
+    "organisation": "BANQUE ALIMENTAIRE DU RHONE",
+    "dateDeDebut": "2022-05-31T22:00:00.000Z"
+  },
+  {
+    "id": "6210af798831ec079cb6e370",
+    "domaine": "solidarite-insertion",
+    "ville": "Lyon",
+    "titre": "Favoriser le lien social et diffuser des valeurs citoyennes - Génération 2024.",
+    "organisation": "FEDERATION NATIONALE PROFESSION SPORT LOISIRS",
+    "dateDeDebut": "2022-05-22T00:00:00.000Z"
+  }
+]

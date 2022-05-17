@@ -6,10 +6,16 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class UserActionStatusGroup extends StatelessWidget {
   final UserActionStatus status;
+  final bool isCreated;
   final bool isEnabled;
   final Function(UserActionStatus newStatus) update;
 
-  const UserActionStatusGroup({required this.status, required this.update, this.isEnabled = true}) : super();
+  const UserActionStatusGroup({
+    required this.status,
+    required this.update,
+    this.isCreated = false,
+    this.isEnabled = true,
+  }) : super();
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +39,12 @@ class UserActionStatusGroup extends StatelessWidget {
           onPressed: isEnabled ? () => update(UserActionStatus.DONE) : null,
           isSelected: status == UserActionStatus.DONE,
         ),
+        if (!isCreated)
+          UserActionStatusButton(
+            label: Strings.actionCanceled,
+            onPressed: isEnabled ? () => update(UserActionStatus.CANCELED) : null,
+            isSelected: status == UserActionStatus.CANCELED,
+          ),
       ],
     );
   }

@@ -1,15 +1,30 @@
 import 'package:pass_emploi_app/models/rendezvous.dart';
 
-class RendezvousRequestAction {}
+enum RendezvousPeriod { PASSE, FUTUR }
 
-class RendezvousLoadingAction {}
+class RendezvousRequestAction {
+  final RendezvousPeriod period;
+
+  RendezvousRequestAction(this.period);
+}
+
+class RendezvousLoadingAction {
+  final RendezvousPeriod period;
+
+  RendezvousLoadingAction(this.period);
+}
 
 class RendezvousSuccessAction {
   final List<Rendezvous> rendezvous;
+  final RendezvousPeriod period;
 
-  RendezvousSuccessAction(this.rendezvous);
+  RendezvousSuccessAction(this.rendezvous, this.period);
 }
 
-class RendezvousFailureAction {}
+class RendezvousFailureAction {
+  final RendezvousPeriod period;
+
+  RendezvousFailureAction(this.period);
+}
 
 class RendezvousResetAction {}

@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_rep
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
+import '../../utils/mock_demo_client.dart';
 import '../../utils/test_assets.dart';
 
 void main() {
@@ -157,6 +158,30 @@ void main() {
 
     // Then
     expect(favoris, isNull);
+  });
+
+  test('getFavorisId when mode demo', () async {
+    // Given
+    final httpClient = MockModeDemoClient();
+    final repository = ServiceCiviqueFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
+
+    // When
+    final favoris = await repository.getFavorisId("jeuneId");
+
+    // Then
+    expect(favoris, isNotEmpty);
+  });
+
+  test('getFavoris when mode demo', () async {
+    // Given
+    final httpClient = MockModeDemoClient();
+    final repository = ServiceCiviqueFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
+
+    // When
+    final favoris = await repository.getFavoris("jeuneId");
+
+    // Then
+    expect(favoris, isNotEmpty);
   });
 }
 

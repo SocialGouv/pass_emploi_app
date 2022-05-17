@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
@@ -18,7 +19,7 @@ enum UserActionDetailsDisplayState {
   TO_DISMISS_AFTER_DELETION
 }
 
-class UserActionDetailsViewModel {
+class UserActionDetailsViewModel extends Equatable {
   final UserActionDetailsDisplayState displayState;
   final Function(String actionId, UserActionStatus newStatus) onRefreshStatus;
   final Function(String actionId) onDelete;
@@ -38,17 +39,14 @@ class UserActionDetailsViewModel {
   });
 
   @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is UserActionDetailsViewModel && runtimeType == other.runtimeType && displayState == other.displayState;
-
-  @override
-  int get hashCode => displayState.hashCode;
+  List<Object?> get props => [displayState];
 }
 
 UserActionDetailsDisplayState _displayState(AppState state) {
   final updateState = state.userActionUpdateState;
-  if (updateState is UserActionUpdatedState) {
+  if (state.userActionDeleteState is UserActionDeleteSuccessState) {
+    return UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION;
+  } else if (updateState is UserActionUpdatedState) {
     if (updateState.newStatus == UserActionStatus.DONE) {
       return UserActionDetailsDisplayState.SHOW_SUCCESS;
     } else {
@@ -56,8 +54,6 @@ UserActionDetailsDisplayState _displayState(AppState state) {
     }
   } else if (updateState is UserActionNoUpdateNeededState) {
     return UserActionDetailsDisplayState.TO_DISMISS;
-  } else if (state.userActionDeleteState is UserActionDeleteSuccessState) {
-    return UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION;
   } else if (state.userActionDeleteState is UserActionDeleteLoadingState) {
     return UserActionDetailsDisplayState.SHOW_LOADING;
   } else if (state.userActionDeleteState is UserActionDeleteFailureState) {

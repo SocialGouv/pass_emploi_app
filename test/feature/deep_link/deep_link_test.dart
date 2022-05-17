@@ -9,10 +9,12 @@ import '../../utils/test_setup.dart';
 void main() {
   group("deep links actions should properly update state", () {
     void assertState(DeepLinkAction action, DeepLinkState expectedState) {
-      test("$action -> $expectedState", () async {
+      test("${action.message.data["type"]} -> ${expectedState.deepLink}",
+          () async {
         // Given
         final testStoreFactory = TestStoreFactory();
-        final store = testStoreFactory.initializeReduxStore(initialState: AppState.initialState());
+        final store = testStoreFactory.initializeReduxStore(
+            initialState: AppState.initialState());
 
         // When
         final outputAppState = store.onChange.first;
@@ -57,6 +59,22 @@ void main() {
       DeepLinkAction(RemoteMessage(data: {"type": "NOUVELLE_OFFRE", "id": "Bonjour je suis un id"})),
       DeepLinkState(DeepLink.SAVED_SEARCH_RESULTS, DateTime.now(), "Bonjour je suis un id"),
     );
+  });
+
+  test("notification en foreground", () async {
+    // Given
+    final testStoreFactory = TestStoreFactory();
+    final store = testStoreFactory.initializeReduxStore(initialState: AppState.initialState());
+
+    // When
+    final outputAppState = store.onChange.first;
+    await store.dispatch(LocalDeeplinkAction({"type": "NOUVELLE_OFFRE", "id": "Bonjour je suis un id"}));
+
+    // Then
+    final expectedState = DeepLinkState(DeepLink.SAVED_SEARCH_RESULTS, DateTime.now(), "Bonjour je suis un id");
+    final appState = await outputAppState;
+    expect(appState.deepLinkState.deepLink, expectedState.deepLink);
+    expect(_isNearlySameAs(appState.deepLinkState.deepLinkOpenedAt, expectedState.deepLinkOpenedAt), true);
   });
 }
 

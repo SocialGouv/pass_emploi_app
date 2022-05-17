@@ -43,7 +43,7 @@ class UserActionListPageViewModel extends Equatable {
       withEmptyMessage: _isEmpty(state),
       items: _listItems(
         activeItems: _activeItems(state: state),
-        doneItems: _doneItems(state: state),
+        doneOrCanceledItems: _doneOrCanceledItems(state: state),
       ),
       onRetry: () => store.dispatch(UserActionListRequestAction()),
       onUserActionDetailsDismissed: () {
@@ -65,17 +65,17 @@ bool _isEmpty(UserActionListState state) => state is UserActionListSuccessState 
 List<UserActionViewModel> _activeItems({required UserActionListState state}) {
   if (state is UserActionListSuccessState) {
     return state.userActions
-        .where((action) => action.status != UserActionStatus.DONE)
+        .where((action) => action.status.isCanceledOrDone() == false)
         .map((action) => UserActionViewModel.create(action))
         .toList();
   }
   return [];
 }
 
-List<UserActionViewModel> _doneItems({required UserActionListState state}) {
+List<UserActionViewModel> _doneOrCanceledItems({required UserActionListState state}) {
   if (state is UserActionListSuccessState) {
     return state.userActions
-        .where((action) => action.status == UserActionStatus.DONE)
+        .where((action) => action.status.isCanceledOrDone())
         .map((action) => UserActionViewModel.create(action))
         .toList();
   }
@@ -84,13 +84,13 @@ List<UserActionViewModel> _doneItems({required UserActionListState state}) {
 
 List<UserActionListPageItem> _listItems({
   required List<UserActionViewModel> activeItems,
-  required List<UserActionViewModel> doneItems,
+  required List<UserActionViewModel> doneOrCanceledItems,
 }) {
   return [
     ...activeItems.map((e) => UserActionListItemViewModel(e)),
-    if (doneItems.isNotEmpty) ...[
+    if (doneOrCanceledItems.isNotEmpty) ...[
       UserActionListSubtitle(Strings.doneActionsTitle),
-      ...doneItems.map((e) => UserActionListItemViewModel(e)),
+      ...doneOrCanceledItems.map((e) => UserActionListItemViewModel(e)),
     ]
   ];
 }

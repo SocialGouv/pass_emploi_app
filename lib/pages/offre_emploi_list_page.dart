@@ -70,7 +70,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
       onInitialBuild: (viewModel) => _currentViewModel = viewModel,
       builder: (context, viewModel) => FavorisStateContext<OffreEmploi>(
         selectState: (store) => store.state.offreEmploiFavorisState,
-        child: _scaffold(_body(context, viewModel)),
+        child: _scaffold(_body(context, viewModel), context),
       ),
       onDidChange: (previousViewModel, viewModel) {
         _currentViewModel = viewModel;
@@ -82,11 +82,12 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     );
   }
 
-  Widget _scaffold(Widget body) {
+  Widget _scaffold(Widget body, BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.grey100,
       appBar: passEmploiAppBar(
         label: widget.onlyAlternance ? Strings.alternanceTitle : Strings.offresEmploiTitle,
+        context: context,
         withBackButton: true,
       ),
       body: body,
@@ -112,7 +113,7 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
         controller: _scrollController,
         itemBuilder: (context, index) => _buildItem(context, index, viewModel),
         separatorBuilder: (context, index) => _listSeparator(),
-        itemCount: _itemCount(viewModel),
+        itemCount: viewModel.items.length + 1,
       ),
       Align(
         alignment: Alignment.bottomCenter,
@@ -200,11 +201,13 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
     }
   }
 
-  Padding _buildLastItem(OffreEmploiSearchResultsViewModel resultsViewModel) {
+  Widget _buildLastItem(OffreEmploiSearchResultsViewModel resultsViewModel) {
     if (resultsViewModel.displayState == DisplayState.FAILURE) {
       return _buildErrorItem();
-    } else {
+    } else if (resultsViewModel.displayLoaderAtBottomOfList) {
       return _buildLoaderItem();
+    } else {
+      return SizedBox(height: 80);
     }
   }
 
@@ -245,14 +248,6 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
           widget.onlyAlternance ? AnalyticsScreenNames.alternanceResults : AnalyticsScreenNames.emploiResults,
         )
         .then((_) => _scrollController.jumpTo(_offsetBeforeLoading));
-  }
-
-  int _itemCount(OffreEmploiSearchResultsViewModel viewModel) {
-    if (viewModel.displayLoaderAtBottomOfList) {
-      return viewModel.items.length + 1;
-    } else {
-      return viewModel.items.length;
-    }
   }
 
   Widget _filtrePrimaryButton(OffreEmploiSearchResultsViewModel viewModel) {

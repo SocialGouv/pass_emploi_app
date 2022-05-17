@@ -1,0 +1,45 @@
+{
+  "id": "3746940",
+  "urlRedirectPourPostulation": "https://www.jobintree.com/offre-emploi/ducretet-8079/conseiller-vendeur-48832823?utm_source=pole-emploi&utm_medium=flux-offres&utm_campaign=partenaire",
+  "data": {
+    "id": "3746940",
+    "intitule": "CONSEILLER VENDEUR (H/F)",
+    "description": "Recherche: CONSEILLER VENDEUR (H/F)\nLe CFA Ducretet, leader de la formation dans l'univers des télécoms et de la maison connectée depuis 25 ans, recrute pour de ses grandes entreprises partenaires (Boulanger, Samsung, Fnac Darty ) des jeunes souhaitant se former en alternance au métier de « Vendeur spécialisé en Electroménager »\nToujours à la pointe des dernières innovations, le vendeur spécialisé conseille et vend un produit, un système ou un service.\nMISSIONS :\nAccueillir les clients dans une ambiance agréable et chaleureuse\nConseiller sur les différents produits de la gamme électroménager ainsi que l'ensemble de des services\nParticiper à l'aménagement et à l'animation de votre rayon en respectant les règles de merchandising.)\nGestion des stocks\nQUALITES ATTENDUES :\nSens du service client\nÀ l'écoute,\nMotivé,\nDynamique\nPassionné par la vente.\nConnaissances et appétence pour les nouvelles technologies.\nPoste basé à Lyon\n ",
+    "dateCreation": "2022-05-10T04:56:09.000Z",
+    "dateActualisation": "2022-05-10T04:56:09.000Z",
+    "lieuTravail": {
+      "libelle": "69 - LYON 01",
+      "latitude": 45.758,
+      "longitude": 4.835,
+      "codePostal": "69001",
+      "commune": "69381"
+    },
+    "romeCode": "D1403",
+    "romeLibelle": "Relation commerciale auprès de particuliers",
+    "appellationlibelle": "Conseiller vendeur / Conseillère vendeuse à domicile",
+    "entreprise": {
+      "description": " ",
+      "entrepriseAdaptee": false
+    },
+    "typeContrat": "CDD",
+    "typeContratLibelle": "Contrat à durée déterminée - 12 Mois",
+    "natureContrat": "Cont. professionnalisation",
+    "experienceExige": "D",
+    "experienceLibelle": "Débutant accepté",
+    "salaire": {},
+    "alternance": true,
+    "nombrePostes": 1,
+    "accessibleTH": false,
+    "origineOffre": {
+      "origine": "2",
+      "urlOrigine": "https://candidat.pole-emploi.fr/offres/recherche/detail/3746940",
+      "partenaires": [
+        {
+          "nom": "JOBINTREE",
+          "url": "https://www.jobintree.com/offre-emploi/ducretet-8079/conseiller-vendeur-48832823?utm_source=pole-emploi&utm_medium=flux-offres&utm_campaign=partenaire",
+          "logo": "https://www.pole-emploi.fr/static/img/partenaires/jobintree80.png"
+        }
+      ]
+    }
+  }
+}

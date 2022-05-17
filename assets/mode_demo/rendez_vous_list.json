@@ -1,0 +1,81 @@
+[
+  {
+    "id": "1e0fba29-8566-4cf2-9254-4690bbc32fa4",
+    "comment": "Pensez à ramener votre CV pour relecture ensemble",
+    "date": "2022-05-30T08:30:00.000Z",
+    "isLocaleDate": false,
+    "modality": "par visio",
+    "duration": 60,
+    "title": "",
+    "jeune": {
+      "id": "SEVP",
+      "nom": "Sevier",
+      "prenom": "Paul"
+    },
+    "type": {
+      "code": "ENTRETIEN_INDIVIDUEL_CONSEILLER",
+      "label": "Entretien individuel conseiller"
+    },
+    "presenceConseiller": true,
+    "invitation": false
+  },
+  {
+    "id": "020fe52d-50c8-4ea2-a8f8-73a7771ca3d9",
+    "date": "2022-07-04T08:00:00.000Z",
+    "isLocaleDate": false,
+    "modality": "par visio",
+    "duration": 30,
+    "title": "",
+    "jeune": {
+      "id": "SEVP",
+      "nom": "Sevier",
+      "prenom": "Paul"
+    },
+    "type": {
+      "code": "ENTRETIEN_INDIVIDUEL_CONSEILLER",
+      "label": "Entretien individuel conseiller"
+    },
+    "presenceConseiller": true,
+    "invitation": false
+  },
+  {
+    "id": "a8477802-0888-4363-b4f8-7563c26d4613",
+    "comment": "Pensez à ramener votre bilan d'immersion afin qu'on le relise ensemble",
+    "date": "2022-09-05T09:00:00.000Z",
+    "isLocaleDate": false,
+    "modality": "par visio",
+    "duration": 60,
+    "title": "",
+    "jeune": {
+      "id": "SEVP",
+      "nom": "Sevier",
+      "prenom": "Paul"
+    },
+    "type": {
+      "code": "ENTRETIEN_INDIVIDUEL_CONSEILLER",
+      "label": "Entretien individuel conseiller"
+    },
+    "presenceConseiller": true,
+    "invitation": false
+  },
+  {
+    "id": "03f249fb-b3e6-4dce-89c9-361be54a04f5",
+    "comment": "Atelier \"Les clés pour réussir votre entretien\" ",
+    "date": "2022-11-28T08:00:00.000Z",
+    "isLocaleDate": false,
+    "modality": "par visio",
+    "duration": 120,
+    "title": "",
+    "jeune": {
+      "id": "SEVP",
+      "nom": "Sevier",
+      "prenom": "Paul"
+    },
+    "type": {
+      "code": "ATELIER",
+      "label": "Atelier"
+    },
+    "presenceConseiller": true,
+    "invitation": false
+  }
+]

@@ -18,7 +18,9 @@ void main() {
   setUp(() {
     authWrapperStub = AuthWrapperStub();
     prefs = SharedPreferencesSpy();
-    authenticator = Authenticator(authWrapperStub, DummyLogoutRepository(), configuration(), prefs);
+    final logoutRepository = DummyLogoutRepository();
+    logoutRepository.setCacheManager(DummyPassEmploiCacheManager());
+    authenticator = Authenticator(authWrapperStub, logoutRepository, configuration(), prefs);
   });
 
   group('Login tests', () {
@@ -31,9 +33,9 @@ void main() {
 
       // Then
       expect(result, AuthenticatorResponse.SUCCESS);
-      expect(prefs.storedValues["idToken"], authTokenResponse().idToken);
-      expect(prefs.storedValues["accessToken"], authTokenResponse().accessToken);
-      expect(prefs.storedValues["refreshToken"], authTokenResponse().refreshToken);
+      expect(await prefs.read(key: "idToken"), authTokenResponse().idToken);
+      expect(await prefs.read(key: "accessToken"), authTokenResponse().accessToken);
+      expect(await prefs.read(key: "refreshToken"), authTokenResponse().refreshToken);
     });
 
     test('token is saved and returned when login in SIMILO mode is successful', () async {
@@ -48,9 +50,9 @@ void main() {
 
       // Then
       expect(result, AuthenticatorResponse.SUCCESS);
-      expect(prefs.storedValues["idToken"], authTokenResponse().idToken);
-      expect(prefs.storedValues["accessToken"], authTokenResponse().accessToken);
-      expect(prefs.storedValues["refreshToken"], authTokenResponse().refreshToken);
+      expect(await prefs.read(key: "idToken"), authTokenResponse().idToken);
+      expect(await prefs.read(key: "accessToken"), authTokenResponse().accessToken);
+      expect(await prefs.read(key: "refreshToken"), authTokenResponse().refreshToken);
     });
 
     test('token is saved and returned when login in POLE_EMPLOI mode is successful', () async {
@@ -65,9 +67,9 @@ void main() {
 
       // Then
       expect(result, AuthenticatorResponse.SUCCESS);
-      expect(prefs.storedValues["idToken"], authTokenResponse().idToken);
-      expect(prefs.storedValues["accessToken"], authTokenResponse().accessToken);
-      expect(prefs.storedValues["refreshToken"], authTokenResponse().refreshToken);
+      expect(await prefs.read(key: "idToken"), authTokenResponse().idToken);
+      expect(await prefs.read(key: "accessToken"), authTokenResponse().accessToken);
+      expect(await prefs.read(key: "refreshToken"), authTokenResponse().refreshToken);
     });
 
     test('token is null when login has failed', () async {
@@ -131,9 +133,9 @@ void main() {
 
       // Then
       expect(result, RefreshTokenStatus.SUCCESSFUL);
-      expect(prefs.storedValues["idToken"], "idToken2");
-      expect(prefs.storedValues["accessToken"], "accessToken2");
-      expect(prefs.storedValues["refreshToken"], "refreshToken2");
+      expect(await prefs.read(key: "idToken"), "idToken2");
+      expect(await prefs.read(key: "accessToken"), "accessToken2");
+      expect(await prefs.read(key: "refreshToken"), "refreshToken2");
     });
 
     test('refresh token returns NETWORK_UNREACHABLE when user is logged in but network is unreachable', () async {

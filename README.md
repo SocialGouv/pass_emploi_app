@@ -44,6 +44,19 @@ Aussi pour éviter un tel écueil, on utilise un version précompilé proposée 
 Si besoin de la mettre à jour, il faut le faire dans le fichier `ios/Podfile` :
 `pod 'FirebaseFirestore', :git => 'https://github.com/invertase/firestore-ios-sdk-frameworks.git', :tag => 'X.X.X'` 
 
+## Mettre à jour le framework et les dépendances
+# Flutter / Dart
+Une fois la montée de version de Flutter effectuée, mettre à jour :
+* le fichier `pubspec.yaml` :
+** La variable `flutter` pour le Framework
+** la variable `sdk` pour la version de Dart correspondante
+* dans tous les fichiers liées au Github Actions dans le repertoire '.github/workflows'
+
+# Dépendances
+* Lancer la commande `$flutter pub outdated`.
+* A la main, mettre à jour les versions remontées dans les sorties `direct dependencies` et `dev_dependencies`.
+* Vérifier que le projet compile bien en lançant la commande `$flutter pub get`.
+
 ## Déployer une app sur Firebase
 ### Spécificités Android
 1. Vérifier que le fichier `passemploi.jks` (fichier privé) est bien situé dans le repertoire `android/keystore` 
