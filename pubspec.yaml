@@ -15,7 +15,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_svg: '1.0.3'
-  flutter_redux: '0.9.0'
+  flutter_redux: '0.10.0'
   package_info: '2.0.2'
   flutter_local_notifications: '9.5.0'
   flutter_dotenv: '5.0.2'
