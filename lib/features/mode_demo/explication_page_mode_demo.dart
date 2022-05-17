@@ -108,7 +108,6 @@ class _Contenu extends StatelessWidget {
                     children: [
                       TextSpan(text: Strings.modeDemoExplicationTroisiemePoint1, style: TextStyles.textBaseRegular),
                       TextSpan(text: Strings.modeDemoExplicationTroisiemePoint2, style: TextStyles.textBaseBold),
-                      TextSpan(text: Strings.modeDemoExplicationTroisiemePoint3, style: TextStyles.textBaseRegular),
                     ],
                   ),
                 ),
