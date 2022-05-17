@@ -538,6 +538,6 @@ class Strings {
   static String modeDemoExplicationTroisiemePoint1 =
       "→ Vous pourrez naviguer dans l'application, rédiger des messages (sans les envoyer) et effectuer des recherches. Les résultats alors affichés sont ";
   static String modeDemoExplicationTroisiemePoint2 =
-      "donnés à titre d’exemples et ne  correspondent pas aux recherches effectuées.";
+      "donnés à titre d’exemples et ne correspondent pas aux recherches effectuées.";
   static String modeDemoExplicationChoix = "Veuillez sélectionner le mode de démonstration";
 }
