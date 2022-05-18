@@ -116,7 +116,7 @@ void main() {
         expect(
             viewModel.tag,
             UserActionTagViewModel(
-              title: Strings.actionPEToDo,
+              title: Strings.actionPEInProgress,
               backgroundColor: AppColors.warningLighten,
               textColor: AppColors.warning,
             ));

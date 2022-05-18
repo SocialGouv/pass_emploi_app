@@ -33,7 +33,7 @@ class UserActionPEViewModel extends Equatable {
       title: userAction.content ?? Strings.withoutContent,
       status: userAction.status,
       createdByAdvisor: userAction.createdByAdvisor,
-      tag: _userActionTagViewModel(UserActionPEStatus.IN_PROGRESS, true),
+      tag: _userActionTagViewModel(userAction.status, _isLateAction(userAction.status, userAction.endDate)),
       formattedDate:
           _setFormattedDate(userAction.status, userAction.endDate?.toDay(), userAction.deletionDate?.toDay()),
       late: _isLateAction(userAction.status, userAction.endDate),
