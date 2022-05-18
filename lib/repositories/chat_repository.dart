@@ -19,11 +19,11 @@ class ChatRepository {
   ChatRepository(this._chatCrypto, this._crashlytics, this._demoRepository);
 
   Stream<List<Message>> messagesStream(String userId) async* {
-    final chatDocumentId = await _getChatDocumentId(userId);
-    if (chatDocumentId == null) return;
     if (!_chatCrypto.isInitialized()) {
       throw ChatNotInitializedError();
     }
+    final chatDocumentId = await _getChatDocumentId(userId);
+    if (chatDocumentId == null) return;
 
     final Stream<List<Message>> stream = _chatCollection(chatDocumentId)
         .collection('messages')
