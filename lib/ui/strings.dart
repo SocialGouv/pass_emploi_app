@@ -234,6 +234,7 @@ class Strings {
   static String actionPERetarded = "En retard";
   static String actionPEDone = "Réalisé";
   static String actionPECancelled = "Annulé";
+  static String lateAction = "En retard : ";
 
   static String actionPEActiveDateFormat(String formattedDate) =>
       "À réaliser pour le $formattedDate";

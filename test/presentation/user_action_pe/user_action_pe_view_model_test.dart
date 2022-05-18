@@ -8,7 +8,38 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import '../../utils/test_datetime.dart';
 
 void main() {
-  test("UserActionPEViewModel.create when status is IS_NOT_STARTED should create view model properly", () {
+  test(
+      "UserActionPEViewModel.create when status is IS_NOT_STARTED and end date is in the future should create view model properly",
+      () {
+    // Given
+
+    final userAction = UserActionPE(
+      id: "8802034",
+      content: "Faire le CV",
+      status: UserActionPEStatus.NOT_STARTED,
+      endDate: parseDateTimeUtcWithCurrentTimeZone('2023-04-28T16:06:48.396Z'),
+      deletionDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
+      createdByAdvisor: true,
+    );
+
+    // When
+    final viewModel = UserActionPEViewModel.create(userAction);
+
+    // Then
+    expect(viewModel.status, UserActionPEStatus.NOT_STARTED);
+    expect(viewModel.formattedDate, "À réaliser pour le 28/04/2023");
+    expect(
+        viewModel.tag,
+        UserActionTagViewModel(
+          title: Strings.actionPEToDo,
+          backgroundColor: AppColors.accent1Lighten,
+          textColor: AppColors.accent1,
+        ));
+  });
+
+  test(
+      "UserActionPEViewModel.create when status is IS_NOT_STARTED and end date is in the past should create view model properly",
+      () {
     // Given
 
     final userAction = UserActionPE(
@@ -30,8 +61,8 @@ void main() {
         viewModel.tag,
         UserActionTagViewModel(
           title: Strings.actionPEToDo,
-          backgroundColor: AppColors.accent1Lighten,
-          textColor: AppColors.accent1,
+          backgroundColor: AppColors.warningLighten,
+          textColor: AppColors.warning,
         ));
   });
 
@@ -42,7 +73,7 @@ void main() {
       id: "8802034",
       content: "Faire le CV",
       status: UserActionPEStatus.IN_PROGRESS,
-      endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
+      endDate: parseDateTimeUtcWithCurrentTimeZone('2023-03-28T16:06:48.396Z'),
       deletionDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
       createdByAdvisor: true,
     );
@@ -52,7 +83,7 @@ void main() {
 
     // Then
     expect(viewModel.status, UserActionPEStatus.IN_PROGRESS);
-    expect(viewModel.formattedDate, "À réaliser pour le 28/03/2022");
+    expect(viewModel.formattedDate, "À réaliser pour le 28/03/2023");
     expect(
         viewModel.tag,
         UserActionTagViewModel(
@@ -61,6 +92,35 @@ void main() {
           textColor: AppColors.accent3,
         ));
   });
+
+  test(
+      "UserActionPEViewModel.create when status is IN_PROGRESS and end date is in the past should create view model properly",
+          () {
+        // Given
+
+        final userAction = UserActionPE(
+          id: "8802034",
+          content: "Faire le CV",
+          status: UserActionPEStatus.IN_PROGRESS,
+          endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
+          deletionDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
+          createdByAdvisor: true,
+        );
+
+        // When
+        final viewModel = UserActionPEViewModel.create(userAction);
+
+        // Then
+        expect(viewModel.status, UserActionPEStatus.IN_PROGRESS);
+        expect(viewModel.formattedDate, "À réaliser pour le 28/03/2022");
+        expect(
+            viewModel.tag,
+            UserActionTagViewModel(
+              title: Strings.actionPEToDo,
+              backgroundColor: AppColors.warningLighten,
+              textColor: AppColors.warning,
+            ));
+      });
 
   test("UserActionPEViewModel.create when status is RETARDED should create view model properly", () {
     // Given
