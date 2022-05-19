@@ -2,9 +2,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/repositories/chat_repository.dart';
 
+import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';
@@ -41,15 +44,42 @@ void main() {
         chatState: ChatSuccessState([_mockMessage('1')]),
       ),
     );
-    final newState1 = store.onChange.firstWhere((e) => e.chatState is ChatSuccessState);
-    final newState2 = store.onChange.firstWhere((e) => (e.chatState as ChatSuccessState).messages.length > 1);
+    final newState1 =
+        store.onChange.firstWhere((e) => e.chatState is ChatSuccessState);
+    final newState2 = store.onChange.firstWhere(
+        (e) => (e.chatState as ChatSuccessState).messages.length > 1);
 
     // When
     store.dispatch(SubscribeToChatAction());
 
     // Then
-    expect(((await newState1).chatState as ChatSuccessState).messages, [_mockMessage('1')]);
-    expect(((await newState2).chatState as ChatSuccessState).messages, [_mockMessage('1'), _mockMessage('2')]);
+    expect(((await newState1).chatState as ChatSuccessState).messages,
+        [_mockMessage('1')]);
+    expect(((await newState2).chatState as ChatSuccessState).messages,
+        [_mockMessage('1'), _mockMessage('2')]);
+  });
+
+  test(
+      "On chat subscription, if crypto is not initialized, then failure is displayed",
+      () async {
+    // Given
+    final factory = TestStoreFactory();
+    final repository = ChatRepository(NotInitializedDummyChatCrypto(),
+        DummyCrashlytics(), ModeDemoRepository());
+    factory.chatRepository = repository;
+    final store = factory.initializeReduxStore(
+      initialState: AppState.initialState().copyWith(
+        loginState: LoginSuccessState(mockUser()),
+      ),
+    );
+    final newState =
+        store.onChange.firstWhere((e) => e.chatState is ChatFailureState);
+
+    // When
+    store.dispatch(SubscribeToChatAction());
+
+    // Then
+    expect((await newState).chatState, ChatFailureState());
   });
 }
 

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/message.dart';
@@ -18,6 +19,9 @@ class ChatRepository {
   ChatRepository(this._chatCrypto, this._crashlytics, this._demoRepository);
 
   Stream<List<Message>> messagesStream(String userId) async* {
+    if (!_chatCrypto.isInitialized()) {
+      throw ChatNotInitializedError();
+    }
     final chatDocumentId = await _getChatDocumentId(userId);
     if (chatDocumentId == null) return;
 

@@ -189,15 +189,26 @@ class DummyChatCrypto extends ChatCrypto {
   DummyChatCrypto() : super();
 }
 
+class NotInitializedDummyChatCrypto extends ChatCrypto {
+  NotInitializedDummyChatCrypto() : super();
+
+  @override
+  bool isInitialized() {
+    return false;
+  }
+}
+
 class DummyTrackingEventRepository extends TrackingEventRepository {
   DummyTrackingEventRepository() : super("", DummyHttpClient());
 }
 
 class DummyImmersionFavorisRepository extends ImmersionFavorisRepository {
-  DummyImmersionFavorisRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  DummyImmersionFavorisRepository()
+      : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 }
 
-class DummyOffreEmploiSavedSearchRepository extends OffreEmploiSavedSearchRepository {
+class DummyOffreEmploiSavedSearchRepository
+    extends OffreEmploiSavedSearchRepository {
   DummyOffreEmploiSavedSearchRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 }
 
