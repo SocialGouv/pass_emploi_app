@@ -63,9 +63,9 @@ extension DateExtensions on DateTime {
     return add(Duration(days: 7 * weeks));
   }
 
-  int daysBetweenTillToday() {
+  int numberOfDaysUntilToday() {
     final from = DateTime(year, month, day);
-    final to = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
+    final to = DateUtils.dateOnly(DateTime.now());
     return (to.difference(from).inHours / 24).round();
   }
 }

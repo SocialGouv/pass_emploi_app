@@ -15,7 +15,7 @@ class UserActionPEViewModel extends Equatable {
   final bool createdByAdvisor;
   final UserActionTagViewModel? tag;
   final String formattedDate;
-  final bool late;
+  final bool isLate;
 
   UserActionPEViewModel({
     required this.id,
@@ -24,7 +24,7 @@ class UserActionPEViewModel extends Equatable {
     required this.createdByAdvisor,
     required this.tag,
     required this.formattedDate,
-    required this.late,
+    required this.isLate,
   });
 
   factory UserActionPEViewModel.create(UserActionPE userAction) {
@@ -36,16 +36,16 @@ class UserActionPEViewModel extends Equatable {
       tag: _userActionTagViewModel(userAction.status, _isLateAction(userAction.status, userAction.endDate)),
       formattedDate:
           _setFormattedDate(userAction.status, userAction.endDate?.toDay(), userAction.deletionDate?.toDay()),
-      late: _isLateAction(userAction.status, userAction.endDate),
+      isLate: _isLateAction(userAction.status, userAction.endDate),
     );
   }
 
   Color getDateColor() {
     switch (status) {
       case UserActionPEStatus.NOT_STARTED:
-        return late ? AppColors.warning : AppColors.primary;
+        return isLate ? AppColors.warning : AppColors.primary;
       case UserActionPEStatus.IN_PROGRESS:
-        return late ? AppColors.warning : AppColors.primary;
+        return isLate ? AppColors.warning : AppColors.primary;
       case UserActionPEStatus.RETARDED:
         return AppColors.warning;
       case UserActionPEStatus.CANCELLED:
@@ -115,7 +115,7 @@ UserActionTagViewModel? _userActionTagViewModel(UserActionPEStatus status, bool 
 
 bool _isLateAction(UserActionPEStatus status, DateTime? endDate) {
   if (endDate != null && (status == UserActionPEStatus.NOT_STARTED || status == UserActionPEStatus.IN_PROGRESS)) {
-    return endDate.isBefore(DateTime.now()) && (endDate.daysBetweenTillToday() > 0);
+    return endDate.isBefore(DateTime.now()) && (endDate.numberOfDaysUntilToday() > 0);
   }
   return false;
 }

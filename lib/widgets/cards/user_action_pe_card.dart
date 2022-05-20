@@ -79,7 +79,7 @@ class UserActionPECard extends StatelessWidget {
           children: [
             SvgPicture.asset(Drawables.icClock, color: viewModel.getDateColor()),
             SizedBox(width: Margins.spacing_s),
-            _DateTitle(title: viewModel.formattedDate, isLate: viewModel.late, color: viewModel.getDateColor()),
+            _DateTitle(title: viewModel.formattedDate, isLate: viewModel.isLate, color: viewModel.getDateColor()),
           ],
         ),
       ],
@@ -96,16 +96,16 @@ class _DateTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return isLate ?
-      RichText(
-      text: TextSpan(
-        children: [
-          TextSpan(text: Strings.lateAction, style: TextStyles.textBaseBoldWithColor(color)),
-          TextSpan(text: title, style: TextStyles.textSRegularWithColor(color)),
-        ],
-      ),
-    ) :
-    Text(title, style: TextStyles.textSRegularWithColor(color));
+    if (isLate) {
+      return RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(text: Strings.actionPELate, style: TextStyles.textBaseBoldWithColor(color)),
+            TextSpan(text: title, style: TextStyles.textSRegularWithColor(color)),
+          ],
+        ),
+      );
+    }
+    return Text(title, style: TextStyles.textSRegularWithColor(color));
   }
 }
-
