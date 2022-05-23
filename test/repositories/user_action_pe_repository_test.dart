@@ -11,7 +11,7 @@ import '../utils/test_assets.dart';
 import '../utils/test_datetime.dart';
 
 void main() {
-  test('get page action', () async {
+  test('get page demarches', () async {
     // Given
     final httpClient = MockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();

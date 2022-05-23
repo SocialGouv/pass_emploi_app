@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
@@ -9,7 +10,7 @@ extension UserActionStatusExtension on UserActionStatus {
   }
 }
 
-class UserAction {
+class UserAction extends Equatable {
   final String id;
   final String content;
   final String comment;
@@ -36,6 +37,9 @@ class UserAction {
       creator: _creator(json),
     );
   }
+
+  @override
+  List<Object?> get props => [id, comment, content, status, lastUpdate, creator];
 }
 
 UserActionStatus _statusFromString({required String statusString}) {
