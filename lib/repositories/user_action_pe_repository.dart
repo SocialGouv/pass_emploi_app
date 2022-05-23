@@ -26,18 +26,4 @@ class UserActionPERepository {
     }
     return null;
   }
-
-  Future<List<UserActionPE>?> getUserActions(String userId) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/pole-emploi/actions");
-    try {
-      final response = await _httpClient.get(url);
-      if (response.statusCode.isValid()) {
-        final json = jsonUtf8Decode(response.bodyBytes);
-        return (json as List).map((action) => UserActionPE.fromJson(action)).toList();
-      }
-    } catch (e, stack) {
-      _crashlytics?.recordNonNetworkException(e, stack, url);
-    }
-    return null;
-  }
 }

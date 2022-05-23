@@ -30,20 +30,6 @@ class UserActionRepository {
     return null;
   }
 
-  Future<List<UserAction>?> getUserActions(String userId) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/actions");
-    try {
-      final response = await _httpClient.get(url);
-      if (response.statusCode.isValid()) {
-        final json = jsonUtf8Decode(response.bodyBytes);
-        return (json as List).map((action) => UserAction.fromJson(action)).toList();
-      }
-    } catch (e, stack) {
-      _crashlytics?.recordNonNetworkException(e, stack, url);
-    }
-    return null;
-  }
-
   Future<void> updateActionStatus(String userId, String actionId, UserActionStatus newStatus) async {
     final url = Uri.parse(_baseUrl + "/actions/$actionId");
     try {
