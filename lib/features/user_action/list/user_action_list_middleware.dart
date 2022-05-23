@@ -16,7 +16,7 @@ class UserActionListMiddleware extends MiddlewareClass<AppState> {
     if (loginState is LoginSuccessState && action is UserActionListRequestAction) {
       store.dispatch(UserActionListLoadingAction());
       final homeActions = await _repository.getHomeActions(loginState.user.id);
-      store.dispatch(homeActions != null && homeActions.actions.isNotEmpty
+      store.dispatch(homeActions != null
           ? UserActionListSuccessAction(homeActions.actions, homeActions.campagne)
           : UserActionListFailureAction());
     }

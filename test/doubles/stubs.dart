@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/home_actions.dart';
+import 'package:pass_emploi_app/models/home_demarches.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
@@ -113,6 +114,22 @@ class UserActionPERepositorySuccessStub extends UserActionPERepository {
       ),
     ];
   }
+
+  @override
+  Future<HomeDemarches?> getHomeDemarche(String userId) async {
+    return HomeDemarches(
+      actions: [
+        UserActionPE(
+          id: "id",
+          content: "content",
+          status: UserActionPEStatus.NOT_STARTED,
+          endDate: DateTime(2022, 12, 23, 0, 0, 0),
+          deletionDate: DateTime(2022, 12, 23, 0, 0, 0),
+          createdByAdvisor: true,
+        ),
+      ],
+    );
+  }
 }
 
 class UserActionPERepositoryFailureStub extends UserActionPERepository {
@@ -120,6 +137,11 @@ class UserActionPERepositoryFailureStub extends UserActionPERepository {
 
   @override
   Future<List<UserActionPE>?> getUserActions(String userId) async {
+    return null;
+  }
+
+  @override
+  Future<HomeDemarches?> getHomeDemarche(String userId) async {
     return null;
   }
 }
