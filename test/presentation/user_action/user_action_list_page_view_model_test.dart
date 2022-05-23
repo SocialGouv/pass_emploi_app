@@ -6,7 +6,6 @@ import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_a
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
-import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_list_page_view_model.dart';
@@ -120,7 +119,9 @@ void main() {
     }
   });
 
-  test('create when action state is success but there are no actions should display an empty message', () {
+  test(
+      'create when action state is success but there are no actions and no campagne neither should display an empty message',
+      () {
     // Given
     final store = Store<AppState>(
       reducer,
@@ -137,19 +138,12 @@ void main() {
     expect(viewModel.items.length, 0);
   });
 
-  test('create when action state is success but there are no actions should display an empty message', () {
+  test('create when action state is success but there are no actions but with campagne should display campagne card',
+      () {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: loggedInState().copyWith(
-          userActionListState: UserActionListSuccessState(
-              [],
-              Campagne(
-                id: "7",
-                titre: "Questionnaire",
-                description: "Super test",
-                questions: [],
-              ))),
+      initialState: loggedInState().copyWith(userActionListState: UserActionListSuccessState([], campagne())),
     );
 
     // When

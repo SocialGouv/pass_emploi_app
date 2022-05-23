@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
@@ -60,7 +61,7 @@ AppState loggedInPoleEmploiState() => AppState.initialState().copyWith(loginStat
 
 Response invalidHttpResponse({String message = ""}) => Response(message, 500);
 
-HttpExceptionWithStatus deletedOfferHttpResponse() => throw HttpExceptionWithStatus(404,"Offer was delete");
+HttpExceptionWithStatus deletedOfferHttpResponse() => throw HttpExceptionWithStatus(404, "Offer was delete");
 
 OffreEmploiDetails mockOffreEmploiDetails() => OffreEmploiDetails(
       id: "123TZKB",
@@ -242,5 +243,14 @@ Rendezvous mockRendezvous({
 DetailsJeune detailsJeune() {
   return DetailsJeune(
     conseiller: DetailsJeuneConseiller(firstname: "Perceval", lastname: "de Galles", sinceDate: DateTime(2005, 1, 3)),
+  );
+}
+
+Campagne campagne() {
+  return Campagne(
+    id: "7",
+    titre: "Questionnaire",
+    description: "Super test",
+    questions: [],
   );
 }
