@@ -32,20 +32,6 @@ class UserActionRepositorySuccessStub extends UserActionRepository {
   UserActionRepositorySuccessStub() : super("", DummyHttpClient());
 
   @override
-  Future<List<UserAction>?> getUserActions(String userId) async {
-    return [
-      UserAction(
-        id: "id",
-        content: "content",
-        comment: "comment",
-        status: UserActionStatus.NOT_STARTED,
-        lastUpdate: DateTime(2022, 12, 23, 0, 0, 0),
-        creator: JeuneActionCreator(),
-      ),
-    ];
-  }
-
-  @override
   Future<HomeActions> getHomeActions(String userId) async {
     return HomeActions(
       actions: [
@@ -80,11 +66,6 @@ class UserActionRepositoryFailureStub extends UserActionRepository {
   UserActionRepositoryFailureStub() : super("", DummyHttpClient());
 
   @override
-  Future<List<UserAction>?> getUserActions(String userId) async {
-    return null;
-  }
-
-  @override
   Future<bool> createUserAction(String userId, String? content, String? comment, UserActionStatus status) async {
     return false;
   }
@@ -100,20 +81,6 @@ class UserActionRepositoryFailureStub extends UserActionRepository {
 
 class UserActionPERepositorySuccessStub extends UserActionPERepository {
   UserActionPERepositorySuccessStub() : super("", DummyHttpClient());
-
-  @override
-  Future<List<UserActionPE>?> getUserActions(String userId) async {
-    return [
-      UserActionPE(
-        id: "id",
-        content: "content",
-        status: UserActionPEStatus.NOT_STARTED,
-        endDate: DateTime(2022, 12, 23, 0, 0, 0),
-        deletionDate: DateTime(2022, 12, 23, 0, 0, 0),
-        createdByAdvisor: true,
-      ),
-    ];
-  }
 
   @override
   Future<HomeDemarches?> getHomeDemarches(String userId) async {
@@ -134,11 +101,6 @@ class UserActionPERepositorySuccessStub extends UserActionPERepository {
 
 class UserActionPERepositoryFailureStub extends UserActionPERepository {
   UserActionPERepositoryFailureStub() : super("", DummyHttpClient());
-
-  @override
-  Future<List<UserActionPE>?> getUserActions(String userId) async {
-    return null;
-  }
 
   @override
   Future<HomeDemarches?> getHomeDemarches(String userId) async {

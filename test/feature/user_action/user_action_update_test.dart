@@ -68,9 +68,6 @@ class UserActionRepositorySpy extends UserActionRepository {
   UserActionRepositorySpy() : super("", DummyHttpClient());
 
   @override
-  Future<List<UserAction>?> getUserActions(String userId) async => [];
-
-  @override
   Future<void> updateActionStatus(String userId, String actionId, UserActionStatus newStatus) async {
     isActionUpdated = true;
   }
