@@ -80,7 +80,7 @@ void main() {
   });
 
   test(
-      "create when action state is success with active and done actions should display them separated by done actions title",
+      "create when action state is success with active and done actions and campagne should display them separated by done actions title and camapgne in first position",
       () {
     // Given
     final store = Store<AppState>(
@@ -98,6 +98,7 @@ void main() {
             _userAction(status: UserActionStatus.DONE),
             _userAction(status: UserActionStatus.IN_PROGRESS),
           ],
+          campagne(),
         ),
       ),
     );
@@ -106,14 +107,15 @@ void main() {
     final viewModel = UserActionListPageViewModel.create(store);
 
     // Then
-    expect(viewModel.items.length, 10);
-    for (var i = 0; i < 5; ++i) {
+    expect(viewModel.items.length, 11);
+    expect(viewModel.items[0] is UserActionCampagneItemViewModel, isTrue);
+    for (var i = 1; i < 6; ++i) {
       expect(viewModel.items[i] is UserActionListItemViewModel, isTrue);
       expect((viewModel.items[i] as UserActionListItemViewModel).viewModel.status.isCanceledOrDone(), false);
     }
-    expect(viewModel.items[5] is UserActionListSubtitle, isTrue);
-    expect((viewModel.items[5] as UserActionListSubtitle).title, "Actions terminées et annulées");
-    for (var i = 6; i < 10; ++i) {
+    expect(viewModel.items[6] is UserActionListSubtitle, isTrue);
+    expect((viewModel.items[6] as UserActionListSubtitle).title, "Actions terminées et annulées");
+    for (var i = 7; i < 11; ++i) {
       expect(viewModel.items[i] is UserActionListItemViewModel, isTrue);
       expect((viewModel.items[i] as UserActionListItemViewModel).viewModel.status.isCanceledOrDone(), true);
     }
