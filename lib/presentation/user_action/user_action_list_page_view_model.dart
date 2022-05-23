@@ -67,7 +67,11 @@ bool _isEmpty(UserActionListState state) =>
 
 UserActionCampagneItemViewModel? _campagneItem({required UserActionListState state}) {
   if (state is! UserActionListSuccessState) return null;
-  return state.campagne != null ? UserActionCampagneItemViewModel() : null;
+  final campagne = state.campagne;
+  if (campagne != null) {
+    return UserActionCampagneItemViewModel(titre: campagne.titre, description: campagne.description);
+  }
+  return null;
 }
 
 List<UserActionViewModel> _activeActions({required UserActionListState state}) {
@@ -154,9 +158,11 @@ class UserActionListItemViewModel extends UserActionListPageItem {
 }
 
 class UserActionCampagneItemViewModel extends UserActionListPageItem {
+  final String titre;
+  final String description;
 
-  UserActionCampagneItemViewModel();
+  UserActionCampagneItemViewModel({required this.titre, required this.description});
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [titre, description];
 }

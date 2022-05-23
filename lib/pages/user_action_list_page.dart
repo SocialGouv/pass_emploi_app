@@ -18,6 +18,7 @@ import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
@@ -105,6 +106,8 @@ class _UserActionListPageState extends State<UserActionListPage> {
         padding: const EdgeInsets.only(top: Margins.spacing_base),
         child: Text(item.title, style: TextStyles.textMBold),
       );
+    } else if (item is UserActionCampagneItemViewModel) {
+      return CampagneCard(onTap: () => {},   titre: item.titre, description: item.description);
     } else {
       return _tapListener(context, (item as UserActionListItemViewModel).viewModel, viewModel);
     }
