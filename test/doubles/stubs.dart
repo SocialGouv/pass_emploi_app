@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
+import 'package:pass_emploi_app/models/home_actions.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
@@ -41,6 +42,23 @@ class UserActionRepositorySuccessStub extends UserActionRepository {
         creator: JeuneActionCreator(),
       ),
     ];
+  }
+
+  @override
+  Future<HomeActions> getHomeActions(String userId) async {
+    return HomeActions(
+      actions: [
+        UserAction(
+          id: "id",
+          content: "content",
+          comment: "comment",
+          status: UserActionStatus.NOT_STARTED,
+          lastUpdate: DateTime(2022, 12, 23, 0, 0, 0),
+          creator: JeuneActionCreator(),
+        ),
+      ],
+      campagne: null,
+    );
   }
 
   @override
