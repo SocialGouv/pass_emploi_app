@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_a
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
+import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -42,8 +43,9 @@ class UserActionListPageViewModel extends Equatable {
       withFailure: state is UserActionListFailureState,
       withEmptyMessage: _isEmpty(state),
       items: _listItems(
-        activeItems: _activeItems(state: state),
-        doneOrCanceledItems: _doneOrCanceledItems(state: state),
+        campagne: _campagneItem(state: state),
+        activeItems: _activeActions(state: state),
+        doneOrCanceledItems: _doneOrCanceledActions(state: state),
       ),
       onRetry: () => store.dispatch(UserActionListRequestAction()),
       onUserActionDetailsDismissed: () {
@@ -63,7 +65,12 @@ class UserActionListPageViewModel extends Equatable {
 bool _isEmpty(UserActionListState state) =>
     state is UserActionListSuccessState && state.userActions.isEmpty && state.campagne == null;
 
-List<UserActionViewModel> _activeItems({required UserActionListState state}) {
+UserActionCampagneItemViewModel? _campagneItem({required UserActionListState state}) {
+  if (state is! UserActionListSuccessState) return null;
+  return state.campagne != null ? UserActionCampagneItemViewModel() : null;
+}
+
+List<UserActionViewModel> _activeActions({required UserActionListState state}) {
   if (state is UserActionListSuccessState) {
     return state.userActions
         .where((action) => action.status.isCanceledOrDone() == false)
@@ -73,7 +80,7 @@ List<UserActionViewModel> _activeItems({required UserActionListState state}) {
   return [];
 }
 
-List<UserActionViewModel> _doneOrCanceledItems({required UserActionListState state}) {
+List<UserActionViewModel> _doneOrCanceledActions({required UserActionListState state}) {
   if (state is UserActionListSuccessState) {
     return state.userActions
         .where((action) => action.status.isCanceledOrDone())
@@ -84,10 +91,12 @@ List<UserActionViewModel> _doneOrCanceledItems({required UserActionListState sta
 }
 
 List<UserActionListPageItem> _listItems({
+  required UserActionCampagneItemViewModel? campagne,
   required List<UserActionViewModel> activeItems,
   required List<UserActionViewModel> doneOrCanceledItems,
 }) {
   return [
+    if (campagne != null) ...[campagne],
     ...activeItems.map((e) => UserActionListItemViewModel(e)),
     if (doneOrCanceledItems.isNotEmpty) ...[
       UserActionListSubtitle(Strings.doneActionsTitle),
@@ -142,4 +151,12 @@ class UserActionListItemViewModel extends UserActionListPageItem {
 
   @override
   List<Object?> get props => [viewModel];
+}
+
+class UserActionCampagneItemViewModel extends UserActionListPageItem {
+
+  UserActionCampagneItemViewModel();
+
+  @override
+  List<Object?> get props => [];
 }

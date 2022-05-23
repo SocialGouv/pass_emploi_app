@@ -153,7 +153,8 @@ void main() {
     expect(viewModel.withLoading, false);
     expect(viewModel.withFailure, false);
     expect(viewModel.withEmptyMessage, false);
-    expect(viewModel.items.length, 0);
+    expect(viewModel.items.length, 1);
+    expect(viewModel.items[0] is UserActionCampagneItemViewModel, isTrue);
   });
 
   test("create when action state is success with only active actions should display them", () {
