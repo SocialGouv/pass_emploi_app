@@ -120,6 +120,7 @@ void main() {
           viewModel.items[i].viewModel.status == UserActionPEStatus.CANCELLED,
         isTrue);
     }
+    // todo campagne
   });
 
   test('create when action state is success but there are no actions and no campagne neither should display an empty message', () {
@@ -150,6 +151,7 @@ void main() {
     // Then
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.items.length, 0);
+    expect(viewModel.items[0] is UserActionPECampagneItemViewModel, isTrue);
   });
 }
 

@@ -84,7 +84,10 @@ List<UserActionPEListItemViewModel> _listItems({
   return (retardedItems + activeItems + inactiveItems).map((e) => UserActionPEListItemViewModel(e)).toList();
 }
 
-class UserActionPEListItemViewModel extends Equatable {
+
+abstract class UserActionPEListItem extends Equatable {}
+
+class UserActionPEListItemViewModel extends UserActionPEListItem {
   final UserActionPEViewModel viewModel;
 
   UserActionPEListItemViewModel(this.viewModel);
@@ -92,3 +95,13 @@ class UserActionPEListItemViewModel extends Equatable {
   @override
   List<Object?> get props => [viewModel];
 }
+
+class UserActionPECampagneItemViewModel extends UserActionPEListItem {
+
+  UserActionPECampagneItemViewModel();
+
+  @override
+  List<Object?> get props => [];
+}
+
+
