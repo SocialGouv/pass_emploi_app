@@ -37,7 +37,7 @@ class UserActionPEListPageViewModel extends Equatable {
 
 DisplayState _displayState(UserActionPEListState state) {
   if (state is UserActionPEListSuccessState) {
-    return state.userActions.isNotEmpty ? DisplayState.CONTENT : DisplayState.EMPTY;
+    return (state.userActions.isNotEmpty || state.campagne != null) ? DisplayState.CONTENT : DisplayState.EMPTY;
   } else if (state is UserActionPEListFailureState) {
     return DisplayState.FAILURE;
   } else {

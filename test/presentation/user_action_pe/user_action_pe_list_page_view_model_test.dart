@@ -122,11 +122,11 @@ void main() {
     }
   });
 
-  test('create when action state is success but there are no actions should display an empty message', () {
+  test('create when action state is success but there are no actions and no campagne neither should display an empty message', () {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: loggedInState().copyWith(userActionPEListState: UserActionPEListSuccessState([])),
+      initialState: loggedInState().copyWith(userActionPEListState: UserActionPEListSuccessState([], null)),
     );
 
     // When
@@ -134,6 +134,21 @@ void main() {
 
     // Then
     expect(viewModel.displayState, DisplayState.EMPTY);
+    expect(viewModel.items.length, 0);
+  });
+
+  test('create when action state is success but there are no actions but a campagne should display a campagne card', () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: loggedInState().copyWith(userActionPEListState: UserActionPEListSuccessState([], campagne())),
+    );
+
+    // When
+    final viewModel = UserActionPEListPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.items.length, 0);
   });
 }

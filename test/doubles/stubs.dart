@@ -116,7 +116,7 @@ class UserActionPERepositorySuccessStub extends UserActionPERepository {
   }
 
   @override
-  Future<HomeDemarches?> getHomeDemarche(String userId) async {
+  Future<HomeDemarches?> getHomeDemarches(String userId) async {
     return HomeDemarches(
       actions: [
         UserActionPE(
@@ -141,7 +141,7 @@ class UserActionPERepositoryFailureStub extends UserActionPERepository {
   }
 
   @override
-  Future<HomeDemarches?> getHomeDemarche(String userId) async {
+  Future<HomeDemarches?> getHomeDemarches(String userId) async {
     return null;
   }
 }
