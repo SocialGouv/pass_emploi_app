@@ -60,7 +60,8 @@ class UserActionListPageViewModel extends Equatable {
   List<Object?> get props => [withLoading, withFailure, withEmptyMessage, items];
 }
 
-bool _isEmpty(UserActionListState state) => state is UserActionListSuccessState && state.userActions.isEmpty;
+bool _isEmpty(UserActionListState state) =>
+    state is UserActionListSuccessState && state.userActions.isEmpty && state.campagne == null;
 
 List<UserActionViewModel> _activeItems({required UserActionListState state}) {
   if (state is UserActionListSuccessState) {
