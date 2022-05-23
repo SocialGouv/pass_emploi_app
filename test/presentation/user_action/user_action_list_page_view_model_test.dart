@@ -80,7 +80,7 @@ void main() {
   });
 
   test(
-      "create when action state is success with active and done actions and campagne should display them separated by done actions title and camapgne in first position",
+      "create when action state is success with active and done actions and campagne should display them separated by done actions title and campagne in first position",
       () {
     // Given
     final store = Store<AppState>(
