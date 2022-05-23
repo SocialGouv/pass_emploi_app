@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_pe_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/empty_pole_emploi_content.dart';
@@ -66,7 +67,11 @@ class UserActionPEListPage extends TraceableStatelessWidget {
 
   Container _listSeparator() => Container(height: Margins.spacing_base);
 
-  Widget _listItem(BuildContext context, UserActionPEListItemViewModel item, UserActionPEListPageViewModel viewModel) {
-    return UserActionPECard(viewModel: item.viewModel);
+  Widget _listItem(BuildContext context, UserActionPEListItem item, UserActionPEListPageViewModel viewModel) {
+    if (item is UserActionPECampagneItemViewModel) {
+      return CampagneCard(onTap: () => {}, titre: item.titre, description: item.description);
+    } else {
+      return UserActionPECard(viewModel: (item as UserActionPEListItemViewModel).viewModel);
+    }
   }
 }
