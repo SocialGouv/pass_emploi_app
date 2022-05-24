@@ -45,7 +45,7 @@ class QuestionPageViewModel {
 
 enum QuestionBottomButton { next, validate }
 
-class ReponsesCampagneState {}
+class ReponsesCampagneState {} // todo creer, renommer, déplacer
 
 extension _Offset on int {
   bool isLastPage(Campagne campagne) => this < (campagne.questions.length - 1);

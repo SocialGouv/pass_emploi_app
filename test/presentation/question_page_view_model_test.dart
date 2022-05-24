@@ -90,5 +90,34 @@ void main() {
       // Then
       expect(viewModel.information, null);
     });
+
+    test('should not fill unanswered question', () {
+      // Given
+      final store = givenState().loggedInMiloUser().campagneMiLo(campagneWithTwoQuestions).store();
+
+      // When
+      final viewModel = QuestionPageViewModel.create(store, 0);
+
+      // Then
+      expect(viewModel.answerSelectedIndex, null);
+      expect(viewModel.pourquoiAnswer, null);
+    });
+
+    /*
+    test('should fill answered question', () {
+      // Given
+      // todo set state with answered question
+      final store = givenState().loggedInMiloUser().campagneMiLo(campagneWithTwoQuestions).store();
+
+      // When
+      final viewModel = QuestionPageViewModel.create(store, 0);
+
+      // Then
+      expect(viewModel.answerSelectedIndex, 1);
+      expect(viewModel.pourquoiAnswer, "Parce qu'il a la botte secrète !");
+    });
+     */
+
+    // todo tests PE
   });
 }
