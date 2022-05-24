@@ -197,6 +197,7 @@ class Strings {
   static String actionCanceled = "Annulée";
   static String aboutThisAction = "À propos de cette action";
   static String actionDetails = "Détail de l'action";
+  static String demarcheDetails = "Détail de la démarche";
   static String updateStatus = "Changer le statut";
   static String refreshActionStatus = "Actualiser";
   static String actionToDo = "À réaliser";

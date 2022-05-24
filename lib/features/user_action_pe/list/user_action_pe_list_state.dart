@@ -10,8 +10,9 @@ class UserActionPEListLoadingState extends UserActionPEListState {}
 class UserActionPEListSuccessState extends UserActionPEListState {
   final List<UserActionPE> userActions;
   final Campagne? campagne;
+  final bool isDetailAvailable;
 
-  UserActionPEListSuccessState(this.userActions, [this.campagne]);
+  UserActionPEListSuccessState(this.userActions, this.isDetailAvailable, [this.campagne]);
 }
 
 class UserActionPEListFailureState extends UserActionPEListState {}

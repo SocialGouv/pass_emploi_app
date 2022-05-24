@@ -6,28 +6,58 @@ enum UserActionPEStatus { NOT_STARTED, IN_PROGRESS, RETARDED, DONE, CANCELLED }
 class UserActionPE extends Equatable {
   final String id;
   final String? content;
+  final String? label;
+  final String? titre;
+  final String? sousTitre;
   final UserActionPEStatus status;
+  final List<UserActionPEStatus> possibleStatus;
   final DateTime? endDate;
   final DateTime? deletionDate;
+  final DateTime? modificationDate;
   final bool createdByAdvisor;
+  final bool modifiedByAdvisor;
+  final List<PeActionAttribut> attributs;
 
   UserActionPE({
     required this.id,
     required this.content,
+    required this.label,
     required this.status,
+    required this.possibleStatus,
     required this.endDate,
     required this.deletionDate,
+    required this.modificationDate,
     required this.createdByAdvisor,
+    required this.modifiedByAdvisor,
+    required this.titre,
+    required this.sousTitre,
+    required this.attributs,
   });
 
   factory UserActionPE.fromJson(dynamic json) {
     return UserActionPE(
-      id: json['id'] as String,
+      id: json['codeDemarche'] as String,
       content: json['contenu'] as String?,
+      label: json['label'] as String?,
+      titre: json['titre'] as String?,
+      sousTitre: json['sousTitre'] as String?,
       status: _statusFromString(statusString: json['statut'] as String),
-      endDate:  (json['dateFin'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
-      deletionDate: (json['dateAnnulation'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
+      possibleStatus: (json['statutsPossibles'] as List<dynamic>)
+          .whereType<String>()
+          .map((e) => _statusFromString(statusString: e))
+          .toList(),
+      endDate: (json['dateFin'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
+      modificationDate:
+          (json['dateModification'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
+      deletionDate:
+          (json['dateAnnulation'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
       createdByAdvisor: json['creeeParConseiller'] as bool,
+      modifiedByAdvisor: json['modifieParConseiller'] as bool,
+      attributs: (json["attributs"] as List<dynamic>)
+          .whereType<Map<String, dynamic>>()
+          .map((e) =>
+              PeActionAttribut(e["valeur"].toString(), e["label"] as String))
+          .toList(),
     );
   }
 
@@ -49,4 +79,14 @@ UserActionPEStatus _statusFromString({required String statusString}) {
   } else {
     return UserActionPEStatus.DONE;
   }
+}
+
+class PeActionAttribut extends Equatable {
+  final String valeur;
+  final String label;
+
+  PeActionAttribut(this.valeur, this.label);
+
+  @override
+  List<Object?> get props => [valeur, label];
 }

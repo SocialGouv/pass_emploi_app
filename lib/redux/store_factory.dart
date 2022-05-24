@@ -1,3 +1,4 @@
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
@@ -108,6 +109,7 @@ class StoreFactory {
   final SuppressionCompteRepository suppressionCompteRepository;
   final ModeDemoRepository modeDemoRepository;
   final MatomoTracker matomoTracker;
+  final FirebaseRemoteConfig? remoteConfig;
 
   StoreFactory(
     this.authenticator,
@@ -119,18 +121,18 @@ class StoreFactory {
     this.offreEmploiRepository,
     this.chatRepository,
     this.registerTokenRepository,
-    this.offreEmploiDetailsRepository,
-    this.offreEmploiFavorisRepository,
-    this.immersionFavorisRepository,
-    this.serviceCiviqueFavorisRepository,
-    this.searchLocationRepository,
-    this.metierRepository,
-    this.immersionRepository,
-    this.immersionDetailsRepository,
-    this.firebaseAuthRepository,
-    this.firebaseAuthWrapper,
-    this.trackingEventRepository,
-    this.offreEmploiSavedSearchRepository,
+      this.offreEmploiDetailsRepository,
+      this.offreEmploiFavorisRepository,
+      this.immersionFavorisRepository,
+      this.serviceCiviqueFavorisRepository,
+      this.searchLocationRepository,
+      this.metierRepository,
+      this.immersionRepository,
+      this.immersionDetailsRepository,
+      this.firebaseAuthRepository,
+      this.firebaseAuthWrapper,
+      this.trackingEventRepository,
+      this.offreEmploiSavedSearchRepository,
     this.immersionSavedSearchRepository,
     this.serviceCiviqueSavedSearchRepository,
     this.getSavedSearchRepository,
@@ -141,6 +143,7 @@ class StoreFactory {
     this.suppressionCompteRepository,
     this.modeDemoRepository,
     this.matomoTracker,
+    this.remoteConfig,
   );
 
   redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -149,14 +152,16 @@ class StoreFactory {
       initialState: initialState,
       middleware: [
         BootstrapMiddleware(),
-        LoginMiddleware(authenticator, firebaseAuthWrapper, modeDemoRepository, matomoTracker),
+        LoginMiddleware(authenticator, firebaseAuthWrapper, modeDemoRepository,
+            matomoTracker),
         UserActionListMiddleware(userActionRepository),
         UserActionCreateMiddleware(userActionRepository),
         UserActionUpdateMiddleware(userActionRepository),
         UserActionDeleteMiddleware(userActionRepository),
-        UserActionPEListMiddleware(userActionPERepository),
+        UserActionPEListMiddleware(userActionPERepository, remoteConfig),
         DetailsJeuneMiddleware(detailsJeuneRepository),
-        ChatInitializerMiddleware(firebaseAuthRepository, firebaseAuthWrapper, chatCrypto, modeDemoRepository),
+        ChatInitializerMiddleware(firebaseAuthRepository, firebaseAuthWrapper,
+            chatCrypto, modeDemoRepository),
         ChatMiddleware(chatRepository),
         ChatStatusMiddleware(chatRepository),
         RendezvousMiddleware(rendezvousRepository),

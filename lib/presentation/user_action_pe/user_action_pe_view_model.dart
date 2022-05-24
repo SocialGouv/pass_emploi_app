@@ -16,6 +16,11 @@ class UserActionPEViewModel extends Equatable {
   final UserActionTagViewModel? tag;
   final String formattedDate;
   final bool isLate;
+  final bool isDetailEnabled;
+  final String? label;
+  final String? titreDetail;
+  final String? sousTitre;
+  final List<String> attributs;
 
   UserActionPEViewModel({
     required this.id,
@@ -25,18 +30,30 @@ class UserActionPEViewModel extends Equatable {
     required this.tag,
     required this.formattedDate,
     required this.isLate,
+    required this.isDetailEnabled,
+    required this.label,
+    required this.titreDetail,
+    required this.sousTitre,
+    required this.attributs,
   });
 
-  factory UserActionPEViewModel.create(UserActionPE userAction) {
+  factory UserActionPEViewModel.create(
+      UserActionPE userAction, bool isDetailAvailable) {
     return UserActionPEViewModel(
       id: userAction.id,
       title: userAction.content ?? Strings.withoutContent,
       status: userAction.status,
       createdByAdvisor: userAction.createdByAdvisor,
-      tag: _userActionTagViewModel(userAction.status, _isLateAction(userAction.status, userAction.endDate)),
-      formattedDate:
-          _setFormattedDate(userAction.status, userAction.endDate?.toDay(), userAction.deletionDate?.toDay()),
+      tag: _userActionTagViewModel(userAction.status,
+          _isLateAction(userAction.status, userAction.endDate)),
+      formattedDate: _setFormattedDate(userAction.status,
+          userAction.endDate?.toDay(), userAction.deletionDate?.toDay()),
       isLate: _isLateAction(userAction.status, userAction.endDate),
+      isDetailEnabled: isDetailAvailable,
+      label: userAction.label,
+      titreDetail: userAction.titre,
+      sousTitre: userAction.sousTitre,
+      attributs: userAction.attributs.map((e) => e.valeur).toList(),
     );
   }
 
