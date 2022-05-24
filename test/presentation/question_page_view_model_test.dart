@@ -23,7 +23,7 @@ void main() {
 
   group('Question Page', () {
 
-    test('should display first unanswered question', () {
+    test('should display first question', () {
       // Given
       final store = givenState().loggedInUser().store();
 
@@ -35,8 +35,16 @@ void main() {
       expect(viewModel.information, "Les questions marquées d'une * sont obligatoires");
       expect(viewModel.question, "Aimez-vous Perceval ?");
       expect(viewModel.options, ["Ouais c'est pas faux"]);
-      expect(viewModel.answerSelectedIndex, null);
-      expect(viewModel.pourquoiAnswer, null);
+    });
+
+    test('should display next button when there is more questions', () {
+      // Given
+      final store = givenState().loggedInUser().store();
+
+      // When
+      final viewModel = QuestionPageViewModel(store, 0);
+
+      // Then
       expect(viewModel.bottomButton, QuestionBottomButton.next);
     });
   });
