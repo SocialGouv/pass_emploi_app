@@ -230,6 +230,12 @@ class Strings {
   static String doneActionsTitle = "Actions terminées et annulées";
 
   //User Action Pole Emploi
+  static String modifierStatut = "Modifier le statut";
+  static String historiqueDemarche = "Historique";
+  static String modifiedBy = "Modifiée le ";
+  static String createdBy = "Crée le ";
+  static String par = " par ";
+  static String votreConseiller = "votre conseiller";
   static String actionPEToDo = "À faire";
   static String actionPEInProgress = "En cours";
   static String actionPERetarded = "En retard";

@@ -16,7 +16,8 @@ void main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: loggedInState().copyWith(userActionPEListState: UserActionPEListLoadingState()),
+      initialState: loggedInState()
+          .copyWith(userActionPEListState: UserActionPEListLoadingState()),
     );
 
     // When
@@ -30,7 +31,8 @@ void main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: loggedInState().copyWith(userActionPEListState: UserActionPEListNotInitializedState()),
+      initialState: loggedInState().copyWith(
+          userActionPEListState: UserActionPEListNotInitializedState()),
     );
 
     // When
@@ -44,7 +46,8 @@ void main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: loggedInState().copyWith(userActionPEListState: UserActionPEListFailureState()),
+      initialState: loggedInState()
+          .copyWith(userActionPEListState: UserActionPEListFailureState()),
     );
 
     // When
@@ -54,12 +57,15 @@ void main() {
     expect(viewModel.displayState, DisplayState.FAILURE);
   });
 
-  test('retry, after view model was created with failure, should dispatch a RequestUserActionPEAction', () {
+  test(
+      'retry, after view model was created with failure, should dispatch a RequestUserActionPEAction',
+      () {
     // Given
     final storeSpy = StoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
-      initialState: loggedInState().copyWith(userActionPEListState: UserActionPEListFailureState()),
+      initialState: loggedInState()
+          .copyWith(userActionPEListState: UserActionPEListFailureState()),
     );
     final viewModel = UserActionPEListPageViewModel.create(store);
 
@@ -95,6 +101,7 @@ void main() {
             _userAction(status: UserActionPEStatus.DONE),
             _userAction(status: UserActionPEStatus.CANCELLED),
           ],
+          false,
           campagne(),
         ),
       ),
@@ -107,21 +114,37 @@ void main() {
     expect(viewModel.items.length, 16);
     expect(viewModel.items[0] is UserActionPECampagneItemViewModel, isTrue);
     for (var i = 1; i < 4; ++i) {
-      expect((viewModel.items[i] as UserActionPEListItemViewModel).viewModel.status == UserActionPEStatus.RETARDED,
+      expect(
+          (viewModel.items[i] as UserActionPEListItemViewModel)
+                  .viewModel
+                  .status ==
+              UserActionPEStatus.RETARDED,
           isTrue);
     }
 
     for (var i = 4; i < 10; ++i) {
       expect(
-          (viewModel.items[i] as UserActionPEListItemViewModel).viewModel.status == UserActionPEStatus.IN_PROGRESS ||
-              (viewModel.items[i] as UserActionPEListItemViewModel).viewModel.status == UserActionPEStatus.NOT_STARTED,
+          (viewModel.items[i] as UserActionPEListItemViewModel)
+                      .viewModel
+                      .status ==
+                  UserActionPEStatus.IN_PROGRESS ||
+              (viewModel.items[i] as UserActionPEListItemViewModel)
+                      .viewModel
+                      .status ==
+                  UserActionPEStatus.NOT_STARTED,
           isTrue);
     }
     // 6 derniers => cancelled & done
     for (var i = 10; i < 16; ++i) {
       expect(
-          (viewModel.items[i] as UserActionPEListItemViewModel).viewModel.status == UserActionPEStatus.DONE ||
-              (viewModel.items[i] as UserActionPEListItemViewModel).viewModel.status == UserActionPEStatus.CANCELLED,
+          (viewModel.items[i] as UserActionPEListItemViewModel)
+                      .viewModel
+                      .status ==
+                  UserActionPEStatus.DONE ||
+              (viewModel.items[i] as UserActionPEListItemViewModel)
+                      .viewModel
+                      .status ==
+                  UserActionPEStatus.CANCELLED,
           isTrue);
     }
   });
@@ -132,7 +155,8 @@ void main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: loggedInState().copyWith(userActionPEListState: UserActionPEListSuccessState([], null)),
+      initialState: loggedInState().copyWith(
+          userActionPEListState: UserActionPEListSuccessState([], false, null)),
     );
 
     // When
@@ -143,12 +167,15 @@ void main() {
     expect(viewModel.items.length, 0);
   });
 
-  test('create when action state is success but there are no actions but a campagne should display a campagne card',
+  test(
+      'create when action state is success but there are no actions but a campagne should display a campagne card',
       () {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: loggedInState().copyWith(userActionPEListState: UserActionPEListSuccessState([], campagne())),
+      initialState: loggedInState().copyWith(
+          userActionPEListState:
+              UserActionPEListSuccessState([], false, campagne())),
     );
 
     // When
@@ -167,8 +194,17 @@ UserActionPE _userAction({required UserActionPEStatus status}) {
     content: "Faire le CV",
     status: status,
     endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
-    deletionDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
+    deletionDate:
+        parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
     createdByAdvisor: true,
+    label: "label",
+    possibleStatus: [],
+    creationDate: DateTime(2022, 12, 23, 0, 0, 0),
+    modifiedByAdvisor: false,
+    sousTitre: "sous titre",
+    titre: "titre",
+    modificationDate: DateTime(2022, 12, 23, 0, 0, 0),
+    attributs: [],
   );
 }
 

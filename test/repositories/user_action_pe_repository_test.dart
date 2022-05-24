@@ -15,7 +15,10 @@ void main() {
     // Given
     final httpClient = MockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
-      if (!request.url.toString().startsWith("BASE_URL/jeunes/UID/home/demarches")) return invalidHttpResponse();
+      if (!request.url
+          .toString()
+          .startsWith("BASE_URL/jeunes/UID/home/demarches"))
+        return invalidHttpResponse();
       return Response.bytes(loadTestAssetsAsBytes("home_demarches.json"), 200);
     });
     final repository = UserActionPERepository("BASE_URL", httpClient);
@@ -47,9 +50,19 @@ void main() {
         id: "8802034",
         content: "Faire le CV",
         status: UserActionPEStatus.NOT_STARTED,
-        endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
-        deletionDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
+        endDate:
+            parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
+        deletionDate:
+            parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
         createdByAdvisor: true,
+        label: "label",
+        possibleStatus: [],
+        creationDate: DateTime(2022, 12, 23, 0, 0, 0),
+        modifiedByAdvisor: false,
+        sousTitre: "sous titre",
+        titre: "titre",
+        modificationDate: DateTime(2022, 12, 23, 0, 0, 0),
+        attributs: [],
       ),
     );
     expect(
@@ -58,14 +71,26 @@ void main() {
         id: "8392839",
         content: "Compléter son CV",
         status: UserActionPEStatus.IN_PROGRESS,
-        endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
-        deletionDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
+        endDate:
+            parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
+        deletionDate:
+            parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
         createdByAdvisor: true,
+        label: "label",
+        possibleStatus: [],
+        creationDate: DateTime(2022, 12, 23, 0, 0, 0),
+        modifiedByAdvisor: false,
+        sousTitre: "sous titre",
+        titre: "titre",
+        modificationDate: DateTime(2022, 12, 23, 0, 0, 0),
+        attributs: [],
       ),
     );
   });
 
-  test('get home démarches pôle emploi when response is invalid should return null', () async {
+  test(
+      'get home démarches pôle emploi when response is invalid should return null',
+      () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
     final repository = UserActionPERepository("BASE_URL", httpClient);

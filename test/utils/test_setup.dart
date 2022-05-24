@@ -101,6 +101,7 @@ class TestStoreFactory {
       suppressionCompteRepository,
       demoRepository,
       matomoTracker,
+      null,
     ).initializeReduxStore(initialState: initialState);
   }
 }

@@ -14,6 +14,7 @@ class UserActionPE extends Equatable {
   final DateTime? endDate;
   final DateTime? deletionDate;
   final DateTime? modificationDate;
+  final DateTime? creationDate;
   final bool createdByAdvisor;
   final bool modifiedByAdvisor;
   final List<PeActionAttribut> attributs;
@@ -32,6 +33,7 @@ class UserActionPE extends Equatable {
     required this.titre,
     required this.sousTitre,
     required this.attributs,
+    required this.creationDate,
   });
 
   factory UserActionPE.fromJson(dynamic json) {
@@ -58,7 +60,8 @@ class UserActionPE extends Equatable {
           .map((e) =>
               PeActionAttribut(e["valeur"].toString(), e["label"] as String))
           .toList(),
-    );
+        creationDate:
+            (json['dateCreation'] as String?)?.toDateTimeUtcOnLocalTimeZone());
   }
 
   @override

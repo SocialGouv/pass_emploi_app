@@ -13,6 +13,7 @@ class UserActionPEViewModel extends Equatable {
   final String title;
   final UserActionPEStatus status;
   final bool createdByAdvisor;
+  final bool modifiedByAdvisor;
   final UserActionTagViewModel? tag;
   final String formattedDate;
   final bool isLate;
@@ -20,13 +21,17 @@ class UserActionPEViewModel extends Equatable {
   final String? label;
   final String? titreDetail;
   final String? sousTitre;
+  final String? modificationDate;
+  final String? creationDate;
   final List<String> attributs;
+  final List<UserActionTagViewModel> statutsPossibles;
 
   UserActionPEViewModel({
     required this.id,
     required this.title,
     required this.status,
     required this.createdByAdvisor,
+    required this.modifiedByAdvisor,
     required this.tag,
     required this.formattedDate,
     required this.isLate,
@@ -35,6 +40,9 @@ class UserActionPEViewModel extends Equatable {
     required this.titreDetail,
     required this.sousTitre,
     required this.attributs,
+    required this.statutsPossibles,
+    required this.modificationDate,
+    required this.creationDate,
   });
 
   factory UserActionPEViewModel.create(
@@ -44,6 +52,7 @@ class UserActionPEViewModel extends Equatable {
       title: userAction.content ?? Strings.withoutContent,
       status: userAction.status,
       createdByAdvisor: userAction.createdByAdvisor,
+      modifiedByAdvisor: userAction.modifiedByAdvisor,
       tag: _userActionTagViewModel(userAction.status,
           _isLateAction(userAction.status, userAction.endDate)),
       formattedDate: _setFormattedDate(userAction.status,
@@ -54,6 +63,11 @@ class UserActionPEViewModel extends Equatable {
       titreDetail: userAction.titre,
       sousTitre: userAction.sousTitre,
       attributs: userAction.attributs.map((e) => e.valeur).toList(),
+      statutsPossibles: userAction.possibleStatus
+          .map((e) => _getTagViewModel(e, userAction.status))
+          .toList(),
+      modificationDate: userAction.modificationDate?.toDay(),
+      creationDate: userAction.creationDate?.toDay(),
     );
   }
 
@@ -131,8 +145,58 @@ UserActionTagViewModel? _userActionTagViewModel(UserActionPEStatus status, bool 
 }
 
 bool _isLateAction(UserActionPEStatus status, DateTime? endDate) {
-  if (endDate != null && (status == UserActionPEStatus.NOT_STARTED || status == UserActionPEStatus.IN_PROGRESS)) {
-    return endDate.isBefore(DateTime.now()) && (endDate.numberOfDaysUntilToday() > 0);
+  if (endDate != null &&
+      (status == UserActionPEStatus.NOT_STARTED ||
+          status == UserActionPEStatus.IN_PROGRESS)) {
+    return endDate.isBefore(DateTime.now()) &&
+        (endDate.numberOfDaysUntilToday() > 0);
   }
   return false;
+}
+
+UserActionTagViewModel _getTagViewModel(
+    UserActionPEStatus status, UserActionPEStatus currentStatus) {
+  final bool isSelected = status == currentStatus;
+  switch (status) {
+    case UserActionPEStatus.NOT_STARTED:
+      return UserActionTagViewModel(
+        title: Strings.actionPEToDo,
+        backgroundColor:
+            isSelected ? AppColors.accent1Lighten : Colors.transparent,
+        textColor: isSelected ? AppColors.accent1 : AppColors.grey800,
+        isSelected: isSelected,
+      );
+    case UserActionPEStatus.IN_PROGRESS:
+      return UserActionTagViewModel(
+        title: Strings.actionPEInProgress,
+        backgroundColor:
+            isSelected ? AppColors.accent3Lighten : Colors.transparent,
+        textColor: isSelected ? AppColors.accent3 : AppColors.grey800,
+        isSelected: isSelected,
+      );
+    case UserActionPEStatus.RETARDED:
+      return UserActionTagViewModel(
+        title: Strings.actionPERetarded,
+        backgroundColor:
+            isSelected ? AppColors.warningLighten : Colors.transparent,
+        textColor: isSelected ? AppColors.warning : AppColors.grey800,
+        isSelected: isSelected,
+      );
+    case UserActionPEStatus.DONE:
+      return UserActionTagViewModel(
+        title: Strings.actionPEDone,
+        backgroundColor:
+            isSelected ? AppColors.accent2Lighten : Colors.transparent,
+        textColor: isSelected ? AppColors.accent2 : AppColors.grey800,
+        isSelected: isSelected,
+      );
+    case UserActionPEStatus.CANCELLED:
+      return UserActionTagViewModel(
+        title: Strings.actionPECancelled,
+        backgroundColor:
+            isSelected ? AppColors.accent2Lighten : Colors.transparent,
+        textColor: isSelected ? AppColors.accent2 : AppColors.grey800,
+        isSelected: isSelected,
+      );
+  }
 }

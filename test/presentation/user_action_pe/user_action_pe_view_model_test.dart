@@ -18,12 +18,21 @@ void main() {
       content: "Faire le CV",
       status: UserActionPEStatus.NOT_STARTED,
       endDate: parseDateTimeUtcWithCurrentTimeZone('2023-04-28T16:06:48.396Z'),
-      deletionDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
+      deletionDate:
+          parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
       createdByAdvisor: true,
+      label: "label",
+      possibleStatus: [],
+      creationDate: DateTime(2022, 12, 23, 0, 0, 0),
+      modifiedByAdvisor: false,
+      sousTitre: "sous titre",
+      titre: "titre",
+      modificationDate: DateTime(2022, 12, 23, 0, 0, 0),
+      attributs: [],
     );
 
     // When
-    final viewModel = UserActionPEViewModel.create(userAction);
+    final viewModel = UserActionPEViewModel.create(userAction, false);
 
     // Then
     expect(viewModel.status, UserActionPEStatus.NOT_STARTED);
@@ -47,12 +56,21 @@ void main() {
       content: "Faire le CV",
       status: UserActionPEStatus.NOT_STARTED,
       endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
-      deletionDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
+      deletionDate:
+          parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
       createdByAdvisor: true,
+      label: "label",
+      possibleStatus: [],
+      creationDate: DateTime(2022, 12, 23, 0, 0, 0),
+      modifiedByAdvisor: false,
+      sousTitre: "sous titre",
+      titre: "titre",
+      modificationDate: DateTime(2022, 12, 23, 0, 0, 0),
+      attributs: [],
     );
 
     // When
-    final viewModel = UserActionPEViewModel.create(userAction);
+    final viewModel = UserActionPEViewModel.create(userAction, false);
 
     // Then
     expect(viewModel.status, UserActionPEStatus.NOT_STARTED);
@@ -66,7 +84,9 @@ void main() {
         ));
   });
 
-  test("UserActionPEViewModel.create when status is IN_PROGRESS should create view model properly", () {
+  test(
+      "UserActionPEViewModel.create when status is IN_PROGRESS should create view model properly",
+      () {
     // Given
 
     final userAction = UserActionPE(
@@ -74,12 +94,21 @@ void main() {
       content: "Faire le CV",
       status: UserActionPEStatus.IN_PROGRESS,
       endDate: parseDateTimeUtcWithCurrentTimeZone('2023-03-28T16:06:48.396Z'),
-      deletionDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
+      deletionDate:
+          parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
       createdByAdvisor: true,
+      label: "label",
+      possibleStatus: [],
+      creationDate: DateTime(2022, 12, 23, 0, 0, 0),
+      modifiedByAdvisor: false,
+      sousTitre: "sous titre",
+      titre: "titre",
+      modificationDate: DateTime(2022, 12, 23, 0, 0, 0),
+      attributs: [],
     );
 
     // When
-    final viewModel = UserActionPEViewModel.create(userAction);
+    final viewModel = UserActionPEViewModel.create(userAction, false);
 
     // Then
     expect(viewModel.status, UserActionPEStatus.IN_PROGRESS);
@@ -95,34 +124,45 @@ void main() {
 
   test(
       "UserActionPEViewModel.create when status is IN_PROGRESS and end date is in the past should create view model properly",
-          () {
-        // Given
+      () {
+    // Given
 
-        final userAction = UserActionPE(
-          id: "8802034",
-          content: "Faire le CV",
-          status: UserActionPEStatus.IN_PROGRESS,
-          endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
-          deletionDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
-          createdByAdvisor: true,
-        );
+    final userAction = UserActionPE(
+      id: "8802034",
+      content: "Faire le CV",
+      status: UserActionPEStatus.IN_PROGRESS,
+      endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
+      deletionDate:
+          parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
+      createdByAdvisor: true,
+      label: "label",
+      possibleStatus: [],
+      creationDate: DateTime(2022, 12, 23, 0, 0, 0),
+      modifiedByAdvisor: false,
+      sousTitre: "sous titre",
+      titre: "titre",
+      modificationDate: DateTime(2022, 12, 23, 0, 0, 0),
+      attributs: [],
+    );
 
-        // When
-        final viewModel = UserActionPEViewModel.create(userAction);
+    // When
+    final viewModel = UserActionPEViewModel.create(userAction, false);
 
-        // Then
-        expect(viewModel.status, UserActionPEStatus.IN_PROGRESS);
-        expect(viewModel.formattedDate, "À réaliser pour le 28/03/2022");
-        expect(
-            viewModel.tag,
-            UserActionTagViewModel(
-              title: Strings.actionPEInProgress,
-              backgroundColor: AppColors.warningLighten,
-              textColor: AppColors.warning,
-            ));
-      });
+    // Then
+    expect(viewModel.status, UserActionPEStatus.IN_PROGRESS);
+    expect(viewModel.formattedDate, "À réaliser pour le 28/03/2022");
+    expect(
+        viewModel.tag,
+        UserActionTagViewModel(
+          title: Strings.actionPEInProgress,
+          backgroundColor: AppColors.warningLighten,
+          textColor: AppColors.warning,
+        ));
+  });
 
-  test("UserActionPEViewModel.create when status is RETARDED should create view model properly", () {
+  test(
+      "UserActionPEViewModel.create when status is RETARDED should create view model properly",
+      () {
     // Given
 
     final userAction = UserActionPE(
@@ -130,12 +170,21 @@ void main() {
       content: "Faire le CV",
       status: UserActionPEStatus.RETARDED,
       endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
-      deletionDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
+      deletionDate:
+          parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
       createdByAdvisor: true,
+      label: "label",
+      possibleStatus: [],
+      creationDate: DateTime(2022, 12, 23, 0, 0, 0),
+      modifiedByAdvisor: false,
+      sousTitre: "sous titre",
+      titre: "titre",
+      modificationDate: DateTime(2022, 12, 23, 0, 0, 0),
+      attributs: [],
     );
 
     // When
-    final viewModel = UserActionPEViewModel.create(userAction);
+    final viewModel = UserActionPEViewModel.create(userAction, false);
 
     // Then
     expect(viewModel.status, UserActionPEStatus.RETARDED);
@@ -149,7 +198,9 @@ void main() {
         ));
   });
 
-  test("UserActionPEViewModel.create when status is DONE should create view model properly", () {
+  test(
+      "UserActionPEViewModel.create when status is DONE should create view model properly",
+      () {
     // Given
 
     final userAction = UserActionPE(
@@ -157,12 +208,21 @@ void main() {
       content: "Faire le CV",
       status: UserActionPEStatus.DONE,
       endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
-      deletionDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
+      deletionDate:
+          parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
       createdByAdvisor: true,
+      label: "label",
+      possibleStatus: [],
+      creationDate: DateTime(2022, 12, 23, 0, 0, 0),
+      modifiedByAdvisor: false,
+      sousTitre: "sous titre",
+      titre: "titre",
+      modificationDate: DateTime(2022, 12, 23, 0, 0, 0),
+      attributs: [],
     );
 
     // When
-    final viewModel = UserActionPEViewModel.create(userAction);
+    final viewModel = UserActionPEViewModel.create(userAction, false);
 
     // Then
     expect(viewModel.status, UserActionPEStatus.DONE);
@@ -176,7 +236,9 @@ void main() {
         ));
   });
 
-  test("UserActionPEViewModel.create when status is CANCELLED should create view model properly", () {
+  test(
+      "UserActionPEViewModel.create when status is CANCELLED should create view model properly",
+      () {
     // Given
 
     final userAction = UserActionPE(
@@ -184,12 +246,21 @@ void main() {
       content: "Faire le CV",
       status: UserActionPEStatus.CANCELLED,
       endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
-      deletionDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
+      deletionDate:
+          parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
       createdByAdvisor: true,
+      label: "label",
+      possibleStatus: [],
+      creationDate: DateTime(2022, 12, 23, 0, 0, 0),
+      modifiedByAdvisor: false,
+      sousTitre: "sous titre",
+      titre: "titre",
+      modificationDate: DateTime(2022, 12, 23, 0, 0, 0),
+      attributs: [],
     );
 
     // When
-    final viewModel = UserActionPEViewModel.create(userAction);
+    final viewModel = UserActionPEViewModel.create(userAction, false);
 
     // Then
     expect(viewModel.status, UserActionPEStatus.CANCELLED);
