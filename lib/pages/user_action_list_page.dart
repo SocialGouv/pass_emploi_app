@@ -108,31 +108,10 @@ class _UserActionListPageState extends State<UserActionListPage> {
         child: Text(item.title, style: TextStyles.textMBold),
       );
     } else if (item is UserActionCampagneItemViewModel) {
-      return _tapListenerOnCampagne(context, item);
+      return _CampagneCard(title: item.titre, description: item.description);
     } else {
-      return _tapListenerOnAction(context, (item as UserActionListItemViewModel).viewModel, viewModel);
+      return _ActionCard(viewModel: (item as UserActionListItemViewModel).viewModel);
     }
-  }
-
-  CampagneCard _tapListenerOnCampagne(BuildContext context, UserActionCampagneItemViewModel item) {
-    return CampagneCard(
-      onTap: () {
-        widget.pushAndTrackBack(
-            context, CampagneDetailsPage.materialPageRoute(), AnalyticsScreenNames.evaluationDetails);
-      },
-      titre: item.titre,
-      description: item.description,
-    );
-  }
-
-  Widget _tapListenerOnAction(BuildContext context, UserActionViewModel item, UserActionListPageViewModel viewModel) {
-    return UserActionCard(
-      onTap: () {
-        context.trackEvent(EventType.ACTION_DETAIL);
-        widget.pushAndTrackBack(context, ActionDetailPage.materialPageRoute(item), AnalyticsScreenNames.userActionList);
-      },
-      viewModel: item,
-    );
   }
 
   Widget _createUserActionButton(UserActionListPageViewModel viewModel) {
@@ -140,15 +119,49 @@ class _UserActionListPageState extends State<UserActionListPage> {
       label: Strings.addAnAction,
       drawableRes: Drawables.icAdd,
       rippleColor: AppColors.primaryDarken,
-      onPressed: () =>
-          showPassEmploiBottomSheet(
-            context: context,
-            builder: (context) => CreateUserActionBottomSheet(),
-          ).then((value) => _onCreateUserActionDismissed(viewModel)),
+      onPressed: () => showPassEmploiBottomSheet(
+        context: context,
+        builder: (context) => CreateUserActionBottomSheet(),
+      ).then((value) => _onCreateUserActionDismissed(viewModel)),
     );
   }
 
   void _onCreateUserActionDismissed(UserActionListPageViewModel viewModel) {
     viewModel.onCreateUserActionDismissed();
+  }
+}
+
+class _CampagneCard extends StatelessWidget {
+  final String title;
+  final String description;
+
+  _CampagneCard({required this.title, required this.description});
+
+  @override
+  Widget build(BuildContext context) {
+    return CampagneCard(
+      onTap: () {
+        pushAndTrackBack(context, CampagneDetailsPage.materialPageRoute(), AnalyticsScreenNames.evaluationDetails);
+      },
+      titre: title,
+      description: description,
+    );
+  }
+}
+
+class _ActionCard extends StatelessWidget{
+  final UserActionViewModel viewModel;
+
+  _ActionCard({required this.viewModel});
+
+  @override
+  Widget build(BuildContext context) {
+    return UserActionCard(
+      onTap: () {
+        context.trackEvent(EventType.ACTION_DETAIL);
+        pushAndTrackBack(context, ActionDetailPage.materialPageRoute(viewModel), AnalyticsScreenNames.userActionList);
+      },
+      viewModel: viewModel,
+    );
   }
 }

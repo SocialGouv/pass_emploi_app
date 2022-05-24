@@ -72,18 +72,18 @@ class UserActionPEListPage extends TraceableStatelessWidget {
 
   Widget _listItem(BuildContext context, UserActionPEListItem item, UserActionPEListPageViewModel viewModel) {
     if (item is UserActionPECampagneItemViewModel) {
-      return _TapListenerOnCampagne(item.titre, item.description);
+      return _CampagneCard(title: item.titre, description: item.description);
     } else {
       return UserActionPECard(viewModel: (item as UserActionPEListItemViewModel).viewModel);
     }
   }
 }
 
-class _TapListenerOnCampagne extends StatelessWidget{
+class _CampagneCard extends StatelessWidget{
   final String title;
   final String description;
 
-  _TapListenerOnCampagne(this.title, this.description);
+  _CampagneCard({required this.title, required this.description});
 
   @override
   Widget build(BuildContext context) {
