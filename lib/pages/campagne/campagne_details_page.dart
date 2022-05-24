@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/pages/campagne/campagne_first_question.dart';
+import 'package:pass_emploi_app/pages/campagne/campagne_question_page.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -31,7 +31,7 @@ class CampagneDetailsPage extends StatelessWidget {
             ConstrainedBox(
               constraints: const BoxConstraints(minWidth: double.infinity),
               child: PrimaryActionButton(
-                onPressed: () => Navigator.push(context, CampagneFirstQuestionPage.materialPageRoute()),
+                onPressed: () => Navigator.push(context, CampagneQuestionPage.materialPageRoute()),
                 label: Strings.evalButton,
                 drawableRes: Drawables.icPencil,
                 iconSize: 14,

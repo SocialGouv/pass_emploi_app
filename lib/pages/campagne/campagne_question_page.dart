@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
-class CampagneFirstQuestionPage extends StatelessWidget {
-  CampagneFirstQuestionPage._() : super();
+class CampagneQuestionPage extends StatelessWidget {
+  CampagneQuestionPage._() : super();
 
   static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => CampagneFirstQuestionPage._());
+    return MaterialPageRoute(builder: (context) => CampagneQuestionPage._());
   }
 
   @override
