@@ -9,7 +9,7 @@ import 'package:redux/redux.dart';
 
 class UserActionPEListPageViewModel extends Equatable {
   final DisplayState displayState;
-  final List<UserActionPEListItemViewModel> items;
+  final List<UserActionPEListItem> items;
   final Function() onRetry;
 
   UserActionPEListPageViewModel({
@@ -23,9 +23,10 @@ class UserActionPEListPageViewModel extends Equatable {
     return UserActionPEListPageViewModel(
       displayState: _displayState(state),
       items: _listItems(
-        retardedItems: _retardedItems(state: state),
-        activeItems: _activeItems(state: state),
-        inactiveItems: _inactiveItems(state: state),
+        campagne: _campagneItem(state: state),
+        retardedItems: _retardedActions(state: state),
+        activeItems: _activeActions(state: state),
+        inactiveItems: _inactiveActions(state: state),
       ),
       onRetry: () => store.dispatch(UserActionPEListRequestAction()),
     );
@@ -37,7 +38,7 @@ class UserActionPEListPageViewModel extends Equatable {
 
 DisplayState _displayState(UserActionPEListState state) {
   if (state is UserActionPEListSuccessState) {
-    return state.userActions.isNotEmpty ? DisplayState.CONTENT : DisplayState.EMPTY;
+    return (state.userActions.isNotEmpty || state.campagne != null) ? DisplayState.CONTENT : DisplayState.EMPTY;
   } else if (state is UserActionPEListFailureState) {
     return DisplayState.FAILURE;
   } else {
@@ -45,7 +46,16 @@ DisplayState _displayState(UserActionPEListState state) {
   }
 }
 
-List<UserActionPEViewModel> _retardedItems({required UserActionPEListState state}) {
+UserActionPECampagneItemViewModel? _campagneItem({required UserActionPEListState state}) {
+  if (state is! UserActionPEListSuccessState) return null;
+  final campagne = state.campagne;
+  if (campagne != null) {
+    return UserActionPECampagneItemViewModel(titre: campagne.titre, description: campagne.description);
+  }
+  return null;
+}
+
+List<UserActionPEViewModel> _retardedActions({required UserActionPEListState state}) {
   if (state is UserActionPEListSuccessState) {
     return state.userActions
         .where((action) => action.status == UserActionPEStatus.RETARDED)
@@ -55,7 +65,7 @@ List<UserActionPEViewModel> _retardedItems({required UserActionPEListState state
   return [];
 }
 
-List<UserActionPEViewModel> _activeItems({required UserActionPEListState state}) {
+List<UserActionPEViewModel> _activeActions({required UserActionPEListState state}) {
   if (state is UserActionPEListSuccessState) {
     return state.userActions
         .where((action) =>
@@ -66,7 +76,7 @@ List<UserActionPEViewModel> _activeItems({required UserActionPEListState state})
   return [];
 }
 
-List<UserActionPEViewModel> _inactiveItems({required UserActionPEListState state}) {
+List<UserActionPEViewModel> _inactiveActions({required UserActionPEListState state}) {
   if (state is UserActionPEListSuccessState) {
     return state.userActions
         .where((action) => action.status == UserActionPEStatus.DONE || action.status == UserActionPEStatus.CANCELLED)
@@ -76,19 +86,37 @@ List<UserActionPEViewModel> _inactiveItems({required UserActionPEListState state
   return [];
 }
 
-List<UserActionPEListItemViewModel> _listItems({
+List<UserActionPEListItem> _listItems({
+  required UserActionPECampagneItemViewModel? campagne,
   required List<UserActionPEViewModel> retardedItems,
   required List<UserActionPEViewModel> activeItems,
   required List<UserActionPEViewModel> inactiveItems,
 }) {
-  return (retardedItems + activeItems + inactiveItems).map((e) => UserActionPEListItemViewModel(e)).toList();
+  return [
+    if (campagne != null) ...[campagne],
+    ...retardedItems.map((e) => UserActionPEListItemViewModel(e)),
+    ...activeItems.map((e) => UserActionPEListItemViewModel(e)),
+    ...inactiveItems.map((e) => UserActionPEListItemViewModel(e)),
+  ];
 }
 
-class UserActionPEListItemViewModel extends Equatable {
+abstract class UserActionPEListItem extends Equatable {}
+
+class UserActionPEListItemViewModel extends UserActionPEListItem {
   final UserActionPEViewModel viewModel;
 
   UserActionPEListItemViewModel(this.viewModel);
 
   @override
   List<Object?> get props => [viewModel];
+}
+
+class UserActionPECampagneItemViewModel extends UserActionPEListItem {
+  final String titre;
+  final String description;
+
+  UserActionPECampagneItemViewModel({required this.titre, required this.description});
+
+  @override
+  List<Object?> get props => [titre, description];
 }

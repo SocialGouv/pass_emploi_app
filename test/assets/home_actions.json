@@ -1,0 +1,40 @@
+{
+  "actions": [
+    {
+      "content": "Changer de prénom",
+      "comment": "Commentaire",
+      "creationDate": "Fri, 30 Jul 2021 09:42:50 GMT",
+      "id": "8802034",
+      "status": "not_started",
+      "lastUpdate": "Fri, 30 Jul 2021 09:43:09 GMT",
+      "creatorType": "jeune"
+    },
+    {
+      "content": "Compléter son CV",
+      "comment": "",
+      "creationDate": "Fri, 23 Jul 2021 19:43:51 GMT",
+      "id": "8392839",
+      "status": "in_progress",
+      "lastUpdate": "Fri, 24 Jul 2021 19:11:10 GMT",
+      "creatorType": "conseiller",
+      "creator": "Nils Tavernier"
+    }
+  ],
+  "campagne": {
+    "id": "id-campagne",
+    "titre": "Votre expérience sur l'application",
+    "description": "Donnez nous votre avis",
+    "questions": [
+      {
+        "id": 1,
+        "libelle": "la question ?",
+        "options": [
+          {
+            "id": 1,
+            "libelle": "Non, pas du tout"
+          }
+        ]
+      }
+    ]
+  }
+}
