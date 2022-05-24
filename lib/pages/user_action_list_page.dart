@@ -108,21 +108,24 @@ class _UserActionListPageState extends State<UserActionListPage> {
         child: Text(item.title, style: TextStyles.textMBold),
       );
     } else if (item is UserActionCampagneItemViewModel) {
-      return _campagneCard(context, item);
+      return _tapListenerOnCampagne(context, item);
     } else {
-      return _tapListener(context, (item as UserActionListItemViewModel).viewModel, viewModel);
+      return _tapListenerOnAction(context, (item as UserActionListItemViewModel).viewModel, viewModel);
     }
   }
 
-  CampagneCard _campagneCard(BuildContext context, UserActionCampagneItemViewModel item) {
+  CampagneCard _tapListenerOnCampagne(BuildContext context, UserActionCampagneItemViewModel item) {
     return CampagneCard(
-      onTap: () => {Navigator.push(context, CampagneDetailsPage.materialPageRoute())},
+      onTap: () {
+        widget.pushAndTrackBack(
+            context, CampagneDetailsPage.materialPageRoute(), AnalyticsScreenNames.evaluationDetails);
+      },
       titre: item.titre,
       description: item.description,
     );
   }
 
-  Widget _tapListener(BuildContext context, UserActionViewModel item, UserActionListPageViewModel viewModel) {
+  Widget _tapListenerOnAction(BuildContext context, UserActionViewModel item, UserActionListPageViewModel viewModel) {
     return UserActionCard(
       onTap: () {
         context.trackEvent(EventType.ACTION_DETAIL);
@@ -137,10 +140,11 @@ class _UserActionListPageState extends State<UserActionListPage> {
       label: Strings.addAnAction,
       drawableRes: Drawables.icAdd,
       rippleColor: AppColors.primaryDarken,
-      onPressed: () => showPassEmploiBottomSheet(
-        context: context,
-        builder: (context) => CreateUserActionBottomSheet(),
-      ).then((value) => _onCreateUserActionDismissed(viewModel)),
+      onPressed: () =>
+          showPassEmploiBottomSheet(
+            context: context,
+            builder: (context) => CreateUserActionBottomSheet(),
+          ).then((value) => _onCreateUserActionDismissed(viewModel)),
     );
   }
 
