@@ -556,4 +556,7 @@ class Strings {
   static String modeDemoExplicationTroisiemePoint2 =
       "donnés à titre d’exemples et ne correspondent pas aux recherches effectuées.";
   static String modeDemoExplicationChoix = "Veuillez sélectionner le mode de démonstration";
+
+  // Campagne
+  static String campagneTitle(int page, int count) => "Votre expérience $page/$count";
 }

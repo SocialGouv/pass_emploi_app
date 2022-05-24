@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/features/user_action/list/user_action_list_state
 import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_state.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
 class QuestionPageViewModel {
@@ -31,7 +32,7 @@ class QuestionPageViewModel {
     final campagne = store.campagne()!; // todo que faire si null, qui ne doit pas arriver ?
 
     return QuestionPageViewModel(
-      titre: "Votre expérience ${pageOffset + 1}/${campagne.questions.length}",
+      titre: Strings.campagneTitle(pageOffset + 1, campagne.questions.length),
       information: pageOffset.information(),
       question: campagne.questions[pageOffset].libelle,
       options: campagne.questions[pageOffset].options.map((e) => e.libelle).toList(),
