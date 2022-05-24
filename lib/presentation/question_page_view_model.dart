@@ -1,4 +1,5 @@
-import 'package:pass_emploi_app/models/campagne.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:redux/redux.dart';
 
 class QuestionPageViewModel {
   final String titre = "Votre expérience 1/2";
@@ -12,8 +13,7 @@ class QuestionPageViewModel {
   final QuestionBottomButton bottomButton = QuestionBottomButton.next;
 
   QuestionPageViewModel({
-    required Campagne campagne,
-    required ReponsesCampagneState reponsesState,
+    required Store<AppState> store,
     required int pageOffset,
   });
 }
