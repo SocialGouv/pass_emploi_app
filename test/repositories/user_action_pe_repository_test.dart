@@ -18,8 +18,9 @@ void main() {
       if (request.method != "GET") return invalidHttpResponse();
       if (!request.url
           .toString()
-          .startsWith("BASE_URL/jeunes/UID/home/demarches"))
+          .startsWith("BASE_URL/jeunes/UID/home/demarches")) {
         return invalidHttpResponse();
+      }
       return Response.bytes(loadTestAssetsAsBytes("home_demarches.json"), 200);
     });
     final repository = UserActionPERepository("BASE_URL", httpClient);

@@ -170,8 +170,9 @@ class AuthenticatorLoggedInStub extends Authenticator {
 
   @override
   Future<AuthenticatorResponse> login(AuthenticationMode mode) {
-    if (expectedMode == null)
+    if (expectedMode == null) {
       return Future.value(AuthenticatorResponse.SUCCESS);
+    }
     return Future.value(expectedMode == mode
         ? AuthenticatorResponse.SUCCESS
         : AuthenticatorResponse.FAILURE);
@@ -271,10 +272,12 @@ class AuthWrapperStub extends AuthWrapper {
   Future<AuthTokenResponse> refreshToken(
       AuthRefreshTokenRequest request) async {
     if (_throwsRefreshNetworkException) throw AuthWrapperNetworkException();
-    if (_throwsRefreshExpiredException)
+    if (_throwsRefreshExpiredException) {
       throw AuthWrapperRefreshTokenExpiredException();
-    if (_throwsRefreshGenericException)
+    }
+    if (_throwsRefreshGenericException) {
       throw AuthWrapperRefreshTokenException();
+    }
     if (request == _refreshParameters) return _refreshResult;
     throw Exception("Wrong parameters for refresh stub");
   }

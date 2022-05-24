@@ -58,21 +58,19 @@ class _Categorie extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 20, top: 20),
-        child: Align(
-          alignment: Alignment.topLeft,
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border.all(color: AppColors.accent2),
-              borderRadius: BorderRadius.circular(30),
-            ),
-            padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 12),
-            child: Text(
-              label,
-              style: TextStyles.textBaseRegularWithColor(AppColors.accent2),
-            ),
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, top: 20),
+      child: Align(
+        alignment: Alignment.topLeft,
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: AppColors.accent2),
+            borderRadius: BorderRadius.circular(30),
+          ),
+          padding: const EdgeInsets.symmetric(vertical: 2, horizontal: 12),
+          child: Text(
+            label,
+            style: TextStyles.textBaseRegularWithColor(AppColors.accent2),
           ),
         ),
       ),
@@ -87,13 +85,11 @@ class _Titre extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 20, top: 20, right: 20),
-        child: Text(
-          label,
-          style: TextStyles.textLBold(color: AppColors.primary),
-        ),
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, top: 20, right: 20),
+      child: Text(
+        label,
+        style: TextStyles.textLBold(color: AppColors.primary),
       ),
     );
   }
