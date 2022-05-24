@@ -38,18 +38,18 @@ class UserActionPE extends Equatable {
 
   factory UserActionPE.fromJson(dynamic json) {
     return UserActionPE(
-      id: json['codeDemarche'] as String,
-      content: json['contenu'] as String?,
-      label: json['label'] as String?,
-      titre: json['titre'] as String?,
-      sousTitre: json['sousTitre'] as String?,
-      status: _statusFromString(statusString: json['statut'] as String),
-      possibleStatus: (json['statutsPossibles'] as List<dynamic>)
-          .whereType<String>()
-          .map((e) => _statusFromString(statusString: e))
-          .toList(),
-      endDate: (json['dateFin'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
-      modificationDate:
+      id: json['id'] as String,
+        content: json['contenu'] as String?,
+        label: json['label'] as String?,
+        titre: json['titre'] as String?,
+        sousTitre: json['sousTitre'] as String?,
+        status: _statusFromString(statusString: json['statut'] as String),
+        possibleStatus: (json['statutsPossibles'] as List<dynamic>)
+            .whereType<String>()
+            .map((e) => _statusFromString(statusString: e))
+            .toList(),
+        endDate: (json['dateFin'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
+        modificationDate:
           (json['dateModification'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
       deletionDate:
           (json['dateAnnulation'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
