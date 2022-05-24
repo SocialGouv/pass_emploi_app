@@ -191,6 +191,14 @@ class Strings {
 
   static String withOrganism(String organism) => "Avec : $organism";
 
+  // App evaluation
+
+  static String evalTitle = "Votre expérience sur l’application";
+  static String evalDescription = "Aidez-nous à améliorer l’application en répondant à 2 questions.";
+  static String evalButton = "Donner son avis";
+  static String firstStepTitle = "Votre expérience 1/2";
+  static String firstSecondTitle = "Votre expérience 2/2";
+
   // User Action
   static String actionsError = "Erreur lors de la récupération de vos actions";
   static String actionDone = "Terminée";

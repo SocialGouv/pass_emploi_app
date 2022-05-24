@@ -56,4 +56,5 @@ class Drawables {
   static String icTrashAlert = _assets + "ic_trash_alert" + _svg;
   static String icDelete = _assets + "ic_delete" + _svg;
   static String modeDemoExplicationIllustration = _assets + "connexion" + _svg;
+  static String icPencil = _assets + "ic_white_pencil" + _svg;
 }
