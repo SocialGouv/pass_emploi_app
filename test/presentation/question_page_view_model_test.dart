@@ -28,7 +28,7 @@ void main() {
       final store = givenState().loggedInUser().store();
 
       // When
-      final viewModel = QuestionPageViewModel(store, 0);
+      final viewModel = QuestionPageViewModel.create(store, 0);
 
       // Then
       expect(viewModel.titre, "Votre expérience 1/2");
@@ -42,7 +42,7 @@ void main() {
       final store = givenState().loggedInUser().store();
 
       // When
-      final viewModel = QuestionPageViewModel(store, 0);
+      final viewModel = QuestionPageViewModel.create(store, 0);
 
       // Then
       expect(viewModel.bottomButton, QuestionBottomButton.next);
