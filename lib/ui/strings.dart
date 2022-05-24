@@ -196,8 +196,11 @@ class Strings {
   static String evalTitle = "Votre expérience sur l’application";
   static String evalDescription = "Aidez-nous à améliorer l’application en répondant à 2 questions.";
   static String evalButton = "Donner son avis";
-  static String firstStepTitle = "Votre expérience 1/2";
-  static String firstSecondTitle = "Votre expérience 2/2";
+  static String questionIndexTitle(String index, String total) => "Votre expérience $index/$total";
+  static String nextButtonTitle = "Suivant";
+  static String validateButtonTitle = "Valider";
+  static String mandatory = "Les questions marquées d’une * sont obligatoires ";
+  static String pourquoiTitle = "Pourquoi ?";
 
   // User Action
   static String actionsError = "Erreur lors de la récupération de vos actions";
