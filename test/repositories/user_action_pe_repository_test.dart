@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/models/user_action_pe.dart';
 import 'package:pass_emploi_app/repositories/user_action_pe_repository.dart';
 
 import '../doubles/fixtures.dart';
+import '../utils/mock_demo_client.dart';
 import '../utils/test_assets.dart';
 import '../utils/test_datetime.dart';
 
@@ -43,47 +44,33 @@ void main() {
       ),
     );
     expect(result?.actions, isNotNull);
-    expect(result?.actions.length, 5);
+    expect(result?.actions.length, 7);
     expect(
       result?.actions.first,
       UserActionPE(
-        id: "8802034",
-        content: "Faire le CV",
-        status: UserActionPEStatus.NOT_STARTED,
-        endDate:
-            parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
-        deletionDate:
-            parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
-        createdByAdvisor: true,
-        label: "label",
-        possibleStatus: [],
-        creationDate: DateTime(2022, 12, 23, 0, 0, 0),
-        modifiedByAdvisor: false,
-        sousTitre: "sous titre",
-        titre: "titre",
-        modificationDate: DateTime(2022, 12, 23, 0, 0, 0),
-        attributs: [],
-      ),
-    );
-    expect(
-      result?.actions[1],
-      UserActionPE(
-        id: "8392839",
-        content: "Compléter son CV",
+        id: "eyJxdW9pIjoiUTAxIiwiY29tbWVudCI6IkMwMS4wNSJ9",
+        content: "Identification de ses compétences avec pole-emploi.fr",
         status: UserActionPEStatus.IN_PROGRESS,
         endDate:
-            parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
-        deletionDate:
-            parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
+            parseDateTimeUtcWithCurrentTimeZone('2021-12-21T09:00:00.000Z'),
+        deletionDate: null,
         createdByAdvisor: true,
-        label: "label",
-        possibleStatus: [],
-        creationDate: DateTime(2022, 12, 23, 0, 0, 0),
+        label: "Mon (nouveau) métier",
+        possibleStatus: [
+          UserActionPEStatus.CANCELLED,
+          UserActionPEStatus.DONE,
+          UserActionPEStatus.NOT_STARTED,
+          UserActionPEStatus.IN_PROGRESS
+        ],
+        creationDate:
+            parseDateTimeUtcWithCurrentTimeZone('2022-05-11T09:04:00.000Z'),
         modifiedByAdvisor: false,
-        sousTitre: "sous titre",
-        titre: "titre",
-        modificationDate: DateTime(2022, 12, 23, 0, 0, 0),
-        attributs: [],
+        sousTitre: "Par un autre moyen",
+        titre: "Identification de ses points forts et de ses compétences",
+        modificationDate: null,
+        attributs: [
+          PeActionAttribut("Agriculture", "Nom du métier"),
+        ],
       ),
     );
   });
@@ -100,5 +87,19 @@ void main() {
 
     // Then
     expect(search, isNull);
+  });
+
+  test('mode demo should return valid request', () async {
+    // Given
+    final httpClient = MockModeDemoClient();
+    final repository = UserActionPERepository("BASE_URL", httpClient);
+
+    // When
+    final response = await repository.getHomeDemarches("UserID");
+
+    // Then
+    expect(response, isNotNull);
+    expect(response?.campagne, isNotNull);
+    expect(response?.actions, isNotNull);
   });
 }
