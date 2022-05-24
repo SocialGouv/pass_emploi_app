@@ -38,7 +38,7 @@ class QuestionPageViewModel {
       options: campagne.questions[pageOffset].options.map((e) => e.libelle).toList(),
       answerSelectedIndex: null,
       pourquoiAnswer: null,
-      bottomButton: pageOffset.isLastPage(campagne) ? QuestionBottomButton.next : QuestionBottomButton.validate,
+      bottomButton: pageOffset.isLastPage(campagne) ? QuestionBottomButton.validate : QuestionBottomButton.next,
     );
   }
 }
@@ -48,7 +48,7 @@ enum QuestionBottomButton { next, validate }
 class ReponsesCampagneState {} // todo creer, renommer, déplacer
 
 extension _Offset on int {
-  bool isLastPage(Campagne campagne) => this < (campagne.questions.length - 1);
+  bool isLastPage(Campagne campagne) => this == (campagne.questions.length - 1);
 
   String? information() => this == 0 ? "Les questions marquées d'une * sont obligatoires" : null;
 }
