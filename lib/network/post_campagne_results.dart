@@ -1,6 +1,5 @@
 import 'package:pass_emploi_app/models/campagne_question_answer.dart';
-
-import 'json_serializable.dart';
+import 'package:pass_emploi_app/network/json_serializable.dart';
 
 class PostCampagneResults implements JsonSerializable {
   final CampagneQuestionAnswer answer;

@@ -15,8 +15,7 @@ import 'package:pass_emploi_app/widgets/cards/user_action_pe_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/empty_pole_emploi_content.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
-
-import 'campagne/campagne_details_page.dart';
+import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
 
 class UserActionPEListPage extends TraceableStatelessWidget {
   final ScrollController _scrollController = ScrollController();
