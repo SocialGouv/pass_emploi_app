@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_middleware.dart';
+import 'package:pass_emploi_app/features/campagne/campagne_result_middleware.dart';
 import 'package:pass_emploi_app/features/chat/init/chat_initializer_middleware.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_middleware.dart';
@@ -50,6 +51,7 @@ import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
@@ -108,6 +110,7 @@ class StoreFactory {
   final DetailsJeuneRepository detailsJeuneRepository;
   final SuppressionCompteRepository suppressionCompteRepository;
   final ModeDemoRepository modeDemoRepository;
+  final CampagneRepository campagneRepository;
   final MatomoTracker matomoTracker;
   final FirebaseRemoteConfig? remoteConfig;
 
@@ -142,6 +145,7 @@ class StoreFactory {
     this.detailsJeuneRepository,
     this.suppressionCompteRepository,
     this.modeDemoRepository,
+    this.campagneRepository,
     this.matomoTracker,
     this.remoteConfig,
   );
@@ -195,6 +199,7 @@ class StoreFactory {
         SearchServiceCiviqueMiddleware(serviceCiviqueRepository),
         ServiceCiviqueDetailMiddleware(serviceCiviqueDetailRepository),
         SuppressionCompteMiddleware(suppressionCompteRepository),
+        CampagneResultMiddleware(campagneRepository),
         ..._debugMiddleware(),
       ],
     );

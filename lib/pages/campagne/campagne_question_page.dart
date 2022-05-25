@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/presentation/question_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -21,8 +22,7 @@ class CampagneQuestionPage extends StatefulWidget {
 }
 
 class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
-  var _isAswered = false;
-  String? _currentValue;
+  int? _answerId;
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +75,9 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(minWidth: double.infinity),
                 child: PrimaryActionButton(
-                  onPressed: _isButtonEnabled() ? () => {} : null,
+                  onPressed: _answerId != null
+                      ? () => viewModel.onButtonClick(viewModel.idQuestion, _answerId!, 'POURQUOI')
+                      : null,
                   label: viewModel.bottomButton == QuestionBottomButton.next
                       ? Strings.nextButtonTitle
                       : Strings.validateButtonTitle,
@@ -89,22 +91,19 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
     );
   }
 
-  bool _isButtonEnabled() => _isAswered;
-
-  Widget _answerOptions(List<String> options) {
+  Widget _answerOptions(List<Option> options) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: options
-          .map((answer) => RadioListTile<String>(
+          .map((option) => RadioListTile<int>(
               controlAffinity: ListTileControlAffinity.trailing,
-              selected: answer == _currentValue,
-              title: Text(answer),
-              value: answer,
-              groupValue: _currentValue,
+              selected: option.id == _answerId,
+              title: Text(option.libelle),
+              value: option.id,
+              groupValue: _answerId,
               onChanged: (value) {
                 setState(() {
-                  _currentValue = value;
-                  _isAswered = true;
+                  _answerId = value;
                 });
               }))
           .toList(),

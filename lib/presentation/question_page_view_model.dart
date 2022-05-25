@@ -8,14 +8,12 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
-import '../features/campagne/campagne_result_action.dart';
-
 class QuestionPageViewModel {
   final int idQuestion;
   final String titre;
   final String? information;
   final String question;
-  final List<String> options;
+  final List<Option> options;
   final Function(int idQuestion, int idAnswer, String? pourquoi) onButtonClick;
 
   final QuestionBottomButton bottomButton;
@@ -38,7 +36,7 @@ class QuestionPageViewModel {
       titre: Strings.campagneTitle(pageOffset + 1, campagne.questions.length),
       information: pageOffset.information(),
       question: campagne.questions[pageOffset].libelle,
-      options: campagne.questions[pageOffset].options.map((e) => e.libelle).toList(),
+      options: campagne.questions[pageOffset].options,
       bottomButton: pageOffset.isLastPage(campagne) ? QuestionBottomButton.validate : QuestionBottomButton.next,
       onButtonClick: (idQuestion, idAnswer, pourquoi) => store.dispatch(
         CampagneResultAction(

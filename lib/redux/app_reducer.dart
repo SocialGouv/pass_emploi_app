@@ -1,3 +1,4 @@
+import 'package:pass_emploi_app/features/campagne/campagne_result_reducer.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_reducer.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_reducer.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_reducer.dart';
@@ -64,7 +65,7 @@ AppState reducer(AppState current, dynamic action) {
     ),
     immersionFavorisState: FavoriListReducer<Immersion>().reduceFavorisState(current.immersionFavorisState, action),
     serviceCiviqueFavorisState:
-        FavoriListReducer<ServiceCivique>().reduceFavorisState(current.serviceCiviqueFavorisState, action),
+    FavoriListReducer<ServiceCivique>().reduceFavorisState(current.serviceCiviqueFavorisState, action),
     favoriUpdateState: favoriUpdateReducer(current.favoriUpdateState, action),
     searchLocationState: searchLocationReducer(current.searchLocationState, action),
     searchMetierState: searchMetierReducer(current.searchMetierState, action),
@@ -91,5 +92,6 @@ AppState reducer(AppState current, dynamic action) {
     serviceCiviqueDetailState: serviceCiviqueDetailReducer(current.serviceCiviqueDetailState, action),
     suppressionCompteState: suppressionCompteReducer(current.suppressionCompteState, action),
     demoState: modeDemoReducer(current, action),
+    campagneResultState: campagneResultReducer(current.campagneResultState, action),
   );
 }
