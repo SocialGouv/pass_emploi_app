@@ -21,6 +21,9 @@ class CampagneQuestionPage extends StatefulWidget {
 }
 
 class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
+  var _isAswered = false;
+  String? _currentValue;
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, QuestionPageViewModel>(
@@ -57,13 +60,11 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
               padding: EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: Colors.white,
-                border: Border.all(
-                    color: AppColors.grey700,
-                    width: 1.0),
-                borderRadius: BorderRadius.all(
-                    Radius.circular(10.0)),
+                border: Border.all(color: AppColors.grey700, width: 1.0),
+                borderRadius: BorderRadius.all(Radius.circular(10.0)),
               ),
               child: TextField(
+                showCursor: false,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                 ),
@@ -74,7 +75,7 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(minWidth: double.infinity),
                 child: PrimaryActionButton(
-                  onPressed: () => {},
+                  onPressed: _isButtonEnabled() ? () => {} : null,
                   label: viewModel.bottomButton == QuestionBottomButton.next
                       ? Strings.nextButtonTitle
                       : Strings.validateButtonTitle,
@@ -88,9 +89,9 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
     );
   }
 
-  Widget _answerOptions(List<String> options) {
-    String? _currentValue;
+  bool _isButtonEnabled() => _isAswered;
 
+  Widget _answerOptions(List<String> options) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: options
@@ -101,7 +102,10 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
               value: answer,
               groupValue: _currentValue,
               onChanged: (value) {
-                setState(() => _currentValue = value);
+                setState(() {
+                  _currentValue = value;
+                  _isAswered = true;
+                });
               }))
           .toList(),
     );
