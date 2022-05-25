@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
+import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
@@ -258,6 +259,10 @@ class DummyPassEmploiCacheManager extends PassEmploiCacheManager {
 
 class DummySuppressionCompteRepository extends SuppressionCompteRepository {
   DummySuppressionCompteRepository() : super("", DummyHttpClient());
+}
+
+class DummyCampagneRepository extends CampagneRepository {
+  DummyCampagneRepository() : super("", DummyHttpClient());
 }
 
 class DummyMatomoTracker extends MatomoTracker {

@@ -42,7 +42,7 @@ DisplayState _displayState(AppState state) {
     return (actionState.userActions.isNotEmpty || state.campagneState.campagne != null)
         ? DisplayState.CONTENT
         : DisplayState.EMPTY;
-  } else if (state is UserActionPEListFailureState) {
+  } else if (actionState is UserActionPEListFailureState) {
     return DisplayState.FAILURE;
   } else {
     return DisplayState.LOADING;

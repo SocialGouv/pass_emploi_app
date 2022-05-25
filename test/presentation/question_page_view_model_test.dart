@@ -31,7 +31,7 @@ void main() {
       // Then
       expect(viewModel.titre, "Votre expérience 1/2");
       expect(viewModel.question, "Aimez-vous Perceval ?");
-      expect(viewModel.options, ["Ouais c'est pas faux"]);
+      expect(viewModel.options, [Option(id: 1, libelle: "Ouais c'est pas faux")]);
     });
 
     test('should display second question (last one)', () {
@@ -44,7 +44,10 @@ void main() {
       // Then
       expect(viewModel.titre, "Votre expérience 2/2");
       expect(viewModel.question, "Aimez-vous Arthur ?");
-      expect(viewModel.options, ["Oui", "Non"]);
+      expect(viewModel.options, [
+        Option(id: 1, libelle: "Oui"),
+        Option(id: 2, libelle: "Non"),
+      ]);
     });
 
     test('should display next button when there is more questions', () {
