@@ -201,6 +201,7 @@ class Strings {
   static String validateButtonTitle = "Valider";
   static String mandatory = "Les questions marquées d’une * sont obligatoires ";
   static String pourquoiTitle = "Pourquoi ?";
+  static String evaluationSuccessfullySent = "Vous avez répondu aux questions, merci !";
 
   // User Action
   static String actionsError = "Erreur lors de la récupération de vos actions";

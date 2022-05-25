@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class CampagneQuestionPage extends StatefulWidget {
   final int questionOffset;
@@ -105,6 +106,7 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
       Navigator.push(context, CampagneQuestionPage.materialPageRoute(widget.questionOffset + 1));
     } else {
       Navigator.popUntil(context, (route) => route.settings.name == Navigator.defaultRouteName);
+      showSuccessfulSnackBar(context, Strings.evaluationSuccessfullySent);
     }
   }
 
