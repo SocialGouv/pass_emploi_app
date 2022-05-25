@@ -23,7 +23,7 @@ void main() {
   group('Question Page', () {
     test('should display first question', () {
       // Given
-      final store = givenState().loggedInMiloUser().campagneMiLo(campagneWithTwoQuestions).store();
+      final store = givenState().loggedInMiloUser().campagne(campagneWithTwoQuestions).store();
 
       // When
       final viewModel = QuestionPageViewModel.create(store, 0);
@@ -36,7 +36,7 @@ void main() {
 
     test('should display second question (last one)', () {
       // Given
-      final store = givenState().loggedInMiloUser().campagneMiLo(campagneWithTwoQuestions).store();
+      final store = givenState().loggedInMiloUser().campagne(campagneWithTwoQuestions).store();
 
       // When
       final viewModel = QuestionPageViewModel.create(store, 1);
@@ -49,7 +49,7 @@ void main() {
 
     test('should display next button when there is more questions', () {
       // Given
-      final store = givenState().loggedInMiloUser().campagneMiLo(campagneWithTwoQuestions).store();
+      final store = givenState().loggedInMiloUser().campagne(campagneWithTwoQuestions).store();
 
       // When
       final viewModel = QuestionPageViewModel.create(store, 0);
@@ -60,7 +60,7 @@ void main() {
 
     test('should display valid button on last page', () {
       // Given
-      final store = givenState().loggedInMiloUser().campagneMiLo(campagneWithTwoQuestions).store();
+      final store = givenState().loggedInMiloUser().campagne(campagneWithTwoQuestions).store();
 
       // When
       final viewModel = QuestionPageViewModel.create(store, 1);
@@ -71,7 +71,7 @@ void main() {
 
     test('should display informations on first page', () {
       // Given
-      final store = givenState().loggedInMiloUser().campagneMiLo(campagneWithTwoQuestions).store();
+      final store = givenState().loggedInMiloUser().campagne(campagneWithTwoQuestions).store();
 
       // When
       final viewModel = QuestionPageViewModel.create(store, 0);
@@ -82,7 +82,7 @@ void main() {
 
     test('should not display informations on other pages than first', () {
       // Given
-      final store = givenState().loggedInMiloUser().campagneMiLo(campagneWithTwoQuestions).store();
+      final store = givenState().loggedInMiloUser().campagne(campagneWithTwoQuestions).store();
 
       // When
       final viewModel = QuestionPageViewModel.create(store, 1);
@@ -90,33 +90,6 @@ void main() {
       // Then
       expect(viewModel.information, null);
     });
-
-    test('should not fill unanswered question', () {
-      // Given
-      final store = givenState().loggedInMiloUser().campagneMiLo(campagneWithTwoQuestions).store();
-
-      // When
-      final viewModel = QuestionPageViewModel.create(store, 0);
-
-      // Then
-      expect(viewModel.answerSelectedIndex, null);
-      expect(viewModel.pourquoiAnswer, null);
-    });
-
-    /*
-    test('should fill answered question', () {
-      // Given
-      // todo set state with answered question
-      final store = givenState().loggedInMiloUser().campagneMiLo(campagneWithTwoQuestions).store();
-
-      // When
-      final viewModel = QuestionPageViewModel.create(store, 0);
-
-      // Then
-      expect(viewModel.answerSelectedIndex, 1);
-      expect(viewModel.pourquoiAnswer, "Parce qu'il a la botte secrète !");
-    });
-     */
 
     // todo tests PE
   });

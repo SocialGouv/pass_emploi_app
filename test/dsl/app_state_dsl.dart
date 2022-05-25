@@ -1,7 +1,6 @@
+import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
-import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
-import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_state.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -33,9 +32,7 @@ extension AppStateDSL on AppState {
 
   AppState failedPastRendezvous() => copyWith(rendezvousState: RendezvousState.failedPast());
 
-  AppState campagnePE(Campagne campagne) => copyWith(userActionPEListState: UserActionPEListSuccessState([], campagne));
-
-  AppState campagneMiLo(Campagne campagne) => copyWith(userActionListState: UserActionListSuccessState([], campagne));
+  AppState campagne(Campagne campagne) => copyWith(campagneState: CampagneState(campagne));
 
   AppState deeplinkToRendezvous(String id) =>
       copyWith(deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_RENDEZVOUS, DateTime.now(), id));

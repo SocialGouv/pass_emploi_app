@@ -203,12 +203,10 @@ class DummyTrackingEventRepository extends TrackingEventRepository {
 }
 
 class DummyImmersionFavorisRepository extends ImmersionFavorisRepository {
-  DummyImmersionFavorisRepository()
-      : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  DummyImmersionFavorisRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 }
 
-class DummyOffreEmploiSavedSearchRepository
-    extends OffreEmploiSavedSearchRepository {
+class DummyOffreEmploiSavedSearchRepository extends OffreEmploiSavedSearchRepository {
   DummyOffreEmploiSavedSearchRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 }
 
