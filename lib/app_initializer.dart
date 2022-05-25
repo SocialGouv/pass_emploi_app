@@ -200,7 +200,7 @@ class AppInitializer {
       DetailsJeuneRepository(baseUrl, httpClient, crashlytics),
       SuppressionCompteRepository(baseUrl, httpClient, crashlytics),
       modeDemoRepository,
-      CampagneRepository(),
+      CampagneRepository(baseUrl, httpClient, crashlytics),
       MatomoTracker(),
         remoteConfig).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
