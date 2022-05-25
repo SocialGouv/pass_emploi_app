@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/pages/campagne/campagne_question_page.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -16,6 +19,14 @@ class CampagneDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    return StoreConnector<AppState, Campagne?>(
+      converter: (store) => store.state.campagneState.campagne,
+      builder: (context, campagne) => _content(context, campagne),
+      distinct: true,
+    );
+  }
+
+  Widget _content(BuildContext context, Campagne? campagne) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: passEmploiAppBar(label: Strings.actionDetails, context: context),
@@ -24,9 +35,9 @@ class CampagneDetailsPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(Strings.evalTitle, style: TextStyles.textMBold),
+            Text(campagne != null ? campagne.titre : Strings.evalTitle, style: TextStyles.textMBold),
             SizedBox(height: Margins.spacing_m),
-            Text(Strings.evalDescription, style: TextStyles.textSRegular()),
+            Text(campagne != null ? campagne.description : Strings.evalDescription, style: TextStyles.textSRegular()),
             SizedBox(height: Margins.spacing_m),
             ConstrainedBox(
               constraints: const BoxConstraints(minWidth: double.infinity),
