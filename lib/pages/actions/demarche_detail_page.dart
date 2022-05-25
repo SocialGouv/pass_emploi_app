@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
-import 'package:pass_emploi_app/presentation/user_action_pe/user_action_pe_view_model.dart';
+import 'package:pass_emploi_app/presentation/user_action_pe/demarche_detail_view_model.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -12,39 +14,49 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
 class DemarcheDetailPage extends TraceableStatelessWidget {
-  final UserActionPEViewModel viewModel;
+  final String id;
 
-  DemarcheDetailPage._(this.viewModel) : super(name: AnalyticsScreenNames.userActionDetails);
+  DemarcheDetailPage._(this.id) : super(name: AnalyticsScreenNames.userActionDetails);
 
-  static MaterialPageRoute<void> materialPageRoute(
-      UserActionPEViewModel actionViewModel) {
-    return MaterialPageRoute(
-        builder: (context) => DemarcheDetailPage._(actionViewModel));
+  static MaterialPageRoute<void> materialPageRoute(String id) {
+    return MaterialPageRoute(builder: (context) => DemarcheDetailPage._(id));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          passEmploiAppBar(label: Strings.demarcheDetails, context: context),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            if (viewModel.label != null) _Categorie(viewModel.label!),
-            if (viewModel.titreDetail != null) _Titre(viewModel.titreDetail!),
-            if (viewModel.sousTitre != null) _SousTitre(viewModel.sousTitre!),
-            _DetailDemarcheTitle(),
-            if (viewModel.attributs.isNotEmpty) _Attributs(viewModel.attributs),
-            _EndDate(viewModel.formattedDate),
-            if (viewModel.statutsPossibles.isNotEmpty) _StatutTitle(),
-            if (viewModel.statutsPossibles.isNotEmpty)
-              _StatutList(viewModel.statutsPossibles),
-            _HistoriqueTitle(),
-            _Historique(viewModel),
-            SizedBox(height: 40),
-          ],
-        ),
+      appBar: passEmploiAppBar(label: Strings.demarcheDetails, context: context),
+      body: StoreConnector<AppState, DemarcheDetailViewModel>(
+        converter: (store) => DemarcheDetailViewModel.create(store, id),
+        builder: (context, viewModel) => _Body(viewModel),
+      ),
+    );
+  }
+}
+
+class _Body extends StatelessWidget {
+  final DemarcheDetailViewModel viewModel;
+
+  _Body(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (viewModel.label != null) _Categorie(viewModel.label!),
+          if (viewModel.titreDetail != null) _Titre(viewModel.titreDetail!),
+          if (viewModel.sousTitre != null) _SousTitre(viewModel.sousTitre!),
+          _DetailDemarcheTitle(),
+          if (viewModel.attributs.isNotEmpty) _Attributs(viewModel.attributs),
+          _EndDate(viewModel.formattedDate),
+          if (viewModel.statutsPossibles.isNotEmpty) _StatutTitle(),
+          if (viewModel.statutsPossibles.isNotEmpty) _StatutList(viewModel.statutsPossibles),
+          _HistoriqueTitle(),
+          _Historique(viewModel),
+          SizedBox(height: 40),
+        ],
       ),
     );
   }
@@ -300,7 +312,7 @@ class _HistoriqueTitle extends StatelessWidget {
 }
 
 class _Historique extends StatelessWidget {
-  final UserActionPEViewModel viewModel;
+  final DemarcheDetailViewModel viewModel;
 
   _Historique(this.viewModel);
 
@@ -322,19 +334,10 @@ class _Historique extends StatelessWidget {
               RichText(
                 text: TextSpan(
                   children: [
-                    TextSpan(
-                        text: Strings.modifiedBy,
-                        style: TextStyles.textBaseRegular),
-                    TextSpan(
-                        text: viewModel.modificationDate,
-                        style: TextStyles.textBaseBold),
-                    if (viewModel.createdByAdvisor)
-                      TextSpan(
-                          text: Strings.par, style: TextStyles.textBaseRegular),
-                    if (viewModel.createdByAdvisor)
-                      TextSpan(
-                          text: Strings.votreConseiller,
-                          style: TextStyles.textBaseBold),
+                    TextSpan(text: Strings.modifiedBy, style: TextStyles.textBaseRegular),
+                    TextSpan(text: viewModel.modificationDate, style: TextStyles.textBaseBold),
+                    if (viewModel.createdByAdvisor) TextSpan(text: Strings.par, style: TextStyles.textBaseRegular),
+                    if (viewModel.createdByAdvisor) TextSpan(text: Strings.votreConseiller, style: TextStyles.textBaseBold),
                   ],
                 ),
               ),
@@ -342,19 +345,10 @@ class _Historique extends StatelessWidget {
               RichText(
                 text: TextSpan(
                   children: [
-                    TextSpan(
-                        text: Strings.createdBy,
-                        style: TextStyles.textBaseRegular),
-                    TextSpan(
-                        text: viewModel.creationDate,
-                        style: TextStyles.textBaseBold),
-                    if (viewModel.createdByAdvisor)
-                      TextSpan(
-                          text: Strings.par, style: TextStyles.textBaseRegular),
-                    if (viewModel.createdByAdvisor)
-                      TextSpan(
-                          text: Strings.votreConseiller,
-                          style: TextStyles.textBaseBold),
+                    TextSpan(text: Strings.createdBy, style: TextStyles.textBaseRegular),
+                    TextSpan(text: viewModel.creationDate, style: TextStyles.textBaseBold),
+                    if (viewModel.createdByAdvisor) TextSpan(text: Strings.par, style: TextStyles.textBaseRegular),
+                    if (viewModel.createdByAdvisor) TextSpan(text: Strings.votreConseiller, style: TextStyles.textBaseBold),
                   ],
                 ),
               ),

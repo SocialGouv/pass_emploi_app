@@ -29,8 +29,7 @@ class UserActionPECard extends StatelessWidget {
           child: InkWell(
             onTap: () {
               if (viewModel.isDetailEnabled) {
-                Navigator.of(context)
-                    .push(DemarcheDetailPage.materialPageRoute(viewModel));
+                Navigator.of(context).push(DemarcheDetailPage.materialPageRoute(viewModel.id));
               }
             },
             splashColor: AppColors.primaryLighten,

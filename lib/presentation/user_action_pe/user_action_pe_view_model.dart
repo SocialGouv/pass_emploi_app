@@ -16,13 +16,6 @@ class UserActionPEViewModel extends Equatable {
   final String formattedDate;
   final bool isLate;
   final bool isDetailEnabled;
-  final String? label;
-  final String? titreDetail;
-  final String? sousTitre;
-  final String? modificationDate;
-  final String? creationDate;
-  final List<String> attributs;
-  final List<UserActionTagViewModel> statutsPossibles;
 
   UserActionPEViewModel({
     required this.id,
@@ -34,13 +27,6 @@ class UserActionPEViewModel extends Equatable {
     required this.formattedDate,
     required this.isLate,
     required this.isDetailEnabled,
-    required this.label,
-    required this.titreDetail,
-    required this.sousTitre,
-    required this.attributs,
-    required this.statutsPossibles,
-    required this.modificationDate,
-    required this.creationDate,
   });
 
   factory UserActionPEViewModel.create(
@@ -57,15 +43,6 @@ class UserActionPEViewModel extends Equatable {
           userAction.endDate?.toDay(), userAction.deletionDate?.toDay()),
       isLate: _isLateAction(userAction.status, userAction.endDate),
       isDetailEnabled: isDetailAvailable,
-      label: userAction.label,
-      titreDetail: userAction.titre,
-      sousTitre: userAction.sousTitre,
-      attributs: userAction.attributs.map((e) => e.valeur).toList(),
-      statutsPossibles: userAction.possibleStatus
-          .map((e) => _getTagViewModel(e, userAction.status))
-          .toList(),
-      modificationDate: userAction.modificationDate?.toDay(),
-      creationDate: userAction.creationDate?.toDay(),
     );
   }
 
@@ -150,51 +127,4 @@ bool _isLateAction(UserActionPEStatus status, DateTime? endDate) {
         (endDate.numberOfDaysUntilToday() > 0);
   }
   return false;
-}
-
-UserActionTagViewModel _getTagViewModel(
-    UserActionPEStatus status, UserActionPEStatus currentStatus) {
-  final bool isSelected = status == currentStatus;
-  switch (status) {
-    case UserActionPEStatus.NOT_STARTED:
-      return UserActionTagViewModel(
-        title: Strings.actionPEToDo,
-        backgroundColor:
-            isSelected ? AppColors.accent1Lighten : Colors.transparent,
-        textColor: isSelected ? AppColors.accent1 : AppColors.grey800,
-        isSelected: isSelected,
-      );
-    case UserActionPEStatus.IN_PROGRESS:
-      return UserActionTagViewModel(
-        title: Strings.actionPEInProgress,
-        backgroundColor:
-            isSelected ? AppColors.accent3Lighten : Colors.transparent,
-        textColor: isSelected ? AppColors.accent3 : AppColors.grey800,
-        isSelected: isSelected,
-      );
-    case UserActionPEStatus.RETARDED:
-      return UserActionTagViewModel(
-        title: Strings.actionPERetarded,
-        backgroundColor:
-            isSelected ? AppColors.warningLighten : Colors.transparent,
-        textColor: isSelected ? AppColors.warning : AppColors.grey800,
-        isSelected: isSelected,
-      );
-    case UserActionPEStatus.DONE:
-      return UserActionTagViewModel(
-        title: Strings.actionPEDone,
-        backgroundColor:
-            isSelected ? AppColors.accent2Lighten : Colors.transparent,
-        textColor: isSelected ? AppColors.accent2 : AppColors.grey800,
-        isSelected: isSelected,
-      );
-    case UserActionPEStatus.CANCELLED:
-      return UserActionTagViewModel(
-        title: Strings.actionPECancelled,
-        backgroundColor:
-            isSelected ? AppColors.accent2Lighten : Colors.transparent,
-        textColor: isSelected ? AppColors.accent2 : AppColors.grey800,
-        isSelected: isSelected,
-      );
-  }
 }

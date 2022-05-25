@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/user_action_pe.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
@@ -49,21 +48,6 @@ void main() {
           backgroundColor: AppColors.accent1Lighten,
           textColor: AppColors.accent1,
         ));
-    expect(viewModel.statutsPossibles, [
-      UserActionTagViewModel(
-          title: Strings.actionPEToDo,
-          backgroundColor: AppColors.accent1Lighten,
-          textColor: AppColors.accent1,
-          isSelected: true),
-      UserActionTagViewModel(
-          title: Strings.actionPEInProgress,
-          backgroundColor: Colors.transparent,
-          textColor: AppColors.grey800),
-      UserActionTagViewModel(
-          title: Strings.actionPEDone,
-          backgroundColor: Colors.transparent,
-          textColor: AppColors.grey800),
-    ]);
   });
 
   test(
