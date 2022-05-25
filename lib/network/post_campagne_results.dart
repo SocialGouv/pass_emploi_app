@@ -8,8 +8,8 @@ class PostCampagneResults implements JsonSerializable {
 
   @override
   Map<String, dynamic> toJson() => {
-    "idQuestion": answer.idQuestion,
-    "idReponse": answer.idAnswer,
-    "pourquoi": answer.pourquoi,
-  };
+        "idQuestion": answer.idQuestion,
+        "idReponse": answer.idAnswer,
+        "pourquoi": answer.pourquoi ?? '',
+      };
 }
