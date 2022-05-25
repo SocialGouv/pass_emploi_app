@@ -10,7 +10,7 @@ class HomeDemarches extends Equatable {
 
   factory HomeDemarches.fromJson(dynamic json) {
     final actions = (json["actions"] as List).map((action) => UserActionPE.fromJson(action)).toList();
-    final campagne = Campagne.fromJson(json["campagne"]);
+    final campagne = json["campagne"] != null ? Campagne.fromJson(json["campagne"]) : null;
     return HomeDemarches(actions: actions, campagne: campagne);
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
@@ -98,8 +99,8 @@ void main() {
             _userAction(status: UserActionStatus.DONE),
             _userAction(status: UserActionStatus.IN_PROGRESS),
           ],
-          campagne(),
         ),
+        campagneState: CampagneState(campagne()),
       ),
     );
 
@@ -127,7 +128,10 @@ void main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: loggedInState().copyWith(userActionListState: UserActionListSuccessState([], null)),
+      initialState: loggedInState().copyWith(
+        userActionListState: UserActionListSuccessState([]),
+        campagneState: CampagneState(null),
+      ),
     );
 
     // When
@@ -145,7 +149,10 @@ void main() {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: loggedInState().copyWith(userActionListState: UserActionListSuccessState([], campagne())),
+      initialState: loggedInState().copyWith(
+        userActionListState: UserActionListSuccessState([]),
+        campagneState: CampagneState(campagne()),
+      ),
     );
 
     // When

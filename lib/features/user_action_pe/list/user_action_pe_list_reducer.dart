@@ -12,7 +12,6 @@ UserActionPEListState userActionPEListReducer(UserActionPEListState current, dyn
     return UserActionPEListSuccessState(
       action.userActions,
       action.isDetailAvailable,
-      action.campagne,
     );
   }
   if (action is UserActionPEListResetAction) {

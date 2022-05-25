@@ -191,6 +191,18 @@ class Strings {
 
   static String withOrganism(String organism) => "Avec : $organism";
 
+  // App evaluation
+
+  static String evalTitle = "Votre expérience sur l’application";
+  static String evalDescription = "Aidez-nous à améliorer l’application en répondant à 2 questions.";
+  static String evalButton = "Donner son avis";
+  static String questionIndexTitle(String index, String total) => "Votre expérience $index/$total";
+  static String nextButtonTitle = "Suivant";
+  static String validateButtonTitle = "Valider";
+  static String mandatory = "Les questions marquées d’une * sont obligatoires ";
+  static String pourquoiTitle = "Pourquoi ?";
+  static String evaluationSuccessfullySent = "Vous avez répondu aux questions, merci !";
+
   // User Action
   static String actionsError = "Erreur lors de la récupération de vos actions";
   static String actionDone = "Terminée";
@@ -548,4 +560,7 @@ class Strings {
   static String modeDemoExplicationTroisiemePoint2 =
       "donnés à titre d’exemples et ne correspondent pas aux recherches effectuées.";
   static String modeDemoExplicationChoix = "Veuillez sélectionner le mode de démonstration";
+
+  // Campagne
+  static String campagneTitle(int page, int count) => "Votre expérience $page/$count";
 }

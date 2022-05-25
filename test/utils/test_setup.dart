@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart'
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
@@ -73,6 +74,7 @@ class TestStoreFactory {
   DetailsJeuneRepository detailsJeuneRepository = DummyDetailsJeuneRepository();
   SuppressionCompteRepository suppressionCompteRepository =
       DummySuppressionCompteRepository();
+  CampagneRepository campagneRepository = DummyCampagneRepository();
   ModeDemoRepository demoRepository = ModeDemoRepository();
   MatomoTracker matomoTracker = DummyMatomoTracker();
   FirebaseRemoteConfig? remoteConfig;
@@ -109,6 +111,7 @@ class TestStoreFactory {
       detailsJeuneRepository,
       suppressionCompteRepository,
       demoRepository,
+      campagneRepository,
       matomoTracker,
       remoteConfig,
     ).initializeReduxStore(initialState: initialState);
