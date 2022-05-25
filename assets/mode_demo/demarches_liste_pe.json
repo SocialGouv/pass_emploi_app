@@ -2,10 +2,11 @@
   "actions": [
     {
       "id": "2342236",
+      "contenu": "Identification de ses compétences avec pole-emploi.fr",
+      "statut": "EN_RETARD",
+      "dateFin": "2021-12-21T09:00:00.000Z",
+      "creeeParConseiller": false,
       "codeDemarche": "eyJxdW9pIjoiUTA1In0=",
-      "contenu": "Salon des métiers",
-      "statut": "EN_COURS",
-      "dateFin": "2022-05-10T08:06:00.000Z",
       "dateDebut": "2022-05-10T08:04:00.000Z",
       "label": "Mon (nouveau) métier",
       "titre": "Participation à un salon ou un forum pour s'informer sur un métier",
@@ -17,15 +18,15 @@
         "A_FAIRE",
         "EN_COURS"
       ],
-      "modifieParConseiller": true,
-      "creeeParConseiller": true
+      "modifieParConseiller": true
     },
     {
       "id": "198916545",
-      "codeDemarche": "eyJxdW9pIjoiUTM5IiwiY29tbWVudCI6IkMzOS4wMiJ9",
-      "contenu": "Résoudre mes contraintes personnelles",
+      "contenu": "Candidature spontanée auprès de Carrefour, IntermarchÃ© et Auchan",
       "statut": "EN_COURS",
-      "dateFin": "2022-05-12T22:00:00.000Z",
+      "dateFin": "2022-06-02T08:00:00.000Z",
+      "creeeParConseiller": true,
+      "codeDemarche": "eyJxdW9pIjoiUTM5IiwiY29tbWVudCI6IkMzOS4wMiJ9",
       "dateDebut": "2022-05-12T22:00:00.000Z",
       "label": "Mes contraintes personnelles",
       "titre": "Résoudre ses contraintes personnelles",
@@ -38,16 +39,16 @@
         "A_FAIRE",
         "EN_COURS"
       ],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
+      "modifieParConseiller": false
     },
     {
       "id": "198929693",
+      "contenu": "Préparation entretiens d'embauche",
+      "statut": "A_FAIRE",
+      "dateFin": "2022-06-25T08:06:00.000Z",
+      "creeeParConseiller": true,
       "codeDemarche": "eyJxdW9pIjoiUTExIiwiY29tbWVudCI6IkMxMS4wNCJ9",
-      "contenu": "Préparation candidature",
       "dateModification": "2022-05-23T15:03:00.000Z",
-      "statut": "EN_COURS",
-      "dateFin": "2022-05-23T22:00:00.000Z",
       "dateDebut": "2022-05-23T22:00:00.000Z",
       "label": "Mes candidatures",
       "titre": "Préparation de ses candidatures (CV, lettre de motivation, book)",
@@ -60,15 +61,15 @@
         "A_FAIRE",
         "EN_COURS"
       ],
-      "modifieParConseiller": false,
-      "creeeParConseiller": true
+      "modifieParConseiller": false
     },
     {
       "id": "2342228",
+      "contenu": "Réponse à l'offre de SUPPLAY",
+      "statut": "REALISEE",
+      "dateFin": "2019-10-08T14:19:00.000Z",
+      "creeeParConseiller": false,
       "codeDemarche": "eyJxdW9pIjoiUTE1IiwiY29tbWVudCI6IkMxNS4wMiJ9",
-      "contenu": "Candidature spontanée auprès de Carrefour, IntermarchÃ© et Auchan",
-      "statut": "EN_COURS",
-      "dateFin": "2022-06-02T08:00:00.000Z",
       "dateDebut": "2022-05-10T07:04:00.000Z",
       "label": "Mes candidatures",
       "titre": "Candidatures spontanées",
@@ -87,15 +88,15 @@
         "A_FAIRE",
         "EN_COURS"
       ],
-      "modifieParConseiller": true,
-      "creeeParConseiller": true
+      "modifieParConseiller": true
     },
     {
       "id": "2342237",
+      "contenu": "Echange(s)  courriel(s)",
+      "statut": "REALISEE",
+      "dateFin": "2019-11-17T23:00:00.000Z",
+      "creeeParConseiller": true,
       "codeDemarche": "eyJxdW9pIjoiUTE3IiwiY29tbWVudCI6IkMxNy4wNCJ9",
-      "contenu": "Préparation entretiens d'embauche",
-      "statut": "A_FAIRE",
-      "dateFin": "2022-06-25T08:06:00.000Z",
       "dateDebut": "2022-06-06T08:04:00.000Z",
       "label": "Mes entretiens d'embauche",
       "titre": "Préparation des entretiens d'embauche",
@@ -108,15 +109,16 @@
         "A_FAIRE",
         "EN_COURS"
       ],
-      "modifieParConseiller": true,
-      "creeeParConseiller": true
+      "modifieParConseiller": true
     },
     {
       "id": "2341893",
+      "contenu": "Réunion Marché du travail local",
+      "statut": "ANNULEE",
+      "dateFin": "2019-11-17T23:00:00.000Z",
+      "dateAnnulation": "2019-11-17T23:00:00.000Z",
+      "creeeParConseiller": true,
       "codeDemarche": "eyJxdW9pIjoiUTM4In0=",
-      "contenu": "Action issue de l’application CEJ",
-      "statut": "EN_COURS",
-      "dateFin": "2022-12-21T09:00:00.000Z",
       "dateDebut": "2022-05-06T06:11:00.000Z",
       "label": "Mon (nouveau) métier",
       "titre": "Action issue de l’application CEJ",
@@ -134,16 +136,16 @@
         "A_FAIRE",
         "EN_COURS"
       ],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
+      "modifieParConseiller": false
     },
     {
       "id": "2341740",
+      "contenu": "Publication profil/CV sur internet Visible",
+      "statut": "REALISEE",
+      "dateFin": "2019-12-03T07:52:00.000Z",
+      "creeeParConseiller": false,
       "codeDemarche": "eyJxdW9pIjoiUTAxIiwiY29tbWVudCI6IkMwMS4wNSJ9",
-      "contenu": "Identification de ses compétences",
       "dateModification": "2022-05-05T09:00:00.000Z",
-      "statut": "EN_COURS",
-      "dateFin": "2022-12-21T09:00:00.000Z",
       "dateDebut": "2022-05-05T06:11:00.000Z",
       "dateAnnulation": "2022-05-05T08:00:00.000Z",
       "label": "Mon (nouveau) métier",
@@ -157,15 +159,15 @@
         "A_FAIRE",
         "EN_COURS"
       ],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
+      "modifieParConseiller": false
     },
     {
       "id": "198920950",
+      "contenu": "Préparation CV ou lettre de motivation ",
+      "statut": "REALISEE",
+      "dateFin": "2019-12-03T07:59:00.000Z",
+      "creeeParConseiller": false,
       "codeDemarche": "eyJxdW9pIjoiUTAxIiwiY29tbWVudCI6IkMwMS4wNSJ9",
-      "contenu": "Identification de ses compétences",
-      "statut": "EN_COURS",
-      "dateFin": "2022-12-21T09:00:00.000Z",
       "dateDebut": "2022-05-05T06:11:00.000Z",
       "label": "Mon (nouveau) métier",
       "titre": "Identification de ses points forts et de ses compétences",
@@ -178,687 +180,15 @@
         "A_FAIRE",
         "EN_COURS"
       ],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
+      "modifieParConseiller": false
     },
     {
       "id": "2341741",
-      "codeDemarche": "eyJxdW9pIjoiUTAxIiwiY29tbWVudCI6IkMwMS4wNSJ9",
-      "contenu": "Identification de ses compétences",
-      "statut": "EN_COURS",
-      "dateFin": "2022-12-21T09:00:00.000Z",
-      "dateDebut": "2022-05-05T06:11:00.000Z",
-      "label": "Mon (nouveau) métier",
-      "titre": "Identification de ses points forts et de ses compétences",
-      "sousTitre": "Par un autre moyen",
-      "dateCreation": "2022-05-04T09:04:00.000Z",
-      "attributs": [],
-      "statutsPossibles": [
-        "ANNULEE",
-        "REALISEE",
-        "A_FAIRE",
-        "EN_COURS"
-      ],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
-    },
-    {
-      "id": "2341737",
-      "codeDemarche": "eyJxdW9pIjoiUTAxIiwiY29tbWVudCI6IkMwMS4wNSJ9",
-      "contenu": "Identification de ses compétences",
-      "statut": "EN_COURS",
-      "dateFin": "2022-12-21T09:00:00.000Z",
-      "dateDebut": "2022-05-05T06:11:00.000Z",
-      "label": "Mon (nouveau) métier",
-      "titre": "Identification de ses points forts et de ses compétences",
-      "sousTitre": "Par un autre moyen",
-      "dateCreation": "2022-05-04T09:04:00.000Z",
-      "attributs": [],
-      "statutsPossibles": [
-        "ANNULEE",
-        "REALISEE",
-        "A_FAIRE",
-        "EN_COURS"
-      ],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
-    },
-    {
-      "id": "2341885",
-      "codeDemarche": "eyJxdW9pIjoiUTAxIiwiY29tbWVudCI6IkMwMS4wNSJ9",
-      "contenu": "Identification de ses compétences",
-      "statut": "EN_COURS",
-      "dateFin": "2022-12-21T09:00:00.000Z",
-      "dateDebut": "2022-05-05T06:11:00.000Z",
-      "label": "Mon (nouveau) métier",
-      "titre": "Identification de ses points forts et de ses compétences",
-      "sousTitre": "Par un autre moyen",
-      "dateCreation": "2022-05-04T09:04:00.000Z",
-      "attributs": [],
-      "statutsPossibles": [
-        "ANNULEE",
-        "REALISEE",
-        "A_FAIRE",
-        "EN_COURS"
-      ],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
-    },
-    {
-      "id": "198929343",
-      "codeDemarche": "eyJxdW9pIjoiUTAxIiwiY29tbWVudCI6IkMwMS4wNSJ9",
-      "contenu": "Identification de ses compétences",
-      "statut": "EN_COURS",
-      "dateFin": "2022-12-21T09:00:00.000Z",
-      "dateDebut": "2022-05-05T06:11:00.000Z",
-      "label": "Mon (nouveau) métier",
-      "titre": "Identification de ses points forts et de ses compétences",
-      "sousTitre": "Par un autre moyen",
-      "dateCreation": "2022-05-04T09:04:00.000Z",
-      "attributs": [],
-      "statutsPossibles": [
-        "ANNULEE",
-        "REALISEE",
-        "A_FAIRE",
-        "EN_COURS"
-      ],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
-    },
-    {
-      "id": "28350308",
-      "codeDemarche": "eyJxdW9pIjoiUTAyIiwiY29tbWVudCI6IkMwMi4wMSJ9",
-      "contenu": "Réunion Marché du travail local",
-      "dateModification": "2021-02-03T15:51:00.000Z",
-      "statut": "REALISEE",
-      "dateFin": "2019-08-21T22:00:00.000Z",
-      "dateDebut": "2019-08-21T22:00:00.000Z",
-      "label": "Mon (nouveau) métier",
-      "titre": "Information sur un métier ou un secteur d'activité",
-      "sousTitre": "En participant à un atelier, une prestation, une réunion d'information",
-      "dateCreation": "2019-08-06T22:00:00.000Z",
-      "attributs": [
-        {
-          "cle": "description",
-          "valeur": "Marché du travail local",
-          "label": "Description"
-        }
-      ],
-      "statutsPossibles": [],
-      "modifieParConseiller": true,
-      "creeeParConseiller": true
-    },
-    {
-      "id": "14253984",
-      "codeDemarche": "eyJxdW9pIjoiUTE0In0=",
-      "contenu": "Réponse à l'offre de SUPPLAY",
-      "statut": "REALISEE",
-      "dateFin": "2019-10-08T14:19:00.000Z",
-      "dateDebut": "2019-10-08T14:19:00.000Z",
-      "label": "Mes candidatures",
-      "titre": "Réponse à des offres d'emploi",
-      "dateCreation": "2019-10-08T14:19:00.000Z",
-      "attributs": [
-        {
-          "cle": "organisme",
-          "valeur": "SUPPLAY",
-          "label": "Nom de l’organisme"
-        }
-      ],
-      "statutsPossibles": [],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
-    },
-    {
-      "id": "40655662",
-      "codeDemarche": "eyJxdW9pIjoiUTM2In0=",
-      "contenu": "Echange(s)  courriel(s)",
-      "statut": "REALISEE",
-      "dateFin": "2019-11-17T23:00:00.000Z",
-      "dateDebut": "2019-11-17T23:00:00.000Z",
-      "label": "Mes entretiens avec un conseiller",
-      "titre": "Vous avez eu un",
-      "dateCreation": "2019-11-17T23:00:00.000Z",
-      "attributs": [
-        {
-          "cle": "description",
-          "valeur": "Echange(s)  courriel(s)",
-          "label": "Description"
-        },
-        {
-          "cle": "contact",
-          "valeur": "Par courriel",
-          "label": "Contact"
-        }
-      ],
-      "statutsPossibles": [],
-      "modifieParConseiller": false,
-      "creeeParConseiller": true
-    },
-    {
-      "id": "28350309",
-      "codeDemarche": "eyJxdW9pIjoiUTAyIiwiY29tbWVudCI6IkMwMi4wMSJ9",
-      "contenu": "Réunion Marché du travail local",
-      "dateModification": "2021-02-03T15:51:00.000Z",
-      "statut": "ANNULEE",
-      "dateFin": "2019-11-17T23:00:00.000Z",
-      "dateDebut": "2019-11-17T23:00:00.000Z",
-      "dateAnnulation": "2019-11-17T23:00:00.000Z",
-      "label": "Mon (nouveau) métier",
-      "titre": "Information sur un métier ou un secteur d'activité",
-      "sousTitre": "En participant à un atelier, une prestation, une réunion d'information",
-      "dateCreation": "2019-11-07T23:00:00.000Z",
-      "attributs": [
-        {
-          "cle": "description",
-          "valeur": "MER FORMATION",
-          "label": "Description"
-        }
-      ],
-      "statutsPossibles": [],
-      "modifieParConseiller": true,
-      "creeeParConseiller": true
-    },
-    {
-      "id": "40191639",
-      "codeDemarche": "eyJxdW9pIjoiUTAyIiwiY29tbWVudCI6IkMwMi4wMSJ9",
-      "contenu": "Réunion Marché du travail local",
-      "dateModification": "2021-02-03T15:51:00.000Z",
-      "statut": "REALISEE",
-      "dateFin": "2019-11-19T23:00:00.000Z",
-      "dateDebut": "2019-11-19T23:00:00.000Z",
-      "label": "Mon (nouveau) métier",
-      "titre": "Information sur un métier ou un secteur d'activité",
-      "sousTitre": "En participant à un atelier, une prestation, une réunion d'information",
-      "dateCreation": "2019-11-13T23:00:00.000Z",
-      "attributs": [
-        {
-          "cle": "description",
-          "valeur": "Marché du travail local",
-          "label": "Description"
-        }
-      ],
-      "statutsPossibles": [],
-      "modifieParConseiller": true,
-      "creeeParConseiller": true
-    },
-    {
-      "id": "43657479",
-      "codeDemarche": "eyJxdW9pIjoiUTExIiwiY29tbWVudCI6IkMxMS4wMyJ9",
-      "contenu": "Publication profil/CV sur internet Visible",
-      "dateModification": "2022-01-14T16:46:00.000Z",
-      "statut": "REALISEE",
-      "dateFin": "2019-12-03T07:52:00.000Z",
-      "dateDebut": "2019-12-03T07:52:00.000Z",
-      "label": "Mes candidatures",
-      "titre": "Préparation de ses candidatures (CV, lettre de motivation, book)",
-      "sousTitre": "En publiant mon profil/mon CV sur internet",
-      "dateCreation": "2019-12-03T07:52:00.000Z",
-      "attributs": [],
-      "statutsPossibles": [],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
-    },
-    {
-      "id": "43660051",
-      "codeDemarche": "eyJxdW9pIjoiUTExIiwiY29tbWVudCI6IkMxMS4wMiJ9",
-      "contenu": "Préparation CV ou lettre de motivation :  cv fabrice",
-      "dateModification": "2019-12-03T07:59:00.000Z",
-      "statut": "REALISEE",
-      "dateFin": "2019-12-03T07:59:00.000Z",
-      "dateDebut": "2019-12-03T07:59:00.000Z",
-      "label": "Mes candidatures",
-      "titre": "Préparation de ses candidatures (CV, lettre de motivation, book)",
-      "sousTitre": "En créant ou en mettant à jour mon CV et ou ma lettre de motivation",
-      "dateCreation": "2019-12-03T07:59:00.000Z",
-      "attributs": [
-        {
-          "cle": "description",
-          "valeur": "cv fabrice",
-          "label": "Description"
-        }
-      ],
-      "statutsPossibles": [],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
-    },
-    {
-      "id": "113042610",
-      "codeDemarche": "eyJxdW9pIjoiUTM2In0=",
       "contenu": "Entretien de suivi personnalisé",
       "statut": "REALISEE",
       "dateFin": "2021-02-02T23:00:00.000Z",
-      "dateDebut": "2021-02-02T23:00:00.000Z",
-      "label": "Mes entretiens avec un conseiller",
-      "titre": "Vous avez eu un",
-      "dateCreation": "2021-02-02T23:00:00.000Z",
-      "attributs": [
-        {
-          "cle": "description",
-          "valeur": "Entretien de suivi personnalisé",
-          "label": "Description"
-        },
-        {
-          "cle": "contact",
-          "valeur": "Par téléphone",
-          "label": "Contact"
-        }
-      ],
-      "statutsPossibles": [],
-      "modifieParConseiller": false,
-      "creeeParConseiller": true
-    },
-    {
-      "id": "2341735",
+      "creeeParConseiller": true,
       "codeDemarche": "eyJxdW9pIjoiUTAxIiwiY29tbWVudCI6IkMwMS4wNSJ9",
-      "contenu": "Identification de ses compétences",
-      "dateModification": "2022-05-24T09:04:00.000Z",
-      "statut": "REALISEE",
-      "dateFin": "2021-12-21T09:00:00.000Z",
-      "dateDebut": "2021-12-01T07:11:00.000Z",
-      "label": "Mon (nouveau) métier",
-      "titre": "Identification de ses points forts et de ses compétences",
-      "sousTitre": "Par un autre moyen",
-      "dateCreation": "2021-11-29T10:04:00.000Z",
-      "attributs": [],
-      "statutsPossibles": [
-        "A_FAIRE",
-        "EN_COURS"
-      ],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
-    },
-    {
-      "id": "181160815",
-      "codeDemarche": "eyJxdW9pIjoiUTEyIiwiY29tbWVudCI6IkMxMi4wMiJ9",
-      "contenu": "Recherche offres ou entreprises sur Pôle emploi : Transport / Logistique",
-      "dateModification": "2022-02-09T05:49:00.000Z",
-      "statut": "REALISEE",
-      "dateFin": "2022-01-13T16:54:00.000Z",
-      "dateDebut": "2022-01-13T16:54:00.000Z",
-      "label": "Mes candidatures",
-      "titre": "Recherche d'offres d'emploi ou d'entreprises",
-      "sousTitre": "Sur internet",
-      "dateCreation": "2022-01-13T16:54:00.000Z",
-      "attributs": [
-        {
-          "cle": "description",
-          "valeur": "Transport / Logistique",
-          "label": "Description"
-        }
-      ],
-      "statutsPossibles": [],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
-    },
-    {
-      "id": "181161197",
-      "codeDemarche": "eyJxdW9pIjoiUTE0In0=",
-      "contenu": "Réponse à l'offre de SOUFFLET ALIMENTAIRE",
-      "statut": "REALISEE",
-      "dateFin": "2022-01-13T16:57:00.000Z",
-      "dateDebut": "2022-01-13T16:57:00.000Z",
-      "label": "Mes candidatures",
-      "titre": "Réponse à des offres d'emploi",
-      "dateCreation": "2022-01-13T16:57:00.000Z",
-      "attributs": [
-        {
-          "cle": "organisme",
-          "valeur": "SOUFFLET ALIMENTAIRE",
-          "label": "Nom de l’organisme"
-        }
-      ],
-      "statutsPossibles": [],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
-    },
-    {
-      "id": "181242360",
-      "codeDemarche": "eyJxdW9pIjoiUTE0In0=",
-      "contenu": "Réponse à l'offre de PEDRETTI DISTRIBUTION",
-      "statut": "REALISEE",
-      "dateFin": "2022-01-14T07:55:00.000Z",
-      "dateDebut": "2022-01-14T07:55:00.000Z",
-      "label": "Mes candidatures",
-      "titre": "Réponse à des offres d'emploi",
-      "dateCreation": "2022-01-14T07:55:00.000Z",
-      "attributs": [
-        {
-          "cle": "organisme",
-          "valeur": "PEDRETTI DISTRIBUTION",
-          "label": "Nom de l’organisme"
-        }
-      ],
-      "statutsPossibles": [],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
-    },
-    {
-      "id": "181216153",
-      "codeDemarche": "eyJxdW9pIjoiUTExIiwiY29tbWVudCI6IkMxMS4wMiJ9",
-      "contenu": "Préparation CV ou lettre de motivation :  CV Fabrice Traitchevitch",
-      "dateModification": "2022-01-14T17:00:00.000Z",
-      "statut": "REALISEE",
-      "dateFin": "2022-01-14T17:00:00.000Z",
-      "dateDebut": "2022-01-14T17:00:00.000Z",
-      "label": "Mes candidatures",
-      "titre": "Préparation de ses candidatures (CV, lettre de motivation, book)",
-      "sousTitre": "En créant ou en mettant à jour mon CV et ou ma lettre de motivation",
-      "dateCreation": "2022-01-13T16:56:00.000Z",
-      "attributs": [
-        {
-          "cle": "description",
-          "valeur": "CV Fabrice Traitchevitch",
-          "label": "Description"
-        }
-      ],
-      "statutsPossibles": [],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
-    },
-    {
-      "id": "183666629",
-      "codeDemarche": "eyJxdW9pIjoiUTE0In0=",
-      "contenu": "Réponse à l'offre de SYNERGIE",
-      "statut": "REALISEE",
-      "dateFin": "2022-01-26T07:28:00.000Z",
-      "dateDebut": "2022-01-26T07:28:00.000Z",
-      "label": "Mes candidatures",
-      "titre": "Réponse à des offres d'emploi",
-      "dateCreation": "2022-01-26T07:28:00.000Z",
-      "attributs": [
-        {
-          "cle": "organisme",
-          "valeur": "SYNERGIE",
-          "label": "Nom de l’organisme"
-        }
-      ],
-      "statutsPossibles": [],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
-    },
-    {
-      "id": "183920954",
-      "codeDemarche": "eyJxdW9pIjoiUTExIiwiY29tbWVudCI6IkMxMS4wMiJ9",
-      "contenu": "Préparation CV ou lettre de motivation :  CV 2021-09-13 Fabrice Traitchevitch",
-      "statut": "REALISEE",
-      "dateFin": "2022-01-26T07:28:00.000Z",
-      "dateDebut": "2022-01-26T07:28:00.000Z",
-      "label": "Mes candidatures",
-      "titre": "Préparation de ses candidatures (CV, lettre de motivation, book)",
-      "sousTitre": "En créant ou en mettant à jour mon CV et ou ma lettre de motivation",
-      "dateCreation": "2022-01-26T07:28:00.000Z",
-      "attributs": [
-        {
-          "cle": "description",
-          "valeur": "CV 2021-09-13 Fabrice Traitchevitch",
-          "label": "Description"
-        }
-      ],
-      "statutsPossibles": [],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
-    },
-    {
-      "id": "183667005",
-      "codeDemarche": "eyJxdW9pIjoiUTE0In0=",
-      "contenu": "Réponse à l'offre de SYNERGIE",
-      "statut": "REALISEE",
-      "dateFin": "2022-01-26T07:31:00.000Z",
-      "dateDebut": "2022-01-26T07:31:00.000Z",
-      "label": "Mes candidatures",
-      "titre": "Réponse à des offres d'emploi",
-      "dateCreation": "2022-01-26T07:31:00.000Z",
-      "attributs": [
-        {
-          "cle": "organisme",
-          "valeur": "SYNERGIE",
-          "label": "Nom de l’organisme"
-        }
-      ],
-      "statutsPossibles": [],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
-    },
-    {
-      "id": "198916488",
-      "codeDemarche": "eyJxdW9pIjoiUTAxIiwiY29tbWVudCI6IkMwMS4wNSJ9",
-      "contenu": "Identification de ses compétences avec pole-emploi.fr",
-      "dateModification": "2021-11-29T10:04:00.000Z",
-      "statut": "ANNULEE",
-      "dateFin": "2022-05-10T08:00:00.000Z",
-      "dateDebut": "2022-05-09T06:11:00.000Z",
-      "dateAnnulation": "2022-05-11T06:11:00.000Z",
-      "label": "Mon (nouveau) métier",
-      "titre": "Identification de ses points forts et de ses compétences",
-      "sousTitre": "Par un autre moyen",
-      "dateCreation": "2022-05-11T09:04:00.000Z",
-      "attributs": [
-        {
-          "cle": "metier",
-          "valeur": "Agriculture",
-          "label": "Nom du métier"
-        },
-        {
-          "cle": "description",
-          "valeur": "Candidature chez diffÃ©rents employeurs",
-          "label": "Description"
-        },
-        {
-          "cle": "nombre",
-          "valeur": 5,
-          "label": "Nombre"
-        }
-      ],
-      "statutsPossibles": [],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
-    },
-    {
-      "id": "198929704",
-      "codeDemarche": "eyJxdW9pIjoiUTEyIiwiY29tbWVudCI6IkMxMi4wMSJ9",
-      "contenu": "Recherche offres/entreprises",
-      "statut": "REALISEE",
-      "dateFin": "2022-05-12T22:00:00.000Z",
-      "dateDebut": "2022-05-12T22:00:00.000Z",
-      "label": "Mes candidatures",
-      "titre": "Recherche d'offres d'emploi ou d'entreprises",
-      "sousTitre": "Avec l'aide d'une personne ou d'une structure",
-      "dateCreation": "2022-05-23T15:32:00.000Z",
-      "attributs": [],
-      "statutsPossibles": [
-        "A_FAIRE",
-        "EN_COURS"
-      ],
-      "modifieParConseiller": false,
-      "creeeParConseiller": true
-    },
-    {
-      "id": "198929907",
-      "codeDemarche": "eyJxdW9pIjoiUTIyIiwiY29tbWVudCI6IkMyMi4wMiJ9",
-      "contenu": "Information création d'entreprise",
-      "statut": "REALISEE",
-      "dateFin": "2022-05-23T22:00:00.000Z",
-      "dateDebut": "2022-05-23T22:00:00.000Z",
-      "label": "Ma création ou reprise d'entreprise",
-      "titre": "Recherches pour créer ou reprendre une entreprise",
-      "sousTitre": "Avec l'aide d'une personne ou d'une structure",
-      "dateCreation": "2022-05-24T09:41:00.000Z",
-      "attributs": [],
-      "statutsPossibles": [
-        "A_FAIRE",
-        "EN_COURS"
-      ],
-      "modifieParConseiller": false,
-      "creeeParConseiller": true
-    },
-    {
-      "id": "2342323",
-      "codeDemarche": "eyJxdW9pIjoiUTAxIiwiY29tbWVudCI6IkMwMS4wNSJ9",
-      "contenu": "Identification de ses compétences avec pole-emploi.fr",
-      "dateModification": "2022-05-24T10:11:00.000Z",
-      "statut": "REALISEE",
-      "dateFin": "2022-05-24T10:11:00.000Z",
-      "dateDebut": "2022-05-24T10:11:00.000Z",
-      "label": "Mon (nouveau) métier",
-      "titre": "Identification de ses points forts et de ses compétences",
-      "sousTitre": "Par un autre moyen",
-      "dateCreation": "2022-05-11T09:04:00.000Z",
-      "attributs": [
-        {
-          "cle": "metier",
-          "valeur": "Agriculture",
-          "label": "Nom du métier"
-        },
-        {
-          "cle": "description",
-          "valeur": "Candidature chez diffÃ©rents employeurs",
-          "label": "Description"
-        },
-        {
-          "cle": "nombre",
-          "valeur": 5,
-          "label": "Nombre"
-        },
-        {
-          "cle": "contact",
-          "valeur": "Mon conseiller",
-          "label": "Contact"
-        }
-      ],
-      "statutsPossibles": [
-        "A_FAIRE",
-        "EN_COURS"
-      ],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
-    },
-    {
-      "id": "2341736",
-      "codeDemarche": "eyJxdW9pIjoiUTAxIiwiY29tbWVudCI6IkMwMS4wNSJ9",
-      "contenu": "Identification de ses compétences",
-      "dateModification": "2022-05-24T10:13:00.000Z",
-      "statut": "REALISEE",
-      "dateFin": "2022-05-24T10:13:00.000Z",
-      "dateDebut": "2022-05-24T10:13:00.000Z",
-      "label": "Mon (nouveau) métier",
-      "titre": "Identification de ses points forts et de ses compétences",
-      "sousTitre": "Par un autre moyen",
-      "dateCreation": "2022-05-04T09:04:00.000Z",
-      "attributs": [],
-      "statutsPossibles": [
-        "A_FAIRE",
-        "EN_COURS"
-      ],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
-    },
-    {
-      "id": "2341734",
-      "codeDemarche": "eyJxdW9pIjoiUTAxIiwiY29tbWVudCI6IkMwMS4wNSJ9",
-      "contenu": "Identification de ses compétences avec pole-emploi.fr",
-      "dateModification": "2022-05-24T10:15:00.000Z",
-      "statut": "REALISEE",
-      "dateFin": "2022-05-24T10:15:00.000Z",
-      "dateDebut": "2022-05-24T10:15:00.000Z",
-      "label": "Mon (nouveau) métier",
-      "titre": "Identification de ses points forts et de ses compétences",
-      "sousTitre": "Par un autre moyen",
-      "dateCreation": "2021-11-29T10:04:00.000Z",
-      "attributs": [
-        {
-          "cle": "metier",
-          "valeur": "Agriculture",
-          "label": "Nom du métier"
-        },
-        {
-          "cle": "description",
-          "valeur": "Candidature chez diffÃ©rents employeurs",
-          "label": "Description"
-        },
-        {
-          "cle": "nombre",
-          "valeur": 5,
-          "label": "Nombre"
-        },
-        {
-          "cle": "contact",
-          "valeur": "Mon conseiller",
-          "label": "Contact"
-        }
-      ],
-      "statutsPossibles": [
-        "A_FAIRE",
-        "EN_COURS"
-      ],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
-    },
-    {
-      "id": "2342238",
-      "codeDemarche": "eyJxdW9pIjoiUTAxIiwiY29tbWVudCI6IkMwMS4wMiJ9",
-      "contenu": "Identification de ses compétences",
-      "dateModification": "2022-05-24T10:19:00.000Z",
-      "statut": "REALISEE",
-      "dateFin": "2022-05-24T10:19:00.000Z",
-      "dateDebut": "2022-05-24T10:19:00.000Z",
-      "label": "Mon (nouveau) métier",
-      "titre": "Identification de ses points forts et de ses compétences",
-      "sousTitre": "Avec l'aide d'une personne ou d'une structure",
-      "dateCreation": "2022-05-10T08:04:00.000Z",
-      "attributs": [],
-      "statutsPossibles": [
-        "A_FAIRE",
-        "EN_COURS"
-      ],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
-    },
-    {
-      "id": "2342227",
-      "codeDemarche": "eyJxdW9pIjoiUTExIiwiY29tbWVudCI6IkMxMS4wMiJ9",
-      "contenu": "Préparation CV ou lettre de motivation",
-      "dateModification": "2022-05-24T12:38:00.000Z",
-      "statut": "REALISEE",
-      "dateFin": "2022-05-24T12:38:00.000Z",
-      "dateDebut": "2022-05-24T12:38:00.000Z",
-      "label": "Mes candidatures",
-      "titre": "Préparation de ses candidatures (CV, lettre de motivation, book)",
-      "sousTitre": "En créant ou en mettant à jour mon CV et ou ma lettre de motivation",
-      "dateCreation": "2022-05-10T07:04:00.000Z",
-      "attributs": [],
-      "statutsPossibles": [
-        "A_FAIRE",
-        "EN_COURS"
-      ],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
-    },
-    {
-      "id": "2341739",
-      "codeDemarche": "eyJxdW9pIjoiUTAxIiwiY29tbWVudCI6IkMwMS4wNSJ9",
-      "contenu": "Identification de ses compétences",
-      "dateModification": "2022-05-23T10:07:00.000Z",
-      "statut": "ANNULEE",
-      "dateFin": "2022-12-20T23:00:00.000Z",
-      "dateDebut": "2022-05-04T22:00:00.000Z",
-      "dateAnnulation": "2022-05-23T10:07:00.000Z",
-      "label": "Mon (nouveau) métier",
-      "titre": "Identification de ses points forts et de ses compétences",
-      "sousTitre": "Par un autre moyen",
-      "dateCreation": "2022-05-04T09:04:00.000Z",
-      "attributs": [],
-      "statutsPossibles": [],
-      "modifieParConseiller": true,
-      "creeeParConseiller": false
-    },
-    {
-      "id": "2341742",
-      "codeDemarche": "eyJxdW9pIjoiUTAxIiwiY29tbWVudCI6IkMwMS4wNSJ9",
-      "contenu": "Identification de ses compétences",
-      "dateModification": "2022-05-05T08:00:00.000Z",
-      "statut": "REALISEE",
-      "dateFin": "2022-12-21T09:00:00.000Z",
       "dateDebut": "2022-05-05T06:11:00.000Z",
       "label": "Mon (nouveau) métier",
       "titre": "Identification de ses points forts et de ses compétences",
@@ -866,51 +196,12 @@
       "dateCreation": "2022-05-04T09:04:00.000Z",
       "attributs": [],
       "statutsPossibles": [
+        "ANNULEE",
+        "REALISEE",
         "A_FAIRE",
         "EN_COURS"
       ],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
-    },
-    {
-      "id": "198929327",
-      "codeDemarche": "eyJxdW9pIjoiUTAxIiwiY29tbWVudCI6IkMwMS4wNSJ9",
-      "contenu": "Identification de ses compétences",
-      "dateModification": "2021-11-29T10:04:00.000Z",
-      "statut": "REALISEE",
-      "dateFin": "2022-12-21T09:00:00.000Z",
-      "dateDebut": "2022-05-05T06:11:00.000Z",
-      "label": "Mon (nouveau) métier",
-      "titre": "Identification de ses points forts et de ses compétences",
-      "sousTitre": "Par un autre moyen",
-      "dateCreation": "2022-05-04T09:04:00.000Z",
-      "attributs": [],
-      "statutsPossibles": [
-        "A_FAIRE",
-        "EN_COURS"
-      ],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
-    },
-    {
-      "id": "198920952",
-      "codeDemarche": "eyJxdW9pIjoiUTAxIiwiY29tbWVudCI6IkMwMS4wNSJ9",
-      "contenu": "Identification de ses compétences",
-      "dateModification": "2021-11-29T10:04:00.000Z",
-      "statut": "REALISEE",
-      "dateFin": "2022-12-21T09:00:00.000Z",
-      "dateDebut": "2022-05-05T06:11:00.000Z",
-      "label": "Mon (nouveau) métier",
-      "titre": "Identification de ses points forts et de ses compétences",
-      "sousTitre": "Par un autre moyen",
-      "dateCreation": "2022-05-04T09:04:00.000Z",
-      "attributs": [],
-      "statutsPossibles": [
-        "A_FAIRE",
-        "EN_COURS"
-      ],
-      "modifieParConseiller": false,
-      "creeeParConseiller": false
+      "modifieParConseiller": false
     }
   ],
   "campagne": {
