@@ -39,7 +39,6 @@ void main() {
         userActionPEListState: UserActionPEListSuccessState(
           [userAction],
           true,
-          null,
         ),
       ),
     );

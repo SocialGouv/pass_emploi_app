@@ -136,7 +136,7 @@ void main() {
       reducer,
       initialState: loggedInState().copyWith(
         userActionPEListState: UserActionPEListSuccessState([], false),
-        campagneState: CampagneState(campagne()),
+        campagneState: CampagneState(null),
       ),
     );
 
