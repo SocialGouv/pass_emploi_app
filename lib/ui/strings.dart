@@ -197,6 +197,7 @@ class Strings {
   static String actionCanceled = "Annulée";
   static String aboutThisAction = "À propos de cette action";
   static String actionDetails = "Détail de l'action";
+  static String demarcheDetails = "Détail de la démarche";
   static String updateStatus = "Changer le statut";
   static String refreshActionStatus = "Actualiser";
   static String actionToDo = "À réaliser";
@@ -229,6 +230,12 @@ class Strings {
   static String doneActionsTitle = "Actions terminées et annulées";
 
   //User Action Pole Emploi
+  static String modifierStatut = "Modifier le statut";
+  static String historiqueDemarche = "Historique";
+  static String modifiedBy = "Modifiée le ";
+  static String createdBy = "Crée le ";
+  static String par = " par ";
+  static String votreConseiller = "votre conseiller";
   static String actionPEToDo = "À faire";
   static String actionPEInProgress = "En cours";
   static String actionPERetarded = "En retard";

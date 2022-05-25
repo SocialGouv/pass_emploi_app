@@ -28,6 +28,7 @@ class ModeDemoClient extends BaseClient {
   }
 
   String _getFileName(String url, String query) {
+    if (url.endsWith("/home/demarches")) return "demarches_liste_pe";
     if (url.endsWith("/pole-emploi/actions")) return "actions_liste_pe";
     if (url.endsWith("/favoris/offres-immersion")) return "favoris_ids_immersion";
     if (url.endsWith("/favoris/offres-emploi")) return "favoris_ids_offres_emploi";

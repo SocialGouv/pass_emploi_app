@@ -1,3 +1,4 @@
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
@@ -57,16 +58,24 @@ class TestStoreFactory {
   TrackingEventRepository trackingEventRepository = DummyTrackingEventRepository();
   OffreEmploiSavedSearchRepository offreEmploiSavedSearchRepository = DummyOffreEmploiSavedSearchRepository();
   ImmersionSavedSearchRepository immersionSavedSearchRepository = DummyImmersionSavedSearchRepository();
-  ServiceCiviqueSavedSearchRepository serviceCiviqueSavedSearchRepository = DummyServiceCiviqueSavedSearchRepository();
-  GetSavedSearchRepository getSavedSearchRepository = DummyGetSavedSearchRepository();
-  SavedSearchDeleteRepository savedSearchDeleteRepository = DummySavedSearchDeleteRepository();
-  ServiceCiviqueRepository serviceCiviqueRepository = DummyServiceCiviqueRepository();
-  ServiceCiviqueDetailRepository serviceCiviqueDetailRepository = DummyServiceCiviqueDetailRepository();
-  ServiceCiviqueFavorisRepository serviceCiviqueFavorisRepository = DummyServiceCiviqueFavorisRepository();
+  ServiceCiviqueSavedSearchRepository serviceCiviqueSavedSearchRepository =
+      DummyServiceCiviqueSavedSearchRepository();
+  GetSavedSearchRepository getSavedSearchRepository =
+      DummyGetSavedSearchRepository();
+  SavedSearchDeleteRepository savedSearchDeleteRepository =
+      DummySavedSearchDeleteRepository();
+  ServiceCiviqueRepository serviceCiviqueRepository =
+      DummyServiceCiviqueRepository();
+  ServiceCiviqueDetailRepository serviceCiviqueDetailRepository =
+      DummyServiceCiviqueDetailRepository();
+  ServiceCiviqueFavorisRepository serviceCiviqueFavorisRepository =
+      DummyServiceCiviqueFavorisRepository();
   DetailsJeuneRepository detailsJeuneRepository = DummyDetailsJeuneRepository();
-  SuppressionCompteRepository suppressionCompteRepository = DummySuppressionCompteRepository();
+  SuppressionCompteRepository suppressionCompteRepository =
+      DummySuppressionCompteRepository();
   ModeDemoRepository demoRepository = ModeDemoRepository();
   MatomoTracker matomoTracker = DummyMatomoTracker();
+  FirebaseRemoteConfig? remoteConfig;
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
@@ -101,6 +110,7 @@ class TestStoreFactory {
       suppressionCompteRepository,
       demoRepository,
       matomoTracker,
+      remoteConfig,
     ).initializeReduxStore(initialState: initialState);
   }
 }

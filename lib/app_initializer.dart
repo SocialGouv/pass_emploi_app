@@ -79,7 +79,7 @@ class AppInitializer {
     if (forceUpdate) {
       return ForceUpdatePage(configuration.flavor);
     } else {
-      final store = await _initializeReduxStore(configuration);
+      final store = await _initializeReduxStore(configuration, remoteConfig);
       return PassEmploiApp(store);
     }
   }
@@ -119,10 +119,12 @@ class AppInitializer {
     return AppVersionChecker().shouldForceUpdate(currentVersion: currentVersion, minimumVersion: minimumVersion);
   }
 
-  Future<Store<AppState>> _initializeReduxStore(Configuration configuration) async {
+  Future<Store<AppState>> _initializeReduxStore(
+      Configuration configuration, FirebaseRemoteConfig? remoteConfig) async {
     final crashlytics = CrashlyticsWithFirebase(FirebaseCrashlytics.instance);
     final pushNotificationManager = FirebasePushNotificationManager();
-    final securedPreferences = FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true));
+    final securedPreferences = FlutterSecureStorage(
+        aOptions: AndroidOptions(encryptedSharedPreferences: true));
     final logoutRepository = LogoutRepository(
       configuration.authIssuer,
       configuration.authClientSecret,
@@ -198,7 +200,7 @@ class AppInitializer {
       SuppressionCompteRepository(baseUrl, httpClient, crashlytics),
       modeDemoRepository,
       MatomoTracker(),
-    ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
+        remoteConfig).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
     authAccessChecker.setStore(reduxStore);
     monitoringInterceptor.setStore(reduxStore);

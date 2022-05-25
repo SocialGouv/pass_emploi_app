@@ -7,9 +7,10 @@ class UserActionPEListLoadingAction {}
 
 class UserActionPEListSuccessAction {
   final List<UserActionPE> userActions;
+  final bool isDetailAvailable;
   final Campagne? campagne;
 
-  UserActionPEListSuccessAction(this.userActions, [this.campagne]);
+  UserActionPEListSuccessAction(this.userActions, this.isDetailAvailable, [this.campagne]);
 }
 
 class UserActionPEListFailureAction {}

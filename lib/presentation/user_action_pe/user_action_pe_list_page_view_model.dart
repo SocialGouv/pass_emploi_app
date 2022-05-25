@@ -59,7 +59,8 @@ List<UserActionPEViewModel> _retardedActions({required UserActionPEListState sta
   if (state is UserActionPEListSuccessState) {
     return state.userActions
         .where((action) => action.status == UserActionPEStatus.RETARDED)
-        .map((action) => UserActionPEViewModel.create(action))
+        .map((action) =>
+            UserActionPEViewModel.create(action, state.isDetailAvailable))
         .toList();
   }
   return [];
@@ -69,8 +70,10 @@ List<UserActionPEViewModel> _activeActions({required UserActionPEListState state
   if (state is UserActionPEListSuccessState) {
     return state.userActions
         .where((action) =>
-            action.status == UserActionPEStatus.NOT_STARTED || action.status == UserActionPEStatus.IN_PROGRESS)
-        .map((action) => UserActionPEViewModel.create(action))
+            action.status == UserActionPEStatus.NOT_STARTED ||
+            action.status == UserActionPEStatus.IN_PROGRESS)
+        .map((action) =>
+            UserActionPEViewModel.create(action, state.isDetailAvailable))
         .toList();
   }
   return [];
@@ -79,8 +82,11 @@ List<UserActionPEViewModel> _activeActions({required UserActionPEListState state
 List<UserActionPEViewModel> _inactiveActions({required UserActionPEListState state}) {
   if (state is UserActionPEListSuccessState) {
     return state.userActions
-        .where((action) => action.status == UserActionPEStatus.DONE || action.status == UserActionPEStatus.CANCELLED)
-        .map((action) => UserActionPEViewModel.create(action))
+        .where((action) =>
+            action.status == UserActionPEStatus.DONE ||
+            action.status == UserActionPEStatus.CANCELLED)
+        .map((action) =>
+            UserActionPEViewModel.create(action, state.isDetailAvailable))
         .toList();
   }
   return [];
