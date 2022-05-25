@@ -72,7 +72,9 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
                     _pourquoi = value;
                   });
                 },
-                showCursor: false,
+                textInputAction: TextInputAction.newline,
+                keyboardType: TextInputType.multiline,
+                maxLines: null,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                 ),
