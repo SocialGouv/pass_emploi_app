@@ -11,10 +11,12 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
 class CampagneQuestionPage extends StatefulWidget {
-  CampagneQuestionPage._() : super();
+  final int questionOffset;
 
-  static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => CampagneQuestionPage._());
+  CampagneQuestionPage._(this.questionOffset) : super();
+
+  static MaterialPageRoute<void> materialPageRoute(int questionOffset) {
+    return MaterialPageRoute(builder: (context) => CampagneQuestionPage._(questionOffset));
   }
 
   @override
@@ -23,11 +25,12 @@ class CampagneQuestionPage extends StatefulWidget {
 
 class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
   int? _answerId;
+  String? _pourquoi;
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, QuestionPageViewModel>(
-      converter: (store) => QuestionPageViewModel.create(store, 0),
+      converter: (store) => QuestionPageViewModel.create(store, widget.questionOffset),
       builder: (context, viewModel) => _scaffold(context, viewModel),
       distinct: true,
     );
@@ -64,6 +67,11 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
               ),
               child: TextField(
+                onChanged:(value) {
+                  setState(() {
+                    _pourquoi = value;
+                  });
+                },
                 showCursor: false,
                 decoration: InputDecoration(
                   border: InputBorder.none,
@@ -76,7 +84,7 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
                 constraints: const BoxConstraints(minWidth: double.infinity),
                 child: PrimaryActionButton(
                   onPressed: _answerId != null
-                      ? () => viewModel.onButtonClick(viewModel.idQuestion, _answerId!, 'POURQUOI')
+                      ? () => onButtonPressed(viewModel)
                       : null,
                   label: viewModel.bottomButton == QuestionBottomButton.next
                       ? Strings.nextButtonTitle
@@ -91,11 +99,17 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
     );
   }
 
+  void onButtonPressed(QuestionPageViewModel viewModel) {
+    viewModel.onButtonClick(viewModel.idQuestion, _answerId!, _pourquoi);
+    Navigator.push(context, CampagneQuestionPage.materialPageRoute(widget.questionOffset + 1));
+  }
+
   Widget _answerOptions(List<Option> options) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: options
-          .map((option) => RadioListTile<int>(
+          .map((option) =>
+          RadioListTile<int>(
               controlAffinity: ListTileControlAffinity.trailing,
               selected: option.id == _answerId,
               title: Text(option.libelle),

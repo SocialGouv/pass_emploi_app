@@ -3,6 +3,6 @@ import 'package:pass_emploi_app/utils/log.dart';
 
 class CampagneRepository {
   Future<void> postAnswers(String userId, String campagneId, List<CampagneQuestionAnswer> updatedAnswers) async {
-    Log.i("POST ANSWERS", '$userId $campagneId $updatedAnswers');
+    Log.i('POST ANSWERS userId: $userId campagneId: $campagneId answers: $updatedAnswers');
   }
 }

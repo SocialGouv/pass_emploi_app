@@ -31,7 +31,7 @@ class CampagneDetailsPage extends StatelessWidget {
             ConstrainedBox(
               constraints: const BoxConstraints(minWidth: double.infinity),
               child: PrimaryActionButton(
-                onPressed: () => Navigator.push(context, CampagneQuestionPage.materialPageRoute()),
+                onPressed: () => Navigator.push(context, CampagneQuestionPage.materialPageRoute(0)),
                 label: Strings.evalButton,
                 drawableRes: Drawables.icPencil,
                 iconSize: 14,
