@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
+import 'package:pass_emploi_app/features/campagne/campagne_result_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/configuration/configuration_state.dart';
@@ -71,6 +72,7 @@ class AppState extends Equatable {
   final ServiceCiviqueDetailState serviceCiviqueDetailState;
   final bool demoState;
   final SuppressionCompteState suppressionCompteState;
+  final CampagneResultState campagneResultState;
 
   AppState({
     required this.configurationState,
@@ -107,6 +109,7 @@ class AppState extends Equatable {
     required this.serviceCiviqueDetailState,
     required this.suppressionCompteState,
     required this.demoState,
+    required this.campagneResultState,
   });
 
   AppState copyWith({
@@ -144,6 +147,7 @@ class AppState extends Equatable {
     final ServiceCiviqueDetailState? serviceCiviqueDetailState,
     final SuppressionCompteState? suppressionCompteState,
     final bool? demoState,
+    final CampagneResultState? campagneResultState,
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
@@ -181,6 +185,7 @@ class AppState extends Equatable {
       serviceCiviqueDetailState: serviceCiviqueDetailState ?? this.serviceCiviqueDetailState,
       suppressionCompteState: suppressionCompteState ?? this.suppressionCompteState,
       demoState: demoState ?? this.demoState,
+      campagneResultState: campagneResultState ?? this.campagneResultState,
     );
   }
 
@@ -220,6 +225,7 @@ class AppState extends Equatable {
       serviceCiviqueDetailState: ServiceCiviqueDetailNotInitializedState(),
       demoState: false,
       suppressionCompteState: SuppressionCompteNotInitializedState(),
+      campagneResultState: CampagneResultState([]),
     );
   }
 
@@ -254,6 +260,7 @@ class AppState extends Equatable {
         serviceCiviqueDetailState,
         suppressionCompteState,
         demoState,
+        campagneResultState,
       ];
 
   @override
