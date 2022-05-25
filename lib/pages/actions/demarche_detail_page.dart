@@ -14,8 +14,7 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 class DemarcheDetailPage extends TraceableStatelessWidget {
   final UserActionPEViewModel viewModel;
 
-  DemarcheDetailPage._(this.viewModel)
-      : super(name: AnalyticsScreenNames.alternanceCreateAlert); // TODO
+  DemarcheDetailPage._(this.viewModel) : super(name: AnalyticsScreenNames.userActionDetails);
 
   static MaterialPageRoute<void> materialPageRoute(
       UserActionPEViewModel actionViewModel) {
