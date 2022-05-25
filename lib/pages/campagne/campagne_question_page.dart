@@ -67,7 +67,7 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
               ),
               child: TextField(
-                onChanged:(value) {
+                onChanged: (value) {
                   setState(() {
                     _pourquoi = value;
                   });
@@ -83,9 +83,7 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
               child: ConstrainedBox(
                 constraints: const BoxConstraints(minWidth: double.infinity),
                 child: PrimaryActionButton(
-                  onPressed: _answerId != null
-                      ? () => onButtonPressed(viewModel)
-                      : null,
+                  onPressed: _answerId != null ? () => onButtonPressed(viewModel) : null,
                   label: viewModel.bottomButton == QuestionBottomButton.next
                       ? Strings.nextButtonTitle
                       : Strings.validateButtonTitle,
@@ -100,16 +98,23 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
   }
 
   void onButtonPressed(QuestionPageViewModel viewModel) {
+    submitAnswer(viewModel);
+    if (viewModel.bottomButton == QuestionBottomButton.next) {
+      Navigator.push(context, CampagneQuestionPage.materialPageRoute(widget.questionOffset + 1));
+    } else {
+      Navigator.popUntil(context, (route) => route.settings.name == Navigator.defaultRouteName);
+    }
+  }
+
+  void submitAnswer(QuestionPageViewModel viewModel) {
     viewModel.onButtonClick(viewModel.idQuestion, _answerId!, _pourquoi);
-    Navigator.push(context, CampagneQuestionPage.materialPageRoute(widget.questionOffset + 1));
   }
 
   Widget _answerOptions(List<Option> options) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: options
-          .map((option) =>
-          RadioListTile<int>(
+          .map((option) => RadioListTile<int>(
               controlAffinity: ListTileControlAffinity.trailing,
               selected: option.id == _answerId,
               title: Text(option.libelle),
