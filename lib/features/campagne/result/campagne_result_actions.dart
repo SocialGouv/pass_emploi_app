@@ -13,3 +13,5 @@ class CampagneUpdateAnswersAction {
 
   CampagneUpdateAnswersAction(this.updatedAnswers);
 }
+
+class CampagneResetAction {}

@@ -1,5 +1,4 @@
-import 'package:pass_emploi_app/features/campagne/campagne_extensions.dart';
-import 'package:pass_emploi_app/features/campagne/campagne_result_actions.dart';
+import 'package:pass_emploi_app/features/campagne/result/campagne_result_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/campagne_question_answer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -16,7 +15,7 @@ class CampagneResultMiddleware extends MiddlewareClass<AppState> {
     next(action);
     final loggedIn = store.state.loginState;
     if (loggedIn is LoginSuccessState && action is CampagneResultAction) {
-      final campagneId = store.campagne()?.id;
+      final campagneId = store.state.campagneState.campagne?.id;
       if (campagneId != null) {
         final answers = store.state.campagneResultState.answers;
         final currentAnswer = CampagneQuestionAnswer(action.idQuestion, action.idAnswer, action.pourquoi);

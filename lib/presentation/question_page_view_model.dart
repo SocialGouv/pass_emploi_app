@@ -1,5 +1,4 @@
-import 'package:pass_emploi_app/features/campagne/campagne_extensions.dart';
-import 'package:pass_emploi_app/features/campagne/campagne_result_actions.dart';
+import 'package:pass_emploi_app/features/campagne/result/campagne_result_actions.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -26,7 +25,8 @@ class QuestionPageViewModel {
   });
 
   factory QuestionPageViewModel.create(Store<AppState> store, int pageOffset) {
-    final campagne = store.campagne()!; // todo que faire si null, qui ne doit pas arriver ?
+    final campagne = store.state.campagneState.campagne;
+    if (campagne == null) return dummyCampagne();
 
     return QuestionPageViewModel(
       idQuestion: campagne.questions[pageOffset].id,
@@ -35,13 +35,24 @@ class QuestionPageViewModel {
       question: campagne.questions[pageOffset].libelle,
       options: campagne.questions[pageOffset].options,
       bottomButton: pageOffset.isLastPage(campagne) ? QuestionBottomButton.validate : QuestionBottomButton.next,
-      onButtonClick: (idQuestion, idAnswer, pourquoi) => store.dispatch(
-        CampagneResultAction(
-          idQuestion,
-          idAnswer,
-          pourquoi,
-        ),
-      ),
+      onButtonClick: (idQuestion, idAnswer, pourquoi) {
+        store.dispatch(CampagneResultAction(idQuestion, idAnswer, pourquoi));
+        if (pageOffset.isLastPage(campagne)) {
+          store.dispatch(CampagneResetAction());
+        }
+      },
+    );
+  }
+
+  static QuestionPageViewModel dummyCampagne() {
+    return QuestionPageViewModel(
+      idQuestion: 0,
+      titre: '',
+      information: null,
+      question: '',
+      options: [],
+      bottomButton: QuestionBottomButton.validate,
+      onButtonClick: (idQuestion, idAnswer, pourquoi) {},
     );
   }
 }

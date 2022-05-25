@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
-import 'package:pass_emploi_app/features/campagne/campagne_result_state.dart';
+import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
+import 'package:pass_emploi_app/features/campagne/result/campagne_result_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/configuration/configuration_state.dart';
@@ -72,6 +73,7 @@ class AppState extends Equatable {
   final ServiceCiviqueDetailState serviceCiviqueDetailState;
   final bool demoState;
   final SuppressionCompteState suppressionCompteState;
+  final CampagneState campagneState;
   final CampagneResultState campagneResultState;
 
   AppState({
@@ -109,6 +111,7 @@ class AppState extends Equatable {
     required this.serviceCiviqueDetailState,
     required this.suppressionCompteState,
     required this.demoState,
+    required this.campagneState,
     required this.campagneResultState,
   });
 
@@ -147,6 +150,7 @@ class AppState extends Equatable {
     final ServiceCiviqueDetailState? serviceCiviqueDetailState,
     final SuppressionCompteState? suppressionCompteState,
     final bool? demoState,
+    final CampagneState? campagneState,
     final CampagneResultState? campagneResultState,
   }) {
     return AppState(
@@ -185,6 +189,7 @@ class AppState extends Equatable {
       serviceCiviqueDetailState: serviceCiviqueDetailState ?? this.serviceCiviqueDetailState,
       suppressionCompteState: suppressionCompteState ?? this.suppressionCompteState,
       demoState: demoState ?? this.demoState,
+      campagneState: campagneState ?? this.campagneState,
       campagneResultState: campagneResultState ?? this.campagneResultState,
     );
   }
@@ -225,6 +230,7 @@ class AppState extends Equatable {
       serviceCiviqueDetailState: ServiceCiviqueDetailNotInitializedState(),
       demoState: false,
       suppressionCompteState: SuppressionCompteNotInitializedState(),
+      campagneState: CampagneState(null),
       campagneResultState: CampagneResultState([]),
     );
   }
@@ -260,6 +266,7 @@ class AppState extends Equatable {
         serviceCiviqueDetailState,
         suppressionCompteState,
         demoState,
+        campagneState,
         campagneResultState,
       ];
 

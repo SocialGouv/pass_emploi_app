@@ -36,15 +36,15 @@ class UserActionListPageViewModel extends Equatable {
   });
 
   factory UserActionListPageViewModel.create(Store<AppState> store) {
-    final state = store.state.userActionListState;
+    final actionState = store.state.userActionListState;
     return UserActionListPageViewModel(
-      withLoading: state is UserActionListLoadingState || state is UserActionListNotInitializedState,
-      withFailure: state is UserActionListFailureState,
-      withEmptyMessage: _isEmpty(state),
+      withLoading: actionState is UserActionListLoadingState || actionState is UserActionListNotInitializedState,
+      withFailure: actionState is UserActionListFailureState,
+      withEmptyMessage: _isEmpty(store.state),
       items: _listItems(
-        campagne: _campagneItem(state: state),
-        activeItems: _activeActions(state: state),
-        doneOrCanceledItems: _doneOrCanceledActions(state: state),
+        campagne: _campagneItem(state: store.state),
+        activeItems: _activeActions(state: actionState),
+        doneOrCanceledItems: _doneOrCanceledActions(state: actionState),
       ),
       onRetry: () => store.dispatch(UserActionListRequestAction()),
       onUserActionDetailsDismissed: () {
@@ -53,7 +53,7 @@ class UserActionListPageViewModel extends Equatable {
       },
       onCreateUserActionDismissed: () => store.dispatch(UserActionCreateResetAction()),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
-      actionDetails: _getDetails(deeplinkState: store.state.deepLinkState, userActionState: state),
+      actionDetails: _getDetails(deeplinkState: store.state.deepLinkState, userActionState: actionState),
     );
   }
 
@@ -61,12 +61,15 @@ class UserActionListPageViewModel extends Equatable {
   List<Object?> get props => [withLoading, withFailure, withEmptyMessage, items];
 }
 
-bool _isEmpty(UserActionListState state) =>
-    state is UserActionListSuccessState && state.userActions.isEmpty && state.campagne == null;
+bool _isEmpty(AppState state) {
+  final actionState = state.userActionListState;
+  return actionState is UserActionListSuccessState &&
+      actionState.userActions.isEmpty &&
+      state.campagneState.campagne == null;
+}
 
-UserActionCampagneItemViewModel? _campagneItem({required UserActionListState state}) {
-  if (state is! UserActionListSuccessState) return null;
-  final campagne = state.campagne;
+UserActionCampagneItemViewModel? _campagneItem({required AppState state}) {
+  final campagne = state.campagneState.campagne;
   if (campagne != null) {
     return UserActionCampagneItemViewModel(titre: campagne.titre, description: campagne.description);
   }

@@ -19,14 +19,14 @@ class UserActionPEListPageViewModel extends Equatable {
   });
 
   factory UserActionPEListPageViewModel.create(Store<AppState> store) {
-    final state = store.state.userActionPEListState;
+    final actionState = store.state.userActionPEListState;
     return UserActionPEListPageViewModel(
-      displayState: _displayState(state),
+      displayState: _displayState(store.state),
       items: _listItems(
-        campagne: _campagneItem(state: state),
-        retardedItems: _retardedActions(state: state),
-        activeItems: _activeActions(state: state),
-        inactiveItems: _inactiveActions(state: state),
+        campagne: _campagneItem(state: store.state),
+        retardedItems: _retardedActions(state: actionState),
+        activeItems: _activeActions(state: actionState),
+        inactiveItems: _inactiveActions(state: actionState),
       ),
       onRetry: () => store.dispatch(UserActionPEListRequestAction()),
     );
@@ -36,9 +36,12 @@ class UserActionPEListPageViewModel extends Equatable {
   List<Object?> get props => [displayState, items];
 }
 
-DisplayState _displayState(UserActionPEListState state) {
-  if (state is UserActionPEListSuccessState) {
-    return (state.userActions.isNotEmpty || state.campagne != null) ? DisplayState.CONTENT : DisplayState.EMPTY;
+DisplayState _displayState(AppState state) {
+  final actionState = state.userActionPEListState;
+  if (actionState is UserActionPEListSuccessState) {
+    return (actionState.userActions.isNotEmpty || state.campagneState.campagne != null)
+        ? DisplayState.CONTENT
+        : DisplayState.EMPTY;
   } else if (state is UserActionPEListFailureState) {
     return DisplayState.FAILURE;
   } else {
@@ -46,9 +49,8 @@ DisplayState _displayState(UserActionPEListState state) {
   }
 }
 
-UserActionPECampagneItemViewModel? _campagneItem({required UserActionPEListState state}) {
-  if (state is! UserActionPEListSuccessState) return null;
-  final campagne = state.campagne;
+UserActionPECampagneItemViewModel? _campagneItem({required AppState state}) {
+  final campagne = state.campagneState.campagne;
   if (campagne != null) {
     return UserActionPECampagneItemViewModel(titre: campagne.titre, description: campagne.description);
   }
