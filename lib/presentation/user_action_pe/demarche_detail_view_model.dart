@@ -36,6 +36,7 @@ class DemarcheDetailViewModel extends Equatable {
 
   factory DemarcheDetailViewModel.create(Store<AppState> store, String id) {
     final UserActionPE userAction = (store.state.userActionPEListState as UserActionPEListSuccessState).userActions.firstWhere((element) => element.id == id);
+    userAction.possibleStatus.sort((a, b) => a.compareTo(b));
     return DemarcheDetailViewModel(
       createdByAdvisor: userAction.createdByAdvisor,
       modifiedByAdvisor: userAction.modifiedByAdvisor,
