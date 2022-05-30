@@ -7,7 +7,7 @@ import '../../doubles/fixtures.dart';
 import '../../utils/test_setup.dart';
 
 void main() {
-  test("❤️ une modification de démarche pôle emploi doit mettre à jour le state de la liste des démarches ❤️", () async {
+  test("when modifying a demarche, it should update list state", () async {
     // Given
     final initialAction = UserActionPE(
       id: "id",
