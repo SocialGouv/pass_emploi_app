@@ -18,7 +18,7 @@ class ModifyDemarcheRepository {
   ) async {
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/demarches/$demarcheId/statut");
     try {
-      final response = await _httpClient.post(url, body: {
+      final response = await _httpClient.put(url, body: {
         "statut": _statusToString(status),
         "dateDebut": dateDebut?.toIso8601String(),
       });
