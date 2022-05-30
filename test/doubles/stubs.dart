@@ -35,7 +35,7 @@ class PageActionRepositorySuccessStub extends PageActionRepository {
   PageActionRepositorySuccessStub() : super("", DummyHttpClient());
 
   void withCampagne(Campagne campagne) {
-    _campagne = _campagne;
+    _campagne = campagne;
   }
 
   @override
@@ -92,7 +92,14 @@ class PageActionRepositoryFailureStub extends PageActionRepository {
 }
 
 class PageActionPERepositorySuccessStub extends PageActionPERepository {
+  Campagne? _campagne;
+
   PageActionPERepositorySuccessStub() : super("", DummyHttpClient());
+
+  void withCampagne(Campagne campagne) {
+    _campagne = campagne;
+  }
+
 
   @override
   Future<PageActionsPE?> getPageActionsPE(String userId) async {
@@ -115,6 +122,7 @@ class PageActionPERepositorySuccessStub extends PageActionPERepository {
           attributs: [],
         ),
       ],
+      campagne: _campagne,
     );
   }
 }
