@@ -1,11 +1,11 @@
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/user_action_repository.dart';
+import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:redux/redux.dart';
 
 class UserActionListMiddleware extends MiddlewareClass<AppState> {
-  final UserActionRepository _repository;
+  final PageActionRepository _repository;
 
   UserActionListMiddleware(this._repository);
 
@@ -15,10 +15,9 @@ class UserActionListMiddleware extends MiddlewareClass<AppState> {
     final loginState = store.state.loginState;
     if (loginState is LoginSuccessState && action is UserActionListRequestAction) {
       store.dispatch(UserActionListLoadingAction());
-      final homeActions = await _repository.getHomeActions(loginState.user.id);
-      store.dispatch(homeActions != null
-          ? UserActionListSuccessAction(homeActions.actions, homeActions.campagne)
-          : UserActionListFailureAction());
+      final page = await _repository.getPageActions(loginState.user.id);
+      store.dispatch(
+          page != null ? UserActionListSuccessAction(page.actions, page.campagne) : UserActionListFailureAction());
     }
   }
 }

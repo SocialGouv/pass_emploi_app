@@ -1,11 +1,11 @@
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/user_action_repository.dart';
+import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:redux/redux.dart';
 
 class UserActionDeleteMiddleware extends MiddlewareClass<AppState> {
-  final UserActionRepository _repository;
+  final PageActionRepository _repository;
 
   UserActionDeleteMiddleware(this._repository);
 

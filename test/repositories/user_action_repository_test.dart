@@ -2,10 +2,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
-import 'package:pass_emploi_app/models/home_actions.dart';
+import 'package:pass_emploi_app/models/page_actions.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
-import 'package:pass_emploi_app/repositories/user_action_repository.dart';
+import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 
 import '../doubles/fixtures.dart';
 import '../utils/test_assets.dart';
@@ -19,10 +19,10 @@ void main() {
       if (!request.url.toString().startsWith("BASE_URL/jeunes/UID/home/actions")) return invalidHttpResponse();
       return Response.bytes(loadTestAssetsAsBytes("home_actions.json"), 200);
     });
-    final repository = UserActionRepository("BASE_URL", httpClient);
+    final repository = PageActionRepository("BASE_URL", httpClient);
 
     // When
-    final HomeActions? result = await repository.getHomeActions("UID");
+    final PageActions? result = await repository.getPageActions("UID");
 
     // Then
     expect(result, isNotNull);
@@ -67,10 +67,10 @@ void main() {
   test('get home actions when response is invalid should return null', () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
-    final repository = UserActionRepository("BASE_URL", httpClient);
+    final repository = PageActionRepository("BASE_URL", httpClient);
 
     // When
-    final search = await repository.getHomeActions("UserID");
+    final search = await repository.getPageActions("UserID");
 
     // Then
     expect(search, isNull);

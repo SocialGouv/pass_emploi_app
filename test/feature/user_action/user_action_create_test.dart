@@ -12,7 +12,7 @@ void main() {
   test("create user action when repo succeeds should display loading and then create user action", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
-    testStoreFactory.userActionRepository = UserActionRepositorySuccessStub();
+    testStoreFactory.pageActionRepository = PageActionRepositorySuccessStub();
     final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
     final displayedLoading = store.onChange.any((e) => e.userActionCreateState is UserActionCreateLoadingState);
     final success = store.onChange.firstWhere((e) => e.userActionCreateState is UserActionCreateSuccessState);
@@ -29,7 +29,7 @@ void main() {
   test("create user action when repo succeeds refresh user actions", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
-    testStoreFactory.userActionRepository = UserActionRepositorySuccessStub();
+    testStoreFactory.pageActionRepository = PageActionRepositorySuccessStub();
     final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
     final displayedLoading = store.onChange.any((e) => e.userActionListState is UserActionListLoadingState);
     final success = store.onChange.firstWhere((e) => e.userActionListState is UserActionListSuccessState);
@@ -47,7 +47,7 @@ void main() {
   test("create user action when repo fails should display loading and then show failure", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
-    testStoreFactory.userActionRepository = UserActionRepositoryFailureStub();
+    testStoreFactory.pageActionRepository = PageActionRepositoryFailureStub();
     final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
     final displayedLoading = store.onChange.any((e) => e.userActionCreateState is UserActionCreateLoadingState);
     final failure = store.onChange.firstWhere((e) => e.userActionCreateState is UserActionCreateFailureState);

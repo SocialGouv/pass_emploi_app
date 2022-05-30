@@ -1,6 +1,6 @@
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
-import 'package:pass_emploi_app/models/home_actions.dart';
+import 'package:pass_emploi_app/models/page_actions.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
@@ -8,21 +8,21 @@ import 'package:pass_emploi_app/network/post_user_action_request.dart';
 import 'package:pass_emploi_app/network/put_user_action_request.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
 
-class UserActionRepository {
+class PageActionRepository {
   final String _baseUrl;
   final Client _httpClient;
 
   final Crashlytics? _crashlytics;
 
-  UserActionRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
+  PageActionRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
 
-  Future<HomeActions?> getHomeActions(String userId) async {
+  Future<PageActions?> getPageActions(String userId) async {
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/home/actions");
     try {
       final response = await _httpClient.get(url);
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes);
-        return HomeActions.fromJson(json);
+        return PageActions.fromJson(json);
       }
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);

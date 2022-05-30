@@ -77,16 +77,16 @@ import 'package:pass_emploi_app/repositories/service_civique/service_civique_rep
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
-import 'package:pass_emploi_app/repositories/user_action_pe_repository.dart';
-import 'package:pass_emploi_app/repositories/user_action_repository.dart';
+import 'package:pass_emploi_app/repositories/page_action_pe_repository.dart';
+import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:redux/redux.dart' as redux;
 
 class StoreFactory {
   final Authenticator authenticator;
   final Crashlytics crashlytics;
   final ChatCrypto chatCrypto;
-  final UserActionRepository userActionRepository;
-  final UserActionPERepository userActionPERepository;
+  final PageActionRepository pageActionRepository;
+  final PageActionPERepository pageActionPERepository;
   final RendezvousRepository rendezvousRepository;
   final OffreEmploiRepository offreEmploiRepository;
   final ChatRepository chatRepository;
@@ -121,8 +121,8 @@ class StoreFactory {
     this.authenticator,
     this.crashlytics,
     this.chatCrypto,
-    this.userActionRepository,
-    this.userActionPERepository,
+    this.pageActionRepository,
+    this.pageActionPERepository,
     this.rendezvousRepository,
     this.offreEmploiRepository,
     this.chatRepository,
@@ -161,11 +161,11 @@ class StoreFactory {
       middleware: [
         BootstrapMiddleware(),
         LoginMiddleware(authenticator, firebaseAuthWrapper, modeDemoRepository, matomoTracker),
-        UserActionListMiddleware(userActionRepository),
-        UserActionCreateMiddleware(userActionRepository),
-        UserActionUpdateMiddleware(userActionRepository),
-        UserActionDeleteMiddleware(userActionRepository),
-        UserActionPEListMiddleware(userActionPERepository, remoteConfig),
+        UserActionListMiddleware(pageActionRepository),
+        UserActionCreateMiddleware(pageActionRepository),
+        UserActionUpdateMiddleware(pageActionRepository),
+        UserActionDeleteMiddleware(pageActionRepository),
+        UserActionPEListMiddleware(pageActionPERepository, remoteConfig),
         DetailsJeuneMiddleware(detailsJeuneRepository),
         ChatInitializerMiddleware(firebaseAuthRepository, firebaseAuthWrapper, chatCrypto, modeDemoRepository),
         ChatMiddleware(chatRepository),

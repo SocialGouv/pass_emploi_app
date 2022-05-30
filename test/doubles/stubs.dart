@@ -6,8 +6,8 @@ import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
-import 'package:pass_emploi_app/models/home_actions.dart';
-import 'package:pass_emploi_app/models/home_demarches.dart';
+import 'package:pass_emploi_app/models/page_actions.dart';
+import 'package:pass_emploi_app/models/page_actions_pe.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
@@ -17,23 +17,23 @@ import 'package:pass_emploi_app/models/user_action_pe.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
+import 'package:pass_emploi_app/repositories/page_action_pe_repository.dart';
+import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
-import 'package:pass_emploi_app/repositories/user_action_pe_repository.dart';
-import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:synchronized/synchronized.dart';
 
 import 'dummies.dart';
 import 'fixtures.dart';
 import 'spies.dart';
 
-class UserActionRepositorySuccessStub extends UserActionRepository {
-  UserActionRepositorySuccessStub() : super("", DummyHttpClient());
+class PageActionRepositorySuccessStub extends PageActionRepository {
+  PageActionRepositorySuccessStub() : super("", DummyHttpClient());
 
   @override
-  Future<HomeActions> getHomeActions(String userId) async {
-    return HomeActions(
+  Future<PageActions> getPageActions(String userId) async {
+    return PageActions(
       actions: [
         UserAction(
           id: "id",
@@ -49,17 +49,12 @@ class UserActionRepositorySuccessStub extends UserActionRepository {
   }
 
   @override
-  Future<bool> createUserAction(String userId, String? content, String? comment,
-      UserActionStatus status) async {
-    return userId == "id" &&
-        content == "content" &&
-        comment == "comment" &&
-        status == UserActionStatus.NOT_STARTED;
+  Future<bool> createUserAction(String userId, String? content, String? comment, UserActionStatus status) async {
+    return userId == "id" && content == "content" && comment == "comment" && status == UserActionStatus.NOT_STARTED;
   }
 
   @override
-  Future<void> updateActionStatus(
-      String userId, String actionId, UserActionStatus newStatus) async {}
+  Future<void> updateActionStatus(String userId, String actionId, UserActionStatus newStatus) async {}
 
   @override
   Future<bool> deleteUserAction(String actionId) async {
@@ -67,18 +62,21 @@ class UserActionRepositorySuccessStub extends UserActionRepository {
   }
 }
 
-class UserActionRepositoryFailureStub extends UserActionRepository {
-  UserActionRepositoryFailureStub() : super("", DummyHttpClient());
+class PageActionRepositoryFailureStub extends PageActionRepository {
+  PageActionRepositoryFailureStub() : super("", DummyHttpClient());
 
   @override
-  Future<bool> createUserAction(String userId, String? content, String? comment,
-      UserActionStatus status) async {
+  Future<bool> createUserAction(
+    String userId,
+    String? content,
+    String? comment,
+    UserActionStatus status,
+  ) async {
     return false;
   }
 
   @override
-  Future<void> updateActionStatus(
-      String userId, String actionId, UserActionStatus newStatus) async {}
+  Future<void> updateActionStatus(String userId, String actionId, UserActionStatus newStatus) async {}
 
   @override
   Future<bool> deleteUserAction(String actionId) async {
@@ -86,12 +84,12 @@ class UserActionRepositoryFailureStub extends UserActionRepository {
   }
 }
 
-class UserActionPERepositorySuccessStub extends UserActionPERepository {
-  UserActionPERepositorySuccessStub() : super("", DummyHttpClient());
+class PageActionPERepositorySuccessStub extends PageActionPERepository {
+  PageActionPERepositorySuccessStub() : super("", DummyHttpClient());
 
   @override
-  Future<HomeDemarches?> getHomeDemarches(String userId) async {
-    return HomeDemarches(
+  Future<PageActionsPE?> getPageActionsPE(String userId) async {
+    return PageActionsPE(
       actions: [
         UserActionPE(
           id: "id",
@@ -114,32 +112,27 @@ class UserActionPERepositorySuccessStub extends UserActionPERepository {
   }
 }
 
-class UserActionPERepositoryFailureStub extends UserActionPERepository {
-  UserActionPERepositoryFailureStub() : super("", DummyHttpClient());
+class PageActionPERepositoryFailureStub extends PageActionPERepository {
+  PageActionPERepositoryFailureStub() : super("", DummyHttpClient());
 
   @override
-  Future<HomeDemarches?> getHomeDemarches(String userId) async {
+  Future<PageActionsPE?> getPageActionsPE(String userId) async {
     return null;
   }
 }
 
-class OffreEmploiRepositorySuccessWithMoreDataStub
-    extends OffreEmploiRepository {
+class OffreEmploiRepositorySuccessWithMoreDataStub extends OffreEmploiRepository {
   bool? _onlyAlternance;
   int callCount = 0;
 
   OffreEmploiRepositorySuccessWithMoreDataStub() : super("", DummyHttpClient());
 
-  void withOnlyAlternanceResolves(bool onlyAlternance) =>
-      _onlyAlternance = onlyAlternance;
+  void withOnlyAlternanceResolves(bool onlyAlternance) => _onlyAlternance = onlyAlternance;
 
   @override
-  Future<OffreEmploiSearchResponse?> search(
-      {required String userId,
-      required SearchOffreEmploiRequest request}) async {
+  Future<OffreEmploiSearchResponse?> search({required String userId, required SearchOffreEmploiRequest request}) async {
     callCount = callCount + 1;
-    final response = OffreEmploiSearchResponse(
-        isMoreDataAvailable: true, offres: [mockOffreEmploi()]);
+    final response = OffreEmploiSearchResponse(isMoreDataAvailable: true, offres: [mockOffreEmploi()]);
     if (_onlyAlternance == null) return response;
     return request.onlyAlternance == _onlyAlternance ? response : null;
   }
@@ -149,9 +142,7 @@ class OffreEmploiRepositoryFailureStub extends OffreEmploiRepository {
   OffreEmploiRepositoryFailureStub() : super("", DummyHttpClient());
 
   @override
-  Future<OffreEmploiSearchResponse?> search(
-      {required String userId,
-      required SearchOffreEmploiRequest request}) async {
+  Future<OffreEmploiSearchResponse?> search({required String userId, required SearchOffreEmploiRequest request}) async {
     return null;
   }
 }
@@ -173,9 +164,7 @@ class AuthenticatorLoggedInStub extends Authenticator {
     if (expectedMode == null) {
       return Future.value(AuthenticatorResponse.SUCCESS);
     }
-    return Future.value(expectedMode == mode
-        ? AuthenticatorResponse.SUCCESS
-        : AuthenticatorResponse.FAILURE);
+    return Future.value(expectedMode == mode ? AuthenticatorResponse.SUCCESS : AuthenticatorResponse.FAILURE);
   }
 
   @override
@@ -194,12 +183,10 @@ class AuthenticatorLoggedInStub extends Authenticator {
 
 class AuthenticatorNotLoggedInStub extends Authenticator {
   AuthenticatorNotLoggedInStub()
-      : super(DummyAuthWrapper(), DummyLogoutRepository(), configuration(),
-            SharedPreferencesSpy());
+      : super(DummyAuthWrapper(), DummyLogoutRepository(), configuration(), SharedPreferencesSpy());
 
   @override
-  Future<AuthenticatorResponse> login(AuthenticationMode mode) =>
-      Future.value(AuthenticatorResponse.FAILURE);
+  Future<AuthenticatorResponse> login(AuthenticationMode mode) => Future.value(AuthenticatorResponse.FAILURE);
 
   @override
   Future<bool> isLoggedIn() async => false;
@@ -221,8 +208,7 @@ class AuthWrapperStub extends AuthWrapper {
 
   AuthWrapperStub() : super(DummyFlutterAppAuth(), Lock());
 
-  void withLoginArgsResolves(
-      AuthTokenRequest parameters, AuthTokenResponse result) {
+  void withLoginArgsResolves(AuthTokenRequest parameters, AuthTokenResponse result) {
     _loginParameters = parameters;
     _loginResult = result;
     _throwsLoginException = false;
@@ -251,8 +237,7 @@ class AuthWrapperStub extends AuthWrapper {
     _throwsRefreshGenericException = true;
   }
 
-  void withRefreshArgsResolves(
-      AuthRefreshTokenRequest parameters, AuthTokenResponse result) {
+  void withRefreshArgsResolves(AuthRefreshTokenRequest parameters, AuthTokenResponse result) {
     _refreshParameters = parameters;
     _refreshResult = result;
     _throwsRefreshNetworkException = false;
@@ -269,8 +254,7 @@ class AuthWrapperStub extends AuthWrapper {
   }
 
   @override
-  Future<AuthTokenResponse> refreshToken(
-      AuthRefreshTokenRequest request) async {
+  Future<AuthTokenResponse> refreshToken(AuthRefreshTokenRequest request) async {
     if (_throwsRefreshNetworkException) throw AuthWrapperNetworkException();
     if (_throwsRefreshExpiredException) {
       throw AuthWrapperRefreshTokenExpiredException();
@@ -287,8 +271,7 @@ class ChatRepositoryStub extends ChatRepository {
   List<Message> _messages = [];
   ConseillerMessageInfo _info = ConseillerMessageInfo(null, null);
 
-  ChatRepositoryStub()
-      : super(DummyChatCrypto(), DummyCrashlytics(), ModeDemoRepository());
+  ChatRepositoryStub() : super(DummyChatCrypto(), DummyCrashlytics(), ModeDemoRepository());
 
   void onMessageStreamReturns(List<Message> messages) => _messages = messages;
 
@@ -305,12 +288,10 @@ class ChatRepositoryStub extends ChatRepository {
   }
 }
 
-class ServiceCiviqueRepositorySuccessWithMoreDataStub
-    extends ServiceCiviqueRepository {
+class ServiceCiviqueRepositorySuccessWithMoreDataStub extends ServiceCiviqueRepository {
   int callCount = 0;
 
-  ServiceCiviqueRepositorySuccessWithMoreDataStub()
-      : super("", DummyHttpClient());
+  ServiceCiviqueRepositorySuccessWithMoreDataStub() : super("", DummyHttpClient());
 
   @override
   Future<ServiceCiviqueSearchResponse?> search({
@@ -323,12 +304,7 @@ class ServiceCiviqueRepositorySuccessWithMoreDataStub
         isMoreDataAvailable: true,
         offres: List.from(previousOffers)..add(mockServiceCivique()),
         lastRequest: SearchServiceCiviqueRequest(
-            domain: null,
-            location: null,
-            distance: null,
-            startDate: null,
-            endDate: null,
-            page: request.page));
+            domain: null, location: null, distance: null, startDate: null, endDate: null, page: request.page));
     return response;
   }
 }
@@ -346,24 +322,20 @@ class ServiceCiviqueRepositoryFailureStub extends ServiceCiviqueRepository {
   }
 }
 
-class ServiceCiviqueDetailRepositoryWithDataStub
-    extends ServiceCiviqueDetailRepository {
+class ServiceCiviqueDetailRepositoryWithDataStub extends ServiceCiviqueDetailRepository {
   ServiceCiviqueDetailRepositoryWithDataStub() : super("", DummyHttpClient());
 
   @override
-  Future<ServiceCiviqueDetailResponse> getServiceCiviqueDetail(
-      String idOffre) async {
+  Future<ServiceCiviqueDetailResponse> getServiceCiviqueDetail(String idOffre) async {
     return SuccessfullServiceCiviqueDetailResponse(mockServiceCiviqueDetail());
   }
 }
 
-class ServiceCiviqueDetailRepositoryWithErrorStub
-    extends ServiceCiviqueDetailRepository {
+class ServiceCiviqueDetailRepositoryWithErrorStub extends ServiceCiviqueDetailRepository {
   ServiceCiviqueDetailRepositoryWithErrorStub() : super("", DummyHttpClient());
 
   @override
-  Future<ServiceCiviqueDetailResponse> getServiceCiviqueDetail(
-      String idOffre) async {
+  Future<ServiceCiviqueDetailResponse> getServiceCiviqueDetail(String idOffre) async {
     return FailedServiceCiviqueDetailResponse();
   }
 }
@@ -372,14 +344,12 @@ class ImmersionRepositoryFailureStub extends ImmersionRepository {
   ImmersionRepositoryFailureStub() : super("", DummyHttpClient());
 
   @override
-  Future<List<Immersion>?> search(
-      {required String userId, required SearchImmersionRequest request}) async {
+  Future<List<Immersion>?> search({required String userId, required SearchImmersionRequest request}) async {
     return null;
   }
 }
 
-class SuppressionCompteRepositorySuccessStub
-    extends SuppressionCompteRepository {
+class SuppressionCompteRepositorySuccessStub extends SuppressionCompteRepository {
   SuppressionCompteRepositorySuccessStub() : super("", DummyHttpClient());
 
   @override
@@ -388,8 +358,7 @@ class SuppressionCompteRepositorySuccessStub
   }
 }
 
-class SuppressionCompteRepositoryFailureStub
-    extends SuppressionCompteRepository {
+class SuppressionCompteRepositoryFailureStub extends SuppressionCompteRepository {
   SuppressionCompteRepositoryFailureStub() : super("", DummyHttpClient());
 
   @override

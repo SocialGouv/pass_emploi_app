@@ -10,7 +10,7 @@ void main() {
   test("actions pôle emploi should be fetched and displayed when screen loads", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
-    testStoreFactory.userActionPERepository = UserActionPERepositorySuccessStub();
+    testStoreFactory.pageActionPERepository = PageActionPERepositorySuccessStub();
     final store = testStoreFactory.initializeReduxStore(initialState: loggedInPoleEmploiState());
 
     final displayedLoading = store.onChange.any((e) => e.userActionPEListState is UserActionPEListLoadingState);
@@ -30,7 +30,7 @@ void main() {
   test("actions pôle emploi should display an error when fetching failed", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
-    testStoreFactory.userActionPERepository = UserActionPERepositoryFailureStub();
+    testStoreFactory.pageActionPERepository = PageActionPERepositoryFailureStub();
     final store = testStoreFactory.initializeReduxStore(initialState: loggedInPoleEmploiState());
 
     final displayedLoading = store.onChange.any((e) => e.userActionPEListState is UserActionPEListLoadingState);
