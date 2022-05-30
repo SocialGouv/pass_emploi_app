@@ -17,7 +17,8 @@ class UserActionListMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(UserActionListLoadingAction());
       final page = await _repository.getPageActions(loginState.user.id);
       store.dispatch(
-          page != null ? UserActionListSuccessAction(page.actions, page.campagne) : UserActionListFailureAction());
+        page != null ? UserActionListSuccessAction(page.actions, page.campagne) : UserActionListFailureAction(),
+      );
     }
   }
 }

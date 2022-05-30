@@ -12,7 +12,7 @@ import '../utils/test_assets.dart';
 import '../utils/test_datetime.dart';
 
 void main() {
-  test('get home actions', () async {
+  test('getPageActions', () async {
     // Given
     final httpClient = MockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
@@ -64,7 +64,7 @@ void main() {
     );
   });
 
-  test('get home actions when response is invalid should return null', () async {
+  test('getPageActions when response is invalid should return null', () async {
     // Given
     final httpClient = MockClient((request) async => invalidHttpResponse());
     final repository = PageActionRepository("BASE_URL", httpClient);

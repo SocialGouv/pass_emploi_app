@@ -12,7 +12,7 @@ import '../utils/test_assets.dart';
 import '../utils/test_datetime.dart';
 
 void main() {
-  test('get home demarches', () async {
+  test('getPageActionsPE', () async {
     // Given
     final httpClient = MockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
@@ -50,8 +50,7 @@ void main() {
         id: "2341739",
         content: "Identification de ses compétences avec pole-emploi.fr",
         status: UserActionPEStatus.IN_PROGRESS,
-        endDate:
-            parseDateTimeUtcWithCurrentTimeZone('2021-12-21T09:00:00.000Z'),
+        endDate: parseDateTimeUtcWithCurrentTimeZone('2021-12-21T09:00:00.000Z'),
         deletionDate: null,
         createdByAdvisor: true,
         label: "Mon (nouveau) métier",
@@ -61,8 +60,7 @@ void main() {
           UserActionPEStatus.NOT_STARTED,
           UserActionPEStatus.IN_PROGRESS
         ],
-        creationDate:
-            parseDateTimeUtcWithCurrentTimeZone('2022-05-11T09:04:00.000Z'),
+        creationDate: parseDateTimeUtcWithCurrentTimeZone('2022-05-11T09:04:00.000Z'),
         modifiedByAdvisor: false,
         sousTitre: "Par un autre moyen",
         titre: "Identification de ses points forts et de ses compétences",
@@ -74,11 +72,9 @@ void main() {
     );
   });
 
-  test(
-      'get home démarches pôle emploi when response is invalid should return null',
-      () async {
+  test('getPageActionsPE when response is invalid should return null', () async {
     // Given
-        final httpClient = MockClient((request) async => invalidHttpResponse());
+    final httpClient = MockClient((request) async => invalidHttpResponse());
     final repository = PageActionPERepository("BASE_URL", httpClient);
 
     // When

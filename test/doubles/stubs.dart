@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
+import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/page_actions.dart';
 import 'package:pass_emploi_app/models/page_actions_pe.dart';
@@ -29,7 +30,13 @@ import 'fixtures.dart';
 import 'spies.dart';
 
 class PageActionRepositorySuccessStub extends PageActionRepository {
+  Campagne? _campagne;
+
   PageActionRepositorySuccessStub() : super("", DummyHttpClient());
+
+  void withCampagne(Campagne campagne) {
+    _campagne = _campagne;
+  }
 
   @override
   Future<PageActions> getPageActions(String userId) async {
@@ -44,7 +51,7 @@ class PageActionRepositorySuccessStub extends PageActionRepository {
           creator: JeuneActionCreator(),
         ),
       ],
-      campagne: null,
+      campagne: _campagne,
     );
   }
 
