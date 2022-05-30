@@ -100,7 +100,7 @@ void main() {
             _userAction(status: UserActionStatus.IN_PROGRESS),
           ],
         ),
-        campagneState: CampagneState(campagne()),
+        campagneState: CampagneState(campagne(), []),
       ),
     );
 
@@ -130,7 +130,7 @@ void main() {
       reducer,
       initialState: loggedInState().copyWith(
         userActionListState: UserActionListSuccessState([]),
-        campagneState: CampagneState(null),
+        campagneState: CampagneState(null, []),
       ),
     );
 
@@ -151,7 +151,7 @@ void main() {
       reducer,
       initialState: loggedInState().copyWith(
         userActionListState: UserActionListSuccessState([]),
-        campagneState: CampagneState(campagne()),
+        campagneState: CampagneState(campagne(), []),
       ),
     );
 

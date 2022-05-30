@@ -32,7 +32,7 @@ extension AppStateDSL on AppState {
 
   AppState failedPastRendezvous() => copyWith(rendezvousState: RendezvousState.failedPast());
 
-  AppState campagne(Campagne campagne) => copyWith(campagneState: CampagneState(campagne));
+  AppState campagne(Campagne campagne) => copyWith(campagneState: CampagneState(campagne, []));
 
   AppState deeplinkToRendezvous(String id) =>
       copyWith(deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_RENDEZVOUS, DateTime.now(), id));

@@ -1,8 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
-import 'package:pass_emploi_app/features/campagne/result/campagne_result_actions.dart';
-import 'package:pass_emploi_app/features/campagne/result/campagne_result_state.dart';
+import 'package:pass_emploi_app/features/campagne/campagne_actions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
 import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_actions.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
@@ -62,13 +61,13 @@ void main() {
       repository = CampagneRepositoryStub();
       testStoreFactory.campagneRepository = repository;
       store = testStoreFactory.initializeReduxStore(
-        initialState: loggedInState().copyWith(campagneState: CampagneState(mockCampagne())),
+        initialState: loggedInState().copyWith(campagneState: CampagneState(mockCampagne(), [])),
       );
     });
 
     test('On first answer, post first answer to repository', () async {
       // When
-      await store.dispatch(CampagneResultAction(1, 2, 'pourquoi-question-1'));
+      await store.dispatch(CampagneAnswerAction(1, 2, 'pourquoi-question-1'));
 
       // Then
       expect(
@@ -83,10 +82,10 @@ void main() {
 
     test('On second answer, post first and second answer to repository', () async {
       // Given
-      await store.dispatch(CampagneResultAction(1, 2, 'pourquoi-question-1'));
+      await store.dispatch(CampagneAnswerAction(1, 2, 'pourquoi-question-1'));
 
       // When
-      await store.dispatch(CampagneResultAction(2, 3, null));
+      await store.dispatch(CampagneAnswerAction(2, 3, null));
 
       // Then
       expect(
@@ -104,10 +103,10 @@ void main() {
 
     test('On updated answer, do not post back previous answer to repository', () async {
       // Given
-      await store.dispatch(CampagneResultAction(1, 2, 'pourquoi-question-1'));
+      await store.dispatch(CampagneAnswerAction(1, 2, 'pourquoi-question-1'));
 
       // When
-      await store.dispatch(CampagneResultAction(1, 2, 'nouveau-pourquoi-question-1'));
+      await store.dispatch(CampagneAnswerAction(1, 2, 'nouveau-pourquoi-question-1'));
 
       // Then
       expect(
@@ -127,8 +126,7 @@ void main() {
       final testStoreFactory = TestStoreFactory();
       final store = testStoreFactory.initializeReduxStore(
         initialState: loggedInState().copyWith(
-          campagneState: CampagneState(campagne()),
-          campagneResultState: CampagneResultState([CampagneQuestionAnswer(1, 2, null)]),
+          campagneState: CampagneState(campagne(), [CampagneQuestionAnswer(1, 2, null)]),
         ),
       );
 
@@ -138,7 +136,7 @@ void main() {
       // Then
       final state = store.state;
       expect(state.campagneState.campagne, isNull);
-      expect(state.campagneResultState.answers, isEmpty);
+      expect(state.campagneState.answers, isEmpty);
     });
   });
 }

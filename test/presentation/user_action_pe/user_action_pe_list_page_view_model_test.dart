@@ -98,7 +98,7 @@ void main() {
           ],
           false,
         ),
-        campagneState: CampagneState(campagne()),
+        campagneState: CampagneState(campagne(), []),
       ),
     );
 
@@ -136,7 +136,7 @@ void main() {
       reducer,
       initialState: loggedInState().copyWith(
         userActionPEListState: UserActionPEListSuccessState([], false),
-        campagneState: CampagneState(null),
+        campagneState: CampagneState(null, []),
       ),
     );
 
@@ -155,7 +155,7 @@ void main() {
       reducer,
       initialState: loggedInState().copyWith(
         userActionPEListState: UserActionPEListSuccessState([], false),
-        campagneState: CampagneState(campagne()),
+        campagneState: CampagneState(campagne(), []),
       ),
     );
 

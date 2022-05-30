@@ -1,12 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
-import 'package:pass_emploi_app/features/campagne/result/campagne_result_actions.dart';
+import 'package:pass_emploi_app/features/campagne/campagne_actions.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/presentation/question_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-import '../doubles/fixtures.dart';
 import '../dsl/app_state_dsl.dart';
 
 void main() {
@@ -103,18 +101,12 @@ void main() {
     final storeSpy = StoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
-      initialState: loggedInState().copyWith(
-        campagneState: CampagneState(campagneWithTwoQuestions),
-      ),
+      initialState: givenState().loggedInMiloUser().campagne(campagneWithTwoQuestions),
     );
+    final viewModel = QuestionPageViewModel.create(store, 0);
 
     // When
-    final viewModel = QuestionPageViewModel.create(store, 0);
-    viewModel.onButtonClick(
-      campagneWithTwoQuestions.questions[0].id,
-      campagneWithTwoQuestions.questions[0].options[0].id,
-      null,
-    );
+    viewModel.onButtonClick(1, 1, null);
 
     // Then
     expect(storeSpy.calledWithCampagneResults, true);
@@ -126,18 +118,12 @@ void main() {
     final storeSpy = StoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
-      initialState: loggedInState().copyWith(
-        campagneState: CampagneState(campagneWithTwoQuestions),
-      ),
+      initialState: givenState().loggedInMiloUser().campagne(campagneWithTwoQuestions),
     );
+    final viewModel = QuestionPageViewModel.create(store, 1);
 
     // When
-    final viewModel = QuestionPageViewModel.create(store, 1);
-    viewModel.onButtonClick(
-      campagneWithTwoQuestions.questions[1].id,
-      campagneWithTwoQuestions.questions[1].options[0].id,
-      null,
-    );
+    viewModel.onButtonClick(2, 1, null);
 
     // Then
     expect(storeSpy.calledWithCampagneResults, true);
@@ -150,7 +136,7 @@ class StoreSpy {
   var calledWithCampagneResults = false;
 
   AppState reducer(AppState currentState, dynamic action) {
-    if (action is CampagneResultAction) {
+    if (action is CampagneAnswerAction) {
       calledWithCampagneResults = true;
     }
     if (action is CampagneResetAction) {
