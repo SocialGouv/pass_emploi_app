@@ -50,6 +50,7 @@ import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
+import 'package:pass_emploi_app/repositories/modify_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
@@ -120,12 +121,10 @@ class AppInitializer {
     return AppVersionChecker().shouldForceUpdate(currentVersion: currentVersion, minimumVersion: minimumVersion);
   }
 
-  Future<Store<AppState>> _initializeReduxStore(
-      Configuration configuration, FirebaseRemoteConfig? remoteConfig) async {
+  Future<Store<AppState>> _initializeReduxStore(Configuration configuration, FirebaseRemoteConfig? remoteConfig) async {
     final crashlytics = CrashlyticsWithFirebase(FirebaseCrashlytics.instance);
     final pushNotificationManager = FirebasePushNotificationManager();
-    final securedPreferences = FlutterSecureStorage(
-        aOptions: AndroidOptions(encryptedSharedPreferences: true));
+    final securedPreferences = FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true));
     final logoutRepository = LogoutRepository(
       configuration.authIssuer,
       configuration.authClientSecret,
@@ -154,8 +153,7 @@ class AppInitializer {
       maxNrOfCacheObjects: 30,
     ));
     final monitoringInterceptor = MonitoringInterceptor(InstallationIdRepository(securedPreferences));
-    final modeDemoClient =
-        ModeDemoClient(modeDemoRepository, HttpClientWithCache(passEmploiCacheManager, clientWithCertificate));
+    final modeDemoClient = ModeDemoClient(modeDemoRepository, HttpClientWithCache(passEmploiCacheManager, clientWithCertificate));
     final httpClient = InterceptedClient.build(
       client: modeDemoClient,
       interceptors: [
@@ -202,7 +200,9 @@ class AppInitializer {
       modeDemoRepository,
       CampagneRepository(baseUrl, httpClient, crashlytics),
       MatomoTracker(),
-        remoteConfig).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
+      remoteConfig,
+      ModifyDemarcheRepository(baseUrl, httpClient, crashlytics),
+    ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
     authAccessChecker.setStore(reduxStore);
     monitoringInterceptor.setStore(reduxStore);

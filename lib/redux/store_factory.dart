@@ -45,6 +45,7 @@ import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_m
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
 import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_middleware.dart';
+import 'package:pass_emploi_app/features/user_action_pe/modify/user_demarche_modify_middleware.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
@@ -61,6 +62,7 @@ import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_rep
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
+import 'package:pass_emploi_app/repositories/modify_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
@@ -113,6 +115,7 @@ class StoreFactory {
   final CampagneRepository campagneRepository;
   final MatomoTracker matomoTracker;
   final FirebaseRemoteConfig? remoteConfig;
+  final ModifyDemarcheRepository modifyDemarcheRepository;
 
   StoreFactory(
     this.authenticator,
@@ -148,6 +151,7 @@ class StoreFactory {
     this.campagneRepository,
     this.matomoTracker,
     this.remoteConfig,
+    this.modifyDemarcheRepository,
   );
 
   redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -200,6 +204,7 @@ class StoreFactory {
         ServiceCiviqueDetailMiddleware(serviceCiviqueDetailRepository),
         SuppressionCompteMiddleware(suppressionCompteRepository),
         CampagneResultMiddleware(campagneRepository),
+        UserDemarcheModifyMiddleware(modifyDemarcheRepository),
         ..._debugMiddleware(),
       ],
     );

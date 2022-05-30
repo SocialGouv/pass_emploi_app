@@ -17,6 +17,7 @@ import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_rep
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
+import 'package:pass_emploi_app/repositories/modify_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
@@ -67,17 +68,15 @@ class TestStoreFactory {
       DummySavedSearchDeleteRepository();
   ServiceCiviqueRepository serviceCiviqueRepository =
       DummyServiceCiviqueRepository();
-  ServiceCiviqueDetailRepository serviceCiviqueDetailRepository =
-      DummyServiceCiviqueDetailRepository();
-  ServiceCiviqueFavorisRepository serviceCiviqueFavorisRepository =
-      DummyServiceCiviqueFavorisRepository();
+  ServiceCiviqueDetailRepository serviceCiviqueDetailRepository = DummyServiceCiviqueDetailRepository();
+  ServiceCiviqueFavorisRepository serviceCiviqueFavorisRepository = DummyServiceCiviqueFavorisRepository();
   DetailsJeuneRepository detailsJeuneRepository = DummyDetailsJeuneRepository();
-  SuppressionCompteRepository suppressionCompteRepository =
-      DummySuppressionCompteRepository();
+  SuppressionCompteRepository suppressionCompteRepository = DummySuppressionCompteRepository();
   CampagneRepository campagneRepository = DummyCampagneRepository();
   ModeDemoRepository demoRepository = ModeDemoRepository();
   MatomoTracker matomoTracker = DummyMatomoTracker();
   FirebaseRemoteConfig? remoteConfig;
+  ModifyDemarcheRepository modifyDemarcheRepository = DummyModifyDemarcheRepository();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
@@ -114,6 +113,7 @@ class TestStoreFactory {
       campagneRepository,
       matomoTracker,
       remoteConfig,
+      modifyDemarcheRepository,
     ).initializeReduxStore(initialState: initialState);
   }
 }

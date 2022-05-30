@@ -50,9 +50,9 @@ class _Body extends StatelessWidget {
           if (viewModel.sousTitre != null) _SousTitre(viewModel.sousTitre!),
           _DetailDemarcheTitle(),
           if (viewModel.attributs.isNotEmpty) _Attributs(viewModel.attributs),
-          _EndDate(viewModel.formattedDate),
+          _EndDate(viewModel.formattedDate, viewModel.isLate),
           if (viewModel.statutsPossibles.isNotEmpty) _StatutTitle(),
-          if (viewModel.statutsPossibles.isNotEmpty) _StatutList(viewModel.statutsPossibles),
+          if (viewModel.statutsPossibles.isNotEmpty) _StatutList(viewModel),
           _HistoriqueTitle(),
           _Historique(viewModel),
           SizedBox(height: 40),
@@ -188,8 +188,9 @@ class _DetailDemarcheTitle extends StatelessWidget {
 
 class _EndDate extends StatelessWidget {
   final String label;
+  final bool isLate;
 
-  _EndDate(this.label);
+  _EndDate(this.label, this.isLate);
 
   @override
   Widget build(BuildContext context) {
@@ -198,7 +199,7 @@ class _EndDate extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: AppColors.accent3Lighten,
+          color: isLate ? AppColors.warningLighten : AppColors.accent3Lighten,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
@@ -206,7 +207,7 @@ class _EndDate extends StatelessWidget {
           children: [
             SvgPicture.asset(
               Drawables.icClock,
-              color: AppColors.grey700,
+              color: isLate ? AppColors.warning : AppColors.grey700,
               height: 20,
             ),
             SizedBox(width: 12),
@@ -239,9 +240,9 @@ class _StatutTitle extends StatelessWidget {
 }
 
 class _StatutList extends StatelessWidget {
-  final List<UserActionTagViewModel> statutsPossibles;
+  final DemarcheDetailViewModel viewModel;
 
-  _StatutList(this.statutsPossibles);
+  _StatutList(this.viewModel);
 
   @override
   Widget build(BuildContext context) {
@@ -250,7 +251,7 @@ class _StatutList extends StatelessWidget {
       child: Wrap(
         spacing: 20,
         runSpacing: 20,
-        children: statutsPossibles.map((e) => _StatutItem(e)).toList(),
+        children: viewModel.statutsPossibles.map((e) => _StatutItem(e, viewModel)).toList(),
       ),
     );
   }
@@ -258,34 +259,46 @@ class _StatutList extends StatelessWidget {
 
 class _StatutItem extends StatelessWidget {
   final UserActionTagViewModel statut;
+  final DemarcheDetailViewModel viewModel;
 
-  _StatutItem(this.statut);
+  _StatutItem(this.statut, this.viewModel);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(40)),
-        color: statut.backgroundColor,
-        border: Border.all(color: statut.textColor),
-      ),
-      padding: const EdgeInsets.all(16),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (statut.isSelected)
-            SvgPicture.asset(
-              Drawables.icDone,
-              color: statut.textColor,
-              height: 14,
-              width: 14,
+    return ClipRRect(
+      borderRadius: BorderRadius.all(Radius.circular(40)),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () {
+            viewModel.onModifyStatus(statut);
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(40)),
+              color: statut.backgroundColor,
+              border: Border.all(color: statut.textColor),
             ),
-          if (statut.isSelected) SizedBox(width: 10),
-          Text(
-            statut.title,
-            style: TextStyles.textSRegularWithColor(statut.textColor),
+            padding: const EdgeInsets.all(16),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (statut.isSelected)
+                  SvgPicture.asset(
+                    Drawables.icDone,
+                    color: statut.textColor,
+                    height: 14,
+                    width: 14,
+                  ),
+                if (statut.isSelected) SizedBox(width: 10),
+                Text(
+                  statut.title,
+                  style: TextStyles.textSRegularWithColor(statut.textColor),
+                ),
+              ],
+            ),
           ),
-        ],
+        ),
       ),
     );
   }

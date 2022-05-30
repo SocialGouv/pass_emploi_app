@@ -64,6 +64,7 @@ void main() {
             UserActionTagViewModel(title: Strings.actionPEInProgress, backgroundColor: Colors.transparent, textColor: AppColors.grey800),
             UserActionTagViewModel(title: Strings.actionPEDone, backgroundColor: Colors.transparent, textColor: AppColors.grey800),
           ],
+          isLate: false,
         ));
   });
 }

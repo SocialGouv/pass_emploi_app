@@ -14,6 +14,9 @@ UserActionPEListState userActionPEListReducer(UserActionPEListState current, dyn
       action.isDetailAvailable,
     );
   }
+  if (action is DemarcheSuccessfullyModifiedAction) {
+    return UserActionPEListSuccessState(action.userActions, true);
+  }
   if (action is UserActionPEListResetAction) {
     return UserActionPEListNotInitializedState();
   }

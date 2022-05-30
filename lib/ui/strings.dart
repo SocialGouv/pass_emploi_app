@@ -196,6 +196,7 @@ class Strings {
   static String evalTitle = "Votre expérience sur l’application";
   static String evalDescription = "Aidez-nous à améliorer l’application en répondant à 2 questions.";
   static String evalButton = "Donner son avis";
+
   static String questionIndexTitle(String index, String total) => "Votre expérience $index/$total";
   static String nextButtonTitle = "Suivant";
   static String validateButtonTitle = "Valider";
@@ -205,26 +206,24 @@ class Strings {
 
   // User Action
   static String actionsError = "Erreur lors de la récupération de vos actions";
-  static String actionDone = "Terminée";
-  static String actionCanceled = "Annulée";
+  static const String actionDone = "Terminée";
+  static const String actionCanceled = "Annulée";
   static String aboutThisAction = "À propos de cette action";
   static String actionDetails = "Détail de l'action";
   static String demarcheDetails = "Détail de la démarche";
   static String updateStatus = "Changer le statut";
   static String refreshActionStatus = "Actualiser";
-  static String actionToDo = "À réaliser";
-  static String actionInProgress = "Commencée";
+  static const String actionToDo = "À réaliser";
+  static const String actionInProgress = "Commencée";
   static String noActionsYet = "Vous n'avez pas encore d’actions";
   static String addAnAction = "Créer une action";
   static String create = "Créer";
   static String actionLabel = "Intitulé de l'action";
   static String actionDescription = "Description de l'action";
-  static String mandatoryActionLabelError =
-      "L'intitulé de l'action doit être renseigné";
+  static String mandatoryActionLabelError = "L'intitulé de l'action doit être renseigné";
   static String defineActionStatus = "Définir le statut";
   static String actionCreatedBy = "Créée par";
-  static String actionCreationError =
-      "Erreur lors de la création de l'action. Veuillez réessayer";
+  static String actionCreationError = "Erreur lors de la création de l'action. Veuillez réessayer";
   static String you = "Vous";
   static String congratulationsActionUpdated =
       "Félicitations !\n\nLa mise à jour de votre action a bien été prise en compte";
@@ -237,8 +236,7 @@ class Strings {
   static String deleteActionSuccess = "L’action a bien été supprimée";
   static String linkDetailsRendezVous = "Voir les détails du rendez-vous";
 
-  static String lastUpdateFormat(String formattedDate) =>
-      "Modifiée le $formattedDate";
+  static String lastUpdateFormat(String formattedDate) => "Modifiée le $formattedDate";
   static String doneActionsTitle = "Actions terminées et annulées";
 
   //User Action Pole Emploi
@@ -248,21 +246,18 @@ class Strings {
   static String createdBy = "Crée le ";
   static String par = " par ";
   static String votreConseiller = "votre conseiller";
-  static String actionPEToDo = "À faire";
-  static String actionPEInProgress = "En cours";
-  static String actionPERetarded = "En retard";
-  static String actionPEDone = "Réalisé";
-  static String actionPECancelled = "Annulé";
-  static String actionPELate = "En retard : ";
+  static const String actionPEToDo = "À faire";
+  static const String actionPEInProgress = "En cours";
+  static const String actionPERetarded = "En retard";
+  static const String actionPEDone = "Réalisé";
+  static const String actionPECancelled = "Annulé";
+  static const String actionPELate = "En retard : ";
 
-  static String actionPEActiveDateFormat(String formattedDate) =>
-      "À réaliser pour le $formattedDate";
+  static String actionPEActiveDateFormat(String formattedDate) => "À réaliser pour le $formattedDate";
 
-  static String actionPEDoneDateFormat(String formattedDate) =>
-      "Réalisé le $formattedDate";
+  static String actionPEDoneDateFormat(String formattedDate) => "Réalisé le $formattedDate";
 
-  static String actionPECancelledDateFormat(String formattedDate) =>
-      "Annulé le $formattedDate";
+  static String actionPECancelledDateFormat(String formattedDate) => "Annulé le $formattedDate";
   static String withoutDate = "Date indéterminée";
   static String withoutContent = "Démarche indéterminée";
   static String createByAdvisor = "Créé par votre conseiller";

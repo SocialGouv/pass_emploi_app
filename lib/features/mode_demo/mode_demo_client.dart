@@ -33,6 +33,7 @@ class ModeDemoClient extends BaseClient {
     if (url.endsWith("/favoris/offres-immersion")) return "favoris_ids_immersion";
     if (url.endsWith("/favoris/offres-emploi")) return "favoris_ids_offres_emploi";
     if (url.endsWith("/favoris/services-civique")) return "favoris_ids_service_civique";
+    if (url.endsWith("/home/actions")) return "home_actions_jeune";
     if (url.endsWith("/actions")) return "actions_list";
     if (url.endsWith("/rendezvous")) return "rendez_vous_list";
     if (url.endsWith("/recherches")) return "saved_search";
