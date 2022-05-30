@@ -17,13 +17,21 @@ class CampagneResultMiddleware extends MiddlewareClass<AppState> {
     if (loggedIn is LoginSuccessState && action is CampagneResultAction) {
       final campagneId = store.state.campagneState.campagne?.id;
       if (campagneId != null) {
-        final answers = store.state.campagneResultState.answers;
-        final currentAnswer = CampagneQuestionAnswer(action.idQuestion, action.idAnswer, action.pourquoi);
-        answers.removeWhere((element) => element.idQuestion == action.idQuestion);
-        final updatedAnswers = answers..add(currentAnswer);
+        final updatedAnswers = _updatedAnswers(
+          store.state.campagneResultState.answers,
+          CampagneQuestionAnswer(action.idQuestion, action.idAnswer, action.pourquoi),
+        );
         store.dispatch(CampagneUpdateAnswersAction(updatedAnswers));
         _repository.postAnswers(loggedIn.user.id, campagneId, updatedAnswers);
       }
     }
+  }
+
+  List<CampagneQuestionAnswer> _updatedAnswers(
+    List<CampagneQuestionAnswer> currentAnswers,
+    CampagneQuestionAnswer newAnswer,
+  ) {
+    currentAnswers.removeWhere((element) => element.idQuestion == newAnswer.idQuestion);
+    return currentAnswers..add(newAnswer);
   }
 }
