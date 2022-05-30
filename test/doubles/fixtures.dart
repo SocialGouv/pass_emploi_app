@@ -248,9 +248,9 @@ DetailsJeune detailsJeune() {
 
 Campagne campagne([String? id]) {
   return Campagne(
-    id: id ?? "7",
-    titre: "Questionnaire",
-    description: "Super test",
+    id: id ?? '7',
+    titre: 'Questionnaire',
+    description: 'Super test',
     questions: [],
   );
 }

@@ -28,6 +28,8 @@ import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/modify_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
+import 'package:pass_emploi_app/repositories/page_action_pe_repository.dart';
+import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
@@ -40,8 +42,6 @@ import 'package:pass_emploi_app/repositories/service_civique/service_civique_rep
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
-import 'package:pass_emploi_app/repositories/page_action_pe_repository.dart';
-import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
 
