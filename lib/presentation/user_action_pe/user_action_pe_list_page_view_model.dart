@@ -24,7 +24,6 @@ class UserActionPEListPageViewModel extends Equatable {
       displayState: _displayState(store.state),
       items: _listItems(
         campagne: _campagneItem(state: store.state),
-        retardedItems: _retardedActions(state: actionState),
         activeItems: _activeActions(state: actionState),
         inactiveItems: _inactiveActions(state: actionState),
       ),
@@ -57,17 +56,6 @@ UserActionPECampagneItemViewModel? _campagneItem({required AppState state}) {
   return null;
 }
 
-List<UserActionPEViewModel> _retardedActions({required UserActionPEListState state}) {
-  if (state is UserActionPEListSuccessState) {
-    return state.userActions
-        .where((action) => action.status == UserActionPEStatus.RETARDED)
-        .map((action) =>
-            UserActionPEViewModel.create(action, state.isDetailAvailable))
-        .toList();
-  }
-  return [];
-}
-
 List<UserActionPEViewModel> _activeActions({required UserActionPEListState state}) {
   if (state is UserActionPEListSuccessState) {
     return state.userActions
@@ -96,13 +84,11 @@ List<UserActionPEViewModel> _inactiveActions({required UserActionPEListState sta
 
 List<UserActionPEListItem> _listItems({
   required UserActionPECampagneItemViewModel? campagne,
-  required List<UserActionPEViewModel> retardedItems,
   required List<UserActionPEViewModel> activeItems,
   required List<UserActionPEViewModel> inactiveItems,
 }) {
   return [
     if (campagne != null) ...[campagne],
-    ...retardedItems.map((e) => UserActionPEListItemViewModel(e)),
     ...activeItems.map((e) => UserActionPEListItemViewModel(e)),
     ...inactiveItems.map((e) => UserActionPEListItemViewModel(e)),
   ];

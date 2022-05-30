@@ -82,17 +82,14 @@ void main() {
           [
             _userAction(status: UserActionPEStatus.IN_PROGRESS),
             _userAction(status: UserActionPEStatus.NOT_STARTED),
-            _userAction(status: UserActionPEStatus.RETARDED),
             _userAction(status: UserActionPEStatus.DONE),
             _userAction(status: UserActionPEStatus.CANCELLED),
             _userAction(status: UserActionPEStatus.IN_PROGRESS),
             _userAction(status: UserActionPEStatus.NOT_STARTED),
-            _userAction(status: UserActionPEStatus.RETARDED),
             _userAction(status: UserActionPEStatus.DONE),
             _userAction(status: UserActionPEStatus.CANCELLED),
             _userAction(status: UserActionPEStatus.IN_PROGRESS),
             _userAction(status: UserActionPEStatus.NOT_STARTED),
-            _userAction(status: UserActionPEStatus.RETARDED),
             _userAction(status: UserActionPEStatus.DONE),
             _userAction(status: UserActionPEStatus.CANCELLED),
           ],
@@ -106,21 +103,17 @@ void main() {
     final viewModel = UserActionPEListPageViewModel.create(store);
 
     // Then
-    expect(viewModel.items.length, 16);
+    expect(viewModel.items.length, 13);
     expect(viewModel.items[0] is UserActionPECampagneItemViewModel, isTrue);
-    for (var i = 1; i < 4; ++i) {
-      expect((viewModel.items[i] as UserActionPEListItemViewModel).viewModel.status == UserActionPEStatus.RETARDED,
-          isTrue);
-    }
 
-    for (var i = 4; i < 10; ++i) {
+    for (var i = 1; i < 7; ++i) {
       expect(
           (viewModel.items[i] as UserActionPEListItemViewModel).viewModel.status == UserActionPEStatus.IN_PROGRESS ||
               (viewModel.items[i] as UserActionPEListItemViewModel).viewModel.status == UserActionPEStatus.NOT_STARTED,
           isTrue);
     }
     // 6 derniers => cancelled & done
-    for (var i = 10; i < 16; ++i) {
+    for (var i = 7; i < 12; ++i) {
       expect(
           (viewModel.items[i] as UserActionPEListItemViewModel).viewModel.status == UserActionPEStatus.DONE ||
               (viewModel.items[i] as UserActionPEListItemViewModel).viewModel.status == UserActionPEStatus.CANCELLED,
