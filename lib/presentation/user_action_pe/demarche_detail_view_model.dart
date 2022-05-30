@@ -11,7 +11,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
 
-void _emptyFunction(UserActionTagViewModel) {
+void _emptyFunction(UserActionTagViewModel tag) {
   // Do nothing
 }
 
