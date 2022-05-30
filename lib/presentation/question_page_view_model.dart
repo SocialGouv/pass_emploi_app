@@ -62,5 +62,5 @@ enum QuestionBottomButton { next, validate }
 extension _Offset on int {
   bool isLastPage(Campagne campagne) => this == (campagne.questions.length - 1);
 
-  String? information() => this == 0 ? "Les questions marquées d'une * sont obligatoires" : null;
+  String? information() => this == 0 ? Strings.mandatory : null;
 }

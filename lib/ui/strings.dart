@@ -200,7 +200,7 @@ class Strings {
   static String questionIndexTitle(String index, String total) => "Votre expérience $index/$total";
   static String nextButtonTitle = "Suivant";
   static String validateButtonTitle = "Valider";
-  static String mandatory = "Les questions marquées d’une * sont obligatoires ";
+  static String mandatory = "Les questions marquées d'une * sont obligatoires";
   static String pourquoiTitle = "Pourquoi ?";
   static String evaluationSuccessfullySent = "Vous avez répondu aux questions, merci !";
 
