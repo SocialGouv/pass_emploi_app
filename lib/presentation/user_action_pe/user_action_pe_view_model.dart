@@ -29,19 +29,16 @@ class UserActionPEViewModel extends Equatable {
     required this.isDetailEnabled,
   });
 
-  factory UserActionPEViewModel.create(
-      UserActionPE userAction, bool isDetailAvailable) {
+  factory UserActionPEViewModel.create(UserActionPE userAction, bool isDetailAvailable) {
     return UserActionPEViewModel(
       id: userAction.id,
       title: userAction.content ?? Strings.withoutContent,
       status: userAction.status,
       createdByAdvisor: userAction.createdByAdvisor,
       modifiedByAdvisor: userAction.modifiedByAdvisor,
-      tag: _userActionTagViewModel(userAction.status,
-          _isLateAction(userAction.status, userAction.endDate)),
-      formattedDate: _setFormattedDate(userAction.status,
-          userAction.endDate?.toDay(), userAction.deletionDate?.toDay()),
-      isLate: _isLateAction(userAction.status, userAction.endDate),
+      tag: _userActionTagViewModel(userAction.status, isLateAction(userAction.status, userAction.endDate)),
+      formattedDate: _setFormattedDate(userAction.status, userAction.endDate?.toDay(), userAction.deletionDate?.toDay()),
+      isLate: isLateAction(userAction.status, userAction.endDate),
       isDetailEnabled: isDetailAvailable,
     );
   }
@@ -119,12 +116,9 @@ UserActionTagViewModel? _userActionTagViewModel(UserActionPEStatus status, bool 
   }
 }
 
-bool _isLateAction(UserActionPEStatus status, DateTime? endDate) {
-  if (endDate != null &&
-      (status == UserActionPEStatus.NOT_STARTED ||
-          status == UserActionPEStatus.IN_PROGRESS)) {
-    return endDate.isBefore(DateTime.now()) &&
-        (endDate.numberOfDaysUntilToday() > 0);
+bool isLateAction(UserActionPEStatus status, DateTime? endDate) {
+  if (endDate != null && (status == UserActionPEStatus.NOT_STARTED || status == UserActionPEStatus.IN_PROGRESS)) {
+    return endDate.isBefore(DateTime.now()) && (endDate.numberOfDaysUntilToday() > 0);
   }
   return false;
 }

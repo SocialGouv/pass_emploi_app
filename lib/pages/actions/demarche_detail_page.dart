@@ -50,7 +50,7 @@ class _Body extends StatelessWidget {
           if (viewModel.sousTitre != null) _SousTitre(viewModel.sousTitre!),
           _DetailDemarcheTitle(),
           if (viewModel.attributs.isNotEmpty) _Attributs(viewModel.attributs),
-          _EndDate(viewModel.formattedDate),
+          _EndDate(viewModel.formattedDate, viewModel.isLate),
           if (viewModel.statutsPossibles.isNotEmpty) _StatutTitle(),
           if (viewModel.statutsPossibles.isNotEmpty) _StatutList(viewModel),
           _HistoriqueTitle(),
@@ -188,8 +188,9 @@ class _DetailDemarcheTitle extends StatelessWidget {
 
 class _EndDate extends StatelessWidget {
   final String label;
+  final bool isLate;
 
-  _EndDate(this.label);
+  _EndDate(this.label, this.isLate);
 
   @override
   Widget build(BuildContext context) {
@@ -198,7 +199,7 @@ class _EndDate extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
-          color: AppColors.accent3Lighten,
+          color: isLate ? AppColors.warningLighten : AppColors.accent3Lighten,
           borderRadius: BorderRadius.circular(8),
         ),
         child: Row(
@@ -206,7 +207,7 @@ class _EndDate extends StatelessWidget {
           children: [
             SvgPicture.asset(
               Drawables.icClock,
-              color: AppColors.grey700,
+              color: isLate ? AppColors.warning : AppColors.grey700,
               height: 20,
             ),
             SizedBox(width: 12),

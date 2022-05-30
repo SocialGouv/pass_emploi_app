@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list
 import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_state.dart';
 import 'package:pass_emploi_app/models/user_action_pe.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
+import 'package:pass_emploi_app/presentation/user_action_pe/user_action_pe_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -26,6 +27,7 @@ class DemarcheDetailViewModel extends Equatable {
   final List<String> attributs;
   final List<UserActionTagViewModel> statutsPossibles;
   final Function(UserActionTagViewModel) onModifyStatus;
+  final bool isLate;
 
   DemarcheDetailViewModel({
     required this.createdByAdvisor,
@@ -39,6 +41,7 @@ class DemarcheDetailViewModel extends Equatable {
     required this.modificationDate,
     required this.creationDate,
     this.onModifyStatus = _emptyFunction,
+    required this.isLate,
   });
 
   factory DemarcheDetailViewModel.create(Store<AppState> store, String id) {
@@ -61,6 +64,7 @@ class DemarcheDetailViewModel extends Equatable {
           store.dispatch(ModifyDemarcheStatusAction(userAction.id, userAction.creationDate, status));
         }
       },
+      isLate: isLateAction(userAction.status, userAction.endDate),
     );
   }
 
