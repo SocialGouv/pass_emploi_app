@@ -9,7 +9,7 @@ import '../doubles/dummies_for_cache.dart';
 import 'mock_file.dart';
 
 void main() {
-  test("when call is a POST, should not use cache", () async {
+  test("when call is a POST should not use cache", () async {
     // Given
     final networkClient = StubSuccessHttpClient();
     final cacheManager = DummyPassEmploiCacheManager();
@@ -22,7 +22,7 @@ void main() {
     expect(networkClient.hasBeenCalled, true);
   });
 
-  test("when call is a DELETE, should not use cache", () async {
+  test("when call is a DELETE should not use cache", () async {
     // Given
     final networkClient = StubSuccessHttpClient();
     final cacheManager = DummyPassEmploiCacheManager();
@@ -35,7 +35,7 @@ void main() {
     expect(networkClient.hasBeenCalled, true);
   });
 
-  test("when call is a PUT, should not use cache", () async {
+  test("when call is a PUT should not use cache", () async {
     // Given
     final networkClient = StubSuccessHttpClient();
     final cacheManager = DummyPassEmploiCacheManager();
@@ -48,7 +48,7 @@ void main() {
     expect(networkClient.hasBeenCalled, true);
   });
 
-  test("when call is a GET, should use cache", () async {
+  test("when call is a GET should use cache", () async {
     // Given
     final networkClient = StubSuccessHttpClient();
     final cacheManager = FullCacheMock(DateTime.now());
@@ -61,19 +61,38 @@ void main() {
     expect(networkClient.hasBeenCalled, false);
   });
 
-  test("when call is a GET in actions or rendez vous, should not use cache", () async {
-    // Given
-    final networkClient = StubSuccessHttpClient();
-    final cacheManager = FullCacheMock();
-    final clientWithCache = HttpClientWithCache(cacheManager, networkClient);
+  group('blacklisted GET routes should not use cache', () {
+    late StubSuccessHttpClient networkClient;
+    late HttpClientWithCache clientWithCache;
 
-    // When
-    clientWithCache.send(Request("GET", Uri.parse("https://yolo.com/rendezvous")));
+    setUp(() {
+      networkClient = StubSuccessHttpClient();
+      clientWithCache = HttpClientWithCache(FullCacheMock(), networkClient);
+    });
 
-    // Then
-    expect(networkClient.callCount, 1);
-    clientWithCache.send(Request("GET", Uri.parse("https://yolo.com/actions")));
-    expect(networkClient.callCount, 2);
+    test("GET home/actions", () async {
+      // When
+      clientWithCache.send(Request("GET", Uri.parse("https://yolo.com/home/actions")));
+
+      // Then
+      expect(networkClient.callCount, 1);
+    });
+
+    test("GET home/demarches", () async {
+      // When
+      clientWithCache.send(Request("GET", Uri.parse("https://yolo.com/home/demarches")));
+
+      // Then
+      expect(networkClient.callCount, 1);
+    });
+
+    test("GET rendezvous", () async {
+      // When
+      clientWithCache.send(Request("GET", Uri.parse("https://yolo.com/rendezvous")));
+
+      // Then
+      expect(networkClient.callCount, 1);
+    });
   });
 }
 
