@@ -15,8 +15,7 @@ class UserActionPEListMiddleware extends MiddlewareClass<AppState> {
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     final loginState = store.state.loginState;
-    if (loginState is LoginSuccessState &&
-        action is UserActionPEListRequestAction) {
+    if (loginState is LoginSuccessState && action is UserActionPEListRequestAction) {
       store.dispatch(UserActionPEListLoadingAction());
       final homeDemarches = await _repository.getHomeDemarches(loginState.user.id);
       store.dispatch(homeDemarches != null

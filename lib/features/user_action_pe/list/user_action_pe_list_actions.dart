@@ -16,3 +16,17 @@ class UserActionPEListSuccessAction {
 class UserActionPEListFailureAction {}
 
 class UserActionPEListResetAction {}
+
+class ModifyDemarcheStatusAction {
+  final String id;
+  final DateTime? dateDebut;
+  final UserActionPEStatus status;
+
+  ModifyDemarcheStatusAction(this.id, this.dateDebut, this.status);
+}
+
+class DemarcheSuccessfullyModifiedAction {
+  final List<UserActionPE> userActions;
+
+  DemarcheSuccessfullyModifiedAction(this.userActions);
+}

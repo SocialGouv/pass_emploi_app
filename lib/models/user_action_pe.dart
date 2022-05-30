@@ -44,8 +44,42 @@ class UserActionPE extends Equatable {
     required this.creationDate,
   });
 
+  UserActionPE copyWithStatus(UserActionPEStatus status) {
+    return UserActionPE(
+      id: id,
+      content: content,
+      label: label,
+      status: status,
+      possibleStatus: possibleStatus,
+      endDate: endDate,
+      deletionDate: deletionDate,
+      modificationDate: modificationDate,
+      createdByAdvisor: createdByAdvisor,
+      modifiedByAdvisor: modifiedByAdvisor,
+      titre: titre,
+      sousTitre: sousTitre,
+      attributs: attributs,
+      creationDate: creationDate,
+    );
+  }
+
   factory UserActionPE.fromJson(dynamic json) {
-    return UserActionPE(id: json['id'] as String, content: json['contenu'] as String?, label: json['label'] as String?, titre: json['titre'] as String?, sousTitre: json['sousTitre'] as String?, status: _statusFromString(statusString: json['statut'] as String), possibleStatus: (json['statutsPossibles'] as List<dynamic>).whereType<String>().map((e) => _statusFromString(statusString: e)).toList(), endDate: (json['dateFin'] as String?)?.toDateTimeUtcOnLocalTimeZone(), modificationDate: (json['dateModification'] as String?)?.toDateTimeUtcOnLocalTimeZone(), deletionDate: (json['dateAnnulation'] as String?)?.toDateTimeUtcOnLocalTimeZone(), createdByAdvisor: json['creeeParConseiller'] as bool, modifiedByAdvisor: json['modifieParConseiller'] as bool, attributs: (json["attributs"] as List<dynamic>).whereType<Map<String, dynamic>>().map((e) => PeActionAttribut(e["valeur"].toString(), e["label"] as String)).toList(), creationDate: (json['dateCreation'] as String?)?.toDateTimeUtcOnLocalTimeZone());
+    return UserActionPE(
+      id: json['id'] as String,
+      content: json['contenu'] as String?,
+      label: json['label'] as String?,
+      titre: json['titre'] as String?,
+      sousTitre: json['sousTitre'] as String?,
+      status: _statusFromString(statusString: json['statut'] as String),
+      possibleStatus: (json['statutsPossibles'] as List<dynamic>).whereType<String>().map((e) => _statusFromString(statusString: e)).toList(),
+      endDate: (json['dateFin'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
+      modificationDate: (json['dateModification'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
+      deletionDate: (json['dateAnnulation'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
+      createdByAdvisor: json['creeeParConseiller'] as bool,
+      modifiedByAdvisor: json['modifieParConseiller'] as bool,
+      attributs: (json["attributs"] as List<dynamic>).whereType<Map<String, dynamic>>().map((e) => PeActionAttribut(e["valeur"].toString(), e["label"] as String)).toList(),
+      creationDate: (json['dateCreation'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
+    );
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_actions.dart';
 import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_state.dart';
 import 'package:pass_emploi_app/models/user_action_pe.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
@@ -8,6 +9,10 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
+
+void _emptyFunction(UserActionTagViewModel) {
+  // Do nothing
+}
 
 class DemarcheDetailViewModel extends Equatable {
   final bool createdByAdvisor;
@@ -20,6 +25,7 @@ class DemarcheDetailViewModel extends Equatable {
   final String? creationDate;
   final List<String> attributs;
   final List<UserActionTagViewModel> statutsPossibles;
+  final Function(UserActionTagViewModel) onModifyStatus;
 
   DemarcheDetailViewModel({
     required this.createdByAdvisor,
@@ -32,6 +38,7 @@ class DemarcheDetailViewModel extends Equatable {
     required this.statutsPossibles,
     required this.modificationDate,
     required this.creationDate,
+    this.onModifyStatus = _emptyFunction,
   });
 
   factory DemarcheDetailViewModel.create(Store<AppState> store, String id) {
@@ -48,6 +55,12 @@ class DemarcheDetailViewModel extends Equatable {
       statutsPossibles: userAction.possibleStatus.map((e) => _getTagViewModel(e, userAction.status)).toList(),
       modificationDate: userAction.modificationDate?.toDay(),
       creationDate: userAction.creationDate?.toDay(),
+      onModifyStatus: (tag) {
+        final status = _getStatusFromTag(tag);
+        if (!tag.isSelected && status != null) {
+          store.dispatch(ModifyDemarcheStatusAction(userAction.id, userAction.creationDate, status));
+        }
+      },
     );
   }
 
@@ -123,5 +136,20 @@ String _getDateText(UserActionPEStatus status, String date) {
       return Strings.actionPECancelledDateFormat(date);
     default:
       return Strings.actionPEActiveDateFormat(date);
+  }
+}
+
+UserActionPEStatus? _getStatusFromTag(UserActionTagViewModel tag) {
+  switch (tag.title) {
+    case Strings.actionPEToDo:
+      return UserActionPEStatus.NOT_STARTED;
+    case Strings.actionPEInProgress:
+      return UserActionPEStatus.IN_PROGRESS;
+    case Strings.actionPECancelled:
+      return UserActionPEStatus.CANCELLED;
+    case Strings.actionPEDone:
+      return UserActionPEStatus.DONE;
+    default:
+      return null;
   }
 }

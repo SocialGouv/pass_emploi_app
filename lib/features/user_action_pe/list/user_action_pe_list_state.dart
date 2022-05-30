@@ -1,6 +1,10 @@
+import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/user_action_pe.dart';
 
-abstract class UserActionPEListState {}
+abstract class UserActionPEListState extends Equatable {
+  @override
+  List<Object> get props => [];
+}
 
 class UserActionPEListNotInitializedState extends UserActionPEListState {}
 
@@ -11,6 +15,9 @@ class UserActionPEListSuccessState extends UserActionPEListState {
   final bool isDetailAvailable;
 
   UserActionPEListSuccessState(this.userActions, this.isDetailAvailable);
+
+  @override
+  List<Object> get props => [userActions, isDetailAvailable];
 }
 
 class UserActionPEListFailureState extends UserActionPEListState {}
