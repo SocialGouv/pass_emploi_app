@@ -39,6 +39,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
+import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
@@ -49,6 +50,7 @@ import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
+import 'package:pass_emploi_app/repositories/modify_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
@@ -79,7 +81,7 @@ class AppInitializer {
     if (forceUpdate) {
       return ForceUpdatePage(configuration.flavor);
     } else {
-      final store = await _initializeReduxStore(configuration);
+      final store = await _initializeReduxStore(configuration, remoteConfig);
       return PassEmploiApp(store);
     }
   }
@@ -119,7 +121,7 @@ class AppInitializer {
     return AppVersionChecker().shouldForceUpdate(currentVersion: currentVersion, minimumVersion: minimumVersion);
   }
 
-  Future<Store<AppState>> _initializeReduxStore(Configuration configuration) async {
+  Future<Store<AppState>> _initializeReduxStore(Configuration configuration, FirebaseRemoteConfig? remoteConfig) async {
     final crashlytics = CrashlyticsWithFirebase(FirebaseCrashlytics.instance);
     final pushNotificationManager = FirebasePushNotificationManager();
     final securedPreferences = FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true));
@@ -151,8 +153,7 @@ class AppInitializer {
       maxNrOfCacheObjects: 30,
     ));
     final monitoringInterceptor = MonitoringInterceptor(InstallationIdRepository(securedPreferences));
-    final modeDemoClient =
-        ModeDemoClient(modeDemoRepository, HttpClientWithCache(passEmploiCacheManager, clientWithCertificate));
+    final modeDemoClient = ModeDemoClient(modeDemoRepository, HttpClientWithCache(passEmploiCacheManager, clientWithCertificate));
     final httpClient = InterceptedClient.build(
       client: modeDemoClient,
       interceptors: [
@@ -197,7 +198,10 @@ class AppInitializer {
       DetailsJeuneRepository(baseUrl, httpClient, crashlytics),
       SuppressionCompteRepository(baseUrl, httpClient, crashlytics),
       modeDemoRepository,
+      CampagneRepository(baseUrl, httpClient, crashlytics),
       MatomoTracker(),
+      remoteConfig,
+      ModifyDemarcheRepository(baseUrl, httpClient, crashlytics),
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
     authAccessChecker.setStore(reduxStore);

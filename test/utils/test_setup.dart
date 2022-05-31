@@ -1,3 +1,4 @@
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
@@ -6,6 +7,7 @@ import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart'
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
+import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
@@ -15,6 +17,7 @@ import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_rep
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
+import 'package:pass_emploi_app/repositories/modify_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
@@ -57,16 +60,23 @@ class TestStoreFactory {
   TrackingEventRepository trackingEventRepository = DummyTrackingEventRepository();
   OffreEmploiSavedSearchRepository offreEmploiSavedSearchRepository = DummyOffreEmploiSavedSearchRepository();
   ImmersionSavedSearchRepository immersionSavedSearchRepository = DummyImmersionSavedSearchRepository();
-  ServiceCiviqueSavedSearchRepository serviceCiviqueSavedSearchRepository = DummyServiceCiviqueSavedSearchRepository();
-  GetSavedSearchRepository getSavedSearchRepository = DummyGetSavedSearchRepository();
-  SavedSearchDeleteRepository savedSearchDeleteRepository = DummySavedSearchDeleteRepository();
-  ServiceCiviqueRepository serviceCiviqueRepository = DummyServiceCiviqueRepository();
+  ServiceCiviqueSavedSearchRepository serviceCiviqueSavedSearchRepository =
+      DummyServiceCiviqueSavedSearchRepository();
+  GetSavedSearchRepository getSavedSearchRepository =
+      DummyGetSavedSearchRepository();
+  SavedSearchDeleteRepository savedSearchDeleteRepository =
+      DummySavedSearchDeleteRepository();
+  ServiceCiviqueRepository serviceCiviqueRepository =
+      DummyServiceCiviqueRepository();
   ServiceCiviqueDetailRepository serviceCiviqueDetailRepository = DummyServiceCiviqueDetailRepository();
   ServiceCiviqueFavorisRepository serviceCiviqueFavorisRepository = DummyServiceCiviqueFavorisRepository();
   DetailsJeuneRepository detailsJeuneRepository = DummyDetailsJeuneRepository();
   SuppressionCompteRepository suppressionCompteRepository = DummySuppressionCompteRepository();
+  CampagneRepository campagneRepository = DummyCampagneRepository();
   ModeDemoRepository demoRepository = ModeDemoRepository();
   MatomoTracker matomoTracker = DummyMatomoTracker();
+  FirebaseRemoteConfig? remoteConfig;
+  ModifyDemarcheRepository modifyDemarcheRepository = DummyModifyDemarcheRepository();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
@@ -100,7 +110,10 @@ class TestStoreFactory {
       detailsJeuneRepository,
       suppressionCompteRepository,
       demoRepository,
+      campagneRepository,
       matomoTracker,
+      remoteConfig,
+      modifyDemarcheRepository,
     ).initializeReduxStore(initialState: initialState);
   }
 }

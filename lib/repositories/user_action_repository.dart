@@ -1,5 +1,6 @@
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/models/home_actions.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
@@ -15,13 +16,13 @@ class UserActionRepository {
 
   UserActionRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
 
-  Future<List<UserAction>?> getUserActions(String userId) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/actions");
+  Future<HomeActions?> getHomeActions(String userId) async {
+    final url = Uri.parse(_baseUrl + "/jeunes/$userId/home/actions");
     try {
       final response = await _httpClient.get(url);
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes);
-        return (json as List).map((action) => UserAction.fromJson(action)).toList();
+        return HomeActions.fromJson(json);
       }
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);

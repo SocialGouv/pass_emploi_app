@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pass_emploi_app/pages/actions/demarche_detail_page.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_pe/user_action_pe_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -26,6 +27,11 @@ class UserActionPECard extends StatelessWidget {
         child: Material(
           type: MaterialType.transparency,
           child: InkWell(
+            onTap: () {
+              if (viewModel.isDetailEnabled) {
+                Navigator.of(context).push(DemarcheDetailPage.materialPageRoute(viewModel.id));
+              }
+            },
             splashColor: AppColors.primaryLighten,
             child: Padding(
               padding: const EdgeInsets.all(Margins.spacing_base),
@@ -79,10 +85,33 @@ class UserActionPECard extends StatelessWidget {
           children: [
             SvgPicture.asset(Drawables.icClock, color: viewModel.getDateColor()),
             SizedBox(width: Margins.spacing_s),
-            Text(viewModel.formattedDate, style: TextStyles.textSRegularWithColor(viewModel.getDateColor())),
+            _DateTitle(title: viewModel.formattedDate, isLate: viewModel.isLate, color: viewModel.getDateColor()),
           ],
         ),
       ],
     );
+  }
+}
+
+class _DateTitle extends StatelessWidget {
+  final String title;
+  final bool isLate;
+  final Color color;
+
+  const _DateTitle({required this.title, required this.isLate, required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    if (isLate) {
+      return RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(text: Strings.actionPELate, style: TextStyles.textBaseBoldWithColor(color)),
+            TextSpan(text: title, style: TextStyles.textSRegularWithColor(color)),
+          ],
+        ),
+      );
+    }
+    return Text(title, style: TextStyles.textSRegularWithColor(color));
   }
 }

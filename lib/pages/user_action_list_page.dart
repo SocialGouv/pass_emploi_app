@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/actions/actions_detail_page.dart';
+import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -18,6 +19,7 @@ import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
@@ -105,19 +107,11 @@ class _UserActionListPageState extends State<UserActionListPage> {
         padding: const EdgeInsets.only(top: Margins.spacing_base),
         child: Text(item.title, style: TextStyles.textMBold),
       );
+    } else if (item is UserActionCampagneItemViewModel) {
+      return _CampagneCard(title: item.titre, description: item.description);
     } else {
-      return _tapListener(context, (item as UserActionListItemViewModel).viewModel, viewModel);
+      return _ActionCard(viewModel: (item as UserActionListItemViewModel).viewModel);
     }
-  }
-
-  Widget _tapListener(BuildContext context, UserActionViewModel item, UserActionListPageViewModel viewModel) {
-    return UserActionCard(
-      onTap: () {
-        context.trackEvent(EventType.ACTION_DETAIL);
-        widget.pushAndTrackBack(context, ActionDetailPage.materialPageRoute(item), AnalyticsScreenNames.userActionList);
-      },
-      viewModel: item,
-    );
   }
 
   Widget _createUserActionButton(UserActionListPageViewModel viewModel) {
@@ -134,5 +128,40 @@ class _UserActionListPageState extends State<UserActionListPage> {
 
   void _onCreateUserActionDismissed(UserActionListPageViewModel viewModel) {
     viewModel.onCreateUserActionDismissed();
+  }
+}
+
+class _CampagneCard extends StatelessWidget {
+  final String title;
+  final String description;
+
+  _CampagneCard({required this.title, required this.description});
+
+  @override
+  Widget build(BuildContext context) {
+    return CampagneCard(
+      onTap: () {
+        pushAndTrackBack(context, CampagneDetailsPage.materialPageRoute(), AnalyticsScreenNames.evaluationDetails);
+      },
+      titre: title,
+      description: description,
+    );
+  }
+}
+
+class _ActionCard extends StatelessWidget{
+  final UserActionViewModel viewModel;
+
+  _ActionCard({required this.viewModel});
+
+  @override
+  Widget build(BuildContext context) {
+    return UserActionCard(
+      onTap: () {
+        context.trackEvent(EventType.ACTION_DETAIL);
+        pushAndTrackBack(context, ActionDetailPage.materialPageRoute(viewModel), AnalyticsScreenNames.userActionList);
+      },
+      viewModel: viewModel,
+    );
   }
 }

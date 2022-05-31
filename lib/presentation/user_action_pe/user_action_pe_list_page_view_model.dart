@@ -9,7 +9,7 @@ import 'package:redux/redux.dart';
 
 class UserActionPEListPageViewModel extends Equatable {
   final DisplayState displayState;
-  final List<UserActionPEListItemViewModel> items;
+  final List<UserActionPEListItem> items;
   final Function() onRetry;
 
   UserActionPEListPageViewModel({
@@ -19,13 +19,14 @@ class UserActionPEListPageViewModel extends Equatable {
   });
 
   factory UserActionPEListPageViewModel.create(Store<AppState> store) {
-    final state = store.state.userActionPEListState;
+    final actionState = store.state.userActionPEListState;
     return UserActionPEListPageViewModel(
-      displayState: _displayState(state),
+      displayState: _displayState(store.state),
       items: _listItems(
-        retardedItems: _retardedItems(state: state),
-        activeItems: _activeItems(state: state),
-        inactiveItems: _inactiveItems(state: state),
+        campagne: _campagneItem(state: store.state),
+        retardedItems: _retardedActions(state: actionState),
+        activeItems: _activeActions(state: actionState),
+        inactiveItems: _inactiveActions(state: actionState),
       ),
       onRetry: () => store.dispatch(UserActionPEListRequestAction()),
     );
@@ -35,60 +36,95 @@ class UserActionPEListPageViewModel extends Equatable {
   List<Object?> get props => [displayState, items];
 }
 
-DisplayState _displayState(UserActionPEListState state) {
-  if (state is UserActionPEListSuccessState) {
-    return state.userActions.isNotEmpty ? DisplayState.CONTENT : DisplayState.EMPTY;
-  } else if (state is UserActionPEListFailureState) {
+DisplayState _displayState(AppState state) {
+  final actionState = state.userActionPEListState;
+  if (actionState is UserActionPEListSuccessState) {
+    return (actionState.userActions.isNotEmpty || state.campagneState.campagne != null)
+        ? DisplayState.CONTENT
+        : DisplayState.EMPTY;
+  } else if (actionState is UserActionPEListFailureState) {
     return DisplayState.FAILURE;
   } else {
     return DisplayState.LOADING;
   }
 }
 
-List<UserActionPEViewModel> _retardedItems({required UserActionPEListState state}) {
+UserActionPECampagneItemViewModel? _campagneItem({required AppState state}) {
+  final campagne = state.campagneState.campagne;
+  if (campagne != null) {
+    return UserActionPECampagneItemViewModel(titre: campagne.titre, description: campagne.description);
+  }
+  return null;
+}
+
+List<UserActionPEViewModel> _retardedActions({required UserActionPEListState state}) {
   if (state is UserActionPEListSuccessState) {
     return state.userActions
         .where((action) => action.status == UserActionPEStatus.RETARDED)
-        .map((action) => UserActionPEViewModel.create(action))
+        .map((action) =>
+            UserActionPEViewModel.create(action, state.isDetailAvailable))
         .toList();
   }
   return [];
 }
 
-List<UserActionPEViewModel> _activeItems({required UserActionPEListState state}) {
+List<UserActionPEViewModel> _activeActions({required UserActionPEListState state}) {
   if (state is UserActionPEListSuccessState) {
     return state.userActions
         .where((action) =>
-            action.status == UserActionPEStatus.NOT_STARTED || action.status == UserActionPEStatus.IN_PROGRESS)
-        .map((action) => UserActionPEViewModel.create(action))
+            action.status == UserActionPEStatus.NOT_STARTED ||
+            action.status == UserActionPEStatus.IN_PROGRESS)
+        .map((action) =>
+            UserActionPEViewModel.create(action, state.isDetailAvailable))
         .toList();
   }
   return [];
 }
 
-List<UserActionPEViewModel> _inactiveItems({required UserActionPEListState state}) {
+List<UserActionPEViewModel> _inactiveActions({required UserActionPEListState state}) {
   if (state is UserActionPEListSuccessState) {
     return state.userActions
-        .where((action) => action.status == UserActionPEStatus.DONE || action.status == UserActionPEStatus.CANCELLED)
-        .map((action) => UserActionPEViewModel.create(action))
+        .where((action) =>
+            action.status == UserActionPEStatus.DONE ||
+            action.status == UserActionPEStatus.CANCELLED)
+        .map((action) =>
+            UserActionPEViewModel.create(action, state.isDetailAvailable))
         .toList();
   }
   return [];
 }
 
-List<UserActionPEListItemViewModel> _listItems({
+List<UserActionPEListItem> _listItems({
+  required UserActionPECampagneItemViewModel? campagne,
   required List<UserActionPEViewModel> retardedItems,
   required List<UserActionPEViewModel> activeItems,
   required List<UserActionPEViewModel> inactiveItems,
 }) {
-  return (retardedItems + activeItems + inactiveItems).map((e) => UserActionPEListItemViewModel(e)).toList();
+  return [
+    if (campagne != null) ...[campagne],
+    ...retardedItems.map((e) => UserActionPEListItemViewModel(e)),
+    ...activeItems.map((e) => UserActionPEListItemViewModel(e)),
+    ...inactiveItems.map((e) => UserActionPEListItemViewModel(e)),
+  ];
 }
 
-class UserActionPEListItemViewModel extends Equatable {
+abstract class UserActionPEListItem extends Equatable {}
+
+class UserActionPEListItemViewModel extends UserActionPEListItem {
   final UserActionPEViewModel viewModel;
 
   UserActionPEListItemViewModel(this.viewModel);
 
   @override
   List<Object?> get props => [viewModel];
+}
+
+class UserActionPECampagneItemViewModel extends UserActionPEListItem {
+  final String titre;
+  final String description;
+
+  UserActionPECampagneItemViewModel({required this.titre, required this.description});
+
+  @override
+  List<Object?> get props => [titre, description];
 }

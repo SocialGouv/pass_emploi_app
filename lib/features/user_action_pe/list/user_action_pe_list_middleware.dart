@@ -1,13 +1,15 @@
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:redux/redux.dart';
 import 'package:pass_emploi_app/repositories/user_action_pe_repository.dart';
+import 'package:redux/redux.dart';
 
 class UserActionPEListMiddleware extends MiddlewareClass<AppState> {
   final UserActionPERepository _repository;
+  final FirebaseRemoteConfig? _remoteConfig;
 
-  UserActionPEListMiddleware(this._repository);
+  UserActionPEListMiddleware(this._repository, this._remoteConfig);
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
@@ -15,8 +17,18 @@ class UserActionPEListMiddleware extends MiddlewareClass<AppState> {
     final loginState = store.state.loginState;
     if (loginState is LoginSuccessState && action is UserActionPEListRequestAction) {
       store.dispatch(UserActionPEListLoadingAction());
-      final actions = await _repository.getUserActions(loginState.user.id);
-      store.dispatch(actions != null ? UserActionPEListSuccessAction(actions) : UserActionPEListFailureAction());
+      final homeDemarches = await _repository.getHomeDemarches(loginState.user.id);
+      store.dispatch(homeDemarches != null
+          ? UserActionPEListSuccessAction(
+              homeDemarches.actions,
+              await _isDetailAvailable(),
+              homeDemarches.campagne,
+            )
+          : UserActionPEListFailureAction());
     }
+  }
+
+  Future<bool> _isDetailAvailable() async {
+    return _remoteConfig?.getBool('afficher_detail_demarche') ?? false;
   }
 }

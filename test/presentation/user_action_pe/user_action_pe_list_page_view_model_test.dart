@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_actions.dart';
 import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_state.dart';
 import 'package:pass_emploi_app/models/user_action_pe.dart';
@@ -71,7 +72,7 @@ void main() {
   });
 
   test(
-      "create when action state is success with active, retarded, done and cancelled actions should sort it correctly",
+      "create when action state is success with active, retarded, done, cancelled actions and campagne should sort it correctly and put campagne in first position",
       () {
     // Given
     final store = Store<AppState>(
@@ -95,7 +96,9 @@ void main() {
             _userAction(status: UserActionPEStatus.DONE),
             _userAction(status: UserActionPEStatus.CANCELLED),
           ],
+          false,
         ),
+        campagneState: CampagneState(campagne()),
       ),
     );
 
@@ -103,30 +106,38 @@ void main() {
     final viewModel = UserActionPEListPageViewModel.create(store);
 
     // Then
-    expect(viewModel.items.length, 15);
-    for (var i = 0; i < 3; ++i) {
-      expect(viewModel.items[i].viewModel.status == UserActionPEStatus.RETARDED, isTrue);
+    expect(viewModel.items.length, 16);
+    expect(viewModel.items[0] is UserActionPECampagneItemViewModel, isTrue);
+    for (var i = 1; i < 4; ++i) {
+      expect((viewModel.items[i] as UserActionPEListItemViewModel).viewModel.status == UserActionPEStatus.RETARDED,
+          isTrue);
     }
 
-    for (var i = 3; i < 9; ++i) {
+    for (var i = 4; i < 10; ++i) {
       expect(
-          viewModel.items[i].viewModel.status == UserActionPEStatus.IN_PROGRESS ||
-              viewModel.items[i].viewModel.status == UserActionPEStatus.NOT_STARTED,
+          (viewModel.items[i] as UserActionPEListItemViewModel).viewModel.status == UserActionPEStatus.IN_PROGRESS ||
+              (viewModel.items[i] as UserActionPEListItemViewModel).viewModel.status == UserActionPEStatus.NOT_STARTED,
           isTrue);
     }
     // 6 derniers => cancelled & done
-    for (var i = 9; i < 15; ++i) {
-      expect(viewModel.items[i].viewModel.status == UserActionPEStatus.DONE ||
-          viewModel.items[i].viewModel.status == UserActionPEStatus.CANCELLED,
-        isTrue);
+    for (var i = 10; i < 16; ++i) {
+      expect(
+          (viewModel.items[i] as UserActionPEListItemViewModel).viewModel.status == UserActionPEStatus.DONE ||
+              (viewModel.items[i] as UserActionPEListItemViewModel).viewModel.status == UserActionPEStatus.CANCELLED,
+          isTrue);
     }
   });
 
-  test('create when action state is success but there are no actions should display an empty message', () {
+  test(
+      'create when action state is success but there are no actions and no campagne neither should display an empty message',
+      () {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: loggedInState().copyWith(userActionPEListState: UserActionPEListSuccessState([])),
+      initialState: loggedInState().copyWith(
+        userActionPEListState: UserActionPEListSuccessState([], false),
+        campagneState: CampagneState(null),
+      ),
     );
 
     // When
@@ -135,6 +146,26 @@ void main() {
     // Then
     expect(viewModel.displayState, DisplayState.EMPTY);
     expect(viewModel.items.length, 0);
+  });
+
+  test('create when action state is success but there are no actions but a campagne should display a campagne card',
+      () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: loggedInState().copyWith(
+        userActionPEListState: UserActionPEListSuccessState([], false),
+        campagneState: CampagneState(campagne()),
+      ),
+    );
+
+    // When
+    final viewModel = UserActionPEListPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.items.length, 1);
+    expect(viewModel.items[0] is UserActionPECampagneItemViewModel, isTrue);
   });
 }
 
@@ -146,6 +177,14 @@ UserActionPE _userAction({required UserActionPEStatus status}) {
     endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
     deletionDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
     createdByAdvisor: true,
+    label: "label",
+    possibleStatus: [],
+    creationDate: DateTime(2022, 12, 23, 0, 0, 0),
+    modifiedByAdvisor: false,
+    sousTitre: "sous titre",
+    titre: "titre",
+    modificationDate: DateTime(2022, 12, 23, 0, 0, 0),
+    attributs: [],
   );
 }
 

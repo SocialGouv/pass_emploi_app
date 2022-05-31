@@ -40,6 +40,10 @@ class ChatCrypto {
   void setKey(String key) {
     _encrypter = Encrypter(AES(Key.fromUtf8(key), mode: AESMode.cbc));
   }
+
+  bool isInitialized() {
+    return _encrypter != null;
+  }
 }
 
 class EncryptedTextWithIv extends Equatable {

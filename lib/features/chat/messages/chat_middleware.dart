@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
+import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/mode_demo/mode_demo_chat_repository.dart';
 import 'package:pass_emploi_app/models/message.dart';
@@ -53,7 +54,14 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
   void _subscribeToChatStream(String userId, Store<AppState> store) {
     _subscription = _repository.messagesStream(userId).listen(
           (messages) => store.dispatch(ChatSuccessAction(messages)),
-          onError: (Object error) => store.dispatch(ChatFailureAction()),
-        );
+      onError: (Object error) {
+        if (error is ChatNotInitializedError) {
+          store.dispatch(TryConnectChatAgainAction());
+        }
+        return store.dispatch(ChatFailureAction());
+      },
+    );
   }
 }
+
+class ChatNotInitializedError implements Exception {}

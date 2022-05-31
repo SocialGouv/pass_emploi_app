@@ -36,14 +36,15 @@ class UserActionListPageViewModel extends Equatable {
   });
 
   factory UserActionListPageViewModel.create(Store<AppState> store) {
-    final state = store.state.userActionListState;
+    final actionState = store.state.userActionListState;
     return UserActionListPageViewModel(
-      withLoading: state is UserActionListLoadingState || state is UserActionListNotInitializedState,
-      withFailure: state is UserActionListFailureState,
-      withEmptyMessage: _isEmpty(state),
+      withLoading: actionState is UserActionListLoadingState || actionState is UserActionListNotInitializedState,
+      withFailure: actionState is UserActionListFailureState,
+      withEmptyMessage: _isEmpty(store.state),
       items: _listItems(
-        activeItems: _activeItems(state: state),
-        doneOrCanceledItems: _doneOrCanceledItems(state: state),
+        campagne: _campagneItem(state: store.state),
+        activeItems: _activeActions(state: actionState),
+        doneOrCanceledItems: _doneOrCanceledActions(state: actionState),
       ),
       onRetry: () => store.dispatch(UserActionListRequestAction()),
       onUserActionDetailsDismissed: () {
@@ -52,7 +53,7 @@ class UserActionListPageViewModel extends Equatable {
       },
       onCreateUserActionDismissed: () => store.dispatch(UserActionCreateResetAction()),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
-      actionDetails: _getDetails(deeplinkState: store.state.deepLinkState, userActionState: state),
+      actionDetails: _getDetails(deeplinkState: store.state.deepLinkState, userActionState: actionState),
     );
   }
 
@@ -60,9 +61,22 @@ class UserActionListPageViewModel extends Equatable {
   List<Object?> get props => [withLoading, withFailure, withEmptyMessage, items];
 }
 
-bool _isEmpty(UserActionListState state) => state is UserActionListSuccessState && state.userActions.isEmpty;
+bool _isEmpty(AppState state) {
+  final actionState = state.userActionListState;
+  return actionState is UserActionListSuccessState &&
+      actionState.userActions.isEmpty &&
+      state.campagneState.campagne == null;
+}
 
-List<UserActionViewModel> _activeItems({required UserActionListState state}) {
+UserActionCampagneItemViewModel? _campagneItem({required AppState state}) {
+  final campagne = state.campagneState.campagne;
+  if (campagne != null) {
+    return UserActionCampagneItemViewModel(titre: campagne.titre, description: campagne.description);
+  }
+  return null;
+}
+
+List<UserActionViewModel> _activeActions({required UserActionListState state}) {
   if (state is UserActionListSuccessState) {
     return state.userActions
         .where((action) => action.status.isCanceledOrDone() == false)
@@ -72,7 +86,7 @@ List<UserActionViewModel> _activeItems({required UserActionListState state}) {
   return [];
 }
 
-List<UserActionViewModel> _doneOrCanceledItems({required UserActionListState state}) {
+List<UserActionViewModel> _doneOrCanceledActions({required UserActionListState state}) {
   if (state is UserActionListSuccessState) {
     return state.userActions
         .where((action) => action.status.isCanceledOrDone())
@@ -83,10 +97,12 @@ List<UserActionViewModel> _doneOrCanceledItems({required UserActionListState sta
 }
 
 List<UserActionListPageItem> _listItems({
+  required UserActionCampagneItemViewModel? campagne,
   required List<UserActionViewModel> activeItems,
   required List<UserActionViewModel> doneOrCanceledItems,
 }) {
   return [
+    if (campagne != null) ...[campagne],
     ...activeItems.map((e) => UserActionListItemViewModel(e)),
     if (doneOrCanceledItems.isNotEmpty) ...[
       UserActionListSubtitle(Strings.doneActionsTitle),
@@ -141,4 +157,14 @@ class UserActionListItemViewModel extends UserActionListPageItem {
 
   @override
   List<Object?> get props => [viewModel];
+}
+
+class UserActionCampagneItemViewModel extends UserActionListPageItem {
+  final String titre;
+  final String description;
+
+  UserActionCampagneItemViewModel({required this.titre, required this.description});
+
+  @override
+  List<Object?> get props => [titre, description];
 }

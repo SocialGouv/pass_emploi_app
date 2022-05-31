@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_actions.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action_pe/user_action_pe_list_page_view_model.dart';
@@ -9,10 +10,12 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_pe_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/empty_pole_emploi_content.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
+import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
 
 class UserActionPEListPage extends TraceableStatelessWidget {
   final ScrollController _scrollController = ScrollController();
@@ -66,7 +69,30 @@ class UserActionPEListPage extends TraceableStatelessWidget {
 
   Container _listSeparator() => Container(height: Margins.spacing_base);
 
-  Widget _listItem(BuildContext context, UserActionPEListItemViewModel item, UserActionPEListPageViewModel viewModel) {
-    return UserActionPECard(viewModel: item.viewModel);
+  Widget _listItem(BuildContext context, UserActionPEListItem item, UserActionPEListPageViewModel viewModel) {
+    if (item is UserActionPECampagneItemViewModel) {
+      return _CampagneCard(title: item.titre, description: item.description);
+    } else {
+      return UserActionPECard(viewModel: (item as UserActionPEListItemViewModel).viewModel);
+    }
+  }
+}
+
+class _CampagneCard extends StatelessWidget{
+  final String title;
+  final String description;
+
+  _CampagneCard({required this.title, required this.description});
+
+  @override
+  Widget build(BuildContext context) {
+   return CampagneCard(
+     onTap: () {
+       pushAndTrackBack(
+           context, CampagneDetailsPage.materialPageRoute(), AnalyticsScreenNames.evaluationDetails);
+     },
+     titre: title,
+     description: description,
+   );
   }
 }
