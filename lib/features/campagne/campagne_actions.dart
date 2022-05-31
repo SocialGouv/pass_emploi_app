@@ -1,4 +1,11 @@
+import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/campagne_question_answer.dart';
+
+class CampagneFetchedAction {
+  final Campagne? campagne;
+
+  CampagneFetchedAction(this.campagne);
+}
 
 class CampagneAnswerAction {
   final int idQuestion;

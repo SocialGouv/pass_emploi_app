@@ -1,4 +1,5 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:pass_emploi_app/features/campagne/campagne_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -19,8 +20,9 @@ class UserActionPEListMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(UserActionPEListLoadingAction());
       final page = await _repository.getPageActionsPE(loginState.user.id);
       store.dispatch(page != null
-          ? UserActionPEListSuccessAction(page.actions, await _isDetailAvailable(), page.campagne)
+          ? UserActionPEListSuccessAction(page.actions, await _isDetailAvailable())
           : UserActionPEListFailureAction());
+      store.dispatch(CampagneFetchedAction(page?.campagne));
     }
   }
 
