@@ -11,15 +11,21 @@ void main() {
     // Given
     final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "PUT") return invalidHttpResponse(message: "Ce n'est pas la bonne methode, il faut un PUT");
-      if (!request.url.toString().startsWith("BASE_URL/jeunes/ronaldo/demarches/remporterLaC1/statut"))
+      if (!request.url.toString().startsWith("BASE_URL/jeunes/ronaldo/demarches/remporterLaC1/statut")) {
         return invalidHttpResponse(message: "Ce n'est pas le bon url");
+      }
       expect(request.bodyFields, {"statut": "A_FAIRE", "dateDebut": "2021-12-23T12:08:10.000"});
       return Response("", 200);
     });
     final repository = ModifyDemarcheRepository("BASE_URL", httpClient);
 
     // When
-    final result = await repository.modifyDemarche("ronaldo", "remporterLaC1", UserActionPEStatus.NOT_STARTED, DateTime(2021, 12, 23, 12, 8, 10));
+    final result = await repository.modifyDemarche(
+      "ronaldo",
+      "remporterLaC1",
+      UserActionPEStatus.NOT_STARTED,
+      DateTime(2021, 12, 23, 12, 8, 10),
+    );
 
     // Then
     expect(result, true);
@@ -33,7 +39,8 @@ void main() {
     final repository = ModifyDemarcheRepository("BASE_URL", httpClient);
 
     // When
-    final result = await repository.modifyDemarche("ronaldo", "remporterLaC1", UserActionPEStatus.NOT_STARTED, DateTime(2021, 12, 23, 12, 8, 10));
+    final result = await repository.modifyDemarche(
+        "ronaldo", "remporterLaC1", UserActionPEStatus.NOT_STARTED, DateTime(2021, 12, 23, 12, 8, 10));
 
     // Then
     expect(result, false);
