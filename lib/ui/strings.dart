@@ -219,6 +219,7 @@ class Strings {
   static String addAnAction = "Créer une action";
   static String addADemarche = "Créer une démarche";
   static String addALaDemarche = "Créer la démarche";
+  static String addAMessageError = "Vous avez dépassé le nombre de caractères autorisés";
   static String create = "Créer";
   static String actionLabel = "Intitulé de l'action";
   static String actionDescription = "Description de l'action";
@@ -252,6 +253,13 @@ class Strings {
   static const String actionPEDone = "Réalisé";
   static const String actionPECancelled = "Annulé";
   static const String actionPELate = "En retard : ";
+  static const String createDemarchePersonalisee = "Créer une démarche personnalisée";
+  static const String createDemarchePersonaliseeAsterix = "Les champs marqués d’une * sont obligatoires";
+  static const String commentaire = "Commentaire";
+  static const String descriptionDemarche = "*Description de la démarche";
+  static const String caracteres255 = "255 caractères maximum";
+  static const String quand = "Quand";
+  static const String selectEcheance = "*Sélectionner une date d'échéance";
 
   static String actionPEActiveDateFormat(String formattedDate) => "À réaliser pour le $formattedDate";
 

@@ -155,6 +155,15 @@ class TextStyles {
     );
   }
 
+  static TextStyle textBaseMediumWithColor(Color color) {
+    return TextStyle(
+      color: color,
+      fontFamily: 'Marianne',
+      fontSize: FontSizes.medium,
+      fontWeight: FontWeight.w500,
+    );
+  }
+
   static TextStyle textBaseRegularWithColor(Color color) {
     return TextStyle(
       color: color,
