@@ -14,6 +14,7 @@ class PassEmploiMockClient extends BaseClient {
     try {
       return await _httpClient.send(request);
     } on ModeDemoException catch (e) {
+      // ignore: ban-name
       debugPrint(e.toString());
       fail(e.toString());
     }
