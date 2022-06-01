@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
-import 'package:http/testing.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
@@ -8,6 +7,7 @@ import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.da
 
 import '../../doubles/fixtures.dart';
 import '../../utils/mock_demo_client.dart';
+import '../../utils/pass_emploi_mock_client.dart';
 import '../../utils/test_assets.dart';
 import '../../utils/test_datetime.dart';
 
@@ -15,7 +15,7 @@ void main() {
   group('should return rendezvous', () {
     void expectRendezvousResult({required String andExpectedUrl, required RendezvousPeriod forPerdiod}) async {
       // Given
-      final httpClient = MockClient((request) async {
+      final httpClient = PassEmploiMockClient((request) async {
         if (request.method != 'GET') return invalidHttpResponse();
         if (request.url.toString() != andExpectedUrl) return invalidHttpResponse();
         return Response.bytes(loadTestAssetsAsBytes('rendezvous.json'), 200);
@@ -83,7 +83,7 @@ void main() {
 
   test('a rendezvous where conseiller and createur is same in payload should fonctionnaly return a null createur',
       () async {
-    final httpClient = MockClient((request) async {
+        final httpClient = PassEmploiMockClient((request) async {
       return Response.bytes(loadTestAssetsAsBytes('rendezvous_where_conseiller_is_createur.json'), 200);
     });
     final repository = RendezvousRepository('BASE_URL', httpClient);
@@ -95,7 +95,7 @@ void main() {
   });
 
   RendezvousRepository _rendezvousFutursRepositoryFromPoleEmploi() {
-    final httpClient = MockClient((request) async {
+    final httpClient = PassEmploiMockClient((request) async {
       if (request.method != 'GET') return invalidHttpResponse();
       if (request.url.toString() != 'BASE_URL/jeunes/userId/rendezvous?periode=FUTURS') return invalidHttpResponse();
       return Response.bytes(loadTestAssetsAsBytes('rendezvous_pole_emploi.json'), 200);
@@ -154,7 +154,7 @@ void main() {
 
   test('getRendezvous when response is valid with unknown type should fallback to "Autre" rendezvous type', () async {
     // Given
-    final httpClient = MockClient((request) async {
+    final httpClient = PassEmploiMockClient((request) async {
       if (request.method != 'GET') return invalidHttpResponse();
       if (request.url.toString() != 'BASE_URL/jeunes/userId/rendezvous?periode=FUTURS') return invalidHttpResponse();
       return Response.bytes(loadTestAssetsAsBytes('rendezvous_with_unknown_type.json'), 200);
@@ -174,7 +174,7 @@ void main() {
 
   test('getRendezvous when response is invalid should return null', () async {
     // Given
-    final httpClient = MockClient((request) async => invalidHttpResponse());
+    final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
     final repository = RendezvousRepository('BASE_URL', httpClient);
 
     // When
@@ -186,7 +186,7 @@ void main() {
 
   test('getRendezvous when response throws exception should return null', () async {
     // Given
-    final httpClient = MockClient((request) async => throw Exception());
+    final httpClient = PassEmploiMockClient((request) async => throw Exception());
     final repository = RendezvousRepository('BASE_URL', httpClient);
 
     // When

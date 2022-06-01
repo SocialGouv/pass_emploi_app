@@ -1,18 +1,18 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
-import 'package:http/testing.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 
 import '../doubles/fixtures.dart';
 import '../utils/mock_demo_client.dart';
+import '../utils/pass_emploi_mock_client.dart';
 import '../utils/test_assets.dart';
 import '../utils/test_datetime.dart';
 
 void main() {
   test('should return details jeune on valid request', () async {
     // Given
-    final httpClient = MockClient((request) async {
+    final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
       if (!request.url.toString().startsWith("BASE_URL/jeunes/id-jeune")) return invalidHttpResponse();
       return Response(loadTestAssets("details_jeune.json"), 200);
@@ -37,7 +37,7 @@ void main() {
 
   test('should return null on failed request', () async {
     // Given
-    final httpClient = MockClient((request) async => throw Exception());
+    final httpClient = PassEmploiMockClient((request) async => throw Exception());
     final repository = DetailsJeuneRepository("BASE_URL", httpClient);
 
     // When

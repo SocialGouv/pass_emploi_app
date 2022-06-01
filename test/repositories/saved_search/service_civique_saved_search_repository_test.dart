@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
-import 'package:http/testing.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/models/service_civique_filtres_pameters.dart';
@@ -9,6 +8,7 @@ import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
+import '../../utils/pass_emploi_mock_client.dart';
 
 void main() {
   group("When user save new search postSavedSearch should ...", () {
@@ -27,7 +27,7 @@ void main() {
 
     test("return FALSE if response is invalid", () async {
       // Given
-      final httpClient = MockClient((request) async => Response("", 500));
+      final httpClient = PassEmploiMockClient((request) async => Response("", 500));
       final repository = ServiceCiviqueSavedSearchRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
       // When
@@ -39,8 +39,8 @@ void main() {
   });
 }
 
-MockClient _mockClientforFullDataWithFilters() {
-  return MockClient((request) async {
+BaseClient _mockClientforFullDataWithFilters() {
+  return PassEmploiMockClient((request) async {
     if (request.method != "POST") return invalidHttpResponse();
     if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/recherches/services-civique")) {
       return invalidHttpResponse();

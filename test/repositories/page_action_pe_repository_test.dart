@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
-import 'package:http/testing.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/page_actions_pe.dart';
 import 'package:pass_emploi_app/models/user_action_pe.dart';
@@ -8,13 +7,14 @@ import 'package:pass_emploi_app/repositories/page_action_pe_repository.dart';
 
 import '../doubles/fixtures.dart';
 import '../utils/mock_demo_client.dart';
+import '../utils/pass_emploi_mock_client.dart';
 import '../utils/test_assets.dart';
 import '../utils/test_datetime.dart';
 
 void main() {
   test('getPageActionsPE', () async {
     // Given
-    final httpClient = MockClient((request) async {
+    final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
       if (!request.url.toString().startsWith("BASE_URL/jeunes/UID/home/demarches")) {
         return invalidHttpResponse();
@@ -74,7 +74,7 @@ void main() {
 
   test('getPageActionsPE when response is invalid should return null', () async {
     // Given
-    final httpClient = MockClient((request) async => invalidHttpResponse());
+    final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
     final repository = PageActionPERepository("BASE_URL", httpClient);
 
     // When

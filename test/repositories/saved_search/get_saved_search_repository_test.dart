@@ -1,7 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
-import 'package:http/testing.dart';
 import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
@@ -11,13 +10,14 @@ import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_rep
 
 import '../../doubles/fixtures.dart';
 import '../../utils/mock_demo_client.dart';
+import '../../utils/pass_emploi_mock_client.dart';
 import '../../utils/test_assets.dart';
 
 void main() {
   group("When user want to get a saved search list, getSavedSearch should ...", () {
     test('return saved search offers when response is valid with all parameters', () async {
       // Given
-      final httpClient = MockClient((request) async {
+      final httpClient = PassEmploiMockClient((request) async {
         if (request.method != "GET") return invalidHttpResponse();
         if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/recherches")) return invalidHttpResponse();
         return Response.bytes(loadTestAssetsAsBytes("saved_search_data.json"), 200);
@@ -33,7 +33,7 @@ void main() {
 
     test('return null when response is invalid should return null', () async {
       // Given
-      final httpClient = MockClient((request) async => invalidHttpResponse());
+      final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
       final repository = GetSavedSearchRepository("BASE_URL", httpClient);
 
       // When

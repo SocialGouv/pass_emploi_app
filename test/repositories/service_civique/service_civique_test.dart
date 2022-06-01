@@ -1,18 +1,18 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
-import 'package:http/testing.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../utils/mock_demo_client.dart';
+import '../../utils/pass_emploi_mock_client.dart';
 import '../../utils/test_assets.dart';
 
 void main() {
   test('search when response is valid with department location should return offres', () async {
     // Given
-    final httpClient = MockClient((request) async {
+    final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
       if (!request.url.toString().startsWith("BASE_URL/services-civique")) return invalidHttpResponse();
       if (request.url.queryParameters["lat"] != "47.239367") return invalidHttpResponse();
@@ -63,7 +63,7 @@ void main() {
 
   test('search when response is invalid should return null', () async {
     // Given
-    final httpClient = MockClient((request) async => invalidHttpResponse());
+    final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
     final repository = ServiceCiviqueRepository("BASE_URL", httpClient);
 
     // When

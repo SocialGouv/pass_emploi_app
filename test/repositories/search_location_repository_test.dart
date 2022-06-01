@@ -1,16 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
-import 'package:http/testing.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 
 import '../doubles/fixtures.dart';
+import '../utils/pass_emploi_mock_client.dart';
 import '../utils/test_assets.dart';
 
 void main() {
   test('getLocations when response is valid should return locations', () async {
     // Given
-    final httpClient = MockClient((request) async {
+    final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
       if (request.url.toString() != "BASE_URL/referentiels/communes-et-departements?recherche=paris&villesOnly=false") {
         return invalidHttpResponse();
@@ -40,7 +40,7 @@ void main() {
 
   test('getLocations when response is invalid should return empty list', () async {
     // Given
-    final httpClient = MockClient((request) async => invalidHttpResponse());
+    final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
     final repository = SearchLocationRepository("BASE_URL", httpClient);
 
     // When
@@ -52,7 +52,7 @@ void main() {
 
   test('getLocations when response throws exception should return empty list', () async {
     // Given
-    final httpClient = MockClient((request) async => throw Exception());
+    final httpClient = PassEmploiMockClient((request) async => throw Exception());
     final repository = SearchLocationRepository("BASE_URL", httpClient);
 
     // When
@@ -64,7 +64,7 @@ void main() {
 
   test('getLocations when villesOnlyParameter is true should set it in query parameters', () async {
     // Given
-    final httpClient = MockClient((request) async {
+    final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") throw Exception();
       if (request.url.toString() != "BASE_URL/referentiels/communes-et-departements?recherche=pari&villesOnly=true") {
         throw Exception();
@@ -82,7 +82,7 @@ void main() {
 
   test('getLocations when mode demo', () async {
     // Given
-    final httpClient = MockClient((request) async {
+    final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
       if (request.url.toString() != "BASE_URL/referentiels/communes-et-departements?recherche=paris&villesOnly=false") {
         return invalidHttpResponse();

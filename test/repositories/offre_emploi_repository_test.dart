@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
-import 'package:http/testing.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
@@ -8,12 +7,13 @@ import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 
 import '../doubles/fixtures.dart';
 import '../utils/mock_demo_client.dart';
+import '../utils/pass_emploi_mock_client.dart';
 import '../utils/test_assets.dart';
 
 void main() {
   test('search when response is valid with keywords and a department location should return offres', () async {
     // Given
-    final httpClient = MockClient((request) async {
+    final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
       if (!request.url.toString().startsWith("BASE_URL/offres-emploi")) return invalidHttpResponse();
       if (request.url.queryParameters["q"] != "keywords") return invalidHttpResponse();
@@ -70,7 +70,7 @@ void main() {
 
   test('search when response is valid with keywords and a commune location should return offres', () async {
     // Given
-    final httpClient = MockClient((request) async {
+    final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
       if (!request.url.toString().startsWith("BASE_URL/offres-emploi")) return invalidHttpResponse();
       if (request.url.queryParameters["q"] != "keywords") return invalidHttpResponse();
@@ -100,7 +100,7 @@ void main() {
 
   test('search when response is valid with empty keyword and department parameters should return offres', () async {
     // Given
-    final httpClient = MockClient((request) async {
+    final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
       if (!request.url.toString().startsWith("BASE_URL/offres-emploi")) return invalidHttpResponse();
       if (request.url.queryParameters.containsKey("q")) return invalidHttpResponse();
@@ -130,7 +130,7 @@ void main() {
 
   test('search when response is valid with only alternance should return offres', () async {
     // Given
-    final httpClient = MockClient((request) async {
+    final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
       if (!request.url.toString().startsWith("BASE_URL/offres-emploi")) return invalidHttpResponse();
       if (request.url.queryParameters.containsKey("q")) return invalidHttpResponse();
@@ -160,7 +160,7 @@ void main() {
 
   test('search when response is valid with keywords and a department location should return offres', () async {
     // Given
-    final httpClient = MockClient((request) async {
+    final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
       if (!request.url.toString().startsWith("BASE_URL/offres-emploi")) return invalidHttpResponse();
       if (request.url.queryParameters["q"] != "keywords") return invalidHttpResponse();
@@ -210,7 +210,7 @@ void main() {
     ) {
       test(title, () async {
         // Given
-        final httpClient = MockClient((request) async {
+        final httpClient = PassEmploiMockClient((request) async {
           if (!assertion(request.url.query)) return invalidHttpResponse();
           return Response(loadTestAssets("offres_emploi.json"), 200);
         });
@@ -387,7 +387,7 @@ void main() {
 
   test('search when response is invalid should return null', () async {
     // Given
-    final httpClient = MockClient((request) async => invalidHttpResponse());
+    final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
     final repository = OffreEmploiRepository("BASE_URL", httpClient);
 
     // When
