@@ -18,6 +18,13 @@ class ModeDemoClient extends BaseClient {
       return StreamedResponse(readFileBytes(fileName!), 200);
     }
   }
+
+  Stream<List<int>> readFileBytes(String stringUrl) {
+    return rootBundle
+        .load("assets/mode_demo/" + stringUrl + ".json") //
+        .asStream() //
+        .map((event) => event.buffer.asUint8List());
+  }
 }
 
 class ModeDemoValidatorClient extends BaseClient {
@@ -48,13 +55,6 @@ class ModeDemoException implements Exception {
       '''
         .trim();
   }
-}
-
-Stream<List<int>> readFileBytes(String stringUrl) {
-  return rootBundle
-      .load("assets/mode_demo/" + stringUrl + ".json") //
-      .asStream() //
-      .map((event) => event.buffer.asUint8List());
 }
 
 String? _getFileName(String url, String query) {
