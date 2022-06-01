@@ -31,6 +31,7 @@ analyzer:
 dart_code_metrics:
   rules:
     - ban-name:
+        severity: error
         entries:
           - ident: launchUrl
             description: You should use launchExternalUrl instead (to avoid avoid iOS app to target only users above 18 years old)
