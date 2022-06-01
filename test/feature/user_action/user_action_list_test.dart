@@ -10,7 +10,7 @@ void main() {
   test("actions should be fetched and displayed when screen loads", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
-    testStoreFactory.userActionRepository = UserActionRepositorySuccessStub();
+    testStoreFactory.pageActionRepository = PageActionRepositorySuccessStub();
     final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
 
     final displayedLoading = store.onChange.any((e) => e.userActionListState is UserActionListLoadingState);

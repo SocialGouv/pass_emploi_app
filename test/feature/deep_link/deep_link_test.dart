@@ -9,12 +9,10 @@ import '../../utils/test_setup.dart';
 void main() {
   group("deep links actions should properly update state", () {
     void assertState(DeepLinkAction action, DeepLinkState expectedState) {
-      test("${action.message.data["type"]} -> ${expectedState.deepLink}",
-          () async {
+      test("${action.message.data["type"]} -> ${expectedState.deepLink}", () async {
         // Given
         final testStoreFactory = TestStoreFactory();
-        final store = testStoreFactory.initializeReduxStore(
-            initialState: AppState.initialState());
+        final store = testStoreFactory.initializeReduxStore(initialState: AppState.initialState());
 
         // When
         final outputAppState = store.onChange.first;

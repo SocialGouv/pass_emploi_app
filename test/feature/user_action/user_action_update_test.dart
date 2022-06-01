@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/features/user_action/update/user_action_update_s
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/user_action_repository.dart';
+import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 
 import '../../doubles/dummies.dart';
 import '../../utils/test_setup.dart';
@@ -14,8 +14,8 @@ void main() {
   test("when user requests an update the action should be updated, put on top of list and user notified", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
-    final repositorySpy = UserActionRepositorySpy();
-    testStoreFactory.userActionRepository = repositorySpy;
+    final repositorySpy = PageActionRepositorySpy();
+    testStoreFactory.pageActionRepository = repositorySpy;
     final store = testStoreFactory.initializeReduxStore(
       initialState: AppState.initialState().copyWith(
         userActionListState: UserActionListSuccessState(
@@ -62,10 +62,10 @@ UserAction _notStartedAction({required String actionId}) {
   );
 }
 
-class UserActionRepositorySpy extends UserActionRepository {
+class PageActionRepositorySpy extends PageActionRepository {
   var isActionUpdated = false;
 
-  UserActionRepositorySpy() : super("", DummyHttpClient());
+  PageActionRepositorySpy() : super("", DummyHttpClient());
 
   @override
   Future<void> updateActionStatus(String userId, String actionId, UserActionStatus newStatus) async {

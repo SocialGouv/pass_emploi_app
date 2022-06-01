@@ -2,16 +2,16 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 
-class HomeActions extends Equatable {
+class PageActions extends Equatable {
   final List<UserAction> actions;
   final Campagne? campagne;
 
-  HomeActions({required this.actions, this.campagne});
+  PageActions({required this.actions, this.campagne});
 
-  factory HomeActions.fromJson(dynamic json) {
+  factory PageActions.fromJson(dynamic json) {
     final actions = (json["actions"] as List).map((action) => UserAction.fromJson(action)).toList();
     final campagne = json["campagne"] != null ? Campagne.fromJson(json["campagne"]) : null;
-    return HomeActions(actions: actions, campagne: campagne);
+    return PageActions(actions: actions, campagne: campagne);
   }
 
   @override

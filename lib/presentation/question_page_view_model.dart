@@ -1,4 +1,4 @@
-import 'package:pass_emploi_app/features/campagne/result/campagne_result_actions.dart';
+import 'package:pass_emploi_app/features/campagne/campagne_actions.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -36,7 +36,7 @@ class QuestionPageViewModel {
       options: campagne.questions[pageOffset].options,
       bottomButton: pageOffset.isLastPage(campagne) ? QuestionBottomButton.validate : QuestionBottomButton.next,
       onButtonClick: (idQuestion, idAnswer, pourquoi) {
-        store.dispatch(CampagneResultAction(idQuestion, idAnswer, pourquoi));
+        store.dispatch(CampagneAnswerAction(idQuestion, idAnswer, pourquoi));
         if (pageOffset.isLastPage(campagne)) {
           store.dispatch(CampagneResetAction());
         }
@@ -62,5 +62,5 @@ enum QuestionBottomButton { next, validate }
 extension _Offset on int {
   bool isLastPage(Campagne campagne) => this == (campagne.questions.length - 1);
 
-  String? information() => this == 0 ? "Les questions marquées d'une * sont obligatoires" : null;
+  String? information() => this == 0 ? Strings.mandatory : null;
 }

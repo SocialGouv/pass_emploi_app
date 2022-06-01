@@ -65,8 +65,8 @@ import 'package:pass_emploi_app/repositories/service_civique/service_civique_rep
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
-import 'package:pass_emploi_app/repositories/user_action_pe_repository.dart';
-import 'package:pass_emploi_app/repositories/user_action_repository.dart';
+import 'package:pass_emploi_app/repositories/page_action_pe_repository.dart';
+import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -168,22 +168,22 @@ class AppInitializer {
     final chatCrypto = ChatCrypto();
     final baseUrl = configuration.serverBaseUrl;
     final reduxStore = StoreFactory(
-      authenticator,
-      crashlytics,
-      chatCrypto,
-      UserActionRepository(baseUrl, httpClient, crashlytics),
-      UserActionPERepository(baseUrl, httpClient, crashlytics),
-      RendezvousRepository(baseUrl, httpClient, crashlytics),
-      OffreEmploiRepository(baseUrl, httpClient, crashlytics),
-      ChatRepository(chatCrypto, crashlytics, modeDemoRepository),
-      RegisterTokenRepository(baseUrl, httpClient, pushNotificationManager, crashlytics),
-      OffreEmploiDetailsRepository(baseUrl, httpClient, crashlytics),
-      OffreEmploiFavorisRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
-      ImmersionFavorisRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
-      ServiceCiviqueFavorisRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
-      SearchLocationRepository(baseUrl, httpClient, crashlytics),
-      MetierRepository(),
-      ImmersionRepository(baseUrl, httpClient, crashlytics),
+        authenticator,
+            crashlytics,
+            chatCrypto,
+            PageActionRepository(baseUrl, httpClient, crashlytics),
+            PageActionPERepository(baseUrl, httpClient, crashlytics),
+            RendezvousRepository(baseUrl, httpClient, crashlytics),
+            OffreEmploiRepository(baseUrl, httpClient, crashlytics),
+            ChatRepository(chatCrypto, crashlytics, modeDemoRepository),
+            RegisterTokenRepository(baseUrl, httpClient, pushNotificationManager, crashlytics),
+            OffreEmploiDetailsRepository(baseUrl, httpClient, crashlytics),
+            OffreEmploiFavorisRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
+            ImmersionFavorisRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
+            ServiceCiviqueFavorisRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
+            SearchLocationRepository(baseUrl, httpClient, crashlytics),
+            MetierRepository(),
+            ImmersionRepository(baseUrl, httpClient, crashlytics),
       ImmersionDetailsRepository(baseUrl, httpClient, crashlytics),
       FirebaseAuthRepository(baseUrl, httpClient, crashlytics),
       FirebaseAuthWrapper(),
