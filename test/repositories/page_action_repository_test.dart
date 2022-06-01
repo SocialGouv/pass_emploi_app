@@ -8,13 +8,14 @@ import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 
 import '../doubles/fixtures.dart';
+import '../utils/pass_emploi_mock_client.dart';
 import '../utils/test_assets.dart';
 import '../utils/test_datetime.dart';
 
 void main() {
   test('getPageActions', () async {
     // Given
-    final httpClient = MockClient((request) async {
+    final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
       if (!request.url.toString().startsWith("BASE_URL/jeunes/UID/home/actions")) return invalidHttpResponse();
       return Response.bytes(loadTestAssetsAsBytes("home_actions.json"), 200);

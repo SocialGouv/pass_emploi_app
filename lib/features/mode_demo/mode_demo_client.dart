@@ -29,9 +29,24 @@ class ModeDemoValidatorClient extends BaseClient {
   Future<StreamedResponse> send(BaseRequest request) async {
     if (request.method == "GET" && request.url.toString().isSupposedToBeMocked()) {
       final fileName = _getFileName(request.url.path, request.url.query);
-      if (fileName == null) throw Exception('URL is supposed to be mocked');
+      if (fileName == null) throw ModeDemoException(request.url.toString());
     }
     return httpClient.send(request);
+  }
+}
+
+class ModeDemoException implements Exception {
+  final String _urlToBeMocked;
+
+  ModeDemoException(String urlToBeMocked) : _urlToBeMocked = urlToBeMocked;
+
+  @override
+  String toString() {
+    return '''
+        URL $_urlToBeMocked is supposed to be mocked. 
+        Please complete ModeDemoClient.dart or declare URL as not supposed to be mocked.
+      '''
+        .trim();
   }
 }
 
