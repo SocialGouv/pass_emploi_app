@@ -48,6 +48,7 @@ import 'package:synchronized/synchronized.dart';
 import 'dummies_for_cache.dart';
 import 'fixtures.dart';
 
+// ignore: ban-name, no need to use PassEmploiMockClient here
 class DummyHttpClient extends MockClient {
   DummyHttpClient() : super((request) async => Response("", 200));
 }
