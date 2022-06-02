@@ -4,15 +4,17 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 
 enum Sender { jeune, conseiller }
-enum MessageType { message, nouveauConseiller, inconnu }
+
+enum MessageType { message, nouveauConseiller, messagePj, inconnu }
 
 class Message extends Equatable {
   final String content;
   final DateTime creationDate;
   final Sender sentBy;
   final MessageType type;
+  final List<PieceJointe> pieceJointes;
 
-  Message(this.content, this.creationDate, this.sentBy, this.type);
+  Message(this.content, this.creationDate, this.sentBy, this.type, this.pieceJointes);
 
   static Message? fromJson(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
     final creationDateValue = json['creationDate'];
@@ -24,7 +26,13 @@ class Message extends Equatable {
       creationDate,
       json['sentBy'] as String == 'jeune' ? Sender.jeune : Sender.conseiller,
       _type(json),
+      _pieceJointes(json),
     );
+  }
+
+  static List<PieceJointe> _pieceJointes(dynamic json) {
+    final piecesJointes = json["piecesJointes"] as List;
+    return piecesJointes.map((e) => PieceJointe.fromJson(e)).toList();
   }
 
   static String? _content(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
@@ -54,6 +62,8 @@ class Message extends Equatable {
           return MessageType.message;
         case "NOUVEAU_CONSEILLER":
           return MessageType.nouveauConseiller;
+        case "MESSAGE_PJ":
+          return MessageType.messagePj;
         default:
           return MessageType.inconnu;
       }
@@ -64,4 +74,20 @@ class Message extends Equatable {
 
   @override
   List<Object?> get props => [content, creationDate, sentBy, type];
+}
+
+class PieceJointe extends Equatable {
+  final String id;
+  final String nom;
+
+  PieceJointe(this.id, this.nom);
+
+  @override
+  List<Object?> get props => [id, nom];
+
+  static PieceJointe fromJson(json) {
+    final id = json["id"] as String;
+    final nom = json["nom"] as String;
+    return PieceJointe(id, nom);
+  }
 }
