@@ -102,10 +102,4 @@ class PieceJointe extends Equatable {
     if (nom == null) return null;
     return PieceJointe(id, nom);
   }
-
-  static String? _nom(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
-    final content = json['content'] as String;
-    final iv = json['iv'] as String?;
-    return content.decrypt(chatCrypto, crashlytics, iv);
-  }
 }
