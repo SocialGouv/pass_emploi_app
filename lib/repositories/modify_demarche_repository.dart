@@ -37,8 +37,6 @@ class ModifyDemarcheRepository {
         return "A_FAIRE";
       case UserActionPEStatus.IN_PROGRESS:
         return "EN_COURS";
-      case UserActionPEStatus.RETARDED:
-        return "EN_RETARD";
       case UserActionPEStatus.DONE:
         return "REALISEE";
       case UserActionPEStatus.CANCELLED:

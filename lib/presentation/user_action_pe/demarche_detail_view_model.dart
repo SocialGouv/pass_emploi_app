@@ -100,13 +100,6 @@ UserActionTagViewModel _getTagViewModel(UserActionPEStatus status, UserActionPES
         textColor: isSelected ? AppColors.accent3 : AppColors.grey800,
         isSelected: isSelected,
       );
-    case UserActionPEStatus.RETARDED:
-      return UserActionTagViewModel(
-        title: Strings.actionPERetarded,
-        backgroundColor: isSelected ? AppColors.warningLighten : Colors.transparent,
-        textColor: isSelected ? AppColors.warning : AppColors.grey800,
-        isSelected: isSelected,
-      );
     case UserActionPEStatus.DONE:
       return UserActionTagViewModel(
         title: Strings.actionPEDone,

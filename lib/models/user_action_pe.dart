@@ -4,7 +4,6 @@ import 'package:pass_emploi_app/utils/string_extensions.dart';
 enum UserActionPEStatus {
   NOT_STARTED,
   IN_PROGRESS,
-  RETARDED,
   DONE,
   CANCELLED;
 
@@ -91,8 +90,6 @@ UserActionPEStatus _statusFromString({required String statusString}) {
     return UserActionPEStatus.NOT_STARTED;
   } else if (statusString == "EN_COURS") {
     return UserActionPEStatus.IN_PROGRESS;
-  } else if (statusString == "EN_RETARD") {
-    return UserActionPEStatus.RETARDED;
   } else if (statusString == "REALISEE") {
     return UserActionPEStatus.DONE;
   } else if (statusString == "ANNULEE") {

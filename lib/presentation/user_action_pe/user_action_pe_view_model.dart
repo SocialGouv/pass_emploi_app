@@ -49,8 +49,6 @@ class UserActionPEViewModel extends Equatable {
         return isLate ? AppColors.warning : AppColors.primary;
       case UserActionPEStatus.IN_PROGRESS:
         return isLate ? AppColors.warning : AppColors.primary;
-      case UserActionPEStatus.RETARDED:
-        return AppColors.warning;
       case UserActionPEStatus.CANCELLED:
         return AppColors.grey700;
       case UserActionPEStatus.DONE:
@@ -94,12 +92,6 @@ UserActionTagViewModel? _userActionTagViewModel(UserActionPEStatus status, bool 
         title: Strings.actionPEInProgress,
         backgroundColor: isLate ? AppColors.warningLighten : AppColors.accent3Lighten,
         textColor: isLate ? AppColors.warning : AppColors.accent3,
-      );
-    case UserActionPEStatus.RETARDED:
-      return UserActionTagViewModel(
-        title: Strings.actionPERetarded,
-        backgroundColor: AppColors.warningLighten,
-        textColor: AppColors.warning,
       );
     case UserActionPEStatus.DONE:
       return UserActionTagViewModel(
