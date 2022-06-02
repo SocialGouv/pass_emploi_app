@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pass_emploi_app/pages/actions/demarche_detail_page.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_pe/user_action_pe_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -13,8 +12,9 @@ import 'package:pass_emploi_app/widgets/tags/status_tag.dart';
 
 class UserActionPECard extends StatelessWidget {
   final UserActionPEViewModel viewModel;
+  final Function onTap;
 
-  const UserActionPECard({required this.viewModel}) : super();
+  const UserActionPECard({required this.viewModel, required this.onTap}) : super();
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +27,7 @@ class UserActionPECard extends StatelessWidget {
         child: Material(
           type: MaterialType.transparency,
           child: InkWell(
-            onTap: () {
-              if (viewModel.isDetailEnabled) {
-                Navigator.of(context).push(DemarcheDetailPage.materialPageRoute(viewModel.id));
-              }
-            },
+            onTap: () => viewModel.isDetailEnabled ? onTap() : null,
             splashColor: AppColors.primaryLighten,
             child: Padding(
               padding: const EdgeInsets.all(Margins.spacing_base),

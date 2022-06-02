@@ -4,6 +4,8 @@ import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_actions.dart';
+import 'package:pass_emploi_app/pages/actions/demarche_detail_page.dart';
+import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action_pe/user_action_pe_list_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -15,7 +17,6 @@ import 'package:pass_emploi_app/widgets/cards/user_action_pe_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/empty_pole_emploi_content.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
-import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
 
 class UserActionPEListPage extends TraceableStatelessWidget {
   final ScrollController _scrollController = ScrollController();
@@ -43,7 +44,7 @@ class UserActionPEListPage extends TraceableStatelessWidget {
   Widget _animatedBody(BuildContext context, UserActionPEListPageViewModel viewModel) {
     switch (viewModel.displayState) {
       case DisplayState.CONTENT:
-        return  _userActionsList(context, viewModel);
+        return _userActionsList(context, viewModel);
       case DisplayState.LOADING:
         return _loader();
       case DisplayState.EMPTY:
@@ -73,12 +74,20 @@ class UserActionPEListPage extends TraceableStatelessWidget {
     if (item is UserActionPECampagneItemViewModel) {
       return _CampagneCard(title: item.titre, description: item.description);
     } else {
-      return UserActionPECard(viewModel: (item as UserActionPEListItemViewModel).viewModel);
+      final viewModel = (item as UserActionPEListItemViewModel).viewModel;
+      return UserActionPECard(
+        viewModel: viewModel,
+        onTap: () => pushAndTrackBack(
+          context,
+          DemarcheDetailPage.materialPageRoute(viewModel.id),
+          AnalyticsScreenNames.userActionList,
+        ),
+      );
     }
   }
 }
 
-class _CampagneCard extends StatelessWidget{
+class _CampagneCard extends StatelessWidget {
   final String title;
   final String description;
 
@@ -86,13 +95,12 @@ class _CampagneCard extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-   return CampagneCard(
-     onTap: () {
-       pushAndTrackBack(
-           context, CampagneDetailsPage.materialPageRoute(), AnalyticsScreenNames.evaluationDetails);
-     },
-     titre: title,
-     description: description,
-   );
+    return CampagneCard(
+      onTap: () {
+        pushAndTrackBack(context, CampagneDetailsPage.materialPageRoute(), AnalyticsScreenNames.evaluationDetails);
+      },
+      titre: title,
+      description: description,
+    );
   }
 }
