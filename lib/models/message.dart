@@ -31,7 +31,8 @@ class Message extends Equatable {
   }
 
   static List<PieceJointe> _pieceJointes(dynamic json) {
-    final piecesJointes = json["piecesJointes"] as List;
+    final piecesJointes = json["piecesJointes"] as List?;
+    if (piecesJointes == null) return [];
     return piecesJointes.map((e) => PieceJointe.fromJson(e)).toList();
   }
 
@@ -73,7 +74,7 @@ class Message extends Equatable {
   }
 
   @override
-  List<Object?> get props => [content, creationDate, sentBy, type];
+  List<Object?> get props => [content, creationDate, sentBy, type, pieceJointes];
 }
 
 class PieceJointe extends Equatable {

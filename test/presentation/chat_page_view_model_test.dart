@@ -43,11 +43,11 @@ void main() {
       chatStatusState: ChatStatusSuccessState(unreadMessageCount: 0, lastConseillerReading: DateTime(2021, 1, 2, 18)),
       chatState: ChatSuccessState(
         [
-          Message('1', DateTime(2021, 1, 1, 12, 30), Sender.jeune, MessageType.message),
-          Message('2', DateTime(2021, 1, 1, 15, 30), Sender.conseiller, MessageType.message),
-          Message('3', DateTime(2021, 1, 2, 16, 00), Sender.jeune, MessageType.message),
-          Message('4', DateTime(2021, 1, 2, 18, 30), Sender.conseiller, MessageType.message),
-          Message('5', todayAtNoon, Sender.jeune, MessageType.message),
+          Message('1', DateTime(2021, 1, 1, 12, 30), Sender.jeune, MessageType.message, []),
+          Message('2', DateTime(2021, 1, 1, 15, 30), Sender.conseiller, MessageType.message, []),
+          Message('3', DateTime(2021, 1, 2, 16, 00), Sender.jeune, MessageType.message, []),
+          Message('4', DateTime(2021, 1, 2, 18, 30), Sender.conseiller, MessageType.message, []),
+          Message('5', todayAtNoon, Sender.jeune, MessageType.message, []),
         ],
       ),
     );
@@ -74,7 +74,7 @@ void main() {
     // Given
     final state = AppState.initialState().copyWith(
       chatState: ChatSuccessState(
-        [Message('Jean-Paul', DateTime(2021, 1, 1, 12, 30), Sender.conseiller, MessageType.nouveauConseiller)],
+        [Message('Jean-Paul', DateTime(2021, 1, 1, 12, 30), Sender.conseiller, MessageType.nouveauConseiller, [])],
       ),
     );
     final store = Store<AppState>(reducer, initialState: state);
@@ -94,7 +94,7 @@ void main() {
     // Given
     final state = AppState.initialState().copyWith(
       chatState: ChatSuccessState(
-        [Message('Jean-Paul', DateTime(2021, 1, 1, 12, 30), Sender.conseiller, MessageType.inconnu)],
+        [Message('Jean-Paul', DateTime(2021, 1, 1, 12, 30), Sender.conseiller, MessageType.inconnu, [])],
       ),
     );
     final store = Store<AppState>(reducer, initialState: state);

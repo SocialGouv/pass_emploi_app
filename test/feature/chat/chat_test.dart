@@ -89,5 +89,6 @@ Message _mockMessage([String id = '1']) {
     DateTime.utc(2022, 1, 1),
     Sender.conseiller,
     MessageType.message,
+    [],
   );
 }
