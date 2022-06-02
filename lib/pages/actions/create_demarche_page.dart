@@ -177,7 +177,7 @@ class _NombreCaracteresRegle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color textColor = _isCommentaireValid ? AppColors.contentColor : AppColors.warning;
+    final textColor = _isCommentaireValid ? AppColors.contentColor : AppColors.warning;
     return Align(
       alignment: Alignment.centerRight,
       child: Padding(
@@ -238,7 +238,7 @@ class _NombreCaracteresCompteur extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color textColor = _isCommentaireValid ? AppColors.contentColor : AppColors.warning;
+    final textColor = _isCommentaireValid ? AppColors.contentColor : AppColors.warning;
     return Align(
       alignment: Alignment.centerRight,
       child: Padding(
@@ -260,7 +260,7 @@ class _ChampCommentaire extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Color borderColor = _isCommentaireValid ? AppColors.contentColor : AppColors.warning;
+    final borderColor = _isCommentaireValid ? AppColors.contentColor : AppColors.warning;
     return Padding(
       padding: const EdgeInsets.only(right: 24, left: 24, top: 8),
       child: Container(
