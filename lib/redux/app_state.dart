@@ -229,7 +229,7 @@ class AppState extends Equatable {
         serviceCiviqueDetailState: ServiceCiviqueDetailNotInitializedState(),
         demoState: false,
         suppressionCompteState: SuppressionCompteNotInitializedState(),
-        campagneState: CampagneState(null),
+        campagneState: CampagneState(null, []),
         createDemarcheState: CreateDemarcheNotInitializedState());
   }
 

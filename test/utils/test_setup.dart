@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart'
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
@@ -73,6 +74,7 @@ class TestStoreFactory {
   MatomoTracker matomoTracker = DummyMatomoTracker();
   FirebaseRemoteConfig? remoteConfig;
   ModifyDemarcheRepository modifyDemarcheRepository = DummyModifyDemarcheRepository();
+  CreateDemarcheRepository createDemarcheRepository = DummySuccessCreateDemarcheRepository();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
@@ -110,6 +112,7 @@ class TestStoreFactory {
       matomoTracker,
       remoteConfig,
       modifyDemarcheRepository,
+      createDemarcheRepository,
     ).initializeReduxStore(initialState: initialState);
   }
 }
