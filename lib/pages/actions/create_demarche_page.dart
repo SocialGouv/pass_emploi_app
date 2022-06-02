@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pass_emploi_app/features/user_action_pe/create/create_demarche_actions.dart';
+import 'package:pass_emploi_app/presentation/user_action_pe/create_demarche_view_model.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -7,6 +11,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 
 class CreateDemarchePage extends StatefulWidget {
   CreateDemarchePage._();
@@ -25,6 +30,19 @@ class _CreateDemarchePageState extends State<CreateDemarchePage> {
 
   @override
   Widget build(BuildContext context) {
+    return StoreConnector<AppState, CreateDemarcheViewModel>(
+      builder: _buildBody,
+      converter: (store) => CreateDemarcheViewModel.create(store),
+      onDidChange: (oldVm, newVm) {
+        if (newVm.shouldGoBack && oldVm?.shouldGoBack != true) {
+          Navigator.pop(context);
+        }
+      },
+      distinct: true,
+    );
+  }
+
+  Scaffold _buildBody(BuildContext context, CreateDemarcheViewModel viewModel) {
     return Scaffold(
       appBar: passEmploiAppBar(label: "Création d'une démarche", context: context),
       body: SingleChildScrollView(
@@ -66,10 +84,12 @@ class _CreateDemarchePageState extends State<CreateDemarchePage> {
                 onPressed: !_isFormValid()
                     ? null
                     : () {
-                        // TODO
+                        StoreProvider.of<AppState>(context).dispatch(CreateDemarcheRequestAction(_commentaire, _echeanceDate!));
                       },
               ),
             ),
+            if (viewModel.showError) ErrorText(Strings.genericCreationError),
+            SizedBox(height: 20),
           ],
         ),
       ),

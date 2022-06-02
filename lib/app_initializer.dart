@@ -26,6 +26,7 @@ import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/features/mode_demo/mode_demo_client.dart';
+import 'package:pass_emploi_app/features/user_action_pe/create/create_demarche_middleware.dart';
 import 'package:pass_emploi_app/network/cache_interceptor.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/network/interceptors/access_token_interceptor.dart';
@@ -202,6 +203,7 @@ class AppInitializer {
       MatomoTracker(),
       remoteConfig,
       ModifyDemarcheRepository(baseUrl, httpClient, crashlytics),
+      CreateDemarcheRepository(),
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
     authAccessChecker.setStore(reduxStore);

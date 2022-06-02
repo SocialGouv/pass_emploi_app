@@ -373,15 +373,13 @@ class Strings {
   static String serviceCiviqueOrganisationTitle = "Organisation";
 
   // Immersion Errors
-  static String immersionMetierError =
-      "Renseignez un secteur d'activité de la liste";
+  static String immersionMetierError = "Renseignez un secteur d'activité de la liste";
   static String immersionVilleError = "Renseignez une ville de la liste";
 
   // Solutions Errors
-  static String noContentError =
-      "Pour le moment, aucune offre ne correspond à vos critères.\n\nTrouvez d'autres offres en modifiant vos critères.";
-  static String genericError =
-      "Erreur lors de la recherche. Veuillez réessayer";
+  static String noContentError = "Pour le moment, aucune offre ne correspond à vos critères.\n\nTrouvez d'autres offres en modifiant vos critères.";
+  static String genericError = "Erreur lors de la recherche. Veuillez réessayer";
+  static String genericCreationError = "Erreur lors de la création. Veuillez réessayer";
   static String loadMoreOffresError = "Erreur lors du chargement des offres";
   static String updateCriteria = "Modifier les critères de recherche";
 

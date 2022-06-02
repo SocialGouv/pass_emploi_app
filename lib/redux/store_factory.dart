@@ -44,6 +44,7 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_m
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
+import 'package:pass_emploi_app/features/user_action_pe/create/create_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_middleware.dart';
 import 'package:pass_emploi_app/features/user_action_pe/modify/user_demarche_modify_middleware.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
@@ -116,6 +117,7 @@ class StoreFactory {
   final MatomoTracker matomoTracker;
   final FirebaseRemoteConfig? remoteConfig;
   final ModifyDemarcheRepository modifyDemarcheRepository;
+  final CreateDemarcheRepository createDemarcheRepository;
 
   StoreFactory(
     this.authenticator,
@@ -152,6 +154,7 @@ class StoreFactory {
     this.matomoTracker,
     this.remoteConfig,
     this.modifyDemarcheRepository,
+    this.createDemarcheRepository,
   );
 
   redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -205,6 +208,7 @@ class StoreFactory {
         SuppressionCompteMiddleware(suppressionCompteRepository),
         CampagneMiddleware(campagneRepository),
         UserDemarcheModifyMiddleware(modifyDemarcheRepository),
+        CreateDemarcheMiddleware(createDemarcheRepository),
         ..._debugMiddleware(),
       ],
     );

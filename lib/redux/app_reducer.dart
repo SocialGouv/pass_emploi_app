@@ -28,6 +28,7 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_r
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_reducer.dart';
+import 'package:pass_emploi_app/features/user_action_pe/create/create_demarche_reducer.dart';
 import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_reducer.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -95,5 +96,6 @@ AppState reducer(AppState current, dynamic action) {
     suppressionCompteState: suppressionCompteReducer(current.suppressionCompteState, action),
     demoState: modeDemoReducer(current, action),
     campagneState: campagneReducer(current.campagneState, action),
+    createDemarcheState: createDemarcheReducer(current.createDemarcheState, action),
   );
 }
