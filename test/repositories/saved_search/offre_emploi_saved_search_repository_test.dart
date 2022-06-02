@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
-import 'package:http/testing.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
@@ -9,6 +8,7 @@ import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_sea
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
+import '../../utils/pass_emploi_mock_client.dart';
 
 void main() {
   group("When user save new search postSavedSearch should ...", () {
@@ -64,14 +64,14 @@ void main() {
   });
 }
 
-MockClient _failureClient() {
-  return MockClient((request) async {
+BaseClient _failureClient() {
+  return PassEmploiMockClient((request) async {
     return Response("", 500);
   });
 }
 
-MockClient _mockClientforFullDataWithFilters({required bool expectedAlternance}) {
-  return MockClient((request) async {
+BaseClient _mockClientforFullDataWithFilters({required bool expectedAlternance}) {
+  return PassEmploiMockClient((request) async {
     if (request.method != "POST") return invalidHttpResponse();
     if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/recherches/offres-emploi")) {
       return invalidHttpResponse();
@@ -93,8 +93,8 @@ MockClient _mockClientforFullDataWithFilters({required bool expectedAlternance})
   });
 }
 
-MockClient _mockClientforPartialDataWithoutFilters() {
-  return MockClient((request) async {
+BaseClient _mockClientforPartialDataWithoutFilters() {
+  return PassEmploiMockClient((request) async {
     if (request.method != "POST") return invalidHttpResponse();
     if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/recherches/offres-emploi")) {
       return invalidHttpResponse();

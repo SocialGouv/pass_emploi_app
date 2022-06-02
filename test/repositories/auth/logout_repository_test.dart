@@ -2,17 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
-import 'package:http/testing.dart';
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
+import '../../utils/pass_emploi_mock_client.dart';
 
 void main() {
   test('logout should properly build request', () async {
     // Given
     bool requestIsProperlyBuilt = false;
-    final httpClient = MockClient((request) async {
+    final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "POST") return invalidHttpResponse();
       if (request.url.toString() != 'AUTH_ISSUER/protocol/openid-connect/logout') return invalidHttpResponse();
       if (request.encoding.toString() != Encoding.getByName('utf-8').toString()) return invalidHttpResponse();

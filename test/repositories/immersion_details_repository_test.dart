@@ -1,18 +1,18 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
-import 'package:http/testing.dart';
 import 'package:pass_emploi_app/models/immersion_contact.dart';
 import 'package:pass_emploi_app/models/immersion_details.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 
 import '../doubles/fixtures.dart';
 import '../utils/mock_demo_client.dart';
+import '../utils/pass_emploi_mock_client.dart';
 import '../utils/test_assets.dart';
 
 void main() {
   test('fetch when response is valid without contact info should return immersion', () async {
     // Given
-    final httpClient = MockClient((request) async {
+    final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
       if (!request.url.toString().startsWith("BASE_URL/offres-immersion/id-immersion")) return invalidHttpResponse();
       return Response(loadTestAssets("immersion_details_without_contact.json"), 200);
@@ -43,7 +43,7 @@ void main() {
 
   test('fetch when response is valid with contact info should return immersion', () async {
     // Given
-    final httpClient = MockClient((request) async {
+    final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
       if (!request.url.toString().startsWith("BASE_URL/offres-immersion/id-immersion")) return invalidHttpResponse();
       return Response(loadTestAssets("immersion_details_with_contact.json"), 200);
@@ -81,7 +81,7 @@ void main() {
 
   test('fetch when response is invalid should flag response as not found', () async {
     // Given
-    final httpClient = MockClient((request) async => invalidHttpResponse());
+    final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
     final repository = ImmersionDetailsRepository("BASE_URL", httpClient);
 
     // When
@@ -95,7 +95,7 @@ void main() {
 
   test('fetch when response throws exception should flag response as generic failure', () async {
     // Given
-    final httpClient = MockClient((request) async => throw Exception());
+    final httpClient = PassEmploiMockClient((request) async => throw Exception());
     final repository = ImmersionDetailsRepository("BASE_URL", httpClient);
 
     // When
@@ -109,7 +109,7 @@ void main() {
 
   test('fetch when response throws exception with 404 code should flag response as not found', () async {
     // Given
-    final httpClient = MockClient((request) async => throw deletedOfferHttpResponse());
+    final httpClient = PassEmploiMockClient((request) async => throw deletedOfferHttpResponse());
     final repository = ImmersionDetailsRepository("BASE_URL", httpClient);
 
     // When

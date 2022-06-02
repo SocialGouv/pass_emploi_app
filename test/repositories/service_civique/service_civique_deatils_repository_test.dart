@@ -1,17 +1,17 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
-import 'package:http/testing.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../utils/mock_demo_client.dart';
+import '../../utils/pass_emploi_mock_client.dart';
 import '../../utils/test_assets.dart';
 
 void main() {
   test('get detail when response is valid should return detail', () async {
     // Given
-    final httpClient = MockClient((request) async {
+    final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
       if (!request.url.toString().startsWith("BASE_URL/services-civique/je_suis_un_id")) return invalidHttpResponse();
       return Response.bytes(loadTestAssetsAsBytes("service_civique_detail.json"), 200);
@@ -47,7 +47,7 @@ void main() {
 
   test('search when response is invalid should return null', () async {
     // Given
-    final httpClient = MockClient((request) async => invalidHttpResponse());
+    final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
     final repository = ServiceCiviqueDetailRepository("BASE_URL", httpClient);
 
     // When
@@ -59,7 +59,7 @@ void main() {
 
   test('search when response throws exception with 404 code should flag response as not found', () async {
     // Given
-    final httpClient = MockClient((request) async => throw deletedOfferHttpResponse());
+    final httpClient = PassEmploiMockClient((request) async => throw deletedOfferHttpResponse());
     final repository = ServiceCiviqueDetailRepository("BASE_URL", httpClient);
 
     // When

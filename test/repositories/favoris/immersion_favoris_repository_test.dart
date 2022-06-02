@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
-import 'package:http/testing.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
@@ -8,12 +7,13 @@ import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repositor
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../utils/mock_demo_client.dart';
+import '../../utils/pass_emploi_mock_client.dart';
 import '../../utils/test_assets.dart';
 
 void main() {
   test('getFavorisId when response is valid with all parameters should return offres', () async {
     // Given
-    final httpClient = MockClient((request) async {
+    final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
       if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-immersion")) {
         return invalidHttpResponse();
@@ -35,7 +35,7 @@ void main() {
 
   test('getFavorisId when response is invalid should return null', () async {
     // Given
-    final httpClient = MockClient((request) async => invalidHttpResponse());
+    final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
     final repository = ImmersionFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
     // When
@@ -157,7 +157,7 @@ void main() {
 
   test('getFavoris when response is invalid should return null', () async {
     // Given
-    final httpClient = MockClient((request) async => invalidHttpResponse());
+    final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
     final repository = ImmersionFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
     // When
@@ -192,8 +192,8 @@ void main() {
   });
 }
 
-MockClient _successfulClientForQuery() {
-  return MockClient((request) async {
+BaseClient _successfulClientForQuery() {
+  return PassEmploiMockClient((request) async {
     if (request.method != "GET") return invalidHttpResponse();
     if (request.url.queryParameters["detail"] != "true") return invalidHttpResponse(message: "query KO");
     if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-immersion")) {
@@ -203,26 +203,26 @@ MockClient _successfulClientForQuery() {
   });
 }
 
-MockClient _failureClient() {
-  return MockClient((request) async {
+BaseClient _failureClient() {
+  return PassEmploiMockClient((request) async {
     return Response("", 500);
   });
 }
 
-MockClient _notFoundClient() {
-  return MockClient((request) async {
+BaseClient _notFoundClient() {
+  return PassEmploiMockClient((request) async {
     return Response("", 404);
   });
 }
 
-MockClient _alreadyExistsClient() {
-  return MockClient((request) async {
+BaseClient _alreadyExistsClient() {
+  return PassEmploiMockClient((request) async {
     return Response("", 409);
   });
 }
 
-MockClient _successfulClientForDelete() {
-  return MockClient((request) async {
+BaseClient _successfulClientForDelete() {
+  return PassEmploiMockClient((request) async {
     if (request.method != "DELETE") return invalidHttpResponse();
     if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-immersion/offreId")) {
       return invalidHttpResponse();
@@ -231,8 +231,8 @@ MockClient _successfulClientForDelete() {
   });
 }
 
-MockClient _mockClientForFullData() {
-  return MockClient((request) async {
+BaseClient _mockClientForFullData() {
+  return PassEmploiMockClient((request) async {
     if (request.method != "POST") return invalidHttpResponse();
     if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-immersion")) {
       return invalidHttpResponse();

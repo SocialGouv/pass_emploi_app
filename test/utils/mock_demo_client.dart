@@ -14,7 +14,5 @@ class MockModeDemoClient extends ModeDemoClient {
 
 class _DummyModeDemoRepository extends ModeDemoRepository {
   @override
-  bool getModeDemo() {
-    return true;
-  }
+  bool getModeDemo() => true;
 }

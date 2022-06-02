@@ -1,18 +1,18 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
-import 'package:http/testing.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 
 import '../doubles/fixtures.dart';
+import '../utils/pass_emploi_mock_client.dart';
 
 void main() {
   group("sendEvent when EventType ...", () {
     void assertMapping(EventType eventType, String expectedSerialization) {
       test("is $eventType should properly convert to $expectedSerialization", () async {
-        final httpClient = MockClient((request) async {
+        final httpClient = PassEmploiMockClient((request) async {
           final requestJson = jsonUtf8Decode(request.bodyBytes);
           if (requestJson["type"] != expectedSerialization) {
             return invalidHttpResponse(message: "${requestJson["type"]} != $expectedSerialization");
@@ -49,7 +49,7 @@ void main() {
 
   test('sendEvent should successfully send event when response is valid', () async {
     // Given
-    final httpClient = MockClient((request) async {
+    final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "POST") return invalidHttpResponse();
       if (!request.url.toString().startsWith("BASE_URL/evenements")) return invalidHttpResponse();
       return Response("", 201);
@@ -69,7 +69,7 @@ void main() {
 
   test('sendEvent should return false when response in invalid', () async {
     // Given
-    final httpClient = MockClient((request) async => invalidHttpResponse());
+    final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
     final repository = TrackingEventRepository("BASE_URL", httpClient);
 
     // When
@@ -85,7 +85,7 @@ void main() {
 
   test('sendEvent should return false when response throws exception', () async {
     // Given
-    final httpClient = MockClient((request) async => throw Exception());
+    final httpClient = PassEmploiMockClient((request) async => throw Exception());
     final repository = TrackingEventRepository("BASE_URL", httpClient);
 
     // When
