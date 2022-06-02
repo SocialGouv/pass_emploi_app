@@ -26,31 +26,24 @@ class Message extends Equatable {
       creationDate,
       json['sentBy'] as String == 'jeune' ? Sender.jeune : Sender.conseiller,
       _type(json),
-      _pieceJointes(json),
+      _pieceJointes(json, chatCrypto, crashlytics),
     );
   }
 
-  static List<PieceJointe> _pieceJointes(dynamic json) {
+  static List<PieceJointe> _pieceJointes(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
     final piecesJointes = json["piecesJointes"] as List?;
+    final iv = json['iv'] as String?;
     if (piecesJointes == null) return [];
-    return piecesJointes.map((e) => PieceJointe.fromJson(e)).toList();
+    return piecesJointes
+        .map((e) => PieceJointe.fromJson(e, chatCrypto, crashlytics, iv))
+        .whereType<PieceJointe>()
+        .toList();
   }
 
   static String? _content(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
     final content = json['content'] as String;
     final iv = json['iv'] as String?;
-
-    if (iv == null) {
-      crashlytics.recordNonNetworkException("Error while reading message : iv is null", StackTrace.current);
-      return null;
-    }
-
-    try {
-      return chatCrypto.decrypt(EncryptedTextWithIv(iv, content));
-    } catch (e, stack) {
-      crashlytics.recordNonNetworkException(e, stack);
-      return null;
-    }
+    return content.decrypt(chatCrypto, crashlytics, iv);
   }
 
   static MessageType _type(dynamic json) {
@@ -77,6 +70,22 @@ class Message extends Equatable {
   List<Object?> get props => [content, creationDate, sentBy, type, pieceJointes];
 }
 
+extension _DecryptString on String {
+  String? decrypt(ChatCrypto chatCrypto, Crashlytics crashlytics, String? iv) {
+    if (iv == null) {
+      crashlytics.recordNonNetworkException("Error while reading message : iv is null", StackTrace.current);
+      return null;
+    }
+
+    try {
+      return chatCrypto.decrypt(EncryptedTextWithIv(iv, this));
+    } catch (e, stack) {
+      crashlytics.recordNonNetworkException(e, stack);
+      return null;
+    }
+  }
+}
+
 class PieceJointe extends Equatable {
   final String id;
   final String nom;
@@ -86,9 +95,17 @@ class PieceJointe extends Equatable {
   @override
   List<Object?> get props => [id, nom];
 
-  static PieceJointe fromJson(json) {
+  static PieceJointe? fromJson(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics, String? iv) {
     final id = json["id"] as String;
-    final nom = json["nom"] as String;
+    final encryptedNom = json["nom"] as String;
+    final nom = encryptedNom.decrypt(chatCrypto, crashlytics, iv);
+    if (nom == null) return null;
     return PieceJointe(id, nom);
+  }
+
+  static String? _nom(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
+    final content = json['content'] as String;
+    final iv = json['iv'] as String?;
+    return content.decrypt(chatCrypto, crashlytics, iv);
   }
 }
