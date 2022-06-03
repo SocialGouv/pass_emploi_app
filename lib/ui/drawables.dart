@@ -58,4 +58,6 @@ class Drawables {
   static String icDelete = _assets + "ic_delete" + _svg;
   static String modeDemoExplicationIllustration = _assets + "connexion" + _svg;
   static String icPencil = _assets + "ic_white_pencil" + _svg;
+  static String icClip = _assets + "ic_clip" + _svg;
+  static String icDownload = _assets + "ic_download" + _svg;
 }

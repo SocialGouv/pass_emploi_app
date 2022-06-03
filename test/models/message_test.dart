@@ -6,31 +6,73 @@ import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import '../doubles/dummies.dart';
 
 void main() {
-  test("toJson when message has encrypted content should decrypt it", () {
+  test("toJson when message has encrypted content without piece jointe should decrypt it", () {
     // Given
-    final chatCryptoSpy = _ChatCryptoSpy();
+    final chatCryptoSpy = _FakeChatCrypto();
 
     // When
     final message = Message.fromJson(
       {
-        "content": "qsldmkjqslmdj",
+        "content": "toto-chiffré",
         "creationDate": Timestamp.fromDate(DateTime(2021, 7, 30, 9, 43, 9)),
         "iv": "ivvv",
-        "sentBy": "jeune"
+        "sentBy": "jeune",
       },
       chatCryptoSpy,
       DummyCrashlytics(),
     );
 
     // Then
-    expect(chatCryptoSpy.content, "qsldmkjqslmdj");
-    expect(chatCryptoSpy.iv, "ivvv");
-    expect(message, Message("toto", DateTime(2021, 7, 30, 9, 43, 9), Sender.jeune, MessageType.message));
+    expect(
+        message,
+        Message(
+          "toto-chiffré-déchiffré",
+          DateTime(2021, 7, 30, 9, 43, 9),
+          Sender.jeune,
+          MessageType.message,
+          [],
+        ));
+  });
+
+  test("toJson when message has encrypted content with piece jointe should decrypt it", () {
+    // Given
+    final chatCryptoSpy = _FakeChatCrypto();
+
+    // When
+    final message = Message.fromJson(
+      {
+        "content": "toto-chiffré",
+        "creationDate": Timestamp.fromDate(DateTime(2021, 7, 30, 9, 43, 9)),
+        "iv": "ivvv",
+        "sentBy": "jeune",
+        "piecesJointes": [
+          {"id": "id-pj-343", "nom": "nom-secretement-chiffré"},
+        ]
+      },
+      chatCryptoSpy,
+      DummyCrashlytics(),
+    );
+
+    // Then
+    expect(
+        message,
+        Message(
+          "toto-chiffré-déchiffré",
+          DateTime(2021, 7, 30, 9, 43, 9),
+          Sender.jeune,
+          MessageType.message,
+          [
+            PieceJointe(
+              "id-pj-343",
+              "nom-secretement-chiffré-déchiffré",
+            )
+          ],
+        ));
   });
 
   test("toJson when message typed as MESSAGE", () {
     // Given
-    final chatCryptoSpy = _ChatCryptoSpy();
+    final chatCryptoSpy = _FakeChatCrypto();
 
     // When
     final message = Message.fromJson(
@@ -51,7 +93,7 @@ void main() {
 
   test("toJson when message typed as NOUVEAU_CONSEILLER", () {
     // Given
-    final chatCryptoSpy = _ChatCryptoSpy();
+    final chatCryptoSpy = _FakeChatCrypto();
 
     // When
     final message = Message.fromJson(
@@ -70,10 +112,9 @@ void main() {
     expect(message!.type, MessageType.nouveauConseiller);
   });
 
-
   test("toJson when message type is unknown", () {
     // Given
-    final chatCryptoSpy = _ChatCryptoSpy();
+    final chatCryptoSpy = _FakeChatCrypto();
 
     // When
     final message = Message.fromJson(
@@ -94,7 +135,7 @@ void main() {
 
   test("toJson when message has no iv should return null", () {
     // Given
-    final chatCryptoSpy = _ChatCryptoSpy();
+    final chatCryptoSpy = _FakeChatCrypto();
 
     // When
     final message = Message.fromJson(
@@ -131,15 +172,10 @@ void main() {
   });
 }
 
-class _ChatCryptoSpy extends ChatCrypto {
-  String content = '';
-  String iv = '';
-
+class _FakeChatCrypto extends ChatCrypto {
   @override
   String decrypt(EncryptedTextWithIv encrypted) {
-    content = encrypted.base64Message;
-    iv = encrypted.base64InitializationVector;
-    return "toto";
+    return "${encrypted.base64Message}-déchiffré";
   }
 }
 

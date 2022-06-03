@@ -34,6 +34,7 @@ class Strings {
   static String chatWith(firstName) => "Discuter avec $firstName";
 
   static String simpleDayFormat(day) => "Le $day";
+  static String download = "Télecharger";
 
   // Force Update
   static String updateTitle = "Mise à jour";
