@@ -61,6 +61,7 @@ class ChatAttachedFileWidget extends StatelessWidget {
             ),
           ),
           SizedBox(height: Margins.spacing_xs),
+          Text(item.caption, style: TextStyles.textXsRegular()),
         ],
       ),
     );

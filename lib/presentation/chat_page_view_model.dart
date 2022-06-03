@@ -58,7 +58,11 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
         case MessageType.nouveauConseiller:
           return InformationItem(Strings.newConseillerTitle, Strings.newConseillerDescription);
         case MessageType.messagePj:
-          return AttachedFileConseillerMessageItem(message: message.content, filename: message.pieceJointes.first.nom);
+          return AttachedFileConseillerMessageItem(
+            message: message.content,
+            filename: message.pieceJointes.first.nom,
+            caption: message.creationDate.toHour(),
+          );
         case MessageType.inconnu:
           return InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
       }
