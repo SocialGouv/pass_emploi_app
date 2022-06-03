@@ -38,3 +38,13 @@ class JeuneMessageItem extends MessageItem {
 class ConseillerMessageItem extends MessageItem {
   ConseillerMessageItem({required String content, required String caption}) : super(content, caption);
 }
+
+class AttachedFileConseillerMessageItem extends ChatItem {
+  final String message;
+  final String filename;
+
+  AttachedFileConseillerMessageItem({required this.message, required this.filename});
+
+  @override
+  List<Object?> get props => [message, filename];
+}

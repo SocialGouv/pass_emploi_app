@@ -70,6 +70,32 @@ void main() {
     ]);
   });
 
+  test('should display piece jointe', () {
+    // Given
+    final now = DateTime.now();
+    final todayAtNoon = DateTime(now.year, now.month, now.day, 12, 00);
+
+    final state = AppState.initialState().copyWith(
+      chatStatusState: ChatStatusSuccessState(unreadMessageCount: 0, lastConseillerReading: DateTime(2021, 1, 2, 18)),
+      chatState: ChatSuccessState(
+        [
+          Message('Une PJ', todayAtNoon, Sender.conseiller, MessageType.messagePj, [PieceJointe("id-1", "super.pdf")]),
+        ],
+      ),
+    );
+    final store = Store<AppState>(reducer, initialState: state);
+
+    // When
+    final viewModel = ChatPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.items, [
+      DayItem('Aujourd\'hui'),
+      AttachedFileConseillerMessageItem(message: "Une PJ", filename: "super.pdf"),
+    ]);
+  });
+
   test('create when chat state is SUCCESS and message type is NOUVEAU_CONSEILLER', () {
     // Given
     final state = AppState.initialState().copyWith(
