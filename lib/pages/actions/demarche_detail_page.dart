@@ -38,7 +38,6 @@ class _Body extends StatelessWidget {
   final DemarcheDetailViewModel viewModel;
 
   _Body(this.viewModel);
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

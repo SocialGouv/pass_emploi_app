@@ -217,6 +217,9 @@ class Strings {
   static const String actionInProgress = "Commencée";
   static String noActionsYet = "Vous n'avez pas encore d’actions";
   static String addAnAction = "Créer une action";
+  static String addADemarche = "Créer une démarche";
+  static String addALaDemarche = "Créer la démarche";
+  static String addAMessageError = "Vous avez dépassé le nombre de caractères autorisés";
   static String create = "Créer";
   static String actionLabel = "Intitulé de l'action";
   static String actionDescription = "Description de l'action";
@@ -225,10 +228,8 @@ class Strings {
   static String actionCreatedBy = "Créée par";
   static String actionCreationError = "Erreur lors de la création de l'action. Veuillez réessayer";
   static String you = "Vous";
-  static String congratulationsActionUpdated =
-      "Félicitations !\n\nLa mise à jour de votre action a bien été prise en compte";
-  static String conseillerNotifiedActionUpdated =
-      "Votre conseiller a reçu une notification de la mise à jour de votre action";
+  static String congratulationsActionUpdated = "Félicitations !\n\nLa mise à jour de votre action a bien été prise en compte";
+  static String conseillerNotifiedActionUpdated = "Votre conseiller a reçu une notification de la mise à jour de votre action";
   static String understood = "Bien compris";
   static String deleteAction = "Supprimer l'action";
   static String deleteActionError =
@@ -252,6 +253,13 @@ class Strings {
   static const String actionPEDone = "Réalisé";
   static const String actionPECancelled = "Annulé";
   static const String actionPELate = "En retard : ";
+  static const String createDemarchePersonalisee = "Créer une démarche personnalisée";
+  static const String createDemarchePersonaliseeAsterix = "Les champs marqués d’une * sont obligatoires";
+  static const String commentaire = "Commentaire";
+  static const String descriptionDemarche = "*Description de la démarche";
+  static const String caracteres255 = "255 caractères maximum";
+  static const String quand = "Quand";
+  static const String selectEcheance = "*Sélectionner une date d'échéance";
 
   static String actionPEActiveDateFormat(String formattedDate) => "À réaliser pour le $formattedDate";
 
@@ -365,15 +373,13 @@ class Strings {
   static String serviceCiviqueOrganisationTitle = "Organisation";
 
   // Immersion Errors
-  static String immersionMetierError =
-      "Renseignez un secteur d'activité de la liste";
+  static String immersionMetierError = "Renseignez un secteur d'activité de la liste";
   static String immersionVilleError = "Renseignez une ville de la liste";
 
   // Solutions Errors
-  static String noContentError =
-      "Pour le moment, aucune offre ne correspond à vos critères.\n\nTrouvez d'autres offres en modifiant vos critères.";
-  static String genericError =
-      "Erreur lors de la recherche. Veuillez réessayer";
+  static String noContentError = "Pour le moment, aucune offre ne correspond à vos critères.\n\nTrouvez d'autres offres en modifiant vos critères.";
+  static String genericError = "Erreur lors de la recherche. Veuillez réessayer";
+  static String genericCreationError = "Erreur lors de la création. Veuillez réessayer";
   static String loadMoreOffresError = "Erreur lors du chargement des offres";
   static String updateCriteria = "Modifier les critères de recherche";
 

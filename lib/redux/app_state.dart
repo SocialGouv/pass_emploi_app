@@ -29,6 +29,7 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_s
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
+import 'package:pass_emploi_app/features/user_action_pe/create/create_demarche_state.dart';
 import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -73,6 +74,7 @@ class AppState extends Equatable {
   final bool demoState;
   final SuppressionCompteState suppressionCompteState;
   final CampagneState campagneState;
+  final CreateDemarcheState createDemarcheState;
 
   AppState({
     required this.configurationState,
@@ -110,6 +112,7 @@ class AppState extends Equatable {
     required this.suppressionCompteState,
     required this.demoState,
     required this.campagneState,
+    required this.createDemarcheState,
   });
 
   AppState copyWith({
@@ -148,6 +151,7 @@ class AppState extends Equatable {
     final SuppressionCompteState? suppressionCompteState,
     final bool? demoState,
     final CampagneState? campagneState,
+    final CreateDemarcheState? createDemarcheState,
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
@@ -175,8 +179,7 @@ class AppState extends Equatable {
       immersionDetailsState: immersionDetailsState ?? this.immersionDetailsState,
       offreEmploiSavedSearchCreateState: offreEmploiSavedSearchCreateState ?? this.offreEmploiSavedSearchCreateState,
       immersionSavedSearchCreateState: immersionSavedSearchCreateState ?? this.immersionSavedSearchCreateState,
-      serviceCiviqueSavedSearchCreateState:
-          serviceCiviqueSavedSearchCreateState ?? this.serviceCiviqueSavedSearchCreateState,
+      serviceCiviqueSavedSearchCreateState: serviceCiviqueSavedSearchCreateState ?? this.serviceCiviqueSavedSearchCreateState,
       configurationState: configurationState ?? this.configurationState,
       immersionSearchParametersState: immersionSearchParametersState ?? this.immersionSearchParametersState,
       savedSearchListState: savedSearchListState ?? this.savedSearchListState,
@@ -186,6 +189,7 @@ class AppState extends Equatable {
       suppressionCompteState: suppressionCompteState ?? this.suppressionCompteState,
       demoState: demoState ?? this.demoState,
       campagneState: campagneState ?? this.campagneState,
+      createDemarcheState: createDemarcheState ?? this.createDemarcheState,
     );
   }
 
@@ -226,6 +230,7 @@ class AppState extends Equatable {
       demoState: false,
       suppressionCompteState: SuppressionCompteNotInitializedState(),
       campagneState: CampagneState(null, []),
+      createDemarcheState: CreateDemarcheNotInitializedState(),
     );
   }
 
@@ -261,6 +266,7 @@ class AppState extends Equatable {
         suppressionCompteState,
         demoState,
         campagneState,
+        createDemarcheState,
       ];
 
   @override
