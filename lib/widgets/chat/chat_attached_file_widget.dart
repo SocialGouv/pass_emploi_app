@@ -15,7 +15,6 @@ class ChatAttachedFileWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle textStyle = TextStyles.textSRegular();
     return Container(
       margin: const EdgeInsets.only(top: 10, bottom: 10),
       child: Column(
