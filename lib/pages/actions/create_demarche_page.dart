@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pass_emploi_app/features/user_action_pe/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/presentation/user_action_pe/create_demarche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -84,7 +83,7 @@ class _CreateDemarchePageState extends State<CreateDemarchePage> {
                 onPressed: !_isFormValid()
                     ? null
                     : () {
-                        StoreProvider.of<AppState>(context).dispatch(CreateDemarcheRequestAction(_commentaire, _echeanceDate!));
+                        viewModel.createDemarche(_commentaire, _echeanceDate!);
                       },
               ),
             ),
@@ -290,7 +289,6 @@ class _ChampCommentaire extends StatelessWidget {
 class _MessageError255 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //Color borderColor = _isCommentaireValid ? AppColors.contentColor : AppColors.warning;
     return Padding(
       padding: const EdgeInsets.only(left: 24, right: 24, top: 24),
       child: Row(
