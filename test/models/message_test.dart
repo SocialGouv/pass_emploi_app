@@ -6,7 +6,35 @@ import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import '../doubles/dummies.dart';
 
 void main() {
-  test("toJson when message has encrypted content should decrypt it", () {
+  test("toJson when message has encrypted content without piece jointe should decrypt it", () {
+    // Given
+    final chatCryptoSpy = _FakeChatCrypto();
+
+    // When
+    final message = Message.fromJson(
+      {
+        "content": "toto-chiffré",
+        "creationDate": Timestamp.fromDate(DateTime(2021, 7, 30, 9, 43, 9)),
+        "iv": "ivvv",
+        "sentBy": "jeune",
+      },
+      chatCryptoSpy,
+      DummyCrashlytics(),
+    );
+
+    // Then
+    expect(
+        message,
+        Message(
+          "toto-chiffré-déchiffré",
+          DateTime(2021, 7, 30, 9, 43, 9),
+          Sender.jeune,
+          MessageType.message,
+          [],
+        ));
+  });
+
+  test("toJson when message has encrypted content with piece jointe should decrypt it", () {
     // Given
     final chatCryptoSpy = _FakeChatCrypto();
 
