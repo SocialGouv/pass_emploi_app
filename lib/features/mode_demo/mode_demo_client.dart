@@ -74,6 +74,7 @@ String? _getFileName(String url, String query) {
   if (url.removeLastPath().endsWith("/offres-immersion")) return "immersion_detail";
   if (url.removeLastPath().endsWith("/offres-emploi")) return "offre_emploi_detail";
   if (url.removeLastPath().endsWith("/jeunes")) return "jeune_detail";
+  if (url.removeLastPath().endsWith("/files")) return "files";
   return null;
 }
 
