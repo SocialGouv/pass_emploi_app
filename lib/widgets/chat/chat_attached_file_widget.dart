@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -7,6 +9,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ChatAttachedFileWidget extends StatelessWidget {
   final AttachedFileConseillerMessageItem item;
@@ -109,9 +112,21 @@ class _DownloadButton extends StatelessWidget {
       child: PrimaryActionButton(
         label: Strings.download,
         drawableRes: Drawables.icDownload,
-        onPressed: () => {},
+        onPressed: () => {
+          _share()
+        },
         heightPadding: 2,
       ),
     );
+  }
+
+  // todo : PoC to remove
+  _share() async {
+    final hardcodedUrl = "https://www.messagerbenin.info/wp-content/uploads/2021/06/14481-google-logo-3-s-.jpg";
+    final cache = PassEmploiCacheManager(Config("aaa"));
+    final fileInfo = await cache.downloadFile(hardcodedUrl);
+    final path = fileInfo.file.path;
+    print('downloaded file path = $path');
+    Share.shareFiles(['$path'], text: 'Cute one');
   }
 }

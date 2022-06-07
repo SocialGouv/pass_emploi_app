@@ -52,6 +52,12 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
       return DayItem(element);
     } else {
       final message = element as Message;
+      // todo PoC to remove
+      return AttachedFileConseillerMessageItem(
+        message: message.content,
+        filename: "message.pieceJointes.first.nom",
+        caption: message.creationDate.toHour(),
+      );
       switch (message.type) {
         case MessageType.message:
           return _buildMessageItem(message, lastConseillerReading);
