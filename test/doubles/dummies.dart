@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/repositories/attached_file_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
@@ -63,7 +64,8 @@ class DummyPushNotificationManager extends PushNotificationManager {
 }
 
 class DummyRegisterTokenRepository extends RegisterTokenRepository {
-  DummyRegisterTokenRepository() : super("", DummyHttpClient(), DummyPushNotificationManager());
+  DummyRegisterTokenRepository()
+      : super("", DummyHttpClient(), DummyPushNotificationManager());
 
   @override
   Future<void> registerToken(String userId) async {}
@@ -108,7 +110,9 @@ class DummySharedPreferences extends FlutterSecureStorage {
 }
 
 class DummyAuthenticator extends Authenticator {
-  DummyAuthenticator() : super(DummyAuthWrapper(), DummyLogoutRepository(), configuration(), DummySharedPreferences());
+  DummyAuthenticator()
+      : super(DummyAuthWrapper(), DummyLogoutRepository(), configuration(),
+            DummySharedPreferences());
 }
 
 class DummyAuthWrapper extends AuthWrapper {
@@ -130,7 +134,8 @@ class DummyRendezvousRepository extends RendezvousRepository {
 }
 
 class DummyChatRepository extends ChatRepository {
-  DummyChatRepository() : super(DummyChatCrypto(), DummyCrashlytics(), ModeDemoRepository());
+  DummyChatRepository()
+      : super(DummyChatCrypto(), DummyCrashlytics(), ModeDemoRepository());
 
   @override
   Stream<List<Message>> messagesStream(String userId) async* {}
@@ -147,7 +152,8 @@ class DummyCrashlytics extends Crashlytics {
   void setUserIdentifier(String identifier) {}
 
   @override
-  void recordNonNetworkException(dynamic exception, StackTrace stack, [Uri? failingEndpoint]) {}
+  void recordNonNetworkException(dynamic exception, StackTrace stack,
+      [Uri? failingEndpoint]) {}
 }
 
 class DummyOffreEmploiRepository extends OffreEmploiRepository {
@@ -159,7 +165,8 @@ class DummyDetailedRepository extends OffreEmploiDetailsRepository {
 }
 
 class DummyOffreEmploiFavorisRepository extends OffreEmploiFavorisRepository {
-  DummyOffreEmploiFavorisRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  DummyOffreEmploiFavorisRepository()
+      : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 }
 
 class DummySearchLocationRepository extends SearchLocationRepository {
@@ -208,19 +215,26 @@ class DummyTrackingEventRepository extends TrackingEventRepository {
 }
 
 class DummyImmersionFavorisRepository extends ImmersionFavorisRepository {
-  DummyImmersionFavorisRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  DummyImmersionFavorisRepository()
+      : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 }
 
-class DummyOffreEmploiSavedSearchRepository extends OffreEmploiSavedSearchRepository {
-  DummyOffreEmploiSavedSearchRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+class DummyOffreEmploiSavedSearchRepository
+    extends OffreEmploiSavedSearchRepository {
+  DummyOffreEmploiSavedSearchRepository()
+      : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 }
 
-class DummyImmersionSavedSearchRepository extends ImmersionSavedSearchRepository {
-  DummyImmersionSavedSearchRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+class DummyImmersionSavedSearchRepository
+    extends ImmersionSavedSearchRepository {
+  DummyImmersionSavedSearchRepository()
+      : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 }
 
-class DummyServiceCiviqueSavedSearchRepository extends ServiceCiviqueSavedSearchRepository {
-  DummyServiceCiviqueSavedSearchRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+class DummyServiceCiviqueSavedSearchRepository
+    extends ServiceCiviqueSavedSearchRepository {
+  DummyServiceCiviqueSavedSearchRepository()
+      : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 }
 
 class DummyGetSavedSearchRepository extends GetSavedSearchRepository {
@@ -228,19 +242,23 @@ class DummyGetSavedSearchRepository extends GetSavedSearchRepository {
 }
 
 class DummySavedSearchDeleteRepository extends SavedSearchDeleteRepository {
-  DummySavedSearchDeleteRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+  DummySavedSearchDeleteRepository()
+      : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 }
 
 class DummyServiceCiviqueRepository extends ServiceCiviqueRepository {
   DummyServiceCiviqueRepository() : super("", DummyHttpClient());
 }
 
-class DummyServiceCiviqueDetailRepository extends ServiceCiviqueDetailRepository {
+class DummyServiceCiviqueDetailRepository
+    extends ServiceCiviqueDetailRepository {
   DummyServiceCiviqueDetailRepository() : super("", DummyHttpClient());
 }
 
-class DummyServiceCiviqueFavorisRepository extends ServiceCiviqueFavorisRepository {
-  DummyServiceCiviqueFavorisRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+class DummyServiceCiviqueFavorisRepository
+    extends ServiceCiviqueFavorisRepository {
+  DummyServiceCiviqueFavorisRepository()
+      : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 }
 
 class DummyDetailsJeuneRepository extends DetailsJeuneRepository {
@@ -255,7 +273,8 @@ class DummyPassEmploiCacheManager extends PassEmploiCacheManager {
   DummyPassEmploiCacheManager() : super(DummyConfig());
 
   @override
-  void removeRessource(CachedRessource ressourceToRemove, String userId, String baseUrl) {}
+  void removeRessource(
+      CachedRessource ressourceToRemove, String userId, String baseUrl) {}
 
   @override
   Future<void> emptyCache() => Future<void>.value();
@@ -271,6 +290,14 @@ class DummyCampagneRepository extends CampagneRepository {
 
 class DummyUpdateDemarcheRepository extends UpdateDemarcheRepository {
   DummyUpdateDemarcheRepository() : super("", DummyHttpClient());
+}
+
+class DummyAttachedFileRepository extends AttachedFileRepository {
+  DummyAttachedFileRepository() : super("", DummyHttpClient());
+}
+
+class DummyModifyDemarcheRepository extends ModifyDemarcheRepository {
+  DummyModifyDemarcheRepository() : super("", DummyHttpClient());
 
   @override
   Future<Demarche?> updateDemarche(
@@ -297,7 +324,8 @@ class DummySuccessCreateDemarcheRepository extends CreateDemarcheRepository {
   DummySuccessCreateDemarcheRepository() : super("", DummyHttpClient());
 
   @override
-  Future<bool> createDemarche(String commentaire, DateTime dateEcheance, String userId) async {
+  Future<bool> createDemarche(
+      String commentaire, DateTime dateEcheance, String userId) async {
     return true;
   }
 }

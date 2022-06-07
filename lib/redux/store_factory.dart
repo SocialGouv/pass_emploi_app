@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_middleware.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_middleware.dart';
+import 'package:pass_emploi_app/features/chat/attached_file/attached_file_middleware.dart';
 import 'package:pass_emploi_app/features/chat/init/chat_initializer_middleware.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_middleware.dart';
@@ -52,6 +53,7 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/repositories/attached_file_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
@@ -119,6 +121,7 @@ class StoreFactory {
   final FirebaseRemoteConfig? remoteConfig;
   final UpdateDemarcheRepository updateDemarcheRepository;
   final CreateDemarcheRepository createDemarcheRepository;
+  final AttachedFileRepository attachedFileRepository;
 
   StoreFactory(
     this.authenticator,
@@ -156,6 +159,7 @@ class StoreFactory {
     this.remoteConfig,
     this.updateDemarcheRepository,
     this.createDemarcheRepository,
+    this.attachedFileRepository,
   );
 
   redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -164,7 +168,8 @@ class StoreFactory {
       initialState: initialState,
       middleware: [
         BootstrapMiddleware(),
-        LoginMiddleware(authenticator, firebaseAuthWrapper, modeDemoRepository, matomoTracker),
+        LoginMiddleware(authenticator, firebaseAuthWrapper, modeDemoRepository,
+            matomoTracker),
         UserActionListMiddleware(pageActionRepository),
         UserActionCreateMiddleware(pageActionRepository),
         UserActionUpdateMiddleware(pageActionRepository),
@@ -173,7 +178,8 @@ class StoreFactory {
         CreateDemarcheMiddleware(createDemarcheRepository),
         UpdateDemarcheMiddleware(updateDemarcheRepository),
         DetailsJeuneMiddleware(detailsJeuneRepository),
-        ChatInitializerMiddleware(firebaseAuthRepository, firebaseAuthWrapper, chatCrypto, modeDemoRepository),
+        ChatInitializerMiddleware(firebaseAuthRepository, firebaseAuthWrapper,
+            chatCrypto, modeDemoRepository),
         ChatMiddleware(chatRepository),
         ChatStatusMiddleware(chatRepository),
         RendezvousMiddleware(rendezvousRepository),
@@ -183,13 +189,16 @@ class StoreFactory {
         OffreEmploiSavedSearchMiddleware(offreEmploiRepository),
         FavoriIdsMiddleware<OffreEmploi>(offreEmploiFavorisRepository),
         FavoriListMiddleware<OffreEmploi>(offreEmploiFavorisRepository),
-        FavoriUpdateMiddleware<OffreEmploi>(offreEmploiFavorisRepository, OffreEmploiDataFromIdExtractor()),
+        FavoriUpdateMiddleware<OffreEmploi>(
+            offreEmploiFavorisRepository, OffreEmploiDataFromIdExtractor()),
         FavoriIdsMiddleware<Immersion>(immersionFavorisRepository),
         FavoriListMiddleware<Immersion>(immersionFavorisRepository),
-        FavoriUpdateMiddleware<Immersion>(immersionFavorisRepository, ImmersionDataFromIdExtractor()),
+        FavoriUpdateMiddleware<Immersion>(
+            immersionFavorisRepository, ImmersionDataFromIdExtractor()),
         FavoriIdsMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository),
         FavoriListMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository),
-        FavoriUpdateMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository, ServiceCiviqueDataFromIdExtractor()),
+        FavoriUpdateMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository,
+            ServiceCiviqueDataFromIdExtractor()),
         RegisterPushNotificationTokenMiddleware(registerTokenRepository),
         CrashlyticsMiddleware(crashlytics),
         SearchLocationMiddleware(searchLocationRepository),
@@ -199,9 +208,11 @@ class StoreFactory {
         ImmersionListMiddleware(immersionRepository),
         ImmersionDetailsMiddleware(immersionDetailsRepository),
         ImmersionSavedSearchMiddleware(immersionRepository),
-        OffreEmploiSavedSearchCreateMiddleware(offreEmploiSavedSearchRepository),
+        OffreEmploiSavedSearchCreateMiddleware(
+            offreEmploiSavedSearchRepository),
         ImmersionSavedSearchCreateMiddleware(immersionSavedSearchRepository),
-        ServiceCiviqueSavedSearchCreateMiddleware(serviceCiviqueSavedSearchRepository),
+        ServiceCiviqueSavedSearchCreateMiddleware(
+            serviceCiviqueSavedSearchRepository),
         SavedSearchInitializeMiddleware(),
         SavedSearchListMiddleware(getSavedSearchRepository),
         SavedSearchGetMiddleware(getSavedSearchRepository),
@@ -210,6 +221,7 @@ class StoreFactory {
         ServiceCiviqueDetailMiddleware(serviceCiviqueDetailRepository),
         SuppressionCompteMiddleware(suppressionCompteRepository),
         CampagneMiddleware(campagneRepository),
+        AttachedFileMiddleware(attachedFileRepository),
         ..._debugMiddleware(),
       ],
     );

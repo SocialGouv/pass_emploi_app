@@ -17,7 +17,7 @@ void main() {
     final repository = AttachedFileRepository("BASE_URL", httpClient);
 
     // When
-    final result = await repository.getFileURL("ID");
+    final result = await repository.download("ID");
 
     // Then
     expect(result, isNotNull);
@@ -31,7 +31,7 @@ void main() {
     final repository = AttachedFileRepository("BASE_URL", httpClient);
 
     // When
-    final result = await repository.getFileURL("ID");
+    final result = await repository.download("ID");
 
     // Then
     expect(result, isNull);
