@@ -1,4 +1,5 @@
 import 'package:pass_emploi_app/features/campagne/campagne_reducer.dart';
+import 'package:pass_emploi_app/features/chat/attached_file/attached_file_reducer.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_reducer.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_reducer.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_reducer.dart';
@@ -97,5 +98,6 @@ AppState reducer(AppState current, dynamic action) {
     demoState: modeDemoReducer(current, action),
     campagneState: campagneReducer(current.campagneState, action),
     createDemarcheState: createDemarcheReducer(current.createDemarcheState, action),
+    attachedFileState: attachedFileReducer(current.attachedFileState, action),
   );
 }

@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
+import 'package:pass_emploi_app/features/chat/attached_file/attached_file_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/configuration/configuration_state.dart';
@@ -64,9 +65,12 @@ class AppState extends Equatable {
   final RendezvousState rendezvousState;
   final ImmersionListState immersionListState;
   final ImmersionDetailsState immersionDetailsState;
-  final SavedSearchCreateState<OffreEmploiSavedSearch> offreEmploiSavedSearchCreateState;
-  final SavedSearchCreateState<ImmersionSavedSearch> immersionSavedSearchCreateState;
-  final SavedSearchCreateState<ServiceCiviqueSavedSearch> serviceCiviqueSavedSearchCreateState;
+  final SavedSearchCreateState<OffreEmploiSavedSearch>
+      offreEmploiSavedSearchCreateState;
+  final SavedSearchCreateState<ImmersionSavedSearch>
+      immersionSavedSearchCreateState;
+  final SavedSearchCreateState<ServiceCiviqueSavedSearch>
+      serviceCiviqueSavedSearchCreateState;
   final ImmersionSearchParametersState immersionSearchParametersState;
   final SavedSearchListState savedSearchListState;
   final SavedSearchDeleteState savedSearchDeleteState;
@@ -75,6 +79,8 @@ class AppState extends Equatable {
   final bool demoState;
   final SuppressionCompteState suppressionCompteState;
   final CampagneState campagneState;
+  final CreateDemarcheState createDemarcheState;
+  final AttachedFileState attachedFileState;
 
   AppState({
     required this.configurationState,
@@ -113,6 +119,7 @@ class AppState extends Equatable {
     required this.demoState,
     required this.campagneState,
     required this.createDemarcheState,
+    required this.attachedFileState,
   });
 
   AppState copyWith({
@@ -139,9 +146,12 @@ class AppState extends Equatable {
     final OffreEmploiDetailsState? offreEmploiDetailsState,
     final ImmersionListState? immersionListState,
     final ImmersionDetailsState? immersionDetailsState,
-    final SavedSearchCreateState<OffreEmploiSavedSearch>? offreEmploiSavedSearchCreateState,
-    final SavedSearchCreateState<ImmersionSavedSearch>? immersionSavedSearchCreateState,
-    final SavedSearchCreateState<ServiceCiviqueSavedSearch>? serviceCiviqueSavedSearchCreateState,
+    final SavedSearchCreateState<OffreEmploiSavedSearch>?
+        offreEmploiSavedSearchCreateState,
+    final SavedSearchCreateState<ImmersionSavedSearch>?
+        immersionSavedSearchCreateState,
+    final SavedSearchCreateState<ServiceCiviqueSavedSearch>?
+        serviceCiviqueSavedSearchCreateState,
     final ConfigurationState? configurationState,
     final ImmersionSearchParametersState? immersionSearchParametersState,
     final SavedSearchListState? savedSearchListState,
@@ -152,44 +162,66 @@ class AppState extends Equatable {
     final bool? demoState,
     final CampagneState? campagneState,
     final CreateDemarcheState? createDemarcheState,
+    final AttachedFileState? attachedFileState,
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
       deepLinkState: deepLinkState ?? this.deepLinkState,
       userActionListState: userActionListState ?? this.userActionListState,
-      userActionCreateState: userActionCreateState ?? this.userActionCreateState,
-      userActionUpdateState: userActionUpdateState ?? this.userActionUpdateState,
-      userActionDeleteState: userActionDeleteState ?? this.userActionDeleteState,
+      userActionCreateState:
+          userActionCreateState ?? this.userActionCreateState,
+      userActionUpdateState:
+          userActionUpdateState ?? this.userActionUpdateState,
+      userActionDeleteState:
+          userActionDeleteState ?? this.userActionDeleteState,
       demarcheListState: demarcheListState ?? this.demarcheListState,
       createDemarcheState: createDemarcheState ?? this.createDemarcheState,
       detailsJeuneState: detailsJeuneState ?? this.detailsJeuneState,
       chatStatusState: chatStatusState ?? this.chatStatusState,
       chatState: chatState ?? this.chatState,
-      offreEmploiSearchState: offreEmploiSearchState ?? this.offreEmploiSearchState,
-      offreEmploiDetailsState: offreEmploiDetailsState ?? this.offreEmploiDetailsState,
+      offreEmploiSearchState:
+          offreEmploiSearchState ?? this.offreEmploiSearchState,
+      offreEmploiDetailsState:
+          offreEmploiDetailsState ?? this.offreEmploiDetailsState,
       offreEmploiListState: offreEmploiListState ?? this.offreEmploiListState,
-      offreEmploiSearchParametersState: offreEmploiSearchParametersState ?? this.offreEmploiSearchParametersState,
-      offreEmploiFavorisState: offreEmploiFavorisState ?? this.offreEmploiFavorisState,
-      immersionFavorisState: immersionFavorisState ?? this.immersionFavorisState,
-      serviceCiviqueFavorisState: serviceCiviqueFavorisState ?? this.serviceCiviqueFavorisState,
+      offreEmploiSearchParametersState: offreEmploiSearchParametersState ??
+          this.offreEmploiSearchParametersState,
+      offreEmploiFavorisState:
+          offreEmploiFavorisState ?? this.offreEmploiFavorisState,
+      immersionFavorisState:
+          immersionFavorisState ?? this.immersionFavorisState,
+      serviceCiviqueFavorisState:
+          serviceCiviqueFavorisState ?? this.serviceCiviqueFavorisState,
       favoriUpdateState: favoriUpdateState ?? this.favoriUpdateState,
       searchLocationState: searchLocationState ?? this.searchLocationState,
       searchMetierState: searchMetierState ?? this.searchMetierState,
       rendezvousState: rendezvousState ?? this.rendezvousState,
       immersionListState: immersionListState ?? this.immersionListState,
-      immersionDetailsState: immersionDetailsState ?? this.immersionDetailsState,
-      offreEmploiSavedSearchCreateState: offreEmploiSavedSearchCreateState ?? this.offreEmploiSavedSearchCreateState,
-      immersionSavedSearchCreateState: immersionSavedSearchCreateState ?? this.immersionSavedSearchCreateState,
-      serviceCiviqueSavedSearchCreateState: serviceCiviqueSavedSearchCreateState ?? this.serviceCiviqueSavedSearchCreateState,
+      immersionDetailsState:
+          immersionDetailsState ?? this.immersionDetailsState,
+      offreEmploiSavedSearchCreateState: offreEmploiSavedSearchCreateState ??
+          this.offreEmploiSavedSearchCreateState,
+      immersionSavedSearchCreateState: immersionSavedSearchCreateState ??
+          this.immersionSavedSearchCreateState,
+      serviceCiviqueSavedSearchCreateState:
+          serviceCiviqueSavedSearchCreateState ??
+              this.serviceCiviqueSavedSearchCreateState,
       configurationState: configurationState ?? this.configurationState,
-      immersionSearchParametersState: immersionSearchParametersState ?? this.immersionSearchParametersState,
+      immersionSearchParametersState:
+          immersionSearchParametersState ?? this.immersionSearchParametersState,
       savedSearchListState: savedSearchListState ?? this.savedSearchListState,
-      savedSearchDeleteState: savedSearchDeleteState ?? this.savedSearchDeleteState,
-      serviceCiviqueSearchResultState: serviceCiviqueSearchResultState ?? this.serviceCiviqueSearchResultState,
-      serviceCiviqueDetailState: serviceCiviqueDetailState ?? this.serviceCiviqueDetailState,
-      suppressionCompteState: suppressionCompteState ?? this.suppressionCompteState,
+      savedSearchDeleteState:
+          savedSearchDeleteState ?? this.savedSearchDeleteState,
+      serviceCiviqueSearchResultState: serviceCiviqueSearchResultState ??
+          this.serviceCiviqueSearchResultState,
+      serviceCiviqueDetailState:
+          serviceCiviqueDetailState ?? this.serviceCiviqueDetailState,
+      suppressionCompteState:
+          suppressionCompteState ?? this.suppressionCompteState,
       demoState: demoState ?? this.demoState,
       campagneState: campagneState ?? this.campagneState,
+      createDemarcheState: createDemarcheState ?? this.createDemarcheState,
+      attachedFileState: attachedFileState ?? this.attachedFileState,
     );
   }
 
@@ -208,29 +240,37 @@ class AppState extends Equatable {
       offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
       offreEmploiDetailsState: OffreEmploiDetailsNotInitializedState(),
       offreEmploiListState: OffreEmploiListState.notInitialized(),
-      offreEmploiSearchParametersState: OffreEmploiSearchParametersState.notInitialized(),
+      offreEmploiSearchParametersState:
+          OffreEmploiSearchParametersState.notInitialized(),
       offreEmploiFavorisState: FavoriListState<OffreEmploi>.notInitialized(),
       immersionFavorisState: FavoriListState<Immersion>.notInitialized(),
-      serviceCiviqueFavorisState: FavoriListState<ServiceCivique>.notInitialized(),
+      serviceCiviqueFavorisState:
+          FavoriListState<ServiceCivique>.notInitialized(),
       favoriUpdateState: FavoriUpdateState({}),
       searchLocationState: SearchLocationState([]),
       searchMetierState: SearchMetierState([]),
       rendezvousState: RendezvousState.notInitialized(),
       immersionListState: ImmersionListNotInitializedState(),
       immersionDetailsState: ImmersionDetailsNotInitializedState(),
-      offreEmploiSavedSearchCreateState: SavedSearchCreateState<OffreEmploiSavedSearch>.notInitialized(),
-      immersionSavedSearchCreateState: SavedSearchCreateState<ImmersionSavedSearch>.notInitialized(),
-      serviceCiviqueSavedSearchCreateState: SavedSearchCreateState<ServiceCiviqueSavedSearch>.notInitialized(),
+      offreEmploiSavedSearchCreateState:
+          SavedSearchCreateState<OffreEmploiSavedSearch>.notInitialized(),
+      immersionSavedSearchCreateState:
+          SavedSearchCreateState<ImmersionSavedSearch>.notInitialized(),
+      serviceCiviqueSavedSearchCreateState:
+          SavedSearchCreateState<ServiceCiviqueSavedSearch>.notInitialized(),
       configurationState: ConfigurationState(configuration),
-      immersionSearchParametersState: ImmersionSearchParametersNotInitializedState(),
+      immersionSearchParametersState:
+          ImmersionSearchParametersNotInitializedState(),
       savedSearchListState: SavedSearchListNotInitializedState(),
       savedSearchDeleteState: SavedSearchDeleteNotInitializedState(),
-      serviceCiviqueSearchResultState: ServiceCiviqueSearchResultNotInitializedState(),
+      serviceCiviqueSearchResultState:
+          ServiceCiviqueSearchResultNotInitializedState(),
       serviceCiviqueDetailState: ServiceCiviqueDetailNotInitializedState(),
       demoState: false,
       suppressionCompteState: SuppressionCompteNotInitializedState(),
       campagneState: CampagneState(null, []),
       createDemarcheState: CreateDemarcheNotInitializedState(),
+      attachedFileState: AttachedFileNotInitializedState(),
     );
   }
 
@@ -267,6 +307,7 @@ class AppState extends Equatable {
         demoState,
         campagneState,
         createDemarcheState,
+        attachedFileState,
       ];
 
   @override
