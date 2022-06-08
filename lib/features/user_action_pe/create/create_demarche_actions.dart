@@ -8,3 +8,5 @@ class CreateDemarcheRequestAction {
 class CreateDemarcheSuccessAction {}
 
 class CreateDemarcheFailureAction {}
+
+class CreateDemarcheResetAction {}

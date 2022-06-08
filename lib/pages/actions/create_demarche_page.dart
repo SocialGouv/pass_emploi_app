@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pass_emploi_app/features/user_action_pe/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/presentation/user_action_pe/create_demarche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -11,6 +12,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class CreateDemarchePage extends StatefulWidget {
   CreateDemarchePage._();
@@ -35,8 +37,10 @@ class _CreateDemarchePageState extends State<CreateDemarchePage> {
       onDidChange: (oldVm, newVm) {
         if (newVm.shouldGoBack && oldVm?.shouldGoBack != true) {
           Navigator.pop(context);
+          showSuccessfulSnackBar(context, Strings.demarcheCreationSuccess);
         }
       },
+      onDispose: (store) => store.dispatch(CreateDemarcheResetAction()),
       distinct: true,
     );
   }

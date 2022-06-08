@@ -41,6 +41,20 @@ void main() {
     final appState = await failureAppState;
     expect(appState.createDemarcheState is CreateDemarcheFailureState, true);
   });
+
+  test("on reset action, demarche state is properly reset", () async {
+    // Given
+    final testStoreFactory = TestStoreFactory();
+    final store = testStoreFactory.initializeReduxStore(
+      initialState: loggedInPoleEmploiState().copyWith(createDemarcheState: CreateDemarcheSuccessState()),
+    );
+
+    // When
+    await store.dispatch(CreateDemarcheResetAction());
+
+    // Then
+    expect(store.state.createDemarcheState is CreateDemarcheNotInitializedState, true);
+  });
 }
 
 class MockFailureCreateDemarcheRepository extends DummySuccessCreateDemarcheRepository {
