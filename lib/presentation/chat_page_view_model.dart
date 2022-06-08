@@ -52,8 +52,9 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
       return DayItem(element);
     } else {
       final message = element as Message;
-      // todo PoC to remove
+      // todo 679 PoC to remove
       return AttachedFileConseillerMessageItem(
+        id: "78804fad-8874-482b-89c3-beb8de508798",
         message: message.content,
         filename: "message.pieceJointes.first.nom",
         caption: message.creationDate.toHour(),
@@ -67,6 +68,7 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
           return InformationItem(Strings.newConseillerTemporaireTitle, Strings.newConseillerDescription);
         case MessageType.messagePj:
           return AttachedFileConseillerMessageItem(
+            id: "id",
             message: message.content,
             filename: message.pieceJointes.first.nom,
             caption: message.creationDate.toHour(),

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 
 abstract class ChatItem extends Equatable {}
 
@@ -40,12 +41,18 @@ class ConseillerMessageItem extends MessageItem {
 }
 
 class AttachedFileConseillerMessageItem extends ChatItem {
+  final String id;
   final String message;
   final String filename;
   final String caption;
 
-  AttachedFileConseillerMessageItem({required this.message, required this.filename, required this.caption});
+  AttachedFileConseillerMessageItem({
+    required this.id,
+    required this.message,
+    required this.filename,
+    required this.caption,
+  });
 
   @override
-  List<Object?> get props => [message, filename, caption];
+  List<Object?> get props => [id, message, filename, caption];
 }
