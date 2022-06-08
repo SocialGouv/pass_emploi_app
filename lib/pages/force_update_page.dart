@@ -11,7 +11,6 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
-import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/external_link.dart';
 
 class ForceUpdatePage extends TraceableStatelessWidget {
@@ -27,10 +26,7 @@ class ForceUpdatePage extends TraceableStatelessWidget {
       title: Strings.appName,
       theme: ThemeData(primarySwatch: Colors.indigo),
       home: Scaffold(
-        appBar: passEmploiAppBar(
-          label: Strings.updateTitle,
-          context: context,
-        ),
+        appBar: AppBar(title: Text(Strings.updateTitle)),
         body: Padding(
           padding: const EdgeInsets.all(Margins.spacing_base),
           child: Column(
