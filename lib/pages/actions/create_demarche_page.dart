@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/features/user_action_pe/create/create_demarche_actions.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action_pe/create_demarche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -35,7 +36,7 @@ class _CreateDemarchePageState extends State<CreateDemarchePage> {
       builder: _buildBody,
       converter: (store) => CreateDemarcheViewModel.create(store),
       onDidChange: (oldVm, newVm) {
-        if (newVm.shouldGoBack && oldVm?.shouldGoBack != true) {
+        if (newVm.shouldGoBack) {
           Navigator.pop(context);
           showSuccessfulSnackBar(context, Strings.demarcheCreationSuccess);
         }
@@ -84,19 +85,21 @@ class _CreateDemarchePageState extends State<CreateDemarchePage> {
               padding: const EdgeInsets.only(right: 24, left: 24, top: 32),
               child: PrimaryActionButton(
                 label: Strings.addALaDemarche,
-                onPressed: !_isFormValid()
-                    ? null
-                    : () {
-                        viewModel.createDemarche(_commentaire, _echeanceDate!);
-                      },
+                onPressed: _buttonShouldBeActive(viewModel)
+                    ? () => viewModel.onCreateDemarche(_commentaire, _echeanceDate!)
+                    : null,
               ),
             ),
-            if (viewModel.showError) ErrorText(Strings.genericCreationError),
+            if (viewModel.displayState == DisplayState.FAILURE) ErrorText(Strings.genericCreationError),
             SizedBox(height: 20),
           ],
         ),
       ),
     );
+  }
+
+  bool _buttonShouldBeActive(CreateDemarcheViewModel viewModel) {
+    return _isFormValid() && viewModel.displayState != DisplayState.LOADING;
   }
 
   bool _isCommentaireValid() {

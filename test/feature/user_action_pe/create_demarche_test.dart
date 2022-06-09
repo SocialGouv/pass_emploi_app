@@ -14,12 +14,14 @@ void main() {
       initialState: loggedInPoleEmploiState(),
     );
 
+    final displayedLoading = store.onChange.any((e) => e.createDemarcheState is CreateDemarcheLoadingState);
     final successAppState = store.onChange.firstWhere((e) => e.createDemarcheState is CreateDemarcheSuccessState);
 
     // When
     await store.dispatch(CreateDemarcheRequestAction("commentaire", DateTime(2022)));
 
     // Then
+    expect(await displayedLoading, true);
     final appState = await successAppState;
     expect(appState.createDemarcheState is CreateDemarcheSuccessState, true);
   });
@@ -32,12 +34,14 @@ void main() {
       initialState: loggedInPoleEmploiState(),
     );
 
+    final displayedLoading = store.onChange.any((e) => e.createDemarcheState is CreateDemarcheLoadingState);
     final failureAppState = store.onChange.firstWhere((e) => e.createDemarcheState is CreateDemarcheFailureState);
 
     // When
     await store.dispatch(CreateDemarcheRequestAction("commentaire", DateTime(2022)));
 
     // Then
+    expect(await displayedLoading, true);
     final appState = await failureAppState;
     expect(appState.createDemarcheState is CreateDemarcheFailureState, true);
   });
