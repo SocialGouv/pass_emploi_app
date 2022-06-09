@@ -38,7 +38,7 @@ void main() {
   test('create when state is success should go back to previous page', () {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
-      initialState: loggedInState().copyWith(createDemarcheState: CreateDemarcheLoadingState()),
+      initialState: loggedInState().copyWith(createDemarcheState: CreateDemarcheSuccessState()),
     );
 
     // When
