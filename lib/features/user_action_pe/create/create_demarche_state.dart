@@ -7,6 +7,8 @@ abstract class CreateDemarcheState extends Equatable {
 
 class CreateDemarcheNotInitializedState extends CreateDemarcheState {}
 
+class CreateDemarcheLoadingState extends CreateDemarcheState {}
+
 class CreateDemarcheSuccessState extends CreateDemarcheState {}
 
 class CreateDemarcheFailureState extends CreateDemarcheState {}

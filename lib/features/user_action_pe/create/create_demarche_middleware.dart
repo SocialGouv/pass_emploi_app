@@ -14,12 +14,9 @@ class CreateDemarcheMiddleware extends MiddlewareClass<AppState> {
     next(action);
     final loginState = store.state.loginState;
     if (action is CreateDemarcheRequestAction && loginState is LoginSuccessState) {
-      final bool result = await _repository.createDemarche(action.commentaire, action.dateEcheance, loginState.user.id);
-      if (result) {
-        store.dispatch(CreateDemarcheSuccessAction());
-      } else {
-        store.dispatch(CreateDemarcheFailureAction());
-      }
+      store.dispatch(CreateDemarcheLoadingAction());
+      final success = await _repository.createDemarche(action.commentaire, action.dateEcheance, loginState.user.id);
+      store.dispatch(success ? CreateDemarcheSuccessAction() : CreateDemarcheFailureAction());
     }
   }
 }

@@ -5,6 +5,10 @@ class CreateDemarcheRequestAction {
   CreateDemarcheRequestAction(this.commentaire, this.dateEcheance);
 }
 
+class CreateDemarcheLoadingAction {}
+
 class CreateDemarcheSuccessAction {}
 
 class CreateDemarcheFailureAction {}
+
+class CreateDemarcheResetAction {}
