@@ -38,6 +38,7 @@ class _Body extends StatelessWidget {
   final DemarcheDetailViewModel viewModel;
 
   _Body(this.viewModel);
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -349,7 +350,8 @@ class _Historique extends StatelessWidget {
                     TextSpan(text: Strings.modifiedBy, style: TextStyles.textBaseRegular),
                     TextSpan(text: viewModel.modificationDate, style: TextStyles.textBaseBold),
                     if (viewModel.createdByAdvisor) TextSpan(text: Strings.par, style: TextStyles.textBaseRegular),
-                    if (viewModel.createdByAdvisor) TextSpan(text: Strings.votreConseiller, style: TextStyles.textBaseBold),
+                    if (viewModel.createdByAdvisor)
+                      TextSpan(text: Strings.votreConseiller, style: TextStyles.textBaseBold),
                   ],
                 ),
               ),
@@ -360,7 +362,8 @@ class _Historique extends StatelessWidget {
                     TextSpan(text: Strings.createdBy, style: TextStyles.textBaseRegular),
                     TextSpan(text: viewModel.creationDate, style: TextStyles.textBaseBold),
                     if (viewModel.createdByAdvisor) TextSpan(text: Strings.par, style: TextStyles.textBaseRegular),
-                    if (viewModel.createdByAdvisor) TextSpan(text: Strings.votreConseiller, style: TextStyles.textBaseBold),
+                    if (viewModel.createdByAdvisor)
+                      TextSpan(text: Strings.votreConseiller, style: TextStyles.textBaseBold),
                   ],
                 ),
               ),

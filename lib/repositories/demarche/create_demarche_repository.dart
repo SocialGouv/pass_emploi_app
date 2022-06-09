@@ -1,5 +1,7 @@
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/network/json_encoder.dart';
+import 'package:pass_emploi_app/network/post_create_demarche.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
 
 class CreateDemarcheRepository {
@@ -14,11 +16,9 @@ class CreateDemarcheRepository {
     try {
       final response = await _httpClient.post(
         url,
-        body: {"description": commentaire, "dateFin": dateEcheance.toIso8601String()},
+        body: customJsonEncode(PostCreateDemarche(commentaire, dateEcheance)),
       );
-      if (response.statusCode.isValid()) {
-        return true;
-      }
+      if (response.statusCode.isValid()) return true;
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);
     }
