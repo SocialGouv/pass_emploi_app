@@ -140,7 +140,7 @@ class _DownloadButtonState extends State<_DownloadButton> {
   Widget _downloadButton(AttachedFileViewModel viewModel) {
     return Center(
       child: PrimaryActionButton(
-        label: Strings.open,
+        label: viewModel.displayState(widget.fileId) == DisplayState.FAILURE ? Strings.retry : Strings.open,
         drawableRes: Drawables.icDownload,
         onPressed: () => _share(viewModel),
         heightPadding: 2,
