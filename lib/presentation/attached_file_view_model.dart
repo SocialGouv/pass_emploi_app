@@ -17,11 +17,11 @@ class AttachedFileViewModel extends Equatable {
   });
 
   factory AttachedFileViewModel.create(Store<AppState> store) {
-    final attachedFileState = store.state.attachedFileState;
+    final attachedFilesState = store.state.attachedFileState;
     return AttachedFileViewModel._(
-      displayState: (fileId) => _displayState(fileId, attachedFileState),
+      displayState: (fileId) => _displayState(fileId, attachedFilesState),
       onClick: (fileId) => _dispatchRequestAction(store, fileId),
-      getPath: (fileId) => _getPath(fileId, attachedFileState),
+      getPath: (fileId) => _getPath(fileId, attachedFilesState),
     );
   }
 
@@ -29,24 +29,24 @@ class AttachedFileViewModel extends Equatable {
   List<Object?> get props => [displayState];
 }
 
-DisplayState _displayState(String id, AttachedFileState attachedFileState) {
-  final currentFile = attachedFileState.data.entries.firstWhere((element) => element.key == id);
-  if (currentFile.value == null || currentFile.value!.isEmpty) return DisplayState.EMPTY;
-  if (currentFile.value == "LOADING_STATE") {
+DisplayState _displayState(String id, AttachedFilesState attachedFilesState) {
+  final currentFile = attachedFilesState.states[id];
+  if (currentFile is AttachedFileLoadingState) {
     return DisplayState.LOADING;
-  } else if (currentFile.value == "FAILURE_STATE") {
+  } else if (currentFile is AttachedFileFailureState) {
     return DisplayState.FAILURE;
-  } else {
+  } else if (currentFile is AttachedFileSuccessState) {
     return DisplayState.CONTENT;
   }
+  return DisplayState.EMPTY;
 }
 
-String? _getPath(String id, AttachedFileState attachedFileState) {
-  if (attachedFileState is AttachedFileSuccessState) {
-    final currentFile = attachedFileState.data.entries.firstWhere((element) => element.key == id);
-    return currentFile.value != "LOADING_STATE" && currentFile.value != "FAILURE_STATE" ? currentFile.value : null;
+String? _getPath(String id, AttachedFilesState attachedFilesState) {
+  final currentFile = attachedFilesState.states[id];
+  if (currentFile is! AttachedFileSuccessState) {
+    return null;
   }
-  return null;
+  return currentFile.path;
 }
 
 void _dispatchRequestAction(Store<AppState> store, String fileId) {

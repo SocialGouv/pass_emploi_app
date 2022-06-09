@@ -80,7 +80,7 @@ class AppState extends Equatable {
   final SuppressionCompteState suppressionCompteState;
   final CampagneState campagneState;
   final CreateDemarcheState createDemarcheState;
-  final AttachedFileState attachedFileState;
+  final AttachedFilesState attachedFileState;
 
   AppState({
     required this.configurationState,
@@ -162,7 +162,7 @@ class AppState extends Equatable {
     final bool? demoState,
     final CampagneState? campagneState,
     final CreateDemarcheState? createDemarcheState,
-    final AttachedFileState? attachedFileState,
+    final AttachedFilesState? attachedFileState,
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
@@ -270,7 +270,7 @@ class AppState extends Equatable {
       suppressionCompteState: SuppressionCompteNotInitializedState(),
       campagneState: CampagneState(null, []),
       createDemarcheState: CreateDemarcheNotInitializedState(),
-      attachedFileState: AttachedFileNotInitializedState({}),
+      attachedFileState: AttachedFilesState({}),
     );
   }
 

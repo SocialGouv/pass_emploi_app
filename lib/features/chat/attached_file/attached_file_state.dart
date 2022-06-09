@@ -1,26 +1,38 @@
 import 'package:equatable/equatable.dart';
 
-abstract class AttachedFileState extends Equatable {
-  final Map<String, String?> data;
+class AttachedFilesState extends Equatable {
+  final Map<String, AttachedFileState> states;
 
-  AttachedFileState(this.data);
+  AttachedFilesState(this.states);
 
   @override
-  List<Object?> get props => [data];
+  List<Object?> get props => [states];
+
+  AttachedFilesState updated(String id, AttachedFileState state) {
+    final updatedData = states;
+    updatedData.update(id, (value) => state, ifAbsent: () => state);
+    return AttachedFilesState(updatedData);
+  }
 }
 
-class AttachedFileNotInitializedState extends AttachedFileState {
-  AttachedFileNotInitializedState(super.data);
+abstract class AttachedFileState extends Equatable {
+  @override
+  List<Object?> get props => [];
 }
 
 class AttachedFileLoadingState extends AttachedFileState {
-  AttachedFileLoadingState(super.data);
+  AttachedFileLoadingState();
 }
 
 class AttachedFileSuccessState extends AttachedFileState {
-  AttachedFileSuccessState(super.data);
+  final String path;
+
+  AttachedFileSuccessState(this.path);
+
+  @override
+  List<Object?> get props => [path];
 }
 
 class AttachedFileFailureState extends AttachedFileState {
-  AttachedFileFailureState(super.data);
+  AttachedFileFailureState();
 }

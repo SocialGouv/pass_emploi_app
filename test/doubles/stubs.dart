@@ -423,7 +423,7 @@ class AttachedFileRepositorySuccessStub extends AttachedFileRepository {
 
   @override
   Future<String?> download(String fileId) async {
-    return "file_path";
+    return "$fileId-path";
   }
 }
 

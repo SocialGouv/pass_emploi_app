@@ -13,17 +13,17 @@ void main() {
     testStoreFactory.attachedFileRepository = AttachedFileRepositorySuccessStub();
     final store = testStoreFactory.initializeReduxStore(initialState: loggedInPoleEmploiState());
 
-    final displayedLoading = store.onChange.any((e) => e.attachedFileState is AttachedFileLoadingState);
-    final successAppState = store.onChange.firstWhere((e) => e.attachedFileState is AttachedFileSuccessState);
+    final displayedLoading = store.onChange.any((e) => e.attachedFileState.states["id-1"] is AttachedFileLoadingState);
+    final successAppState =
+        store.onChange.firstWhere((e) => e.attachedFileState.states["id-1"] is AttachedFileSuccessState);
 
     // When
-    await store.dispatch(AttachedFileRequestAction("file_id"));
+    await store.dispatch(AttachedFileRequestAction("id-1"));
 
     // Then
     expect(await displayedLoading, true);
     final appState = await successAppState;
-    expect(appState.attachedFileState is AttachedFileSuccessState, isTrue);
-    expect((appState.attachedFileState as AttachedFileSuccessState).data, {'file_id': 'file_path'});
+    expect(appState.attachedFileState.states["id-1"], AttachedFileSuccessState("id-1-path"));
   });
 
   test("attached file should display an error when fetching failed", () async {
@@ -32,15 +32,16 @@ void main() {
     testStoreFactory.attachedFileRepository = AttachedFileRepositoryFailureStub();
     final store = testStoreFactory.initializeReduxStore(initialState: loggedInPoleEmploiState());
 
-    final displayedLoading = store.onChange.any((e) => e.attachedFileState is AttachedFileLoadingState);
-    final failureAppState = store.onChange.firstWhere((e) => e.attachedFileState is AttachedFileFailureState);
+    final displayedLoading = store.onChange.any((e) => e.attachedFileState.states["id-1"] is AttachedFileLoadingState);
+    final failureAppState =
+        store.onChange.firstWhere((e) => e.attachedFileState.states["id-1"] is AttachedFileFailureState);
 
     // When
-    await store.dispatch(AttachedFileRequestAction("file_id"));
+    await store.dispatch(AttachedFileRequestAction("id-1"));
 
     // Then
     expect(await displayedLoading, true);
     final appState = await failureAppState;
-    expect(appState.attachedFileState is AttachedFileFailureState, isTrue);
+    expect(appState.attachedFileState.states["id-1"], AttachedFileFailureState());
   });
 }
