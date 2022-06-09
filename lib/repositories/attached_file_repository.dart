@@ -17,7 +17,7 @@ class AttachedFileRepository {
     try {
       final response = await _httpClient.get(url);
       if (response.statusCode.isValid()) {
-        // todo utiliser un cacher avec la bonne expiration et injecter dans constructeur
+        // todo utiliser un cache avec la bonne expiration et injecter dans constructeur
         final cache = PassEmploiCacheManager(Config("aaa"));
         final file = await cache.putFile(url.toString(), response.bodyBytes);
         final path = file.path;

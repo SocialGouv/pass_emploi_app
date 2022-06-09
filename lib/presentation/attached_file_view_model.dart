@@ -30,23 +30,23 @@ class AttachedFileViewModel extends Equatable {
 }
 
 DisplayState _displayState(String id, AttachedFilesState attachedFilesState) {
-  final currentFile = attachedFilesState.states[id];
-  if (currentFile is AttachedFileLoadingState) {
+  final status = attachedFilesState.status[id];
+  if (status is AttachedFileLoadingStatus) {
     return DisplayState.LOADING;
-  } else if (currentFile is AttachedFileFailureState) {
+  } else if (status is AttachedFileFailureStatus) {
     return DisplayState.FAILURE;
-  } else if (currentFile is AttachedFileSuccessState) {
+  } else if (status is AttachedFileSuccessStatus) {
     return DisplayState.CONTENT;
   }
   return DisplayState.EMPTY;
 }
 
 String? _getPath(String id, AttachedFilesState attachedFilesState) {
-  final currentFile = attachedFilesState.states[id];
-  if (currentFile is! AttachedFileSuccessState) {
+  final status = attachedFilesState.status[id];
+  if (status is! AttachedFileSuccessStatus) {
     return null;
   }
-  return currentFile.path;
+  return status.path;
 }
 
 void _dispatchRequestAction(Store<AppState> store, String fileId) {

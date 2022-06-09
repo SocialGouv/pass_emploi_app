@@ -162,7 +162,7 @@ class AppState extends Equatable {
     final bool? demoState,
     final CampagneState? campagneState,
     final CreateDemarcheState? createDemarcheState,
-    final AttachedFilesState? attachedFileState,
+    final AttachedFilesState? attachedFilesState,
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
@@ -221,7 +221,7 @@ class AppState extends Equatable {
       demoState: demoState ?? this.demoState,
       campagneState: campagneState ?? this.campagneState,
       createDemarcheState: createDemarcheState ?? this.createDemarcheState,
-      attachedFileState: attachedFileState ?? this.attachedFileState,
+      attachedFileState: attachedFilesState ?? this.attachedFileState,
     );
   }
 

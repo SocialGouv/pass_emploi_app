@@ -3,11 +3,11 @@ import 'package:pass_emploi_app/features/chat/attached_file/attached_file_state.
 
 AttachedFilesState attachedFileReducer(AttachedFilesState current, dynamic action) {
   if (action is AttachedFileRequestAction) {
-    return current.updated(action.fileId, AttachedFileLoadingState());
+    return current.updated(action.fileId, AttachedFileLoadingStatus());
   } else if (action is AttachedFileFailureAction) {
-    return current.updated(action.fileId, AttachedFileFailureState());
+    return current.updated(action.fileId, AttachedFileFailureStatus());
   } else if (action is AttachedFileSuccessAction) {
-    return current.updated(action.fileId, AttachedFileSuccessState(action.path));
+    return current.updated(action.fileId, AttachedFileSuccessStatus(action.path));
   }
   return current;
 }
