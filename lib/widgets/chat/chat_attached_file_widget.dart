@@ -129,6 +129,7 @@ class _DownloadButtonState extends State<_DownloadButton> {
 
   Widget _body(BuildContext context, AttachedFileViewModel viewModel) {
     switch (viewModel.displayState(widget.fileId)) {
+      // todo 679 error handler
       case DisplayState.LOADING:
         return _loader();
       default:
@@ -148,7 +149,7 @@ class _DownloadButtonState extends State<_DownloadButton> {
   }
 
 // todo : PoC to remove
-  _share(AttachedFileViewModel viewModel) async {
+  void _share(AttachedFileViewModel viewModel) async {
     viewModel.onClick(widget.fileId);
     // final hardcodedUrl = "https://www.messagerbenin.info/wp-content/uploads/2021/06/14481-google-logo-3-s-.jpg";
     // final cache = PassEmploiCacheManager(Config("aaa"));

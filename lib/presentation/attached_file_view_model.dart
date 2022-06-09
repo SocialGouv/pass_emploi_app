@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 class AttachedFileViewModel extends Equatable {
-  final Function(String fileId) displayState;
+  final DisplayState Function(String fileId) displayState;
   final Function(String fileId) onClick;
   final String? Function(String fileId) getPath;
 
@@ -30,21 +30,21 @@ class AttachedFileViewModel extends Equatable {
 }
 
 DisplayState _displayState(String id, AttachedFileState attachedFileState) {
-  if (attachedFileState is AttachedFileSuccessState) {
-    return attachedFileState.data.keys.firstWhere((element) => element == id).isNotEmpty
-        ? DisplayState.CONTENT
-        : DisplayState.EMPTY;
-  } else if (attachedFileState is AttachedFileLoadingState) {
+  final currentFile = attachedFileState.data.entries.firstWhere((element) => element.key == id);
+  if (currentFile.value == null || currentFile.value!.isEmpty) return DisplayState.EMPTY;
+  if (currentFile.value == "LOADING_STATE") {
     return DisplayState.LOADING;
-  } else {
+  } else if (currentFile.value == "FAILURE_STATE") {
     return DisplayState.FAILURE;
+  } else {
+    return DisplayState.CONTENT;
   }
 }
 
 String? _getPath(String id, AttachedFileState attachedFileState) {
   if (attachedFileState is AttachedFileSuccessState) {
-    final String path = attachedFileState.data.keys.firstWhere((element) => element == id);
-    return path != "LOADING_STATE" && path != "FAILURE_STATE" ? path : null;
+    final currentFile = attachedFileState.data.entries.firstWhere((element) => element.key == id);
+    return currentFile.value != "LOADING_STATE" && currentFile.value != "FAILURE_STATE" ? currentFile.value : null;
   }
   return null;
 }
