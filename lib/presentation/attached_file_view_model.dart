@@ -8,10 +8,12 @@ import 'package:redux/redux.dart';
 class AttachedFileViewModel extends Equatable {
   final Function(String fileId) displayState;
   final Function(String fileId) onClick;
+  final String? Function(String fileId) getPath;
 
   AttachedFileViewModel._({
     required this.displayState,
     required this.onClick,
+    required this.getPath,
   });
 
   factory AttachedFileViewModel.create(Store<AppState> store) {
@@ -19,6 +21,7 @@ class AttachedFileViewModel extends Equatable {
     return AttachedFileViewModel._(
       displayState: (fileId) => _displayState(fileId, attachedFileState),
       onClick: (fileId) => _dispatchRequestAction(store, fileId),
+      getPath: (fileId) => _getPath(fileId, attachedFileState),
     );
   }
 
@@ -36,6 +39,14 @@ DisplayState _displayState(String id, AttachedFileState attachedFileState) {
   } else {
     return DisplayState.FAILURE;
   }
+}
+
+String? _getPath(String id, AttachedFileState attachedFileState) {
+  if (attachedFileState is AttachedFileSuccessState) {
+    final String path = attachedFileState.data.keys.firstWhere((element) => element == id);
+    return path != "LOADING_STATE" && path != "FAILURE_STATE" ? path : null;
+  }
+  return null;
 }
 
 void _dispatchRequestAction(Store<AppState> store, String fileId) {

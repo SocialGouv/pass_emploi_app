@@ -11,6 +11,8 @@ class AttachedFileSuccessAction {
   AttachedFileSuccessAction(this.fileId, this.path);
 }
 
-class AttachedFileFailureAction {}
+class AttachedFileFailureAction {
+  final String fileId;
 
-class AttachedFileLoadingAction {}
+  AttachedFileFailureAction(this.fileId);
+}

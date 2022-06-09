@@ -17,7 +17,7 @@ class AttachedFileMiddleware extends MiddlewareClass<AppState> {
       final path = await _repository.download(action.fileId);
       store.dispatch(path != null && path.isNotEmpty
           ? AttachedFileSuccessAction(action.fileId, path)
-          : AttachedFileFailureAction());
+          : AttachedFileFailureAction(action.fileId));
     }
   }
 }

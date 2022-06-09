@@ -270,7 +270,7 @@ class AppState extends Equatable {
       suppressionCompteState: SuppressionCompteNotInitializedState(),
       campagneState: CampagneState(null, []),
       createDemarcheState: CreateDemarcheNotInitializedState(),
-      attachedFileState: AttachedFileNotInitializedState(),
+      attachedFileState: AttachedFileNotInitializedState({}),
     );
   }
 

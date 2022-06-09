@@ -150,12 +150,15 @@ class _DownloadButtonState extends State<_DownloadButton> {
 // todo : PoC to remove
   _share(AttachedFileViewModel viewModel) async {
     viewModel.onClick(widget.fileId);
-    final hardcodedUrl = "https://www.messagerbenin.info/wp-content/uploads/2021/06/14481-google-logo-3-s-.jpg";
-    final cache = PassEmploiCacheManager(Config("aaa"));
-    final fileInfo = await cache.downloadFile(hardcodedUrl);
-    final path = fileInfo.file.path;
-    print('downloaded file path = $path');
-    Share.shareFiles(['$path'], text: 'Cute one');
+    // final hardcodedUrl = "https://www.messagerbenin.info/wp-content/uploads/2021/06/14481-google-logo-3-s-.jpg";
+    // final cache = PassEmploiCacheManager(Config("aaa"));
+    // final fileInfo = await cache.downloadFile(hardcodedUrl);
+    // final path = fileInfo.file.path;
+    // print('downloaded file path = $path');
+    final String? path = viewModel.getPath(widget.fileId);
+    if (path != null && path.isNotEmpty) {
+      Share.shareFiles(['$viewModel.getPath'], text: 'Cute one');
+    }
   }
 
   Widget _loader() => Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
