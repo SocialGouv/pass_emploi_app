@@ -98,6 +98,6 @@ AppState reducer(AppState current, dynamic action) {
     demoState: modeDemoReducer(current, action),
     campagneState: campagneReducer(current.campagneState, action),
     createDemarcheState: createDemarcheReducer(current.createDemarcheState, action),
-    attachedFileState: attachedFileReducer(current.attachedFileState, action),
+    attachedFilesState: attachedFileReducer(current.attachedFilesState, action),
   );
 }

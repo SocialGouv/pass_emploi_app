@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/presentation/display_state.dart';
 
 abstract class ChatItem extends Equatable {}
 

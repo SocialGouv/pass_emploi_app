@@ -56,7 +56,7 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
       return AttachedFileConseillerMessageItem(
         id: "78804fad-8874-482b-89c3-beb8de508798",
         message: message.content,
-        filename: "message.pieceJointes.first.nom",
+        filename: "message.pieceJointes.first.png",
         caption: message.creationDate.toHour(),
       );
       switch (message.type) {

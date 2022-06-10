@@ -80,7 +80,7 @@ class AppState extends Equatable {
   final SuppressionCompteState suppressionCompteState;
   final CampagneState campagneState;
   final CreateDemarcheState createDemarcheState;
-  final AttachedFilesState attachedFileState;
+  final AttachedFilesState attachedFilesState;
 
   AppState({
     required this.configurationState,
@@ -119,7 +119,7 @@ class AppState extends Equatable {
     required this.demoState,
     required this.campagneState,
     required this.createDemarcheState,
-    required this.attachedFileState,
+    required this.attachedFilesState,
   });
 
   AppState copyWith({
@@ -221,7 +221,7 @@ class AppState extends Equatable {
       demoState: demoState ?? this.demoState,
       campagneState: campagneState ?? this.campagneState,
       createDemarcheState: createDemarcheState ?? this.createDemarcheState,
-      attachedFileState: attachedFilesState ?? this.attachedFileState,
+      attachedFilesState: attachedFilesState ?? this.attachedFilesState,
     );
   }
 
@@ -270,7 +270,7 @@ class AppState extends Equatable {
       suppressionCompteState: SuppressionCompteNotInitializedState(),
       campagneState: CampagneState(null, []),
       createDemarcheState: CreateDemarcheNotInitializedState(),
-      attachedFileState: AttachedFilesState({}),
+      attachedFilesState: AttachedFilesState({}),
     );
   }
 
@@ -307,7 +307,7 @@ class AppState extends Equatable {
         demoState,
         campagneState,
         createDemarcheState,
-        attachedFileState,
+        attachedFilesState,
       ];
 
   @override

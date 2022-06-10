@@ -138,7 +138,7 @@ class _DownloadButtonState extends State<_DownloadButton> {
       child: PrimaryActionButton(
         label: viewModel.displayState(widget.item.id) == DisplayState.FAILURE ? Strings.retry : Strings.open,
         drawableRes: Drawables.icDownload,
-        onPressed: () => viewModel.onClick(widget.item.id, "png"), // todo ici utiliser widget.item.fileName.getExtension()
+        onPressed: () => viewModel.onClick(widget.item),
         heightPadding: 2,
       ),
     );
@@ -146,3 +146,4 @@ class _DownloadButtonState extends State<_DownloadButton> {
 
   Widget _loader() => Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
 }
+

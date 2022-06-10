@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:pass_emploi_app/features/chat/attached_file/attached_file_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
