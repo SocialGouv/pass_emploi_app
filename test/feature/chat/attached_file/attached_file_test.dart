@@ -19,7 +19,7 @@ void main() {
         store.onChange.firstWhere((e) => e.attachedFileState.status["id-1"] is AttachedFileSuccessStatus);
 
     // When
-    await store.dispatch(AttachedFileRequestAction("id-1"));
+    await store.dispatch(AttachedFileRequestAction("id-1", "png"));
 
     // Then
     expect(await displayedLoading, true);
@@ -38,7 +38,7 @@ void main() {
         store.onChange.firstWhere((e) => e.attachedFileState.status["id-1"] is AttachedFileFailureStatus);
 
     // When
-    await store.dispatch(AttachedFileRequestAction("id-1"));
+    await store.dispatch(AttachedFileRequestAction("id-1", "png"));
 
     // Then
     expect(await displayedLoading, true);
@@ -57,7 +57,7 @@ void main() {
         store.onChange.firstWhere((e) => e.attachedFileState.status["id-2"] is AttachedFileFailureStatus);
 
     // When
-    await store.dispatch(AttachedFileRequestAction("id-2"));
+    await store.dispatch(AttachedFileRequestAction("id-2", "png"));
 
     // Then
     final appState = await changedAppState;

@@ -11,7 +11,7 @@ class AttachedFileRepository {
 
   AttachedFileRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
 
-  Future<String?> download(String fileId) async {
+  Future<String?> download({required String fileId, required String fileExtension}) async {
     final url = Uri.parse(_baseUrl + "/fichiers/$fileId");
     print("url : ${url.toString()}");
     try {
@@ -19,7 +19,7 @@ class AttachedFileRepository {
       if (response.statusCode.isValid()) {
         // todo utiliser un cache avec la bonne expiration et injecter dans constructeur
         final cache = PassEmploiCacheManager(Config("aaa"));
-        final file = await cache.putFile(url.toString(), response.bodyBytes);
+        final file = await cache.putFile(url.toString(), response.bodyBytes, fileExtension: fileExtension);
         final path = file.path;
         print('downloaded file path = $path');
         return path;

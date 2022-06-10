@@ -1,7 +1,8 @@
 class AttachedFileRequestAction {
   final String fileId;
+  final String fileExtension;
 
-  AttachedFileRequestAction(this.fileId);
+  AttachedFileRequestAction(this.fileId, this.fileExtension);
 }
 
 class AttachedFileSuccessAction {

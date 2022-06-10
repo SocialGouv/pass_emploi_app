@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/presentation/attached_file_view_model.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -13,8 +11,6 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
-import 'package:pass_emploi_app/widgets/retry.dart';
-import 'package:share_plus/share_plus.dart';
 
 class ChatAttachedFileWidget extends StatelessWidget {
   final AttachedFileConseillerMessageItem item;
@@ -34,7 +30,7 @@ class ChatAttachedFileWidget extends StatelessWidget {
               SizedBox(height: 14),
               _PieceJointeName(item.filename),
               SizedBox(height: 20),
-              _DownloadButton(fileId: item.id),
+              _DownloadButton(item: item),
             ],
           ),
           _Caption(item.caption),
@@ -109,15 +105,16 @@ class _Caption extends StatelessWidget {
 }
 
 class _DownloadButton extends StatefulWidget {
-  final String fileId;
+  final AttachedFileConseillerMessageItem item;
 
-  const _DownloadButton({required this.fileId}) : super();
+  const _DownloadButton({required this.item}) : super();
 
   @override
   State<_DownloadButton> createState() => _DownloadButtonState();
 }
 
 class _DownloadButtonState extends State<_DownloadButton> {
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, AttachedFileViewModel>(
@@ -128,8 +125,7 @@ class _DownloadButtonState extends State<_DownloadButton> {
   }
 
   Widget _body(BuildContext context, AttachedFileViewModel viewModel) {
-    switch (viewModel.displayState(widget.fileId)) {
-      // todo 679 error handler
+    switch (viewModel.displayState(widget.item.id)) {
       case DisplayState.LOADING:
         return _loader();
       default:
@@ -140,28 +136,13 @@ class _DownloadButtonState extends State<_DownloadButton> {
   Widget _downloadButton(AttachedFileViewModel viewModel) {
     return Center(
       child: PrimaryActionButton(
-        label: viewModel.displayState(widget.fileId) == DisplayState.FAILURE ? Strings.retry : Strings.open,
+        label: viewModel.displayState(widget.item.id) == DisplayState.FAILURE ? Strings.retry : Strings.open,
         drawableRes: Drawables.icDownload,
-        onPressed: () => _share(viewModel),
+        onPressed: () => viewModel.onClick(widget.item.id, "png"), // todo ici utiliser widget.item.fileName.getExtension()
         heightPadding: 2,
       ),
     );
   }
 
-// todo : PoC to remove
-  void _share(AttachedFileViewModel viewModel) async {
-    viewModel.onClick(widget.fileId);
-    // final hardcodedUrl = "https://www.messagerbenin.info/wp-content/uploads/2021/06/14481-google-logo-3-s-.jpg";
-    // final cache = PassEmploiCacheManager(Config("aaa"));
-    // final fileInfo = await cache.downloadFile(hardcodedUrl);
-    // final path = fileInfo.file.path;
-    // print('downloaded file path = $path');
-    final String? path = viewModel.getPath(widget.fileId);
-    if (path != null && path.isNotEmpty) {
-      Share.shareFiles(['$viewModel.getPath'], text: 'Cute one');
-    }
-  }
-
   Widget _loader() => Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
-
 }
