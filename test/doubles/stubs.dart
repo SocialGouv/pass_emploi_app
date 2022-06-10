@@ -419,7 +419,7 @@ class SuppressionCompteRepositoryFailureStub
 }
 
 class AttachedFileRepositorySuccessStub extends AttachedFileRepository {
-  AttachedFileRepositorySuccessStub() : super("", DummyHttpClient());
+  AttachedFileRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
   Future<String?> download({required String fileId, required String fileExtension}) async {
@@ -428,7 +428,7 @@ class AttachedFileRepositorySuccessStub extends AttachedFileRepository {
 }
 
 class AttachedFileRepositoryFailureStub extends AttachedFileRepository {
-  AttachedFileRepositoryFailureStub() : super("", DummyHttpClient());
+  AttachedFileRepositoryFailureStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
   Future<String?> download({required String fileId, required String fileExtension}) async {

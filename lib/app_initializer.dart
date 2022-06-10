@@ -8,7 +8,6 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:http/io_client.dart';
@@ -149,13 +148,10 @@ class AppInitializer {
       crashlytics.recordNonNetworkException(e, stack);
     }
     final Client clientWithCertificate = IOClient(HttpClient(context: defaultContext));
-    final passEmploiCacheManager = PassEmploiCacheManager(Config(
-      PassEmploiCacheManager.cacheKey,
-      stalePeriod: PassEmploiCacheManager.cacheDuration,
-      maxNrOfCacheObjects: 30,
-    ));
+    final requestCacheManager = PassEmploiCacheManager.requestCache();
+    final fileCacheManager = PassEmploiCacheManager.fileCache();
     final monitoringInterceptor = MonitoringInterceptor(InstallationIdRepository(securedPreferences));
-    final modeDemoClient = ModeDemoClient(modeDemoRepository, HttpClientWithCache(passEmploiCacheManager, clientWithCertificate));
+    final modeDemoClient = ModeDemoClient(modeDemoRepository, HttpClientWithCache(requestCacheManager, clientWithCertificate));
     final httpClient = InterceptedClient.build(
       client: modeDemoClient,
       interceptors: [
@@ -166,7 +162,7 @@ class AppInitializer {
       ],
     );
     logoutRepository.setHttpClient(httpClient);
-    logoutRepository.setCacheManager(passEmploiCacheManager);
+    logoutRepository.setCacheManager(requestCacheManager);
     final chatCrypto = ChatCrypto();
     final baseUrl = configuration.serverBaseUrl;
     final reduxStore = StoreFactory(
@@ -180,9 +176,9 @@ class AppInitializer {
             ChatRepository(chatCrypto, crashlytics, modeDemoRepository),
             RegisterTokenRepository(baseUrl, httpClient, pushNotificationManager, crashlytics),
             OffreEmploiDetailsRepository(baseUrl, httpClient, crashlytics),
-            OffreEmploiFavorisRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
-            ImmersionFavorisRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
-            ServiceCiviqueFavorisRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
+            OffreEmploiFavorisRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
+            ImmersionFavorisRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
+            ServiceCiviqueFavorisRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
             SearchLocationRepository(baseUrl, httpClient, crashlytics),
             MetierRepository(),
             ImmersionRepository(baseUrl, httpClient, crashlytics),
@@ -190,11 +186,11 @@ class AppInitializer {
       FirebaseAuthRepository(baseUrl, httpClient, crashlytics),
       FirebaseAuthWrapper(),
       TrackingEventRepository(baseUrl, httpClient, crashlytics),
-      OffreEmploiSavedSearchRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
-      ImmersionSavedSearchRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
-      ServiceCiviqueSavedSearchRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
+      OffreEmploiSavedSearchRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
+      ImmersionSavedSearchRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
+      ServiceCiviqueSavedSearchRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       GetSavedSearchRepository(baseUrl, httpClient, crashlytics),
-      SavedSearchDeleteRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
+      SavedSearchDeleteRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       ServiceCiviqueRepository(baseUrl, httpClient, crashlytics),
       ServiceCiviqueDetailRepository(baseUrl, httpClient, crashlytics),
       DetailsJeuneRepository(baseUrl, httpClient, crashlytics),
@@ -205,7 +201,7 @@ class AppInitializer {
       remoteConfig,
       UpdateDemarcheRepository(baseUrl, httpClient, crashlytics),
       CreateDemarcheRepository(baseUrl, httpClient, crashlytics),
-      AttachedFileRepository(baseUrl, httpClient, crashlytics),
+      AttachedFileRepository(baseUrl, httpClient, fileCacheManager, crashlytics),
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
     authAccessChecker.setStore(reduxStore);

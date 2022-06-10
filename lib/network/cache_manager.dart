@@ -5,10 +5,25 @@ import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_rep
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 
 class PassEmploiCacheManager extends CacheManager {
-  static const String cacheKey = "PassEmploiCacheKey";
-  static const Duration cacheDuration = Duration(minutes: 20);
+  static const Duration requestCacheDuration = Duration(minutes: 20);
 
   PassEmploiCacheManager(Config config) : super(config);
+
+  factory PassEmploiCacheManager.requestCache() {
+    return PassEmploiCacheManager(Config(
+      "PassEmploiCacheKey",
+      stalePeriod: requestCacheDuration,
+      maxNrOfCacheObjects: 30,
+    ));
+  }
+
+  factory PassEmploiCacheManager.fileCache() {
+    return PassEmploiCacheManager(Config(
+      "PassEmploiCacheKey-File",
+      stalePeriod: Duration(days: 90),
+      maxNrOfCacheObjects: 30,
+    ));
+  }
 
   void removeRessource(CachedRessource ressourceToRemove, String userId, String baseUrl) {
     switch (ressourceToRemove) {

@@ -293,7 +293,7 @@ class DummyUpdateDemarcheRepository extends UpdateDemarcheRepository {
 }
 
 class DummyAttachedFileRepository extends AttachedFileRepository {
-  DummyAttachedFileRepository() : super("", DummyHttpClient());
+  DummyAttachedFileRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 }
 
 class DummyModifyDemarcheRepository extends ModifyDemarcheRepository {

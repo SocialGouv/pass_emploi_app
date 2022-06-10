@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/repositories/attached_file_repository.dart';
 
+import '../doubles/dummies.dart';
 import '../doubles/fixtures.dart';
 import '../utils/pass_emploi_mock_client.dart';
 import '../utils/test_assets.dart';
@@ -14,7 +15,7 @@ void main() {
       if (!request.url.toString().startsWith("BASE_URL/files/ID")) return invalidHttpResponse();
       return Response.bytes(loadTestAssetsAsBytes("attached_file.json"), 200);
     });
-    final repository = AttachedFileRepository("BASE_URL", httpClient);
+    final repository = AttachedFileRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
     // When
     final result = await repository.download(fileId: "ID", fileExtension: "png");
@@ -28,7 +29,7 @@ void main() {
   test('getAttachedFile when response is invalid should return null', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
-    final repository = AttachedFileRepository("BASE_URL", httpClient);
+    final repository = AttachedFileRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
     // When
     final result = await repository.download(fileId: "ID", fileExtension: "png");

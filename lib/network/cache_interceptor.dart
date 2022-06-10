@@ -78,7 +78,7 @@ class HttpClientWithCache extends BaseClient {
     // The lib set a default value to 7-days cache when there isn't cache-control headers in our HTTP responses.
     // And our backend do not set these headers.
     // In future : directly use `getSingleFile` without checking date.
-    final now = DateTime.now().add(_defaultCacheDuration).subtract(PassEmploiCacheManager.cacheDuration);
+    final now = DateTime.now().add(_defaultCacheDuration).subtract(PassEmploiCacheManager.requestCacheDuration);
     return file.validTill.isAfter(now);
   }
 }
