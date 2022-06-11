@@ -17,10 +17,11 @@ class UserActionPEListResetAction {}
 
 class ModifyDemarcheStatusAction {
   final String id;
+  final DateTime? dateFin;
   final DateTime? dateDebut;
   final UserActionPEStatus status;
 
-  ModifyDemarcheStatusAction(this.id, this.dateDebut, this.status);
+  ModifyDemarcheStatusAction(this.id, this.dateFin, this.dateDebut, this.status);
 }
 
 class DemarcheSuccessfullyModifiedAction {

@@ -14,7 +14,8 @@ void main() {
       if (!request.url.toString().startsWith("BASE_URL/jeunes/ronaldo/demarches/remporterLaC1/statut")) {
         return invalidHttpResponse(message: "Ce n'est pas le bon url");
       }
-      expect(request.bodyFields, {"statut": "A_FAIRE", "dateDebut": "2021-12-23T12:08:10.000"});
+      expect(request.bodyFields,
+          {"statut": "A_FAIRE", "dateFin": "2021-12-24T12:08:10.000", "dateDebut": "2021-12-23T12:08:10.000"});
       return Response("", 200);
     });
     final repository = ModifyDemarcheRepository("BASE_URL", httpClient);
@@ -24,6 +25,7 @@ void main() {
       "ronaldo",
       "remporterLaC1",
       UserActionPEStatus.NOT_STARTED,
+      DateTime(2021, 12, 24, 12, 8, 10),
       DateTime(2021, 12, 23, 12, 8, 10),
     );
 
@@ -40,7 +42,12 @@ void main() {
 
     // When
     final result = await repository.modifyDemarche(
-        "ronaldo", "remporterLaC1", UserActionPEStatus.NOT_STARTED, DateTime(2021, 12, 23, 12, 8, 10));
+      "ronaldo",
+      "remporterLaC1",
+      UserActionPEStatus.NOT_STARTED,
+      DateTime(2021, 12, 24, 12, 8, 10),
+      DateTime(2021, 12, 23, 12, 8, 10),
+    );
 
     // Then
     expect(result, false);

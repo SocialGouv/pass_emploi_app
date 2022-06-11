@@ -14,12 +14,14 @@ class ModifyDemarcheRepository {
     String userId,
     String demarcheId,
     UserActionPEStatus status,
+    DateTime? dateFin,
     DateTime? dateDebut,
   ) async {
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/demarches/$demarcheId/statut");
     try {
       final response = await _httpClient.put(url, body: {
         "statut": _statusToString(status),
+        "dateFin": dateFin?.toIso8601String(),
         "dateDebut": dateDebut?.toIso8601String(),
       });
       if (response.statusCode.isValid()) {

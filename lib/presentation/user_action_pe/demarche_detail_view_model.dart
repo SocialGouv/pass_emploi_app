@@ -45,12 +45,15 @@ class DemarcheDetailViewModel extends Equatable {
   });
 
   factory DemarcheDetailViewModel.create(Store<AppState> store, String id) {
-    final UserActionPE userAction = (store.state.userActionPEListState as UserActionPEListSuccessState).userActions.firstWhere((element) => element.id == id);
+    final UserActionPE userAction = (store.state.userActionPEListState as UserActionPEListSuccessState)
+        .userActions
+        .firstWhere((element) => element.id == id);
     userAction.possibleStatus.sort((a, b) => a.compareTo(b));
     return DemarcheDetailViewModel(
       createdByAdvisor: userAction.createdByAdvisor,
       modifiedByAdvisor: userAction.modifiedByAdvisor,
-      formattedDate: _setFormattedDate(userAction.status, userAction.endDate?.toDay(), userAction.deletionDate?.toDay()),
+      formattedDate:
+          _setFormattedDate(userAction.status, userAction.endDate?.toDay(), userAction.deletionDate?.toDay()),
       label: userAction.label,
       titreDetail: userAction.titre,
       sousTitre: userAction.sousTitre,
@@ -61,7 +64,12 @@ class DemarcheDetailViewModel extends Equatable {
       onModifyStatus: (tag) {
         final status = _getStatusFromTag(tag);
         if (!tag.isSelected && status != null) {
-          store.dispatch(ModifyDemarcheStatusAction(userAction.id, userAction.creationDate, status));
+          store.dispatch(ModifyDemarcheStatusAction(
+            userAction.id,
+            userAction.endDate,
+            userAction.creationDate,
+            status,
+          ));
         }
       },
       isLate: isLateAction(userAction.status, userAction.endDate),
