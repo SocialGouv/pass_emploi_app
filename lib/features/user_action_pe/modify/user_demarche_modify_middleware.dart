@@ -15,7 +15,13 @@ class UserDemarcheModifyMiddleware extends MiddlewareClass<AppState> {
     next(action);
     final loginState = store.state.loginState;
     if (loginState is LoginSuccessState && action is ModifyDemarcheStatusAction) {
-      final result = await _repository.modifyDemarche(loginState.user.id, action.id, action.status, action.dateDebut);
+      final result = await _repository.modifyDemarche(
+        loginState.user.id,
+        action.id,
+        action.status,
+        action.dateFin,
+        action.dateDebut,
+      );
       final demarcheListState = store.state.userActionPEListState;
       if (result == true && demarcheListState is UserActionPEListSuccessState) {
         final actionToModified = demarcheListState.userActions.firstWhere((element) => element.id == action.id);

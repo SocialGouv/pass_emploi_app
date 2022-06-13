@@ -35,11 +35,17 @@ void main() {
     final successAppState = store.onChange.firstWhere((e) => e.userActionPEListState is UserActionPEListSuccessState);
 
     // When
-    await store.dispatch(ModifyDemarcheStatusAction("id", DateTime.now(), UserActionPEStatus.NOT_STARTED));
+    await store.dispatch(ModifyDemarcheStatusAction(
+      "id",
+      DateTime.now(),
+      DateTime.now(),
+      UserActionPEStatus.NOT_STARTED,
+    ));
 
     // Then
     final appState = await successAppState;
     expect(appState.userActionPEListState is UserActionPEListSuccessState, isTrue);
-    expect(appState.userActionPEListState, UserActionPEListSuccessState([initialAction.copyWithStatus(UserActionPEStatus.NOT_STARTED)], true));
+    expect(appState.userActionPEListState,
+        UserActionPEListSuccessState([initialAction.copyWithStatus(UserActionPEStatus.NOT_STARTED)], true));
   });
 }

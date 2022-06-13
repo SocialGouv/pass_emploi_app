@@ -277,6 +277,7 @@ class DummyModifyDemarcheRepository extends ModifyDemarcheRepository {
     String userId,
     String demarcheId,
     UserActionPEStatus status,
+    DateTime? dateFin,
     DateTime? dateDebut,
   ) async {
     return true;
