@@ -1,5 +1,6 @@
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/chat/attached_file/attached_file_state.dart';
+import 'package:pass_emploi_app/features/chat/share_file/share_file_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
@@ -37,6 +38,10 @@ extension AppStateDSL on AppState {
 
   AppState attachedFilesWithIdOneSuccess() =>
       copyWith(attachedFilesState: AttachedFilesState({"id-1": AttachedFileSuccessStatus("id-1-path")}));
+
+  AppState shareSheetNotInit() => copyWith(shareFileState: ShareFileNotInitializedState());
+
+  AppState shareSheet(String path) => copyWith(shareFileState: ShareFileSuccessState(path));
 
   AppState deeplinkToRendezvous(String id) =>
       copyWith(deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_RENDEZVOUS, DateTime.now(), id));
