@@ -125,7 +125,7 @@ class _DownloadButtonState extends State<_DownloadButton> {
   }
 
   Widget _body(AttachedFileViewModel viewModel) {
-    switch (viewModel.attachedFileState(widget.item.id)) {
+    switch (viewModel.displayState(widget.item.id)) {
       case DisplayState.LOADING:
         return _loader();
       default:
@@ -137,7 +137,7 @@ class _DownloadButtonState extends State<_DownloadButton> {
   Widget _downloadButton(AttachedFileViewModel viewModel) {
     return Center(
       child: PrimaryActionButton(
-        label: viewModel.attachedFileState(widget.item.id) == DisplayState.FAILURE ? Strings.retry : Strings.open,
+        label: viewModel.displayState(widget.item.id) == DisplayState.FAILURE ? Strings.retry : Strings.open,
         drawableRes: Drawables.icDownload,
         onPressed: (){
           viewModel.onClick(widget.item);

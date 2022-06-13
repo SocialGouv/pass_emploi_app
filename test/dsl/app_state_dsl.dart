@@ -39,6 +39,12 @@ extension AppStateDSL on AppState {
   AppState attachedFilesWithIdOneSuccess() =>
       copyWith(attachedFilesState: AttachedFilesState({"id-1": AttachedFileSuccessStatus("id-1-path")}));
 
+  AppState attachedFilesLoading(String id) =>
+      copyWith(attachedFilesState: AttachedFilesState({id: AttachedFileLoadingStatus()}));
+
+  AppState attachedFilesFailure(String id) =>
+      copyWith(attachedFilesState: AttachedFilesState({id: AttachedFileFailureStatus()}));
+
   AppState shareSheetNotInit() => copyWith(shareFileState: ShareFileNotInitializedState());
 
   AppState shareSheet(String path) => copyWith(shareFileState: ShareFileSuccessState(path));

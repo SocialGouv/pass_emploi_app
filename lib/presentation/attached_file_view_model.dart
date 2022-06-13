@@ -8,28 +8,27 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 class AttachedFileViewModel extends Equatable {
-  final DisplayState Function(String fileId) attachedFileState;
+  final DisplayState Function(String fileId) displayState;
   final Function(AttachedFileConseillerMessageItem item) onClick;
 
-
   AttachedFileViewModel._({
-    required this.attachedFileState,
+    required this.displayState,
     required this.onClick,
   });
 
   factory AttachedFileViewModel.create(Store<AppState> store) {
     final attachedFilesState = store.state.attachedFilesState;
     return AttachedFileViewModel._(
-      attachedFileState: (fileId) => _attachedFileState(fileId, attachedFilesState),
-      onClick: (item) => _dispatchRequestAction(store, item),
+      displayState: (fileId) => _displayState(fileId, attachedFilesState),
+      onClick: (item) => store.dispatch(AttachedFileRequestAction(item.id, item.filename.fileExtension())),
     );
   }
 
   @override
-  List<Object?> get props => [attachedFileState];
+  List<Object?> get props => [displayState];
 }
 
-DisplayState _attachedFileState(String id, AttachedFilesState attachedFilesState) {
+DisplayState _displayState(String id, AttachedFilesState attachedFilesState) {
   final status = attachedFilesState.status[id];
   if (status is AttachedFileLoadingStatus) {
     return DisplayState.LOADING;
@@ -40,11 +39,6 @@ DisplayState _attachedFileState(String id, AttachedFilesState attachedFilesState
   }
   return DisplayState.EMPTY;
 }
-
-void _dispatchRequestAction(Store<AppState> store, AttachedFileConseillerMessageItem item) {
-  store.dispatch(AttachedFileRequestAction(item.id, item.filename.fileExtension()));
-}
-
 
 extension _FileExtension on String {
   String fileExtension() {
