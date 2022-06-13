@@ -5,51 +5,59 @@ import 'package:pass_emploi_app/repositories/modify_demarche_repository.dart';
 
 import '../doubles/fixtures.dart';
 import '../utils/pass_emploi_mock_client.dart';
+import '../utils/test_assets.dart';
 
 void main() {
   test('modifyDemarche when response is valid should return true', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async {
-      if (request.method != "PUT") return invalidHttpResponse(message: "Ce n'est pas la bonne methode, il faut un PUT");
-      if (!request.url.toString().startsWith("BASE_URL/jeunes/ronaldo/demarches/remporterLaC1/statut")) {
-        return invalidHttpResponse(message: "Ce n'est pas le bon url");
+      if (request.method != 'PUT') return invalidHttpResponse();
+      if (!request.url.toString().startsWith('BASE_URL/jeunes/user-id/demarches/8802034/statut')) {
+        return invalidHttpResponse();
       }
-      expect(request.bodyFields,
-          {"statut": "A_FAIRE", "dateFin": "2021-12-24T12:08:10.000", "dateDebut": "2021-12-23T12:08:10.000"});
-      return Response("", 200);
+      expect(
+        request.bodyFields,
+        {
+          "statut": "A_FAIRE",
+          "dateFin": "2021-12-24T12:08:10.000",
+          "dateDebut": "2021-12-23T12:08:10.000",
+        },
+      );
+      return Response.bytes(loadTestAssetsAsBytes('demarche_modified.json'), 200);
     });
-    final repository = ModifyDemarcheRepository("BASE_URL", httpClient);
+    final repository = ModifyDemarcheRepository('BASE_URL', httpClient);
 
     // When
     final result = await repository.modifyDemarche(
-      "ronaldo",
-      "remporterLaC1",
+      'user-id',
+      '8802034',
       UserActionPEStatus.NOT_STARTED,
       DateTime(2021, 12, 24, 12, 8, 10),
       DateTime(2021, 12, 23, 12, 8, 10),
     );
 
     // Then
-    expect(result, true);
+    expect(result, isNotNull);
+    expect(result!.id, '8802034');
   });
 
   test('modifyDemarche when response is not valid should return false', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async {
-      return Response("", 400);
+      return Response('', 400);
     });
-    final repository = ModifyDemarcheRepository("BASE_URL", httpClient);
+    final repository = ModifyDemarcheRepository('BASE_URL', httpClient);
 
     // When
     final result = await repository.modifyDemarche(
-      "ronaldo",
-      "remporterLaC1",
+      'user-id',
+      '8802034',
       UserActionPEStatus.NOT_STARTED,
       DateTime(2021, 12, 24, 12, 8, 10),
       DateTime(2021, 12, 23, 12, 8, 10),
     );
 
     // Then
-    expect(result, false);
+    expect(result, isNull);
   });
 }
