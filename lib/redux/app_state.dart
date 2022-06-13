@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/chat/attached_file/attached_file_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
+import 'package:pass_emploi_app/features/chat/share_file/share_file_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/configuration/configuration_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
@@ -81,6 +82,7 @@ class AppState extends Equatable {
   final CampagneState campagneState;
   final CreateDemarcheState createDemarcheState;
   final AttachedFilesState attachedFilesState;
+  final ShareFileState shareFileState;
 
   AppState({
     required this.configurationState,
@@ -120,6 +122,7 @@ class AppState extends Equatable {
     required this.campagneState,
     required this.createDemarcheState,
     required this.attachedFilesState,
+    required this.shareFileState,
   });
 
   AppState copyWith({
@@ -163,6 +166,7 @@ class AppState extends Equatable {
     final CampagneState? campagneState,
     final CreateDemarcheState? createDemarcheState,
     final AttachedFilesState? attachedFilesState,
+    final ShareFileState? shareFileState,
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
@@ -222,6 +226,7 @@ class AppState extends Equatable {
       campagneState: campagneState ?? this.campagneState,
       createDemarcheState: createDemarcheState ?? this.createDemarcheState,
       attachedFilesState: attachedFilesState ?? this.attachedFilesState,
+      shareFileState: shareFileState ?? this.shareFileState,
     );
   }
 
@@ -271,6 +276,7 @@ class AppState extends Equatable {
       campagneState: CampagneState(null, []),
       createDemarcheState: CreateDemarcheNotInitializedState(),
       attachedFilesState: AttachedFilesState({}),
+      shareFileState: ShareFileNotInitializedState(),
     );
   }
 
@@ -308,6 +314,7 @@ class AppState extends Equatable {
         campagneState,
         createDemarcheState,
         attachedFilesState,
+        shareFileState,
       ];
 
   @override
