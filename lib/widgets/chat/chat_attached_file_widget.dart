@@ -119,26 +119,29 @@ class _DownloadButtonState extends State<_DownloadButton> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, AttachedFileViewModel>(
       converter: (store) => AttachedFileViewModel.create(store),
-      builder: (context, viewModel) => _body(context, viewModel),
+      builder: (context, viewModel) => _body(viewModel),
       distinct: true,
     );
   }
 
-  Widget _body(BuildContext context, AttachedFileViewModel viewModel) {
-    switch (viewModel.displayState(widget.item.id)) {
+  Widget _body(AttachedFileViewModel viewModel) {
+    switch (viewModel.attachedFileState(widget.item.id)) {
       case DisplayState.LOADING:
         return _loader();
       default:
         return _downloadButton(viewModel);
     }
   }
+  String? filePath;
 
   Widget _downloadButton(AttachedFileViewModel viewModel) {
     return Center(
       child: PrimaryActionButton(
-        label: viewModel.displayState(widget.item.id) == DisplayState.FAILURE ? Strings.retry : Strings.open,
+        label: viewModel.attachedFileState(widget.item.id) == DisplayState.FAILURE ? Strings.retry : Strings.open,
         drawableRes: Drawables.icDownload,
-        onPressed: () => viewModel.onClick(widget.item),
+        onPressed: (){
+          viewModel.onClick(widget.item);
+        },
         heightPadding: 2,
       ),
     );

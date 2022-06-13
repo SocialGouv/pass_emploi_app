@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/menu_item.dart' as menu;
+import 'package:share_plus/share_plus.dart';
 
 const int _indexOfMonSuiviPage = 0;
 const int _indexOfChatPage = 1;
@@ -73,6 +74,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   }
 
   Widget _body(MainPageViewModel viewModel, BuildContext context) {
+    if (viewModel.share) Share.shareFilesWithResult(["path"]);
     return Scaffold(
       body: Container(
         color: AppColors.grey100,
