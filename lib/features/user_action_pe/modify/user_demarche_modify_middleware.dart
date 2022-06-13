@@ -27,7 +27,7 @@ class UserDemarcheModifyMiddleware extends MiddlewareClass<AppState> {
         final currentDemarches = demarcheListState.userActions.toList();
         final indexOfCurrentDemarche = currentDemarches.indexWhere((e) => e.id == action.id);
         currentDemarches[indexOfCurrentDemarche] = modifiedDemarche;
-        store.dispatch(DemarcheSuccessfullyModifiedAction(currentDemarches));
+        store.dispatch(UserActionPESuccessUpdateAction(currentDemarches));
       }
     }
   }

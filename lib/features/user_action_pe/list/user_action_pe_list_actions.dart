@@ -24,8 +24,8 @@ class ModifyDemarcheStatusAction {
   ModifyDemarcheStatusAction(this.id, this.dateFin, this.dateDebut, this.status);
 }
 
-class DemarcheSuccessfullyModifiedAction {
+class UserActionPESuccessUpdateAction {
   final List<UserActionPE> userActions;
 
-  DemarcheSuccessfullyModifiedAction(this.userActions);
+  UserActionPESuccessUpdateAction(this.userActions);
 }
