@@ -15,7 +15,7 @@ class UserDemarcheModifyMiddleware extends MiddlewareClass<AppState> {
     next(action);
     final loginState = store.state.loginState;
     if (loginState is LoginSuccessState && action is ModifyDemarcheStatusAction) {
-      final result = await _repository.modifyDemarche(
+      final modifiedDemarche = await _repository.modifyDemarche(
         loginState.user.id,
         action.id,
         action.status,
@@ -23,11 +23,11 @@ class UserDemarcheModifyMiddleware extends MiddlewareClass<AppState> {
         action.dateDebut,
       );
       final demarcheListState = store.state.userActionPEListState;
-      if (result == true && demarcheListState is UserActionPEListSuccessState) {
-        final actionToModified = demarcheListState.userActions.firstWhere((element) => element.id == action.id);
-        final index = demarcheListState.userActions.indexWhere((e) => e.id == action.id);
-        demarcheListState.userActions[index] = actionToModified.copyWithStatus(action.status);
-        store.dispatch(DemarcheSuccessfullyModifiedAction(demarcheListState.userActions));
+      if (modifiedDemarche != null && demarcheListState is UserActionPEListSuccessState) {
+        final currentDemarches = demarcheListState.userActions.toList();
+        final indexOfCurrentDemarche = currentDemarches.indexWhere((e) => e.id == action.id);
+        currentDemarches[indexOfCurrentDemarche] = modifiedDemarche;
+        store.dispatch(UserActionPESuccessUpdateAction(currentDemarches));
       }
     }
   }

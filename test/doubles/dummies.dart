@@ -273,14 +273,14 @@ class DummyModifyDemarcheRepository extends ModifyDemarcheRepository {
   DummyModifyDemarcheRepository() : super("", DummyHttpClient());
 
   @override
-  Future<bool> modifyDemarche(
+  Future<UserActionPE?> modifyDemarche(
     String userId,
     String demarcheId,
     UserActionPEStatus status,
     DateTime? dateFin,
     DateTime? dateDebut,
   ) async {
-    return true;
+    return null;
   }
 }
 
