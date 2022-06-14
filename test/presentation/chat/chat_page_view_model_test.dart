@@ -92,7 +92,7 @@ void main() {
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.items, [
       DayItem('Aujourd\'hui'),
-      AttachedFileConseillerMessageItem(id: "file_id", message: "Une PJ", filename: "super.pdf", caption: "12:00"),
+      AttachedFileConseillerMessageItem(id: "id-1", message: "Une PJ", filename: "super.pdf", caption: "12:00"),
     ]);
   });
 
