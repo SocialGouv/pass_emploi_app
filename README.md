@@ -170,7 +170,7 @@ $ git push --tags
 
 ## Déployer un hotfix de l'app en bêta test sur les stores publics
 
-1. *Prérequis: avoir corrigé le bug rencontré sur la branche `develop`*
+1. **Prérequis : avoir corrigé le bug rencontré sur la branche `develop`**
 2. Créer une branche de hotfix à partir du dernier tag en production, et appliquer le(s) correctif(
    s) :
 
