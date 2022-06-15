@@ -10,7 +10,7 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/message.dart';
-import 'package:pass_emploi_app/models/user_action_pe.dart';
+import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -26,10 +26,10 @@ import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_reposi
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
-import 'package:pass_emploi_app/repositories/modify_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
-import 'package:pass_emploi_app/repositories/page_action_pe_repository.dart';
+import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
@@ -121,8 +121,8 @@ class DummyPageActionRepository extends PageActionRepository {
   DummyPageActionRepository() : super("", DummyHttpClient());
 }
 
-class DummyPageActionPERepository extends PageActionPERepository {
-  DummyPageActionPERepository() : super("", DummyHttpClient());
+class DummyPageDemarcheRepository extends PageDemarcheRepository {
+  DummyPageDemarcheRepository() : super("", DummyHttpClient());
 }
 
 class DummyRendezvousRepository extends RendezvousRepository {
@@ -269,14 +269,14 @@ class DummyCampagneRepository extends CampagneRepository {
   DummyCampagneRepository() : super("", DummyHttpClient());
 }
 
-class DummyModifyDemarcheRepository extends ModifyDemarcheRepository {
-  DummyModifyDemarcheRepository() : super("", DummyHttpClient());
+class DummyUpdateDemarcheRepository extends UpdateDemarcheRepository {
+  DummyUpdateDemarcheRepository() : super("", DummyHttpClient());
 
   @override
-  Future<UserActionPE?> modifyDemarche(
+  Future<Demarche?> updateDemarche(
     String userId,
     String demarcheId,
-    UserActionPEStatus status,
+    DemarcheStatus status,
     DateTime? dateFin,
     DateTime? dateDebut,
   ) async {

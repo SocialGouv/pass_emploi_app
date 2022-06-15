@@ -1,9 +1,7 @@
-import 'dart:ui';
-
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
@@ -78,21 +76,4 @@ UserActionTagViewModel? _userActionTagViewModel(UserActionStatus status) {
         textColor: AppColors.accent2,
       );
   }
-}
-
-class UserActionTagViewModel extends Equatable {
-  final String title;
-  final Color backgroundColor;
-  final Color textColor;
-  final bool isSelected;
-
-  UserActionTagViewModel({
-    required this.title,
-    required this.backgroundColor,
-    required this.textColor,
-    this.isSelected = false,
-  });
-
-  @override
-  List<Object?> get props => [title, backgroundColor, textColor, isSelected];
 }

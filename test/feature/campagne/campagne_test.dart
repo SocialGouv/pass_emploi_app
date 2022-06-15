@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_actions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
-import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_actions.dart';
+import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/campagne_question_answer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -37,14 +37,14 @@ void main() {
     test('On Pôle Emploi user, campagne should be fetched and displayed if any', () async {
       // Given
       final testStoreFactory = TestStoreFactory();
-      final repository = PageActionPERepositorySuccessStub();
+      final repository = PageDemarcheRepositorySuccessStub();
       repository.withCampagne(campagne('id-campagne'));
-      testStoreFactory.pageActionPERepository = repository;
+      testStoreFactory.pageDemarcheRepository = repository;
       final store = testStoreFactory.initializeReduxStore(initialState: loggedInPoleEmploiState());
       final successAppState = store.onChange.firstWhere((e) => e.campagneState.campagne != null);
 
       // When
-      await store.dispatch(UserActionPEListRequestAction());
+      await store.dispatch(DemarcheListRequestAction());
 
       // Then
       final appState = await successAppState;

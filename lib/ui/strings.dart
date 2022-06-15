@@ -222,12 +222,12 @@ class Strings {
   static String createdBy = "Crée le ";
   static String par = " par ";
   static String votreConseiller = "votre conseiller";
-  static const String actionPEToDo = "À faire";
-  static const String actionPEInProgress = "En cours";
-  static const String actionPERetarded = "En retard";
-  static const String actionPEDone = "Réalisé";
-  static const String actionPECancelled = "Annulé";
-  static const String actionPELate = "En retard : ";
+  static const String demarcheToDo = "À faire";
+  static const String demarcheInProgress = "En cours";
+  static const String demarcheRetarded = "En retard";
+  static const String demarcheDone = "Réalisé";
+  static const String demarcheCancelled = "Annulé";
+  static const String demarcheLate = "En retard : ";
   static const String createDemarchePersonalisee = "Créer une démarche personnalisée";
   static const String createDemarchePersonaliseeAsterix = "Les champs marqués d’une * sont obligatoires";
   static const String commentaire = "Commentaire";
@@ -236,11 +236,11 @@ class Strings {
   static const String quand = "Quand";
   static const String selectEcheance = "*Sélectionner une date d'échéance";
 
-  static String actionPEActiveDateFormat(String formattedDate) => "À réaliser pour le $formattedDate";
+  static String demarcheActiveDateFormat(String formattedDate) => "À réaliser pour le $formattedDate";
 
-  static String actionPEDoneDateFormat(String formattedDate) => "Réalisé le $formattedDate";
+  static String demarcheDoneDateFormat(String formattedDate) => "Réalisé le $formattedDate";
 
-  static String actionPECancelledDateFormat(String formattedDate) => "Annulé le $formattedDate";
+  static String demarcheCancelledDateFormat(String formattedDate) => "Annulé le $formattedDate";
   static String withoutDate = "Date indéterminée";
   static String withoutContent = "Démarche indéterminée";
   static String createByAdvisor = "Créé par votre conseiller";
@@ -405,7 +405,7 @@ class Strings {
   // Empty Content (actions & rdv)
   static String rendezvous = "rendez-vous";
   static String actions = "actions";
-  static String demarcheToDo = "démarches à réaliser.";
+  static String demarchesToDo = "démarches à réaliser.";
   static String demarches = "démarches";
 
   static String poleEmploiUrlButton = "Accéder à mon espace Pôle emploi";

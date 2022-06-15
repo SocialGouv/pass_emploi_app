@@ -5,6 +5,8 @@ import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/configuration/configuration_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.dart';
+import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
@@ -29,8 +31,6 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_s
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
-import 'package:pass_emploi_app/features/user_action_pe/create/create_demarche_state.dart';
-import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
@@ -46,7 +46,8 @@ class AppState extends Equatable {
   final UserActionCreateState userActionCreateState;
   final UserActionUpdateState userActionUpdateState;
   final UserActionDeleteState userActionDeleteState;
-  final UserActionPEListState userActionPEListState;
+  final DemarcheListState demarcheListState;
+  final CreateDemarcheState createDemarcheState;
   final DetailsJeuneState detailsJeuneState;
   final ChatStatusState chatStatusState;
   final ChatState chatState;
@@ -74,7 +75,6 @@ class AppState extends Equatable {
   final bool demoState;
   final SuppressionCompteState suppressionCompteState;
   final CampagneState campagneState;
-  final CreateDemarcheState createDemarcheState;
 
   AppState({
     required this.configurationState,
@@ -84,7 +84,7 @@ class AppState extends Equatable {
     required this.userActionCreateState,
     required this.userActionUpdateState,
     required this.userActionDeleteState,
-    required this.userActionPEListState,
+    required this.demarcheListState,
     required this.detailsJeuneState,
     required this.chatStatusState,
     required this.chatState,
@@ -121,7 +121,7 @@ class AppState extends Equatable {
     final UserActionCreateState? userActionCreateState,
     final UserActionUpdateState? userActionUpdateState,
     final UserActionDeleteState? userActionDeleteState,
-    final UserActionPEListState? userActionPEListState,
+    final DemarcheListState? demarcheListState,
     final DetailsJeuneState? detailsJeuneState,
     final ChatStatusState? chatStatusState,
     final ChatState? chatState,
@@ -160,7 +160,8 @@ class AppState extends Equatable {
       userActionCreateState: userActionCreateState ?? this.userActionCreateState,
       userActionUpdateState: userActionUpdateState ?? this.userActionUpdateState,
       userActionDeleteState: userActionDeleteState ?? this.userActionDeleteState,
-      userActionPEListState: userActionPEListState ?? this.userActionPEListState,
+      demarcheListState: demarcheListState ?? this.demarcheListState,
+      createDemarcheState: createDemarcheState ?? this.createDemarcheState,
       detailsJeuneState: detailsJeuneState ?? this.detailsJeuneState,
       chatStatusState: chatStatusState ?? this.chatStatusState,
       chatState: chatState ?? this.chatState,
@@ -189,7 +190,6 @@ class AppState extends Equatable {
       suppressionCompteState: suppressionCompteState ?? this.suppressionCompteState,
       demoState: demoState ?? this.demoState,
       campagneState: campagneState ?? this.campagneState,
-      createDemarcheState: createDemarcheState ?? this.createDemarcheState,
     );
   }
 
@@ -201,7 +201,7 @@ class AppState extends Equatable {
       userActionCreateState: UserActionCreateNotInitializedState(),
       userActionUpdateState: UserActionNotUpdatingState(),
       userActionDeleteState: UserActionDeleteNotInitializedState(),
-      userActionPEListState: UserActionPEListNotInitializedState(),
+      demarcheListState: DemarcheListNotInitializedState(),
       detailsJeuneState: DetailsJeuneNotInitializedState(),
       chatStatusState: ChatStatusNotInitializedState(),
       chatState: ChatNotInitializedState(),
@@ -253,7 +253,7 @@ class AppState extends Equatable {
         searchMetierState,
         loginState,
         userActionListState,
-        userActionPEListState,
+        demarcheListState,
         rendezvousState,
         immersionListState,
         immersionDetailsState,

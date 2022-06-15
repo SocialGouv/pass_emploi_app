@@ -18,10 +18,10 @@ import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_rep
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
-import 'package:pass_emploi_app/repositories/modify_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
-import 'package:pass_emploi_app/repositories/page_action_pe_repository.dart';
+import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
@@ -42,7 +42,7 @@ import '../doubles/dummies.dart';
 class TestStoreFactory {
   Authenticator authenticator = DummyAuthenticator();
   PageActionRepository pageActionRepository = DummyPageActionRepository();
-  PageActionPERepository pageActionPERepository = DummyPageActionPERepository();
+  PageDemarcheRepository pageDemarcheRepository = DummyPageDemarcheRepository();
   RendezvousRepository rendezvousRepository = DummyRendezvousRepository();
   ChatRepository chatRepository = DummyChatRepository();
   OffreEmploiRepository offreEmploiRepository = DummyOffreEmploiRepository();
@@ -73,7 +73,7 @@ class TestStoreFactory {
   ModeDemoRepository demoRepository = ModeDemoRepository();
   MatomoTracker matomoTracker = DummyMatomoTracker();
   FirebaseRemoteConfig? remoteConfig;
-  ModifyDemarcheRepository modifyDemarcheRepository = DummyModifyDemarcheRepository();
+  UpdateDemarcheRepository updateDemarcheRepository = DummyUpdateDemarcheRepository();
   CreateDemarcheRepository createDemarcheRepository = DummySuccessCreateDemarcheRepository();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -82,7 +82,7 @@ class TestStoreFactory {
       crashlytics,
       chatCrypto,
       pageActionRepository,
-      pageActionPERepository,
+      pageDemarcheRepository,
       rendezvousRepository,
       offreEmploiRepository,
       chatRepository,
@@ -111,7 +111,7 @@ class TestStoreFactory {
       campagneRepository,
       matomoTracker,
       remoteConfig,
-      modifyDemarcheRepository,
+      updateDemarcheRepository,
       createDemarcheRepository,
     ).initializeReduxStore(initialState: initialState);
   }
