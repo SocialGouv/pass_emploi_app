@@ -64,7 +64,7 @@ import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_rep
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
-import 'package:pass_emploi_app/repositories/modify_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
@@ -117,7 +117,7 @@ class StoreFactory {
   final CampagneRepository campagneRepository;
   final MatomoTracker matomoTracker;
   final FirebaseRemoteConfig? remoteConfig;
-  final ModifyDemarcheRepository modifyDemarcheRepository;
+  final UpdateDemarcheRepository updateDemarcheRepository;
   final CreateDemarcheRepository createDemarcheRepository;
 
   StoreFactory(
@@ -154,7 +154,7 @@ class StoreFactory {
     this.campagneRepository,
     this.matomoTracker,
     this.remoteConfig,
-    this.modifyDemarcheRepository,
+    this.updateDemarcheRepository,
     this.createDemarcheRepository,
   );
 
@@ -171,7 +171,7 @@ class StoreFactory {
         UserActionDeleteMiddleware(pageActionRepository),
         DemarcheListMiddleware(pageDemarcheRepository, remoteConfig),
         CreateDemarcheMiddleware(createDemarcheRepository),
-        UpdateDemarcheMiddleware(modifyDemarcheRepository),
+        UpdateDemarcheMiddleware(updateDemarcheRepository),
         DetailsJeuneMiddleware(detailsJeuneRepository),
         ChatInitializerMiddleware(firebaseAuthRepository, firebaseAuthWrapper, chatCrypto, modeDemoRepository),
         ChatMiddleware(chatRepository),

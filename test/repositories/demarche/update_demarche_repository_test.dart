@@ -1,14 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
-import 'package:pass_emploi_app/repositories/modify_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 
-import '../doubles/fixtures.dart';
-import '../utils/pass_emploi_mock_client.dart';
-import '../utils/test_assets.dart';
+import '../../doubles/fixtures.dart';
+import '../../utils/pass_emploi_mock_client.dart';
+import '../../utils/test_assets.dart';
 
 void main() {
-  test('modifyDemarche when response is valid should return true', () async {
+  test('updateDemarche when response is valid should return true', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async {
       if (request.method != 'PUT') return invalidHttpResponse();
@@ -25,10 +25,10 @@ void main() {
       );
       return Response.bytes(loadTestAssetsAsBytes('demarche_modified.json'), 200);
     });
-    final repository = ModifyDemarcheRepository('BASE_URL', httpClient);
+    final repository = UpdateDemarcheRepository('BASE_URL', httpClient);
 
     // When
-    final result = await repository.modifyDemarche(
+    final result = await repository.updateDemarche(
       'user-id',
       '8802034',
       DemarcheStatus.NOT_STARTED,
@@ -41,15 +41,15 @@ void main() {
     expect(result!.id, '8802034');
   });
 
-  test('modifyDemarche when response is not valid should return false', () async {
+  test('updateDemarche when response is not valid should return false', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async {
       return Response('', 400);
     });
-    final repository = ModifyDemarcheRepository('BASE_URL', httpClient);
+    final repository = UpdateDemarcheRepository('BASE_URL', httpClient);
 
     // When
-    final result = await repository.modifyDemarche(
+    final result = await repository.updateDemarche(
       'user-id',
       '8802034',
       DemarcheStatus.NOT_STARTED,

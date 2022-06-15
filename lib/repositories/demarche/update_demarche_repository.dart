@@ -4,14 +4,14 @@ import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
 
-class ModifyDemarcheRepository {
+class UpdateDemarcheRepository {
   final String _baseUrl;
   final Client _httpClient;
   final Crashlytics? _crashlytics;
 
-  ModifyDemarcheRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
+  UpdateDemarcheRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
 
-  Future<Demarche?> modifyDemarche(
+  Future<Demarche?> updateDemarche(
     String userId,
     String demarcheId,
     DemarcheStatus status,

@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_action.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
-import 'package:pass_emploi_app/repositories/modify_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
@@ -15,7 +15,7 @@ void main() {
     final now = DateTime.now();
     final repository = _ModifyDemarcheRepositorySuccessStub();
     repository.withArgsResolves('id', '2', DemarcheStatus.DONE, now, now);
-    testStoreFactory.modifyDemarcheRepository = repository;
+    testStoreFactory.updateDemarcheRepository = repository;
     final store = testStoreFactory.initializeReduxStore(
       initialState: loggedInPoleEmploiState().copyWith(
         demarcheListState: DemarcheListSuccessState(
@@ -48,7 +48,7 @@ void main() {
   });
 }
 
-class _ModifyDemarcheRepositorySuccessStub extends ModifyDemarcheRepository {
+class _ModifyDemarcheRepositorySuccessStub extends UpdateDemarcheRepository {
   String? _userId;
   String? _actionId;
   DemarcheStatus? _status;
@@ -72,7 +72,7 @@ class _ModifyDemarcheRepositorySuccessStub extends ModifyDemarcheRepository {
   }
 
   @override
-  Future<Demarche?> modifyDemarche(
+  Future<Demarche?> updateDemarche(
     String userId,
     String demarcheId,
     DemarcheStatus status,

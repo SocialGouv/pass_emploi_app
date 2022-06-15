@@ -51,7 +51,7 @@ import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
-import 'package:pass_emploi_app/repositories/modify_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
@@ -202,7 +202,7 @@ class AppInitializer {
       CampagneRepository(baseUrl, httpClient, crashlytics),
       MatomoTracker(),
       remoteConfig,
-      ModifyDemarcheRepository(baseUrl, httpClient, crashlytics),
+      UpdateDemarcheRepository(baseUrl, httpClient, crashlytics),
       CreateDemarcheRepository(baseUrl, httpClient, crashlytics),
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
