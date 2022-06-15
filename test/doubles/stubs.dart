@@ -127,8 +127,8 @@ class PageDemarcheRepositorySuccessStub extends PageDemarcheRepository {
   }
 }
 
-class PageActionPERepositoryFailureStub extends PageDemarcheRepository {
-  PageActionPERepositoryFailureStub() : super("", DummyHttpClient());
+class PageDemarcheRepositoryFailureStub extends PageDemarcheRepository {
+  PageDemarcheRepositoryFailureStub() : super("", DummyHttpClient());
 
   @override
   Future<PageDemarches?> getPageDemarches(String userId) async {

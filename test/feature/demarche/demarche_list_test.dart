@@ -30,7 +30,7 @@ void main() {
   test("demarche should display an error when fetching failed", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
-    testStoreFactory.pageDemarcheRepository = PageActionPERepositoryFailureStub();
+    testStoreFactory.pageDemarcheRepository = PageDemarcheRepositoryFailureStub();
     final store = testStoreFactory.initializeReduxStore(initialState: loggedInPoleEmploiState());
 
     final displayedLoading = store.onChange.any((e) => e.demarcheListState is DemarcheListLoadingState);
