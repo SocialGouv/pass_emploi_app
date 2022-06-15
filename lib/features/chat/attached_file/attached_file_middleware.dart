@@ -15,7 +15,7 @@ class AttachedFileMiddleware extends MiddlewareClass<AppState> {
     next(action);
     final loginState = store.state.loginState;
     if (loginState is LoginSuccessState && (action is AttachedFileRequestAction)) {
-      final String? path = await _repository.download(fileId: action.fileId, fileExtension: action.fileExtension);
+      final String? path = await _repository.download(fileId: action.fileId, fileName: action.fileName);
       if (path == null || path.isEmpty) {
         store.dispatch(AttachedFileFailureAction(action.fileId));
         return;

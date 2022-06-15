@@ -422,7 +422,7 @@ class AttachedFileRepositorySuccessStub extends AttachedFileRepository {
   AttachedFileRepositorySuccessStub() : super("", DummyHttpClient());
 
   @override
-  Future<String?> download({required String fileId, required String fileExtension}) async {
+  Future<String?> download({required String fileId, required String fileName}) async {
     return "$fileId-path";
   }
 }
@@ -431,7 +431,7 @@ class AttachedFileRepositoryFailureStub extends AttachedFileRepository {
   AttachedFileRepositoryFailureStub() : super("", DummyHttpClient());
 
   @override
-  Future<String?> download({required String fileId, required String fileExtension}) async {
+  Future<String?> download({required String fileId, required String fileName}) async {
     return null;
   }
 }

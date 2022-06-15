@@ -12,13 +12,13 @@ class AttachedFileRepository {
 
   AttachedFileRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
 
-  Future<String?> download({required String fileId, required String fileExtension}) async {
+  Future<String?> download({required String fileId, required String fileName}) async {
     final url = Uri.parse(_baseUrl + "/fichiers/$fileId");
     try {
       final response = await _httpClient.get(url);
       if (response.statusCode.isValid()) {
         final tempDir = await getTemporaryDirectory();
-        final file = await  File('${tempDir.path}/image.png').create();
+        final file = await  File('${tempDir.path}/$fileName').create();
         file.writeAsBytesSync(response.bodyBytes);
         return file.path;
       }

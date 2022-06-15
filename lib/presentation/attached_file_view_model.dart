@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/chat/attached_file/attached_file_actions.dart';
 import 'package:pass_emploi_app/features/chat/attached_file/attached_file_state.dart';
@@ -20,7 +19,7 @@ class AttachedFileViewModel extends Equatable {
     final attachedFilesState = store.state.attachedFilesState;
     return AttachedFileViewModel._(
       displayState: (fileId) => _displayState(fileId, attachedFilesState),
-      onClick: (item) => store.dispatch(AttachedFileRequestAction(item.id, item.filename.fileExtension())),
+      onClick: (item) => store.dispatch(AttachedFileRequestAction(item.id, item.filename)),
     );
   }
 
@@ -38,10 +37,4 @@ DisplayState _displayState(String id, AttachedFilesState attachedFilesState) {
     return DisplayState.CONTENT;
   }
   return DisplayState.EMPTY;
-}
-
-extension _FileExtension on String {
-  String fileExtension() {
-    return split(".").lastOrNull ?? "";
-  }
 }

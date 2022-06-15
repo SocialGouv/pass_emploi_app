@@ -53,6 +53,6 @@ void main() {
     // Then
     expect(store.dispatchedAction, isA<AttachedFileRequestAction>());
     expect((store.dispatchedAction as AttachedFileRequestAction).fileId, "id-1");
-    expect((store.dispatchedAction as AttachedFileRequestAction).fileExtension, "pdf");
+    expect((store.dispatchedAction as AttachedFileRequestAction).fileName, "super.pdf");
   });
 }
