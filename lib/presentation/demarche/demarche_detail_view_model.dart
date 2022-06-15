@@ -45,34 +45,32 @@ class DemarcheDetailViewModel extends Equatable {
   });
 
   factory DemarcheDetailViewModel.create(Store<AppState> store, String id) {
-    final Demarche userAction = (store.state.demarcheListState as DemarcheListSuccessState)
-        .demarches
-        .firstWhere((element) => element.id == id);
-    userAction.possibleStatus.sort((a, b) => a.compareTo(b));
+    final Demarche demarche =
+        (store.state.demarcheListState as DemarcheListSuccessState).demarches.firstWhere((element) => element.id == id);
+    demarche.possibleStatus.sort((a, b) => a.compareTo(b));
     return DemarcheDetailViewModel(
-      createdByAdvisor: userAction.createdByAdvisor,
-      modifiedByAdvisor: userAction.modifiedByAdvisor,
-      formattedDate:
-          _setFormattedDate(userAction.status, userAction.endDate?.toDay(), userAction.deletionDate?.toDay()),
-      label: userAction.label,
-      titreDetail: userAction.titre,
-      sousTitre: userAction.sousTitre,
-      attributs: userAction.attributs.map((e) => e.valeur).toList(),
-      statutsPossibles: userAction.possibleStatus.map((e) => _getTagViewModel(e, userAction.status)).toList(),
-      modificationDate: userAction.modificationDate?.toDay(),
-      creationDate: userAction.creationDate?.toDay(),
+      createdByAdvisor: demarche.createdByAdvisor,
+      modifiedByAdvisor: demarche.modifiedByAdvisor,
+      formattedDate: _setFormattedDate(demarche.status, demarche.endDate?.toDay(), demarche.deletionDate?.toDay()),
+      label: demarche.label,
+      titreDetail: demarche.titre,
+      sousTitre: demarche.sousTitre,
+      attributs: demarche.attributs.map((e) => e.valeur).toList(),
+      statutsPossibles: demarche.possibleStatus.map((e) => _getTagViewModel(e, demarche.status)).toList(),
+      modificationDate: demarche.modificationDate?.toDay(),
+      creationDate: demarche.creationDate?.toDay(),
       onModifyStatus: (tag) {
         final status = _getStatusFromTag(tag);
         if (!tag.isSelected && status != null) {
           store.dispatch(UpdateDemarcheAction(
-            userAction.id,
-            userAction.endDate,
-            userAction.creationDate,
+            demarche.id,
+            demarche.endDate,
+            demarche.creationDate,
             status,
           ));
         }
       },
-      isLate: isLateAction(userAction.status, userAction.endDate),
+      isLate: isLateAction(demarche.status, demarche.endDate),
     );
   }
 
