@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -15,8 +17,8 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
-class CreateDemarchePage extends StatefulWidget {
-  CreateDemarchePage._();
+class CreateDemarchePage extends TraceableStatefulWidget {
+  CreateDemarchePage._() : super(name: AnalyticsScreenNames.createDemarche);
 
   static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => CreateDemarchePage._());
