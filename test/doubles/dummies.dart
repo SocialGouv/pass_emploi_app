@@ -296,7 +296,7 @@ class DummyAttachedFileRepository extends AttachedFileRepository {
   DummyAttachedFileRepository() : super("", DummyHttpClient());
 }
 
-class DummyModifyDemarcheRepository extends ModifyDemarcheRepository {
+class DummyModifyDemarcheRepository extends UpdateDemarcheRepository {
   DummyModifyDemarcheRepository() : super("", DummyHttpClient());
 
   @override

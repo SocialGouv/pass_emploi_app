@@ -80,7 +80,6 @@ class AppState extends Equatable {
   final bool demoState;
   final SuppressionCompteState suppressionCompteState;
   final CampagneState campagneState;
-  final CreateDemarcheState createDemarcheState;
   final AttachedFilesState attachedFilesState;
   final ShareFileState shareFileState;
 
@@ -224,7 +223,6 @@ class AppState extends Equatable {
           suppressionCompteState ?? this.suppressionCompteState,
       demoState: demoState ?? this.demoState,
       campagneState: campagneState ?? this.campagneState,
-      createDemarcheState: createDemarcheState ?? this.createDemarcheState,
       attachedFilesState: attachedFilesState ?? this.attachedFilesState,
       shareFileState: shareFileState ?? this.shareFileState,
     );
