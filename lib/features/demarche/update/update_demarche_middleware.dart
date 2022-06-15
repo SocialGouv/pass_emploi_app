@@ -25,7 +25,7 @@ class UpdateDemarcheMiddleware extends MiddlewareClass<AppState> {
       );
       final demarcheListState = store.state.demarcheListState;
       if (modifiedDemarche != null && demarcheListState is DemarcheListSuccessState) {
-        final currentDemarches = demarcheListState.userActions.toList();
+        final currentDemarches = demarcheListState.demarches.toList();
         final indexOfCurrentDemarche = currentDemarches.indexWhere((e) => e.id == action.id);
         currentDemarches[indexOfCurrentDemarche] = modifiedDemarche;
         store.dispatch(DemarcheListSuccessAction(currentDemarches, true));

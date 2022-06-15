@@ -11,13 +11,13 @@ class DemarcheListNotInitializedState extends DemarcheListState {}
 class DemarcheListLoadingState extends DemarcheListState {}
 
 class DemarcheListSuccessState extends DemarcheListState {
-  final List<Demarche> userActions;
+  final List<Demarche> demarches;
   final bool isDetailAvailable;
 
-  DemarcheListSuccessState(this.userActions, this.isDetailAvailable);
+  DemarcheListSuccessState(this.demarches, this.isDetailAvailable);
 
   @override
-  List<Object> get props => [userActions, isDetailAvailable];
+  List<Object> get props => [demarches, isDetailAvailable];
 }
 
 class DemarcheListFailureState extends DemarcheListState {}

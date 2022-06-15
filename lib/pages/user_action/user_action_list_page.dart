@@ -5,8 +5,8 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
-import 'package:pass_emploi_app/pages/actions/actions_detail_page.dart';
 import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
+import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -59,7 +59,10 @@ class _UserActionListPageState extends State<UserActionListPage> {
   void _openDeeplinkIfNeeded(UserActionListPageViewModel viewModel, BuildContext context) {
     if (viewModel.actionDetails != null) {
       widget.pushAndTrackBack(
-          context, ActionDetailPage.materialPageRoute(viewModel.actionDetails!), AnalyticsScreenNames.userActionList);
+        context,
+        UserActionDetailPage.materialPageRoute(viewModel.actionDetails!),
+        AnalyticsScreenNames.userActionList,
+      );
       viewModel.onDeeplinkUsed();
     }
   }
@@ -149,7 +152,7 @@ class _CampagneCard extends StatelessWidget {
   }
 }
 
-class _ActionCard extends StatelessWidget{
+class _ActionCard extends StatelessWidget {
   final UserActionViewModel viewModel;
 
   _ActionCard({required this.viewModel});
@@ -159,7 +162,11 @@ class _ActionCard extends StatelessWidget{
     return UserActionCard(
       onTap: () {
         context.trackEvent(EventType.ACTION_DETAIL);
-        pushAndTrackBack(context, ActionDetailPage.materialPageRoute(viewModel), AnalyticsScreenNames.userActionList);
+        pushAndTrackBack(
+          context,
+          UserActionDetailPage.materialPageRoute(viewModel),
+          AnalyticsScreenNames.userActionList,
+        );
       },
       viewModel: viewModel,
     );

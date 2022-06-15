@@ -104,7 +104,7 @@ class PageActionPERepositorySuccessStub extends PageActionPERepository {
   @override
   Future<PageActionsPE?> getPageActionsPE(String userId) async {
     return PageActionsPE(
-      actions: [
+      demarches: [
         Demarche(
           id: "id",
           content: "content",

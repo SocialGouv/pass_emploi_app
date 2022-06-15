@@ -3,8 +3,8 @@ import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/presentation/user_action_pe/user_action_pe_list_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
@@ -21,7 +21,7 @@ void main() {
     );
 
     // When
-    final viewModel = UserActionPEListPageViewModel.create(store);
+    final viewModel = DemarcheListPageViewModel.create(store);
 
     // Then
     expect(viewModel.displayState, DisplayState.LOADING);
@@ -35,7 +35,7 @@ void main() {
     );
 
     // When
-    final viewModel = UserActionPEListPageViewModel.create(store);
+    final viewModel = DemarcheListPageViewModel.create(store);
 
     // Then
     expect(viewModel.displayState, DisplayState.LOADING);
@@ -49,7 +49,7 @@ void main() {
     );
 
     // When
-    final viewModel = UserActionPEListPageViewModel.create(store);
+    final viewModel = DemarcheListPageViewModel.create(store);
 
     // Then
     expect(viewModel.displayState, DisplayState.FAILURE);
@@ -62,7 +62,7 @@ void main() {
       storeSpy.reducer,
       initialState: loggedInState().copyWith(demarcheListState: DemarcheListFailureState()),
     );
-    final viewModel = UserActionPEListPageViewModel.create(store);
+    final viewModel = DemarcheListPageViewModel.create(store);
 
     // When
     viewModel.onRetry();
@@ -72,7 +72,7 @@ void main() {
   });
 
   test(
-      "create when demarche state is success with active, retarded, done, cancelled actions and campagne should sort it correctly and put campagne in first position",
+      "create when demarche state is success with active, retarded, done, cancelled demarche and campagne should sort it correctly and put campagne in first position",
       () {
     // Given
     final store = Store<AppState>(
@@ -100,27 +100,27 @@ void main() {
     );
 
     // When
-    final viewModel = UserActionPEListPageViewModel.create(store);
+    final viewModel = DemarcheListPageViewModel.create(store);
 
     // Then
     expect(viewModel.items.length, 13);
-    expect(viewModel.items[0] is UserActionPECampagneItemViewModel, isTrue);
+    expect(viewModel.items[0] is DemarcheCampagneItemViewModel, isTrue);
 
     for (var i = 1; i < 7; ++i) {
       expect(
-          (viewModel.items[i] as UserActionPEListItemViewModel).viewModel.status == DemarcheStatus.IN_PROGRESS ||
-              (viewModel.items[i] as UserActionPEListItemViewModel).viewModel.status == DemarcheStatus.NOT_STARTED,
+          (viewModel.items[i] as DemarcheListItemViewModel).viewModel.status == DemarcheStatus.IN_PROGRESS ||
+              (viewModel.items[i] as DemarcheListItemViewModel).viewModel.status == DemarcheStatus.NOT_STARTED,
           isTrue);
     }
     // 6 derniers => cancelled & done
     for (var i = 7; i < 12; ++i) {
-      final demarcheStatus = (viewModel.items[i] as UserActionPEListItemViewModel).viewModel.status;
+      final demarcheStatus = (viewModel.items[i] as DemarcheListItemViewModel).viewModel.status;
       expect(demarcheStatus == DemarcheStatus.DONE || demarcheStatus == DemarcheStatus.CANCELLED, isTrue);
     }
   });
 
   test(
-      'create when demarche state is success but there are no actions and no campagne neither should display an empty message',
+      'create when demarche state is success but there are no demarche and no campagne neither should display an empty message',
       () {
     // Given
     final store = Store<AppState>(
@@ -132,14 +132,15 @@ void main() {
     );
 
     // When
-    final viewModel = UserActionPEListPageViewModel.create(store);
+    final viewModel = DemarcheListPageViewModel.create(store);
 
     // Then
     expect(viewModel.displayState, DisplayState.EMPTY);
     expect(viewModel.items.length, 0);
   });
 
-  test('create when demarche state is success but there are no actions but a campagne should display a campagne card',
+  test(
+      'create when demarche state is success but there are no demarches but a campagne should display a campagne card',
       () {
     // Given
     final store = Store<AppState>(
@@ -151,12 +152,12 @@ void main() {
     );
 
     // When
-    final viewModel = UserActionPEListPageViewModel.create(store);
+    final viewModel = DemarcheListPageViewModel.create(store);
 
     // Then
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.items.length, 1);
-    expect(viewModel.items[0] is UserActionPECampagneItemViewModel, isTrue);
+    expect(viewModel.items[0] is DemarcheCampagneItemViewModel, isTrue);
   });
 }
 

@@ -4,11 +4,11 @@ import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
-import 'package:pass_emploi_app/pages/actions/create_demarche_page.dart';
-import 'package:pass_emploi_app/pages/actions/demarche_detail_page.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche_page.dart';
+import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
 import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/presentation/user_action_pe/user_action_pe_list_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -16,35 +16,35 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
-import 'package:pass_emploi_app/widgets/cards/user_action_pe_card.dart';
+import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/empty_pole_emploi_content.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
-class UserActionPEListPage extends TraceableStatelessWidget {
+class DemarcheListPage extends TraceableStatelessWidget {
   final ScrollController _scrollController = ScrollController();
 
-  UserActionPEListPage() : super(name: AnalyticsScreenNames.userActionList);
+  DemarcheListPage() : super(name: AnalyticsScreenNames.userActionList);
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, UserActionPEListPageViewModel>(
+    return StoreConnector<AppState, DemarcheListPageViewModel>(
       onInit: (store) => store.dispatch(DemarcheListRequestAction()),
       builder: (context, viewModel) => _scaffold(context, viewModel),
-      converter: (store) => UserActionPEListPageViewModel.create(store),
+      converter: (store) => DemarcheListPageViewModel.create(store),
       distinct: true,
       onDispose: (store) => store.dispatch(DemarcheListResetAction()),
     );
   }
 
-  Widget _scaffold(BuildContext context, UserActionPEListPageViewModel viewModel) {
+  Widget _scaffold(BuildContext context, DemarcheListPageViewModel viewModel) {
     return Scaffold(
       backgroundColor: AppColors.grey100,
       body: DefaultAnimatedSwitcher(child: _animatedBody(context, viewModel)),
     );
   }
 
-  Widget _animatedBody(BuildContext context, UserActionPEListPageViewModel viewModel) {
+  Widget _animatedBody(BuildContext context, DemarcheListPageViewModel viewModel) {
     switch (viewModel.displayState) {
       case DisplayState.CONTENT:
         return _userActionsList(context, viewModel);
@@ -61,7 +61,7 @@ class UserActionPEListPage extends TraceableStatelessWidget {
 
   Widget _empty() => EmptyPoleEmploiContent();
 
-  Widget _userActionsList(BuildContext context, UserActionPEListPageViewModel viewModel) {
+  Widget _userActionsList(BuildContext context, DemarcheListPageViewModel viewModel) {
     return Stack(
       children: [
         ListView.separated(
@@ -78,12 +78,12 @@ class UserActionPEListPage extends TraceableStatelessWidget {
 
   Container _listSeparator() => Container(height: Margins.spacing_base);
 
-  Widget _listItem(BuildContext context, UserActionPEListItem item, UserActionPEListPageViewModel viewModel) {
-    if (item is UserActionPECampagneItemViewModel) {
+  Widget _listItem(BuildContext context, DemarcheListItem item, DemarcheListPageViewModel viewModel) {
+    if (item is DemarcheCampagneItemViewModel) {
       return _CampagneCard(title: item.titre, description: item.description);
     } else {
-      final viewModel = (item as UserActionPEListItemViewModel).viewModel;
-      return UserActionPECard(
+      final viewModel = (item as DemarcheListItemViewModel).viewModel;
+      return DemarcheCard(
         viewModel: viewModel,
         onTap: () => pushAndTrackBack(
           context,

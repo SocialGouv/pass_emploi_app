@@ -26,7 +26,7 @@ void main() {
     expect(successAppState.userActionCreateState is UserActionCreateSuccessState, isTrue);
   });
 
-  test("create user action when repo succeeds refresh user actions", () async {
+  test("create user action when repo succeeds refresh user user_action", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.pageActionRepository = PageActionRepositorySuccessStub();

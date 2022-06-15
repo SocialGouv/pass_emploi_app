@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
-import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
-class UserActionPEViewModel extends Equatable {
+class DemarcheViewModel extends Equatable {
   final String id;
   final String title;
   final DemarcheStatus status;
@@ -17,7 +17,7 @@ class UserActionPEViewModel extends Equatable {
   final bool isLate;
   final bool isDetailEnabled;
 
-  UserActionPEViewModel({
+  DemarcheViewModel({
     required this.id,
     required this.title,
     required this.status,
@@ -29,15 +29,16 @@ class UserActionPEViewModel extends Equatable {
     required this.isDetailEnabled,
   });
 
-  factory UserActionPEViewModel.create(Demarche userAction, bool isDetailAvailable) {
-    return UserActionPEViewModel(
+  factory DemarcheViewModel.create(Demarche userAction, bool isDetailAvailable) {
+    return DemarcheViewModel(
       id: userAction.id,
       title: userAction.content ?? Strings.withoutContent,
       status: userAction.status,
       createdByAdvisor: userAction.createdByAdvisor,
       modifiedByAdvisor: userAction.modifiedByAdvisor,
       tag: _userActionTagViewModel(userAction.status, isLateAction(userAction.status, userAction.endDate)),
-      formattedDate: _setFormattedDate(userAction.status, userAction.endDate?.toDay(), userAction.deletionDate?.toDay()),
+      formattedDate:
+          _setFormattedDate(userAction.status, userAction.endDate?.toDay(), userAction.deletionDate?.toDay()),
       isLate: isLateAction(userAction.status, userAction.endDate),
       isDetailEnabled: isDetailAvailable,
     );

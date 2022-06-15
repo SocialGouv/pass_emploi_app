@@ -21,20 +21,20 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
-class ActionDetailPage extends TraceableStatefulWidget {
+class UserActionDetailPage extends TraceableStatefulWidget {
   final UserActionViewModel actionViewModel;
 
-  ActionDetailPage._(this.actionViewModel) : super(name: AnalyticsScreenNames.userActionDetails);
+  UserActionDetailPage._(this.actionViewModel) : super(name: AnalyticsScreenNames.userActionDetails);
 
   static MaterialPageRoute<void> materialPageRoute(UserActionViewModel actionViewModel) {
-    return MaterialPageRoute(builder: (context) => ActionDetailPage._(actionViewModel));
+    return MaterialPageRoute(builder: (context) => UserActionDetailPage._(actionViewModel));
   }
 
   @override
-  State<ActionDetailPage> createState() => _ActionDetailPageState();
+  State<UserActionDetailPage> createState() => _ActionDetailPageState();
 }
 
-class _ActionDetailPageState extends State<ActionDetailPage> {
+class _ActionDetailPageState extends State<UserActionDetailPage> {
   late UserActionStatus actionStatus;
 
   @override

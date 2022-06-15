@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
-import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
-import 'package:pass_emploi_app/presentation/user_action_pe/user_action_pe_view_model.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_view_model.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
@@ -9,11 +9,11 @@ import '../../utils/test_datetime.dart';
 
 void main() {
   test(
-      "UserActionPEViewModel.create when status is IS_NOT_STARTED and end date is in the future should create view model properly",
+      "DemarcheViewModel.create when status is IS_NOT_STARTED and end date is in the future should create view model properly",
       () {
     // Given
 
-    final userAction = Demarche(
+    final demarche = Demarche(
       id: "8802034",
       content: "Faire le CV",
       status: DemarcheStatus.NOT_STARTED,
@@ -35,7 +35,7 @@ void main() {
     );
 
     // When
-    final viewModel = UserActionPEViewModel.create(userAction, false);
+    final viewModel = DemarcheViewModel.create(demarche, false);
 
     // Then
     expect(viewModel.status, DemarcheStatus.NOT_STARTED);
@@ -50,11 +50,11 @@ void main() {
   });
 
   test(
-      "UserActionPEViewModel.create when status is IS_NOT_STARTED and end date is in the past should create view model properly",
+      "DemarcheViewModel.create when status is IS_NOT_STARTED and end date is in the past should create view model properly",
       () {
     // Given
 
-    final userAction = Demarche(
+    final demarche = Demarche(
       id: "8802034",
       content: "Faire le CV",
       status: DemarcheStatus.NOT_STARTED,
@@ -72,7 +72,7 @@ void main() {
     );
 
     // When
-    final viewModel = UserActionPEViewModel.create(userAction, false);
+    final viewModel = DemarcheViewModel.create(demarche, false);
 
     // Then
     expect(viewModel.status, DemarcheStatus.NOT_STARTED);
@@ -86,10 +86,10 @@ void main() {
         ));
   });
 
-  test("UserActionPEViewModel.create when status is IN_PROGRESS should create view model properly", () {
+  test("DemarcheViewModel.create when status is IN_PROGRESS should create view model properly", () {
     // Given
 
-    final userAction = Demarche(
+    final demarche = Demarche(
       id: "8802034",
       content: "Faire le CV",
       status: DemarcheStatus.IN_PROGRESS,
@@ -107,7 +107,7 @@ void main() {
     );
 
     // When
-    final viewModel = UserActionPEViewModel.create(userAction, false);
+    final viewModel = DemarcheViewModel.create(demarche, false);
 
     // Then
     expect(viewModel.status, DemarcheStatus.IN_PROGRESS);
@@ -122,11 +122,11 @@ void main() {
   });
 
   test(
-      "UserActionPEViewModel.create when status is IN_PROGRESS and end date is in the past should create view model properly",
+      "DemarcheViewModel.create when status is IN_PROGRESS and end date is in the past should create view model properly",
       () {
     // Given
 
-    final userAction = Demarche(
+    final demarche = Demarche(
       id: "8802034",
       content: "Faire le CV",
       status: DemarcheStatus.IN_PROGRESS,
@@ -144,7 +144,7 @@ void main() {
     );
 
     // When
-    final viewModel = UserActionPEViewModel.create(userAction, false);
+    final viewModel = DemarcheViewModel.create(demarche, false);
 
     // Then
     expect(viewModel.status, DemarcheStatus.IN_PROGRESS);
@@ -158,10 +158,10 @@ void main() {
         ));
   });
 
-  test("UserActionPEViewModel.create when status is DONE should create view model properly", () {
+  test("DemarcheViewModel.create when status is DONE should create view model properly", () {
     // Given
 
-    final userAction = Demarche(
+    final demarche = Demarche(
       id: "8802034",
       content: "Faire le CV",
       status: DemarcheStatus.DONE,
@@ -179,7 +179,7 @@ void main() {
     );
 
     // When
-    final viewModel = UserActionPEViewModel.create(userAction, false);
+    final viewModel = DemarcheViewModel.create(demarche, false);
 
     // Then
     expect(viewModel.status, DemarcheStatus.DONE);
@@ -193,10 +193,10 @@ void main() {
         ));
   });
 
-  test("UserActionPEViewModel.create when status is CANCELLED should create view model properly", () {
+  test("DemarcheViewModel.create when status is CANCELLED should create view model properly", () {
     // Given
 
-    final userAction = Demarche(
+    final demarche = Demarche(
       id: "8802034",
       content: "Faire le CV",
       status: DemarcheStatus.CANCELLED,
@@ -214,7 +214,7 @@ void main() {
     );
 
     // When
-    final viewModel = UserActionPEViewModel.create(userAction, false);
+    final viewModel = DemarcheViewModel.create(demarche, false);
 
     // Then
     expect(viewModel.status, DemarcheStatus.CANCELLED);

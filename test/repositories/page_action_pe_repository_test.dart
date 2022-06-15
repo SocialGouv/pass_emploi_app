@@ -42,10 +42,10 @@ void main() {
         ],
       ),
     );
-    expect(result?.actions, isNotNull);
-    expect(result?.actions.length, 7);
+    expect(result?.demarches, isNotNull);
+    expect(result?.demarches.length, 7);
     expect(
-      result?.actions.first,
+      result?.demarches.first,
       Demarche(
         id: "2341739",
         content: "Identification de ses compétences avec pole-emploi.fr",
@@ -95,6 +95,6 @@ void main() {
     // Then
     expect(response, isNotNull);
     expect(response?.campagne, isNotNull);
-    expect(response?.actions, isNotNull);
+    expect(response?.demarches, isNotNull);
   });
 }

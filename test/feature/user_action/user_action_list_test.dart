@@ -7,7 +7,7 @@ import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';
 
 void main() {
-  test("actions should be fetched and displayed when screen loads", () async {
+  test("user_action should be fetched and displayed when screen loads", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.pageActionRepository = PageActionRepositorySuccessStub();

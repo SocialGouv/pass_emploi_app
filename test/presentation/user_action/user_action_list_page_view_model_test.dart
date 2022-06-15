@@ -81,7 +81,7 @@ void main() {
   });
 
   test(
-      "create when action state is success with active and done actions and campagne should display them separated by done actions title and campagne in first position",
+      "create when action state is success with active and done user_action and campagne should display them separated by done user_action title and campagne in first position",
       () {
     // Given
     final store = Store<AppState>(
@@ -123,7 +123,7 @@ void main() {
   });
 
   test(
-      'create when action state is success but there are no actions and no campagne neither should display an empty message',
+      'create when action state is success but there are no user_action and no campagne neither should display an empty message',
       () {
     // Given
     final store = Store<AppState>(
@@ -144,7 +144,7 @@ void main() {
     expect(viewModel.items.length, 0);
   });
 
-  test('create when action state is success but there are no actions but with campagne should display campagne card',
+  test('create when action state is success but there are no user_action but with campagne should display campagne card',
       () {
     // Given
     final store = Store<AppState>(
@@ -166,7 +166,7 @@ void main() {
     expect(viewModel.items[0] is UserActionCampagneItemViewModel, isTrue);
   });
 
-  test("create when action state is success with only active actions should display them", () {
+  test("create when action state is success with only active user_action should display them", () {
     // Given
     final store = Store<AppState>(
       reducer,
@@ -194,7 +194,7 @@ void main() {
     }
   });
 
-  test("create when all actions are done/canceled should set item count to actions count + 1 to display title", () {
+  test("create when all user_action are done/canceled should set item count to user_action count + 1 to display title", () {
     // Given
     final store = Store<AppState>(
       reducer,

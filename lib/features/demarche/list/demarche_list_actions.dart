@@ -5,10 +5,10 @@ class DemarcheListRequestAction {}
 class DemarcheListLoadingAction {}
 
 class DemarcheListSuccessAction {
-  final List<Demarche> userActions;
+  final List<Demarche> demarches;
   final bool isDetailAvailable;
 
-  DemarcheListSuccessAction(this.userActions, this.isDetailAvailable);
+  DemarcheListSuccessAction(this.demarches, this.isDetailAvailable);
 }
 
 class DemarcheListFailureAction {}
