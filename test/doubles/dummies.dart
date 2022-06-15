@@ -10,7 +10,7 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/message.dart';
-import 'package:pass_emploi_app/models/user_action_pe.dart';
+import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -273,10 +273,10 @@ class DummyModifyDemarcheRepository extends ModifyDemarcheRepository {
   DummyModifyDemarcheRepository() : super("", DummyHttpClient());
 
   @override
-  Future<UserActionPE?> modifyDemarche(
+  Future<Demarche?> modifyDemarche(
     String userId,
     String demarcheId,
-    UserActionPEStatus status,
+    DemarcheStatus status,
     DateTime? dateFin,
     DateTime? dateDebut,
   ) async {

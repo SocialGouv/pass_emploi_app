@@ -3,7 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_actions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
-import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_actions.dart';
+import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/campagne_question_answer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -44,7 +44,7 @@ void main() {
       final successAppState = store.onChange.firstWhere((e) => e.campagneState.campagne != null);
 
       // When
-      await store.dispatch(UserActionPEListRequestAction());
+      await store.dispatch(DemarcheListRequestAction());
 
       // Then
       final appState = await successAppState;

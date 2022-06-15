@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_actions.dart';
-import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_state.dart';
-import 'package:pass_emploi_app/models/user_action_pe.dart';
+import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
+import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
+import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action_pe/user_action_pe_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -19,7 +19,7 @@ class UserActionPEListPageViewModel extends Equatable {
   });
 
   factory UserActionPEListPageViewModel.create(Store<AppState> store) {
-    final actionState = store.state.userActionPEListState;
+    final actionState = store.state.demarcheListState;
     return UserActionPEListPageViewModel(
       displayState: _displayState(store.state),
       items: _listItems(
@@ -27,7 +27,7 @@ class UserActionPEListPageViewModel extends Equatable {
         activeItems: _activeActions(state: actionState),
         inactiveItems: _inactiveActions(state: actionState),
       ),
-      onRetry: () => store.dispatch(UserActionPEListRequestAction()),
+      onRetry: () => store.dispatch(DemarcheListRequestAction()),
     );
   }
 
@@ -36,12 +36,12 @@ class UserActionPEListPageViewModel extends Equatable {
 }
 
 DisplayState _displayState(AppState state) {
-  final actionState = state.userActionPEListState;
-  if (actionState is UserActionPEListSuccessState) {
+  final actionState = state.demarcheListState;
+  if (actionState is DemarcheListSuccessState) {
     return (actionState.userActions.isNotEmpty || state.campagneState.campagne != null)
         ? DisplayState.CONTENT
         : DisplayState.EMPTY;
-  } else if (actionState is UserActionPEListFailureState) {
+  } else if (actionState is DemarcheListFailureState) {
     return DisplayState.FAILURE;
   } else {
     return DisplayState.LOADING;
@@ -56,12 +56,12 @@ UserActionPECampagneItemViewModel? _campagneItem({required AppState state}) {
   return null;
 }
 
-List<UserActionPEViewModel> _activeActions({required UserActionPEListState state}) {
-  if (state is UserActionPEListSuccessState) {
+List<UserActionPEViewModel> _activeActions({required DemarcheListState state}) {
+  if (state is DemarcheListSuccessState) {
     return state.userActions
         .where((action) =>
-            action.status == UserActionPEStatus.NOT_STARTED ||
-            action.status == UserActionPEStatus.IN_PROGRESS)
+            action.status == DemarcheStatus.NOT_STARTED ||
+            action.status == DemarcheStatus.IN_PROGRESS)
         .map((action) =>
             UserActionPEViewModel.create(action, state.isDetailAvailable))
         .toList();
@@ -69,12 +69,12 @@ List<UserActionPEViewModel> _activeActions({required UserActionPEListState state
   return [];
 }
 
-List<UserActionPEViewModel> _inactiveActions({required UserActionPEListState state}) {
-  if (state is UserActionPEListSuccessState) {
+List<UserActionPEViewModel> _inactiveActions({required DemarcheListState state}) {
+  if (state is DemarcheListSuccessState) {
     return state.userActions
         .where((action) =>
-            action.status == UserActionPEStatus.DONE ||
-            action.status == UserActionPEStatus.CANCELLED)
+            action.status == DemarcheStatus.DONE ||
+            action.status == DemarcheStatus.CANCELLED)
         .map((action) =>
             UserActionPEViewModel.create(action, state.isDetailAvailable))
         .toList();

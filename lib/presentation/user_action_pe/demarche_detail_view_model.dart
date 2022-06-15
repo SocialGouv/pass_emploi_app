@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_actions.dart';
-import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_state.dart';
-import 'package:pass_emploi_app/models/user_action_pe.dart';
+import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
+import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
+import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_pe/user_action_pe_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -45,7 +45,7 @@ class DemarcheDetailViewModel extends Equatable {
   });
 
   factory DemarcheDetailViewModel.create(Store<AppState> store, String id) {
-    final UserActionPE userAction = (store.state.userActionPEListState as UserActionPEListSuccessState)
+    final Demarche userAction = (store.state.demarcheListState as DemarcheListSuccessState)
         .userActions
         .firstWhere((element) => element.id == id);
     userAction.possibleStatus.sort((a, b) => a.compareTo(b));
@@ -91,31 +91,31 @@ class DemarcheDetailViewModel extends Equatable {
       ];
 }
 
-UserActionTagViewModel _getTagViewModel(UserActionPEStatus status, UserActionPEStatus currentStatus) {
+UserActionTagViewModel _getTagViewModel(DemarcheStatus status, DemarcheStatus currentStatus) {
   final bool isSelected = status == currentStatus;
   switch (status) {
-    case UserActionPEStatus.NOT_STARTED:
+    case DemarcheStatus.NOT_STARTED:
       return UserActionTagViewModel(
         title: Strings.actionPEToDo,
         backgroundColor: isSelected ? AppColors.accent1Lighten : Colors.transparent,
         textColor: isSelected ? AppColors.accent1 : AppColors.grey800,
         isSelected: isSelected,
       );
-    case UserActionPEStatus.IN_PROGRESS:
+    case DemarcheStatus.IN_PROGRESS:
       return UserActionTagViewModel(
         title: Strings.actionPEInProgress,
         backgroundColor: isSelected ? AppColors.accent3Lighten : Colors.transparent,
         textColor: isSelected ? AppColors.accent3 : AppColors.grey800,
         isSelected: isSelected,
       );
-    case UserActionPEStatus.DONE:
+    case DemarcheStatus.DONE:
       return UserActionTagViewModel(
         title: Strings.actionPEDone,
         backgroundColor: isSelected ? AppColors.accent2Lighten : Colors.transparent,
         textColor: isSelected ? AppColors.accent2 : AppColors.grey800,
         isSelected: isSelected,
       );
-    case UserActionPEStatus.CANCELLED:
+    case DemarcheStatus.CANCELLED:
       return UserActionTagViewModel(
         title: Strings.actionPECancelled,
         backgroundColor: isSelected ? AppColors.accent2Lighten : Colors.transparent,
@@ -125,35 +125,35 @@ UserActionTagViewModel _getTagViewModel(UserActionPEStatus status, UserActionPES
   }
 }
 
-String _setFormattedDate(UserActionPEStatus status, String? endDate, String? deletionDate) {
-  if (status == UserActionPEStatus.CANCELLED) {
+String _setFormattedDate(DemarcheStatus status, String? endDate, String? deletionDate) {
+  if (status == DemarcheStatus.CANCELLED) {
     return (deletionDate != null && deletionDate.isNotEmpty) ? _getDateText(status, deletionDate) : Strings.withoutDate;
   } else {
     return (endDate != null && endDate.isNotEmpty) ? _getDateText(status, endDate) : Strings.withoutDate;
   }
 }
 
-String _getDateText(UserActionPEStatus status, String date) {
+String _getDateText(DemarcheStatus status, String date) {
   switch (status) {
-    case UserActionPEStatus.DONE:
+    case DemarcheStatus.DONE:
       return Strings.actionPEDoneDateFormat(date);
-    case UserActionPEStatus.CANCELLED:
+    case DemarcheStatus.CANCELLED:
       return Strings.actionPECancelledDateFormat(date);
     default:
       return Strings.actionPEActiveDateFormat(date);
   }
 }
 
-UserActionPEStatus? _getStatusFromTag(UserActionTagViewModel tag) {
+DemarcheStatus? _getStatusFromTag(UserActionTagViewModel tag) {
   switch (tag.title) {
     case Strings.actionPEToDo:
-      return UserActionPEStatus.NOT_STARTED;
+      return DemarcheStatus.NOT_STARTED;
     case Strings.actionPEInProgress:
-      return UserActionPEStatus.IN_PROGRESS;
+      return DemarcheStatus.IN_PROGRESS;
     case Strings.actionPECancelled:
-      return UserActionPEStatus.CANCELLED;
+      return DemarcheStatus.CANCELLED;
     case Strings.actionPEDone:
-      return UserActionPEStatus.DONE;
+      return DemarcheStatus.DONE;
     default:
       return null;
   }

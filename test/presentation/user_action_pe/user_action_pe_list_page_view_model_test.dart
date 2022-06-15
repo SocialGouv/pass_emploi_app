@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
-import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_actions.dart';
-import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_state.dart';
-import 'package:pass_emploi_app/models/user_action_pe.dart';
+import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
+import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
+import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action_pe/user_action_pe_list_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
@@ -13,11 +13,11 @@ import '../../doubles/fixtures.dart';
 import '../../utils/test_datetime.dart';
 
 void main() {
-  test('create when action state is loading should display loader', () {
+  test('create when demarche state is loading should display loader', () {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: loggedInState().copyWith(userActionPEListState: UserActionPEListLoadingState()),
+      initialState: loggedInState().copyWith(demarcheListState: DemarcheListLoadingState()),
     );
 
     // When
@@ -27,11 +27,11 @@ void main() {
     expect(viewModel.displayState, DisplayState.LOADING);
   });
 
-  test('create when action state is not initialized should display loader', () {
+  test('create when demarche state is not initialized should display loader', () {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: loggedInState().copyWith(userActionPEListState: UserActionPEListNotInitializedState()),
+      initialState: loggedInState().copyWith(demarcheListState: DemarcheListNotInitializedState()),
     );
 
     // When
@@ -41,11 +41,11 @@ void main() {
     expect(viewModel.displayState, DisplayState.LOADING);
   });
 
-  test('create when action state is a failure should display failure', () {
+  test('create when demarche state is a failure should display failure', () {
     // Given
     final store = Store<AppState>(
       reducer,
-      initialState: loggedInState().copyWith(userActionPEListState: UserActionPEListFailureState()),
+      initialState: loggedInState().copyWith(demarcheListState: DemarcheListFailureState()),
     );
 
     // When
@@ -55,12 +55,12 @@ void main() {
     expect(viewModel.displayState, DisplayState.FAILURE);
   });
 
-  test('retry, after view model was created with failure, should dispatch a RequestUserActionPEAction', () {
+  test('retry, after view model was created with failure, should dispatch a DemarcheListRequestAction', () {
     // Given
     final storeSpy = StoreSpy();
     final store = Store<AppState>(
       storeSpy.reducer,
-      initialState: loggedInState().copyWith(userActionPEListState: UserActionPEListFailureState()),
+      initialState: loggedInState().copyWith(demarcheListState: DemarcheListFailureState()),
     );
     final viewModel = UserActionPEListPageViewModel.create(store);
 
@@ -72,26 +72,26 @@ void main() {
   });
 
   test(
-      "create when action state is success with active, retarded, done, cancelled actions and campagne should sort it correctly and put campagne in first position",
+      "create when demarche state is success with active, retarded, done, cancelled actions and campagne should sort it correctly and put campagne in first position",
       () {
     // Given
     final store = Store<AppState>(
       reducer,
       initialState: loggedInState().copyWith(
-        userActionPEListState: UserActionPEListSuccessState(
+        demarcheListState: DemarcheListSuccessState(
           [
-            _userAction(status: UserActionPEStatus.IN_PROGRESS),
-            _userAction(status: UserActionPEStatus.NOT_STARTED),
-            _userAction(status: UserActionPEStatus.DONE),
-            _userAction(status: UserActionPEStatus.CANCELLED),
-            _userAction(status: UserActionPEStatus.IN_PROGRESS),
-            _userAction(status: UserActionPEStatus.NOT_STARTED),
-            _userAction(status: UserActionPEStatus.DONE),
-            _userAction(status: UserActionPEStatus.CANCELLED),
-            _userAction(status: UserActionPEStatus.IN_PROGRESS),
-            _userAction(status: UserActionPEStatus.NOT_STARTED),
-            _userAction(status: UserActionPEStatus.DONE),
-            _userAction(status: UserActionPEStatus.CANCELLED),
+            _demarche(status: DemarcheStatus.IN_PROGRESS),
+            _demarche(status: DemarcheStatus.NOT_STARTED),
+            _demarche(status: DemarcheStatus.DONE),
+            _demarche(status: DemarcheStatus.CANCELLED),
+            _demarche(status: DemarcheStatus.IN_PROGRESS),
+            _demarche(status: DemarcheStatus.NOT_STARTED),
+            _demarche(status: DemarcheStatus.DONE),
+            _demarche(status: DemarcheStatus.CANCELLED),
+            _demarche(status: DemarcheStatus.IN_PROGRESS),
+            _demarche(status: DemarcheStatus.NOT_STARTED),
+            _demarche(status: DemarcheStatus.DONE),
+            _demarche(status: DemarcheStatus.CANCELLED),
           ],
           false,
         ),
@@ -108,27 +108,25 @@ void main() {
 
     for (var i = 1; i < 7; ++i) {
       expect(
-          (viewModel.items[i] as UserActionPEListItemViewModel).viewModel.status == UserActionPEStatus.IN_PROGRESS ||
-              (viewModel.items[i] as UserActionPEListItemViewModel).viewModel.status == UserActionPEStatus.NOT_STARTED,
+          (viewModel.items[i] as UserActionPEListItemViewModel).viewModel.status == DemarcheStatus.IN_PROGRESS ||
+              (viewModel.items[i] as UserActionPEListItemViewModel).viewModel.status == DemarcheStatus.NOT_STARTED,
           isTrue);
     }
     // 6 derniers => cancelled & done
     for (var i = 7; i < 12; ++i) {
-      expect(
-          (viewModel.items[i] as UserActionPEListItemViewModel).viewModel.status == UserActionPEStatus.DONE ||
-              (viewModel.items[i] as UserActionPEListItemViewModel).viewModel.status == UserActionPEStatus.CANCELLED,
-          isTrue);
+      final demarcheStatus = (viewModel.items[i] as UserActionPEListItemViewModel).viewModel.status;
+      expect(demarcheStatus == DemarcheStatus.DONE || demarcheStatus == DemarcheStatus.CANCELLED, isTrue);
     }
   });
 
   test(
-      'create when action state is success but there are no actions and no campagne neither should display an empty message',
+      'create when demarche state is success but there are no actions and no campagne neither should display an empty message',
       () {
     // Given
     final store = Store<AppState>(
       reducer,
       initialState: loggedInState().copyWith(
-        userActionPEListState: UserActionPEListSuccessState([], false),
+        demarcheListState: DemarcheListSuccessState([], false),
         campagneState: CampagneState(null, []),
       ),
     );
@@ -141,13 +139,13 @@ void main() {
     expect(viewModel.items.length, 0);
   });
 
-  test('create when action state is success but there are no actions but a campagne should display a campagne card',
+  test('create when demarche state is success but there are no actions but a campagne should display a campagne card',
       () {
     // Given
     final store = Store<AppState>(
       reducer,
       initialState: loggedInState().copyWith(
-        userActionPEListState: UserActionPEListSuccessState([], false),
+        demarcheListState: DemarcheListSuccessState([], false),
         campagneState: CampagneState(campagne(), []),
       ),
     );
@@ -162,8 +160,8 @@ void main() {
   });
 }
 
-UserActionPE _userAction({required UserActionPEStatus status}) {
-  return UserActionPE(
+Demarche _demarche({required DemarcheStatus status}) {
+  return Demarche(
     id: "8802034",
     content: "Faire le CV",
     status: status,
@@ -185,7 +183,7 @@ class StoreSpy {
   var calledWithRetry = false;
 
   AppState reducer(AppState currentState, dynamic action) {
-    if (action is UserActionPEListRequestAction) calledWithRetry = true;
+    if (action is DemarcheListRequestAction) calledWithRetry = true;
     return currentState;
   }
 }

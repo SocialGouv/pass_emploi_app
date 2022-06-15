@@ -1,14 +1,14 @@
+import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
+import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
-import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_actions.dart';
-import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/modify_demarche_repository.dart';
 import 'package:redux/redux.dart';
 
-class UserDemarcheModifyMiddleware extends MiddlewareClass<AppState> {
+class ModifyDemarcheMiddleware extends MiddlewareClass<AppState> {
   final ModifyDemarcheRepository _repository;
 
-  UserDemarcheModifyMiddleware(this._repository);
+  ModifyDemarcheMiddleware(this._repository);
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
@@ -22,12 +22,12 @@ class UserDemarcheModifyMiddleware extends MiddlewareClass<AppState> {
         action.dateFin,
         action.dateDebut,
       );
-      final demarcheListState = store.state.userActionPEListState;
-      if (modifiedDemarche != null && demarcheListState is UserActionPEListSuccessState) {
+      final demarcheListState = store.state.demarcheListState;
+      if (modifiedDemarche != null && demarcheListState is DemarcheListSuccessState) {
         final currentDemarches = demarcheListState.userActions.toList();
         final indexOfCurrentDemarche = currentDemarches.indexWhere((e) => e.id == action.id);
         currentDemarches[indexOfCurrentDemarche] = modifiedDemarche;
-        store.dispatch(UserActionPESuccessUpdateAction(currentDemarches));
+        store.dispatch(DemarcheSuccessUpdateAction(currentDemarches));
       }
     }
   }

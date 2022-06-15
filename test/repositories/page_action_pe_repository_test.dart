@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/page_actions_pe.dart';
-import 'package:pass_emploi_app/models/user_action_pe.dart';
+import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/repositories/page_action_pe_repository.dart';
 
 import '../doubles/fixtures.dart';
@@ -46,19 +46,19 @@ void main() {
     expect(result?.actions.length, 7);
     expect(
       result?.actions.first,
-      UserActionPE(
+      Demarche(
         id: "2341739",
         content: "Identification de ses compétences avec pole-emploi.fr",
-        status: UserActionPEStatus.IN_PROGRESS,
+        status: DemarcheStatus.IN_PROGRESS,
         endDate: parseDateTimeUtcWithCurrentTimeZone('2021-12-21T09:00:00.000Z'),
         deletionDate: null,
         createdByAdvisor: true,
         label: "Mon (nouveau) métier",
         possibleStatus: [
-          UserActionPEStatus.CANCELLED,
-          UserActionPEStatus.DONE,
-          UserActionPEStatus.NOT_STARTED,
-          UserActionPEStatus.IN_PROGRESS
+          DemarcheStatus.CANCELLED,
+          DemarcheStatus.DONE,
+          DemarcheStatus.NOT_STARTED,
+          DemarcheStatus.IN_PROGRESS
         ],
         creationDate: parseDateTimeUtcWithCurrentTimeZone('2022-05-11T09:04:00.000Z'),
         modifiedByAdvisor: false,
@@ -66,7 +66,7 @@ void main() {
         titre: "Identification de ses points forts et de ses compétences",
         modificationDate: null,
         attributs: [
-          PeActionAttribut("Agriculture", "Nom du métier"),
+          DemarcheAttribut("Agriculture", "Nom du métier"),
         ],
       ),
     );

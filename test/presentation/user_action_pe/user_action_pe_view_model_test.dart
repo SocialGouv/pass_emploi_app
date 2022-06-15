@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/user_action_pe.dart';
+import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_pe/user_action_pe_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -13,18 +13,18 @@ void main() {
       () {
     // Given
 
-    final userAction = UserActionPE(
+    final userAction = Demarche(
       id: "8802034",
       content: "Faire le CV",
-      status: UserActionPEStatus.NOT_STARTED,
+      status: DemarcheStatus.NOT_STARTED,
       endDate: parseDateTimeUtcWithCurrentTimeZone('2023-04-28T16:06:48.396Z'),
       deletionDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
       createdByAdvisor: true,
       label: "label",
       possibleStatus: [
-        UserActionPEStatus.NOT_STARTED,
-        UserActionPEStatus.IN_PROGRESS,
-        UserActionPEStatus.DONE,
+        DemarcheStatus.NOT_STARTED,
+        DemarcheStatus.IN_PROGRESS,
+        DemarcheStatus.DONE,
       ],
       creationDate: DateTime(2022, 12, 23, 0, 0, 0),
       modifiedByAdvisor: false,
@@ -38,7 +38,7 @@ void main() {
     final viewModel = UserActionPEViewModel.create(userAction, false);
 
     // Then
-    expect(viewModel.status, UserActionPEStatus.NOT_STARTED);
+    expect(viewModel.status, DemarcheStatus.NOT_STARTED);
     expect(viewModel.formattedDate, "À réaliser pour le 28/04/2023");
     expect(
         viewModel.tag,
@@ -54,10 +54,10 @@ void main() {
       () {
     // Given
 
-    final userAction = UserActionPE(
+    final userAction = Demarche(
       id: "8802034",
       content: "Faire le CV",
-      status: UserActionPEStatus.NOT_STARTED,
+      status: DemarcheStatus.NOT_STARTED,
       endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
       deletionDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
       createdByAdvisor: true,
@@ -75,7 +75,7 @@ void main() {
     final viewModel = UserActionPEViewModel.create(userAction, false);
 
     // Then
-    expect(viewModel.status, UserActionPEStatus.NOT_STARTED);
+    expect(viewModel.status, DemarcheStatus.NOT_STARTED);
     expect(viewModel.formattedDate, "À réaliser pour le 28/03/2022");
     expect(
         viewModel.tag,
@@ -89,10 +89,10 @@ void main() {
   test("UserActionPEViewModel.create when status is IN_PROGRESS should create view model properly", () {
     // Given
 
-    final userAction = UserActionPE(
+    final userAction = Demarche(
       id: "8802034",
       content: "Faire le CV",
-      status: UserActionPEStatus.IN_PROGRESS,
+      status: DemarcheStatus.IN_PROGRESS,
       endDate: parseDateTimeUtcWithCurrentTimeZone('2023-03-28T16:06:48.396Z'),
       deletionDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
       createdByAdvisor: true,
@@ -110,7 +110,7 @@ void main() {
     final viewModel = UserActionPEViewModel.create(userAction, false);
 
     // Then
-    expect(viewModel.status, UserActionPEStatus.IN_PROGRESS);
+    expect(viewModel.status, DemarcheStatus.IN_PROGRESS);
     expect(viewModel.formattedDate, "À réaliser pour le 28/03/2023");
     expect(
         viewModel.tag,
@@ -126,10 +126,10 @@ void main() {
       () {
     // Given
 
-    final userAction = UserActionPE(
+    final userAction = Demarche(
       id: "8802034",
       content: "Faire le CV",
-      status: UserActionPEStatus.IN_PROGRESS,
+      status: DemarcheStatus.IN_PROGRESS,
       endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
       deletionDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
       createdByAdvisor: true,
@@ -147,7 +147,7 @@ void main() {
     final viewModel = UserActionPEViewModel.create(userAction, false);
 
     // Then
-    expect(viewModel.status, UserActionPEStatus.IN_PROGRESS);
+    expect(viewModel.status, DemarcheStatus.IN_PROGRESS);
     expect(viewModel.formattedDate, "À réaliser pour le 28/03/2022");
     expect(
         viewModel.tag,
@@ -161,10 +161,10 @@ void main() {
   test("UserActionPEViewModel.create when status is DONE should create view model properly", () {
     // Given
 
-    final userAction = UserActionPE(
+    final userAction = Demarche(
       id: "8802034",
       content: "Faire le CV",
-      status: UserActionPEStatus.DONE,
+      status: DemarcheStatus.DONE,
       endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
       deletionDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
       createdByAdvisor: true,
@@ -182,7 +182,7 @@ void main() {
     final viewModel = UserActionPEViewModel.create(userAction, false);
 
     // Then
-    expect(viewModel.status, UserActionPEStatus.DONE);
+    expect(viewModel.status, DemarcheStatus.DONE);
     expect(viewModel.formattedDate, "Réalisé le 28/03/2022");
     expect(
         viewModel.tag,
@@ -196,10 +196,10 @@ void main() {
   test("UserActionPEViewModel.create when status is CANCELLED should create view model properly", () {
     // Given
 
-    final userAction = UserActionPE(
+    final userAction = Demarche(
       id: "8802034",
       content: "Faire le CV",
-      status: UserActionPEStatus.CANCELLED,
+      status: DemarcheStatus.CANCELLED,
       endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
       deletionDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
       createdByAdvisor: true,
@@ -217,7 +217,7 @@ void main() {
     final viewModel = UserActionPEViewModel.create(userAction, false);
 
     // Then
-    expect(viewModel.status, UserActionPEStatus.CANCELLED);
+    expect(viewModel.status, DemarcheStatus.CANCELLED);
     expect(viewModel.formattedDate, "Annulé le 28/03/2022");
     expect(
         viewModel.tag,

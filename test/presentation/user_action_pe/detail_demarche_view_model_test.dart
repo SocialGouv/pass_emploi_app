@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_state.dart';
-import 'package:pass_emploi_app/models/user_action_pe.dart';
+import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
+import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_pe/demarche_detail_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -14,18 +14,18 @@ import '../../utils/test_setup.dart';
 void main() {
   test("view model should be created", () {
     // Given
-    final userAction = UserActionPE(
+    final userAction = Demarche(
       id: "8802034",
       content: "Faire le CV",
-      status: UserActionPEStatus.NOT_STARTED,
+      status: DemarcheStatus.NOT_STARTED,
       endDate: parseDateTimeUtcWithCurrentTimeZone('2023-04-28T16:06:48.396Z'),
       deletionDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
       createdByAdvisor: true,
       label: "label",
       possibleStatus: [
-        UserActionPEStatus.NOT_STARTED,
-        UserActionPEStatus.IN_PROGRESS,
-        UserActionPEStatus.DONE,
+        DemarcheStatus.NOT_STARTED,
+        DemarcheStatus.IN_PROGRESS,
+        DemarcheStatus.DONE,
       ],
       creationDate: DateTime(2022, 12, 23, 0, 0, 0),
       modifiedByAdvisor: false,
@@ -36,10 +36,7 @@ void main() {
     );
     final store = TestStoreFactory().initializeReduxStore(
       initialState: loggedInState().copyWith(
-        userActionPEListState: UserActionPEListSuccessState(
-          [userAction],
-          true,
-        ),
+        demarcheListState: DemarcheListSuccessState([userAction], true),
       ),
     );
 
@@ -60,9 +57,15 @@ void main() {
           creationDate: "23/12/2022",
           attributs: [],
           statutsPossibles: [
-            UserActionTagViewModel(title: Strings.actionPEToDo, backgroundColor: AppColors.accent1Lighten, textColor: AppColors.accent1, isSelected: true),
-            UserActionTagViewModel(title: Strings.actionPEInProgress, backgroundColor: Colors.transparent, textColor: AppColors.grey800),
-            UserActionTagViewModel(title: Strings.actionPEDone, backgroundColor: Colors.transparent, textColor: AppColors.grey800),
+            UserActionTagViewModel(
+                title: Strings.actionPEToDo,
+                backgroundColor: AppColors.accent1Lighten,
+                textColor: AppColors.accent1,
+                isSelected: true),
+            UserActionTagViewModel(
+                title: Strings.actionPEInProgress, backgroundColor: Colors.transparent, textColor: AppColors.grey800),
+            UserActionTagViewModel(
+                title: Strings.actionPEDone, backgroundColor: Colors.transparent, textColor: AppColors.grey800),
           ],
           isLate: false,
         ));

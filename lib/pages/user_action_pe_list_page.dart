@@ -3,7 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
-import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_actions.dart';
+import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
 import 'package:pass_emploi_app/pages/actions/create_demarche_page.dart';
 import 'package:pass_emploi_app/pages/actions/demarche_detail_page.dart';
 import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
@@ -29,11 +29,11 @@ class UserActionPEListPage extends TraceableStatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, UserActionPEListPageViewModel>(
-      onInit: (store) => store.dispatch(UserActionPEListRequestAction()),
+      onInit: (store) => store.dispatch(DemarcheListRequestAction()),
       builder: (context, viewModel) => _scaffold(context, viewModel),
       converter: (store) => UserActionPEListPageViewModel.create(store),
       distinct: true,
-      onDispose: (store) => store.dispatch(UserActionPEListResetAction()),
+      onDispose: (store) => store.dispatch(DemarcheListResetAction()),
     );
   }
 

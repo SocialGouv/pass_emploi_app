@@ -9,6 +9,9 @@ import 'package:pass_emploi_app/features/campagne/campagne_middleware.dart';
 import 'package:pass_emploi_app/features/chat/init/chat_initializer_middleware.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_middleware.dart';
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_middleware.dart';
+import 'package:pass_emploi_app/features/demarche/list/demarche_list_middleware.dart';
+import 'package:pass_emploi_app/features/demarche/modify/modify_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_middleware.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_middleware.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_middleware.dart';
@@ -44,9 +47,6 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_m
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
-import 'package:pass_emploi_app/features/user_action_pe/create/create_demarche_middleware.dart';
-import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_middleware.dart';
-import 'package:pass_emploi_app/features/user_action_pe/modify/user_demarche_modify_middleware.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
@@ -67,6 +67,8 @@ import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/modify_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
+import 'package:pass_emploi_app/repositories/page_action_pe_repository.dart';
+import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
@@ -79,8 +81,6 @@ import 'package:pass_emploi_app/repositories/service_civique/service_civique_rep
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
-import 'package:pass_emploi_app/repositories/page_action_pe_repository.dart';
-import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:redux/redux.dart' as redux;
 
 class StoreFactory {
@@ -169,7 +169,9 @@ class StoreFactory {
         UserActionCreateMiddleware(pageActionRepository),
         UserActionUpdateMiddleware(pageActionRepository),
         UserActionDeleteMiddleware(pageActionRepository),
-        UserActionPEListMiddleware(pageActionPERepository, remoteConfig),
+        DemarcheListMiddleware(pageActionPERepository, remoteConfig),
+        CreateDemarcheMiddleware(createDemarcheRepository),
+        ModifyDemarcheMiddleware(modifyDemarcheRepository),
         DetailsJeuneMiddleware(detailsJeuneRepository),
         ChatInitializerMiddleware(firebaseAuthRepository, firebaseAuthWrapper, chatCrypto, modeDemoRepository),
         ChatMiddleware(chatRepository),
@@ -208,8 +210,6 @@ class StoreFactory {
         ServiceCiviqueDetailMiddleware(serviceCiviqueDetailRepository),
         SuppressionCompteMiddleware(suppressionCompteRepository),
         CampagneMiddleware(campagneRepository),
-        UserDemarcheModifyMiddleware(modifyDemarcheRepository),
-        CreateDemarcheMiddleware(createDemarcheRepository),
         ..._debugMiddleware(),
       ],
     );

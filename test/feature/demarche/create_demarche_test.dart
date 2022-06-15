@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/user_action_pe/create/create_demarche_actions.dart';
-import 'package:pass_emploi_app/features/user_action_pe/create/create_demarche_state.dart';
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.dart';
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';

@@ -14,7 +14,7 @@ import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
-import 'package:pass_emploi_app/models/user_action_pe.dart';
+import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
@@ -105,10 +105,10 @@ class PageActionPERepositorySuccessStub extends PageActionPERepository {
   Future<PageActionsPE?> getPageActionsPE(String userId) async {
     return PageActionsPE(
       actions: [
-        UserActionPE(
+        Demarche(
           id: "id",
           content: "content",
-          status: UserActionPEStatus.NOT_STARTED,
+          status: DemarcheStatus.NOT_STARTED,
           endDate: DateTime(2022, 12, 23, 0, 0, 0),
           deletionDate: DateTime(2022, 12, 23, 0, 0, 0),
           createdByAdvisor: true,

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/models/user_action_pe.dart';
+import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -9,7 +9,7 @@ import 'package:pass_emploi_app/utils/date_extensions.dart';
 class UserActionPEViewModel extends Equatable {
   final String id;
   final String title;
-  final UserActionPEStatus status;
+  final DemarcheStatus status;
   final bool createdByAdvisor;
   final bool modifiedByAdvisor;
   final UserActionTagViewModel? tag;
@@ -29,7 +29,7 @@ class UserActionPEViewModel extends Equatable {
     required this.isDetailEnabled,
   });
 
-  factory UserActionPEViewModel.create(UserActionPE userAction, bool isDetailAvailable) {
+  factory UserActionPEViewModel.create(Demarche userAction, bool isDetailAvailable) {
     return UserActionPEViewModel(
       id: userAction.id,
       title: userAction.content ?? Strings.withoutContent,
@@ -45,13 +45,13 @@ class UserActionPEViewModel extends Equatable {
 
   Color getDateColor() {
     switch (status) {
-      case UserActionPEStatus.NOT_STARTED:
+      case DemarcheStatus.NOT_STARTED:
         return isLate ? AppColors.warning : AppColors.primary;
-      case UserActionPEStatus.IN_PROGRESS:
+      case DemarcheStatus.IN_PROGRESS:
         return isLate ? AppColors.warning : AppColors.primary;
-      case UserActionPEStatus.CANCELLED:
+      case DemarcheStatus.CANCELLED:
         return AppColors.grey700;
-      case UserActionPEStatus.DONE:
+      case DemarcheStatus.DONE:
         return AppColors.grey700;
     }
   }
@@ -60,46 +60,46 @@ class UserActionPEViewModel extends Equatable {
   List<Object?> get props => [id, title, status, formattedDate, createdByAdvisor, tag];
 }
 
-String _setFormattedDate(UserActionPEStatus status, String? endDate, String? deletionDate) {
-  if (status == UserActionPEStatus.CANCELLED) {
+String _setFormattedDate(DemarcheStatus status, String? endDate, String? deletionDate) {
+  if (status == DemarcheStatus.CANCELLED) {
     return (deletionDate != null && deletionDate.isNotEmpty) ? _getDateText(status, deletionDate) : Strings.withoutDate;
   } else {
     return (endDate != null && endDate.isNotEmpty) ? _getDateText(status, endDate) : Strings.withoutDate;
   }
 }
 
-String _getDateText(UserActionPEStatus status, String date) {
+String _getDateText(DemarcheStatus status, String date) {
   switch (status) {
-    case UserActionPEStatus.DONE:
+    case DemarcheStatus.DONE:
       return Strings.actionPEDoneDateFormat(date);
-    case UserActionPEStatus.CANCELLED:
+    case DemarcheStatus.CANCELLED:
       return Strings.actionPECancelledDateFormat(date);
     default:
       return Strings.actionPEActiveDateFormat(date);
   }
 }
 
-UserActionTagViewModel? _userActionTagViewModel(UserActionPEStatus status, bool isLate) {
+UserActionTagViewModel? _userActionTagViewModel(DemarcheStatus status, bool isLate) {
   switch (status) {
-    case UserActionPEStatus.NOT_STARTED:
+    case DemarcheStatus.NOT_STARTED:
       return UserActionTagViewModel(
         title: Strings.actionPEToDo,
         backgroundColor: isLate ? AppColors.warningLighten : AppColors.accent1Lighten,
         textColor: isLate ? AppColors.warning : AppColors.accent1,
       );
-    case UserActionPEStatus.IN_PROGRESS:
+    case DemarcheStatus.IN_PROGRESS:
       return UserActionTagViewModel(
         title: Strings.actionPEInProgress,
         backgroundColor: isLate ? AppColors.warningLighten : AppColors.accent3Lighten,
         textColor: isLate ? AppColors.warning : AppColors.accent3,
       );
-    case UserActionPEStatus.DONE:
+    case DemarcheStatus.DONE:
       return UserActionTagViewModel(
         title: Strings.actionPEDone,
         backgroundColor: AppColors.accent2Lighten,
         textColor: AppColors.accent2,
       );
-    case UserActionPEStatus.CANCELLED:
+    case DemarcheStatus.CANCELLED:
       return UserActionTagViewModel(
         title: Strings.actionPECancelled,
         backgroundColor: AppColors.accent2Lighten,
@@ -108,8 +108,8 @@ UserActionTagViewModel? _userActionTagViewModel(UserActionPEStatus status, bool 
   }
 }
 
-bool isLateAction(UserActionPEStatus status, DateTime? endDate) {
-  if (endDate != null && (status == UserActionPEStatus.NOT_STARTED || status == UserActionPEStatus.IN_PROGRESS)) {
+bool isLateAction(DemarcheStatus status, DateTime? endDate) {
+  if (endDate != null && (status == DemarcheStatus.NOT_STARTED || status == DemarcheStatus.IN_PROGRESS)) {
     return endDate.isBefore(DateTime.now()) && (endDate.numberOfDaysUntilToday() > 0);
   }
   return false;

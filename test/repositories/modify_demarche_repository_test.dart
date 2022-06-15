@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
-import 'package:pass_emploi_app/models/user_action_pe.dart';
+import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/repositories/modify_demarche_repository.dart';
 
 import '../doubles/fixtures.dart';
@@ -31,7 +31,7 @@ void main() {
     final result = await repository.modifyDemarche(
       'user-id',
       '8802034',
-      UserActionPEStatus.NOT_STARTED,
+      DemarcheStatus.NOT_STARTED,
       DateTime(2021, 12, 24, 12, 8, 10),
       DateTime(2021, 12, 23, 12, 8, 10),
     );
@@ -52,7 +52,7 @@ void main() {
     final result = await repository.modifyDemarche(
       'user-id',
       '8802034',
-      UserActionPEStatus.NOT_STARTED,
+      DemarcheStatus.NOT_STARTED,
       DateTime(2021, 12, 24, 12, 8, 10),
       DateTime(2021, 12, 23, 12, 8, 10),
     );
