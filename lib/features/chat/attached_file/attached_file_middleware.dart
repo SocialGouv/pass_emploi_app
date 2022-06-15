@@ -20,7 +20,7 @@ class AttachedFileMiddleware extends MiddlewareClass<AppState> {
         store.dispatch(AttachedFileFailureAction(action.fileId));
         return;
       }
-      store.dispatch(AttachedFileSuccessAction(action.fileId, path));
+      store.dispatch(AttachedFileSuccessAction(action.fileId));
       store.dispatch(ShareFileAction(path));
     }
   }

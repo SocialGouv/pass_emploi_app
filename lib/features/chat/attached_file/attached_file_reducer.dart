@@ -7,7 +7,7 @@ AttachedFilesState attachedFileReducer(AttachedFilesState current, dynamic actio
   } else if (action is AttachedFileFailureAction) {
     return current.updated(action.fileId, AttachedFileFailureStatus());
   } else if (action is AttachedFileSuccessAction) {
-    return current.updated(action.fileId, AttachedFileSuccessStatus(action.path));
+    return current.updated(action.fileId, AttachedFileSuccessStatus());
   }
   return current;
 }

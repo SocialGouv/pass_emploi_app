@@ -7,9 +7,8 @@ class AttachedFileRequestAction {
 
 class AttachedFileSuccessAction {
   final String fileId;
-  final String path;
 
-  AttachedFileSuccessAction(this.fileId, this.path);
+  AttachedFileSuccessAction(this.fileId);
 }
 
 class AttachedFileFailureAction {
