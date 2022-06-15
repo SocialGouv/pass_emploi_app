@@ -4,14 +4,14 @@ import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
 
-class DemarcheDuReferentielRepository {
+class SearchDemarcheRepository {
   final String _baseUrl;
   final Client _httpClient;
   final Crashlytics? _crashlytics;
 
-  DemarcheDuReferentielRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
+  SearchDemarcheRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
 
-  Future<List<DemarcheDuReferentiel>?> getDemarchesDuReferentiel(String query) async {
+  Future<List<DemarcheDuReferentiel>?> search(String query) async {
     final url = Uri.parse(_baseUrl + '/referentiels/pole-emploi/types-demarches?recherche=$query');
     try {
       final response = await _httpClient.get(url);

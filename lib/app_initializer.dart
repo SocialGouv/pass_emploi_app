@@ -36,13 +36,13 @@ import 'package:pass_emploi_app/pass_emploi_app.dart';
 import 'package:pass_emploi_app/push/firebase_push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
-import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
@@ -56,6 +56,7 @@ import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dar
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
@@ -203,6 +204,7 @@ class AppInitializer {
       remoteConfig,
       UpdateDemarcheRepository(baseUrl, httpClient, crashlytics),
       CreateDemarcheRepository(baseUrl, httpClient, crashlytics),
+      SearchDemarcheRepository(baseUrl, httpClient, crashlytics),
       PieceJointeRepository(baseUrl, httpClient, crashlytics),
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);

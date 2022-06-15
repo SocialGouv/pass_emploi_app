@@ -52,7 +52,7 @@ import 'package:redux/redux.dart';
 
 class ${feature_camel_case}Middleware extends MiddlewareClass<AppState> {
   @override
-  call(Store<AppState> store, action, NextDispatcher next) async {
+  void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     final loginState = store.state.loginState;
     if (loginState is LoginSuccessState && action is ${feature_camel_case}RequestAction) {

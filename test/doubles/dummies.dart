@@ -9,8 +9,9 @@ import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
-import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
+import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
+import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -21,17 +22,18 @@ import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
-import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
-import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
+import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
@@ -327,5 +329,14 @@ class DummySuccessCreateDemarcheRepository extends CreateDemarcheRepository {
   Future<bool> createDemarche(
       String commentaire, DateTime dateEcheance, String userId) async {
     return true;
+  }
+}
+
+class DummyDemarcheDuReferentielRepository extends SearchDemarcheRepository {
+  DummyDemarcheDuReferentielRepository() : super("", DummyHttpClient());
+
+  @override
+  Future<List<DemarcheDuReferentiel>?> search(String query) async {
+    return [];
   }
 }

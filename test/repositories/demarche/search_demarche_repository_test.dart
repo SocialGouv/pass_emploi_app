@@ -1,14 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
-import 'package:pass_emploi_app/repositories/demarche/demarche_de_referentiel_repository.dart';
+import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../utils/pass_emploi_mock_client.dart';
 import '../../utils/test_assets.dart';
 
 void main() {
-  test('getDemarchesDuReferentiel when response is valid should return demarches du referentiel', () async {
+  test('search when response is valid should return demarches du referentiel', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
@@ -17,10 +17,10 @@ void main() {
       }
       return Response.bytes(loadTestAssetsAsBytes("demarches_du_referentiel.json"), 200);
     });
-    final repository = DemarcheDuReferentielRepository("BASE_URL", httpClient);
+    final repository = SearchDemarcheRepository("BASE_URL", httpClient);
 
     // When
-    final result = await repository.getDemarchesDuReferentiel('query');
+    final result = await repository.search('query');
 
     // Then
     expect(result, isNotNull);
@@ -41,25 +41,25 @@ void main() {
     );
   });
 
-  test('getDemarchesDuReferentiel when response is invalid should return null', () async {
+  test('search when response is invalid should return null', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async => Response("", 400));
-    final repository = DemarcheDuReferentielRepository("BASE_URL", httpClient);
+    final repository = SearchDemarcheRepository("BASE_URL", httpClient);
 
     // When
-    final result = await repository.getDemarchesDuReferentiel('query');
+    final result = await repository.search('query');
 
     // Then
     expect(result, isNull);
   });
 
-  test('getDemarchesDuReferentiel when repository throws Exception should return null', () async {
+  test('search when repository throws Exception should return null', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async => throw Exception());
-    final repository = DemarcheDuReferentielRepository("BASE_URL", httpClient);
+    final repository = SearchDemarcheRepository("BASE_URL", httpClient);
 
     // When
-    final result = await repository.getDemarchesDuReferentiel('query');
+    final result = await repository.search('query');
 
     // Then
     expect(result, isNull);

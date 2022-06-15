@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
+import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
@@ -252,5 +253,19 @@ Campagne campagne([String? id]) {
     titre: 'Questionnaire',
     description: 'Super test',
     questions: [],
+  );
+}
+
+DemarcheDuReferentiel mockDemarcheDuReferentiel(String quoi) {
+  return DemarcheDuReferentiel(
+    quoi: quoi,
+    pourquoi: 'pourquoi',
+    codeQuoi: 'codeQuoi',
+    codePourquoi: 'codePourquoi',
+    comments: [
+      Comment(label: 'label1', code: 'code1'),
+      Comment(label: 'label2', code: 'code2'),
+    ],
+    commentObligatoire: true,
   );
 }
