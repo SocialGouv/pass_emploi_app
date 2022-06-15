@@ -15,7 +15,10 @@ class AttachedFilesState extends Equatable {
   List<Object?> get props => [status];
 }
 
-abstract class AttachedFileStatus {}
+abstract class AttachedFileStatus extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
 
 class AttachedFileLoadingStatus extends AttachedFileStatus {}
 

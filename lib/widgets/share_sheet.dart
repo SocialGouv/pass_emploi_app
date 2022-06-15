@@ -19,7 +19,7 @@ class ShareSheet extends StatelessWidget {
     return SizedBox();
   }
 
-  _share(ShareSheetViewModel viewModel) async {
+  void _share(ShareSheetViewModel viewModel) async {
     final path = viewModel.path;
     if (path == null) return;
 

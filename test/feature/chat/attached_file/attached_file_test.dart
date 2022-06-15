@@ -24,7 +24,7 @@ void main() {
     // Then
     expect(await displayedLoading, true);
     final appState = await successAppState;
-    expect(appState.attachedFilesState.status["id-1"], AttachedFileSuccessStatus("id-1-path"));
+    expect(appState.attachedFilesState.status["id-1"], AttachedFileSuccessStatus());
   });
 
   test("attached file should display an error when fetching failed", () async {
@@ -61,7 +61,7 @@ void main() {
 
     // Then
     final appState = await changedAppState;
-    expect(appState.attachedFilesState.status["id-1"], AttachedFileSuccessStatus("id-1-path"));
+    expect(appState.attachedFilesState.status["id-1"], AttachedFileSuccessStatus());
     expect(appState.attachedFilesState.status["id-2"], AttachedFileFailureStatus());
   });
 }

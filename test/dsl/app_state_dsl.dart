@@ -37,7 +37,7 @@ extension AppStateDSL on AppState {
   AppState campagne(Campagne campagne) => copyWith(campagneState: CampagneState(campagne, []));
 
   AppState attachedFilesWithIdOneSuccess() =>
-      copyWith(attachedFilesState: AttachedFilesState({"id-1": AttachedFileSuccessStatus("id-1-path")}));
+      copyWith(attachedFilesState: AttachedFilesState({"id-1": AttachedFileSuccessStatus()}));
 
   AppState attachedFilesLoading(String id) =>
       copyWith(attachedFilesState: AttachedFilesState({id: AttachedFileLoadingStatus()}));
