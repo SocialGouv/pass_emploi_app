@@ -94,28 +94,28 @@ UserActionTagViewModel _getTagViewModel(DemarcheStatus status, DemarcheStatus cu
   switch (status) {
     case DemarcheStatus.NOT_STARTED:
       return UserActionTagViewModel(
-        title: Strings.actionPEToDo,
+        title: Strings.demarcheToDo,
         backgroundColor: isSelected ? AppColors.accent1Lighten : Colors.transparent,
         textColor: isSelected ? AppColors.accent1 : AppColors.grey800,
         isSelected: isSelected,
       );
     case DemarcheStatus.IN_PROGRESS:
       return UserActionTagViewModel(
-        title: Strings.actionPEInProgress,
+        title: Strings.demarcheInProgress,
         backgroundColor: isSelected ? AppColors.accent3Lighten : Colors.transparent,
         textColor: isSelected ? AppColors.accent3 : AppColors.grey800,
         isSelected: isSelected,
       );
     case DemarcheStatus.DONE:
       return UserActionTagViewModel(
-        title: Strings.actionPEDone,
+        title: Strings.demarcheDone,
         backgroundColor: isSelected ? AppColors.accent2Lighten : Colors.transparent,
         textColor: isSelected ? AppColors.accent2 : AppColors.grey800,
         isSelected: isSelected,
       );
     case DemarcheStatus.CANCELLED:
       return UserActionTagViewModel(
-        title: Strings.actionPECancelled,
+        title: Strings.demarcheCancelled,
         backgroundColor: isSelected ? AppColors.accent2Lighten : Colors.transparent,
         textColor: isSelected ? AppColors.accent2 : AppColors.grey800,
         isSelected: isSelected,
@@ -134,23 +134,23 @@ String _setFormattedDate(DemarcheStatus status, String? endDate, String? deletio
 String _getDateText(DemarcheStatus status, String date) {
   switch (status) {
     case DemarcheStatus.DONE:
-      return Strings.actionPEDoneDateFormat(date);
+      return Strings.demarcheDoneDateFormat(date);
     case DemarcheStatus.CANCELLED:
-      return Strings.actionPECancelledDateFormat(date);
+      return Strings.demarcheCancelledDateFormat(date);
     default:
-      return Strings.actionPEActiveDateFormat(date);
+      return Strings.demarcheActiveDateFormat(date);
   }
 }
 
 DemarcheStatus? _getStatusFromTag(UserActionTagViewModel tag) {
   switch (tag.title) {
-    case Strings.actionPEToDo:
+    case Strings.demarcheToDo:
       return DemarcheStatus.NOT_STARTED;
-    case Strings.actionPEInProgress:
+    case Strings.demarcheInProgress:
       return DemarcheStatus.IN_PROGRESS;
-    case Strings.actionPECancelled:
+    case Strings.demarcheCancelled:
       return DemarcheStatus.CANCELLED;
-    case Strings.actionPEDone:
+    case Strings.demarcheDone:
       return DemarcheStatus.DONE;
     default:
       return null;

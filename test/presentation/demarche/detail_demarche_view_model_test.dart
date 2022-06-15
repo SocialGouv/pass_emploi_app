@@ -58,14 +58,14 @@ void main() {
           attributs: [],
           statutsPossibles: [
             UserActionTagViewModel(
-                title: Strings.actionPEToDo,
+                title: Strings.demarcheToDo,
                 backgroundColor: AppColors.accent1Lighten,
                 textColor: AppColors.accent1,
                 isSelected: true),
             UserActionTagViewModel(
-                title: Strings.actionPEInProgress, backgroundColor: Colors.transparent, textColor: AppColors.grey800),
+                title: Strings.demarcheInProgress, backgroundColor: Colors.transparent, textColor: AppColors.grey800),
             UserActionTagViewModel(
-                title: Strings.actionPEDone, backgroundColor: Colors.transparent, textColor: AppColors.grey800),
+                title: Strings.demarcheDone, backgroundColor: Colors.transparent, textColor: AppColors.grey800),
           ],
           isLate: false,
         ));

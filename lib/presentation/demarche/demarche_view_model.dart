@@ -72,11 +72,11 @@ String _setFormattedDate(DemarcheStatus status, String? endDate, String? deletio
 String _getDateText(DemarcheStatus status, String date) {
   switch (status) {
     case DemarcheStatus.DONE:
-      return Strings.actionPEDoneDateFormat(date);
+      return Strings.demarcheDoneDateFormat(date);
     case DemarcheStatus.CANCELLED:
-      return Strings.actionPECancelledDateFormat(date);
+      return Strings.demarcheCancelledDateFormat(date);
     default:
-      return Strings.actionPEActiveDateFormat(date);
+      return Strings.demarcheActiveDateFormat(date);
   }
 }
 
@@ -84,25 +84,25 @@ UserActionTagViewModel? _userActionTagViewModel(DemarcheStatus status, bool isLa
   switch (status) {
     case DemarcheStatus.NOT_STARTED:
       return UserActionTagViewModel(
-        title: Strings.actionPEToDo,
+        title: Strings.demarcheToDo,
         backgroundColor: isLate ? AppColors.warningLighten : AppColors.accent1Lighten,
         textColor: isLate ? AppColors.warning : AppColors.accent1,
       );
     case DemarcheStatus.IN_PROGRESS:
       return UserActionTagViewModel(
-        title: Strings.actionPEInProgress,
+        title: Strings.demarcheInProgress,
         backgroundColor: isLate ? AppColors.warningLighten : AppColors.accent3Lighten,
         textColor: isLate ? AppColors.warning : AppColors.accent3,
       );
     case DemarcheStatus.DONE:
       return UserActionTagViewModel(
-        title: Strings.actionPEDone,
+        title: Strings.demarcheDone,
         backgroundColor: AppColors.accent2Lighten,
         textColor: AppColors.accent2,
       );
     case DemarcheStatus.CANCELLED:
       return UserActionTagViewModel(
-        title: Strings.actionPECancelled,
+        title: Strings.demarcheCancelled,
         backgroundColor: AppColors.accent2Lighten,
         textColor: AppColors.accent2,
       );

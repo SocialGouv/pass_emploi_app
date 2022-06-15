@@ -43,7 +43,7 @@ void main() {
     expect(
         viewModel.tag,
         UserActionTagViewModel(
-          title: Strings.actionPEToDo,
+          title: Strings.demarcheToDo,
           backgroundColor: AppColors.accent1Lighten,
           textColor: AppColors.accent1,
         ));
@@ -80,7 +80,7 @@ void main() {
     expect(
         viewModel.tag,
         UserActionTagViewModel(
-          title: Strings.actionPEToDo,
+          title: Strings.demarcheToDo,
           backgroundColor: AppColors.warningLighten,
           textColor: AppColors.warning,
         ));
@@ -115,7 +115,7 @@ void main() {
     expect(
         viewModel.tag,
         UserActionTagViewModel(
-          title: Strings.actionPEInProgress,
+          title: Strings.demarcheInProgress,
           backgroundColor: AppColors.accent3Lighten,
           textColor: AppColors.accent3,
         ));
@@ -152,7 +152,7 @@ void main() {
     expect(
         viewModel.tag,
         UserActionTagViewModel(
-          title: Strings.actionPEInProgress,
+          title: Strings.demarcheInProgress,
           backgroundColor: AppColors.warningLighten,
           textColor: AppColors.warning,
         ));
@@ -187,7 +187,7 @@ void main() {
     expect(
         viewModel.tag,
         UserActionTagViewModel(
-          title: Strings.actionPEDone,
+          title: Strings.demarcheDone,
           backgroundColor: AppColors.accent2Lighten,
           textColor: AppColors.accent2,
         ));
@@ -222,7 +222,7 @@ void main() {
     expect(
         viewModel.tag,
         UserActionTagViewModel(
-          title: Strings.actionPECancelled,
+          title: Strings.demarcheCancelled,
           backgroundColor: AppColors.accent2Lighten,
           textColor: AppColors.accent2,
         ));

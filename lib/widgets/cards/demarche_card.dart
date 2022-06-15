@@ -102,7 +102,7 @@ class _DateTitle extends StatelessWidget {
       return RichText(
         text: TextSpan(
           children: [
-            TextSpan(text: Strings.actionPELate, style: TextStyles.textBaseBoldWithColor(color)),
+            TextSpan(text: Strings.demarcheLate, style: TextStyles.textBaseBoldWithColor(color)),
             TextSpan(text: title, style: TextStyles.textSRegularWithColor(color)),
           ],
         ),
