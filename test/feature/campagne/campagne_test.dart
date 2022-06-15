@@ -37,9 +37,9 @@ void main() {
     test('On Pôle Emploi user, campagne should be fetched and displayed if any', () async {
       // Given
       final testStoreFactory = TestStoreFactory();
-      final repository = PageActionPERepositorySuccessStub();
+      final repository = PageDemarcheRepositorySuccessStub();
       repository.withCampagne(campagne('id-campagne'));
-      testStoreFactory.pageActionPERepository = repository;
+      testStoreFactory.pageDemarcheRepository = repository;
       final store = testStoreFactory.initializeReduxStore(initialState: loggedInPoleEmploiState());
       final successAppState = store.onChange.firstWhere((e) => e.campagneState.campagne != null);
 

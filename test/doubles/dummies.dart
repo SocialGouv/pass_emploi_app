@@ -29,7 +29,7 @@ import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/modify_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
-import 'package:pass_emploi_app/repositories/page_action_pe_repository.dart';
+import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
@@ -121,8 +121,8 @@ class DummyPageActionRepository extends PageActionRepository {
   DummyPageActionRepository() : super("", DummyHttpClient());
 }
 
-class DummyPageActionPERepository extends PageActionPERepository {
-  DummyPageActionPERepository() : super("", DummyHttpClient());
+class DummyPageDemarcheRepository extends PageDemarcheRepository {
+  DummyPageDemarcheRepository() : super("", DummyHttpClient());
 }
 
 class DummyRendezvousRepository extends RendezvousRepository {

@@ -2,16 +2,16 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 
-class PageActionsPE extends Equatable {
+class PageDemarches extends Equatable {
   final List<Demarche> demarches;
   final Campagne? campagne;
 
-  PageActionsPE({required this.demarches, this.campagne});
+  PageDemarches({required this.demarches, this.campagne});
 
-  factory PageActionsPE.fromJson(dynamic json) {
+  factory PageDemarches.fromJson(dynamic json) {
     final demarches = (json["actions"] as List).map((demarche) => Demarche.fromJson(demarche)).toList();
     final campagne = json["campagne"] != null ? Campagne.fromJson(json["campagne"]) : null;
-    return PageActionsPE(demarches: demarches, campagne: campagne);
+    return PageDemarches(demarches: demarches, campagne: campagne);
   }
 
   @override

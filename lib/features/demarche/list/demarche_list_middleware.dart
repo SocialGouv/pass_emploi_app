@@ -4,11 +4,11 @@ import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/page_action_pe_repository.dart';
+import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:redux/redux.dart';
 
 class DemarcheListMiddleware extends MiddlewareClass<AppState> {
-  final PageActionPERepository _repository;
+  final PageDemarcheRepository _repository;
   final FirebaseRemoteConfig? _remoteConfig;
 
   DemarcheListMiddleware(this._repository, this._remoteConfig);
@@ -20,7 +20,7 @@ class DemarcheListMiddleware extends MiddlewareClass<AppState> {
     if (loginState is LoginSuccessState &&
         (action is DemarcheListRequestAction || action is CreateDemarcheSuccessAction)) {
       store.dispatch(DemarcheListLoadingAction());
-      final page = await _repository.getPageActionsPE(loginState.user.id);
+      final page = await _repository.getPageDemarches(loginState.user.id);
       store.dispatch(page != null
           ? DemarcheListSuccessAction(page.demarches, await _isDetailAvailable())
           : DemarcheListFailureAction());

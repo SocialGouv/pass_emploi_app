@@ -8,7 +8,7 @@ import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart'
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/page_actions.dart';
-import 'package:pass_emploi_app/models/page_actions_pe.dart';
+import 'package:pass_emploi_app/models/page_demarches.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
@@ -18,7 +18,7 @@ import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
-import 'package:pass_emploi_app/repositories/page_action_pe_repository.dart';
+import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
@@ -91,10 +91,10 @@ class PageActionRepositoryFailureStub extends PageActionRepository {
   }
 }
 
-class PageActionPERepositorySuccessStub extends PageActionPERepository {
+class PageDemarcheRepositorySuccessStub extends PageDemarcheRepository {
   Campagne? _campagne;
 
-  PageActionPERepositorySuccessStub() : super("", DummyHttpClient());
+  PageDemarcheRepositorySuccessStub() : super("", DummyHttpClient());
 
   void withCampagne(Campagne campagne) {
     _campagne = campagne;
@@ -102,8 +102,8 @@ class PageActionPERepositorySuccessStub extends PageActionPERepository {
 
 
   @override
-  Future<PageActionsPE?> getPageActionsPE(String userId) async {
-    return PageActionsPE(
+  Future<PageDemarches?> getPageDemarches(String userId) async {
+    return PageDemarches(
       demarches: [
         Demarche(
           id: "id",
@@ -127,11 +127,11 @@ class PageActionPERepositorySuccessStub extends PageActionPERepository {
   }
 }
 
-class PageActionPERepositoryFailureStub extends PageActionPERepository {
+class PageActionPERepositoryFailureStub extends PageDemarcheRepository {
   PageActionPERepositoryFailureStub() : super("", DummyHttpClient());
 
   @override
-  Future<PageActionsPE?> getPageActionsPE(String userId) async {
+  Future<PageDemarches?> getPageDemarches(String userId) async {
     return null;
   }
 }

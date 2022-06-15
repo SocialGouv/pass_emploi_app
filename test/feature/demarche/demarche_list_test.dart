@@ -10,7 +10,7 @@ void main() {
   test("demarche should be fetched and displayed when screen loads", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
-    testStoreFactory.pageActionPERepository = PageActionPERepositorySuccessStub();
+    testStoreFactory.pageDemarcheRepository = PageDemarcheRepositorySuccessStub();
     final store = testStoreFactory.initializeReduxStore(initialState: loggedInPoleEmploiState());
 
     final displayedLoading = store.onChange.any((e) => e.demarcheListState is DemarcheListLoadingState);
@@ -30,7 +30,7 @@ void main() {
   test("demarche should display an error when fetching failed", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
-    testStoreFactory.pageActionPERepository = PageActionPERepositoryFailureStub();
+    testStoreFactory.pageDemarcheRepository = PageActionPERepositoryFailureStub();
     final store = testStoreFactory.initializeReduxStore(initialState: loggedInPoleEmploiState());
 
     final displayedLoading = store.onChange.any((e) => e.demarcheListState is DemarcheListLoadingState);

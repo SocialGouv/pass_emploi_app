@@ -1,9 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
-import 'package:pass_emploi_app/models/page_actions_pe.dart';
+import 'package:pass_emploi_app/models/page_demarches.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
-import 'package:pass_emploi_app/repositories/page_action_pe_repository.dart';
+import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 
 import '../doubles/fixtures.dart';
 import '../utils/mock_demo_client.dart';
@@ -12,7 +12,7 @@ import '../utils/test_assets.dart';
 import '../utils/test_datetime.dart';
 
 void main() {
-  test('getPageActionsPE', () async {
+  test('getPageDemarches when response is valid', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
@@ -21,10 +21,10 @@ void main() {
       }
       return Response.bytes(loadTestAssetsAsBytes("home_demarches.json"), 200);
     });
-    final repository = PageActionPERepository("BASE_URL", httpClient);
+    final repository = PageDemarcheRepository("BASE_URL", httpClient);
 
     // When
-    final PageActionsPE? result = await repository.getPageActionsPE("UID");
+    final PageDemarches? result = await repository.getPageDemarches("UID");
 
     // Then
     expect(result, isNotNull);
@@ -72,13 +72,13 @@ void main() {
     );
   });
 
-  test('getPageActionsPE when response is invalid should return null', () async {
+  test('getPageDemarches when response is valid when response is invalid should return null', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
-    final repository = PageActionPERepository("BASE_URL", httpClient);
+    final repository = PageDemarcheRepository("BASE_URL", httpClient);
 
     // When
-    final search = await repository.getPageActionsPE("UserID");
+    final search = await repository.getPageDemarches("UserID");
 
     // Then
     expect(search, isNull);
@@ -87,10 +87,10 @@ void main() {
   test('mode demo should return valid request', () async {
     // Given
     final httpClient = MockModeDemoClient();
-    final repository = PageActionPERepository("BASE_URL", httpClient);
+    final repository = PageDemarcheRepository("BASE_URL", httpClient);
 
     // When
-    final response = await repository.getPageActionsPE("UserID");
+    final response = await repository.getPageDemarches("UserID");
 
     // Then
     expect(response, isNotNull);

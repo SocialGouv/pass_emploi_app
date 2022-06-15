@@ -67,7 +67,7 @@ import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/modify_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
-import 'package:pass_emploi_app/repositories/page_action_pe_repository.dart';
+import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
@@ -88,7 +88,7 @@ class StoreFactory {
   final Crashlytics crashlytics;
   final ChatCrypto chatCrypto;
   final PageActionRepository pageActionRepository;
-  final PageActionPERepository pageActionPERepository;
+  final PageDemarcheRepository pageDemarcheRepository;
   final RendezvousRepository rendezvousRepository;
   final OffreEmploiRepository offreEmploiRepository;
   final ChatRepository chatRepository;
@@ -125,7 +125,7 @@ class StoreFactory {
     this.crashlytics,
     this.chatCrypto,
     this.pageActionRepository,
-    this.pageActionPERepository,
+    this.pageDemarcheRepository,
     this.rendezvousRepository,
     this.offreEmploiRepository,
     this.chatRepository,
@@ -169,7 +169,7 @@ class StoreFactory {
         UserActionCreateMiddleware(pageActionRepository),
         UserActionUpdateMiddleware(pageActionRepository),
         UserActionDeleteMiddleware(pageActionRepository),
-        DemarcheListMiddleware(pageActionPERepository, remoteConfig),
+        DemarcheListMiddleware(pageDemarcheRepository, remoteConfig),
         CreateDemarcheMiddleware(createDemarcheRepository),
         UpdateDemarcheMiddleware(modifyDemarcheRepository),
         DetailsJeuneMiddleware(detailsJeuneRepository),
