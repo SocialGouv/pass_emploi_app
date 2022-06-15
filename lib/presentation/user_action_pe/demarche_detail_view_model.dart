@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
+import 'package:pass_emploi_app/features/demarche/update/update_demarche_action.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action_pe/user_action_pe_view_model.dart';
@@ -64,7 +64,7 @@ class DemarcheDetailViewModel extends Equatable {
       onModifyStatus: (tag) {
         final status = _getStatusFromTag(tag);
         if (!tag.isSelected && status != null) {
-          store.dispatch(ModifyDemarcheStatusAction(
+          store.dispatch(UpdateDemarcheAction(
             userAction.id,
             userAction.endDate,
             userAction.creationDate,

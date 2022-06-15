@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
+import 'package:pass_emploi_app/features/demarche/update/update_demarche_action.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/repositories/modify_demarche_repository.dart';
 
@@ -9,7 +9,7 @@ import '../../doubles/fixtures.dart';
 import '../../utils/test_setup.dart';
 
 void main() {
-  test("on demarche successful modification, demarches' list is updated with modified demarche", () async {
+  test("on demarche successful update, demarches' list is updated with modified demarche", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
     final now = DateTime.now();
@@ -30,7 +30,7 @@ void main() {
     );
 
     // When
-    await store.dispatch(ModifyDemarcheStatusAction('2', now, now, DemarcheStatus.DONE));
+    await store.dispatch(UpdateDemarcheAction('2', now, now, DemarcheStatus.DONE));
 
     // Then
     expect(store.state.demarcheListState is DemarcheListSuccessState, isTrue);

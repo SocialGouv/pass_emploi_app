@@ -11,7 +11,7 @@ import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_middleware.dart';
-import 'package:pass_emploi_app/features/demarche/modify/modify_demarche_middleware.dart';
+import 'package:pass_emploi_app/features/demarche/update/update_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_middleware.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_middleware.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_middleware.dart';
@@ -171,7 +171,7 @@ class StoreFactory {
         UserActionDeleteMiddleware(pageActionRepository),
         DemarcheListMiddleware(pageActionPERepository, remoteConfig),
         CreateDemarcheMiddleware(createDemarcheRepository),
-        ModifyDemarcheMiddleware(modifyDemarcheRepository),
+        UpdateDemarcheMiddleware(modifyDemarcheRepository),
         DetailsJeuneMiddleware(detailsJeuneRepository),
         ChatInitializerMiddleware(firebaseAuthRepository, firebaseAuthWrapper, chatCrypto, modeDemoRepository),
         ChatMiddleware(chatRepository),
