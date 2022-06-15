@@ -17,14 +17,6 @@ class PassEmploiCacheManager extends CacheManager {
     ));
   }
 
-  factory PassEmploiCacheManager.fileCache() {
-    return PassEmploiCacheManager(Config(
-      "PassEmploiCacheKey-File",
-      stalePeriod: Duration(days: 90),
-      maxNrOfCacheObjects: 30,
-    ));
-  }
-
   void removeRessource(CachedRessource ressourceToRemove, String userId, String baseUrl) {
     switch (ressourceToRemove) {
       case CachedRessource.IMMERSION_FAVORIS:
