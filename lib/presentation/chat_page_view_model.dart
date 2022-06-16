@@ -60,7 +60,8 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
         case MessageType.nouveauConseillerTemporaire:
           return InformationItem(Strings.newConseillerTemporaireTitle, Strings.newConseillerDescription);
         case MessageType.messagePj:
-          return AttachedFileConseillerMessageItem(
+          return PieceJointeConseillerMessageItem(
+            id: message.pieceJointes[0].id,
             message: message.content,
             filename: message.pieceJointes.first.nom,
             caption: message.creationDate.toHour(),

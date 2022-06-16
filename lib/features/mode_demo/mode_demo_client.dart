@@ -78,7 +78,9 @@ String? _getFileName(String url, String query) {
 }
 
 extension _UrlExtensions on String {
-  bool isSupposedToBeMocked() => !contains("referentiels");
+  bool isSupposedToBeMocked() {
+    return !contains("referentiels") && !contains("fichiers");
+  }
 
   String removeLastPath() => substring(0, lastIndexOf('/'));
 }

@@ -16,13 +16,14 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
-import 'package:pass_emploi_app/widgets/chat/chat_attached_file_widget.dart';
+import 'package:pass_emploi_app/widgets/chat/chat_piece_jointe_widget.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_information_widget.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_message_widget.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/share_sheet.dart';
 
 class ChatPage extends TraceableStatefulWidget {
   ChatPage() : super(name: AnalyticsScreenNames.chat);
@@ -81,6 +82,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
         children: [
           SepLine(0, 0),
           Expanded(child: DefaultAnimatedSwitcher(child: body)),
+          ShareSheet(),
         ],
       ),
     );
@@ -117,8 +119,8 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                 return ChatMessageWidget(item);
               } else if (item is InformationItem) {
                 return ChatInformationWidget(item.title, item.description);
-              } else if (item is AttachedFileConseillerMessageItem) {
-                return ChatAttachedFileWidget(item);
+              } else if (item is PieceJointeConseillerMessageItem) {
+                return ChatPieceJointeWidget(item);
               } else {
                 return Container();
               }

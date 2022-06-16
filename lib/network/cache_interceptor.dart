@@ -5,7 +5,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 
-const _blacklistedRoutes = ['/rendezvous', '/home/actions', '/home/demarches'];
+const _blacklistedRoutes = ['/rendezvous', '/home/actions', '/home/demarches', '/fichiers'];
 const _defaultCacheDuration = Duration(days: 7);
 
 class HttpClientWithCache extends BaseClient {
@@ -78,7 +78,7 @@ class HttpClientWithCache extends BaseClient {
     // The lib set a default value to 7-days cache when there isn't cache-control headers in our HTTP responses.
     // And our backend do not set these headers.
     // In future : directly use `getSingleFile` without checking date.
-    final now = DateTime.now().add(_defaultCacheDuration).subtract(PassEmploiCacheManager.cacheDuration);
+    final now = DateTime.now().add(_defaultCacheDuration).subtract(PassEmploiCacheManager.requestCacheDuration);
     return file.validTill.isAfter(now);
   }
 }
