@@ -116,6 +116,26 @@ void main() {
     ]);
   });
 
+  test('create when chat state is SUCCESS and message type is NOUVEAU_CONSEILLER_TEMPORAIRE', () {
+    // Given
+    final state = AppState.initialState().copyWith(
+      chatState: ChatSuccessState(
+        [Message('Jean-Paul', DateTime(2021, 1, 1, 12, 30), Sender.conseiller, MessageType.nouveauConseillerTemporaire, [])],
+      ),
+    );
+    final store = Store<AppState>(reducer, initialState: state);
+
+    // When
+    final viewModel = ChatPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.items, [
+      DayItem("Le 01/01/2021"),
+      InformationItem("Vous échangez temporairement avec un nouveau conseiller", "Il a accès à l’historique de vos échanges"),
+    ]);
+  });
+
   test('create when chat state is SUCCESS and message type is UNKNOWN', () {
     // Given
     final state = AppState.initialState().copyWith(
