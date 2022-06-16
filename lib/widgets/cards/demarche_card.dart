@@ -99,12 +99,14 @@ class _DateTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (isLate) {
-      return RichText(
-        text: TextSpan(
-          children: [
-            TextSpan(text: Strings.demarcheLate, style: TextStyles.textBaseBoldWithColor(color)),
-            TextSpan(text: title, style: TextStyles.textSRegularWithColor(color)),
-          ],
+      return Expanded(
+        child: RichText(
+          text: TextSpan(
+            children: [
+              TextSpan(text: Strings.demarcheLate, style: TextStyles.textBaseBoldWithColor(color)),
+              TextSpan(text: title, style: TextStyles.textSRegularWithColor(color)),
+            ],
+          ),
         ),
       );
     }
