@@ -14,7 +14,7 @@ import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/attached_file_repository.dart';
+import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
@@ -292,8 +292,8 @@ class DummyUpdateDemarcheRepository extends UpdateDemarcheRepository {
   DummyUpdateDemarcheRepository() : super("", DummyHttpClient());
 }
 
-class DummyAttachedFileRepository extends AttachedFileRepository {
-  DummyAttachedFileRepository() : super("", DummyHttpClient());
+class DummyPieceJointeRepository extends PieceJointeRepository {
+  DummyPieceJointeRepository() : super("", DummyHttpClient());
 }
 
 class DummyModifyDemarcheRepository extends UpdateDemarcheRepository {

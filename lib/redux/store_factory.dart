@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_middleware.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_middleware.dart';
-import 'package:pass_emploi_app/features/chat/attached_file/attached_file_middleware.dart';
+import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_middleware.dart';
 import 'package:pass_emploi_app/features/chat/init/chat_initializer_middleware.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_middleware.dart';
@@ -53,7 +53,7 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/attached_file_repository.dart';
+import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
@@ -121,7 +121,7 @@ class StoreFactory {
   final FirebaseRemoteConfig? remoteConfig;
   final UpdateDemarcheRepository updateDemarcheRepository;
   final CreateDemarcheRepository createDemarcheRepository;
-  final AttachedFileRepository attachedFileRepository;
+  final PieceJointeRepository attachedFileRepository;
 
   StoreFactory(
     this.authenticator,
@@ -221,7 +221,7 @@ class StoreFactory {
         ServiceCiviqueDetailMiddleware(serviceCiviqueDetailRepository),
         SuppressionCompteMiddleware(suppressionCompteRepository),
         CampagneMiddleware(campagneRepository),
-        AttachedFileMiddleware(attachedFileRepository),
+        PieceJointeMiddleware(attachedFileRepository),
         ..._debugMiddleware(),
       ],
     );

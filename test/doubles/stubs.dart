@@ -15,7 +15,7 @@ import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
-import 'package:pass_emploi_app/repositories/attached_file_repository.dart';
+import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
@@ -417,8 +417,8 @@ class SuppressionCompteRepositoryFailureStub
   }
 }
 
-class AttachedFileRepositorySuccessStub extends AttachedFileRepository {
-  AttachedFileRepositorySuccessStub() : super("", DummyHttpClient());
+class PieceJointeRepositorySuccessStub extends PieceJointeRepository {
+  PieceJointeRepositorySuccessStub() : super("", DummyHttpClient());
 
   @override
   Future<String?> download({required String fileId, required String fileName}) async {
@@ -426,8 +426,8 @@ class AttachedFileRepositorySuccessStub extends AttachedFileRepository {
   }
 }
 
-class AttachedFileRepositoryFailureStub extends AttachedFileRepository {
-  AttachedFileRepositoryFailureStub() : super("", DummyHttpClient());
+class PieceJointeRepositoryFailureStub extends PieceJointeRepository {
+  PieceJointeRepositoryFailureStub() : super("", DummyHttpClient());
 
   @override
   Future<String?> download({required String fileId, required String fileName}) async {

@@ -1,5 +1,5 @@
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
-import 'package:pass_emploi_app/features/chat/attached_file/attached_file_state.dart';
+import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
 import 'package:pass_emploi_app/features/chat/share_file/share_file_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
@@ -37,13 +37,13 @@ extension AppStateDSL on AppState {
   AppState campagne(Campagne campagne) => copyWith(campagneState: CampagneState(campagne, []));
 
   AppState attachedFilesWithIdOneSuccess() =>
-      copyWith(attachedFilesState: AttachedFilesState({"id-1": AttachedFileSuccessStatus()}));
+      copyWith(attachedFilesState: PiecesJointesState({"id-1": PieceJointeSuccessStatus()}));
 
   AppState attachedFilesLoading(String id) =>
-      copyWith(attachedFilesState: AttachedFilesState({id: AttachedFileLoadingStatus()}));
+      copyWith(attachedFilesState: PiecesJointesState({id: PieceJointeLoadingStatus()}));
 
   AppState attachedFilesFailure(String id) =>
-      copyWith(attachedFilesState: AttachedFilesState({id: AttachedFileFailureStatus()}));
+      copyWith(attachedFilesState: PiecesJointesState({id: PieceJointeFailureStatus()}));
 
   AppState shareSheetNotInit() => copyWith(shareFileState: ShareFileNotInitializedState());
 

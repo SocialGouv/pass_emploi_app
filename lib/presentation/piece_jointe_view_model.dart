@@ -1,25 +1,25 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/chat/attached_file/attached_file_actions.dart';
-import 'package:pass_emploi_app/features/chat/attached_file/attached_file_state.dart';
+import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_actions.dart';
+import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-class AttachedFileViewModel extends Equatable {
+class PieceJointeViewModel extends Equatable {
   final DisplayState Function(String fileId) displayState;
-  final Function(AttachedFileConseillerMessageItem item) onClick;
+  final Function(PieceJointeConseillerMessageItem item) onClick;
 
-  AttachedFileViewModel._({
+  PieceJointeViewModel._({
     required this.displayState,
     required this.onClick,
   });
 
-  factory AttachedFileViewModel.create(Store<AppState> store) {
+  factory PieceJointeViewModel.create(Store<AppState> store) {
     final attachedFilesState = store.state.attachedFilesState;
-    return AttachedFileViewModel._(
+    return PieceJointeViewModel._(
       displayState: (fileId) => _displayState(fileId, attachedFilesState),
-      onClick: (item) => store.dispatch(AttachedFileRequestAction(item.id, item.filename)),
+      onClick: (item) => store.dispatch(PieceJointeRequestAction(item.id, item.filename)),
     );
   }
 
@@ -27,13 +27,13 @@ class AttachedFileViewModel extends Equatable {
   List<Object?> get props => [displayState];
 }
 
-DisplayState _displayState(String id, AttachedFilesState attachedFilesState) {
+DisplayState _displayState(String id, PiecesJointesState attachedFilesState) {
   final status = attachedFilesState.status[id];
-  if (status is AttachedFileLoadingStatus) {
+  if (status is PieceJointeLoadingStatus) {
     return DisplayState.LOADING;
-  } else if (status is AttachedFileFailureStatus) {
+  } else if (status is PieceJointeFailureStatus) {
     return DisplayState.FAILURE;
-  } else if (status is AttachedFileSuccessStatus) {
+  } else if (status is PieceJointeSuccessStatus) {
     return DisplayState.CONTENT;
   }
   return DisplayState.EMPTY;

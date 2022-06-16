@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
-import 'package:pass_emploi_app/features/chat/attached_file/attached_file_state.dart';
+import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/share_file/share_file_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
@@ -80,7 +80,7 @@ class AppState extends Equatable {
   final bool demoState;
   final SuppressionCompteState suppressionCompteState;
   final CampagneState campagneState;
-  final AttachedFilesState attachedFilesState;
+  final PiecesJointesState attachedFilesState;
   final ShareFileState shareFileState;
 
   AppState({
@@ -164,7 +164,7 @@ class AppState extends Equatable {
     final bool? demoState,
     final CampagneState? campagneState,
     final CreateDemarcheState? createDemarcheState,
-    final AttachedFilesState? attachedFilesState,
+    final PiecesJointesState? attachedFilesState,
     final ShareFileState? shareFileState,
   }) {
     return AppState(
@@ -273,7 +273,7 @@ class AppState extends Equatable {
       suppressionCompteState: SuppressionCompteNotInitializedState(),
       campagneState: CampagneState(null, []),
       createDemarcheState: CreateDemarcheNotInitializedState(),
-      attachedFilesState: AttachedFilesState({}),
+      attachedFilesState: PiecesJointesState({}),
       shareFileState: ShareFileNotInitializedState(),
     );
   }
