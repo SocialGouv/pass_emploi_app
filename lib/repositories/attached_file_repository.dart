@@ -17,14 +17,18 @@ class AttachedFileRepository {
     try {
       final response = await _httpClient.get(url);
       if (response.statusCode.isValid()) {
-        final tempDir = await getTemporaryDirectory();
-        final file = await  File('${tempDir.path}/$fileName').create();
-        file.writeAsBytesSync(response.bodyBytes);
-        return file.path;
+        return await _saveFile(fileName: fileName, fileId: fileId, response: response);
       }
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);
     }
     return null;
+  }
+
+  Future<String> _saveFile({required String fileName, required String fileId, required Response response}) async {
+    final tempDir = await getTemporaryDirectory();
+    final file = await File('${tempDir.path}/chat/attached_files/$fileId/$fileName').create(recursive: true);
+    await file.writeAsBytes(response.bodyBytes);
+    return file.path;
   }
 }
