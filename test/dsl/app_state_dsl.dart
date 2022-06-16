@@ -14,7 +14,11 @@ import '../utils/test_setup.dart';
 AppState givenState() => AppState.initialState();
 
 extension AppStateDSL on AppState {
-  Store<AppState> store() => TestStoreFactory().initializeReduxStore(initialState: this);
+  Store<AppState> store([Function(TestStoreFactory)? foo]) {
+    final factory = TestStoreFactory();
+    if (foo != null) foo(factory);
+    return factory.initializeReduxStore(initialState: this);
+  }
 
   AppState loggedInUser() => copyWith(loginState: successMiloUserState());
 
