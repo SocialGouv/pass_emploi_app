@@ -80,7 +80,7 @@ class AppState extends Equatable {
   final bool demoState;
   final SuppressionCompteState suppressionCompteState;
   final CampagneState campagneState;
-  final PiecesJointesState attachedFilesState;
+  final PiecesJointesState piecesJointesState;
   final ShareFileState shareFileState;
 
   AppState({
@@ -120,7 +120,7 @@ class AppState extends Equatable {
     required this.demoState,
     required this.campagneState,
     required this.createDemarcheState,
-    required this.attachedFilesState,
+    required this.piecesJointesState,
     required this.shareFileState,
   });
 
@@ -164,7 +164,7 @@ class AppState extends Equatable {
     final bool? demoState,
     final CampagneState? campagneState,
     final CreateDemarcheState? createDemarcheState,
-    final PiecesJointesState? attachedFilesState,
+    final PiecesJointesState? piecesJointesState,
     final ShareFileState? shareFileState,
   }) {
     return AppState(
@@ -223,7 +223,7 @@ class AppState extends Equatable {
           suppressionCompteState ?? this.suppressionCompteState,
       demoState: demoState ?? this.demoState,
       campagneState: campagneState ?? this.campagneState,
-      attachedFilesState: attachedFilesState ?? this.attachedFilesState,
+      piecesJointesState: piecesJointesState ?? this.piecesJointesState,
       shareFileState: shareFileState ?? this.shareFileState,
     );
   }
@@ -273,7 +273,7 @@ class AppState extends Equatable {
       suppressionCompteState: SuppressionCompteNotInitializedState(),
       campagneState: CampagneState(null, []),
       createDemarcheState: CreateDemarcheNotInitializedState(),
-      attachedFilesState: PiecesJointesState({}),
+      piecesJointesState: PiecesJointesState({}),
       shareFileState: ShareFileNotInitializedState(),
     );
   }
@@ -311,7 +311,7 @@ class AppState extends Equatable {
         demoState,
         campagneState,
         createDemarcheState,
-        attachedFilesState,
+        piecesJointesState,
         shareFileState,
       ];
 

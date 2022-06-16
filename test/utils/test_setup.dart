@@ -76,7 +76,7 @@ class TestStoreFactory {
   FirebaseRemoteConfig? remoteConfig;
   UpdateDemarcheRepository updateDemarcheRepository = DummyUpdateDemarcheRepository();
   CreateDemarcheRepository createDemarcheRepository = DummySuccessCreateDemarcheRepository();
-  PieceJointeRepository attachedFileRepository = DummyPieceJointeRepository();
+  PieceJointeRepository pieceJointeRepository = DummyPieceJointeRepository();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
@@ -115,7 +115,7 @@ class TestStoreFactory {
       remoteConfig,
       updateDemarcheRepository,
       createDemarcheRepository,
-      attachedFileRepository,
+      pieceJointeRepository,
     ).initializeReduxStore(initialState: initialState);
   }
 }

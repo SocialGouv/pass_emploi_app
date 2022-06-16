@@ -11,12 +11,12 @@ void main() {
   test("attached file should be fetched and shared when finish loading", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
-    testStoreFactory.attachedFileRepository = PieceJointeRepositorySuccessStub();
+    testStoreFactory.pieceJointeRepository = PieceJointeRepositorySuccessStub();
     final store = testStoreFactory.initializeReduxStore(initialState: loggedInPoleEmploiState());
 
-    final displayedLoading = store.onChange.any((e) => e.attachedFilesState.status["id-1"] is PieceJointeLoadingStatus);
+    final displayedLoading = store.onChange.any((e) => e.piecesJointesState.status["id-1"] is PieceJointeLoadingStatus);
     final successAppState =
-        store.onChange.firstWhere((e) => e.attachedFilesState.status["id-1"] is PieceJointeSuccessStatus);
+        store.onChange.firstWhere((e) => e.piecesJointesState.status["id-1"] is PieceJointeSuccessStatus);
 
     // When
     await store.dispatch(PieceJointeRequestAction("id-1", "png"));
@@ -24,18 +24,18 @@ void main() {
     // Then
     expect(await displayedLoading, true);
     final appState = await successAppState;
-    expect(appState.attachedFilesState.status["id-1"], PieceJointeSuccessStatus());
+    expect(appState.piecesJointesState.status["id-1"], PieceJointeSuccessStatus());
   });
 
   test("attached file should display an error when fetching failed", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
-    testStoreFactory.attachedFileRepository = PieceJointeRepositoryFailureStub();
+    testStoreFactory.pieceJointeRepository = PieceJointeRepositoryFailureStub();
     final store = testStoreFactory.initializeReduxStore(initialState: loggedInPoleEmploiState());
 
-    final displayedLoading = store.onChange.any((e) => e.attachedFilesState.status["id-1"] is PieceJointeLoadingStatus);
+    final displayedLoading = store.onChange.any((e) => e.piecesJointesState.status["id-1"] is PieceJointeLoadingStatus);
     final failureAppState =
-        store.onChange.firstWhere((e) => e.attachedFilesState.status["id-1"] is PieceJointeFailureStatus);
+        store.onChange.firstWhere((e) => e.piecesJointesState.status["id-1"] is PieceJointeFailureStatus);
 
     // When
     await store.dispatch(PieceJointeRequestAction("id-1", "png"));
@@ -43,25 +43,25 @@ void main() {
     // Then
     expect(await displayedLoading, true);
     final appState = await failureAppState;
-    expect(appState.attachedFilesState.status["id-1"], PieceJointeFailureStatus());
+    expect(appState.piecesJointesState.status["id-1"], PieceJointeFailureStatus());
   });
 
   test("fetching an attached file should only affect its own state", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
-    testStoreFactory.attachedFileRepository = PieceJointeRepositoryFailureStub();
+    testStoreFactory.pieceJointeRepository = PieceJointeRepositoryFailureStub();
     final store = testStoreFactory.initializeReduxStore(
-        initialState: givenState().loggedInUser().attachedFilesWithIdOneSuccess());
+        initialState: givenState().loggedInUser().piecesJointesWithIdOneSuccess());
 
     final changedAppState =
-        store.onChange.firstWhere((e) => e.attachedFilesState.status["id-2"] is PieceJointeFailureStatus);
+        store.onChange.firstWhere((e) => e.piecesJointesState.status["id-2"] is PieceJointeFailureStatus);
 
     // When
     await store.dispatch(PieceJointeRequestAction("id-2", "png"));
 
     // Then
     final appState = await changedAppState;
-    expect(appState.attachedFilesState.status["id-1"], PieceJointeSuccessStatus());
-    expect(appState.attachedFilesState.status["id-2"], PieceJointeFailureStatus());
+    expect(appState.piecesJointesState.status["id-1"], PieceJointeSuccessStatus());
+    expect(appState.piecesJointesState.status["id-2"], PieceJointeFailureStatus());
   });
 }

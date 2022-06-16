@@ -16,9 +16,9 @@ class PieceJointeViewModel extends Equatable {
   });
 
   factory PieceJointeViewModel.create(Store<AppState> store) {
-    final attachedFilesState = store.state.attachedFilesState;
+    final piecesJointesState = store.state.piecesJointesState;
     return PieceJointeViewModel._(
-      displayState: (fileId) => _displayState(fileId, attachedFilesState),
+      displayState: (fileId) => _displayState(fileId, piecesJointesState),
       onClick: (item) => store.dispatch(PieceJointeRequestAction(item.id, item.filename)),
     );
   }
@@ -27,8 +27,8 @@ class PieceJointeViewModel extends Equatable {
   List<Object?> get props => [displayState];
 }
 
-DisplayState _displayState(String id, PiecesJointesState attachedFilesState) {
-  final status = attachedFilesState.status[id];
+DisplayState _displayState(String id, PiecesJointesState piecesJointesState) {
+  final status = piecesJointesState.status[id];
   if (status is PieceJointeLoadingStatus) {
     return DisplayState.LOADING;
   } else if (status is PieceJointeFailureStatus) {

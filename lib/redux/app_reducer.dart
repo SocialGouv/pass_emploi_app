@@ -99,7 +99,7 @@ AppState reducer(AppState current, dynamic action) {
     demoState: modeDemoReducer(current, action),
     campagneState: campagneReducer(current.campagneState, action),
     createDemarcheState: createDemarcheReducer(current.createDemarcheState, action),
-    attachedFilesState: attachedFileReducer(current.attachedFilesState, action),
+    piecesJointesState: pieceJointeReducer(current.piecesJointesState, action),
     shareFileState: shareFileReducer(current.shareFileState, action),
   );
 }

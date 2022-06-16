@@ -121,7 +121,7 @@ class StoreFactory {
   final FirebaseRemoteConfig? remoteConfig;
   final UpdateDemarcheRepository updateDemarcheRepository;
   final CreateDemarcheRepository createDemarcheRepository;
-  final PieceJointeRepository attachedFileRepository;
+  final PieceJointeRepository pieceJointeRepository;
 
   StoreFactory(
     this.authenticator,
@@ -159,7 +159,7 @@ class StoreFactory {
     this.remoteConfig,
     this.updateDemarcheRepository,
     this.createDemarcheRepository,
-    this.attachedFileRepository,
+    this.pieceJointeRepository,
   );
 
   redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -221,7 +221,7 @@ class StoreFactory {
         ServiceCiviqueDetailMiddleware(serviceCiviqueDetailRepository),
         SuppressionCompteMiddleware(suppressionCompteRepository),
         CampagneMiddleware(campagneRepository),
-        PieceJointeMiddleware(attachedFileRepository),
+        PieceJointeMiddleware(pieceJointeRepository),
         ..._debugMiddleware(),
       ],
     );

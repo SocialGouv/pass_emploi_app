@@ -10,7 +10,7 @@ import '../../dsl/app_state_dsl.dart';
 void main() {
   test('should display loading', () {
     // Given
-    final store = givenState().attachedFilesLoading("id-1").store();
+    final store = givenState().piecesJointesLoading("id-1").store();
 
     // When
     final viewModel = PieceJointeViewModel.create(store);
@@ -21,7 +21,7 @@ void main() {
 
   test('should display failure', () {
     // Given
-    final store = givenState().attachedFilesFailure("id-1").store();
+    final store = givenState().piecesJointesFailure("id-1").store();
 
     // When
     final viewModel = PieceJointeViewModel.create(store);
@@ -32,7 +32,7 @@ void main() {
 
   test('should display content', () {
     // Given
-    final store = givenState().attachedFilesWithIdOneSuccess().store();
+    final store = givenState().piecesJointesWithIdOneSuccess().store();
 
     // When
     final viewModel = PieceJointeViewModel.create(store);

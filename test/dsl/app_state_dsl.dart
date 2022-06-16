@@ -36,14 +36,14 @@ extension AppStateDSL on AppState {
 
   AppState campagne(Campagne campagne) => copyWith(campagneState: CampagneState(campagne, []));
 
-  AppState attachedFilesWithIdOneSuccess() =>
-      copyWith(attachedFilesState: PiecesJointesState({"id-1": PieceJointeSuccessStatus()}));
+  AppState piecesJointesWithIdOneSuccess() =>
+      copyWith(piecesJointesState: PiecesJointesState({"id-1": PieceJointeSuccessStatus()}));
 
-  AppState attachedFilesLoading(String id) =>
-      copyWith(attachedFilesState: PiecesJointesState({id: PieceJointeLoadingStatus()}));
+  AppState piecesJointesLoading(String id) =>
+      copyWith(piecesJointesState: PiecesJointesState({id: PieceJointeLoadingStatus()}));
 
-  AppState attachedFilesFailure(String id) =>
-      copyWith(attachedFilesState: PiecesJointesState({id: PieceJointeFailureStatus()}));
+  AppState piecesJointesFailure(String id) =>
+      copyWith(piecesJointesState: PiecesJointesState({id: PieceJointeFailureStatus()}));
 
   AppState shareSheetNotInit() => copyWith(shareFileState: ShareFileNotInitializedState());
 
