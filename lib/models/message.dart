@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 
 enum Sender { jeune, conseiller }
 
-enum MessageType { message, nouveauConseiller, messagePj, inconnu }
+enum MessageType { message, nouveauConseiller, nouveauConseillerTemporaire, messagePj, inconnu }
 
 class Message extends Equatable {
   final String content;
@@ -56,6 +56,8 @@ class Message extends Equatable {
           return MessageType.message;
         case "NOUVEAU_CONSEILLER":
           return MessageType.nouveauConseiller;
+        case "NOUVEAU_CONSEILLER_TEMPORAIRE":
+          return MessageType.nouveauConseillerTemporaire;
         case "MESSAGE_PJ":
           return MessageType.messagePj;
         default:
