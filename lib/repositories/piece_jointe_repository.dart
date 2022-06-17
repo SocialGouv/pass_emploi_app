@@ -20,8 +20,6 @@ class PieceJointeRepository {
       if (response.statusCode.isValid()) {
         return await _saveFile(fileName: fileName, fileId: fileId, response: response);
       } else if (response.statusCode.notFound()) {
-        // Currently only the status code 404 need to be specifically detected.
-        // If in the future others error need to be detected replace fileNotAvailableError with an enum.
         return Strings.fileNotAvailableError;
       }
     } catch (e, stack) {

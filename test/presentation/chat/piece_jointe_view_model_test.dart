@@ -52,7 +52,7 @@ void main() {
     expect(viewModel.displayState("id-1"), DisplayState.EMPTY);
   });
 
-  test('should extract file id anf file name correctly', () {
+  test('should extract file id and file name correctly', () {
     // Given
     final store = StoreSpy();
     final viewModel = PieceJointeViewModel.create(store);

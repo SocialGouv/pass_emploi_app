@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 class PieceJointeViewModel extends Equatable {
-  final DisplayState? Function(String fileId) displayState;
+  final DisplayState Function(String fileId) displayState;
   final Function(PieceJointeConseillerMessageItem item) onClick;
 
   PieceJointeViewModel._({
@@ -27,7 +27,7 @@ class PieceJointeViewModel extends Equatable {
   List<Object?> get props => [displayState];
 }
 
-DisplayState? _displayState(String id, PiecesJointesState piecesJointesState) {
+DisplayState _displayState(String id, PiecesJointesState piecesJointesState) {
   final status = piecesJointesState.status[id];
   if (status is PieceJointeLoadingStatus) {
     return DisplayState.LOADING;
@@ -38,5 +38,5 @@ DisplayState? _displayState(String id, PiecesJointesState piecesJointesState) {
   } else if (status is PieceJointeUnavailableStatus) {
     return DisplayState.EMPTY;
   }
-  return null;
+  return DisplayState.FAILURE;
 }
