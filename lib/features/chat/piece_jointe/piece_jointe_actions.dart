@@ -11,6 +11,12 @@ class PieceJointeSuccessAction {
   PieceJointeSuccessAction(this.fileId);
 }
 
+class PieceJointeUnavailableAction {
+  final String fileId;
+
+  PieceJointeUnavailableAction(this.fileId);
+}
+
 class PieceJointeFailureAction {
   final String fileId;
 

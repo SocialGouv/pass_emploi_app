@@ -6,6 +6,8 @@ PiecesJointesState pieceJointeReducer(PiecesJointesState current, dynamic action
     return current.updated(action.fileId, PieceJointeLoadingStatus());
   } else if (action is PieceJointeFailureAction) {
     return current.updated(action.fileId, PieceJointeFailureStatus());
+  } else if (action is PieceJointeUnavailableAction) {
+    return current.updated(action.fileId, PieceJointeUnavailableStatus());
   } else if (action is PieceJointeSuccessAction) {
     return current.updated(action.fileId, PieceJointeSuccessStatus());
   }

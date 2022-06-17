@@ -114,7 +114,6 @@ class _DownloadButton extends StatefulWidget {
 }
 
 class _DownloadButtonState extends State<_DownloadButton> {
-
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, PieceJointeViewModel>(
@@ -127,11 +126,14 @@ class _DownloadButtonState extends State<_DownloadButton> {
   Widget _body(PieceJointeViewModel viewModel) {
     switch (viewModel.displayState(widget.item.id)) {
       case DisplayState.LOADING:
-        return _loader();
+        return _Loader();
+      case DisplayState.EMPTY:
+        return _FileWasDeleted();
       default:
         return _downloadButton(viewModel);
     }
   }
+
   String? filePath;
 
   Widget _downloadButton(PieceJointeViewModel viewModel) {
@@ -139,14 +141,36 @@ class _DownloadButtonState extends State<_DownloadButton> {
       child: PrimaryActionButton(
         label: viewModel.displayState(widget.item.id) == DisplayState.FAILURE ? Strings.retry : Strings.open,
         drawableRes: Drawables.icDownload,
-        onPressed: (){
-          viewModel.onClick(widget.item);
-        },
+        onPressed: () => viewModel.onClick(widget.item),
         heightPadding: 2,
       ),
     );
   }
-
-  Widget _loader() => Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
 }
 
+class _Loader extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
+  }
+}
+
+class _FileWasDeleted extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: SvgPicture.asset(Drawables.icImportantOutlined, color: AppColors.warning)),
+        Flexible(
+          child: Text(
+            Strings.fileNotAvailableTitle,
+            style: TextStyles.textBaseMediumWithColor(AppColors.warning),
+          ),
+        ),
+      ],
+    );
+  }
+}

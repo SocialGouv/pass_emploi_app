@@ -58,4 +58,23 @@ void main() {
     expect(appState.piecesJointesState.status["id-1"], PieceJointeSuccessStatus());
     expect(appState.piecesJointesState.status["id-2"], PieceJointeFailureStatus());
   });
+
+  test("attached file should display a unavailable message when fetching return 404 error", () async {
+    // Given
+    final store = givenState().loggedInUser() //
+        .store((factory) => {factory.pieceJointeRepository = PieceJointeRepositoryUnavailableStub()});
+
+    final displayedLoading = store.onChange.any((e) => e.piecesJointesState.status["id-1"] is PieceJointeLoadingStatus);
+    final failureAppState =
+    store.onChange.firstWhere((e) => e.piecesJointesState.status["id-1"] is PieceJointeUnavailableStatus);
+
+    // When
+    await store.dispatch(PieceJointeRequestAction("id-1", "png"));
+
+    // Then
+    expect(await displayedLoading, true);
+    final appState = await failureAppState;
+    expect(appState.piecesJointesState.status["id-1"], PieceJointeUnavailableStatus());
+  });
+
 }

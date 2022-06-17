@@ -434,3 +434,12 @@ class PieceJointeRepositoryFailureStub extends PieceJointeRepository {
     return null;
   }
 }
+
+class PieceJointeRepositoryUnavailableStub extends PieceJointeRepository {
+  PieceJointeRepositoryUnavailableStub() : super("", DummyHttpClient());
+
+  @override
+  Future<String?> download({required String fileId, required String fileName}) async {
+    return "ERROR: 404";
+  }
+}

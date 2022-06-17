@@ -32,6 +32,8 @@ class Strings {
 
   static String simpleDayFormat(day) => "Le $day";
   static String open = "Ouvrir";
+  static String fileNotAvailableError = "ERROR: 404";
+  static String fileNotAvailableTitle = "Les fichiers ne sont plus disponibles";
 
   // Force Update
   static String updateTitle = "Mise à jour";

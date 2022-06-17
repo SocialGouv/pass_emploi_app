@@ -41,7 +41,18 @@ void main() {
     expect(viewModel.displayState("id-1"), DisplayState.CONTENT);
   });
 
-  test('blablabla', () {
+  test('should display empty when file is unavailable', () {
+    // Given
+    final store = givenState().piecesJointesUnavailable("id-1").store();
+
+    // When
+    final viewModel = PieceJointeViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState("id-1"), DisplayState.EMPTY);
+  });
+
+  test('should extract file id and file name correctly', () {
     // Given
     final store = StoreSpy();
     final viewModel = PieceJointeViewModel.create(store);

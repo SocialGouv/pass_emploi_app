@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:path_provider/path_provider.dart';
 
 class PieceJointeRepository {
@@ -18,6 +19,8 @@ class PieceJointeRepository {
       final response = await _httpClient.get(url);
       if (response.statusCode.isValid()) {
         return await _saveFile(fileName: fileName, fileId: fileId, response: response);
+      } else if (response.statusCode.notFound()) {
+        return Strings.fileNotAvailableError;
       }
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);
