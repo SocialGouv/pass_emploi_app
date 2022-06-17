@@ -49,6 +49,9 @@ extension AppStateDSL on AppState {
   AppState piecesJointesFailure(String id) =>
       copyWith(piecesJointesState: PiecesJointesState({id: PieceJointeFailureStatus()}));
 
+  AppState piecesJointesUnavailable(String id) =>
+      copyWith(piecesJointesState: PiecesJointesState({id: PieceJointeUnavailableStatus()}));
+
   AppState shareSheetNotInit() => copyWith(shareFileState: ShareFileNotInitializedState());
 
   AppState shareSheet(String path) => copyWith(shareFileState: ShareFileSuccessState(path));
