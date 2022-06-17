@@ -25,3 +25,5 @@ class PieceJointeLoadingStatus extends PieceJointeStatus {}
 class PieceJointeSuccessStatus extends PieceJointeStatus {}
 
 class PieceJointeFailureStatus extends PieceJointeStatus {}
+
+class PieceJointeUnavailableStatus extends PieceJointeStatus {}
