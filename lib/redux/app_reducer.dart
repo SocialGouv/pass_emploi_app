@@ -101,7 +101,6 @@ AppState reducer(AppState current, dynamic action) {
     suppressionCompteState: suppressionCompteReducer(current.suppressionCompteState, action),
     demoState: modeDemoReducer(current, action),
     campagneState: campagneReducer(current.campagneState, action),
-    createDemarcheState: createDemarcheReducer(current.createDemarcheState, action),
     piecesJointesState: pieceJointeReducer(current.piecesJointesState, action),
     shareFileState: shareFileReducer(current.shareFileState, action),
   );
