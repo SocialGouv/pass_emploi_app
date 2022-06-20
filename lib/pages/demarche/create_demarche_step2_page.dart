@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_personnalisee_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step2_view_model.dart';
@@ -13,7 +14,7 @@ import 'package:pass_emploi_app/widgets/cards/demarche_du_referentiel_card.dart'
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
 class CreateDemarcheStep2Page extends TraceableStatelessWidget {
-  CreateDemarcheStep2Page._() : super(name: 'TODO-724');
+  CreateDemarcheStep2Page._() : super(name: AnalyticsScreenNames.searchDemarcheStep2);
 
   static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => CreateDemarcheStep2Page._());
@@ -49,7 +50,7 @@ class CreateDemarcheStep2Page extends TraceableStatelessWidget {
               pushAndTrackBack(
                 context,
                 CreateDemarchePersonnaliseePage.materialPageRoute(),
-                'TODO-724',
+                AnalyticsScreenNames.searchDemarcheStep2,
               );
             },
           );

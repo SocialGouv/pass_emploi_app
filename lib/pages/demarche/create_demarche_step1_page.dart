@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_actions.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step2_page.dart';
@@ -16,7 +17,7 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 
 class CreateDemarcheStep1Page extends TraceableStatefulWidget {
-  CreateDemarcheStep1Page._() : super(name: 'TODO-724');
+  CreateDemarcheStep1Page._() : super(name: AnalyticsScreenNames.searchDemarcheStep1);
 
   static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => CreateDemarcheStep1Page._());
@@ -36,7 +37,11 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
       converter: (store) => CreateDemarcheStep1ViewModel.create(store),
       onDidChange: (oldVm, newVm) {
         if (newVm.shouldGoToStep2) {
-          widget.pushAndTrackBack(context, CreateDemarcheStep2Page.materialPageRoute(), 'TODO-724');
+          widget.pushAndTrackBack(
+            context,
+            CreateDemarcheStep2Page.materialPageRoute(),
+            AnalyticsScreenNames.searchDemarcheStep1,
+          );
         }
       },
       onDispose: (store) => store.dispatch(SearchDemarcheResetAction()),
