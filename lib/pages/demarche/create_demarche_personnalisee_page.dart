@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
-import 'package:pass_emploi_app/presentation/demarche/create_demarche_view_model.dart';
+import 'package:pass_emploi_app/presentation/demarche/create_demarche_personnalisee_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -34,9 +34,9 @@ class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, CreateDemarcheViewModel>(
+    return StoreConnector<AppState, CreateDemarchePersonnaliseeViewModel>(
       builder: _buildBody,
-      converter: (store) => CreateDemarcheViewModel.create(store),
+      converter: (store) => CreateDemarchePersonnaliseeViewModel.create(store),
       onDidChange: (oldVm, newVm) {
         if (newVm.shouldGoBack) {
           Navigator.pop(context);
@@ -48,9 +48,9 @@ class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
     );
   }
 
-  Scaffold _buildBody(BuildContext context, CreateDemarcheViewModel viewModel) {
+  Scaffold _buildBody(BuildContext context, CreateDemarchePersonnaliseeViewModel viewModel) {
     return Scaffold(
-      appBar: passEmploiAppBar(label: "Création d'une démarche", context: context),
+      appBar: passEmploiAppBar(label: Strings.createDemarcheTitle, context: context),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -100,7 +100,7 @@ class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
     );
   }
 
-  bool _buttonShouldBeActive(CreateDemarcheViewModel viewModel) {
+  bool _buttonShouldBeActive(CreateDemarchePersonnaliseeViewModel viewModel) {
     return _isFormValid() && viewModel.displayState != DisplayState.LOADING;
   }
 
@@ -274,10 +274,9 @@ class _ChampCommentaire extends StatelessWidget {
       child: Container(
         height: 90,
         decoration: BoxDecoration(
-            border: Border.all(
-              color: borderColor,
-            ),
-            borderRadius: BorderRadius.circular(8)),
+          border: Border.all(color: borderColor),
+          borderRadius: BorderRadius.circular(8),
+        ),
         child: Padding(
           padding: const EdgeInsets.only(left: 10, right: 10),
           child: TextField(

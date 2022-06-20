@@ -1,9 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/presentation/demarche/create_demarche_view_model.dart';
+import 'package:pass_emploi_app/presentation/demarche/create_demarche_personnalisee_view_model.dart';
 
 import '../../doubles/fixtures.dart';
+import '../../doubles/spies.dart';
 import '../../utils/test_setup.dart';
 
 void main() {
@@ -14,7 +16,7 @@ void main() {
     );
 
     // When
-    final viewModel = CreateDemarcheViewModel.create(store);
+    final viewModel = CreateDemarchePersonnaliseeViewModel.create(store);
 
     // Then
     expect(viewModel.displayState, DisplayState.FAILURE);
@@ -28,7 +30,7 @@ void main() {
     );
 
     // When
-    final viewModel = CreateDemarcheViewModel.create(store);
+    final viewModel = CreateDemarchePersonnaliseeViewModel.create(store);
 
     // Then
     expect(viewModel.displayState, DisplayState.LOADING);
@@ -42,9 +44,25 @@ void main() {
     );
 
     // When
-    final viewModel = CreateDemarcheViewModel.create(store);
+    final viewModel = CreateDemarchePersonnaliseeViewModel.create(store);
 
     // Then
     expect(viewModel.shouldGoBack, isTrue);
+  });
+
+  test('onSearchDemarche should trigger action', () {
+    // Given
+    final store = StoreSpy();
+    final viewModel = CreateDemarchePersonnaliseeViewModel.create(store);
+    final now = DateTime.now();
+
+    // When
+    viewModel.onCreateDemarche('commentaire', now);
+
+    // Then
+    expect(store.dispatchedAction, isA<CreateDemarcheRequestAction>());
+    final action = store.dispatchedAction as CreateDemarcheRequestAction;
+    expect(action.commentaire, 'commentaire');
+    expect(action.dateEcheance, now);
   });
 }

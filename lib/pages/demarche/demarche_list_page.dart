@@ -4,9 +4,9 @@ import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
-import 'package:pass_emploi_app/pages/demarche/create_demarche_personnalisee_page.dart';
-import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
 import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
+import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -124,7 +124,11 @@ class _AddDemarcheButton extends StatelessWidget {
           drawableRes: Drawables.icAdd,
           label: Strings.addADemarche,
           onPressed: () {
-            pushAndTrackBack(context, CreateDemarchePersonnaliseePage.materialPageRoute(), AnalyticsScreenNames.userActionList);
+            pushAndTrackBack(
+              context,
+              CreateDemarcheStep1Page.materialPageRoute(),
+              AnalyticsScreenNames.userActionList,
+            );
           },
         ),
       ),

@@ -168,7 +168,6 @@ class Strings {
   static String withOrganism(String organism) => "Avec : $organism";
 
   // App evaluation
-
   static String evalTitle = "Votre expérience sur l’application";
   static String evalDescription = "Aidez-nous à améliorer l’application en répondant à 2 questions.";
   static String evalButton = "Donner son avis";
@@ -180,7 +179,7 @@ class Strings {
   static String pourquoiTitle = "Pourquoi ?";
   static String evaluationSuccessfullySent = "Vous avez répondu aux questions, merci !";
 
-  // User Action
+  // User Action & demarche
   static String actionsError = "Erreur lors de la récupération de vos actions";
   static const String actionDone = "Terminée";
   static const String actionCanceled = "Annulée";
@@ -194,6 +193,7 @@ class Strings {
   static String noActionsYet = "Vous n'avez pas encore d’actions";
   static String addAnAction = "Créer une action";
   static String addADemarche = "Créer une démarche";
+  static String createDemarcheTitle = "Création d'une démarche";
   static String addALaDemarche = "Créer la démarche";
   static String addAMessageError = "Vous avez dépassé le nombre de caractères autorisés";
   static String create = "Créer";
