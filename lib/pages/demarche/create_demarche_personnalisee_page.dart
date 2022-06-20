@@ -39,7 +39,7 @@ class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
       converter: (store) => CreateDemarchePersonnaliseeViewModel.create(store),
       onDidChange: (oldVm, newVm) {
         if (newVm.shouldGoBack) {
-          Navigator.pop(context);
+          Navigator.popUntil(context, (route) => route.settings.name == Navigator.defaultRouteName);
           showSuccessfulSnackBar(context, Strings.demarcheCreationSuccess);
         }
       },
