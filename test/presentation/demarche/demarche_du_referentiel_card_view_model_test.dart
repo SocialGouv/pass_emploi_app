@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
-import 'package:pass_emploi_app/presentation/demarche/demarche_du_referentiel_card_view_model%20.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_du_referentiel_card_view_model.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../utils/test_setup.dart';
