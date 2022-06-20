@@ -25,6 +25,8 @@ class StatutTag extends StatelessWidget {
       child: Text(
         title,
         style: TextStyles.textSRegularWithColor(textColor),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
       ),
     );
   }

@@ -119,7 +119,7 @@ class _PremierTitre extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 24, right: 24, top: 16),
       child: Text(
-        Strings.createDemarchePersonalisee,
+        Strings.createDemarchePersonnalisee,
         style: TextStyles.textBaseBoldWithColor(AppColors.primary),
       ),
     );
@@ -132,7 +132,7 @@ class _SecondTitre extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 24, right: 24, top: 12),
       child: Text(
-        Strings.createDemarchePersonaliseeAsterix,
+        Strings.createDemarchePersonnaliseeAsterix,
         style: TextStyles.textSRegular(),
       ),
     );

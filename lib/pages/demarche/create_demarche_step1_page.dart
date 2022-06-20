@@ -7,13 +7,16 @@ import 'package:pass_emploi_app/pages/demarche/create_demarche_step2_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step1_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 
 class CreateDemarcheStep1Page extends TraceableStatefulWidget {
-  CreateDemarcheStep1Page._() : super(name: "TODO-724");
+  CreateDemarcheStep1Page._() : super(name: 'TODO-724');
 
   static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(builder: (context) => CreateDemarcheStep1Page._());
@@ -48,29 +51,69 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
         padding: const EdgeInsets.all(Margins.spacing_base),
         child: Column(
           children: [
-            Text('Saisissez une démarche'),
-            Text('Renseigner un mot clé pour rechercher une démarche à créer'),
-            DecoratedBox(
-              decoration: BoxDecoration(
-                border: Border.all(color: AppColors.contentColor),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: TextField(
-                onChanged: (value) {
-                  setState(() {
-                    _query = value;
-                  });
-                },
-              ),
+            Text(Strings.searchDemarcheHint, style: TextStyles.textBaseMedium),
+            SizedBox(height: Margins.spacing_base),
+            _ChampRecherche(
+              onChanged: (value) {
+                setState(() {
+                  _query = value;
+                });
+              },
             ),
-            if (viewModel.displayState.isFailure()) Text('Erreur'),
+            if (viewModel.displayState.isFailure()) ErrorText(Strings.genericError),
+            SizedBox(height: Margins.spacing_xl),
             PrimaryActionButton(
-              label: 'Rechercher une démarche',
-              onPressed: viewModel.displayState.isLoading() ? null : () => viewModel.onSearchDemarche(_query),
+              drawableRes: Drawables.icSearch,
+              label: Strings.searchDemarcheButton,
+              onPressed: _buttonIsActive(viewModel) ? () => viewModel.onSearchDemarche(_query) : null,
             ),
           ],
         ),
       ),
     );
   }
+
+  bool _buttonIsActive(CreateDemarcheStep1ViewModel viewModel) {
+    return _query.trim().isNotEmpty && !viewModel.displayState.isLoading();
+  }
+}
+
+class _ChampRecherche extends StatelessWidget {
+  final ValueChanged<String> onChanged;
+
+  const _ChampRecherche({required this.onChanged});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      style: TextStyles.textBaseBold,
+      keyboardType: TextInputType.text,
+      textInputAction: TextInputAction.done,
+      validator: (value) {
+        if (value == null || value.trim().isEmpty) return Strings.mandatoryField;
+        return null;
+      },
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      decoration: InputDecoration(
+        contentPadding: const EdgeInsets.only(
+          left: Margins.spacing_m,
+          top: Margins.spacing_base,
+          bottom: Margins.spacing_base,
+        ),
+        border: _Border(AppColors.contentColor),
+        focusedBorder: _Border(AppColors.primary),
+        errorBorder: _Border(AppColors.warning),
+        focusedErrorBorder: _Border(AppColors.warning),
+      ),
+      onChanged: onChanged,
+    );
+  }
+}
+
+class _Border extends OutlineInputBorder {
+  _Border(Color color)
+      : super(
+          borderRadius: BorderRadius.circular(8.0),
+          borderSide: BorderSide(color: color, width: 1.0),
+        );
 }

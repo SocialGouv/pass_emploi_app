@@ -96,9 +96,6 @@ class Strings {
   ];
 
   // Login
-  static String performLogin = "Connectez-vous";
-  static String mandatoryAccessCodeError = "Votre code d'accès doit être renseigné";
-  static String yourAccessCode = "Votre code d'accès";
   static String loginError = "Erreur lors de la connexion";
   static String loginPassEmploi = "pass emploi";
   static String loginPoleEmploi = "Pôle emploi";
@@ -179,7 +176,7 @@ class Strings {
   static String pourquoiTitle = "Pourquoi ?";
   static String evaluationSuccessfullySent = "Vous avez répondu aux questions, merci !";
 
-  // User Action & demarche
+  // User Action
   static String actionsError = "Erreur lors de la récupération de vos actions";
   static const String actionDone = "Terminée";
   static const String actionCanceled = "Annulée";
@@ -192,11 +189,6 @@ class Strings {
   static const String actionInProgress = "Commencée";
   static String noActionsYet = "Vous n'avez pas encore d’actions";
   static String addAnAction = "Créer une action";
-  static String addADemarche = "Créer une démarche";
-  static String createDemarcheTitle = "Création d'une démarche";
-  static String noDemarcheFound = "Aucune démarche pre-renseignée n’a été trouvée";
-  static String selectDemarche = "Sélectionnez une démarche ou créez une démarche personnalisée";
-  static String addALaDemarche = "Créer la démarche";
   static String addAMessageError = "Vous avez dépassé le nombre de caractères autorisés";
   static String create = "Créer";
   static String actionLabel = "Intitulé de l'action";
@@ -220,7 +212,7 @@ class Strings {
   static String lastUpdateFormat(String formattedDate) => "Modifiée le $formattedDate";
   static String doneActionsTitle = "Actions terminées et annulées";
 
-  //User Action Pole Emploi
+  // Demarches
   static String modifierStatut = "Modifier le statut";
   static String historiqueDemarche = "Historique";
   static String modifiedBy = "Modifiée le ";
@@ -233,13 +225,21 @@ class Strings {
   static const String demarcheDone = "Réalisé";
   static const String demarcheCancelled = "Annulé";
   static const String demarcheLate = "En retard : ";
-  static const String createDemarchePersonalisee = "Créer une démarche personnalisée";
-  static const String createDemarchePersonaliseeAsterix = "Les champs marqués d’une * sont obligatoires";
+  static const String createDemarchePersonnalisee = "Créer une démarche personnalisée";
+  static const String createDemarchePersonnaliseeAsterix = "Les champs marqués d’une * sont obligatoires";
   static const String commentaire = "Commentaire";
   static const String descriptionDemarche = "*Description de la démarche";
   static const String caracteres255 = "255 caractères maximum";
   static const String quand = "Quand";
   static const String selectEcheance = "*Sélectionner une date d'échéance";
+  static const String addADemarche = "Créer une démarche";
+  static const String createDemarcheTitle = "Création d'une démarche";
+  static const String noDemarcheFound = "Aucune démarche pre-renseignée n’a été trouvée";
+  static const String selectDemarche = "Sélectionnez une démarche ou créez une démarche personnalisée";
+  static const String addALaDemarche = "Créer la démarche";
+  static const String searchDemarcheHint = "Renseigner un mot clé pour rechercher une démarche à créer";
+  static const String searchDemarcheButton = "Rechercher une démarche";
+  static const String mandatoryField = "Le champs est obligatoire";
 
   static String demarcheActiveDateFormat(String formattedDate) => "À réaliser pour le $formattedDate";
 
