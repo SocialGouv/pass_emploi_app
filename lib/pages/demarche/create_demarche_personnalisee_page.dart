@@ -17,18 +17,18 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
-class CreateDemarchePage extends TraceableStatefulWidget {
-  CreateDemarchePage._() : super(name: AnalyticsScreenNames.createDemarche);
+class CreateDemarchePersonnaliseePage extends TraceableStatefulWidget {
+  CreateDemarchePersonnaliseePage._() : super(name: AnalyticsScreenNames.createDemarchePersonnalisee);
 
   static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => CreateDemarchePage._());
+    return MaterialPageRoute(builder: (context) => CreateDemarchePersonnaliseePage._());
   }
 
   @override
-  State<CreateDemarchePage> createState() => _CreateDemarchePageState();
+  State<CreateDemarchePersonnaliseePage> createState() => _CreateDemarchePageState();
 }
 
-class _CreateDemarchePageState extends State<CreateDemarchePage> {
+class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
   String _commentaire = "";
   DateTime? _echeanceDate;
 
@@ -67,7 +67,7 @@ class _CreateDemarchePageState extends State<CreateDemarchePage> {
               });
             }, _isCommentaireValid()),
             _NombreCaracteresCompteur(_commentaire.length, _isCommentaireValid()),
-            if (!_isCommentaireValid()) _MessageError255(),
+            if (!_isCommentaireValid()) _MessageError(),
             _Separateur2(),
             _QuandTitre(),
             _EcheanceTitre(),
@@ -295,7 +295,7 @@ class _ChampCommentaire extends StatelessWidget {
   }
 }
 
-class _MessageError255 extends StatelessWidget {
+class _MessageError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(

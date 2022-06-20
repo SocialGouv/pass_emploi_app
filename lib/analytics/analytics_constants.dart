@@ -16,7 +16,7 @@ class AnalyticsScreenNames {
   static const userActionDetails = "actions/detail";
   static const updateUserAction = "actions/detail?modifySuccess=true";
   static const createUserAction = "actions/create";
-  static const createDemarche = "actions/demarche-personnalisee/create";
+  static const createDemarchePersonnalisee = "actions/demarche-personnalisee/create";
 
   static const chat = "chat";
 
