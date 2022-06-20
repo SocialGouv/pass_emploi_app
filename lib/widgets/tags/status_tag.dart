@@ -6,8 +6,12 @@ class StatutTag extends StatelessWidget {
   final Color textColor;
   final String title;
 
-  const StatutTag({Key? key, required this.backgroundColor, required this.textColor, required this.title})
-      : super(key: key);
+  const StatutTag({
+    Key? key,
+    required this.backgroundColor,
+    required this.textColor,
+    required this.title,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

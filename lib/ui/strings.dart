@@ -194,6 +194,8 @@ class Strings {
   static String addAnAction = "Créer une action";
   static String addADemarche = "Créer une démarche";
   static String createDemarcheTitle = "Création d'une démarche";
+  static String noDemarcheFound = "Aucune démarche pre-renseignée n’a été trouvée";
+  static String selectDemarche = "Sélectionnez une démarche ou créez une démarche personnalisée";
   static String addALaDemarche = "Créer la démarche";
   static String addAMessageError = "Vous avez dépassé le nombre de caractères autorisés";
   static String create = "Créer";

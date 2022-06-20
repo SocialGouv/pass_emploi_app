@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_actions.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche_step2_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step1_view_model.dart';
-import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -32,7 +33,7 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
       converter: (store) => CreateDemarcheStep1ViewModel.create(store),
       onDidChange: (oldVm, newVm) {
         if (newVm.shouldGoToStep2) {
-          // TODO step 2
+          widget.pushAndTrackBack(context, CreateDemarcheStep2Page.materialPageRoute(), 'TODO-724');
         }
       },
       onDispose: (store) => store.dispatch(SearchDemarcheResetAction()),
@@ -48,7 +49,7 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
         child: Column(
           children: [
             Text('Saisissez une démarche'),
-            Text('Ceci est une phrase de description pour un un input.'),
+            Text('Renseigner un mot clé pour rechercher une démarche à créer'),
             DecoratedBox(
               decoration: BoxDecoration(
                 border: Border.all(color: AppColors.contentColor),
@@ -62,10 +63,10 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
                 },
               ),
             ),
+            if (viewModel.displayState.isFailure()) Text('Erreur'),
             PrimaryActionButton(
               label: 'Rechercher une démarche',
-              onPressed:
-                  viewModel.displayState != DisplayState.LOADING ? () => viewModel.onSearchDemarche(_query) : null,
+              onPressed: viewModel.displayState.isLoading() ? null : () => viewModel.onSearchDemarche(_query),
             ),
           ],
         ),
