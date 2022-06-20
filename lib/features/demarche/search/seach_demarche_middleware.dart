@@ -5,9 +5,9 @@ import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository
 import 'package:redux/redux.dart';
 
 class SearchDemarcheMiddleware extends MiddlewareClass<AppState> {
-  final SearchDemarcheRepository repository;
+  final SearchDemarcheRepository _repository;
 
-  SearchDemarcheMiddleware(this.repository);
+  SearchDemarcheMiddleware(this._repository);
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
@@ -15,7 +15,7 @@ class SearchDemarcheMiddleware extends MiddlewareClass<AppState> {
     final loginState = store.state.loginState;
     if (loginState is LoginSuccessState && action is SearchDemarcheRequestAction) {
       store.dispatch(SearchDemarcheLoadingAction());
-      final demarches = await repository.search(action.query);
+      final demarches = await _repository.search(action.query);
       store.dispatch(demarches != null ? SearchDemarcheSuccessAction(demarches) : SearchDemarcheFailureAction());
     }
   }
