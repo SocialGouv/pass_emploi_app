@@ -9,8 +9,8 @@ import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class DemarcheCardViewModel extends Equatable {
   final String id;
-  final String title;
-  final String? subTitle;
+  final String titre;
+  final String? sousTitre;
   final DemarcheStatus status;
   final bool createdByAdvisor;
   final bool modifiedByAdvisor;
@@ -21,8 +21,8 @@ class DemarcheCardViewModel extends Equatable {
 
   DemarcheCardViewModel({
     required this.id,
-    required this.title,
-    required this.subTitle,
+    required this.titre,
+    required this.sousTitre,
     required this.status,
     required this.createdByAdvisor,
     required this.modifiedByAdvisor,
@@ -35,8 +35,8 @@ class DemarcheCardViewModel extends Equatable {
   factory DemarcheCardViewModel.create(Demarche demarche, bool isDetailAvailable) {
     return DemarcheCardViewModel(
       id: demarche.id,
-      title: demarche.content ?? Strings.withoutContent,
-      subTitle: _description(demarche),
+      titre: demarche.content ?? Strings.withoutContent,
+      sousTitre: _description(demarche),
       status: demarche.status,
       createdByAdvisor: demarche.createdByAdvisor,
       modifiedByAdvisor: demarche.modifiedByAdvisor,
@@ -61,11 +61,11 @@ class DemarcheCardViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, title, subTitle, status, formattedDate, createdByAdvisor, tag];
+  List<Object?> get props => [id, titre, sousTitre, status, formattedDate, createdByAdvisor, tag];
 }
 
 String? _description(Demarche demarche) {
-  return demarche.attributs.firstWhereOrNull((e) => e.valeur == 'description')?.label;
+  return demarche.attributs.firstWhereOrNull((e) => e.key == 'description')?.value;
 }
 
 String _setFormattedDate(DemarcheStatus status, String? endDate, String? deletionDate) {

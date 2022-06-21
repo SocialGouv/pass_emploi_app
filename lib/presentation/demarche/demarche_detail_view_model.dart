@@ -55,7 +55,7 @@ class DemarcheDetailViewModel extends Equatable {
       label: demarche.label,
       titreDetail: demarche.titre,
       sousTitre: demarche.sousTitre,
-      attributs: demarche.attributs.map((e) => e.valeur).toList(),
+      attributs: demarche.attributs.map((e) => e.value).toList(),
       statutsPossibles: demarche.possibleStatus.map((e) => _getTagViewModel(e, demarche.status)).toList(),
       modificationDate: demarche.modificationDate?.toDay(),
       creationDate: demarche.creationDate?.toDay(),

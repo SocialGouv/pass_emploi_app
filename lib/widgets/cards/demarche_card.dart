@@ -19,9 +19,11 @@ class DemarcheCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
-      decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), boxShadow: [
-        Shadows.boxShadow,
-      ]),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [Shadows.boxShadow],
+      ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
         child: Material(
@@ -35,11 +37,11 @@ class DemarcheCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (viewModel.tag != null) _buildStatut(viewModel.tag!),
-                  Text(viewModel.title, style: TextStyles.textBaseBold),
-                  if (viewModel.subTitle != null) Text(viewModel.subTitle!, style: TextStyles.textBaseRegular),
-                  if (viewModel.createdByAdvisor) _buildCreatorText(),
-                  _buildDate(),
+                  if (viewModel.tag != null) _Tag(viewModel.tag!),
+                  Text(viewModel.titre, style: TextStyles.textBaseBold),
+                  if (viewModel.sousTitre != null) _SousTitre(viewModel.sousTitre!),
+                  if (viewModel.createdByAdvisor) _CreatorText(),
+                  _Date(viewModel),
                 ],
               ),
             ),
@@ -48,8 +50,15 @@ class DemarcheCard extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildStatut(UserActionTagViewModel viewModel) {
+class _Tag extends StatelessWidget {
+  final UserActionTagViewModel viewModel;
+
+  const _Tag(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: Margins.spacing_base),
       child: StatutTag(
@@ -59,15 +68,44 @@ class DemarcheCard extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildCreatorText() {
+class _SousTitre extends StatelessWidget {
+  final String sousTitre;
+
+  const _SousTitre(this.sousTitre);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: Margins.spacing_s),
+      child: Text(
+        sousTitre,
+        style: TextStyles.textSRegular(color: AppColors.contentColor),
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+      ),
+    );
+  }
+}
+
+class _CreatorText extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: Margins.spacing_base),
       child: Text(Strings.createByAdvisor, style: TextStyles.textSRegularWithColor(AppColors.primary)),
     );
   }
+}
 
-  Widget _buildDate() {
+class _Date extends StatelessWidget {
+  final DemarcheCardViewModel viewModel;
+
+  const _Date(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
