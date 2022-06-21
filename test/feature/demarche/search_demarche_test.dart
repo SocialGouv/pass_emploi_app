@@ -6,15 +6,14 @@ import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
-import '../../utils/test_setup.dart';
+import '../../dsl/app_state_dsl.dart';
 
 void main() {
   test('Demarches du référentiel should be searched and displayed when screen loads', () async {
     // Given
-    final testStoreFactory = TestStoreFactory();
-    testStoreFactory.searchDemarcheRepository = DemarcheDuReferentielSuccessStub();
-    final store = testStoreFactory.initializeReduxStore(initialState: loggedInPoleEmploiState());
-
+    final store = givenState()
+        .loggedInUser()
+        .store((factory) => {factory.searchDemarcheRepository = DemarcheDuReferentielSuccessStub()});
     final displayedLoading = store.onChange.any((e) => e.searchDemarcheState is SearchDemarcheLoadingState);
     final successAppState = store.onChange.firstWhere((e) => e.searchDemarcheState is SearchDemarcheSuccessState);
 
@@ -33,10 +32,9 @@ void main() {
 
   test('Search should display an error when fetching failed', () async {
     // Given
-    final testStoreFactory = TestStoreFactory();
-    testStoreFactory.searchDemarcheRepository = DemarcheDuReferentielFailureStub();
-    final store = testStoreFactory.initializeReduxStore(initialState: loggedInPoleEmploiState());
-
+    final store = givenState()
+        .loggedInUser()
+        .store((factory) => {factory.searchDemarcheRepository = DemarcheDuReferentielFailureStub()});
     final displayedLoading = store.onChange.any((e) => e.searchDemarcheState is SearchDemarcheLoadingState);
     final successAppState = store.onChange.firstWhere((e) => e.searchDemarcheState is SearchDemarcheFailureState);
 
@@ -51,13 +49,10 @@ void main() {
 
   test('Reset', () async {
     // Given
-    final testStoreFactory = TestStoreFactory();
-    testStoreFactory.searchDemarcheRepository = DemarcheDuReferentielFailureStub();
-    final store = testStoreFactory.initializeReduxStore(
-      initialState: loggedInPoleEmploiState().copyWith(
-        searchDemarcheState: SearchDemarcheSuccessState([mockDemarcheDuReferentiel('quoi')]),
-      ),
-    );
+    final store = givenState() //
+        .loggedInUser() //
+        .searchDemarchesSuccess([mockDemarcheDuReferentiel('quoi')]) //
+        .store();
 
     // When
     await store.dispatch(SearchDemarcheResetAction());

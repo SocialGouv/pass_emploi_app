@@ -37,18 +37,13 @@ class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
     return StoreConnector<AppState, CreateDemarchePersonnaliseeViewModel>(
       builder: _buildBody,
       converter: (store) => CreateDemarchePersonnaliseeViewModel.create(store),
-      onDidChange: (oldVm, newVm) {
-        if (newVm.shouldGoBack) {
-          Navigator.popUntil(context, (route) => route.settings.name == Navigator.defaultRouteName);
-          showSuccessfulSnackBar(context, Strings.demarcheCreationSuccess);
-        }
-      },
+      onDidChange: _onDidChange,
       onDispose: (store) => store.dispatch(CreateDemarcheResetAction()),
       distinct: true,
     );
   }
 
-  Scaffold _buildBody(BuildContext context, CreateDemarchePersonnaliseeViewModel viewModel) {
+  Widget _buildBody(BuildContext context, CreateDemarchePersonnaliseeViewModel viewModel) {
     return Scaffold(
       appBar: passEmploiAppBar(label: Strings.createDemarcheTitle, context: context),
       body: SingleChildScrollView(
@@ -98,6 +93,13 @@ class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
         ),
       ),
     );
+  }
+
+  void _onDidChange(CreateDemarchePersonnaliseeViewModel? oldVm, CreateDemarchePersonnaliseeViewModel newVm) {
+    if (newVm.shouldGoBack) {
+      Navigator.popUntil(context, (route) => route.settings.name == Navigator.defaultRouteName);
+      showSuccessfulSnackBar(context, Strings.demarcheCreationSuccess);
+    }
   }
 
   bool _buttonShouldBeActive(CreateDemarchePersonnaliseeViewModel viewModel) {

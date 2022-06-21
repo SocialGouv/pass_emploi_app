@@ -35,21 +35,13 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
     return StoreConnector<AppState, CreateDemarcheStep1ViewModel>(
       builder: _buildBody,
       converter: (store) => CreateDemarcheStep1ViewModel.create(store),
-      onDidChange: (oldVm, newVm) {
-        if (newVm.shouldGoToStep2) {
-          widget.pushAndTrackBack(
-            context,
-            CreateDemarcheStep2Page.materialPageRoute(),
-            AnalyticsScreenNames.searchDemarcheStep1,
-          );
-        }
-      },
+      onDidChange: _onDidChange,
       onDispose: (store) => store.dispatch(SearchDemarcheResetAction()),
       distinct: true,
     );
   }
 
-  Scaffold _buildBody(BuildContext context, CreateDemarcheStep1ViewModel viewModel) {
+  Widget _buildBody(BuildContext context, CreateDemarcheStep1ViewModel viewModel) {
     return Scaffold(
       appBar: passEmploiAppBar(label: Strings.createDemarcheTitle, context: context),
       body: Padding(
@@ -76,6 +68,16 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
         ),
       ),
     );
+  }
+
+  void _onDidChange(CreateDemarcheStep1ViewModel? oldVm, CreateDemarcheStep1ViewModel newVm) {
+    if (newVm.shouldGoToStep2) {
+      widget.pushAndTrackBack(
+        context,
+        CreateDemarcheStep2Page.materialPageRoute(),
+        AnalyticsScreenNames.searchDemarcheStep1,
+      );
+    }
   }
 
   bool _buttonIsActive(CreateDemarcheStep1ViewModel viewModel) {

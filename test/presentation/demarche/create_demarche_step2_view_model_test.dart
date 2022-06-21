@@ -1,16 +1,16 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step2_view_model.dart';
 
 import '../../doubles/fixtures.dart';
-import '../../utils/test_setup.dart';
+import '../../dsl/app_state_dsl.dart';
 
 void main() {
   test('create when state is successful without result should only display specific title and button', () {
     // Given
-    final store = TestStoreFactory().initializeReduxStore(
-      initialState: loggedInState().copyWith(searchDemarcheState: SearchDemarcheSuccessState([])),
-    );
+    final store = givenState() //
+        .loggedInUser() //
+        .searchDemarchesSuccess([]) //
+        .store();
 
     // When
     final viewModel = CreateDemarcheStep2ViewModel.create(store);
@@ -29,14 +29,10 @@ void main() {
 
   test('create when state is successful with result should display specific title, items and button', () {
     // Given
-    final store = TestStoreFactory().initializeReduxStore(
-      initialState: loggedInState().copyWith(
-        searchDemarcheState: SearchDemarcheSuccessState([
-          mockDemarcheDuReferentiel('quoi-1'),
-          mockDemarcheDuReferentiel('quoi-2'),
-        ]),
-      ),
-    );
+    final store = givenState() //
+        .loggedInUser() //
+        .searchDemarchesSuccess([mockDemarcheDuReferentiel('quoi-1'), mockDemarcheDuReferentiel('quoi-2')]) //
+        .store();
 
     // When
     final viewModel = CreateDemarcheStep2ViewModel.create(store);

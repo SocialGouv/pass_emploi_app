@@ -2,8 +2,10 @@ import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
 import 'package:pass_emploi_app/features/chat/share_file/share_file_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
+import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
+import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
@@ -56,6 +58,11 @@ extension AppStateDSL on AppState {
 
   AppState shareSheet(String path) => copyWith(shareFileState: ShareFileSuccessState(path));
 
-  AppState deeplinkToRendezvous(String id) =>
-      copyWith(deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_RENDEZVOUS, DateTime.now(), id));
+  AppState deeplinkToRendezvous(String id) {
+    return copyWith(deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_RENDEZVOUS, DateTime.now(), id));
+  }
+
+  AppState searchDemarchesSuccess(List<DemarcheDuReferentiel> demarches) {
+    return copyWith(searchDemarcheState: SearchDemarcheSuccessState(demarches));
+  }
 }
