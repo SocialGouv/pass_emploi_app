@@ -12,6 +12,8 @@ import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
@@ -19,11 +21,10 @@ import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_rep
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
-import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
-import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
+import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
@@ -76,6 +77,7 @@ class TestStoreFactory {
   FirebaseRemoteConfig? remoteConfig;
   UpdateDemarcheRepository updateDemarcheRepository = DummyUpdateDemarcheRepository();
   CreateDemarcheRepository createDemarcheRepository = DummySuccessCreateDemarcheRepository();
+  SearchDemarcheRepository searchDemarcheRepository = DummyDemarcheDuReferentielRepository();
   PieceJointeRepository pieceJointeRepository = DummyPieceJointeRepository();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -115,6 +117,7 @@ class TestStoreFactory {
       remoteConfig,
       updateDemarcheRepository,
       createDemarcheRepository,
+      searchDemarcheRepository,
       pieceJointeRepository,
     ).initializeReduxStore(initialState: initialState);
   }

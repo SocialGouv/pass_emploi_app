@@ -5,19 +5,19 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-class CreateDemarcheViewModel extends Equatable {
+class CreateDemarchePersonnaliseeViewModel extends Equatable {
   final DisplayState displayState;
   final bool shouldGoBack;
   final Function(String, DateTime) onCreateDemarche;
 
-  CreateDemarcheViewModel({
+  CreateDemarchePersonnaliseeViewModel({
     required this.displayState,
     required this.shouldGoBack,
     required this.onCreateDemarche,
   });
 
-  factory CreateDemarcheViewModel.create(Store<AppState> store) {
-    return CreateDemarcheViewModel(
+  factory CreateDemarchePersonnaliseeViewModel.create(Store<AppState> store) {
+    return CreateDemarchePersonnaliseeViewModel(
       displayState: _displayState(store),
       shouldGoBack: store.state.createDemarcheState is CreateDemarcheSuccessState,
       onCreateDemarche: (commentaire, echeanceDate) => store.dispatch(

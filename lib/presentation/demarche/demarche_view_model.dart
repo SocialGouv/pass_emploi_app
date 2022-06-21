@@ -29,17 +29,17 @@ class DemarcheViewModel extends Equatable {
     required this.isDetailEnabled,
   });
 
-  factory DemarcheViewModel.create(Demarche userAction, bool isDetailAvailable) {
+  factory DemarcheViewModel.create(Demarche demarche, bool isDetailAvailable) {
     return DemarcheViewModel(
-      id: userAction.id,
-      title: userAction.content ?? Strings.withoutContent,
-      status: userAction.status,
-      createdByAdvisor: userAction.createdByAdvisor,
-      modifiedByAdvisor: userAction.modifiedByAdvisor,
-      tag: _userActionTagViewModel(userAction.status, isLateAction(userAction.status, userAction.endDate)),
+      id: demarche.id,
+      title: demarche.content ?? Strings.withoutContent,
+      status: demarche.status,
+      createdByAdvisor: demarche.createdByAdvisor,
+      modifiedByAdvisor: demarche.modifiedByAdvisor,
+      tag: _userActionTagViewModel(demarche.status, isLateAction(demarche.status, demarche.endDate)),
       formattedDate:
-          _setFormattedDate(userAction.status, userAction.endDate?.toDay(), userAction.deletionDate?.toDay()),
-      isLate: isLateAction(userAction.status, userAction.endDate),
+          _setFormattedDate(demarche.status, demarche.endDate?.toDay(), demarche.deletionDate?.toDay()),
+      isLate: isLateAction(demarche.status, demarche.endDate),
       isDetailEnabled: isDetailAvailable,
     );
   }

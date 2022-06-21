@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/chat/status/chat_status_reducer.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_reducer.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_reducer.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_reducer.dart';
+import 'package:pass_emploi_app/features/demarche/search/seach_demarche_reducer.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_reducer.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_reducer.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_reducer.dart';
@@ -51,6 +52,8 @@ AppState reducer(AppState current, dynamic action) {
     userActionUpdateState: userActionUpdateReducer(current.userActionUpdateState, action),
     userActionDeleteState: userActionDeleteReducer(current.userActionDeleteState, action),
     demarcheListState: demarcheListReducer(current.demarcheListState, action),
+    createDemarcheState: createDemarcheReducer(current.createDemarcheState, action),
+    searchDemarcheState: searchDemarcheReducer(current.searchDemarcheState, action),
     detailsJeuneState: detailsJeuneReducer(current.detailsJeuneState, action),
     chatStatusState: chatStatusReducer(current.chatStatusState, action),
     chatState: chatReducer(current.chatState, action),
@@ -98,7 +101,6 @@ AppState reducer(AppState current, dynamic action) {
     suppressionCompteState: suppressionCompteReducer(current.suppressionCompteState, action),
     demoState: modeDemoReducer(current, action),
     campagneState: campagneReducer(current.campagneState, action),
-    createDemarcheState: createDemarcheReducer(current.createDemarcheState, action),
     piecesJointesState: pieceJointeReducer(current.piecesJointesState, action),
     shareFileState: shareFileReducer(current.shareFileState, action),
   );

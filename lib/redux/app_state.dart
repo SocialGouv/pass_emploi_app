@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/features/configuration/configuration_state.dart'
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
+import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
@@ -50,6 +51,7 @@ class AppState extends Equatable {
   final UserActionDeleteState userActionDeleteState;
   final DemarcheListState demarcheListState;
   final CreateDemarcheState createDemarcheState;
+  final SearchDemarcheState searchDemarcheState;
   final DetailsJeuneState detailsJeuneState;
   final ChatStatusState chatStatusState;
   final ChatState chatState;
@@ -92,6 +94,8 @@ class AppState extends Equatable {
     required this.userActionUpdateState,
     required this.userActionDeleteState,
     required this.demarcheListState,
+    required this.createDemarcheState,
+    required this.searchDemarcheState,
     required this.detailsJeuneState,
     required this.chatStatusState,
     required this.chatState,
@@ -119,7 +123,6 @@ class AppState extends Equatable {
     required this.suppressionCompteState,
     required this.demoState,
     required this.campagneState,
-    required this.createDemarcheState,
     required this.piecesJointesState,
     required this.shareFileState,
   });
@@ -131,6 +134,8 @@ class AppState extends Equatable {
     final UserActionUpdateState? userActionUpdateState,
     final UserActionDeleteState? userActionDeleteState,
     final DemarcheListState? demarcheListState,
+    final CreateDemarcheState? createDemarcheState,
+    final SearchDemarcheState? searchDemarcheState,
     final DetailsJeuneState? detailsJeuneState,
     final ChatStatusState? chatStatusState,
     final ChatState? chatState,
@@ -163,7 +168,6 @@ class AppState extends Equatable {
     final SuppressionCompteState? suppressionCompteState,
     final bool? demoState,
     final CampagneState? campagneState,
-    final CreateDemarcheState? createDemarcheState,
     final PiecesJointesState? piecesJointesState,
     final ShareFileState? shareFileState,
   }) {
@@ -179,6 +183,7 @@ class AppState extends Equatable {
           userActionDeleteState ?? this.userActionDeleteState,
       demarcheListState: demarcheListState ?? this.demarcheListState,
       createDemarcheState: createDemarcheState ?? this.createDemarcheState,
+      searchDemarcheState: searchDemarcheState ?? this.searchDemarcheState,
       detailsJeuneState: detailsJeuneState ?? this.detailsJeuneState,
       chatStatusState: chatStatusState ?? this.chatStatusState,
       chatState: chatState ?? this.chatState,
@@ -238,6 +243,8 @@ class AppState extends Equatable {
       userActionDeleteState: UserActionDeleteNotInitializedState(),
       demarcheListState: DemarcheListNotInitializedState(),
       detailsJeuneState: DetailsJeuneNotInitializedState(),
+      createDemarcheState: CreateDemarcheNotInitializedState(),
+      searchDemarcheState: SearchDemarcheNotInitializedState(),
       chatStatusState: ChatStatusNotInitializedState(),
       chatState: ChatNotInitializedState(),
       offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
@@ -272,7 +279,6 @@ class AppState extends Equatable {
       demoState: false,
       suppressionCompteState: SuppressionCompteNotInitializedState(),
       campagneState: CampagneState(null, []),
-      createDemarcheState: CreateDemarcheNotInitializedState(),
       piecesJointesState: PiecesJointesState({}),
       shareFileState: ShareFileNotInitializedState(),
     );
@@ -284,6 +290,9 @@ class AppState extends Equatable {
         userActionCreateState,
         userActionUpdateState,
         userActionDeleteState,
+        demarcheListState,
+        createDemarcheState,
+        searchDemarcheState,
         detailsJeuneState,
         chatStatusState,
         chatState,
@@ -297,7 +306,6 @@ class AppState extends Equatable {
         searchMetierState,
         loginState,
         userActionListState,
-        demarcheListState,
         rendezvousState,
         immersionListState,
         immersionDetailsState,
@@ -310,7 +318,6 @@ class AppState extends Equatable {
         suppressionCompteState,
         demoState,
         campagneState,
-        createDemarcheState,
         piecesJointesState,
         shareFileState,
       ];

@@ -6,12 +6,13 @@ import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_middleware.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_middleware.dart';
-import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_middleware.dart';
 import 'package:pass_emploi_app/features/chat/init/chat_initializer_middleware.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
+import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_middleware.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_middleware.dart';
+import 'package:pass_emploi_app/features/demarche/search/seach_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_middleware.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_middleware.dart';
@@ -53,12 +54,13 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
@@ -66,11 +68,11 @@ import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_rep
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
-import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
-import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
+import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
@@ -121,6 +123,7 @@ class StoreFactory {
   final FirebaseRemoteConfig? remoteConfig;
   final UpdateDemarcheRepository updateDemarcheRepository;
   final CreateDemarcheRepository createDemarcheRepository;
+  final SearchDemarcheRepository demarcheDuReferentielRepository;
   final PieceJointeRepository pieceJointeRepository;
 
   StoreFactory(
@@ -159,6 +162,7 @@ class StoreFactory {
     this.remoteConfig,
     this.updateDemarcheRepository,
     this.createDemarcheRepository,
+    this.demarcheDuReferentielRepository,
     this.pieceJointeRepository,
   );
 
@@ -168,8 +172,7 @@ class StoreFactory {
       initialState: initialState,
       middleware: [
         BootstrapMiddleware(),
-        LoginMiddleware(authenticator, firebaseAuthWrapper, modeDemoRepository,
-            matomoTracker),
+        LoginMiddleware(authenticator, firebaseAuthWrapper, modeDemoRepository, matomoTracker),
         UserActionListMiddleware(pageActionRepository),
         UserActionCreateMiddleware(pageActionRepository),
         UserActionUpdateMiddleware(pageActionRepository),
@@ -177,9 +180,9 @@ class StoreFactory {
         DemarcheListMiddleware(pageDemarcheRepository, remoteConfig),
         CreateDemarcheMiddleware(createDemarcheRepository),
         UpdateDemarcheMiddleware(updateDemarcheRepository),
+        SearchDemarcheMiddleware(demarcheDuReferentielRepository),
         DetailsJeuneMiddleware(detailsJeuneRepository),
-        ChatInitializerMiddleware(firebaseAuthRepository, firebaseAuthWrapper,
-            chatCrypto, modeDemoRepository),
+        ChatInitializerMiddleware(firebaseAuthRepository, firebaseAuthWrapper, chatCrypto, modeDemoRepository),
         ChatMiddleware(chatRepository),
         ChatStatusMiddleware(chatRepository),
         RendezvousMiddleware(rendezvousRepository),
@@ -189,16 +192,13 @@ class StoreFactory {
         OffreEmploiSavedSearchMiddleware(offreEmploiRepository),
         FavoriIdsMiddleware<OffreEmploi>(offreEmploiFavorisRepository),
         FavoriListMiddleware<OffreEmploi>(offreEmploiFavorisRepository),
-        FavoriUpdateMiddleware<OffreEmploi>(
-            offreEmploiFavorisRepository, OffreEmploiDataFromIdExtractor()),
+        FavoriUpdateMiddleware<OffreEmploi>(offreEmploiFavorisRepository, OffreEmploiDataFromIdExtractor()),
         FavoriIdsMiddleware<Immersion>(immersionFavorisRepository),
         FavoriListMiddleware<Immersion>(immersionFavorisRepository),
-        FavoriUpdateMiddleware<Immersion>(
-            immersionFavorisRepository, ImmersionDataFromIdExtractor()),
+        FavoriUpdateMiddleware<Immersion>(immersionFavorisRepository, ImmersionDataFromIdExtractor()),
         FavoriIdsMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository),
         FavoriListMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository),
-        FavoriUpdateMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository,
-            ServiceCiviqueDataFromIdExtractor()),
+        FavoriUpdateMiddleware<ServiceCivique>(serviceCiviqueFavorisRepository, ServiceCiviqueDataFromIdExtractor()),
         RegisterPushNotificationTokenMiddleware(registerTokenRepository),
         CrashlyticsMiddleware(crashlytics),
         SearchLocationMiddleware(searchLocationRepository),
@@ -208,11 +208,9 @@ class StoreFactory {
         ImmersionListMiddleware(immersionRepository),
         ImmersionDetailsMiddleware(immersionDetailsRepository),
         ImmersionSavedSearchMiddleware(immersionRepository),
-        OffreEmploiSavedSearchCreateMiddleware(
-            offreEmploiSavedSearchRepository),
+        OffreEmploiSavedSearchCreateMiddleware(offreEmploiSavedSearchRepository),
         ImmersionSavedSearchCreateMiddleware(immersionSavedSearchRepository),
-        ServiceCiviqueSavedSearchCreateMiddleware(
-            serviceCiviqueSavedSearchRepository),
+        ServiceCiviqueSavedSearchCreateMiddleware(serviceCiviqueSavedSearchRepository),
         SavedSearchInitializeMiddleware(),
         SavedSearchListMiddleware(getSavedSearchRepository),
         SavedSearchGetMiddleware(getSavedSearchRepository),

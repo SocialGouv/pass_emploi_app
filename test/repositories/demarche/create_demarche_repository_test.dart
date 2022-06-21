@@ -26,7 +26,7 @@ void main() {
     expect(result, true);
   });
 
-  test('createDemarche should return true when success', () async {
+  test('createDemarche should return false when failure', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async => Response("", 400));
     final repository = CreateDemarcheRepository("BASE_URL", httpClient);

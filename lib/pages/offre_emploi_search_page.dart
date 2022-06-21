@@ -105,10 +105,6 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
       keyboardType: TextInputType.name,
       textCapitalization: TextCapitalization.words,
       textInputAction: TextInputAction.done,
-      validator: (value) {
-        if (value == null || value.isEmpty) return Strings.mandatoryAccessCodeError;
-        return null;
-      },
       decoration: _inputDecoration(),
       onChanged: (keyword) => _keyWord = keyword,
     );

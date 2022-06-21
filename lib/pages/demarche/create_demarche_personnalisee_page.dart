@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
-import 'package:pass_emploi_app/presentation/demarche/create_demarche_view_model.dart';
+import 'package:pass_emploi_app/presentation/demarche/create_demarche_personnalisee_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -17,40 +17,35 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
-class CreateDemarchePage extends TraceableStatefulWidget {
-  CreateDemarchePage._() : super(name: AnalyticsScreenNames.createDemarche);
+class CreateDemarchePersonnaliseePage extends TraceableStatefulWidget {
+  CreateDemarchePersonnaliseePage._() : super(name: AnalyticsScreenNames.createDemarchePersonnalisee);
 
   static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => CreateDemarchePage._());
+    return MaterialPageRoute(builder: (context) => CreateDemarchePersonnaliseePage._());
   }
 
   @override
-  State<CreateDemarchePage> createState() => _CreateDemarchePageState();
+  State<CreateDemarchePersonnaliseePage> createState() => _CreateDemarchePageState();
 }
 
-class _CreateDemarchePageState extends State<CreateDemarchePage> {
+class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
   String _commentaire = "";
   DateTime? _echeanceDate;
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, CreateDemarcheViewModel>(
+    return StoreConnector<AppState, CreateDemarchePersonnaliseeViewModel>(
       builder: _buildBody,
-      converter: (store) => CreateDemarcheViewModel.create(store),
-      onDidChange: (oldVm, newVm) {
-        if (newVm.shouldGoBack) {
-          Navigator.pop(context);
-          showSuccessfulSnackBar(context, Strings.demarcheCreationSuccess);
-        }
-      },
+      converter: (store) => CreateDemarchePersonnaliseeViewModel.create(store),
+      onDidChange: _onDidChange,
       onDispose: (store) => store.dispatch(CreateDemarcheResetAction()),
       distinct: true,
     );
   }
 
-  Scaffold _buildBody(BuildContext context, CreateDemarcheViewModel viewModel) {
+  Widget _buildBody(BuildContext context, CreateDemarchePersonnaliseeViewModel viewModel) {
     return Scaffold(
-      appBar: passEmploiAppBar(label: "Création d'une démarche", context: context),
+      appBar: passEmploiAppBar(label: Strings.createDemarcheTitle, context: context),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -67,7 +62,7 @@ class _CreateDemarchePageState extends State<CreateDemarchePage> {
               });
             }, _isCommentaireValid()),
             _NombreCaracteresCompteur(_commentaire.length, _isCommentaireValid()),
-            if (!_isCommentaireValid()) _MessageError255(),
+            if (!_isCommentaireValid()) _MessageError(),
             _Separateur2(),
             _QuandTitre(),
             _EcheanceTitre(),
@@ -100,7 +95,14 @@ class _CreateDemarchePageState extends State<CreateDemarchePage> {
     );
   }
 
-  bool _buttonShouldBeActive(CreateDemarcheViewModel viewModel) {
+  void _onDidChange(CreateDemarchePersonnaliseeViewModel? oldVm, CreateDemarchePersonnaliseeViewModel newVm) {
+    if (newVm.shouldGoBack) {
+      Navigator.popUntil(context, (route) => route.settings.name == Navigator.defaultRouteName);
+      showSuccessfulSnackBar(context, Strings.demarcheCreationSuccess);
+    }
+  }
+
+  bool _buttonShouldBeActive(CreateDemarchePersonnaliseeViewModel viewModel) {
     return _isFormValid() && viewModel.displayState != DisplayState.LOADING;
   }
 
@@ -119,7 +121,7 @@ class _PremierTitre extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 24, right: 24, top: 16),
       child: Text(
-        Strings.createDemarchePersonalisee,
+        Strings.createDemarchePersonnalisee,
         style: TextStyles.textBaseBoldWithColor(AppColors.primary),
       ),
     );
@@ -132,7 +134,7 @@ class _SecondTitre extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 24, right: 24, top: 12),
       child: Text(
-        Strings.createDemarchePersonaliseeAsterix,
+        Strings.createDemarchePersonnaliseeAsterix,
         style: TextStyles.textSRegular(),
       ),
     );
@@ -274,10 +276,9 @@ class _ChampCommentaire extends StatelessWidget {
       child: Container(
         height: 90,
         decoration: BoxDecoration(
-            border: Border.all(
-              color: borderColor,
-            ),
-            borderRadius: BorderRadius.circular(8)),
+          border: Border.all(color: borderColor),
+          borderRadius: BorderRadius.circular(8),
+        ),
         child: Padding(
           padding: const EdgeInsets.only(left: 10, right: 10),
           child: TextField(
@@ -295,7 +296,7 @@ class _ChampCommentaire extends StatelessWidget {
   }
 }
 
-class _MessageError255 extends StatelessWidget {
+class _MessageError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
