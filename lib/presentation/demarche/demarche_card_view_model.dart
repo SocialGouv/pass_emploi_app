@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
@@ -35,7 +36,7 @@ class DemarcheCardViewModel extends Equatable {
     return DemarcheCardViewModel(
       id: demarche.id,
       title: demarche.content ?? Strings.withoutContent,
-      subTitle: demarche.sousTitre,
+      subTitle: _description(demarche),
       status: demarche.status,
       createdByAdvisor: demarche.createdByAdvisor,
       modifiedByAdvisor: demarche.modifiedByAdvisor,
@@ -61,6 +62,10 @@ class DemarcheCardViewModel extends Equatable {
 
   @override
   List<Object?> get props => [id, title, subTitle, status, formattedDate, createdByAdvisor, tag];
+}
+
+String? _description(Demarche demarche) {
+  return demarche.attributs.firstWhereOrNull((e) => e.valeur == 'description')?.label;
 }
 
 String _setFormattedDate(DemarcheStatus status, String? endDate, String? deletionDate) {

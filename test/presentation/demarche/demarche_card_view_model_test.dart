@@ -28,7 +28,7 @@ void main() {
       sousTitre: "sous titre",
       titre: "titre",
       modificationDate: DateTime(2022, 12, 23, 0, 0, 0),
-      attributs: [],
+      attributs: [DemarcheAttribut('description', 'commentaire')],
     );
 
     // When
@@ -40,7 +40,7 @@ void main() {
       DemarcheCardViewModel(
         id: '8802034',
         title: 'Faire le CV',
-        subTitle : 'sous titre',
+        subTitle : 'commentaire',
         status: DemarcheStatus.NOT_STARTED,
         createdByAdvisor: true,
         modifiedByAdvisor: false,
