@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
@@ -13,13 +14,17 @@ import 'package:redux/redux.dart';
 
 class ChatPageViewModel extends Equatable {
   final DisplayState displayState;
+  final String? brouillon;
   final List<ChatItem> items;
+  final Function(String message) saveBrouillon;
   final Function(String message) onSendMessage;
   final Function() onRetry;
 
   ChatPageViewModel({
     required this.displayState,
+    required this.brouillon,
     required this.items,
+    required this.saveBrouillon,
     required this.onSendMessage,
     required this.onRetry,
   });
@@ -30,14 +35,16 @@ class ChatPageViewModel extends Equatable {
     final lastReading = (statusState is ChatStatusSuccessState) ? statusState.lastConseillerReading : minDateTime;
     return ChatPageViewModel(
       displayState: _displayState(chatState),
+      brouillon: store.state.chatBrouillonState.message,
       items: chatState is ChatSuccessState ? _messagesToChatItems(chatState.messages, lastReading) : [],
-      onSendMessage: (String message) => store.dispatch(SendMessageAction(message)),
+      saveBrouillon: (String message) => store.dispatch(SaveChatBrouillonAction(message)), // todo inutile maintenant ? (c'est dans le ondispose et plus dans le widget)
+      onSendMessage: (String message) => store.dispatch(SendMessageAction(message)), // todo peut-être besoin de clear le brouillon ? OU dans brouillonReducer, intercepter SendMessageAction pour clear
       onRetry: () => store.dispatch(SubscribeToChatAction()),
     );
   }
 
   @override
-  List<Object?> get props => [displayState, items];
+  List<Object?> get props => [displayState, brouillon, items];
 }
 
 DisplayState _displayState(ChatState state) {
