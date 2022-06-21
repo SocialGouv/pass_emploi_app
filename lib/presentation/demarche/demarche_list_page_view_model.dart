@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
-import 'package:pass_emploi_app/presentation/demarche/demarche_view_model.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
@@ -56,27 +56,27 @@ DemarcheCampagneItemViewModel? _campagneItem({required AppState state}) {
   return null;
 }
 
-List<DemarcheViewModel> _activeItems({required DemarcheListState state}) {
+List<DemarcheCardViewModel> _activeItems({required DemarcheListState state}) {
   if (state is DemarcheListSuccessState) {
     return state.demarches
         .where((demarche) =>
             demarche.status == DemarcheStatus.NOT_STARTED ||
             demarche.status == DemarcheStatus.IN_PROGRESS)
         .map((demarche) =>
-            DemarcheViewModel.create(demarche, state.isDetailAvailable))
+            DemarcheCardViewModel.create(demarche, state.isDetailAvailable))
         .toList();
   }
   return [];
 }
 
-List<DemarcheViewModel> _inactiveItems({required DemarcheListState state}) {
+List<DemarcheCardViewModel> _inactiveItems({required DemarcheListState state}) {
   if (state is DemarcheListSuccessState) {
     return state.demarches
         .where((demarche) =>
             demarche.status == DemarcheStatus.DONE ||
             demarche.status == DemarcheStatus.CANCELLED)
         .map((demarche) =>
-            DemarcheViewModel.create(demarche, state.isDetailAvailable))
+            DemarcheCardViewModel.create(demarche, state.isDetailAvailable))
         .toList();
   }
   return [];
@@ -84,8 +84,8 @@ List<DemarcheViewModel> _inactiveItems({required DemarcheListState state}) {
 
 List<DemarcheListItem> _listItems({
   required DemarcheCampagneItemViewModel? campagne,
-  required List<DemarcheViewModel> activeItems,
-  required List<DemarcheViewModel> inactiveItems,
+  required List<DemarcheCardViewModel> activeItems,
+  required List<DemarcheCardViewModel> inactiveItems,
 }) {
   return [
     if (campagne != null) ...[campagne],
@@ -97,7 +97,7 @@ List<DemarcheListItem> _listItems({
 abstract class DemarcheListItem extends Equatable {}
 
 class DemarcheListItemViewModel extends DemarcheListItem {
-  final DemarcheViewModel viewModel;
+  final DemarcheCardViewModel viewModel;
 
   DemarcheListItemViewModel(this.viewModel);
 

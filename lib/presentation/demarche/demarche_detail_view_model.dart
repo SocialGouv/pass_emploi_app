@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_action.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
-import 'package:pass_emploi_app/presentation/demarche/demarche_view_model.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';

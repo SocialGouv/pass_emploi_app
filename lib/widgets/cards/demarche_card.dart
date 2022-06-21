@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pass_emploi_app/presentation/demarche/demarche_view_model.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -11,7 +11,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/tags/status_tag.dart';
 
 class DemarcheCard extends StatelessWidget {
-  final DemarcheViewModel viewModel;
+  final DemarcheCardViewModel viewModel;
   final Function onTap;
 
   const DemarcheCard({required this.viewModel, required this.onTap}) : super();

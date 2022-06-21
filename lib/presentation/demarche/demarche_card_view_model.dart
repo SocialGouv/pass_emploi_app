@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
-class DemarcheViewModel extends Equatable {
+class DemarcheCardViewModel extends Equatable {
   final String id;
   final String title;
   final DemarcheStatus status;
@@ -17,7 +17,7 @@ class DemarcheViewModel extends Equatable {
   final bool isLate;
   final bool isDetailEnabled;
 
-  DemarcheViewModel({
+  DemarcheCardViewModel({
     required this.id,
     required this.title,
     required this.status,
@@ -29,8 +29,8 @@ class DemarcheViewModel extends Equatable {
     required this.isDetailEnabled,
   });
 
-  factory DemarcheViewModel.create(Demarche demarche, bool isDetailAvailable) {
-    return DemarcheViewModel(
+  factory DemarcheCardViewModel.create(Demarche demarche, bool isDetailAvailable) {
+    return DemarcheCardViewModel(
       id: demarche.id,
       title: demarche.content ?? Strings.withoutContent,
       status: demarche.status,
