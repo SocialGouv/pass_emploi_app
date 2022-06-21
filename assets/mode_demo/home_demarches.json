@@ -22,7 +22,7 @@
     },
     {
       "id": "198916545",
-      "contenu": "Candidature spontanée auprès de Carrefour, IntermarchÃ© et Auchan",
+      "contenu": "Candidature spontanée auprès de Carrefour, Intermarché et Auchan",
       "statut": "EN_COURS",
       "dateFin": "2022-06-02T08:00:00.000Z",
       "creeeParConseiller": true,
@@ -32,7 +32,13 @@
       "titre": "Résoudre ses contraintes personnelles",
       "sousTitre": "Avec l’aide d’une personne ou d’une structure",
       "dateCreation": "2022-05-13T14:18:00.000Z",
-      "attributs": [],
+      "attributs": [
+        {
+          "cle": "description",
+          "valeur": "Candidature chez différents employeurs",
+          "label": "Description"
+        }
+      ],
       "statutsPossibles": [
         "ANNULEE",
         "REALISEE",
@@ -78,7 +84,7 @@
       "attributs": [
         {
           "cle": "organisme",
-          "valeur": "Carrefour, IntermarchÃ© et Auchan",
+          "valeur": "Carrefour, Intermarché et Auchan",
           "label": "Nom de l’organisme"
         }
       ],
@@ -126,7 +132,7 @@
       "attributs": [
         {
           "cle": "description",
-          "valeur": "Mon action personnalisÃ©e - mise Ã  jour CV",
+          "valeur": "Mon action personnalisée - mise à  jour CV",
           "label": "Description"
         }
       ],

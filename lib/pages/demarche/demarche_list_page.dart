@@ -66,7 +66,12 @@ class DemarcheListPage extends TraceableStatelessWidget {
       children: [
         ListView.separated(
           controller: _scrollController,
-          padding: const EdgeInsets.all(Margins.spacing_base),
+          padding: const EdgeInsets.fromLTRB(
+            Margins.spacing_base,
+            Margins.spacing_base,
+            Margins.spacing_base,
+            Margins.spacing_huge,
+          ),
           itemCount: viewModel.items.length,
           itemBuilder: (context, i) => _listItem(context, viewModel.items[i], viewModel),
           separatorBuilder: (context, i) => _listSeparator(),

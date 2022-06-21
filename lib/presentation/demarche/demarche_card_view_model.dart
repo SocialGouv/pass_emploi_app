@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
@@ -6,9 +7,10 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
-class DemarcheViewModel extends Equatable {
+class DemarcheCardViewModel extends Equatable {
   final String id;
-  final String title;
+  final String titre;
+  final String? sousTitre;
   final DemarcheStatus status;
   final bool createdByAdvisor;
   final bool modifiedByAdvisor;
@@ -17,9 +19,10 @@ class DemarcheViewModel extends Equatable {
   final bool isLate;
   final bool isDetailEnabled;
 
-  DemarcheViewModel({
+  DemarcheCardViewModel({
     required this.id,
-    required this.title,
+    required this.titre,
+    required this.sousTitre,
     required this.status,
     required this.createdByAdvisor,
     required this.modifiedByAdvisor,
@@ -29,16 +32,16 @@ class DemarcheViewModel extends Equatable {
     required this.isDetailEnabled,
   });
 
-  factory DemarcheViewModel.create(Demarche demarche, bool isDetailAvailable) {
-    return DemarcheViewModel(
+  factory DemarcheCardViewModel.create(Demarche demarche, bool isDetailAvailable) {
+    return DemarcheCardViewModel(
       id: demarche.id,
-      title: demarche.content ?? Strings.withoutContent,
+      titre: demarche.content ?? Strings.withoutContent,
+      sousTitre: _description(demarche),
       status: demarche.status,
       createdByAdvisor: demarche.createdByAdvisor,
       modifiedByAdvisor: demarche.modifiedByAdvisor,
       tag: _userActionTagViewModel(demarche.status, isLateAction(demarche.status, demarche.endDate)),
-      formattedDate:
-          _setFormattedDate(demarche.status, demarche.endDate?.toDay(), demarche.deletionDate?.toDay()),
+      formattedDate: _setFormattedDate(demarche.status, demarche.endDate?.toDay(), demarche.deletionDate?.toDay()),
       isLate: isLateAction(demarche.status, demarche.endDate),
       isDetailEnabled: isDetailAvailable,
     );
@@ -58,7 +61,11 @@ class DemarcheViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, title, status, formattedDate, createdByAdvisor, tag];
+  List<Object?> get props => [id, titre, sousTitre, status, formattedDate, createdByAdvisor, tag];
+}
+
+String? _description(Demarche demarche) {
+  return demarche.attributs.firstWhereOrNull((e) => e.key == 'description')?.value;
 }
 
 String _setFormattedDate(DemarcheStatus status, String? endDate, String? deletionDate) {

@@ -58,8 +58,8 @@ class ModeDemoException implements Exception {
 }
 
 String? _getFileName(String url, String query) {
-  if (url.endsWith("/home/demarches")) return "demarches_liste_pe";
-  if (url.endsWith("/home/actions")) return "home_actions_jeune";
+  if (url.endsWith("/home/demarches")) return "home_demarches";
+  if (url.endsWith("/home/actions")) return "home_actions";
   if (url.endsWith("/favoris/offres-immersion")) return "favoris_ids_immersion";
   if (url.endsWith("/favoris/offres-emploi")) return "favoris_ids_offres_emploi";
   if (url.endsWith("/favoris/services-civique")) return "favoris_ids_service_civique";

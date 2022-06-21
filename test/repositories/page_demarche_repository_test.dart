@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
-import 'package:pass_emploi_app/models/page_demarches.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
+import 'package:pass_emploi_app/models/page_demarches.dart';
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 
 import '../doubles/fixtures.dart';
@@ -47,7 +47,7 @@ void main() {
     expect(
       result?.demarches.first,
       Demarche(
-        id: "2341739",
+        id: "1",
         content: "Identification de ses compétences avec pole-emploi.fr",
         status: DemarcheStatus.IN_PROGRESS,
         endDate: parseDateTimeUtcWithCurrentTimeZone('2021-12-21T09:00:00.000Z'),
@@ -66,7 +66,7 @@ void main() {
         titre: "Identification de ses points forts et de ses compétences",
         modificationDate: null,
         attributs: [
-          DemarcheAttribut("Agriculture", "Nom du métier"),
+          DemarcheAttribut(key: "metier", value: "Agriculture"),
         ],
       ),
     );

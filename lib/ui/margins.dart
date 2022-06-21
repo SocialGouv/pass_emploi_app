@@ -7,4 +7,5 @@ class Margins {
   static const double spacing_m = 24;
   static const double spacing_l = 32;
   static const double spacing_xl = 40;
+  static const double spacing_huge = 80;
 }

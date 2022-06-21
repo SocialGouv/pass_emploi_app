@@ -79,10 +79,7 @@ class Demarche extends Equatable {
       deletionDate: (json['dateAnnulation'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
       createdByAdvisor: json['creeeParConseiller'] as bool,
       modifiedByAdvisor: json['modifieParConseiller'] as bool,
-      attributs: (json["attributs"] as List<dynamic>)
-          .whereType<Map<String, dynamic>>()
-          .map((e) => DemarcheAttribut(e["valeur"].toString(), e["label"] as String))
-          .toList(),
+      attributs: (json["attributs"] as List).map((attribut) => DemarcheAttribut.fromJson(attribut)).toList(),
       creationDate: (json['dateCreation'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
     );
   }
@@ -106,11 +103,18 @@ DemarcheStatus _statusFromString({required String statusString}) {
 }
 
 class DemarcheAttribut extends Equatable {
-  final String valeur;
-  final String label;
+  final String key;
+  final String value;
 
-  DemarcheAttribut(this.valeur, this.label);
+  DemarcheAttribut({required this.key, required this.value});
+
+  factory DemarcheAttribut.fromJson(dynamic json) {
+    return DemarcheAttribut(
+      key: json['cle'] as String,
+      value: json['valeur'].toString(),
+    );
+  }
 
   @override
-  List<Object?> get props => [valeur, label];
+  List<Object?> get props => [key, value];
 }
