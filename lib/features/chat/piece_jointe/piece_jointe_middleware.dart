@@ -1,5 +1,5 @@
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_actions.dart';
-import 'package:pass_emploi_app/features/chat/share_file/share_file_actions.dart';
+import 'package:pass_emploi_app/features/chat/preview_file/preview_file_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
@@ -26,7 +26,7 @@ class PieceJointeMiddleware extends MiddlewareClass<AppState> {
         return;
       }
       store.dispatch(PieceJointeSuccessAction(action.fileId));
-      store.dispatch(ShareFileAction(path));
+      store.dispatch(PreviewFileAction(path));
     }
   }
 }

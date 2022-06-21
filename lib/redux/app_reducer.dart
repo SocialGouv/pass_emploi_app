@@ -1,7 +1,7 @@
 import 'package:pass_emploi_app/features/campagne/campagne_reducer.dart';
-import 'package:pass_emploi_app/features/chat/messages/chat_reducer.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_reducer.dart';
-import 'package:pass_emploi_app/features/chat/share_file/share_file_reducer.dart';
+import 'package:pass_emploi_app/features/chat/messages/chat_reducer.dart';
+import 'package:pass_emploi_app/features/chat/preview_file/preview_file_reducer.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_reducer.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_reducer.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_reducer.dart';
@@ -104,8 +104,8 @@ AppState reducer(AppState current, dynamic action) {
     demoState: modeDemoReducer(current, action),
     campagneState: campagneReducer(current.campagneState, action),
     piecesJointesState: pieceJointeReducer(current.piecesJointesState, action),
-    shareFileState: shareFileReducer(current.shareFileState, action),
     developerOptionsState: developerOptionsReducer(current.developerOptionsState, action),
     matomoLoggingState: matomoLoggingReducer(current.matomoLoggingState, action),
+    previewFileState: previewFileReducer(current.previewFileState, action),
   );
 }
