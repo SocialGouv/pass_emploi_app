@@ -37,6 +37,7 @@ class DemarcheCard extends StatelessWidget {
                 children: [
                   if (viewModel.tag != null) _buildStatut(viewModel.tag!),
                   Text(viewModel.title, style: TextStyles.textBaseBold),
+                  if (viewModel.subTitle != null) Text(viewModel.subTitle!, style: TextStyles.textBaseRegular),
                   if (viewModel.createdByAdvisor) _buildCreatorText(),
                   _buildDate(),
                 ],

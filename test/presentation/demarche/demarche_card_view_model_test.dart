@@ -40,6 +40,7 @@ void main() {
       DemarcheCardViewModel(
         id: '8802034',
         title: 'Faire le CV',
+        subTitle : 'sous titre',
         status: DemarcheStatus.NOT_STARTED,
         createdByAdvisor: true,
         modifiedByAdvisor: false,

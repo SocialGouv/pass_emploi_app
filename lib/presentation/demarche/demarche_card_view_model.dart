@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/utils/date_extensions.dart';
 class DemarcheCardViewModel extends Equatable {
   final String id;
   final String title;
+  final String? subTitle;
   final DemarcheStatus status;
   final bool createdByAdvisor;
   final bool modifiedByAdvisor;
@@ -20,6 +21,7 @@ class DemarcheCardViewModel extends Equatable {
   DemarcheCardViewModel({
     required this.id,
     required this.title,
+    required this.subTitle,
     required this.status,
     required this.createdByAdvisor,
     required this.modifiedByAdvisor,
@@ -33,12 +35,12 @@ class DemarcheCardViewModel extends Equatable {
     return DemarcheCardViewModel(
       id: demarche.id,
       title: demarche.content ?? Strings.withoutContent,
+      subTitle: demarche.sousTitre,
       status: demarche.status,
       createdByAdvisor: demarche.createdByAdvisor,
       modifiedByAdvisor: demarche.modifiedByAdvisor,
       tag: _userActionTagViewModel(demarche.status, isLateAction(demarche.status, demarche.endDate)),
-      formattedDate:
-          _setFormattedDate(demarche.status, demarche.endDate?.toDay(), demarche.deletionDate?.toDay()),
+      formattedDate: _setFormattedDate(demarche.status, demarche.endDate?.toDay(), demarche.deletionDate?.toDay()),
       isLate: isLateAction(demarche.status, demarche.endDate),
       isDetailEnabled: isDetailAvailable,
     );
@@ -58,7 +60,7 @@ class DemarcheCardViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [id, title, status, formattedDate, createdByAdvisor, tag];
+  List<Object?> get props => [id, title, subTitle, status, formattedDate, createdByAdvisor, tag];
 }
 
 String _setFormattedDate(DemarcheStatus status, String? endDate, String? deletionDate) {
