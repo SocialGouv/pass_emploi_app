@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
@@ -25,7 +24,7 @@ class CreateDemarcheStep2ViewModel extends Equatable {
 List<CreateDemarcheStep2Item> _items(List<DemarcheDuReferentiel> demarches) {
   return [
     CreateDemarcheStep2TitleItem(demarches.isNotEmpty ? Strings.selectDemarche : Strings.noDemarcheFound),
-    ...demarches.mapIndexed((index, _) => CreateDemarcheStep2DemarcheFoundItem(index)),
+    ...demarches.map((demarche) => CreateDemarcheStep2DemarcheFoundItem(demarche.id)),
     CreateDemarcheStep2ButtonItem(),
   ];
 }
@@ -45,12 +44,12 @@ class CreateDemarcheStep2TitleItem extends CreateDemarcheStep2Item {
 }
 
 class CreateDemarcheStep2DemarcheFoundItem extends CreateDemarcheStep2Item {
-  final int indexOfDemarche;
+  final String idDemarche;
 
-  CreateDemarcheStep2DemarcheFoundItem(this.indexOfDemarche);
+  CreateDemarcheStep2DemarcheFoundItem(this.idDemarche);
 
   @override
-  List<Object?> get props => [indexOfDemarche];
+  List<Object?> get props => [idDemarche];
 }
 
 class CreateDemarcheStep2ButtonItem extends CreateDemarcheStep2Item {}

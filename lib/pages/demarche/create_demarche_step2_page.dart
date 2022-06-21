@@ -42,7 +42,7 @@ class CreateDemarcheStep2Page extends TraceableStatelessWidget {
             return Text(item.title, style: TextStyles.textBaseMedium);
           }
           if (item is CreateDemarcheStep2DemarcheFoundItem) {
-            return DemarcheDuReferentielCard(indexOfDemarche: item.indexOfDemarche);
+            return DemarcheDuReferentielCard(idDemarche: item.idDemarche);
           }
           return SecondaryButton(
             label: Strings.createDemarchePersonnalisee,

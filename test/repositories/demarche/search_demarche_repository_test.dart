@@ -25,20 +25,16 @@ void main() {
     // Then
     expect(result, isNotNull);
     expect(result!.length, 1);
+    expect(result.first.id, isNotNull);
+    expect(result.first.quoi, 'Mes candidatures');
+    expect(result.first.pourquoi, 'Participation');
+    expect(result.first.codeQuoi, 'P01');
+    expect(result.first.codePourquoi, 'P8');
     expect(
-      result.first,
-      DemarcheDuReferentiel(
-        quoi: 'Mes candidatures',
-        pourquoi: 'Participation',
-        codeQuoi: 'P01',
-        codePourquoi: 'P8',
-        comments: [
-          Comment(label: 'En voiture', code: 'VOITURE'),
-          Comment(label: 'En avion', code: 'AVION'),
-        ],
-        commentObligatoire: true,
-      ),
+      result.first.comments,
+      [Comment(label: 'En voiture', code: 'VOITURE'), Comment(label: 'En avion', code: 'AVION')],
     );
+    expect(result.first.commentObligatoire, isTrue);
   });
 
   test('search when response is invalid should return null', () async {

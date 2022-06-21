@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
+import 'package:uuid/uuid.dart';
 
 class DemarcheDuReferentiel extends Equatable {
+  final String id;
   final String quoi;
   final String pourquoi;
   final String codeQuoi;
@@ -9,13 +11,14 @@ class DemarcheDuReferentiel extends Equatable {
   final bool commentObligatoire;
 
   DemarcheDuReferentiel({
+    String? id,
     required this.quoi,
     required this.pourquoi,
     required this.codeQuoi,
     required this.codePourquoi,
     required this.comments,
     required this.commentObligatoire,
-  });
+  }) : id = id ?? Uuid().v4();
 
   factory DemarcheDuReferentiel.fromJson(dynamic json) {
     return DemarcheDuReferentiel(
@@ -30,6 +33,7 @@ class DemarcheDuReferentiel extends Equatable {
 
   @override
   List<Object?> get props => [
+        id,
         quoi,
         pourquoi,
         codeQuoi,

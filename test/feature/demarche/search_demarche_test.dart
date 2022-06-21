@@ -26,7 +26,7 @@ void main() {
     expect(appState.searchDemarcheState, isA<SearchDemarcheSuccessState>());
     expect(
       (appState.searchDemarcheState as SearchDemarcheSuccessState).demarchesDuReferentiel,
-      [mockDemarcheDuReferentiel('quoi1')],
+      [mockDemarcheDuReferentiel()],
     );
   });
 
@@ -51,7 +51,7 @@ void main() {
     // Given
     final store = givenState() //
         .loggedInUser() //
-        .searchDemarchesSuccess([mockDemarcheDuReferentiel('quoi')]) //
+        .searchDemarchesSuccess([mockDemarcheDuReferentiel()]) //
         .store();
 
     // When
@@ -67,7 +67,7 @@ class DemarcheDuReferentielSuccessStub extends SearchDemarcheRepository {
 
   @override
   Future<List<DemarcheDuReferentiel>?> search(String query) async {
-    if (query == 'query') return [mockDemarcheDuReferentiel('quoi1')];
+    if (query == 'query') return [mockDemarcheDuReferentiel()];
     return null;
   }
 }

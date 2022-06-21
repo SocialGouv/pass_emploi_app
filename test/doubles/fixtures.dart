@@ -256,9 +256,10 @@ Campagne campagne([String? id]) {
   );
 }
 
-DemarcheDuReferentiel mockDemarcheDuReferentiel(String quoi) {
+DemarcheDuReferentiel mockDemarcheDuReferentiel([String? id]) {
   return DemarcheDuReferentiel(
-    quoi: quoi,
+    id: id ?? '1',
+    quoi: 'quoi',
     pourquoi: 'pourquoi',
     codeQuoi: 'codeQuoi',
     codePourquoi: 'codePourquoi',

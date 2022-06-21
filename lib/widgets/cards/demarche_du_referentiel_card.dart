@@ -9,15 +9,15 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/tags/status_tag.dart';
 
 class DemarcheDuReferentielCard extends StatelessWidget {
-  final int indexOfDemarche;
+  final String idDemarche;
 
-  const DemarcheDuReferentielCard({required this.indexOfDemarche});
+  const DemarcheDuReferentielCard({required this.idDemarche});
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, DemarcheDuReferentielCardViewModel>(
       builder: _buildBody,
-      converter: (store) => DemarcheDuReferentielCardViewModel.create(store, indexOfDemarche),
+      converter: (store) => DemarcheDuReferentielCardViewModel.create(store, idDemarche),
       distinct: true,
     );
   }

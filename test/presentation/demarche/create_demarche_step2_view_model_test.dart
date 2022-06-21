@@ -31,7 +31,7 @@ void main() {
     // Given
     final store = givenState() //
         .loggedInUser() //
-        .searchDemarchesSuccess([mockDemarcheDuReferentiel('quoi-1'), mockDemarcheDuReferentiel('quoi-2')]) //
+        .searchDemarchesSuccess([mockDemarcheDuReferentiel('1'), mockDemarcheDuReferentiel('2')]) //
         .store();
 
     // When
@@ -47,10 +47,10 @@ void main() {
     );
 
     expect(viewModel.items[1], isA<CreateDemarcheStep2DemarcheFoundItem>());
-    expect((viewModel.items[1] as CreateDemarcheStep2DemarcheFoundItem).indexOfDemarche, 0);
+    expect((viewModel.items[1] as CreateDemarcheStep2DemarcheFoundItem).idDemarche, '1');
 
     expect(viewModel.items[2], isA<CreateDemarcheStep2DemarcheFoundItem>());
-    expect((viewModel.items[2] as CreateDemarcheStep2DemarcheFoundItem).indexOfDemarche, 1);
+    expect((viewModel.items[2] as CreateDemarcheStep2DemarcheFoundItem).idDemarche, '2');
 
     expect(viewModel.items[3], isA<CreateDemarcheStep2ButtonItem>());
   });
