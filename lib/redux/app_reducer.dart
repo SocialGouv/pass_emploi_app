@@ -1,6 +1,6 @@
 import 'package:pass_emploi_app/features/campagne/campagne_reducer.dart';
-import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_reducer.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_reducer.dart';
+import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_reducer.dart';
 import 'package:pass_emploi_app/features/chat/share_file/share_file_reducer.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_reducer.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_reducer.dart';
@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/features/demarche/create/create_demarche_reducer
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_reducer.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_reducer.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_reducer.dart';
+import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_reducer.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_reducer.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_reducer.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_reducer.dart';
@@ -103,5 +104,6 @@ AppState reducer(AppState current, dynamic action) {
     campagneState: campagneReducer(current.campagneState, action),
     piecesJointesState: pieceJointeReducer(current.piecesJointesState, action),
     shareFileState: shareFileReducer(current.shareFileState, action),
+    matomoLoggingState: matomoLoggingReducer(current.matomoLoggingState, action),
   );
 }

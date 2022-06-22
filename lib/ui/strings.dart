@@ -516,4 +516,9 @@ class Strings {
 
   // Campagne
   static String campagneTitle(int page, int count) => "Votre expérience $page/$count";
+
+  // Developer options
+  static String developerOptions = 'Options développeurs';
+  static String developerOptionMatomo = 'Données envoyées à Matomo';
+  static String developerOptionMatomoPage = 'Matomo';
 }

@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
+import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_middleware.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_middleware.dart';
@@ -15,6 +16,7 @@ import 'package:pass_emploi_app/features/demarche/list/demarche_list_middleware.
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_middleware.dart';
+import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_middleware.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_middleware.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_middleware.dart';
 import 'package:pass_emploi_app/features/favori/update/data_from_id_extractor.dart';
@@ -221,6 +223,7 @@ class StoreFactory {
         CampagneMiddleware(campagneRepository),
         PieceJointeMiddleware(pieceJointeRepository),
         ..._debugMiddleware(),
+        ..._stagingMiddleware(initialState.configurationState.getFlavor()),
       ],
     );
   }
@@ -228,5 +231,10 @@ class StoreFactory {
   List<redux.Middleware<AppState>> _debugMiddleware() {
     if (kReleaseMode) return [];
     return [ActionLoggingMiddleware()];
+  }
+
+  List<redux.Middleware<AppState>> _stagingMiddleware(Flavor flavor) {
+    if (flavor == Flavor.PROD) return [];
+    return [MatomoLoggingMiddleware()];
   }
 }
