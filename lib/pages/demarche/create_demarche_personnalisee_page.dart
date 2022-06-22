@@ -78,6 +78,7 @@ class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
                 isActiveDate: true,
               ),
             ),
+            if (viewModel.displayState == DisplayState.FAILURE) ErrorText(Strings.genericCreationError),
             Padding(
               padding: const EdgeInsets.only(right: 24, left: 24, top: 32),
               child: PrimaryActionButton(
@@ -87,7 +88,6 @@ class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
                     : null,
               ),
             ),
-            if (viewModel.displayState == DisplayState.FAILURE) ErrorText(Strings.genericCreationError),
             SizedBox(height: 20),
           ],
         ),

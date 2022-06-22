@@ -1,8 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step3_view_model.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
@@ -126,6 +128,51 @@ void main() {
 
     // Then
     expect(viewModel.isCommentMandatory, demarche.isCommentMandatory);
+  });
+
+  test('create when create demarche state is loading', () {
+    // Given
+    final store = givenState() //
+        .loggedInUser() //
+        .searchDemarchesSuccess([(mockDemarcheDuReferentiel('id'))]) //
+        .copyWith(createDemarcheState: CreateDemarcheLoadingState())
+        .store();
+
+    // When
+    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id');
+
+    // Then
+    expect(viewModel.displayState, DisplayState.LOADING);
+  });
+
+  test('create when create demarche state is failure', () {
+    // Given
+    final store = givenState() //
+        .loggedInUser() //
+        .searchDemarchesSuccess([(mockDemarcheDuReferentiel('id'))]) //
+        .copyWith(createDemarcheState: CreateDemarcheFailureState())
+        .store();
+
+    // When
+    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id');
+
+    // Then
+    expect(viewModel.displayState, DisplayState.FAILURE);
+  });
+
+  test('create when create demarche state is success should go back to demarches list', () {
+    // Given
+    final store = givenState() //
+        .loggedInUser() //
+        .searchDemarchesSuccess([(mockDemarcheDuReferentiel('id'))]) //
+        .copyWith(createDemarcheState: CreateDemarcheSuccessState())
+        .store();
+
+    // When
+    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id');
+
+    // Then
+    expect(viewModel.shouldGoBack, isTrue);
   });
 
   test('onSearchDemarche should trigger action', () {

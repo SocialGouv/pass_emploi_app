@@ -19,6 +19,7 @@ class AnalyticsScreenNames {
   static const searchDemarcheStep1 = "/demarches/search";
   static const searchDemarcheStep2 = "/demarches/search-results";
   static const searchDemarcheStep3 = "/demarches/demarche-renferentiel-create";
+  static const searchDemarcheStep3Success = "/demarches/createSuccess";
   static const createDemarchePersonnalisee = "actions/demarche-personnalisee/create";
 
   static const chat = "chat";

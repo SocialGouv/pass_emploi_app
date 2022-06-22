@@ -1,12 +1,16 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 class CreateDemarcheStep3ViewModel extends Equatable {
+  final DisplayState displayState;
+  final bool shouldGoBack;
   final String pourquoi;
   final String quoi;
   final bool isCommentMandatory;
@@ -14,6 +18,8 @@ class CreateDemarcheStep3ViewModel extends Equatable {
   final Function(String? codeComment, DateTime endDate) onCreateDemarche;
 
   CreateDemarcheStep3ViewModel({
+    required this.displayState,
+    required this.shouldGoBack,
     required this.pourquoi,
     required this.quoi,
     required this.isCommentMandatory,
@@ -27,22 +33,28 @@ class CreateDemarcheStep3ViewModel extends Equatable {
       final demarche = state.demarchesDuReferentiel.firstWhereOrNull((e) => e.id == idDemarche);
       if (demarche != null) {
         return CreateDemarcheStep3ViewModel(
+          displayState: _displayState(store),
+          shouldGoBack: store.state.createDemarcheState is CreateDemarcheSuccessState,
           pourquoi: demarche.pourquoi,
           quoi: demarche.quoi,
           isCommentMandatory: demarche.comments.length != 1 ? demarche.isCommentMandatory : false,
           comments: _comments(demarche.comments),
           onCreateDemarche: (codeComment, endDate) => {
-            store.dispatch(CreateDemarcheRequestAction(
-              codeQuoi: demarche.codeQuoi,
-              codePourquoi: demarche.codePourquoi,
-              codeComment: codeComment,
-              dateEcheance: endDate,
-            ))
+            store.dispatch(
+              CreateDemarcheRequestAction(
+                codeQuoi: demarche.codeQuoi,
+                codePourquoi: demarche.codePourquoi,
+                codeComment: codeComment,
+                dateEcheance: endDate,
+              ),
+            )
           },
         );
       }
     }
     return CreateDemarcheStep3ViewModel(
+      displayState: DisplayState.FAILURE,
+      shouldGoBack: false,
       pourquoi: '',
       quoi: '',
       isCommentMandatory: false,
@@ -52,7 +64,13 @@ class CreateDemarcheStep3ViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [pourquoi, quoi, isCommentMandatory, comments];
+  List<Object?> get props => [displayState, shouldGoBack, pourquoi, quoi, isCommentMandatory, comments];
+}
+
+DisplayState _displayState(Store<AppState> store) {
+  if (store.state.createDemarcheState is CreateDemarcheFailureState) return DisplayState.FAILURE;
+  if (store.state.createDemarcheState is CreateDemarcheLoadingState) return DisplayState.LOADING;
+  return DisplayState.CONTENT;
 }
 
 List<CommentItem> _comments(List<Comment> comments) {
