@@ -226,7 +226,7 @@ class Strings {
   static const String demarcheCancelled = "Annulé";
   static const String demarcheLate = "En retard : ";
   static const String createDemarchePersonnalisee = "Créer une démarche personnalisée";
-  static const String createDemarchePersonnaliseeAsterix = "Les champs marqués d’une * sont obligatoires";
+  static const String mandatoryFields = "Les champs marqués d’une * sont obligatoires";
   static const String commentaire = "Commentaire";
   static const String descriptionDemarche = "*Description de la démarche";
   static const String caracteres255 = "255 caractères maximum";
@@ -240,6 +240,9 @@ class Strings {
   static const String searchDemarcheHint = "Renseigner un mot clé pour rechercher une démarche à créer";
   static const String searchDemarcheButton = "Rechercher une démarche";
   static const String mandatoryField = "Le champs est obligatoire";
+  static const String comment = "Comment";
+  static const String selectComment = "*Sélectionner un des moyens";
+  static const String selectQuand = "*Sélectionner une date d’échéance";
 
   static String demarcheActiveDateFormat(String formattedDate) => "À réaliser pour le $formattedDate";
 

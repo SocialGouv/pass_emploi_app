@@ -18,7 +18,7 @@ void main() {
     final successAppState = store.onChange.firstWhere((e) => e.createDemarcheState is CreateDemarcheSuccessState);
 
     // When
-    await store.dispatch(CreateDemarcheRequestAction("commentaire", DateTime(2022)));
+    await store.dispatch(CreateDemarchePersonnaliseeRequestAction("commentaire", DateTime(2022)));
 
     // Then
     expect(await displayedLoading, true);
@@ -38,7 +38,7 @@ void main() {
     final failureAppState = store.onChange.firstWhere((e) => e.createDemarcheState is CreateDemarcheFailureState);
 
     // When
-    await store.dispatch(CreateDemarcheRequestAction("commentaire", DateTime(2022)));
+    await store.dispatch(CreateDemarchePersonnaliseeRequestAction("commentaire", DateTime(2022)));
 
     // Then
     expect(await displayedLoading, true);

@@ -1,8 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
+import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step3_view_model.dart';
 
 import '../../doubles/fixtures.dart';
+import '../../doubles/spies.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
@@ -50,5 +53,97 @@ void main() {
     // Then
     expect(viewModel.pourquoi, demarche.pourquoi);
     expect(viewModel.quoi, demarche.quoi);
+  });
+
+  test('create when demarche has no comment', () {
+    // Given
+    final demarche = mockDemarcheDuReferentiel('id', []);
+    final store = givenState() //
+        .loggedInUser() //
+        .searchDemarchesSuccess([demarche]) //
+        .store();
+
+    // When
+    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id');
+
+    // Then
+    expect(viewModel.pourquoi, demarche.pourquoi);
+    expect(viewModel.quoi, demarche.quoi);
+    expect(viewModel.comments, isEmpty);
+  });
+
+  test('create when demarche has only one comment should display it as Text and not display comment as mandatory', () {
+    // Given
+    final demarche = mockDemarcheDuReferentiel('id', [Comment(label: 'label1', code: 'code1')]);
+    final store = givenState() //
+        .loggedInUser() //
+        .searchDemarchesSuccess([demarche]) //
+        .store();
+
+    // When
+    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id');
+
+    // Then
+    expect(viewModel.pourquoi, demarche.pourquoi);
+    expect(viewModel.quoi, demarche.quoi);
+    expect(viewModel.comments, [CommentTextItem(label: 'label1', code: 'code1')]);
+    expect(viewModel.isCommentMandatory, isFalse);
+  });
+
+  test('create when demarche has several comments should display them as RadioButton', () {
+    // Given
+    final demarche = mockDemarcheDuReferentiel(
+      'id',
+      [Comment(label: 'label1', code: 'code1'), Comment(label: 'label2', code: 'code2')],
+    );
+    final store = givenState() //
+        .loggedInUser() //
+        .searchDemarchesSuccess([demarche]) //
+        .store();
+
+    // When
+    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id');
+
+    // Then
+    expect(viewModel.pourquoi, demarche.pourquoi);
+    expect(viewModel.quoi, demarche.quoi);
+    expect(
+      viewModel.comments,
+      [CommentRadioButtonItem(label: 'label1', code: 'code1'), CommentRadioButtonItem(label: 'label2', code: 'code2')],
+    );
+  });
+
+  test('create when comment is mandatory', () {
+    // Given
+    final demarche = mockDemarcheDuReferentiel('id');
+    final store = givenState() //
+        .loggedInUser() //
+        .searchDemarchesSuccess([demarche]) //
+        .store();
+
+    // When
+    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id');
+
+    // Then
+    expect(viewModel.isCommentMandatory, demarche.isCommentMandatory);
+  });
+
+  test('onSearchDemarche should trigger action', () {
+    // Given
+    final demarche = mockDemarcheDuReferentiel('id');
+    final store = StoreSpy.withState(givenState().loggedInUser().searchDemarchesSuccess([demarche]));
+    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id');
+    final now = DateTime.now();
+
+    // When
+    viewModel.onCreateDemarche('codeComment', now);
+
+    // Then
+    expect(store.dispatchedAction, isA<CreateDemarcheRequestAction>());
+    final action = store.dispatchedAction as CreateDemarcheRequestAction;
+    expect(action.codeQuoi, 'codeQuoi');
+    expect(action.codePourquoi, 'codePourquoi');
+    expect(action.codeComment, 'codeComment');
+    expect(action.dateEcheance, now);
   });
 }

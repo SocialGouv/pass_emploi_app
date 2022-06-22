@@ -8,7 +8,7 @@ class DemarcheDuReferentiel extends Equatable {
   final String codeQuoi;
   final String codePourquoi;
   final List<Comment> comments;
-  final bool commentObligatoire;
+  final bool isCommentMandatory;
 
   DemarcheDuReferentiel({
     String? id,
@@ -17,7 +17,7 @@ class DemarcheDuReferentiel extends Equatable {
     required this.codeQuoi,
     required this.codePourquoi,
     required this.comments,
-    required this.commentObligatoire,
+    required this.isCommentMandatory,
   }) : id = id ?? Uuid().v4();
 
   factory DemarcheDuReferentiel.fromJson(dynamic json) {
@@ -26,7 +26,7 @@ class DemarcheDuReferentiel extends Equatable {
       pourquoi: json['libellePourquoi'] as String,
       codeQuoi: json['codeQuoi'] as String,
       codePourquoi: json['codePourquoi'] as String,
-      commentObligatoire: json['commentObligatoire'] as bool,
+      isCommentMandatory: json['commentObligatoire'] as bool,
       comments: (json['comment'] as List).map((comment) => Comment.fromJson(comment)).toList(),
     );
   }
@@ -39,7 +39,7 @@ class DemarcheDuReferentiel extends Equatable {
         codeQuoi,
         codePourquoi,
         comments,
-        commentObligatoire,
+        isCommentMandatory,
       ];
 }
 
