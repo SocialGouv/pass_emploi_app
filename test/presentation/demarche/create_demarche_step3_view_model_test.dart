@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
-import 'package:pass_emploi_app/presentation/demarche/demarche_du_referentiel_card_view_model.dart';
+import 'package:pass_emploi_app/presentation/demarche/create_demarche_step3_view_model.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
@@ -14,11 +14,11 @@ void main() {
         .store();
 
     // When
-    final viewModel = DemarcheDuReferentielCardViewModel.create(store, 'id');
+    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id');
 
     // Then
-    expect(viewModel.quoi, isEmpty);
     expect(viewModel.pourquoi, isEmpty);
+    expect(viewModel.quoi, isEmpty);
   });
 
   test('create when search state is successful but no demarche matches id returns blank view model', () {
@@ -29,25 +29,26 @@ void main() {
         .store();
 
     // When
-    final viewModel = DemarcheDuReferentielCardViewModel.create(store, 'id-1');
+    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id-1');
 
     // Then
-    expect(viewModel.quoi, isEmpty);
     expect(viewModel.pourquoi, isEmpty);
+    expect(viewModel.quoi, isEmpty);
   });
 
   test('create when search state is successful and demarche matches id', () {
     // Given
+    final demarche = mockDemarcheDuReferentiel('id');
     final store = givenState() //
         .loggedInUser() //
-        .searchDemarchesSuccess([mockDemarcheDuReferentiel('id')]) //
+        .searchDemarchesSuccess([demarche]) //
         .store();
 
     // When
-    final viewModel = DemarcheDuReferentielCardViewModel.create(store, 'id');
+    final viewModel = CreateDemarcheStep3ViewModel.create(store, 'id');
 
     // Then
-    expect(viewModel.quoi, 'quoi');
-    expect(viewModel.pourquoi, 'pourquoi');
+    expect(viewModel.pourquoi, demarche.pourquoi);
+    expect(viewModel.quoi, demarche.quoi);
   });
 }
