@@ -13,13 +13,21 @@ class MatomoLoggingMiddleware extends MiddlewareClass<AppState> {
   void call(Store<AppState> store, dynamic action, NextDispatcher next) async {
     next(action);
     if (_subscription == null) {
-      hierarchicalLoggingEnabled = true;
-      MatomoTracker().log.level = Level.ALL;
-      _subscription = MatomoTracker().log.onRecord.listen((event) {
-        final trackingEvent = _getEventFromMessage(event.message);
-        if (trackingEvent != null) store.dispatch(MatomoLoggingAction(trackingEvent));
-      });
+      _enableMatomoLogger();
+      _subscribeToMatomoLogger(store);
     }
+  }
+
+  void _enableMatomoLogger() {
+    hierarchicalLoggingEnabled = true;
+    MatomoTracker().log.level = Level.ALL;
+  }
+
+  void _subscribeToMatomoLogger(Store<AppState> store) {
+    _subscription = MatomoTracker().log.onRecord.listen((event) {
+      final trackingEvent = _getEventFromMessage(event.message);
+      if (trackingEvent != null) store.dispatch(MatomoLoggingAction(trackingEvent));
+    });
   }
 
   String? _getEventFromMessage(String message) {

@@ -223,18 +223,18 @@ class StoreFactory {
         SuppressionCompteMiddleware(suppressionCompteRepository),
         CampagneMiddleware(campagneRepository),
         PieceJointeMiddleware(pieceJointeRepository),
-        ..._debugMiddleware(),
-        ..._stagingMiddleware(initialState.configurationState.getFlavor()),
+        ..._debugMiddlewares(),
+        ..._stagingMiddlewares(initialState.configurationState.getFlavor()),
       ],
     );
   }
 
-  List<redux.Middleware<AppState>> _debugMiddleware() {
+  List<redux.Middleware<AppState>> _debugMiddlewares() {
     if (kReleaseMode) return [];
     return [ActionLoggingMiddleware()];
   }
 
-  List<redux.Middleware<AppState>> _stagingMiddleware(Flavor flavor) {
+  List<redux.Middleware<AppState>> _stagingMiddlewares(Flavor flavor) {
     if (flavor == Flavor.PROD) return [];
     return [DeveloperOptionsMiddleware(), MatomoLoggingMiddleware()];
   }
