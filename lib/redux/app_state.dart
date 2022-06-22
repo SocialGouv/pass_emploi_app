@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.d
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart';
+import 'package:pass_emploi_app/features/developer_option/activation/developer_options_state.dart';
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_state.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
@@ -82,6 +83,7 @@ class AppState extends Equatable {
   final CampagneState campagneState;
   final PiecesJointesState piecesJointesState;
   final ShareFileState shareFileState;
+  final DeveloperOptionsState developerOptionsState;
   final MatomoLoggingState matomoLoggingState;
 
   AppState({
@@ -124,6 +126,7 @@ class AppState extends Equatable {
     required this.campagneState,
     required this.piecesJointesState,
     required this.shareFileState,
+    required this.developerOptionsState,
     required this.matomoLoggingState,
   });
 
@@ -167,6 +170,7 @@ class AppState extends Equatable {
     final CampagneState? campagneState,
     final PiecesJointesState? piecesJointesState,
     final ShareFileState? shareFileState,
+    final DeveloperOptionsState? developerOptionsState,
     final MatomoLoggingState? matomoLoggingState,
   }) {
     return AppState(
@@ -210,6 +214,7 @@ class AppState extends Equatable {
       campagneState: campagneState ?? this.campagneState,
       piecesJointesState: piecesJointesState ?? this.piecesJointesState,
       shareFileState: shareFileState ?? this.shareFileState,
+      developerOptionsState: developerOptionsState ?? this.developerOptionsState,
       matomoLoggingState: matomoLoggingState ?? this.matomoLoggingState,
     );
   }
@@ -255,6 +260,7 @@ class AppState extends Equatable {
       campagneState: CampagneState(null, []),
       piecesJointesState: PiecesJointesState({}),
       shareFileState: ShareFileNotInitializedState(),
+      developerOptionsState: DeveloperOptionsNotInitializedState(),
       matomoLoggingState: MatomoLoggingState([]),
     );
   }

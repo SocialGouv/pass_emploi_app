@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/features/demarche/list/demarche_list_middleware.
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_middleware.dart';
+import 'package:pass_emploi_app/features/developer_option/activation/developer_options_middleware.dart';
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_middleware.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_middleware.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_middleware.dart';
@@ -235,6 +236,6 @@ class StoreFactory {
 
   List<redux.Middleware<AppState>> _stagingMiddleware(Flavor flavor) {
     if (flavor == Flavor.PROD) return [];
-    return [MatomoLoggingMiddleware()];
+    return [DeveloperOptionsMiddleware(), MatomoLoggingMiddleware()];
   }
 }

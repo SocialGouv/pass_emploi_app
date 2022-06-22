@@ -1,30 +1,32 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart';
+import 'package:pass_emploi_app/features/developer_option/activation/developer_options_action.dart';
+import 'package:pass_emploi_app/features/developer_option/activation/developer_options_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/presentation/profil/profil_page_view_model.dart';
-import 'package:pass_emploi_app/redux/app_state.dart';
 
 import '../doubles/fixtures.dart';
-import '../utils/test_setup.dart';
+import '../doubles/spies.dart';
+import '../dsl/app_state_dsl.dart';
 
 void main() {
   test("create should properly set user info", () {
     // Given
-    final store = TestStoreFactory().initializeReduxStore(
-      initialState: AppState.initialState().copyWith(
-        loginState: LoginSuccessState(
-          User(
-            id: "user_id",
-            firstName: "Kenji",
-            lastName: "Dupont",
-            loginMode: LoginMode.POLE_EMPLOI,
-            email: "kenji.dupont@pe.fr",
+    final store = givenState()
+        .copyWith(
+          loginState: LoginSuccessState(
+            User(
+              id: "user_id",
+              firstName: "Kenji",
+              lastName: "Dupont",
+              loginMode: LoginMode.POLE_EMPLOI,
+              email: "kenji.dupont@pe.fr",
+            ),
           ),
-        ),
-      ),
-    );
+        )
+        .store();
 
     // When
     final viewModel = ProfilPageViewModel.create(store);
@@ -36,19 +38,19 @@ void main() {
 
   test("create when user email is null should display it properly", () {
     // Given
-    final store = TestStoreFactory().initializeReduxStore(
-      initialState: AppState.initialState().copyWith(
-        loginState: LoginSuccessState(
-          User(
-            id: "user_id",
-            firstName: "Kenji",
-            lastName: "Dupont",
-            loginMode: LoginMode.POLE_EMPLOI,
-            email: null,
+    final store = givenState()
+        .copyWith(
+          loginState: LoginSuccessState(
+            User(
+              id: "user_id",
+              firstName: "Kenji",
+              lastName: "Dupont",
+              loginMode: LoginMode.POLE_EMPLOI,
+              email: null,
+            ),
           ),
-        ),
-      ),
-    );
+        )
+        .store();
 
     // When
     final viewModel = ProfilPageViewModel.create(store);
@@ -58,13 +60,52 @@ void main() {
     expect(viewModel.userName, "Kenji Dupont");
   });
 
+  test("create when developer options are not activated MUST NOT display them", () {
+    // Given
+    final store = givenState() //
+        .loggedInUser()
+        .copyWith(developerOptionsState: DeveloperOptionsNotInitializedState())
+        .store();
+
+    // When
+    final viewModel = ProfilPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayDeveloperOptions, isFalse);
+  });
+
+  test("create when developer options are activated should display them", () {
+    // Given
+    final store = givenState() //
+        .loggedInUser()
+        .copyWith(developerOptionsState: DeveloperOptionsActivatedState())
+        .store();
+
+    // When
+    final viewModel = ProfilPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayDeveloperOptions, isTrue);
+  });
+
+  test('onTitleTap should trigger action', () {
+    // Given
+    final store = StoreSpy();
+    final viewModel = ProfilPageViewModel.create(store);
+
+    // When
+    viewModel.onTitleTap();
+
+    // Then
+    expect(store.dispatchedAction, isA<DeveloperOptionsActivationRequestAction>());
+  });
+
   group("mon conseiller should be", () {
     void assertMonConseillerIsDisplayed(bool isDisplayed, DetailsJeuneState state) {
       final verb = isDisplayed ? "displayed" : "hidden";
       test("$verb on ${state.runtimeType}", () {
         // Given
-        final store = TestStoreFactory()
-            .initializeReduxStore(initialState: AppState.initialState().copyWith(detailsJeuneState: state));
+        final store = givenState().copyWith(detailsJeuneState: state).store();
 
         // When
         final viewModel = ProfilPageViewModel.create(store);

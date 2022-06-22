@@ -22,9 +22,14 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/label_value_row.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
-class ProfilPage extends TraceableStatelessWidget {
+class ProfilPage extends TraceableStatefulWidget {
   ProfilPage() : super(name: AnalyticsScreenNames.profil);
 
+  @override
+  State<ProfilPage> createState() => _ProfilPageState();
+}
+
+class _ProfilPageState extends State<ProfilPage> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ProfilPageViewModel>(
@@ -45,7 +50,10 @@ class ProfilPage extends TraceableStatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(viewModel.userName, style: TextStyles.textLBold()),
+              GestureDetector(
+                onDoubleTap: viewModel.onTitleTap,
+                child: Text(viewModel.userName, style: TextStyles.textLBold()),
+              ),
               SizedBox(height: Margins.spacing_m),
               ProfilCard(
                 child: Column(
@@ -139,9 +147,11 @@ class ProfilPage extends TraceableStatelessWidget {
                 ),
               ),
               SizedBox(height: Margins.spacing_m),
-              Text(Strings.developerOptions, style: TextStyles.textLBold()),
-              SizedBox(height: Margins.spacing_m),
-              DeveloperOptionsCard(),
+              if (viewModel.displayDeveloperOptions) ...[
+                Text(Strings.developerOptions, style: TextStyles.textLBold()),
+                SizedBox(height: Margins.spacing_m),
+                DeveloperOptionsCard(),
+              ],
               SecondaryButton(
                 onPressed: () {
                   StoreProvider.of<AppState>(context).dispatch(RequestLogoutAction());
