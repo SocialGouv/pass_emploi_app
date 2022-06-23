@@ -60,17 +60,25 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
         case MessageType.nouveauConseillerTemporaire:
           return InformationItem(Strings.newConseillerTemporaireTitle, Strings.newConseillerDescription);
         case MessageType.messagePj:
-          return PieceJointeConseillerMessageItem(
-            id: message.pieceJointes[0].id,
-            message: message.content,
-            filename: message.pieceJointes.first.nom,
-            caption: message.creationDate.toHour(),
-          );
+          return _pieceJointeItem(message);
         case MessageType.inconnu:
           return InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
       }
     }
   }).toList();
+}
+
+ChatItem _pieceJointeItem(Message message) {
+  if (message.sentBy == Sender.conseiller) {
+    return PieceJointeConseillerMessageItem(
+      id: message.pieceJointes[0].id,
+      message: message.content,
+      filename: message.pieceJointes.first.nom,
+      caption: message.creationDate.toHour(),
+    );
+  } else {
+    return InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
+  }
 }
 
 MessageItem _buildMessageItem(Message message, DateTime lastConseillerReading) {

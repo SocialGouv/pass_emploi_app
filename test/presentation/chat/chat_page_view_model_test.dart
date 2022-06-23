@@ -70,7 +70,7 @@ void main() {
     ]);
   });
 
-  test('should display piece jointe', () {
+  test('should display piece jointe from conseiller', () {
     // Given
     final now = DateTime.now();
     final todayAtNoon = DateTime(now.year, now.month, now.day, 12, 00);
@@ -120,7 +120,7 @@ void main() {
     // Given
     final state = AppState.initialState().copyWith(
       chatState: ChatSuccessState(
-        [Message('Jean-Paul', DateTime(2021, 1, 1, 12, 30), Sender.conseiller, MessageType.nouveauConseillerTemporaire, [])],
+        [Message('Jean', DateTime(2021, 1, 1, 12, 30), Sender.conseiller, MessageType.nouveauConseillerTemporaire, [])],
       ),
     );
     final store = Store<AppState>(reducer, initialState: state);
@@ -132,7 +132,8 @@ void main() {
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.items, [
       DayItem("Le 01/01/2021"),
-      InformationItem("Vous échangez temporairement avec un nouveau conseiller", "Il a accès à l’historique de vos échanges"),
+      InformationItem(
+          "Vous échangez temporairement avec un nouveau conseiller", "Il a accès à l’historique de vos échanges"),
     ]);
   });
 
@@ -142,6 +143,29 @@ void main() {
       chatState: ChatSuccessState(
         [Message('Jean-Paul', DateTime(2021, 1, 1, 12, 30), Sender.conseiller, MessageType.inconnu, [])],
       ),
+    );
+    final store = Store<AppState>(reducer, initialState: state);
+
+    // When
+    final viewModel = ChatPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.items, [
+      DayItem("Le 01/01/2021"),
+      InformationItem(
+        "Le message est inaccessible",
+        "Pour avoir l'accès au contenu veuillez mettre à jour l'application",
+      ),
+    ]);
+  });
+
+  test('create when chat state is SUCCESS and message type is PJ from jeune', () {
+    // Given
+    final state = AppState.initialState().copyWith(
+      chatState: ChatSuccessState([
+        Message('PJ', DateTime(2021, 1, 1, 12, 30), Sender.jeune, MessageType.messagePj, [PieceJointe("1", "a.pdf")]),
+      ]),
     );
     final store = Store<AppState>(reducer, initialState: state);
 
