@@ -34,7 +34,7 @@ void main() {
       result.first.comments,
       [Comment(label: 'En voiture', code: 'VOITURE'), Comment(label: 'En avion', code: 'AVION')],
     );
-    expect(result.first.commentObligatoire, isTrue);
+    expect(result.first.isCommentMandatory, isTrue);
   });
 
   test('search when response is invalid should return null', () async {

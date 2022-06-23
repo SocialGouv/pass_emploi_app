@@ -60,8 +60,8 @@ void main() {
     viewModel.onCreateDemarche('commentaire', now);
 
     // Then
-    expect(store.dispatchedAction, isA<CreateDemarcheRequestAction>());
-    final action = store.dispatchedAction as CreateDemarcheRequestAction;
+    expect(store.dispatchedAction, isA<CreateDemarchePersonnaliseeRequestAction>());
+    final action = store.dispatchedAction as CreateDemarchePersonnaliseeRequestAction;
     expect(action.commentaire, 'commentaire');
     expect(action.dateEcheance, now);
   });

@@ -18,6 +18,7 @@ class AnalyticsScreenNames {
   static const createUserAction = "actions/create";
   static const searchDemarcheStep1 = "/demarches/search";
   static const searchDemarcheStep2 = "/demarches/search-results";
+  static const searchDemarcheStep3 = "/demarches/demarche-renferentiel-create";
   static const createDemarchePersonnalisee = "actions/demarche-personnalisee/create";
 
   static const chat = "chat";

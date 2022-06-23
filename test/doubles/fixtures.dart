@@ -256,17 +256,18 @@ Campagne campagne([String? id]) {
   );
 }
 
-DemarcheDuReferentiel mockDemarcheDuReferentiel([String? id]) {
+DemarcheDuReferentiel mockDemarcheDuReferentiel([String? id, List<Comment>? comments]) {
   return DemarcheDuReferentiel(
     id: id ?? '1',
     quoi: 'quoi',
     pourquoi: 'pourquoi',
     codeQuoi: 'codeQuoi',
     codePourquoi: 'codePourquoi',
-    comments: [
-      Comment(label: 'label1', code: 'code1'),
-      Comment(label: 'label2', code: 'code2'),
-    ],
-    commentObligatoire: true,
+    comments: comments ??
+        [
+          Comment(label: 'label1', code: 'code1'),
+          Comment(label: 'label2', code: 'code2'),
+        ],
+    isCommentMandatory: true,
   );
 }

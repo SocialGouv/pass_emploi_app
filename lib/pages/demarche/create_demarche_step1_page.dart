@@ -59,10 +59,15 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
             ),
             if (viewModel.displayState.isFailure()) ErrorText(Strings.genericError),
             SizedBox(height: Margins.spacing_xl),
-            PrimaryActionButton(
-              drawableRes: Drawables.icSearch,
-              label: Strings.searchDemarcheButton,
-              onPressed: _buttonIsActive(viewModel) ? () => viewModel.onSearchDemarche(_query) : null,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                PrimaryActionButton(
+                  drawableRes: Drawables.icSearch,
+                  label: Strings.searchDemarcheButton,
+                  onPressed: _buttonIsActive(viewModel) ? () => viewModel.onSearchDemarche(_query) : null,
+                ),
+              ],
             ),
           ],
         ),

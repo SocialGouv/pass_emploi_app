@@ -10,8 +10,9 @@ import 'package:pass_emploi_app/widgets/tags/status_tag.dart';
 
 class DemarcheDuReferentielCard extends StatelessWidget {
   final String idDemarche;
+  final Function() onTap;
 
-  const DemarcheDuReferentielCard({required this.idDemarche});
+  const DemarcheDuReferentielCard({required this.idDemarche, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class DemarcheDuReferentielCard extends StatelessWidget {
         child: Material(
           type: MaterialType.transparency,
           child: InkWell(
-            onTap: () => {},
+            onTap: onTap,
             splashColor: AppColors.primaryLighten,
             child: Padding(
               padding: const EdgeInsets.all(Margins.spacing_base),
