@@ -7,7 +7,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/cards/profil_card.dart';
+import 'package:pass_emploi_app/widgets/cards/profil/profil_card.dart';
 
 class MonConseillerCard extends StatelessWidget {
   @override

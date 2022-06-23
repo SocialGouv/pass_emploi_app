@@ -3,10 +3,11 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_actions.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
-import 'package:pass_emploi_app/pages/profil/mon_conseiller_card.dart';
-import 'package:pass_emploi_app/pages/profil/parametres_card.dart';
+import 'package:pass_emploi_app/pages/profil/matomo_logging_page.dart';
+import 'package:pass_emploi_app/pages/suppression_compte_page.dart';
 import 'package:pass_emploi_app/presentation/profil/profil_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -16,13 +17,15 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
-import 'package:pass_emploi_app/widgets/cards/profil_card.dart';
+import 'package:pass_emploi_app/widgets/cards/profil/mon_conseiller_card.dart';
+import 'package:pass_emploi_app/widgets/cards/profil/profil_card.dart';
+import 'package:pass_emploi_app/widgets/cards/profil/standalone_profil_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/label_value_row.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
 class ProfilPage extends TraceableStatelessWidget {
-  ProfilPage() : super(name: AnalyticsScreenNames.profil);
+  const ProfilPage() : super(name: AnalyticsScreenNames.profil);
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +47,10 @@ class ProfilPage extends TraceableStatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(viewModel.userName, style: TextStyles.textLBold()),
+              GestureDetector(
+                onDoubleTap: viewModel.onTitleTap,
+                child: Text(viewModel.userName, style: TextStyles.textLBold()),
+              ),
               SizedBox(height: Margins.spacing_m),
               ProfilCard(
                 child: Column(
@@ -68,7 +74,14 @@ class ProfilPage extends TraceableStatelessWidget {
               if (viewModel.displayMonConseiller) MonConseillerCard(),
               Text(Strings.settingsLabel, style: TextStyles.textLBold()),
               SizedBox(height: Margins.spacing_m),
-              ParametresCard(),
+              StandaloneProfilCard(
+                text: Strings.suppressionAccountLabel,
+                onTap: () => pushAndTrackBack(
+                  context,
+                  SuppressionComptePage.materialPageRoute(),
+                  AnalyticsScreenNames.profil,
+                ),
+              ),
               Text(Strings.legalInformation, style: TextStyles.textLBold()),
               SizedBox(height: Margins.spacing_m),
               ProfilCard(
@@ -138,6 +151,18 @@ class ProfilPage extends TraceableStatelessWidget {
                 ),
               ),
               SizedBox(height: Margins.spacing_m),
+              if (viewModel.displayDeveloperOptions) ...[
+                Text(Strings.developerOptions, style: TextStyles.textLBold()),
+                SizedBox(height: Margins.spacing_m),
+                StandaloneProfilCard(
+                  text: Strings.developerOptionMatomo,
+                  onTap: () => pushAndTrackBack(
+                    context,
+                    MatomoLoggingPage.materialPageRoute(),
+                    AnalyticsScreenNames.profil,
+                  ),
+                ),
+              ],
               SecondaryButton(
                 onPressed: () {
                   StoreProvider.of<AppState>(context).dispatch(RequestLogoutAction());

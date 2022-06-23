@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
-import 'package:pass_emploi_app/pages/suppression_compte_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/cards/profil_card.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/cards/profil/profil_card.dart';
 
-class ParametresCard extends StatelessWidget {
+class StandaloneProfilCard extends StatelessWidget {
+  final String text;
+  final Function() onTap;
+
+  const StandaloneProfilCard({required this.text, required this.onTap});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -18,7 +19,7 @@ class ParametresCard extends StatelessWidget {
       child: ProfilCard(
         padding: EdgeInsets.zero,
         child: InkWell(
-          onTap: () => _showAccountSuppressionPage(context),
+          onTap: onTap,
           child: Padding(
             padding: const EdgeInsets.all(Margins.spacing_base),
             child: Column(
@@ -28,12 +29,7 @@ class ParametresCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    Expanded(
-                      child: Text(
-                        Strings.suppressionAccountLabel,
-                        style: TextStyles.textBaseRegular,
-                      ),
-                    ),
+                    Expanded(child: Text(text, style: TextStyles.textBaseRegular)),
                     SizedBox(width: Margins.spacing_s),
                     SvgPicture.asset(Drawables.icChevronRight, color: AppColors.contentColor),
                   ],
@@ -43,14 +39,6 @@ class ParametresCard extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-
-  void _showAccountSuppressionPage(BuildContext context) {
-    pushAndTrackBack(
-      context,
-      SuppressionComptePage.materialPageRoute(),
-      AnalyticsScreenNames.choixOrganisme,
     );
   }
 }
