@@ -4,7 +4,7 @@ import 'package:open_file/open_file.dart';
 import 'package:pass_emploi_app/presentation/preview_file_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 
-class PreviewFile extends StatelessWidget {
+class PreviewFileInvisibleHandler extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, PreviewFileViewModel>(
