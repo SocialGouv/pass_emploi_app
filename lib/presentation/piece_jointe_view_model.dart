@@ -29,14 +29,15 @@ class PieceJointeViewModel extends Equatable {
 
 DisplayState _displayState(String id, PiecesJointesState piecesJointesState) {
   final status = piecesJointesState.status[id];
-  if (status is PieceJointeLoadingStatus) {
-    return DisplayState.LOADING;
-  } else if (status is PieceJointeFailureStatus) {
-    return DisplayState.FAILURE;
-  } else if (status is PieceJointeSuccessStatus) {
-    return DisplayState.CONTENT;
-  } else if (status is PieceJointeUnavailableStatus) {
-    return DisplayState.EMPTY;
+  switch (status) {
+    case null:
+    case PieceJointeStatus.success:
+      return DisplayState.CONTENT;
+    case PieceJointeStatus.loading:
+      return DisplayState.LOADING;
+    case PieceJointeStatus.failure:
+      return DisplayState.FAILURE;
+    case PieceJointeStatus.unavailable:
+      return DisplayState.EMPTY;
   }
-  return DisplayState.CONTENT;
 }
