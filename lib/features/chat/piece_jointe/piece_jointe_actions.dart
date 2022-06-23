@@ -7,8 +7,9 @@ class PieceJointeRequestAction {
 
 class PieceJointeSuccessAction {
   final String fileId;
+  final String path;
 
-  PieceJointeSuccessAction(this.fileId);
+  PieceJointeSuccessAction({required this.fileId, required this.path});
 }
 
 class PieceJointeUnavailableAction {
