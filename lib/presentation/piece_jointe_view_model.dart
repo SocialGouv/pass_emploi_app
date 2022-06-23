@@ -38,5 +38,5 @@ DisplayState _displayState(String id, PiecesJointesState piecesJointesState) {
   } else if (status is PieceJointeUnavailableStatus) {
     return DisplayState.EMPTY;
   }
-  return DisplayState.FAILURE;
+  return DisplayState.CONTENT;
 }

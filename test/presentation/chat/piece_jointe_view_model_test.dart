@@ -41,6 +41,17 @@ void main() {
     expect(viewModel.displayState("id-1"), DisplayState.CONTENT);
   });
 
+  test('should display content when no status', () {
+    // Given
+    final store = givenState().store();
+
+    // When
+    final viewModel = PieceJointeViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState("id-1"), DisplayState.CONTENT);
+  });
+
   test('should display empty when file is unavailable', () {
     // Given
     final store = givenState().piecesJointesUnavailable("id-1").store();
