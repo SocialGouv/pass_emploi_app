@@ -11,12 +11,43 @@ class CreateDemarcheRepository {
 
   CreateDemarcheRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
 
-  Future<bool> createDemarche(String commentaire, DateTime dateEcheance, String userId) async {
+  Future<bool> createDemarche({
+    required String userId,
+    required String codeQuoi,
+    required String codePourquoi,
+    required String? codeComment,
+    required DateTime dateEcheance,
+  }) async {
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/demarches");
     try {
       final response = await _httpClient.post(
         url,
-        body: customJsonEncode(PostCreateDemarche(commentaire, dateEcheance)),
+        body: customJsonEncode(
+          PostCreateDemarche(
+            codeQuoi: codeQuoi,
+            codePourquoi: codePourquoi,
+            codeComment: codeComment,
+            dateEcheance: dateEcheance,
+          ),
+        ),
+      );
+      if (response.statusCode.isValid()) return true;
+    } catch (e, stack) {
+      _crashlytics?.recordNonNetworkException(e, stack, url);
+    }
+    return false;
+  }
+
+  Future<bool> createDemarchePersonnalisee({
+    required String userId,
+    required String commentaire,
+    required DateTime dateEcheance,
+  }) async {
+    final url = Uri.parse(_baseUrl + "/jeunes/$userId/demarches");
+    try {
+      final response = await _httpClient.post(
+        url,
+        body: customJsonEncode(PostCreateDemarchePersonnalisee(commentaire, dateEcheance)),
       );
       if (response.statusCode.isValid()) return true;
     } catch (e, stack) {

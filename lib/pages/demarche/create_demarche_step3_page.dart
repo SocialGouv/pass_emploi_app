@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step3_view_model.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/font_sizes.dart';
@@ -12,7 +14,9 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:pass_emploi_app/widgets/tags/status_tag.dart';
 
 class CreateDemarcheStep3Page extends TraceableStatefulWidget {
@@ -37,6 +41,8 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
     return StoreConnector<AppState, CreateDemarcheStep3ViewModel>(
       builder: _buildBody,
       converter: (store) => CreateDemarcheStep3ViewModel.create(store, widget.idDemarche),
+      onDidChange: _onDidChange,
+      onDispose: (store) => store.dispatch(CreateDemarcheResetAction()),
       distinct: true,
     );
   }
@@ -73,6 +79,7 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
                 isActiveDate: true,
               ),
               SizedBox(height: Margins.spacing_xl),
+              if (viewModel.displayState == DisplayState.FAILURE) ErrorText(Strings.genericCreationError),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -90,8 +97,18 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
     );
   }
 
+  void _onDidChange(CreateDemarcheStep3ViewModel? oldVm, CreateDemarcheStep3ViewModel newVm) {
+    if (newVm.shouldGoBack) {
+      Navigator.popUntil(context, (route) => route.settings.name == Navigator.defaultRouteName);
+      MatomoTracker.trackScreenWithName(AnalyticsScreenNames.searchDemarcheStep3Success, '');
+      showSuccessfulSnackBar(context, Strings.demarcheCreationSuccess);
+    }
+  }
+
   bool _buttonIsActive(CreateDemarcheStep3ViewModel viewModel) {
-    return _endDate != null && (_codeComment != null || !viewModel.isCommentMandatory);
+    return viewModel.displayState != DisplayState.LOADING &&
+        _endDate != null &&
+        (_codeComment != null || !viewModel.isCommentMandatory);
   }
 
   List<Widget> _buildComments(List<CommentItem> comments) {
