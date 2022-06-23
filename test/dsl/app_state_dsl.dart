@@ -1,4 +1,5 @@
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
+import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
 import 'package:pass_emploi_app/features/chat/preview_file/preview_file_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
@@ -57,6 +58,8 @@ extension AppStateDSL on AppState {
   AppState previewFileNotInit() => copyWith(previewFileState: PreviewFileNotInitializedState());
 
   AppState previewFile(String path) => copyWith(previewFileState: PreviewFileSuccessState(path));
+
+  AppState chatBrouillon(String message) => copyWith(chatBrouillonState: ChatBrouillonState(message));
 
   AppState deeplinkToRendezvous(String id) {
     return copyWith(deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_RENDEZVOUS, DateTime.now(), id));

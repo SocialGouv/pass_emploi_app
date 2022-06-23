@@ -9,6 +9,8 @@ import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
+import '../../dsl/app_state_dsl.dart';
+
 void main() {
   test('create when chat state is LOADING', () {
     // Given
@@ -68,6 +70,28 @@ void main() {
       DayItem('Aujourd\'hui'),
       JeuneMessageItem(content: '5', caption: '12:00 · Envoyé'),
     ]);
+  });
+
+  test('should have a brouillon when saved', () {
+    // Given
+    final store = givenState().chatBrouillon("coucou").store();
+
+    // When
+    final viewModel = ChatPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.brouillon, "coucou");
+  });
+
+  test('should not have a message brouillon when empty', () {
+    // Given
+    final store = givenState().store();
+
+    // When
+    final viewModel = ChatPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.brouillon, null);
   });
 
   test('should display piece jointe from conseiller', () {
