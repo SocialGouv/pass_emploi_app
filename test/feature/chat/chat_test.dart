@@ -97,6 +97,19 @@ void main() {
     final appState = await appStateFuture;
     expect(appState.chatBrouillonState, ChatBrouillonState("hey"));
   });
+
+  test("should reset brouillon when sending a message", () async {
+    // Given
+    final store = givenState().chatBrouillon("wip").store();
+    final appStateFuture = store.onChange.first;
+
+    // When
+    await store.dispatch(SendMessageAction("done"));
+
+    // Then
+    final appState = await appStateFuture;
+    expect(appState.chatBrouillonState, ChatBrouillonState(null));
+  });
 }
 
 Message _mockMessage([String id = '1']) {

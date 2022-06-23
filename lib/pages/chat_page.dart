@@ -150,8 +150,6 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                     textCapitalization: TextCapitalization.sentences,
                     textInputAction: TextInputAction.done,
                     maxLines: null,
-                    //onEditingComplete: () => {viewModel.onEditMessage(_controller.value.text)},
-                    //onChanged: (text) => {viewModel.onEditMessage(text)},
                     decoration: InputDecoration(
                       contentPadding: const EdgeInsets.only(left: 16, right: 16, top: 13, bottom: 13),
                       filled: true,

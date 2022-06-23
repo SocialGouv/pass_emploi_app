@@ -16,7 +16,6 @@ class ChatPageViewModel extends Equatable {
   final DisplayState displayState;
   final String? brouillon;
   final List<ChatItem> items;
-  final Function(String message) saveBrouillon;
   final Function(String message) onSendMessage;
   final Function() onRetry;
 
@@ -24,7 +23,6 @@ class ChatPageViewModel extends Equatable {
     required this.displayState,
     required this.brouillon,
     required this.items,
-    required this.saveBrouillon,
     required this.onSendMessage,
     required this.onRetry,
   });
@@ -37,8 +35,7 @@ class ChatPageViewModel extends Equatable {
       displayState: _displayState(chatState),
       brouillon: store.state.chatBrouillonState.message,
       items: chatState is ChatSuccessState ? _messagesToChatItems(chatState.messages, lastReading) : [],
-      saveBrouillon: (String message) => store.dispatch(SaveChatBrouillonAction(message)), // todo inutile maintenant ? (c'est dans le ondispose et plus dans le widget)
-      onSendMessage: (String message) => store.dispatch(SendMessageAction(message)), // todo peut-être besoin de clear le brouillon ? OU dans brouillonReducer, intercepter SendMessageAction pour clear
+      onSendMessage: (String message) => store.dispatch(SendMessageAction(message)),
       onRetry: () => store.dispatch(SubscribeToChatAction()),
     );
   }
