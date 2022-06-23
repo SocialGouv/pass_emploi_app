@@ -1,9 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
-import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
-import 'package:pass_emploi_app/features/chat/share_file/share_file_state.dart';
+import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
+import 'package:pass_emploi_app/features/chat/preview_file/preview_file_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/configuration/configuration_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
@@ -82,9 +82,9 @@ class AppState extends Equatable {
   final SuppressionCompteState suppressionCompteState;
   final CampagneState campagneState;
   final PiecesJointesState piecesJointesState;
-  final ShareFileState shareFileState;
   final DeveloperOptionsState developerOptionsState;
   final MatomoLoggingState matomoLoggingState;
+  final PreviewFileState previewFileState;
 
   AppState({
     required this.configurationState,
@@ -125,9 +125,9 @@ class AppState extends Equatable {
     required this.demoState,
     required this.campagneState,
     required this.piecesJointesState,
-    required this.shareFileState,
     required this.developerOptionsState,
     required this.matomoLoggingState,
+    required this.previewFileState,
   });
 
   AppState copyWith({
@@ -169,9 +169,9 @@ class AppState extends Equatable {
     final bool? demoState,
     final CampagneState? campagneState,
     final PiecesJointesState? piecesJointesState,
-    final ShareFileState? shareFileState,
     final DeveloperOptionsState? developerOptionsState,
     final MatomoLoggingState? matomoLoggingState,
+    final PreviewFileState? previewFileState,
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
@@ -213,9 +213,9 @@ class AppState extends Equatable {
       demoState: demoState ?? this.demoState,
       campagneState: campagneState ?? this.campagneState,
       piecesJointesState: piecesJointesState ?? this.piecesJointesState,
-      shareFileState: shareFileState ?? this.shareFileState,
       developerOptionsState: developerOptionsState ?? this.developerOptionsState,
       matomoLoggingState: matomoLoggingState ?? this.matomoLoggingState,
+      previewFileState: previewFileState ?? this.previewFileState,
     );
   }
 
@@ -259,9 +259,9 @@ class AppState extends Equatable {
       suppressionCompteState: SuppressionCompteNotInitializedState(),
       campagneState: CampagneState(null, []),
       piecesJointesState: PiecesJointesState({}),
-      shareFileState: ShareFileNotInitializedState(),
       developerOptionsState: DeveloperOptionsNotInitializedState(),
       matomoLoggingState: MatomoLoggingState([]),
+      previewFileState: PreviewFileNotInitializedState(),
     );
   }
 
@@ -300,7 +300,7 @@ class AppState extends Equatable {
         demoState,
         campagneState,
         piecesJointesState,
-        shareFileState,
+        previewFileState,
       ];
 
   @override

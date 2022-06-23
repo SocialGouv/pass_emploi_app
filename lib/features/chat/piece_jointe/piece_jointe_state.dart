@@ -15,15 +15,6 @@ class PiecesJointesState extends Equatable {
   List<Object?> get props => [status];
 }
 
-abstract class PieceJointeStatus extends Equatable {
-  @override
-  List<Object?> get props => [];
+enum PieceJointeStatus {
+  loading, success, failure, unavailable
 }
-
-class PieceJointeLoadingStatus extends PieceJointeStatus {}
-
-class PieceJointeSuccessStatus extends PieceJointeStatus {}
-
-class PieceJointeFailureStatus extends PieceJointeStatus {}
-
-class PieceJointeUnavailableStatus extends PieceJointeStatus {}

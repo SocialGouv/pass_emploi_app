@@ -1,6 +1,6 @@
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
-import 'package:pass_emploi_app/features/chat/share_file/share_file_state.dart';
+import 'package:pass_emploi_app/features/chat/preview_file/preview_file_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
@@ -43,20 +43,20 @@ extension AppStateDSL on AppState {
   AppState campagne(Campagne campagne) => copyWith(campagneState: CampagneState(campagne, []));
 
   AppState piecesJointesWithIdOneSuccess() =>
-      copyWith(piecesJointesState: PiecesJointesState({"id-1": PieceJointeSuccessStatus()}));
+      copyWith(piecesJointesState: PiecesJointesState({"id-1": PieceJointeStatus.success}));
 
   AppState piecesJointesLoading(String id) =>
-      copyWith(piecesJointesState: PiecesJointesState({id: PieceJointeLoadingStatus()}));
+      copyWith(piecesJointesState: PiecesJointesState({id: PieceJointeStatus.loading}));
 
   AppState piecesJointesFailure(String id) =>
-      copyWith(piecesJointesState: PiecesJointesState({id: PieceJointeFailureStatus()}));
+      copyWith(piecesJointesState: PiecesJointesState({id: PieceJointeStatus.failure}));
 
   AppState piecesJointesUnavailable(String id) =>
-      copyWith(piecesJointesState: PiecesJointesState({id: PieceJointeUnavailableStatus()}));
+      copyWith(piecesJointesState: PiecesJointesState({id: PieceJointeStatus.unavailable}));
 
-  AppState shareSheetNotInit() => copyWith(shareFileState: ShareFileNotInitializedState());
+  AppState previewFileNotInit() => copyWith(previewFileState: PreviewFileNotInitializedState());
 
-  AppState shareSheet(String path) => copyWith(shareFileState: ShareFileSuccessState(path));
+  AppState previewFile(String path) => copyWith(previewFileState: PreviewFileSuccessState(path));
 
   AppState deeplinkToRendezvous(String id) {
     return copyWith(deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_RENDEZVOUS, DateTime.now(), id));

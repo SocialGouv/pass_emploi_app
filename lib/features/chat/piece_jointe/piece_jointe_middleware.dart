@@ -1,5 +1,4 @@
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_actions.dart';
-import 'package:pass_emploi_app/features/chat/share_file/share_file_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
@@ -19,14 +18,11 @@ class PieceJointeMiddleware extends MiddlewareClass<AppState> {
       final String? path = await _repository.download(fileId: action.fileId, fileName: action.fileName);
       if (path == null || path.isEmpty) {
         store.dispatch(PieceJointeFailureAction(action.fileId));
-        return;
-      }
-      if (path == Strings.fileNotAvailableError) {
+      } else if (path == Strings.fileNotAvailableError) {
         store.dispatch(PieceJointeUnavailableAction(action.fileId));
-        return;
+      } else {
+        store.dispatch(PieceJointeSuccessAction(fileId: action.fileId, path: path));
       }
-      store.dispatch(PieceJointeSuccessAction(action.fileId));
-      store.dispatch(ShareFileAction(path));
     }
   }
 }

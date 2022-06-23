@@ -11,6 +11,8 @@ class PieceJointeRepository {
   final Client _httpClient;
   final Crashlytics? _crashlytics;
 
+  final String _pieceJointesFolderPath = "chat/attached_files";
+
   PieceJointeRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
 
   Future<String?> download({required String fileId, required String fileName}) async {
@@ -30,7 +32,7 @@ class PieceJointeRepository {
 
   Future<String> _saveFile({required String fileName, required String fileId, required Response response}) async {
     final tempDir = await getTemporaryDirectory();
-    final file = await File('${tempDir.path}/chat/attached_files/$fileId/$fileName').create(recursive: true);
+    final file = await File('${tempDir.path}/$_pieceJointesFolderPath/$fileId/$fileName').create(recursive: true);
     await file.writeAsBytes(response.bodyBytes);
     return file.path;
   }
