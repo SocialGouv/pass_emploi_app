@@ -134,8 +134,6 @@ class _DownloadButtonState extends State<_DownloadButton> {
     }
   }
 
-  String? filePath;
-
   Widget _downloadButton(PieceJointeViewModel viewModel) {
     return Center(
       child: PrimaryActionButton(

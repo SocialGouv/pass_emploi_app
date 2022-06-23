@@ -19,14 +19,12 @@ class PieceJointeMiddleware extends MiddlewareClass<AppState> {
       final String? path = await _repository.download(fileId: action.fileId, fileName: action.fileName);
       if (path == null || path.isEmpty) {
         store.dispatch(PieceJointeFailureAction(action.fileId));
-        return;
-      }
-      if (path == Strings.fileNotAvailableError) {
+      } else if (path == Strings.fileNotAvailableError) {
         store.dispatch(PieceJointeUnavailableAction(action.fileId));
-        return;
+      } else {
+        store.dispatch(PieceJointeSuccessAction(action.fileId));
+        store.dispatch(PreviewFileAction(path));
       }
-      store.dispatch(PieceJointeSuccessAction(action.fileId));
-      store.dispatch(PreviewFileAction(path));
     }
   }
 }
