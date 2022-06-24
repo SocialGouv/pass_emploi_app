@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
+import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/preview_file/preview_file_state.dart';
@@ -85,6 +86,7 @@ class AppState extends Equatable {
   final DeveloperOptionsState developerOptionsState;
   final MatomoLoggingState matomoLoggingState;
   final PreviewFileState previewFileState;
+  final ChatBrouillonState chatBrouillonState;
 
   AppState({
     required this.configurationState,
@@ -128,6 +130,7 @@ class AppState extends Equatable {
     required this.developerOptionsState,
     required this.matomoLoggingState,
     required this.previewFileState,
+    required this.chatBrouillonState,
   });
 
   AppState copyWith({
@@ -172,6 +175,7 @@ class AppState extends Equatable {
     final DeveloperOptionsState? developerOptionsState,
     final MatomoLoggingState? matomoLoggingState,
     final PreviewFileState? previewFileState,
+    final ChatBrouillonState? chatBrouillonState,
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
@@ -216,6 +220,7 @@ class AppState extends Equatable {
       developerOptionsState: developerOptionsState ?? this.developerOptionsState,
       matomoLoggingState: matomoLoggingState ?? this.matomoLoggingState,
       previewFileState: previewFileState ?? this.previewFileState,
+      chatBrouillonState: chatBrouillonState ?? this.chatBrouillonState,
     );
   }
 
@@ -262,6 +267,7 @@ class AppState extends Equatable {
       developerOptionsState: DeveloperOptionsNotInitializedState(),
       matomoLoggingState: MatomoLoggingState([]),
       previewFileState: PreviewFileNotInitializedState(),
+      chatBrouillonState: ChatBrouillonState(null),
     );
   }
 
@@ -301,6 +307,7 @@ class AppState extends Equatable {
         campagneState,
         piecesJointesState,
         previewFileState,
+        chatBrouillonState,
       ];
 
   @override
