@@ -5,12 +5,14 @@ class OffreEmploiSearchParametersFiltres extends Equatable {
   static const defaultDistanceValue = 10;
 
   final int? distance;
+  final bool? debutantOnly;
   final List<ExperienceFiltre>? experience;
   final List<ContratFiltre>? contrat;
   final List<DureeFiltre>? duree;
 
   OffreEmploiSearchParametersFiltres._({
     this.distance,
+    this.debutantOnly,
     this.experience,
     this.contrat,
     this.duree,
@@ -18,12 +20,14 @@ class OffreEmploiSearchParametersFiltres extends Equatable {
 
   factory OffreEmploiSearchParametersFiltres.withFiltres({
     int? distance,
+    bool? debutantOnly,
     List<ExperienceFiltre>? experience,
     List<ContratFiltre>? contrat,
     List<DureeFiltre>? duree,
   }) {
     return OffreEmploiSearchParametersFiltres._(
       distance: distance,
+      debutantOnly: debutantOnly,
       experience: experience,
       contrat: contrat,
       duree: duree,
@@ -33,13 +37,14 @@ class OffreEmploiSearchParametersFiltres extends Equatable {
   factory OffreEmploiSearchParametersFiltres.noFiltres() {
     return OffreEmploiSearchParametersFiltres._(
       distance: null,
+      debutantOnly: null,
       experience: null,
       contrat: null,
     );
   }
 
   @override
-  List<Object?> get props => [distance, experience, contrat, duree];
+  List<Object?> get props => [distance, debutantOnly, experience, contrat, duree];
 }
 
 enum ExperienceFiltre { de_zero_a_un_an, de_un_a_trois_ans, trois_ans_et_plus }

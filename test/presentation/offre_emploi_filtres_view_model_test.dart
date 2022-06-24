@@ -179,10 +179,9 @@ void main() {
     final viewModel = OffreEmploiFiltresViewModel.create(store);
 
     // Then
+    expect(viewModel.initialDebutantOnlyFiltre, false);
     expect(viewModel.experienceFiltres, _allExperiencesInitiallyUnchecked());
-
     expect(viewModel.contratFiltres, _allContratsInitiallyUnchecked());
-
     expect(viewModel.dureeFiltres, _allDureesInitiallyUnchecked());
   });
 
@@ -243,6 +242,7 @@ void main() {
 
     viewModel.updateFiltres(
       20,
+      true,
       _allExperiencesInitiallyUnchecked(),
       _allContratsInitiallyUnchecked(),
       _allDureesInitiallyUnchecked(),
@@ -262,6 +262,7 @@ void main() {
       ExperienceFiltre.de_un_a_trois_ans,
       ExperienceFiltre.trois_ans_et_plus,
     ]);
+    expect(action.updatedFiltres.debutantOnly, true);
     expect(action.updatedFiltres.duree, [
       DureeFiltre.temps_plein,
       DureeFiltre.temps_partiel,

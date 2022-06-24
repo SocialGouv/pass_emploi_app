@@ -18,6 +18,7 @@ class OffreEmploiFiltresViewModel extends Equatable {
   final int initialDistanceValue;
   final Function(
     int? updatedDistanceValue,
+    bool? debutantOnlyFiltre,
     List<CheckboxValueViewModel<ExperienceFiltre>>? experienceFiltres,
     List<CheckboxValueViewModel<ContratFiltre>>? contratFiltres,
     List<CheckboxValueViewModel<DureeFiltre>>? dureeFiltres,
@@ -52,8 +53,8 @@ class OffreEmploiFiltresViewModel extends Equatable {
       shouldDisplayDistanceFiltre: _shouldDisplayDistanceFiltre(parametersState),
       shouldDisplayNonDistanceFiltres: _shouldDisplayNonDistanceFiltres(parametersState),
       initialDistanceValue: _distance(parametersState),
-      updateFiltres: (updatedDistanceValue, experienceFiltres, contratFiltres, dureeFiltres) {
-        _dispatchUpdateFiltresAction(store, updatedDistanceValue, experienceFiltres, contratFiltres, dureeFiltres);
+      updateFiltres: (updatedDistanceValue, debutantOnlyFiltre, experienceFiltres, contratFiltres, dureeFiltres) {
+        _dispatchUpdateFiltresAction(store, updatedDistanceValue, debutantOnlyFiltre, experienceFiltres, contratFiltres, dureeFiltres);
       },
       initialDebutantOnlyFiltre: false,
       experienceFiltres: _experience(parametersState),
@@ -179,6 +180,7 @@ OffreEmploiSearchParametersFiltres? _appliedFiltres(OffreEmploiSearchParametersS
 void _dispatchUpdateFiltresAction(
     Store<AppState> store,
     int? updatedDistanceValue,
+    bool? debutantOnlyFiltre,
     List<CheckboxValueViewModel<ExperienceFiltre>>? experienceFiltres,
     List<CheckboxValueViewModel<ContratFiltre>>? contratFiltres,
     List<CheckboxValueViewModel<DureeFiltre>>? dureeFiltres) {
@@ -186,6 +188,7 @@ void _dispatchUpdateFiltresAction(
     OffreEmploiSearchParametersUpdateFiltresRequestAction(
       OffreEmploiSearchParametersFiltres.withFiltres(
         distance: updatedDistanceValue,
+        debutantOnly: debutantOnlyFiltre,
         experience: experienceFiltres?.map((e) => e.value).toList(),
         contrat: contratFiltres?.map((e) => e.value).toList(),
         duree: dureeFiltres?.map((e) => e.value).toList(),

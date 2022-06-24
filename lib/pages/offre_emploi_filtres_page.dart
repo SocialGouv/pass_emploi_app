@@ -150,6 +150,7 @@ class _ContentState extends State<_Content> {
   void _onButtonClick(OffreEmploiFiltresViewModel viewModel) {
     viewModel.updateFiltres(
       _sliderValueToDisplay(viewModel.initialDistanceValue.toDouble()).toInt(),
+      _currentDebutantOnlyFiltre ?? false,
       _currentExperienceFiltres ?? [],
       _currentContratFiltres ?? [],
       _currentDureeFiltres ?? [],
