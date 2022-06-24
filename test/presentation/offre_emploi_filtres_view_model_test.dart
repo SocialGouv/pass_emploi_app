@@ -179,7 +179,7 @@ void main() {
     final viewModel = OffreEmploiFiltresViewModel.create(store);
 
     // Then
-    expect(viewModel.initialDebutantOnlyFiltre, false);
+    expect(viewModel.initialDebutantOnlyFiltre, null);
     expect(viewModel.experienceFiltres, _allExperiencesInitiallyUnchecked());
     expect(viewModel.contratFiltres, _allContratsInitiallyUnchecked());
     expect(viewModel.dureeFiltres, _allDureesInitiallyUnchecked());
@@ -195,6 +195,7 @@ void main() {
           location: mockCommuneLocation(),
           onlyAlternance: false,
           filtres: OffreEmploiSearchParametersFiltres.withFiltres(
+            debutantOnly: true,
             experience: [
               ExperienceFiltre.de_zero_a_un_an,
               ExperienceFiltre.de_un_a_trois_ans,
@@ -211,6 +212,8 @@ void main() {
     final viewModel = OffreEmploiFiltresViewModel.create(store);
 
     // Then
+   expect(viewModel.initialDebutantOnlyFiltre, true);
+
     expect(
         viewModel.experienceFiltres,
         _allExperiencesInitiallyUnchecked()

@@ -16,18 +16,18 @@ class OffreEmploiFiltresViewModel extends Equatable {
   final bool shouldDisplayDistanceFiltre;
   final bool shouldDisplayNonDistanceFiltres;
   final int initialDistanceValue;
-  final Function(
-    int? updatedDistanceValue,
-    bool? debutantOnlyFiltre,
-    List<CheckboxValueViewModel<ExperienceFiltre>>? experienceFiltres,
-    List<CheckboxValueViewModel<ContratFiltre>>? contratFiltres,
-    List<CheckboxValueViewModel<DureeFiltre>>? dureeFiltres,
-  ) updateFiltres;
-
-  final bool initialDebutantOnlyFiltre;
+  final bool? initialDebutantOnlyFiltre;
   final List<CheckboxValueViewModel<ExperienceFiltre>> experienceFiltres;
   final List<CheckboxValueViewModel<ContratFiltre>> contratFiltres;
   final List<CheckboxValueViewModel<DureeFiltre>> dureeFiltres;
+
+  final Function(
+      int? updatedDistanceValue,
+      bool? debutantOnlyFiltre,
+      List<CheckboxValueViewModel<ExperienceFiltre>>? experienceFiltres,
+      List<CheckboxValueViewModel<ContratFiltre>>? contratFiltres,
+      List<CheckboxValueViewModel<DureeFiltre>>? dureeFiltres,
+      ) updateFiltres;
 
   final String errorMessage;
 
@@ -56,7 +56,7 @@ class OffreEmploiFiltresViewModel extends Equatable {
       updateFiltres: (updatedDistanceValue, debutantOnlyFiltre, experienceFiltres, contratFiltres, dureeFiltres) {
         _dispatchUpdateFiltresAction(store, updatedDistanceValue, debutantOnlyFiltre, experienceFiltres, contratFiltres, dureeFiltres);
       },
-      initialDebutantOnlyFiltre: false,
+      initialDebutantOnlyFiltre: _initialDebutantOnlyFiltre(parametersState),
       experienceFiltres: _experience(parametersState),
       contratFiltres: _contrat(parametersState),
       dureeFiltres: _duree(parametersState),
@@ -74,6 +74,13 @@ class OffreEmploiFiltresViewModel extends Equatable {
 
 String _errorMessage(OffreEmploiSearchState searchState, OffreEmploiListState searchResultsState) {
   return searchState is OffreEmploiSearchFailureState ? Strings.genericError : "";
+}
+
+bool? _initialDebutantOnlyFiltre(OffreEmploiSearchParametersState parametersState) {
+  if (parametersState is! OffreEmploiSearchParametersInitializedState) {
+    return null;
+  }
+  return parametersState.filtres.debutantOnly;
 }
 
 List<CheckboxValueViewModel<DureeFiltre>> _duree(OffreEmploiSearchParametersState parametersState) {

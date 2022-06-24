@@ -196,7 +196,7 @@ class _FiltersState extends State<_Filters> {
           if (widget.viewModel.shouldDisplayNonDistanceFiltres) ...[
             _FiltreDebutant(
               onDebutantOnlyValueChange: widget.onDebutantOnlyValueChange,
-              debutantOnlyEnabled: widget.viewModel.initialDebutantOnlyFiltre,
+              debutantOnlyEnabled: widget.viewModel.initialDebutantOnlyFiltre ?? false,
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
