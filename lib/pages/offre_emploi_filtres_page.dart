@@ -178,6 +178,7 @@ class _FiltersState extends State<_Filters> {
             SepLineWithPadding(),
           ],
           if (widget.viewModel.shouldDisplayNonDistanceFiltres) ...[
+            _FiltreDebutant(),
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
               child: CheckBoxGroup<ExperienceFiltre>(
@@ -221,5 +222,38 @@ class _FiltersState extends State<_Filters> {
 
   bool _isError(DisplayState viewModeDisplayState) {
     return viewModeDisplayState == DisplayState.FAILURE || viewModeDisplayState == DisplayState.EMPTY;
+  }
+}
+
+class _FiltreDebutant extends StatelessWidget {
+  const _FiltreDebutant({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(Strings.experienceSectionTitle, style: TextStyles.textBaseBold),
+          SizedBox(height: Margins.spacing_base),
+          DecoratedBox(
+            decoration:
+                BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(16)), boxShadow: [
+              Shadows.boxShadow,
+            ]),
+            child: Padding(
+                padding: const EdgeInsets.fromLTRB(32, 16, 26, 16),
+                child: Row(
+                  children: [
+                    Expanded(child: Text(Strings.experienceSectionDescription, style: TextStyles.textBaseRegular)),
+                    Switch(value: true, onChanged: (value) => {}, activeColor: AppColors.primary),
+                    Text(Strings.yes, style: TextStyles.textBaseRegular),
+                  ],
+                )),
+          )
+        ],
+      ),
+    );
   }
 }
