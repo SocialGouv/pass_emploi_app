@@ -7,8 +7,11 @@ import 'package:pass_emploi_app/presentation/checkbox_value_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_filtres_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/filter_button.dart';
 import 'package:pass_emploi_app/widgets/checkbox_group.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -63,6 +66,7 @@ class _Content extends StatefulWidget {
 
 class _ContentState extends State<_Content> {
   double? _currentSliderValue;
+  bool? _currentDebutantOnlyFiltre;
   List<CheckboxValueViewModel<ExperienceFiltre>>? _currentExperienceFiltres;
   List<CheckboxValueViewModel<ContratFiltre>>? _currentContratFiltres;
   List<CheckboxValueViewModel<DureeFiltre>>? _currentDureeFiltres;
@@ -71,6 +75,7 @@ class _ContentState extends State<_Content> {
   @override
   void initState() {
     super.initState();
+    _currentDebutantOnlyFiltre = widget.viewModel.initialDebutantOnlyFiltre;
     _currentExperienceFiltres =
         widget.viewModel.experienceFiltres.where((element) => element.isInitiallyChecked).toList();
     _currentContratFiltres = widget.viewModel.contratFiltres.where((element) => element.isInitiallyChecked).toList();
@@ -85,6 +90,7 @@ class _ContentState extends State<_Content> {
         _Filters(
           viewModel: widget.viewModel,
           onDistanceValueChange: (value) => _setDistanceFilterState(value),
+          onDebutantOnlyValueChange: (value) => _setDebutantOnlyFilterState(value),
           onExperienceValueChange: (selectedOptions) => _setExperienceFilterState(selectedOptions),
           onContractValueChange: (selectedOptions) => _setContractFilterState(selectedOptions),
           onDurationValueChange: (selectedOptions) => _setContractDurationState(selectedOptions),
@@ -104,6 +110,13 @@ class _ContentState extends State<_Content> {
     setState(() {
       _hasFormChanged = true;
       _currentSliderValue = value;
+    });
+  }
+
+  void _setDebutantOnlyFilterState(bool value) {
+    setState(() {
+      _hasFormChanged = true;
+      _currentDebutantOnlyFiltre = value;
     });
   }
 
@@ -147,6 +160,7 @@ class _ContentState extends State<_Content> {
 class _Filters extends StatefulWidget {
   final OffreEmploiFiltresViewModel viewModel;
   final Function(double) onDistanceValueChange;
+  final Function(bool) onDebutantOnlyValueChange;
   final Function(List<CheckboxValueViewModel<ExperienceFiltre>>) onExperienceValueChange;
   final Function(List<CheckboxValueViewModel<ContratFiltre>>) onContractValueChange;
   final Function(List<CheckboxValueViewModel<DureeFiltre>>) onDurationValueChange;
@@ -154,6 +168,7 @@ class _Filters extends StatefulWidget {
   _Filters({
     required this.viewModel,
     required this.onDistanceValueChange,
+    required this.onDebutantOnlyValueChange,
     required this.onExperienceValueChange,
     required this.onContractValueChange,
     required this.onDurationValueChange,
@@ -178,7 +193,10 @@ class _FiltersState extends State<_Filters> {
             SepLineWithPadding(),
           ],
           if (widget.viewModel.shouldDisplayNonDistanceFiltres) ...[
-            _FiltreDebutant(),
+            _FiltreDebutant(
+              onDebutantOnlyValueChange: widget.onDebutantOnlyValueChange,
+              debutantOnlyEnabled: widget.viewModel.initialDebutantOnlyFiltre,
+            ),
             Padding(
               padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
               child: CheckBoxGroup<ExperienceFiltre>(
@@ -225,8 +243,32 @@ class _FiltersState extends State<_Filters> {
   }
 }
 
-class _FiltreDebutant extends StatelessWidget {
-  const _FiltreDebutant({Key? key}) : super(key: key);
+class _FiltreDebutant extends StatefulWidget {
+  final bool debutantOnlyEnabled;
+  final Function(bool) onDebutantOnlyValueChange;
+
+  const _FiltreDebutant({Key? key, required this.onDebutantOnlyValueChange, required this.debutantOnlyEnabled})
+      : super(key: key);
+
+  @override
+  State<_FiltreDebutant> createState() => _FiltreDebutantState();
+}
+
+class _FiltreDebutantState extends State<_FiltreDebutant> {
+  var _debutantOnlyEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _debutantOnlyEnabled = widget.debutantOnlyEnabled;
+  }
+
+  void _onDebutantOnlyValueChange(bool value) {
+    setState(() {
+      _debutantOnlyEnabled = value;
+      widget.onDebutantOnlyValueChange(value);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -247,7 +289,11 @@ class _FiltreDebutant extends StatelessWidget {
                 child: Row(
                   children: [
                     Expanded(child: Text(Strings.experienceSectionDescription, style: TextStyles.textBaseRegular)),
-                    Switch(value: true, onChanged: (value) => {}, activeColor: AppColors.primary),
+                    Switch(
+                      value: _debutantOnlyEnabled,
+                      onChanged: _onDebutantOnlyValueChange,
+                      activeColor: AppColors.primary,
+                    ),
                     Text(Strings.yes, style: TextStyles.textBaseRegular),
                   ],
                 )),

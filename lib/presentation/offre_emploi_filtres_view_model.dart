@@ -23,6 +23,7 @@ class OffreEmploiFiltresViewModel extends Equatable {
     List<CheckboxValueViewModel<DureeFiltre>>? dureeFiltres,
   ) updateFiltres;
 
+  final bool initialDebutantOnlyFiltre;
   final List<CheckboxValueViewModel<ExperienceFiltre>> experienceFiltres;
   final List<CheckboxValueViewModel<ContratFiltre>> contratFiltres;
   final List<CheckboxValueViewModel<DureeFiltre>> dureeFiltres;
@@ -35,6 +36,7 @@ class OffreEmploiFiltresViewModel extends Equatable {
     required this.shouldDisplayNonDistanceFiltres,
     required this.initialDistanceValue,
     required this.updateFiltres,
+    required this.initialDebutantOnlyFiltre,
     required this.experienceFiltres,
     required this.contratFiltres,
     required this.dureeFiltres,
@@ -53,6 +55,7 @@ class OffreEmploiFiltresViewModel extends Equatable {
       updateFiltres: (updatedDistanceValue, experienceFiltres, contratFiltres, dureeFiltres) {
         _dispatchUpdateFiltresAction(store, updatedDistanceValue, experienceFiltres, contratFiltres, dureeFiltres);
       },
+      initialDebutantOnlyFiltre: false,
       experienceFiltres: _experience(parametersState),
       contratFiltres: _contrat(parametersState),
       dureeFiltres: _duree(parametersState),
