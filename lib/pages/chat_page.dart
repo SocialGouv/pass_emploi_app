@@ -106,7 +106,6 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
   }
 
   Widget _content(BuildContext context, ChatPageViewModel viewModel) {
-    // todo : extraire un widget pour la barre de message, et y mettre le controler ?
     _controller = TextEditingController(text: viewModel.brouillon);
     return Stack(
       children: [

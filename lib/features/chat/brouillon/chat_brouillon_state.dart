@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 
 class ChatBrouillonState extends Equatable {
-  final String? message;
+  final String? brouillon;
 
-  ChatBrouillonState(this.message);
+  ChatBrouillonState(this.brouillon);
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [brouillon];
 }
