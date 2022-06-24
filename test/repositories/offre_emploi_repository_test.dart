@@ -255,6 +255,27 @@ void main() {
       );
     });
 
+    group(("when debutantAccepte is applied should set parameter"), () {
+      assertFiltres(
+        "when debutantAccepte is true",
+        OffreEmploiSearchParametersFiltres.withFiltres(debutantOnly: true),
+        (query) => query.contains("debutantAccepte=true"),
+      );
+
+      assertFiltres(
+        "when debutantAccepte is false",
+        OffreEmploiSearchParametersFiltres.withFiltres(debutantOnly: false),
+        (query) => query.contains("debutantAccepte=false"),
+      );
+
+      assertFiltres(
+        "when no filter is set should not set debutantAccepte",
+        OffreEmploiSearchParametersFiltres.noFiltres(),
+        (query) => !query.contains("debutantAccepte"),
+      );
+    });
+
+    // todo suppr
     group(("when experience filtre is applied should set proper values"), () {
       assertFiltres(
         "when experience is De 0 à 1 an",
