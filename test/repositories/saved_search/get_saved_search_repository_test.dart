@@ -67,6 +67,7 @@ List<Equatable> _getMockedSavedSearch() {
       isAlternance: false,
       filters: OffreEmploiSearchParametersFiltres.withFiltres(
         distance: null,
+        debutantOnly: true,
         experience: [],
         contrat: [],
         duree: [],

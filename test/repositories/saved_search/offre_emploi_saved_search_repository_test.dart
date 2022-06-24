@@ -86,6 +86,7 @@ BaseClient _mockClientforFullDataWithFilters({required bool expectedAlternance})
       return invalidHttpResponse(message: "alternance KO");
     }
     if (requestJson["criteres"]["rayon"] != 40) return invalidHttpResponse(message: "distance KO");
+    if (requestJson["criteres"]["debutantAccepte"] != true) return invalidHttpResponse(message: "debutantAccepte KO");
     if (requestJson["criteres"]["experience"][0] != "3") return invalidHttpResponse(message: "experience KO");
     if (requestJson["criteres"]["contrat"][0] != "CDI") return invalidHttpResponse(message: "contrat KO");
     if (requestJson["criteres"]["duree"][0] != "1") return invalidHttpResponse(message: "duree KO");
@@ -128,6 +129,7 @@ OffreEmploiSavedSearch _savedSearchWithFilters({required bool isAlternance}) {
     filters: OffreEmploiSearchParametersFiltres.withFiltres(
         distance: 40,
         contrat: [ContratFiltre.cdi],
+        debutantOnly: true,
         experience: [ExperienceFiltre.trois_ans_et_plus, ExperienceFiltre.de_un_a_trois_ans],
         duree: [DureeFiltre.temps_plein]),
   );

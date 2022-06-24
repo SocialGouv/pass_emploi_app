@@ -29,6 +29,7 @@ class OffreEmploiSavedSearchRepository extends SavedSearchRepository<OffreEmploi
             localisation: savedSearch.location,
             keywords: savedSearch.keywords,
             isAlternance: savedSearch.isAlternance,
+            debutantOnly: savedSearch.filters.debutantOnly,
             experience: savedSearch.filters.experience,
             contrat: savedSearch.filters.contrat,
             duration: savedSearch.filters.duree,
