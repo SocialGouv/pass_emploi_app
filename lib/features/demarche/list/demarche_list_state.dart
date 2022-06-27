@@ -12,12 +12,12 @@ class DemarcheListLoadingState extends DemarcheListState {}
 
 class DemarcheListSuccessState extends DemarcheListState {
   final List<Demarche> demarches;
-  final bool isDetailAvailable;
+  final bool isFonctionnalitesAvanceesJreActivees;
 
-  DemarcheListSuccessState(this.demarches, this.isDetailAvailable);
+  DemarcheListSuccessState(this.demarches, this.isFonctionnalitesAvanceesJreActivees);
 
   @override
-  List<Object> get props => [demarches, isDetailAvailable];
+  List<Object> get props => [demarches, isFonctionnalitesAvanceesJreActivees];
 }
 
 class DemarcheListFailureState extends DemarcheListState {}

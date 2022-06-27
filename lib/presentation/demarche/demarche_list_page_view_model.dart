@@ -10,29 +10,32 @@ import 'package:redux/redux.dart';
 class DemarcheListPageViewModel extends Equatable {
   final DisplayState displayState;
   final List<DemarcheListItem> items;
+  final bool isDemarcheCreationEnabled;
   final Function() onRetry;
 
   DemarcheListPageViewModel({
     required this.displayState,
     required this.items,
+    required this.isDemarcheCreationEnabled,
     required this.onRetry,
   });
 
   factory DemarcheListPageViewModel.create(Store<AppState> store) {
-    final actionState = store.state.demarcheListState;
+    final state = store.state.demarcheListState;
     return DemarcheListPageViewModel(
       displayState: _displayState(store.state),
       items: _listItems(
         campagne: _campagneItem(state: store.state),
-        activeItems: _activeItems(state: actionState),
-        inactiveItems: _inactiveItems(state: actionState),
+        activeItems: _activeItems(state: state),
+        inactiveItems: _inactiveItems(state: state),
       ),
+      isDemarcheCreationEnabled: state is DemarcheListSuccessState && state.isFonctionnalitesAvanceesJreActivees,
       onRetry: () => store.dispatch(DemarcheListRequestAction()),
     );
   }
 
   @override
-  List<Object?> get props => [displayState, items];
+  List<Object?> get props => [displayState, items, isDemarcheCreationEnabled];
 }
 
 DisplayState _displayState(AppState state) {
@@ -60,10 +63,8 @@ List<DemarcheCardViewModel> _activeItems({required DemarcheListState state}) {
   if (state is DemarcheListSuccessState) {
     return state.demarches
         .where((demarche) =>
-            demarche.status == DemarcheStatus.NOT_STARTED ||
-            demarche.status == DemarcheStatus.IN_PROGRESS)
-        .map((demarche) =>
-            DemarcheCardViewModel.create(demarche, state.isDetailAvailable))
+            demarche.status == DemarcheStatus.NOT_STARTED || demarche.status == DemarcheStatus.IN_PROGRESS)
+        .map((demarche) => DemarcheCardViewModel.create(demarche, state.isFonctionnalitesAvanceesJreActivees))
         .toList();
   }
   return [];
@@ -72,11 +73,8 @@ List<DemarcheCardViewModel> _activeItems({required DemarcheListState state}) {
 List<DemarcheCardViewModel> _inactiveItems({required DemarcheListState state}) {
   if (state is DemarcheListSuccessState) {
     return state.demarches
-        .where((demarche) =>
-            demarche.status == DemarcheStatus.DONE ||
-            demarche.status == DemarcheStatus.CANCELLED)
-        .map((demarche) =>
-            DemarcheCardViewModel.create(demarche, state.isDetailAvailable))
+        .where((demarche) => demarche.status == DemarcheStatus.DONE || demarche.status == DemarcheStatus.CANCELLED)
+        .map((demarche) => DemarcheCardViewModel.create(demarche, state.isFonctionnalitesAvanceesJreActivees))
         .toList();
   }
   return [];

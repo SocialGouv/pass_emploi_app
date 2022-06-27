@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 import '../../doubles/fixtures.dart';
+import '../../dsl/app_state_dsl.dart';
 import '../../utils/test_datetime.dart';
 
 void main() {
@@ -158,6 +159,34 @@ void main() {
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.items.length, 1);
     expect(viewModel.items[0] is DemarcheCampagneItemViewModel, isTrue);
+  });
+
+  test('create when fonctionnalitées JRE avancees is false should not enable demarche creation', () {
+    // Given
+    final store = givenState()
+        .loggedInPoleEmploiUser()
+        .copyWith(demarcheListState: DemarcheListSuccessState([], false),)
+        .store();
+
+    // When
+    final viewModel = DemarcheListPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.isDemarcheCreationEnabled, isFalse);
+  });
+
+  test('create when fonctionnalitées JRE avancees is true should enable demarche creation', () {
+    // Given
+    final store = givenState()
+        .loggedInPoleEmploiUser()
+        .copyWith(demarcheListState: DemarcheListSuccessState([], true),)
+        .store();
+
+    // When
+    final viewModel = DemarcheListPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.isDemarcheCreationEnabled, isTrue);
   });
 }
 

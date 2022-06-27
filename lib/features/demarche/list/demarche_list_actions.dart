@@ -6,9 +6,9 @@ class DemarcheListLoadingAction {}
 
 class DemarcheListSuccessAction {
   final List<Demarche> demarches;
-  final bool isDetailAvailable;
+  final bool isFonctionnalitesAvanceesJreActivees;
 
-  DemarcheListSuccessAction(this.demarches, this.isDetailAvailable);
+  DemarcheListSuccessAction(this.demarches, this.isFonctionnalitesAvanceesJreActivees);
 }
 
 class DemarcheListFailureAction {}

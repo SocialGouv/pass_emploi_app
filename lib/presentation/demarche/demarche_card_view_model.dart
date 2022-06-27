@@ -32,7 +32,7 @@ class DemarcheCardViewModel extends Equatable {
     required this.isDetailEnabled,
   });
 
-  factory DemarcheCardViewModel.create(Demarche demarche, bool isDetailAvailable) {
+  factory DemarcheCardViewModel.create(Demarche demarche, bool isFonctionnalitesAvanceesJreActivees) {
     return DemarcheCardViewModel(
       id: demarche.id,
       titre: demarche.content ?? Strings.withoutContent,
@@ -43,7 +43,7 @@ class DemarcheCardViewModel extends Equatable {
       tag: _userActionTagViewModel(demarche.status, isLateAction(demarche.status, demarche.endDate)),
       formattedDate: _setFormattedDate(demarche.status, demarche.endDate?.toDay(), demarche.deletionDate?.toDay()),
       isLate: isLateAction(demarche.status, demarche.endDate),
-      isDetailEnabled: isDetailAvailable,
+      isDetailEnabled: isFonctionnalitesAvanceesJreActivees,
     );
   }
 

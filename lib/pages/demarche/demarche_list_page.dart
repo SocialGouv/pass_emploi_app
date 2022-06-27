@@ -76,7 +76,7 @@ class DemarcheListPage extends TraceableStatelessWidget {
           itemBuilder: (context, i) => _listItem(context, viewModel.items[i], viewModel),
           separatorBuilder: (context, i) => _listSeparator(),
         ),
-        _AddDemarcheButton(),
+        if (viewModel.isDemarcheCreationEnabled) _AddDemarcheButton(),
       ],
     );
   }

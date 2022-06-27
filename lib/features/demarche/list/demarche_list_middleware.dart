@@ -22,13 +22,13 @@ class DemarcheListMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(DemarcheListLoadingAction());
       final page = await _repository.getPageDemarches(loginState.user.id);
       store.dispatch(page != null
-          ? DemarcheListSuccessAction(page.demarches, await _isDetailAvailable())
+          ? DemarcheListSuccessAction(page.demarches, await _isFonctionnalitesAvanceesJreActivees())
           : DemarcheListFailureAction());
       store.dispatch(CampagneFetchedAction(page?.campagne));
     }
   }
 
-  Future<bool> _isDetailAvailable() async {
-    return _remoteConfig?.getBool('afficher_detail_demarche') ?? false;
+  Future<bool> _isFonctionnalitesAvanceesJreActivees() async {
+    return _remoteConfig?.getBool('fonctionnalites_avancees_jre_activees') ?? false;
   }
 }
