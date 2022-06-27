@@ -67,7 +67,6 @@ class _Content extends StatefulWidget {
 class _ContentState extends State<_Content> {
   double? _currentSliderValue;
   bool? _currentDebutantOnlyFiltre;
-  List<CheckboxValueViewModel<ExperienceFiltre>>? _currentExperienceFiltres;
   List<CheckboxValueViewModel<ContratFiltre>>? _currentContratFiltres;
   List<CheckboxValueViewModel<DureeFiltre>>? _currentDureeFiltres;
   var _hasFormChanged = false;
@@ -76,8 +75,6 @@ class _ContentState extends State<_Content> {
   void initState() {
     super.initState();
     _currentDebutantOnlyFiltre = widget.viewModel.initialDebutantOnlyFiltre;
-    _currentExperienceFiltres =
-        widget.viewModel.experienceFiltres.where((element) => element.isInitiallyChecked).toList();
     _currentContratFiltres = widget.viewModel.contratFiltres.where((element) => element.isInitiallyChecked).toList();
     _currentDureeFiltres = widget.viewModel.dureeFiltres.where((element) => element.isInitiallyChecked).toList();
   }
@@ -91,7 +88,6 @@ class _ContentState extends State<_Content> {
           viewModel: widget.viewModel,
           onDistanceValueChange: (value) => _setDistanceFilterState(value),
           onDebutantOnlyValueChange: (value) => _setDebutantOnlyFilterState(value),
-          onExperienceValueChange: (selectedOptions) => _setExperienceFilterState(selectedOptions),
           onContractValueChange: (selectedOptions) => _setContractFilterState(selectedOptions),
           onDurationValueChange: (selectedOptions) => _setContractDurationState(selectedOptions),
         ),
@@ -120,13 +116,6 @@ class _ContentState extends State<_Content> {
     });
   }
 
-  void _setExperienceFilterState(List<CheckboxValueViewModel<ExperienceFiltre>> selectedOptions) {
-    setState(() {
-      _hasFormChanged = true;
-      _currentExperienceFiltres = selectedOptions;
-    });
-  }
-
   void _setContractFilterState(List<CheckboxValueViewModel<ContratFiltre>> selectedOptions) {
     setState(() {
       _hasFormChanged = true;
@@ -151,7 +140,6 @@ class _ContentState extends State<_Content> {
     viewModel.updateFiltres(
       _sliderValueToDisplay(viewModel.initialDistanceValue.toDouble()).toInt(),
       _currentDebutantOnlyFiltre ?? false,
-      _currentExperienceFiltres ?? [],
       _currentContratFiltres ?? [],
       _currentDureeFiltres ?? [],
     );
@@ -162,7 +150,6 @@ class _Filters extends StatefulWidget {
   final OffreEmploiFiltresViewModel viewModel;
   final Function(double) onDistanceValueChange;
   final Function(bool) onDebutantOnlyValueChange;
-  final Function(List<CheckboxValueViewModel<ExperienceFiltre>>) onExperienceValueChange;
   final Function(List<CheckboxValueViewModel<ContratFiltre>>) onContractValueChange;
   final Function(List<CheckboxValueViewModel<DureeFiltre>>) onDurationValueChange;
 
@@ -170,7 +157,6 @@ class _Filters extends StatefulWidget {
     required this.viewModel,
     required this.onDistanceValueChange,
     required this.onDebutantOnlyValueChange,
-    required this.onExperienceValueChange,
     required this.onContractValueChange,
     required this.onDurationValueChange,
   });
@@ -198,37 +184,26 @@ class _FiltersState extends State<_Filters> {
               onDebutantOnlyValueChange: widget.onDebutantOnlyValueChange,
               debutantOnlyEnabled: widget.viewModel.initialDebutantOnlyFiltre ?? false,
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(24, 16, 24, 0),
-              child: CheckBoxGroup<ExperienceFiltre>(
-                title: Strings.experienceSectionTitle,
-                options: widget.viewModel.experienceFiltres,
-                onSelectedOptionsUpdated: (selectedOptions) =>
-                    widget.onExperienceValueChange(selectedOptions as List<CheckboxValueViewModel<ExperienceFiltre>>),
-              ),
-            ),
-            SizedBox(
-              height: Margins.spacing_m,
-            ),
+            SizedBox(height: Margins.spacing_m),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
               child: CheckBoxGroup<ContratFiltre>(
                 title: Strings.contratSectionTitle,
                 options: widget.viewModel.contratFiltres,
-                onSelectedOptionsUpdated: (selectedOptions) =>
-                    widget.onContractValueChange(selectedOptions as List<CheckboxValueViewModel<ContratFiltre>>),
+                onSelectedOptionsUpdated: (selectedOptions) {
+                  widget.onContractValueChange(selectedOptions as List<CheckboxValueViewModel<ContratFiltre>>);
+                },
               ),
             ),
-            SizedBox(
-              height: Margins.spacing_l,
-            ),
+            SizedBox(height: Margins.spacing_m),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
               child: CheckBoxGroup<DureeFiltre>(
                 title: Strings.dureeSectionTitle,
                 options: widget.viewModel.dureeFiltres,
-                onSelectedOptionsUpdated: (selectedOptions) =>
-                    widget.onDurationValueChange(selectedOptions as List<CheckboxValueViewModel<DureeFiltre>>),
+                onSelectedOptionsUpdated: (selectedOptions) {
+                  widget.onDurationValueChange(selectedOptions as List<CheckboxValueViewModel<DureeFiltre>>);
+                },
               ),
             ),
           ],
@@ -248,8 +223,11 @@ class _FiltreDebutant extends StatefulWidget {
   final bool debutantOnlyEnabled;
   final Function(bool) onDebutantOnlyValueChange;
 
-  const _FiltreDebutant({Key? key, required this.onDebutantOnlyValueChange, required this.debutantOnlyEnabled})
-      : super(key: key);
+  const _FiltreDebutant({
+    Key? key,
+    required this.onDebutantOnlyValueChange,
+    required this.debutantOnlyEnabled,
+  }) : super(key: key);
 
   @override
   State<_FiltreDebutant> createState() => _FiltreDebutantState();
@@ -281,23 +259,25 @@ class _FiltreDebutantState extends State<_FiltreDebutant> {
           Text(Strings.experienceSectionTitle, style: TextStyles.textBaseBold),
           SizedBox(height: Margins.spacing_base),
           DecoratedBox(
-            decoration:
-                BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(16)), boxShadow: [
-              Shadows.boxShadow,
-            ]),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(16)),
+              boxShadow: [Shadows.boxShadow],
+            ),
             child: Padding(
-                padding: const EdgeInsets.fromLTRB(32, 16, 26, 16),
-                child: Row(
-                  children: [
-                    Expanded(child: Text(Strings.experienceSectionDescription, style: TextStyles.textBaseRegular)),
-                    Switch(
-                      value: _debutantOnlyEnabled,
-                      onChanged: _onDebutantOnlyValueChange,
-                      activeColor: AppColors.primary,
-                    ),
-                    Text(Strings.yes, style: TextStyles.textBaseRegular),
-                  ],
-                )),
+              padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_m),
+              child: Row(
+                children: [
+                  Expanded(child: Text(Strings.experienceSectionDescription, style: TextStyles.textBaseRegular)),
+                  Switch(
+                    value: _debutantOnlyEnabled,
+                    onChanged: _onDebutantOnlyValueChange,
+                    activeColor: AppColors.primary,
+                  ),
+                  Text(Strings.yes, style: TextStyles.textBaseRegular),
+                ],
+              ),
+            ),
           )
         ],
       ),

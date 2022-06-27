@@ -21,8 +21,11 @@ void main() {
       reducer,
       initialState: AppState.initialState().copyWith(
         offreEmploiSearchState: OffreEmploiSearchState.success(),
-        offreEmploiListState:
-            OffreEmploiListState.data(offres: [mockOffreEmploi()], loadedPage: 1, isMoreDataAvailable: true),
+        offreEmploiListState: OffreEmploiListState.data(
+          offres: [mockOffreEmploi()],
+          loadedPage: 1,
+          isMoreDataAvailable: true,
+        ),
       ),
     );
 
@@ -180,7 +183,6 @@ void main() {
 
     // Then
     expect(viewModel.initialDebutantOnlyFiltre, null);
-    expect(viewModel.experienceFiltres, _allExperiencesInitiallyUnchecked());
     expect(viewModel.contratFiltres, _allContratsInitiallyUnchecked());
     expect(viewModel.dureeFiltres, _allDureesInitiallyUnchecked());
   });
@@ -212,28 +214,23 @@ void main() {
     final viewModel = OffreEmploiFiltresViewModel.create(store);
 
     // Then
-   expect(viewModel.initialDebutantOnlyFiltre, true);
+    expect(viewModel.initialDebutantOnlyFiltre, true);
 
     expect(
-        viewModel.experienceFiltres,
-        _allExperiencesInitiallyUnchecked()
-            .map((e) =>
-                CheckboxValueViewModel(label: e.label, helpText: e.helpText, value: e.value, isInitiallyChecked: true))
-            .toList());
+      viewModel.contratFiltres,
+      _allContratsInitiallyUnchecked()
+          .map((e) =>
+              CheckboxValueViewModel(label: e.label, helpText: e.helpText, value: e.value, isInitiallyChecked: true))
+          .toList(),
+    );
 
     expect(
-        viewModel.contratFiltres,
-        _allContratsInitiallyUnchecked()
-            .map((e) =>
-                CheckboxValueViewModel(label: e.label, helpText: e.helpText, value: e.value, isInitiallyChecked: true))
-            .toList());
-
-    expect(
-        viewModel.dureeFiltres,
-        _allDureesInitiallyUnchecked()
-            .map((e) =>
-                CheckboxValueViewModel(label: e.label, helpText: e.helpText, value: e.value, isInitiallyChecked: true))
-            .toList());
+      viewModel.dureeFiltres,
+      _allDureesInitiallyUnchecked()
+          .map((e) =>
+              CheckboxValueViewModel(label: e.label, helpText: e.helpText, value: e.value, isInitiallyChecked: true))
+          .toList(),
+    );
   });
 
   test("updateFiltres should map view model input into action", () {
@@ -246,26 +243,19 @@ void main() {
     viewModel.updateFiltres(
       20,
       true,
-      _allExperiencesInitiallyUnchecked(),
       _allContratsInitiallyUnchecked(),
       _allDureesInitiallyUnchecked(),
     );
 
     // Then
-    final OffreEmploiSearchParametersUpdateFiltresRequestAction action =
-        store.dispatchedAction as OffreEmploiSearchParametersUpdateFiltresRequestAction;
+    final  action = store.dispatchedAction as OffreEmploiSearchParametersUpdateFiltresRequestAction;
     expect(action.updatedFiltres.distance, 20);
+    expect(action.updatedFiltres.debutantOnly, true);
     expect(action.updatedFiltres.contrat, [
       ContratFiltre.cdi,
       ContratFiltre.cdd_interim_saisonnier,
       ContratFiltre.autre,
     ]);
-    expect(action.updatedFiltres.experience, [
-      ExperienceFiltre.de_zero_a_un_an,
-      ExperienceFiltre.de_un_a_trois_ans,
-      ExperienceFiltre.trois_ans_et_plus,
-    ]);
-    expect(action.updatedFiltres.debutantOnly, true);
     expect(action.updatedFiltres.duree, [
       DureeFiltre.temps_plein,
       DureeFiltre.temps_partiel,
@@ -296,15 +286,6 @@ List<CheckboxValueViewModel<ContratFiltre>> _allContratsInitiallyUnchecked() {
       value: ContratFiltre.autre,
       isInitiallyChecked: false,
     ),
-  ];
-}
-
-List<CheckboxValueViewModel<ExperienceFiltre>> _allExperiencesInitiallyUnchecked() {
-  return [
-    CheckboxValueViewModel(label: "De 0 à 1 an", value: ExperienceFiltre.de_zero_a_un_an, isInitiallyChecked: false),
-    CheckboxValueViewModel(
-        label: "De 1 an à 3 ans", value: ExperienceFiltre.de_un_a_trois_ans, isInitiallyChecked: false),
-    CheckboxValueViewModel(label: "3 ans et +", value: ExperienceFiltre.trois_ans_et_plus, isInitiallyChecked: false),
   ];
 }
 

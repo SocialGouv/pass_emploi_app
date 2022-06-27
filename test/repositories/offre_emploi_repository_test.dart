@@ -275,8 +275,9 @@ void main() {
       );
     });
 
-    // todo suppr
-    group(("when experience filtre is applied should set proper values"), () {
+    group(
+        ("MANDATORY FOR RETRO-COMPATIBILITY IN SAVED SEARCHES : when experience filtre is applied should set proper values"),
+        () {
       assertFiltres(
         "when experience is De 0 à 1 an",
         OffreEmploiSearchParametersFiltres.withFiltres(experience: [ExperienceFiltre.de_zero_a_un_an]),
