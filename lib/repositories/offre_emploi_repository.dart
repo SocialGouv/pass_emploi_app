@@ -79,6 +79,9 @@ class OffreEmploiRepository {
     if (request.filtres.distance != null) {
       writeParameter("rayon", request.filtres.distance.toString());
     }
+    if (request.filtres.debutantOnly != null) {
+      writeParameter("debutantAccepte", request.filtres.debutantOnly.toString());
+    }
     request.filtres.experience?.forEach((element) {
       writeParameter("experience", FiltresRequest.experienceToUrlParameter(element));
     });

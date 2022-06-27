@@ -6,6 +6,7 @@ class Strings {
   static String retry = "Réessayer";
   static String logoTextDescription = "Logo CEJ";
   static String close = "Fermer";
+  static String yes = "Oui";
 
   // Menu
   static String menuMonSuivi = "Mon suivi";
@@ -365,9 +366,7 @@ class Strings {
 
   static String kmFormat(int int) => "$int km";
   static String experienceSectionTitle = "Expérience";
-  static String experienceDeZeroAUnAnLabel = "De 0 à 1 an";
-  static String experienceDeUnATroisAnsLabel = "De 1 an à 3 ans";
-  static String experienceTroisAnsEtPlusLabel = "3 ans et +";
+  static String experienceSectionDescription = "Afficher uniquement les offres débutants acceptés";
   static String contratSectionTitle = "Type de contrat";
   static String contratCdiLabel = "CDI";
   static String contratCdiTooltip = "CDI et CDI Intérimaire";

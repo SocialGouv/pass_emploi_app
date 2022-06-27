@@ -11,6 +11,7 @@
       "commune": null,
       "contrat": [],
       "alternance": false,
+      "debutantAccepte": true,
       "experience": [],
       "departement": null
     }

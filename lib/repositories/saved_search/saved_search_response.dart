@@ -42,6 +42,7 @@ class SavedSearchResponseCriteres {
   final String? q;
   final String? departement;
   final bool? alternance;
+  final bool? debutantAccepte;
   final List<String>? experience;
   final List<String>? contrat;
   final List<String>? duree;
@@ -58,6 +59,7 @@ class SavedSearchResponseCriteres {
     this.q,
     this.departement,
     this.alternance,
+    this.debutantAccepte,
     this.experience,
     this.contrat,
     this.duree,
@@ -76,6 +78,7 @@ class SavedSearchResponseCriteres {
       q: json["q"] as String?,
       departement: json["departement"] as String?,
       alternance: json["alternance"] as bool?,
+      debutantAccepte: json["debutantAccepte"] as bool?,
       experience: (json["experience"] as List?)?.map((e) => e as String).toList(),
       contrat: (json["contrat"] as List?)?.map((e) => e as String).toList(),
       duree: (json["duree"] as List?)?.map((e) => e as String).toList(),
@@ -123,6 +126,7 @@ class SavedSearchEmploiExtractor {
   OffreEmploiSearchParametersFiltres _getFilters(SavedSearchResponseCriteres criteres) {
     return OffreEmploiSearchParametersFiltres.withFiltres(
       distance: criteres.rayon,
+      debutantOnly: criteres.debutantAccepte,
       experience: criteres.experience?.map((e) => FiltresRequest.experienceFromUrlParameter(e)).whereNotNull().toList(),
       contrat: criteres.contrat?.map((e) => FiltresRequest.contratFromUrlParameter(e)).whereNotNull().toList(),
       duree: criteres.duree?.map((e) => FiltresRequest.dureeFromUrlParameter(e)).whereNotNull().toList(),
