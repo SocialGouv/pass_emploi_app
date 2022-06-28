@@ -6,10 +6,14 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
+import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
@@ -17,9 +21,10 @@ import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_rep
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
-import 'package:pass_emploi_app/repositories/modify_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
+import 'package:pass_emploi_app/repositories/page_action_repository.dart';
+import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
@@ -32,16 +37,14 @@ import 'package:pass_emploi_app/repositories/service_civique/service_civique_rep
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
-import 'package:pass_emploi_app/repositories/user_action_pe_repository.dart';
-import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/dummies.dart';
 
 class TestStoreFactory {
   Authenticator authenticator = DummyAuthenticator();
-  UserActionRepository userActionRepository = DummyUserActionRepository();
-  UserActionPERepository userActionPERepository = DummyUserActionPERepository();
+  PageActionRepository pageActionRepository = DummyPageActionRepository();
+  PageDemarcheRepository pageDemarcheRepository = DummyPageDemarcheRepository();
   RendezvousRepository rendezvousRepository = DummyRendezvousRepository();
   ChatRepository chatRepository = DummyChatRepository();
   OffreEmploiRepository offreEmploiRepository = DummyOffreEmploiRepository();
@@ -60,14 +63,10 @@ class TestStoreFactory {
   TrackingEventRepository trackingEventRepository = DummyTrackingEventRepository();
   OffreEmploiSavedSearchRepository offreEmploiSavedSearchRepository = DummyOffreEmploiSavedSearchRepository();
   ImmersionSavedSearchRepository immersionSavedSearchRepository = DummyImmersionSavedSearchRepository();
-  ServiceCiviqueSavedSearchRepository serviceCiviqueSavedSearchRepository =
-      DummyServiceCiviqueSavedSearchRepository();
-  GetSavedSearchRepository getSavedSearchRepository =
-      DummyGetSavedSearchRepository();
-  SavedSearchDeleteRepository savedSearchDeleteRepository =
-      DummySavedSearchDeleteRepository();
-  ServiceCiviqueRepository serviceCiviqueRepository =
-      DummyServiceCiviqueRepository();
+  ServiceCiviqueSavedSearchRepository serviceCiviqueSavedSearchRepository = DummyServiceCiviqueSavedSearchRepository();
+  GetSavedSearchRepository getSavedSearchRepository = DummyGetSavedSearchRepository();
+  SavedSearchDeleteRepository savedSearchDeleteRepository = DummySavedSearchDeleteRepository();
+  ServiceCiviqueRepository serviceCiviqueRepository = DummyServiceCiviqueRepository();
   ServiceCiviqueDetailRepository serviceCiviqueDetailRepository = DummyServiceCiviqueDetailRepository();
   ServiceCiviqueFavorisRepository serviceCiviqueFavorisRepository = DummyServiceCiviqueFavorisRepository();
   DetailsJeuneRepository detailsJeuneRepository = DummyDetailsJeuneRepository();
@@ -76,15 +75,18 @@ class TestStoreFactory {
   ModeDemoRepository demoRepository = ModeDemoRepository();
   MatomoTracker matomoTracker = DummyMatomoTracker();
   FirebaseRemoteConfig? remoteConfig;
-  ModifyDemarcheRepository modifyDemarcheRepository = DummyModifyDemarcheRepository();
+  UpdateDemarcheRepository updateDemarcheRepository = DummyUpdateDemarcheRepository();
+  CreateDemarcheRepository createDemarcheRepository = DummySuccessCreateDemarcheRepository();
+  SearchDemarcheRepository searchDemarcheRepository = DummyDemarcheDuReferentielRepository();
+  PieceJointeRepository pieceJointeRepository = DummyPieceJointeRepository();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
       authenticator,
       crashlytics,
       chatCrypto,
-      userActionRepository,
-      userActionPERepository,
+      pageActionRepository,
+      pageDemarcheRepository,
       rendezvousRepository,
       offreEmploiRepository,
       chatRepository,
@@ -113,7 +115,10 @@ class TestStoreFactory {
       campagneRepository,
       matomoTracker,
       remoteConfig,
-      modifyDemarcheRepository,
+      updateDemarcheRepository,
+      createDemarcheRepository,
+      searchDemarcheRepository,
+      pieceJointeRepository,
     ).initializeReduxStore(initialState: initialState);
   }
 }

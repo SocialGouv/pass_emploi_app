@@ -5,35 +5,43 @@ import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
+import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
-import 'package:pass_emploi_app/models/home_actions.dart';
-import 'package:pass_emploi_app/models/home_demarches.dart';
+import 'package:pass_emploi_app/models/page_actions.dart';
+import 'package:pass_emploi_app/models/page_demarches.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
-import 'package:pass_emploi_app/models/user_action_pe.dart';
+import 'package:pass_emploi_app/models/demarche.dart';
+import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
+import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
-import 'package:pass_emploi_app/repositories/user_action_pe_repository.dart';
-import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:synchronized/synchronized.dart';
 
 import 'dummies.dart';
 import 'fixtures.dart';
 import 'spies.dart';
 
-class UserActionRepositorySuccessStub extends UserActionRepository {
-  UserActionRepositorySuccessStub() : super("", DummyHttpClient());
+class PageActionRepositorySuccessStub extends PageActionRepository {
+  Campagne? _campagne;
+
+  PageActionRepositorySuccessStub() : super("", DummyHttpClient());
+
+  void withCampagne(Campagne campagne) {
+    _campagne = campagne;
+  }
 
   @override
-  Future<HomeActions> getHomeActions(String userId) async {
-    return HomeActions(
+  Future<PageActions> getPageActions(String userId) async {
+    return PageActions(
       actions: [
         UserAction(
           id: "id",
@@ -44,7 +52,7 @@ class UserActionRepositorySuccessStub extends UserActionRepository {
           creator: JeuneActionCreator(),
         ),
       ],
-      campagne: null,
+      campagne: _campagne,
     );
   }
 
@@ -67,12 +75,16 @@ class UserActionRepositorySuccessStub extends UserActionRepository {
   }
 }
 
-class UserActionRepositoryFailureStub extends UserActionRepository {
-  UserActionRepositoryFailureStub() : super("", DummyHttpClient());
+class PageActionRepositoryFailureStub extends PageActionRepository {
+  PageActionRepositoryFailureStub() : super("", DummyHttpClient());
 
   @override
-  Future<bool> createUserAction(String userId, String? content, String? comment,
-      UserActionStatus status) async {
+  Future<bool> createUserAction(
+    String userId,
+    String? content,
+    String? comment,
+    UserActionStatus status,
+  ) async {
     return false;
   }
 
@@ -86,17 +98,23 @@ class UserActionRepositoryFailureStub extends UserActionRepository {
   }
 }
 
-class UserActionPERepositorySuccessStub extends UserActionPERepository {
-  UserActionPERepositorySuccessStub() : super("", DummyHttpClient());
+class PageDemarcheRepositorySuccessStub extends PageDemarcheRepository {
+  Campagne? _campagne;
+
+  PageDemarcheRepositorySuccessStub() : super("", DummyHttpClient());
+
+  void withCampagne(Campagne campagne) {
+    _campagne = campagne;
+  }
 
   @override
-  Future<HomeDemarches?> getHomeDemarches(String userId) async {
-    return HomeDemarches(
-      actions: [
-        UserActionPE(
+  Future<PageDemarches?> getPageDemarches(String userId) async {
+    return PageDemarches(
+      demarches: [
+        Demarche(
           id: "id",
           content: "content",
-          status: UserActionPEStatus.NOT_STARTED,
+          status: DemarcheStatus.NOT_STARTED,
           endDate: DateTime(2022, 12, 23, 0, 0, 0),
           deletionDate: DateTime(2022, 12, 23, 0, 0, 0),
           createdByAdvisor: true,
@@ -110,15 +128,16 @@ class UserActionPERepositorySuccessStub extends UserActionPERepository {
           attributs: [],
         ),
       ],
+      campagne: _campagne,
     );
   }
 }
 
-class UserActionPERepositoryFailureStub extends UserActionPERepository {
-  UserActionPERepositoryFailureStub() : super("", DummyHttpClient());
+class PageDemarcheRepositoryFailureStub extends PageDemarcheRepository {
+  PageDemarcheRepositoryFailureStub() : super("", DummyHttpClient());
 
   @override
-  Future<HomeDemarches?> getHomeDemarches(String userId) async {
+  Future<PageDemarches?> getPageDemarches(String userId) async {
     return null;
   }
 }
@@ -395,5 +414,32 @@ class SuppressionCompteRepositoryFailureStub
   @override
   Future<bool> deleteUser(String userId) async {
     return false;
+  }
+}
+
+class PieceJointeRepositorySuccessStub extends PieceJointeRepository {
+  PieceJointeRepositorySuccessStub() : super("", DummyHttpClient());
+
+  @override
+  Future<String?> download({required String fileId, required String fileName}) async {
+    return "$fileId-path";
+  }
+}
+
+class PieceJointeRepositoryFailureStub extends PieceJointeRepository {
+  PieceJointeRepositoryFailureStub() : super("", DummyHttpClient());
+
+  @override
+  Future<String?> download({required String fileId, required String fileName}) async {
+    return null;
+  }
+}
+
+class PieceJointeRepositoryUnavailableStub extends PieceJointeRepository {
+  PieceJointeRepositoryUnavailableStub() : super("", DummyHttpClient());
+
+  @override
+  Future<String?> download({required String fileId, required String fileName}) async {
+    return "ERROR: 404";
   }
 }

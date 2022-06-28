@@ -25,5 +25,5 @@ class MainPageViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [withChatBadge];
+  List<Object?> get props => [withChatBadge, isPoleEmploiLogin];
 }

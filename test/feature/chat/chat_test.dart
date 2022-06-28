@@ -1,4 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_actions.dart';
+import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
@@ -10,6 +12,7 @@ import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
+import '../../dsl/app_state_dsl.dart';
 import '../../utils/test_setup.dart';
 
 void main() {
@@ -81,6 +84,32 @@ void main() {
     // Then
     expect((await newState).chatState, ChatFailureState());
   });
+
+  test("should keep a brouillon message", () async {
+    // Given
+    final store = givenState().store();
+    final appStateFuture = store.onChange.first;
+
+    // When
+    await store.dispatch(SaveChatBrouillonAction("hey"));
+
+    // Then
+    final appState = await appStateFuture;
+    expect(appState.chatBrouillonState, ChatBrouillonState("hey"));
+  });
+
+  test("should reset brouillon when sending a message", () async {
+    // Given
+    final store = givenState().chatBrouillon("wip").store();
+    final appStateFuture = store.onChange.first;
+
+    // When
+    await store.dispatch(SendMessageAction("done"));
+
+    // Then
+    final appState = await appStateFuture;
+    expect(appState.chatBrouillonState, ChatBrouillonState(null));
+  });
 }
 
 Message _mockMessage([String id = '1']) {
@@ -89,5 +118,6 @@ Message _mockMessage([String id = '1']) {
     DateTime.utc(2022, 1, 1),
     Sender.conseiller,
     MessageType.message,
+    [],
   );
 }

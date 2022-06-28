@@ -1,9 +1,16 @@
 import 'package:pass_emploi_app/features/campagne/campagne_reducer.dart';
-import 'package:pass_emploi_app/features/campagne/result/campagne_result_reducer.dart';
+import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_reducer.dart';
+import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_reducer.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_reducer.dart';
+import 'package:pass_emploi_app/features/chat/preview_file/preview_file_reducer.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_reducer.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_reducer.dart';
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_reducer.dart';
+import 'package:pass_emploi_app/features/demarche/list/demarche_list_reducer.dart';
+import 'package:pass_emploi_app/features/demarche/search/seach_demarche_reducer.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_reducer.dart';
+import 'package:pass_emploi_app/features/developer_option/activation/developer_options_reducer.dart';
+import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_reducer.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_reducer.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_reducer.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_reducer.dart';
@@ -29,7 +36,6 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_r
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_reducer.dart';
-import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_reducer.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
@@ -48,7 +54,9 @@ AppState reducer(AppState current, dynamic action) {
     userActionCreateState: userActionCreateReducer(current.userActionCreateState, action),
     userActionUpdateState: userActionUpdateReducer(current.userActionUpdateState, action),
     userActionDeleteState: userActionDeleteReducer(current.userActionDeleteState, action),
-    userActionPEListState: userActionPEListReducer(current.userActionPEListState, action),
+    demarcheListState: demarcheListReducer(current.demarcheListState, action),
+    createDemarcheState: createDemarcheReducer(current.createDemarcheState, action),
+    searchDemarcheState: searchDemarcheReducer(current.searchDemarcheState, action),
     detailsJeuneState: detailsJeuneReducer(current.detailsJeuneState, action),
     chatStatusState: chatStatusReducer(current.chatStatusState, action),
     chatState: chatReducer(current.chatState, action),
@@ -96,6 +104,10 @@ AppState reducer(AppState current, dynamic action) {
     suppressionCompteState: suppressionCompteReducer(current.suppressionCompteState, action),
     demoState: modeDemoReducer(current, action),
     campagneState: campagneReducer(current.campagneState, action),
-    campagneResultState: campagneResultReducer(current.campagneResultState, action),
+    piecesJointesState: pieceJointeReducer(current.piecesJointesState, action),
+    developerOptionsState: developerOptionsReducer(current.developerOptionsState, action),
+    matomoLoggingState: matomoLoggingReducer(current.matomoLoggingState, action),
+    previewFileState: previewFileReducer(current.previewFileState, action),
+    chatBrouillonState: chatBrouillonReducer(current.chatBrouillonState, action),
   );
 }

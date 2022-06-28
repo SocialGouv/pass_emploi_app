@@ -9,8 +9,9 @@ import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
+import 'package:pass_emploi_app/models/demarche.dart';
+import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/message.dart';
-import 'package:pass_emploi_app/models/user_action_pe.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/push/push_notification_manager.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -19,15 +20,20 @@ import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
-import 'package:pass_emploi_app/repositories/modify_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
+import 'package:pass_emploi_app/repositories/page_action_repository.dart';
+import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
@@ -40,14 +46,13 @@ import 'package:pass_emploi_app/repositories/service_civique/service_civique_rep
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
-import 'package:pass_emploi_app/repositories/user_action_pe_repository.dart';
-import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
 
 import 'dummies_for_cache.dart';
 import 'fixtures.dart';
 
+// ignore: ban-name, no need to use PassEmploiMockClient here
 class DummyHttpClient extends MockClient {
   DummyHttpClient() : super((request) async => Response("", 200));
 }
@@ -115,12 +120,12 @@ class DummyAuthWrapper extends AuthWrapper {
 
 class DummyFlutterAppAuth extends FlutterAppAuth {}
 
-class DummyUserActionRepository extends UserActionRepository {
-  DummyUserActionRepository() : super("", DummyHttpClient());
+class DummyPageActionRepository extends PageActionRepository {
+  DummyPageActionRepository() : super("", DummyHttpClient());
 }
 
-class DummyUserActionPERepository extends UserActionPERepository {
-  DummyUserActionPERepository() : super("", DummyHttpClient());
+class DummyPageDemarcheRepository extends PageDemarcheRepository {
+  DummyPageDemarcheRepository() : super("", DummyHttpClient());
 }
 
 class DummyRendezvousRepository extends RendezvousRepository {
@@ -267,17 +272,26 @@ class DummyCampagneRepository extends CampagneRepository {
   DummyCampagneRepository() : super("", DummyHttpClient());
 }
 
-class DummyModifyDemarcheRepository extends ModifyDemarcheRepository {
+class DummyUpdateDemarcheRepository extends UpdateDemarcheRepository {
+  DummyUpdateDemarcheRepository() : super("", DummyHttpClient());
+}
+
+class DummyPieceJointeRepository extends PieceJointeRepository {
+  DummyPieceJointeRepository() : super("", DummyHttpClient());
+}
+
+class DummyModifyDemarcheRepository extends UpdateDemarcheRepository {
   DummyModifyDemarcheRepository() : super("", DummyHttpClient());
 
   @override
-  Future<bool> modifyDemarche(
+  Future<Demarche?> updateDemarche(
     String userId,
     String demarcheId,
-    UserActionPEStatus status,
+    DemarcheStatus status,
+    DateTime? dateFin,
     DateTime? dateDebut,
   ) async {
-    return true;
+    return null;
   }
 }
 
@@ -287,5 +301,18 @@ class DummyMatomoTracker extends MatomoTracker {
   @override
   void setOptOut(bool optout) {
     // Do nothing
+  }
+}
+
+class DummySuccessCreateDemarcheRepository extends CreateDemarcheRepository {
+  DummySuccessCreateDemarcheRepository() : super("", DummyHttpClient());
+}
+
+class DummyDemarcheDuReferentielRepository extends SearchDemarcheRepository {
+  DummyDemarcheDuReferentielRepository() : super("", DummyHttpClient());
+
+  @override
+  Future<List<DemarcheDuReferentiel>?> search(String query) async {
+    return [];
   }
 }

@@ -24,6 +24,7 @@ class Drawables {
   static String icTwoPoints = _assets + "ic_two_points" + _svg;
   static String icThreePoints = _assets + "ic_three_points" + _svg;
   static String icImportant = _assets + "ic_important" + _svg;
+  static String icImportantOutlined = _assets + "ic_important_outlined" + _svg;
   static String icInfo = _assets + "ic_info" + _svg;
   static String icRedirection = _assets + "ic_redirection" + _svg;
   static String icPaperPlane = _assets + "ic_paper_plane" + _svg;
@@ -57,4 +58,6 @@ class Drawables {
   static String icDelete = _assets + "ic_delete" + _svg;
   static String modeDemoExplicationIllustration = _assets + "connexion" + _svg;
   static String icPencil = _assets + "ic_white_pencil" + _svg;
+  static String icClip = _assets + "ic_clip" + _svg;
+  static String icDownload = _assets + "ic_download" + _svg;
 }

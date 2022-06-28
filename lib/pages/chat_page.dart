@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/credentials_page.dart';
@@ -16,12 +17,15 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
+import 'package:pass_emploi_app/widgets/chat/chat_piece_jointe_widget.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_information_widget.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_message_widget.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/preview_file_invisible_handler.dart';
+import 'package:redux/redux.dart';
 
 class ChatPage extends TraceableStatefulWidget {
   ChatPage() : super(name: AnalyticsScreenNames.chat);
@@ -37,7 +41,6 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _controller = TextEditingController();
   }
 
   @override
@@ -65,12 +68,17 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
         store.dispatch(LastMessageSeenAction());
         store.dispatch(SubscribeToChatAction());
       },
-      onDispose: (store) => store.dispatch(UnsubscribeFromChatAction()),
+      onDispose: (store) => _onDispose(store),
       converter: (store) => ChatPageViewModel.create(store),
       builder: (context, viewModel) => _scaffold(viewModel, _body(context, viewModel)),
       onDidChange: (previousVm, newVm) => StoreProvider.of<AppState>(context).dispatch(LastMessageSeenAction()),
       distinct: true,
     );
+  }
+
+  void _onDispose(Store<AppState> store) {
+    store.dispatch(UnsubscribeFromChatAction());
+    store.dispatch(SaveChatBrouillonAction(_controller.value.text));
   }
 
   Widget _scaffold(ChatPageViewModel viewModel, Widget body) {
@@ -80,6 +88,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
         children: [
           SepLine(0, 0),
           Expanded(child: DefaultAnimatedSwitcher(child: body)),
+          PreviewFileInvisibleHandler(),
         ],
       ),
     );
@@ -97,6 +106,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
   }
 
   Widget _content(BuildContext context, ChatPageViewModel viewModel) {
+    _controller = TextEditingController(text: viewModel.brouillon);
     return Stack(
       children: [
         Container(
@@ -116,6 +126,8 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                 return ChatMessageWidget(item);
               } else if (item is InformationItem) {
                 return ChatInformationWidget(item.title, item.description);
+              } else if (item is PieceJointeConseillerMessageItem) {
+                return ChatPieceJointeWidget(item);
               } else {
                 return Container();
               }

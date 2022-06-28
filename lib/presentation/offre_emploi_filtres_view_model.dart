@@ -16,29 +16,27 @@ class OffreEmploiFiltresViewModel extends Equatable {
   final bool shouldDisplayDistanceFiltre;
   final bool shouldDisplayNonDistanceFiltres;
   final int initialDistanceValue;
+  final bool? initialDebutantOnlyFiltre;
+  final List<CheckboxValueViewModel<ContratFiltre>> contratFiltres;
+  final List<CheckboxValueViewModel<DureeFiltre>> dureeFiltres;
+  final String errorMessage;
   final Function(
     int? updatedDistanceValue,
-    List<CheckboxValueViewModel<ExperienceFiltre>>? experienceFiltres,
+    bool? debutantOnlyFiltre,
     List<CheckboxValueViewModel<ContratFiltre>>? contratFiltres,
     List<CheckboxValueViewModel<DureeFiltre>>? dureeFiltres,
   ) updateFiltres;
-
-  final List<CheckboxValueViewModel<ExperienceFiltre>> experienceFiltres;
-  final List<CheckboxValueViewModel<ContratFiltre>> contratFiltres;
-  final List<CheckboxValueViewModel<DureeFiltre>> dureeFiltres;
-
-  final String errorMessage;
 
   OffreEmploiFiltresViewModel._({
     required this.displayState,
     required this.shouldDisplayDistanceFiltre,
     required this.shouldDisplayNonDistanceFiltres,
     required this.initialDistanceValue,
-    required this.updateFiltres,
-    required this.experienceFiltres,
+    required this.initialDebutantOnlyFiltre,
     required this.contratFiltres,
     required this.dureeFiltres,
     required this.errorMessage,
+    required this.updateFiltres,
   });
 
   factory OffreEmploiFiltresViewModel.create(Store<AppState> store) {
@@ -50,13 +48,13 @@ class OffreEmploiFiltresViewModel extends Equatable {
       shouldDisplayDistanceFiltre: _shouldDisplayDistanceFiltre(parametersState),
       shouldDisplayNonDistanceFiltres: _shouldDisplayNonDistanceFiltres(parametersState),
       initialDistanceValue: _distance(parametersState),
-      updateFiltres: (updatedDistanceValue, experienceFiltres, contratFiltres, dureeFiltres) {
-        _dispatchUpdateFiltresAction(store, updatedDistanceValue, experienceFiltres, contratFiltres, dureeFiltres);
-      },
-      experienceFiltres: _experience(parametersState),
+      initialDebutantOnlyFiltre: _initialDebutantOnlyFiltre(parametersState),
       contratFiltres: _contrat(parametersState),
       dureeFiltres: _duree(parametersState),
       errorMessage: _errorMessage(searchState, searchResultsState),
+      updateFiltres: (updatedDistanceValue, debutantOnlyFiltre, contratFiltres, dureeFiltres) {
+        _dispatchUpdateFiltresAction(store, updatedDistanceValue, debutantOnlyFiltre, contratFiltres, dureeFiltres);
+      },
     );
   }
 
@@ -64,12 +62,23 @@ class OffreEmploiFiltresViewModel extends Equatable {
   List<Object?> get props => [
         displayState,
         shouldDisplayDistanceFiltre,
+        shouldDisplayNonDistanceFiltres,
         initialDistanceValue,
+        initialDebutantOnlyFiltre,
+        contratFiltres,
+        dureeFiltres,
       ];
 }
 
 String _errorMessage(OffreEmploiSearchState searchState, OffreEmploiListState searchResultsState) {
   return searchState is OffreEmploiSearchFailureState ? Strings.genericError : "";
+}
+
+bool? _initialDebutantOnlyFiltre(OffreEmploiSearchParametersState parametersState) {
+  if (parametersState is! OffreEmploiSearchParametersInitializedState) {
+    return null;
+  }
+  return parametersState.filtres.debutantOnly;
 }
 
 List<CheckboxValueViewModel<DureeFiltre>> _duree(OffreEmploiSearchParametersState parametersState) {
@@ -107,27 +116,6 @@ List<CheckboxValueViewModel<ContratFiltre>> _contrat(OffreEmploiSearchParameters
       value: ContratFiltre.autre,
       helpText: Strings.contratAutreTooltip,
       isInitiallyChecked: filtres?.contrat?.contains(ContratFiltre.autre) ?? false,
-    ),
-  ];
-}
-
-List<CheckboxValueViewModel<ExperienceFiltre>> _experience(OffreEmploiSearchParametersState parametersState) {
-  final filtres = _appliedFiltres(parametersState);
-  return [
-    CheckboxValueViewModel(
-      label: Strings.experienceDeZeroAUnAnLabel,
-      value: ExperienceFiltre.de_zero_a_un_an,
-      isInitiallyChecked: filtres?.experience?.contains(ExperienceFiltre.de_zero_a_un_an) ?? false,
-    ),
-    CheckboxValueViewModel(
-      label: Strings.experienceDeUnATroisAnsLabel,
-      value: ExperienceFiltre.de_un_a_trois_ans,
-      isInitiallyChecked: filtres?.experience?.contains(ExperienceFiltre.de_un_a_trois_ans) ?? false,
-    ),
-    CheckboxValueViewModel(
-      label: Strings.experienceTroisAnsEtPlusLabel,
-      value: ExperienceFiltre.trois_ans_et_plus,
-      isInitiallyChecked: filtres?.experience?.contains(ExperienceFiltre.trois_ans_et_plus) ?? false,
     ),
   ];
 }
@@ -176,14 +164,14 @@ OffreEmploiSearchParametersFiltres? _appliedFiltres(OffreEmploiSearchParametersS
 void _dispatchUpdateFiltresAction(
     Store<AppState> store,
     int? updatedDistanceValue,
-    List<CheckboxValueViewModel<ExperienceFiltre>>? experienceFiltres,
+    bool? debutantOnlyFiltre,
     List<CheckboxValueViewModel<ContratFiltre>>? contratFiltres,
     List<CheckboxValueViewModel<DureeFiltre>>? dureeFiltres) {
   store.dispatch(
     OffreEmploiSearchParametersUpdateFiltresRequestAction(
       OffreEmploiSearchParametersFiltres.withFiltres(
         distance: updatedDistanceValue,
-        experience: experienceFiltres?.map((e) => e.value).toList(),
+        debutantOnly: debutantOnlyFiltre,
         contrat: contratFiltres?.map((e) => e.value).toList(),
         duree: dureeFiltres?.map((e) => e.value).toList(),
       ),

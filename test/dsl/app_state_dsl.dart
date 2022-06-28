@@ -1,7 +1,12 @@
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
+import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
+import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
+import 'package:pass_emploi_app/features/chat/preview_file/preview_file_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
+import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
+import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
@@ -12,7 +17,11 @@ import '../utils/test_setup.dart';
 AppState givenState() => AppState.initialState();
 
 extension AppStateDSL on AppState {
-  Store<AppState> store() => TestStoreFactory().initializeReduxStore(initialState: this);
+  Store<AppState> store([Function(TestStoreFactory)? foo]) {
+    final factory = TestStoreFactory();
+    if (foo != null) foo(factory);
+    return factory.initializeReduxStore(initialState: this);
+  }
 
   AppState loggedInUser() => copyWith(loginState: successMiloUserState());
 
@@ -32,8 +41,31 @@ extension AppStateDSL on AppState {
 
   AppState failedPastRendezvous() => copyWith(rendezvousState: RendezvousState.failedPast());
 
-  AppState campagne(Campagne campagne) => copyWith(campagneState: CampagneState(campagne));
+  AppState campagne(Campagne campagne) => copyWith(campagneState: CampagneState(campagne, []));
 
-  AppState deeplinkToRendezvous(String id) =>
-      copyWith(deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_RENDEZVOUS, DateTime.now(), id));
+  AppState piecesJointesWithIdOneSuccess() =>
+      copyWith(piecesJointesState: PiecesJointesState({"id-1": PieceJointeStatus.success}));
+
+  AppState piecesJointesLoading(String id) =>
+      copyWith(piecesJointesState: PiecesJointesState({id: PieceJointeStatus.loading}));
+
+  AppState piecesJointesFailure(String id) =>
+      copyWith(piecesJointesState: PiecesJointesState({id: PieceJointeStatus.failure}));
+
+  AppState piecesJointesUnavailable(String id) =>
+      copyWith(piecesJointesState: PiecesJointesState({id: PieceJointeStatus.unavailable}));
+
+  AppState previewFileNotInit() => copyWith(previewFileState: PreviewFileNotInitializedState());
+
+  AppState previewFile(String path) => copyWith(previewFileState: PreviewFileSuccessState(path));
+
+  AppState chatBrouillon(String message) => copyWith(chatBrouillonState: ChatBrouillonState(message));
+
+  AppState deeplinkToRendezvous(String id) {
+    return copyWith(deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_RENDEZVOUS, DateTime.now(), id));
+  }
+
+  AppState searchDemarchesSuccess(List<DemarcheDuReferentiel> demarches) {
+    return copyWith(searchDemarcheState: SearchDemarcheSuccessState(demarches));
+  }
 }

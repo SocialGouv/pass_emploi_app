@@ -7,10 +7,10 @@ import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';
 
 void main() {
-  test("actions should be fetched and displayed when screen loads", () async {
+  test("user_action should be fetched and displayed when screen loads", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
-    testStoreFactory.userActionRepository = UserActionRepositorySuccessStub();
+    testStoreFactory.pageActionRepository = PageActionRepositorySuccessStub();
     final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
 
     final displayedLoading = store.onChange.any((e) => e.userActionListState is UserActionListLoadingState);

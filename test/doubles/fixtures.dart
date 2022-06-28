@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
+import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
@@ -246,11 +247,27 @@ DetailsJeune detailsJeune() {
   );
 }
 
-Campagne campagne() {
+Campagne campagne([String? id]) {
   return Campagne(
-    id: "7",
-    titre: "Questionnaire",
-    description: "Super test",
+    id: id ?? '7',
+    titre: 'Questionnaire',
+    description: 'Super test',
     questions: [],
+  );
+}
+
+DemarcheDuReferentiel mockDemarcheDuReferentiel([String? id, List<Comment>? comments]) {
+  return DemarcheDuReferentiel(
+    id: id ?? '1',
+    quoi: 'quoi',
+    pourquoi: 'pourquoi',
+    codeQuoi: 'codeQuoi',
+    codePourquoi: 'codePourquoi',
+    comments: comments ??
+        [
+          Comment(label: 'label1', code: 'code1'),
+          Comment(label: 'label2', code: 'code2'),
+        ],
+    isCommentMandatory: true,
   );
 }

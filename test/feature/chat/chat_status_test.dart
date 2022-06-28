@@ -8,7 +8,7 @@ import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';
 
 void main() {
-  group("On chat status subscription, conseiller info are retrieved and properly modify state", () {
+  group("On chat status subscription, conseiller info are retrieved and properly update state", () {
     void assertState(ConseillerMessageInfo info, ChatStatusState expectedState) {
       test("$info -> $expectedState", () async {
         // Given

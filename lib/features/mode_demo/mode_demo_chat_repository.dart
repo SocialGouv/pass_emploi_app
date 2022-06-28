@@ -6,17 +6,20 @@ List<Message> modeDemoChat() => [
         DateTime.now().subtract(Duration(minutes: 40)),
         Sender.conseiller,
         MessageType.message,
+        [],
       ),
       Message(
         "Bonjour, oui j'ai contacté Carrefour et on a rendez-vous la semaine prochaine !",
         DateTime.now().subtract(Duration(minutes: 34)),
         Sender.jeune,
         MessageType.message,
+        [],
       ),
       Message(
         "Super ! Nous pouvons nous voir mercredi prochain à 11H00 pour préparer l'entretien si cela vous convient !",
         DateTime.now().subtract(Duration(minutes: 21)),
         Sender.conseiller,
         MessageType.message,
+        [],
       ),
     ];

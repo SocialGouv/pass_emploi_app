@@ -10,6 +10,7 @@ class PostOffreEmploiSavedSearch implements JsonSerializable {
   final String? keywords;
   final bool isAlternance;
   final List<ExperienceFiltre>? experience;
+  final bool? debutantOnly;
   final List<ContratFiltre>? contrat;
   final List<DureeFiltre>? duration;
   final int? rayon;
@@ -20,6 +21,7 @@ class PostOffreEmploiSavedSearch implements JsonSerializable {
     required this.localisation,
     required this.keywords,
     required this.isAlternance,
+    required this.debutantOnly,
     required this.experience,
     required this.contrat,
     required this.duration,
@@ -35,6 +37,7 @@ class PostOffreEmploiSavedSearch implements JsonSerializable {
           if (keywords != null && keywords!.isNotEmpty) "q": keywords,
           "departement": getLocationType(localisation, LocationType.DEPARTMENT),
           "alternance": isAlternance,
+          "debutantAccepte": debutantOnly,
           "experience": getExperience(experience),
           "contrat": getContrat(contrat),
           "duree": getDuration(duration),

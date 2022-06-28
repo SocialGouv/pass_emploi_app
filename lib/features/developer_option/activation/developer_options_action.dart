@@ -1,0 +1,3 @@
+class DeveloperOptionsActivationRequestAction{}
+
+class DeveloperOptionsActivationSuccessAction{}

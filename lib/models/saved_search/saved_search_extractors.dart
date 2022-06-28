@@ -37,6 +37,7 @@ class OffreEmploiSearchExtractor extends AbstractSearchExtractor<OffreEmploiSave
       isAlternance: state.onlyAlternance,
       filters: OffreEmploiSearchParametersFiltres.withFiltres(
         distance: state.filtres.distance,
+        debutantOnly: state.filtres.debutantOnly,
         experience: state.filtres.experience,
         duree: state.filtres.duree,
         contrat: state.filtres.contrat,

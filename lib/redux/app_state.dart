@@ -1,12 +1,19 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
-import 'package:pass_emploi_app/features/campagne/result/campagne_result_state.dart';
+import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
+import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
+import 'package:pass_emploi_app/features/chat/preview_file/preview_file_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/configuration/configuration_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.dart';
+import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
+import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart';
+import 'package:pass_emploi_app/features/developer_option/activation/developer_options_state.dart';
+import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_state.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
@@ -30,7 +37,6 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_s
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
-import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
@@ -46,7 +52,9 @@ class AppState extends Equatable {
   final UserActionCreateState userActionCreateState;
   final UserActionUpdateState userActionUpdateState;
   final UserActionDeleteState userActionDeleteState;
-  final UserActionPEListState userActionPEListState;
+  final DemarcheListState demarcheListState;
+  final CreateDemarcheState createDemarcheState;
+  final SearchDemarcheState searchDemarcheState;
   final DetailsJeuneState detailsJeuneState;
   final ChatStatusState chatStatusState;
   final ChatState chatState;
@@ -74,7 +82,11 @@ class AppState extends Equatable {
   final bool demoState;
   final SuppressionCompteState suppressionCompteState;
   final CampagneState campagneState;
-  final CampagneResultState campagneResultState;
+  final PiecesJointesState piecesJointesState;
+  final DeveloperOptionsState developerOptionsState;
+  final MatomoLoggingState matomoLoggingState;
+  final PreviewFileState previewFileState;
+  final ChatBrouillonState chatBrouillonState;
 
   AppState({
     required this.configurationState,
@@ -84,7 +96,9 @@ class AppState extends Equatable {
     required this.userActionCreateState,
     required this.userActionUpdateState,
     required this.userActionDeleteState,
-    required this.userActionPEListState,
+    required this.demarcheListState,
+    required this.createDemarcheState,
+    required this.searchDemarcheState,
     required this.detailsJeuneState,
     required this.chatStatusState,
     required this.chatState,
@@ -112,7 +126,11 @@ class AppState extends Equatable {
     required this.suppressionCompteState,
     required this.demoState,
     required this.campagneState,
-    required this.campagneResultState,
+    required this.piecesJointesState,
+    required this.developerOptionsState,
+    required this.matomoLoggingState,
+    required this.previewFileState,
+    required this.chatBrouillonState,
   });
 
   AppState copyWith({
@@ -121,7 +139,9 @@ class AppState extends Equatable {
     final UserActionCreateState? userActionCreateState,
     final UserActionUpdateState? userActionUpdateState,
     final UserActionDeleteState? userActionDeleteState,
-    final UserActionPEListState? userActionPEListState,
+    final DemarcheListState? demarcheListState,
+    final CreateDemarcheState? createDemarcheState,
+    final SearchDemarcheState? searchDemarcheState,
     final DetailsJeuneState? detailsJeuneState,
     final ChatStatusState? chatStatusState,
     final ChatState? chatState,
@@ -151,7 +171,11 @@ class AppState extends Equatable {
     final SuppressionCompteState? suppressionCompteState,
     final bool? demoState,
     final CampagneState? campagneState,
-    final CampagneResultState? campagneResultState,
+    final PiecesJointesState? piecesJointesState,
+    final DeveloperOptionsState? developerOptionsState,
+    final MatomoLoggingState? matomoLoggingState,
+    final PreviewFileState? previewFileState,
+    final ChatBrouillonState? chatBrouillonState,
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
@@ -160,7 +184,9 @@ class AppState extends Equatable {
       userActionCreateState: userActionCreateState ?? this.userActionCreateState,
       userActionUpdateState: userActionUpdateState ?? this.userActionUpdateState,
       userActionDeleteState: userActionDeleteState ?? this.userActionDeleteState,
-      userActionPEListState: userActionPEListState ?? this.userActionPEListState,
+      demarcheListState: demarcheListState ?? this.demarcheListState,
+      createDemarcheState: createDemarcheState ?? this.createDemarcheState,
+      searchDemarcheState: searchDemarcheState ?? this.searchDemarcheState,
       detailsJeuneState: detailsJeuneState ?? this.detailsJeuneState,
       chatStatusState: chatStatusState ?? this.chatStatusState,
       chatState: chatState ?? this.chatState,
@@ -190,7 +216,11 @@ class AppState extends Equatable {
       suppressionCompteState: suppressionCompteState ?? this.suppressionCompteState,
       demoState: demoState ?? this.demoState,
       campagneState: campagneState ?? this.campagneState,
-      campagneResultState: campagneResultState ?? this.campagneResultState,
+      piecesJointesState: piecesJointesState ?? this.piecesJointesState,
+      developerOptionsState: developerOptionsState ?? this.developerOptionsState,
+      matomoLoggingState: matomoLoggingState ?? this.matomoLoggingState,
+      previewFileState: previewFileState ?? this.previewFileState,
+      chatBrouillonState: chatBrouillonState ?? this.chatBrouillonState,
     );
   }
 
@@ -202,8 +232,10 @@ class AppState extends Equatable {
       userActionCreateState: UserActionCreateNotInitializedState(),
       userActionUpdateState: UserActionNotUpdatingState(),
       userActionDeleteState: UserActionDeleteNotInitializedState(),
-      userActionPEListState: UserActionPEListNotInitializedState(),
+      demarcheListState: DemarcheListNotInitializedState(),
       detailsJeuneState: DetailsJeuneNotInitializedState(),
+      createDemarcheState: CreateDemarcheNotInitializedState(),
+      searchDemarcheState: SearchDemarcheNotInitializedState(),
       chatStatusState: ChatStatusNotInitializedState(),
       chatState: ChatNotInitializedState(),
       offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
@@ -230,8 +262,12 @@ class AppState extends Equatable {
       serviceCiviqueDetailState: ServiceCiviqueDetailNotInitializedState(),
       demoState: false,
       suppressionCompteState: SuppressionCompteNotInitializedState(),
-      campagneState: CampagneState(null),
-      campagneResultState: CampagneResultState([]),
+      campagneState: CampagneState(null, []),
+      piecesJointesState: PiecesJointesState({}),
+      developerOptionsState: DeveloperOptionsNotInitializedState(),
+      matomoLoggingState: MatomoLoggingState([]),
+      previewFileState: PreviewFileNotInitializedState(),
+      chatBrouillonState: ChatBrouillonState(null),
     );
   }
 
@@ -241,6 +277,9 @@ class AppState extends Equatable {
         userActionCreateState,
         userActionUpdateState,
         userActionDeleteState,
+        demarcheListState,
+        createDemarcheState,
+        searchDemarcheState,
         detailsJeuneState,
         chatStatusState,
         chatState,
@@ -254,7 +293,6 @@ class AppState extends Equatable {
         searchMetierState,
         loginState,
         userActionListState,
-        userActionPEListState,
         rendezvousState,
         immersionListState,
         immersionDetailsState,
@@ -267,7 +305,9 @@ class AppState extends Equatable {
         suppressionCompteState,
         demoState,
         campagneState,
-        campagneResultState,
+        piecesJointesState,
+        previewFileState,
+        chatBrouillonState,
       ];
 
   @override

@@ -41,10 +41,11 @@ class _CheckBoxGroupState<T extends CheckboxValueViewModel> extends State<CheckB
         Text(widget.title, style: TextStyles.textBaseBold),
         SizedBox(height: Margins.spacing_base),
         DecoratedBox(
-          decoration:
-              BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(16)), boxShadow: [
-            Shadows.boxShadow,
-          ]),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(16)),
+            boxShadow: [Shadows.boxShadow],
+          ),
           child: Padding(
             padding: const EdgeInsets.only(left: 16),
             child: Column(
@@ -65,6 +66,7 @@ class _CheckBoxGroupState<T extends CheckboxValueViewModel> extends State<CheckB
     return CheckboxListTile(
       title: helpText != null ? _textWithToolTip(label, helpText) : _title(label),
       value: isSelected,
+      contentPadding: EdgeInsets.zero,
       activeColor: AppColors.primary,
       onChanged: (value) {
         setState(() {

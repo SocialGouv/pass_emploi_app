@@ -14,7 +14,7 @@ void main() {
   test("delete user action when repo succeeds should display loading and then delete user action", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
-    testStoreFactory.userActionRepository = UserActionRepositorySuccessStub();
+    testStoreFactory.pageActionRepository = PageActionRepositorySuccessStub();
     final store = testStoreFactory.initializeReduxStore(
       initialState: AppState.initialState().copyWith(
         userActionListState: UserActionListSuccessState(_userActions()),
@@ -37,7 +37,7 @@ void main() {
   test("delete user action when repo fails should display loading and keep user action", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
-    testStoreFactory.userActionRepository = UserActionRepositoryFailureStub();
+    testStoreFactory.pageActionRepository = PageActionRepositoryFailureStub();
     final store = testStoreFactory.initializeReduxStore(
       initialState: AppState.initialState().copyWith(
         userActionListState: UserActionListSuccessState(_userActions()),

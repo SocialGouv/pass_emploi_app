@@ -35,32 +35,33 @@ class DatePicker extends StatelessWidget {
 
   Future<void> _iOSDatePicker(BuildContext context) async {
     showCupertinoModalPopup(
-        context: context,
-        builder: (_) => Container(
-          height: 190,
-          color: Colors.white,
-          child: Column(
-            children: [
-              SizedBox(
-                height: 180,
-                child: CupertinoDatePicker(
-                    initialDateTime: DateTime.now(),
-                    mode: CupertinoDatePickerMode.date,
-                    onDateTimeChanged: (value) {
-                      onValueChange(value);
-                    }),
-              ),
-            ],
-          ),
-        ));
+      context: context,
+      builder: (_) => Container(
+        height: 190,
+        color: Colors.white,
+        child: Column(
+          children: [
+            SizedBox(
+              height: 180,
+              child: CupertinoDatePicker(
+                  initialDateTime: initialDateValue ?? DateTime.now(),
+                  mode: CupertinoDatePickerMode.date,
+                  onDateTimeChanged: (value) {
+                    onValueChange(value);
+                  }),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Future<void> _androidDatePicker(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
-      firstDate: DateTime.now(),
+      firstDate: DateTime(2020),
       lastDate: DateTime(2101),
-      initialDate: DateTime.now(),
+      initialDate: initialDateValue ?? DateTime.now(),
       locale: const Locale("fr", "FR"),
     );
     if (picked != null && picked != initialDateValue) {

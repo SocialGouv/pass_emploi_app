@@ -8,7 +8,6 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:flutter/material.dart';
 import 'package:flutter_appauth/flutter_appauth.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:http/io_client.dart';
@@ -42,6 +41,9 @@ import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
@@ -50,9 +52,11 @@ import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/installation_id_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
-import 'package:pass_emploi_app/repositories/modify_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
+import 'package:pass_emploi_app/repositories/page_action_repository.dart';
+import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
@@ -65,8 +69,6 @@ import 'package:pass_emploi_app/repositories/service_civique/service_civique_rep
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
-import 'package:pass_emploi_app/repositories/user_action_pe_repository.dart';
-import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -147,13 +149,12 @@ class AppInitializer {
       crashlytics.recordNonNetworkException(e, stack);
     }
     final Client clientWithCertificate = IOClient(HttpClient(context: defaultContext));
-    final passEmploiCacheManager = PassEmploiCacheManager(Config(
-      PassEmploiCacheManager.cacheKey,
-      stalePeriod: PassEmploiCacheManager.cacheDuration,
-      maxNrOfCacheObjects: 30,
-    ));
+    final requestCacheManager = PassEmploiCacheManager.requestCache();
     final monitoringInterceptor = MonitoringInterceptor(InstallationIdRepository(securedPreferences));
-    final modeDemoClient = ModeDemoClient(modeDemoRepository, HttpClientWithCache(passEmploiCacheManager, clientWithCertificate));
+    final modeDemoClient = ModeDemoClient(
+      modeDemoRepository,
+      HttpClientWithCache(requestCacheManager, clientWithCertificate),
+    );
     final httpClient = InterceptedClient.build(
       client: modeDemoClient,
       interceptors: [
@@ -164,23 +165,23 @@ class AppInitializer {
       ],
     );
     logoutRepository.setHttpClient(httpClient);
-    logoutRepository.setCacheManager(passEmploiCacheManager);
+    logoutRepository.setCacheManager(requestCacheManager);
     final chatCrypto = ChatCrypto();
     final baseUrl = configuration.serverBaseUrl;
     final reduxStore = StoreFactory(
       authenticator,
       crashlytics,
       chatCrypto,
-      UserActionRepository(baseUrl, httpClient, crashlytics),
-      UserActionPERepository(baseUrl, httpClient, crashlytics),
+      PageActionRepository(baseUrl, httpClient, crashlytics),
+      PageDemarcheRepository(baseUrl, httpClient, crashlytics),
       RendezvousRepository(baseUrl, httpClient, crashlytics),
       OffreEmploiRepository(baseUrl, httpClient, crashlytics),
       ChatRepository(chatCrypto, crashlytics, modeDemoRepository),
       RegisterTokenRepository(baseUrl, httpClient, pushNotificationManager, crashlytics),
       OffreEmploiDetailsRepository(baseUrl, httpClient, crashlytics),
-      OffreEmploiFavorisRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
-      ImmersionFavorisRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
-      ServiceCiviqueFavorisRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
+      OffreEmploiFavorisRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
+      ImmersionFavorisRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
+      ServiceCiviqueFavorisRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       SearchLocationRepository(baseUrl, httpClient, crashlytics),
       MetierRepository(),
       ImmersionRepository(baseUrl, httpClient, crashlytics),
@@ -188,11 +189,11 @@ class AppInitializer {
       FirebaseAuthRepository(baseUrl, httpClient, crashlytics),
       FirebaseAuthWrapper(),
       TrackingEventRepository(baseUrl, httpClient, crashlytics),
-      OffreEmploiSavedSearchRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
-      ImmersionSavedSearchRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
-      ServiceCiviqueSavedSearchRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
+      OffreEmploiSavedSearchRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
+      ImmersionSavedSearchRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
+      ServiceCiviqueSavedSearchRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       GetSavedSearchRepository(baseUrl, httpClient, crashlytics),
-      SavedSearchDeleteRepository(baseUrl, httpClient, passEmploiCacheManager, crashlytics),
+      SavedSearchDeleteRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       ServiceCiviqueRepository(baseUrl, httpClient, crashlytics),
       ServiceCiviqueDetailRepository(baseUrl, httpClient, crashlytics),
       DetailsJeuneRepository(baseUrl, httpClient, crashlytics),
@@ -201,7 +202,10 @@ class AppInitializer {
       CampagneRepository(baseUrl, httpClient, crashlytics),
       MatomoTracker(),
       remoteConfig,
-      ModifyDemarcheRepository(baseUrl, httpClient, crashlytics),
+      UpdateDemarcheRepository(baseUrl, httpClient, crashlytics),
+      CreateDemarcheRepository(baseUrl, httpClient, crashlytics),
+      SearchDemarcheRepository(baseUrl, httpClient, crashlytics),
+      PieceJointeRepository(baseUrl, httpClient, crashlytics),
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
     authAccessChecker.setStore(reduxStore);

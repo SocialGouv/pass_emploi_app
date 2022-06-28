@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
-import 'package:http/testing.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/location.dart';
@@ -8,12 +7,13 @@ import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 
 import '../doubles/fixtures.dart';
 import '../utils/mock_demo_client.dart';
+import '../utils/pass_emploi_mock_client.dart';
 import '../utils/test_assets.dart';
 
 void main() {
   test('search when response is valid should return immersions', () async {
     // Given
-    final httpClient = MockClient((request) async {
+    final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
       if (!request.url.toString().startsWith("BASE_URL/offres-immersion")) return invalidHttpResponse();
       if (request.url.queryParameters["rome"] != "J1301") return invalidHttpResponse();
@@ -43,7 +43,7 @@ void main() {
 
   test('search when response is invalid should return null', () async {
     // Given
-    final httpClient = MockClient((request) async => invalidHttpResponse());
+    final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
     final repository = ImmersionRepository("BASE_URL", httpClient);
 
     // When
@@ -55,7 +55,7 @@ void main() {
 
   test('search when response throws exception should return null', () async {
     // Given
-    final httpClient = MockClient((request) async => throw Exception());
+    final httpClient = PassEmploiMockClient((request) async => throw Exception());
     final repository = ImmersionRepository("BASE_URL", httpClient);
 
     // When
@@ -73,7 +73,7 @@ void main() {
     ) {
       test(title, () async {
         // Given
-        final httpClient = MockClient((request) async {
+        final httpClient = PassEmploiMockClient((request) async {
           if (!assertion(request.url.query)) return invalidHttpResponse();
           return Response(loadTestAssets("immersions.json"), 200);
         });

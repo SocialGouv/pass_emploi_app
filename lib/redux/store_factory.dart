@@ -3,13 +3,21 @@ import 'package:flutter/foundation.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
+import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_middleware.dart';
-import 'package:pass_emploi_app/features/campagne/result/campagne_result_middleware.dart';
+import 'package:pass_emploi_app/features/campagne/campagne_middleware.dart';
 import 'package:pass_emploi_app/features/chat/init/chat_initializer_middleware.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
+import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_middleware.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_middleware.dart';
+import 'package:pass_emploi_app/features/demarche/create/create_demarche_middleware.dart';
+import 'package:pass_emploi_app/features/demarche/list/demarche_list_middleware.dart';
+import 'package:pass_emploi_app/features/demarche/search/seach_demarche_middleware.dart';
+import 'package:pass_emploi_app/features/demarche/update/update_demarche_middleware.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_middleware.dart';
+import 'package:pass_emploi_app/features/developer_option/activation/developer_options_middleware.dart';
+import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_middleware.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_middleware.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_middleware.dart';
 import 'package:pass_emploi_app/features/favori/update/data_from_id_extractor.dart';
@@ -44,8 +52,6 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_m
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_middleware.dart';
-import 'package:pass_emploi_app/features/user_action_pe/list/user_action_pe_list_middleware.dart';
-import 'package:pass_emploi_app/features/user_action_pe/modify/user_demarche_modify_middleware.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
@@ -55,6 +61,9 @@ import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart'
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
@@ -62,9 +71,11 @@ import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_rep
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
-import 'package:pass_emploi_app/repositories/modify_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
+import 'package:pass_emploi_app/repositories/page_action_repository.dart';
+import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
@@ -77,16 +88,14 @@ import 'package:pass_emploi_app/repositories/service_civique/service_civique_rep
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
-import 'package:pass_emploi_app/repositories/user_action_pe_repository.dart';
-import 'package:pass_emploi_app/repositories/user_action_repository.dart';
 import 'package:redux/redux.dart' as redux;
 
 class StoreFactory {
   final Authenticator authenticator;
   final Crashlytics crashlytics;
   final ChatCrypto chatCrypto;
-  final UserActionRepository userActionRepository;
-  final UserActionPERepository userActionPERepository;
+  final PageActionRepository pageActionRepository;
+  final PageDemarcheRepository pageDemarcheRepository;
   final RendezvousRepository rendezvousRepository;
   final OffreEmploiRepository offreEmploiRepository;
   final ChatRepository chatRepository;
@@ -115,14 +124,17 @@ class StoreFactory {
   final CampagneRepository campagneRepository;
   final MatomoTracker matomoTracker;
   final FirebaseRemoteConfig? remoteConfig;
-  final ModifyDemarcheRepository modifyDemarcheRepository;
+  final UpdateDemarcheRepository updateDemarcheRepository;
+  final CreateDemarcheRepository createDemarcheRepository;
+  final SearchDemarcheRepository demarcheDuReferentielRepository;
+  final PieceJointeRepository pieceJointeRepository;
 
   StoreFactory(
     this.authenticator,
     this.crashlytics,
     this.chatCrypto,
-    this.userActionRepository,
-    this.userActionPERepository,
+    this.pageActionRepository,
+    this.pageDemarcheRepository,
     this.rendezvousRepository,
     this.offreEmploiRepository,
     this.chatRepository,
@@ -151,7 +163,10 @@ class StoreFactory {
     this.campagneRepository,
     this.matomoTracker,
     this.remoteConfig,
-    this.modifyDemarcheRepository,
+    this.updateDemarcheRepository,
+    this.createDemarcheRepository,
+    this.demarcheDuReferentielRepository,
+    this.pieceJointeRepository,
   );
 
   redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -161,11 +176,14 @@ class StoreFactory {
       middleware: [
         BootstrapMiddleware(),
         LoginMiddleware(authenticator, firebaseAuthWrapper, modeDemoRepository, matomoTracker),
-        UserActionListMiddleware(userActionRepository),
-        UserActionCreateMiddleware(userActionRepository),
-        UserActionUpdateMiddleware(userActionRepository),
-        UserActionDeleteMiddleware(userActionRepository),
-        UserActionPEListMiddleware(userActionPERepository, remoteConfig),
+        UserActionListMiddleware(pageActionRepository),
+        UserActionCreateMiddleware(pageActionRepository),
+        UserActionUpdateMiddleware(pageActionRepository),
+        UserActionDeleteMiddleware(pageActionRepository),
+        DemarcheListMiddleware(pageDemarcheRepository, remoteConfig),
+        CreateDemarcheMiddleware(createDemarcheRepository),
+        UpdateDemarcheMiddleware(updateDemarcheRepository),
+        SearchDemarcheMiddleware(demarcheDuReferentielRepository),
         DetailsJeuneMiddleware(detailsJeuneRepository),
         ChatInitializerMiddleware(firebaseAuthRepository, firebaseAuthWrapper, chatCrypto, modeDemoRepository),
         ChatMiddleware(chatRepository),
@@ -203,15 +221,21 @@ class StoreFactory {
         SearchServiceCiviqueMiddleware(serviceCiviqueRepository),
         ServiceCiviqueDetailMiddleware(serviceCiviqueDetailRepository),
         SuppressionCompteMiddleware(suppressionCompteRepository),
-        CampagneResultMiddleware(campagneRepository),
-        UserDemarcheModifyMiddleware(modifyDemarcheRepository),
-        ..._debugMiddleware(),
+        CampagneMiddleware(campagneRepository),
+        PieceJointeMiddleware(pieceJointeRepository),
+        ..._debugMiddlewares(),
+        ..._stagingMiddlewares(initialState.configurationState.getFlavor()),
       ],
     );
   }
 
-  List<redux.Middleware<AppState>> _debugMiddleware() {
+  List<redux.Middleware<AppState>> _debugMiddlewares() {
     if (kReleaseMode) return [];
     return [ActionLoggingMiddleware()];
+  }
+
+  List<redux.Middleware<AppState>> _stagingMiddlewares(Flavor flavor) {
+    if (flavor == Flavor.PROD) return [];
+    return [DeveloperOptionsMiddleware(), MatomoLoggingMiddleware()];
   }
 }

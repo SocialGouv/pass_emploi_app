@@ -1,5 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart';
+import 'package:pass_emploi_app/features/developer_option/activation/developer_options_action.dart';
+import 'package:pass_emploi_app/features/developer_option/activation/developer_options_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -9,8 +11,16 @@ class ProfilPageViewModel extends Equatable {
   final String userName;
   final String userEmail;
   final bool displayMonConseiller;
+  final bool displayDeveloperOptions;
+  final Function() onTitleTap;
 
-  ProfilPageViewModel({required this.userName, required this.userEmail, required this.displayMonConseiller});
+  ProfilPageViewModel({
+    required this.userName,
+    required this.userEmail,
+    required this.displayMonConseiller,
+    required this.displayDeveloperOptions,
+    required this.onTitleTap,
+  });
 
   factory ProfilPageViewModel.create(Store<AppState> store) {
     final state = store.state.loginState;
@@ -19,6 +29,8 @@ class ProfilPageViewModel extends Equatable {
       userName: user != null ? "${user.firstName} ${user.lastName}" : "",
       userEmail: user?.email ?? Strings.missingEmailAddressValue,
       displayMonConseiller: _shouldDisplayMonConseiller(store.state.detailsJeuneState),
+      displayDeveloperOptions: store.state.developerOptionsState is DeveloperOptionsActivatedState,
+      onTitleTap: () => store.dispatch(DeveloperOptionsActivationRequestAction()),
     );
   }
 
@@ -28,5 +40,5 @@ class ProfilPageViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [userName, userEmail, displayMonConseiller];
+  List<Object?> get props => [userName, userEmail, displayMonConseiller, displayDeveloperOptions];
 }

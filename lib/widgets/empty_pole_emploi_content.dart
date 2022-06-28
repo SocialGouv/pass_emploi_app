@@ -19,7 +19,7 @@ class EmptyPoleEmploiContent extends StatelessWidget {
           SizedBox(height: screenHeight * 0.02),
           Flexible(flex: 1, child: SvgPicture.asset(Drawables.icEmpty)),
           SizedBox(height: screenHeight * 0.05),
-          Text(Strings.emptyContentTitle(Strings.demarcheToDo), style: TextStyles.textBaseBold, textAlign: TextAlign.center),
+          Text(Strings.emptyContentTitle(Strings.demarchesToDo), style: TextStyles.textBaseBold, textAlign: TextAlign.center),
           SizedBox(height: screenHeight * 0.03),
           Text(Strings.emptyContentDescription(Strings.demarches), style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
           SizedBox(height: screenHeight * 0.04),

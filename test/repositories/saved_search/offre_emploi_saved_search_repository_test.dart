@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
-import 'package:http/testing.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
@@ -9,6 +8,7 @@ import 'package:pass_emploi_app/repositories/saved_search/offre_emploi_saved_sea
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
+import '../../utils/pass_emploi_mock_client.dart';
 
 void main() {
   group("When user save new search postSavedSearch should ...", () {
@@ -64,14 +64,14 @@ void main() {
   });
 }
 
-MockClient _failureClient() {
-  return MockClient((request) async {
+BaseClient _failureClient() {
+  return PassEmploiMockClient((request) async {
     return Response("", 500);
   });
 }
 
-MockClient _mockClientforFullDataWithFilters({required bool expectedAlternance}) {
-  return MockClient((request) async {
+BaseClient _mockClientforFullDataWithFilters({required bool expectedAlternance}) {
+  return PassEmploiMockClient((request) async {
     if (request.method != "POST") return invalidHttpResponse();
     if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/recherches/offres-emploi")) {
       return invalidHttpResponse();
@@ -86,6 +86,7 @@ MockClient _mockClientforFullDataWithFilters({required bool expectedAlternance})
       return invalidHttpResponse(message: "alternance KO");
     }
     if (requestJson["criteres"]["rayon"] != 40) return invalidHttpResponse(message: "distance KO");
+    if (requestJson["criteres"]["debutantAccepte"] != true) return invalidHttpResponse(message: "debutantAccepte KO");
     if (requestJson["criteres"]["experience"][0] != "3") return invalidHttpResponse(message: "experience KO");
     if (requestJson["criteres"]["contrat"][0] != "CDI") return invalidHttpResponse(message: "contrat KO");
     if (requestJson["criteres"]["duree"][0] != "1") return invalidHttpResponse(message: "duree KO");
@@ -93,8 +94,8 @@ MockClient _mockClientforFullDataWithFilters({required bool expectedAlternance})
   });
 }
 
-MockClient _mockClientforPartialDataWithoutFilters() {
-  return MockClient((request) async {
+BaseClient _mockClientforPartialDataWithoutFilters() {
+  return PassEmploiMockClient((request) async {
     if (request.method != "POST") return invalidHttpResponse();
     if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/recherches/offres-emploi")) {
       return invalidHttpResponse();
@@ -128,6 +129,7 @@ OffreEmploiSavedSearch _savedSearchWithFilters({required bool isAlternance}) {
     filters: OffreEmploiSearchParametersFiltres.withFiltres(
         distance: 40,
         contrat: [ContratFiltre.cdi],
+        debutantOnly: true,
         experience: [ExperienceFiltre.trois_ans_et_plus, ExperienceFiltre.de_un_a_trois_ans],
         duree: [DureeFiltre.temps_plein]),
   );

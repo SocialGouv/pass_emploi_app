@@ -13,12 +13,14 @@ import 'package:redux/redux.dart';
 
 class ChatPageViewModel extends Equatable {
   final DisplayState displayState;
+  final String? brouillon;
   final List<ChatItem> items;
   final Function(String message) onSendMessage;
   final Function() onRetry;
 
   ChatPageViewModel({
     required this.displayState,
+    required this.brouillon,
     required this.items,
     required this.onSendMessage,
     required this.onRetry,
@@ -30,6 +32,7 @@ class ChatPageViewModel extends Equatable {
     final lastReading = (statusState is ChatStatusSuccessState) ? statusState.lastConseillerReading : minDateTime;
     return ChatPageViewModel(
       displayState: _displayState(chatState),
+      brouillon: store.state.chatBrouillonState.brouillon,
       items: chatState is ChatSuccessState ? _messagesToChatItems(chatState.messages, lastReading) : [],
       onSendMessage: (String message) => store.dispatch(SendMessageAction(message)),
       onRetry: () => store.dispatch(SubscribeToChatAction()),
@@ -37,7 +40,7 @@ class ChatPageViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [displayState, items];
+  List<Object?> get props => [displayState, brouillon, items];
 }
 
 DisplayState _displayState(ChatState state) {
@@ -57,11 +60,28 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
           return _buildMessageItem(message, lastConseillerReading);
         case MessageType.nouveauConseiller:
           return InformationItem(Strings.newConseillerTitle, Strings.newConseillerDescription);
+        case MessageType.nouveauConseillerTemporaire:
+          return InformationItem(Strings.newConseillerTemporaireTitle, Strings.newConseillerDescription);
+        case MessageType.messagePj:
+          return _pieceJointeItem(message);
         case MessageType.inconnu:
           return InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
       }
     }
   }).toList();
+}
+
+ChatItem _pieceJointeItem(Message message) {
+  if (message.sentBy == Sender.conseiller) {
+    return PieceJointeConseillerMessageItem(
+      id: message.pieceJointes[0].id,
+      message: message.content,
+      filename: message.pieceJointes.first.nom,
+      caption: message.creationDate.toHour(),
+    );
+  } else {
+    return InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
+  }
 }
 
 MessageItem _buildMessageItem(Message message, DateTime lastConseillerReading) {
