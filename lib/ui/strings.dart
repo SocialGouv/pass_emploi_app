@@ -7,6 +7,7 @@ class Strings {
   static String logoTextDescription = "Logo CEJ";
   static String close = "Fermer";
   static String yes = "Oui";
+  static String nouveau = "Nouveau";
 
   // Menu
   static String menuMonSuivi = "Mon suivi";
@@ -269,6 +270,7 @@ class Strings {
   static String immersionButton = "Immersion";
   static String offresEmploiButton = "Emploi";
   static String serviceCiviqueButton = "Service civique";
+  static String partagerOffre = "Partager l’offre à mon conseiller";
 
   // Alternance
   static String alternanceButton = "Alternance";

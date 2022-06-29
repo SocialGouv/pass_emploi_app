@@ -84,7 +84,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Scaffold _scaffold(Widget body, BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: Strings.offreDetails, context: context,  withBackButton: true),
+      appBar: passEmploiAppBar(label: Strings.offreDetails, context: context, withBackButton: true),
       body: body,
     );
   }
@@ -128,6 +128,8 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
                     child: Text(companyName, style: TextStyles.textBaseRegular),
                   ),
                 _tags(viewModel),
+                _PartageOffre(),
+                _spacer(Margins.spacing_l),
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS) _description(viewModel),
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
                   _profileDescription(viewModel),
@@ -429,4 +431,48 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   EventType _postulerEvent() => _fromAlternance ? EventType.OFFRE_ALTERNANCE_POSTULEE : EventType.OFFRE_EMPLOI_POSTULEE;
 
   EventType _partagerEvent() => _fromAlternance ? EventType.OFFRE_ALTERNANCE_PARTAGEE : EventType.OFFRE_EMPLOI_PARTAGEE;
+}
+
+class _PartageOffre extends StatelessWidget {
+  const _PartageOffre({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _newTag(),
+        SizedBox(height: Margins.spacing_base),
+        _shareButton()
+      ],
+    );
+  }
+
+  OutlinedButton _shareButton() {
+    return OutlinedButton(
+        style: ButtonStyle(
+          shape: MaterialStateProperty.all(StadiumBorder()),
+          side: MaterialStateProperty.all(BorderSide(color: AppColors.primary, width: 1)),
+        ),
+        onPressed: () => {},
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 16),
+          child: Text(Strings.partagerOffre, style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
+        ),
+      );
+  }
+
+  Container _newTag() {
+    return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(40)),
+          color: AppColors.accent1Lighten,
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+        child: Text(
+          Strings.nouveau,
+          style: TextStyles.textSRegularWithColor(AppColors.accent1),
+        ),
+      );
+  }
 }
