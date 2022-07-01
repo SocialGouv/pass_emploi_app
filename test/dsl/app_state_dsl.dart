@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.da
 import 'package:pass_emploi_app/features/chat/preview_file/preview_file_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
@@ -67,5 +68,9 @@ extension AppStateDSL on AppState {
 
   AppState searchDemarchesSuccess(List<DemarcheDuReferentiel> demarches) {
     return copyWith(searchDemarcheState: SearchDemarcheSuccessState(demarches));
+  }
+
+  AppState offreEmploiDetailsSuccess() {
+    return copyWith(offreEmploiDetailsState: OffreEmploiDetailsSuccessState(mockOffreEmploiDetails()));
   }
 }

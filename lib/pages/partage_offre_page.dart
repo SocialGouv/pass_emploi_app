@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/presentation/partage_offre_page_view_model.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -19,7 +22,10 @@ class PartageOffrePage extends TraceableStatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _scaffold(_body(context), context);
+    return StoreConnector<AppState, PartageOffrePageViewModel>(
+      converter: (store) => PartageOffrePageViewModel.create(store),
+      builder: (context, viewModel) => _scaffold(_body(context, viewModel), context),
+    );
   }
 
   Scaffold _scaffold(Widget body, BuildContext context) {
@@ -30,7 +36,7 @@ class PartageOffrePage extends TraceableStatelessWidget {
     );
   }
 
-  Widget _body(BuildContext context) {
+  Widget _body(BuildContext context, PartageOffrePageViewModel viewModel) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -39,7 +45,7 @@ class PartageOffrePage extends TraceableStatelessWidget {
           children: [
             Text(Strings.souhaitDePartagerOffre, style: TextStyles.textBaseBold),
             SizedBox(height: Margins.spacing_base),
-            _offre(),
+            _offre(viewModel),
             SizedBox(height: Margins.spacing_l),
             Text(Strings.messagePourConseiller, style: TextStyles.textBaseMedium),
             SizedBox(height: Margins.spacing_base),
@@ -54,7 +60,7 @@ class PartageOffrePage extends TraceableStatelessWidget {
     );
   }
 
-  Widget _offre() {
+  Widget _offre(PartageOffrePageViewModel viewModel) {
     return DecoratedBox(
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.grey100, width: 1),
@@ -62,7 +68,7 @@ class PartageOffrePage extends TraceableStatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Text("Technicien support informatique bilingue Anglais/Français (H/F)", style: TextStyles.textBaseBold),
+        child: Text(viewModel.offreTitle, style: TextStyles.textBaseBold),
       ),
     );
   }
