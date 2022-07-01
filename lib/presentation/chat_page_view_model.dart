@@ -65,7 +65,7 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
         case MessageType.messagePj:
           return _pieceJointeItem(message);
         case MessageType.offre:
-          return _offreMessageItem(message);
+          return _offreMessageItem(message, lastConseillerReading);
         case MessageType.inconnu:
           return InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
       }
@@ -73,9 +73,14 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
   }).toList();
 }
 
-ChatItem _offreMessageItem(Message message) {
+ChatItem _offreMessageItem(Message message, DateTime lastConseillerReading) {
   if (message.sentBy == Sender.jeune) {
-    return OffreMessageItem(message: message.content, offreTitle: message.offreTitle ?? "");
+    return OffreMessageItem(
+      content: message.content,
+      idOffre: message.idOffre ?? "",
+      titreOffre: message.titreOffre ?? "",
+      caption: caption(message, lastConseillerReading),
+    );
   } else {
     return InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
   }
@@ -94,13 +99,21 @@ ChatItem _pieceJointeItem(Message message) {
   }
 }
 
-MessageItem _buildMessageItem(Message message, DateTime lastConseillerReading) {
+String caption(Message message, DateTime lastConseillerReading) {
   final hourLabel = message.creationDate.toHour();
   if (message.sentBy == Sender.jeune) {
     final redState = lastConseillerReading.isAfter(message.creationDate) ? Strings.read : Strings.sent;
-    return JeuneMessageItem(content: message.content, caption: "$hourLabel · $redState");
+    return "$hourLabel · $redState";
   } else {
-    return ConseillerMessageItem(content: message.content, caption: hourLabel);
+    return hourLabel;
+  }
+}
+
+MessageItem _buildMessageItem(Message message, DateTime lastConseillerReading) {
+  if (message.sentBy == Sender.jeune) {
+    return JeuneMessageItem(content: message.content, caption: caption(message, lastConseillerReading));
+  } else {
+    return ConseillerMessageItem(content: message.content, caption: caption(message, lastConseillerReading));
   }
 }
 

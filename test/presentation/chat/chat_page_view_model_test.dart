@@ -12,6 +12,10 @@ import 'package:redux/redux.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
+
+  final now = DateTime.now();
+  final todayAtNoon = DateTime(now.year, now.month, now.day, 12, 00);
+
   test('create when chat state is LOADING', () {
     // Given
     final state = AppState.initialState().copyWith(chatState: ChatLoadingState());
@@ -38,9 +42,6 @@ void main() {
 
   test('create when chat state is SUCCESS', () {
     // Given
-    final now = DateTime.now();
-    final todayAtNoon = DateTime(now.year, now.month, now.day, 12, 00);
-
     final state = AppState.initialState().copyWith(
       chatStatusState: ChatStatusSuccessState(unreadMessageCount: 0, lastConseillerReading: DateTime(2021, 1, 2, 18)),
       chatState: ChatSuccessState(
@@ -96,9 +97,6 @@ void main() {
 
   test('should display piece jointe from conseiller', () {
     // Given
-    final now = DateTime.now();
-    final todayAtNoon = DateTime(now.year, now.month, now.day, 12, 00);
-
     final state = AppState.initialState().copyWith(
       chatStatusState: ChatStatusSuccessState(unreadMessageCount: 0, lastConseillerReading: DateTime(2021, 1, 2, 18)),
       chatState: ChatSuccessState(
@@ -122,7 +120,7 @@ void main() {
 
   test('should display offre partagée from jeune', () {
     // Given
-    final messages = [Message('Super offre', DateTime.now(), Sender.jeune, MessageType.offre, [], "Chevalier")];
+    final messages = [Message('Super offre', todayAtNoon, Sender.jeune, MessageType.offre, [], "343", "Chevalier")];
     final store = givenState().chatSuccess(messages).store();
 
     // When
@@ -132,7 +130,7 @@ void main() {
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.items, [
       DayItem('Aujourd\'hui'),
-      OffreMessageItem(message: "Super offre", offreTitle: "Chevalier"),
+      OffreMessageItem(content: "Super offre", idOffre: "343", titreOffre: "Chevalier", caption: "12:00 · Envoyé"),
     ]);
   });
 
