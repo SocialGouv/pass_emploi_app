@@ -55,3 +55,16 @@ class PieceJointeConseillerMessageItem extends ChatItem {
   @override
   List<Object?> get props => [id, message, filename, caption];
 }
+
+class OffreMessageItem extends ChatItem {
+  final String message;
+  final String offreTitle;
+
+  OffreMessageItem({
+    required this.message,
+    required this.offreTitle,
+  });
+
+  @override
+  List<Object?> get props => [message, offreTitle];
+}

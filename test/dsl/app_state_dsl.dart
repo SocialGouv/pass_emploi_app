@@ -1,5 +1,6 @@
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
+import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
 import 'package:pass_emploi_app/features/chat/preview_file/preview_file_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
@@ -8,6 +9,7 @@ import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_detai
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
+import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
@@ -68,6 +70,10 @@ extension AppStateDSL on AppState {
 
   AppState searchDemarchesSuccess(List<DemarcheDuReferentiel> demarches) {
     return copyWith(searchDemarcheState: SearchDemarcheSuccessState(demarches));
+  }
+
+  AppState chatSuccess(List<Message> messages) {
+    return copyWith(chatState: ChatSuccessState(messages));
   }
 
   AppState offreEmploiDetailsSuccess() {

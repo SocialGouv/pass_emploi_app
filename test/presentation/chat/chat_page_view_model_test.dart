@@ -120,6 +120,41 @@ void main() {
     ]);
   });
 
+  test('should display offre partagée from jeune', () {
+    // Given
+    final messages = [Message('Super offre', DateTime.now(), Sender.jeune, MessageType.offre, [], "Chevalier")];
+    final store = givenState().chatSuccess(messages).store();
+
+    // When
+    final viewModel = ChatPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.items, [
+      DayItem('Aujourd\'hui'),
+      OffreMessageItem(message: "Super offre", offreTitle: "Chevalier"),
+    ]);
+  });
+
+  test('should not display offre partagée from conseiller', () {
+    // Given
+    final messages = [Message('Super offre', DateTime.now(), Sender.conseiller, MessageType.offre, [], "Chevalier")];
+    final store = givenState().chatSuccess(messages).store();
+
+    // When
+    final viewModel = ChatPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.items, [
+      DayItem('Aujourd\'hui'),
+      InformationItem(
+        "Le message est inaccessible",
+        "Pour avoir l'accès au contenu veuillez mettre à jour l'application",
+      ),
+    ]);
+  });
+
   test('create when chat state is SUCCESS and message type is NOUVEAU_CONSEILLER', () {
     // Given
     final state = AppState.initialState().copyWith(

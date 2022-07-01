@@ -1,6 +1,6 @@
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:redux/src/store.dart';
+import 'package:redux/redux.dart';
 
 class PartageOffrePageViewModel {
   final String offreTitle;

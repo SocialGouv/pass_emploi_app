@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 
 enum Sender { jeune, conseiller }
 
-enum MessageType { message, nouveauConseiller, nouveauConseillerTemporaire, messagePj, inconnu }
+enum MessageType { message, nouveauConseiller, nouveauConseillerTemporaire, messagePj, offre, inconnu }
 
 class Message extends Equatable {
   final String content;
@@ -13,8 +13,9 @@ class Message extends Equatable {
   final Sender sentBy;
   final MessageType type;
   final List<PieceJointe> pieceJointes;
+  final String? offreTitle;
 
-  Message(this.content, this.creationDate, this.sentBy, this.type, this.pieceJointes);
+  Message(this.content, this.creationDate, this.sentBy, this.type, this.pieceJointes, [this.offreTitle]);
 
   static Message? fromJson(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
     final creationDateValue = json['creationDate'];

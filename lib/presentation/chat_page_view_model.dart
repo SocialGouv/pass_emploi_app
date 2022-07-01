@@ -64,11 +64,21 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
           return InformationItem(Strings.newConseillerTemporaireTitle, Strings.newConseillerDescription);
         case MessageType.messagePj:
           return _pieceJointeItem(message);
+        case MessageType.offre:
+          return _offreMessageItem(message);
         case MessageType.inconnu:
           return InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
       }
     }
   }).toList();
+}
+
+ChatItem _offreMessageItem(Message message) {
+  if (message.sentBy == Sender.jeune) {
+    return OffreMessageItem(message: message.content, offreTitle: message.offreTitle ?? "");
+  } else {
+    return InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
+  }
 }
 
 ChatItem _pieceJointeItem(Message message) {

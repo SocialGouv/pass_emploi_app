@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/presentation/partage_offre_page_view_model.dart';
-import 'package:redux/redux.dart';
 
 import '../dsl/app_state_dsl.dart';
 
@@ -18,13 +17,7 @@ void main() {
   });
 
   test('should throw error on failure', () {
-    // Given
     final store = givenState().store();
-
-    // When
-    final call = () => PartageOffrePageViewModel.create(store);
-
-    // Then
-    expect(call, throwsA(isA<Exception>()));
+    expect(() => PartageOffrePageViewModel.create(store), throwsA(isA<Exception>()));
   });
 }
