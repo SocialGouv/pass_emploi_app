@@ -264,6 +264,7 @@ class Strings {
   static String searchButton = "Rechercher";
   static String offresEmploiTitle = "Offres d'emploi";
   static String offreDetails = "Détails de l'offre";
+  static String partageOffreNavTitle = "Partage de l’offre d’emploi";
   static String offresTabTitle = "Offres";
   static String boiteAOutilsTabTitle = "Boîte à outils";
   static String solutionsAppBarTitle = "Recherche";

@@ -42,6 +42,7 @@ class AnalyticsScreenNames {
   static const emploiDetails = "recherche/emploi/detail";
   static const emploiFiltres = "recherche/emploi/search_results/filters";
   static const emploiCreateAlert = "/saved_search/emploi/create";
+  static const emploiPartagePage = "/recherche/emploi/detail/partage-conseiller";
 
   static const alternanceResearch = "recherche/alternance/search";
   static const alternanceResults = "recherche/alternance/search_results";
