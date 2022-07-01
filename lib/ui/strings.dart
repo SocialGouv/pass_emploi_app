@@ -29,6 +29,7 @@ class Strings {
   static String newConseillerDescription = "Il a accès à l’historique de vos échanges";
   static String unknownTypeTitle = "Le message est inaccessible";
   static String unknownTypeDescription = "Pour avoir l'accès au contenu veuillez mettre à jour l'application";
+  static String voirOffre = "Voir l'offre";
 
   static String chatWith(firstName) => "Discuter avec $firstName";
 
