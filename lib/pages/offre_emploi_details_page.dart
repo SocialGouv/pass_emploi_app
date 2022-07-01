@@ -457,7 +457,7 @@ class _PartageOffre extends StatelessWidget {
       onPressed: () => {pushAndTrackBack(context, PartageOffrePage.materialPageRoute(), trackingPageName)},
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 16),
-        child: Text(Strings.partagerOffre, style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
+        child: Text(Strings.partagerOffreConseiller, style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
       ),
     );
   }

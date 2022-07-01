@@ -264,14 +264,18 @@ class Strings {
   static String searchButton = "Rechercher";
   static String offresEmploiTitle = "Offres d'emploi";
   static String offreDetails = "Détails de l'offre";
-  static String partageOffreNavTitle = "Partage de l’offre d’emploi";
   static String offresTabTitle = "Offres";
   static String boiteAOutilsTabTitle = "Boîte à outils";
   static String solutionsAppBarTitle = "Recherche";
   static String immersionButton = "Immersion";
   static String offresEmploiButton = "Emploi";
   static String serviceCiviqueButton = "Service civique";
-  static String partagerOffre = "Partager l’offre à mon conseiller";
+  static String partagerOffreConseiller = "Partager l’offre à mon conseiller";
+  static String partageOffreNavTitle = "Partage de l’offre d’emploi";
+  static String souhaitDePartagerOffre = "L’offre que vous souhaitez partager";
+  static String messagePourConseiller = "Message destiné à votre conseiller";
+  static String offrePartageChat = "L’offre d’emploi sera partagée à votre conseiller dans la messagerie";
+  static String partagerOffreEmploi = "Partager l’offre d’emploi";
 
   // Alternance
   static String alternanceButton = "Alternance";
