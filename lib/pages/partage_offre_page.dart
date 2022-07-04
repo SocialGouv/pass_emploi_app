@@ -12,17 +12,23 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
-class PartageOffrePage extends TraceableStatelessWidget {
-
-  late TextEditingController _controller;
+class PartageOffrePage extends TraceableStatefulWidget {
 
   PartageOffrePage._() : super(name: AnalyticsScreenNames.emploiPartagePage);
+
+  @override
+  _PartageOffrePageState createState() => _PartageOffrePageState();
 
   static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(builder: (context) {
       return PartageOffrePage._();
     });
   }
+}
+
+class _PartageOffrePageState extends State<PartageOffrePage> {
+
+  late TextEditingController _controller;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +43,7 @@ class PartageOffrePage extends TraceableStatelessWidget {
   @override
   void dispose() {
     _controller.dispose();
+    super.dispose();
   }
 
   Scaffold _scaffold(Widget body, BuildContext context) {
@@ -124,7 +131,7 @@ class PartageOffrePage extends TraceableStatelessWidget {
     );
   }
 
-  _partagerOffre(BuildContext context, PartageOffrePageViewModel viewModel) {
+  void _partagerOffre(BuildContext context, PartageOffrePageViewModel viewModel) {
     viewModel.onPartagerOffre(_controller.text);
     MatomoTracker.trackScreenWithName(AnalyticsScreenNames.emploiPartagePageSuccess, "");
     showSuccessfulSnackBar(context, Strings.partageOffreSuccess);

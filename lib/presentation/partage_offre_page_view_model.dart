@@ -23,7 +23,7 @@ class PartageOffrePageViewModel {
   }
 }
 
-_partagerOffre(Store<AppState> store, OffreEmploiDetails offre, String message) {
+void _partagerOffre(Store<AppState> store, OffreEmploiDetails offre, String message) {
   store.dispatch(
     ChatPartagerOffreAction(
       OffrePartagee(

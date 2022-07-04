@@ -3,7 +3,6 @@ import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
 import 'package:pass_emploi_app/presentation/partage_offre_page_view_model.dart';
 
-import '../doubles/spies.dart';
 import '../dsl/app_state_dsl.dart';
 
 void main() {
