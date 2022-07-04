@@ -130,7 +130,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
                     child: Text(companyName, style: TextStyles.textBaseRegular),
                   ),
                 _tags(viewModel),
-                _PartageOffre(trackingPageName: name),
+                if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS) _PartageOffre(trackingPageName: name),
                 _spacer(Margins.spacing_l),
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS) _description(viewModel),
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
