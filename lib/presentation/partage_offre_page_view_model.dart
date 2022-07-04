@@ -18,7 +18,7 @@ class PartageOffrePageViewModel {
     }
     return PartageOffrePageViewModel(
       offreTitle: offreEmploiDetailsState.offre.title,
-      onPartagerOffre: (message) => {_partagerOffre(store, offreEmploiDetailsState.offre, message)},
+      onPartagerOffre: (message) => _partagerOffre(store, offreEmploiDetailsState.offre, message),
     );
   }
 }

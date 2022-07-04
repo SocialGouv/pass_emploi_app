@@ -35,7 +35,7 @@ class _PartageOffrePageState extends State<PartageOffrePage> {
     _controller = TextEditingController(text: Strings.partageOffreDefaultMessage);
     return StoreConnector<AppState, PartageOffrePageViewModel>(
       converter: (store) => PartageOffrePageViewModel.create(store),
-      builder: (context, viewModel) => _scaffold(_body(context, viewModel), context),
+      builder: (context, viewModel) => _scaffold(context, viewModel),
       distinct: true,
     );
   }
@@ -46,11 +46,11 @@ class _PartageOffrePageState extends State<PartageOffrePage> {
     super.dispose();
   }
 
-  Scaffold _scaffold(Widget body, BuildContext context) {
+  Scaffold _scaffold(BuildContext context, PartageOffrePageViewModel viewModel) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: passEmploiAppBar(label: Strings.partageOffreNavTitle, context: context, withBackButton: true),
-      body: body,
+      body: _body(context, viewModel),
     );
   }
 
