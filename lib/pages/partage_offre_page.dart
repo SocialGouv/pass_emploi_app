@@ -25,7 +25,7 @@ class PartageOffrePage extends TraceableStatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _controller = TextEditingController();
+    _controller = TextEditingController(text: Strings.partageOffreDefaultMessage);
     return StoreConnector<AppState, PartageOffrePageViewModel>(
       converter: (store) => PartageOffrePageViewModel.create(store),
       builder: (context, viewModel) => _scaffold(_body(context, viewModel), context),
