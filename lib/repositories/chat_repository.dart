@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/message.dart';
+import 'package:pass_emploi_app/models/offre_partagee.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 import 'package:pass_emploi_app/utils/log.dart';
 
@@ -74,6 +75,38 @@ class ChatRepository {
             });
         })
         .then((value) => Log.d("New message sent $message && chat status updated"))
+        .catchError((e, StackTrace stack) => _crashlytics.recordNonNetworkException(e, stack));
+  }
+
+  Future<void> sendOffrePartagee(String userId, OffrePartagee offrePartagee) async {
+    final chatDocumentId = await _getChatDocumentId(userId);
+    if (chatDocumentId == null) return;
+
+    final messageCreationDate = FieldValue.serverTimestamp();
+    final encryptedMessage = _chatCrypto.encrypt(offrePartagee.message);
+    FirebaseFirestore.instance
+        .runTransaction((transaction) async {
+          final newDocId = _chatCollection(chatDocumentId).collection('messages').doc(null);
+          transaction
+            ..set(newDocId, {
+              'iv': encryptedMessage.base64InitializationVector,
+              'content': encryptedMessage.base64Message,
+              'sentBy': "jeune",
+              'creationDate': messageCreationDate,
+              'idOffre': offrePartagee.id,
+              'lienOffre': offrePartagee.url,
+              'titreOffre': offrePartagee.titre,
+              'type': "MESSAGE_OFFRE",
+            })
+            ..update(_chatCollection(chatDocumentId), {
+              'lastMessageContent': encryptedMessage.base64Message,
+              'lastMessageIv': encryptedMessage.base64InitializationVector,
+              'lastMessageSentBy': "jeune",
+              'lastMessageSentAt': messageCreationDate,
+              'seenByConseiller': false,
+            });
+        })
+        .then((value) => Log.d("New message sent ${offrePartagee.message} with offre ${offrePartagee.titre} && chat status updated"))
         .catchError((e, StackTrace stack) => _crashlytics.recordNonNetworkException(e, stack));
   }
 

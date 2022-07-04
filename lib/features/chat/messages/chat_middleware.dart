@@ -35,6 +35,8 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
           _subscription?.cancel();
         } else if (action is SendMessageAction) {
           _repository.sendMessage(userId, action.message);
+        } else if (action is ChatPartagerOffreAction) {
+          _repository.sendOffrePartagee(userId, action.offre);
         } else if (action is LastMessageSeenAction) {
           _repository.setLastMessageSeen(userId);
         }
