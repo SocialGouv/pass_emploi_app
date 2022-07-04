@@ -12,6 +12,9 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
 class PartageOffrePage extends TraceableStatelessWidget {
+
+  late TextEditingController _controller;
+
   PartageOffrePage._() : super(name: AnalyticsScreenNames.emploiPartagePage);
 
   static MaterialPageRoute<void> materialPageRoute() {
@@ -25,7 +28,13 @@ class PartageOffrePage extends TraceableStatelessWidget {
     return StoreConnector<AppState, PartageOffrePageViewModel>(
       converter: (store) => PartageOffrePageViewModel.create(store),
       builder: (context, viewModel) => _scaffold(_body(context, viewModel), context),
+      distinct: true,
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
   }
 
   Scaffold _scaffold(Widget body, BuildContext context) {
@@ -53,7 +62,7 @@ class PartageOffrePage extends TraceableStatelessWidget {
             SizedBox(height: Margins.spacing_l),
             _infoPartage(),
             SizedBox(height: Margins.spacing_l),
-            _shareButton(),
+            _shareButton(viewModel),
           ],
         ),
       ),
@@ -74,7 +83,11 @@ class PartageOffrePage extends TraceableStatelessWidget {
   }
 
   Widget _textField() {
+    _controller = TextEditingController();
     return TextField(
+      keyboardType: TextInputType.multiline,
+      textCapitalization: TextCapitalization.sentences,
+      textInputAction: TextInputAction.done,
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(16),
         border: OutlineInputBorder(
@@ -83,6 +96,7 @@ class PartageOffrePage extends TraceableStatelessWidget {
         ),
       ),
       maxLines: null,
+      controller: _controller,
     );
   }
 
@@ -102,10 +116,10 @@ class PartageOffrePage extends TraceableStatelessWidget {
     );
   }
 
-  Widget _shareButton() {
+  Widget _shareButton(PartageOffrePageViewModel viewModel) {
     return PrimaryActionButton(
       label: Strings.partagerOffreEmploi,
-      onPressed: () => {},
+      onPressed: () => {viewModel.onPartagerOffre(_controller.text)},
     );
   }
 }

@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
+import '../doubles/spies.dart';
 import '../utils/test_setup.dart';
 
 AppState givenState() => AppState.initialState();
@@ -25,6 +26,8 @@ extension AppStateDSL on AppState {
     if (foo != null) foo(factory);
     return factory.initializeReduxStore(initialState: this);
   }
+
+  StoreSpy spyStore() => StoreSpy.withState(this);
 
   AppState loggedInUser() => copyWith(loginState: successMiloUserState());
 
