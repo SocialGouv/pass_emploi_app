@@ -25,6 +25,7 @@ class PartageOffrePage extends TraceableStatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _controller = TextEditingController();
     return StoreConnector<AppState, PartageOffrePageViewModel>(
       converter: (store) => PartageOffrePageViewModel.create(store),
       builder: (context, viewModel) => _scaffold(_body(context, viewModel), context),
@@ -83,7 +84,6 @@ class PartageOffrePage extends TraceableStatelessWidget {
   }
 
   Widget _textField() {
-    _controller = TextEditingController();
     return TextField(
       keyboardType: TextInputType.multiline,
       textCapitalization: TextCapitalization.sentences,
