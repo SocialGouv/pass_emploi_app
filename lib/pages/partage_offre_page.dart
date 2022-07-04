@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class PartageOffrePage extends TraceableStatelessWidget {
 
@@ -126,6 +127,7 @@ class PartageOffrePage extends TraceableStatelessWidget {
   _partagerOffre(BuildContext context, PartageOffrePageViewModel viewModel) {
     viewModel.onPartagerOffre(_controller.text);
     MatomoTracker.trackScreenWithName(AnalyticsScreenNames.emploiPartagePageSuccess, "");
+    showSuccessfulSnackBar(context, Strings.partageOffreSuccess);
     Navigator.pop(context);
   }
 }

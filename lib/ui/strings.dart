@@ -275,6 +275,7 @@ class Strings {
   static String partageOffreNavTitle = "Partage de l’offre d’emploi";
   static String souhaitDePartagerOffre = "L’offre que vous souhaitez partager";
   static String partageOffreDefaultMessage = "Bonjour, je vous partage une offre d’emploi afin d’avoir votre avis";
+  static String partageOffreSuccess = "L’offre d’emploi a été partagée à votre conseiller sur la messagerie de l’application";
   static String messagePourConseiller = "Message destiné à votre conseiller";
   static String offrePartageChat = "L’offre d’emploi sera partagée à votre conseiller dans la messagerie";
   static String partagerOffreEmploi = "Partager l’offre d’emploi";
