@@ -62,7 +62,7 @@ class PartageOffrePage extends TraceableStatelessWidget {
             SizedBox(height: Margins.spacing_l),
             _infoPartage(),
             SizedBox(height: Margins.spacing_l),
-            _shareButton(viewModel),
+            _shareButton(context, viewModel),
           ],
         ),
       ),
@@ -116,10 +116,15 @@ class PartageOffrePage extends TraceableStatelessWidget {
     );
   }
 
-  Widget _shareButton(PartageOffrePageViewModel viewModel) {
+  Widget _shareButton(BuildContext context, PartageOffrePageViewModel viewModel) {
     return PrimaryActionButton(
       label: Strings.partagerOffreEmploi,
-      onPressed: () => {viewModel.onPartagerOffre(_controller.text)},
+      onPressed: () => {_partagerOffre(context, viewModel)},
     );
+  }
+
+  _partagerOffre(BuildContext context, PartageOffrePageViewModel viewModel) {
+    viewModel.onPartagerOffre(_controller.text);
+    Navigator.pop(context);
   }
 }
