@@ -125,6 +125,7 @@ class PartageOffrePage extends TraceableStatelessWidget {
 
   _partagerOffre(BuildContext context, PartageOffrePageViewModel viewModel) {
     viewModel.onPartagerOffre(_controller.text);
+    MatomoTracker.trackScreenWithName(AnalyticsScreenNames.emploiPartagePageSuccess, "");
     Navigator.pop(context);
   }
 }
