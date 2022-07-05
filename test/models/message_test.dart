@@ -91,6 +91,39 @@ void main() {
     expect(message!.type, MessageType.message);
   });
 
+  test("toJson MESSAGE_OFFRE", () {
+    // Given
+    final chatCryptoSpy = _FakeChatCrypto();
+
+    // When
+    final message = Message.fromJson(
+      {
+        "content": "toto-chiffré",
+        "creationDate": Timestamp.fromDate(DateTime(2021, 7, 30, 9, 43, 9)),
+        "iv": "ivvv",
+        "sentBy": "jeune",
+        "type": "MESSAGE_OFFRE",
+        "idOffre": "343",
+        "titreOffre": "Chevalier",
+      },
+      chatCryptoSpy,
+      DummyCrashlytics(),
+    );
+
+    // Then
+    expect(
+        message,
+        Message(
+          "toto-chiffré-déchiffré",
+          DateTime(2021, 7, 30, 9, 43, 9),
+          Sender.jeune,
+          MessageType.offre,
+          [],
+          "343",
+          "Chevalier",
+        ));
+  });
+
   test("toJson when message typed as NOUVEAU_CONSEILLER", () {
     // Given
     final chatCryptoSpy = _FakeChatCrypto();

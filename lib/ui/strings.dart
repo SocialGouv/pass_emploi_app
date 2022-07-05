@@ -7,6 +7,7 @@ class Strings {
   static String logoTextDescription = "Logo CEJ";
   static String close = "Fermer";
   static String yes = "Oui";
+  static String nouveau = "Nouveau";
 
   // Menu
   static String menuMonSuivi = "Mon suivi";
@@ -28,6 +29,7 @@ class Strings {
   static String newConseillerDescription = "Il a accès à l’historique de vos échanges";
   static String unknownTypeTitle = "Le message est inaccessible";
   static String unknownTypeDescription = "Pour avoir l'accès au contenu veuillez mettre à jour l'application";
+  static String voirOffre = "Voir l'offre";
 
   static String chatWith(firstName) => "Discuter avec $firstName";
 
@@ -269,6 +271,14 @@ class Strings {
   static String immersionButton = "Immersion";
   static String offresEmploiButton = "Emploi";
   static String serviceCiviqueButton = "Service civique";
+  static String partagerOffreConseiller = "Partager l’offre à mon conseiller";
+  static String partageOffreNavTitle = "Partage de l’offre d’emploi";
+  static String souhaitDePartagerOffre = "L’offre que vous souhaitez partager";
+  static String partageOffreDefaultMessage = "Bonjour, je vous partage une offre d’emploi afin d’avoir votre avis";
+  static String partageOffreSuccess = "L’offre d’emploi a été partagée à votre conseiller sur la messagerie de l’application";
+  static String messagePourConseiller = "Message destiné à votre conseiller";
+  static String offrePartageChat = "L’offre d’emploi sera partagée à votre conseiller dans la messagerie";
+  static String partagerOffreEmploi = "Partager l’offre d’emploi";
 
   // Alternance
   static String alternanceButton = "Alternance";

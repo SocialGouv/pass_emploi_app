@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_actions.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
+import 'package:pass_emploi_app/pages/partage_offre_page.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_details_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -84,7 +86,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Scaffold _scaffold(Widget body, BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: Strings.offreDetails, context: context,  withBackButton: true),
+      appBar: passEmploiAppBar(label: Strings.offreDetails, context: context, withBackButton: true),
       body: body,
     );
   }
@@ -128,6 +130,8 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
                     child: Text(companyName, style: TextStyles.textBaseRegular),
                   ),
                 _tags(viewModel),
+                if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS) _PartageOffre(trackingPageName: name),
+                _spacer(Margins.spacing_l),
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS) _description(viewModel),
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
                   _profileDescription(viewModel),
@@ -429,4 +433,46 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   EventType _postulerEvent() => _fromAlternance ? EventType.OFFRE_ALTERNANCE_POSTULEE : EventType.OFFRE_EMPLOI_POSTULEE;
 
   EventType _partagerEvent() => _fromAlternance ? EventType.OFFRE_ALTERNANCE_PARTAGEE : EventType.OFFRE_EMPLOI_PARTAGEE;
+}
+
+class _PartageOffre extends StatelessWidget {
+  final String trackingPageName;
+
+  const _PartageOffre({Key? key, required this.trackingPageName}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [_newTag(), SizedBox(height: Margins.spacing_base), _shareButton(context)],
+    );
+  }
+
+  OutlinedButton _shareButton(BuildContext context) {
+    return OutlinedButton(
+      style: ButtonStyle(
+        shape: MaterialStateProperty.all(StadiumBorder()),
+        side: MaterialStateProperty.all(BorderSide(color: AppColors.primary, width: 1)),
+      ),
+      onPressed: () => pushAndTrackBack(context, PartageOffrePage.materialPageRoute(), trackingPageName),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 16),
+        child: Text(Strings.partagerOffreConseiller, style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
+      ),
+    );
+  }
+
+  Container _newTag() {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(40)),
+        color: AppColors.accent1Lighten,
+      ),
+      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
+      child: Text(
+        Strings.nouveau,
+        style: TextStyles.textSRegularWithColor(AppColors.accent1),
+      ),
+    );
+  }
 }
