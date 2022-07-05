@@ -28,7 +28,7 @@ void main() {
     final viewModel = PartageOffrePageViewModel.create(store);
 
     // When
-    viewModel.onPartagerOffre("Regardes ça");
+    viewModel.onPartagerOffre("Regardes ça", false);
 
     // Then
     expect(store.dispatchedAction, isA<ChatPartagerOffreAction>());
@@ -39,6 +39,7 @@ void main() {
         titre: "Technicien / Technicienne d'installation de réseaux câblés  (H/F)",
         url: "https://candidat.pole-emploi.fr/offres/recherche/detail/123TZKB",
         message: "Regardes ça",
+        isAlternance: false,
       ),
     );
   });

@@ -105,6 +105,7 @@ void main() {
         "type": "MESSAGE_OFFRE",
         "idOffre": "343",
         "titreOffre": "Chevalier",
+        "isOfferAlternance": false,
       },
       chatCryptoSpy,
       DummyCrashlytics(),
@@ -121,6 +122,7 @@ void main() {
           [],
           "343",
           "Chevalier",
+          false,
         ));
   });
 

@@ -12,7 +12,6 @@ import 'package:redux/redux.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
-
   final now = DateTime.now();
   final todayAtNoon = DateTime(now.year, now.month, now.day, 12, 00);
 
@@ -130,7 +129,13 @@ void main() {
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.items, [
       DayItem('Aujourd\'hui'),
-      OffreMessageItem(content: "Super offre", idOffre: "343", titreOffre: "Chevalier", caption: "12:00 · Envoyé"),
+      OffreMessageItem(
+        content: "Super offre",
+        idOffre: "343",
+        titreOffre: "Chevalier",
+        isAlternance: false,
+        caption: "12:00 · Envoyé",
+      ),
     ]);
   });
 

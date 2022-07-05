@@ -7,7 +7,7 @@ import 'package:redux/redux.dart';
 
 class PartageOffrePageViewModel {
   final String offreTitle;
-  final Function(String message) onPartagerOffre;
+  final Function(String message, bool isAlternance) onPartagerOffre;
 
   PartageOffrePageViewModel({required this.offreTitle, required this.onPartagerOffre});
 
@@ -18,12 +18,12 @@ class PartageOffrePageViewModel {
     }
     return PartageOffrePageViewModel(
       offreTitle: offreEmploiDetailsState.offre.title,
-      onPartagerOffre: (message) => _partagerOffre(store, offreEmploiDetailsState.offre, message),
+      onPartagerOffre: (message, isAlternance) => _partagerOffre(store, offreEmploiDetailsState.offre, message, isAlternance),
     );
   }
 }
 
-void _partagerOffre(Store<AppState> store, OffreEmploiDetails offre, String message) {
+void _partagerOffre(Store<AppState> store, OffreEmploiDetails offre, String message, bool isAlternance) {
   store.dispatch(
     ChatPartagerOffreAction(
       OffrePartagee(
@@ -31,6 +31,7 @@ void _partagerOffre(Store<AppState> store, OffreEmploiDetails offre, String mess
         titre: offre.title,
         url: offre.urlRedirectPourPostulation,
         message: message,
+        isAlternance: isAlternance,
       ),
     ),
   );

@@ -40,7 +40,10 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     this._offreId,
     this._fromAlternance, {
     this.popPageWhenFavoriIsRemoved = false,
-  }) : super(name: _fromAlternance ? AnalyticsScreenNames.alternanceDetails : AnalyticsScreenNames.emploiDetails);
+  }) : super(
+            name: _fromAlternance
+                ? AnalyticsScreenNames.alternanceDetails
+                : AnalyticsScreenNames.emploiDetails);
 
   static MaterialPageRoute<void> materialPageRoute(
     String id, {
@@ -59,7 +62,8 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, OffreEmploiDetailsPageViewModel>(
-      onInit: (store) => store.dispatch(OffreEmploiDetailsRequestAction(_offreId)),
+      onInit: (store) =>
+          store.dispatch(OffreEmploiDetailsRequestAction(_offreId)),
       onInitialBuild: (_) {
         context.trackEvent(_offreAfficheeEvent());
       },
@@ -71,7 +75,8 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     );
   }
 
-  Widget _body(BuildContext context, OffreEmploiDetailsPageViewModel viewModel) {
+  Widget _body(
+      BuildContext context, OffreEmploiDetailsPageViewModel viewModel) {
     switch (viewModel.displayState) {
       case OffreEmploiDetailsPageDisplayState.SHOW_DETAILS:
       case OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS:
@@ -86,16 +91,19 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Scaffold _scaffold(Widget body, BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: Strings.offreDetails, context: context, withBackButton: true),
+      appBar: passEmploiAppBar(
+          label: Strings.offreDetails, context: context, withBackButton: true),
       body: body,
     );
   }
 
-  Widget _loading() => Center(child: CircularProgressIndicator(color: AppColors.primary));
+  Widget _loading() =>
+      Center(child: CircularProgressIndicator(color: AppColors.primary));
 
   Widget _error() => Center(child: Text(Strings.offreDetailsError));
 
-  Widget _content(BuildContext context, OffreEmploiDetailsPageViewModel viewModel) {
+  Widget _content(
+      BuildContext context, OffreEmploiDetailsPageViewModel viewModel) {
     final id = viewModel.id;
     final title = viewModel.title;
     final url = viewModel.urlRedirectPourPostulation;
@@ -105,11 +113,14 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       children: [
         SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(Margins.spacing_m, Margins.spacing_m, Margins.spacing_m, 64),
+            padding: const EdgeInsets.fromLTRB(
+                Margins.spacing_m, Margins.spacing_m, Margins.spacing_m, 64),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (id != null) Text(Strings.offreDetailNumber(id), style: TextStyles.textXsRegular()),
+                if (id != null)
+                  Text(Strings.offreDetailNumber(id),
+                      style: TextStyles.textXsRegular()),
                 if (lastUpdate != null)
                   Padding(
                     padding: const EdgeInsets.only(top: Margins.spacing_xs),
@@ -130,14 +141,23 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
                     child: Text(companyName, style: TextStyles.textBaseRegular),
                   ),
                 _tags(viewModel),
-                if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS) _PartageOffre(trackingPageName: name),
+                if (viewModel.displayState ==
+                    OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
+                  _PartageOffre(
+                      trackingPageName: name, isAlternance: _fromAlternance),
                 _spacer(Margins.spacing_l),
-                if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS) _description(viewModel),
-                if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
+                if (viewModel.displayState ==
+                    OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
+                  _description(viewModel),
+                if (viewModel.displayState ==
+                    OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
                   _profileDescription(viewModel),
-                if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
-                  if (viewModel.companyName != null) _companyDescription(viewModel),
-                if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS)
+                if (viewModel.displayState ==
+                    OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
+                  if (viewModel.companyName != null)
+                    _companyDescription(viewModel),
+                if (viewModel.displayState ==
+                    OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS)
                   FavoriNotFoundError(),
                 _spacer(60),
               ],
@@ -149,7 +169,9 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
             alignment: Alignment.bottomCenter,
             child: _footer(context, url, id, viewModel.title),
           )
-        else if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS && id != null)
+        else if (viewModel.displayState ==
+                OffreEmploiDetailsPageDisplayState.SHOW_INCOMPLETE_DETAILS &&
+            id != null)
           Align(
             alignment: Alignment.bottomCenter,
             child: _incompleteDataFooter(context, id),
@@ -172,7 +194,8 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       if (contractType != null)
         Padding(
           padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-          child: DataTag(label: contractType, drawableRes: Drawables.icContract),
+          child:
+              DataTag(label: contractType, drawableRes: Drawables.icContract),
         ),
       if (salary != null)
         Padding(
@@ -193,7 +216,8 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       _descriptionTitle(title: Strings.offreDetailsTitle),
       _spacer(Margins.spacing_m),
-      if (description != null) Text(description, style: TextStyles.textSRegular()),
+      if (description != null)
+        Text(description, style: TextStyles.textSRegular()),
       _spacer(Margins.spacing_l),
     ]);
   }
@@ -201,10 +225,13 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Widget _profileDescription(OffreEmploiDetailsPageViewModel viewModel) {
     final experience = viewModel.experience;
     final Widget? skills = _skillsBlock(skills: viewModel.skills);
-    final Widget? softSkills = _softSkillsBlock(softSkills: viewModel.softSkills);
-    final Widget? educations = _educationsBlock(educations: viewModel.educations);
+    final Widget? softSkills =
+        _softSkillsBlock(softSkills: viewModel.softSkills);
+    final Widget? educations =
+        _educationsBlock(educations: viewModel.educations);
     final Widget? languages = _languagesBlock(languages: viewModel.languages);
-    final Widget? driverLicences = _driverLicencesBlock(driverLicences: viewModel.driverLicences);
+    final Widget? driverLicences =
+        _driverLicencesBlock(driverLicences: viewModel.driverLicences);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -212,7 +239,9 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         _spacer(Margins.spacing_m),
         Text(Strings.experienceTitle, style: TextStyles.textBaseBold),
         _spacer(Margins.spacing_base),
-        if (experience != null) _setRequiredElement(element: experience, criteria: viewModel.requiredExperience),
+        if (experience != null)
+          _setRequiredElement(
+              element: experience, criteria: viewModel.requiredExperience),
         SepLine(Margins.spacing_m, Margins.spacing_m),
         if (skills != null) skills,
         if (softSkills != null) softSkills,
@@ -226,18 +255,25 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   Widget _companyDescription(OffreEmploiDetailsPageViewModel viewModel) {
     final companyName = viewModel.companyName;
     final companyDescription = viewModel.companyDescription;
-    final companyAdapted = viewModel.companyAdapted != null ? viewModel.companyAdapted! : false;
-    final companyAccessibility = viewModel.companyAccessibility != null ? viewModel.companyAccessibility! : false;
+    final companyAdapted =
+        viewModel.companyAdapted != null ? viewModel.companyAdapted! : false;
+    final companyAccessibility = viewModel.companyAccessibility != null
+        ? viewModel.companyAccessibility!
+        : false;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _descriptionTitle(title: Strings.companyTitle),
         _spacer(Margins.spacing_m),
-        if (companyName != null) _companyName(companyName: companyName, companyUrl: viewModel.companyUrl),
+        if (companyName != null)
+          _companyName(
+              companyName: companyName, companyUrl: viewModel.companyUrl),
         if (companyAdapted) _blueTag(tagTitle: Strings.companyAdaptedTitle),
-        if (companyAccessibility) _blueTag(tagTitle: Strings.companyAccessibilityTitle),
+        if (companyAccessibility)
+          _blueTag(tagTitle: Strings.companyAccessibilityTitle),
         _spacer(Margins.spacing_m),
-        if (companyDescription != null) _companyDescriptionBlock(content: companyDescription),
+        if (companyDescription != null)
+          _companyDescriptionBlock(content: companyDescription),
       ],
     );
   }
@@ -264,7 +300,9 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       children: [
         Text(Strings.skillsTitle, style: TextStyles.textBaseBold),
         _spacer(Margins.spacing_base),
-        for (final skill in skills) _setRequiredElement(element: skill.description, criteria: skill.requirement),
+        for (final skill in skills)
+          _setRequiredElement(
+              element: skill.description, criteria: skill.requirement),
         SepLine(Margins.spacing_m, Margins.spacing_m),
       ],
     );
@@ -295,7 +333,8 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         Text(Strings.educationTitle, style: TextStyles.textBaseBold),
         _spacer(Margins.spacing_base),
         for (final education in educations)
-          _setRequiredElement(element: education.label, criteria: education.requirement),
+          _setRequiredElement(
+              element: education.label, criteria: education.requirement),
         SepLine(Margins.spacing_m, Margins.spacing_m),
       ],
     );
@@ -308,7 +347,9 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       children: [
         Text(Strings.languageTitle, style: TextStyles.textBaseBold),
         _spacer(Margins.spacing_base),
-        for (final language in languages) _setRequiredElement(element: language.type, criteria: language.requirement),
+        for (final language in languages)
+          _setRequiredElement(
+              element: language.type, criteria: language.requirement),
         SepLine(Margins.spacing_m, Margins.spacing_m),
       ],
     );
@@ -322,7 +363,8 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         Text(Strings.driverLicenceTitle, style: TextStyles.textBaseBold),
         _spacer(Margins.spacing_base),
         for (final licence in driverLicences)
-          _setRequiredElement(element: licence.category, criteria: licence.requirement),
+          _setRequiredElement(
+              element: licence.category, criteria: licence.requirement),
         SepLine(Margins.spacing_m, Margins.spacing_m),
       ],
     );
@@ -338,7 +380,8 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     );
   }
 
-  Widget _setRequiredElement({required String element, required String? criteria}) {
+  Widget _setRequiredElement(
+      {required String element, required String? criteria}) {
     return _require(criteria) ? _requiredElement(element) : _listItem(element);
   }
 
@@ -359,28 +402,33 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
         children: [
           Flexible(child: _listItem(requiredText)),
           Padding(
-            padding: const EdgeInsets.only(left: Margins.spacing_s, bottom: Margins.spacing_base),
-            child: HelpTooltip(message: Strings.requiredIcon, iconRes: Drawables.icImportant),
+            padding: const EdgeInsets.only(
+                left: Margins.spacing_s, bottom: Margins.spacing_base),
+            child: HelpTooltip(
+                message: Strings.requiredIcon, iconRes: Drawables.icImportant),
           ),
         ],
       ),
     );
   }
 
-  Widget _companyName({required String companyName, required String? companyUrl}) {
+  Widget _companyName(
+      {required String companyName, required String? companyUrl}) {
     return (companyUrl == null || companyUrl.isEmpty)
         ? Text(companyName, style: TextStyles.textBaseBold)
         : _companyNameWithUrl(companyName: companyName, url: companyUrl);
   }
 
-  Widget _companyNameWithUrl({required String companyName, required String url}) {
+  Widget _companyNameWithUrl(
+      {required String companyName, required String url}) {
     return ExternalLink(
       label: companyName,
       url: url,
     );
   }
 
-  Widget _footer(BuildContext context, String url, String offreId, String? title) {
+  Widget _footer(
+      BuildContext context, String url, String offreId, String? title) {
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.all(Margins.spacing_base),
@@ -397,8 +445,12 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
           FavoriHeart<OffreEmploi>(
             offreId: offreId,
             withBorder: true,
-            from: _fromAlternance ? OffrePage.alternanceDetails : OffrePage.emploiDetails,
-            onFavoriRemoved: popPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
+            from: _fromAlternance
+                ? OffrePage.alternanceDetails
+                : OffrePage.emploiDetails,
+            onFavoriRemoved: popPageWhenFavoriIsRemoved
+                ? () => Navigator.pop(context)
+                : null,
           ),
           SizedBox(width: Margins.spacing_base),
           ShareButton(url, title, () => _shareOffer(context)),
@@ -413,7 +465,9 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
-          Expanded(child: DeleteFavoriButton<OffreEmploi>(offreId: id, from: OffrePage.emploiDetails)),
+          Expanded(
+              child: DeleteFavoriButton<OffreEmploi>(
+                  offreId: id, from: OffrePage.emploiDetails)),
         ],
       ),
     );
@@ -424,27 +478,41 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     context.trackEvent(_postulerEvent());
   }
 
-  void _shareOffer(BuildContext context) => context.trackEvent(_partagerEvent());
+  void _shareOffer(BuildContext context) =>
+      context.trackEvent(_partagerEvent());
 
   EventType _offreAfficheeEvent() {
-    return _fromAlternance ? EventType.OFFRE_ALTERNANCE_AFFICHEE : EventType.OFFRE_EMPLOI_AFFICHEE;
+    return _fromAlternance
+        ? EventType.OFFRE_ALTERNANCE_AFFICHEE
+        : EventType.OFFRE_EMPLOI_AFFICHEE;
   }
 
-  EventType _postulerEvent() => _fromAlternance ? EventType.OFFRE_ALTERNANCE_POSTULEE : EventType.OFFRE_EMPLOI_POSTULEE;
+  EventType _postulerEvent() => _fromAlternance
+      ? EventType.OFFRE_ALTERNANCE_POSTULEE
+      : EventType.OFFRE_EMPLOI_POSTULEE;
 
-  EventType _partagerEvent() => _fromAlternance ? EventType.OFFRE_ALTERNANCE_PARTAGEE : EventType.OFFRE_EMPLOI_PARTAGEE;
+  EventType _partagerEvent() => _fromAlternance
+      ? EventType.OFFRE_ALTERNANCE_PARTAGEE
+      : EventType.OFFRE_EMPLOI_PARTAGEE;
 }
 
 class _PartageOffre extends StatelessWidget {
   final String trackingPageName;
+  final bool isAlternance;
 
-  const _PartageOffre({Key? key, required this.trackingPageName}) : super(key: key);
+  const _PartageOffre(
+      {Key? key, required this.trackingPageName, required this.isAlternance})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [_newTag(), SizedBox(height: Margins.spacing_base), _shareButton(context)],
+      children: [
+        _newTag(),
+        SizedBox(height: Margins.spacing_base),
+        _shareButton(context)
+      ],
     );
   }
 
@@ -454,12 +522,15 @@ class _PartageOffre extends StatelessWidget {
       child: OutlinedButton(
         style: ButtonStyle(
           shape: MaterialStateProperty.all(StadiumBorder()),
-          side: MaterialStateProperty.all(BorderSide(color: AppColors.primary, width: 1)),
+          side: MaterialStateProperty.all(
+              BorderSide(color: AppColors.primary, width: 1)),
         ),
-        onPressed: () => pushAndTrackBack(context, PartageOffrePage.materialPageRoute(), trackingPageName),
+        onPressed: () => pushAndTrackBack(context,
+            PartageOffrePage.materialPageRoute(isAlternance), trackingPageName),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 16),
-          child: Text(Strings.partagerOffreConseiller, style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
+          child: Text(Strings.partagerOffreConseiller,
+              style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
         ),
       ),
     );

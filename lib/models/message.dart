@@ -15,6 +15,7 @@ class Message extends Equatable {
   final List<PieceJointe> pieceJointes;
   final String? idOffre;
   final String? titreOffre;
+  final bool? isOffreAlternance;
 
   Message(
     this.content,
@@ -24,6 +25,7 @@ class Message extends Equatable {
     this.pieceJointes, [
     this.idOffre,
     this.titreOffre,
+    this.isOffreAlternance,
   ]);
 
   static Message? fromJson(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
@@ -39,6 +41,7 @@ class Message extends Equatable {
       _pieceJointes(json, chatCrypto, crashlytics),
       json['idOffre'] as String?,
       json['titreOffre'] as String?,
+      json['isOffreAlternance'] as bool?,
     );
   }
 

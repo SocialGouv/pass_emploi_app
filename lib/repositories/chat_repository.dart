@@ -96,6 +96,7 @@ class ChatRepository {
               'idOffre': offrePartagee.id,
               'lienOffre': offrePartagee.url,
               'titreOffre': offrePartagee.titre,
+              'isOffreAlternance': offrePartagee.isAlternance,
               'type': "MESSAGE_OFFRE",
             })
             ..update(_chatCollection(chatDocumentId), {
