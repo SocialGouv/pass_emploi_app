@@ -283,6 +283,8 @@ class Strings {
   // Alternance
   static String alternanceButton = "Alternance";
   static String alternanceTitle = "Offres d'alternance";
+  static String partagerOffreAlternance = "Partager l’offre d’alternance";
+  static String partageOffreAlternanceNavTitle = "Partage de l’offre d’alternance";
 
   // Immersion
   static String immersionLabel = "Découvrez un métier en immersion dans une entreprise.";
