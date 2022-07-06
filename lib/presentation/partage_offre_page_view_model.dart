@@ -1,5 +1,6 @@
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
+import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -7,7 +8,7 @@ import 'package:redux/redux.dart';
 
 class PartageOffrePageViewModel {
   final String offreTitle;
-  final Function(String message, bool isAlternance) onPartagerOffre;
+  final Function(String message, OffreType type) onPartagerOffre;
 
   PartageOffrePageViewModel({required this.offreTitle, required this.onPartagerOffre});
 
@@ -23,7 +24,7 @@ class PartageOffrePageViewModel {
   }
 }
 
-void _partagerOffre(Store<AppState> store, OffreEmploiDetails offre, String message, bool isAlternance) {
+void _partagerOffre(Store<AppState> store, OffreEmploiDetails offre, String message, OffreType type) {
   store.dispatch(
     ChatPartagerOffreAction(
       OffrePartagee(
@@ -31,7 +32,7 @@ void _partagerOffre(Store<AppState> store, OffreEmploiDetails offre, String mess
         titre: offre.title,
         url: offre.urlRedirectPourPostulation,
         message: message,
-        isAlternance: isAlternance,
+        type: type,
       ),
     ),
   );

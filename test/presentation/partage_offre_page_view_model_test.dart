@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
+import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
 import 'package:pass_emploi_app/presentation/partage_offre_page_view_model.dart';
 
@@ -28,7 +29,7 @@ void main() {
     final viewModel = PartageOffrePageViewModel.create(store);
 
     // When
-    viewModel.onPartagerOffre("Regardes ça", false);
+    viewModel.onPartagerOffre("Regardes ça", OffreType.emploi);
 
     // Then
     expect(store.dispatchedAction, isA<ChatPartagerOffreAction>());
@@ -39,7 +40,7 @@ void main() {
         titre: "Technicien / Technicienne d'installation de réseaux câblés  (H/F)",
         url: "https://candidat.pole-emploi.fr/offres/recherche/detail/123TZKB",
         message: "Regardes ça",
-        isAlternance: false,
+        type: OffreType.emploi,
       ),
     );
   });

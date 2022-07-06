@@ -4,6 +4,7 @@ import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_actions.dart';
+import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
@@ -517,21 +518,21 @@ class _PartageOffre extends StatelessWidget {
   }
 
   Widget _shareButton(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: OutlinedButton(
-        style: ButtonStyle(
-          shape: MaterialStateProperty.all(StadiumBorder()),
-          side: MaterialStateProperty.all(
-              BorderSide(color: AppColors.primary, width: 1)),
-        ),
-        onPressed: () => pushAndTrackBack(context,
-            PartageOffrePage.materialPageRoute(isAlternance), trackingPageName),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 16),
-          child: Text(Strings.partagerOffreConseiller,
-              style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
-        ),
+    return OutlinedButton(
+      style: ButtonStyle(
+        shape: MaterialStateProperty.all(StadiumBorder()),
+        side: MaterialStateProperty.all(
+            BorderSide(color: AppColors.primary, width: 1)),
+      ),
+      onPressed: () => pushAndTrackBack(
+          context,
+          PartageOffrePage.materialPageRoute(
+              isAlternance ? OffreType.alternance : OffreType.emploi),
+          trackingPageName),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 16),
+        child: Text(Strings.partagerOffreConseiller,
+            style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
       ),
     );
   }

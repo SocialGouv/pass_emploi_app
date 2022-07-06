@@ -1,20 +1,21 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/message.dart';
 
 class OffrePartagee extends Equatable {
   final String id;
   final String titre;
   final String url;
   final String message;
-  final bool isAlternance;
+  final OffreType type;
 
   OffrePartagee({
     required this.id,
     required this.titre,
     required this.url,
     required this.message,
-    required this.isAlternance,
+    required this.type,
   });
 
   @override
-  List<Object?> get props => [id, titre, url, message, isAlternance];
+  List<Object?> get props => [id, titre, url, message, type];
 }

@@ -79,7 +79,7 @@ ChatItem _offreMessageItem(Message message, DateTime lastConseillerReading) {
       content: message.content,
       idOffre: message.idOffre ?? "",
       titreOffre: message.titreOffre ?? "",
-      isAlternance: message.isOffreAlternance ?? false,
+      type: message.typeOffre ?? OffreType.inconnu,
       caption: caption(message, lastConseillerReading),
     );
   } else {

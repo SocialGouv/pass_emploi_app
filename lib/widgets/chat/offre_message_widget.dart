@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
+import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -51,7 +52,7 @@ class _MessageBubble extends StatelessWidget {
         children: [
           _ContentMessage(content: item.content),
           SizedBox(height: Margins.spacing_base),
-          _OfferCard(titreOffre: item.titreOffre, offerId: item.idOffre, isAlternance: item.isAlternance),
+          _OfferCard(titreOffre: item.titreOffre, offerId: item.idOffre, type: item.type),
         ],
       ),
     );
@@ -76,9 +77,9 @@ class _ContentMessage extends StatelessWidget {
 class _OfferCard extends StatelessWidget {
   final String titreOffre;
   final String offerId;
-  final bool isAlternance;
+  final OffreType type;
 
-  _OfferCard({required this.titreOffre, required this.offerId, required this.isAlternance});
+  _OfferCard({required this.titreOffre, required this.offerId, required this.type});
 
   @override
   Widget build(BuildContext context) {
@@ -124,8 +125,8 @@ class _OfferCard extends StatelessWidget {
   void _showOffreEmploiDetailsPage(BuildContext context) {
     pushAndTrackBack(
       context,
-      OffreEmploiDetailsPage.materialPageRoute(offerId, fromAlternance: isAlternance),
-      isAlternance ? AnalyticsScreenNames.alternanceResults : AnalyticsScreenNames.emploiResults,
+      OffreEmploiDetailsPage.materialPageRoute(offerId, fromAlternance: type == OffreType.alternance),
+      type == OffreType.alternance ? AnalyticsScreenNames.alternanceDetails : AnalyticsScreenNames.emploiDetails,
     );
   }
 }
