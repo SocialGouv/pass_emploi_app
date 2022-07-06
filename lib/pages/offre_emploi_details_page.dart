@@ -457,8 +457,11 @@ class _PartageOffre extends StatelessWidget {
         shape: MaterialStateProperty.all(StadiumBorder()),
         side: MaterialStateProperty.all(BorderSide(color: AppColors.primary, width: 1)),
       ),
-      onPressed: () => pushAndTrackBack(context,
-          PartageOffrePage.materialPageRoute(isAlternance ? OffreType.alternance : OffreType.emploi), trackingPageName),
+      onPressed: () => pushAndTrackBack(
+        context,
+        PartageOffrePage.materialPageRoute(isAlternance ? OffreType.alternance : OffreType.emploi),
+        trackingPageName,
+      ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 16),
         child: Text(Strings.partagerOffreConseiller, style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
