@@ -7,6 +7,8 @@ enum Sender { jeune, conseiller }
 
 enum MessageType { message, nouveauConseiller, nouveauConseillerTemporaire, messagePj, offre, inconnu }
 
+enum OffreType { emploi, alternance, inconnu }
+
 class Message extends Equatable {
   final String content;
   final DateTime creationDate;
@@ -15,6 +17,7 @@ class Message extends Equatable {
   final List<PieceJointe> pieceJointes;
   final String? idOffre;
   final String? titreOffre;
+  final OffreType? typeOffre;
 
   Message(
     this.content,
@@ -24,6 +27,7 @@ class Message extends Equatable {
     this.pieceJointes, [
     this.idOffre,
     this.titreOffre,
+    this.typeOffre,
   ]);
 
   static Message? fromJson(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
@@ -39,6 +43,7 @@ class Message extends Equatable {
       _pieceJointes(json, chatCrypto, crashlytics),
       json['idOffre'] as String?,
       json['titreOffre'] as String?,
+      _typeOffre(json)
     );
   }
 
@@ -82,8 +87,24 @@ class Message extends Equatable {
     }
   }
 
+  static OffreType? _typeOffre(dynamic json) {
+    try {
+      final type = json['typeOffre'] as String?;
+      switch (type) {
+        case "ALTERNANCE":
+          return OffreType.alternance;
+        case "EMPLOI":
+          return OffreType.emploi;
+        default:
+          return null;
+      }
+    } catch (e) {
+      return null;
+    }
+  }
+
   @override
-  List<Object?> get props => [content, creationDate, sentBy, type, pieceJointes];
+  List<Object?> get props => [content, creationDate, sentBy, type, pieceJointes, idOffre, titreOffre, typeOffre];
 }
 
 extension _DecryptString on String {

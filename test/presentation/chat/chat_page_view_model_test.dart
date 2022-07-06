@@ -1,3 +1,4 @@
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
@@ -12,7 +13,6 @@ import 'package:redux/redux.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
-
   final now = DateTime.now();
   final todayAtNoon = DateTime(now.year, now.month, now.day, 12, 00);
 
@@ -120,7 +120,18 @@ void main() {
 
   test('should display offre partagée from jeune', () {
     // Given
-    final messages = [Message('Super offre', todayAtNoon, Sender.jeune, MessageType.offre, [], "343", "Chevalier")];
+    final messages = [
+      Message(
+        'Super offre',
+        todayAtNoon,
+        Sender.jeune,
+        MessageType.offre,
+        [],
+        "343",
+        "Chevalier",
+        OffreType.emploi,
+      )
+    ];
     final store = givenState().chatSuccess(messages).store();
 
     // When
@@ -130,7 +141,13 @@ void main() {
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.items, [
       DayItem('Aujourd\'hui'),
-      OffreMessageItem(content: "Super offre", idOffre: "343", titreOffre: "Chevalier", caption: "12:00 · Envoyé"),
+      OffreMessageItem(
+        content: "Super offre",
+        idOffre: "343",
+        titreOffre: "Chevalier",
+        type: OffreType.emploi,
+        caption: "12:00 · Envoyé",
+      ),
     ]);
   });
 

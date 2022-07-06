@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/presentation/partage_offre_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -13,21 +14,21 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class PartageOffrePage extends TraceableStatefulWidget {
+  final OffreType type;
 
-  PartageOffrePage._() : super(name: AnalyticsScreenNames.emploiPartagePage);
+  PartageOffrePage._({required this.type}) : super(name: AnalyticsScreenNames.emploiPartagePage);
 
   @override
   _PartageOffrePageState createState() => _PartageOffrePageState();
 
-  static MaterialPageRoute<void> materialPageRoute() {
+  static MaterialPageRoute<void> materialPageRoute(OffreType type) {
     return MaterialPageRoute(builder: (context) {
-      return PartageOffrePage._();
+      return PartageOffrePage._(type: type);
     });
   }
 }
 
 class _PartageOffrePageState extends State<PartageOffrePage> {
-
   late TextEditingController _controller;
 
   @override
@@ -49,7 +50,11 @@ class _PartageOffrePageState extends State<PartageOffrePage> {
   Scaffold _scaffold(BuildContext context, PartageOffrePageViewModel viewModel) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: Strings.partageOffreNavTitle, context: context, withBackButton: true),
+      appBar: passEmploiAppBar(
+        label: _setTitle(),
+        context: context,
+        withBackButton: true,
+      ),
       body: _body(context, viewModel),
     );
   }
@@ -126,13 +131,19 @@ class _PartageOffrePageState extends State<PartageOffrePage> {
 
   Widget _shareButton(BuildContext context, PartageOffrePageViewModel viewModel) {
     return PrimaryActionButton(
-      label: Strings.partagerOffreEmploi,
-      onPressed: () => {_partagerOffre(context, viewModel)},
+      label: _setButtonTitle(),
+      onPressed: () => _partagerOffre(context, viewModel),
     );
   }
 
+  String _setTitle() =>
+      widget.type == OffreType.alternance ? Strings.partageOffreAlternanceNavTitle : Strings.partageOffreNavTitle;
+
+  String _setButtonTitle() =>
+      widget.type == OffreType.alternance ? Strings.partagerOffreAlternance : Strings.partagerOffreEmploi;
+
   void _partagerOffre(BuildContext context, PartageOffrePageViewModel viewModel) {
-    viewModel.onPartagerOffre(_controller.text);
+    viewModel.onPartagerOffre(_controller.text, widget.type);
     MatomoTracker.trackScreenWithName(AnalyticsScreenNames.emploiPartagePageSuccess, "");
     showSuccessfulSnackBar(context, Strings.partageOffreSuccess);
     Navigator.pop(context);

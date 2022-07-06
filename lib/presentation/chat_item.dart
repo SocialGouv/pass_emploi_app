@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/message.dart';
 
 abstract class ChatItem extends Equatable {}
 
@@ -61,14 +62,16 @@ class OffreMessageItem extends ChatItem {
   final String idOffre;
   final String titreOffre;
   final String caption;
+  final OffreType type;
 
   OffreMessageItem({
     required this.content,
     required this.idOffre,
     required this.titreOffre,
     required this.caption,
+    required this.type,
   });
 
   @override
-  List<Object?> get props => [content, idOffre, titreOffre, caption];
+  List<Object?> get props => [content, idOffre, titreOffre, caption, type];
 }
