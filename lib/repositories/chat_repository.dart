@@ -96,7 +96,7 @@ class ChatRepository {
               'idOffre': offrePartagee.id,
               'lienOffre': offrePartagee.url,
               'titreOffre': offrePartagee.titre,
-              'isOffreAlternance': offrePartagee.type,
+              'typeOffre': _offreTypeToString(offrePartagee.type),
               'type': "MESSAGE_OFFRE",
             })
             ..update(_chatCollection(chatDocumentId), {
@@ -152,5 +152,16 @@ class ChatRepository {
         .map((document) => Message.fromJson(document.data(), _chatCrypto, _crashlytics))
         .whereType<Message>()
         .toList();
+  }
+
+  String _offreTypeToString(OffreType type) {
+    switch (type) {
+      case OffreType.alternance:
+        return "ALTERNANCE";
+      case OffreType.emploi:
+        return "EMPLOI";
+      default:
+        return "INCONU";
+    }
   }
 }
