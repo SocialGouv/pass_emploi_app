@@ -78,13 +78,13 @@ class ChatRepository {
         .catchError((e, StackTrace stack) => _crashlytics.recordNonNetworkException(e, stack));
   }
 
-  Future<void> sendOffrePartagee(String userId, OffrePartagee offrePartagee) async {
+  Future<bool> sendOffrePartagee(String userId, OffrePartagee offrePartagee) async {
     final chatDocumentId = await _getChatDocumentId(userId);
-    if (chatDocumentId == null) return;
+    if (chatDocumentId == null) return false;
 
     final messageCreationDate = FieldValue.serverTimestamp();
     final encryptedMessage = _chatCrypto.encrypt(offrePartagee.message);
-    FirebaseFirestore.instance
+    final succeed = await FirebaseFirestore.instance
         .runTransaction((transaction) async {
           final newDocId = _chatCollection(chatDocumentId).collection('messages').doc(null);
           transaction
@@ -107,8 +107,15 @@ class ChatRepository {
               'seenByConseiller': false,
             });
         })
-        .then((value) => Log.d("New message sent ${offrePartagee.message} with offre ${offrePartagee.titre} && chat status updated"))
-        .catchError((e, StackTrace stack) => _crashlytics.recordNonNetworkException(e, stack));
+        .then((value) {
+          Log.d("New message sent ${offrePartagee.message} with offre ${offrePartagee.titre} && chat status updated");
+          return true;
+        })
+        .catchError((e, StackTrace stack) {
+          _crashlytics.recordNonNetworkException(e, stack);
+          return false;
+        });
+    return succeed;
   }
 
   Future<void> setLastMessageSeen(String userId) async {
