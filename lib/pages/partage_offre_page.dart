@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/message.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/partage_offre_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -37,6 +38,7 @@ class _PartageOffrePageState extends State<PartageOffrePage> {
     return StoreConnector<AppState, PartageOffrePageViewModel>(
       converter: (store) => PartageOffrePageViewModel.create(store),
       builder: (context, viewModel) => _scaffold(context, viewModel),
+      onWillChange: (_, viewModel) => _displaySnackBar(viewModel),
       distinct: true,
     );
   }
@@ -130,10 +132,14 @@ class _PartageOffrePageState extends State<PartageOffrePage> {
   }
 
   Widget _shareButton(BuildContext context, PartageOffrePageViewModel viewModel) {
-    return PrimaryActionButton(
-      label: _setButtonTitle(),
-      onPressed: () => _partagerOffre(context, viewModel),
-    );
+    if (viewModel.snackbarState == DisplayState.LOADING) {
+      return Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
+    } else {
+      return PrimaryActionButton(
+        label: _setButtonTitle(),
+        onPressed: () => viewModel.onPartagerOffre(_controller.text, widget.type),
+      );
+    }
   }
 
   String _setTitle() =>
@@ -142,10 +148,22 @@ class _PartageOffrePageState extends State<PartageOffrePage> {
   String _setButtonTitle() =>
       widget.type == OffreType.alternance ? Strings.partagerOffreAlternance : Strings.partagerOffreEmploi;
 
-  void _partagerOffre(BuildContext context, PartageOffrePageViewModel viewModel) {
-    viewModel.onPartagerOffre(_controller.text, widget.type);
-    MatomoTracker.trackScreenWithName(AnalyticsScreenNames.emploiPartagePageSuccess, "");
-    showSuccessfulSnackBar(context, Strings.partageOffreSuccess);
-    Navigator.pop(context);
+
+  void _displaySnackBar(PartageOffrePageViewModel viewModel) {
+    switch (viewModel.snackbarState) {
+      case DisplayState.EMPTY:
+      case DisplayState.LOADING:
+        return;
+      case DisplayState.CONTENT:
+        MatomoTracker.trackScreenWithName(AnalyticsScreenNames.emploiPartagePageSuccess, "");
+        showSuccessfulSnackBar(context, Strings.partageOffreSuccess);
+        viewModel.snackbarDisplayed();
+        Navigator.pop(context);
+        return;
+      case DisplayState.FAILURE:
+        showFailedSnackBar(context, Strings.miscellaneousErrorRetry);
+        viewModel.snackbarDisplayed();
+        return;
+    }
   }
 }
