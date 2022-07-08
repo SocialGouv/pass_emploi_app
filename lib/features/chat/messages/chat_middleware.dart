@@ -32,13 +32,17 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
           _displayLoaderOnFirstTimeAndCurrentMessagesAfter(store);
           _subscribeToChatStream(userId, store);
         }
+      } else if (action is ChatPartagerOffreAction) {
+        if (loginState.user.loginMode == LoginMode.DEMO_MILO || loginState.user.loginMode == LoginMode.DEMO_PE) {
+          store.dispatch(ChatPartageOffreSuccessAction());
+        } else {
+          _partagerOffre(store, userId, action.offre);
+        }
       } else if (!loginState.user.loginMode.isDemo()) {
         if (action is UnsubscribeFromChatAction) {
           _subscription?.cancel();
         } else if (action is SendMessageAction) {
           _repository.sendMessage(userId, action.message);
-        } else if (action is ChatPartagerOffreAction) {
-          _partagerOffre(store, userId, action.offre);
         } else if (action is LastMessageSeenAction) {
           _repository.setLastMessageSeen(userId);
         }
