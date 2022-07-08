@@ -47,6 +47,7 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _partagerOffre(Store<AppState> store, String userId, OffrePartagee offre) async {
+    store.dispatch(ChatPartageOffreLoadingAction());
     final succeed = await _repository.sendOffrePartagee(userId, offre);
     if (succeed) {
       store.dispatch(ChatPartageOffreSuccessAction());
