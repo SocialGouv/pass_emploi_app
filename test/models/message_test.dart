@@ -103,9 +103,11 @@ void main() {
         "iv": "ivvv",
         "sentBy": "jeune",
         "type": "MESSAGE_OFFRE",
-        "idOffre": "343",
-        "titreOffre": "Chevalier",
-        "typeOffre": "EMPLOI",
+        "offre": {
+          "id": "343",
+          "titre": "Chevalier",
+          "type": "EMPLOI",
+        },
       },
       chatCryptoSpy,
       DummyCrashlytics(),
@@ -120,9 +122,11 @@ void main() {
           Sender.jeune,
           MessageType.offre,
           [],
-          "343",
-          "Chevalier",
-          OffreType.emploi,
+          Offre(
+            "343",
+            "Chevalier",
+            OffreType.emploi,
+          ),
         ));
   });
 

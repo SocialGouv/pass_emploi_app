@@ -77,9 +77,9 @@ ChatItem _offreMessageItem(Message message, DateTime lastConseillerReading) {
   if (message.sentBy == Sender.jeune) {
     return OffreMessageItem(
       content: message.content,
-      idOffre: message.idOffre ?? "",
-      titreOffre: message.titreOffre ?? "",
-      type: message.typeOffre ?? OffreType.inconnu,
+      idOffre: message.offre?.id ?? "",
+      titreOffre: message.offre?.titre ?? "",
+      type: message.offre?.type ?? OffreType.inconnu,
       caption: caption(message, lastConseillerReading),
     );
   } else {
