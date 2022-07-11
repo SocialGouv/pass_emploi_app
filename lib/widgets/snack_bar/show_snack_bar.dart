@@ -17,6 +17,7 @@ void _showSnackBar(BuildContext context, String label, {required bool success}) 
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       padding: const EdgeInsets.only(left: 24, bottom: 14),
+      duration: Duration(days: 365),
       backgroundColor: success ? AppColors.secondaryLighten : AppColors.warningLight,
       content: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
