@@ -93,10 +93,12 @@ class ChatRepository {
               'content': encryptedMessage.base64Message,
               'sentBy': "jeune",
               'creationDate': messageCreationDate,
-              'idOffre': offrePartagee.id,
-              'lienOffre': offrePartagee.url,
-              'titreOffre': offrePartagee.titre,
-              'typeOffre': _offreTypeToString(offrePartagee.type),
+              'offre' : {
+                'id': offrePartagee.id,
+                'lien': offrePartagee.url,
+                'titre': offrePartagee.titre,
+                'type': _offreTypeToString(offrePartagee.type),
+              },
               'type': "MESSAGE_OFFRE",
             })
             ..update(_chatCollection(chatDocumentId), {

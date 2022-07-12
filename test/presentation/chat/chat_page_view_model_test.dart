@@ -1,4 +1,3 @@
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
@@ -127,9 +126,11 @@ void main() {
         Sender.jeune,
         MessageType.offre,
         [],
-        "343",
-        "Chevalier",
-        OffreType.emploi,
+        Offre(
+          "343",
+          "Chevalier",
+          OffreType.emploi,
+        ),
       )
     ];
     final store = givenState().chatSuccess(messages).store();
@@ -153,7 +154,16 @@ void main() {
 
   test('should not display offre partagée from conseiller', () {
     // Given
-    final messages = [Message('Super offre', DateTime.now(), Sender.conseiller, MessageType.offre, [], "Chevalier")];
+    final messages = [
+      Message(
+        'Super offre',
+        DateTime.now(),
+        Sender.conseiller,
+        MessageType.offre,
+        [],
+        Offre("id", "Chevalier", OffreType.emploi),
+      )
+    ];
     final store = givenState().chatSuccess(messages).store();
 
     // When

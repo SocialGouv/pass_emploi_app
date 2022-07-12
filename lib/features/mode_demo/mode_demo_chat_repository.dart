@@ -28,8 +28,10 @@ List<Message> modeDemoChat() => [
         Sender.jeune,
         MessageType.offre,
         [],
-        "132WNLT",
-        "Employé / Employée de rayon libre-service (H/F)",
-        OffreType.emploi,
+        Offre(
+          "132WNLT",
+          "Employé / Employée de rayon libre-service (H/F)",
+          OffreType.emploi,
+        ),
       ),
     ];
