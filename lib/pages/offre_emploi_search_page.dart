@@ -42,11 +42,8 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
       onWillChange: (_, newViewModel) {
         if (newViewModel.displayState == DisplayState.CONTENT && _shouldNavigate) {
           _shouldNavigate = false;
-          Navigator.pushNamed(
-            context,
-            OffreEmploiListPage.routeName,
-            arguments: {"onlyAlternance": widget.onlyAlternance},
-          ).then((value) {
+          Navigator.push(context, OffreEmploiListPage.materialPageRoute(onlyAlternance: widget.onlyAlternance))
+              .then((value) {
             _shouldNavigate = true;
           });
         }

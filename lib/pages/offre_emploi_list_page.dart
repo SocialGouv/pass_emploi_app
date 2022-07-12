@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_actions.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
@@ -28,12 +29,16 @@ import 'package:pass_emploi_app/widgets/empty_offre_widget.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 
 class OffreEmploiListPage extends StatefulWidget {
-  static const routeName = "/recherche/search_results";
-
   final bool onlyAlternance;
   final bool fromSavedSearch;
 
   OffreEmploiListPage({required this.onlyAlternance, this.fromSavedSearch = false});
+
+  static MaterialPageRoute<void> materialPageRoute({required bool onlyAlternance, bool fromSavedSearch = false}) {
+    return MaterialPageRoute(
+      builder: (context) => OffreEmploiListPage(onlyAlternance: onlyAlternance, fromSavedSearch: fromSavedSearch),
+    );
+  }
 
   @override
   State<OffreEmploiListPage> createState() => _OffreEmploiListPageState();
@@ -65,20 +70,23 @@ class _OffreEmploiListPageState extends State<OffreEmploiListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, OffreEmploiSearchResultsViewModel>(
-      converter: (store) => OffreEmploiSearchResultsViewModel.create(store),
-      onInitialBuild: (viewModel) => _currentViewModel = viewModel,
-      builder: (context, viewModel) => FavorisStateContext<OffreEmploi>(
-        selectState: (store) => store.state.offreEmploiFavorisState,
-        child: _scaffold(_body(context, viewModel), context),
+    return Tracker(
+      tracking: widget.onlyAlternance ? AnalyticsScreenNames.alternanceResults : AnalyticsScreenNames.emploiResults,
+      child: StoreConnector<AppState, OffreEmploiSearchResultsViewModel>(
+        converter: (store) => OffreEmploiSearchResultsViewModel.create(store),
+        onInitialBuild: (viewModel) => _currentViewModel = viewModel,
+        builder: (context, viewModel) => FavorisStateContext<OffreEmploi>(
+          selectState: (store) => store.state.offreEmploiFavorisState,
+          child: _scaffold(_body(context, viewModel), context),
+        ),
+        onDidChange: (previousViewModel, viewModel) {
+          _currentViewModel = viewModel;
+          if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
+          _shouldLoadAtBottom = viewModel.displayLoaderAtBottomOfList && viewModel.displayState != DisplayState.FAILURE;
+        },
+        distinct: true,
+        onDispose: (store) => store.dispatch(OffreEmploiSearchResetAction()),
       ),
-      onDidChange: (previousViewModel, viewModel) {
-        _currentViewModel = viewModel;
-        if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
-        _shouldLoadAtBottom = viewModel.displayLoaderAtBottomOfList && viewModel.displayState != DisplayState.FAILURE;
-      },
-      distinct: true,
-      onDispose: (store) => store.dispatch(OffreEmploiSearchResetAction()),
     );
   }
 
