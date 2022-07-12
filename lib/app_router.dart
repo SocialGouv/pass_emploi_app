@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/pages/cej_information_page.dart';
 import 'package:pass_emploi_app/pages/credentials_page.dart';
-import 'package:pass_emploi_app/pages/login_page.dart';
 
 class AppRouter {
   MaterialPageRoute<dynamic>? getMaterialPageRoute(RouteSettings settings) {
@@ -15,8 +14,6 @@ class AppRouter {
         return CejInformationPage();
       case CredentialsPage.routeName:
         return CredentialsPage();
-      case LoginPage.routeName:
-        return LoginPage();
       default:
         return null;
     }
