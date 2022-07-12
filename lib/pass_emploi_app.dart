@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:redux/redux.dart';
 
 class PassEmploiApp extends StatelessWidget {
+  static final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
   final Store<AppState> _store;
   final _router = AppRouter();
 
@@ -26,7 +27,7 @@ class PassEmploiApp extends StatelessWidget {
         theme: PassEmploiTheme.data,
         home: RouterPage(),
         onGenerateRoute: (settings) => _router.getMaterialPageRoute(settings),
-        navigatorObservers: [AnalyticsNavigatorObserver()],
+        navigatorObservers: [AnalyticsNavigatorObserver(), routeObserver],
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,
           GlobalWidgetsLocalizations.delegate,

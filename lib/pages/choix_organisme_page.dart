@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/pages/choix_organisme_explaination_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -15,116 +16,123 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/onboarding_background.dart';
 
 class ChoixOrganismePage extends StatelessWidget {
-  static const routeName = "/entree/choix-organisme";
-
   static const noOrganismeLink = "https://www.1jeune1solution.gouv.fr/contrat-engagement-jeune";
+
+  static MaterialPageRoute<void> materialPageRoute() {
+    return MaterialPageRoute(builder: (context) => ChoixOrganismePage());
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          OnboardingBackground(),
-          SafeArea(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _backButton(context),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding:
-                              const EdgeInsets.fromLTRB(Margins.spacing_m, Margins.spacing_m, Margins.spacing_m, 0),
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(Margins.spacing_m),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Text(
-                                    Strings.interestedInCej,
-                                    style: TextStyle(
-                                      color: AppColors.primary,
-                                      fontFamily: 'Marianne',
-                                      fontSize: FontSizes.semi,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                  SizedBox(height: Margins.spacing_xl),
-                                  Text(
-                                    Strings.whichOrganisme,
-                                    style: TextStyles.textMRegular,
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  SizedBox(height: Margins.spacing_xl),
-                                  PrimaryActionButton(
-                                    label: Strings.loginPoleEmploi,
-                                    onPressed: () {
-                                      pushAndTrackBack(
-                                        context,
-                                        ChoixOrganismeExplainationPage.materialPageRoute(isPoleEmploi: true),
-                                        AnalyticsScreenNames.choixOrganisme,
-                                      );
-                                    },
-                                  ),
-                                  SizedBox(height: Margins.spacing_l),
-                                  PrimaryActionButton(
-                                    label: Strings.loginMissionLocale,
-                                    onPressed: () {
-                                      pushAndTrackBack(
-                                        context,
-                                        ChoixOrganismeExplainationPage.materialPageRoute(isPoleEmploi: false),
-                                        AnalyticsScreenNames.choixOrganisme,
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: Margins.spacing_s),
-                        Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            onTap: () {
-                              MatomoTracker.trackOutlink(noOrganismeLink);
-                              launchExternalUrl(noOrganismeLink);
-                            },
-                            child: Padding(
-                              padding: const EdgeInsets.all(Margins.spacing_s),
-                              child: RichText(
-                                textAlign: TextAlign.center,
-                                text: TextSpan(
+    return Tracker(
+      tracking: AnalyticsScreenNames.choixOrganisme,
+      child: Scaffold(
+        body: Stack(
+          children: [
+            OnboardingBackground(),
+            SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _backButton(context),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(Margins.spacing_m, Margins.spacing_m, Margins.spacing_m, 0),
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(Margins.spacing_m),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.stretch,
                                   children: [
-                                    TextSpan(
-                                      text: Strings.noOrganisme,
-                                      style: TextStyles.textBaseRegular.copyWith(decoration: TextDecoration.underline),
-                                    ),
-                                    WidgetSpan(
-                                      child: Padding(
-                                        padding:
-                                            const EdgeInsets.symmetric(vertical: 2, horizontal: Margins.spacing_xs),
-                                        child: SvgPicture.asset(Drawables.icRedirection, color: AppColors.contentColor),
+                                    Text(
+                                      Strings.interestedInCej,
+                                      style: TextStyle(
+                                        color: AppColors.primary,
+                                        fontFamily: 'Marianne',
+                                        fontSize: FontSizes.semi,
+                                        fontWeight: FontWeight.w500,
                                       ),
-                                    )
+                                    ),
+                                    SizedBox(height: Margins.spacing_xl),
+                                    Text(
+                                      Strings.whichOrganisme,
+                                      style: TextStyles.textMRegular,
+                                      textAlign: TextAlign.center,
+                                    ),
+                                    SizedBox(height: Margins.spacing_xl),
+                                    PrimaryActionButton(
+                                      label: Strings.loginPoleEmploi,
+                                      onPressed: () {
+                                        pushAndTrackBack(
+                                          context,
+                                          ChoixOrganismeExplainationPage.materialPageRoute(isPoleEmploi: true),
+                                          AnalyticsScreenNames.choixOrganisme,
+                                        );
+                                      },
+                                    ),
+                                    SizedBox(height: Margins.spacing_l),
+                                    PrimaryActionButton(
+                                      label: Strings.loginMissionLocale,
+                                      onPressed: () {
+                                        pushAndTrackBack(
+                                          context,
+                                          ChoixOrganismeExplainationPage.materialPageRoute(isPoleEmploi: false),
+                                          AnalyticsScreenNames.choixOrganisme,
+                                        );
+                                      },
+                                    ),
                                   ],
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
+                          SizedBox(height: Margins.spacing_s),
+                          Material(
+                            color: Colors.transparent,
+                            child: InkWell(
+                              onTap: () {
+                                MatomoTracker.trackOutlink(noOrganismeLink);
+                                launchExternalUrl(noOrganismeLink);
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(Margins.spacing_s),
+                                child: RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                        text: Strings.noOrganisme,
+                                        style:
+                                            TextStyles.textBaseRegular.copyWith(decoration: TextDecoration.underline),
+                                      ),
+                                      WidgetSpan(
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsets.symmetric(vertical: 2, horizontal: Margins.spacing_xs),
+                                          child:
+                                              SvgPicture.asset(Drawables.icRedirection, color: AppColors.contentColor),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          )
-        ],
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/pages/cej_information_page.dart';
-import 'package:pass_emploi_app/pages/choix_organisme_page.dart';
 import 'package:pass_emploi_app/pages/credentials_page.dart';
 import 'package:pass_emploi_app/pages/login_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
@@ -17,8 +16,6 @@ class AppRouter {
         return CejInformationPage();
       case CredentialsPage.routeName:
         return CredentialsPage();
-      case ChoixOrganismePage.routeName:
-        return ChoixOrganismePage();
       case LoginPage.routeName:
         return LoginPage();
       case OffreEmploiListPage.routeName:
