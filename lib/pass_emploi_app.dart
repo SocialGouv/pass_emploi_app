@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:pass_emploi_app/app_router.dart';
 import 'package:pass_emploi_app/pages/router_page.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -12,7 +11,6 @@ import 'package:redux/redux.dart';
 class PassEmploiApp extends StatelessWidget {
   static final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
   final Store<AppState> _store;
-  final _router = AppRouter();
 
   PassEmploiApp(this._store);
 
@@ -25,7 +23,6 @@ class PassEmploiApp extends StatelessWidget {
         title: Strings.appName,
         theme: PassEmploiTheme.data,
         home: RouterPage(),
-        onGenerateRoute: (settings) => _router.getMaterialPageRoute(settings),
         navigatorObservers: [routeObserver],
         localizationsDelegates: [
           GlobalMaterialLocalizations.delegate,

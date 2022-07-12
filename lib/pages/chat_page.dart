@@ -176,7 +176,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                   onPressed: () {
                     if (_controller.value.text == "Je suis malade. Complètement malade.") {
                       _controller.clear();
-                      Navigator.pushNamed(context, CredentialsPage.routeName);
+                      Navigator.push(context, CredentialsPage.materialPageRoute());
                     }
                     if (_controller.value.text.isNotEmpty) {
                       viewModel.onSendMessage(_controller.value.text);

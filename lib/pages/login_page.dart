@@ -79,7 +79,7 @@ class LoginPage extends StatelessWidget {
                         SizedBox(height: 16),
                         SecondaryButton(
                           label: Strings.askAccount,
-                          onPressed: () => Navigator.pushNamed(context, CejInformationPage.routeName),
+                          onPressed: () => Navigator.push(context, CejInformationPage.materialPageRoute()),
                           backgroundColor: Colors.white,
                         ),
                       ],
