@@ -12,6 +12,9 @@ import 'package:redux/redux.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
+  final now = DateTime.now();
+  final todayAtNoon = DateTime(now.year, now.month, now.day, 12, 00);
+
   test('create when chat state is LOADING', () {
     // Given
     final state = AppState.initialState().copyWith(chatState: ChatLoadingState());
@@ -38,9 +41,6 @@ void main() {
 
   test('create when chat state is SUCCESS', () {
     // Given
-    final now = DateTime.now();
-    final todayAtNoon = DateTime(now.year, now.month, now.day, 12, 00);
-
     final state = AppState.initialState().copyWith(
       chatStatusState: ChatStatusSuccessState(unreadMessageCount: 0, lastConseillerReading: DateTime(2021, 1, 2, 18)),
       chatState: ChatSuccessState(
@@ -96,9 +96,6 @@ void main() {
 
   test('should display piece jointe from conseiller', () {
     // Given
-    final now = DateTime.now();
-    final todayAtNoon = DateTime(now.year, now.month, now.day, 12, 00);
-
     final state = AppState.initialState().copyWith(
       chatStatusState: ChatStatusSuccessState(unreadMessageCount: 0, lastConseillerReading: DateTime(2021, 1, 2, 18)),
       chatState: ChatSuccessState(
@@ -117,6 +114,69 @@ void main() {
     expect(viewModel.items, [
       DayItem('Aujourd\'hui'),
       PieceJointeConseillerMessageItem(id: "id-1", message: "Une PJ", filename: "super.pdf", caption: "12:00"),
+    ]);
+  });
+
+  test('should display offre partagée from jeune', () {
+    // Given
+    final messages = [
+      Message(
+        'Super offre',
+        todayAtNoon,
+        Sender.jeune,
+        MessageType.offre,
+        [],
+        Offre(
+          "343",
+          "Chevalier",
+          OffreType.emploi,
+        ),
+      )
+    ];
+    final store = givenState().chatSuccess(messages).store();
+
+    // When
+    final viewModel = ChatPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.items, [
+      DayItem('Aujourd\'hui'),
+      OffreMessageItem(
+        content: "Super offre",
+        idOffre: "343",
+        titreOffre: "Chevalier",
+        type: OffreType.emploi,
+        caption: "12:00 · Envoyé",
+      ),
+    ]);
+  });
+
+  test('should not display offre partagée from conseiller', () {
+    // Given
+    final messages = [
+      Message(
+        'Super offre',
+        DateTime.now(),
+        Sender.conseiller,
+        MessageType.offre,
+        [],
+        Offre("id", "Chevalier", OffreType.emploi),
+      )
+    ];
+    final store = givenState().chatSuccess(messages).store();
+
+    // When
+    final viewModel = ChatPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.items, [
+      DayItem('Aujourd\'hui'),
+      InformationItem(
+        "Le message est inaccessible",
+        "Pour avoir l'accès au contenu veuillez mettre à jour l'application",
+      ),
     ]);
   });
 

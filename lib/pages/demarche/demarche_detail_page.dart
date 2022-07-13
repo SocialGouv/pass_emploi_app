@@ -349,8 +349,8 @@ class _Historique extends StatelessWidget {
                   children: [
                     TextSpan(text: Strings.modifiedBy, style: TextStyles.textBaseRegular),
                     TextSpan(text: viewModel.modificationDate, style: TextStyles.textBaseBold),
-                    if (viewModel.createdByAdvisor) TextSpan(text: Strings.par, style: TextStyles.textBaseRegular),
-                    if (viewModel.createdByAdvisor)
+                    if (viewModel.modifiedByAdvisor) TextSpan(text: Strings.par, style: TextStyles.textBaseRegular),
+                    if (viewModel.modifiedByAdvisor)
                       TextSpan(text: Strings.votreConseiller, style: TextStyles.textBaseBold),
                   ],
                 ),

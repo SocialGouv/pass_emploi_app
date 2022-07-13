@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
+import 'package:pass_emploi_app/features/chat/partage_offre/partage_offre_state.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/preview_file/preview_file_state.dart';
@@ -87,6 +88,7 @@ class AppState extends Equatable {
   final MatomoLoggingState matomoLoggingState;
   final PreviewFileState previewFileState;
   final ChatBrouillonState chatBrouillonState;
+  final ChatPartageOffreState chatPartageOffreState;
 
   AppState({
     required this.configurationState,
@@ -131,6 +133,7 @@ class AppState extends Equatable {
     required this.matomoLoggingState,
     required this.previewFileState,
     required this.chatBrouillonState,
+    required this.chatPartageOffreState,
   });
 
   AppState copyWith({
@@ -176,6 +179,7 @@ class AppState extends Equatable {
     final MatomoLoggingState? matomoLoggingState,
     final PreviewFileState? previewFileState,
     final ChatBrouillonState? chatBrouillonState,
+    final ChatPartageOffreState? chatPartageOffreState,
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
@@ -221,6 +225,7 @@ class AppState extends Equatable {
       matomoLoggingState: matomoLoggingState ?? this.matomoLoggingState,
       previewFileState: previewFileState ?? this.previewFileState,
       chatBrouillonState: chatBrouillonState ?? this.chatBrouillonState,
+      chatPartageOffreState: chatPartageOffreState ?? this.chatPartageOffreState,
     );
   }
 
@@ -268,6 +273,7 @@ class AppState extends Equatable {
       matomoLoggingState: MatomoLoggingState([]),
       previewFileState: PreviewFileNotInitializedState(),
       chatBrouillonState: ChatBrouillonState(null),
+      chatPartageOffreState: ChatPartageOffreState.notInitialized,
     );
   }
 
@@ -308,6 +314,7 @@ class AppState extends Equatable {
         piecesJointesState,
         previewFileState,
         chatBrouillonState,
+        chatPartageOffreState,
       ];
 
   @override

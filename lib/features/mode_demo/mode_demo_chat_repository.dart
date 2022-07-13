@@ -22,4 +22,16 @@ List<Message> modeDemoChat() => [
         MessageType.message,
         [],
       ),
+      Message(
+        "Bonjour, je vous partage une offre d’emploi afin d’avoir votre avis",
+        DateTime.now().subtract(Duration(minutes: 18)),
+        Sender.jeune,
+        MessageType.offre,
+        [],
+        Offre(
+          "132WNLT",
+          "Employé / Employée de rayon libre-service (H/F)",
+          OffreType.emploi,
+        ),
+      ),
     ];

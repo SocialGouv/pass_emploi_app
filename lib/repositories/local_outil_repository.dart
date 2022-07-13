@@ -38,7 +38,7 @@ class LocalOutilRepository {
         title: "Bénévolat",
         description: "Trouvez des missions de bénévolat près de chez vous ou à distance.",
         actionLabel: "Je recherche une mission",
-        urlRedirect: "https://www.1jeune1solution.gouv.fr/benevolat",
+        urlRedirect: "https://www.jeveuxaider.gouv.fr/missions-benevolat",
         imagePath: null,
       ),
       Outil(

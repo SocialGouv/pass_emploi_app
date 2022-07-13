@@ -5,7 +5,9 @@ import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 
 enum Sender { jeune, conseiller }
 
-enum MessageType { message, nouveauConseiller, nouveauConseillerTemporaire, messagePj, inconnu }
+enum MessageType { message, nouveauConseiller, nouveauConseillerTemporaire, messagePj, offre, inconnu }
+
+enum OffreType { emploi, alternance, inconnu }
 
 class Message extends Equatable {
   final String content;
@@ -13,8 +15,16 @@ class Message extends Equatable {
   final Sender sentBy;
   final MessageType type;
   final List<PieceJointe> pieceJointes;
+  final Offre? offre;
 
-  Message(this.content, this.creationDate, this.sentBy, this.type, this.pieceJointes);
+  Message(
+    this.content,
+    this.creationDate,
+    this.sentBy,
+    this.type,
+    this.pieceJointes, [
+    this.offre,
+  ]);
 
   static Message? fromJson(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
     final creationDateValue = json['creationDate'];
@@ -27,7 +37,14 @@ class Message extends Equatable {
       json['sentBy'] as String == 'jeune' ? Sender.jeune : Sender.conseiller,
       _type(json),
       _pieceJointes(json, chatCrypto, crashlytics),
+      _offre(json),
     );
+  }
+
+  static Offre? _offre(dynamic json) {
+    final offreJson = json["offre"];
+    if (offreJson == null) return null;
+    return Offre.fromJson(offreJson);
   }
 
   static List<PieceJointe> _pieceJointes(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
@@ -60,6 +77,8 @@ class Message extends Equatable {
           return MessageType.nouveauConseillerTemporaire;
         case "MESSAGE_PJ":
           return MessageType.messagePj;
+        case "MESSAGE_OFFRE":
+          return MessageType.offre;
         default:
           return MessageType.inconnu;
       }
@@ -69,7 +88,7 @@ class Message extends Equatable {
   }
 
   @override
-  List<Object?> get props => [content, creationDate, sentBy, type, pieceJointes];
+  List<Object?> get props => [content, creationDate, sentBy, type, pieceJointes, offre];
 }
 
 extension _DecryptString on String {
@@ -103,5 +122,40 @@ class PieceJointe extends Equatable {
     final nom = encryptedNom.decrypt(chatCrypto, crashlytics, iv);
     if (nom == null) return null;
     return PieceJointe(id, nom);
+  }
+}
+
+class Offre extends Equatable {
+  final String id;
+  final String titre;
+  final OffreType type;
+
+  Offre(this.id, this.titre, this.type);
+
+  @override
+  List<Object?> get props => [id, titre, type];
+
+  static Offre? fromJson(dynamic json) {
+    final id = json['id'] as String?;
+    final titre = json['titre'] as String?;
+    final type = _type(json);
+    if (id == null || titre == null || type == null) return null;
+    return Offre(id, titre, type);
+  }
+
+  static OffreType? _type(dynamic json) {
+    try {
+      final type = json['type'] as String;
+      switch (type) {
+        case "ALTERNANCE":
+          return OffreType.alternance;
+        case "EMPLOI":
+          return OffreType.emploi;
+        default:
+          return OffreType.inconnu;
+      }
+    } catch (e) {
+      return OffreType.inconnu;
+    }
   }
 }
