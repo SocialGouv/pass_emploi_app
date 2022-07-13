@@ -36,23 +36,27 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
   final String _offreId;
   final bool _fromAlternance;
   final bool popPageWhenFavoriIsRemoved;
+  final bool showFavori;
 
   OffreEmploiDetailsPage._(
     this._offreId,
     this._fromAlternance, {
     this.popPageWhenFavoriIsRemoved = false,
+    this.showFavori = true,
   }) : super(name: _fromAlternance ? AnalyticsScreenNames.alternanceDetails : AnalyticsScreenNames.emploiDetails);
 
   static MaterialPageRoute<void> materialPageRoute(
     String id, {
     required bool fromAlternance,
     bool popPageWhenFavoriIsRemoved = false,
+    bool showFavori = true,
   }) {
     return MaterialPageRoute(builder: (context) {
       return OffreEmploiDetailsPage._(
         id,
         fromAlternance,
         popPageWhenFavoriIsRemoved: popPageWhenFavoriIsRemoved,
+        showFavori: showFavori,
       );
     });
   }
@@ -396,12 +400,13 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
             ),
           ),
           SizedBox(width: Margins.spacing_base),
-          FavoriHeart<OffreEmploi>(
-            offreId: offreId,
-            withBorder: true,
-            from: _fromAlternance ? OffrePage.alternanceDetails : OffrePage.emploiDetails,
-            onFavoriRemoved: popPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
-          ),
+          if (showFavori)
+            FavoriHeart<OffreEmploi>(
+              offreId: offreId,
+              withBorder: true,
+              from: _fromAlternance ? OffrePage.alternanceDetails : OffrePage.emploiDetails,
+              onFavoriRemoved: popPageWhenFavoriIsRemoved ? () => Navigator.pop(context) : null,
+            ),
           SizedBox(width: Margins.spacing_base),
           ShareButton(url, title, () => _shareOffer(context)),
         ],
