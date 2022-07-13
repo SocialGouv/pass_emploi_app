@@ -125,7 +125,11 @@ class _OfferCard extends StatelessWidget {
   void _showOffreEmploiDetailsPage(BuildContext context) {
     pushAndTrackBack(
       context,
-      OffreEmploiDetailsPage.materialPageRoute(offerId, fromAlternance: type == OffreType.alternance),
+      OffreEmploiDetailsPage.materialPageRoute(
+        offerId,
+        fromAlternance: type == OffreType.alternance,
+        showFavori: false,
+      ),
       type == OffreType.alternance ? AnalyticsScreenNames.alternanceDetails : AnalyticsScreenNames.emploiDetails,
     );
   }
