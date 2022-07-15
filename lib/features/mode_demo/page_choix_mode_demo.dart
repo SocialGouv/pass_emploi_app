@@ -3,8 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -15,35 +15,36 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 
-class ChoixModeDemoPage extends TraceableStatelessWidget {
-  ChoixModeDemoPage._() : super(name: AnalyticsScreenNames.explicationModeDemo);
-
+class ChoixModeDemoPage extends StatelessWidget {
   static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(
-      builder: (context) => ChoixModeDemoPage._(),
+      builder: (context) => ChoixModeDemoPage(),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          _Background(),
-          Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _BackButton(),
-              Expanded(
-                child: _Contenu(),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-            ],
-          ),
-        ],
+    return Tracker(
+      tracking: AnalyticsScreenNames.explicationModeDemo,
+      child: Scaffold(
+        body: Stack(
+          children: [
+            _Background(),
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _BackButton(),
+                Expanded(
+                  child: _Contenu(),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
