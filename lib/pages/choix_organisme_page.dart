@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/pages/choix_organisme_explaination_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -68,10 +67,9 @@ class ChoixOrganismePage extends StatelessWidget {
                                     PrimaryActionButton(
                                       label: Strings.loginPoleEmploi,
                                       onPressed: () {
-                                        pushAndTrackBack(
+                                        Navigator.push(
                                           context,
                                           ChoixOrganismeExplainationPage.materialPageRoute(isPoleEmploi: true),
-                                          AnalyticsScreenNames.choixOrganisme,
                                         );
                                       },
                                     ),
@@ -79,10 +77,9 @@ class ChoixOrganismePage extends StatelessWidget {
                                     PrimaryActionButton(
                                       label: Strings.loginMissionLocale,
                                       onPressed: () {
-                                        pushAndTrackBack(
+                                        Navigator.push(
                                           context,
                                           ChoixOrganismeExplainationPage.materialPageRoute(isPoleEmploi: false),
-                                          AnalyticsScreenNames.choixOrganisme,
                                         );
                                       },
                                     ),
