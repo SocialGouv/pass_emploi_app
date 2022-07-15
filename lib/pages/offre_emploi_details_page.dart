@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_actions.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
@@ -32,7 +31,7 @@ import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 import 'package:pass_emploi_app/widgets/title_section.dart';
 
-class OffreEmploiDetailsPage extends TraceableStatelessWidget {
+class OffreEmploiDetailsPage extends StatelessWidget {
   final String _offreId;
   final bool _fromAlternance;
   final bool popPageWhenFavoriIsRemoved;
@@ -43,7 +42,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
     this._fromAlternance, {
     this.popPageWhenFavoriIsRemoved = false,
     this.showFavori = true,
-  }) : super(name: _fromAlternance ? AnalyticsScreenNames.alternanceDetails : AnalyticsScreenNames.emploiDetails);
+  });
 
   static MaterialPageRoute<void> materialPageRoute(
     String id, {
@@ -63,15 +62,18 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, OffreEmploiDetailsPageViewModel>(
-      onInit: (store) => store.dispatch(OffreEmploiDetailsRequestAction(_offreId)),
-      onInitialBuild: (_) {
-        context.trackEvent(_offreAfficheeEvent());
-      },
-      converter: (store) => OffreEmploiDetailsPageViewModel.getDetails(store),
-      builder: (context, viewModel) => FavorisStateContext<OffreEmploi>(
-        selectState: (store) => store.state.offreEmploiFavorisState,
-        child: _scaffold(_body(context, viewModel), context),
+    return Tracker(
+      tracking: _fromAlternance ? AnalyticsScreenNames.alternanceDetails : AnalyticsScreenNames.emploiDetails,
+      child: StoreConnector<AppState, OffreEmploiDetailsPageViewModel>(
+        onInit: (store) => store.dispatch(OffreEmploiDetailsRequestAction(_offreId)),
+        onInitialBuild: (_) {
+          context.trackEvent(_offreAfficheeEvent());
+        },
+        converter: (store) => OffreEmploiDetailsPageViewModel.getDetails(store),
+        builder: (context, viewModel) => FavorisStateContext<OffreEmploi>(
+          selectState: (store) => store.state.offreEmploiFavorisState,
+          child: _scaffold(_body(context, viewModel), context),
+        ),
       ),
     );
   }
@@ -136,7 +138,7 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
                   ),
                 _tags(viewModel),
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
-                  _PartageOffre(trackingPageName: name, isAlternance: _fromAlternance),
+                  _PartageOffre(isAlternance: _fromAlternance),
                 _spacer(Margins.spacing_l),
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS) _description(viewModel),
                 if (viewModel.displayState == OffreEmploiDetailsPageDisplayState.SHOW_DETAILS)
@@ -443,10 +445,9 @@ class OffreEmploiDetailsPage extends TraceableStatelessWidget {
 }
 
 class _PartageOffre extends StatelessWidget {
-  final String trackingPageName;
   final bool isAlternance;
 
-  const _PartageOffre({Key? key, required this.trackingPageName, required this.isAlternance}) : super(key: key);
+  const _PartageOffre({Key? key, required this.isAlternance}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -464,10 +465,9 @@ class _PartageOffre extends StatelessWidget {
           shape: MaterialStateProperty.all(StadiumBorder()),
           side: MaterialStateProperty.all(BorderSide(color: AppColors.primary, width: 1)),
         ),
-        onPressed: () => pushAndTrackBack(
+        onPressed: () => Navigator.push(
           context,
           PartageOffrePage.materialPageRoute(isAlternance ? OffreType.alternance : OffreType.emploi),
-          trackingPageName,
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 16),
