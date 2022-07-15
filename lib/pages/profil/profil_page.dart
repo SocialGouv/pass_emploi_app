@@ -3,7 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_actions.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/pages/profil/matomo_logging_page.dart';
@@ -24,16 +24,17 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/label_value_row.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
-class ProfilPage extends TraceableStatelessWidget {
-  const ProfilPage() : super(name: AnalyticsScreenNames.profil);
-
+class ProfilPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, ProfilPageViewModel>(
-      onInit: (store) => store.dispatch(DetailsJeuneRequestAction()),
-      converter: (store) => ProfilPageViewModel.create(store),
-      builder: (BuildContext context, ProfilPageViewModel vm) => _buildScaffold(context, vm),
-      distinct: true,
+    return Tracker(
+      tracking: AnalyticsScreenNames.profil,
+      child: StoreConnector<AppState, ProfilPageViewModel>(
+        onInit: (store) => store.dispatch(DetailsJeuneRequestAction()),
+        converter: (store) => ProfilPageViewModel.create(store),
+        builder: (BuildContext context, ProfilPageViewModel vm) => _buildScaffold(context, vm),
+        distinct: true,
+      ),
     );
   }
 
@@ -76,10 +77,9 @@ class ProfilPage extends TraceableStatelessWidget {
               SizedBox(height: Margins.spacing_m),
               StandaloneProfilCard(
                 text: Strings.suppressionAccountLabel,
-                onTap: () => pushAndTrackBack(
+                onTap: () => Navigator.push(
                   context,
                   SuppressionComptePage.materialPageRoute(),
-                  AnalyticsScreenNames.profil,
                 ),
               ),
               Text(Strings.legalInformation, style: TextStyles.textLBold()),
@@ -156,10 +156,9 @@ class ProfilPage extends TraceableStatelessWidget {
                 SizedBox(height: Margins.spacing_m),
                 StandaloneProfilCard(
                   text: Strings.developerOptionMatomo,
-                  onTap: () => pushAndTrackBack(
+                  onTap: () => Navigator.push(
                     context,
                     MatomoLoggingPage.materialPageRoute(),
-                    AnalyticsScreenNames.profil,
                   ),
                 ),
               ],
