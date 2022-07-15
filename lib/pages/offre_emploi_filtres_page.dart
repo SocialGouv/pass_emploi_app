@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/presentation/checkbox_value_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -19,9 +19,10 @@ import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/slider/distance_slider.dart';
 
-class OffreEmploiFiltresPage extends TraceableStatefulWidget {
-  OffreEmploiFiltresPage(bool fromAlternance)
-      : super(name: fromAlternance ? AnalyticsScreenNames.alternanceFiltres : AnalyticsScreenNames.emploiFiltres);
+class OffreEmploiFiltresPage extends StatefulWidget {
+  final bool fromAlternance;
+
+  OffreEmploiFiltresPage(this.fromAlternance);
 
   static MaterialPageRoute<bool> materialPageRoute(bool fromAlternance) {
     return MaterialPageRoute(builder: (_) => OffreEmploiFiltresPage(fromAlternance));
@@ -34,15 +35,18 @@ class OffreEmploiFiltresPage extends TraceableStatefulWidget {
 class _OffreEmploiFiltresPageState extends State<OffreEmploiFiltresPage> {
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, OffreEmploiFiltresViewModel>(
-      converter: (store) => OffreEmploiFiltresViewModel.create(store),
-      builder: (context, viewModel) => _scaffold(viewModel),
-      distinct: true,
-      onWillChange: (previousVM, newVM) {
-        if (previousVM?.displayState == DisplayState.LOADING && newVM.displayState == DisplayState.CONTENT) {
-          Navigator.pop(context, true);
-        }
-      },
+    return Tracker(
+      tracking: widget.fromAlternance ? AnalyticsScreenNames.alternanceFiltres : AnalyticsScreenNames.emploiFiltres,
+      child: StoreConnector<AppState, OffreEmploiFiltresViewModel>(
+        converter: (store) => OffreEmploiFiltresViewModel.create(store),
+        builder: (context, viewModel) => _scaffold(viewModel),
+        distinct: true,
+        onWillChange: (previousVM, newVM) {
+          if (previousVM?.displayState == DisplayState.LOADING && newVM.displayState == DisplayState.CONTENT) {
+            Navigator.pop(context, true);
+          }
+        },
+      ),
     );
   }
 
