@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_detail_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -13,10 +13,10 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
-class DemarcheDetailPage extends TraceableStatelessWidget {
+class DemarcheDetailPage extends StatelessWidget {
   final String id;
 
-  DemarcheDetailPage._(this.id) : super(name: AnalyticsScreenNames.userActionDetails);
+  DemarcheDetailPage._(this.id);
 
   static MaterialPageRoute<void> materialPageRoute(String id) {
     return MaterialPageRoute(builder: (context) => DemarcheDetailPage._(id));
@@ -24,11 +24,14 @@ class DemarcheDetailPage extends TraceableStatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: passEmploiAppBar(label: Strings.demarcheDetails, context: context),
-      body: StoreConnector<AppState, DemarcheDetailViewModel>(
-        converter: (store) => DemarcheDetailViewModel.create(store, id),
-        builder: (context, viewModel) => _Body(viewModel),
+    return Tracker(
+      tracking: AnalyticsScreenNames.userActionDetails,
+      child: Scaffold(
+        appBar: passEmploiAppBar(label: Strings.demarcheDetails, context: context),
+        body: StoreConnector<AppState, DemarcheDetailViewModel>(
+          converter: (store) => DemarcheDetailViewModel.create(store, id),
+          builder: (context, viewModel) => _Body(viewModel),
+        ),
       ),
     );
   }
