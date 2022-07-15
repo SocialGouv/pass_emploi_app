@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:matomo/matomo.dart';
-import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
@@ -49,39 +48,39 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
   }
 
   Widget _builder(BuildContext context, RendezvousListViewModel viewModel) {
-    MatomoTracker.trackScreenWithName(viewModel.analyticsLabel, viewModel.analyticsLabel);
-    return _Scaffold(
-      body: _Body(
-        viewModel: viewModel,
-        onPageOffsetChanged: (i) {
-          final newOffset = _pageOffset + i;
-          setState(() {
-            _pageOffset = newOffset;
-          });
-        },
-        onNextRendezvousButtonTap: () {
-          setState(() {
-            _pageOffset = viewModel.nextRendezvousPageOffset!;
-          });
-        },
-        onTap: (rdvId) {
-          context.trackEvent(EventType.RDV_DETAIL);
-          return widget.pushAndTrackBack(
-            context,
-            RendezvousDetailsPage.materialPageRoute(rdvId),
-            viewModel.analyticsLabel,
-          );
-        },
+    return Tracker(
+      tracking: viewModel.analyticsLabel,
+      child: _Scaffold(
+        body: _Body(
+          viewModel: viewModel,
+          onPageOffsetChanged: (i) {
+            final newOffset = _pageOffset + i;
+            setState(() {
+              _pageOffset = newOffset;
+            });
+          },
+          onNextRendezvousButtonTap: () {
+            setState(() {
+              _pageOffset = viewModel.nextRendezvousPageOffset!;
+            });
+          },
+          onTap: (rdvId) {
+            context.trackEvent(EventType.RDV_DETAIL);
+            return Navigator.push(
+              context,
+              RendezvousDetailsPage.materialPageRoute(rdvId),
+            );
+          },
+        ),
       ),
     );
   }
 
   void _openDeeplinkIfNeeded(RendezvousListViewModel viewModel, BuildContext context) {
     if (viewModel.deeplinkRendezvousId != null) {
-      widget.pushAndTrackBack(
+      Navigator.push(
         context,
         RendezvousDetailsPage.materialPageRoute(viewModel.deeplinkRendezvousId!),
-        viewModel.analyticsLabel,
       );
       viewModel.onDeeplinkUsed();
     }
