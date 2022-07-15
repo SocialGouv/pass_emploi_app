@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
 import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
@@ -91,10 +90,9 @@ class DemarcheListPage extends StatelessWidget {
       final viewModel = (item as DemarcheListItemViewModel).viewModel;
       return DemarcheCard(
         viewModel: viewModel,
-        onTap: () => pushAndTrackBack(
+        onTap: () => Navigator.push(
           context,
           DemarcheDetailPage.materialPageRoute(viewModel.id),
-          AnalyticsScreenNames.userActionList,
         ),
       );
     }
