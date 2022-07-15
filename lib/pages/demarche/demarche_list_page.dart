@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
 import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
@@ -21,19 +21,20 @@ import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/empty_pole_emploi_content.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
-class DemarcheListPage extends TraceableStatelessWidget {
+class DemarcheListPage extends StatelessWidget {
   final ScrollController _scrollController = ScrollController();
-
-  DemarcheListPage() : super(name: AnalyticsScreenNames.userActionList);
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, DemarcheListPageViewModel>(
-      onInit: (store) => store.dispatch(DemarcheListRequestAction()),
-      builder: (context, viewModel) => _scaffold(context, viewModel),
-      converter: (store) => DemarcheListPageViewModel.create(store),
-      distinct: true,
-      onDispose: (store) => store.dispatch(DemarcheListResetAction()),
+    return Tracker(
+      tracking: AnalyticsScreenNames.userActionList,
+      child: StoreConnector<AppState, DemarcheListPageViewModel>(
+        onInit: (store) => store.dispatch(DemarcheListRequestAction()),
+        builder: (context, viewModel) => _scaffold(context, viewModel),
+        converter: (store) => DemarcheListPageViewModel.create(store),
+        distinct: true,
+        onDispose: (store) => store.dispatch(DemarcheListResetAction()),
+      ),
     );
   }
 
@@ -110,7 +111,7 @@ class _CampagneCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return CampagneCard(
       onTap: () {
-        pushAndTrackBack(context, CampagneDetailsPage.materialPageRoute(), AnalyticsScreenNames.evaluationDetails);
+        Navigator.push(context, CampagneDetailsPage.materialPageRoute());
       },
       titre: title,
       description: description,
@@ -129,10 +130,9 @@ class _AddDemarcheButton extends StatelessWidget {
           drawableRes: Drawables.icAdd,
           label: Strings.addADemarche,
           onPressed: () {
-            pushAndTrackBack(
+            Navigator.push(
               context,
               CreateDemarcheStep1Page.materialPageRoute(),
-              AnalyticsScreenNames.userActionList,
             );
           },
         ),
