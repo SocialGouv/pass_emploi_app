@@ -9,7 +9,7 @@ import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:redux/redux.dart';
 
 class PassEmploiApp extends StatelessWidget {
-  static final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+  static final routeObserver = RouteObserver<PageRoute<dynamic>>();
   final Store<AppState> _store;
 
   PassEmploiApp(this._store);
