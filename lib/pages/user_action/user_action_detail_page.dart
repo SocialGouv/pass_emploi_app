@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
@@ -21,10 +22,10 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
-class UserActionDetailPage extends TraceableStatefulWidget {
+class UserActionDetailPage extends StatefulWidget {
   final UserActionViewModel actionViewModel;
 
-  UserActionDetailPage._(this.actionViewModel) : super(name: AnalyticsScreenNames.userActionDetails);
+  UserActionDetailPage._(this.actionViewModel);
 
   static MaterialPageRoute<void> materialPageRoute(UserActionViewModel actionViewModel) {
     return MaterialPageRoute(builder: (context) => UserActionDetailPage._(actionViewModel));
@@ -45,17 +46,20 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: passEmploiAppBar(label: Strings.actionDetails, context: context),
-      body: StoreConnector<AppState, UserActionDetailsViewModel>(
-        onInit: (store) {
-          store.dispatch(UserActionNotUpdatingState());
-          store.dispatch(UserActionDeleteResetAction());
-        },
-        converter: (store) => UserActionDetailsViewModel.create(store),
-        builder: (context, detailsViewModel) => _build(context, detailsViewModel),
-        onWillChange: (previousVm, newVm) => _dismissBottomSheetIfNeeded(context, newVm),
-        distinct: true,
+    return Tracker(
+      tracking: AnalyticsScreenNames.userActionDetails,
+      child: Scaffold(
+        appBar: passEmploiAppBar(label: Strings.actionDetails, context: context),
+        body: StoreConnector<AppState, UserActionDetailsViewModel>(
+          onInit: (store) {
+            store.dispatch(UserActionNotUpdatingState());
+            store.dispatch(UserActionDeleteResetAction());
+          },
+          converter: (store) => UserActionDetailsViewModel.create(store),
+          builder: (context, detailsViewModel) => _build(context, detailsViewModel),
+          onWillChange: (previousVm, newVm) => _dismissBottomSheetIfNeeded(context, newVm),
+          distinct: true,
+        ),
       ),
     );
   }
@@ -79,7 +83,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
               children: [
                 Padding(
                   padding:
-                  const EdgeInsets.only(top: Margins.spacing_l, left: Margins.spacing_m, right: Margins.spacing_m),
+                      const EdgeInsets.only(top: Margins.spacing_l, left: Margins.spacing_m, right: Margins.spacing_m),
                   child: Text(
                     widget.actionViewModel.title,
                     style: TextStyles.textLBold(),
