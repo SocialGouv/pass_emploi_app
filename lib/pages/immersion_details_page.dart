@@ -2,8 +2,8 @@ import 'dart:io' as io;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_actions.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
@@ -29,14 +29,14 @@ import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/tags/immersion_tags.dart';
 import 'package:pass_emploi_app/widgets/title_section.dart';
 
-class ImmersionDetailsPage extends TraceableStatelessWidget {
+class ImmersionDetailsPage extends StatelessWidget {
   final String _immersionId;
   final bool popPageWhenFavoriIsRemoved;
 
   ImmersionDetailsPage._(
     this._immersionId, {
     this.popPageWhenFavoriIsRemoved = false,
-  }) : super(name: AnalyticsScreenNames.immersionDetails);
+  });
 
   static MaterialPageRoute<void> materialPageRoute(String id, {bool popPageWhenFavoriIsRemoved = false}) {
     return MaterialPageRoute(
@@ -47,15 +47,18 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
   @override
   Widget build(BuildContext context) {
     final platform = io.Platform.isAndroid ? Platform.ANDROID : Platform.IOS;
-    return StoreConnector<AppState, ImmersionDetailsViewModel>(
-      onInit: (store) => store.dispatch(ImmersionDetailsRequestAction(_immersionId)),
-      onDispose: (store) => store.dispatch(ImmersionDetailsResetAction()),
-      converter: (store) => ImmersionDetailsViewModel.create(store, platform),
-      builder: (context, viewModel) => FavorisStateContext(
-        selectState: (store) => store.state.immersionFavorisState,
-        child: _scaffold(_body(context, viewModel), context),
+    return Tracker(
+      tracking: AnalyticsScreenNames.immersionDetails,
+      child: StoreConnector<AppState, ImmersionDetailsViewModel>(
+        onInit: (store) => store.dispatch(ImmersionDetailsRequestAction(_immersionId)),
+        onDispose: (store) => store.dispatch(ImmersionDetailsResetAction()),
+        converter: (store) => ImmersionDetailsViewModel.create(store, platform),
+        builder: (context, viewModel) => FavorisStateContext(
+          selectState: (store) => store.state.immersionFavorisState,
+          child: _scaffold(_body(context, viewModel), context),
+        ),
+        distinct: true,
       ),
-      distinct: true,
     );
   }
 
@@ -74,7 +77,7 @@ class ImmersionDetailsPage extends TraceableStatelessWidget {
   Scaffold _scaffold(Widget body, BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: Strings.offreDetails, context: context,  withBackButton: true),
+      appBar: passEmploiAppBar(label: Strings.offreDetails, context: context, withBackButton: true),
       body: DefaultAnimatedSwitcher(child: body),
     );
   }
