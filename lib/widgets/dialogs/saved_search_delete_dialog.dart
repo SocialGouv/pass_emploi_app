@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_actions.dart';
 import 'package:pass_emploi_app/presentation/saved_search/saved_search_delete_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -17,11 +18,11 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 
 enum SavedSearchType { EMPLOI, ALTERNANCE, IMMERSION, SERVICE_CIVIQUE }
 
-class SavedSearchDeleteDialog extends TraceableStatelessWidget {
+class SavedSearchDeleteDialog extends StatelessWidget {
   final String savedSearchId;
   final SavedSearchType type;
 
-  SavedSearchDeleteDialog(this.savedSearchId, this.type, {Key? key}) : super(key: key, name: _screenName(type));
+  SavedSearchDeleteDialog(this.savedSearchId, this.type, {Key? key}) : super(key: key);
 
   static String _screenName(SavedSearchType type) {
     switch (type) {
@@ -51,17 +52,20 @@ class SavedSearchDeleteDialog extends TraceableStatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, SavedSearchDeleteViewModel>(
-      converter: (store) => SavedSearchDeleteViewModel.create(store),
-      builder: (context, viewModel) => _alertDialog(context, viewModel),
-      onWillChange: (_, viewModel) {
-        if (viewModel.displayState == SavedSearchDeleteDisplayState.SUCCESS) {
-          MatomoTracker.trackScreenWithName(_actionName(type), _screenName(type));
-          Navigator.pop(context, true);
-        }
-      },
-      distinct: true,
-      onDispose: (store) => store.dispatch(SavedSearchDeleteResetAction()),
+    return Tracker(
+      tracking: _screenName(type),
+      child: StoreConnector<AppState, SavedSearchDeleteViewModel>(
+        converter: (store) => SavedSearchDeleteViewModel.create(store),
+        builder: (context, viewModel) => _alertDialog(context, viewModel),
+        onWillChange: (_, viewModel) {
+          if (viewModel.displayState == SavedSearchDeleteDisplayState.SUCCESS) {
+            MatomoTracker.trackScreenWithName(_actionName(type), _screenName(type));
+            Navigator.pop(context, true);
+          }
+        },
+        distinct: true,
+        onDispose: (store) => store.dispatch(SavedSearchDeleteResetAction()),
+      ),
     );
   }
 
