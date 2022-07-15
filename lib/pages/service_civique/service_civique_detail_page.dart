@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_actions.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/domain.dart';
@@ -29,24 +29,26 @@ import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 import 'package:pass_emploi_app/widgets/title_section.dart';
 
-class ServiceCiviqueDetailPage extends TraceableStatelessWidget {
+class ServiceCiviqueDetailPage extends StatelessWidget {
   final String idOffre;
   final bool popPageWhenFavoriIsRemoved;
 
-  ServiceCiviqueDetailPage(this.idOffre, [this.popPageWhenFavoriIsRemoved = false])
-      : super(name: AnalyticsScreenNames.serviceCiviqueDetail);
+  ServiceCiviqueDetailPage(this.idOffre, [this.popPageWhenFavoriIsRemoved = false]);
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, ServiceCiviqueDetailViewModel>(
-      onInit: (store) => store.dispatch(GetServiceCiviqueDetailAction(idOffre)),
-      converter: (store) => ServiceCiviqueDetailViewModel.create(store),
-      builder: (context, viewModel) {
-        return FavorisStateContext(
-          child: _scaffold(_body(context, viewModel), context),
-          selectState: (store) => store.state.serviceCiviqueFavorisState,
-        );
-      },
+    return Tracker(
+      tracking: AnalyticsScreenNames.serviceCiviqueDetail,
+      child: StoreConnector<AppState, ServiceCiviqueDetailViewModel>(
+        onInit: (store) => store.dispatch(GetServiceCiviqueDetailAction(idOffre)),
+        converter: (store) => ServiceCiviqueDetailViewModel.create(store),
+        builder: (context, viewModel) {
+          return FavorisStateContext(
+            child: _scaffold(_body(context, viewModel), context),
+            selectState: (store) => store.state.serviceCiviqueFavorisState,
+          );
+        },
+      ),
     );
   }
 
