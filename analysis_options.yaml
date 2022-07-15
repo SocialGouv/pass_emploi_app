@@ -35,8 +35,6 @@ dart_code_metrics:
         entries:
           - ident: launchUrl
             description: You should use launchExternalUrl instead (to avoid avoid iOS app to target only users above 18 years old)
-          - ident: push
-            description: You should use pushAndBackTrack instead (to ensure tracking works as expected)
           - ident: debugPrint
             description: You should use Log class instead (debugPrint leave logs in production app)
           - ident: MockClient
