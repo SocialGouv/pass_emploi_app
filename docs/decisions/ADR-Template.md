@@ -1,8 +1,8 @@
 # [Titre]
 
-* Statut: [proposé | rejeté | accepté | déprécié | … | remplacé par [ADR-0005](0005-example.md)] <!-- optionnel -->
-* Décideurs: [liste des personnes impliquées dans la décision] <!-- optionnel -->
-* Date: [YYYY-MM-DD quand la décision a été modifiée pour la dernière fois] <!-- optionnel -->
+* Statut : [proposé | rejeté | accepté | déprécié | … | remplacé par [ADR-0005](0005-example.md)] <!-- optionnel -->
+* Décideurs : [liste des personnes impliquées dans la décision] <!-- optionnel -->
+* Date : [YYYY-MM-DD quand la décision a été modifiée pour la dernière fois] <!-- optionnel -->
 * Ticket Trello / Notion : [description | URL ticket] <!-- optionnel -->
 * PRs : [description | URL] <!-- optionnel -->
 
@@ -25,7 +25,9 @@
 
 ## Résultat de la Décision
 
-Solution retenue: "[solution 1]", car [justification. e.g., seule solution qui valide le critère du facteur de décision xxx | qui traite la douleur | … | qui s'en sort le mieux (voir ci-dessous)].
+Solution retenue: "[solution 1]",
+car [justification. e.g., seule solution qui valide le critère du facteur de décision xxx | qui traite la douleur | … | qui s'en sort le mieux (voir ci-dessous)]
+.
 
 ### Impacts Positifs <!-- optionnel -->
 
