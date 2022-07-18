@@ -7,7 +7,6 @@ class Strings {
   static String logoTextDescription = "Logo CEJ";
   static String close = "Fermer";
   static String yes = "Oui";
-  static String nouveau = "Nouveau";
 
   // Menu
   static String menuMonSuivi = "Mon suivi";
