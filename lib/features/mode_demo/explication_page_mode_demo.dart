@@ -2,9 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/mode_demo/page_choix_mode_demo.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -14,33 +13,34 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 
-class ExplicationModeDemoPage extends TraceableStatelessWidget {
-  ExplicationModeDemoPage._() : super(name: AnalyticsScreenNames.explicationModeDemo);
-
+class ExplicationModeDemoPage extends StatelessWidget {
   static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(
-      builder: (context) => ExplicationModeDemoPage._(),
+      builder: (context) => ExplicationModeDemoPage(),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          _Background(),
-          Column(
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _BackButton(),
-              Expanded(
-                child: _Contenu(),
-              ),
-              _BoutonContinuer(),
-            ],
-          ),
-        ],
+    return Tracker(
+      tracking: AnalyticsScreenNames.explicationModeDemo,
+      child: Scaffold(
+        body: Stack(
+          children: [
+            _Background(),
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _BackButton(),
+                Expanded(
+                  child: _Contenu(),
+                ),
+                _BoutonContinuer(),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -64,12 +64,12 @@ class _Contenu extends StatelessWidget {
             children: [
               Center(
                   child: Padding(
-                    padding: const EdgeInsets.only(top: 24),
-                    child: Text(
-                      Strings.modeDemoExplicationTitre,
-                      style: TextStyles.textAppBar,
-                    ),
-                  )),
+                padding: const EdgeInsets.only(top: 24),
+                child: Text(
+                  Strings.modeDemoExplicationTitre,
+                  style: TextStyles.textAppBar,
+                ),
+              )),
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: SizedBox(
@@ -168,7 +168,7 @@ class _BoutonContinuer extends StatelessWidget {
       child: PrimaryActionButton(
         label: Strings.continueLabel,
         onPressed: () {
-          pushAndTrackBack(context, ChoixModeDemoPage.materialPageRoute(), AnalyticsScreenNames.explicationModeDemo);
+          Navigator.push(context, ChoixModeDemoPage.materialPageRoute());
         },
       ),
     );

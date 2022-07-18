@@ -2,6 +2,7 @@ class AnalyticsScreenNames {
   AnalyticsScreenNames._();
 
   static const splash = "splash";
+  static const login = "login";
   static const forceUpdate = "force_update";
   static const entree = "entree";
   static const choixOrganisme = "entree/choix-organisme";

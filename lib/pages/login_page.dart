@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/pages/cej_information_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/login_view_model.dart';
@@ -15,14 +17,19 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
 
 class LoginPage extends StatelessWidget {
-  static const routeName = "/login";
+  static MaterialPageRoute<void> materialPageRoute() {
+    return MaterialPageRoute(builder: (context) => LoginPage());
+  }
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, LoginViewModel>(
-      converter: (store) => LoginViewModel.create(store),
-      distinct: true,
-      builder: (context, viewModel) => _content(viewModel, context),
+    return Tracker(
+      tracking: AnalyticsScreenNames.login,
+      child: StoreConnector<AppState, LoginViewModel>(
+        converter: (store) => LoginViewModel.create(store),
+        distinct: true,
+        builder: (context, viewModel) => _content(viewModel, context),
+      ),
     );
   }
 
@@ -72,7 +79,7 @@ class LoginPage extends StatelessWidget {
                         SizedBox(height: 16),
                         SecondaryButton(
                           label: Strings.askAccount,
-                          onPressed: () => Navigator.pushNamed(context, CejInformationPage.routeName),
+                          onPressed: () => Navigator.push(context, CejInformationPage.materialPageRoute()),
                           backgroundColor: Colors.white,
                         ),
                       ],

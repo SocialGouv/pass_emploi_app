@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_create_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -13,9 +13,7 @@ import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
-class CreateUserActionBottomSheet extends TraceableStatefulWidget {
-  CreateUserActionBottomSheet() : super(name: AnalyticsScreenNames.createUserAction);
-
+class CreateUserActionBottomSheet extends StatefulWidget {
   @override
   State<CreateUserActionBottomSheet> createState() => _CreateUserActionBottomSheetState();
 }
@@ -40,10 +38,13 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, UserActionCreateViewModel>(
-      converter: (state) => UserActionCreateViewModel.create(state),
-      builder: (context, viewModel) => _buildForm(context, viewModel),
-      onWillChange: (previousVm, newVm) => _dismissBottomSheetIfNeeded(context, newVm),
+    return Tracker(
+      tracking: AnalyticsScreenNames.createUserAction,
+      child: StoreConnector<AppState, UserActionCreateViewModel>(
+        converter: (state) => UserActionCreateViewModel.create(state),
+        builder: (context, viewModel) => _buildForm(context, viewModel),
+        onWillChange: (previousVm, newVm) => _dismissBottomSheetIfNeeded(context, newVm),
+      ),
     );
   }
 

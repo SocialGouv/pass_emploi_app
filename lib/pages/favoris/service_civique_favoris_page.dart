@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/pages/favoris/favoris_page.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
@@ -36,12 +35,11 @@ class ServiceCiviqueFavorisPage extends AbstractFavorisPage<ServiceCivique, Serv
           Strings.asSoonAs + itemViewModel.startDate!.toDateTimeUtcOnLocalTimeZone().toDayWithFullMonth()
       ],
       onTap: () {
-        pushAndTrackBack(
+        Navigator.push(
           context,
           MaterialPageRoute(builder: (_) {
             return ServiceCiviqueDetailPage(itemViewModel.id, true);
           }),
-          AnalyticsScreenNames.immersionFavoris,
         );
       },
       from: OffrePage.serviceCiviqueFavoris,

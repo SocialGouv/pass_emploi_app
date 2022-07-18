@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
 import 'package:pass_emploi_app/pages/service_civique/service_civique_list_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -16,9 +15,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
 
-class ServiceCiviqueSearchPage extends TraceableStatefulWidget {
-  ServiceCiviqueSearchPage() : super(name: AnalyticsScreenNames.serviceCiviqueResearch);
-
+class ServiceCiviqueSearchPage extends StatefulWidget {
   @override
   State<ServiceCiviqueSearchPage> createState() => _ServiceCiviqueSearchPageState();
 }
@@ -30,25 +27,27 @@ class _ServiceCiviqueSearchPageState extends State<ServiceCiviqueSearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, ServiceCiviqueViewModel>(
-      converter: (store) => ServiceCiviqueViewModel.create(store),
-      builder: _buildContent,
-      onWillChange: (_, newViewModel) {
-        if (newViewModel.displayState == DisplayState.CONTENT) {
-          if (_shouldNavigate) {
-            _shouldNavigate = false;
-            widget.pushAndTrackBack(
-              context,
-              MaterialPageRoute(builder: (context) => ServiceCiviqueListPage()),
-              AnalyticsScreenNames.serviceCiviqueResearch,
-            );
+    return Tracker(
+      tracking: AnalyticsScreenNames.serviceCiviqueResearch,
+      child: StoreConnector<AppState, ServiceCiviqueViewModel>(
+        converter: (store) => ServiceCiviqueViewModel.create(store),
+        builder: _buildContent,
+        onWillChange: (_, newViewModel) {
+          if (newViewModel.displayState == DisplayState.CONTENT) {
+            if (_shouldNavigate) {
+              _shouldNavigate = false;
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => ServiceCiviqueListPage()),
+              );
+            }
           }
-        }
-      },
-      onDispose: (store) {
-        store.dispatch(SearchLocationResetAction());
-      },
-      distinct: true,
+        },
+        onDispose: (store) {
+          store.dispatch(SearchLocationResetAction());
+        },
+        distinct: true,
+      ),
     );
   }
 

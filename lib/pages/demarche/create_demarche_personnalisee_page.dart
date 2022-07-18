@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_personnalisee_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -17,11 +17,9 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
-class CreateDemarchePersonnaliseePage extends TraceableStatefulWidget {
-  CreateDemarchePersonnaliseePage._() : super(name: AnalyticsScreenNames.createDemarchePersonnalisee);
-
+class CreateDemarchePersonnaliseePage extends StatefulWidget {
   static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => CreateDemarchePersonnaliseePage._());
+    return MaterialPageRoute(builder: (context) => CreateDemarchePersonnaliseePage());
   }
 
   @override
@@ -34,12 +32,15 @@ class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, CreateDemarchePersonnaliseeViewModel>(
-      builder: _buildBody,
-      converter: (store) => CreateDemarchePersonnaliseeViewModel.create(store),
-      onDidChange: _onDidChange,
-      onDispose: (store) => store.dispatch(CreateDemarcheResetAction()),
-      distinct: true,
+    return Tracker(
+      tracking: AnalyticsScreenNames.createDemarchePersonnalisee,
+      child: StoreConnector<AppState, CreateDemarchePersonnaliseeViewModel>(
+        builder: _buildBody,
+        converter: (store) => CreateDemarchePersonnaliseeViewModel.create(store),
+        onDidChange: _onDidChange,
+        onDispose: (store) => store.dispatch(CreateDemarcheResetAction()),
+        distinct: true,
+      ),
     );
   }
 

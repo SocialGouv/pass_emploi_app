@@ -5,7 +5,9 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 
 class CredentialsPage extends StatefulWidget {
-  static const routeName = "/credentials";
+  static MaterialPageRoute<void> materialPageRoute() {
+    return MaterialPageRoute(builder: (context) => CredentialsPage());
+  }
 
   @override
   State<CredentialsPage> createState() => _CredentialsPageState();

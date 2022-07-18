@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/partage_offre_page_view_model.dart';
@@ -14,10 +15,10 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
-class PartageOffrePage extends TraceableStatefulWidget {
+class PartageOffrePage extends StatefulWidget {
   final OffreType type;
 
-  PartageOffrePage._({required this.type}) : super(name: AnalyticsScreenNames.emploiPartagePage);
+  PartageOffrePage._({required this.type});
 
   @override
   _PartageOffrePageState createState() => _PartageOffrePageState();
@@ -35,11 +36,14 @@ class _PartageOffrePageState extends State<PartageOffrePage> {
   @override
   Widget build(BuildContext context) {
     _controller = TextEditingController(text: Strings.partageOffreDefaultMessage);
-    return StoreConnector<AppState, PartageOffrePageViewModel>(
-      converter: (store) => PartageOffrePageViewModel.create(store),
-      builder: (context, viewModel) => _scaffold(context, viewModel),
-      onWillChange: (_, viewModel) => _displaySnackBar(viewModel),
-      distinct: true,
+    return Tracker(
+      tracking: AnalyticsScreenNames.emploiPartagePage,
+      child: StoreConnector<AppState, PartageOffrePageViewModel>(
+        converter: (store) => PartageOffrePageViewModel.create(store),
+        builder: (context, viewModel) => _scaffold(context, viewModel),
+        onWillChange: (_, viewModel) => _displaySnackBar(viewModel),
+        distinct: true,
+      ),
     );
   }
 

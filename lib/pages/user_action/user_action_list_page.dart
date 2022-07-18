@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
@@ -24,9 +23,7 @@ import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
-class UserActionListPage extends TraceableStatefulWidget {
-  UserActionListPage() : super(name: AnalyticsScreenNames.userActionList);
-
+class UserActionListPage extends StatefulWidget {
   @override
   State<UserActionListPage> createState() => _UserActionListPageState();
 }
@@ -44,24 +41,26 @@ class _UserActionListPageState extends State<UserActionListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, UserActionListPageViewModel>(
-      onInit: (store) => store.dispatch(UserActionListRequestAction()),
-      builder: (context, viewModel) => _scaffold(context, viewModel),
-      converter: (store) => UserActionListPageViewModel.create(store),
-      distinct: true,
-      onDidChange: (previousViewModel, viewModel) {
-        _openDeeplinkIfNeeded(viewModel, context);
-      },
-      onDispose: (store) => store.dispatch(UserActionListResetAction()),
+    return Tracker(
+      tracking: AnalyticsScreenNames.userActionList,
+      child: StoreConnector<AppState, UserActionListPageViewModel>(
+        onInit: (store) => store.dispatch(UserActionListRequestAction()),
+        builder: (context, viewModel) => _scaffold(context, viewModel),
+        converter: (store) => UserActionListPageViewModel.create(store),
+        distinct: true,
+        onDidChange: (previousViewModel, viewModel) {
+          _openDeeplinkIfNeeded(viewModel, context);
+        },
+        onDispose: (store) => store.dispatch(UserActionListResetAction()),
+      ),
     );
   }
 
   void _openDeeplinkIfNeeded(UserActionListPageViewModel viewModel, BuildContext context) {
     if (viewModel.actionDetails != null) {
-      widget.pushAndTrackBack(
+      Navigator.push(
         context,
         UserActionDetailPage.materialPageRoute(viewModel.actionDetails!),
-        AnalyticsScreenNames.userActionList,
       );
       viewModel.onDeeplinkUsed();
     }
@@ -144,7 +143,7 @@ class _CampagneCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return CampagneCard(
       onTap: () {
-        pushAndTrackBack(context, CampagneDetailsPage.materialPageRoute(), AnalyticsScreenNames.evaluationDetails);
+        Navigator.push(context, CampagneDetailsPage.materialPageRoute());
       },
       titre: title,
       description: description,
@@ -162,10 +161,9 @@ class _ActionCard extends StatelessWidget {
     return UserActionCard(
       onTap: () {
         context.trackEvent(EventType.ACTION_DETAIL);
-        pushAndTrackBack(
+        Navigator.push(
           context,
           UserActionDetailPage.materialPageRoute(viewModel),
-          AnalyticsScreenNames.userActionList,
         );
       },
       viewModel: viewModel,

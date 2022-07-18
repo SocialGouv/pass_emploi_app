@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/pages/favoris/favoris_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
@@ -36,14 +35,13 @@ class OffreEmploiFavorisPage extends AbstractFavorisPage<OffreEmploi, OffreEmplo
       dataTag: [itemViewModel.contractType, itemViewModel.duration].whereType<String>().toList(),
       id: itemViewModel.id,
       from: onlyAlternance ? OffrePage.alternanceFavoris : OffrePage.emploiFavoris,
-      onTap: () => pushAndTrackBack(
+      onTap: () => Navigator.push(
         context,
         OffreEmploiDetailsPage.materialPageRoute(
           itemViewModel.id,
           fromAlternance: onlyAlternance,
           popPageWhenFavoriIsRemoved: true,
         ),
-        onlyAlternance ? AnalyticsScreenNames.alternanceFavoris : AnalyticsScreenNames.emploiFavoris,
       ),
     );
   }

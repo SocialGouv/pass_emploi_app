@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
@@ -123,14 +121,13 @@ class _OfferCard extends StatelessWidget {
   }
 
   void _showOffreEmploiDetailsPage(BuildContext context) {
-    pushAndTrackBack(
+    Navigator.push(
       context,
       OffreEmploiDetailsPage.materialPageRoute(
         offerId,
         fromAlternance: type == OffreType.alternance,
         showFavori: false,
       ),
-      type == OffreType.alternance ? AnalyticsScreenNames.alternanceDetails : AnalyticsScreenNames.emploiDetails,
     );
   }
 }

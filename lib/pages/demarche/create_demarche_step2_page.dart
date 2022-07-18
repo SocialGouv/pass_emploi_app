@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_personnalisee_page.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step3_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step2_view_model.dart';
@@ -14,19 +13,20 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/demarche_du_referentiel_card.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
-class CreateDemarcheStep2Page extends TraceableStatelessWidget {
-  CreateDemarcheStep2Page._() : super(name: AnalyticsScreenNames.searchDemarcheStep2);
-
+class CreateDemarcheStep2Page extends StatelessWidget {
   static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => CreateDemarcheStep2Page._());
+    return MaterialPageRoute(builder: (context) => CreateDemarcheStep2Page());
   }
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, CreateDemarcheStep2ViewModel>(
-      builder: _buildBody,
-      converter: (store) => CreateDemarcheStep2ViewModel.create(store),
-      distinct: true,
+    return Tracker(
+      tracking: AnalyticsScreenNames.searchDemarcheStep2,
+      child: StoreConnector<AppState, CreateDemarcheStep2ViewModel>(
+        builder: _buildBody,
+        converter: (store) => CreateDemarcheStep2ViewModel.create(store),
+        distinct: true,
+      ),
     );
   }
 
@@ -46,10 +46,9 @@ class CreateDemarcheStep2Page extends TraceableStatelessWidget {
             return DemarcheDuReferentielCard(
               idDemarche: item.idDemarche,
               onTap: () {
-                pushAndTrackBack(
+                Navigator.push(
                   context,
                   CreateDemarcheStep3Page.materialPageRoute(item.idDemarche),
-                  AnalyticsScreenNames.searchDemarcheStep2,
                 );
               },
             );
@@ -57,10 +56,9 @@ class CreateDemarcheStep2Page extends TraceableStatelessWidget {
           return SecondaryButton(
             label: Strings.createDemarchePersonnalisee,
             onPressed: () {
-              pushAndTrackBack(
+              Navigator.push(
                 context,
                 CreateDemarchePersonnaliseePage.materialPageRoute(),
-                AnalyticsScreenNames.searchDemarcheStep2,
               );
             },
           );

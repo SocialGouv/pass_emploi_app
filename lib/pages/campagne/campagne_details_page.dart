@@ -42,7 +42,6 @@ class CampagneDetailsPage extends StatelessWidget {
             ConstrainedBox(
               constraints: const BoxConstraints(minWidth: double.infinity),
               child: PrimaryActionButton(
-                // ignore: ban-name, no tracking required on this page
                 onPressed: () => Navigator.push(context, CampagneQuestionPage.materialPageRoute(0)),
                 label: Strings.evalButton,
                 drawableRes: Drawables.icPencil,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/presentation/profil/suppression_compte_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -14,18 +15,19 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/dialogs/delete_user_dialog.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
-class SuppressionComptePage extends TraceableStatelessWidget {
-  SuppressionComptePage._() : super(name: AnalyticsScreenNames.suppressionAccount);
-
+class SuppressionComptePage extends StatelessWidget {
   static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => SuppressionComptePage._());
+    return MaterialPageRoute(builder: (context) => SuppressionComptePage());
   }
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, SuppressionCompteViewModel>(
-      converter: (store) => SuppressionCompteViewModel.create(store),
-      builder: (context, viewModel) => _scaffold(context, viewModel),
+    return Tracker(
+      tracking: AnalyticsScreenNames.suppressionAccount,
+      child: StoreConnector<AppState, SuppressionCompteViewModel>(
+        converter: (store) => SuppressionCompteViewModel.create(store),
+        builder: (context, viewModel) => _scaffold(context, viewModel),
+      ),
     );
   }
 

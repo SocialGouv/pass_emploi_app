@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_actions.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step2_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step1_view_model.dart';
@@ -16,11 +15,9 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 
-class CreateDemarcheStep1Page extends TraceableStatefulWidget {
-  CreateDemarcheStep1Page._() : super(name: AnalyticsScreenNames.searchDemarcheStep1);
-
+class CreateDemarcheStep1Page extends StatefulWidget {
   static MaterialPageRoute<void> materialPageRoute() {
-    return MaterialPageRoute(builder: (context) => CreateDemarcheStep1Page._());
+    return MaterialPageRoute(builder: (context) => CreateDemarcheStep1Page());
   }
 
   @override
@@ -32,12 +29,15 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, CreateDemarcheStep1ViewModel>(
-      builder: _buildBody,
-      converter: (store) => CreateDemarcheStep1ViewModel.create(store),
-      onDidChange: _onDidChange,
-      onDispose: (store) => store.dispatch(SearchDemarcheResetAction()),
-      distinct: true,
+    return Tracker(
+      tracking: AnalyticsScreenNames.searchDemarcheStep1,
+      child: StoreConnector<AppState, CreateDemarcheStep1ViewModel>(
+        builder: _buildBody,
+        converter: (store) => CreateDemarcheStep1ViewModel.create(store),
+        onDidChange: _onDidChange,
+        onDispose: (store) => store.dispatch(SearchDemarcheResetAction()),
+        distinct: true,
+      ),
     );
   }
 
@@ -77,10 +77,9 @@ class _CreateDemarcheStep1PageState extends State<CreateDemarcheStep1Page> {
 
   void _onDidChange(CreateDemarcheStep1ViewModel? oldVm, CreateDemarcheStep1ViewModel newVm) {
     if (newVm.shouldGoToStep2) {
-      widget.pushAndTrackBack(
+      Navigator.push(
         context,
         CreateDemarcheStep2Page.materialPageRoute(),
-        AnalyticsScreenNames.searchDemarcheStep1,
       );
     }
   }

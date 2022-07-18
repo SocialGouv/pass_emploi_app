@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
@@ -28,9 +28,7 @@ import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:redux/redux.dart';
 
-class ChatPage extends TraceableStatefulWidget {
-  ChatPage() : super(name: AnalyticsScreenNames.chat);
-
+class ChatPage extends StatefulWidget {
   @override
   _ChatPageState createState() => _ChatPageState();
 }
@@ -64,16 +62,19 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, ChatPageViewModel>(
-      onInit: (store) {
-        store.dispatch(LastMessageSeenAction());
-        store.dispatch(SubscribeToChatAction());
-      },
-      onDispose: (store) => _onDispose(store),
-      converter: (store) => ChatPageViewModel.create(store),
-      builder: (context, viewModel) => _scaffold(viewModel, _body(context, viewModel)),
-      onDidChange: (previousVm, newVm) => StoreProvider.of<AppState>(context).dispatch(LastMessageSeenAction()),
-      distinct: true,
+    return Tracker(
+      tracking: AnalyticsScreenNames.chat,
+      child: StoreConnector<AppState, ChatPageViewModel>(
+        onInit: (store) {
+          store.dispatch(LastMessageSeenAction());
+          store.dispatch(SubscribeToChatAction());
+        },
+        onDispose: (store) => _onDispose(store),
+        converter: (store) => ChatPageViewModel.create(store),
+        builder: (context, viewModel) => _scaffold(viewModel, _body(context, viewModel)),
+        onDidChange: (previousVm, newVm) => StoreProvider.of<AppState>(context).dispatch(LastMessageSeenAction()),
+        distinct: true,
+      ),
     );
   }
 
@@ -176,7 +177,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                   onPressed: () {
                     if (_controller.value.text == "Je suis malade. Complètement malade.") {
                       _controller.clear();
-                      Navigator.pushNamed(context, CredentialsPage.routeName);
+                      Navigator.push(context, CredentialsPage.materialPageRoute());
                     }
                     if (_controller.value.text.isNotEmpty) {
                       viewModel.onSendMessage(_controller.value.text);

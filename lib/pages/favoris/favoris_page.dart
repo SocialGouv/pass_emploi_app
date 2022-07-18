@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_actions.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -15,7 +15,7 @@ import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:redux/redux.dart';
 
-abstract class AbstractFavorisPage<FAVORIS_MODEL, FAVORIS_VIEW_MODEL> extends TraceableStatelessWidget {
+abstract class AbstractFavorisPage<FAVORIS_MODEL, FAVORIS_VIEW_MODEL> extends StatelessWidget {
   final String analyticsScreenName;
   final FavoriListState<FAVORIS_MODEL> Function(Store<AppState> store) selectState;
 
@@ -23,18 +23,21 @@ abstract class AbstractFavorisPage<FAVORIS_MODEL, FAVORIS_VIEW_MODEL> extends Tr
     required this.analyticsScreenName,
     required this.selectState,
     Key? key,
-  }) : super(name: analyticsScreenName, key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, FavorisListViewModel<FAVORIS_MODEL, FAVORIS_VIEW_MODEL>>(
-      onInit: (store) => store.dispatch(FavoriListRequestAction<FAVORIS_MODEL>()),
-      builder: (context, viewModel) => FavorisStateContext<FAVORIS_MODEL>(
-        selectState: selectState,
-        child: DefaultAnimatedSwitcher(child: _switch(context, viewModel)),
+    return Tracker(
+      tracking: analyticsScreenName,
+      child: StoreConnector<AppState, FavorisListViewModel<FAVORIS_MODEL, FAVORIS_VIEW_MODEL>>(
+        onInit: (store) => store.dispatch(FavoriListRequestAction<FAVORIS_MODEL>()),
+        builder: (context, viewModel) => FavorisStateContext<FAVORIS_MODEL>(
+          selectState: selectState,
+          child: DefaultAnimatedSwitcher(child: _switch(context, viewModel)),
+        ),
+        converter: converter,
+        distinct: true,
       ),
-      converter: converter,
-      distinct: true,
     );
   }
 

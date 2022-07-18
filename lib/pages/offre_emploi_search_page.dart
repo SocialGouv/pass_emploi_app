@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -17,14 +17,10 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
 
-class OffreEmploiSearchPage extends TraceableStatefulWidget {
+class OffreEmploiSearchPage extends StatefulWidget {
   final bool onlyAlternance;
 
-  OffreEmploiSearchPage({required this.onlyAlternance})
-      : super(
-          name: onlyAlternance ? AnalyticsScreenNames.alternanceResearch : AnalyticsScreenNames.emploiResearch,
-          key: ValueKey(onlyAlternance),
-        );
+  OffreEmploiSearchPage({required this.onlyAlternance}) : super(key: ValueKey(onlyAlternance));
 
   @override
   State<OffreEmploiSearchPage> createState() => _OffreEmploiSearchPageState();
@@ -37,23 +33,23 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, OffreEmploiSearchViewModel>(
-      converter: (store) => OffreEmploiSearchViewModel.create(store),
-      onWillChange: (_, newViewModel) {
-        if (newViewModel.displayState == DisplayState.CONTENT && _shouldNavigate) {
-          _shouldNavigate = false;
-          Navigator.pushNamed(
-            context,
-            OffreEmploiListPage.routeName,
-            arguments: {"onlyAlternance": widget.onlyAlternance},
-          ).then((value) {
-            _shouldNavigate = true;
-          });
-        }
-      },
-      distinct: true,
-      builder: (context, viewModel) => _body(viewModel),
-      onDispose: (store) => store.dispatch(SearchLocationResetAction()),
+    return Tracker(
+      tracking: widget.onlyAlternance ? AnalyticsScreenNames.alternanceResearch : AnalyticsScreenNames.emploiResearch,
+      child: StoreConnector<AppState, OffreEmploiSearchViewModel>(
+        converter: (store) => OffreEmploiSearchViewModel.create(store),
+        onWillChange: (_, newViewModel) {
+          if (newViewModel.displayState == DisplayState.CONTENT && _shouldNavigate) {
+            _shouldNavigate = false;
+            Navigator.push(context, OffreEmploiListPage.materialPageRoute(onlyAlternance: widget.onlyAlternance))
+                .then((value) {
+              _shouldNavigate = true;
+            });
+          }
+        },
+        distinct: true,
+        builder: (context, viewModel) => _body(viewModel),
+        onDispose: (store) => store.dispatch(SearchLocationResetAction()),
+      ),
     );
   }
 

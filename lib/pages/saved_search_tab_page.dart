@@ -64,18 +64,10 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     if (!_shouldNavigate || newViewModel == null) return;
     switch (newViewModel.searchNavigationState) {
       case SavedSearchNavigationState.OFFRE_EMPLOI:
-        _goToPageNamed(
-          IndexOf.OFFRES_EMPLOI,
-          OffreEmploiListPage.routeName,
-          arguments: {"onlyAlternance": false, "fromSavedSearch": true},
-        );
+        _goToPage(IndexOf.OFFRES_EMPLOI, OffreEmploiListPage(onlyAlternance: false, fromSavedSearch: true));
         break;
       case SavedSearchNavigationState.OFFRE_ALTERNANCE:
-        _goToPageNamed(
-          IndexOf.ALTERNANCE,
-          OffreEmploiListPage.routeName,
-          arguments: {"onlyAlternance": true, "fromSavedSearch": true},
-        );
+        _goToPage(IndexOf.ALTERNANCE, OffreEmploiListPage(onlyAlternance: true, fromSavedSearch: true));
         break;
       case SavedSearchNavigationState.OFFRE_IMMERSION:
         _goToPage(IndexOf.IMMERSION, ImmersionListPage(true))
@@ -92,14 +84,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   Future<bool> _goToPage(IndexOf newIndex, Widget page) {
     _shouldNavigate = false;
     _updateIndex(newIndex, true);
-    // ignore: ban-name
     return Navigator.push(context, MaterialPageRoute(builder: (_) => page)).then((_) => _shouldNavigate = true);
-  }
-
-  Future<bool> _goToPageNamed(IndexOf newIndex, String routeName, {Object? arguments}) {
-    _shouldNavigate = false;
-    _updateIndex(newIndex, true);
-    return Navigator.pushNamed(context, routeName, arguments: arguments).then((_) => _shouldNavigate = true);
   }
 
   Widget _scrollView(SavedSearchListViewModel viewModel) {
