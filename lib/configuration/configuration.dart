@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:package_info/package_info.dart';
+import 'package:pass_emploi_app/models/version.dart';
 import 'package:pass_emploi_app/utils/log.dart';
 
 enum Flavor { STAGING, PROD }
 
 class Configuration {
+  Version? version;
   Flavor flavor;
   String serverBaseUrl;
   String matomoBaseUrl;
@@ -20,6 +22,7 @@ class Configuration {
   String iSRGX1CertificateForOldDevices;
 
   Configuration(
+    this.version,
     this.flavor,
     this.serverBaseUrl,
     this.matomoBaseUrl,
@@ -34,7 +37,9 @@ class Configuration {
   );
 
   static Future<Configuration> build() async {
-    final packageName = (await PackageInfo.fromPlatform()).packageName;
+    final PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    final currentVersion = Version.fromString(packageInfo.version);
+    final packageName = packageInfo.packageName;
     final flavor = packageName.contains("staging") ? Flavor.STAGING : Flavor.PROD;
     Log.i("Flavor = $flavor");
     await loadEnvironmentVariables(flavor);
@@ -49,6 +54,7 @@ class Configuration {
     final authClientSecret = getOrThrow('AUTH_CLIENT_SECRET');
     final iSRGX1CertificateForOldDevices = utf8.decode(base64Decode(getOrThrow('ISRGX1_CERT_FOR_OLD_DEVICES')));
     return Configuration(
+      currentVersion,
       flavor,
       serverBaseUrl,
       matomoBaseUrl,

@@ -38,7 +38,7 @@ class ChatInitializerMiddleware extends MiddlewareClass<AppState> {
         store.dispatch(SubscribeToChatAction());
       }
     } else if (action is LoginSuccessAction) {
-      if (store.state.deepLinkState.deepLink == DeepLink.ROUTE_TO_CHAT) {
+      if (store.state.deepLinkState is NouveauMessageDeepLinkState) {
         await _initializeChatFirstThenDispatchLogin(action, next, store);
       } else {
         await _dispatchLoginFirstThenInitializeChat(action, next, store);

@@ -1,3 +1,4 @@
+import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
@@ -18,7 +19,7 @@ import '../doubles/fixtures.dart';
 import '../doubles/spies.dart';
 import '../utils/test_setup.dart';
 
-AppState givenState() => AppState.initialState();
+AppState givenState([Configuration? configuration]) => AppState.initialState(configuration: configuration);
 
 extension AppStateDSL on AppState {
   Store<AppState> store([Function(TestStoreFactory)? foo]) {
@@ -30,6 +31,8 @@ extension AppStateDSL on AppState {
   StoreSpy spyStore() => StoreSpy.withState(this);
 
   AppState loggedInUser() => copyWith(loginState: successMiloUserState());
+
+  AppState deepLink(DeepLinkState deepLinkState) => copyWith(deepLinkState: deepLinkState);
 
   AppState loggedInMiloUser() => copyWith(loginState: successMiloUserState());
 
@@ -68,7 +71,7 @@ extension AppStateDSL on AppState {
   AppState chatBrouillon(String message) => copyWith(chatBrouillonState: ChatBrouillonState(message));
 
   AppState deeplinkToRendezvous(String id) {
-    return copyWith(deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_RENDEZVOUS, DateTime.now(), id));
+    return copyWith(deepLinkState: DetailRendezvousDeepLinkState(idRendezvous: id));
   }
 
   AppState searchDemarchesSuccess(List<DemarcheDuReferentiel> demarches) {

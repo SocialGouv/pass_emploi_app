@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/models/user.dart';
+import 'package:pass_emploi_app/models/version.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
@@ -130,19 +131,22 @@ AuthTokenResponse authTokenResponse() => AuthTokenResponse(
       refreshToken: 'refreshToken',
     );
 
-Configuration configuration({Flavor flavor = Flavor.STAGING}) => Configuration(
-      flavor,
-      'serverBaseUrl',
-      'matomoBaseUrl',
-      'matomoSiteId',
-      'authClientId',
-      'authLoginRedirectUrl',
-      'authLogoutRedirectUrl',
-      'authIssuer',
-      ['scope1', 'scope2', 'scope3'],
-      'authClientSecret',
-      'someKey',
-    );
+Configuration configuration({Version version = const Version(1, 0, 0), Flavor flavor = Flavor.STAGING}) {
+  return Configuration(
+    version,
+    flavor,
+    'serverBaseUrl',
+    'matomoBaseUrl',
+    'matomoSiteId',
+    'authClientId',
+    'authLoginRedirectUrl',
+    'authLogoutRedirectUrl',
+    'authIssuer',
+    ['scope1', 'scope2', 'scope3'],
+    'authClientSecret',
+    'someKey',
+  );
+}
 
 Location mockLocation({double? lat, double? lon}) => Location(
       libelle: "",

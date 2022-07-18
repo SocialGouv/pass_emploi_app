@@ -19,7 +19,7 @@ void main() {
     group('when coming from a chat deep link…', () {
       final initialState = AppState.initialState().copyWith(
         loginState: LoginFailureState(),
-        deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_CHAT, DateTime.now()),
+        deepLinkState: NouveauMessageDeepLinkState(),
       );
 
       test(
@@ -81,7 +81,7 @@ void main() {
     group('when not coming from a chat deep link…', () {
       final initialState = AppState.initialState().copyWith(
         loginState: LoginFailureState(),
-        deepLinkState: DeepLinkState(DeepLink.NOT_SET, DateTime.now()),
+        deepLinkState: NotInitializedDeepLinkState(),
       );
 
       test("Firebase Auth token should be fetched and set asynchronously to accelerate sign-in process", () async {
