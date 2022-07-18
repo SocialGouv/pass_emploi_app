@@ -451,13 +451,6 @@ class _PartageOffre extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [_newTag(), SizedBox(height: Margins.spacing_base), _shareButton(context)],
-    );
-  }
-
-  Widget _shareButton(BuildContext context) {
     return SizedBox(
       width: double.infinity,
       child: OutlinedButton(
@@ -473,20 +466,6 @@ class _PartageOffre extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 16),
           child: Text(Strings.partagerOffreConseiller, style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
         ),
-      ),
-    );
-  }
-
-  Container _newTag() {
-    return Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(40)),
-        color: AppColors.accent1Lighten,
-      ),
-      padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-      child: Text(
-        Strings.nouveau,
-        style: TextStyles.textSRegularWithColor(AppColors.accent1),
       ),
     );
   }
