@@ -37,7 +37,7 @@ class _RouterPageState extends State<RouterPage> {
       onInit: (store) => store.dispatch(BootstrapAction()),
       converter: (store) => RouterPageViewModel.create(store, platform),
       builder: (context, viewModel) => _content(viewModel),
-      ignoreChange: (state) => state.deepLinkState is NotInitializedDeepLinkState,
+      ignoreChange: (state) => state.deepLinkState is UsedDeepLinkState,
       onDidChange: _onDidChange,
       distinct: true,
     );

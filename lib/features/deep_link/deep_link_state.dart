@@ -1,6 +1,6 @@
+import 'package:clock/clock.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/version.dart';
-import 'package:clock/clock.dart';
 
 class DeepLinkState extends Equatable {
   final DateTime deepLinkOpenedAt;
@@ -27,6 +27,8 @@ class DeepLinkState extends Equatable {
   }
 
   factory DeepLinkState.notInitialized() => NotInitializedDeepLinkState();
+
+  factory DeepLinkState.used() => UsedDeepLinkState();
 
   @override
   List<Object?> get props => [deepLinkOpenedAt];
@@ -66,5 +68,7 @@ class SavedSearchDeepLinkState extends DeepLinkState {
 
   SavedSearchDeepLinkState({required this.idSavedSearch});
 }
+
+class UsedDeepLinkState extends DeepLinkState {}
 
 class NotInitializedDeepLinkState extends DeepLinkState {}

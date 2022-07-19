@@ -4,9 +4,9 @@ import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_actio
 
 DeepLinkState deepLinkReducer(DeepLinkState current, dynamic action) {
   if (action is SavedSearchGetAction) {
-    return DeepLinkState.notInitialized();
+    return DeepLinkState.used();
   } else if (action is ResetDeeplinkAction) {
-    return DeepLinkState.notInitialized();
+    return DeepLinkState.used();
   } else if (action is DeepLinkAction) {
     return DeepLinkState.fromJson(action.message.data);
   } else if (action is LocalDeeplinkAction) {

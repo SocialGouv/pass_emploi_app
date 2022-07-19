@@ -78,11 +78,11 @@ void main() {
       );
       assertState(
         ResetDeeplinkAction(),
-        NotInitializedDeepLinkState(),
+        UsedDeepLinkState(),
       );
       assertState(
         SavedSearchGetAction(''),
-        NotInitializedDeepLinkState(),
+        UsedDeepLinkState(),
       );
     });
   });
