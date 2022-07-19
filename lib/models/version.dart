@@ -19,9 +19,9 @@ class Version extends Equatable implements Comparable<Version> {
 
   @override
   int compareTo(Version other) {
-    if (major.compareTo(other.major) != 0) return major.compareTo(other.major);
-    if (minor.compareTo(other.minor) != 0) return minor.compareTo(other.minor);
-    return patch.compareTo(other.patch);
+    final int thisVersion = major * 1000000 + minor * 1000 + patch;
+    final int otherVersion = other.major * 1000000 + other.minor * 1000 + other.patch;
+    return thisVersion.compareTo(otherVersion);
   }
 
   bool operator <=(Version other) => compareTo(other) <= 0;
