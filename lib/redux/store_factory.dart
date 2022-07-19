@@ -48,6 +48,7 @@ import 'package:pass_emploi_app/features/tech/action_logging_middleware.dart';
 import 'package:pass_emploi_app/features/tech/crashlytics_middleware.dart';
 import 'package:pass_emploi_app/features/tracking/tracking_event_middleware.dart';
 import 'package:pass_emploi_app/features/tracking/user_tracking_structure_middleware.dart';
+import 'package:pass_emploi_app/features/tutorial/tutorial_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_middleware.dart';
@@ -88,6 +89,7 @@ import 'package:pass_emploi_app/repositories/service_civique/service_civique_rep
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
+import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:redux/redux.dart' as redux;
 
 class StoreFactory {
@@ -128,6 +130,7 @@ class StoreFactory {
   final CreateDemarcheRepository createDemarcheRepository;
   final SearchDemarcheRepository demarcheDuReferentielRepository;
   final PieceJointeRepository pieceJointeRepository;
+  final TutorialRepository tutorialRepository;
 
   StoreFactory(
     this.authenticator,
@@ -167,6 +170,7 @@ class StoreFactory {
     this.createDemarcheRepository,
     this.demarcheDuReferentielRepository,
     this.pieceJointeRepository,
+    this.tutorialRepository,
   );
 
   redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -223,6 +227,7 @@ class StoreFactory {
         SuppressionCompteMiddleware(suppressionCompteRepository),
         CampagneMiddleware(campagneRepository),
         PieceJointeMiddleware(pieceJointeRepository),
+        TutorialMiddleware(tutorialRepository),
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),
       ],
