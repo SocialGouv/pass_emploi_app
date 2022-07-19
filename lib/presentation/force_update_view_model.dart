@@ -17,7 +17,7 @@ class ForceUpdateViewModel extends Equatable {
   factory ForceUpdateViewModel.create(Flavor flavor, Platform platform) {
     return ForceUpdateViewModel(
       label: flavor == Flavor.STAGING ? Strings.forceUpdateOnFirebaseLabel : Strings.forceUpdateOnStoreLabel,
-      storeUrl: _storeUrl(flavor, platform),
+      storeUrl: _appStoreUrl(flavor, platform),
       withCallToAction: flavor == Flavor.PROD,
     );
   }
@@ -26,7 +26,4 @@ class ForceUpdateViewModel extends Equatable {
   List<Object?> get props => [label, storeUrl, withCallToAction];
 }
 
-String _storeUrl(Flavor flavor, Platform platform) {
-  if (flavor == Flavor.STAGING) return '';
-  return platform.getStoreUrl();
-}
+String _appStoreUrl(Flavor flavor, Platform platform) => flavor == Flavor.PROD ? platform.getAppStoreUrl() : '';

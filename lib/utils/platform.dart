@@ -1,7 +1,7 @@
 enum Platform {
   IOS,
   ANDROID;
-  String getStoreUrl() {
+  String getAppStoreUrl() {
     switch (this) {
       case Platform.ANDROID:
         return 'market://details?id=fr.fabrique.social.gouv.passemploi';

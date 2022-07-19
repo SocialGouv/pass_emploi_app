@@ -44,7 +44,7 @@ String? _storeUrl(AppState state, Platform platform) {
   if (deepLinkState is NouvellesFonctionnalitesDeepLinkState && deepLinkState.lastVersion != null) {
     final appVersion = state.configurationState.configuration?.version;
     if (appVersion != null && appVersion < deepLinkState.lastVersion!) {
-      return platform.getStoreUrl();
+      return platform.getAppStoreUrl();
     }
   }
   return null;
@@ -57,8 +57,8 @@ RouterPageDisplayState _routerPageDisplayState(Store<AppState> store) {
   return RouterPageDisplayState.LOGIN;
 }
 
-MainPageDisplayState _toMainPageDisplayState(DeepLinkState? deepLinkState, Store<AppState> store) {
-  if (deepLinkState != null && deepLinkState is! NotInitializedDeepLinkState) {
+MainPageDisplayState _toMainPageDisplayState(DeepLinkState deepLinkState, Store<AppState> store) {
+  if (deepLinkState is! NotInitializedDeepLinkState) {
     return _toMainPageDisplayStateByDeepLink(deepLinkState);
   }
   final loginState = store.state.loginState;
