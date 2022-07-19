@@ -60,4 +60,7 @@ class Drawables {
   static String icPencil = _assets + "ic_white_pencil" + _svg;
   static String icClip = _assets + "ic_clip" + _svg;
   static String icDownload = _assets + "ic_download" + _svg;
+
+  static String tutoOffrePartage = _assets +"ic_offre_parager" + _svg;
+  static String tutoOffreDebutant = _assets +"ic_offre_debutant" + _svg;
 }

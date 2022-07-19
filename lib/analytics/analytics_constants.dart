@@ -86,6 +86,12 @@ class AnalyticsScreenNames {
 
   static const suppressionAccount = "/profil/suppression-compte";
   static const explicationModeDemo = "/entree/mode-demo";
+
+  static const tutorialPage = "/new-feature_tutorial";
+  static const continueTutorial = "/new-feature_tutorial/continue";
+  static const skipTutorial = "/new-feature_tutorial/skip";
+  static const delayedTutorial = "/new-feature_tutorial/delayed";
+  static const doneTutorial = "/new-feature_tutorial/done";
 }
 
 class AnalyticsActionNames {
