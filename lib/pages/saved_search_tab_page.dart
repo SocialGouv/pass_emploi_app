@@ -48,10 +48,8 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     return StoreConnector<AppState, SavedSearchListViewModel>(
       onInit: (store) {
         store.dispatch(SavedSearchListRequestAction());
-        final DeepLinkState link = store.state.deepLinkState;
-        if (link.deepLink == DeepLink.SAVED_SEARCH_RESULTS && link.dataId != null) {
-          store.dispatch(SavedSearchGetAction(link.dataId!));
-        }
+        final DeepLinkState state = store.state.deepLinkState;
+        if (state is SavedSearchDeepLinkState) store.dispatch(SavedSearchGetAction(state.idSavedSearch));
       },
       onWillChange: (_, newVM) => _onWillChange(_, newVM),
       builder: (context, viewModel) => _scrollView(viewModel),

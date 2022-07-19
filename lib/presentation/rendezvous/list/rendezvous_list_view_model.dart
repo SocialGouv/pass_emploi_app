@@ -110,7 +110,7 @@ void _retry(Store<AppState> store, int pageOffset) {
 
 String? _deeplinkRendezvousId(DeepLinkState state, RendezvousState rendezvousState) {
   final rdvIds = rendezvousState.rendezvous.map((e) => e.id);
-  return (state.deepLink == DeepLink.ROUTE_TO_RENDEZVOUS && rdvIds.contains(state.dataId)) ? state.dataId : null;
+  return (state is DetailRendezvousDeepLinkState && rdvIds.contains(state.idRendezvous)) ? state.idRendezvous : null;
 }
 
 class RendezvousSection extends Equatable {

@@ -113,8 +113,8 @@ List<UserActionListPageItem> _listItems({
 
 String? _deeplinkActionId(DeepLinkState state, UserActionListState userActionListStateState) {
   if (userActionListStateState is! UserActionListSuccessState) return null;
-  final acttionsIds = userActionListStateState.userActions.map((e) => e.id);
-  return (state.deepLink == DeepLink.ROUTE_TO_ACTION && acttionsIds.contains(state.dataId)) ? state.dataId : null;
+  final actionsIds = userActionListStateState.userActions.map((e) => e.id);
+  return (state is DetailActionDeepLinkState && actionsIds.contains(state.idAction)) ? state.idAction : null;
 }
 
 List<UserActionListPageItem> _getActions(UserActionListState state) {

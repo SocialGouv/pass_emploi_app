@@ -226,7 +226,7 @@ void main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: loggedInState().copyWith(
-        deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_ACTION, DateTime.now(), 'id'),
+        deepLinkState: DetailActionDeepLinkState(idAction: 'id'),
         userActionListState: UserActionListSuccessState([_userAction(status: UserActionStatus.NOT_STARTED)]),
       ),
     );
@@ -242,7 +242,7 @@ void main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: loggedInState().copyWith(
-        deepLinkState: DeepLinkState(DeepLink.ROUTE_TO_ACTION, DateTime.now(), '1'),
+        deepLinkState: DetailActionDeepLinkState(idAction: '1'),
         userActionListState: UserActionListSuccessState([_userAction(status: UserActionStatus.NOT_STARTED)]),
       ),
     );
