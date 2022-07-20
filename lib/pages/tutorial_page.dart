@@ -83,14 +83,14 @@ class _TutorialPageState extends State<TutorialPage> {
                       setState(() {
                         if (currentPage != null) _currentPage = _controller.page?.floor() as int;
                       });
-                      if (currentPage != null && currentPage < viewModel.pages.length) {
+                      if (currentPage != null && currentPage < viewModel.pages.length - 1) {
                         _controller.animateToPage(
                           currentPage.floor() + 1,
                           duration: Duration(milliseconds: 600),
                           curve: Curves.linearToEaseOut,
                         );
                       } else {
-                        //  todo 810 Navigate to the main page
+                        // TODO 810 Add MatomoTracker
                         viewModel.onDone();
                       }
                     },
@@ -143,6 +143,7 @@ class _SkipButton extends StatelessWidget {
           Spacer(),
           InkWell(
             onTap: () => {
+              // TODO 810 Add MatomoTracker
               if (active) viewModel.onSkip(),
             },
             child: Padding(
@@ -273,7 +274,7 @@ class _DelayedButton extends StatelessWidget {
           child: InkWell(
             onTap: () {
               // TODO 810 Add MatomoTracker
-              // TODO 810 Delayed action
+              // TODO 810 Navigate to the main page
               viewModel.onDelay();
             },
             child: Wrap(
