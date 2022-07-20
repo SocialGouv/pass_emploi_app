@@ -60,7 +60,7 @@ class _TutorialPageState extends State<TutorialPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                _SkipButton(active: !_isLastPage(viewModel), viewModel: viewModel,),
+                _SkipButton(active: !_isLastPage(viewModel), viewModel: viewModel),
                 Expanded(
                   child: PageView(
                     controller: _controller,
@@ -96,7 +96,7 @@ class _TutorialPageState extends State<TutorialPage> {
                     },
                   ),
                 ),
-                _DelayedButton(viewModel: viewModel,),
+                _DelayedButton(viewModel: viewModel),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(
                       Margins.spacing_m, Margins.spacing_m, Margins.spacing_m, Margins.spacing_m),
@@ -144,7 +144,7 @@ class _SkipButton extends StatelessWidget {
           InkWell(
             onTap: () => {
               if (active) viewModel.onSkip(),
-          },
+            },
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: Margins.spacing_s,
@@ -184,10 +184,7 @@ class _TutorialContentCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                SvgPicture.asset(
-                  image,
-                  height: 250,
-                ),
+                _Animation(image: image),
                 Text(title, style: TextStyles.textMBold.copyWith(color: AppColors.primary)),
                 SizedBox(height: Margins.spacing_base),
                 Text(description, style: TextStyles.textBaseRegular),
@@ -196,6 +193,67 @@ class _TutorialContentCard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class _Animation extends StatefulWidget {
+  final String image;
+
+  const _Animation({required this.image, Key? key}) : super(key: key);
+
+  @override
+  State<_Animation> createState() => _AnimationState();
+}
+
+class _AnimationState extends State<_Animation> with SingleTickerProviderStateMixin {
+  bool _animating = false;
+
+  late final AnimationController _controllerA = AnimationController(
+    duration: const Duration(milliseconds: 300),
+    reverseDuration: Duration(milliseconds: 300),
+    vsync: this,
+  );
+  late final Animation<double> _offsetAnimation = Tween<double>(
+    begin: 0,
+    end: 30,
+  ).animate(CurvedAnimation(
+    parent: _controllerA,
+    curve: Curves.linear,
+  ));
+
+  Future<void> _playAnimation() async {
+    await _controllerA.forward(from: 0);
+    await _controllerA.reverse();
+    await _controllerA.forward(from: 0);
+    await _controllerA.reverse();
+    await _controllerA.forward(from: 0);
+    await _controllerA.reverse();
+    setState(() {});
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!_animating) {
+      _animating = true;
+      _playAnimation();
+    }
+    return AnimatedBuilder(
+      animation: _offsetAnimation,
+      builder: (context, Widget? child) {
+        return Center(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 40.0),
+            child: Transform.scale(
+              scale: 1 + _offsetAnimation.value / 200,
+              child: SvgPicture.asset(
+                widget.image,
+                height: 250,
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
