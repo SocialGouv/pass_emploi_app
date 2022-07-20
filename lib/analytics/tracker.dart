@@ -27,7 +27,10 @@ class _TrackerState extends State<Tracker> with RouteAware {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    PassEmploiApp.routeObserver.subscribe(this, ModalRoute.of(context) as PageRoute);
+    final modalRoute = ModalRoute.of(context);
+    if (modalRoute is PageRoute) {
+      PassEmploiApp.routeObserver.subscribe(this, modalRoute);
+    }
   }
 
   @override
