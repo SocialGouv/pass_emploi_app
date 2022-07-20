@@ -8,10 +8,12 @@ class OnboardingBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final totalHeight = MediaQuery.of(context).size.height;
+    final totalWidth = MediaQuery.of(context).size.width;
     return Stack(
       children: [
         Container(color: Color(0xFFE5E5E5)),
         SizedBox(
+          width: totalWidth,
           height: totalHeight / 2 + Dimens.appBarHeight,
           child: DecoratedBox(
             decoration: BoxDecoration(
