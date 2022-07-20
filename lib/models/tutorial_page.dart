@@ -5,23 +5,28 @@ import 'package:pass_emploi_app/ui/strings.dart';
 class TutorialPage extends Equatable {
   static List<TutorialPage> milo = [
     TutorialPage._(
-      title: Strings.tutoTitreOffrePartage,
-      description: Strings.tutoDescriptionOffrePartage,
-      image: Drawables.icRedirection,
-    ),
-    TutorialPage._(
       title: Strings.tutoTitreOffreDebutant,
       description: Strings.tutoDescriptionOffreDebutant,
-      image: Drawables.icRedirection,
-    )
+      image: Drawables.icTutoOffreDebutant,
+    ),
+    TutorialPage._(
+      title: Strings.tutoTitreOffrePartage,
+      description: Strings.tutoDescriptionOffrePartage,
+      image: Drawables.icTutoOffrePartager,
+    ),
   ];
 
   static List<TutorialPage> poleEmploi = [
     TutorialPage._(
+      title: Strings.tutoTitreOffreDebutant,
+      description: Strings.tutoDescriptionOffreDebutant,
+      image: Drawables.icTutoOffreDebutant,
+    ),
+    TutorialPage._(
       title: Strings.tutoTitreOffrePartage,
       description: Strings.tutoDescriptionOffrePartage,
-      image: Drawables.icRedirection,
-    )
+      image: Drawables.icTutoOffrePartager,
+    ),
   ];
 
   final String title;
