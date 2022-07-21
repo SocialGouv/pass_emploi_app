@@ -126,7 +126,7 @@ void main() {
       );
       final store = Store<AppState>(reducer, initialState: state);
 
-      final viewModel = RouterPageViewModel.create(store);
+      final viewModel = RouterPageViewModel.create(store, Platform.IOS);
 
       expect(viewModel.routerPageDisplayState, RouterPageDisplayState.TUTORIAL);
     });
