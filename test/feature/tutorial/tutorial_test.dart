@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
-import 'package:pass_emploi_app/models/tutorial_page.dart';
+import 'package:pass_emploi_app/models/tutorial.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 
 import '../../doubles/dummies.dart';
@@ -23,7 +23,7 @@ void main() {
     // Then
     final successAppState = await successState;
     final dataState = (successAppState.tutorialState as ShowTutorialState);
-    expect(dataState.pages, TutorialPage.milo);
+    expect(dataState.pages, Tutorial.milo);
   });
 
   test("Returns tutorial pages list when user didn't see the tutorial and logged in via Pole Emploi", () async {
@@ -40,7 +40,7 @@ void main() {
     // Then
     final successAppState = await successState;
     final dataState = (successAppState.tutorialState as ShowTutorialState);
-    expect(dataState.pages, TutorialPage.poleEmploi);
+    expect(dataState.pages, Tutorial.poleEmploi);
   });
 
   test("Returns not initialized tutorial state when user already read the tutorial before", () async {
@@ -61,13 +61,13 @@ class TutorialRepositorySuccessStub extends TutorialRepository {
   TutorialRepositorySuccessStub() : super(DummySharedPreferences());
 
   @override
-  Future<List<TutorialPage>> getMiloTutorial() async {
-    return TutorialPage.milo;
+  Future<List<Tutorial>> getMiloTutorial() async {
+    return Tutorial.milo;
   }
 
   @override
-  Future<List<TutorialPage>> getPoleEmploiTutorial() async {
-    return TutorialPage.poleEmploi;
+  Future<List<Tutorial>> getPoleEmploiTutorial() async {
+    return Tutorial.poleEmploi;
   }
 }
 
@@ -75,7 +75,7 @@ class TutorialRepositoryAlreadySeenStub extends TutorialRepository {
   TutorialRepositoryAlreadySeenStub() : super(DummySharedPreferences());
 
   @override
-  Future<List<TutorialPage>> getMiloTutorial() async {
+  Future<List<Tutorial>> getMiloTutorial() async {
     return [];
   }
 }

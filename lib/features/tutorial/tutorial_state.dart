@@ -1,11 +1,11 @@
-import 'package:pass_emploi_app/models/tutorial_page.dart';
+import 'package:pass_emploi_app/models/tutorial.dart';
 
 abstract class TutorialState {}
 
 class TutorialNotInitializedState extends TutorialState {}
 
 class ShowTutorialState extends TutorialState {
-  final List<TutorialPage> pages;
+  final List<Tutorial> pages;
 
   ShowTutorialState(this.pages);
 }

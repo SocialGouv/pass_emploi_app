@@ -1,7 +1,7 @@
-import 'package:pass_emploi_app/models/tutorial_page.dart';
+import 'package:pass_emploi_app/models/tutorial.dart';
 
 class TutorialSuccessAction {
-  final List<TutorialPage> pages;
+  final List<Tutorial> pages;
 
   TutorialSuccessAction(this.pages);
 }

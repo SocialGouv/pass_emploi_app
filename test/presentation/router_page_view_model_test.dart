@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/version.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
-import 'package:pass_emploi_app/models/tutorial_page.dart';
+import 'package:pass_emploi_app/models/tutorial.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/router_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
@@ -122,7 +122,7 @@ void main() {
     test('should show tutorial if user didn`t read it yet', () {
       final state = AppState.initialState().copyWith(
         loginState: successMiloUserState(),
-        tutorialState: ShowTutorialState(TutorialPage.milo),
+        tutorialState: ShowTutorialState(Tutorial.milo),
       );
       final store = Store<AppState>(reducer, initialState: state);
 
