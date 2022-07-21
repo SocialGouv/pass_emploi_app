@@ -122,7 +122,6 @@ void main() {
     test('should show tutorial if user didn`t read it yet', () {
       final state = AppState.initialState().copyWith(
         loginState: successMiloUserState(),
-        deepLinkState: DeepLinkState(DeepLink.NOT_SET, DateTime.now()),
         tutorialState: ShowTutorialState(TutorialPage.milo),
       );
       final store = Store<AppState>(reducer, initialState: state);
