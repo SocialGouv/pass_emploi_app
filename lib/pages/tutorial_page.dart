@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
@@ -11,7 +10,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
-import 'package:pass_emploi_app/widgets/onboarding_background.dart';
+import 'package:pass_emploi_app/widgets/primary_rounded_bottom_background.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class TutorialPage extends StatefulWidget {
@@ -59,12 +58,13 @@ class _TutorialPageState extends State<TutorialPage> {
     return Scaffold(
       body: Stack(
         children: [
-          OnboardingBackground(),
+          PrimaryRoundedBottomBackground(),
           SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 _SkipButton(active: !_isLastPage(viewModel), viewModel: viewModel),
+                SizedBox(height: Margins.spacing_base),
                 Expanded(
                   child: PageView(
                     controller: _controller,
@@ -79,7 +79,7 @@ class _TutorialPageState extends State<TutorialPage> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(Margins.spacing_m, 80, Margins.spacing_m, Margins.spacing_m),
+                  padding: const EdgeInsets.all(Margins.spacing_m),
                   child: PrimaryActionButton(
                     label: _isLastPage(viewModel) ? Strings.finish : Strings.continueLabel,
                     onPressed: () {
@@ -105,8 +105,7 @@ class _TutorialPageState extends State<TutorialPage> {
                 ),
                 _DelayedButton(viewModel: viewModel),
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(
-                      Margins.spacing_m, Margins.spacing_m, Margins.spacing_m, Margins.spacing_m),
+                  padding: const EdgeInsets.all(Margins.spacing_m),
                   child: Center(
                     child: SmoothPageIndicator(
                       controller: _controller,
@@ -149,17 +148,19 @@ class _SkipButton extends StatelessWidget {
         children: [
           Spacer(),
           InkWell(
-            onTap: () => {
-              if (active) viewModel.onDone(),
-              MatomoTracker.trackScreenWithName(AnalyticsActionNames.skipTutorial, AnalyticsScreenNames.tutorialPage),
-            },
+            onTap: active ? (){
+              viewModel.onDone();
+              MatomoTracker.trackScreenWithName(AnalyticsActionNames.skipTutorial, AnalyticsScreenNames.tutorialPage);
+            } : null,
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: Margins.spacing_s,
                 horizontal: Margins.spacing_base,
               ),
-              child: Text(Strings.skip,
-                  style: TextStyles.textPrimaryButton.copyWith(color: active ? Colors.white : Colors.transparent)),
+              child: Text(
+                Strings.skip,
+                style: TextStyles.textPrimaryButton.copyWith(color: active ? Colors.white : Colors.transparent),
+              ),
             ),
           ),
         ],
@@ -184,22 +185,29 @@ class _TutorialContentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(Margins.spacing_m),
-      child: DecoratedBox(
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(Margins.spacing_m),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                _Animation(image: image),
-                Text(title, style: TextStyles.textMBold.copyWith(color: AppColors.primary)),
-                SizedBox(height: Margins.spacing_base),
-                Text(description, style: TextStyles.textBaseRegular),
-              ],
+      child: Wrap(
+        children: [
+          Material(
+            elevation: 8,
+            borderRadius: BorderRadius.circular(8),
+            child: DecoratedBox(
+              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
+              child: Padding(
+                padding: const EdgeInsets.all(Margins.spacing_m),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _Animation(image: image),
+                    SizedBox(height: Margins.spacing_base),
+                    Text(title, style: TextStyles.textMBold.copyWith(color: AppColors.primary)),
+                    SizedBox(height: Margins.spacing_base),
+                    Text(description, style: TextStyles.textBaseRegular),
+                  ],
+                ),
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -249,17 +257,9 @@ class _AnimationState extends State<_Animation> with SingleTickerProviderStateMi
     return AnimatedBuilder(
       animation: _offsetAnimation,
       builder: (context, Widget? child) {
-        return Center(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 40.0),
-            child: Transform.scale(
-              scale: 1 + _offsetAnimation.value / 200,
-              child: SvgPicture.asset(
-                widget.image,
-                height: 250,
-              ),
-            ),
-          ),
+        return Transform.scale(
+          scale: 1 + _offsetAnimation.value / 200,
+          child: Image.asset(widget.image, fit: BoxFit.fitWidth),
         );
       },
     );

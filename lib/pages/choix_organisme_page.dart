@@ -12,7 +12,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
-import 'package:pass_emploi_app/widgets/onboarding_background.dart';
+import 'package:pass_emploi_app/widgets/primary_rounded_bottom_background.dart';
 
 class ChoixOrganismePage extends StatelessWidget {
   static const noOrganismeLink = "https://www.1jeune1solution.gouv.fr/contrat-engagement-jeune";
@@ -28,7 +28,7 @@ class ChoixOrganismePage extends StatelessWidget {
       child: Scaffold(
         body: Stack(
           children: [
-            OnboardingBackground(),
+            PrimaryRoundedBottomBackground(),
             SafeArea(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

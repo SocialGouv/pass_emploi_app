@@ -61,6 +61,6 @@ class Drawables {
   static String icClip = _assets + "ic_clip" + _svg;
   static String icDownload = _assets + "ic_download" + _svg;
 
-  static String icTutoOffrePartager = _assets + "ic_offre_partager" + _svg;
-  static String icTutoOffreDebutant = _assets + "ic_offre_debutant" + _svg;
+  static String icTutoOffrePartager = _assets + "ic_offre_partager" + _png;
+  static String icTutoOffreDebutant = _assets + "ic_offre_debutant" + _png;
 }

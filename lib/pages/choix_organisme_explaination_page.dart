@@ -10,7 +10,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
-import 'package:pass_emploi_app/widgets/onboarding_background.dart';
+import 'package:pass_emploi_app/widgets/primary_rounded_bottom_background.dart';
 
 class ChoixOrganismeExplainationPage extends StatelessWidget {
   final bool isPoleEmploi;
@@ -30,7 +30,7 @@ class ChoixOrganismeExplainationPage extends StatelessWidget {
         builder: (context, vm) => Scaffold(
           body: Stack(
             children: [
-              OnboardingBackground(),
+              PrimaryRoundedBottomBackground(),
               SafeArea(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
