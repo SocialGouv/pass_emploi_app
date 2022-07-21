@@ -44,13 +44,10 @@ class _TutorialPageState extends State<TutorialPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Tracker(
-      tracking: AnalyticsScreenNames.tutorialPage,
-      child: StoreConnector<AppState, TutorialPageViewModel>(
-        builder: (context, viewModel) => _content(viewModel),
-        converter: (store) => TutorialPageViewModel.create(store),
-        distinct: true,
-      ),
+    return StoreConnector<AppState, TutorialPageViewModel>(
+      builder: (context, viewModel) => _content(viewModel),
+      converter: (store) => TutorialPageViewModel.create(store),
+      distinct: true,
     );
   }
 
@@ -92,6 +89,10 @@ class _TutorialPageState extends State<TutorialPage> {
                           currentPage.floor() + 1,
                           duration: Duration(milliseconds: 600),
                           curve: Curves.linearToEaseOut,
+                        );
+                        MatomoTracker.trackScreenWithName(
+                          AnalyticsActionNames.continueTutorial,
+                          AnalyticsScreenNames.tutorialPage,
                         );
                       } else {
                         viewModel.onDone();
