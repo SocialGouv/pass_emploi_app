@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/presentation/tutorial_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -44,10 +45,13 @@ class _TutorialPageState extends State<TutorialPage> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, TutorialPageViewModel>(
-      builder: (context, viewModel) => _content(viewModel),
-      converter: (store) => TutorialPageViewModel.create(store),
-      distinct: true,
+    return Tracker(
+      tracking: AnalyticsScreenNames.tutorialPage,
+      child: StoreConnector<AppState, TutorialPageViewModel>(
+        builder: (context, viewModel) => _content(viewModel),
+        converter: (store) => TutorialPageViewModel.create(store),
+        distinct: true,
+      ),
     );
   }
 
@@ -90,8 +94,11 @@ class _TutorialPageState extends State<TutorialPage> {
                           curve: Curves.linearToEaseOut,
                         );
                       } else {
-                        // TODO 810 Add MatomoTracker
                         viewModel.onDone();
+                        MatomoTracker.trackScreenWithName(
+                          AnalyticsActionNames.doneTutorial,
+                          AnalyticsScreenNames.tutorialPage,
+                        );
                       }
                     },
                   ),
@@ -143,8 +150,8 @@ class _SkipButton extends StatelessWidget {
           Spacer(),
           InkWell(
             onTap: () => {
-              // TODO 810 Add MatomoTracker
               if (active) viewModel.onDone(),
+              MatomoTracker.trackScreenWithName(AnalyticsActionNames.skipTutorial, AnalyticsScreenNames.tutorialPage),
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(
@@ -273,9 +280,11 @@ class _DelayedButton extends StatelessWidget {
           color: Colors.transparent,
           child: InkWell(
             onTap: () {
-              // TODO 810 Add MatomoTracker
-              // TODO 810 Navigate to the main page
               viewModel.onDelay();
+              MatomoTracker.trackScreenWithName(
+                AnalyticsActionNames.delayedTutorial,
+                AnalyticsScreenNames.tutorialPage,
+              );
             },
             child: Wrap(
               crossAxisAlignment: WrapCrossAlignment.end,
