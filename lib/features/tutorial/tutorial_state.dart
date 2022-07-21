@@ -4,8 +4,6 @@ abstract class TutorialState {}
 
 class TutorialNotInitializedState extends TutorialState {}
 
-class TutorialLoadingState extends TutorialState {}
-
 class ShowTutorialState extends TutorialState {
   final List<TutorialPage> pages;
 

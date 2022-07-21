@@ -144,7 +144,7 @@ class _SkipButton extends StatelessWidget {
           InkWell(
             onTap: () => {
               // TODO 810 Add MatomoTracker
-              if (active) viewModel.onSkip(),
+              if (active) viewModel.onDone(),
             },
             child: Padding(
               padding: const EdgeInsets.symmetric(

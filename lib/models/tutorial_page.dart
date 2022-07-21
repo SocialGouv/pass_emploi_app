@@ -3,6 +3,8 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
 class TutorialPage extends Equatable {
+  static const String version = '1';
+
   static List<TutorialPage> milo = [
     TutorialPage._(
       title: Strings.tutoTitreOffreDebutant,

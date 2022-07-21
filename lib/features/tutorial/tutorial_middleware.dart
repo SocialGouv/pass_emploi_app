@@ -16,17 +16,25 @@ class TutorialMiddleware extends MiddlewareClass<AppState> {
   void call(Store<AppState> store, action, NextDispatcher next) async {
     List<TutorialPage> pages = [];
     next(action);
-    if (action is LoginSuccessAction || action is TutorialRequestAction) {
+    if (action is LoginSuccessAction) {
       final loginState = store.state.loginState;
       if (loginState is LoginSuccessState) {
         final loginMode = loginState.user.loginMode;
-        // todo: 810 Mode Demo ?
-        //if (loginMode == LoginMode.DEMO_MILO && loginMode == LoginMode.DEMO_PE)
-        if (loginMode == LoginMode.PASS_EMPLOI) pages = await _repository.getPoleEmploiTutorial();
-        if (loginMode == LoginMode.MILO) pages = await _repository.getMiloTutorial();
-        if (loginMode == LoginMode.POLE_EMPLOI) pages = await _repository.getMiloTutorial();
+        if (_requestMiloTutorial(loginMode)) pages = await _repository.getMiloTutorial();
+        if (_requestPoleEmploiTutorial(loginMode)) pages = await _repository.getPoleEmploiTutorial();
         if (pages.isNotEmpty) store.dispatch(TutorialSuccessAction(pages));
       }
     }
+    if (action is TutorialDoneAction) {
+      await _repository.setTutorialRead();
+    }
+  }
+
+  bool _requestPoleEmploiTutorial(LoginMode loginMode) {
+    return [LoginMode.POLE_EMPLOI, LoginMode.DEMO_PE].contains(loginMode);
+  }
+
+  bool _requestMiloTutorial(LoginMode loginMode) {
+    return [LoginMode.PASS_EMPLOI, LoginMode.MILO, LoginMode.DEMO_MILO].contains(loginMode);
   }
 }

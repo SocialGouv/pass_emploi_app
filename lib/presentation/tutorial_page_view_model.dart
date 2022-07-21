@@ -7,13 +7,11 @@ import 'package:redux/redux.dart';
 
 class TutorialPageViewModel extends Equatable {
   final List<TutorialPage> pages;
-  final Function() onSkip;
   final Function() onDone;
   final Function() onDelay;
 
   TutorialPageViewModel._({
     required this.pages,
-    required this.onSkip,
     required this.onDone,
     required this.onDelay,
   });
@@ -22,10 +20,8 @@ class TutorialPageViewModel extends Equatable {
     final tutorialState = store.state.tutorialState as ShowTutorialState;
     return TutorialPageViewModel._(
       pages: tutorialState.pages,
-      onSkip: () => store.dispatch(TutorialSkippedAction()),
       onDone: () => store.dispatch(TutorialDoneAction()),
-      onDelay: () => store.dispatch(TutorialDelayedAction(tutorialState.pages))
-    );
+      onDelay: () => store.dispatch(TutorialDelayedAction()));
   }
 
   @override
