@@ -1,9 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/tutorial/tutorial_actions.dart';
+import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/models/tutorial_page.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 
+import '../../doubles/dummies.dart';
+import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
@@ -13,18 +15,15 @@ void main() {
         .loggedInMiloUser()
         .store((factory) => {factory.tutorialRepository = TutorialRepositorySuccessStub()});
 
-    final displayedLoading = store.onChange.any((e) => e.tutorialState is TutorialLoadingState);
-
     final successState = store.onChange.firstWhere((e) => e.tutorialState is ShowTutorialState);
 
     // When
-    store.dispatch(TutorialRequestAction());
+    store.dispatch(LoginSuccessAction(mockedMiloUser()));
 
     // Then
-    expect(await displayedLoading, true);
     final successAppState = await successState;
     final dataState = (successAppState.tutorialState as ShowTutorialState);
-    expect(dataState.pages, _miloTutorial());
+    expect(dataState.pages, TutorialPage.milo);
   });
 
   test("Returns tutorial pages list when user didn't see the tutorial and logged in via Pole Emploi", () async {
@@ -33,37 +32,50 @@ void main() {
         .loggedInPoleEmploiUser()
         .store((factory) => {factory.tutorialRepository = TutorialRepositorySuccessStub()});
 
-    final displayedLoading = store.onChange.any((e) => e.tutorialState is TutorialLoadingState);
-
     final successState = store.onChange.firstWhere((e) => e.tutorialState is ShowTutorialState);
 
     // When
-    store.dispatch(TutorialRequestAction());
+    store.dispatch(LoginSuccessAction(mockedPoleEmploiUser()));
 
     // Then
-    expect(await displayedLoading, true);
     final successAppState = await successState;
     final dataState = (successAppState.tutorialState as ShowTutorialState);
-    expect(dataState.pages, _poleEmploiTutorial());
+    expect(dataState.pages, TutorialPage.poleEmploi);
   });
 
-  // todo 810
-  test("Returns empty tutorial pages list when user skipped the tutorial before", () async {});
-  test("Returns tutorial pages list when user delayed the tutorial before", () async {});
+  test("Returns not initialized tutorial state when user already read the tutorial before", () async {
+    // Given
+    final store = givenState()
+        .loggedInPoleEmploiUser()
+        .store((factory) => {factory.tutorialRepository = TutorialRepositoryAlreadySeenStub()});
+
+    // When
+    await store.dispatch(LoginSuccessAction(mockedMiloUser()));
+
+    // Then
+    expect(store.state.tutorialState, isA<TutorialNotInitializedState>());
+  });
 }
 
 class TutorialRepositorySuccessStub extends TutorialRepository {
+  TutorialRepositorySuccessStub() : super(DummySharedPreferences());
+
   @override
   Future<List<TutorialPage>> getMiloTutorial() async {
-    return _miloTutorial();
+    return TutorialPage.milo;
   }
 
   @override
   Future<List<TutorialPage>> getPoleEmploiTutorial() async {
-    return _poleEmploiTutorial();
+    return TutorialPage.poleEmploi;
   }
 }
 
-List<TutorialPage> _miloTutorial() => [TutorialPage.milo.first];
+class TutorialRepositoryAlreadySeenStub extends TutorialRepository {
+  TutorialRepositoryAlreadySeenStub() : super(DummySharedPreferences());
 
-List<TutorialPage> _poleEmploiTutorial() => [TutorialPage.poleEmploi.first];
+  @override
+  Future<List<TutorialPage>> getMiloTutorial() async {
+    return [];
+  }
+}

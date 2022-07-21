@@ -80,7 +80,7 @@ class TestStoreFactory {
   CreateDemarcheRepository createDemarcheRepository = DummySuccessCreateDemarcheRepository();
   SearchDemarcheRepository searchDemarcheRepository = DummyDemarcheDuReferentielRepository();
   PieceJointeRepository pieceJointeRepository = DummyPieceJointeRepository();
-  TutorialRepository tutorialRepository = TutorialRepository();
+  TutorialRepository tutorialRepository = DummyTutorialRepository();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(

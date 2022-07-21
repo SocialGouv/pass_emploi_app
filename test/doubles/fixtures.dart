@@ -32,21 +32,29 @@ User mockUser({String id = "", LoginMode loginMode = LoginMode.MILO}) => User(
       loginMode: loginMode,
     );
 
-LoginState successMiloUserState() => LoginSuccessState(User(
-      id: "id",
-      firstName: "F",
-      lastName: "L",
-      email: "first.last@milo.fr",
-      loginMode: LoginMode.MILO,
-    ));
+LoginState successMiloUserState() => LoginSuccessState(mockedMiloUser());
 
-LoginState successPoleEmploiUserState() => LoginSuccessState(User(
-      id: "id",
-      firstName: "F",
-      lastName: "L",
-      email: "first.last@pole-emploi.fr",
-      loginMode: LoginMode.POLE_EMPLOI,
-    ));
+User mockedMiloUser() {
+  return User(
+    id: "id",
+    firstName: "F",
+    lastName: "L",
+    email: "first.last@milo.fr",
+    loginMode: LoginMode.MILO,
+  );
+}
+
+LoginState successPoleEmploiUserState() => LoginSuccessState(mockedPoleEmploiUser());
+
+User mockedPoleEmploiUser() {
+  return User(
+    id: "id",
+    firstName: "F",
+    lastName: "L",
+    email: "first.last@pole-emploi.fr",
+    loginMode: LoginMode.POLE_EMPLOI,
+  );
+}
 
 LoginState successPassEmploiUserState() => LoginSuccessState(User(
       id: "id",

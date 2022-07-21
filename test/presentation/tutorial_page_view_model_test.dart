@@ -7,22 +7,6 @@ import 'package:redux/redux.dart';
 import '../dsl/app_state_dsl.dart';
 
 void main() {
-  test('should dispatch skipped action correctly', () async {
-    // Given
-    final storeSpy = StoreSpy();
-    final store = Store<AppState>(
-      storeSpy.reducer,
-      initialState: givenState().loggedInMiloUser().showTutorial(),
-    );
-    final viewModel = TutorialPageViewModel.create(store);
-
-    // When
-    viewModel.onSkip();
-
-    // Then
-    expect(storeSpy.calledWithSkip, true);
-  });
-
   test('should dispatch done action correctly', () {
     // Given
     final storeSpy = StoreSpy();
@@ -68,9 +52,6 @@ class StoreSpy {
     }
     if (action is TutorialDoneAction) {
       calledWithDone = true;
-    }
-    if (action is TutorialSkippedAction) {
-      calledWithSkip = true;
     }
     return currentState;
   }
