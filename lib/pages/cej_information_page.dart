@@ -10,7 +10,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cej_information_content_card.dart';
-import 'package:pass_emploi_app/widgets/onboarding_background.dart';
+import 'package:pass_emploi_app/widgets/primary_rounded_bottom_background.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class CejInformationPage extends StatefulWidget {
@@ -43,7 +43,7 @@ class _CejInformationPageState extends State<CejInformationPage> {
     return Scaffold(
       body: Stack(
         children: [
-          OnboardingBackground(),
+          PrimaryRoundedBottomBackground(),
           SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

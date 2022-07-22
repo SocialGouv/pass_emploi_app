@@ -2,9 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
+import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/partage_offre/partage_offre_state.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
-import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/preview_file/preview_file_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/configuration/configuration_state.dart';
@@ -34,6 +34,7 @@ import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_sta
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_state.dart';
+import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
@@ -89,6 +90,7 @@ class AppState extends Equatable {
   final PreviewFileState previewFileState;
   final ChatBrouillonState chatBrouillonState;
   final ChatPartageOffreState chatPartageOffreState;
+  final TutorialState tutorialState;
 
   AppState({
     required this.configurationState,
@@ -134,6 +136,7 @@ class AppState extends Equatable {
     required this.previewFileState,
     required this.chatBrouillonState,
     required this.chatPartageOffreState,
+    required this.tutorialState,
   });
 
   AppState copyWith({
@@ -180,6 +183,7 @@ class AppState extends Equatable {
     final PreviewFileState? previewFileState,
     final ChatBrouillonState? chatBrouillonState,
     final ChatPartageOffreState? chatPartageOffreState,
+    final TutorialState? tutorialState,
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
@@ -226,6 +230,7 @@ class AppState extends Equatable {
       previewFileState: previewFileState ?? this.previewFileState,
       chatBrouillonState: chatBrouillonState ?? this.chatBrouillonState,
       chatPartageOffreState: chatPartageOffreState ?? this.chatPartageOffreState,
+      tutorialState: tutorialState ?? this.tutorialState,
     );
   }
 
@@ -274,6 +279,7 @@ class AppState extends Equatable {
       previewFileState: PreviewFileNotInitializedState(),
       chatBrouillonState: ChatBrouillonState(null),
       chatPartageOffreState: ChatPartageOffreState.notInitialized,
+      tutorialState: TutorialNotInitializedState(),
     );
   }
 
@@ -315,6 +321,7 @@ class AppState extends Equatable {
         previewFileState,
         chatBrouillonState,
         chatPartageOffreState,
+        tutorialState,
       ];
 
   @override

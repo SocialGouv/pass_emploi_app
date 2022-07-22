@@ -37,6 +37,7 @@ import 'package:pass_emploi_app/repositories/service_civique/service_civique_rep
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
+import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/dummies.dart';
@@ -79,6 +80,7 @@ class TestStoreFactory {
   CreateDemarcheRepository createDemarcheRepository = DummySuccessCreateDemarcheRepository();
   SearchDemarcheRepository searchDemarcheRepository = DummyDemarcheDuReferentielRepository();
   PieceJointeRepository pieceJointeRepository = DummyPieceJointeRepository();
+  TutorialRepository tutorialRepository = DummyTutorialRepository();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
@@ -119,6 +121,7 @@ class TestStoreFactory {
       createDemarcheRepository,
       searchDemarcheRepository,
       pieceJointeRepository,
+      tutorialRepository,
     ).initializeReduxStore(initialState: initialState);
   }
 }

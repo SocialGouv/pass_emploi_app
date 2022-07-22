@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
-import 'package:pass_emploi_app/ui/dimens.dart';
 
-class OnboardingBackground extends StatelessWidget {
-  const OnboardingBackground({Key? key}) : super(key: key);
+class PrimaryRoundedBottomBackground extends StatelessWidget {
+  const PrimaryRoundedBottomBackground({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final totalHeight = MediaQuery.of(context).size.height;
+    final totalWidth = MediaQuery.of(context).size.width;
     return Stack(
       children: [
         Container(color: Color(0xFFE5E5E5)),
         SizedBox(
-          height: totalHeight / 2 + Dimens.appBarHeight,
+          width: totalWidth,
+          height: totalHeight / 2 + 48,
           child: DecoratedBox(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.only(bottomLeft: Radius.circular(200), bottomRight: Radius.circular(200)),

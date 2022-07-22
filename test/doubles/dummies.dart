@@ -46,6 +46,7 @@ import 'package:pass_emploi_app/repositories/service_civique/service_civique_rep
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
+import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -278,6 +279,10 @@ class DummyUpdateDemarcheRepository extends UpdateDemarcheRepository {
 
 class DummyPieceJointeRepository extends PieceJointeRepository {
   DummyPieceJointeRepository() : super("", DummyHttpClient());
+}
+
+class DummyTutorialRepository extends TutorialRepository {
+  DummyTutorialRepository() : super(DummySharedPreferences());
 }
 
 class DummyModifyDemarcheRepository extends UpdateDemarcheRepository {

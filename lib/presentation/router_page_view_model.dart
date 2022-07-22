@@ -3,12 +3,13 @@ import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:redux/redux.dart';
 
-enum RouterPageDisplayState { SPLASH, LOGIN, MAIN }
+enum RouterPageDisplayState { SPLASH, LOGIN, MAIN, TUTORIAL }
 
 class RouterPageViewModel extends Equatable {
   final RouterPageDisplayState routerPageDisplayState;
@@ -52,8 +53,15 @@ String? _storeUrl(AppState state, Platform platform) {
 
 RouterPageDisplayState _routerPageDisplayState(Store<AppState> store) {
   final loginState = store.state.loginState;
+  final tutoState = store.state.tutorialState;
   if (loginState is LoginNotInitializedState) return RouterPageDisplayState.SPLASH;
-  if (loginState is LoginSuccessState) return RouterPageDisplayState.MAIN;
+  if (loginState is LoginSuccessState) {
+    if (tutoState is ShowTutorialState) {
+      return RouterPageDisplayState.TUTORIAL;
+    } else {
+      return RouterPageDisplayState.MAIN;
+    }
+  }
   return RouterPageDisplayState.LOGIN;
 }
 

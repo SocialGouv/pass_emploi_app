@@ -37,6 +37,7 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_r
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_reducer.dart';
+import 'package:pass_emploi_app/features/tutorial/tutorial_reducer.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
@@ -111,5 +112,6 @@ AppState reducer(AppState current, dynamic action) {
     previewFileState: previewFileReducer(current.previewFileState, action),
     chatBrouillonState: chatBrouillonReducer(current.chatBrouillonState, action),
     chatPartageOffreState: chatPartageOffreReducer(current.chatPartageOffreState, action),
+    tutorialState: tutorialReducer(current.tutorialState, action),
   );
 }

@@ -69,6 +69,7 @@ import 'package:pass_emploi_app/repositories/service_civique/service_civique_rep
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
+import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -206,6 +207,7 @@ class AppInitializer {
       CreateDemarcheRepository(baseUrl, httpClient, crashlytics),
       SearchDemarcheRepository(baseUrl, httpClient, crashlytics),
       PieceJointeRepository(baseUrl, httpClient, crashlytics),
+      TutorialRepository(securedPreferences),
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
     authAccessChecker.setStore(reduxStore);
