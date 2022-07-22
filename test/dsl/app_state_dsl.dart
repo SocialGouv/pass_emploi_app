@@ -13,6 +13,7 @@ import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/tutorial.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
@@ -88,6 +89,6 @@ extension AppStateDSL on AppState {
   }
 
   AppState showTutorial() {
-    return copyWith(tutorialState: ShowTutorialState(tutorialPagesMilo));
+    return copyWith(tutorialState: ShowTutorialState(Tutorial.milo));
   }
 }

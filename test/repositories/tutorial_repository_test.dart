@@ -5,12 +5,10 @@ import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import '../doubles/spies.dart';
 
 void main() {
+  final SharedPreferencesSpy prefs = SharedPreferencesSpy();
+  final TutorialRepository repository = TutorialRepository(prefs);
 
   test("Returns tutorial pages for MILO when user didn't saw it yet", () async {
-    // Given
-    final SharedPreferencesSpy prefs = SharedPreferencesSpy();
-    final TutorialRepository repository = TutorialRepository(prefs);
-
     // When
     final pages = await repository.getMiloTutorial();
 
@@ -19,10 +17,6 @@ void main() {
   });
 
   test("Returns tutorial pages for Pole Emploi when user didn't saw it yet", () async {
-    // Given
-    final SharedPreferencesSpy prefs = SharedPreferencesSpy();
-    final TutorialRepository repository = TutorialRepository(prefs);
-
     // When
     final pages = await repository.getPoleEmploiTutorial();
 
@@ -32,27 +26,23 @@ void main() {
 
   test("Returns empty tutorial pages for MILO when user already saw it yet", () async {
     // Given
-    final SharedPreferencesSpy prefs = SharedPreferencesSpy();
-    final TutorialRepository repository = TutorialRepository(prefs);
-
-    // When
     repository.setTutorialRead();
 
-    // Then
+    // When
     final pages = await repository.getMiloTutorial();
+
+    // Then
     expect(pages, isEmpty);
   });
 
   test("Returns empty tutorial pages for Pole Emploi when user already saw it yet", () async {
     // Given
-    final SharedPreferencesSpy prefs = SharedPreferencesSpy();
-    final TutorialRepository repository = TutorialRepository(prefs);
-
-    // When
     repository.setTutorialRead();
 
-    // Then
+    // When
     final pages = await repository.getPoleEmploiTutorial();
+
+    // Then
     expect(pages, isEmpty);
   });
 }

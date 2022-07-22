@@ -36,7 +36,6 @@ class _TutorialPageState extends State<TutorialPage> {
       });
       if (_controllerPage != null && _controllerPage != _displayedPage) {
         _displayedPage = _controllerPage;
-        MatomoTracker.trackScreenWithName(AnalyticsScreenNames.tutorialPage, "");
       }
     });
     super.initState();
@@ -44,10 +43,13 @@ class _TutorialPageState extends State<TutorialPage> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, TutorialPageViewModel>(
-      builder: (context, viewModel) => _content(viewModel),
-      converter: (store) => TutorialPageViewModel.create(store),
-      distinct: true,
+    return Tracker(
+      tracking: AnalyticsScreenNames.tutorialPage,
+      child: StoreConnector<AppState, TutorialPageViewModel>(
+        builder: (context, viewModel) => _content(viewModel),
+        converter: (store) => TutorialPageViewModel.create(store),
+        distinct: true,
+      ),
     );
   }
 
@@ -149,10 +151,15 @@ class _SkipButton extends StatelessWidget {
         children: [
           Spacer(),
           InkWell(
-            onTap: active ? (){
-              viewModel.onDone();
-              MatomoTracker.trackScreenWithName(AnalyticsActionNames.skipTutorial, AnalyticsScreenNames.tutorialPage);
-            } : null,
+            onTap: active
+                ? () {
+                    viewModel.onDone();
+                    MatomoTracker.trackScreenWithName(
+                      AnalyticsActionNames.skipTutorial,
+                      AnalyticsScreenNames.tutorialPage,
+                    );
+                  }
+                : null,
             child: Padding(
               padding: const EdgeInsets.symmetric(
                 vertical: Margins.spacing_s,
