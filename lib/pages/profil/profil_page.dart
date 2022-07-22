@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_actions.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/pages/profil/matomo_logging_page.dart';
+import 'package:pass_emploi_app/pages/profil/webview_page.dart';
 import 'package:pass_emploi_app/pages/suppression_compte_page.dart';
 import 'package:pass_emploi_app/presentation/profil/profil_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -161,6 +162,15 @@ class ProfilPage extends StatelessWidget {
                     MatomoLoggingPage.materialPageRoute(),
                   ),
                 ),
+                StandaloneProfilCard(
+                    text: "Tester Webview",
+                    onTap: () => {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      WebViewPage("https://leanbe.ai/Application%20CEJ/notifications"))),
+                        }),
               ],
               SecondaryButton(
                 onPressed: () {
