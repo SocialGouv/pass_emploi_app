@@ -70,6 +70,7 @@ String? _getFileName(String url, String query) {
   if (url.endsWith("alternance_detail")) return "alternance_detail";
   if (url.endsWith("/offres-immersion")) return "offres_immersion_list";
   if (url.endsWith("/services-civique")) return "offres_services_civique";
+  if (url.endsWith("/preferences")) return "preferences";
   if (url.endsWith("/referentiels/pole-emploi/types-demarches")) return "referentiel_demarches";
   if (url.removeLastPath().endsWith("/services-civique")) return "service_civique_detail";
   if (url.removeLastPath().endsWith("/offres-immersion")) return "immersion_detail";
