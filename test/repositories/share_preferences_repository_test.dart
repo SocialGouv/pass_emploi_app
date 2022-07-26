@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/models/share_preferences.dart';
-import 'package:pass_emploi_app/repositories/share_preferences/share_favoris_repository.dart';
+import 'package:pass_emploi_app/repositories/share_preferences_repository.dart';
 
 import '../doubles/fixtures.dart';
 import '../utils/pass_emploi_mock_client.dart';

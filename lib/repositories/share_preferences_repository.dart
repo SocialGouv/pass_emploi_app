@@ -28,15 +28,17 @@ class SharePreferencesRepository {
     return null;
   }
 
-  Future<void> updateSharePreferences(String userId, bool isShare) async {
+  Future<bool> updateSharePreferences(String userId, bool isShare) async {
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/preferences");
     try {
       await _httpClient.put(
         url,
         body: customJsonEncode(PutSharePreferencesRequest(favoris: isShare)),
       );
+      return true;
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);
     }
+    return false;
   }
 }
