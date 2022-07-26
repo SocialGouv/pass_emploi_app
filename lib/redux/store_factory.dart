@@ -43,6 +43,8 @@ import 'package:pass_emploi_app/features/saved_search/init/saved_search_initiali
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_middleware.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_middleware.dart';
 import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_middleware.dart';
+import 'package:pass_emploi_app/features/share_preferences/share_preferences_middleware.dart';
+import 'package:pass_emploi_app/features/share_preferences/update/share_preferences_update_middleware.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_middleware.dart';
 import 'package:pass_emploi_app/features/tech/action_logging_middleware.dart';
 import 'package:pass_emploi_app/features/tech/crashlytics_middleware.dart';
@@ -87,6 +89,7 @@ import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
+import 'package:pass_emploi_app/repositories/share_preferences_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
@@ -131,6 +134,7 @@ class StoreFactory {
   final SearchDemarcheRepository demarcheDuReferentielRepository;
   final PieceJointeRepository pieceJointeRepository;
   final TutorialRepository tutorialRepository;
+  final SharePreferencesRepository sharePreferencesRepository;
 
   StoreFactory(
     this.authenticator,
@@ -171,6 +175,7 @@ class StoreFactory {
     this.demarcheDuReferentielRepository,
     this.pieceJointeRepository,
     this.tutorialRepository,
+    this.sharePreferencesRepository,
   );
 
   redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -228,6 +233,8 @@ class StoreFactory {
         CampagneMiddleware(campagneRepository),
         PieceJointeMiddleware(pieceJointeRepository),
         TutorialMiddleware(tutorialRepository),
+        SharePreferencesMiddleware(sharePreferencesRepository),
+        SharePreferencesUpdateMiddleware(sharePreferencesRepository),
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),
       ],
