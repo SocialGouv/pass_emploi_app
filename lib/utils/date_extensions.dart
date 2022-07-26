@@ -21,10 +21,12 @@ extension DateExtensions on DateTime {
     return toDayWithFullMonth();
   }
 
+  String toDayOfWeekWithFullMonth() => DateFormat('EEEE d MMMM', 'fr').format(this);
+
   String toDayOfWeekWithFullMonthContextualized() {
     if (isTomorrow()) return "Demain";
     if (isToday()) return "Aujourd'hui";
-    return DateFormat('EEEE d MMMM', 'fr').format(this).firstLetterUpperCased();
+    return toDayOfWeekWithFullMonth().firstLetterUpperCased();
   }
 
   String toFullMonthAndYear() {

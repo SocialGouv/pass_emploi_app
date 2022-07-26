@@ -47,6 +47,7 @@ class DemarcheCardViewModel extends Equatable {
     );
   }
 
+  // TODO-851: Refactor to attribute + test
   Color getDateColor() {
     switch (status) {
       case DemarcheStatus.NOT_STARTED:

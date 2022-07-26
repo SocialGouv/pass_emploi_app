@@ -17,6 +17,8 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/models/user.dart';
+import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/models/version.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -282,6 +284,26 @@ DemarcheDuReferentiel mockDemarcheDuReferentiel([String? id, List<Comment>? comm
           Comment(label: 'label2', code: 'code2'),
         ],
     isCommentMandatory: true,
+  );
+}
+
+UserAction mockUserAction({
+  String? id,
+  String? content,
+  String? comment,
+  UserActionStatus? status,
+  DateTime? lastUpdate,
+  DateTime? dateEcheance,
+  UserActionCreator? creator,
+}) {
+  return UserAction(
+    id: id ?? '',
+    content: content ?? '',
+    comment: comment ?? '',
+    status: status ?? UserActionStatus.IN_PROGRESS,
+    lastUpdate: lastUpdate ?? DateTime.now(),
+    dateEcheance: dateEcheance ?? DateTime.now(),
+    creator: creator ?? JeuneActionCreator(),
   );
 }
 

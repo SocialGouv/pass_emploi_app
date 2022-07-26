@@ -147,6 +147,7 @@ void main() {
               comment: "comment",
               status: UserActionStatus.DONE,
               lastUpdate: DateTime(2022, 12, 23, 0, 0, 0),
+              dateEcheance: DateTime(2042),
               creator: JeuneActionCreator(),
             ),
             UserAction(
@@ -155,6 +156,7 @@ void main() {
               comment: "",
               status: UserActionStatus.NOT_STARTED,
               lastUpdate: DateTime(2022, 11, 13, 0, 0, 0),
+              dateEcheance: DateTime(2042),
               creator: JeuneActionCreator(),
             ),
           ],
@@ -184,6 +186,7 @@ void main() {
               comment: "comment",
               status: UserActionStatus.DONE,
               lastUpdate: DateTime(2022, 12, 23, 0, 0, 0),
+              dateEcheance: DateTime(2042),
               creator: JeuneActionCreator(),
             ),
             UserAction(
@@ -192,6 +195,7 @@ void main() {
               comment: "",
               status: UserActionStatus.NOT_STARTED,
               lastUpdate: DateTime(2022, 11, 13, 0, 0, 0),
+              dateEcheance: DateTime(2042),
               creator: JeuneActionCreator(),
             ),
           ],

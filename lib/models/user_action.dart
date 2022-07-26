@@ -16,6 +16,7 @@ class UserAction extends Equatable {
   final String comment;
   final UserActionStatus status;
   final DateTime lastUpdate;
+  final DateTime dateEcheance;
   final UserActionCreator creator;
 
   UserAction({
@@ -24,6 +25,7 @@ class UserAction extends Equatable {
     required this.comment,
     required this.status,
     required this.lastUpdate,
+    required this.dateEcheance,
     required this.creator,
   });
 
@@ -34,12 +36,13 @@ class UserAction extends Equatable {
       comment: json['comment'] as String,
       status: _statusFromString(statusString: json['status'] as String),
       lastUpdate: (json['lastUpdate'] as String).toDateTimeOnLocalTimeZone(),
+      dateEcheance: (json['dateEcheance'] as String).toDateTimeOnLocalTimeZone(),
       creator: _creator(json),
     );
   }
 
   @override
-  List<Object?> get props => [id, comment, content, status, lastUpdate, creator];
+  List<Object?> get props => [id, comment, content, status, lastUpdate, dateEcheance, creator];
 }
 
 UserActionStatus _statusFromString({required String statusString}) {

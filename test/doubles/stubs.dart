@@ -49,6 +49,7 @@ class PageActionRepositorySuccessStub extends PageActionRepository {
           comment: "comment",
           status: UserActionStatus.NOT_STARTED,
           lastUpdate: DateTime(2022, 12, 23, 0, 0, 0),
+          dateEcheance: DateTime(2042),
           creator: JeuneActionCreator(),
         ),
       ],
