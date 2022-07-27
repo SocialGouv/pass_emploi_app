@@ -228,7 +228,7 @@ class Strings {
   static const String demarcheRetarded = "En retard";
   static const String demarcheDone = "Réalisé";
   static const String demarcheCancelled = "Annulé";
-  static const String demarcheLate = "En retard : ";
+  static const String late = "En retard : ";
   static const String createDemarchePersonnalisee = "Créer une démarche personnalisée";
   static const String mandatoryFields = "Les champs marqués d’une * sont obligatoires";
   static const String commentaire = "Commentaire";

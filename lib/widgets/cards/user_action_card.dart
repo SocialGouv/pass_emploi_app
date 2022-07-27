@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/date_echeance.dart';
+import 'package:pass_emploi_app/widgets/date_echeance_in_card.dart';
 import 'package:pass_emploi_app/widgets/tags/status_tag.dart';
 
 class UserActionCard extends StatelessWidget {
@@ -36,9 +36,8 @@ class UserActionCard extends StatelessWidget {
                   if (viewModel.tag != null) _buildStatut(viewModel.tag!),
                   Text(viewModel.title, style: TextStyles.textBaseBold),
                   if (viewModel.withSubtitle) _buildSousTitre(),
-                  DateEcheance(
-                    formattedDate: viewModel.dateEcheance,
-                    isLate: viewModel.isLate,
+                  DateEcheanceInCard(
+                    formattedTexts: viewModel.dateEcheanceFormattedTexts,
                     color: viewModel.dateEcheanceColor,
                   ),
                 ],

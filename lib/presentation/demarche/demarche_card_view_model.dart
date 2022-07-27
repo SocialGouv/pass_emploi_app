@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
+import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -15,8 +16,8 @@ class DemarcheCardViewModel extends Equatable {
   final bool createdByAdvisor;
   final bool modifiedByAdvisor;
   final UserActionTagViewModel? tag;
-  final String formattedDate;
-  final bool isLate;
+  final List<FormattedText> dateFormattedTexts;
+  final Color dateColor;
   final bool isDetailEnabled;
 
   DemarcheCardViewModel({
@@ -27,12 +28,13 @@ class DemarcheCardViewModel extends Equatable {
     required this.createdByAdvisor,
     required this.modifiedByAdvisor,
     required this.tag,
-    required this.formattedDate,
-    required this.isLate,
+    required this.dateFormattedTexts,
+    required this.dateColor,
     required this.isDetailEnabled,
   });
 
   factory DemarcheCardViewModel.create(Demarche demarche, bool isFonctionnalitesAvanceesJreActivees) {
+    final isLate = _isLate(demarche.status, demarche.endDate);
     return DemarcheCardViewModel(
       id: demarche.id,
       titre: demarche.content ?? Strings.withoutContent,
@@ -40,51 +42,56 @@ class DemarcheCardViewModel extends Equatable {
       status: demarche.status,
       createdByAdvisor: demarche.createdByAdvisor,
       modifiedByAdvisor: demarche.modifiedByAdvisor,
-      tag: _userActionTagViewModel(demarche.status, isLateAction(demarche.status, demarche.endDate)),
-      formattedDate: _setFormattedDate(demarche.status, demarche.endDate?.toDay(), demarche.deletionDate?.toDay()),
-      isLate: isLateAction(demarche.status, demarche.endDate),
+      tag: _userActionTagViewModel(demarche.status, isLate),
+      dateFormattedTexts: _dateFormattedTexts(demarche.status, demarche.endDate, demarche.deletionDate),
+      dateColor: _getDateColor(demarche.status, isLate),
       isDetailEnabled: isFonctionnalitesAvanceesJreActivees,
     );
   }
 
-  // TODO-851: Refactor to attribute + test
-  Color getDateColor() {
-    switch (status) {
-      case DemarcheStatus.NOT_STARTED:
-        return isLate ? AppColors.warning : AppColors.primary;
-      case DemarcheStatus.IN_PROGRESS:
-        return isLate ? AppColors.warning : AppColors.primary;
-      case DemarcheStatus.CANCELLED:
-        return AppColors.grey700;
-      case DemarcheStatus.DONE:
-        return AppColors.grey700;
-    }
-  }
-
   @override
-  List<Object?> get props => [id, titre, sousTitre, status, formattedDate, createdByAdvisor, tag];
+  List<Object?> get props =>
+      [
+        id,
+        titre,
+        sousTitre,
+        status,
+        dateFormattedTexts,
+        createdByAdvisor,
+        dateColor,
+        tag,
+      ];
+}
+
+Color _getDateColor(DemarcheStatus status, bool isLate) {
+  switch (status) {
+    case DemarcheStatus.NOT_STARTED:
+    case DemarcheStatus.IN_PROGRESS:
+      return isLate ? AppColors.warning : AppColors.primary;
+    case DemarcheStatus.CANCELLED:
+    case DemarcheStatus.DONE:
+      return AppColors.grey700;
+  }
 }
 
 String? _description(Demarche demarche) {
   return demarche.attributs.firstWhereOrNull((e) => e.key == 'description')?.value;
 }
 
-String _setFormattedDate(DemarcheStatus status, String? endDate, String? deletionDate) {
-  if (status == DemarcheStatus.CANCELLED) {
-    return (deletionDate != null && deletionDate.isNotEmpty) ? _getDateText(status, deletionDate) : Strings.withoutDate;
-  } else {
-    return (endDate != null && endDate.isNotEmpty) ? _getDateText(status, endDate) : Strings.withoutDate;
-  }
+List<FormattedText> _dateFormattedTexts(DemarcheStatus status, DateTime? endDate, DateTime? deletionDate) {
+  return [
+    if (_isLate(status, endDate)) FormattedText(Strings.late, bold: true),
+    FormattedText(_formattedDate(status, endDate, deletionDate)),
+  ];
 }
 
-String _getDateText(DemarcheStatus status, String date) {
-  switch (status) {
-    case DemarcheStatus.DONE:
-      return Strings.demarcheDoneDateFormat(date);
-    case DemarcheStatus.CANCELLED:
-      return Strings.demarcheCancelledDateFormat(date);
-    default:
-      return Strings.demarcheActiveDateFormat(date);
+String _formattedDate(DemarcheStatus status, DateTime? endDate, DateTime? deletionDate) {
+  if (status == DemarcheStatus.CANCELLED) {
+    return (deletionDate != null) ? Strings.demarcheCancelledDateFormat(deletionDate.toDay()) : Strings.withoutDate;
+  } else if (status == DemarcheStatus.DONE) {
+    return (endDate != null) ? Strings.demarcheDoneDateFormat(endDate.toDay()) : Strings.withoutDate;
+  } else {
+    return (endDate != null) ? Strings.demarcheActiveDateFormat(endDate.toDay()) : Strings.withoutDate;
   }
 }
 
@@ -117,7 +124,7 @@ UserActionTagViewModel? _userActionTagViewModel(DemarcheStatus status, bool isLa
   }
 }
 
-bool isLateAction(DemarcheStatus status, DateTime? endDate) {
+bool _isLate(DemarcheStatus status, DateTime? endDate) {
   if (endDate != null && (status == DemarcheStatus.NOT_STARTED || status == DemarcheStatus.IN_PROGRESS)) {
     return endDate.isBefore(DateTime.now()) && (endDate.numberOfDaysUntilToday() > 0);
   }

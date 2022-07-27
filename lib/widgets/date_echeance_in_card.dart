@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
-import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
-class DateEcheance extends StatelessWidget {
-  final String formattedDate;
-  final bool isLate;
+class DateEcheanceInCard extends StatelessWidget {
+  final List<FormattedText> formattedTexts;
   final Color color;
 
-  const DateEcheance({required this.formattedDate, required this.isLate, required this.color});
+  const DateEcheanceInCard({required this.formattedTexts, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,7 @@ class DateEcheance extends StatelessWidget {
           children: [
             SvgPicture.asset(Drawables.icClock, color: color),
             SizedBox(width: Margins.spacing_s),
-            _DateTitle(formattedDate: formattedDate, isLate: isLate, color: color),
+            _DateTitle(formattedTexts: formattedTexts, color: color),
           ],
         ),
       ],
@@ -35,26 +34,24 @@ class DateEcheance extends StatelessWidget {
 }
 
 class _DateTitle extends StatelessWidget {
-  final String formattedDate;
-  final bool isLate;
+  final List<FormattedText> formattedTexts;
   final Color color;
 
-  const _DateTitle({required this.formattedDate, required this.isLate, required this.color});
+  const _DateTitle({required this.formattedTexts, required this.color});
 
   @override
   Widget build(BuildContext context) {
-    if (isLate) {
-      return Expanded(
-        child: RichText(
-          text: TextSpan(
-            children: [
-              TextSpan(text: Strings.demarcheLate, style: TextStyles.textBaseBoldWithColor(color)),
-              TextSpan(text: formattedDate, style: TextStyles.textSRegularWithColor(color)),
-            ],
-          ),
+    return Expanded(
+      child: RichText(
+        text: TextSpan(
+          children: formattedTexts.map((text) {
+            return TextSpan(
+              text: text.value,
+              style: text.bold ? TextStyles.textBaseBoldWithColor(color) : TextStyles.textSRegularWithColor(color),
+            );
+          }).toList(),
         ),
-      );
-    }
-    return Text(formattedDate, style: TextStyles.textSRegularWithColor(color));
+      ),
+    );
   }
 }

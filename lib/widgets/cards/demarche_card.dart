@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/date_echeance.dart';
+import 'package:pass_emploi_app/widgets/date_echeance_in_card.dart';
 import 'package:pass_emploi_app/widgets/tags/status_tag.dart';
 
 class DemarcheCard extends StatelessWidget {
@@ -40,10 +40,9 @@ class DemarcheCard extends StatelessWidget {
                   Text(viewModel.titre, style: TextStyles.textBaseBold),
                   if (viewModel.sousTitre != null) _SousTitre(viewModel.sousTitre!),
                   if (viewModel.createdByAdvisor) _CreatorText(),
-                  DateEcheance(
-                    formattedDate: viewModel.formattedDate,
-                    isLate: viewModel.isLate,
-                    color: viewModel.getDateColor(),
+                  DateEcheanceInCard(
+                    formattedTexts: viewModel.dateFormattedTexts,
+                    color: viewModel.dateColor,
                   ),
                 ],
               ),

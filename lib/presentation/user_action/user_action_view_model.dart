@@ -1,7 +1,9 @@
+import 'package:clock/clock.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
+import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -14,9 +16,8 @@ class UserActionViewModel extends Equatable {
   final bool withSubtitle;
   final UserActionStatus status;
   final String lastUpdate;
-  final String dateEcheance;
+  final List<FormattedText> dateEcheanceFormattedTexts;
   final Color dateEcheanceColor;
-  final bool isLate;
   final String creator;
   final UserActionTagViewModel? tag;
   final bool withDeleteOption;
@@ -28,9 +29,8 @@ class UserActionViewModel extends Equatable {
     required this.withSubtitle,
     required this.status,
     required this.lastUpdate,
-    required this.dateEcheance,
+    required this.dateEcheanceFormattedTexts,
     required this.dateEcheanceColor,
-    required this.isLate,
     required this.creator,
     required this.tag,
     required this.withDeleteOption,
@@ -45,8 +45,7 @@ class UserActionViewModel extends Equatable {
       withSubtitle: userAction.comment.isNotEmpty,
       status: userAction.status,
       lastUpdate: Strings.lastUpdateFormat(userAction.lastUpdate.toDay()),
-      dateEcheance: Strings.dateEcheanceFormat(userAction.dateEcheance.toDayOfWeekWithFullMonth()),
-      isLate: isLate,
+      dateEcheanceFormattedTexts: _dateEcheanceFormattedTexts(userAction, isLate),
       dateEcheanceColor: isLate ? AppColors.warning : AppColors.primary,
       creator: _displayName(userAction.creator),
       tag: _userActionTagViewModel(userAction.status),
@@ -55,15 +54,15 @@ class UserActionViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         id,
         title,
         subtitle,
         withSubtitle,
         status,
         lastUpdate,
-        dateEcheance,
-        isLate,
+        dateEcheanceFormattedTexts,
         dateEcheanceColor,
         creator,
         tag,
@@ -73,7 +72,14 @@ class UserActionViewModel extends Equatable {
 
 String _displayName(UserActionCreator creator) => creator is ConseillerActionCreator ? creator.name : Strings.you;
 
-bool _isLate(DateTime date) => !(date.isToday() || date.isAfter(DateTime.now()));
+bool _isLate(DateTime date) => !(date.isToday() || date.isAfter(clock.now()));
+
+List<FormattedText> _dateEcheanceFormattedTexts(UserAction userAction, bool isLate) {
+  return [
+    if (isLate) FormattedText(Strings.late, bold: true),
+    FormattedText(Strings.dateEcheanceFormat(userAction.dateEcheance.toDayOfWeekWithFullMonth())),
+  ];
+}
 
 UserActionTagViewModel? _userActionTagViewModel(UserActionStatus status) {
   switch (status) {

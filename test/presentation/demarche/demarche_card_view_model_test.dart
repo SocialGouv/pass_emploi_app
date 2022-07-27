@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_card_view_model.dart';
+import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -40,7 +41,7 @@ void main() {
       DemarcheCardViewModel(
         id: '8802034',
         titre: 'Faire le CV',
-        sousTitre : 'commentaire',
+        sousTitre: 'commentaire',
         status: DemarcheStatus.NOT_STARTED,
         createdByAdvisor: true,
         modifiedByAdvisor: false,
@@ -49,8 +50,8 @@ void main() {
           backgroundColor: AppColors.accent1Lighten,
           textColor: AppColors.accent1,
         ),
-        formattedDate: 'À réaliser pour le 28/04/2023',
-        isLate: false,
+        dateFormattedTexts: [FormattedText('À réaliser pour le 28/04/2023')],
+        dateColor: AppColors.primary,
         isDetailEnabled: false,
       ),
     );
@@ -68,7 +69,9 @@ void main() {
 
     // Then
     expect(viewModel.status, DemarcheStatus.NOT_STARTED);
-    expect(viewModel.formattedDate, "À réaliser pour le 28/04/2050");
+    expect(viewModel.dateFormattedTexts, [FormattedText('À réaliser pour le 28/04/2050')]);
+
+    expect(viewModel.dateColor, AppColors.primary);
     expect(
       viewModel.tag,
       UserActionTagViewModel(
@@ -91,7 +94,13 @@ void main() {
 
     // Then
     expect(viewModel.status, DemarcheStatus.NOT_STARTED);
-    expect(viewModel.formattedDate, "À réaliser pour le 28/03/2022");
+    expect(
+      viewModel.dateFormattedTexts,
+      [
+        FormattedText('En retard : ', bold: true),
+        FormattedText('À réaliser pour le 28/03/2022'),
+      ],
+    );
     expect(
         viewModel.tag,
         UserActionTagViewModel(
@@ -113,7 +122,8 @@ void main() {
 
     // Then
     expect(viewModel.status, DemarcheStatus.IN_PROGRESS);
-    expect(viewModel.formattedDate, "À réaliser pour le 28/03/2050");
+    expect(viewModel.dateFormattedTexts, [FormattedText('À réaliser pour le 28/03/2050')]);
+    expect(viewModel.dateColor, AppColors.primary);
     expect(
       viewModel.tag,
       UserActionTagViewModel(
@@ -136,7 +146,13 @@ void main() {
 
     // Then
     expect(viewModel.status, DemarcheStatus.IN_PROGRESS);
-    expect(viewModel.formattedDate, "À réaliser pour le 28/03/2022");
+    expect(
+      viewModel.dateFormattedTexts,
+      [
+        FormattedText('En retard : ', bold: true),
+        FormattedText('À réaliser pour le 28/03/2022'),
+      ],
+    );
     expect(
       viewModel.tag,
       UserActionTagViewModel(
@@ -159,7 +175,8 @@ void main() {
 
     // Then
     expect(viewModel.status, DemarcheStatus.DONE);
-    expect(viewModel.formattedDate, "Réalisé le 28/03/2022");
+    expect(viewModel.dateFormattedTexts, [FormattedText('Réalisé le 28/03/2022')]);
+    expect(viewModel.dateColor, AppColors.grey700);
     expect(
         viewModel.tag,
         UserActionTagViewModel(
@@ -181,7 +198,8 @@ void main() {
 
     // Then
     expect(viewModel.status, DemarcheStatus.CANCELLED);
-    expect(viewModel.formattedDate, "Annulé le 28/03/2020");
+    expect(viewModel.dateFormattedTexts, [FormattedText('Annulé le 28/03/2020')]);
+    expect(viewModel.dateColor, AppColors.grey700);
     expect(
       viewModel.tag,
       UserActionTagViewModel(

@@ -1,6 +1,8 @@
+import 'package:clock/clock.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
+import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -127,21 +129,23 @@ void main() {
     final viewModel = UserActionViewModel.create(userAction);
 
     // Then
-    expect(viewModel.dateEcheance, "À réaliser pour le jeudi 2 janvier");
-    expect(viewModel.isLate, isFalse);
+    expect(viewModel.dateEcheanceFormattedTexts, [FormattedText("À réaliser pour le jeudi 2 janvier")]);
     expect(viewModel.dateEcheanceColor, AppColors.primary);
   });
 
   test("UserActionViewModel.create when dateEcheance is today should display it as on time", () {
-    // Given
-    final userAction = mockUserAction(dateEcheance: DateTime.now());
+    final today = DateTime(2022, 1, 2);
+    withClock(Clock.fixed(today), () {
+      // Given
+      final userAction = mockUserAction(dateEcheance: today);
 
-    // When
-    final viewModel = UserActionViewModel.create(userAction);
+      // When
+      final viewModel = UserActionViewModel.create(userAction);
 
-    // Then
-    expect(viewModel.isLate, isFalse);
-    expect(viewModel.dateEcheanceColor, AppColors.primary);
+      // Then
+      expect(viewModel.dateEcheanceFormattedTexts, [FormattedText("À réaliser pour le dimanche 2 janvier")]);
+      expect(viewModel.dateEcheanceColor, AppColors.primary);
+    });
   });
 
   test("UserActionViewModel.create when dateEcheance is in past should display it as late", () {
@@ -152,8 +156,10 @@ void main() {
     final viewModel = UserActionViewModel.create(userAction);
 
     // Then
-    expect(viewModel.dateEcheance, "À réaliser pour le dimanche 2 janvier");
-    expect(viewModel.isLate, isTrue);
+    expect(viewModel.dateEcheanceFormattedTexts, [
+      FormattedText("En retard : ", bold: true),
+      FormattedText("À réaliser pour le dimanche 2 janvier"),
+    ]);
     expect(viewModel.dateEcheanceColor, AppColors.warning);
   });
 }
