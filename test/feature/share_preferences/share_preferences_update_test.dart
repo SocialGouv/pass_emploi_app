@@ -11,6 +11,7 @@ import '../../doubles/dummies.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
+
   test("share preferences state should be updated when user change preferences and api call succeeds", () async {
     // Given
     final Store<AppState> store = _successStoreWithLoadedSharePreferences();
@@ -69,11 +70,6 @@ class SharePreferencesRepositorySuccessStub extends SharePreferencesRepository {
   SharePreferencesRepositorySuccessStub() : super("", DummyHttpClient());
 
   @override
-  Future<SharePreferences?> getSharePreferences(String userId) async {
-    return SharePreferences(shareFavoris: true);
-  }
-
-  @override
   Future<bool> updateSharePreferences(String userId, bool isShare) async {
     return true;
   }
@@ -81,11 +77,6 @@ class SharePreferencesRepositorySuccessStub extends SharePreferencesRepository {
 
 class SharePreferencesRepositoryFailureStub extends SharePreferencesRepository {
   SharePreferencesRepositoryFailureStub() : super("", DummyHttpClient());
-
-  @override
-  Future<SharePreferences?> getSharePreferences(String userId) async {
-    return null;
-  }
 
   @override
   Future<bool> updateSharePreferences(String userId, bool isShare) async {

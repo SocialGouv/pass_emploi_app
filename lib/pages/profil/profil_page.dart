@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_actions.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
+import 'package:pass_emploi_app/pages/partage_activite_page.dart';
 import 'package:pass_emploi_app/pages/profil/matomo_logging_page.dart';
 import 'package:pass_emploi_app/pages/suppression_compte_page.dart';
 import 'package:pass_emploi_app/presentation/profil/profil_page_view_model.dart';
@@ -56,6 +57,7 @@ class ProfilPage extends StatelessWidget {
               Text(Strings.settingsLabel, style: TextStyles.textLBold()),
               SizedBox(height: Margins.spacing_m),
               _SuppressionAccountCard(),
+              _ActivityShareCard(),
               Text(Strings.legalInformation, style: TextStyles.textLBold()),
               SizedBox(height: Margins.spacing_m),
               _LegalInformationCard(),
@@ -129,6 +131,16 @@ class _SuppressionAccountCard extends StatelessWidget {
         context,
         SuppressionComptePage.materialPageRoute(),
       ),
+    );
+  }
+}
+
+class _ActivityShareCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StandaloneProfilCard(
+      text: Strings.activityShareLabel,
+      onTap: () => Navigator.push(context, PartageActivitePage.materialPageRoute()),
     );
   }
 }

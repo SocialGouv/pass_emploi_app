@@ -8,6 +8,8 @@ import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
+import 'package:pass_emploi_app/features/share_preferences/share_preferences_state.dart';
+import 'package:pass_emploi_app/features/share_preferences/update/share_preferences_update_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
@@ -90,5 +92,30 @@ extension AppStateDSL on AppState {
 
   AppState showTutorial() {
     return copyWith(tutorialState: ShowTutorialState(Tutorial.milo));
+  }
+
+  AppState sharePreferencesSuccess({required bool favori}) {
+    return copyWith(sharePreferencesState: SharePreferencesSuccessState(mockSharePreferences(favoriShared: favori)));
+  }
+
+  AppState sharePreferencesLoading() {
+    return copyWith(sharePreferencesState: SharePreferencesLoadingState());
+  }
+
+  AppState sharePreferencesFailure() {
+    return copyWith(sharePreferencesState: SharePreferencesFailureState());
+  }
+
+
+  AppState sharePreferencesUpdateSuccess({required bool favori}) {
+    return copyWith(sharePreferencesUpdateState: SharePreferencesUpdateSuccessState(favori));
+  }
+
+  AppState sharePreferencesUpdateLoading() {
+    return copyWith(sharePreferencesUpdateState: SharePreferencesUpdateLoadingState());
+  }
+
+  AppState sharePreferencesUpdateFailure() {
+    return copyWith(sharePreferencesUpdateState: SharePreferencesUpdateFailureState());
   }
 }
