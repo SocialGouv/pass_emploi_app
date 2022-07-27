@@ -48,125 +48,154 @@ class ProfilPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              GestureDetector(
-                onDoubleTap: viewModel.onTitleTap,
-                child: Text(viewModel.userName, style: TextStyles.textLBold()),
-              ),
+              _UsernameTitle(userName: viewModel.userName, onTitleTap: viewModel.onTitleTap),
               SizedBox(height: Margins.spacing_m),
-              ProfilCard(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(Strings.personalInformation, style: TextStyles.textMBold),
-                    SizedBox(height: Margins.spacing_m),
-                    LabelValueRow(
-                      label: Text(Strings.emailAddressLabel, style: TextStyles.textBaseRegular),
-                      value: Text(
-                        viewModel.userEmail,
-                        style: TextStyles.textBaseBold.copyWith(
-                          color: AppColors.primary,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              _ProfileCard(userEmail: viewModel.userName),
               SizedBox(height: Margins.spacing_m),
               if (viewModel.displayMonConseiller) MonConseillerCard(),
               Text(Strings.settingsLabel, style: TextStyles.textLBold()),
               SizedBox(height: Margins.spacing_m),
-              StandaloneProfilCard(
-                text: Strings.suppressionAccountLabel,
-                onTap: () => Navigator.push(
-                  context,
-                  SuppressionComptePage.materialPageRoute(),
-                ),
-              ),
+              _SuppressionAccountCard(),
               Text(Strings.legalInformation, style: TextStyles.textLBold()),
               SizedBox(height: Margins.spacing_m),
-              ProfilCard(
-                padding: EdgeInsets.zero,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Material(
-                    color: Colors.transparent,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        InkWell(
-                          onTap: () => _launchAndTrackExternalLink(Strings.legalNoticeUrl),
-                          child: Padding(
-                            padding: const EdgeInsets.all(Margins.spacing_base),
-                            child: LabelValueRow(
-                              label: Text(Strings.legalNoticeLabel, style: TextStyles.textBaseRegular),
-                              value: _redirectIcon(),
-                            ),
-                          ),
-                        ),
-                        SepLine(0, 0, color: AppColors.grey100),
-                        InkWell(
-                          onTap: () => _launchAndTrackExternalLink(Strings.termsOfServiceUrl),
-                          child: Padding(
-                            padding: const EdgeInsets.all(Margins.spacing_base),
-                            child: LabelValueRow(
-                              label: Text(Strings.termsOfServiceLabel, style: TextStyles.textBaseRegular),
-                              value: _redirectIcon(),
-                            ),
-                          ),
-                        ),
-                        SepLine(0, 0, color: AppColors.grey100),
-                        InkWell(
-                          onTap: () => _launchAndTrackExternalLink(Strings.privacyPolicyUrl),
-                          child: Padding(
-                            padding: const EdgeInsets.all(Margins.spacing_base),
-                            child: LabelValueRow(
-                              label: Text(Strings.privacyPolicyLabel, style: TextStyles.textBaseRegular),
-                              value: _redirectIcon(),
-                            ),
-                          ),
-                        ),
-                        SepLine(0, 0, color: AppColors.grey100),
-                        InkWell(
-                          onTap: () => _launchAndTrackExternalLink(Strings.accessibilityUrl),
-                          child: Padding(
-                            padding: const EdgeInsets.all(Margins.spacing_base),
-                            child: LabelValueRow(
-                              label: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(Strings.accessibilityLevelLabel, style: TextStyles.textBaseRegular),
-                                  Text(
-                                    Strings.accessibilityLevelNonConforme,
-                                    style: TextStyles.textBaseBold,
-                                  )
-                                ],
-                              ),
-                              value: _redirectIcon(),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
+              _LegalInformationCard(),
               SizedBox(height: Margins.spacing_m),
               if (viewModel.displayDeveloperOptions) ...[
                 Text(Strings.developerOptions, style: TextStyles.textLBold()),
                 SizedBox(height: Margins.spacing_m),
-                StandaloneProfilCard(
-                  text: Strings.developerOptionMatomo,
-                  onTap: () => Navigator.push(
-                    context,
-                    MatomoLoggingPage.materialPageRoute(),
-                  ),
-                ),
+                _MatomoCard(),
               ],
               SecondaryButton(
-                onPressed: () {
-                  StoreProvider.of<AppState>(context).dispatch(RequestLogoutAction());
-                },
+                onPressed: () => StoreProvider.of<AppState>(context).dispatch(RequestLogoutAction()),
                 label: Strings.logoutAction,
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _UsernameTitle extends StatelessWidget {
+  final String userName;
+  final Function() onTitleTap;
+
+  _UsernameTitle({required this.userName, required this.onTitleTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onDoubleTap: onTitleTap,
+      child: Text(userName, style: TextStyles.textLBold()),
+    );
+  }
+}
+
+class _ProfileCard extends StatelessWidget {
+  final String userEmail;
+
+  _ProfileCard({required this.userEmail});
+
+  @override
+  Widget build(BuildContext context) {
+    return ProfilCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(Strings.personalInformation, style: TextStyles.textMBold),
+          SizedBox(height: Margins.spacing_m),
+          LabelValueRow(
+            label: Text(Strings.emailAddressLabel, style: TextStyles.textBaseRegular),
+            value: Text(
+              userEmail,
+              style: TextStyles.textBaseBold.copyWith(
+                color: AppColors.primary,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SuppressionAccountCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StandaloneProfilCard(
+      text: Strings.suppressionAccountLabel,
+      onTap: () => Navigator.push(
+        context,
+        SuppressionComptePage.materialPageRoute(),
+      ),
+    );
+  }
+}
+
+class _LegalInformationCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ProfilCard(
+      padding: EdgeInsets.zero,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: Material(
+          color: Colors.transparent,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              InkWell(
+                onTap: () => _launchAndTrackExternalLink(Strings.legalNoticeUrl),
+                child: Padding(
+                  padding: const EdgeInsets.all(Margins.spacing_base),
+                  child: LabelValueRow(
+                    label: Text(Strings.legalNoticeLabel, style: TextStyles.textBaseRegular),
+                    value: _redirectIcon(),
+                  ),
+                ),
+              ),
+              SepLine(0, 0, color: AppColors.grey100),
+              InkWell(
+                onTap: () => _launchAndTrackExternalLink(Strings.termsOfServiceUrl),
+                child: Padding(
+                  padding: const EdgeInsets.all(Margins.spacing_base),
+                  child: LabelValueRow(
+                    label: Text(Strings.termsOfServiceLabel, style: TextStyles.textBaseRegular),
+                    value: _redirectIcon(),
+                  ),
+                ),
+              ),
+              SepLine(0, 0, color: AppColors.grey100),
+              InkWell(
+                onTap: () => _launchAndTrackExternalLink(Strings.privacyPolicyUrl),
+                child: Padding(
+                  padding: const EdgeInsets.all(Margins.spacing_base),
+                  child: LabelValueRow(
+                    label: Text(Strings.privacyPolicyLabel, style: TextStyles.textBaseRegular),
+                    value: _redirectIcon(),
+                  ),
+                ),
+              ),
+              SepLine(0, 0, color: AppColors.grey100),
+              InkWell(
+                onTap: () => _launchAndTrackExternalLink(Strings.accessibilityUrl),
+                child: Padding(
+                  padding: const EdgeInsets.all(Margins.spacing_base),
+                  child: LabelValueRow(
+                    label: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(Strings.accessibilityLevelLabel, style: TextStyles.textBaseRegular),
+                        Text(
+                          Strings.accessibilityLevelNonConforme,
+                          style: TextStyles.textBaseBold,
+                        )
+                      ],
+                    ),
+                    value: _redirectIcon(),
+                  ),
+                ),
               ),
             ],
           ),
@@ -186,4 +215,14 @@ class ProfilPage extends StatelessWidget {
         height: 18,
         color: AppColors.grey800,
       );
+}
+
+class _MatomoCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StandaloneProfilCard(
+      text: Strings.developerOptionMatomo,
+      onTap: () => Navigator.push(context, MatomoLoggingPage.materialPageRoute()),
+    );
+  }
 }
