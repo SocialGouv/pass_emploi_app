@@ -456,6 +456,8 @@ class Strings {
   static String settingsLabel = "Paramètres application";
   static String suppressionPageTitle = "Suppression de compte";
   static String suppressionAccountLabel = "Supprimer mon compte de l’application CEJ";
+  static String activityShareLabel = "Partage de votre activité";
+  static String activityShareDescription = "Autorisez le partage pour permettre au conseiller d’avoir un suivi de votre activité.";
   static String warning = "Attention";
   static String suppressionButtonLabel = "Supprimer mon compte";
   static String warningInformationParagraph1 =
@@ -478,6 +480,8 @@ class Strings {
   static String lastWarningBeforeSuppression = "Tapez “supprimer” pour confirmer la suppression de votre compte";
   static String mandatorySuppressionLabelError = "Vérifiez que vous avez bien tapé “supprimer”";
   static String accountDeletionSuccess = "Votre compte a bien été supprimé de l’application CEJ";
+
+  static String shareFavoriteLabel = "Partager mes favoris";
 
   // saved search
   static String createAlert = "Créer une alerte";
