@@ -18,39 +18,36 @@ class DateEcheanceInDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, top: 20, right: 20),
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            ...icons.map((icon) {
-              return Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: SvgPicture.asset(icon, color: textColor, height: 20),
-              );
-            }).toList(),
-            Expanded(
-              child: RichText(
-                text: TextSpan(
-                  children: formattedTexts.map((text) {
-                    return TextSpan(
-                      text: text.value,
-                      style: text.bold
-                          ? TextStyles.textBaseBoldWithColor(textColor)
-                          : TextStyles.textSRegularWithColor(textColor),
-                    );
-                  }).toList(),
-                ),
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          ...icons.map((icon) {
+            return Padding(
+              padding: const EdgeInsets.only(right: 8),
+              child: SvgPicture.asset(icon, color: textColor, height: 20),
+            );
+          }).toList(),
+          Expanded(
+            child: RichText(
+              text: TextSpan(
+                children: formattedTexts.map((text) {
+                  return TextSpan(
+                    text: text.value,
+                    style: text.bold
+                        ? TextStyles.textBaseBoldWithColor(textColor)
+                        : TextStyles.textSRegularWithColor(textColor),
+                  );
+                }).toList(),
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

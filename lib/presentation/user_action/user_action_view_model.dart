@@ -1,4 +1,3 @@
-import 'package:clock/clock.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
@@ -37,7 +36,7 @@ class UserActionViewModel extends Equatable {
   });
 
   factory UserActionViewModel.create(UserAction userAction) {
-    final isLate = _isLate(userAction.dateEcheance);
+    final isLate = userAction.isLate();
     return UserActionViewModel(
       id: userAction.id,
       title: userAction.content,
@@ -54,8 +53,7 @@ class UserActionViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         id,
         title,
         subtitle,
@@ -71,8 +69,6 @@ class UserActionViewModel extends Equatable {
 }
 
 String _displayName(UserActionCreator creator) => creator is ConseillerActionCreator ? creator.name : Strings.you;
-
-bool _isLate(DateTime date) => !(date.isToday() || date.isAfter(clock.now()));
 
 List<FormattedText> _dateEcheanceFormattedTexts(UserAction userAction, bool isLate) {
   return [

@@ -18,6 +18,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/date_echeance_in_detail.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
@@ -55,7 +56,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
             store.dispatch(UserActionNotUpdatingState());
             store.dispatch(UserActionDeleteResetAction());
           },
-          converter: (store) => UserActionDetailsViewModel.create(store),
+          converter: (store) => UserActionDetailsViewModel.create(store, widget.actionViewModel.id),
           builder: (context, detailsViewModel) => _build(context, detailsViewModel),
           onWillChange: (previousVm, newVm) => _dismissBottomSheetIfNeeded(context, newVm),
           distinct: true,
@@ -77,26 +78,34 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
       children: [
         Expanded(
           child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.only(top: Margins.spacing_l, left: Margins.spacing_m, right: Margins.spacing_m),
-                  child: Text(
-                    widget.actionViewModel.title,
-                    style: TextStyles.textLBold(),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  SizedBox(height: Margins.spacing_l),
+                  Text(widget.actionViewModel.title, style: TextStyles.textLBold()),
+                  SizedBox(height: Margins.spacing_m),
+                  _aboutUserAction(),
+                  SizedBox(height: Margins.spacing_base),
+                  _Separator(),
+                  SizedBox(height: Margins.spacing_m),
+                  _creator(),
+                  SizedBox(height: Margins.spacing_m),
+                  SizedBox(height: Margins.spacing_base),
+                  DateEcheanceInDetail(
+                    icons: detailsViewModel.dateIcons,
+                    formattedTexts: detailsViewModel.dateFormattedTexts,
+                    textColor: detailsViewModel.dateTextColor,
+                    backgroundColor: detailsViewModel.dateBackgroundColor,
                   ),
-                ),
-                SizedBox(height: 24),
-                _aboutUserAction(),
-                SizedBox(height: 18),
-                _Separator(),
-                _creator(),
-                _Separator(),
-                _changeStatus(detailsViewModel),
-              ],
+                  SizedBox(height: Margins.spacing_xl),
+                  _Separator(),
+                  SizedBox(height: Margins.spacing_base),
+                  _changeStatus(detailsViewModel),
+                ],
+              ),
             ),
           ),
         ),
@@ -114,54 +123,43 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
 
   Widget _aboutUserAction() {
     if (widget.actionViewModel.withSubtitle) {
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-        child: TextWithClickableLinks(
-          widget.actionViewModel.subtitle,
-          style: TextStyles.textSRegular(),
-        ),
-      );
+      return TextWithClickableLinks(widget.actionViewModel.subtitle, style: TextStyles.textSRegular());
     } else {
       return SizedBox(height: Margins.spacing_s);
     }
   }
 
   Widget _creator() {
-    return Padding(
-      padding: userActionBottomSheetContentPadding(),
-      child: Row(children: [
+    return Row(
+      children: [
         Text(Strings.actionCreatedBy, style: TextStyles.textBaseBold),
         Expanded(
-            child: Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  widget.actionViewModel.creator,
-                  style: TextStyles.textSBold,
-                ))),
-      ]),
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: Text(widget.actionViewModel.creator, style: TextStyles.textSBold),
+          ),
+        ),
+      ],
     );
   }
 
   Widget _changeStatus(UserActionDetailsViewModel detailsViewModel) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 24, Margins.spacing_base, 0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-            child: Text(Strings.updateStatus, style: TextStyles.textBaseBold),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: Margins.spacing_base),
+          child: Text(Strings.updateStatus, style: TextStyles.textBaseBold),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(bottom: Margins.spacing_base),
+          child: UserActionStatusGroup(
+            status: actionStatus,
+            update: (newStatus) => _update(newStatus),
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: Margins.spacing_base),
-            child: UserActionStatusGroup(
-              status: actionStatus,
-              update: (newStatus) => _update(newStatus),
-            ),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -228,13 +226,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
 class _Separator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-      child: Container(
-        height: 1,
-        color: AppColors.primaryLighten,
-      ),
-    );
+    return Container(height: 1, color: AppColors.primaryLighten);
   }
 }
 

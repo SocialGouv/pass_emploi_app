@@ -1,5 +1,7 @@
+import 'package:clock/clock.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 enum UserActionStatus { NOT_STARTED, IN_PROGRESS, CANCELED, DONE }
@@ -40,6 +42,8 @@ class UserAction extends Equatable {
       creator: _creator(json),
     );
   }
+
+  bool isLate() => !(dateEcheance.isToday() || dateEcheance.isAfter(clock.now()));
 
   @override
   List<Object?> get props => [id, comment, content, status, lastUpdate, dateEcheance, creator];
