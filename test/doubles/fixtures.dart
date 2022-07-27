@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
+import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
@@ -304,6 +305,30 @@ UserAction mockUserAction({
     lastUpdate: lastUpdate ?? DateTime.now(),
     dateEcheance: dateEcheance ?? DateTime.now(),
     creator: creator ?? JeuneActionCreator(),
+  );
+}
+
+Demarche mockDemarche({
+  String id = 'id',
+  DemarcheStatus status = DemarcheStatus.NOT_STARTED,
+  DateTime? endDate,
+  DateTime? deletionDate,
+}) {
+  return Demarche(
+    id: id,
+    content: null,
+    status: status,
+    endDate: endDate,
+    deletionDate: deletionDate,
+    createdByAdvisor: true,
+    label: null,
+    possibleStatus: [],
+    creationDate: null,
+    modifiedByAdvisor: false,
+    sousTitre: null,
+    titre: null,
+    modificationDate: null,
+    attributs: [],
   );
 }
 

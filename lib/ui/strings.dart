@@ -248,11 +248,18 @@ class Strings {
   static const String selectComment = "*Sélectionner un des moyens";
   static const String selectQuand = "*Sélectionner une date d’échéance";
 
-  static String demarcheActiveDateFormat(String formattedDate) => "À réaliser pour le $formattedDate";
+  static String demarcheActiveLabel = "À réaliser pour le ";
 
-  static String demarcheDoneDateFormat(String formattedDate) => "Réalisé le $formattedDate";
+  static String demarcheActiveDateFormat(String formattedDate) => demarcheActiveLabel + formattedDate;
 
-  static String demarcheCancelledDateFormat(String formattedDate) => "Annulé le $formattedDate";
+  static String demarcheDoneLabel = "Réalisé le ";
+
+  static String demarcheDoneDateFormat(String formattedDate) => demarcheDoneLabel + formattedDate;
+
+  static String demarcheCancelledLabel = "Annulé le ";
+
+  static String demarcheCancelledDateFormat(String formattedDate) => demarcheCancelledLabel + formattedDate;
+
   static String withoutDate = "Date indéterminée";
   static String withoutContent = "Démarche indéterminée";
   static String createByAdvisor = "Créé par votre conseiller";
@@ -276,7 +283,8 @@ class Strings {
   static String partageOffreNavTitle = "Partage de l’offre d’emploi";
   static String souhaitDePartagerOffre = "L’offre que vous souhaitez partager";
   static String partageOffreDefaultMessage = "Bonjour, je vous partage une offre d’emploi afin d’avoir votre avis";
-  static String partageOffreSuccess = "L’offre d’emploi a été partagée à votre conseiller sur la messagerie de l’application";
+  static String partageOffreSuccess =
+      "L’offre d’emploi a été partagée à votre conseiller sur la messagerie de l’application";
   static String messagePourConseiller = "Message destiné à votre conseiller";
   static String offrePartageChat = "L’offre d’emploi sera partagée à votre conseiller dans la messagerie";
   static String partagerOffreEmploi = "Partager l’offre d’emploi";
@@ -540,10 +548,12 @@ class Strings {
 
   // Tutorial
   static String tutoTitreOffreDebutant = "Trouvez plus facilement des offres d’emploi pour débutant";
-  static String tutoDescriptionOffreDebutant = "Affichez uniquement les offres d’emploi “débutant accepté” dans votre liste de résultat de recherche !";
+  static String tutoDescriptionOffreDebutant =
+      "Affichez uniquement les offres d’emploi “débutant accepté” dans votre liste de résultat de recherche !";
 
   static String tutoTitreOffrePartage = "Partagez vos offres d’emploi à votre conseiller";
-  static String tutoDescriptionOffrePartage = "Vous pouvez désormais partager une ofre d’emploi à votre conseiller directement depuis le chat";
+  static String tutoDescriptionOffrePartage =
+      "Vous pouvez désormais partager une ofre d’emploi à votre conseiller directement depuis le chat";
 
   static String seeLater = "Voir plus tard";
   static String finish = "Terminer";

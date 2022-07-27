@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_mo
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
+import '../../doubles/fixtures.dart';
 import '../../utils/test_datetime.dart';
 
 void main() {
@@ -59,7 +60,7 @@ void main() {
 
   test("create when status is IS_NOT_STARTED and end date is in the future should create view model properly", () {
     // Given
-    final demarche = _demarche(
+    final demarche = mockDemarche(
       status: DemarcheStatus.NOT_STARTED,
       endDate: parseDateTimeUtcWithCurrentTimeZone('2050-04-28T16:06:48.396Z'),
     );
@@ -84,7 +85,7 @@ void main() {
 
   test("create when status is IS_NOT_STARTED and end date is in the past should create view model properly", () {
     // Given
-    final demarche = _demarche(
+    final demarche = mockDemarche(
       status: DemarcheStatus.NOT_STARTED,
       endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
     );
@@ -112,7 +113,7 @@ void main() {
 
   test("create when status is IN_PROGRESS should create view model properly", () {
     // Given
-    final demarche = _demarche(
+    final demarche = mockDemarche(
       status: DemarcheStatus.IN_PROGRESS,
       endDate: parseDateTimeUtcWithCurrentTimeZone('2050-03-28T16:06:48.396Z'),
     );
@@ -136,7 +137,7 @@ void main() {
 
   test("create when status is IN_PROGRESS and end date is in the past should create view model properly", () {
     // Given
-    final demarche = _demarche(
+    final demarche = mockDemarche(
       status: DemarcheStatus.IN_PROGRESS,
       endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
     );
@@ -165,7 +166,7 @@ void main() {
 
   test("create when status is DONE should create view model properly", () {
     // Given
-    final demarche = _demarche(
+    final demarche = mockDemarche(
       status: DemarcheStatus.DONE,
       endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
     );
@@ -188,7 +189,7 @@ void main() {
 
   test("create when status is CANCELLED should create view model properly", () {
     // Given
-    final demarche = _demarche(
+    final demarche = mockDemarche(
       status: DemarcheStatus.CANCELLED,
       deletionDate: parseDateTimeUtcWithCurrentTimeZone('2020-03-28T16:06:48.396Z'),
     );
@@ -209,23 +210,4 @@ void main() {
       ),
     );
   });
-}
-
-Demarche _demarche({required DemarcheStatus status, DateTime? endDate, DateTime? deletionDate}) {
-  return Demarche(
-    id: 'id',
-    content: null,
-    status: status,
-    endDate: endDate,
-    deletionDate: deletionDate,
-    createdByAdvisor: true,
-    label: null,
-    possibleStatus: [],
-    creationDate: null,
-    modifiedByAdvisor: false,
-    sousTitre: null,
-    titre: null,
-    modificationDate: null,
-    attributs: [],
-  );
 }

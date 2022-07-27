@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/date_echeance_in_detail.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 
 class DemarcheDetailPage extends StatelessWidget {
@@ -53,7 +54,12 @@ class _Body extends StatelessWidget {
           if (viewModel.sousTitre != null) _SousTitre(viewModel.sousTitre!),
           _DetailDemarcheTitle(),
           if (viewModel.attributs.isNotEmpty) _Attributs(viewModel.attributs),
-          _EndDate(viewModel.formattedDate, viewModel.isLate),
+          DateEcheanceInDetail(
+            icons: viewModel.dateIcons,
+            formattedTexts: viewModel.dateFormattedTexts,
+            backgroundColor: viewModel.dateBackgroundColor,
+            textColor: viewModel.dateTextColor,
+          ),
           if (viewModel.statutsPossibles.isNotEmpty) _StatutTitle(),
           if (viewModel.statutsPossibles.isNotEmpty) _StatutList(viewModel),
           _HistoriqueTitle(),
@@ -179,44 +185,9 @@ class _DetailDemarcheTitle extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(color: AppColors.primaryLighten, height: 1),
-          SizedBox(
-            height: 20,
-          ),
+          SizedBox(height: 20),
           Text(Strings.demarcheDetails, style: TextStyles.textBaseBold),
         ],
-      ),
-    );
-  }
-}
-
-class _EndDate extends StatelessWidget {
-  final String label;
-  final bool isLate;
-
-  _EndDate(this.label, this.isLate);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, top: 20, right: 20),
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        decoration: BoxDecoration(
-          color: isLate ? AppColors.warningLighten : AppColors.accent3Lighten,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            SvgPicture.asset(
-              Drawables.icClock,
-              color: isLate ? AppColors.warning : AppColors.grey700,
-              height: 20,
-            ),
-            SizedBox(width: 12),
-            Expanded(child: Text(label, style: TextStyles.textBaseRegular)),
-          ],
-        ),
       ),
     );
   }
