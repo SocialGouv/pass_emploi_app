@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/share_preferences/share_preferences_actions.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/profil/partage_activite_page_view_model.dart';
@@ -17,10 +19,13 @@ class PartageActivitePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, PartageActivitePageViewModel>(
-      onInit: (store) => store.dispatch(SharePreferencesRequestAction()),
-      converter: (store) => PartageActivitePageViewModel.create(store),
-      builder: (context, viewModel) => _scaffold(context, viewModel),
+    return Tracker(
+      tracking: AnalyticsScreenNames.shareActivity,
+      child: StoreConnector<AppState, PartageActivitePageViewModel>(
+        onInit: (store) => store.dispatch(SharePreferencesRequestAction()),
+        converter: (store) => PartageActivitePageViewModel.create(store),
+        builder: (context, viewModel) => _scaffold(context, viewModel),
+      ),
     );
   }
 
@@ -63,7 +68,6 @@ class PartageActivitePage extends StatelessWidget {
   }
 
   Widget _loader() => Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
-
 }
 
 class _PartageDescription extends StatelessWidget {
