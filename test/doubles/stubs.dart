@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/page_actions.dart';
 import 'package:pass_emploi_app/models/page_demarches.dart';
+import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
@@ -58,8 +59,8 @@ class PageActionRepositorySuccessStub extends PageActionRepository {
   }
 
   @override
-  Future<bool> createUserAction(String userId, String? content, String? comment, UserActionStatus status) async {
-    return userId == "id" && content == "content" && comment == "comment" && status == UserActionStatus.NOT_STARTED;
+  Future<bool> createUserAction(String userId, UserActionCreateRequest request) async {
+    return userId == "id" && request.content == "content" && request.comment == "comment" && request.initialStatus == UserActionStatus.NOT_STARTED;
   }
 
   @override
@@ -75,12 +76,7 @@ class PageActionRepositoryFailureStub extends PageActionRepository {
   PageActionRepositoryFailureStub() : super("", DummyHttpClient());
 
   @override
-  Future<bool> createUserAction(
-    String userId,
-    String? content,
-    String? comment,
-    UserActionStatus status,
-  ) async {
+  Future<bool> createUserAction(String userId, UserActionCreateRequest request) async {
     return false;
   }
 

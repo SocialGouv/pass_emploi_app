@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
+import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_create_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -11,6 +12,8 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
+import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
 class CreateUserActionBottomSheet extends StatefulWidget {
@@ -20,9 +23,10 @@ class CreateUserActionBottomSheet extends StatefulWidget {
 
 class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomSheet> {
   final _formKey = GlobalKey<FormState>();
+  late UserActionStatus _initialStatus;
   String? _actionContent;
   String? _actionComment;
-  late UserActionStatus _initialStatus;
+  DateTime? _dateEcheance;
 
   @override
   void initState() {
@@ -59,19 +63,32 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             userActionBottomSheetHeader(context, title: Strings.addAnAction),
-            userActionBottomSheetSeparator(),
+            SepLine(0, 0),
             Expanded(
               child: ListView(
                 shrinkWrap: true,
                 children: [
                   _actionContentAndComment(viewModel),
-                  userActionBottomSheetSeparator(),
+                  SizedBox(height: Margins.spacing_xl),
+                  _DateEcheance(
+                    dateEcheance: _dateEcheance,
+                    onDateEcheanceChange: (date) {
+                      setState(() {
+                        _dateEcheance = date;
+                      });
+                    },
+                  ),
+                  SizedBox(height: Margins.spacing_xl),
+                  SepLine(0, 0),
                   _defineStatus(viewModel),
                 ],
               ),
             ),
-            userActionBottomSheetSeparator(),
-            _createButton(viewModel),
+            SepLine(0, 0),
+            Padding(
+              padding: bottomSheetContentPadding(),
+              child: _createButton(viewModel),
+            ),
           ],
         ),
       ),
@@ -80,7 +97,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
 
   Widget _actionContentAndComment(UserActionCreateViewModel viewModel) {
     return Padding(
-      padding: userActionBottomSheetContentPadding(),
+      padding: EdgeInsets.symmetric(horizontal: Margins.spacing_base),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -119,11 +136,12 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
       minLines: 3,
       maxLines: 3,
       decoration: InputDecoration(
-          contentPadding: const EdgeInsets.all(16),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(8.0),
-            borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
-          )),
+        contentPadding: const EdgeInsets.all(16),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8.0),
+          borderSide: BorderSide(color: AppColors.contentColor, width: 1.0),
+        ),
+      ),
       keyboardType: TextInputType.multiline,
       textCapitalization: TextCapitalization.sentences,
       textInputAction: textInputAction,
@@ -138,7 +156,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
 
   Widget _defineStatus(UserActionCreateViewModel viewModel) {
     return Padding(
-      padding: userActionBottomSheetContentPadding(),
+      padding: bottomSheetContentPadding(),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -158,14 +176,18 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
 
   Widget _createButton(UserActionCreateViewModel viewModel) {
     return Padding(
-      padding: userActionBottomSheetContentPadding(),
+      padding: bottomSheetContentPadding(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           PrimaryActionButton(
             label: Strings.create,
             onPressed: _isLoading(viewModel) && _isFormValid()
-                ? () => {viewModel.createUserAction(_actionContent!, _actionComment, _initialStatus)}
+                ? () => {
+                      viewModel.createUserAction(
+                        UserActionCreateRequest(_actionContent!, _actionComment, _dateEcheance!, _initialStatus),
+                      )
+                    }
                 : null,
           ),
           if (viewModel.displayState == UserActionCreateDisplayState.SHOW_ERROR)
@@ -184,7 +206,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
     );
   }
 
-  bool _isFormValid() => _formKey.currentState?.validate() == true;
+  bool _isFormValid() => _formKey.currentState?.validate() == true && _dateEcheance != null;
 
   bool _isLoading(UserActionCreateViewModel viewModel) =>
       viewModel.displayState != UserActionCreateDisplayState.SHOW_LOADING;
@@ -193,5 +215,32 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
     if (viewModel.displayState == UserActionCreateDisplayState.TO_DISMISS) {
       Navigator.pop(context);
     }
+  }
+}
+
+class _DateEcheance extends StatelessWidget {
+  final DateTime? dateEcheance;
+  final Function(DateTime) onDateEcheanceChange;
+
+  const _DateEcheance({required this.dateEcheance, required this.onDateEcheanceChange});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(Strings.selectEcheance, style: TextStyles.textBaseMedium),
+          SizedBox(height: Margins.spacing_s),
+          DatePicker(
+            onValueChange: (date) => onDateEcheanceChange(date),
+            initialDateValue: dateEcheance,
+            isActiveDate: true,
+          ),
+        ],
+      ),
+    );
   }
 }

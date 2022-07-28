@@ -1,11 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_state.dart';
+import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_create_view_model.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
+
+import '../../doubles/spies.dart';
 
 void main() {
   test("create when state is loading should set display state to loading", () {
@@ -46,16 +49,16 @@ void main() {
 
   test('createUserAction should dispatch CreateUserAction', () {
     // Given
-    final storeSpy = StoreSpy();
-    final state = AppState.initialState();
-    final store = Store<AppState>(storeSpy.reducer, initialState: state);
+    final store = StoreSpy();
     final viewModel = UserActionCreateViewModel.create(store);
 
     // When
-    viewModel.createUserAction("content", "comment", UserActionStatus.DONE);
+    final request = UserActionCreateRequest("content", "comment", DateTime(2022), UserActionStatus.DONE);
+    viewModel.createUserAction(request);
 
     // Then
-    expect(storeSpy.calledWithCreate, true);
+    expect(store.dispatchedAction, isA<UserActionCreateRequestAction>());
+    expect((store.dispatchedAction as UserActionCreateRequestAction).request, request);
   });
 
   test("create when state is failure should display un error", () {
@@ -69,17 +72,4 @@ void main() {
     // Then
     expect(viewModel.displayState, UserActionCreateDisplayState.SHOW_ERROR);
   });
-}
-
-class StoreSpy {
-  var calledWithCreate = false;
-
-  AppState reducer(AppState currentState, dynamic action) {
-    if (action is UserActionCreateRequestAction) {
-      if (action.content == "content" && action.comment == "comment" && action.initialStatus == UserActionStatus.DONE) {
-        calledWithCreate = true;
-      }
-    }
-    return currentState;
-  }
 }
