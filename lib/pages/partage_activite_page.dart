@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class PartageActivitePage extends StatelessWidget {
   static MaterialPageRoute<void> materialPageRoute() {
@@ -59,6 +60,7 @@ class PartageActivitePage extends StatelessWidget {
               _PartageFavoris(
                 partageFavorisEnabled: viewModel.shareFavoris,
                 onPartageFavorisValueChange: viewModel.onPartageFavorisTap,
+                updatedState: viewModel.updateState,
               ),
             ],
           ),
@@ -83,11 +85,13 @@ class _PartageDescription extends StatelessWidget {
 class _PartageFavoris extends StatefulWidget {
   final bool partageFavorisEnabled;
   final Function() onPartageFavorisValueChange;
+  final DisplayState updatedState;
 
   const _PartageFavoris({
     Key? key,
     required this.partageFavorisEnabled,
     required this.onPartageFavorisValueChange,
+    required this.updatedState,
   }) : super(key: key);
 
   @override
@@ -96,6 +100,7 @@ class _PartageFavoris extends StatefulWidget {
 
 class _PartageFavorisState extends State<_PartageFavoris> {
   var _partageFavorisEnabled = false;
+  var _isLoading = false;
 
   @override
   void initState() {
@@ -104,10 +109,18 @@ class _PartageFavorisState extends State<_PartageFavoris> {
   }
 
   void _onPartageFavorisValueChange(bool value) {
-    setState(() {
-      _partageFavorisEnabled = value;
-      widget.onPartageFavorisValueChange();
-    });
+    widget.onPartageFavorisValueChange();
+    if (widget.updatedState == DisplayState.CONTENT) {
+      setState(() {
+        _isLoading = false;
+        _partageFavorisEnabled = value;
+      });
+    } else if (widget.updatedState == DisplayState.FAILURE) {
+      showFailedSnackBar(context, Strings.miscellaneousErrorRetry);
+      setState(() => _isLoading = false);
+    } else {
+      setState(() => _isLoading = true);
+    }
   }
 
   @override
@@ -124,13 +137,24 @@ class _PartageFavorisState extends State<_PartageFavoris> {
             padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_s),
             child: Row(
               children: [
-                Expanded(child: Text(Strings.shareFavoriteLabel, style: TextStyles.textBaseRegular)),
+                Expanded(
+                    child: Text(
+                  Strings.shareFavoriteLabel,
+                  style: TextStyles.textBaseRegularWithColor(
+                    _isLoading ? AppColors.grey500 : AppColors.contentColor,
+                  ),
+                )),
                 Switch(
                   value: _partageFavorisEnabled,
                   onChanged: _onPartageFavorisValueChange,
                   activeColor: AppColors.primary,
                 ),
-                Text(Strings.yes, style: TextStyles.textBaseRegular),
+                Text(
+                  Strings.yes,
+                  style: TextStyles.textBaseRegularWithColor(
+                    _isLoading ? AppColors.grey500 : AppColors.contentColor,
+                  ),
+                ),
               ],
             ),
           ),
