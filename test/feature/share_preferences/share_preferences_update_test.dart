@@ -67,7 +67,7 @@ Store<AppState> _failureStoreWithLoadedSharePreferences() {
 }
 
 class SharePreferencesRepositorySuccessStub extends SharePreferencesRepository {
-  SharePreferencesRepositorySuccessStub() : super("", DummyHttpClient());
+  SharePreferencesRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> updateSharePreferences(String userId, bool isShare) async {
@@ -76,7 +76,7 @@ class SharePreferencesRepositorySuccessStub extends SharePreferencesRepository {
 }
 
 class SharePreferencesRepositoryFailureStub extends SharePreferencesRepository {
-  SharePreferencesRepositoryFailureStub() : super("", DummyHttpClient());
+  SharePreferencesRepositoryFailureStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> updateSharePreferences(String userId, bool isShare) async {

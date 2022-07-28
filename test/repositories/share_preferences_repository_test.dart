@@ -3,6 +3,7 @@ import 'package:http/http.dart';
 import 'package:pass_emploi_app/models/share_preferences.dart';
 import 'package:pass_emploi_app/repositories/share_preferences_repository.dart';
 
+import '../doubles/dummies.dart';
 import '../doubles/fixtures.dart';
 import '../utils/pass_emploi_mock_client.dart';
 import '../utils/test_assets.dart';
@@ -15,7 +16,7 @@ void main() {
       if (!request.url.toString().startsWith("BASE_URL/jeunes/UID/preferences")) return invalidHttpResponse();
       return Response.bytes(loadTestAssetsAsBytes("share_preferences.json"), 200);
     });
-    final repository = SharePreferencesRepository("BASE_URL", httpClient);
+    final repository = SharePreferencesRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
     // When
     final SharePreferences? result = await repository.getSharePreferences("UID");
@@ -30,7 +31,7 @@ void main() {
   test('getSharePreferences returns null when response is not valid', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
-    final repository = SharePreferencesRepository("BASE_URL", httpClient);
+    final repository = SharePreferencesRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
     // When
     final search = await repository.getSharePreferences("UID");
@@ -46,7 +47,7 @@ void main() {
       if (!request.url.toString().startsWith("BASE_URL/jeunes/UID/preferences")) return invalidHttpResponse();
       return Response.bytes(loadTestAssetsAsBytes("share_preferences.json"), 200);
     });
-    final repository = SharePreferencesRepository("BASE_URL", httpClient);
+    final repository = SharePreferencesRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
     // When
     final SharePreferences? result = await repository.getSharePreferences("UID");
@@ -61,7 +62,7 @@ void main() {
   test('putSharePreferences returns null when response is not valid', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
-    final repository = SharePreferencesRepository("BASE_URL", httpClient);
+    final repository = SharePreferencesRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
     // When
     final search = await repository.getSharePreferences("UID");

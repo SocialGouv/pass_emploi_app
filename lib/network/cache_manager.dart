@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repositor
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
+import 'package:pass_emploi_app/repositories/share_preferences_repository.dart';
 
 class PassEmploiCacheManager extends CacheManager {
   static const Duration requestCacheDuration = Duration(minutes: 20);
@@ -34,6 +35,9 @@ class PassEmploiCacheManager extends CacheManager {
       case CachedRessource.SAVED_SEARCH:
         removeFile(GetSavedSearchRepository.getSavedSearchUri(baseUrl: baseUrl, userId: userId).toString());
         break;
+      case CachedRessource.UPDATE_SHARE_PREFERENCES:
+        removeFile(SharePreferencesRepository.getSharePreferencesUri(baseUrl: baseUrl, userId: userId).toString());
+        break;
     }
   }
 }
@@ -43,4 +47,5 @@ enum CachedRessource {
   OFFRE_EMPLOI_FAVORIS,
   SERVICE_CIVIQUE_FAVORIS,
   SAVED_SEARCH,
+  UPDATE_SHARE_PREFERENCES,
 }

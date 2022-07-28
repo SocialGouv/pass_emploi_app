@@ -287,7 +287,7 @@ class DummyTutorialRepository extends TutorialRepository {
 }
 
 class DummySharePreferencesRepository extends SharePreferencesRepository {
-  DummySharePreferencesRepository() : super("", DummyHttpClient());
+  DummySharePreferencesRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 }
 
 class DummyModifyDemarcheRepository extends UpdateDemarcheRepository {
