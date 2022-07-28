@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/share_preferences/share_preferences_actions.dart';
 import 'package:pass_emploi_app/features/share_preferences/update/share_preferences_update_actions.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/profil/partage_activite_page_view_model.dart';
@@ -52,6 +53,19 @@ void main() {
 
       // Then
       expect(store.dispatchedAction, isA<SharePreferencesUpdateRequestAction>());
+    });
+
+    test('retry, after view model was created with failure, should dispatch a RequestUserActionsAction', () {
+      // Given
+      final store = StoreSpy.withState(givenState().sharePreferencesFailure());
+      final viewModel = PartageActivitePageViewModel.create(store);
+
+
+      // When
+      viewModel.onRetry();
+
+      // Then
+      expect(store.dispatchedAction, isA<SharePreferencesRequestAction>());
     });
   });
 

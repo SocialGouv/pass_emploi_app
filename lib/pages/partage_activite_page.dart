@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class PartageActivitePage extends StatelessWidget {
@@ -41,8 +42,10 @@ class PartageActivitePage extends StatelessWidget {
     switch (viewModel.displayState) {
       case DisplayState.LOADING:
         return _loader();
-      default:
+      case DisplayState.CONTENT:
         return _content(viewModel);
+      default:
+        return Center(child: Retry(Strings.miscellaneousErrorRetry, () => viewModel.onRetry()));
     }
   }
 

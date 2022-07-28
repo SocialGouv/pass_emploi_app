@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/share_preferences/share_preferences_actions.dart';
 import 'package:pass_emploi_app/features/share_preferences/share_preferences_state.dart';
 import 'package:pass_emploi_app/features/share_preferences/update/share_preferences_update_actions.dart';
 import 'package:pass_emploi_app/features/share_preferences/update/share_preferences_update_state.dart';
@@ -11,12 +12,14 @@ class PartageActivitePageViewModel extends Equatable {
   final DisplayState updateState;
   final bool shareFavoris;
   final Function() onPartageFavorisTap;
+  final Function() onRetry;
 
   PartageActivitePageViewModel({
     required this.displayState,
     required this.updateState,
     required this.shareFavoris,
     required this.onPartageFavorisTap,
+    required this.onRetry,
   });
 
   factory PartageActivitePageViewModel.create(Store<AppState> store) {
@@ -28,6 +31,7 @@ class PartageActivitePageViewModel extends Equatable {
       updateState: _updateState(updateState),
       shareFavoris: favoriShared,
       onPartageFavorisTap: () => store.dispatch(SharePreferencesUpdateRequestAction(!favoriShared)),
+      onRetry: () => store.dispatch(SharePreferencesRequestAction()),
     );
   }
 
