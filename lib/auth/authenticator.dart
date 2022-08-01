@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
+import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/repositories/auth/logout_repository.dart';
 
 const String _idTokenKey = "idToken";
@@ -25,8 +26,9 @@ class Authenticator {
   final LogoutRepository _logoutRepository;
   final Configuration _configuration;
   final FlutterSecureStorage _preferences;
+  final Crashlytics? _crashlytics;
 
-  Authenticator(this._authWrapper, this._logoutRepository, this._configuration, this._preferences);
+  Authenticator(this._authWrapper, this._logoutRepository, this._configuration, this._preferences, [this._crashlytics]);
 
   Future<AuthenticatorResponse> login(AuthenticationMode mode) async {
     try {
@@ -47,11 +49,18 @@ class Authenticator {
     }
   }
 
-  Future<bool> isLoggedIn() async => await _preferences.read(key: _idTokenKey) != null;
+  Future<bool> isLoggedIn() async => await idToken() != null;
 
   Future<AuthIdToken?> idToken() async {
     final String? idToken = await _preferences.read(key: _idTokenKey);
-    if (idToken != null) return AuthIdToken.parse(idToken);
+    if (idToken != null) {
+      try {
+        return AuthIdToken.parse(idToken);
+      } catch (e, stack) {
+        _crashlytics?.recordNonNetworkException("Corrupted ID token : $idToken", stack);
+        await _preferences.delete(key: _idTokenKey);
+      }
+    }
     return null;
   }
 

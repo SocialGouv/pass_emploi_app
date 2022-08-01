@@ -69,6 +69,7 @@ import 'package:pass_emploi_app/repositories/service_civique/service_civique_rep
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
+import 'package:pass_emploi_app/utils/secure_storage_exception_handler_decorator.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
@@ -127,7 +128,9 @@ class AppInitializer {
   Future<Store<AppState>> _initializeReduxStore(Configuration configuration, FirebaseRemoteConfig? remoteConfig) async {
     final crashlytics = CrashlyticsWithFirebase(FirebaseCrashlytics.instance);
     final pushNotificationManager = FirebasePushNotificationManager();
-    final securedPreferences = FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true));
+    final securedPreferences = SecureStorageExceptionHandlerDecorator(
+      FlutterSecureStorage(aOptions: AndroidOptions(encryptedSharedPreferences: true)),
+    );
     final logoutRepository = LogoutRepository(
       configuration.authIssuer,
       configuration.authClientSecret,
@@ -139,6 +142,7 @@ class AppInitializer {
       logoutRepository,
       configuration,
       securedPreferences,
+      crashlytics,
     );
     final accessTokenRetriever = AuthAccessTokenRetriever(authenticator);
     final authAccessChecker = AuthAccessChecker();

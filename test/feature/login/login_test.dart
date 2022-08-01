@@ -62,6 +62,29 @@ void main() {
       // Then
       expect(resultState.loginState, isA<UserNotLoggedInState>());
     });
+
+    test('user is not logged in if she was previously logged in with a corrupted ID token & token should be deleted',
+        () async {
+      // Given
+      final preferences = SharedPreferencesSpy();
+      preferences.write(key: 'idToken', value: 'CORRUPTED ID TOKEN');
+      factory.authenticator = Authenticator(
+        DummyAuthWrapper(),
+        DummyLogoutRepository(),
+        configuration(),
+        preferences,
+      );
+      final store = factory.initializeReduxStore(initialState: AppState.initialState());
+      final result = store.onChange.firstWhere((e) => e.loginState is UserNotLoggedInState);
+      store.dispatch(BootstrapAction());
+
+      // When
+      final AppState resultState = await result;
+
+      // Then
+      expect(resultState.loginState, isA<UserNotLoggedInState>());
+      expect(await preferences.read(key: 'idToken'), isNull);
+    });
   });
 
   group('On request login…', () {
