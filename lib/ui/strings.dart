@@ -7,6 +7,7 @@ class Strings {
   static String logoTextDescription = "Logo CEJ";
   static String close = "Fermer";
   static String yes = "Oui";
+  static String no = "Non";
 
   // Menu
   static String menuMonSuivi = "Mon suivi";
@@ -215,6 +216,7 @@ class Strings {
 
   static String dateEcheanceFormat(String formattedDate) => "À réaliser pour le $formattedDate";
   static String doneActionsTitle = "Actions terminées et annulées";
+  static String rappelSwitch = 'Recevoir une notification de rappel 3 jours avant l’échéance';
 
   // Demarches
   static String modifierStatut = "Modifier le statut";

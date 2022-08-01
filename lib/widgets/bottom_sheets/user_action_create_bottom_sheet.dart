@@ -26,6 +26,7 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
   late UserActionStatus _initialStatus;
   String? _actionContent;
   String? _actionComment;
+  bool _rappel = false;
   DateTime? _dateEcheance;
 
   @override
@@ -75,6 +76,16 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
                     onDateEcheanceChange: (date) {
                       setState(() {
                         _dateEcheance = date;
+                      });
+                    },
+                  ),
+                  SizedBox(height: Margins.spacing_xl),
+                  _Rappel(
+                    value: _rappel,
+                    isActive: viewModel.isRappelActive(_dateEcheance),
+                    onChanged: (value) {
+                      setState(() {
+                        _rappel = value;
                       });
                     },
                   ),
@@ -239,6 +250,35 @@ class _DateEcheance extends StatelessWidget {
             initialDateValue: dateEcheance,
             isActiveDate: true,
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _Rappel extends StatelessWidget {
+  final bool value;
+  final bool isActive;
+  final ValueChanged<bool> onChanged;
+
+  const _Rappel({required this.value, required this.isActive, required this.onChanged});
+
+  @override
+  Widget build(BuildContext context) {
+    final textStyle = isActive ? TextStyles.textBaseRegular : TextStyles.textBaseRegularWithColor(AppColors.disabled);
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+      child: Row(
+        children: [
+          Expanded(child: Text(Strings.rappelSwitch, style: textStyle)),
+          SizedBox(width: Margins.spacing_m),
+          Switch(
+            value: isActive && value,
+            onChanged: isActive ? onChanged : null,
+            activeColor: AppColors.primary,
+            inactiveTrackColor: AppColors.disabled,
+          ),
+          Text(isActive && value ? Strings.yes : Strings.no, style: textStyle),
         ],
       ),
     );

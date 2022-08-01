@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_state.dart';
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
@@ -17,6 +18,11 @@ class UserActionCreateViewModel {
       displayState: _displayState(store.state.userActionCreateState),
       createUserAction: (request) => store.dispatch(UserActionCreateRequestAction(request)),
     );
+  }
+
+  bool isRappelActive(DateTime? dateEcheance) {
+    if (dateEcheance == null) return false;
+    return dateEcheance.isAfter(clock.now().add(Duration(days: 3)));
   }
 }
 
