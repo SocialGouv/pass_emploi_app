@@ -96,7 +96,10 @@ void main() {
 
     test('isLoggedIn is TRUE when login is successful', () async {
       // Given
-      authWrapperStub.withLoginArgsResolves(_authTokenRequest(), authTokenResponse());
+      authWrapperStub.withLoginArgsResolves(
+        _authTokenRequest(),
+        AuthTokenResponse(accessToken: 'accessToken', idToken: realPassEmploiIdToken, refreshToken: 'refreshToken'),
+      );
 
       // When
       await authenticator.login(AuthenticationMode.GENERIC);
