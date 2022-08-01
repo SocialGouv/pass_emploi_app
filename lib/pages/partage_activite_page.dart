@@ -102,7 +102,6 @@ class _PartageFavoris extends StatefulWidget {
 
 class _PartageFavorisState extends State<_PartageFavoris> {
   var _partageFavorisEnabled = false;
-  var _isLoading = false;
 
   @override
   void initState() {
@@ -113,15 +112,9 @@ class _PartageFavorisState extends State<_PartageFavoris> {
   void _onPartageFavorisValueChange(bool value) {
     widget.onPartageFavorisValueChange();
     if (widget.updatedState == DisplayState.CONTENT) {
-      setState(() {
-        _isLoading = false;
-        _partageFavorisEnabled = value;
-      });
+      setState(() => _partageFavorisEnabled = value);
     } else if (widget.updatedState == DisplayState.FAILURE) {
       showFailedSnackBar(context, Strings.miscellaneousErrorRetry);
-      setState(() => _isLoading = false);
-    } else {
-      setState(() => _isLoading = true);
     }
   }
 
@@ -143,7 +136,7 @@ class _PartageFavorisState extends State<_PartageFavoris> {
                     child: Text(
                   Strings.shareFavoriteLabel,
                   style: TextStyles.textBaseRegularWithColor(
-                    _isLoading ? AppColors.grey500 : AppColors.contentColor,
+                    widget.updatedState == DisplayState.LOADING ? AppColors.grey500 : AppColors.contentColor,
                   ),
                 )),
                 Switch(
@@ -154,7 +147,7 @@ class _PartageFavorisState extends State<_PartageFavoris> {
                 Text(
                   Strings.yes,
                   style: TextStyles.textBaseRegularWithColor(
-                    _isLoading ? AppColors.grey500 : AppColors.contentColor,
+                    widget.updatedState == DisplayState.LOADING ? AppColors.grey500 : AppColors.contentColor,
                   ),
                 ),
               ],
