@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/loader.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
@@ -41,7 +42,7 @@ class PartageActivitePage extends StatelessWidget {
   Widget _body(PartageActivitePageViewModel viewModel) {
     switch (viewModel.displayState) {
       case DisplayState.LOADING:
-        return _loader();
+        return loader();
       case DisplayState.CONTENT:
         return _content(viewModel);
       default:
@@ -71,8 +72,6 @@ class PartageActivitePage extends StatelessWidget {
       ),
     ]);
   }
-
-  Widget _loader() => Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
 }
 
 class _PartageDescription extends StatelessWidget {
