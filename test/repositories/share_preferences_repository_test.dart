@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
-import 'package:pass_emploi_app/models/share_preferences.dart';
-import 'package:pass_emploi_app/repositories/share_preferences_repository.dart';
+import 'package:pass_emploi_app/models/partage_activite.dart';
+import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 
 import '../doubles/dummies.dart';
 import '../doubles/fixtures.dart';
@@ -9,63 +9,63 @@ import '../utils/pass_emploi_mock_client.dart';
 import '../utils/test_assets.dart';
 
 void main() {
-  test('getSharePreferences returns is favorite shared preference', () async {
+  test('getPartageActivite returns is favorite shared preference', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
       if (!request.url.toString().startsWith("BASE_URL/jeunes/UID/preferences")) return invalidHttpResponse();
-      return Response.bytes(loadTestAssetsAsBytes("share_preferences.json"), 200);
+      return Response.bytes(loadTestAssetsAsBytes("partage_activite.json"), 200);
     });
-    final repository = SharePreferencesRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
+    final repository = PartageActiviteRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
     // When
-    final SharePreferences? result = await repository.getSharePreferences("UID");
+    final PartageActivite? result = await repository.getPartageActivite("UID");
 
     // Then
     expect(result, isNotNull);
-    expect(result, SharePreferences(shareFavoris: true));
-    expect(result?.shareFavoris, isNotNull);
-    expect(result?.shareFavoris, true);
+    expect(result, PartageActivite(partageFavoris: true));
+    expect(result?.partageFavoris, isNotNull);
+    expect(result?.partageFavoris, true);
   });
 
-  test('getSharePreferences returns null when response is not valid', () async {
+  test('getPartageActivite returns null when response is not valid', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
-    final repository = SharePreferencesRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
+    final repository = PartageActiviteRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
     // When
-    final search = await repository.getSharePreferences("UID");
+    final search = await repository.getPartageActivite("UID");
 
     // Then
     expect(search, isNull);
   });
 
-  test('putSharePreferences returns is favorite shared preference', () async {
+  test('putPartageActivite returns is favorite shared preference', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "GET") return invalidHttpResponse();
       if (!request.url.toString().startsWith("BASE_URL/jeunes/UID/preferences")) return invalidHttpResponse();
-      return Response.bytes(loadTestAssetsAsBytes("share_preferences.json"), 200);
+      return Response.bytes(loadTestAssetsAsBytes("partage_activite.json"), 200);
     });
-    final repository = SharePreferencesRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
+    final repository = PartageActiviteRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
     // When
-    final SharePreferences? result = await repository.getSharePreferences("UID");
+    final PartageActivite? result = await repository.getPartageActivite("UID");
 
     // Then
     expect(result, isNotNull);
-    expect(result, SharePreferences(shareFavoris: true));
-    expect(result?.shareFavoris, isNotNull);
-    expect(result?.shareFavoris, true);
+    expect(result, PartageActivite(partageFavoris: true));
+    expect(result?.partageFavoris, isNotNull);
+    expect(result?.partageFavoris, true);
   });
 
-  test('putSharePreferences returns null when response is not valid', () async {
+  test('putPartageActivite returns null when response is not valid', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
-    final repository = SharePreferencesRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
+    final repository = PartageActiviteRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
     // When
-    final search = await repository.getSharePreferences("UID");
+    final search = await repository.getPartageActivite("UID");
 
     // Then
     expect(search, isNull);

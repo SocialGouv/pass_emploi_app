@@ -1,9 +1,9 @@
 import 'package:pass_emploi_app/network/json_serializable.dart';
 
-class PutSharePreferencesRequest implements JsonSerializable {
+class PutPartageActiviteRequest implements JsonSerializable {
   final bool favoris;
 
-  PutSharePreferencesRequest({required this.favoris});
+  PutPartageActiviteRequest({required this.favoris});
 
   @override
   Map<String, dynamic> toJson() => {"partageFavoris": favoris};

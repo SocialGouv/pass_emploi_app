@@ -1,85 +1,84 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/share_preferences/share_preferences_state.dart';
-import 'package:pass_emploi_app/features/share_preferences/update/share_preferences_update_actions.dart';
-import 'package:pass_emploi_app/features/share_preferences/update/share_preferences_update_state.dart';
-import 'package:pass_emploi_app/models/share_preferences.dart';
+import 'package:pass_emploi_app/features/partage_activite/partage_activites_state.dart';
+import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_actions.dart';
+import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
+import 'package:pass_emploi_app/models/partage_activite.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
-import 'package:pass_emploi_app/repositories/share_preferences_repository.dart';
+import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:redux/src/store.dart';
 
 import '../../doubles/dummies.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
-
-  test("share preferences state should be updated when user change preferences and api call succeeds", () async {
+  test("partage activite state should be updated when user change preferences and api call succeeds", () async {
     // Given
-    final Store<AppState> store = _successStoreWithLoadedSharePreferences();
+    final Store<AppState> store = _successStoreWithLoadedPartageActivite();
 
-    final loadingState = store.onChange.any((e) => e.sharePreferencesUpdateState is SharePreferencesUpdateLoadingState);
+    final loadingState = store.onChange.any((e) => e.partageActiviteUpdateState is PartageActiviteUpdateLoadingState);
     final successState =
-        store.onChange.firstWhere((e) => e.sharePreferencesUpdateState is SharePreferencesUpdateSuccessState);
+        store.onChange.firstWhere((e) => e.partageActiviteUpdateState is PartageActiviteUpdateSuccessState);
 
     // When
-    store.dispatch(SharePreferencesUpdateRequestAction(true));
+    store.dispatch(PartageActiviteUpdateRequestAction(true));
 
     // Then
     expect(await loadingState, true);
     final updatedPreferences = await successState;
-    final preferencesState = (updatedPreferences.sharePreferencesUpdateState as SharePreferencesUpdateSuccessState);
+    final preferencesState = (updatedPreferences.partageActiviteUpdateState as PartageActiviteUpdateSuccessState);
     expect(preferencesState.favorisShared, true);
   });
 
-  test("share preferences state should not be updated when user change preferences and api call fails", () async {
+  test("partage activite state should not be updated when user change preferences and api call fails", () async {
     // Given
-    final Store<AppState> store = _failureStoreWithLoadedSharePreferences();
+    final Store<AppState> store = _failureStoreWithLoadedPartageActivite();
 
-    final loadingState = store.onChange.any((e) => e.sharePreferencesUpdateState is SharePreferencesUpdateLoadingState);
+    final loadingState = store.onChange.any((e) => e.partageActiviteUpdateState is PartageActiviteUpdateLoadingState);
     final failureState =
-        store.onChange.firstWhere((e) => e.sharePreferencesUpdateState is SharePreferencesUpdateFailureState);
+        store.onChange.firstWhere((e) => e.partageActiviteUpdateState is PartageActiviteUpdateFailureState);
 
     // When
-    store.dispatch(SharePreferencesUpdateRequestAction(true));
+    store.dispatch(PartageActiviteUpdateRequestAction(true));
 
     // Then
     expect(await loadingState, true);
     final updatedPreferences = await failureState;
-    expect(updatedPreferences.sharePreferencesUpdateState, isA<SharePreferencesUpdateFailureState>());
+    expect(updatedPreferences.partageActiviteUpdateState, isA<PartageActiviteUpdateFailureState>());
   });
 }
 
-Store<AppState> _successStoreWithLoadedSharePreferences() {
+Store<AppState> _successStoreWithLoadedPartageActivite() {
   final store = givenState()
       .loggedInMiloUser()
-      .copyWith(sharePreferencesState: SharePreferencesSuccessState(SharePreferences(shareFavoris: false)))
-      .store((factory) => {factory.sharePreferencesRepository = SharePreferencesRepositorySuccessStub()});
+      .copyWith(partageActiviteState: PartageActiviteSuccessState(PartageActivite(partageFavoris: false)))
+      .store((factory) => {factory.partageActiviteRepository = PartageActiviteRepositorySuccessStub()});
 
   return store;
 }
 
-Store<AppState> _failureStoreWithLoadedSharePreferences() {
+Store<AppState> _failureStoreWithLoadedPartageActivite() {
   final store = givenState()
       .loggedInMiloUser()
-      .copyWith(sharePreferencesState: SharePreferencesSuccessState(SharePreferences(shareFavoris: false)))
-      .store((factory) => {factory.sharePreferencesRepository = SharePreferencesRepositoryFailureStub()});
+      .copyWith(partageActiviteState: PartageActiviteSuccessState(PartageActivite(partageFavoris: false)))
+      .store((factory) => {factory.partageActiviteRepository = PartageActiviteRepositoryFailureStub()});
 
   return store;
 }
 
-class SharePreferencesRepositorySuccessStub extends SharePreferencesRepository {
-  SharePreferencesRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+class PartageActiviteRepositorySuccessStub extends PartageActiviteRepository {
+  PartageActiviteRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
-  Future<bool> updateSharePreferences(String userId, bool isShare) async {
+  Future<bool> updatePartageActivite(String userId, bool isShare) async {
     return true;
   }
 }
 
-class SharePreferencesRepositoryFailureStub extends SharePreferencesRepository {
-  SharePreferencesRepositoryFailureStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+class PartageActiviteRepositoryFailureStub extends PartageActiviteRepository {
+  PartageActiviteRepositoryFailureStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
-  Future<bool> updateSharePreferences(String userId, bool isShare) async {
+  Future<bool> updatePartageActivite(String userId, bool isShare) async {
     return false;
   }
 }

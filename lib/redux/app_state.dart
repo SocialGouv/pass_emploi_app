@@ -27,14 +27,14 @@ import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_detai
 import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_state.dart';
+import 'package:pass_emploi_app/features/partage_activite/partage_activites_state.dart';
+import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_state.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
-import 'package:pass_emploi_app/features/share_preferences/share_preferences_state.dart';
-import 'package:pass_emploi_app/features/share_preferences/update/share_preferences_update_state.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_state.dart';
@@ -93,8 +93,8 @@ class AppState extends Equatable {
   final ChatBrouillonState chatBrouillonState;
   final ChatPartageOffreState chatPartageOffreState;
   final TutorialState tutorialState;
-  final SharePreferencesState sharePreferencesState;
-  final SharePreferencesUpdateState sharePreferencesUpdateState;
+  final PartageActiviteState partageActiviteState;
+  final PartageActiviteUpdateState partageActiviteUpdateState;
 
   AppState({
     required this.configurationState,
@@ -141,8 +141,8 @@ class AppState extends Equatable {
     required this.chatBrouillonState,
     required this.chatPartageOffreState,
     required this.tutorialState,
-    required this.sharePreferencesState,
-    required this.sharePreferencesUpdateState,
+    required this.partageActiviteState,
+    required this.partageActiviteUpdateState,
   });
 
   AppState copyWith({
@@ -190,8 +190,8 @@ class AppState extends Equatable {
     final ChatBrouillonState? chatBrouillonState,
     final ChatPartageOffreState? chatPartageOffreState,
     final TutorialState? tutorialState,
-    final SharePreferencesState? sharePreferencesState,
-    final SharePreferencesUpdateState? sharePreferencesUpdateState,
+    final PartageActiviteState? partageActiviteState,
+    final PartageActiviteUpdateState? partageActiviteUpdateState,
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
@@ -239,8 +239,8 @@ class AppState extends Equatable {
       chatBrouillonState: chatBrouillonState ?? this.chatBrouillonState,
       chatPartageOffreState: chatPartageOffreState ?? this.chatPartageOffreState,
       tutorialState: tutorialState ?? this.tutorialState,
-      sharePreferencesState: sharePreferencesState ?? this.sharePreferencesState,
-      sharePreferencesUpdateState: sharePreferencesUpdateState ?? this.sharePreferencesUpdateState,
+      partageActiviteState: partageActiviteState ?? this.partageActiviteState,
+      partageActiviteUpdateState: partageActiviteUpdateState ?? this.partageActiviteUpdateState,
     );
   }
 
@@ -290,8 +290,8 @@ class AppState extends Equatable {
       chatBrouillonState: ChatBrouillonState(null),
       chatPartageOffreState: ChatPartageOffreState.notInitialized,
       tutorialState: TutorialNotInitializedState(),
-      sharePreferencesState: SharePreferencesNotInitializedState(),
-      sharePreferencesUpdateState: SharePreferencesUpdateNotInitializedState(),
+      partageActiviteState: PartageActiviteNotInitializedState(),
+      partageActiviteUpdateState: PartageActiviteUpdateNotInitializedState(),
     );
   }
 
@@ -334,8 +334,8 @@ class AppState extends Equatable {
         chatBrouillonState,
         chatPartageOffreState,
         tutorialState,
-        sharePreferencesState,
-        sharePreferencesUpdateState,
+        partageActiviteState,
+        partageActiviteUpdateState,
       ];
 
   @override

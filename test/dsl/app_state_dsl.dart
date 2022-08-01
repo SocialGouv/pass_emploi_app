@@ -7,9 +7,9 @@ import 'package:pass_emploi_app/features/chat/preview_file/preview_file_state.da
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
+import 'package:pass_emploi_app/features/partage_activite/partage_activites_state.dart';
+import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
-import 'package:pass_emploi_app/features/share_preferences/share_preferences_state.dart';
-import 'package:pass_emploi_app/features/share_preferences/update/share_preferences_update_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
@@ -94,28 +94,27 @@ extension AppStateDSL on AppState {
     return copyWith(tutorialState: ShowTutorialState(Tutorial.milo));
   }
 
-  AppState sharePreferencesSuccess({required bool favori}) {
-    return copyWith(sharePreferencesState: SharePreferencesSuccessState(mockSharePreferences(favoriShared: favori)));
+  AppState partageActiviteSuccess({required bool favori}) {
+    return copyWith(partageActiviteState: PartageActiviteSuccessState(mockPartageActivite(favoriShared: favori)));
   }
 
-  AppState sharePreferencesLoading() {
-    return copyWith(sharePreferencesState: SharePreferencesLoadingState());
+  AppState partageActiviteLoading() {
+    return copyWith(partageActiviteState: PartageActiviteLoadingState());
   }
 
-  AppState sharePreferencesFailure() {
-    return copyWith(sharePreferencesState: SharePreferencesFailureState());
+  AppState partageActiviteFailure() {
+    return copyWith(partageActiviteState: PartageActiviteFailureState());
   }
 
-
-  AppState sharePreferencesUpdateSuccess({required bool favori}) {
-    return copyWith(sharePreferencesUpdateState: SharePreferencesUpdateSuccessState(favori));
+  AppState partageActiviteUpdateSuccess({required bool favori}) {
+    return copyWith(partageActiviteUpdateState: PartageActiviteUpdateSuccessState(favori));
   }
 
-  AppState sharePreferencesUpdateLoading() {
-    return copyWith(sharePreferencesUpdateState: SharePreferencesUpdateLoadingState());
+  AppState partageActiviteUpdateLoading() {
+    return copyWith(partageActiviteUpdateState: PartageActiviteUpdateLoadingState());
   }
 
-  AppState sharePreferencesUpdateFailure() {
-    return copyWith(sharePreferencesUpdateState: SharePreferencesUpdateFailureState());
+  AppState partageActiviteUpdateFailure() {
+    return copyWith(partageActiviteUpdateState: PartageActiviteUpdateFailureState());
   }
 }

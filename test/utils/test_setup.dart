@@ -35,7 +35,7 @@ import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
-import 'package:pass_emploi_app/repositories/share_preferences_repository.dart';
+import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
@@ -82,7 +82,7 @@ class TestStoreFactory {
   SearchDemarcheRepository searchDemarcheRepository = DummyDemarcheDuReferentielRepository();
   PieceJointeRepository pieceJointeRepository = DummyPieceJointeRepository();
   TutorialRepository tutorialRepository = DummyTutorialRepository();
-  SharePreferencesRepository sharePreferencesRepository = DummySharePreferencesRepository();
+  PartageActiviteRepository partageActiviteRepository = DummyPartageActiviteRepository();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
@@ -124,7 +124,7 @@ class TestStoreFactory {
       searchDemarcheRepository,
       pieceJointeRepository,
       tutorialRepository,
-      sharePreferencesRepository,
+      partageActiviteRepository,
     ).initializeReduxStore(initialState: initialState);
   }
 }

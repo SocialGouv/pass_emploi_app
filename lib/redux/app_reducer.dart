@@ -26,14 +26,14 @@ import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_detai
 import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_reducer.dart';
 import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_reducer.dart';
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_reducer.dart';
+import 'package:pass_emploi_app/features/partage_activite/partage_activite_reducer.dart';
+import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_reducer.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_reducer.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_reducer.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_reducer.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_reducer.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_reducer.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_reducer.dart';
-import 'package:pass_emploi_app/features/share_preferences/share_preferences_reducer.dart';
-import 'package:pass_emploi_app/features/share_preferences/update/share_preferences_update_reducer.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_reducer.dart';
@@ -115,7 +115,7 @@ AppState reducer(AppState current, dynamic action) {
     chatBrouillonState: chatBrouillonReducer(current.chatBrouillonState, action),
     chatPartageOffreState: chatPartageOffreReducer(current.chatPartageOffreState, action),
     tutorialState: tutorialReducer(current.tutorialState, action),
-    sharePreferencesState: sharePreferencesReducer(current.sharePreferencesState, action),
-    sharePreferencesUpdateState: sharePreferencesUpdateReducer(current.sharePreferencesUpdateState, action),
+    partageActiviteState: partageActiviteReducer(current.partageActiviteState, action),
+    partageActiviteUpdateState: partageActiviteUpdateReducer(current.partageActiviteUpdateState, action),
   );
 }
