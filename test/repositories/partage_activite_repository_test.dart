@@ -34,29 +34,26 @@ void main() {
     final repository = PartageActiviteRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
     // When
-    final search = await repository.getPartageActivite("UID");
+    final result = await repository.getPartageActivite("UID");
 
     // Then
-    expect(search, isNull);
+    expect(result, isNull);
   });
 
   test('putPartageActivite returns is favorite shared preference', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async {
-      if (request.method != "GET") return invalidHttpResponse();
+      if (request.method != "PUT") return invalidHttpResponse();
       if (!request.url.toString().startsWith("BASE_URL/jeunes/UID/preferences")) return invalidHttpResponse();
-      return Response.bytes(loadTestAssetsAsBytes("partage_activite.json"), 200);
+      return Response('', 200);
     });
     final repository = PartageActiviteRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
     // When
-    final PartageActivite? result = await repository.getPartageActivite("UID");
+    final result = await repository.updatePartageActivite("UID", true);
 
     // Then
-    expect(result, isNotNull);
-    expect(result, PartageActivite(partageFavoris: true));
-    expect(result?.partageFavoris, isNotNull);
-    expect(result?.partageFavoris, true);
+    expect(result, isTrue);
   });
 
   test('putPartageActivite returns null when response is not valid', () async {
@@ -65,9 +62,9 @@ void main() {
     final repository = PartageActiviteRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
     // When
-    final search = await repository.getPartageActivite("UID");
+    final result = await repository.updatePartageActivite("UID", true);
 
     // Then
-    expect(search, isNull);
+    expect(result, isFalse);
   });
 }
