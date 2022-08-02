@@ -69,7 +69,7 @@ void main() {
     });
   });
 
-  test("when action is on time", () {
+  test("when action is on time should properly set texts, icons and active color", () {
     // Given
     final store = Store<AppState>(
       reducer,
@@ -95,7 +95,7 @@ void main() {
     expect(viewModel.dateIcons, [Drawables.icClock]);
   });
 
-  test("when action is late", () {
+  test("when action is late should properly set texts, icons and warning color", () {
     // Given
     final store = Store<AppState>(
       reducer,

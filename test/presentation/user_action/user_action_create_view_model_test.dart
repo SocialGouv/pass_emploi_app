@@ -49,7 +49,7 @@ void main() {
     expect(viewModel.displayState, UserActionCreateDisplayState.TO_DISMISS);
   });
 
-  test("create when state is failure should display un error", () {
+  test("create when state is failure should display an error", () {
     // Given
     final state = AppState.initialState().copyWith(userActionCreateState: UserActionCreateFailureState());
     final store = Store<AppState>(reducer, initialState: state);
