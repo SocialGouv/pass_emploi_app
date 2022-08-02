@@ -9,10 +9,12 @@ class DeepLinkState extends Equatable {
 
   factory DeepLinkState.fromJson(Map<String, dynamic> data) {
     switch (data["type"]) {
+      case "DETAIL_ACTION":
       case "NEW_ACTION":
         return DetailActionDeepLinkState(idAction: data["id"] as String?);
       case "NEW_MESSAGE":
         return NouveauMessageDeepLinkState();
+      case "DETAIL_RENDEZVOUS":
       case "NEW_RENDEZVOUS":
       case "DELETED_RENDEZVOUS":
       case "RAPPEL_RENDEZVOUS":
