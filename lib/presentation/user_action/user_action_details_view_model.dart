@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
@@ -6,7 +7,12 @@ import 'package:pass_emploi_app/features/user_action/list/user_action_list_state
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
 
 enum UserActionDetailsDisplayState {
@@ -21,25 +27,47 @@ enum UserActionDetailsDisplayState {
 
 class UserActionDetailsViewModel extends Equatable {
   final UserActionDetailsDisplayState displayState;
+  final List<FormattedText> dateFormattedTexts;
+  final Color dateTextColor;
+  final Color dateBackgroundColor;
+  final List<String> dateIcons;
   final Function(String actionId, UserActionStatus newStatus) onRefreshStatus;
   final Function(String actionId) onDelete;
 
-  factory UserActionDetailsViewModel.create(Store<AppState> store) {
+  UserActionDetailsViewModel._({
+    required this.displayState,
+    required this.dateFormattedTexts,
+    required this.dateTextColor,
+    required this.dateBackgroundColor,
+    required this.dateIcons,
+    required this.onRefreshStatus,
+    required this.onDelete,
+  });
+
+  factory UserActionDetailsViewModel.create(Store<AppState> store, String userActionId) {
+    final userActionListState = store.state.userActionListState as UserActionListSuccessState;
+    final userAction = userActionListState.userActions.firstWhere((e) => e.id == userActionId);
+    final isLate = userAction.isLate();
     return UserActionDetailsViewModel._(
       displayState: _displayState(store.state),
+      dateFormattedTexts: _formattedDate(userAction),
+      dateBackgroundColor: isLate ? AppColors.warningLighten : AppColors.accent3Lighten,
+      dateTextColor: isLate ? AppColors.warning : AppColors.accent2,
+      dateIcons: [if (isLate) Drawables.icImportantOutlined, Drawables.icClock],
       onRefreshStatus: (actionId, newStatus) => _refreshStatus(store, actionId, newStatus),
       onDelete: (actionId) => store.dispatch(UserActionDeleteRequestAction(actionId)),
     );
   }
 
-  UserActionDetailsViewModel._({
-    required this.displayState,
-    required this.onRefreshStatus,
-    required this.onDelete,
-  });
-
   @override
   List<Object?> get props => [displayState];
+}
+
+List<FormattedText> _formattedDate(UserAction action) {
+  return [
+    FormattedText(Strings.demarcheActiveLabel),
+    FormattedText(action.dateEcheance.toDayOfWeekWithFullMonth(), bold: true),
+  ];
 }
 
 UserActionDetailsDisplayState _displayState(AppState state) {

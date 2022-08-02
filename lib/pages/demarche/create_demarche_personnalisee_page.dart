@@ -28,7 +28,7 @@ class CreateDemarchePersonnaliseePage extends StatefulWidget {
 
 class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
   String _commentaire = "";
-  DateTime? _echeanceDate;
+  DateTime? _dateEcheance;
 
   @override
   Widget build(BuildContext context) {
@@ -72,10 +72,10 @@ class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
               child: DatePicker(
                 onValueChange: (date) {
                   setState(() {
-                    _echeanceDate = date;
+                    _dateEcheance = date;
                   });
                 },
-                initialDateValue: _echeanceDate,
+                initialDateValue: _dateEcheance,
                 isActiveDate: true,
               ),
             ),
@@ -85,7 +85,7 @@ class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
               child: PrimaryActionButton(
                 label: Strings.addALaDemarche,
                 onPressed: _buttonShouldBeActive(viewModel)
-                    ? () => viewModel.onCreateDemarche(_commentaire, _echeanceDate!)
+                    ? () => viewModel.onCreateDemarche(_commentaire, _dateEcheance!)
                     : null,
               ),
             ),
@@ -112,7 +112,7 @@ class _CreateDemarchePageState extends State<CreateDemarchePersonnaliseePage> {
   }
 
   bool _isFormValid() {
-    return _isCommentaireValid() && _commentaire.isNotEmpty && _echeanceDate != null;
+    return _isCommentaireValid() && _commentaire.isNotEmpty && _dateEcheance != null;
   }
 }
 

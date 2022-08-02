@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
+import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 
 import '../../doubles/fixtures.dart';
@@ -18,7 +19,7 @@ void main() {
     final success = store.onChange.firstWhere((e) => e.userActionCreateState is UserActionCreateSuccessState);
 
     // When
-    store.dispatch(UserActionCreateRequestAction("content", "comment", UserActionStatus.NOT_STARTED));
+    store.dispatch(UserActionCreateRequestAction(_request()));
 
     // Then
     expect(await displayedLoading, true);
@@ -35,7 +36,7 @@ void main() {
     final success = store.onChange.firstWhere((e) => e.userActionListState is UserActionListSuccessState);
 
     // When
-    store.dispatch(UserActionCreateRequestAction("content", "comment", UserActionStatus.NOT_STARTED));
+    store.dispatch(UserActionCreateRequestAction(_request()));
 
     // Then
     expect(await displayedLoading, true);
@@ -53,11 +54,21 @@ void main() {
     final failure = store.onChange.firstWhere((e) => e.userActionCreateState is UserActionCreateFailureState);
 
     // When
-    store.dispatch(UserActionCreateRequestAction("content", "comment", UserActionStatus.NOT_STARTED));
+    store.dispatch(UserActionCreateRequestAction(_request()));
 
     // Then
     expect(await displayedLoading, true);
     final failureAppState = await failure;
     expect(failureAppState.userActionCreateState is UserActionCreateFailureState, isTrue);
   });
+}
+
+UserActionCreateRequest _request() {
+  return UserActionCreateRequest(
+    "content",
+    "comment",
+    DateTime.now(),
+    true,
+    UserActionStatus.NOT_STARTED,
+  );
 }

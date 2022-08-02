@@ -1,11 +1,9 @@
-import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 
 class UserActionCreateRequestAction {
-  final String content;
-  final String? comment;
-  final UserActionStatus initialStatus;
+  final UserActionCreateRequest request;
 
-  UserActionCreateRequestAction(this.content, this.comment, this.initialStatus);
+  UserActionCreateRequestAction(this.request);
 }
 
 class UserActionCreateLoadingAction {}
