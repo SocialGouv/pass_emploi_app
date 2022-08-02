@@ -53,7 +53,7 @@ void main() {
             comment: "Commentaire",
             status: UserActionStatus.NOT_STARTED,
             lastUpdate: parseDateTimeWithCurrentTimeZone("Fri, 30 Jul 2021 09:43:09 GMT"),
-            dateEcheance: parseDateTimeWithCurrentTimeZone("Fri, 22 Jul 2022 11:00:00 GMT"),
+            dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-07-22T13:11:00.000Z"),
             creator: JeuneActionCreator()),
       );
       expect(
@@ -64,7 +64,7 @@ void main() {
             comment: "",
             status: UserActionStatus.IN_PROGRESS,
             lastUpdate: parseDateTimeWithCurrentTimeZone("Fri, 24 Jul 2021 19:11:10 GMT"),
-            dateEcheance: parseDateTimeWithCurrentTimeZone("Fri, 19 Jul 2041 10:00:00 GMT"),
+            dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2041-07-19T10:00:00.000Z"),
             creator: ConseillerActionCreator(name: "Nils Tavernier")),
       );
     });

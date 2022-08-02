@@ -38,7 +38,7 @@ class UserAction extends Equatable {
       comment: json['comment'] as String,
       status: _statusFromString(statusString: json['status'] as String),
       lastUpdate: (json['lastUpdate'] as String).toDateTimeOnLocalTimeZone(),
-      dateEcheance: (json['dateEcheance'] as String).toDateTimeOnLocalTimeZone(),
+      dateEcheance: (json['dateEcheance'] as String).toDateTimeUtcOnLocalTimeZone(),
       creator: _creator(json),
     );
   }
