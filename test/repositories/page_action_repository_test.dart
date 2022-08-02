@@ -48,24 +48,26 @@ void main() {
       expect(
         result?.actions[0],
         UserAction(
-            id: "8802034",
-            content: "Changer de prénom",
-            comment: "Commentaire",
-            status: UserActionStatus.NOT_STARTED,
-            lastUpdate: parseDateTimeWithCurrentTimeZone("Fri, 30 Jul 2021 09:43:09 GMT"),
-            dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-07-22T13:11:00.000Z"),
-            creator: JeuneActionCreator()),
+          id: "8802034",
+          content: "Changer de prénom",
+          comment: "Commentaire",
+          status: UserActionStatus.NOT_STARTED,
+          lastUpdate: parseDateTimeWithCurrentTimeZone("Fri, 30 Jul 2021 09:43:09 GMT"),
+          dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-07-22T13:11:00.000Z"),
+          creator: JeuneActionCreator(),
+        ),
       );
       expect(
         result?.actions[1],
         UserAction(
-            id: "8392839",
-            content: "Compléter son CV",
-            comment: "",
-            status: UserActionStatus.IN_PROGRESS,
-            lastUpdate: parseDateTimeWithCurrentTimeZone("Fri, 24 Jul 2021 19:11:10 GMT"),
-            dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2041-07-19T10:00:00.000Z"),
-            creator: ConseillerActionCreator(name: "Nils Tavernier")),
+          id: "8392839",
+          content: "Compléter son CV",
+          comment: "",
+          status: UserActionStatus.IN_PROGRESS,
+          lastUpdate: parseDateTimeWithCurrentTimeZone("Fri, 24 Jul 2021 19:11:10 GMT"),
+          dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2041-07-19T10:00:00.000Z"),
+          creator: ConseillerActionCreator(name: "Nils Tavernier"),
+        ),
       );
     });
 
