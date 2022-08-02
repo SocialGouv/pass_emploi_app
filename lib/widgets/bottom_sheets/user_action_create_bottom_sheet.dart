@@ -196,7 +196,13 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
             onPressed: _isLoading(viewModel) && _isFormValid()
                 ? () => {
                       viewModel.createUserAction(
-                        UserActionCreateRequest(_actionContent!, _actionComment, _dateEcheance!, _initialStatus),
+                        UserActionCreateRequest(
+                          _actionContent!,
+                          _actionComment,
+                          _dateEcheance!,
+                          _rappel,
+                          _initialStatus,
+                        ),
                       )
                     }
                 : null,

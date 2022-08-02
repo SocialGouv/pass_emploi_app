@@ -125,7 +125,7 @@ void main() {
     final viewModel = UserActionCreateViewModel.create(store);
 
     // When
-    final request = UserActionCreateRequest("content", "comment", DateTime(2022), UserActionStatus.DONE);
+    final request = UserActionCreateRequest("content", "comment", DateTime(2022), true, UserActionStatus.DONE);
     viewModel.createUserAction(request);
 
     // Then

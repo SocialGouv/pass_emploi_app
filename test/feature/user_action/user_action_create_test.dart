@@ -19,16 +19,7 @@ void main() {
     final success = store.onChange.firstWhere((e) => e.userActionCreateState is UserActionCreateSuccessState);
 
     // When
-    store.dispatch(
-      UserActionCreateRequestAction(
-        UserActionCreateRequest(
-          "content",
-          "comment",
-          DateTime.now(),
-          UserActionStatus.NOT_STARTED,
-        ),
-      ),
-    );
+    store.dispatch(UserActionCreateRequestAction(_request()));
 
     // Then
     expect(await displayedLoading, true);
@@ -45,16 +36,7 @@ void main() {
     final success = store.onChange.firstWhere((e) => e.userActionListState is UserActionListSuccessState);
 
     // When
-    store.dispatch(
-      UserActionCreateRequestAction(
-        UserActionCreateRequest(
-          "content",
-          "comment",
-          DateTime.now(),
-          UserActionStatus.NOT_STARTED,
-        ),
-      ),
-    );
+    store.dispatch(UserActionCreateRequestAction(_request()));
 
     // Then
     expect(await displayedLoading, true);
@@ -72,20 +54,21 @@ void main() {
     final failure = store.onChange.firstWhere((e) => e.userActionCreateState is UserActionCreateFailureState);
 
     // When
-    store.dispatch(
-      UserActionCreateRequestAction(
-        UserActionCreateRequest(
-          "content",
-          "comment",
-          DateTime.now(),
-          UserActionStatus.NOT_STARTED,
-        ),
-      ),
-    );
+    store.dispatch(UserActionCreateRequestAction(_request()));
 
     // Then
     expect(await displayedLoading, true);
     final failureAppState = await failure;
     expect(failureAppState.userActionCreateState is UserActionCreateFailureState, isTrue);
   });
+}
+
+UserActionCreateRequest _request() {
+  return UserActionCreateRequest(
+    "content",
+    "comment",
+    DateTime.now(),
+    true,
+    UserActionStatus.NOT_STARTED,
+  );
 }
