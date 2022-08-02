@@ -53,12 +53,20 @@ void main() {
         DetailActionDeepLinkState(idAction: 'id'),
       );
       assertState(
+        DeepLinkAction(RemoteMessage(data: {"type": "DETAIL_ACTION", "id": "id"})),
+        DetailActionDeepLinkState(idAction: 'id'),
+      );
+      assertState(
         DeepLinkAction(RemoteMessage(data: {"type": "NEW_MESSAGE"})),
         NouveauMessageDeepLinkState(),
       );
       assertState(
         DeepLinkAction(RemoteMessage(data: {"type": "DELETED_RENDEZVOUS"})),
         DetailRendezvousDeepLinkState(idRendezvous: null),
+      );
+      assertState(
+        DeepLinkAction(RemoteMessage(data: {"type": "DETAIL_RENDEZVOUS", "id": "id"})),
+        DetailRendezvousDeepLinkState(idRendezvous: 'id'),
       );
       assertState(
         DeepLinkAction(RemoteMessage(data: {"type": "NEW_RENDEZVOUS", "id": "id"})),
