@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutterfire_installations/flutterfire_installations.dart';
 import 'package:http_interceptor/http_interceptor.dart';
 import 'package:package_info/package_info.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
@@ -12,7 +11,6 @@ class MonitoringInterceptor implements InterceptorContract {
   final InstallationIdRepository _repository;
   late Store<AppState> _store;
   String? _appVersion;
-  String? _firebaseInstanceId;
 
   MonitoringInterceptor(this._repository);
 
@@ -22,7 +20,6 @@ class MonitoringInterceptor implements InterceptorContract {
     final String userId = loginState is LoginSuccessState ? loginState.user.id : 'NOT_LOGIN_USER';
     data.headers['X-UserId'] = userId;
     data.headers['X-InstallationId'] = await _repository.getInstallationId();
-    data.headers['X-InstanceId'] = await _getFirebaseInstanceId();
     data.headers['X-CorrelationId'] = userId + '-' + DateTime.now().millisecondsSinceEpoch.toString();
     data.headers['X-AppVersion'] = await _getAppVersion();
     data.headers['X-Platform'] = Platform.operatingSystem;
@@ -43,17 +40,6 @@ class MonitoringInterceptor implements InterceptorContract {
       final appVersion = (await PackageInfo.fromPlatform()).version;
       _appVersion = appVersion;
       return appVersion;
-    }
-  }
-
-  Future<String> _getFirebaseInstanceId() async {
-    final firebaseInstanceIdCopy = _firebaseInstanceId;
-    if (firebaseInstanceIdCopy != null) {
-      return firebaseInstanceIdCopy;
-    } else {
-      final firebaseInstanceId = await FirebaseInstallations.instance.getId();
-      _firebaseInstanceId = firebaseInstanceId;
-      return firebaseInstanceId;
     }
   }
 
