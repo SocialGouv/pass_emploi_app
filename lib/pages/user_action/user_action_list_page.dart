@@ -21,6 +21,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
+import 'package:pass_emploi_app/widgets/loader.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 class UserActionListPage extends StatefulWidget {
@@ -82,13 +83,11 @@ class _UserActionListPageState extends State<UserActionListPage> {
   }
 
   Widget _animatedBody(BuildContext context, UserActionListPageViewModel viewModel) {
-    if (viewModel.withLoading) return _loader();
+    if (viewModel.withLoading) return loader();
     if (viewModel.withFailure) return Center(child: Retry(Strings.actionsError, () => viewModel.onRetry()));
     if (viewModel.withEmptyMessage) return _empty();
     return _userActionsList(context, viewModel);
   }
-
-  Widget _loader() => Center(child: CircularProgressIndicator(color: AppColors.primary));
 
   Widget _empty() => Center(child: Text(Strings.noActionsYet, style: TextStyles.textSmRegular()));
 

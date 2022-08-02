@@ -44,6 +44,7 @@ import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
+import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
@@ -283,6 +284,10 @@ class DummyPieceJointeRepository extends PieceJointeRepository {
 
 class DummyTutorialRepository extends TutorialRepository {
   DummyTutorialRepository() : super(DummySharedPreferences());
+}
+
+class DummyPartageActiviteRepository extends PartageActiviteRepository {
+  DummyPartageActiviteRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 }
 
 class DummyModifyDemarcheRepository extends UpdateDemarcheRepository {

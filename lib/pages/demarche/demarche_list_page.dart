@@ -18,6 +18,7 @@ import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
 import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/empty_pole_emploi_content.dart';
+import 'package:pass_emploi_app/widgets/loader.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 class DemarcheListPage extends StatelessWidget {
@@ -49,15 +50,13 @@ class DemarcheListPage extends StatelessWidget {
       case DisplayState.CONTENT:
         return _userActionsList(context, viewModel);
       case DisplayState.LOADING:
-        return _loader();
+        return loader();
       case DisplayState.EMPTY:
         return _empty();
       case DisplayState.FAILURE:
         return Center(child: Retry(Strings.actionsError, () => viewModel.onRetry()));
     }
   }
-
-  Widget _loader() => Center(child: CircularProgressIndicator());
 
   Widget _empty() => EmptyPoleEmploiContent();
 
