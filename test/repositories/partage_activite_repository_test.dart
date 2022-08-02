@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/models/partage_activite.dart';
+import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 
 import '../doubles/dummies.dart';
@@ -45,6 +46,8 @@ void main() {
     final httpClient = PassEmploiMockClient((request) async {
       if (request.method != "PUT") return invalidHttpResponse();
       if (!request.url.toString().startsWith("BASE_URL/jeunes/UID/preferences")) return invalidHttpResponse();
+      final requestJson = jsonUtf8Decode(request.bodyBytes);
+      if (requestJson['partageFavoris'] != true) return invalidHttpResponse();
       return Response('', 200);
     });
     final repository = PartageActiviteRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
