@@ -43,6 +43,7 @@ dependencies:
   cloud_firestore: '3.1.14'
   synchronized: '3.0.0+2'
   flutter_cache_manager: '3.3.0'
+  flutterfire_installations: '0.1.0'
   # UI
   google_fonts: '2.3.2'
   # Analytics
