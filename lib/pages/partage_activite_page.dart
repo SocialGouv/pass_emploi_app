@@ -86,7 +86,7 @@ class _PartageDescription extends StatelessWidget {
 
 class _PartageFavoris extends StatefulWidget {
   final bool partageFavorisEnabled;
-  final Function() onPartageFavorisValueChange;
+  final Function(bool) onPartageFavorisValueChange;
   final DisplayState updatedState;
 
   const _PartageFavoris({
@@ -110,9 +110,11 @@ class _PartageFavorisState extends State<_PartageFavoris> {
   }
 
   void _onPartageFavorisValueChange(bool value) {
-    widget.onPartageFavorisValueChange();
     if (widget.updatedState == DisplayState.CONTENT) {
-      setState(() => _partageFavorisEnabled = value);
+      setState(() {
+        widget.onPartageFavorisValueChange(value);
+        _partageFavorisEnabled = value;
+      });
     } else if (widget.updatedState == DisplayState.FAILURE) {
       showFailedSnackBar(context, Strings.miscellaneousErrorRetry);
     }
@@ -145,10 +147,9 @@ class _PartageFavorisState extends State<_PartageFavoris> {
                   activeColor: AppColors.primary,
                 ),
                 Text(
-                  Strings.yes,
+                  _partageFavorisEnabled ? Strings.yes : Strings.no,
                   style: TextStyles.textBaseRegularWithColor(
-                    widget.updatedState == DisplayState.LOADING ? AppColors.grey500 : AppColors.contentColor,
-                  ),
+                      widget.updatedState == DisplayState.LOADING ? AppColors.grey500 : AppColors.contentColor),
                 ),
               ],
             ),
