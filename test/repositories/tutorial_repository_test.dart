@@ -24,7 +24,7 @@ void main() {
     expect(pages, Tutorial.poleEmploi);
   });
 
-  test("Returns empty tutorial pages for MILO when user already saw it yet", () async {
+  test("Returns empty tutorial pages for MILO when user already saw it", () async {
     // Given
     repository.setTutorialRead();
 
@@ -35,7 +35,7 @@ void main() {
     expect(pages, isEmpty);
   });
 
-  test("Returns empty tutorial pages for Pole Emploi when user already saw it yet", () async {
+  test("Returns empty tutorial pages for Pole Emploi when user already saw it", () async {
     // Given
     repository.setTutorialRead();
 
