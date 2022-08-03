@@ -8,15 +8,23 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
+class UserActionDateEcheanceViewModel extends Equatable {
+  final List<FormattedText> formattedTexts;
+  final Color color;
+
+  UserActionDateEcheanceViewModel({required this.formattedTexts, required this.color});
+
+  @override
+  List<Object?> get props => [formattedTexts, color];
+}
+
 class UserActionViewModel extends Equatable {
   final String id;
   final String title;
   final String subtitle;
   final bool withSubtitle;
   final UserActionStatus status;
-  final String lastUpdate;
-  final List<FormattedText> dateEcheanceFormattedTexts;
-  final Color dateEcheanceColor;
+  final UserActionDateEcheanceViewModel? dateEcheanceViewModel;
   final String creator;
   final UserActionTagViewModel? tag;
   final bool withDeleteOption;
@@ -27,9 +35,7 @@ class UserActionViewModel extends Equatable {
     required this.subtitle,
     required this.withSubtitle,
     required this.status,
-    required this.lastUpdate,
-    required this.dateEcheanceFormattedTexts,
-    required this.dateEcheanceColor,
+    required this.dateEcheanceViewModel,
     required this.creator,
     required this.tag,
     required this.withDeleteOption,
@@ -43,9 +49,7 @@ class UserActionViewModel extends Equatable {
       subtitle: userAction.comment,
       withSubtitle: userAction.comment.isNotEmpty,
       status: userAction.status,
-      lastUpdate: Strings.lastUpdateFormat(userAction.lastUpdate.toDay()),
-      dateEcheanceFormattedTexts: _dateEcheanceFormattedTexts(userAction, isLate),
-      dateEcheanceColor: isLate ? AppColors.warning : AppColors.primary,
+      dateEcheanceViewModel: _dateEcheanceViewModel(userAction, isLate),
       creator: _displayName(userAction.creator),
       tag: _userActionTagViewModel(userAction.status),
       withDeleteOption: userAction.creator is! ConseillerActionCreator,
@@ -59,9 +63,6 @@ class UserActionViewModel extends Equatable {
         subtitle,
         withSubtitle,
         status,
-        lastUpdate,
-        dateEcheanceFormattedTexts,
-        dateEcheanceColor,
         creator,
         tag,
         withDeleteOption,
@@ -69,6 +70,14 @@ class UserActionViewModel extends Equatable {
 }
 
 String _displayName(UserActionCreator creator) => creator is ConseillerActionCreator ? creator.name : Strings.you;
+
+UserActionDateEcheanceViewModel? _dateEcheanceViewModel(UserAction userAction, bool isLate) {
+  if ([UserActionStatus.DONE, UserActionStatus.CANCELED].contains(userAction.status)) return null;
+  return UserActionDateEcheanceViewModel(
+    formattedTexts: _dateEcheanceFormattedTexts(userAction, isLate),
+    color: isLate ? AppColors.warning : AppColors.primary,
+  );
+}
 
 List<FormattedText> _dateEcheanceFormattedTexts(UserAction userAction, bool isLate) {
   return [
