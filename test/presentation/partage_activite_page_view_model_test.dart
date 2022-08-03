@@ -49,7 +49,7 @@ void main() {
       final viewModel = PartageActivitePageViewModel.create(store);
 
       // When
-      viewModel.onPartageFavorisTap();
+      viewModel.onPartageFavorisTap(false);
 
       // Then
       expect(store.dispatchedAction, isA<PartageActiviteUpdateRequestAction>());
@@ -75,7 +75,7 @@ void main() {
       final viewModel = PartageActivitePageViewModel.create(store);
 
       // When
-      viewModel.onPartageFavorisTap();
+      viewModel.onPartageFavorisTap(true);
 
       // Then
       expect(viewModel.updateState, DisplayState.CONTENT);
@@ -87,7 +87,7 @@ void main() {
       final viewModel = PartageActivitePageViewModel.create(store);
 
       // When
-      viewModel.onPartageFavorisTap();
+      viewModel.onPartageFavorisTap(true);
 
       // Then
       expect(viewModel.updateState, DisplayState.LOADING);
@@ -99,7 +99,7 @@ void main() {
       final viewModel = PartageActivitePageViewModel.create(store);
 
       // When
-      viewModel.onPartageFavorisTap();
+      viewModel.onPartageFavorisTap(false);
 
       // Then
       expect(viewModel.updateState, DisplayState.FAILURE);
