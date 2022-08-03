@@ -20,7 +20,6 @@ UserActionListState userActionListReducer(UserActionListState current, dynamic a
       content: actionToUpdate.content,
       comment: actionToUpdate.comment,
       status: action.newStatus,
-      lastUpdate: DateTime.now(),
       dateEcheance: DateTime(2042),
       creator: actionToUpdate.creator,
     );
