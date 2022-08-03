@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/cards/rating_card.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+
+final InAppReview inAppReview = InAppReview.instance;
 
 class RatingBottomSheet extends StatelessWidget {
   @override
@@ -36,9 +39,13 @@ class RatingBottomSheet extends StatelessWidget {
               RatingCard(
                   emoji: "=)",
                   description: Strings.positiveRating,
+                  onClick: () async {
+                    if (await inAppReview.isAvailable()) {
+                      inAppReview.requestReview();
+                    }
                   }),
               SepLine(10, 10),
-              _RatingCard(emoji: "=/", description: Strings.negativeRating, onClick: () {}),
+              RatingCard(emoji: "=/", description: Strings.negativeRating, onClick: () {}),
             ],
           ),
         ),
