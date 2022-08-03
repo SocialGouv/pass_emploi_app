@@ -21,9 +21,9 @@ class RatingCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(emoji),
+            Text(emoji, style: TextStyle(fontSize: 32)),
             Padding(
-              padding: const EdgeInsets.fromLTRB(16, 0, 80, 0),
+              padding: const EdgeInsets.only(right: 80),
               child: Text(description, style: TextStyles.textSRegular()),
             ),
             SvgPicture.asset(Drawables.icChevronRight, color: AppColors.contentColor),

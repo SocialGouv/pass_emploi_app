@@ -564,4 +564,6 @@ class Strings {
   static String ratingLabel = "Aimez-vous l’application Contrat Engagement Jeune ?";
   static String positiveRating = "Oui ! \nBeau boulot, j’adore l’app.";
   static String negativeRating = "Non... \nJ’ai quelques remarques.";
+  static String happyEmoji = "😍";
+  static String sadEmoji = "😫";
 }
