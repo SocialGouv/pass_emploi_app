@@ -75,7 +75,6 @@ void main() {
       reducer,
       initialState: AppState.initialState().copyWith(
         userActionListState: UserActionListSuccessState([mockUserAction(id: 'id', dateEcheance: DateTime(2041, 1, 1))]),
-        userActionUpdateState: UserActionUpdatedState(UserActionStatus.IN_PROGRESS),
       ),
     );
 
@@ -84,15 +83,14 @@ void main() {
 
     // Then
     expect(
-      viewModel.dateFormattedTexts,
-      [
-        FormattedText("À réaliser pour le "),
-        FormattedText("mardi 1 janvier", bold: true),
-      ],
+      viewModel.dateEcheanceViewModel,
+      UserActionDetailDateEcheanceViewModel(
+        formattedTexts: [FormattedText("À réaliser pour le "), FormattedText("mardi 1 janvier", bold: true)],
+        icons: [Drawables.icClock],
+        textColor: AppColors.accent2,
+        backgroundColor: AppColors.accent3Lighten,
+      ),
     );
-    expect(viewModel.dateBackgroundColor, AppColors.accent3Lighten);
-    expect(viewModel.dateTextColor, AppColors.accent2);
-    expect(viewModel.dateIcons, [Drawables.icClock]);
   });
 
   test("when action is late should properly set texts, icons and warning color", () {
@@ -101,7 +99,6 @@ void main() {
       reducer,
       initialState: AppState.initialState().copyWith(
         userActionListState: UserActionListSuccessState([mockUserAction(id: 'id', dateEcheance: DateTime(2021, 1, 1))]),
-        userActionUpdateState: UserActionUpdatedState(UserActionStatus.IN_PROGRESS),
       ),
     );
 
@@ -110,15 +107,46 @@ void main() {
 
     // Then
     expect(
-      viewModel.dateFormattedTexts,
-      [
-        FormattedText("À réaliser pour le "),
-        FormattedText("vendredi 1 janvier", bold: true),
-      ],
+      viewModel.dateEcheanceViewModel,
+      UserActionDetailDateEcheanceViewModel(
+        formattedTexts: [FormattedText("À réaliser pour le "), FormattedText("vendredi 1 janvier", bold: true)],
+        icons: [Drawables.icImportantOutlined, Drawables.icClock],
+        textColor: AppColors.warning,
+        backgroundColor: AppColors.warningLighten,
+      ),
     );
-    expect(viewModel.dateBackgroundColor, AppColors.warningLighten);
-    expect(viewModel.dateTextColor, AppColors.warning);
-    expect(viewModel.dateIcons, [Drawables.icImportantOutlined, Drawables.icClock]);
+  });
+
+  test("when action is DONE should not display date echeance", () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(
+        userActionListState: UserActionListSuccessState([mockUserAction(id: 'id', status: UserActionStatus.DONE)]),
+      ),
+    );
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, 'id');
+
+    // Then
+    expect(viewModel.dateEcheanceViewModel, isNull);
+  });
+
+  test("when action is CANCELED should not display date echeance", () {
+    // Given
+    final store = Store<AppState>(
+      reducer,
+      initialState: AppState.initialState().copyWith(
+        userActionListState: UserActionListSuccessState([mockUserAction(id: 'id', status: UserActionStatus.CANCELED)]),
+      ),
+    );
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, 'id');
+
+    // Then
+    expect(viewModel.dateEcheanceViewModel, isNull);
   });
 
   test("create when action is not updating should show content", () {

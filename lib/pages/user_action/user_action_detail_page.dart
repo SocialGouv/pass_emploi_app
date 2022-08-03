@@ -93,13 +93,15 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
                   SizedBox(height: Margins.spacing_m),
                   _creator(),
                   SizedBox(height: Margins.spacing_m),
-                  SizedBox(height: Margins.spacing_base),
-                  DateEcheanceInDetail(
-                    icons: detailsViewModel.dateIcons,
-                    formattedTexts: detailsViewModel.dateFormattedTexts,
-                    textColor: detailsViewModel.dateTextColor,
-                    backgroundColor: detailsViewModel.dateBackgroundColor,
-                  ),
+                  if (detailsViewModel.dateEcheanceViewModel != null) ...[
+                    SizedBox(height: Margins.spacing_base),
+                    DateEcheanceInDetail(
+                      icons: detailsViewModel.dateEcheanceViewModel!.icons,
+                      formattedTexts: detailsViewModel.dateEcheanceViewModel!.formattedTexts,
+                      textColor: detailsViewModel.dateEcheanceViewModel!.textColor,
+                      backgroundColor: detailsViewModel.dateEcheanceViewModel!.backgroundColor,
+                    ),
+                  ],
                   SizedBox(height: Margins.spacing_xl),
                   _Separator(),
                   SizedBox(height: Margins.spacing_base),

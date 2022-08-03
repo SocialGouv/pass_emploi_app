@@ -25,21 +25,32 @@ enum UserActionDetailsDisplayState {
   TO_DISMISS_AFTER_DELETION
 }
 
+class UserActionDetailDateEcheanceViewModel extends Equatable {
+  final List<FormattedText> formattedTexts;
+  final List<String> icons;
+  final Color textColor;
+  final Color backgroundColor;
+
+  UserActionDetailDateEcheanceViewModel({
+    required this.formattedTexts,
+    required this.icons,
+    required this.textColor,
+    required this.backgroundColor,
+  });
+
+  @override
+  List<Object?> get props => [formattedTexts, icons, textColor, backgroundColor];
+}
+
 class UserActionDetailsViewModel extends Equatable {
   final UserActionDetailsDisplayState displayState;
-  final List<FormattedText> dateFormattedTexts;
-  final Color dateTextColor;
-  final Color dateBackgroundColor;
-  final List<String> dateIcons;
+  final UserActionDetailDateEcheanceViewModel? dateEcheanceViewModel;
   final Function(String actionId, UserActionStatus newStatus) onRefreshStatus;
   final Function(String actionId) onDelete;
 
   UserActionDetailsViewModel._({
     required this.displayState,
-    required this.dateFormattedTexts,
-    required this.dateTextColor,
-    required this.dateBackgroundColor,
-    required this.dateIcons,
+    required this.dateEcheanceViewModel,
     required this.onRefreshStatus,
     required this.onDelete,
   });
@@ -50,10 +61,7 @@ class UserActionDetailsViewModel extends Equatable {
     final isLate = userAction.isLate();
     return UserActionDetailsViewModel._(
       displayState: _displayState(store.state),
-      dateFormattedTexts: _formattedDate(userAction),
-      dateBackgroundColor: isLate ? AppColors.warningLighten : AppColors.accent3Lighten,
-      dateTextColor: isLate ? AppColors.warning : AppColors.accent2,
-      dateIcons: [if (isLate) Drawables.icImportantOutlined, Drawables.icClock],
+      dateEcheanceViewModel: _dateEcheanceViewModel(userAction, isLate),
       onRefreshStatus: (actionId, newStatus) => _refreshStatus(store, actionId, newStatus),
       onDelete: (actionId) => store.dispatch(UserActionDeleteRequestAction(actionId)),
     );
@@ -61,6 +69,16 @@ class UserActionDetailsViewModel extends Equatable {
 
   @override
   List<Object?> get props => [displayState];
+}
+
+UserActionDetailDateEcheanceViewModel? _dateEcheanceViewModel(UserAction userAction, bool isLate) {
+  if ([UserActionStatus.DONE, UserActionStatus.CANCELED].contains(userAction.status)) return null;
+  return UserActionDetailDateEcheanceViewModel(
+    formattedTexts: _formattedDate(userAction),
+    icons: [if (isLate) Drawables.icImportantOutlined, Drawables.icClock],
+    textColor: isLate ? AppColors.warning : AppColors.accent2,
+    backgroundColor: isLate ? AppColors.warningLighten : AppColors.accent3Lighten,
+  );
 }
 
 List<FormattedText> _formattedDate(UserAction action) {
