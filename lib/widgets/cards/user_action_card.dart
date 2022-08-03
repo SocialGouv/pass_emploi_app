@@ -36,10 +36,11 @@ class UserActionCard extends StatelessWidget {
                   if (viewModel.tag != null) _buildStatut(viewModel.tag!),
                   Text(viewModel.title, style: TextStyles.textBaseBold),
                   if (viewModel.withSubtitle) _buildSousTitre(),
-                  DateEcheanceInCard(
-                    formattedTexts: viewModel.dateEcheanceFormattedTexts,
-                    color: viewModel.dateEcheanceColor,
-                  ),
+                  if (viewModel.dateEcheanceViewModel != null)
+                    DateEcheanceInCard(
+                      formattedTexts: viewModel.dateEcheanceViewModel!.formattedTexts,
+                      color: viewModel.dateEcheanceViewModel!.color,
+                    ),
                 ],
               ),
             ),

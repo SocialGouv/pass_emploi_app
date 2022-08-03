@@ -110,56 +110,82 @@ void main() {
     );
   });
 
-  test("UserActionViewModel.create should properly display last update date", () {
-    // Given
-    final userAction = mockUserAction(lastUpdate: DateTime(2022, 1, 12));
-
-    // When
-    final viewModel = UserActionViewModel.create(userAction);
-
-    // Then
-    expect(viewModel.lastUpdate, "Modifiée le 12/01/2022");
-  });
-
   test("UserActionViewModel.create when dateEcheance is in future should display it as on time", () {
     // Given
-    final userAction = mockUserAction(dateEcheance: DateTime(2042, 1, 2));
+    final userAction = mockUserAction(dateEcheance: DateTime(2042, 1, 2), status: UserActionStatus.NOT_STARTED);
 
     // When
     final viewModel = UserActionViewModel.create(userAction);
 
     // Then
-    expect(viewModel.dateEcheanceFormattedTexts, [FormattedText("À réaliser pour le jeudi 2 janvier")]);
-    expect(viewModel.dateEcheanceColor, AppColors.primary);
+    expect(
+      viewModel.dateEcheanceViewModel,
+      UserActionDateEcheanceViewModel(
+        formattedTexts: [FormattedText("À réaliser pour le jeudi 2 janvier")],
+        color: AppColors.primary,
+      ),
+    );
   });
 
   test("UserActionViewModel.create when dateEcheance is today should display it as on time", () {
     final today = DateTime(2022, 1, 2);
     withClock(Clock.fixed(today), () {
       // Given
-      final userAction = mockUserAction(dateEcheance: today);
+      final userAction = mockUserAction(dateEcheance: today, status: UserActionStatus.IN_PROGRESS);
 
       // When
       final viewModel = UserActionViewModel.create(userAction);
 
       // Then
-      expect(viewModel.dateEcheanceFormattedTexts, [FormattedText("À réaliser pour le dimanche 2 janvier")]);
-      expect(viewModel.dateEcheanceColor, AppColors.primary);
+      expect(
+        viewModel.dateEcheanceViewModel,
+        UserActionDateEcheanceViewModel(
+          formattedTexts: [FormattedText("À réaliser pour le dimanche 2 janvier")],
+          color: AppColors.primary,
+        ),
+      );
     });
   });
 
   test("UserActionViewModel.create when dateEcheance is in past should display it as late", () {
     // Given
-    final userAction = mockUserAction(dateEcheance: DateTime(2022, 1, 2));
+    final userAction = mockUserAction(dateEcheance: DateTime(2022, 1, 2), status: UserActionStatus.IN_PROGRESS);
 
     // When
     final viewModel = UserActionViewModel.create(userAction);
 
     // Then
-    expect(viewModel.dateEcheanceFormattedTexts, [
-      FormattedText("En retard : ", bold: true),
-      FormattedText("À réaliser pour le dimanche 2 janvier"),
-    ]);
-    expect(viewModel.dateEcheanceColor, AppColors.warning);
+    expect(
+      viewModel.dateEcheanceViewModel,
+      UserActionDateEcheanceViewModel(
+        formattedTexts: [
+          FormattedText("En retard : ", bold: true),
+          FormattedText("À réaliser pour le dimanche 2 janvier"),
+        ],
+        color: AppColors.warning,
+      ),
+    );
+  });
+
+  test("UserActionViewModel.create when status is DONE should not display date echeance", () {
+    // Given
+    final userAction = mockUserAction(status: UserActionStatus.DONE);
+
+    // When
+    final viewModel = UserActionViewModel.create(userAction);
+
+    // Then
+    expect(viewModel.dateEcheanceViewModel, isNull);
+  });
+
+  test("UserActionViewModel.create when status is CANCELED should not display date echeance", () {
+    // Given
+    final userAction = mockUserAction(status: UserActionStatus.CANCELED);
+
+    // When
+    final viewModel = UserActionViewModel.create(userAction);
+
+    // Then
+    expect(viewModel.dateEcheanceViewModel, isNull);
   });
 }
