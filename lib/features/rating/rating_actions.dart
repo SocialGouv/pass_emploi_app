@@ -1,0 +1,3 @@
+class RatingSuccessAction {}
+
+class RatingDoneAction {}

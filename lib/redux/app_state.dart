@@ -29,6 +29,7 @@ import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_se
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_state.dart';
 import 'package:pass_emploi_app/features/partage_activite/partage_activites_state.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
+import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_state.dart';
@@ -95,6 +96,7 @@ class AppState extends Equatable {
   final TutorialState tutorialState;
   final PartageActiviteState partageActiviteState;
   final PartageActiviteUpdateState partageActiviteUpdateState;
+  final RatingState ratingState;
 
   AppState({
     required this.configurationState,
@@ -143,6 +145,7 @@ class AppState extends Equatable {
     required this.tutorialState,
     required this.partageActiviteState,
     required this.partageActiviteUpdateState,
+    required this.ratingState,
   });
 
   AppState copyWith({
@@ -192,6 +195,7 @@ class AppState extends Equatable {
     final TutorialState? tutorialState,
     final PartageActiviteState? partageActiviteState,
     final PartageActiviteUpdateState? partageActiviteUpdateState,
+    final RatingState? ratingState,
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
@@ -241,6 +245,7 @@ class AppState extends Equatable {
       tutorialState: tutorialState ?? this.tutorialState,
       partageActiviteState: partageActiviteState ?? this.partageActiviteState,
       partageActiviteUpdateState: partageActiviteUpdateState ?? this.partageActiviteUpdateState,
+      ratingState: ratingState ?? this.ratingState,
     );
   }
 
@@ -292,6 +297,7 @@ class AppState extends Equatable {
       tutorialState: TutorialNotInitializedState(),
       partageActiviteState: PartageActiviteNotInitializedState(),
       partageActiviteUpdateState: PartageActiviteUpdateNotInitializedState(),
+      ratingState: RatingNotInitializedState(),
     );
   }
 
@@ -336,6 +342,7 @@ class AppState extends Equatable {
         tutorialState,
         partageActiviteState,
         partageActiviteUpdateState,
+        ratingState,
       ];
 
   @override

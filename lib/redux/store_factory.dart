@@ -35,6 +35,7 @@ import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search
 import 'package:pass_emploi_app/features/partage_activite/partage_activite_middleware.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_middleware.dart';
 import 'package:pass_emploi_app/features/push/register_push_notification_token_middleware.dart';
+import 'package:pass_emploi_app/features/rating/rating_middleware.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_middleware.dart';
 import 'package:pass_emploi_app/features/saved_search/create/immersion_saved_search_create_middleware.dart';
 import 'package:pass_emploi_app/features/saved_search/create/offre_emploi_saved_search_create_middleware.dart';
@@ -78,7 +79,9 @@ import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dar
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
+import 'package:pass_emploi_app/repositories/rating_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
@@ -89,7 +92,6 @@ import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
-import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
@@ -135,6 +137,7 @@ class StoreFactory {
   final PieceJointeRepository pieceJointeRepository;
   final TutorialRepository tutorialRepository;
   final PartageActiviteRepository partageActiviteRepository;
+  final RatingRepository ratingRepository;
 
   StoreFactory(
     this.authenticator,
@@ -176,6 +179,7 @@ class StoreFactory {
     this.pieceJointeRepository,
     this.tutorialRepository,
     this.partageActiviteRepository,
+    this.ratingRepository,
   );
 
   redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -235,6 +239,7 @@ class StoreFactory {
         TutorialMiddleware(tutorialRepository),
         PartageActiviteMiddleware(partageActiviteRepository),
         PartageActiviteUpdateMiddleware(partageActiviteRepository),
+        RatingMiddleware(ratingRepository, detailsJeuneRepository),
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),
       ],
