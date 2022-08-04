@@ -45,7 +45,7 @@ class _DismissSnackBar extends StatelessWidget {
   }
 
   void _onDismiss(BuildContext context) {
-    snackbarKey.currentState?.hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
     StoreProvider.of<AppState>(context).dispatch(RatingDoneAction());
     MatomoTracker.trackScreenWithName(AnalyticsActionNames.skipRating, AnalyticsScreenNames.ratingPage);
   }

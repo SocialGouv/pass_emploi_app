@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/menu_item.dart' as menu;
+import 'package:pass_emploi_app/widgets/snack_bar/rating_snack_bar.dart';
 
 const int _indexOfMonSuiviPage = 0;
 const int _indexOfChatPage = 1;
@@ -67,6 +68,9 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       converter: (store) => MainPageViewModel.create(store),
       onInit: (store) => store.dispatch(SubscribeToChatStatusAction()),
       onDispose: (store) => store.dispatch(UnsubscribeFromChatStatusAction()),
+      onDidChange: (oldViewModel, newViewModel) {
+        if (newViewModel.showRating) ratingSnackBar(context);
+      },
       builder: (context, viewModel) => _body(viewModel, context),
       distinct: true,
     );
