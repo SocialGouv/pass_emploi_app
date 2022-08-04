@@ -52,6 +52,7 @@ class RatingBottomSheet extends StatelessWidget {
                     if (await inAppReview.isAvailable()) {
                       inAppReview.requestReview();
                     }
+                    viewModel.onDone();
                     _matomoTracking(AnalyticsActionNames.positiveRating);
                   }),
               SepLine(10, 10),
