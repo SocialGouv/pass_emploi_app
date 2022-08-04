@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.da
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/features/partage_activite/partage_activites_state.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
+import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
@@ -116,5 +117,13 @@ extension AppStateDSL on AppState {
 
   AppState partageActiviteUpdateFailure() {
     return copyWith(partageActiviteUpdateState: PartageActiviteUpdateFailureState());
+  }
+
+  AppState showRating() {
+    return copyWith(ratingState: ShowRatingState());
+  }
+
+  AppState dontShowRating() {
+    return copyWith(ratingState: RatingNotInitializedState());
   }
 }
