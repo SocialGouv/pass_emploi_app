@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/features/rating/rating_actions.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -31,12 +36,18 @@ class _DismissSnackBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => snackbarKey.currentState?.hideCurrentSnackBar(),
+      onTap: () => _onDismiss(context),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0, 15, 5, 0),
         child: SvgPicture.asset(Drawables.icClose, color: AppColors.contentColor),
       ),
     );
+  }
+
+  void _onDismiss(BuildContext context) {
+    snackbarKey.currentState?.hideCurrentSnackBar();
+    StoreProvider.of<AppState>(context).dispatch(RatingDoneAction());
+    MatomoTracker.trackScreenWithName(AnalyticsActionNames.skipRating, AnalyticsScreenNames.ratingPage);
   }
 }
 
