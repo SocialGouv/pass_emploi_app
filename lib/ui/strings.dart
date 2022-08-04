@@ -495,6 +495,9 @@ class Strings {
 
   static String shareFavoriteLabel = "Partager mes favoris";
 
+  static String helpTitle = "Besoin d’aide ?";
+  static String ratingAppLabel = "Partager votre avis sur l'application";
+
   // saved search
   static String createAlert = "Créer une alerte";
   static String createSavedSearchTitle = "Enregistrer la recherche en favoris";
