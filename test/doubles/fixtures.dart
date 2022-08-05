@@ -323,7 +323,6 @@ UserAction mockUserAction({
     content: content ?? '',
     comment: comment ?? '',
     status: status ?? UserActionStatus.IN_PROGRESS,
-    lastUpdate: lastUpdate ?? DateTime.now(),
     dateEcheance: dateEcheance ?? DateTime.now(),
     creator: creator ?? JeuneActionCreator(),
   );

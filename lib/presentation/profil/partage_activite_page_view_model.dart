@@ -11,7 +11,7 @@ class PartageActivitePageViewModel extends Equatable {
   final DisplayState displayState;
   final DisplayState updateState;
   final bool shareFavoris;
-  final Function() onPartageFavorisTap;
+  final Function(bool) onPartageFavorisTap;
   final Function() onRetry;
 
   PartageActivitePageViewModel({
@@ -30,7 +30,7 @@ class PartageActivitePageViewModel extends Equatable {
       displayState: _displayState(state),
       updateState: _updateState(updateState),
       shareFavoris: favoriShared,
-      onPartageFavorisTap: () => store.dispatch(PartageActiviteUpdateRequestAction(!favoriShared)),
+      onPartageFavorisTap: (isShare) => store.dispatch(PartageActiviteUpdateRequestAction(isShare)),
       onRetry: () => store.dispatch(PartageActiviteRequestAction()),
     );
   }
