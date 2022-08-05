@@ -28,6 +28,7 @@ import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_se
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_reducer.dart';
 import 'package:pass_emploi_app/features/partage_activite/partage_activite_reducer.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_reducer.dart';
+import 'package:pass_emploi_app/features/rating/rating_reducer.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_reducer.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_reducer.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_reducer.dart';
@@ -117,5 +118,6 @@ AppState reducer(AppState current, dynamic action) {
     tutorialState: tutorialReducer(current.tutorialState, action),
     partageActiviteState: partageActiviteReducer(current.partageActiviteState, action),
     partageActiviteUpdateState: partageActiviteUpdateReducer(current.partageActiviteUpdateState, action),
+    ratingState: ratingReducer(current.ratingState, action),
   );
 }

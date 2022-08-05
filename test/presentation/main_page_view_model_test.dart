@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
+import '../dsl/app_state_dsl.dart';
 
 void main() {
   group('Create MainPageViewModel when chat status state is…', () {
@@ -96,6 +97,30 @@ void main() {
       final viewModel = MainPageViewModel.create(store);
 
       expect(viewModel.isPoleEmploiLogin, false);
+    });
+  });
+
+  group('Create MainPageViewModel when rating app state is…', () {
+    test('not initialized should not show rating banner', () {
+      // Given
+      final store = givenState().dontShowRating().store();
+
+      // When
+      final viewModel = MainPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.showRating, isFalse);
+    });
+
+    test('success should show rating banner', () {
+      // Given
+      final store = givenState().showRating().store();
+
+      // When
+      final viewModel = MainPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.showRating, isTrue);
     });
   });
 }

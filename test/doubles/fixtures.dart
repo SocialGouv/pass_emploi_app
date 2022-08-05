@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
@@ -260,6 +261,26 @@ Rendezvous mockRendezvous({
 DetailsJeune detailsJeune() {
   return DetailsJeune(
     conseiller: DetailsJeuneConseiller(firstname: "Perceval", lastname: "de Galles", sinceDate: DateTime(2005, 1, 3)),
+  );
+}
+
+DetailsJeune detailsJeuneSinceOneMonth() {
+  return DetailsJeune(
+    conseiller: DetailsJeuneConseiller(
+      firstname: "Perceval",
+      lastname: "de Galles",
+      sinceDate: clock.now().subtract(Duration(days: 31)),
+    ),
+  );
+}
+
+DetailsJeune detailsJeuneSinceLessOneMonth() {
+  return DetailsJeune(
+    conseiller: DetailsJeuneConseiller(
+      firstname: "Perceval",
+      lastname: "de Galles",
+      sinceDate: clock.now().subtract(Duration(days: 29)),
+    ),
   );
 }
 

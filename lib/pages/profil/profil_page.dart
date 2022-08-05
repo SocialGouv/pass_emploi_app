@@ -17,6 +17,8 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/rating_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/cards/profil/mon_conseiller_card.dart';
 import 'package:pass_emploi_app/widgets/cards/profil/profil_card.dart';
@@ -61,6 +63,10 @@ class ProfilPage extends StatelessWidget {
               Text(Strings.legalInformation, style: TextStyles.textLBold()),
               SizedBox(height: Margins.spacing_m),
               _LegalInformationCard(),
+              SizedBox(height: Margins.spacing_m),
+              Text(Strings.helpTitle, style: TextStyles.textLBold()),
+              SizedBox(height: Margins.spacing_m),
+              _RatingCard(),
               SizedBox(height: Margins.spacing_m),
               if (viewModel.displayDeveloperOptions) ...[
                 Text(Strings.developerOptions, style: TextStyles.textLBold()),
@@ -235,6 +241,16 @@ class _MatomoCard extends StatelessWidget {
     return StandaloneProfilCard(
       text: Strings.developerOptionMatomo,
       onTap: () => Navigator.push(context, MatomoLoggingPage.materialPageRoute()),
+    );
+  }
+}
+
+class _RatingCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StandaloneProfilCard(
+      text: Strings.ratingAppLabel,
+      onTap: () => showPassEmploiBottomSheet(context: context, builder: (context) => RatingBottomSheet()),
     );
   }
 }

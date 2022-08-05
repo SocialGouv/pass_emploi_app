@@ -90,6 +90,7 @@ class AnalyticsScreenNames {
   static const explicationModeDemo = "/entree/mode-demo";
 
   static const tutorialPage = "/new-feature_tutorial";
+  static const ratingPage = "/notation";
 }
 
 class AnalyticsActionNames {
@@ -139,6 +140,10 @@ class AnalyticsActionNames {
   static const skipTutorial = "/new-feature_tutorial/skip";
   static const delayedTutorial = "/new-feature_tutorial/delayed";
   static const doneTutorial = "/new-feature_tutorial/done";
+
+  static const skipRating = "/notation/skip";
+  static const negativeRating = "/notation/defavorable ";
+  static const positiveRating = "/notation/favorable";
 }
 
 class AnalyticsCustomDimensions {
