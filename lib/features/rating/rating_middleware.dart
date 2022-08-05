@@ -23,7 +23,7 @@ class RatingMiddleware extends MiddlewareClass<AppState> {
         final user = await _userRepository.fetch(userId);
         if (user != null && _shouldRate(user.conseiller.sinceDate)) {
           final showRating = await _ratingRepository.shouldShowRating();
-          if (showRating) store.dispatch(RatingSuccessAction());
+          if (showRating) store.dispatch(ShowRatingAction());
         }
       }
     }

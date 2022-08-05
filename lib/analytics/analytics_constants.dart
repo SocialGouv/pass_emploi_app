@@ -142,7 +142,7 @@ class AnalyticsActionNames {
   static const doneTutorial = "/new-feature_tutorial/done";
 
   static const skipRating = "/notation/skip";
-  static const negativeRating = "/notation/defavorable ";
+  static const negativeRating = "/notation/defavorable";
   static const positiveRating = "/notation/favorable";
 }
 

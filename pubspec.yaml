@@ -53,7 +53,7 @@ dependencies:
 
   encrypt: '5.0.1'
   smooth_page_indicator: '1.0.0+2'
-  in_app_review: ^2.0.4
+  in_app_review: '2.0.4'
 
 dev_dependencies:
   flutter_test:
