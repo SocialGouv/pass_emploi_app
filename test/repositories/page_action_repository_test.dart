@@ -93,7 +93,7 @@ void main() {
         if (requestJson['comment'] != 'comment') return invalidHttpResponse();
         if (requestJson['status'] != 'done') return invalidHttpResponse();
         if (requestJson['rappel'] != true) return invalidHttpResponse();
-        if (requestJson['dateEcheance'] != '2022-01-01T00:00:00.000') return invalidHttpResponse();
+        if (requestJson['dateEcheance'] != '2022-01-01T00:00:00+00:00') return invalidHttpResponse();
         return Response('', 201);
       });
       final repository = PageActionRepository("BASE_URL", httpClient);
@@ -101,7 +101,7 @@ void main() {
       // When
       final result = await repository.createUserAction(
         "UID",
-        UserActionCreateRequest("content", "comment", DateTime(2022, 1, 1), true, UserActionStatus.DONE),
+        UserActionCreateRequest("content", "comment", DateTime.utc(2022, 1, 1), true, UserActionStatus.DONE),
       );
 
       // Then

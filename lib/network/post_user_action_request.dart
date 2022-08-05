@@ -1,6 +1,7 @@
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/network/json_serializable.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class PostUserActionRequest implements JsonSerializable {
   final UserActionCreateRequest request;
@@ -12,7 +13,7 @@ class PostUserActionRequest implements JsonSerializable {
         "content": request.content,
         if (request.comment != null) "comment": request.comment,
         "status": _toString(request.initialStatus),
-        "dateEcheance": request.dateEcheance.toIso8601String(),
+        "dateEcheance": request.dateEcheance.toIso8601WithTimeZoneOffset(),
         "rappel": request.rappel,
       };
 
