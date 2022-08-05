@@ -4,6 +4,7 @@ class MailHandler {
   static Future<bool> sendEmail({required String email, required String subject, required String body}) async {
     final mailUrl = _getEmailString(email: email, subject: subject, body: body);
     try {
+      // ignore: ban-name
       await launchUrl(Uri.parse(mailUrl), mode: LaunchMode.externalApplication);
       return true;
     } catch (e) {
