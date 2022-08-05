@@ -10,8 +10,10 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/mail_handler.dart';
 import 'package:pass_emploi_app/widgets/cards/rating_card.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 final InAppReview inAppReview = InAppReview.instance;
 
@@ -21,6 +23,7 @@ class RatingBottomSheet extends StatelessWidget {
     return StoreConnector<AppState, RatingViewModel>(
       converter: (state) => RatingViewModel.create(state),
       builder: (context, viewModel) => _body(context, viewModel),
+      distinct: true,
     );
   }
 
@@ -46,22 +49,42 @@ class RatingBottomSheet extends StatelessWidget {
             shrinkWrap: true,
             children: [
               RatingCard(
-                  emoji: Strings.happyEmoji,
-                  description: Strings.positiveRating,
-                  onClick: () async {
-                    if (await inAppReview.isAvailable()) {
-                      inAppReview.requestReview();
-                    }
-                    viewModel.onDone();
-                    _matomoTracking(AnalyticsActionNames.positiveRating);
-                  }),
+                emoji: Strings.happyEmoji,
+                description: Strings.positiveRating,
+                onClick: () => _onPositiveRating(context, viewModel),
+              ),
               SepLine(10, 10),
-              RatingCard(emoji: Strings.sadEmoji, description: Strings.negativeRating, onClick: () {}),
+              RatingCard(
+                emoji: Strings.sadEmoji,
+                description: Strings.negativeRating,
+                onClick: () => _onNegativeRating(context, viewModel),
+              ),
             ],
           ),
         ),
       ],
     );
+  }
+
+  void _onPositiveRating(BuildContext context, RatingViewModel viewModel) async {
+    if (await inAppReview.isAvailable()) {
+      inAppReview.requestReview();
+      _ratingDone(context, viewModel, true);
+    } else {
+      showFailedSnackBar(context, Strings.miscellaneousErrorRetry);
+    }
+  }
+
+  void _onNegativeRating(BuildContext context, RatingViewModel viewModel) async {
+    final mailSent = await MailHandler.sendEmail(
+        email: Strings.supportMail, subject: Strings.titleSupportMail, body: Strings.contentSupportMail);
+    mailSent ? _ratingDone(context, viewModel, false) : showFailedSnackBar(context, Strings.miscellaneousErrorRetry);
+  }
+
+  void _ratingDone(BuildContext context, RatingViewModel viewModel, bool isPositive) {
+    viewModel.onDone();
+    Navigator.pop(context);
+    _matomoTracking(isPositive ? AnalyticsActionNames.positiveRating : AnalyticsActionNames.negativeRating);
   }
 }
 

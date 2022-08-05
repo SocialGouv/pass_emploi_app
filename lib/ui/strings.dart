@@ -567,4 +567,8 @@ class Strings {
   static String negativeRating = "Non... \nJ’ai quelques remarques.";
   static String happyEmoji = "😍";
   static String sadEmoji = "😫";
+
+  static String supportMail = "support@pass-emploi.beta.gouv.fr";
+  static String titleSupportMail = "Mon avis sur l’application";
+  static String contentSupportMail = "Aidez-nous à améliorer l’application en nous donnant votre avis :\n";
 }
