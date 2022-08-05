@@ -6,6 +6,18 @@ import 'package:pass_emploi_app/utils/string_extensions.dart';
 final DateTime minDateTime = DateTime.fromMicrosecondsSinceEpoch(0);
 
 extension DateExtensions on DateTime {
+
+  String toIso8601WithTimeZoneOffset() {
+    String twoDigits(int n) => n >= 10 ? "$n" : "0$n";
+
+    final hours = twoDigits(timeZoneOffset.inHours.abs());
+    final minutes = twoDigits(timeZoneOffset.inMinutes.remainder(60));
+    final sign = timeZoneOffset.isNegative ? "-" : "+";
+    final formattedDate = DateFormat("yyyy-MM-ddTHH:mm:ss").format(this);
+
+    return "$formattedDate$sign$hours:$minutes";
+  }
+
   String toDayAndHourContextualized() {
     if (isTomorrow()) return "Demain ${DateFormat('à HH\'h\'mm').format(this)}";
     if (isToday()) return "Aujourd'hui ${DateFormat('à HH\'h\'mm').format(this)}";
