@@ -35,7 +35,7 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
-  late TextEditingController _controller;
+  TextEditingController? _controller;
 
   @override
   void initState() {
@@ -45,7 +45,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller?.dispose();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -81,7 +81,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
 
   void _onDispose(Store<AppState> store) {
     store.dispatch(UnsubscribeFromChatAction());
-    store.dispatch(SaveChatBrouillonAction(_controller.value.text));
+    if (_controller != null) store.dispatch(SaveChatBrouillonAction(_controller!.value.text));
   }
 
   Widget _scaffold(ChatPageViewModel viewModel, Widget body) {
@@ -176,13 +176,13 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                   backgroundColor: AppColors.primary,
                   child: SvgPicture.asset(Drawables.icPaperPlane),
                   onPressed: () {
-                    if (_controller.value.text == "Je suis malade. Complètement malade.") {
-                      _controller.clear();
+                    if (_controller?.value.text == "Je suis malade. Complètement malade.") {
+                      _controller!.clear();
                       Navigator.push(context, CredentialsPage.materialPageRoute());
                     }
-                    if (_controller.value.text.isNotEmpty) {
-                      viewModel.onSendMessage(_controller.value.text);
-                      _controller.clear();
+                    if (_controller?.value.text.isNotEmpty == true) {
+                      viewModel.onSendMessage(_controller!.value.text);
+                      _controller!.clear();
                       context.trackEvent(EventType.MESSAGE_ENVOYE);
                     }
                   },
