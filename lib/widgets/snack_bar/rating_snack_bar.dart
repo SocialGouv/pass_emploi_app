@@ -3,7 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/features/rating/rating_actions.dart';
+import 'package:pass_emploi_app/presentation/rating_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -35,8 +35,15 @@ void ratingSnackBar(BuildContext context) {
 class _DismissSnackBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    return StoreConnector<AppState, RatingViewModel>(
+      converter: (store) => RatingViewModel.create(store),
+      builder: (context, viewModel) => _body(context, viewModel),
+     );
+  }
+
+  Widget _body(BuildContext context, RatingViewModel viewModel) {
     return InkWell(
-      onTap: () => _onDismiss(context),
+      onTap: () => _onDismiss(context, viewModel),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(0, 15, 5, 0),
         child: SvgPicture.asset(Drawables.icClose, color: AppColors.contentColor),
@@ -44,13 +51,9 @@ class _DismissSnackBar extends StatelessWidget {
     );
   }
 
-  void _onDismiss(BuildContext context) {
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    try {
-      StoreProvider.of<AppState>(context).dispatch(RatingDoneAction());
-    } on StoreProviderError<AppState> {
-      // ignored
-    }
+  void _onDismiss(BuildContext context, RatingViewModel viewModel) {
+    viewModel.onDone();
+    snackbarKey.currentState?.hideCurrentSnackBar();
     MatomoTracker.trackScreenWithName(AnalyticsActionNames.skipRating, AnalyticsScreenNames.ratingPage);
   }
 }
