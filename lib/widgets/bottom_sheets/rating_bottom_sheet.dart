@@ -23,7 +23,6 @@ class RatingBottomSheet extends StatelessWidget {
     return StoreConnector<AppState, RatingViewModel>(
       converter: (state) => RatingViewModel.create(state),
       builder: (context, viewModel) => _body(context, viewModel),
-      distinct: true,
     );
   }
 
