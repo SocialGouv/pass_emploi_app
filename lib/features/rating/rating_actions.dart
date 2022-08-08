@@ -1,3 +1,3 @@
-class RatingSuccessAction {}
+class ShowRatingAction {}
 
 class RatingDoneAction {}

@@ -10,7 +10,6 @@ class RatingRepository {
   }
 
   Future<bool> shouldShowRating() async {
-    // call
     final String? tutorialRead = await _preferences.read(key: 'ratingDone');
     return tutorialRead == null;
   }
