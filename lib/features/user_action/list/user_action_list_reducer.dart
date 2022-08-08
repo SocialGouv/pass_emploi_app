@@ -20,7 +20,7 @@ UserActionListState userActionListReducer(UserActionListState current, dynamic a
       content: actionToUpdate.content,
       comment: actionToUpdate.comment,
       status: action.newStatus,
-      dateEcheance: DateTime(2042),
+      dateEcheance: actionToUpdate.dateEcheance,
       creator: actionToUpdate.creator,
     );
     final newActions = List<UserAction>.from(currentActions).where((a) => a.id != action.actionId).toList()
