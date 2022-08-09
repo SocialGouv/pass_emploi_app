@@ -13,7 +13,95 @@ import '../utils/pass_emploi_mock_client.dart';
 import '../utils/test_assets.dart';
 import '../utils/test_datetime.dart';
 
+class SUT<REPO> {
+  late Response _response;
+  late Request _request;
+  late REPO _repository;
+  late Future<bool> Function(REPO) _when;
+
+  void givenResponse({required String fromJson}) {
+    _response = Response.bytes(loadTestAssetsAsBytes(fromJson), 200);
+  }
+
+  void given201Response() {
+    _response = Response('', 201);
+  }
+
+  void givenInvalidResponse() {
+    _response = invalidHttpResponse();
+  }
+
+  Client _makeClient() {
+    return PassEmploiMockClient((request) async {
+      _request = request;
+      return _response;
+    });
+  }
+
+  void givenRepository(REPO Function(Client) createRepository) {
+    _repository = createRepository(_makeClient());
+  }
+
+  void when(Future<bool> Function(REPO) when) {
+    _when = when;
+  }
+
+  void expectRequestBody({required String method, required String url, Map<String, dynamic>? params}) async {
+    await _when(_repository);
+
+    expect(_request.method, method);
+    expect(_request.url.toString(), url);
+
+    if (params != null) expect(jsonUtf8Decode(_request.bodyBytes), params);
+  }
+
+  void expectResult(Function(bool) expectLambda) async {
+    expectLambda(await _when(_repository));
+  }
+}
+
 void main() {
+  // Note : on n'écrit plus de boilerplate sur le client, ni sur la réponse
+  // Note : on a des erreurs compréhensible et visible quand la requête est malformée
+  // Note : on pourrait facilement faire un groupe avec des repository qui fail, et faire à l'intérieur tout les test de chaque route qui fail
+  // Note : on écrit deux tests dans un groupe, un pour vérifier le contenu de la requiête qui est envoyée, l'autre pour le résultat : parce qu'un test n'a qu'une seule raison de fail
+
+  group('PoC createUserAction', () {
+    final sut = SUT<PageActionRepository>();
+
+    group('when response is valid', () {
+      sut.given201Response();
+      sut.givenRepository((client) => PageActionRepository("BASE_URL", client));
+
+      sut.when(
+        (repository) => repository.createUserAction(
+          "UID",
+          UserActionCreateRequest("content", "comment", DateTime.utc(2022, 1, 1), true, UserActionStatus.DONE),
+        ),
+      );
+
+      test('request should be valid', () {
+        sut.expectRequestBody(
+          method: "POST",
+          url: "BASE_URL/jeunes/UID/action",
+          params: {
+            "content": "content",
+            "comment": "comment",
+            "status": "done",
+            "rappel": true,
+            "dateEcheance": "2022-01-01T00:00:00+00:00",
+          }
+        );
+      });
+
+      test('response should be valid', () {
+        sut.expectResult((result) {
+          expect(result, isTrue);
+        });
+      });
+    });
+  });
+
   group('getPageActions', () {
     test('when response is valid', () async {
       // Given
