@@ -38,6 +38,7 @@ import 'package:pass_emploi_app/features/service_civique/detail/service_civique_
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
+import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
@@ -97,6 +98,7 @@ class AppState extends Equatable {
   final PartageActiviteState partageActiviteState;
   final PartageActiviteUpdateState partageActiviteUpdateState;
   final RatingState ratingState;
+  final ActionCommentaireListState actionCommentaireListState;
 
   AppState({
     required this.configurationState,
@@ -146,6 +148,7 @@ class AppState extends Equatable {
     required this.partageActiviteState,
     required this.partageActiviteUpdateState,
     required this.ratingState,
+    required this.actionCommentaireListState,
   });
 
   AppState copyWith({
@@ -196,6 +199,7 @@ class AppState extends Equatable {
     final PartageActiviteState? partageActiviteState,
     final PartageActiviteUpdateState? partageActiviteUpdateState,
     final RatingState? ratingState,
+    final ActionCommentaireListState? actionCommentaireListState,
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
@@ -246,6 +250,7 @@ class AppState extends Equatable {
       partageActiviteState: partageActiviteState ?? this.partageActiviteState,
       partageActiviteUpdateState: partageActiviteUpdateState ?? this.partageActiviteUpdateState,
       ratingState: ratingState ?? this.ratingState,
+      actionCommentaireListState: actionCommentaireListState ?? this.actionCommentaireListState,
     );
   }
 
@@ -298,6 +303,7 @@ class AppState extends Equatable {
       partageActiviteState: PartageActiviteNotInitializedState(),
       partageActiviteUpdateState: PartageActiviteUpdateNotInitializedState(),
       ratingState: RatingNotInitializedState(),
+      actionCommentaireListState: ActionCommentaireListNotInitializedState(),
     );
   }
 
@@ -343,6 +349,7 @@ class AppState extends Equatable {
         partageActiviteState,
         partageActiviteUpdateState,
         ratingState,
+        actionCommentaireListState,
       ];
 
   @override
