@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
-import 'package:pass_emploi_app/repositories/commentaire_repository.dart';
+import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 
 import '../doubles/fixtures.dart';
 import '../utils/pass_emploi_mock_client.dart';
@@ -18,7 +18,7 @@ void main() {
         if (!request.url.toString().startsWith("BASE_URL/actions/actionId/commentaires")) return invalidHttpResponse();
         return Response.bytes(loadTestAssetsAsBytes("commentaires.json"), 200);
       });
-      final repository = CommentaireRepository("BASE_URL", httpClient);
+      final repository = ActionCommentaireRepository("BASE_URL", httpClient);
 
       // When
       final  result = await repository.getCommentaires("actionId");
@@ -49,7 +49,7 @@ void main() {
     test('when response is invalid should return null', () async {
       // Given
       final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
-      final repository = CommentaireRepository("BASE_URL", httpClient);
+      final repository = ActionCommentaireRepository("BASE_URL", httpClient);
 
       // When
       final search = await repository.getCommentaires("actionId");
