@@ -10,17 +10,15 @@ class ActionCommentaireRepository {
 
   final Crashlytics? _crashlytics;
 
-  CommentaireRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
   ActionCommentaireRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
 
   Future<List<Commentaire>?> getCommentaires(String actionId) async {
     final url = Uri.parse(_baseUrl + "/actions/$actionId/commentaires");
-    // return mockCommentaires();
     try {
       final response = await _httpClient.get(url);
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes);
-        return(json as List).map((comment) => Commentaire.fromJson(comment)).toList();
+        return (json as List).map((comment) => Commentaire.fromJson(comment)).toList();
       }
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);
