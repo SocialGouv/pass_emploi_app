@@ -4,9 +4,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
+import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
+import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -57,6 +60,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
           onInit: (store) {
             store.dispatch(UserActionNotUpdatingState());
             store.dispatch(UserActionDeleteResetAction());
+            store.dispatch(ActionCommentaireListRequestAction(actionViewModel.id));
           },
           converter: (store) => UserActionDetailsViewModel.create(store, actionViewModel.id),
           builder: (context, detailsViewModel) => _build(context, detailsViewModel),
@@ -104,6 +108,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
                   SizedBox(height: Margins.spacing_xl),
                   _Separator(),
                   SizedBox(height: Margins.spacing_base),
+                  _CommentCard(lastComment: detailsViewModel.lastComment),
                   SizedBox(height: Margins.spacing_xl),
                   _Separator(),
                   SizedBox(height: Margins.spacing_base),
@@ -307,3 +312,49 @@ class _DeleteAction extends StatelessWidget {
   }
 }
 
+class _CommentCard extends StatelessWidget {
+  final Commentaire? lastComment;
+
+  _CommentCard({required this.lastComment});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(Strings.lastComment, style: TextStyles.textBaseBold),
+        SizedBox(height: Margins.spacing_base),
+        if (lastComment != null) _LastComment(comment: lastComment!),
+        if (lastComment == null) Text(Strings.noComments, style: TextStyles.textBaseRegular),
+      ],
+    );
+  }
+}
+
+class _LastComment extends StatelessWidget {
+  final Commentaire comment;
+
+  _LastComment({required this.comment});
+
+  @override
+  Widget build(BuildContext context) {
+    final creatorName = comment.creator is ConseillerActionCreator
+        ? Strings.createdByAdvisor((comment.creator as ConseillerActionCreator).name)
+        : Strings.you;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(creatorName, style: TextStyles.textBaseMedium),
+            Text(" · ", style: TextStyles.textBaseBold),
+            Text(comment.getDayDate() ?? "", style: TextStyles.textBaseRegular),
+          ],
+        ),
+        SizedBox(height: Margins.spacing_base),
+        Text(comment.content ?? "", style: TextStyles.textBaseRegular),
+      ],
+    );
+  }
+}

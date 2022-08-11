@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 class Commentaire extends Equatable {
@@ -23,6 +24,8 @@ class Commentaire extends Equatable {
       creationDate: (json['dateCreation'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
     );
   }
+
+  String? getDayDate() => creationDate?.toDayOfWeekWithFullMonth();
 
   @override
   List<Object?> get props => [id, content, creator, creationDate];

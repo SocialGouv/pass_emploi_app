@@ -216,6 +216,7 @@ class Strings {
   static String doneActionsTitle = "Actions terminées et annulées";
   static String rappelSwitch = 'Recevoir une notification de rappel 3 jours avant l’échéance';
 
+
   // Demarches
   static String modifierStatut = "Modifier le statut";
   static String historiqueDemarche = "Historique";
