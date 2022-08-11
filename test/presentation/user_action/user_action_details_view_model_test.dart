@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_s
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
+import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
@@ -14,6 +15,8 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:redux/redux.dart';
 
 import '../../doubles/fixtures.dart';
+import '../../dsl/app_state_dsl.dart';
+import '../../utils/test_datetime.dart';
 
 void main() {
   group("create when action has been updated ...", () {
@@ -307,6 +310,35 @@ void main() {
     // Then
     expect(storeSpy.calledWithNoUpdateNeeded, true);
     expect(storeSpy.calledWithUpdate, false);
+  });
+
+  test("when action has comments should display the last comment", () {
+    // Given
+    final store = givenState().actionWithComments().store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, 'id');
+
+    // Then
+    expect(
+      viewModel.lastComment,
+      Commentaire(
+        id: "8802034",
+        content: "Deuxieme commentaire",
+        creationDate: parseDateTimeUtcWithCurrentTimeZone("2022-07-23T17:08:10.000"),
+        creator: JeuneActionCreator(),
+      ),
+    );
+  });
+  test("when action has comments should display the last comment", () {
+    // Given
+    final store = givenState().actionWithoutComments().store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, 'id');
+
+    // Then
+    expect(viewModel.lastComment, null);
   });
 }
 
