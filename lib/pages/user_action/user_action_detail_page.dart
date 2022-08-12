@@ -7,8 +7,8 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
-import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/pages/user_action/action_commentaires_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
@@ -21,6 +21,8 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
+import 'package:pass_emploi_app/widgets/comment.dart';
 import 'package:pass_emploi_app/widgets/date_echeance_in_detail.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/loader.dart';
@@ -109,8 +111,8 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
                   SizedBox(height: Margins.spacing_xl),
                   _Separator(),
                   SizedBox(height: Margins.spacing_base),
-                  _CommentCard(actionId: actionViewModel.id),
-                  SizedBox(height: Margins.spacing_xl),
+                  _CommentCard(actionId: actionViewModel.id, actionTitle: actionViewModel.title),
+                  SizedBox(height: Margins.spacing_l),
                   _Separator(),
                   SizedBox(height: Margins.spacing_base),
                   _changeStatus(),
@@ -315,23 +317,24 @@ class _DeleteAction extends StatelessWidget {
 
 class _CommentCard extends StatelessWidget {
   final String actionId;
+  final String actionTitle;
 
-  _CommentCard({required this.actionId});
+  _CommentCard({required this.actionId, required this.actionTitle});
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, ActionCommentaireViewModel>(
       onInit: (store) => store.dispatch(ActionCommentaireListRequestAction(actionId)),
       converter: (store) => ActionCommentaireViewModel.create(store, actionId),
-      builder: (context, viewModel) => _build(viewModel),
+      builder: (context, viewModel) => _build(context, viewModel),
       distinct: true,
     );
   }
 
-  Widget _build(ActionCommentaireViewModel viewModel) {
+  Widget _build(BuildContext context, ActionCommentaireViewModel viewModel) {
     switch (viewModel.displayState) {
       case DisplayState.CONTENT:
-        return _content(viewModel);
+        return _content(context, viewModel, actionTitle);
       case DisplayState.FAILURE:
         return Center(child: Retry(Strings.miscellaneousErrorRetry, () => viewModel.onRetry()));
       default:
@@ -339,40 +342,23 @@ class _CommentCard extends StatelessWidget {
     }
   }
 
-  Widget _content(ActionCommentaireViewModel viewModel) {
+  Widget _content(BuildContext context, ActionCommentaireViewModel viewModel, String actionTitle) {
+    final commentsNumber = viewModel.comments.length;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(Strings.lastComment, style: TextStyles.textBaseBold),
         SizedBox(height: Margins.spacing_base),
-        if (viewModel.lastComment != null) _LastComment(comment: viewModel.lastComment!),
+        if (viewModel.lastComment != null) Comment(comment: viewModel.lastComment!),
         if (viewModel.lastComment == null) Text(Strings.noComments, style: TextStyles.textBaseRegular),
-      ],
-    );
-  }
-}
-
-class _LastComment extends StatelessWidget {
-  final Commentaire comment;
-
-  _LastComment({required this.comment});
-
-  @override
-  Widget build(BuildContext context) {
-    final creatorName = comment.createdByAdvisor ? Strings.createdByAdvisor(comment.creatorName ?? "") : Strings.you;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(creatorName, style: TextStyles.textBaseMedium),
-            Text(" · ", style: TextStyles.textBaseBold),
-            Text(comment.getDayDate() ?? "", style: TextStyles.textBaseRegular),
-          ],
+        SizedBox(height: Margins.spacing_xl),
+        SecondaryButton(
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => ActionCommentairesPage(actionTitle, viewModel.comments)),
+          ),
+          label: commentsNumber < 1 ? Strings.addComment : Strings.seeNComments(commentsNumber.toString()),
         ),
-        SizedBox(height: Margins.spacing_base),
-        Text(comment.content ?? "", style: TextStyles.textBaseRegular),
       ],
     );
   }
