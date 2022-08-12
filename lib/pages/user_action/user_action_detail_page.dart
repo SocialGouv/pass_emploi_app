@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/features/user_action/update/user_action_update_s
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -23,6 +24,8 @@ import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/date_echeance_in_detail.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/loader.dart';
+import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
@@ -60,7 +63,6 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
           onInit: (store) {
             store.dispatch(UserActionNotUpdatingState());
             store.dispatch(UserActionDeleteResetAction());
-            store.dispatch(ActionCommentaireListRequestAction(actionViewModel.id));
           },
           converter: (store) => UserActionDetailsViewModel.create(store, actionViewModel.id),
           builder: (context, detailsViewModel) => _build(context, detailsViewModel),
@@ -108,7 +110,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
                   SizedBox(height: Margins.spacing_xl),
                   _Separator(),
                   SizedBox(height: Margins.spacing_base),
-                  _CommentCard(lastComment: detailsViewModel.lastComment),
+                  _CommentCard(actionId: actionViewModel.id),
                   SizedBox(height: Margins.spacing_xl),
                   _Separator(),
                   SizedBox(height: Margins.spacing_base),
@@ -313,19 +315,39 @@ class _DeleteAction extends StatelessWidget {
 }
 
 class _CommentCard extends StatelessWidget {
-  final Commentaire? lastComment;
+  final String actionId;
 
-  _CommentCard({required this.lastComment});
+  _CommentCard({required this.actionId});
 
   @override
   Widget build(BuildContext context) {
+    return StoreConnector<AppState, ActionCommentaireViewModel>(
+      onInit: (store) => store.dispatch(ActionCommentaireListRequestAction(actionId)),
+      converter: (store) => ActionCommentaireViewModel.create(store, actionId),
+      builder: (context, viewModel) => _build(viewModel),
+      distinct: true,
+    );
+  }
+
+  Widget _build(ActionCommentaireViewModel viewModel) {
+    switch (viewModel.displayState) {
+      case DisplayState.CONTENT:
+        return _content(viewModel);
+      case DisplayState.LOADING:
+        return loader();
+      default:
+        return Center(child: Retry(Strings.miscellaneousErrorRetry, () => viewModel.onRetry()));
+    }
+  }
+
+  Widget _content(ActionCommentaireViewModel viewModel) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(Strings.lastComment, style: TextStyles.textBaseBold),
         SizedBox(height: Margins.spacing_base),
-        if (lastComment != null) _LastComment(comment: lastComment!),
-        if (lastComment == null) Text(Strings.noComments, style: TextStyles.textBaseRegular),
+        if (viewModel.lastComment != null) _LastComment(comment: viewModel.lastComment!),
+        if (viewModel.lastComment == null) Text(Strings.noComments, style: TextStyles.textBaseRegular),
       ],
     );
   }

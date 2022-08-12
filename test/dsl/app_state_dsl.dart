@@ -13,7 +13,6 @@ import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
-import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/message.dart';
@@ -130,14 +129,22 @@ extension AppStateDSL on AppState {
   }
 
   AppState actionWithComments() {
-    return copyWith(
-        actionCommentaireListState: ActionCommentaireListSuccessState(mockCommentaires()),
-        userActionListState: UserActionListSuccessState([mockUserAction(id: "id")]));
+    return copyWith(actionCommentaireListState: ActionCommentaireListSuccessState(mockCommentaires()));
   }
 
   AppState actionWithoutComments() {
-    return copyWith(
-        actionCommentaireListState: ActionCommentaireListSuccessState([]),
-        userActionListState: UserActionListSuccessState([mockUserAction(id: "id")]));
+    return copyWith(actionCommentaireListState: ActionCommentaireListSuccessState([]));
+  }
+
+  AppState actionCommentsFailureState() {
+    return copyWith(actionCommentaireListState: ActionCommentaireListFailureState());
+  }
+
+  AppState actionCommentsLoadingState() {
+    return copyWith(actionCommentaireListState: ActionCommentaireListLoadingState());
+  }
+
+  AppState actionCommentsNotInitState() {
+    return copyWith(actionCommentaireListState: ActionCommentaireListNotInitializedState());
   }
 }
