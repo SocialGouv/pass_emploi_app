@@ -20,7 +20,7 @@ void main() {
       final repository = ActionCommentaireRepository("BASE_URL", httpClient);
 
       // When
-      final  result = await repository.getCommentaires("actionId");
+      final result = await repository.getCommentaires("actionId");
 
       // Then
       expect(result, isNotNull);
@@ -28,21 +28,21 @@ void main() {
       expect(
         result?[0],
         Commentaire(
-          id: "8802034",
-          content: "Deuxieme commentaire",
-          creationDate: parseDateTimeUtcWithCurrentTimeZone("2022-07-23T17:08:10.000"),
-          createdByAdvisor: false,
-          creatorName: null,
-        ),
-      );
-      expect(
-        result?[1],
-        Commentaire(
           id: "8392839",
           content: "Premier commentaire",
           creationDate: parseDateTimeUtcWithCurrentTimeZone("2022-07-23T12:08:10.000"),
           createdByAdvisor: true,
           creatorName: "Nils Tavernier",
+        ),
+      );
+      expect(
+        result?[1],
+        Commentaire(
+          id: "8802034",
+          content: "Deuxieme commentaire",
+          creationDate: parseDateTimeUtcWithCurrentTimeZone("2022-07-23T17:08:10.000"),
+          createdByAdvisor: false,
+          creatorName: null,
         ),
       );
     });

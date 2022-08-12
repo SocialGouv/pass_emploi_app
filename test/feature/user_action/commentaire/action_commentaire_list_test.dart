@@ -26,7 +26,7 @@ void main() {
     expect(appState.actionCommentaireListState is ActionCommentaireListSuccessState, isTrue);
     expect((appState.actionCommentaireListState as ActionCommentaireListSuccessState).comments.length, 2);
     expect((appState.actionCommentaireListState as ActionCommentaireListSuccessState).comments[0].content,
-        "Deuxieme commentaire");
+        "Premier commentaire");
   });
 
   test("comments should display an error when fetching failed", () async {

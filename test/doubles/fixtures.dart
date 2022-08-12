@@ -357,17 +357,17 @@ PartageActivite mockPartageActivite({required bool favoriShared}) => PartageActi
 
 List<Commentaire> mockCommentaires() => [
       Commentaire(
-        id: "8802034",
-        content: "Deuxieme commentaire",
-        creationDate: parseDateTimeUtcWithCurrentTimeZone("2022-07-23T17:08:10.000"),
-        createdByAdvisor: false,
-        creatorName: null,
-      ),
-      Commentaire(
         id: "8392839",
         content: "Premier commentaire",
         creationDate: parseDateTimeUtcWithCurrentTimeZone("2022-07-23T12:08:10.000"),
         createdByAdvisor: true,
         creatorName: "Nils Tavernier",
       ),
+      Commentaire(
+        id: "8802034",
+        content: "Deuxieme commentaire",
+        creationDate: parseDateTimeUtcWithCurrentTimeZone("2022-07-23T17:08:10.000"),
+        createdByAdvisor: false,
+        creatorName: null,
+      )
     ];
