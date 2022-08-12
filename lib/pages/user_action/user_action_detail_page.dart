@@ -65,7 +65,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
           },
           converter: (store) => UserActionDetailsViewModel.create(store, actionViewModel.id),
           builder: (context, detailsViewModel) => _build(context, detailsViewModel),
-          onWillChange: (previousVm, newVm) => _dismissBottomSheetIfNeeded(context, newVm),
+          onWillChange: (previousVm, newVm) => _bottomSheetHandling(context, newVm),
           distinct: true,
         ),
       ),
@@ -142,7 +142,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
     }
   }
 
-  void _dismissBottomSheetIfNeeded(BuildContext context, UserActionDetailsViewModel viewModel) {
+  void _bottomSheetHandling(BuildContext context, UserActionDetailsViewModel viewModel) {
     if (viewModel.displayState == UserActionDetailsDisplayState.SHOW_SUCCESS) {
       showPassEmploiBottomSheet(context: context, builder: _successBottomSheet).then((value) => Navigator.pop(context));
     } else if (viewModel.displayState == UserActionDetailsDisplayState.TO_DISMISS) {
