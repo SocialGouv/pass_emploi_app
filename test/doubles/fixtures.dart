@@ -360,12 +360,14 @@ List<Commentaire> mockCommentaires() => [
         id: "8802034",
         content: "Deuxieme commentaire",
         creationDate: parseDateTimeUtcWithCurrentTimeZone("2022-07-23T17:08:10.000"),
-        creator: JeuneActionCreator(),
+        createdByAdvisor: false,
+        creatorName: null,
       ),
       Commentaire(
         id: "8392839",
         content: "Premier commentaire",
         creationDate: parseDateTimeUtcWithCurrentTimeZone("2022-07-23T12:08:10.000"),
-        creator: ConseillerActionCreator(name: "Nils Tavernier"),
+        createdByAdvisor: true,
+        creatorName: "Nils Tavernier",
       ),
     ];

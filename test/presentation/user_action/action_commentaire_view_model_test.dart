@@ -1,7 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_actions.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
-import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
 
@@ -24,7 +23,8 @@ void main() {
         id: "8802034",
         content: "Deuxieme commentaire",
         creationDate: parseDateTimeUtcWithCurrentTimeZone("2022-07-23T17:08:10.000"),
-        creator: JeuneActionCreator(),
+        createdByAdvisor: false,
+        creatorName: null,
       ),
     );
   });

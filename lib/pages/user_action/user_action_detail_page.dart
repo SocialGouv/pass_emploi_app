@@ -9,7 +9,6 @@ import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_a
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
-import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
@@ -360,9 +359,7 @@ class _LastComment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final creatorName = comment.creator is ConseillerActionCreator
-        ? Strings.createdByAdvisor((comment.creator as ConseillerActionCreator).name)
-        : Strings.you;
+    final creatorName = comment.createdByAdvisor ? Strings.createdByAdvisor(comment.creatorName ?? "") : Strings.you;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
