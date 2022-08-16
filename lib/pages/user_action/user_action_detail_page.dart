@@ -332,10 +332,10 @@ class _CommentCard extends StatelessWidget {
     switch (viewModel.displayState) {
       case DisplayState.CONTENT:
         return _content(viewModel);
-      case DisplayState.LOADING:
-        return loader();
-      default:
+      case DisplayState.FAILURE:
         return Center(child: Retry(Strings.miscellaneousErrorRetry, () => viewModel.onRetry()));
+      default:
+        return loader();
     }
   }
 
