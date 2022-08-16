@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_actions.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
+import 'package:pass_emploi_app/presentation/user_action/commentaires/action_commentaire_view_model.dart';
 
 import '../../doubles/spies.dart';
 import '../../dsl/app_state_dsl.dart';

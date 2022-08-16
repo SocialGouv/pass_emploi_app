@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/features/user_action/update/user_action_update_s
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/pages/user_action/action_commentaires_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/user_action/commentaires/action_commentaire_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
