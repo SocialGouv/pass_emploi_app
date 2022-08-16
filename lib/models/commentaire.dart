@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 class Commentaire extends Equatable {
   final String id;
-  final String? content;
+  final String content;
   final DateTime? creationDate;
   final bool createdByAdvisor;
   final String? creatorName;
@@ -20,7 +20,7 @@ class Commentaire extends Equatable {
   factory Commentaire.fromJson(dynamic json) {
     return Commentaire(
       id: json['id'] as String,
-      content: json['message'] as String?,
+      content: json['message'] as String,
       creationDate: (json['date'] as String?)?.toDateTimeUtcOnLocalTimeZone(),
       createdByAdvisor: _creator(json),
       creatorName: _creator(json) ? _creatorName(json) : null,

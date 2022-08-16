@@ -217,9 +217,12 @@ class Strings {
   static String rappelSwitch = 'Recevoir une notification de rappel 3 jours avant l’échéance';
 
   // Commentaires d'action
+  static String actionCommentsTitle = "Commentaire de l’action";
   static String lastComment = "Dernier commentaire";
   static String noComments = "Vous n’avez pas encore de commentaire";
   static String createdByAdvisor(String advisor) => "Votre conseiller $advisor";
+  static String addComment = "Ajouter un commentaire";
+  static String seeNComments(String n) => "Voir les $n commentaires";
 
   // Demarches
   static String modifierStatut = "Modifier le statut";

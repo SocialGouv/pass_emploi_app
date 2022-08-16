@@ -95,7 +95,7 @@ class ActionCommentaireViewModel extends Equatable {
         : [];
     return ActionCommentaireViewModel._(
       comments: commentsList,
-      lastComment: commentsList.isNotEmpty ? commentsList.first : null,
+      lastComment: commentsList.isNotEmpty ? commentsList.last : null,
       displayState: _commentDisplayState(commentState),
       onRetry: () => store.dispatch(ActionCommentaireListRequestAction(userActionId)),
     );
