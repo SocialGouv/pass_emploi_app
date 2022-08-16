@@ -52,6 +52,7 @@ import 'package:pass_emploi_app/features/tech/crashlytics_middleware.dart';
 import 'package:pass_emploi_app/features/tracking/tracking_event_middleware.dart';
 import 'package:pass_emploi_app/features/tracking/user_tracking_structure_middleware.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_middleware.dart';
+import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_middleware.dart';
@@ -61,6 +62,7 @@ import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
@@ -138,6 +140,7 @@ class StoreFactory {
   final TutorialRepository tutorialRepository;
   final PartageActiviteRepository partageActiviteRepository;
   final RatingRepository ratingRepository;
+  final ActionCommentaireRepository actionCommentaireRepository;
 
   StoreFactory(
     this.authenticator,
@@ -180,6 +183,7 @@ class StoreFactory {
     this.tutorialRepository,
     this.partageActiviteRepository,
     this.ratingRepository,
+    this.actionCommentaireRepository,
   );
 
   redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -240,6 +244,7 @@ class StoreFactory {
         PartageActiviteMiddleware(partageActiviteRepository),
         PartageActiviteUpdateMiddleware(partageActiviteRepository),
         RatingMiddleware(ratingRepository, detailsJeuneRepository),
+        ActionCommentaireListMiddleware(actionCommentaireRepository),
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),
       ],

@@ -216,6 +216,11 @@ class Strings {
   static String doneActionsTitle = "Actions terminées et annulées";
   static String rappelSwitch = 'Recevoir une notification de rappel 3 jours avant l’échéance';
 
+  // Commentaires d'action
+  static String lastComment = "Dernier commentaire";
+  static String noComments = "Vous n’avez pas encore de commentaire";
+  static String createdByAdvisor(String advisor) => "Votre conseiller $advisor";
+
   // Demarches
   static String modifierStatut = "Modifier le statut";
   static String historiqueDemarche = "Historique";

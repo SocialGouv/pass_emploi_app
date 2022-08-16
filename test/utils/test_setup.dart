@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/redux/store_factory.dart';
+import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
@@ -85,6 +86,7 @@ class TestStoreFactory {
   TutorialRepository tutorialRepository = DummyTutorialRepository();
   PartageActiviteRepository partageActiviteRepository = DummyPartageActiviteRepository();
   RatingRepository ratingRepository = DummyRatingRepository();
+  ActionCommentaireRepository actionCommentaireRepository = DummyActionCommentaireRepository();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
@@ -128,6 +130,7 @@ class TestStoreFactory {
       tutorialRepository,
       partageActiviteRepository,
       ratingRepository,
+      actionCommentaireRepository,
     ).initializeReduxStore(initialState: initialState);
   }
 }

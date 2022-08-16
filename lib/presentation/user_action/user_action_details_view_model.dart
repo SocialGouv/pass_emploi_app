@@ -1,12 +1,16 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_actions.dart';
+import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
+import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -68,7 +72,37 @@ class UserActionDetailsViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [displayState];
+  List<Object?> get props => [displayState, dateEcheanceViewModel];
+}
+
+class ActionCommentaireViewModel extends Equatable {
+  final List<Commentaire> comments;
+  final Commentaire? lastComment;
+  final DisplayState displayState;
+  final Function() onRetry;
+
+  ActionCommentaireViewModel._({
+    required this.comments,
+    required this.lastComment,
+    required this.displayState,
+    required this.onRetry,
+  });
+
+  factory ActionCommentaireViewModel.create(Store<AppState> store, String userActionId) {
+    final commentState = store.state.actionCommentaireListState;
+    final List<Commentaire> commentsList = commentState is ActionCommentaireListSuccessState
+        ? (store.state.actionCommentaireListState as ActionCommentaireListSuccessState).comments
+        : [];
+    return ActionCommentaireViewModel._(
+      comments: commentsList,
+      lastComment: commentsList.isNotEmpty ? commentsList.first : null,
+      displayState: _commentDisplayState(commentState),
+      onRetry: () => store.dispatch(ActionCommentaireListRequestAction(userActionId)),
+    );
+  }
+
+  @override
+  List<Object?> get props => [displayState, comments, lastComment];
 }
 
 UserActionDetailDateEcheanceViewModel? _dateEcheanceViewModel(UserAction userAction, bool isLate) {
@@ -107,6 +141,12 @@ UserActionDetailsDisplayState _displayState(AppState state) {
   } else {
     return UserActionDetailsDisplayState.SHOW_CONTENT;
   }
+}
+
+DisplayState _commentDisplayState(ActionCommentaireListState state) {
+  if (state is ActionCommentaireListFailureState) return DisplayState.FAILURE;
+  if (state is ActionCommentaireListSuccessState) return DisplayState.CONTENT;
+  return DisplayState.LOADING;
 }
 
 void _refreshStatus(Store<AppState> store, String actionId, UserActionStatus newStatus) {

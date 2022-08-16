@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
+import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
@@ -353,3 +354,20 @@ Demarche mockDemarche({
 }
 
 PartageActivite mockPartageActivite({required bool favoriShared}) => PartageActivite(partageFavoris: favoriShared);
+
+List<Commentaire> mockCommentaires() => [
+      Commentaire(
+        id: "8802034",
+        content: "Deuxieme commentaire",
+        creationDate: parseDateTimeUtcWithCurrentTimeZone("2022-07-23T17:08:10.000"),
+        createdByAdvisor: false,
+        creatorName: null,
+      ),
+      Commentaire(
+        id: "8392839",
+        content: "Premier commentaire",
+        creationDate: parseDateTimeUtcWithCurrentTimeZone("2022-07-23T12:08:10.000"),
+        createdByAdvisor: true,
+        creatorName: "Nils Tavernier",
+      ),
+    ];

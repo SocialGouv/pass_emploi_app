@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
+import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
@@ -16,6 +17,7 @@ import 'package:pass_emploi_app/models/requests/user_action_create_request.dart'
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
+import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
@@ -59,7 +61,10 @@ class PageActionRepositorySuccessStub extends PageActionRepository {
 
   @override
   Future<bool> createUserAction(String userId, UserActionCreateRequest request) async {
-    return userId == "id" && request.content == "content" && request.comment == "comment" && request.initialStatus == UserActionStatus.NOT_STARTED;
+    return userId == "id" &&
+        request.content == "content" &&
+        request.comment == "comment" &&
+        request.initialStatus == UserActionStatus.NOT_STARTED;
   }
 
   @override
@@ -402,5 +407,23 @@ class PieceJointeRepositoryUnavailableStub extends PieceJointeRepository {
   @override
   Future<String?> download({required String fileId, required String fileName}) async {
     return "ERROR: 404";
+  }
+}
+
+class ActionCommentaireRepositorySuccessStub extends ActionCommentaireRepository {
+  ActionCommentaireRepositorySuccessStub() : super("", DummyHttpClient());
+
+  @override
+  Future<List<Commentaire>?> getCommentaires(String actionId) async {
+    return mockCommentaires();
+  }
+}
+
+class ActionCommentaireRepositoryFailureStub extends ActionCommentaireRepository {
+  ActionCommentaireRepositoryFailureStub() : super("", DummyHttpClient());
+
+  @override
+  Future<List<Commentaire>?> getCommentaires(String actionId) async {
+    return null;
   }
 }

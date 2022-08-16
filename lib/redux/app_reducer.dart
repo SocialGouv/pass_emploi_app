@@ -36,6 +36,7 @@ import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_red
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_reducer.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_reducer.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_reducer.dart';
+import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_reducer.dart';
@@ -119,5 +120,6 @@ AppState reducer(AppState current, dynamic action) {
     partageActiviteState: partageActiviteReducer(current.partageActiviteState, action),
     partageActiviteUpdateState: partageActiviteUpdateReducer(current.partageActiviteUpdateState, action),
     ratingState: ratingReducer(current.ratingState, action),
+    actionCommentaireListState: actionCommentaireListReducer(current.actionCommentaireListState, action),
   );
 }
