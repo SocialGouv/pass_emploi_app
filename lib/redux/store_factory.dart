@@ -52,6 +52,7 @@ import 'package:pass_emploi_app/features/tech/crashlytics_middleware.dart';
 import 'package:pass_emploi_app/features/tracking/tracking_event_middleware.dart';
 import 'package:pass_emploi_app/features/tracking/user_tracking_structure_middleware.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_middleware.dart';
+import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_middleware.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_middleware.dart';
@@ -245,6 +246,7 @@ class StoreFactory {
         PartageActiviteUpdateMiddleware(partageActiviteRepository),
         RatingMiddleware(ratingRepository, detailsJeuneRepository),
         ActionCommentaireListMiddleware(actionCommentaireRepository),
+        ActionCommentaireCreateMiddleware(actionCommentaireRepository),
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),
       ],
