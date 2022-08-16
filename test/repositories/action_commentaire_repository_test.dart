@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
+import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 
 import '../doubles/fixtures.dart';
@@ -57,6 +58,44 @@ void main() {
 
       // Then
       expect(search, isNull);
+    });
+  });
+
+  group('sendCommentaires', () {
+    test('should return true when successfully sent comment', () async {
+      // Given
+      final httpClient = PassEmploiMockClient((request) async {
+        if (request.method != 'POST') return invalidHttpResponse();
+        if (!request.url.toString().startsWith("BASE_URL/actions/actionId/commentaires")) return invalidHttpResponse();
+        final requestJson = jsonUtf8Decode(request.bodyBytes);
+        if (requestJson['commentaire'] != 'Commentaire à envoyer') return invalidHttpResponse();
+        return Response('', 200);
+      });
+      final repository = ActionCommentaireRepository('BASE_URL', httpClient);
+
+      // When
+      final result = await repository.sendCommentaire(
+        actionId: 'actionId',
+        comment: 'Commentaire à envoyer',
+      );
+
+      // Then
+      expect(result, true);
+    });
+
+    test('should return false when failed to send comment', () async {
+      // Given
+      final httpClient = PassEmploiMockClient((request) async => Response('', 500));
+      final repository = ActionCommentaireRepository('BASE_URL', httpClient);
+
+      // When
+      final result = await repository.sendCommentaire(
+        actionId: 'actionId',
+        comment: 'Commentaire à envoyer',
+      );
+
+      // Then
+      expect(result, false);
     });
   });
 }
