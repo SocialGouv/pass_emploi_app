@@ -5,5 +5,6 @@ ActionCommentaireCreateState actionCommentaireCreateReducer(ActionCommentaireCre
   if (action is ActionCommentaireCreateLoadingAction) return ActionCommentaireCreateLoadingState();
   if (action is ActionCommentaireCreateFailureAction) return ActionCommentaireCreateFailureState(action.comment);
   if (action is ActionCommentaireCreateSuccessAction) return ActionCommentaireCreateSuccessState();
+  if (action is ActionCommentaireCreateResetAction) return ActionCommentaireCreateNotInitializedState();
   return current;
 }

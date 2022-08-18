@@ -44,6 +44,7 @@ class _ActionCommentairesPageState extends State<ActionCommentairesPage> {
         onDidChange: (oldViewModel, newViewModel) {
           if (newViewModel.errorOnSend) showFailedSnackBar(context, Strings.sendCommentError);
         },
+        onDispose: (store) => store.dispatch(ActionCommentaireCreateResetAction()),
         distinct: true,
       ),
     );

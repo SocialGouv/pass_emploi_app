@@ -63,5 +63,6 @@ void main() {
     expect(await displayedLoading, true);
     final failure = await failureAppState;
     expect(failure.actionCommentaireCreateState is ActionCommentaireCreateFailureState, isTrue);
+    expect((failure.actionCommentaireCreateState as ActionCommentaireCreateFailureState).comment, "commentaire");
   });
 }
