@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/pages/agenda_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_list_page.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_list_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_list_page.dart';
@@ -14,7 +15,7 @@ import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_tab_bar.dart';
 
-enum MonSuiviTab { ACTIONS, RENDEZVOUS }
+enum MonSuiviTab { AGENDA, ACTIONS, RENDEZVOUS }
 
 const int _indexOfMesActionsTab = 0;
 
@@ -25,12 +26,23 @@ class MonSuiviTabPage extends StatelessWidget {
 
   MonSuiviTabPage({required this.initialTab, required this.isPoleEmploiLogin}) : super();
 
+  int _indexOfTab(MonSuiviTab tab) {
+    switch (tab) {
+      case MonSuiviTab.AGENDA:
+        return 0;
+      case MonSuiviTab.ACTIONS:
+        return 1;
+      case MonSuiviTab.RENDEZVOUS:
+        return 2;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    _currentTab = initialTab == MonSuiviTab.ACTIONS ? 0 : 1;
+    _currentTab = _indexOfTab(initialTab);
     final store = StoreProvider.of<AppState>(context);
     return DefaultTabController(
-      initialIndex: initialTab == MonSuiviTab.ACTIONS ? 0 : 1,
+      initialIndex: _indexOfTab(initialTab),
       length: _getTabTitles().length,
       child: Builder(builder: (context) {
         _trackTabIfNeeded(context);
@@ -75,6 +87,7 @@ class MonSuiviTabPage extends StatelessWidget {
   }
 
   List<String> _getTabTitles() => [
+        Strings.agendaTabTitle,
         isPoleEmploiLogin ? Strings.demarcheTabTitle : Strings.actionsTabTitle,
         Strings.rendezvousTabTitle,
       ];
@@ -82,6 +95,7 @@ class MonSuiviTabPage extends StatelessWidget {
   Widget _setTabContent() {
     return TabBarView(
       children: [
+        AgendaPage(),
         isPoleEmploiLogin ? DemarcheListPage() : UserActionListPage(),
         RendezvousListPage(),
       ],
