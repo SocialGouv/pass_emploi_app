@@ -1,0 +1,46 @@
+{
+  "actions": [
+    {
+      "id": "6fb6fe3b-5ee5-4b67-8372-31457fc78947",
+      "comment": "",
+      "content": "Revoir KV1",
+      "creationDate": "Thu, 18 Aug 2022 13:53:43 UTC",
+      "creator": "Jordan Chapuy",
+      "creatorType": "jeune",
+      "lastUpdate": "Thu, 18 Aug 2022 13:53:43 UTC",
+      "status": "not_started",
+      "dateEcheance": "2022-08-20T07:30:00.000Z"
+    }
+  ],
+  "rendezVous": [
+    {
+      "id": "145631e8-7230-4b04-bcfc-d48ec358689a",
+      "date": "2022-08-21T03:00:00.000Z",
+      "isLocaleDate": false,
+      "modality": "par visio",
+      "duration": 120,
+      "title": "",
+      "jeune": {
+        "id": "JOCH",
+        "nom": "Chapuy",
+        "prenom": "Jordan"
+      },
+      "type": {
+        "code": "VISITE",
+        "label": "Visite"
+      },
+      "presenceConseiller": true,
+      "invitation": false,
+      "createur": {
+        "id": "1",
+        "nom": "Tavernier",
+        "prenom": "Nils"
+      },
+      "conseiller": {
+        "id": "1",
+        "nom": "Tavernier",
+        "prenom": "Nils"
+      }
+    }
+  ]
+}
