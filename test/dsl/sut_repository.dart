@@ -13,15 +13,21 @@ class SUT<REPO> {
   late Future<dynamic> Function(REPO) _when;
 
   void givenResponse({required String fromJson}) {
-    _response = Response.bytes(loadTestAssetsAsBytes(fromJson), 200);
+    setUp(() {
+      return _response = Response.bytes(loadTestAssetsAsBytes(fromJson), 200);
+    });
   }
 
   void given201Response() {
-    _response = Response('', 201);
+    setUp(() {
+      return _response = Response('', 201);
+    });
   }
 
   void givenInvalidResponse() {
-    _response = invalidHttpResponse();
+    setUp(() {
+      _response = invalidHttpResponse();
+    });
   }
 
   Client _makeClient() {
@@ -32,11 +38,11 @@ class SUT<REPO> {
   }
 
   void givenRepository(REPO Function(Client) createRepository) {
-    _repository = createRepository(_makeClient());
+    setUp(() => _repository = createRepository(_makeClient()));
   }
 
   void when(Future<dynamic> Function(REPO) when) {
-    _when = when;
+    setUp(() => _when = when);
   }
 
   Future<void> expectRequestBody({required String method, required String url, Map<String, dynamic>? params}) async {
