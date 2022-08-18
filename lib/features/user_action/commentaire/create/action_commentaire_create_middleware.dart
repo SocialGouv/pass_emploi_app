@@ -19,7 +19,7 @@ class ActionCommentaireCreateMiddleware extends MiddlewareClass<AppState> {
         store.dispatch(ActionCommentaireCreateSuccessAction());
         store.dispatch(ActionCommentaireListRequestAction(action.actionId));
       } else {
-        store.dispatch(ActionCommentaireCreateFailureAction());
+        store.dispatch(ActionCommentaireCreateFailureAction(action.comment));
       }
     }
   }

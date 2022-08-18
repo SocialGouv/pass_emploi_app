@@ -9,4 +9,10 @@ class ActionCommentaireCreateLoadingAction {}
 
 class ActionCommentaireCreateSuccessAction {}
 
-class ActionCommentaireCreateFailureAction {}
+class ActionCommentaireCreateFailureAction {
+  final String comment;
+
+  ActionCommentaireCreateFailureAction(this.comment);
+}
+
+class ActionCommentaireCreateResetAction {}

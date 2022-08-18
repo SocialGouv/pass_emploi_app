@@ -3,7 +3,7 @@ import 'package:pass_emploi_app/features/user_action/commentaire/create/action_c
 
 ActionCommentaireCreateState actionCommentaireCreateReducer(ActionCommentaireCreateState current, dynamic action) {
   if (action is ActionCommentaireCreateLoadingAction) return ActionCommentaireCreateLoadingState();
-  if (action is ActionCommentaireCreateFailureAction) return ActionCommentaireCreateFailureState();
+  if (action is ActionCommentaireCreateFailureAction) return ActionCommentaireCreateFailureState(action.comment);
   if (action is ActionCommentaireCreateSuccessAction) return ActionCommentaireCreateSuccessState();
   return current;
 }

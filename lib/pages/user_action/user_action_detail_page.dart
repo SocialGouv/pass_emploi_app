@@ -335,7 +335,7 @@ class _CommentCard extends StatelessWidget {
   Widget _build(BuildContext context, ActionCommentaireViewModel viewModel) {
     switch (viewModel.displayState) {
       case DisplayState.CONTENT:
-        return _content(context, viewModel, actionTitle);
+        return _content(context, viewModel, actionId, actionTitle);
       case DisplayState.FAILURE:
         return Center(child: Retry(Strings.miscellaneousErrorRetry, () => viewModel.onRetry()));
       default:
@@ -343,7 +343,7 @@ class _CommentCard extends StatelessWidget {
     }
   }
 
-  Widget _content(BuildContext context, ActionCommentaireViewModel viewModel, String actionTitle) {
+  Widget _content(BuildContext context, ActionCommentaireViewModel viewModel, String actionId, String actionTitle) {
     final commentsNumber = viewModel.comments.length;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -356,7 +356,8 @@ class _CommentCard extends StatelessWidget {
         SecondaryButton(
           onPressed: () => Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ActionCommentairesPage(actionTitle, viewModel.comments)),
+            MaterialPageRoute(
+                builder: (context) => ActionCommentairesPage(actionId: actionId, actionTitle: actionTitle)),
           ),
           label: commentsNumber < 1 ? Strings.addComment : Strings.seeNComments(commentsNumber.toString()),
         ),

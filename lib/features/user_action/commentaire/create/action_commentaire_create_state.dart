@@ -6,4 +6,8 @@ class ActionCommentaireCreateLoadingState extends ActionCommentaireCreateState {
 
 class ActionCommentaireCreateSuccessState extends ActionCommentaireCreateState {}
 
-class ActionCommentaireCreateFailureState extends ActionCommentaireCreateState {}
+class ActionCommentaireCreateFailureState extends ActionCommentaireCreateState {
+  final String comment;
+
+  ActionCommentaireCreateFailureState(this.comment);
+}
