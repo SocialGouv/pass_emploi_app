@@ -4,9 +4,9 @@ import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action/commentaires/action_commentaire_view_model.dart';
 
-import '../../doubles/spies.dart';
-import '../../dsl/app_state_dsl.dart';
-import '../../utils/test_datetime.dart';
+import '../../../doubles/spies.dart';
+import '../../../dsl/app_state_dsl.dart';
+import '../../../utils/test_datetime.dart';
 
 void main() {
   test("when action has comments should display the last comment", () {
