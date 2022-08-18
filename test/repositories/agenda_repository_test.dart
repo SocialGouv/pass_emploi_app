@@ -6,18 +6,21 @@ import '../dsl/sut_repository.dart';
 
 void main() {
   group('AgendaRepository', () {
-    group('getAgenda', () {
-      group('when response is valid', () {
-        final sut = SUT<AgendaRepository>();
-        sut.givenRepository((client) => AgendaRepository("BASE_URL", client));
-        sut.givenResponse(fromJson: "agenda.json");
+    final sut = SUT<AgendaRepository>();
+    setUp(() => sut.givenRepository((client) => AgendaRepository("BASE_URL", client)));
 
+    group('getAgenda', () {
+      setUp(() {
         sut.when(
           (repository) => repository.getAgenda(
             "UID",
             DateTime.utc(2022, 7, 7),
           ),
         );
+      });
+
+      group('when response is valid', () {
+        setUp(() => sut.givenResponse(fromJson: "agenda.json"));
 
         test('request should be valid', () async {
           await sut.expectRequestBody(
@@ -38,16 +41,7 @@ void main() {
       });
 
       group('when response is invalid', () {
-        final sut = SUT<AgendaRepository>();
-        sut.givenRepository((client) => AgendaRepository("BASE_URL", client));
-        sut.givenInvalidResponse();
-
-        sut.when(
-          (repository) => repository.getAgenda(
-            "UID",
-            DateTime.utc(2022, 7, 7),
-          ),
-        );
+        setUp(() => sut.givenInvalidResponse());
 
         test('response should be null', () async {
           await sut.expectResult<Agenda?>((result) {
