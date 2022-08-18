@@ -18,8 +18,8 @@ class Comment extends StatelessWidget {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Flexible(child: Text(creatorName, style: TextStyles.textBaseMedium)),
-            Text("  ·  ", style: TextStyles.textBaseMedium),
+            Flexible(child: Text(creatorName, style: TextStyles.textBaseMediumBold)),
+            Text("  ·  ", style: TextStyles.textBaseMediumBold),
             Text(comment.getDayDate() ?? "", style: TextStyles.textBaseRegular),
           ],
         ),

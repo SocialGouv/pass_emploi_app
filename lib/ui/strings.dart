@@ -186,8 +186,8 @@ class Strings {
   static String aboutThisAction = "À propos de cette action";
   static String actionDetails = "Détail de l'action";
   static String demarcheDetails = "Détail de la démarche";
-  static String updateStatus = "Changer le statut";
-  static String refreshActionStatus = "Actualiser";
+  static String updateStatus = "Modifier le statut";
+  static String refreshActionStatus = "Valider le statut";
   static const String actionToDo = "À réaliser";
   static const String actionInProgress = "Commencée";
   static String noActionsYet = "Vous n'avez pas encore d’actions";
