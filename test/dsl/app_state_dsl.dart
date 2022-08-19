@@ -1,4 +1,5 @@
 import 'package:pass_emploi_app/configuration/configuration.dart';
+import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
@@ -19,6 +20,7 @@ import 'package:pass_emploi_app/features/user_action/commentaire/list/action_com
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
+import 'package:pass_emploi_app/models/agenda.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
@@ -33,7 +35,8 @@ import '../doubles/fixtures.dart';
 import '../doubles/spies.dart';
 import '../utils/test_setup.dart';
 
-AppState givenState([Configuration? configuration]) => AppState.initialState(configuration: configuration);
+AppState givenState([Configuration? configuration]) =>
+    AppState.initialState(configuration: configuration);
 
 extension AppStateDSL on AppState {
   Store<AppState> store([Function(TestStoreFactory)? foo]) {
@@ -46,46 +49,61 @@ extension AppStateDSL on AppState {
 
   AppState loggedInUser() => copyWith(loginState: successMiloUserState());
 
-  AppState deepLink(DeepLinkState deepLinkState) => copyWith(deepLinkState: deepLinkState);
+  AppState deepLink(DeepLinkState deepLinkState) =>
+      copyWith(deepLinkState: deepLinkState);
 
   AppState loggedInMiloUser() => copyWith(loginState: successMiloUserState());
 
-  AppState loggedInPoleEmploiUser() => copyWith(loginState: successPoleEmploiUserState());
+  AppState loggedInPoleEmploiUser() =>
+      copyWith(loginState: successPoleEmploiUserState());
 
-  AppState rendezvous(List<Rendezvous> rendezvous) => copyWith(rendezvousState: RendezvousState.successful(rendezvous));
+  AppState rendezvous(List<Rendezvous> rendezvous) =>
+      copyWith(rendezvousState: RendezvousState.successful(rendezvous));
 
-  AppState rendezvousNotInitialized() => copyWith(rendezvousState: RendezvousState.notInitialized());
+  AppState rendezvousNotInitialized() =>
+      copyWith(rendezvousState: RendezvousState.notInitialized());
 
-  AppState loadingFutureRendezvous() => copyWith(rendezvousState: RendezvousState.loadingFuture());
+  AppState loadingFutureRendezvous() =>
+      copyWith(rendezvousState: RendezvousState.loadingFuture());
 
-  AppState failedFutureRendezvous() => copyWith(rendezvousState: RendezvousState.failedFuture());
+  AppState failedFutureRendezvous() =>
+      copyWith(rendezvousState: RendezvousState.failedFuture());
 
-  AppState loadingPastRendezvous() => copyWith(rendezvousState: RendezvousState.loadingPast());
+  AppState loadingPastRendezvous() =>
+      copyWith(rendezvousState: RendezvousState.loadingPast());
 
-  AppState failedPastRendezvous() => copyWith(rendezvousState: RendezvousState.failedPast());
+  AppState failedPastRendezvous() =>
+      copyWith(rendezvousState: RendezvousState.failedPast());
 
-  AppState campagne(Campagne campagne) => copyWith(campagneState: CampagneState(campagne, []));
+  AppState campagne(Campagne campagne) =>
+      copyWith(campagneState: CampagneState(campagne, []));
 
-  AppState piecesJointesWithIdOneSuccess() =>
-      copyWith(piecesJointesState: PiecesJointesState({"id-1": PieceJointeStatus.success}));
+  AppState piecesJointesWithIdOneSuccess() => copyWith(
+      piecesJointesState:
+          PiecesJointesState({"id-1": PieceJointeStatus.success}));
 
-  AppState piecesJointesLoading(String id) =>
-      copyWith(piecesJointesState: PiecesJointesState({id: PieceJointeStatus.loading}));
+  AppState piecesJointesLoading(String id) => copyWith(
+      piecesJointesState: PiecesJointesState({id: PieceJointeStatus.loading}));
 
-  AppState piecesJointesFailure(String id) =>
-      copyWith(piecesJointesState: PiecesJointesState({id: PieceJointeStatus.failure}));
+  AppState piecesJointesFailure(String id) => copyWith(
+      piecesJointesState: PiecesJointesState({id: PieceJointeStatus.failure}));
 
-  AppState piecesJointesUnavailable(String id) =>
-      copyWith(piecesJointesState: PiecesJointesState({id: PieceJointeStatus.unavailable}));
+  AppState piecesJointesUnavailable(String id) => copyWith(
+      piecesJointesState:
+          PiecesJointesState({id: PieceJointeStatus.unavailable}));
 
-  AppState previewFileNotInit() => copyWith(previewFileState: PreviewFileNotInitializedState());
+  AppState previewFileNotInit() =>
+      copyWith(previewFileState: PreviewFileNotInitializedState());
 
-  AppState previewFile(String path) => copyWith(previewFileState: PreviewFileSuccessState(path));
+  AppState previewFile(String path) =>
+      copyWith(previewFileState: PreviewFileSuccessState(path));
 
-  AppState chatBrouillon(String message) => copyWith(chatBrouillonState: ChatBrouillonState(message));
+  AppState chatBrouillon(String message) =>
+      copyWith(chatBrouillonState: ChatBrouillonState(message));
 
   AppState deeplinkToRendezvous(String id) {
-    return copyWith(deepLinkState: DetailRendezvousDeepLinkState(idRendezvous: id));
+    return copyWith(
+        deepLinkState: DetailRendezvousDeepLinkState(idRendezvous: id));
   }
 
   AppState searchDemarchesSuccess(List<DemarcheDuReferentiel> demarches) {
@@ -97,7 +115,9 @@ extension AppStateDSL on AppState {
   }
 
   AppState offreEmploiDetailsSuccess() {
-    return copyWith(offreEmploiDetailsState: OffreEmploiDetailsSuccessState(mockOffreEmploiDetails()));
+    return copyWith(
+        offreEmploiDetailsState:
+            OffreEmploiDetailsSuccessState(mockOffreEmploiDetails()));
   }
 
   AppState showTutorial() {
@@ -105,7 +125,9 @@ extension AppStateDSL on AppState {
   }
 
   AppState partageActiviteSuccess({required bool favori}) {
-    return copyWith(partageActiviteState: PartageActiviteSuccessState(mockPartageActivite(favoriShared: favori)));
+    return copyWith(
+        partageActiviteState: PartageActiviteSuccessState(
+            mockPartageActivite(favoriShared: favori)));
   }
 
   AppState partageActiviteLoading() {
@@ -117,15 +139,18 @@ extension AppStateDSL on AppState {
   }
 
   AppState partageActiviteUpdateSuccess({required bool favori}) {
-    return copyWith(partageActiviteUpdateState: PartageActiviteUpdateSuccessState(favori));
+    return copyWith(
+        partageActiviteUpdateState: PartageActiviteUpdateSuccessState(favori));
   }
 
   AppState partageActiviteUpdateLoading() {
-    return copyWith(partageActiviteUpdateState: PartageActiviteUpdateLoadingState());
+    return copyWith(
+        partageActiviteUpdateState: PartageActiviteUpdateLoadingState());
   }
 
   AppState partageActiviteUpdateFailure() {
-    return copyWith(partageActiviteUpdateState: PartageActiviteUpdateFailureState());
+    return copyWith(
+        partageActiviteUpdateState: PartageActiviteUpdateFailureState());
   }
 
   AppState showRating() {
@@ -137,43 +162,56 @@ extension AppStateDSL on AppState {
   }
 
   AppState actionWithComments() {
-    return copyWith(actionCommentaireListState: ActionCommentaireListSuccessState(mockCommentaires()));
+    return copyWith(
+        actionCommentaireListState:
+            ActionCommentaireListSuccessState(mockCommentaires()));
   }
 
   AppState actionWithoutComments() {
-    return copyWith(actionCommentaireListState: ActionCommentaireListSuccessState([]));
+    return copyWith(
+        actionCommentaireListState: ActionCommentaireListSuccessState([]));
   }
 
   AppState actionCommentsFailureState() {
-    return copyWith(actionCommentaireListState: ActionCommentaireListFailureState());
+    return copyWith(
+        actionCommentaireListState: ActionCommentaireListFailureState());
   }
 
   AppState actionCommentsLoadingState() {
-    return copyWith(actionCommentaireListState: ActionCommentaireListLoadingState());
+    return copyWith(
+        actionCommentaireListState: ActionCommentaireListLoadingState());
   }
 
   AppState actionCommentsNotInitState() {
-    return copyWith(actionCommentaireListState: ActionCommentaireListNotInitializedState());
+    return copyWith(
+        actionCommentaireListState: ActionCommentaireListNotInitializedState());
   }
 
   AppState createCommentSuccessState() {
-    return copyWith(actionCommentaireCreateState: ActionCommentaireCreateSuccessState());
+    return copyWith(
+        actionCommentaireCreateState: ActionCommentaireCreateSuccessState());
   }
 
   AppState createCommentFailureState([String? comment]) {
-    return copyWith(actionCommentaireCreateState: ActionCommentaireCreateFailureState(comment ?? ""));
+    return copyWith(
+        actionCommentaireCreateState:
+            ActionCommentaireCreateFailureState(comment ?? ""));
   }
 
   AppState createCommentLoadingState() {
-    return copyWith(actionCommentaireCreateState: ActionCommentaireCreateLoadingState());
+    return copyWith(
+        actionCommentaireCreateState: ActionCommentaireCreateLoadingState());
   }
 
   AppState createCommentNotInitState() {
-    return copyWith(actionCommentaireCreateState: ActionCommentaireCreateNotInitializedState());
+    return copyWith(
+        actionCommentaireCreateState:
+            ActionCommentaireCreateNotInitializedState());
   }
 
   AppState withDemarches(List<Demarche> demarches) {
-    return copyWith(demarcheListState: DemarcheListSuccessState(demarches, true));
+    return copyWith(
+        demarcheListState: DemarcheListSuccessState(demarches, true));
   }
 
   AppState updateDemarcheNotInit() {
@@ -201,7 +239,8 @@ extension AppStateDSL on AppState {
   }
 
   AppState updateActionNotInit() {
-    return copyWith(userActionUpdateState: UserActionUpdateNotInitializedState());
+    return copyWith(
+        userActionUpdateState: UserActionUpdateNotInitializedState());
   }
 
   AppState updateActionNoNeedToUpdate() {
@@ -209,7 +248,8 @@ extension AppStateDSL on AppState {
   }
 
   AppState updateActionSuccess(UserActionStatus newStatus) {
-    return copyWith(userActionUpdateState: UserActionUpdateSuccessState(newStatus));
+    return copyWith(
+        userActionUpdateState: UserActionUpdateSuccessState(newStatus));
   }
 
   AppState updateActionLoading() {
@@ -221,7 +261,8 @@ extension AppStateDSL on AppState {
   }
 
   AppState deleteActionNotInit() {
-    return copyWith(userActionDeleteState: UserActionDeleteNotInitializedState());
+    return copyWith(
+        userActionDeleteState: UserActionDeleteNotInitializedState());
   }
 
   AppState deleteActionSuccess() {
@@ -234,5 +275,18 @@ extension AppStateDSL on AppState {
 
   AppState deleteActionFailure() {
     return copyWith(userActionDeleteState: UserActionDeleteFailureState());
+  }
+
+  AppState emptyAgenda() {
+    return copyWith(
+        agendaState: AgendaSuccessState(Agenda(actions: [], rendezvous: [])));
+  }
+
+  AppState agenda(
+      {required List<UserAction> actions,
+      required List<Rendezvous> rendezvous}) {
+    return copyWith(
+        agendaState: AgendaSuccessState(
+            Agenda(actions: actions, rendezvous: rendezvous)));
   }
 }
