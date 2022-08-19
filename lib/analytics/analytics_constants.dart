@@ -91,6 +91,8 @@ class AnalyticsScreenNames {
 
   static const tutorialPage = "/new-feature_tutorial";
   static const ratingPage = "/notation";
+
+  static const actionCommentsPage = "/actions/detail/comments/view";
 }
 
 class AnalyticsActionNames {
@@ -144,6 +146,9 @@ class AnalyticsActionNames {
   static const skipRating = "/notation/skip";
   static const negativeRating = "/notation/defavorable";
   static const positiveRating = "/notation/favorable";
+
+  static const accessToActionComments = "/actions/detail/comments/add";
+  static const sendComment = "/actions/detail/comments/send";
 }
 
 class AnalyticsCustomDimensions {
