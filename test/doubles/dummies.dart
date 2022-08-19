@@ -265,7 +265,7 @@ class DummyPassEmploiCacheManager extends PassEmploiCacheManager {
   void removeRessource(CachedRessource ressourceToRemove, String userId, String baseUrl) {}
 
   @override
-  void removeActionRessource(String actionId, String baseUrl) {}
+  void removeActionCommentaireRessource(String actionId, String baseUrl) {}
 
   @override
   Future<void> emptyCache() => Future<void>.value();

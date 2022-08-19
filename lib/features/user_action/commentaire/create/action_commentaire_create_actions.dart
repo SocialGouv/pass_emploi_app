@@ -7,7 +7,12 @@ class ActionCommentaireCreateRequestAction {
 
 class ActionCommentaireCreateLoadingAction {}
 
-class ActionCommentaireCreateSuccessAction {}
+class ActionCommentaireCreateSuccessAction {
+  final String actionId;
+  final String comment;
+
+  ActionCommentaireCreateSuccessAction({required this.actionId, required this.comment});
+}
 
 class ActionCommentaireCreateFailureAction {
   final String comment;

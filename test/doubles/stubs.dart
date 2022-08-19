@@ -420,7 +420,7 @@ class ActionCommentaireRepositorySuccessStub extends ActionCommentaireRepository
 
   @override
   Future<bool> sendCommentaire({required String actionId, required String comment}) async {
-    return comment == 'commentaire' && actionId == 'actionId';
+    return comment == 'new comment' && actionId == 'actionId';
   }
 }
 

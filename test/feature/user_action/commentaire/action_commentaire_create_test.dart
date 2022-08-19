@@ -18,7 +18,7 @@ void main() {
         store.onChange.firstWhere((e) => e.actionCommentaireCreateState is ActionCommentaireCreateSuccessState);
 
     // When
-    store.dispatch(ActionCommentaireCreateRequestAction(actionId: "actionId", comment: "commentaire"));
+    store.dispatch(ActionCommentaireCreateRequestAction(actionId: "actionId", comment: "new comment"));
 
     // Then
     expect(await displayedLoading, true);
@@ -29,21 +29,23 @@ void main() {
   test("create comment for action when repo succeeds refresh list of comments", () async {
     // Given
     final store = givenState()
-        .loggedInMiloUser()
+        .actionWithComments()
         .store((factory) => {factory.actionCommentaireRepository = ActionCommentaireRepositorySuccessStub()});
-    final displayedLoading =
-        store.onChange.any((e) => e.actionCommentaireListState is ActionCommentaireListLoadingState);
-    final successAppState =
+    final successCreateState =
+        store.onChange.firstWhere((e) => e.actionCommentaireCreateState is ActionCommentaireCreateSuccessState);
+    final successListState =
         store.onChange.firstWhere((e) => e.actionCommentaireListState is ActionCommentaireListSuccessState);
 
     // When
-    store.dispatch(ActionCommentaireCreateRequestAction(actionId: "actionId", comment: "commentaire"));
+    store.dispatch(ActionCommentaireCreateRequestAction(actionId: "actionId", comment: "new comment"));
 
     // Then
-    expect(await displayedLoading, true);
-    final success = await successAppState;
-    expect(success.actionCommentaireListState is ActionCommentaireListSuccessState, isTrue);
-    expect((success.actionCommentaireListState as ActionCommentaireListSuccessState).comments, isNotEmpty);
+    await successCreateState;
+    final successList = await successListState;
+    expect(successList.actionCommentaireListState is ActionCommentaireListSuccessState, isTrue);
+    expect((successList.actionCommentaireListState as ActionCommentaireListSuccessState).comments, isNotEmpty);
+    expect((successList.actionCommentaireListState as ActionCommentaireListSuccessState).comments.last.content,
+        "new comment");
   });
 
   test("create comment for action when repo fails should display loading and then show failure", () async {

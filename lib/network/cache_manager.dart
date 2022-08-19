@@ -42,7 +42,7 @@ class PassEmploiCacheManager extends CacheManager {
     }
   }
 
-  void removeActionRessource(String actionId, String baseUrl) {
+  void removeActionCommentaireRessource(String actionId, String baseUrl) {
     removeFile(ActionCommentaireRepository.getCommentairesUri(baseUrl: baseUrl, actionId: actionId).toString());
   }
 }

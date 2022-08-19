@@ -24,7 +24,6 @@ class ActionCommentaireRepository {
     try {
       final response = await _httpClient.get(url);
       if (response.statusCode.isValid()) {
-        _cacheManager.removeActionRessource(actionId, _baseUrl);
         final json = jsonUtf8Decode(response.bodyBytes);
         return (json as List).map((comment) => Commentaire.fromJson(comment)).toList();
       }
@@ -41,7 +40,10 @@ class ActionCommentaireRepository {
         url,
         body: customJsonEncode(PostSendCommentaire(comment)),
       );
-      if (response.statusCode.isValid()) return true;
+      if (response.statusCode.isValid()) {
+        _cacheManager.removeActionCommentaireRessource(actionId, _baseUrl);
+        return true;
+      }
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);
     }

@@ -155,12 +155,12 @@ void main() {
     final viewModel = ActionCommentairePageViewModel.create(store, "actionId");
 
     // When
-    viewModel.onSend("new commentaire");
+    viewModel.onSend("new comment");
 
     // Then
     expect(store.dispatchedAction, isA<ActionCommentaireCreateRequestAction>());
     expect((store.dispatchedAction as ActionCommentaireCreateRequestAction).actionId, "actionId");
-    expect((store.dispatchedAction as ActionCommentaireCreateRequestAction).comment, "new commentaire");
+    expect((store.dispatchedAction as ActionCommentaireCreateRequestAction).comment, "new comment");
   });
 
   test('onRetry should dispatch ActionCommentaireListRequestAction', () {
