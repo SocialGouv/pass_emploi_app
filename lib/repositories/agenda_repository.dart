@@ -1,13 +1,7 @@
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/agenda.dart';
-import 'package:pass_emploi_app/models/page_actions.dart';
-import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
-import 'package:pass_emploi_app/models/user_action.dart';
-import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
-import 'package:pass_emploi_app/network/post_user_action_request.dart';
-import 'package:pass_emploi_app/network/put_user_action_request.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
