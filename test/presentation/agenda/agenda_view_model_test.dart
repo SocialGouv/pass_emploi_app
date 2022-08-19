@@ -231,4 +231,26 @@ List<EventAgenda> _allEvents(List<AgendaItem> items) {
     if (element is DaySectionAgenda) return previousValue + element.events;
    return previousValue;
   });
+
+  test('should display empty', () {
+    // Given
+    final store = givenState().loggedInUser().emptyAgenda().store();
+
+    // When
+    final viewModel = AgendaPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.EMPTY);
+  });
+
+  test('should display content', () {
+    // Given
+    final store = givenState().loggedInUser().agenda(actions: [userActionStub()], rendezvous: []).store();
+
+    // When
+    final viewModel = AgendaPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.CONTENT);
+  });
 }
