@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/features/agenda/agenda_middleware.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_middleware.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_middleware.dart';
 import 'package:pass_emploi_app/features/chat/init/chat_initializer_middleware.dart';
@@ -64,6 +65,7 @@ import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
+import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 import 'package:pass_emploi_app/repositories/auth/firebase_auth_repository.dart';
 import 'package:pass_emploi_app/repositories/campagne_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
@@ -142,6 +144,7 @@ class StoreFactory {
   final PartageActiviteRepository partageActiviteRepository;
   final RatingRepository ratingRepository;
   final ActionCommentaireRepository actionCommentaireRepository;
+  final AgendaRepository agendaRepository;
 
   StoreFactory(
     this.authenticator,
@@ -185,6 +188,7 @@ class StoreFactory {
     this.partageActiviteRepository,
     this.ratingRepository,
     this.actionCommentaireRepository,
+    this.agendaRepository,
   );
 
   redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -247,6 +251,7 @@ class StoreFactory {
         RatingMiddleware(ratingRepository, detailsJeuneRepository),
         ActionCommentaireListMiddleware(actionCommentaireRepository),
         ActionCommentaireCreateMiddleware(actionCommentaireRepository),
+        AgendaMiddleware(agendaRepository),
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),
       ],

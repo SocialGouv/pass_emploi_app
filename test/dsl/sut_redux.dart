@@ -13,8 +13,6 @@ class SUT {
 }
 
 extension _StoreTestExtension on Store<AppState> {
-  Stream<AppState> _onChangesAfterInitialState() => onChange.skip(1);
-
   Future<void> prepareExpectInOrder<S>(List<Function(AppState)> expectations) async {
     var matchers = expectations.map(
       (expectation) => predicate<AppState>((state) {
@@ -23,6 +21,6 @@ extension _StoreTestExtension on Store<AppState> {
       }),
     );
 
-    return expect(_onChangesAfterInitialState(), emitsInOrder(matchers));
+    return expect(onChange, emitsInOrder(matchers));
   }
 }

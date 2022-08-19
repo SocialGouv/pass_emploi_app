@@ -1,3 +1,4 @@
+import 'package:pass_emploi_app/features/agenda/agenda_reducer.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_reducer.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_reducer.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_reducer.dart';
@@ -125,5 +126,6 @@ AppState reducer(AppState current, dynamic action) {
     ratingState: ratingReducer(current.ratingState, action),
     actionCommentaireListState: actionCommentaireListReducer(current.actionCommentaireListState, action),
     actionCommentaireCreateState: actionCommentaireCreateReducer(current.actionCommentaireCreateState, action),
+    agendaState: agendaReducer(current.agendaState, action),
   );
 }
