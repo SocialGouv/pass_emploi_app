@@ -14,7 +14,7 @@ class SUT {
 
 extension _StoreTestExtension on Store<AppState> {
   Future<void> prepareExpectInOrder<S>(List<Function(AppState)> expectations) async {
-    var matchers = expectations.map(
+    final matchers = expectations.map(
       (expectation) => predicate<AppState>((state) {
         expectation(state);
         return true;
