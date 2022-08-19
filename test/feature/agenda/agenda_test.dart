@@ -45,7 +45,7 @@ void _shouldFail(AppState state) => expect(state.agendaState, AgendaFailureState
 void _shouldSucceed(AppState state) {
   expectTypeThen(state.agendaState, (AgendaSuccessState agendaState) {
     expect(agendaState.agenda.actions.length, 1);
-    expect(agendaState.agenda.rendezVous.length, 1);
+    expect(agendaState.agenda.rendezvous.length, 1);
   });
 }
 
@@ -54,7 +54,7 @@ class AgendaRepositorySuccessStub extends AgendaRepository {
 
   @override
   Future<Agenda?> getAgenda(String userId, DateTime maintenant) async {
-    return Agenda(actions: [userActionStub()], rendezVous: [rendezvousStub()]);
+    return Agenda(actions: [userActionStub()], rendezvous: [rendezvousStub()]);
   }
 }
 
