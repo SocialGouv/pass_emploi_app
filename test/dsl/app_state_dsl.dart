@@ -1,4 +1,5 @@
 import 'package:pass_emploi_app/configuration/configuration.dart';
+import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
@@ -14,11 +15,13 @@ import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
+import 'package:pass_emploi_app/models/agenda.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/tutorial.dart';
+import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
@@ -163,5 +166,13 @@ extension AppStateDSL on AppState {
 
   AppState createCommentNotInitState() {
     return copyWith(actionCommentaireCreateState: ActionCommentaireCreateNotInitializedState());
+  }
+
+  AppState emptyAgenda() {
+    return copyWith(agendaState: AgendaSuccessState(Agenda(actions: [], rendezvous: [])));
+  }
+
+  AppState agenda({required List<UserAction> actions, required List<Rendezvous> rendezvous}) {
+    return copyWith(agendaState: AgendaSuccessState(Agenda(actions: actions, rendezvous: rendezvous)));
   }
 }
