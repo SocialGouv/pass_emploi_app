@@ -8,12 +8,14 @@ abstract class AgendaState extends Equatable {
 
 class AgendaStateNotInitializedState extends AgendaState {}
 
-class AgendaStateLoading extends AgendaState {}
+class AgendaLoadingState extends AgendaState {}
 
-class AgendaStateSuccess extends AgendaState {
+class AgendaFailureState extends AgendaState {}
+
+class AgendaSuccessState extends AgendaState {
   final Agenda agenda;
 
-  AgendaStateSuccess(this.agenda);
+  AgendaSuccessState(this.agenda);
 
   @override
   List<Object?> get props => [agenda];

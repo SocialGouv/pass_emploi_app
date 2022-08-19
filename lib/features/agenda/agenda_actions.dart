@@ -6,6 +6,8 @@ class AgendaRequestAction {
   AgendaRequestAction(this.maintenant);
 }
 
+class AgendaRequestFailureAction {}
+
 class AgendaRequestSuccessAction {
   final Agenda agenda;
 

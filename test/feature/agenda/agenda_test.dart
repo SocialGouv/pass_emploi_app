@@ -13,26 +13,37 @@ import '../../utils/expects.dart';
 
 void main() {
   group('Agenda', () {
-    // todo : je pourrais faire des groupes aussi comme le repo
 
-    test('should load successful data', () async {
+    group('when requesting agenda', () {
       final sut = SUT();
-
-      sut.givenStore = givenState()
-          .loggedInUser() //
-          .store((f) => {f.agendaRepository = AgendaRepositorySuccessStub()});
 
       sut.whenDispatching = () => AgendaRequestAction(DateTime(2022, 7, 7));
 
-      sut.thenExpectChangingStatesInOrder([_shouldLoad, _shouldSucceed]);
+      test('should load then succeed when request succeed', () async {
+        sut.givenStore = givenState()
+            .loggedInUser() //
+            .store((f) => {f.agendaRepository = AgendaRepositorySuccessStub()});
+
+        sut.thenExpectChangingStatesInOrder([_shouldLoad, _shouldSucceed]);
+      });
+
+      test('should load then fail when request fail', () async {
+        sut.givenStore = givenState()
+            .loggedInUser() //
+            .store((f) => {f.agendaRepository = AgendaRepositoryErrorStub()});
+
+        sut.thenExpectChangingStatesInOrder([_shouldLoad, _shouldFail]);
+      });
     });
   });
 }
 
-void _shouldLoad(AppState state) => expect(state.agendaState, AgendaStateLoading());
+void _shouldLoad(AppState state) => expect(state.agendaState, AgendaLoadingState());
+
+void _shouldFail(AppState state) => expect(state.agendaState, AgendaFailureState());
 
 void _shouldSucceed(AppState state) {
-  expectTypeThen(state.agendaState, (AgendaStateSuccess agendaState) {
+  expectTypeThen(state.agendaState, (AgendaSuccessState agendaState) {
     expect(agendaState.agenda.actions.length, 1);
     expect(agendaState.agenda.rendezVous.length, 1);
   });
@@ -44,5 +55,14 @@ class AgendaRepositorySuccessStub extends AgendaRepository {
   @override
   Future<Agenda?> getAgenda(String userId, DateTime maintenant) async {
     return Agenda(actions: [userActionStub()], rendezVous: [rendezvousStub()]);
+  }
+}
+
+class AgendaRepositoryErrorStub extends AgendaRepository {
+  AgendaRepositoryErrorStub() : super("", DummyHttpClient());
+
+  @override
+  Future<Agenda?> getAgenda(String userId, DateTime maintenant) async {
+    return null;
   }
 }
