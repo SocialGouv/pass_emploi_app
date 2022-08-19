@@ -18,7 +18,7 @@ class AgendaMiddleware extends MiddlewareClass<AppState> {
       if (agenda != null) {
         store.dispatch(AgendaRequestSuccessAction(agenda));
       } else {
-        // dispatching error
+        store.dispatch(AgendaRequestFailureAction());
       }
     }
   }
