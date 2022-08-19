@@ -12,7 +12,7 @@ class AgendaPage extends StatelessWidget {
     return Tracker(
       tracking: "todo",
       child: StoreConnector<AppState, AgendaPageViewModel>(
-        onInit: (store) => store.dispatch(AgendaRequestAction()),
+        onInit: (store) => store.dispatch(AgendaRequestAction(DateTime.now())),
         builder: (context, viewModel) => _scaffold(context, viewModel),
         converter: (store) => AgendaPageViewModel.create(store),
         distinct: true,
