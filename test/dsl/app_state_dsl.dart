@@ -17,6 +17,7 @@ import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
+import 'package:pass_emploi_app/models/agenda.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
@@ -172,6 +173,14 @@ extension AppStateDSL on AppState {
 
   AppState createCommentNotInitState() {
     return copyWith(actionCommentaireCreateState: ActionCommentaireCreateNotInitializedState());
+  }
+
+  AppState emptyAgenda() {
+    return copyWith(agendaState: AgendaSuccessState(Agenda(actions: [], rendezvous: [])));
+  }
+
+  AppState agenda({required List<UserAction> actions, required List<Rendezvous> rendezvous}) {
+    return copyWith(agendaState: AgendaSuccessState(Agenda(actions: actions, rendezvous: rendezvous)));
   }
 
   AppState withDemarches(List<Demarche> demarches) {

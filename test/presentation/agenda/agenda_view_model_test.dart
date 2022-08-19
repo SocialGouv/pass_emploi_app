@@ -7,13 +7,14 @@ import 'package:pass_emploi_app/presentation/agenda/agenda_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 
 import '../../doubles/fixtures.dart';
+import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../utils/expects.dart';
 import '../../utils/test_datetime.dart';
 
 void main() {
-  final actionLundiMatin = userActionStub(
+final actionLundiMatin = userActionStub(
     id: "action 22/08 11h",
     dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-22T11:00:00.000Z"),
   );
@@ -202,5 +203,27 @@ List<EventAgenda> _allEvents(List<AgendaItem> items) {
   return items.fold<List<EventAgenda>>([], (previousValue, element) {
     if (element is DaySectionAgenda) return previousValue + element.events;
    return previousValue;
+  });
+
+  test('should display empty', () {
+    // Given
+    final store = givenState().loggedInUser().emptyAgenda().store();
+
+    // When
+    final viewModel = AgendaPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.EMPTY);
+  });
+
+  test('should display content', () {
+    // Given
+    final store = givenState().loggedInUser().agenda(actions: [userActionStub()], rendezvous: []).store();
+
+    // When
+    final viewModel = AgendaPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.CONTENT);
   });
 }
