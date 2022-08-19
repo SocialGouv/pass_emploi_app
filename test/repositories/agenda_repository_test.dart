@@ -33,7 +33,7 @@ void main() {
           mockUserAction();
           await sut.expectResult<Agenda?>((result) {
             expect(result, isNotNull);
-            expect(result, Agenda(actions: [userActionStub()], rendezVous: [rendezvousStub()]));
+            expect(result, Agenda(actions: [userActionStub()], rendezvous: [rendezvousStub()]));
           });
         });
       });

@@ -5,9 +5,9 @@ import 'package:pass_emploi_app/repositories/rendezvous/json_rendezvous.dart';
 
 class Agenda extends Equatable {
   final List<UserAction> actions;
-  final List<Rendezvous> rendezVous;
+  final List<Rendezvous> rendezvous;
 
-  Agenda({required this.actions, required this.rendezVous});
+  Agenda({required this.actions, required this.rendezvous});
 
   factory Agenda.fromJson(dynamic json) {
     final actions = (json["actions"] as List).map((action) => UserAction.fromJson(action)).toList();
@@ -15,9 +15,9 @@ class Agenda extends Equatable {
         .map((e) => JsonRendezvous.fromJson(e)) //
         .map((e) => e.toRendezvous()) //
         .toList();
-    return Agenda(actions: actions, rendezVous: rendezVous);
+    return Agenda(actions: actions, rendezvous: rendezVous);
   }
 
   @override
-  List<Object?> get props => [actions, rendezVous];
+  List<Object?> get props => [actions, rendezvous];
 }
