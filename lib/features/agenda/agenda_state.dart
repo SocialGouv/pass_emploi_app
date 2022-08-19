@@ -6,7 +6,7 @@ abstract class AgendaState extends Equatable {
   List<Object?> get props => [];
 }
 
-class AgendaStateNotInitializedState extends AgendaState {}
+class AgendaNotInitializedState extends AgendaState {}
 
 class AgendaLoadingState extends AgendaState {}
 
