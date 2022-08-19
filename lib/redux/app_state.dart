@@ -315,7 +315,7 @@ class AppState extends Equatable {
       ratingState: RatingNotInitializedState(),
       actionCommentaireListState: ActionCommentaireListNotInitializedState(),
       actionCommentaireCreateState: ActionCommentaireCreateNotInitializedState(),
-      agendaState: AgendaStateNotInitializedState(),
+      agendaState: AgendaNotInitializedState(),
     );
   }
 

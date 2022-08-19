@@ -19,9 +19,7 @@ class AgendaPageViewModel extends Equatable {
 
 DisplayState _displayState(Store<AppState> store) {
   final agendaState = store.state.agendaState;
-  if (agendaState is AgendaLoadingState) {
-    return DisplayState.LOADING;
-  } else if (agendaState is AgendaFailureState) {
+  if (agendaState is AgendaFailureState) {
     return DisplayState.FAILURE;
   } else if (agendaState is AgendaSuccessState) {
     if (agendaState.agenda.actions.isEmpty && agendaState.agenda.rendezvous.isEmpty) {
@@ -30,5 +28,5 @@ DisplayState _displayState(Store<AppState> store) {
       return DisplayState.CONTENT;
     }
   }
-  return DisplayState.FAILURE;
+  return DisplayState.LOADING;
 }
