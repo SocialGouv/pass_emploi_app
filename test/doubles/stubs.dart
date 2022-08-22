@@ -411,19 +411,29 @@ class PieceJointeRepositoryUnavailableStub extends PieceJointeRepository {
 }
 
 class ActionCommentaireRepositorySuccessStub extends ActionCommentaireRepository {
-  ActionCommentaireRepositorySuccessStub() : super("", DummyHttpClient());
+  ActionCommentaireRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
   Future<List<Commentaire>?> getCommentaires(String actionId) async {
     return mockCommentaires();
   }
+
+  @override
+  Future<bool> sendCommentaire({required String actionId, required String comment}) async {
+    return comment == 'new comment' && actionId == 'actionId';
+  }
 }
 
 class ActionCommentaireRepositoryFailureStub extends ActionCommentaireRepository {
-  ActionCommentaireRepositoryFailureStub() : super("", DummyHttpClient());
+  ActionCommentaireRepositoryFailureStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
   Future<List<Commentaire>?> getCommentaires(String actionId) async {
     return null;
+  }
+
+  @override
+  Future<bool> sendCommentaire({required String actionId, required String comment}) async {
+    return false;
   }
 }

@@ -1,9 +1,10 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
-import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 
 class PassEmploiCacheManager extends CacheManager {
   static const Duration requestCacheDuration = Duration(minutes: 20);
@@ -39,6 +40,10 @@ class PassEmploiCacheManager extends CacheManager {
         removeFile(PartageActiviteRepository.getPartageActiviteUri(baseUrl: baseUrl, userId: userId).toString());
         break;
     }
+  }
+
+  void removeActionCommentaireRessource(String actionId, String baseUrl) {
+    removeFile(ActionCommentaireRepository.getCommentairesUri(baseUrl: baseUrl, actionId: actionId).toString());
   }
 }
 

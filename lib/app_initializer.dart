@@ -217,7 +217,7 @@ class AppInitializer {
       TutorialRepository(securedPreferences),
       PartageActiviteRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       RatingRepository(securedPreferences),
-      ActionCommentaireRepository(baseUrl, httpClient, crashlytics),
+      ActionCommentaireRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
     authAccessChecker.setStore(reduxStore);

@@ -223,6 +223,9 @@ class Strings {
   static String createdByAdvisor(String advisor) => "Votre conseiller $advisor";
   static String addComment = "Ajouter un commentaire";
   static String seeNComments(String n) => "Voir les $n commentaires";
+  static String yourComment = "Votre commentaire...";
+  static String sendCommentError = "Erreur lors de l'envoi du commentaire. Veuillez réessayer";
+
 
   // Demarches
   static String modifierStatut = "Modifier le statut";

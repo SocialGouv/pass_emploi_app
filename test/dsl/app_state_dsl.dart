@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/features/partage_activite/update/partage_activit
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
+import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
@@ -146,5 +147,21 @@ extension AppStateDSL on AppState {
 
   AppState actionCommentsNotInitState() {
     return copyWith(actionCommentaireListState: ActionCommentaireListNotInitializedState());
+  }
+
+  AppState createCommentSuccessState() {
+    return copyWith(actionCommentaireCreateState: ActionCommentaireCreateSuccessState());
+  }
+
+  AppState createCommentFailureState([String? comment]) {
+    return copyWith(actionCommentaireCreateState: ActionCommentaireCreateFailureState(comment ?? ""));
+  }
+
+  AppState createCommentLoadingState() {
+    return copyWith(actionCommentaireCreateState: ActionCommentaireCreateLoadingState());
+  }
+
+  AppState createCommentNotInitState() {
+    return copyWith(actionCommentaireCreateState: ActionCommentaireCreateNotInitializedState());
   }
 }

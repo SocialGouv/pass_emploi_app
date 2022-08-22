@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/features/user_action/update/user_action_update_s
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/pages/user_action/action_commentaires_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/user_action/commentaires/action_commentaire_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -334,7 +335,7 @@ class _CommentCard extends StatelessWidget {
   Widget _build(BuildContext context, ActionCommentaireViewModel viewModel) {
     switch (viewModel.displayState) {
       case DisplayState.CONTENT:
-        return _content(context, viewModel, actionTitle);
+        return _content(context, viewModel, actionId, actionTitle);
       case DisplayState.FAILURE:
         return Center(child: Retry(Strings.miscellaneousErrorRetry, () => viewModel.onRetry()));
       default:
@@ -342,7 +343,7 @@ class _CommentCard extends StatelessWidget {
     }
   }
 
-  Widget _content(BuildContext context, ActionCommentaireViewModel viewModel, String actionTitle) {
+  Widget _content(BuildContext context, ActionCommentaireViewModel viewModel, String actionId, String actionTitle) {
     final commentsNumber = viewModel.comments.length;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -355,7 +356,8 @@ class _CommentCard extends StatelessWidget {
         SecondaryButton(
           onPressed: () => Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => ActionCommentairesPage(actionTitle, viewModel.comments)),
+            MaterialPageRoute(
+                builder: (context) => ActionCommentairesPage(actionId: actionId, actionTitle: actionTitle)),
           ),
           label: commentsNumber < 1 ? Strings.addComment : Strings.seeNComments(commentsNumber.toString()),
         ),

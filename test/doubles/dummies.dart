@@ -265,6 +265,9 @@ class DummyPassEmploiCacheManager extends PassEmploiCacheManager {
   void removeRessource(CachedRessource ressourceToRemove, String userId, String baseUrl) {}
 
   @override
+  void removeActionCommentaireRessource(String actionId, String baseUrl) {}
+
+  @override
   Future<void> emptyCache() => Future<void>.value();
 }
 
@@ -334,5 +337,5 @@ class DummyRatingRepository extends RatingRepository {
 }
 
 class DummyActionCommentaireRepository extends ActionCommentaireRepository {
-  DummyActionCommentaireRepository() : super("", DummyHttpClient());
+  DummyActionCommentaireRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 }
