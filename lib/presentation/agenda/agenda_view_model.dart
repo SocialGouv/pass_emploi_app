@@ -4,13 +4,14 @@ import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
+import 'package:pass_emploi_app/utils/string_extensions.dart';
 import 'package:redux/redux.dart';
 
 class AgendaPageViewModel extends Equatable {
   final DisplayState displayState;
-  final List<dynamic> events;
+  final List<DaySectionAgenda> events;
 
   AgendaPageViewModel({required this.displayState, required this.events});
 
@@ -39,38 +40,51 @@ DisplayState _displayState(Store<AppState> store) {
   return DisplayState.LOADING;
 }
 
-List<dynamic> _events(Store<AppState> store) {
+List<DaySectionAgenda> _events(Store<AppState> store) {
   final agendaState = store.state.agendaState;
   if (agendaState is! AgendaSuccessState) return [];
 
   final events = [
-    ...agendaState.agenda.actions,
-    ...agendaState.agenda.rendezvous,
+    ...agendaState.agenda.actions.map((e) => UserActionEventAgenda(e.id, e.dateEcheance)),
+    ...agendaState.agenda.rendezvous.map((e) => RendezvousEventAgenda(e.id, e.date)),
   ];
 
-  events.sort((a, b) {
-    return _getDate(a).compareTo(_getDate(b));
-  });
+  events.sort((a, b) => a.date.compareTo(b.date));
+  
+  final grouped = events.groupListsBy((element) => element.date.toDayOfWeekWithFullMonth().firstLetterUpperCased());
+  final keys = grouped.keys.toList();
 
-  return events.map((e) {
-    if (e is UserAction) return UserActionViewModel.create(e);
-    if (e is Rendezvous) return RendezvousAgendaViewModel(id: e.id);
-    return e;
+  return keys.map((date) {
+    final title = date;
+    final events = grouped[date]!.toList();
+    return DaySectionAgenda(title, events);
   }).toList();
 }
 
-DateTime _getDate(dynamic event) {
-  if (event is UserAction) return event.dateEcheance;
-  if (event is Rendezvous) return event.date;
-  return DateTime.now();
-}
-
-// todo : move
-class RendezvousAgendaViewModel extends Equatable {
+abstract class EventAgenda extends Equatable {
   final String id;
+  final DateTime date;
 
-  RendezvousAgendaViewModel({required this.id});
+  EventAgenda(this.id, this.date);
 
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [id, date];
+}
+
+class UserActionEventAgenda extends EventAgenda {
+  UserActionEventAgenda(super.id, super.date);
+}
+
+class RendezvousEventAgenda extends EventAgenda {
+  RendezvousEventAgenda(super.id, super.date);
+}
+
+class DaySectionAgenda extends Equatable {
+  final String title;
+  final List<EventAgenda> events;
+
+  DaySectionAgenda(this.title, this.events);
+
+  @override
+  List<Object?> get props => [title, events];
 }
