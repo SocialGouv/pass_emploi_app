@@ -1,12 +1,7 @@
-import 'package:collection/collection.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
-import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/presentation/agenda/agenda_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
-import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
@@ -14,10 +9,17 @@ import '../../utils/test_datetime.dart';
 
 void main() {
   final actionLundiMatin = userActionStub(
-      id: "action 22/08 11h", dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-22T11:00:00.000Z"));
-  final rendezvousLundiMatin = rendezvousStub(id: "rendezvous 22/08 15h", date: DateTime(2022, 8, 22, 15));
+    id: "action 22/08 11h",
+    dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-22T11:00:00.000Z"),
+  );
+  final rendezvousLundiMatin = rendezvousStub(
+    id: "rendezvous 22/08 15h",
+    date: DateTime(2022, 8, 22, 15),
+  );
   final actionMardiMatin = userActionStub(
-      id: "action 23/08 08h", dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-23T08:00:00.000Z"));
+    id: "action 23/08 08h",
+    dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-23T08:00:00.000Z"),
+  );
 
   group('display state', () {
     test('should be loading on notinit state', () {
@@ -86,11 +88,11 @@ void main() {
       final viewModel = AgendaPageViewModel.create(store);
 
       // Then
-      _expectCount(events: viewModel.events, actions: 2, rendezvous: 3);
+      _expectCount(sections: viewModel.events, actions: 2, rendezvous: 3);
     });
   });
 
-  test('sont triés par date d\'échéance', () {
+  test('are sorted by date', () {
     // Given
     final actions = [actionLundiMatin, actionMardiMatin];
     final rendezvous = [rendezvousLundiMatin];
@@ -100,26 +102,45 @@ void main() {
     final viewModel = AgendaPageViewModel.create(store);
 
     // Then
-    _expectEventsAreSorted(events: viewModel.events, ids: [
+    _expectEvents(sections: viewModel.events, ids: [
       "action 22/08 11h",
       "rendezvous 22/08 15h",
       "action 23/08 08h",
     ]);
   });
+
+  test('are grouped by day', () {
+    // Given
+    final actions = [actionLundiMatin, actionMardiMatin];
+    final rendezvous = [rendezvousLundiMatin];
+    final store = givenState().loggedInUser().agenda(actions: actions, rendezvous: rendezvous).store();
+
+    // When
+    final viewModel = AgendaPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.events.length, 2);
+    _expectDaySection(viewModel.events[0], "Lundi 22 août", ["action 22/08 11h", "rendezvous 22/08 15h"]);
+    _expectDaySection(viewModel.events[1], "Mardi 23 août", ["action 23/08 08h"]);
+  });
 }
 
-void _expectCount({required List<dynamic> events, required int actions, required int rendezvous}) {
-  final actualActionCount = events.where((e) => e is UserActionViewModel).length;
-  final actualRendezvousCount = events.where((e) => e is RendezvousAgendaViewModel).length;
+void _expectDaySection(DaySectionAgenda section, String title, List<String> eventIds) {
+  expect(section.title, title);
+  expect(section.events.map((e) => e.id), eventIds);
+}
+
+void _expectCount({required List<DaySectionAgenda> sections, required int actions, required int rendezvous}) {
+  final actualActionCount = _allEvents(sections).whereType<UserActionEventAgenda>().length;
+  final actualRendezvousCount = _allEvents(sections).whereType<RendezvousEventAgenda>().length;
   expect(actualActionCount, actions, reason: "Mauvais nombre d'actions");
   expect(actualRendezvousCount, rendezvous, reason: "Mauvais nombre de rendez-vous");
 }
 
-void _expectEventsAreSorted({required List<dynamic> events, required List<String> ids}) {
-  final actualIds = events.map((e) {
-    if (e is UserActionViewModel) return e.id;
-    if (e is RendezvousAgendaViewModel) return e.id;
-    return null;
-  }).whereNotNull().toList();
-  expect(actualIds, ids);
+void _expectEvents({required List<DaySectionAgenda> sections, required List<String> ids}) {
+  expect(_allEvents(sections).map((e) => e.id), ids);
+}
+
+List<EventAgenda> _allEvents(List<DaySectionAgenda> daySection) {
+  return daySection.fold<List<EventAgenda>>([], (previousValue, element) => previousValue + element.events);
 }
