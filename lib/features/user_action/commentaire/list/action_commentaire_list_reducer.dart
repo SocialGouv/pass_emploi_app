@@ -7,18 +7,24 @@ ActionCommentaireListState actionCommentaireListReducer(ActionCommentaireListSta
   if (action is ActionCommentaireListLoadingAction) return ActionCommentaireListLoadingState();
   if (action is ActionCommentaireListFailureAction) return ActionCommentaireListFailureState();
   if (action is ActionCommentaireListSuccessAction) return ActionCommentaireListSuccessState(action.comments);
-  if (action is ActionCommentaireCreateSuccessAction && current is ActionCommentaireListSuccessState) {
-    final currentComments = current.comments;
-    currentComments.add(
-      Commentaire(
-        id: action.actionId,
-        content: action.comment,
-        creationDate: DateTime.now(),
-        creatorName: null,
-        createdByAdvisor: false,
-      ),
-    );
-    return ActionCommentaireListSuccessState(currentComments);
-  }
+  if (action is ActionCommentaireCreateSuccessAction) return _updatedList(current, action);
   return current;
+}
+
+ActionCommentaireListState _updatedList(
+  ActionCommentaireListState current,
+  ActionCommentaireCreateSuccessAction action,
+) {
+  if (current is! ActionCommentaireListSuccessState) return current;
+  final List<Commentaire> currentComments = current.comments;
+  currentComments.add(
+    Commentaire(
+      id: action.actionId,
+      content: action.comment,
+      creationDate: DateTime.now(),
+      creatorName: null,
+      createdByAdvisor: false,
+    ),
+  );
+  return ActionCommentaireListSuccessState(currentComments);
 }
