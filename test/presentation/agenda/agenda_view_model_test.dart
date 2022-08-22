@@ -13,6 +13,12 @@ import '../../dsl/app_state_dsl.dart';
 import '../../utils/test_datetime.dart';
 
 void main() {
+  final actionLundiMatin = userActionStub(
+      id: "action 22/08 11h", dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-22T11:00:00.000Z"));
+  final rendezvousLundiMatin = rendezvousStub(id: "rendezvous 22/08 15h", date: DateTime(2022, 8, 22, 15));
+  final actionMardiMatin = userActionStub(
+      id: "action 23/08 08h", dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-23T08:00:00.000Z"));
+
   group('display state', () {
     test('should be loading on notinit state', () {
       // Given
@@ -86,11 +92,6 @@ void main() {
 
   test('sont triés par date d\'échéance', () {
     // Given
-    final actionLundiMatin = userActionStub(
-        id: "action 22/08 11h", dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-22T11:00:00.000Z"));
-    final rendezvousLundiMatin = rendezvousStub(id: "rendezvous 22/08 15h", date: DateTime(2022, 8, 22, 15));
-    final actionMardiMatin = userActionStub(
-        id: "action 23/08 08h", dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-23T08:00:00.000Z"));
     final actions = [actionLundiMatin, actionMardiMatin];
     final rendezvous = [rendezvousLundiMatin];
     final store = givenState().loggedInUser().agenda(actions: actions, rendezvous: rendezvous).store();
