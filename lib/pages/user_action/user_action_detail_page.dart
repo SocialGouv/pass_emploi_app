@@ -354,14 +354,21 @@ class _CommentCard extends StatelessWidget {
         if (viewModel.lastComment == null) Text(Strings.noComments, style: TextStyles.textBaseRegular),
         SizedBox(height: Margins.spacing_xl),
         SecondaryButton(
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ActionCommentairesPage(actionId: actionId, actionTitle: actionTitle)),
-          ),
+          onPressed: () => _onCommentClick(context, actionId, actionTitle),
           label: commentsNumber < 1 ? Strings.addComment : Strings.seeNComments(commentsNumber.toString()),
         ),
       ],
+    );
+  }
+
+  void _onCommentClick(BuildContext context, String actionId, String actionTitle) {
+    MatomoTracker.trackScreenWithName(
+      AnalyticsActionNames.accessToActionComments,
+      AnalyticsScreenNames.userActionDetails,
+    );
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ActionCommentairesPage(actionId: actionId, actionTitle: actionTitle)),
     );
   }
 }

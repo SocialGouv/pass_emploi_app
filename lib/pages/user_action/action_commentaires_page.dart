@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_actions.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -36,16 +39,19 @@ class ActionCommentairesPage extends StatefulWidget {
 class _ActionCommentairesPageState extends State<ActionCommentairesPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: passEmploiAppBar(label: Strings.actionCommentsTitle, context: context),
-      body: StoreConnector<AppState, ActionCommentairePageViewModel>(
-        converter: (store) => ActionCommentairePageViewModel.create(store, widget.actionId),
-        builder: (context, viewModel) => _body(context, viewModel),
-        onDidChange: (oldViewModel, newViewModel) {
-          if (newViewModel.errorOnSend) showFailedSnackBar(context, Strings.sendCommentError);
-        },
-        onDispose: (store) => store.dispatch(ActionCommentaireCreateResetAction()),
-        distinct: true,
+    return Tracker(
+      tracking: AnalyticsScreenNames.actionCommentsPage,
+      child: Scaffold(
+        appBar: passEmploiAppBar(label: Strings.actionCommentsTitle, context: context),
+        body: StoreConnector<AppState, ActionCommentairePageViewModel>(
+          converter: (store) => ActionCommentairePageViewModel.create(store, widget.actionId),
+          builder: (context, viewModel) => _body(context, viewModel),
+          onDidChange: (oldViewModel, newViewModel) {
+            if (newViewModel.errorOnSend) showFailedSnackBar(context, Strings.sendCommentError);
+          },
+          onDispose: (store) => store.dispatch(ActionCommentaireCreateResetAction()),
+          distinct: true,
+        ),
       ),
     );
   }
@@ -192,6 +198,10 @@ class _CreateCommentaireWidgetState extends State<_CreateCommentaireWidget> {
               onPressed: () {
                 if (_controller.value.text.isNotEmpty && !_loading()) {
                   widget.viewModel.onSend(_controller.value.text);
+                  MatomoTracker.trackScreenWithName(
+                    AnalyticsActionNames.sendComment,
+                    AnalyticsScreenNames.actionCommentsPage,
+                  );
                   _controller.clear();
                 }
               },
