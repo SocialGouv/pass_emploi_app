@@ -217,10 +217,10 @@ ServiceCiviqueDetail mockServiceCiviqueDetail() => ServiceCiviqueDetail(
       codePostal: "75002",
     );
 
-Rendezvous rendezvousStub() {
+Rendezvous rendezvousStub({String? id, DateTime? date}) {
   return Rendezvous(
-    id: "id-1",
-    date: DateTime(2021, 07, 21),
+    id: id ?? "id-1",
+    date: date ?? DateTime(2021, 07, 21),
     isInVisio: false,
     isAnnule: false,
     type: RendezvousType(RendezvousTypeCode.VISITE, "Visite"),
@@ -324,13 +324,13 @@ DemarcheDuReferentiel mockDemarcheDuReferentiel([String? id, List<Comment>? comm
   );
 }
 
-UserAction userActionStub() {
+UserAction userActionStub({String? id, DateTime? dateEcheance}) {
   return UserAction(
-    id: "id-1",
+    id: id ?? "id-1",
     content: "content",
     comment: "comment",
     status: UserActionStatus.IN_PROGRESS,
-    dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2007-07-07T01:01:07.000Z"),
+    dateEcheance: dateEcheance ?? parseDateTimeUtcWithCurrentTimeZone("2007-07-07T01:01:07.000Z"),
     creator: JeuneActionCreator(),
   );
 }
