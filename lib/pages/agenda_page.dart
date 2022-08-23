@@ -11,18 +11,25 @@ import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_mod
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
+import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_create_bottom_sheet.dart';
+import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
+
+// todo Cacher onglet "Cette semaine" quand on est PE ?
 
 class AgendaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tracker(
-      tracking: "todo",
+      tracking: "todo", // todo tracking
       child: StoreConnector<AppState, AgendaPageViewModel>(
         onInit: (store) => store.dispatch(AgendaRequestAction(DateTime.now())),
         builder: (context, viewModel) => _Scaffold(body: _Body(viewModel: viewModel)),
@@ -42,7 +49,31 @@ class _Scaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.grey100,
-      body: Center(child: DefaultAnimatedSwitcher(child: body)),
+      body: Stack(children: [
+        DefaultAnimatedSwitcher(child: body),
+        _CreateActionButton(),
+      ]),
+    );
+  }
+}
+
+class _CreateActionButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 24),
+        child: PrimaryActionButton(
+          label: Strings.addAnAction,
+          drawableRes: Drawables.icAdd,
+          rippleColor: AppColors.primaryDarken,
+          onPressed: () => showPassEmploiBottomSheet(
+            context: context,
+            builder: (context) => CreateUserActionBottomSheet(),
+          ).then((value) => {}), // todo reset comme sur user_action_list_page ?? à creuser, pour voir s'il faut ou non faire store.dispatch(UserActionCreateResetAction()) dans notre VM
+        ),
+      ),
     );
   }
 }

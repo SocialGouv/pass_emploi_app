@@ -122,6 +122,10 @@ void main() {
       _expectDaySection(viewModel.events[0], "Lundi 22 août", ["action 22/08 11h", "rendezvous 22/08 15h"]);
       _expectDaySection(viewModel.events[1], "Mardi 23 août", ["action 23/08 08h"]);
     });
+
+    test('should reset create action', () {
+      // todo
+    });
   });
 }
 
