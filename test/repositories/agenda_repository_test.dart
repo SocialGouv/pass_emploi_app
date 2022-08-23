@@ -24,7 +24,7 @@ void main() {
         test('request should be valid', () async {
           await sut.expectRequestBody(
             method: "GET",
-            url: "BASE_URL/jeunes/UID/home/agenda?maintenant=2022-07-07T00:00:00+00:00",
+            url: "BASE_URL/jeunes/UID/home/agenda?maintenant=2022-07-07T00%3A00%3A00%2B00%3A00",
           );
         });
 

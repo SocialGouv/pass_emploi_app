@@ -14,7 +14,7 @@ class AgendaRepository {
   AgendaRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
 
   Future<Agenda?> getAgenda(String userId, DateTime maintenant) async {
-    final date = maintenant.toIso8601WithTimeZoneOffset();
+    final date = Uri.encodeComponent(maintenant.toIso8601WithTimeZoneOffset());
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/home/agenda?maintenant=$date");
     try {
       final response = await _httpClient.get(url);
