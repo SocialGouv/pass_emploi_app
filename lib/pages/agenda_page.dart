@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
@@ -51,9 +52,26 @@ class _DaySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(children: [
-      Text(section.title),
+      _DaySectionTitle(section.title),
       ...section.events.widgets(context),
     ]);
+  }
+}
+
+class _DaySectionTitle extends StatelessWidget {
+  final String title;
+
+  _DaySectionTitle(this.title);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: Margins.spacing_s),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: Text(title, style: TextStyles.textBaseMedium),
+      ),
+    );
   }
 }
 
