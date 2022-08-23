@@ -90,38 +90,38 @@ void main() {
       // Then
       _expectCount(sections: viewModel.events, actions: 2, rendezvous: 3);
     });
-  });
 
-  test('are sorted by date', () {
-    // Given
-    final actions = [actionLundiMatin, actionMardiMatin];
-    final rendezvous = [rendezvousLundiMatin];
-    final store = givenState().loggedInUser().agenda(actions: actions, rendezvous: rendezvous).store();
+    test('are sorted by date', () {
+      // Given
+      final actions = [actionLundiMatin, actionMardiMatin];
+      final rendezvous = [rendezvousLundiMatin];
+      final store = givenState().loggedInUser().agenda(actions: actions, rendezvous: rendezvous).store();
 
-    // When
-    final viewModel = AgendaPageViewModel.create(store);
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
 
-    // Then
-    _expectEvents(sections: viewModel.events, ids: [
-      "action 22/08 11h",
-      "rendezvous 22/08 15h",
-      "action 23/08 08h",
-    ]);
-  });
+      // Then
+      _expectEvents(sections: viewModel.events, ids: [
+        "action 22/08 11h",
+        "rendezvous 22/08 15h",
+        "action 23/08 08h",
+      ]);
+    });
 
-  test('are grouped by day', () {
-    // Given
-    final actions = [actionLundiMatin, actionMardiMatin];
-    final rendezvous = [rendezvousLundiMatin];
-    final store = givenState().loggedInUser().agenda(actions: actions, rendezvous: rendezvous).store();
+    test('are grouped by day', () {
+      // Given
+      final actions = [actionLundiMatin, actionMardiMatin];
+      final rendezvous = [rendezvousLundiMatin];
+      final store = givenState().loggedInUser().agenda(actions: actions, rendezvous: rendezvous).store();
 
-    // When
-    final viewModel = AgendaPageViewModel.create(store);
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
 
-    // Then
-    expect(viewModel.events.length, 2);
-    _expectDaySection(viewModel.events[0], "Lundi 22 août", ["action 22/08 11h", "rendezvous 22/08 15h"]);
-    _expectDaySection(viewModel.events[1], "Mardi 23 août", ["action 23/08 08h"]);
+      // Then
+      expect(viewModel.events.length, 2);
+      _expectDaySection(viewModel.events[0], "Lundi 22 août", ["action 22/08 11h", "rendezvous 22/08 15h"]);
+      _expectDaySection(viewModel.events[1], "Mardi 23 août", ["action 23/08 08h"]);
+    });
   });
 }
 
