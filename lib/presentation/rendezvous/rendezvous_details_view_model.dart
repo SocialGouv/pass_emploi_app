@@ -65,7 +65,7 @@ class RendezvousDetailsViewModel extends Equatable {
   });
 
   factory RendezvousDetailsViewModel.create(Store<AppState> store, String rdvId, Platform platform) {
-    final rdv = getRendezvousFromStore(store, rdvId);
+    final rdv = getRendezvousFromRendezvousState(store, rdvId);
     final address = _address(rdv);
     final comment = (rdv.comment != null && rdv.comment!.trim().isNotEmpty) ? rdv.comment : null;
     final isConseillerPresent = rdv.withConseiller ?? false;
