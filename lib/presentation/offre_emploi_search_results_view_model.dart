@@ -91,6 +91,7 @@ int _otherFiltresCount(OffreEmploiSearchParametersInitializedState searchParamsS
     searchParamsState.filtres.experience?.length ?? 0,
     searchParamsState.filtres.contrat?.length ?? 0,
     searchParamsState.filtres.duree?.length ?? 0,
+    searchParamsState.filtres.debutantOnly != null && searchParamsState.filtres.debutantOnly == true ? 1 : 0,
   ].fold(0, (previousValue, element) => previousValue + element);
 }
 

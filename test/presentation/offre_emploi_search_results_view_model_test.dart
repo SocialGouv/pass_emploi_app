@@ -222,22 +222,35 @@ void main() {
     });
 
     test(
-        "when state has multiple filtres active at the same time it should display the total count of active filtre as filtre number",
+        "when state has all active filtres at the same time it should display the total count of active filtre as filtre number",
         () {
       // Given
       final store = _storeWithFiltres(
         OffreEmploiSearchParametersFiltres.withFiltres(
-            distance: 40,
-            contrat: [ContratFiltre.cdi],
-            experience: [ExperienceFiltre.trois_ans_et_plus, ExperienceFiltre.de_un_a_trois_ans],
-            duree: [DureeFiltre.temps_plein]),
+          distance: 40,
+          debutantOnly: true,
+          contrat: [
+            ContratFiltre.cdi,
+            ContratFiltre.cdd_interim_saisonnier,
+            ContratFiltre.autre,
+          ],
+          experience: [
+            ExperienceFiltre.trois_ans_et_plus,
+            ExperienceFiltre.de_un_a_trois_ans,
+            ExperienceFiltre.de_zero_a_un_an,
+          ],
+          duree: [
+            DureeFiltre.temps_plein,
+            DureeFiltre.temps_partiel,
+          ],
+        ),
       );
 
       // When
       final viewModel = OffreEmploiSearchResultsViewModel.create(store);
 
       // Then
-      expect(viewModel.filtresCount, 5);
+      expect(viewModel.filtresCount, 10);
     });
   });
 
