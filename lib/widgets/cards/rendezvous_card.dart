@@ -9,17 +9,18 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:redux/redux.dart';
 
 class RendezvousCard extends StatelessWidget {
-  final String rendezvousId;
+  final RendezvousCardViewModel Function(Store<AppState>) converter;
   final VoidCallback onTap;
 
-  const RendezvousCard({Key? key, required this.rendezvousId, required this.onTap}) : super(key: key);
+  const RendezvousCard({Key? key, required this.converter, required this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RendezvousCardViewModel>(
-      converter: (store) => RendezvousCardViewModel.create(store, rendezvousId),
+      converter: converter,
       builder: (context, viewModel) => _Container(viewModel, onTap),
     );
   }
