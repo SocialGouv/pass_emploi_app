@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
 import 'package:pass_emploi_app/presentation/agenda/agenda_view_model.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -15,6 +16,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
+import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 
 class AgendaPage extends StatelessWidget {
   @override
@@ -23,22 +25,64 @@ class AgendaPage extends StatelessWidget {
       tracking: "todo",
       child: StoreConnector<AppState, AgendaPageViewModel>(
         onInit: (store) => store.dispatch(AgendaRequestAction(DateTime.now())),
-        builder: (context, viewModel) => _scaffold(context, viewModel),
+        builder: (context, viewModel) => _Scaffold(body: _Body(viewModel: viewModel)),
         converter: (store) => AgendaPageViewModel.create(store),
         distinct: true,
       ),
     );
   }
+}
 
-  Widget _scaffold(BuildContext context, AgendaPageViewModel viewModel) {
+class _Scaffold extends StatelessWidget {
+  const _Scaffold({Key? key, required this.body}) : super(key: key);
+
+  final Widget body;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.grey100,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-        child: ListView.builder(
-          itemCount: viewModel.events.length,
-          itemBuilder: (context, index) => _DaySection(viewModel.events[index]),
-        ),
+      body: Center(child: DefaultAnimatedSwitcher(child: body)),
+    );
+  }
+}
+
+class _Body extends StatelessWidget {
+  final AgendaPageViewModel viewModel;
+
+  const _Body({
+    Key? key,
+    required this.viewModel,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    switch (viewModel.displayState) {
+      case DisplayState.LOADING:
+        return CircularProgressIndicator();
+      case DisplayState.CONTENT:
+        return _Content(viewModel: viewModel);
+      default:
+        return Text("Sorry :)");
+    }
+  }
+}
+
+class _Content extends StatelessWidget {
+  const _Content({
+    Key? key,
+    required this.viewModel,
+  }) : super(key: key);
+
+  final AgendaPageViewModel viewModel;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+      child: ListView.builder(
+        itemCount: viewModel.events.length,
+        itemBuilder: (context, index) => _DaySection(viewModel.events[index]),
       ),
     );
   }
