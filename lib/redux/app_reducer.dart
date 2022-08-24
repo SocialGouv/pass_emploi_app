@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/features/deep_link/deep_link_reducer.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_reducer.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_reducer.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_reducer.dart';
+import 'package:pass_emploi_app/features/demarche/update/update_demarche_reducer.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_reducer.dart';
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_reducer.dart';
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_reducer.dart';
@@ -64,6 +65,7 @@ AppState reducer(AppState current, dynamic action) {
     demarcheListState: demarcheListReducer(current.demarcheListState, action),
     createDemarcheState: createDemarcheReducer(current.createDemarcheState, action),
     searchDemarcheState: searchDemarcheReducer(current.searchDemarcheState, action),
+    updateDemarcheState: updateDemarcheReducer(current.updateDemarcheState, action),
     detailsJeuneState: detailsJeuneReducer(current.detailsJeuneState, action),
     chatStatusState: chatStatusReducer(current.chatStatusState, action),
     chatState: chatReducer(current.chatState, action),

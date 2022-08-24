@@ -5,7 +5,9 @@ import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
 import 'package:pass_emploi_app/features/chat/preview_file/preview_file_state.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
+import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
+import 'package:pass_emploi_app/features/demarche/update/update_demarhce_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/features/partage_activite/partage_activites_state.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
@@ -15,6 +17,7 @@ import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
+import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
@@ -163,5 +166,21 @@ extension AppStateDSL on AppState {
 
   AppState createCommentNotInitState() {
     return copyWith(actionCommentaireCreateState: ActionCommentaireCreateNotInitializedState());
+  }
+
+  AppState withDemarches(List<Demarche> demarches) {
+    return copyWith(demarcheListState: DemarcheListSuccessState(demarches, true));
+  }
+
+  AppState updateDemarcheSuccess() {
+    return copyWith(updateDemarcheState: UpdateDemarcheSuccessState());
+  }
+
+  AppState updateDemarcheLoading() {
+    return copyWith(updateDemarcheState: UpdateDemarcheLoadingState());
+  }
+
+  AppState updateDemarcheFailure() {
+    return copyWith(updateDemarcheState: UpdateDemarcheFailureState());
   }
 }

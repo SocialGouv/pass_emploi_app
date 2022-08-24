@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
+import 'package:pass_emploi_app/features/demarche/update/update_demarhce_state.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart';
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_state.dart';
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_state.dart';
@@ -62,6 +63,7 @@ class AppState extends Equatable {
   final DemarcheListState demarcheListState;
   final CreateDemarcheState createDemarcheState;
   final SearchDemarcheState searchDemarcheState;
+  final UpdateDemarcheState updateDemarcheState;
   final DetailsJeuneState detailsJeuneState;
   final ChatStatusState chatStatusState;
   final ChatState chatState;
@@ -113,6 +115,7 @@ class AppState extends Equatable {
     required this.demarcheListState,
     required this.createDemarcheState,
     required this.searchDemarcheState,
+    required this.updateDemarcheState,
     required this.detailsJeuneState,
     required this.chatStatusState,
     required this.chatState,
@@ -163,6 +166,7 @@ class AppState extends Equatable {
     final DemarcheListState? demarcheListState,
     final CreateDemarcheState? createDemarcheState,
     final SearchDemarcheState? searchDemarcheState,
+    final UpdateDemarcheState? updateDemarcheState,
     final DetailsJeuneState? detailsJeuneState,
     final ChatStatusState? chatStatusState,
     final ChatState? chatState,
@@ -215,6 +219,7 @@ class AppState extends Equatable {
       demarcheListState: demarcheListState ?? this.demarcheListState,
       createDemarcheState: createDemarcheState ?? this.createDemarcheState,
       searchDemarcheState: searchDemarcheState ?? this.searchDemarcheState,
+      updateDemarcheState: updateDemarcheState ?? this.updateDemarcheState,
       detailsJeuneState: detailsJeuneState ?? this.detailsJeuneState,
       chatStatusState: chatStatusState ?? this.chatStatusState,
       chatState: chatState ?? this.chatState,
@@ -271,6 +276,7 @@ class AppState extends Equatable {
       detailsJeuneState: DetailsJeuneNotInitializedState(),
       createDemarcheState: CreateDemarcheNotInitializedState(),
       searchDemarcheState: SearchDemarcheNotInitializedState(),
+      updateDemarcheState: UpdateDemarcheNotInitializedState(),
       chatStatusState: ChatStatusNotInitializedState(),
       chatState: ChatNotInitializedState(),
       offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
@@ -322,6 +328,7 @@ class AppState extends Equatable {
         demarcheListState,
         createDemarcheState,
         searchDemarcheState,
+        updateDemarcheState,
         detailsJeuneState,
         chatStatusState,
         chatState,
