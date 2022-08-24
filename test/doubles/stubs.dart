@@ -577,7 +577,11 @@ class UpdateDemarcheRepositorySuccessStub extends UpdateDemarcheRepository {
     DateTime? dateFin,
     DateTime? dateDebut,
   ) async {
-    if (_userId == userId && _actionId == demarcheId && _status == status && _debut == dateDebut && _fin == dateFin) {
+    if (_userId == userId &&
+        _actionId == demarcheId &&
+        _status == status &&
+        _debut == dateDebut &&
+        _fin == dateFin) {
       return mockDemarche(id: demarcheId, status: status);
     }
     return null;
