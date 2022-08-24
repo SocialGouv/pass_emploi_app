@@ -19,6 +19,7 @@ import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
@@ -435,5 +436,58 @@ class ActionCommentaireRepositoryFailureStub extends ActionCommentaireRepository
   @override
   Future<bool> sendCommentaire({required String actionId, required String comment}) async {
     return false;
+  }
+}
+
+class UpdateDemarcheRepositorySuccessStub extends UpdateDemarcheRepository {
+  String? _userId;
+  String? _actionId;
+  DemarcheStatus? _status;
+  DateTime? _fin;
+  DateTime? _debut;
+
+  UpdateDemarcheRepositorySuccessStub() : super('', DummyHttpClient());
+
+  void withArgsResolves(
+    String userId,
+    String actionId,
+    DemarcheStatus status,
+    DateTime? dateFin,
+    DateTime? dateDebut,
+  ) {
+    _userId = userId;
+    _actionId = actionId;
+    _status = status;
+    _fin = dateFin;
+    _debut = dateDebut;
+  }
+
+  @override
+  Future<Demarche?> updateDemarche(
+    String userId,
+    String demarcheId,
+    DemarcheStatus status,
+    DateTime? dateFin,
+    DateTime? dateDebut,
+  ) async {
+    if (_userId == userId && _actionId == demarcheId && _status == status && _debut == dateDebut && _fin == dateFin) {
+      return mockDemarche(id: demarcheId, status: status);
+    }
+    return null;
+  }
+}
+
+class UpdateDemarcheRepositoryFailureStub extends UpdateDemarcheRepository {
+  UpdateDemarcheRepositoryFailureStub() : super('', DummyHttpClient());
+
+  @override
+  Future<Demarche?> updateDemarche(
+    String userId,
+    String demarcheId,
+    DemarcheStatus status,
+    DateTime? dateFin,
+    DateTime? dateDebut,
+  ) async {
+    return null;
   }
 }
