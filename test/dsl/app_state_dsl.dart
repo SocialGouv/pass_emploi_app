@@ -293,9 +293,11 @@ extension AppStateDSL on AppState {
         delayedActions: delayedActions,
       )),
     );
+  }
 
   AppState withDemarches(List<Demarche> demarches) {
-    return copyWith(demarcheListState: DemarcheListSuccessState(demarches, true));
+    return copyWith(
+        demarcheListState: DemarcheListSuccessState(demarches, true));
   }
 
   AppState updateDemarcheSuccess() {
