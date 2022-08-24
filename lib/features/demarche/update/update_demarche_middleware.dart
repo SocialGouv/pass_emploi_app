@@ -38,6 +38,7 @@ class UpdateDemarcheMiddleware extends MiddlewareClass<AppState> {
       } else {
         store.dispatch(UpdateDemarcheFailureAction());
       }
+      store.dispatch(UpdateDemarcheFailureAction());
     }
   }
 }

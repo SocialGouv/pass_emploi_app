@@ -175,6 +175,22 @@ extension AppStateDSL on AppState {
     return copyWith(actionCommentaireCreateState: ActionCommentaireCreateNotInitializedState());
   }
 
+  AppState withDemarches(List<Demarche> demarches) {
+    return copyWith(demarcheListState: DemarcheListSuccessState(demarches, true));
+  }
+
+  AppState updateDemarcheSuccess() {
+    return copyWith(updateDemarcheState: UpdateDemarcheSuccessState());
+  }
+
+  AppState updateDemarcheLoading() {
+    return copyWith(updateDemarcheState: UpdateDemarcheLoadingState());
+  }
+
+  AppState updateDemarcheFailure() {
+    return copyWith(updateDemarcheState: UpdateDemarcheFailureState());
+  }
+
   AppState emptyAgenda() {
     return copyWith(agendaState: AgendaSuccessState(Agenda(actions: [], rendezvous: [], delayedActions: 0)));
   }
