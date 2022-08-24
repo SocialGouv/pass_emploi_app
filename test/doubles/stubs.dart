@@ -545,3 +545,56 @@ class UpdateDemarcheRepositoryFailureStub extends UpdateDemarcheRepository {
     return null;
   }
 }
+
+class UpdateDemarcheRepositorySuccessStub extends UpdateDemarcheRepository {
+  String? _userId;
+  String? _actionId;
+  DemarcheStatus? _status;
+  DateTime? _fin;
+  DateTime? _debut;
+
+  UpdateDemarcheRepositorySuccessStub() : super('', DummyHttpClient());
+
+  void withArgsResolves(
+    String userId,
+    String actionId,
+    DemarcheStatus status,
+    DateTime? dateFin,
+    DateTime? dateDebut,
+  ) {
+    _userId = userId;
+    _actionId = actionId;
+    _status = status;
+    _fin = dateFin;
+    _debut = dateDebut;
+  }
+
+  @override
+  Future<Demarche?> updateDemarche(
+    String userId,
+    String demarcheId,
+    DemarcheStatus status,
+    DateTime? dateFin,
+    DateTime? dateDebut,
+  ) async {
+    if (_userId == userId && _actionId == demarcheId && _status == status && _debut == dateDebut && _fin == dateFin) {
+      return mockDemarche(id: demarcheId, status: status);
+    }
+    return null;
+  }
+}
+
+class UpdateDemarcheRepositoryFailureStub extends UpdateDemarcheRepository {
+  UpdateDemarcheRepositoryFailureStub() : super('', DummyHttpClient());
+
+  @override
+  Future<Demarche?> updateDemarche(
+    String userId,
+    String demarcheId,
+    DemarcheStatus status,
+    DateTime? dateFin,
+    DateTime? dateDebut,
+  ) async {
+    return null;
+  }
+}
