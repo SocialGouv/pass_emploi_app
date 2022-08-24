@@ -15,7 +15,8 @@ class UpdateDemarcheMiddleware extends MiddlewareClass<AppState> {
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     final loginState = store.state.loginState;
-    if (loginState is LoginSuccessState && action is UpdateDemarcheRequestAction) {
+    if (loginState is LoginSuccessState &&
+        action is UpdateDemarcheRequestAction) {
       store.dispatch(UpdateDemarcheLoadingAction());
       final modifiedDemarche = await _repository.updateDemarche(
         loginState.user.id,
@@ -29,7 +30,8 @@ class UpdateDemarcheMiddleware extends MiddlewareClass<AppState> {
         final demarcheListState = store.state.demarcheListState;
         if (demarcheListState is DemarcheListSuccessState) {
           final currentDemarches = demarcheListState.demarches.toList();
-          final indexOfCurrentDemarche = currentDemarches.indexWhere((e) => e.id == action.id);
+          final indexOfCurrentDemarche =
+              currentDemarches.indexWhere((e) => e.id == action.id);
           currentDemarches[indexOfCurrentDemarche] = modifiedDemarche;
           store.dispatch(DemarcheListSuccessAction(currentDemarches, true));
         }

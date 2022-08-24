@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
-import 'package:pass_emploi_app/features/demarche/update/update_demarhce_state.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
@@ -55,7 +54,9 @@ class DemarcheDetailViewModel extends Equatable {
 
   factory DemarcheDetailViewModel.create(Store<AppState> store, String id) {
     final Demarche demarche =
-        (store.state.demarcheListState as DemarcheListSuccessState).demarches.firstWhere((element) => element.id == id);
+        (store.state.demarcheListState as DemarcheListSuccessState)
+            .demarches
+            .firstWhere((element) => element.id == id);
     demarche.possibleStatus.sort((a, b) => a.compareTo(b));
     final isLate = _isLate(demarche.status, demarche.endDate);
     final updateState = store.state.updateDemarcheState;
@@ -63,14 +64,17 @@ class DemarcheDetailViewModel extends Equatable {
       createdByAdvisor: demarche.createdByAdvisor,
       modifiedByAdvisor: demarche.modifiedByAdvisor,
       dateFormattedTexts: _formattedDate(demarche),
-      dateBackgroundColor: isLate ? AppColors.warningLighten : AppColors.accent3Lighten,
+      dateBackgroundColor:
+          isLate ? AppColors.warningLighten : AppColors.accent3Lighten,
       dateTextColor: isLate ? AppColors.warning : AppColors.accent2,
       dateIcons: [if (isLate) Drawables.icImportantOutlined, Drawables.icClock],
       label: demarche.label,
       titreDetail: demarche.titre,
       sousTitre: demarche.sousTitre,
       attributs: demarche.attributs.map((e) => e.value).toList(),
-      statutsPossibles: demarche.possibleStatus.map((e) => _getTagViewModel(e, demarche.status)).toList(),
+      statutsPossibles: demarche.possibleStatus
+          .map((e) => _getTagViewModel(e, demarche.status))
+          .toList(),
       modificationDate: demarche.modificationDate?.toDay(),
       creationDate: demarche.creationDate?.toDay(),
       onModifyStatus: (tag) {
@@ -110,34 +114,39 @@ class DemarcheDetailViewModel extends Equatable {
       ];
 }
 
-UserActionTagViewModel _getTagViewModel(DemarcheStatus status, DemarcheStatus currentStatus) {
+UserActionTagViewModel _getTagViewModel(
+    DemarcheStatus status, DemarcheStatus currentStatus) {
   final bool isSelected = status == currentStatus;
   switch (status) {
     case DemarcheStatus.NOT_STARTED:
       return UserActionTagViewModel(
         title: Strings.demarcheToDo,
-        backgroundColor: isSelected ? AppColors.accent1Lighten : Colors.transparent,
+        backgroundColor:
+            isSelected ? AppColors.accent1Lighten : Colors.transparent,
         textColor: isSelected ? AppColors.accent1 : AppColors.grey800,
         isSelected: isSelected,
       );
     case DemarcheStatus.IN_PROGRESS:
       return UserActionTagViewModel(
         title: Strings.demarcheInProgress,
-        backgroundColor: isSelected ? AppColors.accent3Lighten : Colors.transparent,
+        backgroundColor:
+            isSelected ? AppColors.accent3Lighten : Colors.transparent,
         textColor: isSelected ? AppColors.accent3 : AppColors.grey800,
         isSelected: isSelected,
       );
     case DemarcheStatus.DONE:
       return UserActionTagViewModel(
         title: Strings.demarcheDone,
-        backgroundColor: isSelected ? AppColors.accent2Lighten : Colors.transparent,
+        backgroundColor:
+            isSelected ? AppColors.accent2Lighten : Colors.transparent,
         textColor: isSelected ? AppColors.accent2 : AppColors.grey800,
         isSelected: isSelected,
       );
     case DemarcheStatus.CANCELLED:
       return UserActionTagViewModel(
         title: Strings.demarcheCancelled,
-        backgroundColor: isSelected ? AppColors.accent2Lighten : Colors.transparent,
+        backgroundColor:
+            isSelected ? AppColors.accent2Lighten : Colors.transparent,
         textColor: isSelected ? AppColors.accent2 : AppColors.grey800,
         isSelected: isSelected,
       );
@@ -145,12 +154,14 @@ UserActionTagViewModel _getTagViewModel(DemarcheStatus status, DemarcheStatus cu
 }
 
 List<FormattedText> _formattedDate(Demarche demarche) {
-  if (demarche.status == DemarcheStatus.CANCELLED && demarche.deletionDate != null) {
+  if (demarche.status == DemarcheStatus.CANCELLED &&
+      demarche.deletionDate != null) {
     return [
       FormattedText(Strings.demarcheCancelledLabel),
       FormattedText(demarche.deletionDate!.toDay(), bold: true),
     ];
-  } else if (demarche.status == DemarcheStatus.DONE && demarche.endDate != null) {
+  } else if (demarche.status == DemarcheStatus.DONE &&
+      demarche.endDate != null) {
     return [
       FormattedText(Strings.demarcheDoneLabel),
       FormattedText(demarche.endDate!.toDay(), bold: true),
@@ -181,8 +192,11 @@ DemarcheStatus? _getStatusFromTag(UserActionTagViewModel tag) {
 }
 
 bool _isLate(DemarcheStatus status, DateTime? endDate) {
-  if (endDate != null && (status == DemarcheStatus.NOT_STARTED || status == DemarcheStatus.IN_PROGRESS)) {
-    return endDate.isBefore(DateTime.now()) && (endDate.numberOfDaysUntilToday() > 0);
+  if (endDate != null &&
+      (status == DemarcheStatus.NOT_STARTED ||
+          status == DemarcheStatus.IN_PROGRESS)) {
+    return endDate.isBefore(DateTime.now()) &&
+        (endDate.numberOfDaysUntilToday() > 0);
   }
   return false;
 }
