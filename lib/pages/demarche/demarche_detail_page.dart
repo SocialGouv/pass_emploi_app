@@ -3,7 +3,9 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
+import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_detail_view_model.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -13,6 +15,8 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/date_echeance_in_detail.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/loading_overlay.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class DemarcheDetailPage extends StatelessWidget {
   final String id;
@@ -31,6 +35,13 @@ class DemarcheDetailPage extends StatelessWidget {
         appBar: passEmploiAppBar(label: Strings.demarcheDetails, context: context),
         body: StoreConnector<AppState, DemarcheDetailViewModel>(
           converter: (store) => DemarcheDetailViewModel.create(store, id),
+          onDidChange: (oldViewModel, newViewModel)  async {
+            if (newViewModel.errorOnUpdate) {
+              showFailedSnackBar(context, Strings.updateStatusError);
+              newViewModel.resetUpdateStatus();
+            }
+          },
+          onDispose: (store) => store.dispatch(UpdateDemarcheResetAction()),
           builder: (context, viewModel) => _Body(viewModel),
         ),
       ),
@@ -45,55 +56,64 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            if (viewModel.label != null) ...[
-              SizedBox(height: Margins.spacing_base),
-              _Categorie(viewModel.label!),
-            ],
-            if (viewModel.titreDetail != null) ...[
-              SizedBox(height: Margins.spacing_base),
-              _Titre(viewModel.titreDetail!),
-            ],
-            if (viewModel.sousTitre != null) ...[
-              SizedBox(height: Margins.spacing_base),
-              _SousTitre(viewModel.sousTitre!),
-            ],
-            SizedBox(height: Margins.spacing_base),
-            _DetailDemarcheTitle(),
-            if (viewModel.attributs.isNotEmpty) ...[
-              SizedBox(height: Margins.spacing_base),
-              _Attributs(viewModel.attributs),
-            ],
-            SizedBox(height: Margins.spacing_base),
-            DateEcheanceInDetail(
-              icons: viewModel.dateIcons,
-              formattedTexts: viewModel.dateFormattedTexts,
-              backgroundColor: viewModel.dateBackgroundColor,
-              textColor: viewModel.dateTextColor,
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (viewModel.label != null) ...[
+                  SizedBox(height: Margins.spacing_base),
+                  _Categorie(viewModel.label!),
+                ],
+                if (viewModel.titreDetail != null) ...[
+                  SizedBox(height: Margins.spacing_base),
+                  _Titre(viewModel.titreDetail!),
+                ],
+                if (viewModel.sousTitre != null) ...[
+                  SizedBox(height: Margins.spacing_base),
+                  _SousTitre(viewModel.sousTitre!),
+                ],
+                SizedBox(height: Margins.spacing_base),
+                _DetailDemarcheTitle(),
+                if (viewModel.attributs.isNotEmpty) ...[
+                  SizedBox(height: Margins.spacing_base),
+                  _Attributs(viewModel.attributs),
+                ],
+                SizedBox(height: Margins.spacing_base),
+                DateEcheanceInDetail(
+                  icons: viewModel.dateIcons,
+                  formattedTexts: viewModel.dateFormattedTexts,
+                  backgroundColor: viewModel.dateBackgroundColor,
+                  textColor: viewModel.dateTextColor,
+                ),
+                if (viewModel.statutsPossibles.isNotEmpty) ...[
+                  SizedBox(height: Margins.spacing_base),
+                  _StatutTitle(),
+                ],
+                if (viewModel.statutsPossibles.isNotEmpty) ...[
+                  SizedBox(height: Margins.spacing_base),
+                  _StatutList(viewModel),
+                  SizedBox(height: Margins.spacing_base),
+                ],
+                SizedBox(height: Margins.spacing_base),
+                _HistoriqueTitle(),
+                SizedBox(height: Margins.spacing_base),
+                _Historique(viewModel),
+                SizedBox(height: 40),
+              ],
             ),
-            if (viewModel.statutsPossibles.isNotEmpty) ...[
-              SizedBox(height: Margins.spacing_base),
-              _StatutTitle(),
-            ],
-            if (viewModel.statutsPossibles.isNotEmpty) ...[
-              SizedBox(height: Margins.spacing_base),
-              _StatutList(viewModel),
-              SizedBox(height: Margins.spacing_base),
-            ],
-            SizedBox(height: Margins.spacing_base),
-            _HistoriqueTitle(),
-            SizedBox(height: Margins.spacing_base),
-            _Historique(viewModel),
-            SizedBox(height: 40),
-          ],
+          ),
         ),
-      ),
+        if (_loading(viewModel)) LoadingOverlay(),
+      ],
     );
+  }
+
+  bool _loading(DemarcheDetailViewModel viewModel) {
+    return viewModel.updateDisplayState == DisplayState.LOADING;
   }
 }
 

@@ -226,7 +226,6 @@ class Strings {
   static String yourComment = "Votre commentaire...";
   static String sendCommentError = "Erreur lors de l'envoi du commentaire. Veuillez réessayer";
 
-
   // Demarches
   static String modifierStatut = "Modifier le statut";
   static String historiqueDemarche = "Historique";
@@ -270,6 +269,8 @@ class Strings {
   static String demarcheCancelledLabel = "Annulé le ";
 
   static String demarcheCancelledDateFormat(String formattedDate) => demarcheCancelledLabel + formattedDate;
+
+  static String updateStatusError = "Erreur lors du changement du statut. Veuillez réessayer";
 
   static String withoutDate = "Date indéterminée";
   static String withoutContent = "Démarche indéterminée";
