@@ -35,7 +35,7 @@ class DemarcheDetailPage extends StatelessWidget {
         appBar: passEmploiAppBar(label: Strings.demarcheDetails, context: context),
         body: StoreConnector<AppState, DemarcheDetailViewModel>(
           converter: (store) => DemarcheDetailViewModel.create(store, id),
-          onDidChange: (oldViewModel, newViewModel)  async {
+          onDidChange: (oldViewModel, newViewModel) async {
             if (newViewModel.errorOnUpdate) {
               showFailedSnackBar(context, Strings.updateStatusError);
               newViewModel.resetUpdateStatus();
@@ -107,13 +107,9 @@ class _Body extends StatelessWidget {
             ),
           ),
         ),
-        if (_loading(viewModel)) LoadingOverlay(),
+        if (viewModel.updateDisplayState == DisplayState.LOADING) LoadingOverlay(),
       ],
     );
-  }
-
-  bool _loading(DemarcheDetailViewModel viewModel) {
-    return viewModel.updateDisplayState == DisplayState.LOADING;
   }
 }
 
