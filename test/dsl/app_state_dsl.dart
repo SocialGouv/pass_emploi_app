@@ -172,6 +172,10 @@ extension AppStateDSL on AppState {
     return copyWith(demarcheListState: DemarcheListSuccessState(demarches, true));
   }
 
+  AppState updateDemarcheNotInit() {
+    return copyWith(updateDemarcheState: UpdateDemarcheNotInitializedState());
+  }
+
   AppState updateDemarcheSuccess() {
     return copyWith(updateDemarcheState: UpdateDemarcheSuccessState());
   }

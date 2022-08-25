@@ -371,3 +371,22 @@ List<Commentaire> mockCommentaires() => [
         creatorName: null,
       )
     ];
+
+List<Demarche> mockDemarches() {
+  return [Demarche(
+    id: "demarcheId",
+    content: null,
+    status: DemarcheStatus.NOT_STARTED,
+    endDate: DateTime.now(),
+    deletionDate: null,
+    createdByAdvisor: true,
+    label: null,
+    possibleStatus: [],
+    creationDate: DateTime.now(),
+    modifiedByAdvisor: false,
+    sousTitre: null,
+    titre: null,
+    modificationDate: null,
+    attributs: [],
+  )];
+}
