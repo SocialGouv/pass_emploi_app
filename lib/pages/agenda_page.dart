@@ -90,7 +90,7 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (viewModel.displayState) {
       case DisplayState.LOADING:
-        return CircularProgressIndicator();
+        return Center(child: CircularProgressIndicator());
       case DisplayState.CONTENT:
         return _Content(viewModel: viewModel);
       default:
