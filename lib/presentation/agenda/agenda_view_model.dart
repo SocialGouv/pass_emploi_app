@@ -1,8 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
-import 'package:pass_emploi_app/models/rendezvous.dart';
-import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
@@ -12,13 +11,15 @@ import 'package:redux/redux.dart';
 class AgendaPageViewModel extends Equatable {
   final DisplayState displayState;
   final List<DaySectionAgenda> events;
+  final Function() resetCreateAction;
 
-  AgendaPageViewModel({required this.displayState, required this.events});
+  AgendaPageViewModel({required this.displayState, required this.events, required this.resetCreateAction});
 
   factory AgendaPageViewModel.create(Store<AppState> store) {
     return AgendaPageViewModel(
       displayState: _displayState(store),
       events: _events(store),
+      resetCreateAction: () => store.dispatch(UserActionCreateResetAction()),
     );
   }
 
@@ -50,7 +51,7 @@ List<DaySectionAgenda> _events(Store<AppState> store) {
   ];
 
   events.sort((a, b) => a.date.compareTo(b.date));
-  
+
   final grouped = events.groupListsBy((element) => element.date.toDayOfWeekWithFullMonth().firstLetterUpperCased());
   final keys = grouped.keys.toList();
 

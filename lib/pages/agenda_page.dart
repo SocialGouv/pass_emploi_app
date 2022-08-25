@@ -32,7 +32,7 @@ class AgendaPage extends StatelessWidget {
       tracking: "todo", // todo tracking
       child: StoreConnector<AppState, AgendaPageViewModel>(
         onInit: (store) => store.dispatch(AgendaRequestAction(DateTime.now())),
-        builder: (context, viewModel) => _Scaffold(body: _Body(viewModel: viewModel)),
+        builder: (context, viewModel) => _Scaffold(viewModel: viewModel),
         converter: (store) => AgendaPageViewModel.create(store),
         distinct: true,
       ),
@@ -41,23 +41,30 @@ class AgendaPage extends StatelessWidget {
 }
 
 class _Scaffold extends StatelessWidget {
-  const _Scaffold({Key? key, required this.body}) : super(key: key);
+  final AgendaPageViewModel viewModel;
 
-  final Widget body;
+  const _Scaffold({
+    Key? key,
+    required this.viewModel,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.grey100,
       body: Stack(children: [
-        DefaultAnimatedSwitcher(child: body),
-        _CreateActionButton(),
+        DefaultAnimatedSwitcher(child: _Body(viewModel: viewModel)),
+        _CreateActionButton(resetCreateAction: viewModel.resetCreateAction),
       ]),
     );
   }
 }
 
 class _CreateActionButton extends StatelessWidget {
+  final Function() resetCreateAction;
+
+  _CreateActionButton({required this.resetCreateAction});
+
   @override
   Widget build(BuildContext context) {
     return Align(
@@ -71,7 +78,7 @@ class _CreateActionButton extends StatelessWidget {
           onPressed: () => showPassEmploiBottomSheet(
             context: context,
             builder: (context) => CreateUserActionBottomSheet(),
-          ).then((value) => {}), // todo reset comme sur user_action_list_page ?? à creuser, pour voir s'il faut ou non faire store.dispatch(UserActionCreateResetAction()) dans notre VM
+          ).then((value) => {resetCreateAction()}),
         ),
       ),
     );
