@@ -24,7 +24,7 @@ class UpdateDemarcheMiddleware extends MiddlewareClass<AppState> {
         action.dateFin,
         action.dateDebut,
       );
-      if (modifiedDemarche != null ) {
+      if (modifiedDemarche != null) {
         store.dispatch(UpdateDemarcheSuccessAction());
         final demarcheListState = store.state.demarcheListState;
         if (demarcheListState is DemarcheListSuccessState) {
@@ -33,8 +33,9 @@ class UpdateDemarcheMiddleware extends MiddlewareClass<AppState> {
           currentDemarches[indexOfCurrentDemarche] = modifiedDemarche;
           store.dispatch(DemarcheListSuccessAction(currentDemarches, true));
         }
+      } else {
+        store.dispatch(UpdateDemarcheFailureAction());
       }
-      store.dispatch(UpdateDemarcheFailureAction());
     }
   }
 }

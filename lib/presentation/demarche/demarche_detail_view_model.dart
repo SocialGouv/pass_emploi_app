@@ -2,7 +2,9 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
+import 'package:pass_emploi_app/features/demarche/update/update_demarhce_state.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -11,10 +13,6 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
-
-void _emptyFunction(UserActionTagViewModel tag) {
-  // Do nothing
-}
 
 class DemarcheDetailViewModel extends Equatable {
   final bool createdByAdvisor;
@@ -31,6 +29,9 @@ class DemarcheDetailViewModel extends Equatable {
   final List<String> attributs;
   final List<UserActionTagViewModel> statutsPossibles;
   final Function(UserActionTagViewModel) onModifyStatus;
+  final Function() resetUpdateStatus;
+  final DisplayState updateDisplayState;
+  final bool errorOnUpdate;
 
   DemarcheDetailViewModel({
     required this.createdByAdvisor,
@@ -46,15 +47,18 @@ class DemarcheDetailViewModel extends Equatable {
     required this.statutsPossibles,
     required this.modificationDate,
     required this.creationDate,
-    this.onModifyStatus = _emptyFunction,
+    required this.onModifyStatus,
+    required this.resetUpdateStatus,
+    required this.updateDisplayState,
+    required this.errorOnUpdate,
   });
 
   factory DemarcheDetailViewModel.create(Store<AppState> store, String id) {
     final Demarche demarche =
         (store.state.demarcheListState as DemarcheListSuccessState).demarches.firstWhere((element) => element.id == id);
     demarche.possibleStatus.sort((a, b) => a.compareTo(b));
-
     final isLate = _isLate(demarche.status, demarche.endDate);
+    final updateState = store.state.updateDemarcheState;
     return DemarcheDetailViewModel(
       createdByAdvisor: demarche.createdByAdvisor,
       modifiedByAdvisor: demarche.modifiedByAdvisor,
@@ -80,6 +84,9 @@ class DemarcheDetailViewModel extends Equatable {
           ));
         }
       },
+      resetUpdateStatus: () => store.dispatch(UpdateDemarcheResetAction()),
+      updateDisplayState: _updateStateDisplayState(updateState),
+      errorOnUpdate: updateState is UpdateDemarcheFailureState,
     );
   }
 
@@ -98,6 +105,8 @@ class DemarcheDetailViewModel extends Equatable {
         creationDate,
         attributs,
         statutsPossibles,
+        updateDisplayState,
+        errorOnUpdate,
       ];
 }
 
@@ -176,4 +185,9 @@ bool _isLate(DemarcheStatus status, DateTime? endDate) {
     return endDate.isBefore(DateTime.now()) && (endDate.numberOfDaysUntilToday() > 0);
   }
   return false;
+}
+
+DisplayState _updateStateDisplayState(UpdateDemarcheState state) {
+  if (state is UpdateDemarcheLoadingState) return DisplayState.LOADING;
+  return DisplayState.EMPTY;
 }
