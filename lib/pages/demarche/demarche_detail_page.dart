@@ -113,7 +113,6 @@ class _Body extends StatelessWidget {
       ],
     );
   }
-
 }
 
 class _Categorie extends StatelessWidget {
