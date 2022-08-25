@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
@@ -29,7 +30,7 @@ class AgendaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Tracker(
-      tracking: "todo", // todo tracking
+      tracking: AnalyticsScreenNames.agenda,
       child: StoreConnector<AppState, AgendaPageViewModel>(
         onInit: (store) => store.dispatch(AgendaRequestAction(DateTime.now())),
         builder: (context, viewModel) => _Scaffold(viewModel: viewModel),
@@ -101,7 +102,7 @@ class _Body extends StatelessWidget {
       case DisplayState.CONTENT:
         return _Content(viewModel: viewModel);
       default:
-        return Text("Sorry :)");
+        return Text("Sorry :)"); // todo
     }
   }
 }
