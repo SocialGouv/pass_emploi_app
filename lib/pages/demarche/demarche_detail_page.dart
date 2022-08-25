@@ -32,7 +32,8 @@ class DemarcheDetailPage extends StatelessWidget {
     return Tracker(
       tracking: AnalyticsScreenNames.userActionDetails,
       child: Scaffold(
-        appBar: passEmploiAppBar(label: Strings.demarcheDetails, context: context),
+        appBar:
+            passEmploiAppBar(label: Strings.demarcheDetails, context: context),
         body: StoreConnector<AppState, DemarcheDetailViewModel>(
           converter: (store) => DemarcheDetailViewModel.create(store, id),
           onDidChange: (oldViewModel, newViewModel) async {
@@ -107,9 +108,14 @@ class _Body extends StatelessWidget {
             ),
           ),
         ),
-        if (viewModel.updateDisplayState == DisplayState.LOADING) LoadingOverlay(),
+        if (viewModel.updateDisplayState == DisplayState.LOADING)
+          LoadingOverlay(),
       ],
     );
+  }
+
+  bool _loading(DemarcheDetailViewModel viewModel) {
+    return viewModel.updateDisplayState == DisplayState.LOADING;
   }
 }
 
@@ -247,7 +253,9 @@ class _StatutList extends StatelessWidget {
     return Wrap(
       spacing: 20,
       runSpacing: 20,
-      children: viewModel.statutsPossibles.map((e) => _StatutItem(e, viewModel)).toList(),
+      children: viewModel.statutsPossibles
+          .map((e) => _StatutItem(e, viewModel))
+          .toList(),
     );
   }
 }
@@ -337,11 +345,19 @@ class _Historique extends StatelessWidget {
             RichText(
               text: TextSpan(
                 children: [
-                  TextSpan(text: Strings.modifiedBy, style: TextStyles.textBaseRegular),
-                  TextSpan(text: viewModel.modificationDate, style: TextStyles.textBaseBold),
-                  if (viewModel.modifiedByAdvisor) TextSpan(text: Strings.par, style: TextStyles.textBaseRegular),
+                  TextSpan(
+                      text: Strings.modifiedBy,
+                      style: TextStyles.textBaseRegular),
+                  TextSpan(
+                      text: viewModel.modificationDate,
+                      style: TextStyles.textBaseBold),
                   if (viewModel.modifiedByAdvisor)
-                    TextSpan(text: Strings.votreConseiller, style: TextStyles.textBaseBold),
+                    TextSpan(
+                        text: Strings.par, style: TextStyles.textBaseRegular),
+                  if (viewModel.modifiedByAdvisor)
+                    TextSpan(
+                        text: Strings.votreConseiller,
+                        style: TextStyles.textBaseBold),
                 ],
               ),
             ),
@@ -349,11 +365,19 @@ class _Historique extends StatelessWidget {
             RichText(
               text: TextSpan(
                 children: [
-                  TextSpan(text: Strings.createdBy, style: TextStyles.textBaseRegular),
-                  TextSpan(text: viewModel.creationDate, style: TextStyles.textBaseBold),
-                  if (viewModel.createdByAdvisor) TextSpan(text: Strings.par, style: TextStyles.textBaseRegular),
+                  TextSpan(
+                      text: Strings.createdBy,
+                      style: TextStyles.textBaseRegular),
+                  TextSpan(
+                      text: viewModel.creationDate,
+                      style: TextStyles.textBaseBold),
                   if (viewModel.createdByAdvisor)
-                    TextSpan(text: Strings.votreConseiller, style: TextStyles.textBaseBold),
+                    TextSpan(
+                        text: Strings.par, style: TextStyles.textBaseRegular),
+                  if (viewModel.createdByAdvisor)
+                    TextSpan(
+                        text: Strings.votreConseiller,
+                        style: TextStyles.textBaseBold),
                 ],
               ),
             ),
