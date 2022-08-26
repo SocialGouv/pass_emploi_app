@@ -28,7 +28,7 @@ void main() {
       );
 
       // When
-      final viewModel = UserActionDetailsViewModel.create(store, 'id');
+      final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'id');
 
       // Then
       expect(viewModel.displayState, UserActionDetailsDisplayState.TO_DISMISS_AFTER_UPDATE);
@@ -45,7 +45,7 @@ void main() {
       );
 
       // When
-      final viewModel = UserActionDetailsViewModel.create(store, 'id');
+      final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'id');
 
       // Then
       expect(viewModel.displayState, UserActionDetailsDisplayState.TO_DISMISS_AFTER_UPDATE);
@@ -62,7 +62,7 @@ void main() {
       );
 
       // When
-      final viewModel = UserActionDetailsViewModel.create(store, 'id');
+      final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'id');
 
       // Then
       expect(viewModel.displayState, UserActionDetailsDisplayState.SHOW_SUCCESS);
@@ -79,7 +79,7 @@ void main() {
     );
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, 'id');
+    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'id');
 
     // Then
     expect(
@@ -103,7 +103,7 @@ void main() {
     );
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, 'id');
+    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'id');
 
     // Then
     expect(
@@ -127,7 +127,7 @@ void main() {
     );
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, 'id');
+    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'id');
 
     // Then
     expect(viewModel.dateEcheanceViewModel, isNull);
@@ -143,7 +143,7 @@ void main() {
     );
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, 'id');
+    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'id');
 
     // Then
     expect(viewModel.dateEcheanceViewModel, isNull);
@@ -160,7 +160,7 @@ void main() {
     );
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, 'id');
+    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'id');
 
     // Then
     expect(viewModel.displayState, UserActionDetailsDisplayState.SHOW_CONTENT);
@@ -177,7 +177,7 @@ void main() {
     );
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, 'id');
+    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'id');
 
     // Then
     expect(viewModel.displayState, UserActionDetailsDisplayState.TO_DISMISS);
@@ -194,7 +194,7 @@ void main() {
     );
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, 'id');
+    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'id');
 
     // Then
     expect(viewModel.displayState, UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION);
@@ -211,7 +211,7 @@ void main() {
     );
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, 'id');
+    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'id');
 
     // Then
     expect(viewModel.displayState, UserActionDetailsDisplayState.SHOW_LOADING);
@@ -228,7 +228,7 @@ void main() {
     );
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, 'id');
+    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'id');
 
     // Then
     expect(viewModel.displayState, UserActionDetailsDisplayState.SHOW_DELETE_ERROR);
@@ -299,9 +299,9 @@ void main() {
         ),
       ),
     );
+    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'id');
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, 'id');
     viewModel.onRefreshStatus("id", UserActionStatus.DONE);
 
     // Then

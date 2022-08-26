@@ -33,11 +33,12 @@ import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
 class UserActionDetailPage extends StatefulWidget {
   final UserActionViewModel actionViewModel;
+  final StateSource source;
 
-  UserActionDetailPage._(this.actionViewModel);
+  UserActionDetailPage._(this.actionViewModel, this.source);
 
-  static MaterialPageRoute<void> materialPageRoute(UserActionViewModel actionViewModel) {
-    return MaterialPageRoute(builder: (context) => UserActionDetailPage._(actionViewModel));
+  static MaterialPageRoute<void> materialPageRoute(UserActionViewModel actionViewModel, StateSource source) {
+    return MaterialPageRoute(builder: (context) => UserActionDetailPage._(actionViewModel, source));
   }
 
   @override
@@ -66,7 +67,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
             store.dispatch(UserActionNotUpdatingState());
             store.dispatch(UserActionDeleteResetAction());
           },
-          converter: (store) => UserActionDetailsViewModel.create(store, actionViewModel.id),
+          converter: (store) => UserActionDetailsViewModel.create(store, actionViewModel.id, widget.source),
           builder: (context, detailsViewModel) => _build(context, detailsViewModel),
           onWillChange: (previousVm, newVm) => _bottomSheetHandling(context, newVm),
           distinct: true,

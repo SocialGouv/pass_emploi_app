@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
@@ -14,6 +15,8 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
+
+enum StateSource { agenda, userActions }
 
 enum UserActionDetailsDisplayState {
   SHOW_CONTENT,
@@ -55,9 +58,28 @@ class UserActionDetailsViewModel extends Equatable {
     required this.onDelete,
   });
 
-  factory UserActionDetailsViewModel.create(Store<AppState> store, String userActionId) {
+  factory UserActionDetailsViewModel.create(Store<AppState> store, String userActionId, StateSource source) {
+    switch (source) {
+      case StateSource.agenda:
+        return UserActionDetailsViewModel.createFromUserAgendaState(store, userActionId);
+      case StateSource.userActions:
+        return UserActionDetailsViewModel.createFromUserActionListState(store, userActionId);
+    }
+  }
+
+  factory UserActionDetailsViewModel.createFromUserAgendaState(Store<AppState> store, String userActionId) {
+    final agendaState = store.state.agendaState as AgendaSuccessState;
+    final userAction = agendaState.agenda.actions.firstWhere((e) => e.id == userActionId);
+    return UserActionDetailsViewModel.createWithAction(userAction, store);
+  }
+
+  factory UserActionDetailsViewModel.createFromUserActionListState(Store<AppState> store, String userActionId) {
     final userActionListState = store.state.userActionListState as UserActionListSuccessState;
     final userAction = userActionListState.userActions.firstWhere((e) => e.id == userActionId);
+    return UserActionDetailsViewModel.createWithAction(userAction, store);
+  }
+
+  factory UserActionDetailsViewModel.createWithAction(UserAction userAction, Store<AppState> store) {
     final isLate = userAction.isLate();
     return UserActionDetailsViewModel._(
       displayState: _displayState(store.state),
