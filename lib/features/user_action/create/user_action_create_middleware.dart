@@ -1,3 +1,4 @@
+import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
@@ -19,7 +20,9 @@ class UserActionCreateMiddleware extends MiddlewareClass<AppState> {
       final result = await _repository.createUserAction(loginState.user.id, action.request);
       if (result) {
         store.dispatch(UserActionCreateSuccessAction());
+        // todo optim : on pourrait éviter de faire des appels réseaux ici
         store.dispatch(UserActionListRequestAction());
+        store.dispatch(AgendaRequestAction(DateTime.now()));
       } else {
         store.dispatch(UserActionCreateFailureAction());
       }
