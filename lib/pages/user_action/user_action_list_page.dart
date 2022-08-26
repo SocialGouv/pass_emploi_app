@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/user_action/list/user_action_list_actio
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -61,7 +62,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
     if (viewModel.actionDetails != null) {
       Navigator.push(
         context,
-        UserActionDetailPage.materialPageRoute(viewModel.actionDetails!),
+        UserActionDetailPage.materialPageRoute(viewModel.actionDetails!, StateSource.userActions),
       );
       viewModel.onDeeplinkUsed();
     }
@@ -162,7 +163,7 @@ class _ActionCard extends StatelessWidget {
         context.trackEvent(EventType.ACTION_DETAIL);
         Navigator.push(
           context,
-          UserActionDetailPage.materialPageRoute(viewModel),
+          UserActionDetailPage.materialPageRoute(viewModel, StateSource.userActions),
         );
       },
       viewModel: viewModel,

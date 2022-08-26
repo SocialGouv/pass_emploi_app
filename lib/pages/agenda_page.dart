@@ -9,6 +9,7 @@ import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
 import 'package:pass_emploi_app/presentation/agenda/agenda_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -212,7 +213,7 @@ class _ActionCard extends StatelessWidget {
         context.trackEvent(EventType.ACTION_DETAIL);
         Navigator.push(
           context,
-          UserActionDetailPage.materialPageRoute(viewModel),
+          UserActionDetailPage.materialPageRoute(viewModel, StateSource.agenda),
         );
       },
       viewModel: viewModel,
