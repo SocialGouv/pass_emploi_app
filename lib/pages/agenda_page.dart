@@ -135,10 +135,13 @@ class _DaySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      _DaySectionTitle(section.title),
-      ...section.events.widgets(context),
-    ]);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _DaySectionTitle(section.title),
+        ...section.events.widgets(context),
+      ],
+    );
   }
 }
 
