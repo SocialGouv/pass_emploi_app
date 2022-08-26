@@ -14,6 +14,7 @@ import '../../doubles/stubs.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../utils/expects.dart';
 import '../../dsl/app_state_dsl.dart';
+import '../../utils/expects.dart';
 import '../../utils/test_setup.dart';
 
 void main() {
@@ -40,17 +41,17 @@ test("update action when repo succeeds should display loading and then update ac
     // Given
     final reducerSpy = _UpdateActionReducerSpy();
     final store = Store<AppState>(
-        reducerSpy.reducer,
-        initialState: givenState().loggedInUser().copyWith(
-        userActionListState: UserActionListSuccessState(
-          [
-            _notStartedAction(actionId: "1"),
-            _notStartedAction(actionId: "2"),
-            _notStartedAction(actionId: "3"),
-            _notStartedAction(actionId: "4"),
-          ],
-        ),
-      ),
+      reducerSpy.reducer,
+      initialState: givenState().loggedInUser().copyWith(
+            userActionListState: UserActionListSuccessState(
+              [
+                _notStartedAction(actionId: "1"),
+                _notStartedAction(actionId: "2"),
+                _notStartedAction(actionId: "3"),
+                _notStartedAction(actionId: "4"),
+              ],
+            ),
+          ),
     );
 
     // When
@@ -132,11 +133,48 @@ test("update action when repo succeeds should display loading and then update ac
       ),
     );
     final store = testStoreFactory.initializeReduxStore(initialState: state);
+  group("an edited action should be updated", () {
+    final actions = [
+      _notStartedAction(actionId: "1"),
+      _notStartedAction(actionId: "2"),
+      _notStartedAction(actionId: "3"),
+      _notStartedAction(actionId: "4"),
+    ];
 
+    final state = givenState() //
+        .loggedInUser()
+        .agenda(actions: actions, rendezvous: []).copyWith(userActionListState: UserActionListSuccessState(actions));
     void whenUpdatingAction() async {
       await store.dispatch(UserActionUpdateRequestAction(actionId: "3", newStatus: UserActionStatus.DONE));
     }
 
+    final testStoreFactory = TestStoreFactory();
+    final repositorySpy = PageActionRepositorySpy();
+    testStoreFactory.pageActionRepository = repositorySpy;
+    final store = testStoreFactory.initializeReduxStore(initialState: state);
+
+    void whenUpdatingAction() async {
+      await store.dispatch(
+        UserActionUpdateRequestAction(
+          actionId: "3",
+          newStatus: UserActionStatus.DONE,
+        ),
+      );
+    }
+
+    test("on repository", () async {
+      // When
+      whenUpdatingAction();
+
+      // Then
+      expect(repositorySpy.isActionUpdated, true);
+    });
+
+    test("on user action update state", () async {
+      final successAppState = store.onChange.firstWhere((e) => e.userActionUpdateState is UserActionUpdatedState);
+
+      // When
+      whenUpdatingAction();
     // When
     await store.dispatch(
       UserActionUpdateRequestAction(
@@ -187,6 +225,23 @@ test("update action when repo succeeds should display loading and then update ac
       expectTypeThen<AgendaSuccessState>(appState.agendaState, (agendaState) {
         expect(agendaState.agenda.actions.isEmpty, true);
       });
+    });
+      // Then
+      final appState = await successAppState;
+      expect(appState.userActionUpdateState is UserActionUpdatedState, isTrue);
+    });
+
+    test("on user action list state", () async {
+      final successAppState = store.onChange.firstWhere((e) => e.userActionListState is UserActionListSuccessState);
+
+      // When
+      whenUpdatingAction();
+
+      // Then
+      final appState = await successAppState;
+      expect(appState.userActionListState is UserActionListSuccessState, isTrue);
+      expect((appState.userActionListState as UserActionListSuccessState).userActions[0].id, "3");
+      expect((appState.userActionListState as UserActionListSuccessState).userActions[0].status, UserActionStatus.DONE);
     });
   });
 
@@ -403,4 +458,3 @@ class _UpdateActionReducerSpy {
     return currentState;
   }
 }
-
