@@ -1,7 +1,10 @@
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
+import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_actions.dart';
+import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
@@ -71,13 +74,13 @@ class UserActionDetailsViewModel extends Equatable {
 
   factory UserActionDetailsViewModel.createFromUserAgendaState(Store<AppState> store, String userActionId) {
     final agendaState = store.state.agendaState as AgendaSuccessState;
-    final userAction = agendaState.agenda.actions.firstWhere((e) => e.id == userActionId);
+    final userAction = agendaState.agenda.actions.firstWhereOrNull((e) => e.id == userActionId);
     return UserActionDetailsViewModel.createWithAction(userAction, store);
   }
 
   factory UserActionDetailsViewModel.createFromUserActionListState(Store<AppState> store, String userActionId) {
     final userActionListState = store.state.userActionListState as UserActionListSuccessState;
-    final userAction = userActionListState.userActions.firstWhere((e) => e.id == userActionId);
+    final userAction = userActionListState.userActions.firstWhereOrNull((e) => e.id == userActionId);
     return UserActionDetailsViewModel.createWithAction(userAction, store);
   }
 
