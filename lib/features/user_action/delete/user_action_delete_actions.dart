@@ -6,10 +6,12 @@ class UserActionDeleteRequestAction {
 
 class UserActionDeleteLoadingAction {}
 
-class UserActionDeleteSuccessAction {
+class UserActionDeleteSuccessAction {}
+
+class UserActionDeleteFromListAction {
   final String actionId;
 
-  UserActionDeleteSuccessAction(this.actionId);
+  UserActionDeleteFromListAction(this.actionId);
 }
 
 class UserActionDeleteFromListAction {

@@ -328,4 +328,20 @@ extension AppStateDSL on AppState {
   AppState updateActionFailure() {
     return copyWith(userActionUpdateState: UserActionUpdateFailureState());
   }
+
+  AppState deleteActionNotInit() {
+    return copyWith(userActionDeleteState: UserActionDeleteNotInitializedState());
+  }
+
+  AppState deleteActionSuccess() {
+    return copyWith(userActionDeleteState: UserActionDeleteSuccessState());
+  }
+
+  AppState deleteActionLoading() {
+    return copyWith(userActionDeleteState: UserActionDeleteLoadingState());
+  }
+
+  AppState deleteActionFailure() {
+    return copyWith(userActionDeleteState: UserActionDeleteFailureState());
+  }
 }
