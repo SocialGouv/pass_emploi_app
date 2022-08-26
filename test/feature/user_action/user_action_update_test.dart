@@ -243,6 +243,20 @@ test("update action when repo succeeds should display loading and then update ac
       expect((appState.userActionListState as UserActionListSuccessState).userActions[0].id, "3");
       expect((appState.userActionListState as UserActionListSuccessState).userActions[0].status, UserActionStatus.DONE);
     });
+
+    test("on agenda state", () async {
+      final successAppState = store.onChange.firstWhere((e) => e.agendaState is AgendaSuccessState);
+
+      // When
+      whenUpdatingAction();
+
+      // Then
+      final appState = await successAppState;
+      expectTypeThen<AgendaSuccessState>(appState.agendaState, (agendaState) {
+        expect(agendaState.agenda.actions[0].id, "3");
+        expect(agendaState.agenda.actions[0].status, UserActionStatus.DONE);
+      });
+    });
   });
 
   group("an edited action should be updated", () {
