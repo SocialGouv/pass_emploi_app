@@ -12,7 +12,7 @@ UserActionListState userActionListReducer(UserActionListState current, dynamic a
   if (action is UserActionDeleteSuccessAction && current is UserActionListSuccessState) {
     return UserActionListSuccessState(current.userActions.where((e) => e.id != action.actionId).toList());
   }
-  if (action is UserActionUpdateRequestAction && current is UserActionListSuccessState) {
+  if (action is UserActionUpdateSuccessAction && current is UserActionListSuccessState) {
     final currentActions = current.userActions;
     final actionToUpdate = currentActions.firstWhere((a) => a.id == action.actionId);
     final updatedAction = UserAction(

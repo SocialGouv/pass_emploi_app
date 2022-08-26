@@ -31,16 +31,18 @@ class PageActionRepository {
     return null;
   }
 
-  Future<void> updateActionStatus(String userId, String actionId, UserActionStatus newStatus) async {
+  Future<bool> updateActionStatus(String actionId, UserActionStatus newStatus) async {
     final url = Uri.parse(_baseUrl + "/actions/$actionId");
     try {
-      await _httpClient.put(
+      final response = await _httpClient.put(
         url,
         body: customJsonEncode(PutUserActionRequest(status: newStatus)),
       );
+      if (response.statusCode.isValid()) return true;
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);
     }
+    return false;
   }
 
   Future<bool> createUserAction(String userId, UserActionCreateRequest request) async {

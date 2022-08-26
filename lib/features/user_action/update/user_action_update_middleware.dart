@@ -12,7 +12,11 @@ class UserActionUpdateMiddleware extends MiddlewareClass<AppState> {
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     if (action is UserActionUpdateRequestAction) {
-      _repository.updateActionStatus(action.userId, action.actionId, action.newStatus);
+      store.dispatch(UserActionUpdateLoadingAction());
+      final updatedAction = await _repository.updateActionStatus(action.actionId, action.newStatus);
+      store.dispatch(updatedAction
+          ? UserActionUpdateSuccessAction(actionId: action.actionId, newStatus: action.newStatus)
+          : UserActionUpdateFailureAction());
     }
   }
 }

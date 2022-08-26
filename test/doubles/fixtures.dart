@@ -390,3 +390,14 @@ List<Demarche> mockDemarches() {
     attributs: [],
   )];
 }
+
+UserAction mockNotStartedAction({required String actionId}) {
+  return UserAction(
+    id: actionId,
+    content: "content",
+    comment: "comment",
+    status: UserActionStatus.NOT_STARTED,
+    dateEcheance: DateTime(2042),
+    creator: JeuneActionCreator(),
+  );
+}

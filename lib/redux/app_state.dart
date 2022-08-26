@@ -270,7 +270,7 @@ class AppState extends Equatable {
       deepLinkState: DeepLinkState.notInitialized(),
       userActionListState: UserActionListNotInitializedState(),
       userActionCreateState: UserActionCreateNotInitializedState(),
-      userActionUpdateState: UserActionNotUpdatingState(),
+      userActionUpdateState: UserActionUpdateNotInitializedState(),
       userActionDeleteState: UserActionDeleteNotInitializedState(),
       demarcheListState: DemarcheListNotInitializedState(),
       detailsJeuneState: DetailsJeuneNotInitializedState(),
