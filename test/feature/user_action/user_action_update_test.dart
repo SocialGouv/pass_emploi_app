@@ -12,12 +12,60 @@ import 'package:redux/redux.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../dsl/app_state_dsl.dart';
+import '../../doubles/fixtures.dart';
+import '../../doubles/stubs.dart';
+import '../../dsl/app_state_dsl.dart';
 import '../../utils/expects.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../utils/expects.dart';
 import '../../utils/test_setup.dart';
 
 void main() {
+  test("update action when repo succeeds should display loading and then update action", () async {
+    // Given
+    final store = givenState()
+        .loggedInMiloUser()
+        .store((factory) => {factory.pageActionRepository = PageActionRepositorySuccessStub()});
+
+    final updateDisplayedLoading = store.onChange.any((e) => e.userActionUpdateState is UserActionUpdateLoadingState);
+    final successUpdateState =
+        store.onChange.firstWhere((e) => e.userActionUpdateState is UserActionUpdateSuccessState);
+
+    // When
+    await store.dispatch(UserActionUpdateRequestAction(actionId: "3", newStatus: UserActionStatus.DONE));
+
+    // Then
+    expect(await updateDisplayedLoading, isTrue);
+    final successUpdate = await successUpdateState;
+    expect(successUpdate.userActionUpdateState is UserActionUpdateSuccessState, isTrue);
+  });
+
+  test("when user requests an update the action should be updated, put on top of list and user notified", () async {
+    // Given
+    final repository = PageActionRepositorySuccessStub();
+    final store = givenState().loggedInMiloUser().withActions(
+      [
+        mockNotStartedAction(actionId: "1"),
+        mockNotStartedAction(actionId: "2"),
+        mockNotStartedAction(actionId: "3"),
+        mockNotStartedAction(actionId: "4"),
+      ],
+    ).store((factory) => {factory.pageActionRepository = repository});
+
+    final successAppState = store.onChange.firstWhere((e) => e.userActionUpdateState is UserActionUpdateSuccessState);
+
+    // When
+    await store.dispatch(UserActionUpdateRequestAction(actionId: "3", newStatus: UserActionStatus.DONE));
+
+    // Then
+    final appState = await successAppState;
+    expect(repository.isActionUpdated, isTrue);
+
+    expect(appState.userActionUpdateState is UserActionUpdateSuccessState, isTrue);
+    expect((appState.userActionListState as UserActionListSuccessState).userActions[0].id, "3");
+    expect((appState.userActionListState as UserActionListSuccessState).userActions[0].status, UserActionStatus.DONE);
+  });
+
 
 test("update action when repo succeeds should display loading and then update action", () async {
     // Given
@@ -39,6 +87,15 @@ test("update action when repo succeeds should display loading and then update ac
 
   test("an unedited action should not update the list", () async {
     // Given
+    final repository = PageActionRepositorySuccessStub();
+    final store = givenState().loggedInMiloUser().withActions(
+      [
+        mockNotStartedAction(actionId: "1"),
+        mockNotStartedAction(actionId: "2"),
+        mockNotStartedAction(actionId: "3"),
+        mockNotStartedAction(actionId: "4"),
+      ],
+    ).store((factory) => {factory.pageActionRepository = repository});
     final reducerSpy = _UpdateActionReducerSpy();
     final store = Store<AppState>(
       reducerSpy.reducer,
@@ -224,13 +281,7 @@ test("update action when repo succeeds should display loading and then update ac
     final store = testStoreFactory.initializeReduxStore(initialState: state);
 
     void whenUpdatingAction() async {
-      await store.dispatch(
-        UserActionUpdateRequestAction(
-          actionId: "3",
-          newStatus: UserActionStatus.DONE,
-        ),
-      );
-    }
+    await store.dispatch(UserActionUpdateRequestAction(actionId: "3", newStatus: UserActionStatus.DONE));}
 
     test("on repository", () async {
       // When
@@ -329,6 +380,7 @@ test("update action when repo succeeds should display loading and then update ac
     });
   });
 
+
   group("an edited action should be updated", () {
     final actions = [
       mockNotStartedAction(actionId: "1"),
@@ -398,6 +450,25 @@ test("update action when repo succeeds should display loading and then update ac
     // When
     await store.dispatch(UserActionUpdateRequestAction(actionId: "3", newStatus: UserActionStatus.DONE));
 
+  test("update action when repo fails should display loading and then show failure", () async {
+    // Given
+    final repository = PageActionRepositoryFailureStub();
+    final store = givenState().loggedInMiloUser().store((factory) => {factory.pageActionRepository = repository});
+
+    final updateDisplayedLoading = store.onChange.any((e) => e.userActionUpdateState is UserActionUpdateLoadingState);
+    final failureUpdateState =
+        store.onChange.firstWhere((e) => e.userActionUpdateState is UserActionUpdateFailureState);
+
+    // When
+    await store.dispatch(UserActionUpdateRequestAction(actionId: "3", newStatus: UserActionStatus.DONE));
+
+    // Then
+    expect(await updateDisplayedLoading, isTrue);
+    expect(repository.isActionUpdated, isFalse);
+
+    final failureUpdate = await failureUpdateState;
+    expect(failureUpdate.userActionUpdateState is UserActionUpdateFailureState, isTrue);
+  });
     // Then
     final appState = await successAppState;
     expect(repository.isActionUpdated, isTrue);
@@ -497,10 +568,23 @@ test("update action when repo succeeds should display loading and then update ac
     expect(await updateDisplayedLoading, isTrue);
     expect(repository.isActionUpdated, isFalse);
 
+  test("update action when repo fails should not update actions' list", () async {
+    // Given
+    final repository = PageActionRepositoryFailureStub();
+    final store = givenState().loggedInMiloUser().withActions(
+      [
+        mockNotStartedAction(actionId: "1"),
+        mockNotStartedAction(actionId: "2"),
+        mockNotStartedAction(actionId: "3"),
+        mockNotStartedAction(actionId: "4"),
+      ],
+    ).store((factory) => {factory.pageActionRepository = repository});
     final failureUpdate = await failureUpdateState;
     expect(failureUpdate.userActionUpdateState is UserActionUpdateFailureState, isTrue);
   });
 
+    final failureUpdateState =
+        store.onChange.firstWhere((e) => e.userActionUpdateState is UserActionUpdateFailureState);
   test("update action when repo fails should not update actions' list", () async {
     // Given
     final repository = PageActionRepositoryFailureStub();
@@ -513,6 +597,21 @@ test("update action when repo succeeds should display loading and then update ac
       ],
     ).store((factory) => {factory.pageActionRepository = repository});
 
+    // When
+    await store.dispatch(UserActionUpdateRequestAction(actionId: "3", newStatus: UserActionStatus.DONE));
+
+    // Then
+
+    final appState = await failureUpdateState;
+    expect(repository.isActionUpdated, isFalse);
+
+    expect(appState.userActionUpdateState is UserActionUpdateFailureState, isTrue);
+    expect((appState.userActionListState as UserActionListSuccessState).userActions[2].id, "3");
+    expect(
+      (appState.userActionListState as UserActionListSuccessState).userActions[2].status,
+      UserActionStatus.NOT_STARTED,
+    );
+  });
     final failureUpdateState =
         store.onChange.firstWhere((e) => e.userActionUpdateState is UserActionUpdateFailureState);
 

@@ -13,3 +13,15 @@ class UserActionUpdateSuccessState extends UserActionUpdateState {
 }
 
 class UserActionUpdateFailureState extends UserActionUpdateState {}
+
+class UserActionUpdateNotInitializedState extends UserActionUpdateState {}
+
+class UserActionUpdateLoadingState extends UserActionUpdateState {}
+
+class UserActionUpdateSuccessState extends UserActionUpdateState {
+  final UserActionStatus newStatus;
+
+  UserActionUpdateSuccessState(this.newStatus);
+}
+
+class UserActionUpdateFailureState extends UserActionUpdateState {}
