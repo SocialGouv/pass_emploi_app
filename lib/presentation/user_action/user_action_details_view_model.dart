@@ -42,15 +42,9 @@ enum UpdateDisplayState {
 
 enum StateSource { agenda, userActions }
 
-enum UserActionDetailsDisplayState {
-  SHOW_CONTENT,
-  SHOW_SUCCESS,
-  SHOW_LOADING,
-  SHOW_DELETE_ERROR,
-  TO_DISMISS,
-  TO_DISMISS_AFTER_UPDATE,
-  TO_DISMISS_AFTER_DELETION
-}
+enum DeleteDisplayState { NOT_INIT, SHOW_LOADING, SHOW_DELETE_ERROR, TO_DISMISS_AFTER_DELETION }
+
+enum UpdateDisplayState { NOT_INIT, SHOW_SUCCESS, SHOW_LOADING, TO_DISMISS, SHOW_UPDATE_ERROR, TO_DISMISS_AFTER_UPDATE }
 
 class UserActionDetailDateEcheanceViewModel extends Equatable {
   final List<FormattedText> formattedTexts;
@@ -162,18 +156,26 @@ class UserActionDetailsViewModel extends Equatable {
     return UserActionDetailsViewModel.createWithAction(userAction, store);
   }
 
-  factory UserActionDetailsViewModel.createWithAction(UserAction? userAction, Store<AppState> store) {
+  factory UserActionDetailsViewModel.createFromUserActionListState(Store<AppState> store, String userActionId) {
+    final userActionListState = store.state.userActionListState as UserActionListSuccessState;
+    final userAction = userActionListState.userActions.firstWhere((e) => e.id == userActionId);
+    final isLate = userAction.isLate();
+    final updateState = store.state.userActionUpdateState;
+    final deleteState = store.state.userActionDeleteState;
+
     return UserActionDetailsViewModel._(
-      displayState: _displayState(store.state),
       dateEcheanceViewModel: _dateEcheanceViewModel(userAction),
       onRefreshStatus: (actionId, newStatus) => _refreshStatus(store, actionId, newStatus),
       onDelete: (actionId) => store.dispatch(UserActionDeleteRequestAction(actionId)),
+      deleteFromList: (actionId) => _deleteFromActionList(store, actionId),
+      resetUpdateStatus: () => store.dispatch(UserActionUpdateResetAction()),
+      updateDisplayState: _updateStateDisplayState(updateState),
+      deleteDisplayState: _deleteStateDisplayState(deleteState),
     );
   }
 
   @override
-  List<Object?> get props =>
-      [dateEcheanceViewModel, updateDisplayState, deleteDisplayState];
+  List<Object?> get props => [dateEcheanceViewModel, updateDisplayState, deleteDisplayState];
 }
 
 UserActionDetailDateEcheanceViewModel? _dateEcheanceViewModel(
@@ -229,16 +231,20 @@ UpdateDisplayState _updateStateDisplayState(UserActionUpdateState state) {
   return UpdateDisplayState.NOT_INIT;
 }
 
+
 void _deleteFromActionList(Store<AppState> store, String actionId) async {
   // Wait some delay to ensure pop the details action page
   await Future.delayed(Duration(milliseconds: 350));
   store.dispatch(UserActionDeleteFromListAction(actionId));
 }
 
-void _refreshStatus(
-    Store<AppState> store, String actionId, UserActionStatus newStatus) {
-  store.dispatch(
-      UserActionUpdateRequestAction(actionId: actionId, newStatus: newStatus));
+void _deleteFromActionList(Store<AppState> store, String actionId) async {
+  // Wait some delay to ensure pop the details action page
+  await Future.delayed(Duration(milliseconds: 350));
+  store.dispatch(UserActionDeleteFromListAction(actionId));
+
+void _refreshStatus(Store<AppState> store, String actionId, UserActionStatus newStatus) {
+  store.dispatch(UserActionUpdateRequestAction(actionId: actionId, newStatus: newStatus));
 }
 
 void _deleteFromActionList(Store<AppState> store, String actionId) async {
