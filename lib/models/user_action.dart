@@ -40,6 +40,24 @@ class UserAction extends Equatable {
     );
   }
 
+  UserAction copyWith({
+    final String? id,
+    final String? content,
+    final String? comment,
+    final UserActionStatus? status,
+    final DateTime? dateEcheance,
+    final UserActionCreator? creator,
+  }) {
+    return UserAction(
+      id: id ?? this.id,
+      content: content ?? this.content,
+      comment: comment ?? this.comment,
+      status: status ?? this.status,
+      dateEcheance: dateEcheance ?? this.dateEcheance,
+      creator: creator ?? this.creator,
+    );
+  }
+
   bool isLate() => !(dateEcheance.isToday() || dateEcheance.isAfter(clock.now()));
 
   @override
@@ -67,5 +85,21 @@ UserActionCreator _creator(dynamic json) {
     return ConseillerActionCreator(
       name: creatorName,
     );
+  }
+}
+
+extension UpdateActionList on List<UserAction> {
+  List<UserAction> withUpdatedAction(String actionId, UserActionStatus status) {
+    final actionToUpdate = firstWhere((a) => a.id == actionId);
+    final updatedAction = actionToUpdate.copyWith(status: status);
+    return List<UserAction>.from(this) //
+        .where((a) => a.id != actionId)
+        .toList()
+      ..insert(0, updatedAction);
+  }
+
+  bool shouldUpdateActionStatus(String id, UserActionStatus status) {
+    final userAction = firstWhere((e) => e.id == id);
+    return userAction.status != status;
   }
 }

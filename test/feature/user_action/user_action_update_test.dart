@@ -6,18 +6,49 @@ import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
+import 'package:redux/redux.dart';
 
 import '../../doubles/dummies.dart';
+import '../../dsl/app_state_dsl.dart';
 import '../../utils/test_setup.dart';
 
 void main() {
-  test("when user requests an update the action should be updated, put on top of list and user notified", () async {
+
+  test("an unedited action should not update the list", () async {
+    // Given
+    final reducerSpy = _UpdateActionReducerSpy();
+    final store = Store<AppState>(
+        reducerSpy.reducer,
+        initialState: givenState().loggedInUser().copyWith(
+        userActionListState: UserActionListSuccessState(
+          [
+            _notStartedAction(actionId: "1"),
+            _notStartedAction(actionId: "2"),
+            _notStartedAction(actionId: "3"),
+            _notStartedAction(actionId: "4"),
+          ],
+        ),
+      ),
+    );
+
+    // When
+    await store.dispatch(
+      UserActionUpdateRequestAction(
+        actionId: "3",
+        newStatus: UserActionStatus.NOT_STARTED,
+      ),
+    );
+
+    expect(reducerSpy.updateWasCalled, false);
+  });
+
+  test("an edited action should be updated and on top of the list", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
     final repositorySpy = PageActionRepositorySpy();
     testStoreFactory.pageActionRepository = repositorySpy;
     final store = testStoreFactory.initializeReduxStore(
-      initialState: AppState.initialState().copyWith(
+      initialState: givenState().loggedInUser().copyWith(
         userActionListState: UserActionListSuccessState(
           [
             _notStartedAction(actionId: "1"),
@@ -34,7 +65,6 @@ void main() {
     // When
     await store.dispatch(
       UserActionUpdateRequestAction(
-        userId: "userId",
         actionId: "3",
         newStatus: UserActionStatus.DONE,
       ),
@@ -72,3 +102,15 @@ class PageActionRepositorySpy extends PageActionRepository {
     isActionUpdated = true;
   }
 }
+
+class _UpdateActionReducerSpy {
+  var updateWasCalled = false;
+
+  AppState reducer(AppState currentState, dynamic action) {
+    if (action is UserActionUpdateNeededAction) {
+      updateWasCalled = true;
+    }
+    return currentState;
+  }
+}
+

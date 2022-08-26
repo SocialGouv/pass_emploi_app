@@ -51,6 +51,7 @@ import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart'
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
+import 'package:pass_emploi_app/models/user.dart';
 
 class AppState extends Equatable {
   final ConfigurationState configurationState;
@@ -368,4 +369,16 @@ class AppState extends Equatable {
 
   @override
   bool? get stringify => true;
+}
+
+extension AppStateUser on AppState {
+  User? user() {
+    final loginState = this.loginState;
+    if (loginState is LoginSuccessState) {
+      return loginState.user;
+    }
+    return null;
+  }
+
+  String? userId() => user()?.id;
 }

@@ -132,22 +132,5 @@ UserActionDetailsDisplayState _displayState(AppState state) {
 }
 
 void _refreshStatus(Store<AppState> store, String actionId, UserActionStatus newStatus) {
-  final loginState = store.state.loginState;
-  final userActionListState = store.state.userActionListState;
-  if (userActionListState is UserActionListSuccessState) {
-    if (loginState is LoginSuccessState) {
-      final action = userActionListState.userActions.firstWhere((e) => e.id == actionId);
-      if (action.status != newStatus) {
-        store.dispatch(
-          UserActionUpdateRequestAction(
-            userId: loginState.user.id,
-            actionId: actionId,
-            newStatus: newStatus,
-          ),
-        );
-      } else {
-        store.dispatch(UserActionNoUpdateNeededAction());
-      }
-    }
-  }
+  store.dispatch(UserActionUpdateRequestAction(actionId: actionId, newStatus: newStatus));
 }
