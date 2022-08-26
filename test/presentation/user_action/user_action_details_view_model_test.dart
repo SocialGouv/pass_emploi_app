@@ -9,6 +9,8 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
+import '../../utils/expects.dart';
+import '../../doubles/spies.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
@@ -218,8 +220,11 @@ void main() {
     expect(viewModel.deleteDisplayState, DeleteDisplayState.SHOW_DELETE_ERROR);
   });
 
-  test('refreshStatus when update status has changed should dispatch a UpdateActionStatus', () {
+  test('should reset create action', () {
     // Given
+    final store = StoreSpy.withState(
+      AppState.initialState().copyWith(userActionListState: UserActionListSuccessState([mockUserAction(id: 'id')])),
+    );
     final store = StoreSpy.withState(givenState().loggedInMiloUser().withAction(mockUserAction(id: 'actionId')));
 
     // When
@@ -240,6 +245,10 @@ void main() {
     viewModel.onRefreshStatus("id", UserActionStatus.DONE);
 
     // Then
+    expectTypeThen<UserActionUpdateRequestAction>(store.dispatchedAction, (action) {
+      expect(action.actionId, "id");
+      expect(action.newStatus, UserActionStatus.DONE);
+    });
     expect(store.dispatchedAction, isA<UserActionDeleteRequestAction>());
     expect((store.dispatchedAction as UserActionDeleteRequestAction).actionId, 'actionId');
   });
