@@ -160,3 +160,9 @@ void _deleteFromActionList(Store<AppState> store, String actionId) async {
 void _refreshStatus(Store<AppState> store, String actionId, UserActionStatus newStatus) {
   store.dispatch(UserActionUpdateRequestAction(actionId: actionId, newStatus: newStatus));
 }
+
+void _deleteFromActionList(Store<AppState> store, String actionId) async {
+  // Wait some delay to ensure pop the details action page
+  await Future.delayed(Duration(milliseconds: 350));
+  store.dispatch(UserActionDeleteFromListAction(actionId));
+}
