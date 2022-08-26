@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
+import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_actions.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
@@ -21,11 +22,33 @@ import 'package:redux/redux.dart';
 
 enum StateSource { agenda, userActions }
 
+enum StateSource { agenda, userActions }enum DeleteDisplayState {
+  NOT_INIT,
+  SHOW_LOADING,
+  SHOW_DELETE_ERROR,
+  TO_DISMISS_AFTER_DELETION
+}
+
+enum UpdateDisplayState {
+  NOT_INIT,
+  SHOW_SUCCESS,
+  SHOW_LOADING,
+
+  SHOW_UPDATE_ERROR,
+  TO_DISMISS_AFTER_UPDATE
+}
+
 enum StateSource { agenda, userActions }
 
-enum DeleteDisplayState { NOT_INIT, SHOW_LOADING, SHOW_DELETE_ERROR, TO_DISMISS_AFTER_DELETION }
-
-enum UpdateDisplayState { NOT_INIT, SHOW_SUCCESS, SHOW_LOADING, SHOW_UPDATE_ERROR, TO_DISMISS_AFTER_UPDATE }
+enum UserActionDetailsDisplayState {
+  SHOW_CONTENT,
+  SHOW_SUCCESS,
+  SHOW_LOADING,
+  SHOW_DELETE_ERROR,
+  TO_DISMISS,
+  TO_DISMISS_AFTER_UPDATE,
+  TO_DISMISS_AFTER_DELETION
+}
 
 class UserActionDetailDateEcheanceViewModel extends Equatable {
   final List<FormattedText> formattedTexts;
@@ -41,7 +64,8 @@ class UserActionDetailDateEcheanceViewModel extends Equatable {
   });
 
   @override
-  List<Object?> get props => [formattedTexts, icons, textColor, backgroundColor];
+  List<Object?> get props =>
+      [formattedTexts, icons, textColor, backgroundColor];
 }
 
 class UserActionDetailsViewModel extends Equatable {
@@ -63,8 +87,28 @@ class UserActionDetailsViewModel extends Equatable {
     required this.deleteDisplayState,
   });
 
-  // tests pour la source agenda
-  factory UserActionDetailsViewModel.create(Store<AppState> store, String userActionId, StateSource source) {
+  // tests pour la source agendafactory UserActionDetailsViewModel.create(
+      Store<AppState> store, String userActionId, StateSource source) {
+    switch (source) {
+      case StateSource.agenda:
+        return UserActionDetailsViewModel.createFromUserAgendaState(
+            store, userActionId);
+      case StateSource.userActions:
+        return UserActionDetailsViewModel.createFromUserActionListState(
+            store, userActionId);
+    }
+  }
+
+  factory UserActionDetailsViewModel.createFromUserAgendaState(
+      Store<AppState> store, String userActionId) {
+    final agendaState = store.state.agendaState as AgendaSuccessState;
+    final userAction =
+        agendaState.agenda.actions.firstWhere((e) => e.id == userActionId);
+    return UserActionDetailsViewModel.createWithAction(userAction, store);
+  }
+
+  factory UserActionDetailsViewModel.createFromUserActionListState(
+      Store<AppState> store, String userActionId, StateSource source) {
     switch (source) {
       case StateSource.agenda:
         return UserActionDetailsViewModel.createFromUserAgendaState(store, userActionId);
@@ -74,8 +118,15 @@ class UserActionDetailsViewModel extends Equatable {
   }
 
   factory UserActionDetailsViewModel.createFromUserAgendaState(Store<AppState> store, String userActionId) {
-    final agendaState = store.state.agendaState as AgendaSuccessState;
-    final userAction = agendaState.agenda.actions.firstWhereOrNull((e) => e.id == userActionId);
+    final agendaState =
+        store.state.agendaState as AgendaSuccessState;
+    final userAction =
+        agendaState.agenda.actions.firstWhereOrNull((e) => e.id == userActionId);
+    return UserActionDetailsViewModel.createWithAction(userAction, store);
+  }
+
+  factory UserActionDetailsViewModel.createWithAction(
+      UserAction userAction, Store<AppState> store) {
     return UserActionDetailsViewModel.createWithAction(userAction, store);
   }
 
@@ -91,9 +142,11 @@ class UserActionDetailsViewModel extends Equatable {
     return UserActionDetailsViewModel._(
       dateEcheanceViewModel: _dateEcheanceViewModel(userAction),
       onRefreshStatus: (actionId, newStatus) {
-        if (userAction?.status != newStatus) _refreshStatus(store, actionId, newStatus);
+        if (userAction?.status != newStatus)
+          _refreshStatus(store, actionId, newStatus);
       },
-      onDelete: (actionId) => store.dispatch(UserActionDeleteRequestAction(actionId)),
+      onDelete: (actionId) =>
+          store.dispatch(UserActionDeleteRequestAction(actionId)),
       deleteFromList: (actionId) => _deleteFromActionList(store, actionId),
       resetUpdateStatus: () => store.dispatch(UserActionUpdateResetAction()),
       updateDisplayState: _updateStateDisplayState(updateState),
@@ -102,18 +155,22 @@ class UserActionDetailsViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [dateEcheanceViewModel, updateDisplayState, deleteDisplayState];
+  List<Object?> get props =>
+      [dateEcheanceViewModel, updateDisplayState, deleteDisplayState];
 }
 
-UserActionDetailDateEcheanceViewModel? _dateEcheanceViewModel(UserAction? userAction) {
+UserActionDetailDateEcheanceViewModel? _dateEcheanceViewModel(
+    UserAction? userAction) {
   if (userAction == null) return null;
-  if ([UserActionStatus.DONE, UserActionStatus.CANCELED].contains(userAction.status)) return null;
+  if ([UserActionStatus.DONE, UserActionStatus.CANCELED]
+      .contains(userAction.status)) return null;
   final isLate = userAction.isLate();
   return UserActionDetailDateEcheanceViewModel(
     formattedTexts: _formattedDate(userAction),
     icons: [if (isLate) Drawables.icImportantOutlined, Drawables.icClock],
     textColor: isLate ? AppColors.warning : AppColors.accent2,
-    backgroundColor: isLate ? AppColors.warningLighten : AppColors.accent3Lighten,
+    backgroundColor:
+        isLate ? AppColors.warningLighten : AppColors.accent3Lighten,
   );
 }
 
@@ -157,8 +214,11 @@ void _deleteFromActionList(Store<AppState> store, String actionId) async {
   store.dispatch(UserActionDeleteFromListAction(actionId));
 }
 
-void _refreshStatus(Store<AppState> store, String actionId, UserActionStatus newStatus) {
-  store.dispatch(UserActionUpdateRequestAction(actionId: actionId, newStatus: newStatus));
+void _refreshStatus(
+    Store<AppState> store, String actionId, UserActionStatus newStatus) {
+
+        store.dispatch(UserActionUpdateRequestAction(
+            actionId: actionId, newStatus: newStatus));
 }
 
 void _deleteFromActionList(Store<AppState> store, String actionId) async {
