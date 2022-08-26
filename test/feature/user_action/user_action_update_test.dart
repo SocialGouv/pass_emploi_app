@@ -11,9 +11,39 @@ import '../../dsl/app_state_dsl.dart';
 void main() {
   test("update action when repo succeeds should display loading and then update action", () async {
     // Given
+    final repository = PageActionRepositorySuccessStub();
     final store = givenState()
         .loggedInMiloUser()
-        .store((factory) => {factory.pageActionRepository = PageActionRepositorySuccessStub()});
+        .store((factory) => {factory.pageActionRepository = repository)});
+
+    // When
+    await store.dispatch(
+      UserActionUpdateRequestAction(
+        actionId: "3",
+        newStatus: UserActionStatus.NOT_STARTED,
+      ),
+    );
+
+    expect(repository.updateWasCalled, false);
+  });
+
+  test("an edited action should be updated and on top of the list", () async {
+    // Given
+    final testStoreFactory = TestStoreFactory();
+    final repositorySpy = PageActionRepositorySpy();
+    testStoreFactory.pageActionRepository = repositorySpy;
+    final store = testStoreFactory.initializeReduxStore(
+      initialState: givenState().loggedInUser().copyWith(
+        userActionListState: UserActionListSuccessState(
+          [
+            _notStartedAction(actionId: "1"),
+            _notStartedAction(actionId: "2"),
+            _notStartedAction(actionId: "3"),
+            _notStartedAction(actionId: "4"),
+          ],
+        ),
+      ),
+    );
 
     final updateDisplayedLoading = store.onChange.any((e) => e.userActionUpdateState is UserActionUpdateLoadingState);
     final successUpdateState =
@@ -131,4 +161,26 @@ void main() {
       UserActionStatus.NOT_STARTED,
     );
   });
+}
+
+UserAction _notStartedAction({required String actionId}) {
+  return UserAction(
+    id: actionId,
+    content: "content",
+    comment: "comment",
+    status: UserActionStatus.NOT_STARTED,
+    dateEcheance: DateTime(2042),
+    creator: JeuneActionCreator(),
+  );
+}
+
+class PageActionRepositorySpy extends PageActionRepository {
+  var isActionUpdated = false;
+
+  PageActionRepositorySpy() : super("", DummyHttpClient());
+
+  @override
+  Future<void> updateActionStatus(String userId, String actionId, UserActionStatus newStatus) async {
+    isActionUpdated = true;
+  }
 }

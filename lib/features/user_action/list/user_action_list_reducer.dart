@@ -4,28 +4,34 @@ import 'package:pass_emploi_app/features/user_action/list/user_action_list_state
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 
-UserActionListState userActionListReducer(UserActionListState current, dynamic action) {
-  if (action is UserActionListLoadingAction) return UserActionListLoadingState();
-  if (action is UserActionListFailureAction) return UserActionListFailureState();
-  if (action is UserActionListSuccessAction) return UserActionListSuccessState(action.userActions);
-  if (action is UserActionListResetAction) return UserActionListNotInitializedState();
-  if (action is UserActionDeleteFromListAction && current is UserActionListSuccessState) {
-    return UserActionListSuccessState(current.userActions.where((e) => e.id != action.actionId).toList());
-  }
-  if (action is UserActionUpdateSuccessAction && current is UserActionListSuccessState) {
-    final currentActions = current.userActions;
-    final actionToUpdate = currentActions.firstWhere((a) => a.id == action.actionId);
-    final updatedAction = UserAction(
-      id: actionToUpdate.id,
-      content: actionToUpdate.content,
-      comment: actionToUpdate.comment,
-      status: action.newStatus,
-      dateEcheance: actionToUpdate.dateEcheance,
-      creator: actionToUpdate.creator,
-    );
-    final newActions = List<UserAction>.from(currentActions).where((a) => a.id != action.actionId).toList()
-      ..insert(0, updatedAction);
-    return UserActionListSuccessState(newActions);
-  }
+UserActionListState userActionListReducer(
+    UserActionListState current, dynamic action) {
+  if (action is UserActionListLoadingAction)
+    return UserActionListLoadingState();
+  if (action is UserActionListFailureAction)
+    return UserActionListFailureState();
+  if (action is UserActionListSuccessAction)
+    return UserActionListSuccessState(action.userActions);
+  if (action is UserActionListResetAction)
+    return UserActionListNotInitializedState();
+  if (action is UserActionDeleteFromListAction)
+    return _listWithDeletedAction(current, action);
+  if (action is UserActionUpdateSuccessAction)
+    return _listWithUpdatedAction(current, action);
   return current;
+}
+
+UserActionListState _listWithDeletedAction(
+    UserActionListState current, UserActionDeleteFromListAction action) {
+  if (current is! UserActionListSuccessState) return current;
+  return UserActionListSuccessState(
+      current.userActions.where((e) => e.id != action.actionId).toList());
+}
+
+UserActionListState _listWithUpdatedAction(
+    UserActionListState current, UserActionUpdateSuccessAction action) {
+  if (current is! UserActionListSuccessState) return current;
+  final newActions =
+      current.userActions.withUpdatedAction(action.actionId, action.newStatus);
+  return UserActionListSuccessState(newActions);
 }
