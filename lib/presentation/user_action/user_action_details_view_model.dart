@@ -216,9 +216,8 @@ void _deleteFromActionList(Store<AppState> store, String actionId) async {
 
 void _refreshStatus(
     Store<AppState> store, String actionId, UserActionStatus newStatus) {
-
-        store.dispatch(UserActionUpdateRequestAction(
-            actionId: actionId, newStatus: newStatus));
+  store.dispatch(
+      UserActionUpdateRequestAction(actionId: actionId, newStatus: newStatus));
 }
 
 void _deleteFromActionList(Store<AppState> store, String actionId) async {

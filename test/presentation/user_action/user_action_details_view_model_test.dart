@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
 import '../../dsl/app_state_dsl.dart';
+import '../../utils/expects.dart';
 import '../../doubles/spies.dart';
 import '../../utils/expects.dart';
 import '../../doubles/spies.dart';
@@ -418,6 +419,12 @@ void main() {
         .withAction(mockUserAction(id: 'actionId')));
     final viewModel = UserActionDetailsViewModel.createFromUserActionListState(
         store, 'actionId');
+  test('should reset create action', () {
+    // Given
+    final store = StoreSpy.withState(
+      AppState.initialState().copyWith(userActionListState: UserActionListSuccessState([mockUserAction(id: 'id')])),
+    );
+    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'id');
     final store = StoreSpy.withState(givenState().loggedInMiloUser().withAction(mockUserAction(id: 'actionId')));
     final store = StoreSpy.withState(
       AppState.initialState().copyWith(userActionListState: UserActionListSuccessState([mockUserAction(id: 'id')])),
@@ -526,5 +533,9 @@ void main() {
     // Then
     expect(store.dispatchedAction, isA<UserActionUpdateResetAction>());
     expect(viewModel.updateDisplayState, UpdateDisplayState.NOT_INIT);
+    expectTypeThen<UserActionUpdateRequestAction>(store.dispatchedAction, (action) {
+      expect(action.actionId, "id");
+      expect(action.newStatus, UserActionStatus.DONE);
+    });
   });
 }

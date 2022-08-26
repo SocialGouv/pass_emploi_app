@@ -91,6 +91,22 @@ UserActionCreator _creator(dynamic json) {
 
 extension UpdateActionList on List<UserAction> {
   List<UserAction> withUpdatedAction(String actionId, UserActionStatus status) {
+    final actionToUpdate = firstWhere((a) => a.id == actionId);
+    final updatedAction = actionToUpdate.copyWith(status: status);
+    return List<UserAction>.from(this) //
+        .where((a) => a.id != actionId)
+        .toList()
+      ..insert(0, updatedAction);
+  }
+
+  bool shouldUpdateActionStatus(String id, UserActionStatus status) {
+    final userAction = firstWhere((e) => e.id == id);
+    return userAction.status != status;
+  }
+}
+
+extension UpdateActionList on List<UserAction> {
+  List<UserAction> withUpdatedAction(String actionId, UserActionStatus status) {
     final actionToUpdate = firstWhereOrNull((a) => a.id == actionId);
     if (actionToUpdate == null) return this;
 
