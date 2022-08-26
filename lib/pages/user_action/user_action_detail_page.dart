@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
-import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
+import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/pages/user_action/action_commentaires_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -27,7 +27,9 @@ import 'package:pass_emploi_app/widgets/comment.dart';
 import 'package:pass_emploi_app/widgets/date_echeance_in_detail.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/loader.dart';
+import 'package:pass_emploi_app/widgets/loading_overlay.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
@@ -63,12 +65,12 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
         appBar: passEmploiAppBar(label: Strings.actionDetails, context: context),
         body: StoreConnector<AppState, UserActionDetailsViewModel>(
           onInit: (store) {
-            store.dispatch(UserActionNotUpdatingState());
+            store.dispatch(UserActionUpdateResetAction());
             store.dispatch(UserActionDeleteResetAction());
           },
           converter: (store) => UserActionDetailsViewModel.create(store, actionViewModel.id),
           builder: (context, detailsViewModel) => _build(context, detailsViewModel),
-          onWillChange: (previousVm, newVm) => _bottomSheetHandling(context, newVm),
+          onDidChange: (previousVm, newVm) => _pageNavigationHandling(context, newVm),
           distinct: true,
         ),
       ),
@@ -76,86 +78,100 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
   }
 
   Widget _build(BuildContext context, UserActionDetailsViewModel detailsViewModel) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Stack(
       children: [
-        Expanded(
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  SizedBox(height: Margins.spacing_l),
-                  _Title(title: actionViewModel.title),
-                  SizedBox(height: Margins.spacing_m),
-                  _Description(
-                    withSubtitle: actionViewModel.withSubtitle,
-                    subtitle: actionViewModel.subtitle,
+        Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      SizedBox(height: Margins.spacing_l),
+                      _Title(title: actionViewModel.title),
+                      SizedBox(height: Margins.spacing_m),
+                      _Description(
+                        withSubtitle: actionViewModel.withSubtitle,
+                        subtitle: actionViewModel.subtitle,
+                      ),
+                      SizedBox(height: Margins.spacing_base),
+                      _Separator(),
+                      SizedBox(height: Margins.spacing_m),
+                      _Creator(name: actionViewModel.creator),
+                      SizedBox(height: Margins.spacing_m),
+                      if (detailsViewModel.dateEcheanceViewModel != null) ...[
+                        SizedBox(height: Margins.spacing_base),
+                        DateEcheanceInDetail(
+                          icons: detailsViewModel.dateEcheanceViewModel!.icons,
+                          formattedTexts: detailsViewModel.dateEcheanceViewModel!.formattedTexts,
+                          textColor: detailsViewModel.dateEcheanceViewModel!.textColor,
+                          backgroundColor: detailsViewModel.dateEcheanceViewModel!.backgroundColor,
+                        ),
+                      ],
+                      SizedBox(height: Margins.spacing_xl),
+                      _Separator(),
+                      SizedBox(height: Margins.spacing_base),
+                      _CommentCard(actionId: actionViewModel.id, actionTitle: actionViewModel.title),
+                      SizedBox(height: Margins.spacing_l),
+                      _Separator(),
+                      SizedBox(height: Margins.spacing_base),
+                      _changeStatus(),
+                    ],
                   ),
-                  SizedBox(height: Margins.spacing_base),
-                  _Separator(),
-                  SizedBox(height: Margins.spacing_m),
-                  _Creator(name: actionViewModel.creator),
-                  SizedBox(height: Margins.spacing_m),
-                  if (detailsViewModel.dateEcheanceViewModel != null) ...[
-                    SizedBox(height: Margins.spacing_base),
-                    DateEcheanceInDetail(
-                      icons: detailsViewModel.dateEcheanceViewModel!.icons,
-                      formattedTexts: detailsViewModel.dateEcheanceViewModel!.formattedTexts,
-                      textColor: detailsViewModel.dateEcheanceViewModel!.textColor,
-                      backgroundColor: detailsViewModel.dateEcheanceViewModel!.backgroundColor,
-                    ),
-                  ],
-                  SizedBox(height: Margins.spacing_xl),
-                  _Separator(),
-                  SizedBox(height: Margins.spacing_base),
-                  _CommentCard(actionId: actionViewModel.id, actionTitle: actionViewModel.title),
-                  SizedBox(height: Margins.spacing_l),
-                  _Separator(),
-                  SizedBox(height: Margins.spacing_base),
-                  _changeStatus(),
-                ],
+                ),
               ),
             ),
-          ),
+            Padding(
+              padding: const EdgeInsets.all(24),
+              child: PrimaryActionButton(
+                onPressed: () => {detailsViewModel.onRefreshStatus(actionViewModel.id, status)},
+                label: Strings.refreshActionStatus,
+              ),
+            ),
+            if (actionViewModel.withDeleteOption)
+              _DeleteAction(
+                viewModel: detailsViewModel,
+                onDeleteAction: _onDeleteAction,
+              ),
+          ],
         ),
-        Padding(
-          padding: const EdgeInsets.all(24),
-          child: PrimaryActionButton(
-            onPressed: () => {detailsViewModel.onRefreshStatus(actionViewModel.id, status)},
-            label: Strings.refreshActionStatus,
-          ),
-        ),
-        if (actionViewModel.withDeleteOption)
-          _DeleteAction(
-            viewModel: detailsViewModel,
-            onDeleteAction: _onDeleteAction,
-          ),
+        if (_isLoading(detailsViewModel)) LoadingOverlay(),
       ],
     );
   }
 
+  bool _isLoading(UserActionDetailsViewModel detailsViewModel) {
+    return detailsViewModel.updateDisplayState == UpdateDisplayState.SHOW_LOADING ||
+        detailsViewModel.deleteDisplayState == DeleteDisplayState.SHOW_LOADING;
+  }
+
   void _onDeleteAction(UserActionDetailsViewModel detailsViewModel) {
-    if (detailsViewModel.displayState != UserActionDetailsDisplayState.SHOW_LOADING) {
+    if (detailsViewModel.deleteDisplayState != DeleteDisplayState.SHOW_LOADING) {
       detailsViewModel.onDelete(actionViewModel.id);
       MatomoTracker.trackScreenWithName(AnalyticsActionNames.deleteUserAction, AnalyticsScreenNames.userActionDetails);
     }
   }
 
-  void _bottomSheetHandling(BuildContext context, UserActionDetailsViewModel viewModel) {
-    if (viewModel.displayState == UserActionDetailsDisplayState.SHOW_SUCCESS) {
+  void _pageNavigationHandling(BuildContext context, UserActionDetailsViewModel viewModel) {
+    if (viewModel.updateDisplayState == UpdateDisplayState.SHOW_UPDATE_ERROR) {
+      showFailedSnackBar(context, Strings.updateStatusError);
+      viewModel.resetUpdateStatus();
+    } else if (viewModel.updateDisplayState == UpdateDisplayState.SHOW_SUCCESS) {
       showPassEmploiBottomSheet(context: context, builder: _successBottomSheet).then((value) => Navigator.pop(context));
-    } else if (viewModel.displayState == UserActionDetailsDisplayState.TO_DISMISS) {
+    } else if (viewModel.updateDisplayState == UpdateDisplayState.TO_DISMISS) {
       Navigator.pop(context);
-    } else if (viewModel.displayState == UserActionDetailsDisplayState.TO_DISMISS_AFTER_UPDATE) {
+    } else if (viewModel.updateDisplayState == UpdateDisplayState.TO_DISMISS_AFTER_UPDATE) {
       _trackSuccessfulUpdate();
-      Navigator.pop(context, UserActionDetailsDisplayState.TO_DISMISS_AFTER_UPDATE);
-    } else if (viewModel.displayState == UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION) {
-      Navigator.pop(context, UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION);
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(Strings.deleteActionSuccess)));
+      Navigator.pop(context, UpdateDisplayState.TO_DISMISS_AFTER_UPDATE);
+    } else if (viewModel.deleteDisplayState == DeleteDisplayState.TO_DISMISS_AFTER_DELETION) {
+      Navigator.pop(context, DeleteDisplayState.TO_DISMISS_AFTER_DELETION);
+      showSuccessfulSnackBar(context, Strings.deleteActionSuccess);
+      viewModel.deleteFromList(actionViewModel.id);
     }
   }
 
@@ -301,7 +317,7 @@ class _DeleteAction extends StatelessWidget {
             rippleColor: AppColors.warningLight,
             withShadow: false,
           ),
-          if (viewModel.displayState == UserActionDetailsDisplayState.SHOW_DELETE_ERROR)
+          if (viewModel.deleteDisplayState == DeleteDisplayState.SHOW_DELETE_ERROR)
             Padding(
               padding: const EdgeInsets.only(top: 8),
               child: Text(
