@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/features/user_action/list/user_action_list_state
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../dsl/app_state_dsl.dart';
+import '../../dsl/app_state_dsl.dart';
 
 void main() {
   test("delete user action when repo succeeds should display loading and then set success state", () async {
