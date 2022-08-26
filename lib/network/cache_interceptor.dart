@@ -5,7 +5,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 
-const _blacklistedRoutes = ['/rendezvous', '/home/actions', '/home/demarches', '/fichiers'];
+const _blacklistedRoutes = ['/rendezvous', '/home/agenda' '/home/actions', '/home/demarches', '/fichiers'];
 const _defaultCacheDuration = Duration(days: 7);
 
 class HttpClientWithCache extends BaseClient {
