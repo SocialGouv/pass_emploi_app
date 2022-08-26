@@ -14,6 +14,7 @@ UserActionListState userActionListReducer(UserActionListState current, dynamic a
   return current;
 }
 
+// todo aussi dans agenda ???
 UserActionListState _listWithDeletedAction(UserActionListState current, UserActionDeleteSuccessAction action) {
   if (current is! UserActionListSuccessState) return current;
   return UserActionListSuccessState(current.userActions.where((e) => e.id != action.actionId).toList());

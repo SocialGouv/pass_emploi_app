@@ -11,11 +11,21 @@ class Agenda extends Equatable {
 
   factory Agenda.fromJson(dynamic json) {
     final actions = (json["actions"] as List).map((action) => UserAction.fromJson(action)).toList();
-    final rendezVous = (json["rendezVous"] as List)
+    final rendezvous = (json["rendezVous"] as List)
         .map((e) => JsonRendezvous.fromJson(e)) //
         .map((e) => e.toRendezvous()) //
         .toList();
-    return Agenda(actions: actions, rendezvous: rendezVous);
+    return Agenda(actions: actions, rendezvous: rendezvous);
+  }
+
+  Agenda copyWith({
+    final List<UserAction>? actions,
+    final List<Rendezvous>? rendezvous,
+  }) {
+    return Agenda(
+      actions: actions ?? this.actions,
+      rendezvous: rendezvous ?? this.rendezvous,
+    );
   }
 
   @override
