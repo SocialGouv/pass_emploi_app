@@ -9,7 +9,7 @@ UserActionListState userActionListReducer(UserActionListState current, dynamic a
   if (action is UserActionListFailureAction) return UserActionListFailureState();
   if (action is UserActionListSuccessAction) return UserActionListSuccessState(action.userActions);
   if (action is UserActionListResetAction) return UserActionListNotInitializedState();
-  if (action is UserActionDeleteSuccessAction && current is UserActionListSuccessState) {
+  if (action is UserActionDeleteFromListAction && current is UserActionListSuccessState) {
     return UserActionListSuccessState(current.userActions.where((e) => e.id != action.actionId).toList());
   }
   if (action is UserActionUpdateSuccessAction && current is UserActionListSuccessState) {

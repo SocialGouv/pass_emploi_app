@@ -11,7 +11,7 @@ import '../../doubles/stubs.dart';
 import '../../utils/test_setup.dart';
 
 void main() {
-  test("delete user action when repo succeeds should display loading and then delete user action", () async {
+  test("delete user action when repo succeeds should display loading and then set success state", () async {
     // Given
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.pageActionRepository = PageActionRepositorySuccessStub();
@@ -29,6 +29,27 @@ void main() {
 
     // Then
     expect(await displayedLoading, true);
+    final successAppState = await success;
+    expect(successAppState.userActionListState is UserActionListSuccessState, isTrue);
+  });
+
+  test("delete from list action should delete user action from actions list", () async {
+    // Given
+    final testStoreFactory = TestStoreFactory();
+    testStoreFactory.pageActionRepository = PageActionRepositorySuccessStub();
+    final store = testStoreFactory.initializeReduxStore(
+      initialState: AppState.initialState().copyWith(
+        userActionListState: UserActionListSuccessState(_userActions()),
+        userActionDeleteState: UserActionDeleteFromListState(),
+        loginState: successMiloUserState(),
+      ),
+    );
+    final success = store.onChange.firstWhere((e) => e.userActionDeleteState is UserActionDeleteFromListState);
+
+    // When
+    store.dispatch(UserActionDeleteFromListAction("1"));
+
+    // Then
     final successAppState = await success;
     expect(successAppState.userActionListState is UserActionListSuccessState, isTrue);
     expect((successAppState.userActionListState as UserActionListSuccessState).userActions.length, 1);
