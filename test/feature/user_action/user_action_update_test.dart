@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
@@ -27,23 +28,31 @@ void main() {
     expect(repository.updateWasCalled, false);
   });
 
-  test("an edited action should be updated and on top of the list", () async {
-    // Given
+  group("an edited action should be updated", () {
+    final actions = [
+      _notStartedAction(actionId: "1"),
+      _notStartedAction(actionId: "2"),
+      _notStartedAction(actionId: "3"),
+      _notStartedAction(actionId: "4"),
+    ];
+
+    final state = givenState() //
+        .loggedInUser()
+        .agenda(actions: actions, rendezvous: []).copyWith(userActionListState: UserActionListSuccessState(actions));
+
     final testStoreFactory = TestStoreFactory();
     final repositorySpy = PageActionRepositorySpy();
     testStoreFactory.pageActionRepository = repositorySpy;
-    final store = testStoreFactory.initializeReduxStore(
-      initialState: givenState().loggedInUser().copyWith(
-        userActionListState: UserActionListSuccessState(
-          [
-            _notStartedAction(actionId: "1"),
-            _notStartedAction(actionId: "2"),
-            _notStartedAction(actionId: "3"),
-            _notStartedAction(actionId: "4"),
-          ],
+    final store = testStoreFactory.initializeReduxStore(initialState: state);
+
+    void whenUpdatingAction() async {
+      await store.dispatch(
+        UserActionUpdateRequestAction(
+          actionId: "3",
+          newStatus: UserActionStatus.DONE,
         ),
-      ),
-    );
+      );
+    }
 
     final updateDisplayedLoading = store.onChange.any((e) => e.userActionUpdateState is UserActionUpdateLoadingState);
     final successUpdateState =
@@ -160,6 +169,37 @@ void main() {
       (appState.userActionListState as UserActionListSuccessState).userActions[2].status,
       UserActionStatus.NOT_STARTED,
     );
+    test("on repository", () async {
+      // When
+      whenUpdatingAction();
+
+      // Then
+      expect(repositorySpy.isActionUpdated, true);
+    });
+
+    test("on user action update state", () async {
+      final successAppState = store.onChange.firstWhere((e) => e.userActionUpdateState is UserActionUpdatedState);
+
+      // When
+      whenUpdatingAction();
+
+      // Then
+      final appState = await successAppState;
+      expect(appState.userActionUpdateState is UserActionUpdatedState, isTrue);
+    });
+
+    test("on user action list state", () async {
+      final successAppState = store.onChange.firstWhere((e) => e.userActionListState is UserActionListSuccessState);
+
+      // When
+      whenUpdatingAction();
+
+      // Then
+      final appState = await successAppState;
+      expect(appState.userActionListState is UserActionListSuccessState, isTrue);
+      expect((appState.userActionListState as UserActionListSuccessState).userActions[0].id, "3");
+      expect((appState.userActionListState as UserActionListSuccessState).userActions[0].status, UserActionStatus.DONE);
+    });
   });
 }
 
