@@ -121,6 +121,7 @@ class _Content extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
       child: ListView.builder(
+        padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 96),
         itemCount: viewModel.events.length,
         itemBuilder: (context, index) => _DaySection(viewModel.events[index]),
       ),
