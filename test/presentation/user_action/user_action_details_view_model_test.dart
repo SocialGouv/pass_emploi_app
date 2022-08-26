@@ -234,9 +234,10 @@ void main() {
     // Given
     final store = StoreSpy.withState(givenState().withAction(mockUserAction(id: 'actionId')));
     final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
+    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'id');
 
     // When
-    viewModel.onDelete('actionId');
+    viewModel.onRefreshStatus("id", UserActionStatus.DONE);
 
     // Then
     expect(store.dispatchedAction, isA<UserActionDeleteRequestAction>());
