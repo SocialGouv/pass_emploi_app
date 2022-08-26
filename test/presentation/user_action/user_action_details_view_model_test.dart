@@ -1,85 +1,123 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
-import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
+import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
-import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
-import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
-import 'package:pass_emploi_app/redux/app_reducer.dart';
-import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
-import 'package:redux/redux.dart';
 
 import '../../doubles/fixtures.dart';
+import '../../doubles/spies.dart';
+import '../../dsl/app_state_dsl.dart';
 
 void main() {
-  group("create when action has been updated ...", () {
-    test("to not_started status should dismiss bottom sheet", () {
+  group("create when update action...", () {
+    test("set status to NOT_STARTED should dismiss bottom sheet", () {
       // Given
-      final store = Store<AppState>(
-        reducer,
-        initialState: AppState.initialState().copyWith(
-          userActionListState: UserActionListSuccessState([mockUserAction(id: 'id')]),
-          userActionUpdateState: UserActionUpdatedState(UserActionStatus.NOT_STARTED),
-        ),
-      );
+      final store = givenState()
+          .withAction(mockUserAction(id: 'actionId'))
+          .updateActionSuccess(UserActionStatus.NOT_STARTED)
+          .store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.create(store, 'id');
+      final viewModel = UserActionDetailsViewModel.create(store, 'actionId');
 
       // Then
-      expect(viewModel.displayState, UserActionDetailsDisplayState.TO_DISMISS_AFTER_UPDATE);
+      expect(viewModel.updateDisplayState, UpdateDisplayState.TO_DISMISS_AFTER_UPDATE);
     });
 
-    test("to in_progress status should dismiss bottom sheet", () {
+    test("set status to IN_PROGRESS should dismiss bottom sheet", () {
       // Given
-      final store = Store<AppState>(
-        reducer,
-        initialState: AppState.initialState().copyWith(
-          userActionListState: UserActionListSuccessState([mockUserAction(id: 'id')]),
-          userActionUpdateState: UserActionUpdatedState(UserActionStatus.IN_PROGRESS),
-        ),
-      );
+      final store = givenState()
+          .withAction(mockUserAction(id: 'actionId'))
+          .updateActionSuccess(UserActionStatus.IN_PROGRESS)
+          .store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.create(store, 'id');
+      final viewModel = UserActionDetailsViewModel.create(store, 'actionId');
 
       // Then
-      expect(viewModel.displayState, UserActionDetailsDisplayState.TO_DISMISS_AFTER_UPDATE);
+      expect(viewModel.updateDisplayState, UpdateDisplayState.TO_DISMISS_AFTER_UPDATE);
     });
 
-    test("to done status should show success screen", () {
+    test("set status to CANCELED should dismiss bottom sheet", () {
       // Given
-      final store = Store<AppState>(
-        reducer,
-        initialState: AppState.initialState().copyWith(
-          userActionListState: UserActionListSuccessState([mockUserAction(id: 'id')]),
-          userActionUpdateState: UserActionUpdatedState(UserActionStatus.DONE),
-        ),
-      );
+      final store = givenState()
+          .withAction(mockUserAction(id: 'actionId'))
+          .updateActionSuccess(UserActionStatus.CANCELED)
+          .store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.create(store, 'id');
+      final viewModel = UserActionDetailsViewModel.create(store, 'actionId');
 
       // Then
-      expect(viewModel.displayState, UserActionDetailsDisplayState.SHOW_SUCCESS);
+      expect(viewModel.updateDisplayState, UpdateDisplayState.TO_DISMISS_AFTER_UPDATE);
+    });
+
+    test("set status to done should show success screen", () {
+      // Given
+      final store =
+          givenState().withAction(mockUserAction(id: 'actionId')).updateActionSuccess(UserActionStatus.DONE).store();
+
+      // When
+      final viewModel = UserActionDetailsViewModel.create(store, 'actionId');
+
+      // Then
+      expect(viewModel.updateDisplayState, UpdateDisplayState.SHOW_SUCCESS);
+    });
+
+    test("needs no modification should dismiss bottom sheet without updating action", () {
+      // Given
+      final store = givenState().withAction(mockUserAction(id: 'actionId')).updateActionNoNeedToUpdate().store();
+
+      // When
+      final viewModel = UserActionDetailsViewModel.create(store, 'actionId');
+
+      // Then
+      expect(viewModel.updateDisplayState, UpdateDisplayState.TO_DISMISS);
+    });
+
+    test("loads should show loading screen", () {
+      // Given
+      final store = givenState().withAction(mockUserAction(id: 'actionId')).updateActionLoading().store();
+
+      // When
+      final viewModel = UserActionDetailsViewModel.create(store, 'actionId');
+
+      // Then
+      expect(viewModel.updateDisplayState, UpdateDisplayState.SHOW_LOADING);
+    });
+
+    test("fails should show error", () {
+      // Given
+      final store = givenState().withAction(mockUserAction(id: 'actionId')).updateActionFailure().store();
+
+      // When
+      final viewModel = UserActionDetailsViewModel.create(store, 'actionId');
+
+      // Then
+      expect(viewModel.updateDisplayState, UpdateDisplayState.SHOW_UPDATE_ERROR);
+    });
+
+    test("is not initialized should set NOT_INIT state", () {
+      // Given
+      final store = givenState().withAction(mockUserAction(id: 'actionId')).updateActionNotInit().store();
+
+      // When
+      final viewModel = UserActionDetailsViewModel.create(store, 'actionId');
+
+      // Then
+      expect(viewModel.updateDisplayState, UpdateDisplayState.NOT_INIT);
     });
   });
 
   test("when action is on time should properly set texts, icons and active color", () {
     // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(
-        userActionListState: UserActionListSuccessState([mockUserAction(id: 'id', dateEcheance: DateTime(2041, 1, 1))]),
-      ),
-    );
+    final store = givenState().withAction(mockUserAction(id: 'actionId', dateEcheance: DateTime(2041, 1, 1))).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, 'id');
+    final viewModel = UserActionDetailsViewModel.create(store, 'actionId');
 
     // Then
     expect(
@@ -95,15 +133,10 @@ void main() {
 
   test("when action is late should properly set texts, icons and warning color", () {
     // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(
-        userActionListState: UserActionListSuccessState([mockUserAction(id: 'id', dateEcheance: DateTime(2021, 1, 1))]),
-      ),
-    );
+    final store = givenState().withAction(mockUserAction(id: 'actionId', dateEcheance: DateTime(2021, 1, 1))).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, 'id');
+    final viewModel = UserActionDetailsViewModel.create(store, 'actionId');
 
     // Then
     expect(
@@ -119,15 +152,10 @@ void main() {
 
   test("when action is DONE should not display date echeance", () {
     // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(
-        userActionListState: UserActionListSuccessState([mockUserAction(id: 'id', status: UserActionStatus.DONE)]),
-      ),
-    );
+    final store = givenState().withAction(mockUserAction(id: 'actionId', status: UserActionStatus.DONE)).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, 'id');
+    final viewModel = UserActionDetailsViewModel.create(store, 'actionId');
 
     // Then
     expect(viewModel.dateEcheanceViewModel, isNull);
@@ -135,192 +163,122 @@ void main() {
 
   test("when action is CANCELED should not display date echeance", () {
     // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(
-        userActionListState: UserActionListSuccessState([mockUserAction(id: 'id', status: UserActionStatus.CANCELED)]),
-      ),
-    );
+    final store = givenState().withAction(mockUserAction(id: 'actionId', status: UserActionStatus.CANCELED)).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, 'id');
+    final viewModel = UserActionDetailsViewModel.create(store, 'actionId');
 
     // Then
     expect(viewModel.dateEcheanceViewModel, isNull);
   });
 
-  test("create when action is not updating should show content", () {
-    // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(
-        userActionListState: UserActionListSuccessState([mockUserAction(id: 'id')]),
-        userActionUpdateState: UserActionNotUpdatingState(),
-      ),
-    );
+  group("create when delete action ...", () {
+    test("succeeds should dismiss bottom sheet", () {
+      // Given
+      final store = givenState().withAction(mockUserAction(id: 'actionId')).deleteActionSuccess().store();
 
-    // When
-    final viewModel = UserActionDetailsViewModel.create(store, 'id');
+      // When
+      final viewModel = UserActionDetailsViewModel.create(store, 'actionId');
 
-    // Then
-    expect(viewModel.displayState, UserActionDetailsDisplayState.SHOW_CONTENT);
-  });
+      // Then
+      expect(viewModel.deleteDisplayState, DeleteDisplayState.TO_DISMISS_AFTER_DELETION);
+    });
 
-  test("create when action is no update needed should dismiss details", () {
-    // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(
-        userActionListState: UserActionListSuccessState([mockUserAction(id: 'id')]),
-        userActionUpdateState: UserActionNoUpdateNeededState(),
-      ),
-    );
+    test("loads should display loading", () {
+      // Given
+      final store = givenState().withAction(mockUserAction(id: 'actionId')).deleteActionLoading().store();
 
-    // When
-    final viewModel = UserActionDetailsViewModel.create(store, 'id');
+      // When
+      final viewModel = UserActionDetailsViewModel.create(store, 'actionId');
 
-    // Then
-    expect(viewModel.displayState, UserActionDetailsDisplayState.TO_DISMISS);
-  });
+      // Then
+      expect(viewModel.deleteDisplayState, DeleteDisplayState.SHOW_LOADING);
+    });
 
-  test("create when delete action succeeds should dismiss details", () {
-    // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(
-        userActionListState: UserActionListSuccessState([mockUserAction(id: 'id')]),
-        userActionDeleteState: UserActionDeleteSuccessState(),
-      ),
-    );
+    test("fails should display error", () {
+      // Given
+      final store = givenState().withAction(mockUserAction(id: 'actionId')).deleteActionFailure().store();
 
-    // When
-    final viewModel = UserActionDetailsViewModel.create(store, 'id');
+      // When
+      final viewModel = UserActionDetailsViewModel.create(store, 'actionId');
 
-    // Then
-    expect(viewModel.displayState, UserActionDetailsDisplayState.TO_DISMISS_AFTER_DELETION);
-  });
+      // Then
+      expect(viewModel.deleteDisplayState, DeleteDisplayState.SHOW_DELETE_ERROR);
+    });
 
-  test("create when delete action loads should display loading", () {
-    // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(
-        userActionListState: UserActionListSuccessState([mockUserAction(id: 'id')]),
-        userActionDeleteState: UserActionDeleteLoadingState(),
-      ),
-    );
+    test("is not initialized should set NOT_INIT state", () {
+      // Given
+      final store = givenState().withAction(mockUserAction(id: 'actionId')).deleteActionNotInit().store();
 
-    // When
-    final viewModel = UserActionDetailsViewModel.create(store, 'id');
+      // When
+      final viewModel = UserActionDetailsViewModel.create(store, 'actionId');
 
-    // Then
-    expect(viewModel.displayState, UserActionDetailsDisplayState.SHOW_LOADING);
-  });
-
-  test("create when delete action fails should display error", () {
-    // Given
-    final store = Store<AppState>(
-      reducer,
-      initialState: AppState.initialState().copyWith(
-        userActionListState: UserActionListSuccessState([mockUserAction(id: 'id')]),
-        userActionDeleteState: UserActionDeleteFailureState(),
-      ),
-    );
-
-    // When
-    final viewModel = UserActionDetailsViewModel.create(store, 'id');
-
-    // Then
-    expect(viewModel.displayState, UserActionDetailsDisplayState.SHOW_DELETE_ERROR);
+      // Then
+      expect(viewModel.deleteDisplayState, DeleteDisplayState.NOT_INIT);
+    });
   });
 
   test('refreshStatus when update status has changed should dispatch a UpdateActionStatus', () {
     // Given
-    final storeSpy = StoreSpy();
-    final store = Store<AppState>(
-      storeSpy.reducer,
-      initialState: loggedInState().copyWith(
-        userActionListState: UserActionListSuccessState(
-          [
-            UserAction(
-              id: "id",
-              content: "content",
-              comment: "comment",
-              status: UserActionStatus.DONE,
-              dateEcheance: DateTime(2042),
-              creator: JeuneActionCreator(),
-            ),
-            UserAction(
-              id: "id2",
-              content: "content2",
-              comment: "",
-              status: UserActionStatus.NOT_STARTED,
-              dateEcheance: DateTime(2042),
-              creator: JeuneActionCreator(),
-            ),
-          ],
-        ),
-      ),
-    );
+    final store = StoreSpy.withState(givenState().loggedInMiloUser().withAction(mockUserAction(id: 'actionId')));
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, 'id');
-    viewModel.onRefreshStatus("id", UserActionStatus.NOT_STARTED);
+    final viewModel = UserActionDetailsViewModel.create(store, 'actionId');
+    viewModel.onRefreshStatus("actionId", UserActionStatus.NOT_STARTED);
 
     // Then
-    expect(storeSpy.calledWithUpdate, true);
+    expect(store.dispatchedAction, isA<UserActionUpdateRequestAction>());
   });
 
   test('refreshStatus when update status has not changed should dispatch UserActionNoUpdateNeededAction', () {
     // Given
-    final storeSpy = StoreSpy();
-    final store = Store<AppState>(
-      storeSpy.reducer,
-      initialState: loggedInState().copyWith(
-        userActionListState: UserActionListSuccessState(
-          [
-            UserAction(
-              id: "id",
-              content: "content",
-              comment: "comment",
-              status: UserActionStatus.DONE,
-              dateEcheance: DateTime(2042),
-              creator: JeuneActionCreator(),
-            ),
-            UserAction(
-              id: "id2",
-              content: "content2",
-              comment: "",
-              status: UserActionStatus.NOT_STARTED,
-              dateEcheance: DateTime(2042),
-              creator: JeuneActionCreator(),
-            ),
-          ],
-        ),
-      ),
-    );
+    final store = StoreSpy.withState(givenState().loggedInMiloUser().withAction(mockUserAction(id: 'actionId')));
 
     // When
-    final viewModel = UserActionDetailsViewModel.create(store, 'id');
-    viewModel.onRefreshStatus("id", UserActionStatus.DONE);
+    final viewModel = UserActionDetailsViewModel.create(store, 'actionId');
+    viewModel.onRefreshStatus("actionId", UserActionStatus.IN_PROGRESS);
 
     // Then
-    expect(storeSpy.calledWithNoUpdateNeeded, true);
-    expect(storeSpy.calledWithUpdate, false);
+    expect(store.dispatchedAction, isA<UserActionNoUpdateNeededAction>());
   });
-}
 
-class StoreSpy {
-  var calledWithNoUpdateNeeded = false;
-  var calledWithUpdate = false;
+  test('onDelete should dispatch UserActionDeleteRequestAction', () {
+    // Given
+    final store = StoreSpy.withState(givenState().withAction(mockUserAction(id: 'actionId')));
+    final viewModel = UserActionDetailsViewModel.create(store, 'actionId');
 
-  AppState reducer(AppState currentState, dynamic action) {
-    if (action is UserActionNoUpdateNeededAction) {
-      calledWithNoUpdateNeeded = true;
-    }
-    if (action is UserActionUpdateRequestAction) {
-      calledWithUpdate = true;
-    }
-    return currentState;
-  }
+    // When
+    viewModel.onDelete('actionId');
+
+    // Then
+    expect(store.dispatchedAction, isA<UserActionDeleteRequestAction>());
+    expect((store.dispatchedAction as UserActionDeleteRequestAction).actionId, 'actionId');
+  });
+
+  test('deleteFromList should dispatch UserActionDeleteFromListAction', () async {
+    // Given
+    final store = StoreSpy.withState(givenState().withAction(mockUserAction(id: 'actionId')));
+    final viewModel = UserActionDetailsViewModel.create(store, 'actionId');
+
+    // When
+    viewModel.deleteFromList('actionId');
+
+    // Then
+    await Future.delayed(Duration(milliseconds: 350));
+    expect(store.dispatchedAction, isA<UserActionDeleteFromListAction>());
+    expect((store.dispatchedAction as UserActionDeleteFromListAction).actionId, 'actionId');
+  });
+
+  test('resetUpdateStatus should dispatch UserActionUpdateResetAction', () {
+    // Given
+    final store = StoreSpy.withState(givenState().withAction(mockUserAction(id: 'actionId')));
+    final viewModel = UserActionDetailsViewModel.create(store, 'actionId');
+
+    // When
+    viewModel.resetUpdateStatus();
+
+    // Then
+    expect(store.dispatchedAction, isA<UserActionUpdateResetAction>());
+    expect(viewModel.updateDisplayState, UpdateDisplayState.NOT_INIT);
+  });
 }
