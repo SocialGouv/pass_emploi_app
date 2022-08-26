@@ -24,6 +24,7 @@ UserActionListState userActionListReducer(
 UserActionListState _listWithDeletedAction(
     UserActionListState current, UserActionDeleteFromListAction action) {
 // todo aussi dans agenda ???
+
 UserActionListState _listWithDeletedAction(UserActionListState current, UserActionDeleteSuccessAction action) {
   if (current is! UserActionListSuccessState) return current;
   return UserActionListSuccessState(
