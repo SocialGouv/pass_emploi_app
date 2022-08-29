@@ -25,8 +25,6 @@ import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 
-// todo Cacher onglet "Cette semaine" quand on est PE ?
-
 class AgendaPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

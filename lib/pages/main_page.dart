@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/pages/mon_suivi_tabs_page.dart';
 import 'package:pass_emploi_app/pages/profil/profil_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/mon_suivi_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -111,9 +112,11 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   Widget _content(int index, MainPageViewModel viewModel) {
     switch (index) {
       case _indexOfMonSuiviPage:
-        final initialTab = _displayMonSuiviOnRendezvousTab ? MonSuiviTab.RENDEZVOUS : MonSuiviTab.AGENDA;
+        final initialTab = _displayMonSuiviOnRendezvousTab ? MonSuiviTab.RENDEZVOUS : null;
         _displayMonSuiviOnRendezvousTab = false;
-        return MonSuiviTabPage(initialTab: initialTab, isPoleEmploiLogin: viewModel.isPoleEmploiLogin);
+        return MonSuiviTabPage(
+          viewModel: MonSuiviViewModel.create(isPoleEmploiLogin: viewModel.isPoleEmploiLogin, initialTab: initialTab),
+        );
       case _indexOfChatPage:
         return ChatPage();
       case _indexOfSolutionsPage:
@@ -123,7 +126,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case _indexOfPlusPage:
         return ProfilPage();
       default:
-        return MonSuiviTabPage(initialTab: MonSuiviTab.AGENDA, isPoleEmploiLogin: viewModel.isPoleEmploiLogin);
+        return MonSuiviTabPage(viewModel: MonSuiviViewModel.create(isPoleEmploiLogin: viewModel.isPoleEmploiLogin));
     }
   }
 
