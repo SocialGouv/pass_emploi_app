@@ -33,7 +33,7 @@ extension ShouldUpdateActionStatus on AppState {
   }
 
   bool shouldUpdateActionStatusOnActionListState(String id, UserActionStatus status) {
-    final state = this.userActionListState;
+    final state = userActionListState;
     if (state is UserActionListSuccessState) {
       return state.userActions.shouldUpdateActionStatus(id, status);
     }
@@ -41,7 +41,7 @@ extension ShouldUpdateActionStatus on AppState {
   }
 
   bool shouldUpdateActionStatusOnAgendaState(String id, UserActionStatus status) {
-    final state = this.agendaState;
+    final state = agendaState;
     if (state is AgendaSuccessState) {
       return state.agenda.actions.shouldUpdateActionStatus(id, status);
     }
