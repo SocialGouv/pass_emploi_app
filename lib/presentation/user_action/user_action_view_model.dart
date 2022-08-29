@@ -45,7 +45,7 @@ class UserActionViewModel extends Equatable {
     required this.withDeleteOption,
   });
 
-  // todo test
+  // todo Tests (low) avec une façon élégeante de faire 2-en-1
   factory UserActionViewModel.createFromAgendaState(Store<AppState> store, String actionId) {
     final state = store.state.agendaState;
     if (state is! AgendaSuccessState) throw Exception('Invalid state.');

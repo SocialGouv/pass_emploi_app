@@ -5,6 +5,6 @@ UserActionUpdateState userActionUpdateReducer(UserActionUpdateState current, dyn
   if (action is UserActionNoUpdateNeededAction) return UserActionNoUpdateNeededState();
   if (action is UserActionUpdateResetAction) return UserActionNotUpdatingState();
   if (action is UserActionUpdateNeededAction) return UserActionUpdatedState(action.newStatus);
-  if (action is UserActionNotUpdatingState) return UserActionNotUpdatingState(); // todo bizarre de dispatch un State :)
+  if (action is UserActionNotUpdatingState) return UserActionNotUpdatingState(); // todo Correction : ne pas dispatch un state
   return current;
 }

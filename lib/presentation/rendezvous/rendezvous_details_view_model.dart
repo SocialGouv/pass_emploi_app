@@ -69,7 +69,7 @@ class RendezvousDetailsViewModel extends Equatable {
     return RendezvousDetailsViewModel.create(rdv, platform);
   }
 
-  // todo tests
+  // todo Tests (low) avec une façon élégeante de faire 2-en-1
   factory RendezvousDetailsViewModel.createFromAgendaState(Store<AppState> store, String rdvId, Platform platform) {
     final rdv = getRendezvousFromAgendaState(store, rdvId);
     return RendezvousDetailsViewModel.create(rdv, platform);

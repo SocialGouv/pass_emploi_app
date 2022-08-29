@@ -101,7 +101,7 @@ class _Body extends StatelessWidget {
       case DisplayState.CONTENT:
         return _Content(viewModel: viewModel);
       default:
-        return Text("Sorry :)"); // todo
+        return Text("Sorry :)");
     }
   }
 }
@@ -193,7 +193,7 @@ extension _EventWidget on RendezvousEventAgenda {
   }
 }
 
-// todo mutualiser, onTap en param
+// todo Refactoring (low) : mutualiser, onTap en param ?
 
 class _ActionCard extends StatelessWidget {
   final String id;
