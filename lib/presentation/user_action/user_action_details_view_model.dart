@@ -61,6 +61,7 @@ class UserActionDetailsViewModel extends Equatable {
     required this.onDelete,
   });
 
+  // tests pour la source agenda
   factory UserActionDetailsViewModel.create(Store<AppState> store, String userActionId, StateSource source) {
     switch (source) {
       case StateSource.agenda:

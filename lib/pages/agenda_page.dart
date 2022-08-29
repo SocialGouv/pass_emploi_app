@@ -187,7 +187,7 @@ extension _EventWidget on RendezvousEventAgenda {
           context.trackEvent(EventType.RDV_DETAIL);
           Navigator.push(
             context,
-            RendezvousDetailsPage.materialPageRoute(id),
+            RendezvousDetailsPage.materialPageRouteWithAgendaState(id),
           );
         },
       ),

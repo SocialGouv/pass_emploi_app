@@ -18,21 +18,41 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
+import 'package:redux/redux.dart';
 
 class RendezvousDetailsPage extends StatelessWidget {
   final String rendezvousId;
+  final RendezvousDetailsViewModel Function(Store<AppState>) _converter;
+  static final _platform = io.Platform.isIOS ? Platform.IOS : Platform.ANDROID;
 
-  RendezvousDetailsPage._(this.rendezvousId) : super();
+  RendezvousDetailsPage._(this.rendezvousId, this._converter) : super();
 
-  static MaterialPageRoute<void> materialPageRoute(String rendezvousId) {
-    return MaterialPageRoute(builder: (context) => RendezvousDetailsPage._(rendezvousId));
+  static MaterialPageRoute<void> materialPageRouteWithRendezvousState(String rendezvousId) {
+    return MaterialPageRoute(
+      builder: (context) {
+        return RendezvousDetailsPage._(
+          rendezvousId,
+          (store) => RendezvousDetailsViewModel.createFromRendezvousState(store, rendezvousId, _platform),
+        );
+      },
+    );
+  }
+
+  static MaterialPageRoute<void> materialPageRouteWithAgendaState(String rendezvousId) {
+    return MaterialPageRoute(
+      builder: (context) {
+        return RendezvousDetailsPage._(
+          rendezvousId,
+          (store) => RendezvousDetailsViewModel.createFromAgendaState(store, rendezvousId, _platform),
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final platform = io.Platform.isIOS ? Platform.IOS : Platform.ANDROID;
     return StoreConnector<AppState, RendezvousDetailsViewModel>(
-      converter: (store) => RendezvousDetailsViewModel.create(store, rendezvousId, platform),
+      converter: _converter,
       builder: _builder,
     );
   }
