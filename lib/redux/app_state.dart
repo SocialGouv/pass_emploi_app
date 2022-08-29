@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
+import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
@@ -50,6 +51,7 @@ import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart'
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
+import 'package:pass_emploi_app/models/user.dart';
 
 class AppState extends Equatable {
   final ConfigurationState configurationState;
@@ -101,6 +103,7 @@ class AppState extends Equatable {
   final RatingState ratingState;
   final ActionCommentaireListState actionCommentaireListState;
   final ActionCommentaireCreateState actionCommentaireCreateState;
+  final AgendaState agendaState;
 
   AppState({
     required this.configurationState,
@@ -152,6 +155,7 @@ class AppState extends Equatable {
     required this.ratingState,
     required this.actionCommentaireListState,
     required this.actionCommentaireCreateState,
+    required this.agendaState,
   });
 
   AppState copyWith({
@@ -204,6 +208,7 @@ class AppState extends Equatable {
     final RatingState? ratingState,
     final ActionCommentaireListState? actionCommentaireListState,
     final ActionCommentaireCreateState? actionCommentaireCreateState,
+    final AgendaState? agendaState,
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
@@ -256,6 +261,7 @@ class AppState extends Equatable {
       ratingState: ratingState ?? this.ratingState,
       actionCommentaireListState: actionCommentaireListState ?? this.actionCommentaireListState,
       actionCommentaireCreateState: actionCommentaireCreateState ?? this.actionCommentaireCreateState,
+      agendaState: agendaState ?? this.agendaState,
     );
   }
 
@@ -310,6 +316,7 @@ class AppState extends Equatable {
       ratingState: RatingNotInitializedState(),
       actionCommentaireListState: ActionCommentaireListNotInitializedState(),
       actionCommentaireCreateState: ActionCommentaireCreateNotInitializedState(),
+      agendaState: AgendaNotInitializedState(),
     );
   }
 
@@ -357,8 +364,21 @@ class AppState extends Equatable {
         ratingState,
         actionCommentaireListState,
         actionCommentaireCreateState,
+        agendaState,
       ];
 
   @override
   bool? get stringify => true;
+}
+
+extension AppStateUser on AppState {
+  User? user() {
+    final loginState = this.loginState;
+    if (loginState is LoginSuccessState) {
+      return loginState.user;
+    }
+    return null;
+  }
+
+  String? userId() => user()?.id;
 }

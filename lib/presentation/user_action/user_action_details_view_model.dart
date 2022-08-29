@@ -1,6 +1,7 @@
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
@@ -14,6 +15,8 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
+
+enum StateSource { agenda, userActions }
 
 enum UserActionDetailsDisplayState {
   SHOW_CONTENT,
@@ -55,13 +58,32 @@ class UserActionDetailsViewModel extends Equatable {
     required this.onDelete,
   });
 
-  factory UserActionDetailsViewModel.create(Store<AppState> store, String userActionId) {
+  // tests pour la source agenda
+  factory UserActionDetailsViewModel.create(Store<AppState> store, String userActionId, StateSource source) {
+    switch (source) {
+      case StateSource.agenda:
+        return UserActionDetailsViewModel.createFromUserAgendaState(store, userActionId);
+      case StateSource.userActions:
+        return UserActionDetailsViewModel.createFromUserActionListState(store, userActionId);
+    }
+  }
+
+  factory UserActionDetailsViewModel.createFromUserAgendaState(Store<AppState> store, String userActionId) {
+    final agendaState = store.state.agendaState as AgendaSuccessState;
+    final userAction = agendaState.agenda.actions.firstWhereOrNull((e) => e.id == userActionId);
+    return UserActionDetailsViewModel.createWithAction(userAction, store);
+  }
+
+  factory UserActionDetailsViewModel.createFromUserActionListState(Store<AppState> store, String userActionId) {
     final userActionListState = store.state.userActionListState as UserActionListSuccessState;
-    final userAction = userActionListState.userActions.firstWhere((e) => e.id == userActionId);
-    final isLate = userAction.isLate();
+    final userAction = userActionListState.userActions.firstWhereOrNull((e) => e.id == userActionId);
+    return UserActionDetailsViewModel.createWithAction(userAction, store);
+  }
+
+  factory UserActionDetailsViewModel.createWithAction(UserAction? userAction, Store<AppState> store) {
     return UserActionDetailsViewModel._(
       displayState: _displayState(store.state),
-      dateEcheanceViewModel: _dateEcheanceViewModel(userAction, isLate),
+      dateEcheanceViewModel: _dateEcheanceViewModel(userAction),
       onRefreshStatus: (actionId, newStatus) => _refreshStatus(store, actionId, newStatus),
       onDelete: (actionId) => store.dispatch(UserActionDeleteRequestAction(actionId)),
     );
@@ -71,8 +93,10 @@ class UserActionDetailsViewModel extends Equatable {
   List<Object?> get props => [displayState, dateEcheanceViewModel];
 }
 
-UserActionDetailDateEcheanceViewModel? _dateEcheanceViewModel(UserAction userAction, bool isLate) {
+UserActionDetailDateEcheanceViewModel? _dateEcheanceViewModel(UserAction? userAction) {
+  if (userAction == null) return null;
   if ([UserActionStatus.DONE, UserActionStatus.CANCELED].contains(userAction.status)) return null;
+  final isLate = userAction.isLate();
   return UserActionDetailDateEcheanceViewModel(
     formattedTexts: _formattedDate(userAction),
     icons: [if (isLate) Drawables.icImportantOutlined, Drawables.icClock],
@@ -110,22 +134,5 @@ UserActionDetailsDisplayState _displayState(AppState state) {
 }
 
 void _refreshStatus(Store<AppState> store, String actionId, UserActionStatus newStatus) {
-  final loginState = store.state.loginState;
-  final userActionListState = store.state.userActionListState;
-  if (userActionListState is UserActionListSuccessState) {
-    if (loginState is LoginSuccessState) {
-      final action = userActionListState.userActions.firstWhere((e) => e.id == actionId);
-      if (action.status != newStatus) {
-        store.dispatch(
-          UserActionUpdateRequestAction(
-            userId: loginState.user.id,
-            actionId: actionId,
-            newStatus: newStatus,
-          ),
-        );
-      } else {
-        store.dispatch(UserActionNoUpdateNeededAction());
-      }
-    }
-  }
+  store.dispatch(UserActionUpdateRequestAction(actionId: actionId, newStatus: newStatus));
 }

@@ -1,0 +1,36 @@
+{
+  "actions": [
+    {
+      "id": "id-1",
+      "comment": "comment",
+      "content": "content",
+      "creatorType": "jeune",
+      "status": "in_progress",
+      "dateEcheance": "2007-07-07T01:01:07.000Z"
+    }
+  ],
+  "rendezVous": [
+    {
+      "id": "id-1",
+      "date": "2021-07-21T00:00:00.000Z",
+      "isLocaleDate": true,
+      "modality": "par visio",
+      "duration": 120,
+      "type": {
+        "code": "VISITE",
+        "label": "Visite"
+      },
+      "presenceConseiller": true,
+      "createur": {
+        "id": "1",
+        "nom": "Tavernier",
+        "prenom": "Nils"
+      },
+      "conseiller": {
+        "id": "1",
+        "nom": "Tavernier",
+        "prenom": "Nils"
+      }
+    }
+  ]
+}

@@ -1,12 +1,16 @@
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
+import 'package:redux/redux.dart';
 
 class UserActionDateEcheanceViewModel extends Equatable {
   final List<FormattedText> formattedTexts;
@@ -40,6 +44,15 @@ class UserActionViewModel extends Equatable {
     required this.tag,
     required this.withDeleteOption,
   });
+
+  // todo Tests (low) avec une façon élégeante de faire 2-en-1
+  factory UserActionViewModel.createFromAgendaState(Store<AppState> store, String actionId) {
+    final state = store.state.agendaState;
+    if (state is! AgendaSuccessState) throw Exception('Invalid state.');
+    final action = state.agenda.actions.where((e) => e.id == actionId).firstOrNull;
+    if (action == null) throw Exception('No UserAction matching id $actionId');
+    return UserActionViewModel.create(action);
+  }
 
   factory UserActionViewModel.create(UserAction userAction) {
     final isLate = userAction.isLate();

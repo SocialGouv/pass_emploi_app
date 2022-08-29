@@ -19,7 +19,7 @@ void main() {
     );
 
     // Then
-    expect(() => RendezvousDetailsViewModel.create(store, '1', Platform.IOS), throwsException);
+    expect(() => RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS), throwsException);
   });
 
   test('create when rendezvous state is successful but no rendezvous is matching ID throws exception', () {
@@ -31,7 +31,7 @@ void main() {
     );
 
     // Then
-    expect(() => RendezvousDetailsViewModel.create(store, '2', Platform.IOS), throwsException);
+    expect(() => RendezvousDetailsViewModel.createFromRendezvousState(store, '2', Platform.IOS), throwsException);
   });
 
   group('create when rendezvous state is successful…', () {
@@ -40,7 +40,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.ATELIER, 'Atelier')));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.title, 'Atelier');
@@ -53,7 +53,7 @@ void main() {
       );
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.title, 'Autre');
@@ -66,7 +66,7 @@ void main() {
       );
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.title, 'Precision');
@@ -77,7 +77,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', date: DateTime(2022, 3, 1)));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.date, '01 mars 2022');
@@ -88,7 +88,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', date: DateTime.now()));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.date, 'Aujourd\'hui');
@@ -99,7 +99,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', date: DateTime.now().add(Duration(days: 1))));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.date, 'Demain');
@@ -110,7 +110,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', date: DateTime(2022, 3, 1, 12, 30), duration: null));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.hourAndDuration, '12:30');
@@ -121,7 +121,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', date: DateTime(2022, 3, 1, 12, 30), duration: 30));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.hourAndDuration, '12:30 (30min)');
@@ -132,7 +132,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', date: DateTime(2022, 3, 1, 12, 30), duration: 150));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.hourAndDuration, '12:30 (2h30)');
@@ -143,7 +143,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', withConseiller: true));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.conseillerPresenceLabel, 'Votre conseiller sera présent');
@@ -156,7 +156,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', withConseiller: false));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.conseillerPresenceLabel, 'Votre conseiller ne sera pas présent');
@@ -171,7 +171,7 @@ void main() {
           final store = _store(rdv);
 
           // When
-          final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+          final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
           // Then
           expect(viewModel.withConseillerPresencePart, isFalse);
@@ -204,7 +204,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', comment: null));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.comment, null);
@@ -215,7 +215,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', comment: ''));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.comment, null);
@@ -227,7 +227,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', comment: '   '));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.comment, null);
@@ -239,7 +239,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', comment: 'comment', conseiller: null));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.comment, 'comment');
@@ -255,7 +255,7 @@ void main() {
       ));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.comment, 'comment');
@@ -267,7 +267,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', address: 'Address 1'));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.addressRedirectUri, Uri.parse("https://maps.apple.com/maps?q=Address+1"));
@@ -278,7 +278,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', address: 'Address 1'));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.ANDROID);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.ANDROID);
 
       // Then
       expect(viewModel.addressRedirectUri, Uri.parse("geo:0,0?q=Address%201"));
@@ -294,7 +294,7 @@ void main() {
       ));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.modality, "Le rendez-vous se fera en visio");
@@ -310,7 +310,7 @@ void main() {
       ));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.createur, "Le rendez-vous a été programmé par votre conseiller précédent Nils Tavernier");
@@ -321,7 +321,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', modality: "en visio", withConseiller: false));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.modality, "Le rendez-vous se fera en visio");
@@ -332,7 +332,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', modality: null));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.modality, isNull);
@@ -343,7 +343,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', isAnnule: true));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.isAnnule, isTrue);
@@ -354,7 +354,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', isInVisio: true, address: 'address'));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.modality, 'Le rendez-vous se fera en visio. La visio sera disponible le jour du rendez-vous.');
@@ -365,7 +365,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', isInVisio: true, address: 'address'));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.address, isNull);
@@ -378,7 +378,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', modality: "par téléphone", address: 'address'));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.address, isNull);
@@ -391,7 +391,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', isInVisio: true, visioRedirectUrl: null));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.visioButtonState, VisioButtonState.INACTIVE);
@@ -402,7 +402,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', isInVisio: true, visioRedirectUrl: 'url'));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.visioButtonState, VisioButtonState.ACTIVE);
@@ -414,7 +414,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', phone: 'phone'));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.phone, 'Téléphone : phone');
@@ -425,7 +425,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', theme: 'theme', description: 'description'));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.theme, 'theme');
@@ -438,7 +438,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', theme: 'theme', description: 'description'));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.withDescriptionPart, isTrue);
@@ -449,7 +449,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', description: 'description'));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.withDescriptionPart, isTrue);
@@ -467,7 +467,7 @@ void main() {
       ));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(viewModel.withModalityPart, isFalse);
@@ -491,7 +491,7 @@ void main() {
       ));
 
       // When
-      final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+      final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
       // Then
       expect(
@@ -527,7 +527,7 @@ void main() {
         final store = _store(rdv);
 
         // When
-        final viewModel = RendezvousDetailsViewModel.create(store, '1', Platform.IOS);
+        final viewModel = RendezvousDetailsViewModel.createFromRendezvousState(store, '1', Platform.IOS);
 
         // Then
         expect(viewModel.trackingPageName, trackingPageName);

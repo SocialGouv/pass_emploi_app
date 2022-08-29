@@ -64,8 +64,18 @@ class RendezvousDetailsViewModel extends Equatable {
     this.description,
   });
 
-  factory RendezvousDetailsViewModel.create(Store<AppState> store, String rdvId, Platform platform) {
-    final rdv = getRendezvousFromStore(store, rdvId);
+  factory RendezvousDetailsViewModel.createFromRendezvousState(Store<AppState> store, String rdvId, Platform platform) {
+    final rdv = getRendezvousFromRendezvousState(store, rdvId);
+    return RendezvousDetailsViewModel.create(rdv, platform);
+  }
+
+  // todo Tests (low) avec une façon élégeante de faire 2-en-1
+  factory RendezvousDetailsViewModel.createFromAgendaState(Store<AppState> store, String rdvId, Platform platform) {
+    final rdv = getRendezvousFromAgendaState(store, rdvId);
+    return RendezvousDetailsViewModel.create(rdv, platform);
+  }
+
+  factory RendezvousDetailsViewModel.create(Rendezvous rdv, Platform platform) {
     final address = _address(rdv);
     final comment = (rdv.comment != null && rdv.comment!.trim().isNotEmpty) ? rdv.comment : null;
     final isConseillerPresent = rdv.withConseiller ?? false;

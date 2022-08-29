@@ -108,6 +108,7 @@ class Strings {
 
   // Mon Suivi
   static String monSuiviAppBarTitle = "Mon suivi";
+  static String agendaTabTitle = "Cette semaine";
   static String actionsTabTitle = "Actions";
   static String rendezvousTabTitle = "Rendez-vous";
   static String demarcheTabTitle = "Démarches";
