@@ -26,7 +26,6 @@ class UserActionUpdateMiddleware extends MiddlewareClass<AppState> {
   }
 }
 
-// todo move ?
 extension ShouldUpdateActionStatus on AppState {
   bool shouldUpdateActionStatus(String id, UserActionStatus status) {
     return shouldUpdateActionStatusOnActionListState(id, status) ||

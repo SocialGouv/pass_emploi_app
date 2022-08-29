@@ -1,6 +1,6 @@
 import 'package:pass_emploi_app/ui/strings.dart';
 
-// todo tests minimalists
+// todo Tests minimalists
 
 enum MonSuiviTab { AGENDA, ACTIONS, DEMARCHE, RENDEZVOUS }
 
