@@ -84,8 +84,7 @@ class UserActionDetailsViewModel extends Equatable {
     required this.deleteDisplayState,
   });
 
-  factory UserActionDetailsViewModel.create(
-      Store<AppState> store, String userActionId, StateSource source) {
+  factory UserActionDetailsViewModel.create(Store<AppState> store, String userActionId, StateSource source) {
     switch (source) {
       case StateSource.agenda:
         return UserActionDetailsViewModel.createFromUserAgendaState(

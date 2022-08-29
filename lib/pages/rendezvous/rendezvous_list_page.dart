@@ -69,7 +69,7 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
             context.trackEvent(EventType.RDV_DETAIL);
             return Navigator.push(
               context,
-              RendezvousDetailsPage.materialPageRoute(rdvId),
+              RendezvousDetailsPage.materialPageRouteWithRendezvousState(rdvId),
             );
           },
         ),
@@ -81,7 +81,7 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
     if (viewModel.deeplinkRendezvousId != null) {
       Navigator.push(
         context,
-        RendezvousDetailsPage.materialPageRoute(viewModel.deeplinkRendezvousId!),
+        RendezvousDetailsPage.materialPageRouteWithRendezvousState(viewModel.deeplinkRendezvousId!),
       );
       viewModel.onDeeplinkUsed();
     }
