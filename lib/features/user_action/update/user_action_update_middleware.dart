@@ -25,28 +25,3 @@ class UserActionUpdateMiddleware extends MiddlewareClass<AppState> {
     }
   }
 }
-
-extension ShouldUpdateActionStatus on AppState {
-  bool shouldUpdateActionStatus(String id, UserActionStatus status) {
-    return shouldUpdateActionStatusOnActionListState(id, status) ||
-        shouldUpdateActionStatusOnAgendaState(id, status);
-  }
-
-  bool shouldUpdateActionStatusOnActionListState(
-      String id, UserActionStatus status) {
-    final state = this.userActionListState;
-    if (state is UserActionListSuccessState) {
-      return state.userActions.shouldUpdateActionStatus(id, status);
-    }
-    return false;
-  }
-
-  bool shouldUpdateActionStatusOnAgendaState(
-      String id, UserActionStatus status) {
-    final state = this.agendaState;
-    if (state is AgendaSuccessState) {
-      return state.agenda.actions.shouldUpdateActionStatus(id, status);
-    }
-    return false;
-  }
-}
