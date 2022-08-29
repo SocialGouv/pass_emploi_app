@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
@@ -100,9 +101,39 @@ class _Body extends StatelessWidget {
         return Center(child: CircularProgressIndicator());
       case DisplayState.CONTENT:
         return _Content(viewModel: viewModel);
-      default:
-        return Text("Sorry :)");
+      case DisplayState.EMPTY:
+        return _Empty();
+      case DisplayState.FAILURE:
+        return _Retry();
     }
+  }
+}
+
+class _Empty extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
+      child: Expanded(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SizedBox(height: Margins.spacing_l),
+            Flexible(child: SvgPicture.asset(Drawables.icEmptyOffres)),
+            SizedBox(height: Margins.spacing_l),
+            Text(Strings.agendaEmpty, style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _Retry extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Text("Sorry :)");
   }
 }
 

@@ -113,6 +113,9 @@ class Strings {
   static String rendezvousTabTitle = "Rendez-vous";
   static String demarcheTabTitle = "Démarches";
 
+  // Agenda
+  static String agendaEmpty = "Vous n’avez pas d’actions, ni de rendez-vous prévus cette semaine et la semaine prochaine";
+
   // Rendezvous
   static String myRendezVous = "Mon rendez-vous";
   static String rendezvousCardAnnule = "Annulé";
