@@ -114,7 +114,7 @@ class Strings {
   static String demarcheTabTitle = "Démarches";
 
   // Agenda
-  static String agendaEmpty = "Vous n’avez pas d’actions, ni de rendez-vous prévus cette semaine et la semaine prochaine";
+  static String agendaEmpty = "Vous n'avez pas encore d'actions ni de rendez-vous prévus cette semaine.";
   static String agendaError = "Erreur lors de la récupération de vos actions et rendez-vous";
 
   // Rendezvous
