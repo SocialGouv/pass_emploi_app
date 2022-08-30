@@ -109,17 +109,15 @@ class _Empty extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-      child: Expanded(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            SizedBox(height: Margins.spacing_l),
-            Flexible(child: SvgPicture.asset(Drawables.icEmptyOffres)),
-            SizedBox(height: Margins.spacing_l),
-            Text(Strings.agendaEmpty, style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
-          ],
-        ),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(height: Margins.spacing_l),
+          Flexible(child: SvgPicture.asset(Drawables.icEmptyOffres)),
+          SizedBox(height: Margins.spacing_l),
+          Text(Strings.agendaEmpty, style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
+        ],
       ),
     );
   }
@@ -132,7 +130,8 @@ class _Retry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Padding(
+    return Center(
+        child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
       child: Retry(Strings.agendaError, () => viewModel.retry(DateTime.now())),
     ));
