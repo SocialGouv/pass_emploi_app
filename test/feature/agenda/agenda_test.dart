@@ -54,7 +54,7 @@ class AgendaRepositorySuccessStub extends AgendaRepository {
 
   @override
   Future<Agenda?> getAgenda(String userId, DateTime maintenant) async {
-    return Agenda(actions: [userActionStub()], rendezvous: [rendezvousStub()]);
+    return Agenda(actions: [userActionStub()], rendezvous: [rendezvousStub()], delayedActions: 0);
   }
 }
 

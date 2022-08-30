@@ -11,7 +11,7 @@ import 'package:redux/redux.dart';
 
 class AgendaPageViewModel extends Equatable {
   final DisplayState displayState;
-  final List<DaySectionAgenda> events;
+  final List<AgendaItem> events;
   final Function() resetCreateAction;
   final Function(DateTime) retry;
 
@@ -83,7 +83,9 @@ class RendezvousEventAgenda extends EventAgenda {
   RendezvousEventAgenda(super.id, super.date);
 }
 
-class DaySectionAgenda extends Equatable {
+abstract class AgendaItem extends Equatable {}
+
+class DaySectionAgenda extends AgendaItem {
   final String title;
   final List<EventAgenda> events;
 
@@ -91,4 +93,12 @@ class DaySectionAgenda extends Equatable {
 
   @override
   List<Object?> get props => [title, events];
+}
+class DelayedAction extends AgendaItem {
+  final int count;
+
+  DelayedAction(this.count);
+
+  @override
+  List<Object?> get props => [count];
 }

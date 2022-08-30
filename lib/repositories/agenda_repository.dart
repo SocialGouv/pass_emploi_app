@@ -20,7 +20,8 @@ class AgendaRepository {
       final response = await _httpClient.get(url);
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes);
-        return Agenda.fromJson(json);
+        final delayedActions = int.parse(response.headers["x-nombre-actions-en-retard"] ?? "0");
+        return Agenda.fromJson(json, delayedActions);
       }
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);

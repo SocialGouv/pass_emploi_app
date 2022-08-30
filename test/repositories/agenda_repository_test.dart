@@ -19,7 +19,7 @@ void main() {
       );
 
       group('when response is valid', () {
-        sut.givenResponse(fromJson: "agenda.json");
+        sut.givenResponse(fromJson: "agenda.json", headers: {"x-nombre-actions-en-retard": "3"});
 
         test('request should be valid', () async {
           await sut.expectRequestBody(
@@ -33,7 +33,7 @@ void main() {
           mockUserAction();
           await sut.expectResult<Agenda?>((result) {
             expect(result, isNotNull);
-            expect(result, Agenda(actions: [userActionStub()], rendezvous: [rendezvousStub()]));
+            expect(result, Agenda(actions: [userActionStub()], rendezvous: [rendezvousStub()], delayedActions: 3));
           });
         });
       });
