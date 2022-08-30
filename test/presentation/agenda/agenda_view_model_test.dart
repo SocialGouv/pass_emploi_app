@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
@@ -82,6 +83,29 @@ void main() {
   });
 
   group('events', () {
+    test('should have delayed item at first position when there are some delayed actions', () {
+      // Given
+      final actions = [userActionStub(), userActionStub()];
+      final store = givenState().loggedInUser().agenda(actions: actions, rendezvous: [], delayedActions: 7).store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.events.first, DelayedAction(7));
+    });
+
+    test('should not have delayed item if there isn\'t delayed any actions', () {
+      // Given
+      final store = givenState().loggedInUser().agenda(actions: [], rendezvous: [], delayedActions: 0).store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.events.firstWhereOrNull((item) => item is DelayedAction), null);
+    });
+
     test('have both actions and rendezvous', () {
       // Given
       final actions = [userActionStub(), userActionStub()];

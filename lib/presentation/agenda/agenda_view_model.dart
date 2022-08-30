@@ -44,7 +44,8 @@ DisplayState _displayState(Store<AppState> store) {
   return DisplayState.LOADING;
 }
 
-List<DaySectionAgenda> _events(Store<AppState> store) {
+// todo peut-être un refactoring avec plusieurs fonctions à extraire
+List<AgendaItem> _events(Store<AppState> store) {
   final agendaState = store.state.agendaState;
   if (agendaState is! AgendaSuccessState) return [];
 
@@ -58,11 +59,16 @@ List<DaySectionAgenda> _events(Store<AppState> store) {
   final grouped = events.groupListsBy((element) => element.date.toDayOfWeekWithFullMonth().firstLetterUpperCased());
   final keys = grouped.keys.toList();
 
-  return keys.map((date) {
+  final daySections = keys.map((date) {
     final title = date;
     final events = grouped[date]!.toList();
     return DaySectionAgenda(title, events);
   }).toList();
+
+  return [
+    if (agendaState.agenda.delayedActions > 0) DelayedAction(agendaState.agenda.delayedActions),
+    ...daySections,
+  ];
 }
 
 abstract class EventAgenda extends Equatable {
