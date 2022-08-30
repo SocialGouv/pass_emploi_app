@@ -395,6 +395,6 @@ extension AppStateDSL on AppState {
       required List<Rendezvous> rendezvous}) {
     return copyWith(
         agendaState: AgendaSuccessState(
-            Agenda(actions: actions, rendezvous: rendezvous)));
+            Agenda(actions: [], rendezvous: [], delayedActions: 0)));
   }
 }
