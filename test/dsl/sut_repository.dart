@@ -12,9 +12,9 @@ class SUT<REPO> {
   late REPO _repository;
   late Future<dynamic> Function(REPO) _when;
 
-  void givenResponse({required String fromJson}) {
+  void givenResponse({required String fromJson, Map<String, String> headers = const {}}) {
     setUp(() {
-      return _response = Response.bytes(loadTestAssetsAsBytes(fromJson), 200);
+      return _response = Response.bytes(loadTestAssetsAsBytes(fromJson), headers: headers, 200);
     });
   }
 

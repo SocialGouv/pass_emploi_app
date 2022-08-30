@@ -150,7 +150,11 @@ class _Content extends StatelessWidget {
       child: ListView.builder(
         padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 96),
         itemCount: viewModel.events.length,
-        itemBuilder: (context, index) => _DaySection(viewModel.events[index]),
+        itemBuilder: (context, index) {
+          final item = viewModel.events[index];
+          if (item is DaySectionAgenda) return _DaySection(item);
+          return SizedBox(height: 0);
+        },
       ),
     );
   }
