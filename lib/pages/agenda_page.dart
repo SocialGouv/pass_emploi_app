@@ -25,6 +25,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
+import 'package:pass_emploi_app/widgets/retry.dart';
 
 class AgendaPage extends StatelessWidget {
   @override
@@ -44,10 +45,7 @@ class AgendaPage extends StatelessWidget {
 class _Scaffold extends StatelessWidget {
   final AgendaPageViewModel viewModel;
 
-  const _Scaffold({
-    Key? key,
-    required this.viewModel,
-  }) : super(key: key);
+  const _Scaffold({Key? key, required this.viewModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -89,10 +87,7 @@ class _CreateActionButton extends StatelessWidget {
 class _Body extends StatelessWidget {
   final AgendaPageViewModel viewModel;
 
-  const _Body({
-    Key? key,
-    required this.viewModel,
-  }) : super(key: key);
+  const _Body({Key? key, required this.viewModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +99,7 @@ class _Body extends StatelessWidget {
       case DisplayState.EMPTY:
         return _Empty();
       case DisplayState.FAILURE:
-        return _Retry();
+        return _Retry(viewModel: viewModel);
     }
   }
 }
@@ -131,19 +126,23 @@ class _Empty extends StatelessWidget {
 }
 
 class _Retry extends StatelessWidget {
+  final AgendaPageViewModel viewModel;
+
+  const _Retry({Key? key, required this.viewModel}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return Text("Sorry :)");
+    return Center(child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+      child: Retry(Strings.agendaError, () => viewModel.retry(DateTime.now())),
+    ));
   }
 }
 
 class _Content extends StatelessWidget {
-  const _Content({
-    Key? key,
-    required this.viewModel,
-  }) : super(key: key);
-
   final AgendaPageViewModel viewModel;
+
+  const _Content({Key? key, required this.viewModel}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -115,6 +115,7 @@ class Strings {
 
   // Agenda
   static String agendaEmpty = "Vous n’avez pas d’actions, ni de rendez-vous prévus cette semaine et la semaine prochaine";
+  static String agendaError = "Erreur lors de la récupération de vos actions et rendez-vous";
 
   // Rendezvous
   static String myRendezVous = "Mon rendez-vous";

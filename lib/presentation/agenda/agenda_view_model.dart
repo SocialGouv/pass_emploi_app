@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -12,14 +13,16 @@ class AgendaPageViewModel extends Equatable {
   final DisplayState displayState;
   final List<DaySectionAgenda> events;
   final Function() resetCreateAction;
+  final Function(DateTime) retry;
 
-  AgendaPageViewModel({required this.displayState, required this.events, required this.resetCreateAction});
+  AgendaPageViewModel({required this.displayState, required this.events, required this.resetCreateAction, required this.retry});
 
   factory AgendaPageViewModel.create(Store<AppState> store) {
     return AgendaPageViewModel(
       displayState: _displayState(store),
       events: _events(store),
       resetCreateAction: () => store.dispatch(UserActionCreateResetAction()),
+      retry: (date) => store.dispatch(AgendaRequestAction(date)),
     );
   }
 
