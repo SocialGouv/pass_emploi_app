@@ -13,7 +13,7 @@ class Retry extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(text),
+        Text(text, textAlign: TextAlign.center),
         TextButton(onPressed: onRetry, child: Text(Strings.retry, style: TextStyles.textSecondaryButton)),
       ],
     );

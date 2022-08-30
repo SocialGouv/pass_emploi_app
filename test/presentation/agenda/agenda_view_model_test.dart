@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_actions.dart';
 import 'package:pass_emploi_app/presentation/agenda/agenda_view_model.dart';
@@ -7,6 +8,7 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
 import '../../dsl/app_state_dsl.dart';
+import '../../utils/expects.dart';
 import '../../utils/test_datetime.dart';
 
 void main() {
@@ -135,6 +137,21 @@ void main() {
 
       // Then
       expect(store.dispatchedAction, isA<UserActionCreateResetAction>());
+    });
+
+    test('should retry fetching agenda', () {
+      // Given
+      final date = DateTime(2042);
+      final store = StoreSpy();
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // When
+      viewModel.retry(date);
+
+      // Then
+      expectTypeThen<AgendaRequestAction>(store.dispatchedAction, (action) {
+        expect(action.maintenant, DateTime(2042));
+      });
     });
   });
 }
