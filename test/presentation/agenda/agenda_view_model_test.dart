@@ -226,4 +226,9 @@ List<EventAgenda> _allEvents(List<AgendaItem> items) {
     // Then
     expect(viewModel.displayState, DisplayState.CONTENT);
   });
+List<EventAgenda> _allEvents(List<AgendaItem> items) {
+  return items.fold<List<EventAgenda>>([], (previousValue, element) {
+    if (element is DaySectionAgenda) return previousValue + element.events;
+   return previousValue;
+  });
 }
