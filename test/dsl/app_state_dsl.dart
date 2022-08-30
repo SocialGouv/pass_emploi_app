@@ -172,7 +172,13 @@ extension AppStateDSL on AppState {
     return copyWith(agendaState: AgendaSuccessState(Agenda(actions: [], rendezvous: [], delayedActions: 0)));
   }
 
-  AppState agenda({required List<UserAction> actions, required List<Rendezvous> rendezvous}) {
-    return copyWith(agendaState: AgendaSuccessState(Agenda(actions: actions, rendezvous: rendezvous, delayedActions: 0)));
+  AppState agenda({required List<UserAction> actions, required List<Rendezvous> rendezvous, int delayedActions = 0}) {
+    return copyWith(
+      agendaState: AgendaSuccessState(Agenda(
+        actions: actions,
+        rendezvous: rendezvous,
+        delayedActions: delayedActions,
+      )),
+    );
   }
 }
