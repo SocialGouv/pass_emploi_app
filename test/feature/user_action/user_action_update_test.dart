@@ -39,6 +39,76 @@ void main() {
     expect(repository.updateWasCalled, false);
   });
 
+  group("an edited action contained in user action list but not in agenda", () {
+    final actions = [
+      _notStartedAction(actionId: "3"),
+    ];
+
+    final state = givenState() //
+        .loggedInUser() //
+        .agenda(actions: [], rendezvous: []) //
+        .copyWith(userActionListState: UserActionListSuccessState(actions));
+
+    final testStoreFactory = TestStoreFactory();
+    final repositorySpy = PageActionRepositorySpy();
+    testStoreFactory.pageActionRepository = repositorySpy;
+    final store = testStoreFactory.initializeReduxStore(initialState: state);
+
+    void whenUpdatingAction() async {
+      await store.dispatch(
+        UserActionUpdateRequestAction(
+          actionId: "3",
+          newStatus: UserActionStatus.DONE,
+        ),
+      );
+    }
+
+    test("should update on repository", () async {
+      // When
+      whenUpdatingAction();
+
+      // Then
+      expect(repositorySpy.isActionUpdated, true);
+    });
+
+    test("should update on user action update state", () async {
+      final successAppState = store.onChange.firstWhere((e) => e.userActionUpdateState is UserActionUpdatedState);
+
+      // When
+      whenUpdatingAction();
+
+      // Then
+      final appState = await successAppState;
+      expect(appState.userActionUpdateState is UserActionUpdatedState, isTrue);
+    });
+
+    test("should update on user action list state", () async {
+      final successAppState = store.onChange.firstWhere((e) => e.userActionListState is UserActionListSuccessState);
+
+      // When
+      whenUpdatingAction();
+
+      // Then
+      final appState = await successAppState;
+      expect(appState.userActionListState is UserActionListSuccessState, isTrue);
+      expect((appState.userActionListState as UserActionListSuccessState).userActions[0].id, "3");
+      expect((appState.userActionListState as UserActionListSuccessState).userActions[0].status, UserActionStatus.DONE);
+    });
+
+    test("should keep the same agenda state", () async {
+      final successAppState = store.onChange.firstWhere((e) => e.agendaState is AgendaSuccessState);
+
+      // When
+      whenUpdatingAction();
+
+      // Then
+      final appState = await successAppState;
+      expectTypeThen<AgendaSuccessState>(appState.agendaState, (agendaState) {
+        expect(agendaState.agenda.actions.isEmpty, true);
+      });
+    });
+  });
+
   group("an edited action should be updated", () {
     final actions = [
       _notStartedAction(actionId: "1"),
