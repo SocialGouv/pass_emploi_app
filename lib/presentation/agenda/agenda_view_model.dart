@@ -66,7 +66,7 @@ List<AgendaItem> _events(Store<AppState> store) {
   }).toList();
 
   return [
-    if (agendaState.agenda.delayedActions > 0) DelayedAction(agendaState.agenda.delayedActions),
+    if (agendaState.agenda.delayedActions > 0) DelayedActionsBanner(agendaState.agenda.delayedActions),
     ...daySections,
   ];
 }
@@ -100,10 +100,10 @@ class DaySectionAgenda extends AgendaItem {
   @override
   List<Object?> get props => [title, events];
 }
-class DelayedAction extends AgendaItem {
+class DelayedActionsBanner extends AgendaItem {
   final int count;
 
-  DelayedAction(this.count);
+  DelayedActionsBanner(this.count);
 
   @override
   List<Object?> get props => [count];

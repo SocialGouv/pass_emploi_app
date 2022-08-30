@@ -92,7 +92,7 @@ void main() {
       final viewModel = AgendaPageViewModel.create(store);
 
       // Then
-      expect(viewModel.events.first, DelayedAction(7));
+      expect(viewModel.events.first, DelayedActionsBanner(7));
     });
 
     test('should not have delayed item if there isn\'t delayed any actions', () {
@@ -103,7 +103,7 @@ void main() {
       final viewModel = AgendaPageViewModel.create(store);
 
       // Then
-      expect(viewModel.events.firstWhereOrNull((item) => item is DelayedAction), null);
+      expect(viewModel.events.firstWhereOrNull((item) => item is DelayedActionsBanner), null);
     });
 
     test('have both actions and rendezvous', () {
