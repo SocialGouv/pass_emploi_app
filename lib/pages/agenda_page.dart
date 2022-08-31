@@ -29,13 +29,17 @@ import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 class AgendaPage extends StatelessWidget {
+  final TabController tabController;
+
+  AgendaPage(this.tabController);
+
   @override
   Widget build(BuildContext context) {
     return Tracker(
       tracking: AnalyticsScreenNames.agenda,
       child: StoreConnector<AppState, AgendaPageViewModel>(
         onInit: (store) => store.dispatch(AgendaRequestAction(DateTime.now())),
-        builder: (context, viewModel) => _Scaffold(viewModel: viewModel),
+        builder: (context, viewModel) => _Scaffold(viewModel: viewModel, tabController: tabController),
         converter: (store) => AgendaPageViewModel.create(store),
         distinct: true,
       ),
@@ -45,15 +49,16 @@ class AgendaPage extends StatelessWidget {
 
 class _Scaffold extends StatelessWidget {
   final AgendaPageViewModel viewModel;
+  final TabController tabController;
 
-  const _Scaffold({Key? key, required this.viewModel}) : super(key: key);
+  const _Scaffold({Key? key, required this.viewModel, required this.tabController}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.grey100,
       body: Stack(children: [
-        DefaultAnimatedSwitcher(child: _Body(viewModel: viewModel)),
+        DefaultAnimatedSwitcher(child: _Body(viewModel: viewModel, tabController: tabController)),
         _CreateActionButton(resetCreateAction: viewModel.resetCreateAction),
       ]),
     );
@@ -87,8 +92,9 @@ class _CreateActionButton extends StatelessWidget {
 
 class _Body extends StatelessWidget {
   final AgendaPageViewModel viewModel;
+  final TabController tabController;
 
-  const _Body({Key? key, required this.viewModel}) : super(key: key);
+  const _Body({Key? key, required this.viewModel, required this.tabController}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +102,7 @@ class _Body extends StatelessWidget {
       case DisplayState.LOADING:
         return Center(child: CircularProgressIndicator());
       case DisplayState.CONTENT:
-        return _Content(viewModel: viewModel);
+        return _Content(viewModel: viewModel, tabController: tabController);
       case DisplayState.EMPTY:
         return _Empty();
       case DisplayState.FAILURE:
@@ -141,8 +147,9 @@ class _Retry extends StatelessWidget {
 
 class _Content extends StatelessWidget {
   final AgendaPageViewModel viewModel;
+  final TabController tabController;
 
-  const _Content({Key? key, required this.viewModel}) : super(key: key);
+  const _Content({Key? key, required this.viewModel, required this.tabController}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +161,7 @@ class _Content extends StatelessWidget {
         itemBuilder: (context, index) {
           final item = viewModel.events[index];
           if (item is DaySectionAgenda) return _DaySection(item);
-          if (item is DelayedActionsBanner) return _DelayedActionsBanner(item);
+          if (item is DelayedActionsBanner) return _DelayedActionsBanner(item, tabController);
           return SizedBox(height: 0);
         },
       ),
@@ -164,8 +171,9 @@ class _Content extends StatelessWidget {
 
 class _DelayedActionsBanner extends StatelessWidget {
   final DelayedActionsBanner banner;
+  final TabController tabController;
 
-  _DelayedActionsBanner(this.banner);
+  _DelayedActionsBanner(this.banner, this.tabController);
 
   @override
   Widget build(BuildContext context) {
@@ -177,7 +185,7 @@ class _DelayedActionsBanner extends StatelessWidget {
         child: Material(
           type: MaterialType.transparency,
           child: InkWell(
-            onTap: () => {},
+            onTap: () => tabController.animateTo(1),
             splashColor: AppColors.primaryLighten,
             child: Padding(
               padding: const EdgeInsets.all(Margins.spacing_base),
