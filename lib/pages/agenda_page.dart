@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
@@ -153,8 +154,85 @@ class _Content extends StatelessWidget {
         itemBuilder: (context, index) {
           final item = viewModel.events[index];
           if (item is DaySectionAgenda) return _DaySection(item);
+          if (item is DelayedActionsBanner) return _DelayedActionsBanner(item);
           return SizedBox(height: 0);
         },
+      ),
+    );
+  }
+}
+
+class _DelayedActionsBanner extends StatelessWidget {
+  final DelayedActionsBanner banner;
+
+  _DelayedActionsBanner(this.banner);
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration:
+          BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), boxShadow: [Shadows.boxShadow]),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: Material(
+          type: MaterialType.transparency,
+          child: InkWell(
+            onTap: () => {},
+            splashColor: AppColors.primaryLighten,
+            child: Padding(
+              padding: const EdgeInsets.all(Margins.spacing_base),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  _WarningIcon(),
+                  _NumberOfDelayedActions(banner.count),
+                  Text(Strings.see, style: TextStyles.textBaseRegular),
+                  _ChevronIcon(),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _WarningIcon extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 10),
+      child: SvgPicture.asset(Drawables.icImportantOutlined, color: AppColors.warning, height: 20),
+    );
+  }
+}
+
+class _ChevronIcon extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      child: SvgPicture.asset(Drawables.icChevronRight, color: AppColors.contentColor),
+    );
+  }
+}
+
+class _NumberOfDelayedActions extends StatelessWidget {
+  final int actions;
+
+  _NumberOfDelayedActions(this.actions);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(text: Strings.late, style: TextStyles.textBaseBoldWithColor(AppColors.warning)),
+            TextSpan(text: Strings.numberOfActions(actions), style: TextStyles.textSRegularWithColor(AppColors.warning))
+          ],
+        ),
       ),
     );
   }

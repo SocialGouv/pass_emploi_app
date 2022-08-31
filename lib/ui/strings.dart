@@ -221,12 +221,17 @@ class Strings {
   static String doneActionsTitle = "Actions terminées et annulées";
   static String rappelSwitch = 'Recevoir une notification de rappel 3 jours avant l’échéance';
 
+  static String numberOfActions(int count) => "$count actions";
+  static String see = "Voir";
+
   // Commentaires d'action
   static String actionCommentsTitle = "Commentaire de l’action";
   static String lastComment = "Dernier commentaire";
   static String noComments = "Vous n’avez pas encore de commentaire";
+
   static String createdByAdvisor(String advisor) => "Votre conseiller $advisor";
   static String addComment = "Ajouter un commentaire";
+
   static String seeNComments(String n) => "Voir les $n commentaires";
   static String yourComment = "Votre commentaire...";
   static String sendCommentError = "Erreur lors de l'envoi du commentaire. Veuillez réessayer";
@@ -484,7 +489,8 @@ class Strings {
   static String suppressionPageTitle = "Suppression de compte";
   static String suppressionAccountLabel = "Supprimer mon compte de l’application CEJ";
   static String activityShareLabel = "Partage de votre activité";
-  static String activityShareDescription = "Autorisez le partage pour permettre au conseiller d’avoir un suivi de votre activité.";
+  static String activityShareDescription =
+      "Autorisez le partage pour permettre au conseiller d’avoir un suivi de votre activité.";
   static String warning = "Attention";
   static String suppressionButtonLabel = "Supprimer mon compte";
   static String warningInformationParagraph1 =
