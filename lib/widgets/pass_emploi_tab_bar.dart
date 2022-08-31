@@ -5,8 +5,9 @@ import 'package:pass_emploi_app/widgets/sepline.dart';
 
 class PassEmploiTabBar extends StatelessWidget {
   final List<String> tabLabels;
+  final TabController? controller;
 
-  PassEmploiTabBar({Key? key, required this.tabLabels}) : super(key: key);
+  PassEmploiTabBar({Key? key, required this.tabLabels, this.controller}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +19,7 @@ class PassEmploiTabBar extends StatelessWidget {
           Align(
             alignment: Alignment.centerLeft,
             child: TabBar(
+              controller: controller,
               indicatorColor: AppColors.primary,
               indicatorWeight: 4,
               labelStyle: TextStyles.textBaseBold,

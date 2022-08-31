@@ -37,7 +37,7 @@ class MonSuiviViewModel {
     }).toList();
   }
 
-  int intialIndex() {
+  int initialIndex() {
     if (initialTab == null) return 0;
     final index = indexOfTab(initialTab!);
     if (index < 0) return 0;
