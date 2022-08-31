@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
-import 'package:pass_emploi_app/features/demarche/update/update_demarhce_state.dart';
+import 'package:pass_emploi_app/features/demarche/update/update_demarche_state.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
@@ -31,7 +31,6 @@ class DemarcheDetailViewModel extends Equatable {
   final Function(UserActionTagViewModel) onModifyStatus;
   final Function() resetUpdateStatus;
   final DisplayState updateDisplayState;
-  final bool errorOnUpdate;
 
   DemarcheDetailViewModel({
     required this.createdByAdvisor,
@@ -50,7 +49,6 @@ class DemarcheDetailViewModel extends Equatable {
     required this.onModifyStatus,
     required this.resetUpdateStatus,
     required this.updateDisplayState,
-    required this.errorOnUpdate,
   });
 
   factory DemarcheDetailViewModel.create(Store<AppState> store, String id) {
@@ -86,7 +84,6 @@ class DemarcheDetailViewModel extends Equatable {
       },
       resetUpdateStatus: () => store.dispatch(UpdateDemarcheResetAction()),
       updateDisplayState: _updateStateDisplayState(updateState),
-      errorOnUpdate: updateState is UpdateDemarcheFailureState,
     );
   }
 
@@ -106,7 +103,6 @@ class DemarcheDetailViewModel extends Equatable {
         attributs,
         statutsPossibles,
         updateDisplayState,
-        errorOnUpdate,
       ];
 }
 
@@ -189,5 +185,6 @@ bool _isLate(DemarcheStatus status, DateTime? endDate) {
 
 DisplayState _updateStateDisplayState(UpdateDemarcheState state) {
   if (state is UpdateDemarcheLoadingState) return DisplayState.LOADING;
+  if (state is UpdateDemarcheFailureState) return DisplayState.FAILURE;
   return DisplayState.EMPTY;
 }
