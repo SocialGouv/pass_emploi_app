@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
@@ -82,6 +83,29 @@ void main() {
   });
 
   group('events', () {
+    test('should have delayed item at first position when there are some delayed actions', () {
+      // Given
+      final actions = [userActionStub(), userActionStub()];
+      final store = givenState().loggedInUser().agenda(actions: actions, rendezvous: [], delayedActions: 7).store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.events.first, DelayedActionsBanner(7));
+    });
+
+    test('should not have delayed item if there isn\'t delayed any actions', () {
+      // Given
+      final store = givenState().loggedInUser().agenda(actions: [], rendezvous: [], delayedActions: 0).store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.events.firstWhereOrNull((item) => item is DelayedActionsBanner), null);
+    });
+
     test('have both actions and rendezvous', () {
       // Given
       final actions = [userActionStub(), userActionStub()];
@@ -92,7 +116,7 @@ void main() {
       final viewModel = AgendaPageViewModel.create(store);
 
       // Then
-      _expectCount(sections: viewModel.events, actions: 2, rendezvous: 3);
+      _expectCount(items: viewModel.events, actions: 2, rendezvous: 3);
     });
 
     test('are sorted by date', () {
@@ -105,7 +129,7 @@ void main() {
       final viewModel = AgendaPageViewModel.create(store);
 
       // Then
-      _expectEvents(sections: viewModel.events, ids: [
+      _expectEvents(items: viewModel.events, ids: [
         "action 22/08 11h",
         "rendezvous 22/08 15h",
         "action 23/08 08h",
@@ -156,22 +180,27 @@ void main() {
   });
 }
 
-void _expectDaySection(DaySectionAgenda section, String title, List<String> eventIds) {
-  expect(section.title, title);
-  expect(section.events.map((e) => e.id), eventIds);
+void _expectDaySection(AgendaItem item, String title, List<String> eventIds) {
+  expectTypeThen<DaySectionAgenda>(item, (section) {
+    expect(section.title, title);
+    expect(section.events.map((e) => e.id), eventIds);
+  });
 }
 
-void _expectCount({required List<DaySectionAgenda> sections, required int actions, required int rendezvous}) {
-  final actualActionCount = _allEvents(sections).whereType<UserActionEventAgenda>().length;
-  final actualRendezvousCount = _allEvents(sections).whereType<RendezvousEventAgenda>().length;
+void _expectCount({required List<AgendaItem> items, required int actions, required int rendezvous}) {
+  final actualActionCount = _allEvents(items).whereType<UserActionEventAgenda>().length;
+  final actualRendezvousCount = _allEvents(items).whereType<RendezvousEventAgenda>().length;
   expect(actualActionCount, actions, reason: "Mauvais nombre d'actions");
   expect(actualRendezvousCount, rendezvous, reason: "Mauvais nombre de rendez-vous");
 }
 
-void _expectEvents({required List<DaySectionAgenda> sections, required List<String> ids}) {
-  expect(_allEvents(sections).map((e) => e.id), ids);
+void _expectEvents({required List<AgendaItem> items, required List<String> ids}) {
+  expect(_allEvents(items).map((e) => e.id), ids);
 }
 
-List<EventAgenda> _allEvents(List<DaySectionAgenda> daySection) {
-  return daySection.fold<List<EventAgenda>>([], (previousValue, element) => previousValue + element.events);
+List<EventAgenda> _allEvents(List<AgendaItem> items) {
+  return items.fold<List<EventAgenda>>([], (previousValue, element) {
+    if (element is DaySectionAgenda) return previousValue + element.events;
+   return previousValue;
+  });
 }

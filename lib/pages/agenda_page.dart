@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
+import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
@@ -28,13 +29,17 @@ import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 class AgendaPage extends StatelessWidget {
+  final TabController tabController;
+
+  AgendaPage(this.tabController);
+
   @override
   Widget build(BuildContext context) {
     return Tracker(
       tracking: AnalyticsScreenNames.agenda,
       child: StoreConnector<AppState, AgendaPageViewModel>(
         onInit: (store) => store.dispatch(AgendaRequestAction(DateTime.now())),
-        builder: (context, viewModel) => _Scaffold(viewModel: viewModel),
+        builder: (context, viewModel) => _Scaffold(viewModel: viewModel, tabController: tabController),
         converter: (store) => AgendaPageViewModel.create(store),
         distinct: true,
       ),
@@ -44,15 +49,16 @@ class AgendaPage extends StatelessWidget {
 
 class _Scaffold extends StatelessWidget {
   final AgendaPageViewModel viewModel;
+  final TabController tabController;
 
-  const _Scaffold({Key? key, required this.viewModel}) : super(key: key);
+  const _Scaffold({Key? key, required this.viewModel, required this.tabController}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.grey100,
       body: Stack(children: [
-        DefaultAnimatedSwitcher(child: _Body(viewModel: viewModel)),
+        DefaultAnimatedSwitcher(child: _Body(viewModel: viewModel, tabController: tabController)),
         _CreateActionButton(resetCreateAction: viewModel.resetCreateAction),
       ]),
     );
@@ -86,8 +92,9 @@ class _CreateActionButton extends StatelessWidget {
 
 class _Body extends StatelessWidget {
   final AgendaPageViewModel viewModel;
+  final TabController tabController;
 
-  const _Body({Key? key, required this.viewModel}) : super(key: key);
+  const _Body({Key? key, required this.viewModel, required this.tabController}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +102,7 @@ class _Body extends StatelessWidget {
       case DisplayState.LOADING:
         return Center(child: CircularProgressIndicator());
       case DisplayState.CONTENT:
-        return _Content(viewModel: viewModel);
+        return _Content(viewModel: viewModel, tabController: tabController);
       case DisplayState.EMPTY:
         return _Empty();
       case DisplayState.FAILURE:
@@ -140,8 +147,9 @@ class _Retry extends StatelessWidget {
 
 class _Content extends StatelessWidget {
   final AgendaPageViewModel viewModel;
+  final TabController tabController;
 
-  const _Content({Key? key, required this.viewModel}) : super(key: key);
+  const _Content({Key? key, required this.viewModel, required this.tabController}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +158,89 @@ class _Content extends StatelessWidget {
       child: ListView.builder(
         padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 96),
         itemCount: viewModel.events.length,
-        itemBuilder: (context, index) => _DaySection(viewModel.events[index]),
+        itemBuilder: (context, index) {
+          final item = viewModel.events[index];
+          if (item is DaySectionAgenda) return _DaySection(item);
+          if (item is DelayedActionsBanner) return _DelayedActionsBanner(item, tabController);
+          return SizedBox(height: 0);
+        },
+      ),
+    );
+  }
+}
+
+class _DelayedActionsBanner extends StatelessWidget {
+  final DelayedActionsBanner banner;
+  final TabController tabController;
+
+  _DelayedActionsBanner(this.banner, this.tabController);
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration:
+          BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16), boxShadow: [Shadows.boxShadow]),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: Material(
+          type: MaterialType.transparency,
+          child: InkWell(
+            onTap: () => tabController.animateTo(1),
+            splashColor: AppColors.primaryLighten,
+            child: Padding(
+              padding: const EdgeInsets.all(Margins.spacing_base),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  _WarningIcon(),
+                  _NumberOfDelayedActions(banner.count),
+                  Text(Strings.see, style: TextStyles.textBaseRegular),
+                  _ChevronIcon(),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _WarningIcon extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 10),
+      child: SvgPicture.asset(Drawables.icImportantOutlined, color: AppColors.warning, height: 20),
+    );
+  }
+}
+
+class _ChevronIcon extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      child: SvgPicture.asset(Drawables.icChevronRight, color: AppColors.contentColor),
+    );
+  }
+}
+
+class _NumberOfDelayedActions extends StatelessWidget {
+  final int actions;
+
+  _NumberOfDelayedActions(this.actions);
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: RichText(
+        text: TextSpan(
+          children: [
+            TextSpan(text: Strings.late, style: TextStyles.textBaseBoldWithColor(AppColors.warning)),
+            TextSpan(text: Strings.numberOfActions(actions), style: TextStyles.textSRegularWithColor(AppColors.warning))
+          ],
+        ),
       ),
     );
   }

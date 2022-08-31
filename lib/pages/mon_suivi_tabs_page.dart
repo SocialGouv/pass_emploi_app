@@ -16,56 +16,73 @@ import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_tab_bar.dart';
 
-class MonSuiviTabPage extends StatelessWidget {
+class MonSuiviTabPage extends StatefulWidget {
   final MonSuiviViewModel viewModel;
-  late int _currentTab;
 
   MonSuiviTabPage({required this.viewModel}) : super();
 
   @override
+  State<MonSuiviTabPage> createState() => _MonSuiviTabPageState();
+}
+
+class _MonSuiviTabPageState extends State<MonSuiviTabPage> with SingleTickerProviderStateMixin {
+  late TabController tabController;
+  late int _currentTab;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(
+      vsync: this,
+      length: widget.viewModel.tabs.length,
+      initialIndex: widget.viewModel.initialIndex(),
+    );
+    _currentTab = widget.viewModel.initialIndex();
+    _trackTabIfNeeded(context);
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    _currentTab = viewModel.intialIndex();
     final store = StoreProvider.of<AppState>(context);
-    return DefaultTabController(
-      initialIndex: viewModel.intialIndex(),
-      length: viewModel.tabs.length,
-      child: Builder(builder: (context) {
-        _trackTabIfNeeded(context);
-        return Scaffold(
-          backgroundColor: AppColors.grey100,
-          appBar: store.state.demoState ? passEmploiAppBar(label: null, context: context) : null,
-          body: SafeArea(
-            child: NestedScrollView(
-              headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-                return [
-                  SliverAppBar(
-                    pinned: false,
-                    snap: true,
-                    floating: true,
-                    expandedHeight: 40.0,
-                    backgroundColor: AppColors.grey100,
-                    flexibleSpace: FlexibleSpaceBar(
-                      title: Text(Strings.monSuiviAppBarTitle, style: TextStyles.textAppBar),
-                      centerTitle: true,
-                    ),
-                  ),
-                ];
-              },
-              body: _getBody(),
-            ),
-          ),
-        );
-      }),
+    return Scaffold(
+      backgroundColor: AppColors.grey100,
+      appBar: store.state.demoState ? passEmploiAppBar(label: null, context: context) : null,
+      body: SafeArea(
+        child: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return [
+              SliverAppBar(
+                pinned: false,
+                snap: true,
+                floating: true,
+                expandedHeight: 40.0,
+                backgroundColor: AppColors.grey100,
+                flexibleSpace: FlexibleSpaceBar(
+                  title: Text(Strings.monSuiviAppBarTitle, style: TextStyles.textAppBar),
+                  centerTitle: true,
+                ),
+              ),
+            ];
+          },
+          body: _getBody(),
+        ),
+      ),
     );
   }
 
   void _trackTabIfNeeded(BuildContext context) {
-    final tabController = DefaultTabController.of(context);
-    tabController?.addListener(() {
+    tabController.addListener(() {
       if (tabController.index != _currentTab) {
+        setState(() => _currentTab = tabController.index);
         _currentTab = tabController.index;
-        if (tabController.index == viewModel.indexOfTab(MonSuiviTab.ACTIONS) ||
-            tabController.index == viewModel.indexOfTab(MonSuiviTab.DEMARCHE)) {
+        if (tabController.index == widget.viewModel.indexOfTab(MonSuiviTab.ACTIONS) ||
+            tabController.index == widget.viewModel.indexOfTab(MonSuiviTab.DEMARCHE)) {
           context.trackEvent(EventType.ACTION_LISTE);
         }
       }
@@ -74,10 +91,11 @@ class MonSuiviTabPage extends StatelessWidget {
 
   Widget _setTabContent() {
     return TabBarView(
-      children: viewModel.tabs.map((tab) {
+      controller: tabController,
+      children: widget.viewModel.tabs.map((tab) {
         switch (tab) {
           case MonSuiviTab.AGENDA:
-            return AgendaPage();
+            return AgendaPage(tabController);
           case MonSuiviTab.ACTIONS:
             return UserActionListPage();
           case MonSuiviTab.DEMARCHE:
@@ -93,7 +111,8 @@ class MonSuiviTabPage extends StatelessWidget {
     return Column(
       children: [
         PassEmploiTabBar(
-          tabLabels: viewModel.tabTitles(),
+          controller: tabController,
+          tabLabels: widget.viewModel.tabTitles(),
         ),
         Expanded(child: _setTabContent()),
       ],
