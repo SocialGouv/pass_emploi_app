@@ -37,7 +37,7 @@ class DemarcheDetailPage extends StatelessWidget {
         body: StoreConnector<AppState, DemarcheDetailViewModel>(
           converter: (store) => DemarcheDetailViewModel.create(store, id),
           onDidChange: (oldViewModel, newViewModel) async {
-            if (newViewModel.errorOnUpdate) {
+            if (newViewModel.updateDisplayState == DisplayState.FAILURE) {
               showFailedSnackBar(context, Strings.updateStatusError);
               newViewModel.resetUpdateStatus();
             }

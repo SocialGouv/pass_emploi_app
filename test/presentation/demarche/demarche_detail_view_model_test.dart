@@ -145,7 +145,7 @@ void main() {
       expect(viewModel.updateDisplayState, DisplayState.EMPTY);
     });
 
-    test("is empty when UpdateDemarcheState failed", () {
+    test("is failure when UpdateDemarcheState failed", () {
       // Given
       final store = givenState().updateDemarcheFailure().withDemarches(mockDemarches()).store();
 
@@ -153,31 +153,7 @@ void main() {
       final viewModel = DemarcheDetailViewModel.create(store, "demarcheId");
 
       // Then
-      expect(viewModel.updateDisplayState, DisplayState.EMPTY);
-    });
-  });
-
-  group('errorOnUpdate is...', () {
-    test('false when UpdateDemarcheState not failed', () {
-      // Given
-      final store = givenState().updateDemarcheSuccess().withDemarches(mockDemarches()).store();
-
-      // When
-      final viewModel = DemarcheDetailViewModel.create(store, "demarcheId");
-
-      // Then
-      expect(viewModel.errorOnUpdate, isFalse);
-    });
-
-    test('true when UpdateDemarcheState failed', () {
-      // Given
-      final store = givenState().updateDemarcheFailure().withDemarches(mockDemarches()).store();
-
-      // When
-      final viewModel = DemarcheDetailViewModel.create(store, "demarcheId");
-
-      // Then
-      expect(viewModel.errorOnUpdate, isTrue);
+      expect(viewModel.updateDisplayState, DisplayState.FAILURE);
     });
   });
 
