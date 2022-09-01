@@ -41,13 +41,6 @@ void main() {
           .store();
 
       // When
-      final viewModel =
-          UserActionDetailsViewModel.createFromUserActionListState(
-              store, 'actionId');
-
-      // Then
-      expect(viewModel.updateDisplayState,
-          UpdateDisplayState.TO_DISMISS_AFTER_UPDATE);
       final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
 
       // Then
@@ -72,15 +65,11 @@ void main() {
 
     test("set status to done should show success screen", () {
       // Given
-      final store = givenState()
-          .withAction(mockUserAction(id: 'actionId'))
-          .updateActionSuccess(UserActionStatus.DONE)
-          .store();
+      final store =
+          givenState().withAction(mockUserAction(id: 'actionId')).updateActionSuccess(UserActionStatus.DONE).store();
 
       // When
-      final viewModel =
-          UserActionDetailsViewModel.createFromUserActionListState(
-              store, 'actionId');
+      final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
 
       // Then
       expect(viewModel.updateDisplayState, UpdateDisplayState.SHOW_SUCCESS);
@@ -88,10 +77,7 @@ void main() {
 
     test("loads should show loading screen", () {
       // Given
-      final store = givenState()
-          .withAction(mockUserAction(id: 'actionId'))
-          .updateActionLoading()
-          .store();
+      final store = givenState().withAction(mockUserAction(id: 'actionId')).updateActionLoading().store();
 
       // When
       final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
@@ -145,28 +131,21 @@ void main() {
     test("fails should show error", () {
     test("loads should show loading screen", () {
       // Given
-      final store = givenState()
-          .withAction(mockUserAction(id: 'actionId'))
-          .updateActionFailure()
-          .store();
+      final store = givenState().withAction(mockUserAction(id: 'actionId')).updateActionFailure().store();
       final store = givenState().withAction(mockUserAction(id: 'actionId')).updateActionLoading().store();
 
       // When
       final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
 
       // Then
-      expect(
-          viewModel.updateDisplayState, UpdateDisplayState.SHOW_UPDATE_ERROR);
+      expect(viewModel.updateDisplayState, UpdateDisplayState.SHOW_UPDATE_ERROR);
       expect(viewModel.updateDisplayState, UpdateDisplayState.SHOW_LOADING);
     });
 
     test("is not initialized should set NOT_INIT state", () {
     test("fails should show error", () {
       // Given
-      final store = givenState()
-          .withAction(mockUserAction(id: 'actionId'))
-          .updateActionNotInit()
-          .store();
+      final store = givenState().withAction(mockUserAction(id: 'actionId')).updateActionNotInit().store();
       final store = givenState().withAction(mockUserAction(id: 'actionId')).updateActionFailure().store();
 
       // When
@@ -189,27 +168,18 @@ void main() {
     });
   });
 
-  test(
-      "when action is on time should properly set texts, icons and active color",
-      () {
+  test("when action is on time should properly set texts, icons and active color", () {
     // Given
-    final store = givenState()
-        .withAction(
-            mockUserAction(id: 'actionId', dateEcheance: DateTime(2041, 1, 1)))
-        .store();
+    final store = givenState().withAction(mockUserAction(id: 'actionId', dateEcheance: DateTime(2041, 1, 1))).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(
-        store, 'actionId');
+    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
 
     // Then
     expect(
       viewModel.dateEcheanceViewModel,
       UserActionDetailDateEcheanceViewModel(
-        formattedTexts: [
-          FormattedText("À réaliser pour le "),
-          FormattedText("mardi 1 janvier", bold: true)
-        ],
+        formattedTexts: [FormattedText("À réaliser pour le "), FormattedText("mardi 1 janvier", bold: true)],
         icons: [Drawables.icClock],
         textColor: AppColors.accent2,
         backgroundColor: AppColors.accent3Lighten,
@@ -217,26 +187,18 @@ void main() {
     );
   });
 
-  test("when action is late should properly set texts, icons and warning color",
-      () {
+  test("when action is late should properly set texts, icons and warning color", () {
     // Given
-    final store = givenState()
-        .withAction(
-            mockUserAction(id: 'actionId', dateEcheance: DateTime(2021, 1, 1)))
-        .store();
+    final store = givenState().withAction(mockUserAction(id: 'actionId', dateEcheance: DateTime(2021, 1, 1))).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(
-        store, 'actionId');
+    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
 
     // Then
     expect(
       viewModel.dateEcheanceViewModel,
       UserActionDetailDateEcheanceViewModel(
-        formattedTexts: [
-          FormattedText("À réaliser pour le "),
-          FormattedText("vendredi 1 janvier", bold: true)
-        ],
+        formattedTexts: [FormattedText("À réaliser pour le "), FormattedText("vendredi 1 janvier", bold: true)],
         icons: [Drawables.icImportantOutlined, Drawables.icClock],
         textColor: AppColors.warning,
         backgroundColor: AppColors.warningLighten,
@@ -246,14 +208,10 @@ void main() {
 
   test("when action is DONE should not display date echeance", () {
     // Given
-    final store = givenState()
-        .withAction(
-            mockUserAction(id: 'actionId', status: UserActionStatus.DONE))
-        .store();
+    final store = givenState().withAction(mockUserAction(id: 'actionId', status: UserActionStatus.DONE)).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(
-        store, 'actionId');
+    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
 
     // Then
     expect(viewModel.dateEcheanceViewModel, isNull);
@@ -261,14 +219,10 @@ void main() {
 
   test("when action is CANCELED should not display date echeance", () {
     // Given
-    final store = givenState()
-        .withAction(
-            mockUserAction(id: 'actionId', status: UserActionStatus.CANCELED))
-        .store();
+    final store = givenState().withAction(mockUserAction(id: 'actionId', status: UserActionStatus.CANCELED)).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(
-        store, 'actionId');
+    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
 
     // Then
     expect(viewModel.dateEcheanceViewModel, isNull);
@@ -438,20 +392,18 @@ void main() {
     });
   });
 
-  test('refreshStatus when update status has changed should dispatch a UpdateActionStatus', () {
+  test("create when delete action fails should display error", () {
     // Given
-    final store = StoreSpy.withState(givenState().loggedInMiloUser().withAction(mockUserAction(id: 'actionId')));
+    final store = givenState().withAction(mockUserAction(id: 'actionId')).deleteActionFailure().store();
 
     // When
     final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
-    viewModel.onRefreshStatus("actionId", UserActionStatus.NOT_STARTED);
 
     // Then
-    expect(store.dispatchedAction, isA<UserActionUpdateRequestAction>());
+    expect(viewModel.deleteDisplayState, DeleteDisplayState.SHOW_DELETE_ERROR);
   });
 
-  test('refreshStatus when update status has not changed should dispatch UserActionNoUpdateNeededAction', () {
-  test('should reset create action', () {
+  test('refreshStatus when update status has changed should dispatch a UpdateActionStatus', () {
     // Given
     final store = StoreSpy.withState(givenState().loggedInMiloUser().withAction(mockUserAction(id: 'actionId')));
     final store = StoreSpy.withState(
@@ -510,10 +462,12 @@ void main() {
         store, 'actionId');
 
     // When
-    viewModel.deleteFromList('actionId');
+    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
+    viewModel.onRefreshStatus("actionId", UserActionStatus.NOT_STARTED);
     viewModel.onRefreshStatus("id", UserActionStatus.DONE);
 
     // Then
+    expect(store.dispatchedAction, isA<UserActionUpdateRequestAction>());
     await Future.delayed(Duration(milliseconds: 350));
     expect(store.dispatchedAction, isA<UserActionDeleteFromListAction>());
     expect((store.dispatchedAction as UserActionDeleteFromListAction).actionId,
