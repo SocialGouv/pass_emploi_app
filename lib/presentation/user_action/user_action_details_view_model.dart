@@ -44,7 +44,7 @@ enum StateSource { agenda, userActions }
 
 enum DeleteDisplayState { NOT_INIT, SHOW_LOADING, SHOW_DELETE_ERROR, TO_DISMISS_AFTER_DELETION }
 
-enum UpdateDisplayState { NOT_INIT, SHOW_SUCCESS, SHOW_LOADING, TO_DISMISS, SHOW_UPDATE_ERROR, TO_DISMISS_AFTER_UPDATE }
+enum UpdateDisplayState { NOT_INIT, SHOW_SUCCESS, SHOW_LOADING, SHOW_UPDATE_ERROR, TO_DISMISS_AFTER_UPDATE }
 
 class UserActionDetailDateEcheanceViewModel extends Equatable {
   final List<FormattedText> formattedTexts;
@@ -156,16 +156,14 @@ class UserActionDetailsViewModel extends Equatable {
     return UserActionDetailsViewModel.createWithAction(userAction, store);
   }
 
-  factory UserActionDetailsViewModel.createFromUserActionListState(Store<AppState> store, String userActionId) {
-    final userActionListState = store.state.userActionListState as UserActionListSuccessState;
-    final userAction = userActionListState.userActions.firstWhere((e) => e.id == userActionId);
-    final isLate = userAction.isLate();
+  factory UserActionDetailsViewModel.createWithAction(UserAction? userAction, Store<AppState> store) {
     final updateState = store.state.userActionUpdateState;
     final deleteState = store.state.userActionDeleteState;
-
     return UserActionDetailsViewModel._(
       dateEcheanceViewModel: _dateEcheanceViewModel(userAction),
-      onRefreshStatus: (actionId, newStatus) => _refreshStatus(store, actionId, newStatus),
+      onRefreshStatus: (actionId, newStatus) {
+        if (userAction?.status != newStatus) _refreshStatus(store, actionId, newStatus);
+      },
       onDelete: (actionId) => store.dispatch(UserActionDeleteRequestAction(actionId)),
       deleteFromList: (actionId) => _deleteFromActionList(store, actionId),
       resetUpdateStatus: () => store.dispatch(UserActionUpdateResetAction()),

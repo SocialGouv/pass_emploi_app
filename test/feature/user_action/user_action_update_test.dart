@@ -16,6 +16,8 @@ import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../utils/expects.dart';
+import '../../utils/expects.dart';
+import '../../utils/test_setup.dart';
 import '../../doubles/dummies.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../utils/expects.dart';
@@ -70,7 +72,7 @@ void main() {
 
   test("an unedited action should not update the list", () async {
     // Given
-    final repository = PageActionRepositorySuccessStub();
+    final repository = PageActionRepositoryFailureStub();
     final store = givenState().loggedInMiloUser().withActions(
       [
         mockNotStartedAction(actionId: "1"),
@@ -79,20 +81,6 @@ void main() {
         mockNotStartedAction(actionId: "4"),
       ],
     ).store((factory) => {factory.pageActionRepository = repository});
-    final reducerSpy = _UpdateActionReducerSpy();
-    final store = Store<AppState>(
-      reducerSpy.reducer,
-      initialState: givenState().loggedInUser().copyWith(
-            userActionListState: UserActionListSuccessState(
-              [
-                _notStartedAction(actionId: "1"),
-                _notStartedAction(actionId: "2"),
-                _notStartedAction(actionId: "3"),
-                _notStartedAction(actionId: "4"),
-              ],
-            ),
-          ),
-    );
 
     // When
     await store.dispatch(
@@ -102,21 +90,19 @@ void main() {
       ),
     );
 
-    expect(repository.updateWasCalled, false);
+    expect(repository.isActionUpdated, false);
   });
 
   group("an edited action contained in user action list but not in agenda", () {
-    final actions = [
-      _notStartedAction(actionId: "3"),
-    ];
+    final actions = [mockNotStartedAction(actionId: "3")];
 
     final state = givenState() //
         .loggedInUser() //
         .agenda(actions: [], rendezvous: []) //
-        .copyWith(userActionListState: UserActionListSuccessState(actions));
+        .withActions(actions);
 
     final testStoreFactory = TestStoreFactory();
-    final repositorySpy = PageActionRepositorySpy();
+    final repositorySpy = PageActionRepositorySuccessStub();
     testStoreFactory.pageActionRepository = repositorySpy;
     final store = testStoreFactory.initializeReduxStore(initialState: state);
 
@@ -138,14 +124,14 @@ void main() {
     });
 
     test("should update on user action update state", () async {
-      final successAppState = store.onChange.firstWhere((e) => e.userActionUpdateState is UserActionUpdatedState);
+      final successAppState = store.onChange.firstWhere((e) => e.userActionUpdateState is UserActionUpdateSuccessState);
 
       // When
       whenUpdatingAction();
 
       // Then
       final appState = await successAppState;
-      expect(appState.userActionUpdateState is UserActionUpdatedState, isTrue);
+      expect(appState.userActionUpdateState is UserActionUpdateSuccessState, isTrue);
     });
 
     test("should update on user action list state", () async {
@@ -177,21 +163,27 @@ void main() {
 
   group("an edited action should be updated", () {
     final actions = [
-      _notStartedAction(actionId: "1"),
-      _notStartedAction(actionId: "2"),
-      _notStartedAction(actionId: "3"),
-      _notStartedAction(actionId: "4"),
+      mockNotStartedAction(actionId: "1"),
+      mockNotStartedAction(actionId: "2"),
+      mockNotStartedAction(actionId: "3"),
+      mockNotStartedAction(actionId: "4"),
     ];
 
-    final successAppState = store.onChange.firstWhere((e) => e.userActionUpdateState is UserActionUpdateSuccessState);
+    final state = givenState() //
+        .loggedInUser() //
+        .agenda(actions: actions, rendezvous: []) //
+        .withActions(actions);
 
     final testStoreFactory = TestStoreFactory();
-    final repositorySpy = PageActionRepositorySpy();
+    final repositorySpy = PageActionRepositorySuccessStub();
     testStoreFactory.pageActionRepository = repositorySpy;
     final store = testStoreFactory.initializeReduxStore(initialState: state);
 
+    final successAppState = store.onChange.firstWhere((e) => e.userActionUpdateState is UserActionUpdateSuccessState);
+
     void whenUpdatingAction() async {
-    await store.dispatch(UserActionUpdateRequestAction(actionId: "3", newStatus: UserActionStatus.DONE));}
+      await store.dispatch(UserActionUpdateRequestAction(actionId: "3", newStatus: UserActionStatus.DONE));
+    }
 
     final updateDisplayedLoading = store.onChange.any((e) => e.userActionUpdateState is UserActionUpdateLoadingState);
     final successUpdateState =
@@ -798,36 +790,11 @@ test("update action when repo succeeds should display loading and then update ac
       // When
       whenUpdatingAction();
 
-    // Then
-    final appState = await successAppState;
-    expect(repository.isActionUpdated, isTrue);
-      // Then
-      expect(repositorySpy.isActionUpdated, true);
-    });
-
-    test("on user action update state", () async {
-      final successAppState = store.onChange.firstWhere((e) => e.userActionUpdateState is UserActionUpdatedState);
-
-      // When
-      whenUpdatingAction();
-
       // Then
       final appState = await successAppState;
-      expect(appState.userActionUpdateState is UserActionUpdatedState, isTrue);
-    });
+      expect(repositorySpy.isActionUpdated, isTrue);
 
-    test("on user action list state", () async {
-      final successAppState = store.onChange.firstWhere((e) => e.userActionListState is UserActionListSuccessState);
-
-    expect(appState.userActionUpdateState is UserActionUpdateSuccessState, isTrue);
-    expect((appState.userActionListState as UserActionListSuccessState).userActions[0].id, "3");
-    expect((appState.userActionListState as UserActionListSuccessState).userActions[0].status, UserActionStatus.DONE);
-      // When
-      whenUpdatingAction();
-
-      // Then
-      final appState = await successAppState;
-      expect(appState.userActionListState is UserActionListSuccessState, isTrue);
+      expect(appState.userActionUpdateState is UserActionUpdateSuccessState, isTrue);
       expect((appState.userActionListState as UserActionListSuccessState).userActions[0].id, "3");
       expect((appState.userActionListState as UserActionListSuccessState).userActions[0].status, UserActionStatus.DONE);
     });
@@ -846,7 +813,6 @@ test("update action when repo succeeds should display loading and then update ac
       });
     });
   });
-
 
   test("update action when repo fails should display loading and then show failure", () async {
     // Given
@@ -903,15 +869,4 @@ test("update action when repo succeeds should display loading and then update ac
       UserActionStatus.NOT_STARTED,
     );
   });
-}
-
-class _UpdateActionReducerSpy {
-  var updateWasCalled = false;
-
-  AppState reducer(AppState currentState, dynamic action) {
-    if (action is UserActionUpdateNeededAction) {
-      updateWasCalled = true;
-    }
-    return currentState;
-  }
 }

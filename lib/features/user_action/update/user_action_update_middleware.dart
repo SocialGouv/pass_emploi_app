@@ -1,5 +1,4 @@
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
-import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:redux/redux.dart';
@@ -20,20 +19,6 @@ class UserActionUpdateMiddleware extends MiddlewareClass<AppState> {
           ? UserActionUpdateSuccessAction(
               actionId: action.actionId, newStatus: action.newStatus)
           : UserActionUpdateFailureAction());
-      final userId = store.state.userId();
-      if (userId != null) {
-        if (store.state
-            .shouldUpdateActionStatus(action.actionId, action.newStatus)) {
-          store.dispatch(UserActionUpdateNeededAction(
-              actionId: action.actionId, newStatus: action.newStatus));
-          final updatedAction = await _repository.updateActionStatus(
-              userId, action.actionId, action.newStatus);
-          store.dispatch(updatedAction
-              ? UserActionUpdateSuccessAction(
-                  actionId: action.actionId, newStatus: action.newStatus)
-              : UserActionUpdateFailureAction());
-        }
-      }
     }
   }
 }
