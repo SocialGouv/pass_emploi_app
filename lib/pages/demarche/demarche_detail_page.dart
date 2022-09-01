@@ -114,9 +114,6 @@ class _Body extends StatelessWidget {
     );
   }
 
-  bool _loading(DemarcheDetailViewModel viewModel) {
-    return viewModel.updateDisplayState == DisplayState.LOADING;
-  }
 }
 
 class _Categorie extends StatelessWidget {

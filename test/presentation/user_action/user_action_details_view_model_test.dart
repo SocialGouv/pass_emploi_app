@@ -10,8 +10,6 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
 import '../../dsl/app_state_dsl.dart';
-import '../../doubles/spies.dart';
-import '../../utils/expects.dart';
 
 void main() {
   group("create when update action...", () {
@@ -23,14 +21,7 @@ void main() {
           .store();
 
       // When
-      final viewModel =
-          UserActionDetailsViewModel.createFromUserActionListState(
-              store, 'actionId');
-
-      // Then
-      expect(viewModel.updateDisplayState,
-          UpdateDisplayState.TO_DISMISS_AFTER_UPDATE);
-      final viewModel = UserActionDetailsViewModel.create(store, 'actionId');
+      final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
 
       // Then
       expect(viewModel.updateDisplayState, UpdateDisplayState.TO_DISMISS_AFTER_UPDATE);
@@ -87,24 +78,6 @@ void main() {
       expect(viewModel.updateDisplayState, UpdateDisplayState.SHOW_SUCCESS);
     });
 
-    test(
-        "needs no modification should dismiss bottom sheet without updating action",
-        () {
-      // Given
-      final store = givenState()
-          .withAction(mockUserAction(id: 'actionId'))
-          .updateActionNoNeedToUpdate()
-          .store();
-
-      // When
-      final viewModel =
-          UserActionDetailsViewModel.createFromUserActionListState(
-              store, 'actionId');
-
-      // Then
-      expect(viewModel.updateDisplayState, UpdateDisplayState.TO_DISMISS);
-    });
-
     test("loads should show loading screen", () {
       // Given
       final store = givenState()
@@ -113,9 +86,7 @@ void main() {
           .store();
 
       // When
-      final viewModel =
-          UserActionDetailsViewModel.createFromUserActionListState(
-              store, 'actionId');
+      final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
 
       // Then
       expect(viewModel.updateDisplayState, UpdateDisplayState.SHOW_LOADING);
@@ -129,9 +100,7 @@ void main() {
           .store();
 
       // When
-      final viewModel =
-          UserActionDetailsViewModel.createFromUserActionListState(
-              store, 'actionId');
+      final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
 
       // Then
       expect(
@@ -146,9 +115,7 @@ void main() {
           .store();
 
       // When
-      final viewModel =
-          UserActionDetailsViewModel.createFromUserActionListState(
-              store, 'actionId');
+      final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
 
       // Then
       expect(viewModel.updateDisplayState, UpdateDisplayState.NOT_INIT);
@@ -485,7 +452,7 @@ void main() {
   test('onDelete should dispatch UserActionDeleteRequestAction', () {
     // Given
     final store = StoreSpy.withState(givenState().withAction(mockUserAction(id: 'actionId')));
-    final viewModel = UserActionDetailsViewModel.create(store, 'actionId');
+    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
 
     // When
     viewModel.onDelete('actionId');
@@ -498,26 +465,21 @@ void main() {
   test('deleteFromList should dispatch UserActionDeleteFromListAction', () async {
     // Given
     final store = StoreSpy.withState(givenState().withAction(mockUserAction(id: 'actionId')));
-    final viewModel = UserActionDetailsViewModel.create(store, 'actionId');
+    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
 
     // When
     viewModel.deleteFromList('actionId');
-    viewModel.onRefreshStatus("id", UserActionStatus.DONE);
 
     // Then
     await Future.delayed(Duration(milliseconds: 350));
     expect(store.dispatchedAction, isA<UserActionDeleteFromListAction>());
     expect((store.dispatchedAction as UserActionDeleteFromListAction).actionId, 'actionId');
-    expectTypeThen<UserActionUpdateRequestAction>(store.dispatchedAction, (action) {
-      expect(action.actionId, "id");
-      expect(action.newStatus, UserActionStatus.DONE);
-    });
   });
 
   test('resetUpdateStatus should dispatch UserActionUpdateResetAction', () {
     // Given
     final store = StoreSpy.withState(givenState().withAction(mockUserAction(id: 'actionId')));
-    final viewModel = UserActionDetailsViewModel.create(store, 'actionId');
+    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
 
     // When
     viewModel.resetUpdateStatus();

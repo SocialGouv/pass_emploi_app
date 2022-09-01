@@ -130,7 +130,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
             Padding(
               padding: const EdgeInsets.all(24),
               child: PrimaryActionButton(
-                onPressed: () => {detailsViewModel.onRefreshStatus(actionViewModel.id, status)},
+                onPressed: () => detailsViewModel.onRefreshStatus(actionViewModel.id, status),
                 label: Strings.refreshActionStatus,
               ),
             ),
@@ -164,8 +164,6 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
       viewModel.resetUpdateStatus();
     } else if (viewModel.updateDisplayState == UpdateDisplayState.SHOW_SUCCESS) {
       showPassEmploiBottomSheet(context: context, builder: _successBottomSheet).then((value) => Navigator.pop(context));
-    } else if (viewModel.updateDisplayState == UpdateDisplayState.TO_DISMISS) {
-      Navigator.pop(context);
     } else if (viewModel.updateDisplayState == UpdateDisplayState.TO_DISMISS_AFTER_UPDATE) {
       _trackSuccessfulUpdate();
       Navigator.pop(context, UpdateDisplayState.TO_DISMISS_AFTER_UPDATE);

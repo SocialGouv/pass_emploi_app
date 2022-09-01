@@ -324,15 +324,13 @@ extension AppStateDSL on AppState {
   }
 
   AppState updateActionNotInit() {
-    return copyWith(userActionUpdateState: UserActionUpdateNotInitializedState());
-  }
-
-  AppState updateActionNoNeedToUpdate() {
-    return copyWith(userActionUpdateState: UserActionNoUpdateNeededState());
+    return copyWith(
+        userActionUpdateState: UserActionUpdateNotInitializedState());
   }
 
   AppState updateActionSuccess(UserActionStatus newStatus) {
-    return copyWith(userActionUpdateState: UserActionUpdateSuccessState(newStatus));
+    return copyWith(
+        userActionUpdateState: UserActionUpdateSuccessState(newStatus));
   }
 
   AppState updateActionLoading() {
@@ -344,7 +342,8 @@ extension AppStateDSL on AppState {
   }
 
   AppState deleteActionNotInit() {
-    return copyWith(userActionDeleteState: UserActionDeleteNotInitializedState());
+    return copyWith(
+        userActionDeleteState: UserActionDeleteNotInitializedState());
   }
 
   AppState deleteActionSuccess() {
@@ -357,5 +356,9 @@ extension AppStateDSL on AppState {
 
   AppState deleteActionFailure() {
     return copyWith(userActionDeleteState: UserActionDeleteFailureState());
+  }
+
+  AppState deleteActionFromList() {
+    return copyWith(userActionDeleteState: UserActionDeleteFromListState());
   }
 }

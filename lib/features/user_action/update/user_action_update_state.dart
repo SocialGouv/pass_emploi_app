@@ -2,8 +2,6 @@ import 'package:pass_emploi_app/models/user_action.dart';
 
 abstract class UserActionUpdateState {}
 
-class UserActionNoUpdateNeededState extends UserActionUpdateState {}
-
 class UserActionUpdateNotInitializedState extends UserActionUpdateState {}
 
 class UserActionUpdateLoadingState extends UserActionUpdateState {}
