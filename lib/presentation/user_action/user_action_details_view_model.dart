@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
@@ -15,22 +14,6 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
-
-enum DeleteDisplayState {
-  NOT_INIT,
-  SHOW_LOADING,
-  SHOW_DELETE_ERROR,
-  TO_DISMISS_AFTER_DELETION
-}
-
-enum UpdateDisplayState {
-  NOT_INIT,
-  SHOW_SUCCESS,
-  SHOW_LOADING,
-  TO_DISMISS,
-  SHOW_UPDATE_ERROR,
-  TO_DISMISS_AFTER_UPDATE
-}
 
 enum StateSource { agenda, userActions }
 
@@ -52,8 +35,7 @@ class UserActionDetailDateEcheanceViewModel extends Equatable {
   });
 
   @override
-  List<Object?> get props =>
-      [formattedTexts, icons, textColor, backgroundColor];
+  List<Object?> get props => [formattedTexts, icons, textColor, backgroundColor];
 }
 
 class UserActionDetailsViewModel extends Equatable {
@@ -78,54 +60,21 @@ class UserActionDetailsViewModel extends Equatable {
   factory UserActionDetailsViewModel.create(Store<AppState> store, String userActionId, StateSource source) {
     switch (source) {
       case StateSource.agenda:
-        return UserActionDetailsViewModel.createFromUserAgendaState(
-            store, userActionId);
+        return UserActionDetailsViewModel.createFromUserAgendaState(store, userActionId);
       case StateSource.userActions:
-        return UserActionDetailsViewModel.createFromUserActionListState(
-            store, userActionId);
+        return UserActionDetailsViewModel.createFromUserActionListState(store, userActionId);
     }
   }
 
-  factory UserActionDetailsViewModel.createFromUserAgendaState(
-      Store<AppState> store, String userActionId) {
+  factory UserActionDetailsViewModel.createFromUserAgendaState(Store<AppState> store, String userActionId) {
     final agendaState = store.state.agendaState as AgendaSuccessState;
-    final userAction =
-        agendaState.agenda.actions.firstWhere((e) => e.id == userActionId);
-    return UserActionDetailsViewModel.createWithAction(userAction, store);
-  }
-
-  factory UserActionDetailsViewModel.createFromUserActionListState(
-      Store<AppState> store, String userActionId) {
-    final userActionListState =
-        store.state.userActionListState as UserActionListSuccessState;
-    final userAction =
-        userActionListState.userActions.firstWhere((e) => e.id == userActionId);
-    return UserActionDetailsViewModel.createWithAction(userAction, store);
-  }
-
-  factory UserActionDetailsViewModel.createWithAction(
-      UserAction userAction, Store<AppState> store) {
-    final isLate = userAction.isLate();
-    final updateState = store.state.userActionUpdateState;
-    final deleteState = store.state.userActionDeleteState;
-
-    return UserActionDetailsViewModel._(
-      dateEcheanceViewModel: _dateEcheanceViewModel(userAction, isLate),
-      onRefreshStatus: (actionId, newStatus) =>
-          _refreshStatus(store, actionId, newStatus),
-      onDelete: (actionId) =>
-          store.dispatch(UserActionDeleteRequestAction(actionId)),
-      deleteFromList: (actionId) => _deleteFromActionList(store, actionId),
-      resetUpdateStatus: () => store.dispatch(UserActionUpdateResetAction()),
-      updateDisplayState: _updateStateDisplayState(updateState),
-      deleteDisplayState: _deleteStateDisplayState(deleteState),
-    final userAction = agendaState.agenda.actions.firstWhereOrNull((e) => e.id == userActionId);
+    final userAction = agendaState.agenda.actions.firstWhere((e) => e.id == userActionId);
     return UserActionDetailsViewModel.createWithAction(userAction, store);
   }
 
   factory UserActionDetailsViewModel.createFromUserActionListState(Store<AppState> store, String userActionId) {
     final userActionListState = store.state.userActionListState as UserActionListSuccessState;
-    final userAction = userActionListState.userActions.firstWhereOrNull((e) => e.id == userActionId);
+    final userAction = userActionListState.userActions.firstWhere((e) => e.id == userActionId);
     return UserActionDetailsViewModel.createWithAction(userAction, store);
   }
 
@@ -149,10 +98,6 @@ class UserActionDetailsViewModel extends Equatable {
   List<Object?> get props => [dateEcheanceViewModel, updateDisplayState, deleteDisplayState];
 }
 
-UserActionDetailDateEcheanceViewModel? _dateEcheanceViewModel(
-    UserAction userAction, bool isLate) {
-  if ([UserActionStatus.DONE, UserActionStatus.CANCELED]
-      .contains(userAction.status)) return null;
 UserActionDetailDateEcheanceViewModel? _dateEcheanceViewModel(UserAction? userAction) {
   if (userAction == null) return null;
   if ([UserActionStatus.DONE, UserActionStatus.CANCELED].contains(userAction.status)) return null;
@@ -161,8 +106,7 @@ UserActionDetailDateEcheanceViewModel? _dateEcheanceViewModel(UserAction? userAc
     formattedTexts: _formattedDate(userAction),
     icons: [if (isLate) Drawables.icImportantOutlined, Drawables.icClock],
     textColor: isLate ? AppColors.warning : AppColors.accent2,
-    backgroundColor:
-        isLate ? AppColors.warningLighten : AppColors.accent3Lighten,
+    backgroundColor: isLate ? AppColors.warningLighten : AppColors.accent3Lighten,
   );
 }
 
@@ -200,18 +144,12 @@ UpdateDisplayState _updateStateDisplayState(UserActionUpdateState state) {
   return UpdateDisplayState.NOT_INIT;
 }
 
-
 void _deleteFromActionList(Store<AppState> store, String actionId) async {
   // Wait some delay to ensure pop the details action page
   await Future.delayed(Duration(milliseconds: 350));
   store.dispatch(UserActionDeleteFromListAction(actionId));
+}
 
 void _refreshStatus(Store<AppState> store, String actionId, UserActionStatus newStatus) {
   store.dispatch(UserActionUpdateRequestAction(actionId: actionId, newStatus: newStatus));
-}
-
-void _deleteFromActionList(Store<AppState> store, String actionId) async {
-  // Wait some delay to ensure pop the details action page
-  await Future.delayed(Duration(milliseconds: 350));
-  store.dispatch(UserActionDeleteFromListAction(actionId));
 }
