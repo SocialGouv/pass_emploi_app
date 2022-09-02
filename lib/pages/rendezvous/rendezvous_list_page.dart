@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
+import 'package:pass_emploi_app/widgets/big_title_separator.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_icon_button.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
@@ -190,7 +191,7 @@ class _RendezvousSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _DayDivider(section.title),
+        BigTitleSeparator(section.title),
         ...section.displayedRendezvous.cards(onTap: onTap),
         if (section.expandableRendezvous.isNotEmpty)
           Theme(
@@ -258,39 +259,6 @@ class _EmptyWeek extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _DayDivider extends StatelessWidget {
-  final String label;
-
-  _DayDivider(this.label);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: 48,
-          height: 2,
-          color: AppColors.contentColor,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            label,
-            style: TextStyles.textMBold,
-          ),
-        ),
-        Container(
-          width: 48,
-          height: 2,
-          color: AppColors.contentColor,
-        ),
-      ],
     );
   }
 }

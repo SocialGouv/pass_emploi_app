@@ -175,15 +175,22 @@ extension AppStateDSL on AppState {
   }
 
   AppState emptyAgenda() {
-    return copyWith(agendaState: AgendaSuccessState(Agenda(actions: [], rendezvous: [], delayedActions: 0)));
+    final agenda = Agenda(actions: [], rendezvous: [], delayedActions: 0, dateDeDebut: DateTime(2042));
+    return copyWith(agendaState: AgendaSuccessState(agenda));
   }
 
-  AppState agenda({required List<UserAction> actions, required List<Rendezvous> rendezvous, int delayedActions = 0}) {
+  AppState agenda({
+    required List<UserAction> actions,
+    required List<Rendezvous> rendezvous,
+    int delayedActions = 0,
+    DateTime? dateDeDebut,
+  }) {
     return copyWith(
       agendaState: AgendaSuccessState(Agenda(
         actions: actions,
         rendezvous: rendezvous,
         delayedActions: delayedActions,
+        dateDeDebut: dateDeDebut ?? DateTime(2042),
       )),
     );
   }
@@ -231,6 +238,7 @@ extension AppStateDSL on AppState {
   AppState updateActionFailure() {
     return copyWith(userActionUpdateState: UserActionUpdateFailureState());
   }
+
   AppState deleteActionNotInit() {
     return copyWith(userActionDeleteState: UserActionDeleteNotInitializedState());
   }

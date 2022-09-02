@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 
 import '../doubles/fixtures.dart';
 import '../dsl/sut_repository.dart';
+import '../utils/test_datetime.dart';
 
 void main() {
   group('AgendaRepository', () {
@@ -29,11 +30,16 @@ void main() {
         });
 
         test('response should be valid', () async {
-          mockRendezvous();
-          mockUserAction();
           await sut.expectResult<Agenda?>((result) {
             expect(result, isNotNull);
-            expect(result, Agenda(actions: [userActionStub()], rendezvous: [rendezvousStub()], delayedActions: 3));
+            expect(
+                result,
+                Agenda(
+                  actions: [userActionStub()],
+                  rendezvous: [rendezvousStub()],
+                  delayedActions: 3,
+                  dateDeDebut: parseDateTimeUtcWithCurrentTimeZone('2022-08-27T00:00:00.000Z'),
+                ));
           });
         });
       });

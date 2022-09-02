@@ -13,7 +13,6 @@ import '../../utils/expects.dart';
 
 void main() {
   group('Agenda', () {
-
     group('when requesting agenda', () {
       final sut = SUT();
 
@@ -54,7 +53,12 @@ class AgendaRepositorySuccessStub extends AgendaRepository {
 
   @override
   Future<Agenda?> getAgenda(String userId, DateTime maintenant) async {
-    return Agenda(actions: [userActionStub()], rendezvous: [rendezvousStub()], delayedActions: 0);
+    return Agenda(
+      actions: [userActionStub()],
+      rendezvous: [rendezvousStub()],
+      delayedActions: 0,
+      dateDeDebut: DateTime(2042),
+    );
   }
 }
 

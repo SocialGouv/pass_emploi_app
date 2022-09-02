@@ -20,6 +20,7 @@ import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
+import 'package:pass_emploi_app/widgets/big_title_separator.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
@@ -156,12 +157,13 @@ class _Content extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
       child: ListView.builder(
-        padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 96),
+        padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 120),
         itemCount: viewModel.events.length,
         itemBuilder: (context, index) {
           final item = viewModel.events[index];
-          if (item is DaySectionAgenda) return _DaySection(item);
           if (item is DelayedActionsBanner) return _DelayedActionsBanner(item, tabController);
+          if (item is CurrentWeekAgendaItem) return _CurrentWeek(item.days);
+          if (item is NextWeekAgendaItem) return _NextWeek(item.events);
           return SizedBox(height: 0);
         },
       ),
@@ -246,6 +248,58 @@ class _NumberOfDelayedActions extends StatelessWidget {
   }
 }
 
+class _CurrentWeek extends StatelessWidget {
+  final List<DaySectionAgenda> days;
+
+  _CurrentWeek(this.days);
+
+  @override
+  Widget build(BuildContext context) {
+    if (days.isEmpty) {
+      return _CurrentWeekEmpty();
+    }
+    return Column(children: days.map((e) => _DaySection(e)).toList());
+  }
+}
+
+class _CurrentWeekEmpty extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _SectionTitle(Strings.semaineEnCours),
+        Text(Strings.agendaSectionEmpty, style: TextStyles.textBaseRegularWithColor(AppColors.grey700)),
+      ],
+    );
+  }
+}
+
+class _NextWeek extends StatelessWidget {
+  final List<EventAgenda> events;
+
+  _NextWeek(this.events);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: Margins.spacing_m, bottom: Margins.spacing_s),
+          child: BigTitleSeparator(Strings.nextWeek),
+        ),
+        if (events.isEmpty)
+          Text(
+            Strings.agendaSectionEmpty,
+            style: TextStyles.textBaseRegularWithColor(AppColors.grey700),
+          ),
+        if (events.isNotEmpty) ...events.widgets(context),
+      ],
+    );
+  }
+}
+
 class _DaySection extends StatelessWidget {
   final DaySectionAgenda section;
 
@@ -256,17 +310,17 @@ class _DaySection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _DaySectionTitle(section.title),
+        _SectionTitle(section.title),
         ...section.events.widgets(context),
       ],
     );
   }
 }
 
-class _DaySectionTitle extends StatelessWidget {
+class _SectionTitle extends StatelessWidget {
   final String title;
 
-  _DaySectionTitle(this.title);
+  _SectionTitle(this.title);
 
   @override
   Widget build(BuildContext context) {
@@ -282,19 +336,24 @@ class _DaySectionTitle extends StatelessWidget {
 
 extension _EventWidgets on List<EventAgenda> {
   List<Widget> widgets(BuildContext context) {
-    return map((event) {
-      if (event is UserActionEventAgenda) {
-        return _ActionCard(id: event.id);
-      } else if (event is RendezvousEventAgenda) {
-        return event.rendezvousCard(context);
-      } else {
-        return SizedBox(height: 0);
-      }
-    }).toList();
+    return map((event) => event.widget(context)).toList();
   }
 }
 
-extension _EventWidget on RendezvousEventAgenda {
+extension _EventWidget on EventAgenda {
+  Widget widget(BuildContext context) {
+    final event = this;
+    if (event is UserActionEventAgenda) {
+      return _ActionCard(id: event.id);
+    } else if (event is RendezvousEventAgenda) {
+      return event.rendezvousCard(context);
+    } else {
+      return SizedBox(height: 0);
+    }
+  }
+}
+
+extension _RendezvousCard on RendezvousEventAgenda {
   Widget rendezvousCard(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
@@ -329,15 +388,18 @@ class _ActionCard extends StatelessWidget {
   }
 
   Widget _card(BuildContext context, UserActionViewModel viewModel) {
-    return UserActionCard(
-      onTap: () {
-        context.trackEvent(EventType.ACTION_DETAIL);
-        Navigator.push(
-          context,
-          UserActionDetailPage.materialPageRoute(viewModel, StateSource.agenda),
-        );
-      },
-      viewModel: viewModel,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
+      child: UserActionCard(
+        onTap: () {
+          context.trackEvent(EventType.ACTION_DETAIL);
+          Navigator.push(
+            context,
+            UserActionDetailPage.materialPageRoute(viewModel, StateSource.agenda),
+          );
+        },
+        viewModel: viewModel,
+      ),
     );
   }
 }
