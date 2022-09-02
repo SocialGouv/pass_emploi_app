@@ -146,9 +146,8 @@ void main() {
       final viewModel = AgendaPageViewModel.create(store);
 
       // Then
-      expect(viewModel.events.length, 2);
-      _expectDaySection(viewModel.events[0], "Lundi 22 août", ["action 22/08 11h", "rendezvous 22/08 15h"]);
-      _expectDaySection(viewModel.events[1], "Mardi 23 août", ["action 23/08 08h"]);
+      _expectDaySection(viewModel.events, 0, "Lundi 22 août", ["action 22/08 11h", "rendezvous 22/08 15h"]);
+      _expectDaySection(viewModel.events, 1, "Mardi 23 août", ["action 23/08 08h"]);
     });
 
     test('should reset create action', () {
@@ -180,11 +179,12 @@ void main() {
   });
 }
 
-void _expectDaySection(AgendaItem item, String title, List<String> eventIds) {
-  expectTypeThen<DaySectionAgenda>(item, (section) {
-    expect(section.title, title);
-    expect(section.events.map((e) => e.id), eventIds);
-  });
+void _expectDaySection(List<AgendaItem> items, int index, String title, List<String> eventIds) {
+  final week = items[0] as CurrentWeekAgendaItem;
+  final daySection = week.days[index];
+
+  expect(daySection.title, title);
+  expect(daySection.events.map((e) => e.id), eventIds);
 }
 
 void _expectCount({required List<AgendaItem> items, required int actions, required int rendezvous}) {
@@ -199,8 +199,14 @@ void _expectEvents({required List<AgendaItem> items, required List<String> ids})
 }
 
 List<EventAgenda> _allEvents(List<AgendaItem> items) {
-  return items.fold<List<EventAgenda>>([], (previousValue, element) {
-    if (element is DaySectionAgenda) return previousValue + element.events;
-   return previousValue;
+  return items.fold<List<EventAgenda>>([], (previousValue, item) {
+    if (item is CurrentWeekAgendaItem) return previousValue + _allEventsFromDaySections(item.days);
+    return previousValue;
+  });
+}
+
+List<EventAgenda> _allEventsFromDaySections(List<DaySectionAgenda> days) {
+  return days.fold<List<EventAgenda>>([], (previousValue, daySection) {
+    return previousValue + daySection.events;
   });
 }

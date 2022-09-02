@@ -67,8 +67,48 @@ List<AgendaItem> _events(Store<AppState> store) {
 
   return [
     if (agendaState.agenda.delayedActions > 0) DelayedActionsBanner(agendaState.agenda.delayedActions),
-    ...daySections,
+    CurrentWeekAgendaItem(daySections),
   ];
+}
+
+abstract class AgendaItem extends Equatable {}
+
+// todo rename *AgendaItem
+class DelayedActionsBanner extends AgendaItem {
+  final int count;
+
+  DelayedActionsBanner(this.count);
+
+  @override
+  List<Object?> get props => [count];
+}
+
+class CurrentWeekAgendaItem extends AgendaItem {
+  final List<DaySectionAgenda> days;
+
+  CurrentWeekAgendaItem(this.days);
+
+  @override
+  List<Object?> get props => [days];
+}
+
+class NextWeekAgendaItem extends AgendaItem {
+  final List<EventAgenda> events;
+
+  NextWeekAgendaItem(this.events);
+
+  @override
+  List<Object?> get props => [events];
+}
+
+class DaySectionAgenda extends Equatable {
+  final String title;
+  final List<EventAgenda> events;
+
+  DaySectionAgenda(this.title, this.events);
+
+  @override
+  List<Object?> get props => [title, events];
 }
 
 abstract class EventAgenda extends Equatable {
@@ -87,24 +127,4 @@ class UserActionEventAgenda extends EventAgenda {
 
 class RendezvousEventAgenda extends EventAgenda {
   RendezvousEventAgenda(super.id, super.date);
-}
-
-abstract class AgendaItem extends Equatable {}
-
-class DaySectionAgenda extends AgendaItem {
-  final String title;
-  final List<EventAgenda> events;
-
-  DaySectionAgenda(this.title, this.events);
-
-  @override
-  List<Object?> get props => [title, events];
-}
-class DelayedActionsBanner extends AgendaItem {
-  final int count;
-
-  DelayedActionsBanner(this.count);
-
-  @override
-  List<Object?> get props => [count];
 }

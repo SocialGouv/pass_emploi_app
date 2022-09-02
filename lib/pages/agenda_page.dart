@@ -160,8 +160,8 @@ class _Content extends StatelessWidget {
         itemCount: viewModel.events.length,
         itemBuilder: (context, index) {
           final item = viewModel.events[index];
-          if (item is DaySectionAgenda) return _DaySection(item);
           if (item is DelayedActionsBanner) return _DelayedActionsBanner(item, tabController);
+          if (item is CurrentWeekAgendaItem) return _CurrentWeek(item.days);
           return SizedBox(height: 0);
         },
       ),
@@ -243,6 +243,17 @@ class _NumberOfDelayedActions extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _CurrentWeek extends StatelessWidget {
+  final List<DaySectionAgenda> days;
+
+  _CurrentWeek(this.days);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: days.map((e) => _DaySection(e)).toList());
   }
 }
 
