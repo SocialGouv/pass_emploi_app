@@ -10,12 +10,13 @@ class Agenda extends Equatable {
 
   Agenda({required this.actions, required this.rendezvous, required this.delayedActions});
 
-  factory Agenda.fromJson(dynamic json, int delayedActions) {
+  factory Agenda.fromJson(dynamic json) {
     final actions = (json["actions"] as List).map((action) => UserAction.fromJson(action)).toList();
     final rendezvous = (json["rendezVous"] as List)
         .map((e) => JsonRendezvous.fromJson(e)) //
         .map((e) => e.toRendezvous()) //
         .toList();
+    final delayedActions = json["metadata"]["actionsEnRetard"] as int;
     return Agenda(actions: actions, rendezvous: rendezvous, delayedActions: delayedActions);
   }
 
