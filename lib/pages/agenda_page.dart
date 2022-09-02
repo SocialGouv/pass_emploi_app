@@ -20,6 +20,7 @@ import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
+import 'package:pass_emploi_app/widgets/big_title_separator.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
@@ -270,7 +271,10 @@ class _NextWeek extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text("TODO le séparateur SEMAINE PROCHAINE"),
+        Padding(
+          padding: const EdgeInsets.only(top: Margins.spacing_m, bottom: Margins.spacing_s),
+          child: BigTitleSeparator(Strings.nextWeek),
+        ),
         if (events.isEmpty) Text("TODO le label semaine prochaine vide"),
         if (events.isNotEmpty) ...events.widgets(context),
       ],
