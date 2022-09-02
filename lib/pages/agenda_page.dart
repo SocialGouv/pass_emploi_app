@@ -157,7 +157,7 @@ class _Content extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
       child: ListView.builder(
-        padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 96),
+        padding: const EdgeInsets.only(top: Margins.spacing_base, bottom: 120),
         itemCount: viewModel.events.length,
         itemBuilder: (context, index) {
           final item = viewModel.events[index];
@@ -283,12 +283,17 @@ class _NextWeek extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Padding(
           padding: const EdgeInsets.only(top: Margins.spacing_m, bottom: Margins.spacing_s),
           child: BigTitleSeparator(Strings.nextWeek),
         ),
-        if (events.isEmpty) Text("TODO le label semaine prochaine vide"), // TODO story
+        if (events.isEmpty)
+          Text(
+            Strings.agendaSectionEmpty,
+            style: TextStyles.textBaseRegularWithColor(AppColors.grey700),
+          ),
         if (events.isNotEmpty) ...events.widgets(context),
       ],
     );
