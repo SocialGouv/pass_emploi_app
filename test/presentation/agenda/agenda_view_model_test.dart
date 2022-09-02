@@ -13,6 +13,7 @@ import '../../utils/expects.dart';
 import '../../utils/test_datetime.dart';
 
 void main() {
+  final samedi20 = DateTime(2022, 8, 20);
   final actionLundiMatin = userActionStub(
     id: "action 22/08 11h",
     dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-22T11:00:00.000Z"),
@@ -24,6 +25,18 @@ void main() {
   final actionMardiMatin = userActionStub(
     id: "action 23/08 08h",
     dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-23T08:00:00.000Z"),
+  );
+  final actionVendredi = userActionStub(
+    id: "action 26/08 08h",
+    dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-26T08:00:00.000Z"),
+  );
+  final actionSamediProchain = userActionStub(
+    id: "action 27/08 08h",
+    dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-27T08:00:00.000Z"),
+  );
+  final rendezvousLundiProchain = rendezvousStub(
+    id: "rendezvous 30/08 15h",
+    date: DateTime(2022, 8, 30, 15),
   );
 
   group('display state', () {
@@ -85,8 +98,7 @@ void main() {
   group('events', () {
     test('should have delayed item at first position when there are some delayed actions', () {
       // Given
-      final actions = [userActionStub(), userActionStub()];
-      final store = givenState().loggedInUser().agenda(actions: actions, rendezvous: [], delayedActions: 7).store();
+      final store = givenState().loggedInUser().agenda(actions: [], rendezvous: [], delayedActions: 7).store();
 
       // When
       final viewModel = AgendaPageViewModel.create(store);
@@ -121,7 +133,7 @@ void main() {
 
     test('are sorted by date', () {
       // Given
-      final actions = [actionLundiMatin, actionMardiMatin];
+      final actions = [actionLundiMatin, actionMardiMatin, actionSamediProchain];
       final rendezvous = [rendezvousLundiMatin];
       final store = givenState().loggedInUser().agenda(actions: actions, rendezvous: rendezvous).store();
 
@@ -133,6 +145,7 @@ void main() {
         "action 22/08 11h",
         "rendezvous 22/08 15h",
         "action 23/08 08h",
+        "action 27/08 08h",
       ]);
     });
 
@@ -148,6 +161,47 @@ void main() {
       // Then
       _expectDaySection(viewModel.events, 0, "Lundi 22 août", ["action 22/08 11h", "rendezvous 22/08 15h"]);
       _expectDaySection(viewModel.events, 1, "Mardi 23 août", ["action 23/08 08h"]);
+    });
+
+    group('are grouped by week', () {
+      // Given
+      final actions = [actionLundiMatin, actionMardiMatin, actionVendredi, actionSamediProchain];
+      final rendezvous = [rendezvousLundiMatin, rendezvousLundiProchain];
+      final store = givenState() //
+          .loggedInUser()
+          .agenda(actions: actions, rendezvous: rendezvous, dateDeDebut: samedi20)
+          .store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      test('with current week grouped by days', () {
+        expect(
+          viewModel.events[0],
+          CurrentWeekAgendaItem([
+            DaySectionAgenda("Lundi 22 août", [
+              UserActionEventAgenda(actionLundiMatin.id, actionLundiMatin.dateEcheance),
+              RendezvousEventAgenda(rendezvousLundiMatin.id, rendezvousLundiMatin.date),
+            ]),
+            DaySectionAgenda("Mardi 23 août", [
+              UserActionEventAgenda(actionMardiMatin.id, actionMardiMatin.dateEcheance),
+            ]),
+            DaySectionAgenda("Vendredi 26 août", [
+              UserActionEventAgenda(actionVendredi.id, actionVendredi.dateEcheance),
+            ]),
+          ]),
+        );
+      });
+
+      test('with next week', () {
+        expect(
+          viewModel.events[1],
+          NextWeekAgendaItem([
+            UserActionEventAgenda(actionSamediProchain.id, actionSamediProchain.dateEcheance),
+            RendezvousEventAgenda(rendezvousLundiProchain.id, rendezvousLundiProchain.date),
+          ]),
+        );
+      });
     });
 
     test('should reset create action', () {

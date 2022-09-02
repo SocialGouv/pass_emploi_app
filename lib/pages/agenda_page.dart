@@ -162,6 +162,7 @@ class _Content extends StatelessWidget {
           final item = viewModel.events[index];
           if (item is DelayedActionsBanner) return _DelayedActionsBanner(item, tabController);
           if (item is CurrentWeekAgendaItem) return _CurrentWeek(item.days);
+          if (item is NextWeekAgendaItem) return _NextWeek(item.events);
           return SizedBox(height: 0);
         },
       ),
@@ -253,7 +254,27 @@ class _CurrentWeek extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (days.isEmpty) {
+      return Text("TODO les deux labels Semaine courante vide");
+    }
     return Column(children: days.map((e) => _DaySection(e)).toList());
+  }
+}
+
+class _NextWeek extends StatelessWidget {
+  final List<EventAgenda> events;
+
+  _NextWeek(this.events);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text("TODO le séparateur SEMAINE PROCHAINE"),
+        if (events.isEmpty) Text("TODO le label semaine prochaine vide"),
+        if (events.isNotEmpty) ...events.widgets(context),
+      ],
+    );
   }
 }
 
@@ -293,19 +314,24 @@ class _DaySectionTitle extends StatelessWidget {
 
 extension _EventWidgets on List<EventAgenda> {
   List<Widget> widgets(BuildContext context) {
-    return map((event) {
-      if (event is UserActionEventAgenda) {
-        return _ActionCard(id: event.id);
-      } else if (event is RendezvousEventAgenda) {
-        return event.rendezvousCard(context);
-      } else {
-        return SizedBox(height: 0);
-      }
-    }).toList();
+    return map((event) => event.widget(context)).toList();
   }
 }
 
-extension _EventWidget on RendezvousEventAgenda {
+extension _EventWidget on EventAgenda {
+  Widget widget(BuildContext context) {
+    final event = this;
+    if (event is UserActionEventAgenda) {
+      return _ActionCard(id: event.id);
+    } else if (event is RendezvousEventAgenda) {
+      return event.rendezvousCard(context);
+    } else {
+      return SizedBox(height: 0);
+    }
+  }
+}
+
+extension _RdvWidget on RendezvousEventAgenda {
   Widget rendezvousCard(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),

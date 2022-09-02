@@ -56,7 +56,11 @@ List<AgendaItem> _events(Store<AppState> store) {
 
   events.sort((a, b) => a.date.compareTo(b.date));
 
-  final grouped = events.groupListsBy((element) => element.date.toDayOfWeekWithFullMonth().firstLetterUpperCased());
+  final nextWeekFirstDay = agendaState.agenda.dateDeDebut.addWeeks(1);
+  final currentWeekEvents = events.where((element) => element.date.isBefore(nextWeekFirstDay));
+  final nextWeekEvents = events.where((element) => !element.date.isBefore(nextWeekFirstDay)).toList();
+
+  final grouped = currentWeekEvents.groupListsBy((element) => element.date.toDayOfWeekWithFullMonth().firstLetterUpperCased());
   final keys = grouped.keys.toList();
 
   final daySections = keys.map((date) {
@@ -68,6 +72,7 @@ List<AgendaItem> _events(Store<AppState> store) {
   return [
     if (agendaState.agenda.delayedActions > 0) DelayedActionsBanner(agendaState.agenda.delayedActions),
     CurrentWeekAgendaItem(daySections),
+    NextWeekAgendaItem(nextWeekEvents),
   ];
 }
 
