@@ -108,7 +108,7 @@ void main() {
       expect(result, isTrue);
     });
 
-    test('when response is valid should return false', () async {
+    test('when response is not valid should return false', () async {
       // Given
       final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
       final repository = PageActionRepository("BASE_URL", httpClient);
@@ -118,6 +118,68 @@ void main() {
         "UID",
         UserActionCreateRequest("content", "comment", DateTime(2022, 1, 1), true, UserActionStatus.DONE),
       );
+
+      // Then
+      expect(result, isFalse);
+    });
+  });
+
+  group('deleteUserAction', () {
+    test('when response is valid should return true', () async {
+      // Given
+      final httpClient = PassEmploiMockClient((request) async {
+        if (request.method != "DELETE") return invalidHttpResponse();
+        if (!request.url.toString().startsWith("BASE_URL/actions/UID")) return invalidHttpResponse();
+        return Response('', 201);
+      });
+      final repository = PageActionRepository("BASE_URL", httpClient);
+
+      // When
+      final result = await repository.deleteUserAction("UID");
+
+      // Then
+      expect(result, isTrue);
+    });
+
+    test('when response is not valid should return false', () async {
+      // Given
+      final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
+      final repository = PageActionRepository("BASE_URL", httpClient);
+
+      // When
+      final result = await repository.deleteUserAction("UID");
+
+      // Then
+      expect(result, isFalse);
+    });
+  });
+
+  group('updateActionStatus', () {
+    test('when response is valid should return true', () async {
+      // Given
+      final httpClient = PassEmploiMockClient((request) async {
+        if (request.method != "PUT") return invalidHttpResponse();
+        if (!request.url.toString().startsWith("BASE_URL/actions/UID")) return invalidHttpResponse();
+        final requestJson = jsonUtf8Decode(request.bodyBytes);
+        if (requestJson['status'] != "not_started") return invalidHttpResponse();
+        return Response('', 201);
+      });
+      final repository = PageActionRepository("BASE_URL", httpClient);
+
+      // When
+      final result = await repository.updateActionStatus("UID", UserActionStatus.NOT_STARTED);
+
+      // Then
+      expect(result, isTrue);
+    });
+
+    test('when response is not valid should return false', () async {
+      // Given
+      final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
+      final repository = PageActionRepository("BASE_URL", httpClient);
+
+      // When
+      final result = await repository.updateActionStatus("UID", UserActionStatus.NOT_STARTED);
 
       // Then
       expect(result, isFalse);
