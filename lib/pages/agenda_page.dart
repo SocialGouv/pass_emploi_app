@@ -256,9 +256,22 @@ class _CurrentWeek extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (days.isEmpty) {
-      return Text("TODO les deux labels Semaine courante vide");
+      return _CurrentWeekEmpty();
     }
     return Column(children: days.map((e) => _DaySection(e)).toList());
+  }
+}
+
+class _CurrentWeekEmpty extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _SectionTitle(Strings.semaineEnCours),
+        Text(Strings.agendaSectionEmpty, style: TextStyles.textBaseRegularWithColor(AppColors.grey700)),
+      ],
+    );
   }
 }
 
@@ -275,7 +288,7 @@ class _NextWeek extends StatelessWidget {
           padding: const EdgeInsets.only(top: Margins.spacing_m, bottom: Margins.spacing_s),
           child: BigTitleSeparator(Strings.nextWeek),
         ),
-        if (events.isEmpty) Text("TODO le label semaine prochaine vide"),
+        if (events.isEmpty) Text("TODO le label semaine prochaine vide"), // TODO story
         if (events.isNotEmpty) ...events.widgets(context),
       ],
     );
@@ -292,17 +305,17 @@ class _DaySection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _DaySectionTitle(section.title),
+        _SectionTitle(section.title),
         ...section.events.widgets(context),
       ],
     );
   }
 }
 
-class _DaySectionTitle extends StatelessWidget {
+class _SectionTitle extends StatelessWidget {
   final String title;
 
-  _DaySectionTitle(this.title);
+  _SectionTitle(this.title);
 
   @override
   Widget build(BuildContext context) {
