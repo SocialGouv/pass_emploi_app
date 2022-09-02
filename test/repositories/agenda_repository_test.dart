@@ -29,11 +29,16 @@ void main() {
         });
 
         test('response should be valid', () async {
-          mockRendezvous();
-          mockUserAction();
           await sut.expectResult<Agenda?>((result) {
             expect(result, isNotNull);
-            expect(result, Agenda(actions: [userActionStub()], rendezvous: [rendezvousStub()], delayedActions: 3));
+            expect(
+                result,
+                Agenda(
+                  actions: [userActionStub()],
+                  rendezvous: [rendezvousStub()],
+                  delayedActions: 3,
+                  dateDeDebut: DateTime(2022, 8, 27, 2, 0),
+                ));
           });
         });
       });
