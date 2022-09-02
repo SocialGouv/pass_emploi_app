@@ -11,12 +11,13 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
-import '../../utils/expects.dart';
 import '../../dsl/app_state_dsl.dart';
+import '../../utils/expects.dart';
 
 void main() {
   group("create when update action...", () {
-    test("set status to NOT_STARTED should dismiss bottom sheet", () {      // Given
+    test("set status to NOT_STARTED should dismiss bottom sheet", () {
+      // Given
       final store = givenState()
           .withAction(mockUserAction(id: 'actionId'))
           .updateActionSuccess(UserActionStatus.NOT_STARTED)
@@ -59,8 +60,10 @@ void main() {
 
     test("set status to done should show success screen", () {
       // Given
-      final store =
-      givenState().withAction(mockUserAction(id: 'actionId')).updateActionSuccess(UserActionStatus.DONE).store();
+      final store = givenState() //
+          .withAction(mockUserAction(id: 'actionId'))
+          .updateActionSuccess(UserActionStatus.DONE)
+          .store();
 
       // When
       final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
@@ -278,4 +281,3 @@ void main() {
     });
   });
 }
-

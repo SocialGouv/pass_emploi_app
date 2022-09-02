@@ -12,10 +12,11 @@ import '../../utils/expects.dart';
 import '../../utils/test_setup.dart';
 
 void main() {
-  test("update action when repo succeeds should display loading and then update action", () async {
+  test("update action when repo succeeds should display loading and then succeed", () async {
     // Given
     final store = givenState()
         .loggedInMiloUser()
+        .withAction(mockUserAction(id: "3"))
         .store((factory) => {factory.pageActionRepository = PageActionRepositorySuccessStub()});
 
     final updateDisplayedLoading = store.onChange.any((e) => e.userActionUpdateState is UserActionUpdateLoadingState);
@@ -59,7 +60,10 @@ void main() {
   test("update action when repo fails should display loading and then show failure", () async {
     // Given
     final repository = PageActionRepositoryFailureStub();
-    final store = givenState().loggedInMiloUser().store((factory) => {factory.pageActionRepository = repository});
+    final store = givenState()
+        .loggedInMiloUser()
+        .withAction(mockUserAction(id: "3"))
+        .store((factory) => {factory.pageActionRepository = repository});
 
     final updateDisplayedLoading = store.onChange.any((e) => e.userActionUpdateState is UserActionUpdateLoadingState);
     final failureUpdateState =

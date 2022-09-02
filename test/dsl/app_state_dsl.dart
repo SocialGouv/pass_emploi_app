@@ -220,10 +220,6 @@ extension AppStateDSL on AppState {
     return copyWith(userActionUpdateState: UserActionUpdateNotInitializedState());
   }
 
-  AppState updateActionNoNeedToUpdate() {
-    return copyWith(userActionUpdateState: UserActionNoUpdateNeededState());
-  }
-
   AppState updateActionSuccess(UserActionStatus newStatus) {
     return copyWith(userActionUpdateState: UserActionUpdateSuccessState(newStatus));
   }

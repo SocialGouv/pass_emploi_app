@@ -30,7 +30,7 @@ void main() {
     // Then
     expect(await displayedLoading, true);
     final successAppState = await success;
-    expect(successAppState.userActionListState is UserActionListSuccessState, isTrue);
+    expect(successAppState.userActionDeleteState is UserActionDeleteSuccessState, isTrue);
   });
 
   test("delete from list action should delete user action from actions list", () async {
@@ -76,6 +76,7 @@ void main() {
     // Then
     expect(await displayedLoading, true);
     final successAppState = await failure;
+    expect(successAppState.userActionDeleteState is UserActionDeleteFailureState, isTrue);
     expect(successAppState.userActionListState is UserActionListSuccessState, isTrue);
     expect((successAppState.userActionListState as UserActionListSuccessState).userActions.length, 2);
   });
