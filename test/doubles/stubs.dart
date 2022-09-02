@@ -36,6 +36,7 @@ import 'spies.dart';
 
 class PageActionRepositorySuccessStub extends PageActionRepository {
   Campagne? _campagne;
+  var isActionUpdated = false;
 
   PageActionRepositorySuccessStub() : super("", DummyHttpClient());
 
@@ -69,7 +70,10 @@ class PageActionRepositorySuccessStub extends PageActionRepository {
   }
 
   @override
-  Future<void> updateActionStatus(String userId, String actionId, UserActionStatus newStatus) async {}
+  Future<bool> updateActionStatus(String actionId, UserActionStatus newStatus) async {
+    isActionUpdated = true;
+    return true;
+  }
 
   @override
   Future<bool> deleteUserAction(String actionId) async {
@@ -79,6 +83,7 @@ class PageActionRepositorySuccessStub extends PageActionRepository {
 
 class PageActionRepositoryFailureStub extends PageActionRepository {
   PageActionRepositoryFailureStub() : super("", DummyHttpClient());
+  var isActionUpdated = false;
 
   @override
   Future<bool> createUserAction(String userId, UserActionCreateRequest request) async {
@@ -86,7 +91,9 @@ class PageActionRepositoryFailureStub extends PageActionRepository {
   }
 
   @override
-  Future<void> updateActionStatus(String userId, String actionId, UserActionStatus newStatus) async {}
+  Future<bool> updateActionStatus(String actionId, UserActionStatus newStatus) async {
+    return false;
+  }
 
   @override
   Future<bool> deleteUserAction(String actionId) async {

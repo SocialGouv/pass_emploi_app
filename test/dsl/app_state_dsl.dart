@@ -17,6 +17,9 @@ import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
+import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
+import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
+import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/agenda.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
@@ -203,5 +206,48 @@ extension AppStateDSL on AppState {
 
   AppState updateDemarcheFailure() {
     return copyWith(updateDemarcheState: UpdateDemarcheFailureState());
+  }
+
+  AppState withActions(List<UserAction> actions) {
+    return copyWith(userActionListState: UserActionListSuccessState(actions));
+  }
+
+  AppState withAction(UserAction action) {
+    return copyWith(userActionListState: UserActionListSuccessState([action]));
+  }
+
+  AppState updateActionNotInit() {
+    return copyWith(userActionUpdateState: UserActionUpdateNotInitializedState());
+  }
+
+  AppState updateActionSuccess(UserActionStatus newStatus) {
+    return copyWith(userActionUpdateState: UserActionUpdateSuccessState(newStatus));
+  }
+
+  AppState updateActionLoading() {
+    return copyWith(userActionUpdateState: UserActionUpdateLoadingState());
+  }
+
+  AppState updateActionFailure() {
+    return copyWith(userActionUpdateState: UserActionUpdateFailureState());
+  }
+  AppState deleteActionNotInit() {
+    return copyWith(userActionDeleteState: UserActionDeleteNotInitializedState());
+  }
+
+  AppState deleteActionSuccess() {
+    return copyWith(userActionDeleteState: UserActionDeleteSuccessState());
+  }
+
+  AppState deleteActionFromList() {
+    return copyWith(userActionDeleteState: UserActionDeleteFromListState());
+  }
+
+  AppState deleteActionLoading() {
+    return copyWith(userActionDeleteState: UserActionDeleteLoadingState());
+  }
+
+  AppState deleteActionFailure() {
+    return copyWith(userActionDeleteState: UserActionDeleteFailureState());
   }
 }
