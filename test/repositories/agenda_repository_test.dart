@@ -19,7 +19,7 @@ void main() {
       );
 
       group('when response is valid', () {
-        sut.givenResponse(fromJson: "agenda.json", headers: {"x-nombre-actions-en-retard": "3"});
+        sut.givenResponse(fromJson: "agenda.json");
 
         test('request should be valid', () async {
           await sut.expectRequestBody(
