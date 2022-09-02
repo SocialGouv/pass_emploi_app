@@ -9,17 +9,17 @@ UserActionListState userActionListReducer(UserActionListState current, dynamic a
   if (action is UserActionListFailureAction) return UserActionListFailureState();
   if (action is UserActionListSuccessAction) return UserActionListSuccessState(action.userActions);
   if (action is UserActionListResetAction) return UserActionListNotInitializedState();
-  if (action is UserActionDeleteSuccessAction) return _listWithDeletedAction(current, action);
-  if (action is UserActionUpdateNeededAction) return _listWithUpdatedAction(current, action);
+  if (action is UserActionDeleteFromListAction) return _listWithDeletedAction(current, action);
+  if (action is UserActionUpdateSuccessAction) return _listWithUpdatedAction(current, action);
   return current;
 }
 
-UserActionListState _listWithDeletedAction(UserActionListState current, UserActionDeleteSuccessAction action) {
+UserActionListState _listWithDeletedAction(UserActionListState current, UserActionDeleteFromListAction action) {
   if (current is! UserActionListSuccessState) return current;
   return UserActionListSuccessState(current.userActions.where((e) => e.id != action.actionId).toList());
 }
 
-UserActionListState _listWithUpdatedAction(UserActionListState current, UserActionUpdateNeededAction action) {
+UserActionListState _listWithUpdatedAction(UserActionListState current, UserActionUpdateSuccessAction action) {
   if (current is! UserActionListSuccessState) return current;
   final newActions = current.userActions.withUpdatedAction(action.actionId, action.newStatus);
   return UserActionListSuccessState(newActions);

@@ -378,6 +378,17 @@ Demarche mockDemarche({
   );
 }
 
+UserAction mockNotStartedAction({required String actionId}) {
+  return UserAction(
+    id: actionId,
+    content: "content",
+    comment: "comment",
+    status: UserActionStatus.NOT_STARTED,
+    dateEcheance: DateTime(2042),
+    creator: JeuneActionCreator(),
+  );
+}
+
 PartageActivite mockPartageActivite({required bool favoriShared}) => PartageActivite(partageFavoris: favoriShared);
 
 List<Commentaire> mockCommentaires() => [

@@ -7,13 +7,16 @@ class UserActionUpdateRequestAction {
   UserActionUpdateRequestAction({required this.actionId, required this.newStatus});
 }
 
-class UserActionUpdateNeededAction {
+class UserActionUpdateLoadingAction {}
+
+class UserActionUpdateSuccessAction {
   final String actionId;
   final UserActionStatus newStatus;
 
-  UserActionUpdateNeededAction({required this.actionId, required this.newStatus});
+  UserActionUpdateSuccessAction({required this.actionId, required this.newStatus});
 }
 
-class UserActionNoUpdateNeededAction {}
+class UserActionUpdateFailureAction {}
 
 class UserActionUpdateResetAction {}
+
