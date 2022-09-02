@@ -331,7 +331,7 @@ extension _EventWidget on EventAgenda {
   }
 }
 
-extension _RdvWidget on RendezvousEventAgenda {
+extension _RendezvousCard on RendezvousEventAgenda {
   Widget rendezvousCard(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
@@ -366,15 +366,18 @@ class _ActionCard extends StatelessWidget {
   }
 
   Widget _card(BuildContext context, UserActionViewModel viewModel) {
-    return UserActionCard(
-      onTap: () {
-        context.trackEvent(EventType.ACTION_DETAIL);
-        Navigator.push(
-          context,
-          UserActionDetailPage.materialPageRoute(viewModel, StateSource.agenda),
-        );
-      },
-      viewModel: viewModel,
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
+      child: UserActionCard(
+        onTap: () {
+          context.trackEvent(EventType.ACTION_DETAIL);
+          Navigator.push(
+            context,
+            UserActionDetailPage.materialPageRoute(viewModel, StateSource.agenda),
+          );
+        },
+        viewModel: viewModel,
+      ),
     );
   }
 }
