@@ -290,7 +290,7 @@ class _NextWeek extends StatelessWidget {
           child: BigTitleSeparator(Strings.nextWeek),
         ),
         if (events.isEmpty) _NoEventTitle(),
-if (events.isNotEmpty) ...events.widgets(context: context, simpleCard: true),
+        if (events.isNotEmpty) ...events.widgets(context: context, simpleCard: true),
       ],
     );
   }
