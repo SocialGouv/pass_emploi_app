@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
@@ -92,13 +91,16 @@ CurrentWeekAgendaItem _makeCurrentWeek(List<EventAgenda> events, DateTime dateDe
 
 extension _ListDaySectionAgendaExt on List<DaySectionAgenda> {
   void removeWeekendIfNoEvent(DateTime dateDeDebutAgenda) {
-    if (dateDeDebutAgenda.weekday != 6) return;
+    if (dateDeDebutAgenda.isSaturday() == false) return;
 
-    if (firstOrNull?.events.isEmpty == true) {
+    final saturdayEvents = this[0].events;
+    final sundayEvents = this[1].events;
+
+    if (saturdayEvents.isEmpty && sundayEvents.isEmpty) {
       removeAt(0);
-      if (firstOrNull?.events.isEmpty == true) {
-        removeAt(0);
-      }
+      removeAt(0);
+    } else if (saturdayEvents.isEmpty) {
+      removeAt(0);
     }
   }
 }
