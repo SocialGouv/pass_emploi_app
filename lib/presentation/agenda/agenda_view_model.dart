@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
@@ -51,12 +50,11 @@ List<AgendaItem> _events(Store<AppState> store) {
   if (agendaState is! AgendaSuccessState) return [];
 
   final events = _allEventsSorted(agendaState.agenda);
-  final nextWeekFirstDay = agendaState.agenda.dateDeDebut.addWeeks(1);
 
   return [
     if (agendaState.agenda.delayedActions > 0) DelayedActionsBanner(agendaState.agenda.delayedActions),
-    _makeCurrentWeek(events, nextWeekFirstDay),
-    _makeNextWeek(events, nextWeekFirstDay),
+    _makeCurrentWeek(events, agendaState.agenda.dateDeDebut),
+    _makeNextWeek(events, agendaState.agenda.dateDeDebut),
   ];
 }
 
@@ -71,23 +69,33 @@ List<EventAgenda> _allEventsSorted(Agenda agenda) {
   return events;
 }
 
-CurrentWeekAgendaItem _makeCurrentWeek(List<EventAgenda> events, DateTime nextWeekFirstDay) {
+CurrentWeekAgendaItem _makeCurrentWeek(List<EventAgenda> events, DateTime dateDeDebutAgenda) {
+  final nextWeekFirstDay = dateDeDebutAgenda.addWeeks(1);
   final currentWeekEvents = events.where((element) => element.date.isBefore(nextWeekFirstDay));
 
-  final eventGroupedByDays = currentWeekEvents.groupListsBy((element) {
-    return element.date.toDayOfWeekWithFullMonth().firstLetterUpperCased();
-  });
+  final eventsByDay = _sevenDaysMap(dateDeDebutAgenda);
+  for (var event in currentWeekEvents) {
+    (eventsByDay[event.date.toDayOfWeekWithFullMonth().firstLetterUpperCased()] ??= []).add(event);
+  }
 
-  final daySections = eventGroupedByDays.keys.map((date) {
+  final daySections = eventsByDay.keys.map((date) {
     final title = date;
-    final events = eventGroupedByDays[date]!.toList();
+    final events = eventsByDay[date]!.toList();
     return DaySectionAgenda(title, events);
   }).toList();
 
   return CurrentWeekAgendaItem(daySections);
 }
 
-NextWeekAgendaItem _makeNextWeek(List<EventAgenda> events, DateTime nextWeekFirstDay) {
+Map<String, List<EventAgenda>> _sevenDaysMap(DateTime dateDeDebut) {
+  final allOffsets = Iterable<int>.generate(7).toList();
+  final allDates = allOffsets.map((offset) => dateDeDebut.add(Duration(days: offset)));
+  final allDays = allDates.map((date) => date.toDayOfWeekWithFullMonth().firstLetterUpperCased());
+  return {for (var day in allDays) day: <EventAgenda>[]};
+}
+
+NextWeekAgendaItem _makeNextWeek(List<EventAgenda> events, DateTime dateDeDebutAgenda) {
+  final nextWeekFirstDay = dateDeDebutAgenda.addWeeks(1);
   final nextWeekEvents = events.where((element) => !element.date.isBefore(nextWeekFirstDay)).toList();
   return NextWeekAgendaItem(nextWeekEvents);
 }
