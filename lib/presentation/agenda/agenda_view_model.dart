@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
@@ -84,7 +85,22 @@ CurrentWeekAgendaItem _makeCurrentWeek(List<EventAgenda> events, DateTime dateDe
     return DaySectionAgenda(title, events);
   }).toList();
 
+  daySections.removeWeekendIfNoEvent(dateDeDebutAgenda);
+
   return CurrentWeekAgendaItem(daySections);
+}
+
+extension _ListDaySectionAgendaExt on List<DaySectionAgenda> {
+  void removeWeekendIfNoEvent(DateTime dateDeDebutAgenda) {
+    if (dateDeDebutAgenda.weekday != 6) return;
+
+    if (firstOrNull?.events.isEmpty == true) {
+      removeAt(0);
+      if (firstOrNull?.events.isEmpty == true) {
+        removeAt(0);
+      }
+    }
+  }
 }
 
 Map<String, List<EventAgenda>> _sevenDaysMap(DateTime dateDeDebut) {
