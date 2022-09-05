@@ -62,8 +62,8 @@ class _Container extends StatelessWidget {
                 children: [
                   if (viewModel.isAnnule && simpleCard == false) _Annule(),
                   _Tag(viewModel.tag, viewModel.greenTag),
-                  if (simpleCard == false) _Date(viewModel.date),
-                  if (viewModel.title != null) _Titre(viewModel.title!),
+                  _Date(viewModel.date),
+                  if (viewModel.title != null && simpleCard == false) _Titre(viewModel.title!),
                   if (viewModel.subtitle != null && simpleCard == false) _SousTitre(viewModel.subtitle!),
                   if (simpleCard == false) _Link(),
                 ],
