@@ -27,6 +27,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
+import 'package:pass_emploi_app/widgets/empty_page.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 class AgendaPage extends StatelessWidget {
@@ -105,29 +106,10 @@ class _Body extends StatelessWidget {
       case DisplayState.CONTENT:
         return _Content(viewModel: viewModel, tabController: tabController);
       case DisplayState.EMPTY:
-        return _Empty();
+        return Empty(description: Strings.agendaEmpty);
       case DisplayState.FAILURE:
         return _Retry(viewModel: viewModel);
     }
-  }
-}
-
-class _Empty extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_m),
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SizedBox(height: Margins.spacing_l),
-          Flexible(child: SvgPicture.asset(Drawables.icEmptyOffres)),
-          SizedBox(height: Margins.spacing_l),
-          Text(Strings.agendaEmpty, style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
-        ],
-      ),
-    );
   }
 }
 

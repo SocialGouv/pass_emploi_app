@@ -17,7 +17,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
 import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
-import 'package:pass_emploi_app/widgets/empty_pole_emploi_content.dart';
+import 'package:pass_emploi_app/widgets/empty_page.dart';
 import 'package:pass_emploi_app/widgets/loader.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
@@ -41,7 +41,15 @@ class DemarcheListPage extends StatelessWidget {
   Widget _scaffold(BuildContext context, DemarcheListPageViewModel viewModel) {
     return Scaffold(
       backgroundColor: AppColors.grey100,
-      body: DefaultAnimatedSwitcher(child: _animatedBody(context, viewModel)),
+      body: Stack(
+        children: [
+          DefaultAnimatedSwitcher(child: _animatedBody(context, viewModel)),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Padding(padding: const EdgeInsets.only(bottom: 24), child: _AddDemarcheButton()),
+          ),
+        ],
+      ),
     );
   }
 
@@ -52,31 +60,24 @@ class DemarcheListPage extends StatelessWidget {
       case DisplayState.LOADING:
         return loader();
       case DisplayState.EMPTY:
-        return _empty();
+        return Empty(description: Strings.emptyContentTitle(Strings.demarchesToDo));
       case DisplayState.FAILURE:
         return Center(child: Retry(Strings.actionsError, () => viewModel.onRetry()));
     }
   }
 
-  Widget _empty() => EmptyPoleEmploiContent();
-
   Widget _userActionsList(BuildContext context, DemarcheListPageViewModel viewModel) {
-    return Stack(
-      children: [
-        ListView.separated(
-          controller: _scrollController,
-          padding: const EdgeInsets.fromLTRB(
-            Margins.spacing_base,
-            Margins.spacing_base,
-            Margins.spacing_base,
-            Margins.spacing_huge,
-          ),
-          itemCount: viewModel.items.length,
-          itemBuilder: (context, i) => _listItem(context, viewModel.items[i], viewModel),
-          separatorBuilder: (context, i) => _listSeparator(),
-        ),
-        if (viewModel.isDemarcheCreationEnabled) _AddDemarcheButton(),
-      ],
+    return ListView.separated(
+      controller: _scrollController,
+      padding: const EdgeInsets.fromLTRB(
+        Margins.spacing_base,
+        Margins.spacing_base,
+        Margins.spacing_base,
+        Margins.spacing_huge,
+      ),
+      itemCount: viewModel.items.length,
+      itemBuilder: (context, i) => _listItem(context, viewModel.items[i], viewModel),
+      separatorBuilder: (context, i) => _listSeparator(),
     );
   }
 

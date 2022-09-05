@@ -198,7 +198,7 @@ class Strings {
   static String refreshActionStatus = "Valider le statut";
   static const String actionToDo = "À réaliser";
   static const String actionInProgress = "Commencée";
-  static String noActionsYet = "Vous n'avez pas encore d’actions";
+  static String noActionsYet = "Vous n'avez pas encore d’actions.";
   static String addAnAction = "Créer une action";
   static String addAMessageError = "Vous avez dépassé le nombre de caractères autorisés";
   static String create = "Créer";
