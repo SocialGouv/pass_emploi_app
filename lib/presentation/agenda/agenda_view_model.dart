@@ -84,7 +84,25 @@ CurrentWeekAgendaItem _makeCurrentWeek(List<EventAgenda> events, DateTime dateDe
     return DaySectionAgenda(title, events);
   }).toList();
 
+  daySections.removeWeekendIfNoEvent(dateDeDebutAgenda);
+
   return CurrentWeekAgendaItem(daySections);
+}
+
+extension _ListDaySectionAgendaExt on List<DaySectionAgenda> {
+  void removeWeekendIfNoEvent(DateTime dateDeDebutAgenda) {
+    if (dateDeDebutAgenda.isSaturday() == false) return;
+
+    final saturdayEvents = this[0].events;
+    final sundayEvents = this[1].events;
+
+    if (saturdayEvents.isEmpty && sundayEvents.isEmpty) {
+      removeAt(0);
+      removeAt(0);
+    } else if (saturdayEvents.isEmpty) {
+      removeAt(0);
+    }
+  }
 }
 
 Map<String, List<EventAgenda>> _sevenDaysMap(DateTime dateDeDebut) {

@@ -14,6 +14,14 @@ import '../../utils/test_datetime.dart';
 
 void main() {
   final samedi20 = DateTime(2022, 8, 20);
+  final actionSamediMatin = userActionStub(
+    id: "action 20/08 11h",
+    dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-20T11:00:00.000Z"),
+  );
+  final actionDimancheMatin = userActionStub(
+    id: "action 21/08 11h",
+    dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-21T11:00:00.000Z"),
+  );
   final actionLundiMatin = userActionStub(
     id: "action 22/08 11h",
     dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-22T11:00:00.000Z"),
@@ -150,40 +158,124 @@ void main() {
     });
 
     group('are grouped by week', () {
-      // Given
-      final actions = [actionLundiMatin, actionMardiMatin, actionVendredi, actionSamediProchain];
-      final rendezvous = [rendezvousLundiMatin, rendezvousLundiProchain];
-      final store = givenState() //
-          .loggedInUser()
-          .agenda(actions: actions, rendezvous: rendezvous, dateDeDebut: samedi20)
-          .store();
+      group('with current week grouped by days', () {
+        test('starting monday if no event on weekend', () {
+          // Given
+          final actions = [actionLundiMatin, actionMardiMatin, actionVendredi, actionSamediProchain];
+          final rendezvous = [rendezvousLundiMatin, rendezvousLundiProchain];
+          final store = givenState() //
+              .loggedInUser()
+              .agenda(actions: actions, rendezvous: rendezvous, dateDeDebut: samedi20)
+              .store();
 
-      // When
-      final viewModel = AgendaPageViewModel.create(store);
+          // When
+          final viewModel = AgendaPageViewModel.create(store);
 
-      test('with current week grouped by days', () {
-        expect(
-          viewModel.events[0],
-          CurrentWeekAgendaItem([
-            DaySectionAgenda("Samedi 20 août", []),
-            DaySectionAgenda("Dimanche 21 août", []),
-            DaySectionAgenda("Lundi 22 août", [
-              UserActionEventAgenda(actionLundiMatin.id, actionLundiMatin.dateEcheance),
-              RendezvousEventAgenda(rendezvousLundiMatin.id, rendezvousLundiMatin.date),
+          // Then
+          expect(
+            viewModel.events[0],
+            CurrentWeekAgendaItem([
+              DaySectionAgenda("Lundi 22 août", [
+                UserActionEventAgenda(actionLundiMatin.id, actionLundiMatin.dateEcheance),
+                RendezvousEventAgenda(rendezvousLundiMatin.id, rendezvousLundiMatin.date),
+              ]),
+              DaySectionAgenda("Mardi 23 août", [
+                UserActionEventAgenda(actionMardiMatin.id, actionMardiMatin.dateEcheance),
+              ]),
+              DaySectionAgenda("Mercredi 24 août", []),
+              DaySectionAgenda("Jeudi 25 août", []),
+              DaySectionAgenda("Vendredi 26 août", [
+                UserActionEventAgenda(actionVendredi.id, actionVendredi.dateEcheance),
+              ]),
             ]),
-            DaySectionAgenda("Mardi 23 août", [
-              UserActionEventAgenda(actionMardiMatin.id, actionMardiMatin.dateEcheance),
+          );
+        });
+
+        test('starting saturday if event on saturday', () {
+          // Given
+          final actions = [actionSamediMatin, actionLundiMatin, actionMardiMatin, actionVendredi, actionSamediProchain];
+          final rendezvous = [rendezvousLundiMatin, rendezvousLundiProchain];
+          final store = givenState() //
+              .loggedInUser()
+              .agenda(actions: actions, rendezvous: rendezvous, dateDeDebut: samedi20)
+              .store();
+
+          // When
+          final viewModel = AgendaPageViewModel.create(store);
+
+          // Then
+          expect(
+            viewModel.events[0],
+            CurrentWeekAgendaItem([
+              DaySectionAgenda("Samedi 20 août", [
+                UserActionEventAgenda(actionSamediMatin.id, actionSamediMatin.dateEcheance),
+              ]),
+              DaySectionAgenda("Dimanche 21 août", []),
+              DaySectionAgenda("Lundi 22 août", [
+                UserActionEventAgenda(actionLundiMatin.id, actionLundiMatin.dateEcheance),
+                RendezvousEventAgenda(rendezvousLundiMatin.id, rendezvousLundiMatin.date),
+              ]),
+              DaySectionAgenda("Mardi 23 août", [
+                UserActionEventAgenda(actionMardiMatin.id, actionMardiMatin.dateEcheance),
+              ]),
+              DaySectionAgenda("Mercredi 24 août", []),
+              DaySectionAgenda("Jeudi 25 août", []),
+              DaySectionAgenda("Vendredi 26 août", [
+                UserActionEventAgenda(actionVendredi.id, actionVendredi.dateEcheance),
+              ]),
             ]),
-            DaySectionAgenda("Mercredi 24 août", []),
-            DaySectionAgenda("Jeudi 25 août", []),
-            DaySectionAgenda("Vendredi 26 août", [
-              UserActionEventAgenda(actionVendredi.id, actionVendredi.dateEcheance),
+          );
+        });
+
+        test('starting sunday if event on sunday and none saturday', () {
+          // Given
+          final actions = [actionDimancheMatin, actionLundiMatin, actionMardiMatin, actionVendredi, actionSamediProchain];
+          final rendezvous = [rendezvousLundiMatin, rendezvousLundiProchain];
+          final store = givenState() //
+              .loggedInUser()
+              .agenda(actions: actions, rendezvous: rendezvous, dateDeDebut: samedi20)
+              .store();
+
+          // When
+          final viewModel = AgendaPageViewModel.create(store);
+
+          // Then
+          expect(
+            viewModel.events[0],
+            CurrentWeekAgendaItem([
+              DaySectionAgenda("Dimanche 21 août", [
+                UserActionEventAgenda(actionDimancheMatin.id, actionDimancheMatin.dateEcheance),
+              ]),
+              DaySectionAgenda("Lundi 22 août", [
+                UserActionEventAgenda(actionLundiMatin.id, actionLundiMatin.dateEcheance),
+                RendezvousEventAgenda(rendezvousLundiMatin.id, rendezvousLundiMatin.date),
+              ]),
+              DaySectionAgenda("Mardi 23 août", [
+                UserActionEventAgenda(actionMardiMatin.id, actionMardiMatin.dateEcheance),
+              ]),
+              DaySectionAgenda("Mercredi 24 août", []),
+              DaySectionAgenda("Jeudi 25 août", []),
+              DaySectionAgenda("Vendredi 26 août", [
+                UserActionEventAgenda(actionVendredi.id, actionVendredi.dateEcheance),
+              ]),
             ]),
-          ]),
-        );
+          );
+        });
       });
 
       test('with next week', () {
+        // Given
+        final actions = [actionLundiMatin, actionMardiMatin, actionVendredi, actionSamediProchain];
+        final rendezvous = [rendezvousLundiMatin, rendezvousLundiProchain];
+        final store = givenState() //
+            .loggedInUser()
+            .agenda(actions: actions, rendezvous: rendezvous, dateDeDebut: samedi20)
+            .store();
+
+        // When
+        final viewModel = AgendaPageViewModel.create(store);
+
+        // Then
         expect(
           viewModel.events[1],
           NextWeekAgendaItem([

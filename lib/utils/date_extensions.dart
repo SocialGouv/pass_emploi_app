@@ -56,6 +56,8 @@ extension DateExtensions on DateTime {
 
   bool isTomorrow() => isAtSameDayAs(clock.now().add(Duration(days: 1)));
 
+  bool isSaturday() => weekday == 6;
+
   bool isInPreviousDay(DateTime anotherDate) {
     final anotherDayDate = DateUtils.dateOnly(anotherDate);
     final thisDayDate = DateUtils.dateOnly(this);
