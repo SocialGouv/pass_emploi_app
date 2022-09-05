@@ -269,7 +269,7 @@ class _CurrentWeekEmpty extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _SectionTitle(Strings.semaineEnCours),
-        Text(Strings.agendaSectionEmpty, style: TextStyles.textBaseRegularWithColor(AppColors.grey700)),
+        Text(Strings.agendaNorActionNorRendezvous, style: TextStyles.textBaseRegularWithColor(AppColors.grey700)),
       ],
     );
   }
@@ -291,7 +291,7 @@ class _NextWeek extends StatelessWidget {
         ),
         if (events.isEmpty)
           Text(
-            Strings.agendaSectionEmpty,
+            Strings.agendaNorActionNorRendezvous,
             style: TextStyles.textBaseRegularWithColor(AppColors.grey700),
           ),
         if (events.isNotEmpty) ...events.widgets(context),
@@ -311,7 +311,12 @@ class _DaySection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _SectionTitle(section.title),
-        ...section.events.widgets(context),
+        if (section.events.isNotEmpty) ...section.events.widgets(context),
+        if (section.events.isEmpty)
+          Text(
+            Strings.agendaNorActionNorRendezvous,
+            style: TextStyles.textBaseRegularWithColor(AppColors.grey700),
+          ), // todo on répète ce truc plusieurs fois
       ],
     );
   }
