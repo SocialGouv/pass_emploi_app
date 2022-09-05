@@ -149,20 +149,6 @@ void main() {
       ]);
     });
 
-    test('are grouped by day', () {
-      // Given
-      final actions = [actionLundiMatin, actionMardiMatin];
-      final rendezvous = [rendezvousLundiMatin];
-      final store = givenState().loggedInUser().agenda(actions: actions, rendezvous: rendezvous).store();
-
-      // When
-      final viewModel = AgendaPageViewModel.create(store);
-
-      // Then
-      _expectDaySection(viewModel.events, 0, "Lundi 22 août", ["action 22/08 11h", "rendezvous 22/08 15h"]);
-      _expectDaySection(viewModel.events, 1, "Mardi 23 août", ["action 23/08 08h"]);
-    });
-
     group('are grouped by week', () {
       // Given
       final actions = [actionLundiMatin, actionMardiMatin, actionVendredi, actionSamediProchain];
@@ -179,6 +165,8 @@ void main() {
         expect(
           viewModel.events[0],
           CurrentWeekAgendaItem([
+            DaySectionAgenda("Samedi 20 août", []),
+            DaySectionAgenda("Dimanche 21 août", []),
             DaySectionAgenda("Lundi 22 août", [
               UserActionEventAgenda(actionLundiMatin.id, actionLundiMatin.dateEcheance),
               RendezvousEventAgenda(rendezvousLundiMatin.id, rendezvousLundiMatin.date),
@@ -186,6 +174,8 @@ void main() {
             DaySectionAgenda("Mardi 23 août", [
               UserActionEventAgenda(actionMardiMatin.id, actionMardiMatin.dateEcheance),
             ]),
+            DaySectionAgenda("Mercredi 24 août", []),
+            DaySectionAgenda("Jeudi 25 août", []),
             DaySectionAgenda("Vendredi 26 août", [
               UserActionEventAgenda(actionVendredi.id, actionVendredi.dateEcheance),
             ]),
@@ -231,14 +221,6 @@ void main() {
       });
     });
   });
-}
-
-void _expectDaySection(List<AgendaItem> items, int index, String title, List<String> eventIds) {
-  final week = items[0] as CurrentWeekAgendaItem;
-  final daySection = week.days[index];
-
-  expect(daySection.title, title);
-  expect(daySection.events.map((e) => e.id), eventIds);
 }
 
 void _expectCount({required List<AgendaItem> items, required int actions, required int rendezvous}) {

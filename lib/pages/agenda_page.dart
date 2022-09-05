@@ -269,7 +269,7 @@ class _CurrentWeekEmpty extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _SectionTitle(Strings.semaineEnCours),
-        Text(Strings.agendaSectionEmpty, style: TextStyles.textBaseRegularWithColor(AppColors.grey700)),
+        _NoEventTitle(),
       ],
     );
   }
@@ -289,11 +289,7 @@ class _NextWeek extends StatelessWidget {
           padding: const EdgeInsets.only(top: Margins.spacing_m, bottom: Margins.spacing_s),
           child: BigTitleSeparator(Strings.nextWeek),
         ),
-        if (events.isEmpty)
-          Text(
-            Strings.agendaSectionEmpty,
-            style: TextStyles.textBaseRegularWithColor(AppColors.grey700),
-          ),
+        if (events.isEmpty) _NoEventTitle(),
         if (events.isNotEmpty) ...events.widgets(context),
       ],
     );
@@ -311,7 +307,8 @@ class _DaySection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _SectionTitle(section.title),
-        ...section.events.widgets(context),
+        if (section.events.isNotEmpty) ...section.events.widgets(context),
+        if (section.events.isEmpty) _NoEventTitle(),
       ],
     );
   }
@@ -330,6 +327,16 @@ class _SectionTitle extends StatelessWidget {
         alignment: Alignment.centerLeft,
         child: Text(title, style: TextStyles.textBaseMedium),
       ),
+    );
+  }
+}
+
+class _NoEventTitle extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      Strings.agendaNoActionNoRendezvous,
+      style: TextStyles.textBaseRegularWithColor(AppColors.grey700),
     );
   }
 }
