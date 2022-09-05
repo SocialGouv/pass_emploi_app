@@ -290,7 +290,7 @@ class _NextWeek extends StatelessWidget {
           child: BigTitleSeparator(Strings.nextWeek),
         ),
         if (events.isEmpty) _NoEventTitle(),
-        if (events.isNotEmpty) ...events.widgets(context),
+        if (events.isNotEmpty) ...events.widgets(context: context, simpleCard: true),
       ],
     );
   }
@@ -307,7 +307,7 @@ class _DaySection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _SectionTitle(section.title),
-        if (section.events.isNotEmpty) ...section.events.widgets(context),
+        if (section.events.isNotEmpty) ...section.events.widgets(context: context, simpleCard: false),
         if (section.events.isEmpty) _NoEventTitle(),
       ],
     );
@@ -342,18 +342,18 @@ class _NoEventTitle extends StatelessWidget {
 }
 
 extension _EventWidgets on List<EventAgenda> {
-  List<Widget> widgets(BuildContext context) {
-    return map((event) => event.widget(context)).toList();
+  List<Widget> widgets({required BuildContext context, required bool simpleCard}) {
+    return map((event) => event.widget(context, simpleCard)).toList();
   }
 }
 
 extension _EventWidget on EventAgenda {
-  Widget widget(BuildContext context) {
+  Widget widget(BuildContext context, bool simpleCard) {
     final event = this;
     if (event is UserActionEventAgenda) {
-      return _ActionCard(id: event.id);
+      return _ActionCard(id: event.id, simpleCard: simpleCard);
     } else if (event is RendezvousEventAgenda) {
-      return event.rendezvousCard(context);
+      return event.rendezvousCard(context, simpleCard);
     } else {
       return SizedBox(height: 0);
     }
@@ -361,11 +361,12 @@ extension _EventWidget on EventAgenda {
 }
 
 extension _RendezvousCard on RendezvousEventAgenda {
-  Widget rendezvousCard(BuildContext context) {
+  Widget rendezvousCard(BuildContext context, bool simpleCard) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
       child: RendezvousCard(
         converter: (store) => RendezvousCardViewModel.createFromAgendaState(store, id),
+        simpleCard: simpleCard,
         onTap: () {
           context.trackEvent(EventType.RDV_DETAIL);
           Navigator.push(
@@ -382,8 +383,9 @@ extension _RendezvousCard on RendezvousEventAgenda {
 
 class _ActionCard extends StatelessWidget {
   final String id;
+  final bool simpleCard;
 
-  _ActionCard({required this.id});
+  _ActionCard({required this.id, required this.simpleCard});
 
   @override
   Widget build(BuildContext context) {
@@ -398,6 +400,8 @@ class _ActionCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
       child: UserActionCard(
+        viewModel: viewModel,
+        simpleCard: simpleCard,
         onTap: () {
           context.trackEvent(EventType.ACTION_DETAIL);
           Navigator.push(
@@ -405,7 +409,6 @@ class _ActionCard extends StatelessWidget {
             UserActionDetailPage.materialPageRoute(viewModel, StateSource.agenda),
           );
         },
-        viewModel: viewModel,
       ),
     );
   }
