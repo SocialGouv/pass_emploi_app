@@ -28,17 +28,17 @@ class LocalOutilRepository {
         imagePath: "mentor.png",
       ),
       Outil(
+        title: "Je m’engage bénévolement",
+        description: "Trouvez une mission de bénévolat près de chez vous ou à distance grâce à JeVeuxAider.gouv.fr",
+        actionLabel: "Je recherche une mission",
+        urlRedirect: "http://api.api-engagement.beta.gouv.fr/r/campaign/62bd908f38442607276c515e",
+        imagePath: "boite_outil_benevolat.png",
+      ),
+      Outil(
         title: "Trouver une formation",
         description: "Trouvez la formation qui vous intéresse pour réaliser votre projet professionnel.",
         actionLabel: "Je recherche une formation",
         urlRedirect: "https://www.1jeune1solution.gouv.fr/formations",
-        imagePath: null,
-      ),
-      Outil(
-        title: "Bénévolat",
-        description: "Trouvez des missions de bénévolat près de chez vous ou à distance.",
-        actionLabel: "Je recherche une mission",
-        urlRedirect: "https://www.jeveuxaider.gouv.fr/missions-benevolat",
         imagePath: null,
       ),
       Outil(
