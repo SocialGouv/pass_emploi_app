@@ -50,7 +50,6 @@ class UserActionDetailPage extends StatefulWidget {
 class _ActionDetailPageState extends State<UserActionDetailPage> {
   late UserActionViewModel actionViewModel;
   late UserActionStatus status;
-  var _noComments = false;
 
   @override
   void initState() {
@@ -118,11 +117,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
                       SizedBox(height: Margins.spacing_xl),
                       _Separator(),
                       SizedBox(height: Margins.spacing_base),
-                      _CommentCard(
-                        actionId: actionViewModel.id,
-                        actionTitle: actionViewModel.title,
-                        onSetComments: (value) => _setComments(value),
-                      ),
+                      _CommentCard(actionId: actionViewModel.id, actionTitle: actionViewModel.title),
                       SizedBox(height: Margins.spacing_l),
                       _Separator(),
                       SizedBox(height: Margins.spacing_base),
@@ -141,7 +136,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
                 label: Strings.refreshActionStatus,
               ),
             ),
-            if (actionViewModel.withDeleteOption && _noComments)
+            if (actionViewModel.withDeleteOption && !detailsViewModel.withComments)
               _DeleteAction(viewModel: detailsViewModel, onDeleteAction: _onDeleteAction),
           ],
         ),
@@ -153,10 +148,6 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
   bool _isLoading(UserActionDetailsViewModel detailsViewModel) {
     return detailsViewModel.updateDisplayState == UpdateDisplayState.SHOW_LOADING ||
         detailsViewModel.deleteDisplayState == DeleteDisplayState.SHOW_LOADING;
-  }
-
-  void _setComments(bool noComments) {
-    setState(() => _noComments = noComments);
   }
 
   void _onDeleteAction(UserActionDetailsViewModel detailsViewModel) {
@@ -342,9 +333,8 @@ class _DeleteAction extends StatelessWidget {
 class _CommentCard extends StatelessWidget {
   final String actionId;
   final String actionTitle;
-  final Function(bool) onSetComments;
 
-  _CommentCard({required this.actionId, required this.actionTitle, required this.onSetComments});
+  _CommentCard({required this.actionId, required this.actionTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -352,7 +342,6 @@ class _CommentCard extends StatelessWidget {
       onInit: (store) => store.dispatch(ActionCommentaireListRequestAction(actionId)),
       converter: (store) => ActionCommentaireViewModel.create(store, actionId),
       builder: (context, viewModel) => _build(context, viewModel),
-      onDidChange: (_, viewModel) => onSetComments(viewModel.comments.isEmpty),
       distinct: true,
     );
   }

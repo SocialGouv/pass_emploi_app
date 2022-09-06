@@ -280,4 +280,28 @@ void main() {
       expect(action.newStatus, UserActionStatus.DONE);
     });
   });
+
+  group("create when action ...", () {
+    test("has no comments should set withComments to false", () {
+      // Given
+      final store = givenState().withAction(mockUserAction(id: 'actionId')).actionWithoutComments().store();
+
+      // When
+      final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
+
+      // Then
+      expect(viewModel.withComments, isFalse);
+    });
+
+    test("has comments should set withComments to true", () {
+      // Given
+      final store = givenState().withAction(mockUserAction(id: 'actionId')).actionWithComments().store();
+
+      // When
+      final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
+
+      // Then
+      expect(viewModel.withComments, isTrue);
+    });
+  });
 }
