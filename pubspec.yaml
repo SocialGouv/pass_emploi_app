@@ -68,6 +68,7 @@ flutter:
 
   assets:
     - assets/mode_demo/
+    - assets/tuto/
     - assets/
     - env/
 

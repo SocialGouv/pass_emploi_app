@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
@@ -267,7 +268,7 @@ class _AnimationState extends State<_Animation> with SingleTickerProviderStateMi
       builder: (context, Widget? child) {
         return Transform.scale(
           scale: 1 + _offsetAnimation.value / 200,
-          child: Image.asset(widget.image, fit: BoxFit.fitWidth),
+          child: SvgPicture.asset(widget.image, height: 200),
         );
       },
     );

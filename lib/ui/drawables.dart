@@ -2,6 +2,7 @@ class Drawables {
   Drawables._();
 
   static const String _assets = "assets/";
+  static const String _tuto = "assets/tuto/";
   static const String _svg = ".svg";
   static const String _png = ".png";
   static String icLogo = _assets + "ic_logo" + _svg;
@@ -61,6 +62,8 @@ class Drawables {
   static String icClip = _assets + "ic_clip" + _svg;
   static String icDownload = _assets + "ic_download" + _svg;
 
-  static String icTutoOffrePartager = _assets + "ic_offre_partager" + _png;
-  static String icTutoOffreDebutant = _assets + "ic_offre_debutant" + _png;
+  static String icTutoActionComment = _tuto + "ic_new_commentaire" + _svg;
+  static String icTutoMandatoryDate = _tuto + "ic_new_date_echeance" + _svg;
+  static String icTutoAgenda = _tuto + "ic_new_suivi" + _svg;
+  static String icTutoCreationDemarche = _tuto + "ic_new_creation_demarche" + _svg;
 }
