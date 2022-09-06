@@ -10,7 +10,7 @@ import 'package:pass_emploi_app/widgets/tags/status_tag.dart';
 
 class UserActionCard extends StatelessWidget {
   final VoidCallback onTap;
-  final UserActionViewModel viewModel;
+  final UserActionCardViewModel viewModel;
   final bool simpleCard;
 
   const UserActionCard({

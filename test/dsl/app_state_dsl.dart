@@ -247,10 +247,6 @@ extension AppStateDSL on AppState {
     return copyWith(userActionDeleteState: UserActionDeleteSuccessState());
   }
 
-  AppState deleteActionFromList() {
-    return copyWith(userActionDeleteState: UserActionDeleteFromListState());
-  }
-
   AppState deleteActionLoading() {
     return copyWith(userActionDeleteState: UserActionDeleteLoadingState());
   }

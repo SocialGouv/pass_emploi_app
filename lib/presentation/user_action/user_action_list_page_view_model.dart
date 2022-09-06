@@ -21,7 +21,7 @@ class UserActionListPageViewModel extends Equatable {
   final Function() onUserActionDetailsDismissed;
   final Function() onCreateUserActionDismissed;
   final Function() onDeeplinkUsed;
-  final UserActionViewModel? actionDetails;
+  final UserActionCardViewModel? actionDetails;
 
   UserActionListPageViewModel({
     required this.withLoading,
@@ -76,21 +76,21 @@ UserActionCampagneItemViewModel? _campagneItem({required AppState state}) {
   return null;
 }
 
-List<UserActionViewModel> _activeActions({required UserActionListState state}) {
+List<UserActionCardViewModel> _activeActions({required UserActionListState state}) {
   if (state is UserActionListSuccessState) {
     return state.userActions
         .where((action) => action.status.isCanceledOrDone() == false)
-        .map((action) => UserActionViewModel.create(action))
+        .map((action) => UserActionCardViewModel.create(action))
         .toList();
   }
   return [];
 }
 
-List<UserActionViewModel> _doneOrCanceledActions({required UserActionListState state}) {
+List<UserActionCardViewModel> _doneOrCanceledActions({required UserActionListState state}) {
   if (state is UserActionListSuccessState) {
     return state.userActions
         .where((action) => action.status.isCanceledOrDone())
-        .map((action) => UserActionViewModel.create(action))
+        .map((action) => UserActionCardViewModel.create(action))
         .toList();
   }
   return [];
@@ -98,8 +98,8 @@ List<UserActionViewModel> _doneOrCanceledActions({required UserActionListState s
 
 List<UserActionListPageItem> _listItems({
   required UserActionCampagneItemViewModel? campagne,
-  required List<UserActionViewModel> activeItems,
-  required List<UserActionViewModel> doneOrCanceledItems,
+  required List<UserActionCardViewModel> activeItems,
+  required List<UserActionCardViewModel> doneOrCanceledItems,
 }) {
   return [
     if (campagne != null) ...[campagne],
@@ -119,13 +119,13 @@ String? _deeplinkActionId(DeepLinkState state, UserActionListState userActionLis
 
 List<UserActionListPageItem> _getActions(UserActionListState state) {
   if (state is UserActionListSuccessState) {
-    final models = state.userActions.map((action) => UserActionViewModel.create(action)).toList();
+    final models = state.userActions.map((action) => UserActionCardViewModel.create(action)).toList();
     return models.map((e) => UserActionListItemViewModel(e)).toList();
   }
   return [];
 }
 
-UserActionViewModel? _getDetails({
+UserActionCardViewModel? _getDetails({
   required DeepLinkState deeplinkState,
   required UserActionListState userActionState,
 }) {
@@ -151,7 +151,7 @@ class UserActionListSubtitle extends UserActionListPageItem {
 }
 
 class UserActionListItemViewModel extends UserActionListPageItem {
-  final UserActionViewModel viewModel;
+  final UserActionCardViewModel viewModel;
 
   UserActionListItemViewModel(this.viewModel);
 

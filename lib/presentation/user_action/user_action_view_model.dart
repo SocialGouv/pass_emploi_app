@@ -22,7 +22,7 @@ class UserActionDateEcheanceViewModel extends Equatable {
   List<Object?> get props => [formattedTexts, color];
 }
 
-class UserActionViewModel extends Equatable {
+class UserActionCardViewModel extends Equatable {
   final String id;
   final String title;
   final String subtitle;
@@ -33,7 +33,7 @@ class UserActionViewModel extends Equatable {
   final UserActionTagViewModel? tag;
   final bool withDeleteOption;
 
-  UserActionViewModel({
+  UserActionCardViewModel({
     required this.id,
     required this.title,
     required this.subtitle,
@@ -46,17 +46,17 @@ class UserActionViewModel extends Equatable {
   });
 
   // todo Tests (low) avec une façon élégeante de faire 2-en-1
-  factory UserActionViewModel.createFromAgendaState(Store<AppState> store, String actionId) {
+  factory UserActionCardViewModel.createFromAgendaState(Store<AppState> store, String actionId) {
     final state = store.state.agendaState;
     if (state is! AgendaSuccessState) throw Exception('Invalid state.');
     final action = state.agenda.actions.where((e) => e.id == actionId).firstOrNull;
     if (action == null) throw Exception('No UserAction matching id $actionId');
-    return UserActionViewModel.create(action);
+    return UserActionCardViewModel.create(action);
   }
 
-  factory UserActionViewModel.create(UserAction userAction) {
+  factory UserActionCardViewModel.create(UserAction userAction) {
     final isLate = userAction.isLate();
-    return UserActionViewModel(
+    return UserActionCardViewModel(
       id: userAction.id,
       title: userAction.content,
       subtitle: userAction.comment,

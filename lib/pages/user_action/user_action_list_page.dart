@@ -141,7 +141,7 @@ class _CampagneCard extends StatelessWidget {
 }
 
 class _ActionCard extends StatelessWidget {
-  final UserActionViewModel viewModel;
+  final UserActionCardViewModel viewModel;
 
   _ActionCard({required this.viewModel});
 

@@ -11,36 +11,36 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import '../../doubles/fixtures.dart';
 
 void main() {
-  test("UserActionViewModel.create when creator is jeune should create view model properly", () {
+  test("UserActionCardViewModel.create when creator is jeune should create view model properly", () {
     // Given
     final userAction = mockUserAction(creator: JeuneActionCreator());
 
     // When
-    final viewModel = UserActionViewModel.create(userAction);
+    final viewModel = UserActionCardViewModel.create(userAction);
 
     // Then
     expect(viewModel.creator, Strings.you);
     expect(viewModel.withDeleteOption, true);
   });
 
-  test("UserActionViewModel.create when creator is conseiller should create view model properly", () {
+  test("UserActionCardViewModel.create when creator is conseiller should create view model properly", () {
     // Given
     final userAction = mockUserAction(creator: ConseillerActionCreator(name: "Nils Tavernier"));
 
     // When
-    final viewModel = UserActionViewModel.create(userAction);
+    final viewModel = UserActionCardViewModel.create(userAction);
 
     // Then
     expect(viewModel.creator, "Nils Tavernier");
     expect(viewModel.withDeleteOption, false);
   });
 
-  test("UserActionViewModel.create when status is done should create view model properly", () {
+  test("UserActionCardViewModel.create when status is done should create view model properly", () {
     // Given
     final userAction = mockUserAction(status: UserActionStatus.DONE);
 
     // When
-    final viewModel = UserActionViewModel.create(userAction);
+    final viewModel = UserActionCardViewModel.create(userAction);
 
     // Then
     expect(viewModel.status, UserActionStatus.DONE);
@@ -54,12 +54,12 @@ void main() {
     );
   });
 
-  test("UserActionViewModel.create when status is not started should create view model properly", () {
+  test("UserActionCardViewModel.create when status is not started should create view model properly", () {
     // Given
     final userAction = mockUserAction(status: UserActionStatus.NOT_STARTED);
 
     // When
-    final viewModel = UserActionViewModel.create(userAction);
+    final viewModel = UserActionCardViewModel.create(userAction);
 
     // Then
     expect(viewModel.status, UserActionStatus.NOT_STARTED);
@@ -72,12 +72,12 @@ void main() {
         ));
   });
 
-  test("UserActionViewModel.create when status is in progress should create view model properly", () {
+  test("UserActionCardViewModel.create when status is in progress should create view model properly", () {
     // Given
     final userAction = mockUserAction(status: UserActionStatus.IN_PROGRESS);
 
     // When
-    final viewModel = UserActionViewModel.create(userAction);
+    final viewModel = UserActionCardViewModel.create(userAction);
 
     // Then
     expect(viewModel.status, UserActionStatus.IN_PROGRESS);
@@ -91,12 +91,12 @@ void main() {
     );
   });
 
-  test("UserActionViewModel.create when status is canceled should create view model properly", () {
+  test("UserActionCardViewModel.create when status is canceled should create view model properly", () {
     // Given
     final userAction = mockUserAction(status: UserActionStatus.CANCELED);
 
     // When
-    final viewModel = UserActionViewModel.create(userAction);
+    final viewModel = UserActionCardViewModel.create(userAction);
 
     // Then
     expect(viewModel.status, UserActionStatus.CANCELED);
@@ -110,12 +110,12 @@ void main() {
     );
   });
 
-  test("UserActionViewModel.create when dateEcheance is in future should display it as on time", () {
+  test("UserActionCardViewModel.create when dateEcheance is in future should display it as on time", () {
     // Given
     final userAction = mockUserAction(dateEcheance: DateTime(2042, 1, 2), status: UserActionStatus.NOT_STARTED);
 
     // When
-    final viewModel = UserActionViewModel.create(userAction);
+    final viewModel = UserActionCardViewModel.create(userAction);
 
     // Then
     expect(
@@ -127,14 +127,14 @@ void main() {
     );
   });
 
-  test("UserActionViewModel.create when dateEcheance is today should display it as on time", () {
+  test("UserActionCardViewModel.create when dateEcheance is today should display it as on time", () {
     final today = DateTime(2022, 1, 2);
     withClock(Clock.fixed(today), () {
       // Given
       final userAction = mockUserAction(dateEcheance: today, status: UserActionStatus.IN_PROGRESS);
 
       // When
-      final viewModel = UserActionViewModel.create(userAction);
+      final viewModel = UserActionCardViewModel.create(userAction);
 
       // Then
       expect(
@@ -147,12 +147,12 @@ void main() {
     });
   });
 
-  test("UserActionViewModel.create when dateEcheance is in past should display it as late", () {
+  test("UserActionCardViewModel.create when dateEcheance is in past should display it as late", () {
     // Given
     final userAction = mockUserAction(dateEcheance: DateTime(2022, 1, 2), status: UserActionStatus.IN_PROGRESS);
 
     // When
-    final viewModel = UserActionViewModel.create(userAction);
+    final viewModel = UserActionCardViewModel.create(userAction);
 
     // Then
     expect(
@@ -167,23 +167,23 @@ void main() {
     );
   });
 
-  test("UserActionViewModel.create when status is DONE should not display date echeance", () {
+  test("UserActionCardViewModel.create when status is DONE should not display date echeance", () {
     // Given
     final userAction = mockUserAction(status: UserActionStatus.DONE);
 
     // When
-    final viewModel = UserActionViewModel.create(userAction);
+    final viewModel = UserActionCardViewModel.create(userAction);
 
     // Then
     expect(viewModel.dateEcheanceViewModel, isNull);
   });
 
-  test("UserActionViewModel.create when status is CANCELED should not display date echeance", () {
+  test("UserActionCardViewModel.create when status is CANCELED should not display date echeance", () {
     // Given
     final userAction = mockUserAction(status: UserActionStatus.CANCELED);
 
     // When
-    final viewModel = UserActionViewModel.create(userAction);
+    final viewModel = UserActionCardViewModel.create(userAction);
 
     // Then
     expect(viewModel.dateEcheanceViewModel, isNull);

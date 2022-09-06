@@ -3,11 +3,13 @@ import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_a
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
@@ -15,6 +17,32 @@ import '../../dsl/app_state_dsl.dart';
 import '../../utils/expects.dart';
 
 void main() {
+  test("UserActionViewModel.create when creator is jeune should create view model properly", () {
+    // Given
+    final store = givenState().withAction(mockUserAction(id: 'actionId', creator: JeuneActionCreator())).store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
+
+    // Then
+    expect(viewModel.creator, Strings.you);
+    expect(viewModel.withDeleteOption, true);
+  });
+
+  test("UserActionViewModel.create when creator is conseiller should create view model properly", () {
+    // Given
+    final store = givenState()
+        .withAction(mockUserAction(id: 'actionId', creator: ConseillerActionCreator(name: 'Nils Tavernier')))
+        .store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
+
+    // Then
+    expect(viewModel.creator, 'Nils Tavernier');
+    expect(viewModel.withDeleteOption, false);
+  });
+
   group("create when update action...", () {
     test("set status to NOT_STARTED should dismiss bottom sheet", () {
       // Given
@@ -235,20 +263,6 @@ void main() {
     // Then
     expect(store.dispatchedAction, isA<UserActionDeleteRequestAction>());
     expect((store.dispatchedAction as UserActionDeleteRequestAction).actionId, 'actionId');
-  });
-
-  test('deleteFromList should dispatch UserActionDeleteFromListAction', () async {
-    // Given
-    final store = StoreSpy.withState(givenState().withAction(mockUserAction(id: 'actionId')));
-    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
-
-    // When
-    viewModel.deleteFromList('actionId');
-
-    // Then
-    await Future.delayed(Duration(milliseconds: 350));
-    expect(store.dispatchedAction, isA<UserActionDeleteFromListAction>());
-    expect((store.dispatchedAction as UserActionDeleteFromListAction).actionId, 'actionId');
   });
 
   test('resetUpdateStatus should dispatch UserActionUpdateResetAction', () {

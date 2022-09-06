@@ -371,14 +371,14 @@ class _ActionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, UserActionViewModel>(
+    return StoreConnector<AppState, UserActionCardViewModel>(
       builder: (context, viewModel) => _card(context, viewModel),
-      converter: (store) => UserActionViewModel.createFromAgendaState(store, id),
+      converter: (store) => UserActionCardViewModel.createFromAgendaState(store, id),
       distinct: true,
     );
   }
 
-  Widget _card(BuildContext context, UserActionViewModel viewModel) {
+  Widget _card(BuildContext context, UserActionCardViewModel viewModel) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
       child: UserActionCard(
