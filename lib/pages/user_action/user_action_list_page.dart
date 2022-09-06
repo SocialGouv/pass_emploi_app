@@ -6,9 +6,9 @@ import 'package:pass_emploi_app/features/user_action/list/user_action_list_actio
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_list_page_view_model.dart';
-import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';

@@ -1,40 +1,15 @@
 import 'package:clock/clock.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
-import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
-import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
 import '../../doubles/fixtures.dart';
 
 void main() {
-  test("UserActionCardViewModel.create when creator is jeune should create view model properly", () {
-    // Given
-    final userAction = mockUserAction(creator: JeuneActionCreator());
-
-    // When
-    final viewModel = UserActionCardViewModel.create(userAction);
-
-    // Then
-    expect(viewModel.creator, Strings.you);
-    expect(viewModel.withDeleteOption, true);
-  });
-
-  test("UserActionCardViewModel.create when creator is conseiller should create view model properly", () {
-    // Given
-    final userAction = mockUserAction(creator: ConseillerActionCreator(name: "Nils Tavernier"));
-
-    // When
-    final viewModel = UserActionCardViewModel.create(userAction);
-
-    // Then
-    expect(viewModel.creator, "Nils Tavernier");
-    expect(viewModel.withDeleteOption, false);
-  });
-
   test("UserActionCardViewModel.create when status is done should create view model properly", () {
     // Given
     final userAction = mockUserAction(status: UserActionStatus.DONE);
@@ -43,7 +18,6 @@ void main() {
     final viewModel = UserActionCardViewModel.create(userAction);
 
     // Then
-    expect(viewModel.status, UserActionStatus.DONE);
     expect(
       viewModel.tag,
       UserActionTagViewModel(
@@ -62,7 +36,6 @@ void main() {
     final viewModel = UserActionCardViewModel.create(userAction);
 
     // Then
-    expect(viewModel.status, UserActionStatus.NOT_STARTED);
     expect(
         viewModel.tag,
         UserActionTagViewModel(
@@ -80,7 +53,6 @@ void main() {
     final viewModel = UserActionCardViewModel.create(userAction);
 
     // Then
-    expect(viewModel.status, UserActionStatus.IN_PROGRESS);
     expect(
       viewModel.tag,
       UserActionTagViewModel(
@@ -99,7 +71,6 @@ void main() {
     final viewModel = UserActionCardViewModel.create(userAction);
 
     // Then
-    expect(viewModel.status, UserActionStatus.CANCELED);
     expect(
       viewModel.tag,
       UserActionTagViewModel(

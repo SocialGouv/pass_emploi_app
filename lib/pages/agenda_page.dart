@@ -10,8 +10,8 @@ import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
 import 'package:pass_emploi_app/presentation/agenda/agenda_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
-import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -362,7 +362,6 @@ extension _RendezvousCard on RendezvousEventAgenda {
 }
 
 // todo Refactoring (low) : mutualiser, onTap en param ?
-
 class _ActionCard extends StatelessWidget {
   final String id;
   final bool simpleCard;

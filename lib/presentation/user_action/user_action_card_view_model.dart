@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
-import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -27,22 +26,16 @@ class UserActionCardViewModel extends Equatable {
   final String title;
   final String subtitle;
   final bool withSubtitle;
-  final UserActionStatus status;
   final UserActionDateEcheanceViewModel? dateEcheanceViewModel;
-  final String creator;
   final UserActionTagViewModel? tag;
-  final bool withDeleteOption;
 
   UserActionCardViewModel({
     required this.id,
     required this.title,
     required this.subtitle,
     required this.withSubtitle,
-    required this.status,
     required this.dateEcheanceViewModel,
-    required this.creator,
     required this.tag,
-    required this.withDeleteOption,
   });
 
   // todo Tests (low) avec une façon élégeante de faire 2-en-1
@@ -61,11 +54,8 @@ class UserActionCardViewModel extends Equatable {
       title: userAction.content,
       subtitle: userAction.comment,
       withSubtitle: userAction.comment.isNotEmpty,
-      status: userAction.status,
       dateEcheanceViewModel: _dateEcheanceViewModel(userAction, isLate),
-      creator: _displayName(userAction.creator),
       tag: _userActionTagViewModel(userAction.status),
-      withDeleteOption: userAction.creator is! ConseillerActionCreator,
     );
   }
 
@@ -75,14 +65,9 @@ class UserActionCardViewModel extends Equatable {
         title,
         subtitle,
         withSubtitle,
-        status,
-        creator,
         tag,
-        withDeleteOption,
       ];
 }
-
-String _displayName(UserActionCreator creator) => creator is ConseillerActionCreator ? creator.name : Strings.you;
 
 UserActionDateEcheanceViewModel? _dateEcheanceViewModel(UserAction userAction, bool isLate) {
   if ([UserActionStatus.DONE, UserActionStatus.CANCELED].contains(userAction.status)) return null;
