@@ -50,6 +50,7 @@ class UserActionDetailPage extends StatefulWidget {
 class _ActionDetailPageState extends State<UserActionDetailPage> {
   late UserActionViewModel actionViewModel;
   late UserActionStatus status;
+  var _noComments = false;
 
   @override
   void initState() {
@@ -71,7 +72,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
           },
           converter: (store) => UserActionDetailsViewModel.create(store, actionViewModel.id, widget.source),
           builder: (context, detailsViewModel) => _build(context, detailsViewModel),
-          onDidChange: (previousVm, newVm) => _pageNavigationHandling(context, newVm),
+          onDidChange: (_, viewModel) => _pageNavigationHandling(context, viewModel),
           distinct: true,
         ),
       ),
@@ -117,7 +118,11 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
                       SizedBox(height: Margins.spacing_xl),
                       _Separator(),
                       SizedBox(height: Margins.spacing_base),
-                      _CommentCard(actionId: actionViewModel.id, actionTitle: actionViewModel.title),
+                      _CommentCard(
+                        actionId: actionViewModel.id,
+                        actionTitle: actionViewModel.title,
+                        onSetComments: (value) => _setComments(value),
+                      ),
                       SizedBox(height: Margins.spacing_l),
                       _Separator(),
                       SizedBox(height: Margins.spacing_base),
@@ -136,11 +141,8 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
                 label: Strings.refreshActionStatus,
               ),
             ),
-            if (actionViewModel.withDeleteOption)
-              _DeleteAction(
-                viewModel: detailsViewModel,
-                onDeleteAction: _onDeleteAction,
-              ),
+            if (actionViewModel.withDeleteOption && _noComments)
+              _DeleteAction(viewModel: detailsViewModel, onDeleteAction: _onDeleteAction),
           ],
         ),
         if (_isLoading(detailsViewModel)) LoadingOverlay(),
@@ -151,6 +153,10 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
   bool _isLoading(UserActionDetailsViewModel detailsViewModel) {
     return detailsViewModel.updateDisplayState == UpdateDisplayState.SHOW_LOADING ||
         detailsViewModel.deleteDisplayState == DeleteDisplayState.SHOW_LOADING;
+  }
+
+  void _setComments(bool noComments) {
+    setState(() => _noComments = noComments);
   }
 
   void _onDeleteAction(UserActionDetailsViewModel detailsViewModel) {
@@ -336,8 +342,9 @@ class _DeleteAction extends StatelessWidget {
 class _CommentCard extends StatelessWidget {
   final String actionId;
   final String actionTitle;
+  final Function(bool) onSetComments;
 
-  _CommentCard({required this.actionId, required this.actionTitle});
+  _CommentCard({required this.actionId, required this.actionTitle, required this.onSetComments});
 
   @override
   Widget build(BuildContext context) {
@@ -345,6 +352,7 @@ class _CommentCard extends StatelessWidget {
       onInit: (store) => store.dispatch(ActionCommentaireListRequestAction(actionId)),
       converter: (store) => ActionCommentaireViewModel.create(store, actionId),
       builder: (context, viewModel) => _build(context, viewModel),
+      onDidChange: (_, viewModel) => onSetComments(viewModel.comments.isEmpty),
       distinct: true,
     );
   }
