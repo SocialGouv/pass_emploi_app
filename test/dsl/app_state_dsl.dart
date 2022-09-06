@@ -54,6 +54,8 @@ extension AppStateDSL on AppState {
 
   AppState loggedInPoleEmploiUser() => copyWith(loginState: successPoleEmploiUserState());
 
+  AppState withDemoMode() => copyWith(demoState: true);
+
   AppState rendezvous(List<Rendezvous> rendezvous) => copyWith(rendezvousState: RendezvousState.successful(rendezvous));
 
   AppState rendezvousNotInitialized() => copyWith(rendezvousState: RendezvousState.notInitialized());

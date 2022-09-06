@@ -17,42 +17,38 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/pass_emploi_tab_bar.dart';
 
 class MonSuiviTabPage extends StatefulWidget {
-  final MonSuiviViewModel viewModel;
+  final MonSuiviTab? initialTab;
 
-  MonSuiviTabPage({required this.viewModel}) : super();
+  MonSuiviTabPage([this.initialTab]) : super();
 
   @override
   State<MonSuiviTabPage> createState() => _MonSuiviTabPageState();
 }
 
 class _MonSuiviTabPageState extends State<MonSuiviTabPage> with SingleTickerProviderStateMixin {
-  late TabController tabController;
-  late int _currentTab;
-
-  @override
-  void initState() {
-    super.initState();
-    tabController = TabController(
-      vsync: this,
-      length: widget.viewModel.tabs.length,
-      initialIndex: widget.viewModel.initialIndex(),
-    );
-    _currentTab = widget.viewModel.initialIndex();
-    _trackTabIfNeeded(context);
-  }
+  TabController? _tabController;
+  int? _currentTab;
 
   @override
   void dispose() {
-    tabController.dispose();
+    _tabController?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final store = StoreProvider.of<AppState>(context);
+    return StoreConnector<AppState, MonSuiviViewModel>(
+      converter: (store) => MonSuiviViewModel.create(store, widget.initialTab),
+      builder: (context, viewModel) => _scaffold(viewModel),
+      distinct: true,
+    );
+  }
+
+  Scaffold _scaffold(MonSuiviViewModel viewModel) {
+    _initializeTabController(viewModel);
     return Scaffold(
       backgroundColor: AppColors.grey100,
-      appBar: store.state.demoState ? passEmploiAppBar(label: null, context: context) : null,
+      appBar: viewModel.isModeDemo ? passEmploiAppBar(label: null, context: context) : null,
       body: SafeArea(
         child: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -70,32 +66,45 @@ class _MonSuiviTabPageState extends State<MonSuiviTabPage> with SingleTickerProv
               ),
             ];
           },
-          body: _getBody(),
+          body: _getBody(viewModel),
         ),
       ),
     );
   }
 
-  void _trackTabIfNeeded(BuildContext context) {
-    tabController.addListener(() {
-      if (tabController.index != _currentTab) {
-        setState(() => _currentTab = tabController.index);
-        _currentTab = tabController.index;
-        if (tabController.index == widget.viewModel.indexOfTab(MonSuiviTab.ACTIONS) ||
-            tabController.index == widget.viewModel.indexOfTab(MonSuiviTab.DEMARCHE)) {
+  void _initializeTabController(MonSuiviViewModel viewModel) {
+    if (_tabController == null) {
+      _tabController = TabController(
+        vsync: this,
+        length: viewModel.tabs.length,
+        initialIndex: viewModel.initialTabIndex,
+      );
+      _currentTab = viewModel.initialTabIndex;
+      _trackTabIfNeeded(viewModel);
+    }
+  }
+
+  void _trackTabIfNeeded(MonSuiviViewModel viewModel) {
+    if (_tabController == null) return;
+    _tabController!.addListener(() {
+      if (_tabController!.index != _currentTab) {
+        setState(() => _currentTab = _tabController!.index);
+        _currentTab = _tabController!.index;
+        if (_tabController!.index == viewModel.tabs.indexOf(MonSuiviTab.ACTIONS) ||
+            _tabController!.index == viewModel.tabs.indexOf(MonSuiviTab.DEMARCHE)) {
           context.trackEvent(EventType.ACTION_LISTE);
         }
       }
     });
   }
 
-  Widget _setTabContent() {
+  Widget _setTabContent(MonSuiviViewModel viewModel) {
     return TabBarView(
-      controller: tabController,
-      children: widget.viewModel.tabs.map((tab) {
+      controller: _tabController,
+      children: viewModel.tabs.map((tab) {
         switch (tab) {
           case MonSuiviTab.AGENDA:
-            return AgendaPage(() => tabController.animateTo(1));
+            return AgendaPage(() => _tabController?.animateTo(1));
           case MonSuiviTab.ACTIONS:
             return UserActionListPage();
           case MonSuiviTab.DEMARCHE:
@@ -107,14 +116,14 @@ class _MonSuiviTabPageState extends State<MonSuiviTabPage> with SingleTickerProv
     );
   }
 
-  Widget _getBody() {
+  Widget _getBody(MonSuiviViewModel viewModel) {
     return Column(
       children: [
         PassEmploiTabBar(
-          controller: tabController,
-          tabLabels: widget.viewModel.tabTitles(),
+          controller: _tabController,
+          tabLabels: viewModel.tabTitles,
         ),
-        Expanded(child: _setTabContent()),
+        Expanded(child: _setTabContent(viewModel)),
       ],
     );
   }
