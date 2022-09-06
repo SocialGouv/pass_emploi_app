@@ -71,7 +71,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
           },
           converter: (store) => UserActionDetailsViewModel.create(store, actionViewModel.id, widget.source),
           builder: (context, detailsViewModel) => _build(context, detailsViewModel),
-          onDidChange: (previousVm, newVm) => _pageNavigationHandling(context, newVm),
+          onDidChange: (_, viewModel) => _pageNavigationHandling(context, viewModel),
           distinct: true,
         ),
       ),
@@ -136,11 +136,8 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
                 label: Strings.refreshActionStatus,
               ),
             ),
-            if (actionViewModel.withDeleteOption)
-              _DeleteAction(
-                viewModel: detailsViewModel,
-                onDeleteAction: _onDeleteAction,
-              ),
+            if (actionViewModel.withDeleteOption && !detailsViewModel.withComments)
+              _DeleteAction(viewModel: detailsViewModel, onDeleteAction: _onDeleteAction),
           ],
         ),
         if (_isLoading(detailsViewModel)) LoadingOverlay(),

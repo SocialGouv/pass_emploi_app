@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
+import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
@@ -47,6 +48,7 @@ class UserActionDetailsViewModel extends Equatable {
   final Function() resetUpdateStatus;
   final UpdateDisplayState updateDisplayState;
   final DeleteDisplayState deleteDisplayState;
+  final bool withComments;
 
   UserActionDetailsViewModel._({
     required this.dateEcheanceViewModel,
@@ -56,6 +58,7 @@ class UserActionDetailsViewModel extends Equatable {
     required this.resetUpdateStatus,
     required this.updateDisplayState,
     required this.deleteDisplayState,
+    required this.withComments,
   });
 
   // tests pour la source agenda
@@ -83,6 +86,8 @@ class UserActionDetailsViewModel extends Equatable {
   factory UserActionDetailsViewModel.createWithAction(UserAction? userAction, Store<AppState> store) {
     final updateState = store.state.userActionUpdateState;
     final deleteState = store.state.userActionDeleteState;
+    final commentsState = store.state.actionCommentaireListState;
+    final successCommentsState = commentsState is ActionCommentaireListSuccessState;
     return UserActionDetailsViewModel._(
       dateEcheanceViewModel: _dateEcheanceViewModel(userAction),
       onRefreshStatus: (actionId, newStatus) => _refreshStatus(store, actionId, newStatus),
@@ -91,11 +96,12 @@ class UserActionDetailsViewModel extends Equatable {
       resetUpdateStatus: () => store.dispatch(UserActionUpdateResetAction()),
       updateDisplayState: _updateStateDisplayState(updateState),
       deleteDisplayState: _deleteStateDisplayState(deleteState),
+      withComments: successCommentsState ? commentsState.comments.isNotEmpty : false,
     );
   }
 
   @override
-  List<Object?> get props => [dateEcheanceViewModel, updateDisplayState, deleteDisplayState];
+  List<Object?> get props => [dateEcheanceViewModel, updateDisplayState, deleteDisplayState, withComments];
 }
 
 UserActionDetailDateEcheanceViewModel? _dateEcheanceViewModel(UserAction? userAction) {
