@@ -33,16 +33,6 @@ class UserActionListPage extends StatefulWidget {
 
 class _UserActionListPageState extends State<UserActionListPage> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Tracker(
       tracking: AnalyticsScreenNames.userActionList,
@@ -63,7 +53,7 @@ class _UserActionListPageState extends State<UserActionListPage> {
     if (viewModel.actionDetails != null) {
       Navigator.push(
         context,
-        UserActionDetailPage.materialPageRoute(viewModel.actionDetails!, StateSource.userActions),
+        UserActionDetailPage.materialPageRoute(viewModel.actionDetails!.id, StateSource.userActions),
       );
       viewModel.onDeeplinkUsed();
     }
@@ -162,7 +152,7 @@ class _ActionCard extends StatelessWidget {
         context.trackEvent(EventType.ACTION_DETAIL);
         Navigator.push(
           context,
-          UserActionDetailPage.materialPageRoute(viewModel, StateSource.userActions),
+          UserActionDetailPage.materialPageRoute(viewModel.id, StateSource.userActions),
         );
       },
       viewModel: viewModel,

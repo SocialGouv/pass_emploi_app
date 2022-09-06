@@ -31,9 +31,9 @@ import 'package:pass_emploi_app/widgets/empty_page.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 class AgendaPage extends StatelessWidget {
-  final TabController tabController;
+  final Function() onActionDelayedTap;
 
-  AgendaPage(this.tabController);
+  AgendaPage(this.onActionDelayedTap);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class AgendaPage extends StatelessWidget {
       tracking: AnalyticsScreenNames.agenda,
       child: StoreConnector<AppState, AgendaPageViewModel>(
         onInit: (store) => store.dispatch(AgendaRequestAction(DateTime.now())),
-        builder: (context, viewModel) => _Scaffold(viewModel: viewModel, tabController: tabController),
+        builder: (context, viewModel) => _Scaffold(viewModel: viewModel, onActionDelayedTap: onActionDelayedTap),
         converter: (store) => AgendaPageViewModel.create(store),
         distinct: true,
       ),
@@ -51,16 +51,16 @@ class AgendaPage extends StatelessWidget {
 
 class _Scaffold extends StatelessWidget {
   final AgendaPageViewModel viewModel;
-  final TabController tabController;
+  final Function() onActionDelayedTap;
 
-  const _Scaffold({Key? key, required this.viewModel, required this.tabController}) : super(key: key);
+  const _Scaffold({Key? key, required this.viewModel, required this.onActionDelayedTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.grey100,
       body: Stack(children: [
-        DefaultAnimatedSwitcher(child: _Body(viewModel: viewModel, tabController: tabController)),
+        DefaultAnimatedSwitcher(child: _Body(viewModel: viewModel, onActionDelayedTap: onActionDelayedTap)),
         _CreateActionButton(resetCreateAction: viewModel.resetCreateAction),
       ]),
     );
@@ -94,9 +94,9 @@ class _CreateActionButton extends StatelessWidget {
 
 class _Body extends StatelessWidget {
   final AgendaPageViewModel viewModel;
-  final TabController tabController;
+  final Function() onActionDelayedTap;
 
-  const _Body({Key? key, required this.viewModel, required this.tabController}) : super(key: key);
+  const _Body({Key? key, required this.viewModel, required this.onActionDelayedTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +104,7 @@ class _Body extends StatelessWidget {
       case DisplayState.LOADING:
         return Center(child: CircularProgressIndicator());
       case DisplayState.CONTENT:
-        return _Content(viewModel: viewModel, tabController: tabController);
+        return _Content(viewModel: viewModel, onActionDelayedTap: onActionDelayedTap);
       case DisplayState.EMPTY:
         return Empty(description: Strings.agendaEmpty);
       case DisplayState.FAILURE:
@@ -130,9 +130,9 @@ class _Retry extends StatelessWidget {
 
 class _Content extends StatelessWidget {
   final AgendaPageViewModel viewModel;
-  final TabController tabController;
+  final Function() onActionDelayedTap;
 
-  const _Content({Key? key, required this.viewModel, required this.tabController}) : super(key: key);
+  const _Content({Key? key, required this.viewModel, required this.onActionDelayedTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +143,7 @@ class _Content extends StatelessWidget {
         itemCount: viewModel.events.length,
         itemBuilder: (context, index) {
           final item = viewModel.events[index];
-          if (item is DelayedActionsBanner) return _DelayedActionsBanner(item, tabController);
+          if (item is DelayedActionsBanner) return _DelayedActionsBanner(item, onActionDelayedTap);
           if (item is CurrentWeekAgendaItem) return _CurrentWeek(item.days);
           if (item is NextWeekAgendaItem) return _NextWeek(item.events);
           return SizedBox(height: 0);
@@ -155,9 +155,9 @@ class _Content extends StatelessWidget {
 
 class _DelayedActionsBanner extends StatelessWidget {
   final DelayedActionsBanner banner;
-  final TabController tabController;
+  final Function() onActionDelayedTap;
 
-  _DelayedActionsBanner(this.banner, this.tabController);
+  _DelayedActionsBanner(this.banner, this.onActionDelayedTap);
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +169,7 @@ class _DelayedActionsBanner extends StatelessWidget {
         child: Material(
           type: MaterialType.transparency,
           child: InkWell(
-            onTap: () => tabController.animateTo(1),
+            onTap: onActionDelayedTap,
             splashColor: AppColors.primaryLighten,
             child: Padding(
               padding: const EdgeInsets.all(Margins.spacing_base),
@@ -388,7 +388,7 @@ class _ActionCard extends StatelessWidget {
           context.trackEvent(EventType.ACTION_DETAIL);
           Navigator.push(
             context,
-            UserActionDetailPage.materialPageRoute(viewModel, StateSource.agenda),
+            UserActionDetailPage.materialPageRoute(viewModel.id, StateSource.agenda),
           );
         },
       ),

@@ -95,7 +95,7 @@ class _MonSuiviTabPageState extends State<MonSuiviTabPage> with SingleTickerProv
       children: widget.viewModel.tabs.map((tab) {
         switch (tab) {
           case MonSuiviTab.AGENDA:
-            return AgendaPage(tabController);
+            return AgendaPage(() => tabController.animateTo(1));
           case MonSuiviTab.ACTIONS:
             return UserActionListPage();
           case MonSuiviTab.DEMARCHE:

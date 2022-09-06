@@ -12,12 +12,6 @@ class UserActionDeleteSuccessAction {
   UserActionDeleteSuccessAction(this.actionId);
 }
 
-class UserActionDeleteFromListAction {
-  final String actionId;
-
-  UserActionDeleteFromListAction(this.actionId);
-}
-
 class UserActionDeleteFailureAction {}
 
 class UserActionDeleteResetAction {}

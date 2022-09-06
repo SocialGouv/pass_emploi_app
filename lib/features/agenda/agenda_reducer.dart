@@ -8,12 +8,12 @@ AgendaState agendaReducer(AgendaState current, dynamic action) {
   if (action is AgendaRequestAction) return AgendaLoadingState();
   if (action is AgendaRequestFailureAction) return AgendaFailureState();
   if (action is AgendaRequestSuccessAction) return AgendaSuccessState(action.agenda);
-  if (action is UserActionDeleteFromListAction) return _listWithDeletedAction(current, action);
+  if (action is UserActionDeleteSuccessAction) return _listWithDeletedAction(current, action);
   if (action is UserActionUpdateSuccessAction) return _listWithUpdatedAction(current, action);
   return current;
 }
 
-AgendaState _listWithDeletedAction(AgendaState current, UserActionDeleteFromListAction action) {
+AgendaState _listWithDeletedAction(AgendaState current, UserActionDeleteSuccessAction action) {
   if (current is! AgendaSuccessState) return current;
   final newActions = current.agenda.actions.where((e) => e.id != action.actionId).toList();
   final newAgenda = current.agenda.copyWith(actions: newActions);
