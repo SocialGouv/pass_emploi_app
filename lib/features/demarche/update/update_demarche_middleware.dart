@@ -1,5 +1,3 @@
-import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
-import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -17,25 +15,14 @@ class UpdateDemarcheMiddleware extends MiddlewareClass<AppState> {
     final loginState = store.state.loginState;
     if (loginState is LoginSuccessState && action is UpdateDemarcheRequestAction) {
       store.dispatch(UpdateDemarcheLoadingAction());
-      final modifiedDemarche = await _repository.updateDemarche(
+      final demarche = await _repository.updateDemarche(
         loginState.user.id,
         action.id,
         action.status,
         action.dateFin,
         action.dateDebut,
       );
-      if (modifiedDemarche != null) {
-        store.dispatch(UpdateDemarcheSuccessAction());
-        final demarcheListState = store.state.demarcheListState;
-        if (demarcheListState is DemarcheListSuccessState) {
-          final currentDemarches = demarcheListState.demarches.toList();
-          final indexOfCurrentDemarche = currentDemarches.indexWhere((e) => e.id == action.id);
-          currentDemarches[indexOfCurrentDemarche] = modifiedDemarche;
-          store.dispatch(DemarcheListSuccessAction(currentDemarches));
-        }
-      } else {
-        store.dispatch(UpdateDemarcheFailureAction());
-      }
+      store.dispatch(demarche != null ? UpdateDemarcheSuccessAction(demarche) : UpdateDemarcheFailureAction());
     }
   }
 }

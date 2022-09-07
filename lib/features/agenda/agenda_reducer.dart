@@ -1,7 +1,9 @@
 import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
+import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
+import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 
 AgendaState agendaReducer(AgendaState current, dynamic action) {
@@ -10,6 +12,7 @@ AgendaState agendaReducer(AgendaState current, dynamic action) {
   if (action is AgendaRequestSuccessAction) return AgendaSuccessState(action.agenda);
   if (action is UserActionDeleteSuccessAction) return _listWithDeletedAction(current, action);
   if (action is UserActionUpdateSuccessAction) return _listWithUpdatedAction(current, action);
+  if (action is UpdateDemarcheSuccessAction) return _listWithUpdatedDemarches(current, action.modifiedDemarche);
   return current;
 }
 
@@ -24,5 +27,14 @@ AgendaState _listWithUpdatedAction(AgendaState current, UserActionUpdateSuccessA
   if (current is! AgendaSuccessState) return current;
   final newActions = current.agenda.actions.withUpdatedAction(action.actionId, action.newStatus);
   final newAgenda = current.agenda.copyWith(actions: newActions);
+  return AgendaSuccessState(newAgenda);
+}
+
+AgendaState _listWithUpdatedDemarches(AgendaState current, Demarche modifiedDemarche) {
+  if (current is! AgendaSuccessState) return current;
+  final currentDemarches = current.agenda.demarches.toList();
+  final indexOfCurrentDemarche = currentDemarches.indexWhere((e) => e.id == modifiedDemarche.id);
+  currentDemarches[indexOfCurrentDemarche] = modifiedDemarche;
+  final newAgenda = current.agenda.copyWith(demarches: currentDemarches);
   return AgendaSuccessState(newAgenda);
 }
