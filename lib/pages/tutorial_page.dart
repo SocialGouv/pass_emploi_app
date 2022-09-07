@@ -194,29 +194,27 @@ class _TutorialContentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(Margins.spacing_m),
-      child: Wrap(
-        children: [
-          Material(
-            elevation: 8,
-            borderRadius: BorderRadius.circular(8),
-            child: DecoratedBox(
-              decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
-              child: Padding(
-                padding: const EdgeInsets.all(Margins.spacing_m),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _Animation(image: image),
-                    SizedBox(height: Margins.spacing_base),
-                    Text(title, style: TextStyles.textMBold.copyWith(color: AppColors.primary)),
-                    SizedBox(height: Margins.spacing_base),
-                    Text(description, style: TextStyles.textBaseRegular),
-                  ],
-                ),
+      child: Material(
+        elevation: 8,
+        borderRadius: BorderRadius.circular(8),
+        child: DecoratedBox(
+          decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(8)),
+          child: Padding(
+            padding: const EdgeInsets.all(Margins.spacing_m),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _Animation(image: image),
+                  SizedBox(height: Margins.spacing_base),
+                  Text(title, style: TextStyles.textMBold.copyWith(color: AppColors.primary)),
+                  SizedBox(height: Margins.spacing_base),
+                  Text(description, style: TextStyles.textBaseRegular),
+                ],
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }
