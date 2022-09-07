@@ -35,15 +35,14 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
+  bool _deepLinkHandled = false;
   late int _selectedIndex;
-  late bool _displayMonSuiviOnRendezvousTab;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _selectedIndex = _setInitIndexPage();
-    _displayMonSuiviOnRendezvousTab = widget.displayState == MainPageDisplayState.RENDEZVOUS_TAB;
   }
 
   @override
@@ -112,8 +111,8 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   Widget _content(int index, MainPageViewModel viewModel) {
     switch (index) {
       case _indexOfMonSuiviPage:
-        final initialTab = _displayMonSuiviOnRendezvousTab ? MonSuiviTab.RENDEZVOUS : null;
-        _displayMonSuiviOnRendezvousTab = false;
+        final initialTab = !_deepLinkHandled ? _initialTab() : null;
+        _deepLinkHandled = true;
         return MonSuiviTabPage(
           viewModel: MonSuiviViewModel.create(isPoleEmploiLogin: viewModel.isPoleEmploiLogin, initialTab: initialTab),
         );
@@ -127,6 +126,17 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         return ProfilPage();
       default:
         return MonSuiviTabPage(viewModel: MonSuiviViewModel.create(isPoleEmploiLogin: viewModel.isPoleEmploiLogin));
+    }
+  }
+
+  MonSuiviTab? _initialTab() {
+    switch (widget.displayState) {
+      case MainPageDisplayState.ACTIONS_TAB:
+        return MonSuiviTab.ACTIONS;
+      case MainPageDisplayState.RENDEZVOUS_TAB:
+        return MonSuiviTab.RENDEZVOUS;
+      default:
+        return null;
     }
   }
 

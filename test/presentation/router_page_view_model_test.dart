@@ -3,9 +3,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
-import 'package:pass_emploi_app/models/version.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/models/tutorial.dart';
+import 'package:pass_emploi_app/models/version.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/router_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
@@ -57,16 +57,6 @@ void main() {
   });
 
   group("RouterPageViewModel.create when user logged in…", () {
-    test('via Pole Emploi should redirect to Action Page', () {
-      final state = AppState.initialState().copyWith(loginState: successPoleEmploiUserState());
-      final store = Store<AppState>(reducer, initialState: state);
-
-      final viewModel = RouterPageViewModel.create(store, Platform.ANDROID);
-
-      expect(viewModel.routerPageDisplayState, RouterPageDisplayState.MAIN);
-      expect(viewModel.mainPageDisplayState, MainPageDisplayState.ACTIONS_TAB);
-    });
-
     test('…and deep link not set should display main page with default display state', () {
       final state = AppState.initialState().copyWith(
         loginState: successMiloUserState(),
