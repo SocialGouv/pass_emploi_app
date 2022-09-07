@@ -7,6 +7,16 @@ class Tutorial extends Equatable {
 
   static List<Tutorial> milo = [
     Tutorial._(
+      title: Strings.tutoTitreOffreDebutant,
+      description: Strings.tutoDescriptionOffreDebutant,
+      image: Drawables.icTutoOffreDebutant,
+    ),
+    Tutorial._(
+      title: Strings.tutoTitreOffrePartage,
+      description: Strings.tutoDescriptionOffrePartage,
+      image: Drawables.icTutoOffrePartager,
+    ),
+    Tutorial._(
       title: Strings.tutoTitleActionComments,
       description: Strings.tutoDescriptionActionComments,
       image: Drawables.icTutoActionComment,
@@ -24,6 +34,16 @@ class Tutorial extends Equatable {
   ];
 
   static List<Tutorial> poleEmploi = [
+    Tutorial._(
+      title: Strings.tutoTitreOffreDebutant,
+      description: Strings.tutoDescriptionOffreDebutant,
+      image: Drawables.icTutoOffreDebutant,
+    ),
+    Tutorial._(
+      title: Strings.tutoTitreOffrePartage,
+      description: Strings.tutoDescriptionOffrePartage,
+      image: Drawables.icTutoOffrePartager,
+    ),
     Tutorial._(
       title: Strings.tutoTitreCreationDemarches,
       description: Strings.tutoDescriptionCreationDemarches,
