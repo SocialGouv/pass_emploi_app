@@ -26,10 +26,6 @@ void main() {
     id: "action 22/08 11h",
     dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-22T11:00:00.000Z"),
   );
-  final rendezvousLundiMatin = rendezvousStub(
-    id: "rendezvous 22/08 15h",
-    date: DateTime(2022, 8, 22, 15),
-  );
   final actionMardiMatin = userActionStub(
     id: "action 23/08 08h",
     dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-23T08:00:00.000Z"),
@@ -42,15 +38,33 @@ void main() {
     id: "action 27/08 08h",
     dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-27T08:00:00.000Z"),
   );
+
+  final demarcheLundiMatin = demarcheStub(
+    id: "demarche 22/08 11h",
+    dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-22T11:00:00.000Z"),
+  );
+  final demarcheVendredi = demarcheStub(
+    id: "demarche 26/08 08h",
+    dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-26T08:00:00.000Z"),
+  );
+  final demarcheSamediProchain = demarcheStub(
+    id: "demarche 27/08 08h",
+    dateEcheance: parseDateTimeUtcWithCurrentTimeZone("2022-08-27T08:00:00.000Z"),
+  );
+
+  final rendezvousLundiMatin = rendezvousStub(
+    id: "rendezvous 22/08 15h",
+    date: DateTime(2022, 8, 22, 15),
+  );
   final rendezvousLundiProchain = rendezvousStub(
     id: "rendezvous 30/08 15h",
     date: DateTime(2022, 8, 30, 15),
   );
 
   group('display state', () {
-    test('should be loading on notinit state', () {
+    test('should be loading on not initialize state', () {
       // Given
-      final store = givenState().loggedInUser().copyWith(agendaState: AgendaNotInitializedState()).store();
+      final store = givenState().loggedInMiloUser().copyWith(agendaState: AgendaNotInitializedState()).store();
 
       // When
       final viewModel = AgendaPageViewModel.create(store);
@@ -58,9 +72,10 @@ void main() {
       // Then
       expect(viewModel.displayState, DisplayState.LOADING);
     });
+
     test('should be loading on loading state', () {
       // Given
-      final store = givenState().loggedInUser().copyWith(agendaState: AgendaLoadingState()).store();
+      final store = givenState().loggedInMiloUser().copyWith(agendaState: AgendaLoadingState()).store();
 
       // When
       final viewModel = AgendaPageViewModel.create(store);
@@ -71,7 +86,7 @@ void main() {
 
     test('should be failure on failure state', () {
       // Given
-      final store = givenState().loggedInUser().copyWith(agendaState: AgendaFailureState()).store();
+      final store = givenState().loggedInMiloUser().copyWith(agendaState: AgendaFailureState()).store();
 
       // When
       final viewModel = AgendaPageViewModel.create(store);
@@ -82,7 +97,7 @@ void main() {
 
     test('should be empty on success state without content', () {
       // Given
-      final store = givenState().loggedInUser().emptyAgenda().store();
+      final store = givenState().loggedInMiloUser().emptyAgenda().store();
 
       // When
       final viewModel = AgendaPageViewModel.create(store);
@@ -93,7 +108,7 @@ void main() {
 
     test('should be content on success state with content', () {
       // Given
-      final store = givenState().loggedInUser().agenda(actions: [userActionStub()]).store();
+      final store = givenState().loggedInMiloUser().agenda(actions: [userActionStub()]).store();
 
       // When
       final viewModel = AgendaPageViewModel.create(store);
@@ -106,7 +121,7 @@ void main() {
   group('events', () {
     test('should have delayed item at first position when there are some delayed actions', () {
       // Given
-      final store = givenState().loggedInUser().agenda(delayedActions: 7).store();
+      final store = givenState().loggedInMiloUser().agenda(delayedActions: 7).store();
 
       // When
       final viewModel = AgendaPageViewModel.create(store);
@@ -117,7 +132,7 @@ void main() {
 
     test('should not have delayed item if there isn\'t delayed any actions', () {
       // Given
-      final store = givenState().loggedInUser().agenda(delayedActions: 0).store();
+      final store = givenState().loggedInMiloUser().agenda(delayedActions: 0).store();
 
       // When
       final viewModel = AgendaPageViewModel.create(store);
@@ -126,11 +141,28 @@ void main() {
       expect(viewModel.events.firstWhereOrNull((item) => item is DelayedActionsBannerAgendaItem), null);
     });
 
+    test('should retry fetching agenda', () {
+      // Given
+      final date = DateTime(2042);
+      final store = StoreSpy();
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // When
+      viewModel.retry(date);
+
+      // Then
+      expectTypeThen<AgendaRequestAction>(store.dispatchedAction, (action) {
+        expect(action.maintenant, DateTime(2042));
+      });
+    });
+  });
+
+  group('events for Mission Locale', () {
     test('have both actions and rendezvous', () {
       // Given
       final actions = [userActionStub(), userActionStub()];
       final rendezvous = [rendezvousStub(), rendezvousStub(), rendezvousStub()];
-      final store = givenState().loggedInUser().agenda(actions: actions, rendezvous: rendezvous).store();
+      final store = givenState().loggedInMiloUser().agenda(actions: actions, rendezvous: rendezvous).store();
 
       // When
       final viewModel = AgendaPageViewModel.create(store);
@@ -143,7 +175,7 @@ void main() {
       // Given
       final actions = [actionLundiMatin, actionMardiMatin, actionSamediProchain];
       final rendezvous = [rendezvousLundiMatin];
-      final store = givenState().loggedInUser().agenda(actions: actions, rendezvous: rendezvous).store();
+      final store = givenState().loggedInMiloUser().agenda(actions: actions, rendezvous: rendezvous).store();
 
       // When
       final viewModel = AgendaPageViewModel.create(store);
@@ -164,7 +196,7 @@ void main() {
           final actions = [actionLundiMatin, actionMardiMatin, actionVendredi, actionSamediProchain];
           final rendezvous = [rendezvousLundiMatin, rendezvousLundiProchain];
           final store = givenState() //
-              .loggedInUser()
+              .loggedInMiloUser()
               .agenda(actions: actions, rendezvous: rendezvous, dateDeDebut: samedi20)
               .store();
 
@@ -196,7 +228,7 @@ void main() {
           final actions = [actionSamediMatin, actionLundiMatin, actionMardiMatin, actionVendredi, actionSamediProchain];
           final rendezvous = [rendezvousLundiMatin, rendezvousLundiProchain];
           final store = givenState() //
-              .loggedInUser()
+              .loggedInMiloUser()
               .agenda(actions: actions, rendezvous: rendezvous, dateDeDebut: samedi20)
               .store();
 
@@ -238,7 +270,7 @@ void main() {
           ];
           final rendezvous = [rendezvousLundiMatin, rendezvousLundiProchain];
           final store = givenState() //
-              .loggedInUser()
+              .loggedInMiloUser()
               .agenda(actions: actions, rendezvous: rendezvous, dateDeDebut: samedi20)
               .store();
 
@@ -274,7 +306,7 @@ void main() {
         final actions = [actionLundiMatin, actionMardiMatin, actionVendredi, actionSamediProchain];
         final rendezvous = [rendezvousLundiMatin, rendezvousLundiProchain];
         final store = givenState() //
-            .loggedInUser()
+            .loggedInMiloUser()
             .agenda(actions: actions, rendezvous: rendezvous, dateDeDebut: samedi20)
             .store();
 
@@ -303,20 +335,106 @@ void main() {
       // Then
       expect(store.dispatchedAction, isA<UserActionCreateResetAction>());
     });
+  });
 
-    test('should retry fetching agenda', () {
+  group('events for Pole Emploi', () {
+    test('have both demarches and rendezvous', () {
       // Given
-      final date = DateTime(2042);
+      final actions = [userActionStub(), userActionStub()];
+      final rendezvous = [rendezvousStub(), rendezvousStub(), rendezvousStub()];
+      final store = givenState().loggedInPoleEmploiUser().agenda(actions: actions, rendezvous: rendezvous).store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      _expectCount(items: viewModel.events, actions: 2, rendezvous: 3);
+    });
+
+    test('are sorted by date', () {
+      // Given
+      final demarches = [demarcheLundiMatin, demarcheVendredi, demarcheSamediProchain];
+      final rendezvous = [rendezvousLundiMatin];
+      final store = givenState().loggedInPoleEmploiUser().agenda(demarches: demarches, rendezvous: rendezvous).store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      _expectEvents(items: viewModel.events, ids: [
+        "demarche 22/08 11h",
+        "rendezvous 22/08 15h",
+        "demarche 26/08 08h",
+        "demarche 27/08 08h",
+      ]);
+    });
+
+    group('are grouped by week', () {
+      test('with date debut as first day', () {
+        // Given
+        final demarches = [demarcheLundiMatin, demarcheVendredi, demarcheSamediProchain];
+        final rendezvous = [rendezvousLundiMatin, rendezvousLundiProchain];
+        final store = givenState() //
+            .loggedInPoleEmploiUser()
+            .agenda(demarches: demarches, rendezvous: rendezvous, dateDeDebut: samedi20)
+            .store();
+
+        // When
+        final viewModel = AgendaPageViewModel.create(store);
+
+        // Then
+        expect(
+          viewModel.events[0],
+          CurrentWeekAgendaItem([
+            DaySectionAgenda("Samedi 20 août", []),
+            DaySectionAgenda("Dimanche 21 août", []),
+            DaySectionAgenda("Lundi 22 août", [
+              DemarcheEventAgenda(demarcheLundiMatin.id, demarcheLundiMatin.endDate!),
+              RendezvousEventAgenda(rendezvousLundiMatin.id, rendezvousLundiMatin.date),
+            ]),
+            DaySectionAgenda("Mardi 23 août", []),
+            DaySectionAgenda("Mercredi 24 août", []),
+            DaySectionAgenda("Jeudi 25 août", []),
+            DaySectionAgenda("Vendredi 26 août", [
+              DemarcheEventAgenda(demarcheVendredi.id, demarcheVendredi.endDate!),
+            ]),
+          ]),
+        );
+      });
+
+      test('with next week', () {
+        // Given
+        final demarches = [demarcheLundiMatin, demarcheVendredi, demarcheSamediProchain];
+        final rendezvous = [rendezvousLundiMatin, rendezvousLundiProchain];
+        final store = givenState() //
+            .loggedInPoleEmploiUser()
+            .agenda(demarches: demarches, rendezvous: rendezvous, dateDeDebut: samedi20)
+            .store();
+
+        // When
+        final viewModel = AgendaPageViewModel.create(store);
+
+        // Then
+        expect(
+          viewModel.events[1],
+          NextWeekAgendaItem([
+            DemarcheEventAgenda(demarcheSamediProchain.id, demarcheSamediProchain.endDate!),
+            RendezvousEventAgenda(rendezvousLundiProchain.id, rendezvousLundiProchain.date),
+          ]),
+        );
+      });
+    });
+
+    test('should reset create action', () {
+      // Given
       final store = StoreSpy();
       final viewModel = AgendaPageViewModel.create(store);
 
       // When
-      viewModel.retry(date);
+      viewModel.resetCreateAction();
 
       // Then
-      expectTypeThen<AgendaRequestAction>(store.dispatchedAction, (action) {
-        expect(action.maintenant, DateTime(2042));
-      });
+      expect(store.dispatchedAction, isA<UserActionCreateResetAction>());
     });
   });
 }
