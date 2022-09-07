@@ -1,10 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
+import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
+import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/partage_offre/partage_offre_state.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
-import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/preview_file/preview_file_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/features/configuration/configuration_state.dart';
@@ -12,6 +13,7 @@ import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_state.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
+import 'package:pass_emploi_app/features/demarche/update/update_demarche_state.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart';
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_state.dart';
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_state.dart';
@@ -27,6 +29,9 @@ import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_detai
 import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_state.dart';
+import 'package:pass_emploi_app/features/partage_activite/partage_activites_state.dart';
+import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
+import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_state.dart';
@@ -34,6 +39,9 @@ import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_sta
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_state.dart';
+import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
+import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_state.dart';
+import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
@@ -44,6 +52,7 @@ import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart'
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
+import 'package:pass_emploi_app/models/user.dart';
 
 class AppState extends Equatable {
   final ConfigurationState configurationState;
@@ -56,6 +65,7 @@ class AppState extends Equatable {
   final DemarcheListState demarcheListState;
   final CreateDemarcheState createDemarcheState;
   final SearchDemarcheState searchDemarcheState;
+  final UpdateDemarcheState updateDemarcheState;
   final DetailsJeuneState detailsJeuneState;
   final ChatStatusState chatStatusState;
   final ChatState chatState;
@@ -89,6 +99,13 @@ class AppState extends Equatable {
   final PreviewFileState previewFileState;
   final ChatBrouillonState chatBrouillonState;
   final ChatPartageOffreState chatPartageOffreState;
+  final TutorialState tutorialState;
+  final PartageActiviteState partageActiviteState;
+  final PartageActiviteUpdateState partageActiviteUpdateState;
+  final RatingState ratingState;
+  final ActionCommentaireListState actionCommentaireListState;
+  final ActionCommentaireCreateState actionCommentaireCreateState;
+  final AgendaState agendaState;
 
   AppState({
     required this.configurationState,
@@ -101,6 +118,7 @@ class AppState extends Equatable {
     required this.demarcheListState,
     required this.createDemarcheState,
     required this.searchDemarcheState,
+    required this.updateDemarcheState,
     required this.detailsJeuneState,
     required this.chatStatusState,
     required this.chatState,
@@ -134,6 +152,13 @@ class AppState extends Equatable {
     required this.previewFileState,
     required this.chatBrouillonState,
     required this.chatPartageOffreState,
+    required this.tutorialState,
+    required this.partageActiviteState,
+    required this.partageActiviteUpdateState,
+    required this.ratingState,
+    required this.actionCommentaireListState,
+    required this.actionCommentaireCreateState,
+    required this.agendaState,
   });
 
   AppState copyWith({
@@ -145,6 +170,7 @@ class AppState extends Equatable {
     final DemarcheListState? demarcheListState,
     final CreateDemarcheState? createDemarcheState,
     final SearchDemarcheState? searchDemarcheState,
+    final UpdateDemarcheState? updateDemarcheState,
     final DetailsJeuneState? detailsJeuneState,
     final ChatStatusState? chatStatusState,
     final ChatState? chatState,
@@ -180,6 +206,13 @@ class AppState extends Equatable {
     final PreviewFileState? previewFileState,
     final ChatBrouillonState? chatBrouillonState,
     final ChatPartageOffreState? chatPartageOffreState,
+    final TutorialState? tutorialState,
+    final PartageActiviteState? partageActiviteState,
+    final PartageActiviteUpdateState? partageActiviteUpdateState,
+    final RatingState? ratingState,
+    final ActionCommentaireListState? actionCommentaireListState,
+    final ActionCommentaireCreateState? actionCommentaireCreateState,
+    final AgendaState? agendaState,
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
@@ -191,6 +224,7 @@ class AppState extends Equatable {
       demarcheListState: demarcheListState ?? this.demarcheListState,
       createDemarcheState: createDemarcheState ?? this.createDemarcheState,
       searchDemarcheState: searchDemarcheState ?? this.searchDemarcheState,
+      updateDemarcheState: updateDemarcheState ?? this.updateDemarcheState,
       detailsJeuneState: detailsJeuneState ?? this.detailsJeuneState,
       chatStatusState: chatStatusState ?? this.chatStatusState,
       chatState: chatState ?? this.chatState,
@@ -226,6 +260,13 @@ class AppState extends Equatable {
       previewFileState: previewFileState ?? this.previewFileState,
       chatBrouillonState: chatBrouillonState ?? this.chatBrouillonState,
       chatPartageOffreState: chatPartageOffreState ?? this.chatPartageOffreState,
+      tutorialState: tutorialState ?? this.tutorialState,
+      partageActiviteState: partageActiviteState ?? this.partageActiviteState,
+      partageActiviteUpdateState: partageActiviteUpdateState ?? this.partageActiviteUpdateState,
+      ratingState: ratingState ?? this.ratingState,
+      actionCommentaireListState: actionCommentaireListState ?? this.actionCommentaireListState,
+      actionCommentaireCreateState: actionCommentaireCreateState ?? this.actionCommentaireCreateState,
+      agendaState: agendaState ?? this.agendaState,
     );
   }
 
@@ -235,12 +276,13 @@ class AppState extends Equatable {
       deepLinkState: DeepLinkState.notInitialized(),
       userActionListState: UserActionListNotInitializedState(),
       userActionCreateState: UserActionCreateNotInitializedState(),
-      userActionUpdateState: UserActionNotUpdatingState(),
+      userActionUpdateState: UserActionUpdateNotInitializedState(),
       userActionDeleteState: UserActionDeleteNotInitializedState(),
       demarcheListState: DemarcheListNotInitializedState(),
       detailsJeuneState: DetailsJeuneNotInitializedState(),
       createDemarcheState: CreateDemarcheNotInitializedState(),
       searchDemarcheState: SearchDemarcheNotInitializedState(),
+      updateDemarcheState: UpdateDemarcheNotInitializedState(),
       chatStatusState: ChatStatusNotInitializedState(),
       chatState: ChatNotInitializedState(),
       offreEmploiSearchState: OffreEmploiSearchState.notInitialized(),
@@ -274,6 +316,13 @@ class AppState extends Equatable {
       previewFileState: PreviewFileNotInitializedState(),
       chatBrouillonState: ChatBrouillonState(null),
       chatPartageOffreState: ChatPartageOffreState.notInitialized,
+      tutorialState: TutorialNotInitializedState(),
+      partageActiviteState: PartageActiviteNotInitializedState(),
+      partageActiviteUpdateState: PartageActiviteUpdateNotInitializedState(),
+      ratingState: RatingNotInitializedState(),
+      actionCommentaireListState: ActionCommentaireListNotInitializedState(),
+      actionCommentaireCreateState: ActionCommentaireCreateNotInitializedState(),
+      agendaState: AgendaNotInitializedState(),
     );
   }
 
@@ -286,6 +335,7 @@ class AppState extends Equatable {
         demarcheListState,
         createDemarcheState,
         searchDemarcheState,
+        updateDemarcheState,
         detailsJeuneState,
         chatStatusState,
         chatState,
@@ -315,8 +365,27 @@ class AppState extends Equatable {
         previewFileState,
         chatBrouillonState,
         chatPartageOffreState,
+        tutorialState,
+        partageActiviteState,
+        partageActiviteUpdateState,
+        ratingState,
+        actionCommentaireListState,
+        actionCommentaireCreateState,
+        agendaState,
       ];
 
   @override
   bool? get stringify => true;
+}
+
+extension AppStateUser on AppState {
+  User? user() {
+    final loginState = this.loginState;
+    if (loginState is LoginSuccessState) {
+      return loginState.user;
+    }
+    return null;
+  }
+
+  String? userId() => user()?.id;
 }

@@ -7,7 +7,7 @@ class Strings {
   static String logoTextDescription = "Logo CEJ";
   static String close = "Fermer";
   static String yes = "Oui";
-  static String nouveau = "Nouveau";
+  static String no = "Non";
 
   // Menu
   static String menuMonSuivi = "Mon suivi";
@@ -36,7 +36,7 @@ class Strings {
   static String simpleDayFormat(day) => "Le $day";
   static String open = "Ouvrir";
   static String fileNotAvailableError = "ERROR: 404";
-  static String fileNotAvailableTitle = "Les fichiers ne sont plus disponibles";
+  static String fileNotAvailableTitle = "Le fichier n'est plus disponible";
 
   // Force Update
   static String updateTitle = "Mise à jour";
@@ -108,9 +108,17 @@ class Strings {
 
   // Mon Suivi
   static String monSuiviAppBarTitle = "Mon suivi";
+  static String agendaTabTitle = "Cette semaine";
   static String actionsTabTitle = "Actions";
   static String rendezvousTabTitle = "Rendez-vous";
   static String demarcheTabTitle = "Démarches";
+
+  // Agenda
+  static String agendaEmpty = "Vous n'avez pas encore d'actions ni de rendez-vous prévus cette semaine.";
+  static String agendaError = "Erreur lors de la récupération de vos actions et rendez-vous";
+  static String agendaNoActionNoRendezvous = "Pas d’action ni de rendez-vous";
+  static String nextWeek = "Semaine prochaine";
+  static String semaineEnCours = "Semaine en cours";
 
   // Rendezvous
   static String myRendezVous = "Mon rendez-vous";
@@ -186,11 +194,11 @@ class Strings {
   static String aboutThisAction = "À propos de cette action";
   static String actionDetails = "Détail de l'action";
   static String demarcheDetails = "Détail de la démarche";
-  static String updateStatus = "Changer le statut";
-  static String refreshActionStatus = "Actualiser";
+  static String updateStatus = "Modifier le statut";
+  static String refreshActionStatus = "Valider le statut";
   static const String actionToDo = "À réaliser";
   static const String actionInProgress = "Commencée";
-  static String noActionsYet = "Vous n'avez pas encore d’actions";
+  static String noActionsYet = "Vous n'avez pas encore d’actions.";
   static String addAnAction = "Créer une action";
   static String addAMessageError = "Vous avez dépassé le nombre de caractères autorisés";
   static String create = "Créer";
@@ -212,8 +220,24 @@ class Strings {
   static String demarcheCreationSuccess = "La démarche a bien été créée";
   static String linkDetailsRendezVous = "Voir les détails du rendez-vous";
 
-  static String lastUpdateFormat(String formattedDate) => "Modifiée le $formattedDate";
+  static String dateEcheanceFormat(String formattedDate) => "À réaliser pour le $formattedDate";
   static String doneActionsTitle = "Actions terminées et annulées";
+  static String rappelSwitch = 'Recevoir une notification de rappel 3 jours avant l’échéance';
+
+  static String numberOfActions(int count) => "$count actions";
+  static String see = "Voir";
+
+  // Commentaires d'action
+  static String actionCommentsTitle = "Commentaire de l’action";
+  static String lastComment = "Dernier commentaire";
+  static String noComments = "Vous n’avez pas encore de commentaire";
+
+  static String createdByAdvisor(String advisor) => "Votre conseiller $advisor";
+  static String addComment = "Ajouter un commentaire";
+
+  static String seeNComments(String n) => "Voir les $n commentaires";
+  static String yourComment = "Votre commentaire...";
+  static String sendCommentError = "Erreur lors de l'envoi du commentaire. Veuillez réessayer";
 
   // Demarches
   static String modifierStatut = "Modifier le statut";
@@ -227,7 +251,7 @@ class Strings {
   static const String demarcheRetarded = "En retard";
   static const String demarcheDone = "Réalisé";
   static const String demarcheCancelled = "Annulé";
-  static const String demarcheLate = "En retard : ";
+  static const String late = "En retard : ";
   static const String createDemarchePersonnalisee = "Créer une démarche personnalisée";
   static const String mandatoryFields = "Les champs marqués d’une * sont obligatoires";
   static const String commentaire = "Commentaire";
@@ -247,11 +271,20 @@ class Strings {
   static const String selectComment = "*Sélectionner un des moyens";
   static const String selectQuand = "*Sélectionner une date d’échéance";
 
-  static String demarcheActiveDateFormat(String formattedDate) => "À réaliser pour le $formattedDate";
+  static String demarcheActiveLabel = "À réaliser pour le ";
 
-  static String demarcheDoneDateFormat(String formattedDate) => "Réalisé le $formattedDate";
+  static String demarcheActiveDateFormat(String formattedDate) => demarcheActiveLabel + formattedDate;
 
-  static String demarcheCancelledDateFormat(String formattedDate) => "Annulé le $formattedDate";
+  static String demarcheDoneLabel = "Réalisé le ";
+
+  static String demarcheDoneDateFormat(String formattedDate) => demarcheDoneLabel + formattedDate;
+
+  static String demarcheCancelledLabel = "Annulé le ";
+
+  static String demarcheCancelledDateFormat(String formattedDate) => demarcheCancelledLabel + formattedDate;
+
+  static String updateStatusError = "Erreur lors du changement du statut. Veuillez réessayer";
+
   static String withoutDate = "Date indéterminée";
   static String withoutContent = "Démarche indéterminée";
   static String createByAdvisor = "Créé par votre conseiller";
@@ -275,7 +308,8 @@ class Strings {
   static String partageOffreNavTitle = "Partage de l’offre d’emploi";
   static String souhaitDePartagerOffre = "L’offre que vous souhaitez partager";
   static String partageOffreDefaultMessage = "Bonjour, je vous partage une offre d’emploi afin d’avoir votre avis";
-  static String partageOffreSuccess = "L’offre d’emploi a été partagée à votre conseiller sur la messagerie de l’application";
+  static String partageOffreSuccess =
+      "L’offre d’emploi a été partagée à votre conseiller sur la messagerie de l’application";
   static String messagePourConseiller = "Message destiné à votre conseiller";
   static String offrePartageChat = "L’offre d’emploi sera partagée à votre conseiller dans la messagerie";
   static String partagerOffreEmploi = "Partager l’offre d’emploi";
@@ -457,6 +491,9 @@ class Strings {
   static String settingsLabel = "Paramètres application";
   static String suppressionPageTitle = "Suppression de compte";
   static String suppressionAccountLabel = "Supprimer mon compte de l’application CEJ";
+  static String activityShareLabel = "Partage de votre activité";
+  static String activityShareDescription =
+      "Autorisez le partage pour permettre au conseiller d’avoir un suivi de votre activité.";
   static String warning = "Attention";
   static String suppressionButtonLabel = "Supprimer mon compte";
   static String warningInformationParagraph1 =
@@ -479,6 +516,11 @@ class Strings {
   static String lastWarningBeforeSuppression = "Tapez “supprimer” pour confirmer la suppression de votre compte";
   static String mandatorySuppressionLabelError = "Vérifiez que vous avez bien tapé “supprimer”";
   static String accountDeletionSuccess = "Votre compte a bien été supprimé de l’application CEJ";
+
+  static String shareFavoriteLabel = "Partager mes favoris";
+
+  static String helpTitle = "Besoin d’aide ?";
+  static String ratingAppLabel = "Partager votre avis sur l'application";
 
   // saved search
   static String createAlert = "Créer une alerte";
@@ -532,4 +574,43 @@ class Strings {
   static String developerOptions = 'Options développeurs';
   static String developerOptionMatomo = 'Données envoyées à Matomo';
   static String developerOptionMatomoPage = 'Matomo';
+
+  // Tutorial
+  static String tutoTitreOffreDebutant = "Trouvez plus facilement des offres d’emploi pour débutants";
+  static String tutoDescriptionOffreDebutant =
+      "Affichez uniquement les offres d’emploi “débutants acceptés” dans votre liste de résultats de recherche !";
+
+  static String tutoTitreOffrePartage = "Partagez vos offres d’emploi à votre conseiller";
+  static String tutoDescriptionOffrePartage =
+      "Vous pouvez désormais partager une offre d’emploi à votre conseiller directement depuis le chat";
+
+  static String tutoTitleActionComments = "Commentez vos actions !";
+  static String tutoDescriptionActionComments =
+      "Vous pouvez ajouter des commentaires à vos actions et ainsi les détailler davantage !";
+
+  static String tutoTitreMandatoryDate = "Renseignez une date à vos actions";
+  static String tutoDescriptionMandatoryDate =
+      "Vous devez désormais renseigner une date d'échéance lorsque vous créez une action";
+
+  static String tutoTitreAgenda = "Consultez votre agenda de la semaine !";
+  static String tutoDescriptionAgenda =
+      "Retrouvez la liste de vos actions et rendez-vous de la semaine à un seul endroit";
+
+  static String tutoTitreCreationDemarches = "Renseignez vos démarches";
+  static String tutoDescriptionCreationDemarches =
+      "Vous pouvez désormais renseigner vos démarches directement sur l'application et ainsi recevoir des rappels et/ou tenir informé votre conseiller";
+
+  static String seeLater = "Voir plus tard";
+  static String finish = "Terminer";
+
+  //Appstore rating
+  static String ratingLabel = "Aimez-vous l’application Contrat Engagement Jeune ?";
+  static String positiveRating = "Oui ! \nBeau boulot, j’adore l’app.";
+  static String negativeRating = "Non... \nJ’ai quelques remarques.";
+  static String happyEmoji = "😍";
+  static String sadEmoji = "😫";
+
+  static String supportMail = "support@pass-emploi.beta.gouv.fr";
+  static String titleSupportMail = "Mon avis sur l’application";
+  static String contentSupportMail = "Aidez-nous à améliorer l’application en nous donnant votre avis :\n";
 }

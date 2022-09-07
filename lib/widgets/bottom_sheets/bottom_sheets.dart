@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/widgets/sepline.dart';
 
 Future<T?> showPassEmploiBottomSheet<T>({required BuildContext context, required WidgetBuilder builder}) {
   return showModalBottomSheet(
@@ -40,6 +40,6 @@ Padding userActionBottomSheetHeader(BuildContext context, {required String title
   );
 }
 
-Widget userActionBottomSheetSeparator() => SepLine(0, 0);
-
-EdgeInsets userActionBottomSheetContentPadding() => const EdgeInsets.fromLTRB(16, 24, 16, 24);
+EdgeInsets bottomSheetContentPadding() {
+  return const EdgeInsets.symmetric(horizontal: Margins.spacing_base, vertical: Margins.spacing_m);
+}

@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/immersion_bottom_sheet_form.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 
 class OffreEmploiBottomSheetForm extends StatefulWidget {
@@ -40,7 +41,7 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         userActionBottomSheetHeader(context, title: Strings.createSavedSearchTitle),
-        userActionBottomSheetSeparator(),
+        SepLine(0, 0),
         Expanded(
           child: ListView(
             shrinkWrap: true,
@@ -58,7 +59,7 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
 
   Widget _createButton(OffreEmploiSavedSearchViewModel viewModel) {
     return Padding(
-      padding: userActionBottomSheetContentPadding(),
+      padding: bottomSheetContentPadding(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -87,7 +88,7 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
 
   Widget _savedSearchTitle(OffreEmploiSavedSearch searchViewModel) {
     return Padding(
-      padding: userActionBottomSheetContentPadding(),
+      padding: bottomSheetContentPadding(),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -152,7 +153,7 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
     if (_keyWords != null && _keyWords.isNotEmpty) _tags.add(TagInfo(_keyWords, false));
     if (_location != null && _location.isNotEmpty) _tags.add(TagInfo(_location, true));
     return Padding(
-      padding: userActionBottomSheetContentPadding(),
+      padding: bottomSheetContentPadding(),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -181,7 +182,7 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
 
   Widget _savedSearchInfo() {
     return Padding(
-      padding: userActionBottomSheetContentPadding(),
+      padding: bottomSheetContentPadding(),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,

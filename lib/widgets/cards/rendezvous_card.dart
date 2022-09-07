@@ -9,27 +9,35 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:redux/redux.dart';
 
 class RendezvousCard extends StatelessWidget {
-  final String rendezvousId;
+  final RendezvousCardViewModel Function(Store<AppState>) converter;
   final VoidCallback onTap;
+  final bool simpleCard;
 
-  const RendezvousCard({Key? key, required this.rendezvousId, required this.onTap}) : super(key: key);
+  const RendezvousCard({
+    Key? key,
+    required this.converter,
+    required this.onTap,
+    this.simpleCard = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RendezvousCardViewModel>(
-      converter: (store) => RendezvousCardViewModel.create(store, rendezvousId),
-      builder: (context, viewModel) => _Container(viewModel, onTap),
+      converter: converter,
+      builder: (context, viewModel) => _Container(viewModel, onTap, simpleCard),
     );
   }
 }
 
 class _Container extends StatelessWidget {
-  const _Container(this.viewModel, this.onTap, {Key? key}) : super(key: key);
-
   final RendezvousCardViewModel viewModel;
   final VoidCallback onTap;
+  final bool simpleCard;
+
+  const _Container(this.viewModel, this.onTap, this.simpleCard, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,12 +60,12 @@ class _Container extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  if (viewModel.isAnnule) _Annule(),
+                  if (viewModel.isAnnule && simpleCard == false) _Annule(),
                   _Tag(viewModel.tag, viewModel.greenTag),
                   _Date(viewModel.date),
-                  if (viewModel.title != null) _Titre(viewModel.title!),
-                  if (viewModel.subtitle != null) _SousTitre(viewModel.subtitle!),
-                  _Link(),
+                  if (viewModel.title != null && simpleCard == false) _Titre(viewModel.title!),
+                  if (viewModel.subtitle != null && simpleCard == false) _SousTitre(viewModel.subtitle!),
+                  if (simpleCard == false) _Link(),
                 ],
               ),
             ),

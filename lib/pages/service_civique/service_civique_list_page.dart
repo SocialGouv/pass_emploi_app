@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_actions.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/domain.dart';
@@ -30,10 +30,10 @@ import 'package:pass_emploi_app/widgets/empty_offre_widget.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
-class ServiceCiviqueListPage extends TraceableStatefulWidget {
+class ServiceCiviqueListPage extends StatefulWidget {
   final bool fromSavedSearch;
 
-  ServiceCiviqueListPage([this.fromSavedSearch = false]) : super(name: AnalyticsScreenNames.serviceCiviqueResults);
+  ServiceCiviqueListPage([this.fromSavedSearch = false]);
 
   @override
   State<ServiceCiviqueListPage> createState() => _ServiceCiviqueListPage();
@@ -65,20 +65,23 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, ServiceCiviqueViewModel>(
-      converter: (store) => ServiceCiviqueViewModel.create(store),
-      onInitialBuild: (viewModel) => _currentViewModel = viewModel,
-      builder: (context, viewModel) => FavorisStateContext<ServiceCivique>(
-        selectState: (store) => store.state.serviceCiviqueFavorisState,
-        child: _scaffold(_body(context, viewModel)),
+    return Tracker(
+      tracking: AnalyticsScreenNames.serviceCiviqueResults,
+      child: StoreConnector<AppState, ServiceCiviqueViewModel>(
+        converter: (store) => ServiceCiviqueViewModel.create(store),
+        onInitialBuild: (viewModel) => _currentViewModel = viewModel,
+        builder: (context, viewModel) => FavorisStateContext<ServiceCivique>(
+          selectState: (store) => store.state.serviceCiviqueFavorisState,
+          child: _scaffold(_body(context, viewModel)),
+        ),
+        onDidChange: (previousViewModel, viewModel) {
+          _currentViewModel = viewModel;
+          if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
+          _shouldLoadAtBottom = viewModel.displayLoaderAtBottomOfList && viewModel.displayState != DisplayState.FAILURE;
+        },
+        distinct: true,
+        onDispose: (store) => store.dispatch(ServiceCiviqueSearchResetAction()),
       ),
-      onDidChange: (previousViewModel, viewModel) {
-        _currentViewModel = viewModel;
-        if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);
-        _shouldLoadAtBottom = viewModel.displayLoaderAtBottomOfList && viewModel.displayState != DisplayState.FAILURE;
-      },
-      distinct: true,
-      onDispose: (store) => store.dispatch(ServiceCiviqueSearchResetAction()),
     );
   }
 
@@ -152,12 +155,11 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
       ],
       from: OffrePage.serviceCiviqueResults,
       onTap: () {
-        widget.pushAndTrackBack(
+        Navigator.push(
           context,
           MaterialPageRoute(builder: (_) {
             return ServiceCiviqueDetailPage(item.id);
           }),
-          AnalyticsScreenNames.serviceCiviqueResults,
         );
       },
     );
@@ -267,13 +269,10 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
   }
 
   Future<void> _onFiltreButtonPressed() async {
-    return widget
-        .pushAndTrackBack(
+    return Navigator.push(
       context,
       ServiceCiviqueFiltresPage.materialPageRoute(),
-      AnalyticsScreenNames.serviceCiviqueResults,
-    )
-        .then((value) {
+    ).then((value) {
       if (value == true) {
         _offsetBeforeLoading = 0;
         if (_scrollController.hasClients) _scrollController.jumpTo(_offsetBeforeLoading);

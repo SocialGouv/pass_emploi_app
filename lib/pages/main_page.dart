@@ -8,12 +8,14 @@ import 'package:pass_emploi_app/pages/mon_suivi_tabs_page.dart';
 import 'package:pass_emploi_app/pages/profil/profil_page.dart';
 import 'package:pass_emploi_app/pages/solutions_tabs_page.dart';
 import 'package:pass_emploi_app/presentation/main_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/mon_suivi_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/menu_item.dart' as menu;
+import 'package:pass_emploi_app/widgets/snack_bar/rating_snack_bar.dart';
 
 const int _indexOfMonSuiviPage = 0;
 const int _indexOfChatPage = 1;
@@ -33,15 +35,14 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
+  bool _deepLinkHandled = false;
   late int _selectedIndex;
-  late bool _displayMonSuiviOnRendezvousTab;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _selectedIndex = _setInitIndexPage();
-    _displayMonSuiviOnRendezvousTab = widget.displayState == MainPageDisplayState.RENDEZVOUS_TAB;
   }
 
   @override
@@ -67,6 +68,9 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       converter: (store) => MainPageViewModel.create(store),
       onInit: (store) => store.dispatch(SubscribeToChatStatusAction()),
       onDispose: (store) => store.dispatch(UnsubscribeFromChatStatusAction()),
+      onDidChange: (oldViewModel, newViewModel) {
+        if (newViewModel.showRating) ratingSnackBar(context);
+      },
       builder: (context, viewModel) => _body(viewModel, context),
       distinct: true,
     );
@@ -107,9 +111,11 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
   Widget _content(int index, MainPageViewModel viewModel) {
     switch (index) {
       case _indexOfMonSuiviPage:
-        final initialTab = _displayMonSuiviOnRendezvousTab ? MonSuiviTab.RENDEZVOUS : MonSuiviTab.ACTIONS;
-        _displayMonSuiviOnRendezvousTab = false;
-        return MonSuiviTabPage(initialTab: initialTab, isPoleEmploiLogin: viewModel.isPoleEmploiLogin);
+        final initialTab = !_deepLinkHandled ? _initialTab() : null;
+        _deepLinkHandled = true;
+        return MonSuiviTabPage(
+          viewModel: MonSuiviViewModel.create(isPoleEmploiLogin: viewModel.isPoleEmploiLogin, initialTab: initialTab),
+        );
       case _indexOfChatPage:
         return ChatPage();
       case _indexOfSolutionsPage:
@@ -119,7 +125,18 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case _indexOfPlusPage:
         return ProfilPage();
       default:
-        return MonSuiviTabPage(initialTab: MonSuiviTab.ACTIONS, isPoleEmploiLogin: viewModel.isPoleEmploiLogin);
+        return MonSuiviTabPage(viewModel: MonSuiviViewModel.create(isPoleEmploiLogin: viewModel.isPoleEmploiLogin));
+    }
+  }
+
+  MonSuiviTab? _initialTab() {
+    switch (widget.displayState) {
+      case MainPageDisplayState.ACTIONS_TAB:
+        return MonSuiviTab.ACTIONS;
+      case MainPageDisplayState.RENDEZVOUS_TAB:
+        return MonSuiviTab.RENDEZVOUS;
+      default:
+        return null;
     }
   }
 

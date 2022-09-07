@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -22,11 +22,11 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cards/campagne_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
+import 'package:pass_emploi_app/widgets/empty_page.dart';
+import 'package:pass_emploi_app/widgets/loader.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
-class UserActionListPage extends TraceableStatefulWidget {
-  UserActionListPage() : super(name: AnalyticsScreenNames.userActionList);
-
+class UserActionListPage extends StatefulWidget {
   @override
   State<UserActionListPage> createState() => _UserActionListPageState();
 }
@@ -44,24 +44,26 @@ class _UserActionListPageState extends State<UserActionListPage> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, UserActionListPageViewModel>(
-      onInit: (store) => store.dispatch(UserActionListRequestAction()),
-      builder: (context, viewModel) => _scaffold(context, viewModel),
-      converter: (store) => UserActionListPageViewModel.create(store),
-      distinct: true,
-      onDidChange: (previousViewModel, viewModel) {
-        _openDeeplinkIfNeeded(viewModel, context);
-      },
-      onDispose: (store) => store.dispatch(UserActionListResetAction()),
+    return Tracker(
+      tracking: AnalyticsScreenNames.userActionList,
+      child: StoreConnector<AppState, UserActionListPageViewModel>(
+        onInit: (store) => store.dispatch(UserActionListRequestAction()),
+        builder: (context, viewModel) => _scaffold(context, viewModel),
+        converter: (store) => UserActionListPageViewModel.create(store),
+        distinct: true,
+        onDidChange: (previousViewModel, viewModel) {
+          _openDeeplinkIfNeeded(viewModel, context);
+        },
+        onDispose: (store) => store.dispatch(UserActionListResetAction()),
+      ),
     );
   }
 
   void _openDeeplinkIfNeeded(UserActionListPageViewModel viewModel, BuildContext context) {
     if (viewModel.actionDetails != null) {
-      widget.pushAndTrackBack(
+      Navigator.push(
         context,
-        UserActionDetailPage.materialPageRoute(viewModel.actionDetails!),
-        AnalyticsScreenNames.userActionList,
+        UserActionDetailPage.materialPageRoute(viewModel.actionDetails!, StateSource.userActions),
       );
       viewModel.onDeeplinkUsed();
     }
@@ -83,15 +85,11 @@ class _UserActionListPageState extends State<UserActionListPage> {
   }
 
   Widget _animatedBody(BuildContext context, UserActionListPageViewModel viewModel) {
-    if (viewModel.withLoading) return _loader();
+    if (viewModel.withLoading) return loader();
     if (viewModel.withFailure) return Center(child: Retry(Strings.actionsError, () => viewModel.onRetry()));
-    if (viewModel.withEmptyMessage) return _empty();
+    if (viewModel.withEmptyMessage) return Empty(description: Strings.noActionsYet);
     return _userActionsList(context, viewModel);
   }
-
-  Widget _loader() => Center(child: CircularProgressIndicator(color: AppColors.primary));
-
-  Widget _empty() => Center(child: Text(Strings.noActionsYet, style: TextStyles.textSmRegular()));
 
   Widget _userActionsList(BuildContext context, UserActionListPageViewModel viewModel) {
     return ListView.separated(
@@ -144,7 +142,7 @@ class _CampagneCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return CampagneCard(
       onTap: () {
-        pushAndTrackBack(context, CampagneDetailsPage.materialPageRoute(), AnalyticsScreenNames.evaluationDetails);
+        Navigator.push(context, CampagneDetailsPage.materialPageRoute());
       },
       titre: title,
       description: description,
@@ -162,10 +160,9 @@ class _ActionCard extends StatelessWidget {
     return UserActionCard(
       onTap: () {
         context.trackEvent(EventType.ACTION_DETAIL);
-        pushAndTrackBack(
+        Navigator.push(
           context,
-          UserActionDetailPage.materialPageRoute(viewModel),
-          AnalyticsScreenNames.userActionList,
+          UserActionDetailPage.materialPageRoute(viewModel, StateSource.userActions),
         );
       },
       viewModel: viewModel,

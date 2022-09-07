@@ -1,0 +1,3 @@
+class ShowRatingAction {}
+
+class RatingDoneAction {}

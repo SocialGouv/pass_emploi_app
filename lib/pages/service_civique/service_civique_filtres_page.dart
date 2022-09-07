@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/models/service_civique/domain.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/service_civique/service_civique_filtres_view_model.dart';
@@ -15,9 +15,7 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/slider/distance_slider.dart';
 import 'package:pass_emploi_app/widgets/toggles/date_toggle.dart';
 
-class ServiceCiviqueFiltresPage extends TraceableStatefulWidget {
-  ServiceCiviqueFiltresPage() : super(name: AnalyticsScreenNames.serviceCiviqueFiltres);
-
+class ServiceCiviqueFiltresPage extends StatefulWidget {
   static MaterialPageRoute<bool> materialPageRoute() {
     return MaterialPageRoute(builder: (_) => ServiceCiviqueFiltresPage());
   }
@@ -29,10 +27,13 @@ class ServiceCiviqueFiltresPage extends TraceableStatefulWidget {
 class _ServiceCiviqueFiltresPageState extends State<ServiceCiviqueFiltresPage> {
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, ServiceCiviqueFiltresViewModel>(
-      converter: (store) => ServiceCiviqueFiltresViewModel.create(store),
-      builder: (context, viewModel) => _scaffold(context, viewModel),
-      distinct: true,
+    return Tracker(
+      tracking: AnalyticsScreenNames.serviceCiviqueFiltres,
+      child: StoreConnector<AppState, ServiceCiviqueFiltresViewModel>(
+        converter: (store) => ServiceCiviqueFiltresViewModel.create(store),
+        builder: (context, viewModel) => _scaffold(context, viewModel),
+        distinct: true,
+      ),
     );
   }
 

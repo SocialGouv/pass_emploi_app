@@ -2,7 +2,7 @@ name: pass_emploi_app
 description: Pass Emploi iOS and Android app.
 
 publish_to: 'none'
-version: 1.8.1
+version: 1.9.0
 
 environment:
   sdk: "2.17.0" # Dart version
@@ -54,6 +54,7 @@ dependencies:
 
   encrypt: '5.0.1'
   smooth_page_indicator: '1.0.0+2'
+  in_app_review: '2.0.4'
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +69,7 @@ flutter:
 
   assets:
     - assets/mode_demo/
+    - assets/tuto/
     - assets/
     - env/
 

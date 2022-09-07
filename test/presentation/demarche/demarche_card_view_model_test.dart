@@ -1,10 +1,12 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_card_view_model.dart';
+import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
+import '../../doubles/fixtures.dart';
 import '../../utils/test_datetime.dart';
 
 void main() {
@@ -40,7 +42,7 @@ void main() {
       DemarcheCardViewModel(
         id: '8802034',
         titre: 'Faire le CV',
-        sousTitre : 'commentaire',
+        sousTitre: 'commentaire',
         status: DemarcheStatus.NOT_STARTED,
         createdByAdvisor: true,
         modifiedByAdvisor: false,
@@ -49,8 +51,8 @@ void main() {
           backgroundColor: AppColors.accent1Lighten,
           textColor: AppColors.accent1,
         ),
-        formattedDate: 'À réaliser pour le 28/04/2023',
-        isLate: false,
+        dateFormattedTexts: [FormattedText('À réaliser pour le 28/04/2023')],
+        dateColor: AppColors.primary,
         isDetailEnabled: false,
       ),
     );
@@ -58,7 +60,7 @@ void main() {
 
   test("create when status is IS_NOT_STARTED and end date is in the future should create view model properly", () {
     // Given
-    final demarche = _demarche(
+    final demarche = mockDemarche(
       status: DemarcheStatus.NOT_STARTED,
       endDate: parseDateTimeUtcWithCurrentTimeZone('2050-04-28T16:06:48.396Z'),
     );
@@ -68,7 +70,9 @@ void main() {
 
     // Then
     expect(viewModel.status, DemarcheStatus.NOT_STARTED);
-    expect(viewModel.formattedDate, "À réaliser pour le 28/04/2050");
+    expect(viewModel.dateFormattedTexts, [FormattedText('À réaliser pour le 28/04/2050')]);
+
+    expect(viewModel.dateColor, AppColors.primary);
     expect(
       viewModel.tag,
       UserActionTagViewModel(
@@ -81,7 +85,7 @@ void main() {
 
   test("create when status is IS_NOT_STARTED and end date is in the past should create view model properly", () {
     // Given
-    final demarche = _demarche(
+    final demarche = mockDemarche(
       status: DemarcheStatus.NOT_STARTED,
       endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
     );
@@ -91,7 +95,13 @@ void main() {
 
     // Then
     expect(viewModel.status, DemarcheStatus.NOT_STARTED);
-    expect(viewModel.formattedDate, "À réaliser pour le 28/03/2022");
+    expect(
+      viewModel.dateFormattedTexts,
+      [
+        FormattedText('En retard : ', bold: true),
+        FormattedText('À réaliser pour le 28/03/2022'),
+      ],
+    );
     expect(
         viewModel.tag,
         UserActionTagViewModel(
@@ -103,7 +113,7 @@ void main() {
 
   test("create when status is IN_PROGRESS should create view model properly", () {
     // Given
-    final demarche = _demarche(
+    final demarche = mockDemarche(
       status: DemarcheStatus.IN_PROGRESS,
       endDate: parseDateTimeUtcWithCurrentTimeZone('2050-03-28T16:06:48.396Z'),
     );
@@ -113,7 +123,8 @@ void main() {
 
     // Then
     expect(viewModel.status, DemarcheStatus.IN_PROGRESS);
-    expect(viewModel.formattedDate, "À réaliser pour le 28/03/2050");
+    expect(viewModel.dateFormattedTexts, [FormattedText('À réaliser pour le 28/03/2050')]);
+    expect(viewModel.dateColor, AppColors.primary);
     expect(
       viewModel.tag,
       UserActionTagViewModel(
@@ -126,7 +137,7 @@ void main() {
 
   test("create when status is IN_PROGRESS and end date is in the past should create view model properly", () {
     // Given
-    final demarche = _demarche(
+    final demarche = mockDemarche(
       status: DemarcheStatus.IN_PROGRESS,
       endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
     );
@@ -136,7 +147,13 @@ void main() {
 
     // Then
     expect(viewModel.status, DemarcheStatus.IN_PROGRESS);
-    expect(viewModel.formattedDate, "À réaliser pour le 28/03/2022");
+    expect(
+      viewModel.dateFormattedTexts,
+      [
+        FormattedText('En retard : ', bold: true),
+        FormattedText('À réaliser pour le 28/03/2022'),
+      ],
+    );
     expect(
       viewModel.tag,
       UserActionTagViewModel(
@@ -149,7 +166,7 @@ void main() {
 
   test("create when status is DONE should create view model properly", () {
     // Given
-    final demarche = _demarche(
+    final demarche = mockDemarche(
       status: DemarcheStatus.DONE,
       endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
     );
@@ -159,7 +176,8 @@ void main() {
 
     // Then
     expect(viewModel.status, DemarcheStatus.DONE);
-    expect(viewModel.formattedDate, "Réalisé le 28/03/2022");
+    expect(viewModel.dateFormattedTexts, [FormattedText('Réalisé le 28/03/2022')]);
+    expect(viewModel.dateColor, AppColors.grey700);
     expect(
         viewModel.tag,
         UserActionTagViewModel(
@@ -171,7 +189,7 @@ void main() {
 
   test("create when status is CANCELLED should create view model properly", () {
     // Given
-    final demarche = _demarche(
+    final demarche = mockDemarche(
       status: DemarcheStatus.CANCELLED,
       deletionDate: parseDateTimeUtcWithCurrentTimeZone('2020-03-28T16:06:48.396Z'),
     );
@@ -181,7 +199,8 @@ void main() {
 
     // Then
     expect(viewModel.status, DemarcheStatus.CANCELLED);
-    expect(viewModel.formattedDate, "Annulé le 28/03/2020");
+    expect(viewModel.dateFormattedTexts, [FormattedText('Annulé le 28/03/2020')]);
+    expect(viewModel.dateColor, AppColors.grey700);
     expect(
       viewModel.tag,
       UserActionTagViewModel(
@@ -191,23 +210,4 @@ void main() {
       ),
     );
   });
-}
-
-Demarche _demarche({required DemarcheStatus status, DateTime? endDate, DateTime? deletionDate}) {
-  return Demarche(
-    id: 'id',
-    content: null,
-    status: status,
-    endDate: endDate,
-    deletionDate: deletionDate,
-    createdByAdvisor: true,
-    label: null,
-    possibleStatus: [],
-    creationDate: null,
-    modifiedByAdvisor: false,
-    sousTitre: null,
-    titre: null,
-    modificationDate: null,
-    attributs: [],
-  );
 }

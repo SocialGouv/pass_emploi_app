@@ -1,14 +1,16 @@
+import 'package:pass_emploi_app/features/agenda/agenda_reducer.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_reducer.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_reducer.dart';
+import 'package:pass_emploi_app/features/chat/messages/chat_reducer.dart';
 import 'package:pass_emploi_app/features/chat/partage_offre/partage_offre_reducer.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_reducer.dart';
-import 'package:pass_emploi_app/features/chat/messages/chat_reducer.dart';
 import 'package:pass_emploi_app/features/chat/preview_file/preview_file_reducer.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_reducer.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_reducer.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_reducer.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_reducer.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_reducer.dart';
+import 'package:pass_emploi_app/features/demarche/update/update_demarche_reducer.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_reducer.dart';
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_reducer.dart';
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_reducer.dart';
@@ -26,6 +28,9 @@ import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_detai
 import 'package:pass_emploi_app/features/offre_emploi/list/offre_emploi_list_reducer.dart';
 import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_reducer.dart';
 import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search_reducer.dart';
+import 'package:pass_emploi_app/features/partage_activite/partage_activite_reducer.dart';
+import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_reducer.dart';
+import 'package:pass_emploi_app/features/rating/rating_reducer.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_reducer.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_reducer.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_reducer.dart';
@@ -33,6 +38,9 @@ import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_red
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_reducer.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_reducer.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_reducer.dart';
+import 'package:pass_emploi_app/features/tutorial/tutorial_reducer.dart';
+import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_reducer.dart';
+import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/create/user_action_create_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_reducer.dart';
@@ -58,6 +66,7 @@ AppState reducer(AppState current, dynamic action) {
     demarcheListState: demarcheListReducer(current.demarcheListState, action),
     createDemarcheState: createDemarcheReducer(current.createDemarcheState, action),
     searchDemarcheState: searchDemarcheReducer(current.searchDemarcheState, action),
+    updateDemarcheState: updateDemarcheReducer(current.updateDemarcheState, action),
     detailsJeuneState: detailsJeuneReducer(current.detailsJeuneState, action),
     chatStatusState: chatStatusReducer(current.chatStatusState, action),
     chatState: chatReducer(current.chatState, action),
@@ -111,5 +120,12 @@ AppState reducer(AppState current, dynamic action) {
     previewFileState: previewFileReducer(current.previewFileState, action),
     chatBrouillonState: chatBrouillonReducer(current.chatBrouillonState, action),
     chatPartageOffreState: chatPartageOffreReducer(current.chatPartageOffreState, action),
+    tutorialState: tutorialReducer(current.tutorialState, action),
+    partageActiviteState: partageActiviteReducer(current.partageActiviteState, action),
+    partageActiviteUpdateState: partageActiviteUpdateReducer(current.partageActiviteUpdateState, action),
+    ratingState: ratingReducer(current.ratingState, action),
+    actionCommentaireListState: actionCommentaireListReducer(current.actionCommentaireListState, action),
+    actionCommentaireCreateState: actionCommentaireCreateReducer(current.actionCommentaireCreateState, action),
+    agendaState: agendaReducer(current.agendaState, action),
   );
 }

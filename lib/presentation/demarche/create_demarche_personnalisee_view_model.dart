@@ -20,8 +20,8 @@ class CreateDemarchePersonnaliseeViewModel extends Equatable {
     return CreateDemarchePersonnaliseeViewModel(
       displayState: _displayState(store),
       shouldGoBack: store.state.createDemarcheState is CreateDemarcheSuccessState,
-      onCreateDemarche: (commentaire, echeanceDate) => store.dispatch(
-        CreateDemarchePersonnaliseeRequestAction(commentaire, echeanceDate),
+      onCreateDemarche: (commentaire, dateEcheance) => store.dispatch(
+        CreateDemarchePersonnaliseeRequestAction(commentaire, dateEcheance),
       ),
     );
   }

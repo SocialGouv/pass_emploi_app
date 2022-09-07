@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_actions.dart';
@@ -20,9 +19,7 @@ import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
 import 'package:pass_emploi_app/widgets/metier_autocomplete.dart';
 
-class ImmersionSearchPage extends TraceableStatefulWidget {
-  const ImmersionSearchPage() : super(name: AnalyticsScreenNames.immersionResearch);
-
+class ImmersionSearchPage extends StatefulWidget {
   @override
   State<ImmersionSearchPage> createState() => _ImmersionSearchPageState();
 }
@@ -37,25 +34,27 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, ImmersionSearchViewModel>(
-      converter: (store) => ImmersionSearchViewModel.create(store),
-      builder: (context, vm) => _content(context, vm),
-      distinct: true,
-      onWillChange: (_, viewModel) {
-        if (_shouldNavigate && viewModel.displayState == ImmersionSearchDisplayState.SHOW_RESULTS) {
-          _shouldNavigate = false;
-          widget.pushAndTrackBack(
-            context,
-            MaterialPageRoute(builder: (context) => ImmersionListPage()),
-            AnalyticsScreenNames.immersionResearch,
-          );
-        }
-      },
-      onDispose: (store) {
-        store.dispatch(SearchLocationResetAction());
-        store.dispatch(SearchMetierResetAction());
-        store.dispatch(ImmersionListResetAction());
-      },
+    return Tracker(
+      tracking: AnalyticsScreenNames.immersionResearch,
+      child: StoreConnector<AppState, ImmersionSearchViewModel>(
+        converter: (store) => ImmersionSearchViewModel.create(store),
+        builder: (context, vm) => _content(context, vm),
+        distinct: true,
+        onWillChange: (_, viewModel) {
+          if (_shouldNavigate && viewModel.displayState == ImmersionSearchDisplayState.SHOW_RESULTS) {
+            _shouldNavigate = false;
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ImmersionListPage()),
+            );
+          }
+        },
+        onDispose: (store) {
+          store.dispatch(SearchLocationResetAction());
+          store.dispatch(SearchMetierResetAction());
+          store.dispatch(ImmersionListResetAction());
+        },
+      ),
     );
   }
 

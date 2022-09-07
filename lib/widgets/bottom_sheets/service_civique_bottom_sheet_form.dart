@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 
 class ServiceCiviqueBottomSheetForm extends StatefulWidget {
@@ -38,7 +39,7 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         userActionBottomSheetHeader(context, title: Strings.createSavedSearchTitle),
-        userActionBottomSheetSeparator(),
+        SepLine(0, 0),
         Expanded(
           child: ListView(
             shrinkWrap: true,
@@ -56,7 +57,7 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
 
   Widget _createButton(ServiceCiviqueSavedSearchViewModel viewModel) {
     return Padding(
-      padding: userActionBottomSheetContentPadding(),
+      padding: bottomSheetContentPadding(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -82,7 +83,7 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
 
   Widget _savedSearchTitle(ServiceCiviqueSavedSearch searchViewModel) {
     return Padding(
-      padding: userActionBottomSheetContentPadding(),
+      padding: bottomSheetContentPadding(),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -144,7 +145,7 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
     final domaine = searchViewModel.domaine?.titre;
     final ville = searchViewModel.ville;
     return Padding(
-      padding: userActionBottomSheetContentPadding(),
+      padding: bottomSheetContentPadding(),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -177,7 +178,7 @@ class _ServiceCiviqueBottomSheetFormState extends State<ServiceCiviqueBottomShee
 
   Widget _savedSearchInfo() {
     return Padding(
-      padding: userActionBottomSheetContentPadding(),
+      padding: bottomSheetContentPadding(),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,

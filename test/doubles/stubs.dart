@@ -6,16 +6,20 @@ import 'package:pass_emploi_app/auth/auth_wrapper.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
+import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/page_actions.dart';
 import 'package:pass_emploi_app/models/page_demarches.dart';
+import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
+import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
+import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
@@ -32,6 +36,7 @@ import 'spies.dart';
 
 class PageActionRepositorySuccessStub extends PageActionRepository {
   Campagne? _campagne;
+  var isActionUpdated = false;
 
   PageActionRepositorySuccessStub() : super("", DummyHttpClient());
 
@@ -48,7 +53,7 @@ class PageActionRepositorySuccessStub extends PageActionRepository {
           content: "content",
           comment: "comment",
           status: UserActionStatus.NOT_STARTED,
-          lastUpdate: DateTime(2022, 12, 23, 0, 0, 0),
+          dateEcheance: DateTime(2042),
           creator: JeuneActionCreator(),
         ),
       ],
@@ -57,12 +62,18 @@ class PageActionRepositorySuccessStub extends PageActionRepository {
   }
 
   @override
-  Future<bool> createUserAction(String userId, String? content, String? comment, UserActionStatus status) async {
-    return userId == "id" && content == "content" && comment == "comment" && status == UserActionStatus.NOT_STARTED;
+  Future<bool> createUserAction(String userId, UserActionCreateRequest request) async {
+    return userId == "id" &&
+        request.content == "content" &&
+        request.comment == "comment" &&
+        request.initialStatus == UserActionStatus.NOT_STARTED;
   }
 
   @override
-  Future<void> updateActionStatus(String userId, String actionId, UserActionStatus newStatus) async {}
+  Future<bool> updateActionStatus(String actionId, UserActionStatus newStatus) async {
+    isActionUpdated = true;
+    return true;
+  }
 
   @override
   Future<bool> deleteUserAction(String actionId) async {
@@ -72,19 +83,17 @@ class PageActionRepositorySuccessStub extends PageActionRepository {
 
 class PageActionRepositoryFailureStub extends PageActionRepository {
   PageActionRepositoryFailureStub() : super("", DummyHttpClient());
+  var isActionUpdated = false;
 
   @override
-  Future<bool> createUserAction(
-    String userId,
-    String? content,
-    String? comment,
-    UserActionStatus status,
-  ) async {
+  Future<bool> createUserAction(String userId, UserActionCreateRequest request) async {
     return false;
   }
 
   @override
-  Future<void> updateActionStatus(String userId, String actionId, UserActionStatus newStatus) async {}
+  Future<bool> updateActionStatus(String actionId, UserActionStatus newStatus) async {
+    return false;
+  }
 
   @override
   Future<bool> deleteUserAction(String actionId) async {
@@ -406,5 +415,86 @@ class PieceJointeRepositoryUnavailableStub extends PieceJointeRepository {
   @override
   Future<String?> download({required String fileId, required String fileName}) async {
     return "ERROR: 404";
+  }
+}
+
+class ActionCommentaireRepositorySuccessStub extends ActionCommentaireRepository {
+  ActionCommentaireRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+
+  @override
+  Future<List<Commentaire>?> getCommentaires(String actionId) async {
+    return mockCommentaires();
+  }
+
+  @override
+  Future<bool> sendCommentaire({required String actionId, required String comment}) async {
+    return comment == 'new comment' && actionId == 'actionId';
+  }
+}
+
+class ActionCommentaireRepositoryFailureStub extends ActionCommentaireRepository {
+  ActionCommentaireRepositoryFailureStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+
+  @override
+  Future<List<Commentaire>?> getCommentaires(String actionId) async {
+    return null;
+  }
+
+  @override
+  Future<bool> sendCommentaire({required String actionId, required String comment}) async {
+    return false;
+  }
+}
+
+class UpdateDemarcheRepositorySuccessStub extends UpdateDemarcheRepository {
+  String? _userId;
+  String? _actionId;
+  DemarcheStatus? _status;
+  DateTime? _fin;
+  DateTime? _debut;
+
+  UpdateDemarcheRepositorySuccessStub() : super('', DummyHttpClient());
+
+  void withArgsResolves(
+    String userId,
+    String actionId,
+    DemarcheStatus status,
+    DateTime? dateFin,
+    DateTime? dateDebut,
+  ) {
+    _userId = userId;
+    _actionId = actionId;
+    _status = status;
+    _fin = dateFin;
+    _debut = dateDebut;
+  }
+
+  @override
+  Future<Demarche?> updateDemarche(
+    String userId,
+    String demarcheId,
+    DemarcheStatus status,
+    DateTime? dateFin,
+    DateTime? dateDebut,
+  ) async {
+    if (_userId == userId && _actionId == demarcheId && _status == status && _debut == dateDebut && _fin == dateFin) {
+      return mockDemarche(id: demarcheId, status: status);
+    }
+    return null;
+  }
+}
+
+class UpdateDemarcheRepositoryFailureStub extends UpdateDemarcheRepository {
+  UpdateDemarcheRepositoryFailureStub() : super('', DummyHttpClient());
+
+  @override
+  Future<Demarche?> updateDemarche(
+    String userId,
+    String demarcheId,
+    DemarcheStatus status,
+    DateTime? dateFin,
+    DateTime? dateDebut,
+  ) async {
+    return null;
   }
 }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
@@ -23,20 +23,19 @@ import 'package:pass_emploi_app/widgets/chat/chat_piece_jointe_widget.dart';
 import 'package:pass_emploi_app/widgets/chat/offre_message_widget.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/loader.dart';
 import 'package:pass_emploi_app/widgets/preview_file_invisible_handler.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:redux/redux.dart';
 
-class ChatPage extends TraceableStatefulWidget {
-  ChatPage() : super(name: AnalyticsScreenNames.chat);
-
+class ChatPage extends StatefulWidget {
   @override
   _ChatPageState createState() => _ChatPageState();
 }
 
 class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
-  late TextEditingController _controller;
+  TextEditingController? _controller;
 
   @override
   void initState() {
@@ -46,7 +45,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    _controller.dispose();
+    _controller?.dispose();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
@@ -64,22 +63,25 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, ChatPageViewModel>(
-      onInit: (store) {
-        store.dispatch(LastMessageSeenAction());
-        store.dispatch(SubscribeToChatAction());
-      },
-      onDispose: (store) => _onDispose(store),
-      converter: (store) => ChatPageViewModel.create(store),
-      builder: (context, viewModel) => _scaffold(viewModel, _body(context, viewModel)),
-      onDidChange: (previousVm, newVm) => StoreProvider.of<AppState>(context).dispatch(LastMessageSeenAction()),
-      distinct: true,
+    return Tracker(
+      tracking: AnalyticsScreenNames.chat,
+      child: StoreConnector<AppState, ChatPageViewModel>(
+        onInit: (store) {
+          store.dispatch(LastMessageSeenAction());
+          store.dispatch(SubscribeToChatAction());
+        },
+        onDispose: (store) => _onDispose(store),
+        converter: (store) => ChatPageViewModel.create(store),
+        builder: (context, viewModel) => _scaffold(viewModel, _body(context, viewModel)),
+        onDidChange: (previousVm, newVm) => StoreProvider.of<AppState>(context).dispatch(LastMessageSeenAction()),
+        distinct: true,
+      ),
     );
   }
 
   void _onDispose(Store<AppState> store) {
     store.dispatch(UnsubscribeFromChatAction());
-    store.dispatch(SaveChatBrouillonAction(_controller.value.text));
+    if (_controller != null) store.dispatch(SaveChatBrouillonAction(_controller!.value.text));
   }
 
   Widget _scaffold(ChatPageViewModel viewModel, Widget body) {
@@ -100,7 +102,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
       case DisplayState.CONTENT:
         return _content(context, viewModel);
       case DisplayState.LOADING:
-        return _loader();
+        return loader();
       default:
         return Center(child: Retry(Strings.chatError, () => viewModel.onRetry()));
     }
@@ -174,13 +176,13 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                   backgroundColor: AppColors.primary,
                   child: SvgPicture.asset(Drawables.icPaperPlane),
                   onPressed: () {
-                    if (_controller.value.text == "Je suis malade. Complètement malade.") {
-                      _controller.clear();
-                      Navigator.pushNamed(context, CredentialsPage.routeName);
+                    if (_controller?.value.text == "Je suis malade. Complètement malade.") {
+                      _controller!.clear();
+                      Navigator.push(context, CredentialsPage.materialPageRoute());
                     }
-                    if (_controller.value.text.isNotEmpty) {
-                      viewModel.onSendMessage(_controller.value.text);
-                      _controller.clear();
+                    if (_controller?.value.text.isNotEmpty == true) {
+                      viewModel.onSendMessage(_controller!.value.text);
+                      _controller!.clear();
                       context.trackEvent(EventType.MESSAGE_ENVOYE);
                     }
                   },
@@ -192,6 +194,4 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
       ],
     );
   }
-
-  Widget _loader() => Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/presentation/demarche/create_demarche_step3_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -19,10 +20,10 @@ import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 import 'package:pass_emploi_app/widgets/tags/status_tag.dart';
 
-class CreateDemarcheStep3Page extends TraceableStatefulWidget {
+class CreateDemarcheStep3Page extends StatefulWidget {
   final String idDemarche;
 
-  CreateDemarcheStep3Page._(this.idDemarche) : super(name: AnalyticsScreenNames.searchDemarcheStep3);
+  CreateDemarcheStep3Page._(this.idDemarche);
 
   static MaterialPageRoute<void> materialPageRoute(String idDemarche) {
     return MaterialPageRoute(builder: (context) => CreateDemarcheStep3Page._(idDemarche));
@@ -38,12 +39,15 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, CreateDemarcheStep3ViewModel>(
-      builder: _buildBody,
-      converter: (store) => CreateDemarcheStep3ViewModel.create(store, widget.idDemarche),
-      onDidChange: _onDidChange,
-      onDispose: (store) => store.dispatch(CreateDemarcheResetAction()),
-      distinct: true,
+    return Tracker(
+      tracking: AnalyticsScreenNames.searchDemarcheStep3,
+      child: StoreConnector<AppState, CreateDemarcheStep3ViewModel>(
+        builder: _buildBody,
+        converter: (store) => CreateDemarcheStep3ViewModel.create(store, widget.idDemarche),
+        onDidChange: _onDidChange,
+        onDispose: (store) => store.dispatch(CreateDemarcheResetAction()),
+        distinct: true,
+      ),
     );
   }
 

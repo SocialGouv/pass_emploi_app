@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/pages/favoris/favoris_page.dart';
 import 'package:pass_emploi_app/pages/immersion_details_page.dart';
@@ -29,13 +28,12 @@ class ImmersionFavorisPage extends AbstractFavorisPage<Immersion, Immersion> {
       sousTitre: itemViewModel.nomEtablissement,
       lieu: itemViewModel.ville,
       dataTag: [itemViewModel.secteurActivite],
-      onTap: () => pushAndTrackBack(
+      onTap: () => Navigator.push(
         context,
         ImmersionDetailsPage.materialPageRoute(
           itemViewModel.id,
           popPageWhenFavoriIsRemoved: true,
         ),
-        AnalyticsScreenNames.immersionFavoris,
       ),
       from: OffrePage.immersionFavoris,
       id: itemViewModel.id,

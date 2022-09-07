@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/tags/tags.dart';
 
 class ImmersionBottomSheetForm extends StatefulWidget {
@@ -38,7 +39,7 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         userActionBottomSheetHeader(context, title: Strings.createSavedSearchTitle),
-        userActionBottomSheetSeparator(),
+        SepLine(0, 0),
         Expanded(
           child: ListView(
             shrinkWrap: true,
@@ -56,7 +57,7 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
 
   Widget _createButton(ImmersionSavedSearchViewModel viewModel) {
     return Padding(
-      padding: userActionBottomSheetContentPadding(),
+      padding: bottomSheetContentPadding(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -82,7 +83,7 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
 
   Widget _savedSearchTitle(ImmersionSavedSearch searchViewModel) {
     return Padding(
-      padding: userActionBottomSheetContentPadding(),
+      padding: bottomSheetContentPadding(),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -142,7 +143,7 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
 
   Widget _savedSearchFilters(ImmersionSavedSearch searchViewModel) {
     return Padding(
-      padding: userActionBottomSheetContentPadding(),
+      padding: bottomSheetContentPadding(),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -175,7 +176,7 @@ class _ImmersionBottomSheetFormState extends State<ImmersionBottomSheetForm> {
 
   Widget _savedSearchInfo() {
     return Padding(
-      padding: userActionBottomSheetContentPadding(),
+      padding: bottomSheetContentPadding(),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,

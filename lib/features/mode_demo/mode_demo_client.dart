@@ -58,6 +58,7 @@ class ModeDemoException implements Exception {
 }
 
 String? _getFileName(String url, String query) {
+  if (url.contains("/home/agenda")) return "home_agenda";
   if (url.endsWith("/home/demarches")) return "home_demarches";
   if (url.endsWith("/home/actions")) return "home_actions";
   if (url.endsWith("/favoris/offres-immersion")) return "favoris_ids_immersion";
@@ -70,7 +71,9 @@ String? _getFileName(String url, String query) {
   if (url.endsWith("alternance_detail")) return "alternance_detail";
   if (url.endsWith("/offres-immersion")) return "offres_immersion_list";
   if (url.endsWith("/services-civique")) return "offres_services_civique";
+  if (url.endsWith("/preferences")) return "preferences";
   if (url.endsWith("/referentiels/pole-emploi/types-demarches")) return "referentiel_demarches";
+  if (url.endsWith("/commentaires")) return "commentaires";
   if (url.removeLastPath().endsWith("/services-civique")) return "service_civique_detail";
   if (url.removeLastPath().endsWith("/offres-immersion")) return "immersion_detail";
   if (url.removeLastPath().endsWith("/offres-emploi")) return "offre_emploi_detail";

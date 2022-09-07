@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/immersion/immersion_filtres_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -13,9 +13,7 @@ import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/slider/distance_slider.dart';
 
-class ImmersionFiltresPage extends TraceableStatefulWidget {
-  const ImmersionFiltresPage() : super(name: AnalyticsScreenNames.immersionFiltres);
-
+class ImmersionFiltresPage extends StatefulWidget {
   static MaterialPageRoute<void> materialPageRoute() {
     return MaterialPageRoute(builder: (_) => ImmersionFiltresPage());
   }
@@ -27,15 +25,18 @@ class ImmersionFiltresPage extends TraceableStatefulWidget {
 class _ImmersionFiltresPageState extends State<ImmersionFiltresPage> {
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, ImmersionFiltresViewModel>(
-      converter: (store) => ImmersionFiltresViewModel.create(store),
-      builder: (context, viewModel) => _scaffold(viewModel),
-      distinct: true,
-      onWillChange: (previousVM, newVM) {
-        if (previousVM?.displayState == DisplayState.LOADING && newVM.displayState == DisplayState.CONTENT) {
-          Navigator.pop(context);
-        }
-      },
+    return Tracker(
+      tracking: AnalyticsScreenNames.immersionFiltres,
+      child: StoreConnector<AppState, ImmersionFiltresViewModel>(
+        converter: (store) => ImmersionFiltresViewModel.create(store),
+        builder: (context, viewModel) => _scaffold(viewModel),
+        distinct: true,
+        onWillChange: (previousVM, newVM) {
+          if (previousVM?.displayState == DisplayState.LOADING && newVM.displayState == DisplayState.CONTENT) {
+            Navigator.pop(context);
+          }
+        },
+      ),
     );
   }
 

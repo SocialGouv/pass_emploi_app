@@ -2,6 +2,7 @@ class AnalyticsScreenNames {
   AnalyticsScreenNames._();
 
   static const splash = "splash";
+  static const login = "login";
   static const forceUpdate = "force_update";
   static const entree = "entree";
   static const choixOrganisme = "entree/choix-organisme";
@@ -11,6 +12,8 @@ class AnalyticsScreenNames {
   static String cejInformationPage(int pageNumber) => "entree/etape-$pageNumber";
 
   static const evaluationDetails = "actions/tuile-evaluation";
+
+  static const agenda = "agenda";
 
   static const userActionList = "actions/list";
   static const userActionDetails = "actions/detail";
@@ -84,7 +87,14 @@ class AnalyticsScreenNames {
   static const savedSearchServiceCiviqueDelete = "/saved_search/service-civique/delete";
 
   static const suppressionAccount = "/profil/suppression-compte";
+  static const shareActivity = "/profil/autorisation-partage-conseiller";
+
   static const explicationModeDemo = "/entree/mode-demo";
+
+  static const tutorialPage = "/new-feature_tutorial";
+  static const ratingPage = "/notation";
+
+  static const actionCommentsPage = "/actions/detail/comments/view";
 }
 
 class AnalyticsActionNames {
@@ -129,6 +139,18 @@ class AnalyticsActionNames {
 
   static const suppressionAccountConfirmation = "/profil/suppression-compte/confirm";
   static const suppressionAccountSucceded = "/login?deleteSuccess=true";
+
+  static const continueTutorial = "/new-feature_tutorial/continue";
+  static const skipTutorial = "/new-feature_tutorial/skip";
+  static const delayedTutorial = "/new-feature_tutorial/delayed";
+  static const doneTutorial = "/new-feature_tutorial/done";
+
+  static const skipRating = "/notation/skip";
+  static const negativeRating = "/notation/defavorable";
+  static const positiveRating = "/notation/favorable";
+
+  static const accessToActionComments = "/actions/detail/comments/add";
+  static const sendComment = "/actions/detail/comments/send";
 }
 
 class AnalyticsCustomDimensions {

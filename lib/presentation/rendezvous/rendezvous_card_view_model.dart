@@ -26,8 +26,18 @@ class RendezvousCardViewModel extends Equatable {
     required this.greenTag,
   });
 
-  factory RendezvousCardViewModel.create(Store<AppState> store, String rdvId) {
-    final rdv = getRendezvousFromStore(store, rdvId);
+  // todo Tests (low) avec une façon élégeante de faire 2-en-1
+  factory RendezvousCardViewModel.createFromAgendaState(Store<AppState> store, String rendezvousId) {
+    final rendezvous = getRendezvousFromAgendaState(store, rendezvousId);
+    return RendezvousCardViewModel.create(rendezvous);
+  }
+
+  factory RendezvousCardViewModel.createFromRendezvousState(Store<AppState> store, String rdvId) {
+    final rdv = getRendezvousFromRendezvousState(store, rdvId);
+    return RendezvousCardViewModel.create(rdv);
+  }
+
+  factory RendezvousCardViewModel.create(Rendezvous rdv) {
     return RendezvousCardViewModel(
       id: rdv.id,
       tag: takeTypeLabelOrPrecision(rdv),

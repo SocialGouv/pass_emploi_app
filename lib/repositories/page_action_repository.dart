@@ -1,6 +1,7 @@
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/page_actions.dart';
+import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/network/json_encoder.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
@@ -30,24 +31,26 @@ class PageActionRepository {
     return null;
   }
 
-  Future<void> updateActionStatus(String userId, String actionId, UserActionStatus newStatus) async {
+  Future<bool> updateActionStatus(String actionId, UserActionStatus newStatus) async {
     final url = Uri.parse(_baseUrl + "/actions/$actionId");
     try {
-      await _httpClient.put(
+      final response = await _httpClient.put(
         url,
         body: customJsonEncode(PutUserActionRequest(status: newStatus)),
       );
+      if (response.statusCode.isValid()) return true;
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, url);
     }
+    return false;
   }
 
-  Future<bool> createUserAction(String userId, String? content, String? comment, UserActionStatus status) async {
+  Future<bool> createUserAction(String userId, UserActionCreateRequest request) async {
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/action");
     try {
       final response = await _httpClient.post(
         url,
-        body: customJsonEncode(PostUserActionRequest(content: content!, comment: comment, status: status)),
+        body: customJsonEncode(PostUserActionRequest(request)),
       );
       if (response.statusCode.isValid()) {
         return true;

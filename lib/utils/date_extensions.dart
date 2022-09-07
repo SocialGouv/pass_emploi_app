@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
@@ -5,6 +6,18 @@ import 'package:pass_emploi_app/utils/string_extensions.dart';
 final DateTime minDateTime = DateTime.fromMicrosecondsSinceEpoch(0);
 
 extension DateExtensions on DateTime {
+
+  String toIso8601WithTimeZoneOffset() {
+    String twoDigits(int n) => n >= 10 ? "$n" : "0$n";
+
+    final hours = twoDigits(timeZoneOffset.inHours.abs());
+    final minutes = twoDigits(timeZoneOffset.inMinutes.remainder(60));
+    final sign = timeZoneOffset.isNegative ? "-" : "+";
+    final formattedDate = DateFormat("yyyy-MM-ddTHH:mm:ss").format(this);
+
+    return "$formattedDate$sign$hours:$minutes";
+  }
+
   String toDayAndHourContextualized() {
     if (isTomorrow()) return "Demain ${DateFormat('à HH\'h\'mm').format(this)}";
     if (isToday()) return "Aujourd'hui ${DateFormat('à HH\'h\'mm').format(this)}";
@@ -21,10 +34,12 @@ extension DateExtensions on DateTime {
     return toDayWithFullMonth();
   }
 
+  String toDayOfWeekWithFullMonth() => DateFormat('EEEE d MMMM', 'fr').format(this);
+
   String toDayOfWeekWithFullMonthContextualized() {
     if (isTomorrow()) return "Demain";
     if (isToday()) return "Aujourd'hui";
-    return DateFormat('EEEE d MMMM', 'fr').format(this).firstLetterUpperCased();
+    return toDayOfWeekWithFullMonth().firstLetterUpperCased();
   }
 
   String toFullMonthAndYear() {
@@ -37,9 +52,11 @@ extension DateExtensions on DateTime {
     return day == other.day && month == other.month && year == other.year;
   }
 
-  bool isToday() => isAtSameDayAs(DateTime.now());
+  bool isToday() => isAtSameDayAs(clock.now());
 
-  bool isTomorrow() => isAtSameDayAs(DateTime.now().add(Duration(days: 1)));
+  bool isTomorrow() => isAtSameDayAs(clock.now().add(Duration(days: 1)));
+
+  bool isSaturday() => weekday == 6;
 
   bool isInPreviousDay(DateTime anotherDate) {
     final anotherDayDate = DateUtils.dateOnly(anotherDate);
@@ -65,7 +82,7 @@ extension DateExtensions on DateTime {
 
   int numberOfDaysUntilToday() {
     final from = DateTime(year, month, day);
-    final to = DateUtils.dateOnly(DateTime.now());
+    final to = DateUtils.dateOnly(clock.now());
     return (to.difference(from).inHours / 24).round();
   }
 }

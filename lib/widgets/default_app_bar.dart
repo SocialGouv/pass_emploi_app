@@ -10,19 +10,6 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
-class DefaultAppBar extends AppBar {
-  DefaultAppBar({Widget? title, List<Widget>? actions, bool? centerTitle})
-      : super(
-          title: title,
-          actions: actions,
-          centerTitle: centerTitle,
-          iconTheme: IconThemeData(color: AppColors.contentColor),
-          toolbarHeight: Dimens.appBarHeight,
-          backgroundColor: Colors.transparent,
-          elevation: 2,
-        );
-}
-
 class FlatDefaultAppBar extends AppBar {
   FlatDefaultAppBar({
     Widget? title,

@@ -1,24 +1,26 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
-import 'package:pass_emploi_app/features/demarche/update/update_demarche_action.dart';
+import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
+import 'package:pass_emploi_app/features/demarche/update/update_demarche_state.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
-import 'package:pass_emploi_app/presentation/demarche/demarche_card_view_model.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
+import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
 
-void _emptyFunction(UserActionTagViewModel tag) {
-  // Do nothing
-}
-
 class DemarcheDetailViewModel extends Equatable {
   final bool createdByAdvisor;
   final bool modifiedByAdvisor;
-  final String formattedDate;
+  final List<FormattedText> dateFormattedTexts;
+  final Color dateTextColor;
+  final Color dateBackgroundColor;
+  final List<String> dateIcons;
   final String? label;
   final String? titreDetail;
   final String? sousTitre;
@@ -27,12 +29,16 @@ class DemarcheDetailViewModel extends Equatable {
   final List<String> attributs;
   final List<UserActionTagViewModel> statutsPossibles;
   final Function(UserActionTagViewModel) onModifyStatus;
-  final bool isLate;
+  final Function() resetUpdateStatus;
+  final DisplayState updateDisplayState;
 
   DemarcheDetailViewModel({
     required this.createdByAdvisor,
     required this.modifiedByAdvisor,
-    required this.formattedDate,
+    required this.dateFormattedTexts,
+    required this.dateTextColor,
+    required this.dateBackgroundColor,
+    required this.dateIcons,
     required this.label,
     required this.titreDetail,
     required this.sousTitre,
@@ -40,18 +46,24 @@ class DemarcheDetailViewModel extends Equatable {
     required this.statutsPossibles,
     required this.modificationDate,
     required this.creationDate,
-    this.onModifyStatus = _emptyFunction,
-    required this.isLate,
+    required this.onModifyStatus,
+    required this.resetUpdateStatus,
+    required this.updateDisplayState,
   });
 
   factory DemarcheDetailViewModel.create(Store<AppState> store, String id) {
     final Demarche demarche =
         (store.state.demarcheListState as DemarcheListSuccessState).demarches.firstWhere((element) => element.id == id);
     demarche.possibleStatus.sort((a, b) => a.compareTo(b));
+    final isLate = _isLate(demarche.status, demarche.endDate);
+    final updateState = store.state.updateDemarcheState;
     return DemarcheDetailViewModel(
       createdByAdvisor: demarche.createdByAdvisor,
       modifiedByAdvisor: demarche.modifiedByAdvisor,
-      formattedDate: _setFormattedDate(demarche.status, demarche.endDate?.toDay(), demarche.deletionDate?.toDay()),
+      dateFormattedTexts: _formattedDate(demarche),
+      dateBackgroundColor: isLate ? AppColors.warningLighten : AppColors.accent3Lighten,
+      dateTextColor: isLate ? AppColors.warning : AppColors.accent2,
+      dateIcons: [if (isLate) Drawables.icImportantOutlined, Drawables.icClock],
       label: demarche.label,
       titreDetail: demarche.titre,
       sousTitre: demarche.sousTitre,
@@ -62,7 +74,7 @@ class DemarcheDetailViewModel extends Equatable {
       onModifyStatus: (tag) {
         final status = _getStatusFromTag(tag);
         if (!tag.isSelected && status != null) {
-          store.dispatch(UpdateDemarcheAction(
+          store.dispatch(UpdateDemarcheRequestAction(
             demarche.id,
             demarche.endDate,
             demarche.creationDate,
@@ -70,7 +82,8 @@ class DemarcheDetailViewModel extends Equatable {
           ));
         }
       },
-      isLate: isLateAction(demarche.status, demarche.endDate),
+      resetUpdateStatus: () => store.dispatch(UpdateDemarcheResetAction()),
+      updateDisplayState: _updateStateDisplayState(updateState),
     );
   }
 
@@ -78,7 +91,10 @@ class DemarcheDetailViewModel extends Equatable {
   List<Object?> get props => [
         createdByAdvisor,
         modifiedByAdvisor,
-        formattedDate,
+        dateFormattedTexts,
+        dateFormattedTexts,
+        dateBackgroundColor,
+        dateTextColor,
         label,
         titreDetail,
         sousTitre,
@@ -86,6 +102,7 @@ class DemarcheDetailViewModel extends Equatable {
         creationDate,
         attributs,
         statutsPossibles,
+        updateDisplayState,
       ];
 }
 
@@ -123,22 +140,24 @@ UserActionTagViewModel _getTagViewModel(DemarcheStatus status, DemarcheStatus cu
   }
 }
 
-String _setFormattedDate(DemarcheStatus status, String? endDate, String? deletionDate) {
-  if (status == DemarcheStatus.CANCELLED) {
-    return (deletionDate != null && deletionDate.isNotEmpty) ? _getDateText(status, deletionDate) : Strings.withoutDate;
+List<FormattedText> _formattedDate(Demarche demarche) {
+  if (demarche.status == DemarcheStatus.CANCELLED && demarche.deletionDate != null) {
+    return [
+      FormattedText(Strings.demarcheCancelledLabel),
+      FormattedText(demarche.deletionDate!.toDay(), bold: true),
+    ];
+  } else if (demarche.status == DemarcheStatus.DONE && demarche.endDate != null) {
+    return [
+      FormattedText(Strings.demarcheDoneLabel),
+      FormattedText(demarche.endDate!.toDay(), bold: true),
+    ];
+  } else if (demarche.endDate != null) {
+    return [
+      FormattedText(Strings.demarcheActiveLabel),
+      FormattedText(demarche.endDate!.toDay(), bold: true),
+    ];
   } else {
-    return (endDate != null && endDate.isNotEmpty) ? _getDateText(status, endDate) : Strings.withoutDate;
-  }
-}
-
-String _getDateText(DemarcheStatus status, String date) {
-  switch (status) {
-    case DemarcheStatus.DONE:
-      return Strings.demarcheDoneDateFormat(date);
-    case DemarcheStatus.CANCELLED:
-      return Strings.demarcheCancelledDateFormat(date);
-    default:
-      return Strings.demarcheActiveDateFormat(date);
+    return [FormattedText(Strings.withoutDate)];
   }
 }
 
@@ -155,4 +174,17 @@ DemarcheStatus? _getStatusFromTag(UserActionTagViewModel tag) {
     default:
       return null;
   }
+}
+
+bool _isLate(DemarcheStatus status, DateTime? endDate) {
+  if (endDate != null && (status == DemarcheStatus.NOT_STARTED || status == DemarcheStatus.IN_PROGRESS)) {
+    return endDate.isBefore(DateTime.now()) && (endDate.numberOfDaysUntilToday() > 0);
+  }
+  return false;
+}
+
+DisplayState _updateStateDisplayState(UpdateDemarcheState state) {
+  if (state is UpdateDemarcheLoadingState) return DisplayState.LOADING;
+  if (state is UpdateDemarcheFailureState) return DisplayState.FAILURE;
+  return DisplayState.EMPTY;
 }

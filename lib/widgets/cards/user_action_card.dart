@@ -5,13 +5,20 @@ import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/date_echeance_in_card.dart';
 import 'package:pass_emploi_app/widgets/tags/status_tag.dart';
 
 class UserActionCard extends StatelessWidget {
   final VoidCallback onTap;
   final UserActionViewModel viewModel;
+  final bool simpleCard;
 
-  const UserActionCard({Key? key, required this.onTap, required this.viewModel}) : super(key: key);
+  const UserActionCard({
+    Key? key,
+    required this.onTap,
+    required this.viewModel,
+    this.simpleCard = false,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +41,12 @@ class UserActionCard extends StatelessWidget {
                 children: [
                   if (viewModel.tag != null) _buildStatut(viewModel.tag!),
                   Text(viewModel.title, style: TextStyles.textBaseBold),
-                  if (viewModel.withSubtitle) _buildSousTitre(),
-                  _buildDerniereModification(),
+                  if (viewModel.withSubtitle && simpleCard == false) _buildSousTitre(),
+                  if (viewModel.dateEcheanceViewModel != null && simpleCard == false)
+                    DateEcheanceInCard(
+                      formattedTexts: viewModel.dateEcheanceViewModel!.formattedTexts,
+                      color: viewModel.dateEcheanceViewModel!.color,
+                    ),
                 ],
               ),
             ),
@@ -60,22 +71,6 @@ class UserActionCard extends StatelessWidget {
         textColor: viewModel.textColor,
         title: viewModel.title,
       ),
-    );
-  }
-
-  Widget _buildDerniereModification() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: Margins.spacing_base),
-          child: Container(
-            height: 1,
-            color: AppColors.primaryLighten,
-          ),
-        ),
-        Text(viewModel.lastUpdate, style: TextStyles.textSRegular(color: AppColors.contentColor)),
-      ],
     );
   }
 }

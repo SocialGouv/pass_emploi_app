@@ -10,11 +10,13 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/cej_information_content_card.dart';
-import 'package:pass_emploi_app/widgets/onboarding_background.dart';
+import 'package:pass_emploi_app/widgets/primary_rounded_bottom_background.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class CejInformationPage extends StatefulWidget {
-  static const routeName = "/entree/information";
+  static MaterialPageRoute<void> materialPageRoute() {
+    return MaterialPageRoute(builder: (context) => CejInformationPage());
+  }
 
   @override
   State<CejInformationPage> createState() => _CejInformationPageState();
@@ -41,7 +43,7 @@ class _CejInformationPageState extends State<CejInformationPage> {
     return Scaffold(
       body: Stack(
         children: [
-          OnboardingBackground(),
+          PrimaryRoundedBottomBackground(),
           SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -53,7 +55,7 @@ class _CejInformationPageState extends State<CejInformationPage> {
                       _backButton(context),
                       Spacer(),
                       InkWell(
-                        onTap: () => Navigator.pushNamed(context, ChoixOrganismePage.routeName),
+                        onTap: () => Navigator.push(context, ChoixOrganismePage.materialPageRoute()),
                         child: Padding(
                           padding: const EdgeInsets.symmetric(
                             vertical: Margins.spacing_s,
@@ -88,7 +90,7 @@ class _CejInformationPageState extends State<CejInformationPage> {
                           curve: Curves.linearToEaseOut,
                         );
                       } else {
-                        Navigator.pushNamed(context, ChoixOrganismePage.routeName);
+                        Navigator.push(context, ChoixOrganismePage.materialPageRoute());
                       }
                     },
                   ),

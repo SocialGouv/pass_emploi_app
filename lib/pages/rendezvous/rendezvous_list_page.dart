@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:matomo/matomo.dart';
-import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_view_model.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
+import 'package:pass_emploi_app/widgets/big_title_separator.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_icon_button.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
@@ -49,39 +50,39 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
   }
 
   Widget _builder(BuildContext context, RendezvousListViewModel viewModel) {
-    MatomoTracker.trackScreenWithName(viewModel.analyticsLabel, viewModel.analyticsLabel);
-    return _Scaffold(
-      body: _Body(
-        viewModel: viewModel,
-        onPageOffsetChanged: (i) {
-          final newOffset = _pageOffset + i;
-          setState(() {
-            _pageOffset = newOffset;
-          });
-        },
-        onNextRendezvousButtonTap: () {
-          setState(() {
-            _pageOffset = viewModel.nextRendezvousPageOffset!;
-          });
-        },
-        onTap: (rdvId) {
-          context.trackEvent(EventType.RDV_DETAIL);
-          return widget.pushAndTrackBack(
-            context,
-            RendezvousDetailsPage.materialPageRoute(rdvId),
-            viewModel.analyticsLabel,
-          );
-        },
+    return Tracker(
+      tracking: viewModel.analyticsLabel,
+      child: _Scaffold(
+        body: _Body(
+          viewModel: viewModel,
+          onPageOffsetChanged: (i) {
+            final newOffset = _pageOffset + i;
+            setState(() {
+              _pageOffset = newOffset;
+            });
+          },
+          onNextRendezvousButtonTap: () {
+            setState(() {
+              _pageOffset = viewModel.nextRendezvousPageOffset!;
+            });
+          },
+          onTap: (rdvId) {
+            context.trackEvent(EventType.RDV_DETAIL);
+            return Navigator.push(
+              context,
+              RendezvousDetailsPage.materialPageRouteWithRendezvousState(rdvId),
+            );
+          },
+        ),
       ),
     );
   }
 
   void _openDeeplinkIfNeeded(RendezvousListViewModel viewModel, BuildContext context) {
     if (viewModel.deeplinkRendezvousId != null) {
-      widget.pushAndTrackBack(
+      Navigator.push(
         context,
-        RendezvousDetailsPage.materialPageRoute(viewModel.deeplinkRendezvousId!),
-        viewModel.analyticsLabel,
+        RendezvousDetailsPage.materialPageRouteWithRendezvousState(viewModel.deeplinkRendezvousId!),
       );
       viewModel.onDeeplinkUsed();
     }
@@ -190,7 +191,7 @@ class _RendezvousSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        _DayDivider(section.title),
+        BigTitleSeparator(section.title),
         ...section.displayedRendezvous.cards(onTap: onTap),
         if (section.expandableRendezvous.isNotEmpty)
           Theme(
@@ -210,7 +211,10 @@ extension _RendezvousIdCards on List<String> {
     return map(
       (id) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: Margins.spacing_s),
-        child: RendezvousCard(rendezvousId: id, onTap: () => onTap(id)),
+        child: RendezvousCard(
+          converter: (store) => RendezvousCardViewModel.createFromRendezvousState(store, id),
+          onTap: () => onTap(id),
+        ),
       ),
     ).toList();
   }
@@ -255,39 +259,6 @@ class _EmptyWeek extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _DayDivider extends StatelessWidget {
-  final String label;
-
-  _DayDivider(this.label);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: 48,
-          height: 2,
-          color: AppColors.contentColor,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            label,
-            style: TextStyles.textMBold,
-          ),
-        ),
-        Container(
-          width: 48,
-          height: 2,
-          color: AppColors.contentColor,
-        ),
-      ],
     );
   }
 }

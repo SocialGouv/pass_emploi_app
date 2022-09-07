@@ -1,7 +1,9 @@
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
+import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 
 class PassEmploiCacheManager extends CacheManager {
@@ -34,7 +36,14 @@ class PassEmploiCacheManager extends CacheManager {
       case CachedRessource.SAVED_SEARCH:
         removeFile(GetSavedSearchRepository.getSavedSearchUri(baseUrl: baseUrl, userId: userId).toString());
         break;
+      case CachedRessource.UPDATE_PARTAGE_ACTIVITE:
+        removeFile(PartageActiviteRepository.getPartageActiviteUri(baseUrl: baseUrl, userId: userId).toString());
+        break;
     }
+  }
+
+  void removeActionCommentaireRessource(String actionId, String baseUrl) {
+    removeFile(ActionCommentaireRepository.getCommentairesUri(baseUrl: baseUrl, actionId: actionId).toString());
   }
 }
 
@@ -43,4 +52,5 @@ enum CachedRessource {
   OFFRE_EMPLOI_FAVORIS,
   SERVICE_CIVIQUE_FAVORIS,
   SAVED_SEARCH,
+  UPDATE_PARTAGE_ACTIVITE,
 }

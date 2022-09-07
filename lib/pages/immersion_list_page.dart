@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/analytics/analytics_extensions.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/pages/immersion_details_page.dart';
 import 'package:pass_emploi_app/pages/immersion_filtres_page.dart';
@@ -25,24 +25,27 @@ import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/empty_offre_widget.dart';
 import 'package:pass_emploi_app/widgets/favori_state_selector.dart';
 
-class ImmersionListPage extends TraceableStatelessWidget {
+class ImmersionListPage extends StatelessWidget {
   final bool fromSavedSearch;
 
-  ImmersionListPage([this.fromSavedSearch = false]) : super(name: AnalyticsScreenNames.immersionResults);
+  ImmersionListPage([this.fromSavedSearch = false]);
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, ImmersionSearchResultsViewModel>(
-      converter: (store) => ImmersionSearchResultsViewModel.create(store),
-      builder: (context, viewModel) => FavorisStateContext<Immersion>(
-        selectState: (store) => store.state.immersionFavorisState,
-        child: Scaffold(
-          backgroundColor: AppColors.grey100,
-          appBar: passEmploiAppBar(label: Strings.immersionsTitle, context: context, withBackButton: true),
-          body: _body(context, viewModel),
+    return Tracker(
+      tracking: AnalyticsScreenNames.immersionResults,
+      child: StoreConnector<AppState, ImmersionSearchResultsViewModel>(
+        converter: (store) => ImmersionSearchResultsViewModel.create(store),
+        builder: (context, viewModel) => FavorisStateContext<Immersion>(
+          selectState: (store) => store.state.immersionFavorisState,
+          child: Scaffold(
+            backgroundColor: AppColors.grey100,
+            appBar: passEmploiAppBar(label: Strings.immersionsTitle, context: context, withBackButton: true),
+            body: _body(context, viewModel),
+          ),
         ),
+        distinct: true,
       ),
-      distinct: true,
     );
   }
 
@@ -117,10 +120,9 @@ class ImmersionListPage extends TraceableStatelessWidget {
       sousTitre: immersion.nomEtablissement,
       lieu: immersion.ville,
       dataTag: [immersion.secteurActivite],
-      onTap: () => pushAndTrackBack(
+      onTap: () => Navigator.push(
         context,
         ImmersionDetailsPage.materialPageRoute(immersion.id),
-        AnalyticsScreenNames.immersionResults,
       ),
       from: OffrePage.immersionResults,
       id: immersion.id,
@@ -178,10 +180,9 @@ class ImmersionListPage extends TraceableStatelessWidget {
   }
 
   Future<void> _onFiltreButtonPressed(BuildContext context) {
-    return pushAndTrackBack(
+    return Navigator.push(
       context,
       ImmersionFiltresPage.materialPageRoute(),
-      AnalyticsScreenNames.immersionResults,
     );
   }
 

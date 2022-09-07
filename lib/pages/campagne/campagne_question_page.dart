@@ -103,7 +103,6 @@ class _CampagneQuestionPageState extends State<CampagneQuestionPage> {
   void onButtonPressed(QuestionPageViewModel viewModel) {
     submitAnswer(viewModel);
     if (viewModel.bottomButton == QuestionBottomButton.next) {
-      // ignore: ban-name, no tracking required on this page
       Navigator.push(context, CampagneQuestionPage.materialPageRoute(widget.questionOffset + 1));
     } else {
       Navigator.popUntil(context, (route) => route.settings.name == Navigator.defaultRouteName);

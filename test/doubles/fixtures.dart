@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
@@ -5,17 +6,23 @@ import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
+import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
+import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
+import 'package:pass_emploi_app/models/partage_activite.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/models/user.dart';
+import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/models/user_action_creator.dart';
+import 'package:pass_emploi_app/models/version.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_item_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
@@ -30,21 +37,29 @@ User mockUser({String id = "", LoginMode loginMode = LoginMode.MILO}) => User(
       loginMode: loginMode,
     );
 
-LoginState successMiloUserState() => LoginSuccessState(User(
-      id: "id",
-      firstName: "F",
-      lastName: "L",
-      email: "first.last@milo.fr",
-      loginMode: LoginMode.MILO,
-    ));
+LoginState successMiloUserState() => LoginSuccessState(mockedMiloUser());
 
-LoginState successPoleEmploiUserState() => LoginSuccessState(User(
-      id: "id",
-      firstName: "F",
-      lastName: "L",
-      email: "first.last@pole-emploi.fr",
-      loginMode: LoginMode.POLE_EMPLOI,
-    ));
+User mockedMiloUser() {
+  return User(
+    id: "id",
+    firstName: "F",
+    lastName: "L",
+    email: "first.last@milo.fr",
+    loginMode: LoginMode.MILO,
+  );
+}
+
+LoginState successPoleEmploiUserState() => LoginSuccessState(mockedPoleEmploiUser());
+
+User mockedPoleEmploiUser() {
+  return User(
+    id: "id",
+    firstName: "F",
+    lastName: "L",
+    email: "first.last@pole-emploi.fr",
+    loginMode: LoginMode.POLE_EMPLOI,
+  );
+}
 
 LoginState successPassEmploiUserState() => LoginSuccessState(User(
       id: "id",
@@ -130,19 +145,22 @@ AuthTokenResponse authTokenResponse() => AuthTokenResponse(
       refreshToken: 'refreshToken',
     );
 
-Configuration configuration({Flavor flavor = Flavor.STAGING}) => Configuration(
-      flavor,
-      'serverBaseUrl',
-      'matomoBaseUrl',
-      'matomoSiteId',
-      'authClientId',
-      'authLoginRedirectUrl',
-      'authLogoutRedirectUrl',
-      'authIssuer',
-      ['scope1', 'scope2', 'scope3'],
-      'authClientSecret',
-      'someKey',
-    );
+Configuration configuration({Version version = const Version(1, 0, 0), Flavor flavor = Flavor.STAGING}) {
+  return Configuration(
+    version,
+    flavor,
+    'serverBaseUrl',
+    'matomoBaseUrl',
+    'matomoSiteId',
+    'authClientId',
+    'authLoginRedirectUrl',
+    'authLogoutRedirectUrl',
+    'authIssuer',
+    ['scope1', 'scope2', 'scope3'],
+    'authClientSecret',
+    'someKey',
+  );
+}
 
 Location mockLocation({double? lat, double? lon}) => Location(
       libelle: "",
@@ -199,6 +217,20 @@ ServiceCiviqueDetail mockServiceCiviqueDetail() => ServiceCiviqueDetail(
       codePostal: "75002",
     );
 
+Rendezvous rendezvousStub({String? id, DateTime? date}) {
+  return Rendezvous(
+    id: id ?? "id-1",
+    date: date ?? DateTime(2021, 07, 21),
+    isInVisio: false,
+    isAnnule: false,
+    type: RendezvousType(RendezvousTypeCode.VISITE, "Visite"),
+    withConseiller: true,
+    duration: 120,
+    conseiller: Conseiller(id: "1", firstName: "Nils", lastName: "Tavernier"),
+    modality: "par visio",
+  );
+}
+
 Rendezvous mockRendezvous({
   String id = '',
   bool isInVisio = false,
@@ -247,6 +279,26 @@ DetailsJeune detailsJeune() {
   );
 }
 
+DetailsJeune detailsJeuneSinceOneMonth() {
+  return DetailsJeune(
+    conseiller: DetailsJeuneConseiller(
+      firstname: "Perceval",
+      lastname: "de Galles",
+      sinceDate: clock.now().subtract(Duration(days: 31)),
+    ),
+  );
+}
+
+DetailsJeune detailsJeuneSinceLessOneMonth() {
+  return DetailsJeune(
+    conseiller: DetailsJeuneConseiller(
+      firstname: "Perceval",
+      lastname: "de Galles",
+      sinceDate: clock.now().subtract(Duration(days: 29)),
+    ),
+  );
+}
+
 Campagne campagne([String? id]) {
   return Campagne(
     id: id ?? '7',
@@ -270,4 +322,107 @@ DemarcheDuReferentiel mockDemarcheDuReferentiel([String? id, List<Comment>? comm
         ],
     isCommentMandatory: true,
   );
+}
+
+UserAction userActionStub({String? id, DateTime? dateEcheance}) {
+  return UserAction(
+    id: id ?? "id-1",
+    content: "content",
+    comment: "comment",
+    status: UserActionStatus.IN_PROGRESS,
+    dateEcheance: dateEcheance ?? parseDateTimeUtcWithCurrentTimeZone("2007-07-07T01:01:07.000Z"),
+    creator: JeuneActionCreator(),
+  );
+}
+
+UserAction mockUserAction({
+  String? id,
+  String? content,
+  String? comment,
+  UserActionStatus? status,
+  DateTime? lastUpdate,
+  DateTime? dateEcheance,
+  UserActionCreator? creator,
+}) {
+  return UserAction(
+    id: id ?? '',
+    content: content ?? '',
+    comment: comment ?? '',
+    status: status ?? UserActionStatus.IN_PROGRESS,
+    dateEcheance: dateEcheance ?? DateTime.now(),
+    creator: creator ?? JeuneActionCreator(),
+  );
+}
+
+Demarche mockDemarche({
+  String id = 'id',
+  DemarcheStatus status = DemarcheStatus.NOT_STARTED,
+  DateTime? endDate,
+  DateTime? deletionDate,
+}) {
+  return Demarche(
+    id: id,
+    content: null,
+    status: status,
+    endDate: endDate,
+    deletionDate: deletionDate,
+    createdByAdvisor: true,
+    label: null,
+    possibleStatus: [],
+    creationDate: null,
+    modifiedByAdvisor: false,
+    sousTitre: null,
+    titre: null,
+    modificationDate: null,
+    attributs: [],
+  );
+}
+
+UserAction mockNotStartedAction({required String actionId}) {
+  return UserAction(
+    id: actionId,
+    content: "content",
+    comment: "comment",
+    status: UserActionStatus.NOT_STARTED,
+    dateEcheance: DateTime(2042),
+    creator: JeuneActionCreator(),
+  );
+}
+
+PartageActivite mockPartageActivite({required bool favoriShared}) => PartageActivite(partageFavoris: favoriShared);
+
+List<Commentaire> mockCommentaires() => [
+      Commentaire(
+        id: "8392839",
+        content: "Premier commentaire",
+        creationDate: parseDateTimeUtcWithCurrentTimeZone("2022-07-23T12:08:10.000"),
+        createdByAdvisor: true,
+        creatorName: "Nils Tavernier",
+      ),
+      Commentaire(
+        id: "8802034",
+        content: "Deuxieme commentaire",
+        creationDate: parseDateTimeUtcWithCurrentTimeZone("2022-07-23T17:08:10.000"),
+        createdByAdvisor: false,
+        creatorName: null,
+      )
+    ];
+
+List<Demarche> mockDemarches() {
+  return [Demarche(
+    id: "demarcheId",
+    content: null,
+    status: DemarcheStatus.NOT_STARTED,
+    endDate: DateTime.now(),
+    deletionDate: null,
+    createdByAdvisor: true,
+    label: null,
+    possibleStatus: [],
+    creationDate: DateTime.now(),
+    modifiedByAdvisor: false,
+    sousTitre: null,
+    titre: null,
+    modificationDate: null,
+    attributs: [],
+  )];
 }

@@ -21,7 +21,7 @@ class RegisterTokenRepository {
   Future<void> registerToken(String userId) async {
     final token = await _pushNotificationManager.getToken();
     if (token != null) {
-      final url = Uri.parse(_baseUrl + "/jeunes/$userId/push-notification-token");
+      final url = Uri.parse(_baseUrl + "/jeunes/$userId/configuration-application");
       try {
         await _httpClient.put(url, body: customJsonEncode(PutRegisterTokenRequest(token: token)));
       } catch (e, stack) {

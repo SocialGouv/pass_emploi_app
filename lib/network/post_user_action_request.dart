@@ -1,15 +1,21 @@
+import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/network/json_serializable.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class PostUserActionRequest implements JsonSerializable {
-  final String content;
-  final String? comment;
-  final UserActionStatus status;
+  final UserActionCreateRequest request;
 
-  PostUserActionRequest({required this.content, required this.comment, required this.status});
+  PostUserActionRequest(this.request);
 
   @override
-  Map<String, dynamic> toJson() => {"content": content, "comment": comment, "status": _toString(status)};
+  Map<String, dynamic> toJson() => {
+        "content": request.content,
+        if (request.comment != null) "comment": request.comment,
+        "status": _toString(request.initialStatus),
+        "dateEcheance": request.dateEcheance.toIso8601WithTimeZoneOffset(),
+        "rappel": request.rappel,
+      };
 
   String _toString(UserActionStatus status) {
     switch (status) {

@@ -1,5 +1,8 @@
+import 'package:clock/clock.dart';
+import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 enum UserActionStatus { NOT_STARTED, IN_PROGRESS, CANCELED, DONE }
@@ -15,7 +18,7 @@ class UserAction extends Equatable {
   final String content;
   final String comment;
   final UserActionStatus status;
-  final DateTime lastUpdate;
+  final DateTime dateEcheance;
   final UserActionCreator creator;
 
   UserAction({
@@ -23,7 +26,7 @@ class UserAction extends Equatable {
     required this.content,
     required this.comment,
     required this.status,
-    required this.lastUpdate,
+    required this.dateEcheance,
     required this.creator,
   });
 
@@ -33,13 +36,33 @@ class UserAction extends Equatable {
       content: json['content'] as String,
       comment: json['comment'] as String,
       status: _statusFromString(statusString: json['status'] as String),
-      lastUpdate: (json['lastUpdate'] as String).toDateTimeOnLocalTimeZone(),
+      dateEcheance: (json['dateEcheance'] as String).toDateTimeUtcOnLocalTimeZone(),
       creator: _creator(json),
     );
   }
 
+  UserAction copyWith({
+    final String? id,
+    final String? content,
+    final String? comment,
+    final UserActionStatus? status,
+    final DateTime? dateEcheance,
+    final UserActionCreator? creator,
+  }) {
+    return UserAction(
+      id: id ?? this.id,
+      content: content ?? this.content,
+      comment: comment ?? this.comment,
+      status: status ?? this.status,
+      dateEcheance: dateEcheance ?? this.dateEcheance,
+      creator: creator ?? this.creator,
+    );
+  }
+
+  bool isLate() => !(dateEcheance.isToday() || dateEcheance.isAfter(clock.now()));
+
   @override
-  List<Object?> get props => [id, comment, content, status, lastUpdate, creator];
+  List<Object?> get props => [id, comment, content, status, dateEcheance, creator];
 }
 
 UserActionStatus _statusFromString({required String statusString}) {
@@ -63,5 +86,24 @@ UserActionCreator _creator(dynamic json) {
     return ConseillerActionCreator(
       name: creatorName,
     );
+  }
+}
+
+extension UpdateActionList on List<UserAction> {
+  List<UserAction> withUpdatedAction(String actionId, UserActionStatus status) {
+    final actionToUpdate = firstWhereOrNull((a) => a.id == actionId);
+    if (actionToUpdate == null) return this;
+
+    final updatedAction = actionToUpdate.copyWith(status: status);
+    return List<UserAction>.from(this) //
+        .where((a) => a.id != actionId)
+        .toList()
+      ..insert(0, updatedAction);
+  }
+
+  bool shouldUpdateActionStatus(String id, UserActionStatus status) {
+    final userAction = firstWhereOrNull((e) => e.id == id);
+    if (userAction == null) return false;
+    return userAction.status != status;
   }
 }

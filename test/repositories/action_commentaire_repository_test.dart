@@ -1,0 +1,110 @@
+import 'package:flutter_test/flutter_test.dart';
+import 'package:http/http.dart';
+import 'package:pass_emploi_app/models/commentaire.dart';
+import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
+import 'package:pass_emploi_app/repositories/action_commentaire_repository.dart';
+
+import '../doubles/dummies.dart';
+import '../doubles/fixtures.dart';
+import '../utils/pass_emploi_mock_client.dart';
+import '../utils/test_assets.dart';
+import '../utils/test_datetime.dart';
+
+void main() {
+  group('getCommentaires', () {
+    test('when response is valid', () async {
+      // Given
+      final httpClient = _mockClientForActionWithComments();
+      final repository = ActionCommentaireRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
+
+      // When
+      final result = await repository.getCommentaires("actionId");
+
+      // Then
+      expect(result, isNotNull);
+      expect(result?.length, 2);
+      expect(
+        result?[0],
+        Commentaire(
+          id: "8392839",
+          content: "Premier commentaire",
+          creationDate: parseDateTimeUtcWithCurrentTimeZone("2022-07-23T12:08:10.000"),
+          createdByAdvisor: true,
+          creatorName: "Nils Tavernier",
+        ),
+      );
+      expect(
+        result?[1],
+        Commentaire(
+          id: "8802034",
+          content: "Deuxieme commentaire",
+          creationDate: parseDateTimeUtcWithCurrentTimeZone("2022-07-23T17:08:10.000"),
+          createdByAdvisor: false,
+          creatorName: null,
+        ),
+      );
+    });
+
+    test('when response is invalid should return null', () async {
+      // Given
+      final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
+      final repository = ActionCommentaireRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
+
+      // When
+      final search = await repository.getCommentaires("actionId");
+
+      // Then
+      expect(search, isNull);
+    });
+  });
+
+  group('sendCommentaires', () {
+    test('should return true when successfully sent comment', () async {
+      // Given
+      final httpClient = _mockClientSendComment();
+      final repository = ActionCommentaireRepository('BASE_URL', httpClient, DummyPassEmploiCacheManager());
+
+      // When
+      final result = await repository.sendCommentaire(
+        actionId: 'actionId',
+        comment: 'Commentaire à envoyer',
+      );
+
+      // Then
+      expect(result, true);
+    });
+
+    test('should return false when failed to send comment', () async {
+      // Given
+      final httpClient = PassEmploiMockClient((request) async => Response('', 500));
+      final repository = ActionCommentaireRepository('BASE_URL', httpClient, DummyPassEmploiCacheManager());
+
+      // When
+      final result = await repository.sendCommentaire(
+        actionId: 'actionId',
+        comment: 'Commentaire à envoyer',
+      );
+
+      // Then
+      expect(result, false);
+    });
+  });
+}
+
+BaseClient _mockClientForActionWithComments() {
+  return PassEmploiMockClient((request) async {
+    if (request.method != "GET") return invalidHttpResponse();
+    if (!request.url.toString().startsWith("BASE_URL/actions/actionId/commentaires")) return invalidHttpResponse();
+    return Response.bytes(loadTestAssetsAsBytes("commentaires.json"), 200);
+  });
+}
+
+BaseClient _mockClientSendComment() {
+  return PassEmploiMockClient((request) async {
+    if (request.method != 'POST') return invalidHttpResponse();
+    if (!request.url.toString().startsWith("BASE_URL/actions/actionId/commentaires")) return invalidHttpResponse();
+    final requestJson = jsonUtf8Decode(request.bodyBytes);
+    if (requestJson['commentaire'] != 'Commentaire à envoyer') return invalidHttpResponse();
+    return Response('', 200);
+  });
+}
