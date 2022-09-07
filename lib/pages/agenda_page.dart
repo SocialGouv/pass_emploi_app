@@ -5,9 +5,11 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
 import 'package:pass_emploi_app/presentation/agenda/agenda_view_model.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
@@ -24,6 +26,7 @@ import 'package:pass_emploi_app/widgets/big_title_separator.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/user_action_create_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/cards/demarche_card.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/cards/user_action_card.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
@@ -334,30 +337,13 @@ extension _EventWidget on EventAgenda {
     final event = this;
     if (event is UserActionEventAgenda) {
       return event.agendaCard(context, simpleCard);
+    } else if (event is DemarcheEventAgenda) {
+      return event.demarcheCard(context, simpleCard);
     } else if (event is RendezvousEventAgenda) {
       return event.rendezvousCard(context, simpleCard);
     } else {
       return SizedBox(height: 0);
     }
-  }
-}
-
-extension _RendezvousCard on RendezvousEventAgenda {
-  Widget rendezvousCard(BuildContext context, bool simpleCard) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
-      child: RendezvousCard(
-        converter: (store) => RendezvousCardViewModel.create(store, RendezvousStateSource.agenda, id),
-        simpleCard: simpleCard,
-        onTap: () {
-          context.trackEvent(EventType.RDV_DETAIL);
-          Navigator.push(
-            context,
-            RendezvousDetailsPage.materialPageRoute(RendezvousStateSource.agenda, id),
-          );
-        },
-      ),
-    );
   }
 }
 
@@ -374,6 +360,45 @@ extension _ActionCard on UserActionEventAgenda {
           Navigator.push(
             context,
             UserActionDetailPage.materialPageRoute(id, UserActionStateSource.agenda),
+          );
+        },
+      ),
+    );
+  }
+}
+
+extension _DemarcheCard on DemarcheEventAgenda {
+  Widget demarcheCard(BuildContext context, bool simpleCard) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
+      child: DemarcheCard(
+        demarcheId: id,
+        stateSource: DemarcheStateSource.agenda,
+        simpleCard: simpleCard,
+        onTap: () {
+          context.trackEvent(EventType.ACTION_DETAIL);
+          Navigator.push(
+            context,
+            DemarcheDetailPage.materialPageRoute(id), // TODO-GAD
+          );
+        },
+      ),
+    );
+  }
+}
+
+extension _RendezvousCard on RendezvousEventAgenda {
+  Widget rendezvousCard(BuildContext context, bool simpleCard) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
+      child: RendezvousCard(
+        converter: (store) => RendezvousCardViewModel.create(store, RendezvousStateSource.agenda, id),
+        simpleCard: simpleCard,
+        onTap: () {
+          context.trackEvent(EventType.RDV_DETAIL);
+          Navigator.push(
+            context,
+            RendezvousDetailsPage.materialPageRoute(RendezvousStateSource.agenda, id),
           );
         },
       ),

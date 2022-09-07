@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_list_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -87,13 +88,11 @@ class DemarcheListPage extends StatelessWidget {
     if (item is DemarcheCampagneItemViewModel) {
       return _CampagneCard(title: item.titre, description: item.description);
     } else {
-      final viewModel = (item as DemarcheListItemViewModel).viewModel;
+      final demarcheId = (item as IdItem).demarcheId;
       return DemarcheCard(
-        viewModel: viewModel,
-        onTap: () => Navigator.push(
-          context,
-          DemarcheDetailPage.materialPageRoute(viewModel.id),
-        ),
+        demarcheId: demarcheId,
+        stateSource: DemarcheStateSource.list,
+        onTap: () => Navigator.push(context, DemarcheDetailPage.materialPageRoute(demarcheId)), // TODO-GAD
       );
     }
   }

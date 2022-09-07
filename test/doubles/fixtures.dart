@@ -385,6 +385,7 @@ Demarche mockDemarche({
   DemarcheStatus status = DemarcheStatus.NOT_STARTED,
   DateTime? endDate,
   DateTime? deletionDate,
+  List<DemarcheAttribut>? attributs,
 }) {
   return Demarche(
     id: id,
@@ -400,7 +401,7 @@ Demarche mockDemarche({
     sousTitre: null,
     titre: null,
     modificationDate: null,
-    attributs: [],
+    attributs: attributs ?? [],
   );
 }
 

@@ -10,8 +10,6 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 import '../../doubles/fixtures.dart';
-import '../../dsl/app_state_dsl.dart';
-import '../../utils/test_datetime.dart';
 
 void main() {
   test('create when demarche state is loading should display loader', () {
@@ -81,18 +79,18 @@ void main() {
       initialState: loggedInState().copyWith(
         demarcheListState: DemarcheListSuccessState(
           [
-            _demarche(status: DemarcheStatus.IN_PROGRESS),
-            _demarche(status: DemarcheStatus.NOT_STARTED),
-            _demarche(status: DemarcheStatus.DONE),
-            _demarche(status: DemarcheStatus.CANCELLED),
-            _demarche(status: DemarcheStatus.IN_PROGRESS),
-            _demarche(status: DemarcheStatus.NOT_STARTED),
-            _demarche(status: DemarcheStatus.DONE),
-            _demarche(status: DemarcheStatus.CANCELLED),
-            _demarche(status: DemarcheStatus.IN_PROGRESS),
-            _demarche(status: DemarcheStatus.NOT_STARTED),
-            _demarche(status: DemarcheStatus.DONE),
-            _demarche(status: DemarcheStatus.CANCELLED),
+            mockDemarche(id: 'IN_PROGRESS', status: DemarcheStatus.IN_PROGRESS),
+            mockDemarche(id: 'NOT_STARTED', status: DemarcheStatus.NOT_STARTED),
+            mockDemarche(id: 'DONE', status: DemarcheStatus.DONE),
+            mockDemarche(id: 'CANCELLED', status: DemarcheStatus.CANCELLED),
+            mockDemarche(id: 'IN_PROGRESS', status: DemarcheStatus.IN_PROGRESS),
+            mockDemarche(id: 'NOT_STARTED', status: DemarcheStatus.NOT_STARTED),
+            mockDemarche(id: 'DONE', status: DemarcheStatus.DONE),
+            mockDemarche(id: 'CANCELLED', status: DemarcheStatus.CANCELLED),
+            mockDemarche(id: 'IN_PROGRESS', status: DemarcheStatus.IN_PROGRESS),
+            mockDemarche(id: 'NOT_STARTED', status: DemarcheStatus.NOT_STARTED),
+            mockDemarche(id: 'DONE', status: DemarcheStatus.DONE),
+            mockDemarche(id: 'CANCELLED', status: DemarcheStatus.CANCELLED),
           ],
           false,
         ),
@@ -108,15 +106,10 @@ void main() {
     expect(viewModel.items[0] is DemarcheCampagneItemViewModel, isTrue);
 
     for (var i = 1; i < 7; ++i) {
-      expect(
-          (viewModel.items[i] as DemarcheListItemViewModel).viewModel.status == DemarcheStatus.IN_PROGRESS ||
-              (viewModel.items[i] as DemarcheListItemViewModel).viewModel.status == DemarcheStatus.NOT_STARTED,
-          isTrue);
+      expect((viewModel.items[i] as IdItem).demarcheId, isIn(['IN_PROGRESS', 'NOT_STARTED']));
     }
-    // 6 derniers => cancelled & done
     for (var i = 7; i < 12; ++i) {
-      final demarcheStatus = (viewModel.items[i] as DemarcheListItemViewModel).viewModel.status;
-      expect(demarcheStatus == DemarcheStatus.DONE || demarcheStatus == DemarcheStatus.CANCELLED, isTrue);
+      expect((viewModel.items[i] as IdItem).demarcheId, isIn(['DONE', 'CANCELLED']));
     }
   });
 
@@ -140,8 +133,7 @@ void main() {
     expect(viewModel.items.length, 0);
   });
 
-  test(
-      'create when demarche state is success but there are no demarches but a campagne should display a campagne card',
+  test('create when demarche state is success but there are no demarches but a campagne should display a campagne card',
       () {
     // Given
     final store = Store<AppState>(
@@ -160,53 +152,6 @@ void main() {
     expect(viewModel.items.length, 1);
     expect(viewModel.items[0] is DemarcheCampagneItemViewModel, isTrue);
   });
-
-  test('create when fonctionnalitées JRE avancees is false should not enable demarche creation', () {
-    // Given
-    final store = givenState()
-        .loggedInPoleEmploiUser()
-        .copyWith(demarcheListState: DemarcheListSuccessState([], false),)
-        .store();
-
-    // When
-    final viewModel = DemarcheListPageViewModel.create(store);
-
-    // Then
-    expect(viewModel.isDemarcheCreationEnabled, isFalse);
-  });
-
-  test('create when fonctionnalitées JRE avancees is true should enable demarche creation', () {
-    // Given
-    final store = givenState()
-        .loggedInPoleEmploiUser()
-        .copyWith(demarcheListState: DemarcheListSuccessState([], true),)
-        .store();
-
-    // When
-    final viewModel = DemarcheListPageViewModel.create(store);
-
-    // Then
-    expect(viewModel.isDemarcheCreationEnabled, isTrue);
-  });
-}
-
-Demarche _demarche({required DemarcheStatus status}) {
-  return Demarche(
-    id: "8802034",
-    content: "Faire le CV",
-    status: status,
-    endDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
-    deletionDate: parseDateTimeUtcWithCurrentTimeZone('2022-03-28T16:06:48.396Z'),
-    createdByAdvisor: true,
-    label: "label",
-    possibleStatus: [],
-    creationDate: DateTime(2022, 12, 23, 0, 0, 0),
-    modifiedByAdvisor: false,
-    sousTitre: "sous titre",
-    titre: "titre",
-    modificationDate: DateTime(2022, 12, 23, 0, 0, 0),
-    attributs: [],
-  );
 }
 
 class StoreSpy {

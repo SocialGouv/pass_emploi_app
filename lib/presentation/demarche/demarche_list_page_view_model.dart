@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
-import 'package:pass_emploi_app/presentation/demarche/demarche_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
@@ -10,13 +9,11 @@ import 'package:redux/redux.dart';
 class DemarcheListPageViewModel extends Equatable {
   final DisplayState displayState;
   final List<DemarcheListItem> items;
-  final bool isDemarcheCreationEnabled;
   final Function() onRetry;
 
   DemarcheListPageViewModel({
     required this.displayState,
     required this.items,
-    required this.isDemarcheCreationEnabled,
     required this.onRetry,
   });
 
@@ -26,16 +23,15 @@ class DemarcheListPageViewModel extends Equatable {
       displayState: _displayState(store.state),
       items: _listItems(
         campagne: _campagneItem(state: store.state),
-        activeItems: _activeItems(state: state),
-        inactiveItems: _inactiveItems(state: state),
+        activeItemIds: _activeItems(state: state),
+        inactiveIds: _inactiveItems(state: state),
       ),
-      isDemarcheCreationEnabled: state is DemarcheListSuccessState && state.isFonctionnalitesAvanceesJreActivees,
       onRetry: () => store.dispatch(DemarcheListRequestAction()),
     );
   }
 
   @override
-  List<Object?> get props => [displayState, items, isDemarcheCreationEnabled];
+  List<Object?> get props => [displayState, items];
 }
 
 DisplayState _displayState(AppState state) {
@@ -59,22 +55,21 @@ DemarcheCampagneItemViewModel? _campagneItem({required AppState state}) {
   return null;
 }
 
-List<DemarcheCardViewModel> _activeItems({required DemarcheListState state}) {
+List<String> _activeItems({required DemarcheListState state}) {
   if (state is DemarcheListSuccessState) {
     return state.demarches
-        .where((demarche) =>
-            demarche.status == DemarcheStatus.NOT_STARTED || demarche.status == DemarcheStatus.IN_PROGRESS)
-        .map((demarche) => DemarcheCardViewModel.create(demarche, state.isFonctionnalitesAvanceesJreActivees))
+        .where((demarche) => [DemarcheStatus.NOT_STARTED, DemarcheStatus.IN_PROGRESS].contains(demarche.status))
+        .map((demarche) => demarche.id)
         .toList();
   }
   return [];
 }
 
-List<DemarcheCardViewModel> _inactiveItems({required DemarcheListState state}) {
+List<String> _inactiveItems({required DemarcheListState state}) {
   if (state is DemarcheListSuccessState) {
     return state.demarches
-        .where((demarche) => demarche.status == DemarcheStatus.DONE || demarche.status == DemarcheStatus.CANCELLED)
-        .map((demarche) => DemarcheCardViewModel.create(demarche, state.isFonctionnalitesAvanceesJreActivees))
+        .where((demarche) => [DemarcheStatus.DONE, DemarcheStatus.CANCELLED].contains(demarche.status))
+        .map((demarche) => demarche.id)
         .toList();
   }
   return [];
@@ -82,25 +77,25 @@ List<DemarcheCardViewModel> _inactiveItems({required DemarcheListState state}) {
 
 List<DemarcheListItem> _listItems({
   required DemarcheCampagneItemViewModel? campagne,
-  required List<DemarcheCardViewModel> activeItems,
-  required List<DemarcheCardViewModel> inactiveItems,
+  required List<String> activeItemIds,
+  required List<String> inactiveIds,
 }) {
   return [
     if (campagne != null) ...[campagne],
-    ...activeItems.map((e) => DemarcheListItemViewModel(e)),
-    ...inactiveItems.map((e) => DemarcheListItemViewModel(e)),
+    ...activeItemIds.map((e) => IdItem(e)),
+    ...inactiveIds.map((e) => IdItem(e)),
   ];
 }
 
 abstract class DemarcheListItem extends Equatable {}
 
-class DemarcheListItemViewModel extends DemarcheListItem {
-  final DemarcheCardViewModel viewModel;
+class IdItem extends DemarcheListItem {
+  final String demarcheId;
 
-  DemarcheListItemViewModel(this.viewModel);
+  IdItem(this.demarcheId);
 
   @override
-  List<Object?> get props => [viewModel];
+  List<Object?> get props => [demarcheId];
 }
 
 class DemarcheCampagneItemViewModel extends DemarcheListItem {
