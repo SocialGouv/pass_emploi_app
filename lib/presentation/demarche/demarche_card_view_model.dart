@@ -2,11 +2,15 @@ import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_view_model_helper.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
+import 'package:redux/redux.dart';
 
 class DemarcheCardViewModel extends Equatable {
   final String id;
@@ -16,9 +20,8 @@ class DemarcheCardViewModel extends Equatable {
   final bool createdByAdvisor;
   final bool modifiedByAdvisor;
   final UserActionTagViewModel? tag;
-  final List<FormattedText> dateFormattedTexts;
+  final List<FormattedText>? dateFormattedTexts;
   final Color dateColor;
-  final bool isDetailEnabled;
 
   DemarcheCardViewModel({
     required this.id,
@@ -30,22 +33,26 @@ class DemarcheCardViewModel extends Equatable {
     required this.tag,
     required this.dateFormattedTexts,
     required this.dateColor,
-    required this.isDetailEnabled,
   });
 
-  factory DemarcheCardViewModel.create(Demarche demarche, bool isFonctionnalitesAvanceesJreActivees) {
+  factory DemarcheCardViewModel.create({
+    required Store<AppState> store,
+    required DemarcheStateSource stateSource,
+    required String demarcheId,
+    required bool simpleCard,
+  }) {
+    final demarche = getDemarche(store, stateSource, demarcheId);
     final isLate = _isLate(demarche);
     return DemarcheCardViewModel(
       id: demarche.id,
       titre: demarche.content ?? Strings.withoutContent,
-      sousTitre: _description(demarche),
+      sousTitre: simpleCard ? null : _description(demarche),
       status: demarche.status,
       createdByAdvisor: demarche.createdByAdvisor,
       modifiedByAdvisor: demarche.modifiedByAdvisor,
       tag: _userActionTagViewModel(demarche, isLate),
-      dateFormattedTexts: _dateFormattedTexts(demarche, isLate),
+      dateFormattedTexts: simpleCard ? null : _dateFormattedTexts(demarche, isLate),
       dateColor: _getDateColor(demarche, isLate),
-      isDetailEnabled: isFonctionnalitesAvanceesJreActivees,
     );
   }
 

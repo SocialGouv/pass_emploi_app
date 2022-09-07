@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_state.dart';
@@ -7,6 +8,7 @@ import 'package:pass_emploi_app/models/demarche.dart';
 import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
 import '../../dsl/app_state_dsl.dart';
+import '../../utils/expects.dart';
 
 void main() {
   test("update demarche when repo succeeds should display loading and then update demarche", () async {
@@ -57,7 +59,6 @@ void main() {
           mockDemarche(id: '2', status: DemarcheStatus.DONE),
           mockDemarche(id: '3', status: DemarcheStatus.IN_PROGRESS),
         ],
-        true,
       ),
     );
   });
@@ -107,8 +108,36 @@ void main() {
           mockDemarche(id: '2', status: DemarcheStatus.NOT_STARTED),
           mockDemarche(id: '3', status: DemarcheStatus.IN_PROGRESS),
         ],
-        true,
       ),
     );
+  });
+
+  test("an edited demarche contained in agenda should be updated", () async {
+    // Given
+    final demarches = [
+      mockDemarche(id: '1', status: DemarcheStatus.NOT_STARTED),
+      mockDemarche(id: '2', status: DemarcheStatus.NOT_STARTED),
+    ];
+    final now = DateTime.now();
+    final repository = UpdateDemarcheRepositorySuccessStub();
+    repository.withArgsResolves('id', '1', DemarcheStatus.DONE, now, now);
+    final store = givenState()
+        .loggedInPoleEmploiUser()
+        .updateDemarcheSuccess()
+        .agenda(demarches: demarches)
+        .withDemarches(demarches)
+        .store((factory) => {factory.updateDemarcheRepository = repository});
+
+    final successUpdateState = store.onChange.firstWhere((e) => e.updateDemarcheState is UpdateDemarcheSuccessState);
+
+    // When
+    await store.dispatch(UpdateDemarcheRequestAction('1', now, now, DemarcheStatus.DONE));
+
+    // Then
+    await successUpdateState;
+    expectTypeThen<AgendaSuccessState>(store.state.agendaState, (agendaState) {
+      expect(agendaState.agenda.demarches[0].id, '1');
+      expect(agendaState.agenda.demarches[0].status, DemarcheStatus.DONE);
+    });
   });
 }

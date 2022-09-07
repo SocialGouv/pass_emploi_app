@@ -713,7 +713,7 @@ void main() {
     test('when source is agenda should get rendezvous from agenda state', () {
       // Given
       final rendezvous = mockRendezvous(id: '1', description: 'description');
-      final store = givenState().agenda(actions: [], rendezvous: [rendezvous]).store();
+      final store = givenState().agenda(rendezvous: [rendezvous]).store();
 
       // When
       final viewModel = RendezvousDetailsViewModel.create(

@@ -11,7 +11,11 @@ class UpdateDemarcheRequestAction {
 
 class UpdateDemarcheLoadingAction {}
 
-class UpdateDemarcheSuccessAction {}
+class UpdateDemarcheSuccessAction {
+  final Demarche modifiedDemarche;
+
+  UpdateDemarcheSuccessAction(this.modifiedDemarche);
+}
 
 class UpdateDemarcheFailureAction {}
 
