@@ -88,11 +88,11 @@ class DemarcheListPage extends StatelessWidget {
     if (item is DemarcheCampagneItemViewModel) {
       return _CampagneCard(title: item.titre, description: item.description);
     } else {
-      final demarcheId = (item as IdItem).demarcheId;
+      final id = (item as IdItem).demarcheId;
       return DemarcheCard(
-        demarcheId: demarcheId,
+        demarcheId: id,
         stateSource: DemarcheStateSource.list,
-        onTap: () => Navigator.push(context, DemarcheDetailPage.materialPageRoute(demarcheId)), // TODO-GAD
+        onTap: () => Navigator.push(context, DemarcheDetailPage.materialPageRoute(id, DemarcheStateSource.list)),
       );
     }
   }

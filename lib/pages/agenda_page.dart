@@ -379,7 +379,7 @@ extension _DemarcheCard on DemarcheEventAgenda {
           context.trackEvent(EventType.ACTION_DETAIL);
           Navigator.push(
             context,
-            DemarcheDetailPage.materialPageRoute(id), // TODO-GAD
+            DemarcheDetailPage.materialPageRoute(id, DemarcheStateSource.agenda),
           );
         },
       ),
