@@ -218,7 +218,7 @@ void main() {
   test("UserActionViewModel.create when source is agenda should create view model properly", () {
     // Given
     final action = mockUserAction(id: 'actionId', content: 'content');
-    final store = givenState().agenda(actions: [action], rendezvous: []).store();
+    final store = givenState().agenda(actions: [action]).store();
 
     // When
     final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.agenda, 'actionId');

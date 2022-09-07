@@ -222,7 +222,7 @@ void main() {
     test("should retrieve action from agenda and create view model properly", () {
       // Given
       final action = mockUserAction(id: '1', content: 'content');
-      final store = givenState().agenda(actions: [action], rendezvous: []).store();
+      final store = givenState().agenda(actions: [action]).store();
 
       // When
       final viewModel = UserActionCardViewModel.create(
@@ -241,7 +241,7 @@ void main() {
     test("should neither display date nor subtitle", () {
       // Given
       final action = mockUserAction(id: '1', content: 'content', comment: 'subtitle', dateEcheance: DateTime(2023));
-      final store = givenState().agenda(actions: [action], rendezvous: []).store();
+      final store = givenState().agenda(actions: [action]).store();
 
       // When
       final viewModel = UserActionCardViewModel.create(

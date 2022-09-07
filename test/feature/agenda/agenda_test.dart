@@ -52,9 +52,10 @@ class AgendaRepositorySuccessStub extends AgendaRepository {
   AgendaRepositorySuccessStub() : super("", DummyHttpClient());
 
   @override
-  Future<Agenda?> getAgenda(String userId, DateTime maintenant) async {
+  Future<Agenda?> getAgendaMissionLocale(String userId, DateTime maintenant) async {
     return Agenda(
       actions: [userActionStub()],
+      demarches: [],
       rendezvous: [rendezvousStub()],
       delayedActions: 0,
       dateDeDebut: DateTime(2042),
@@ -66,7 +67,7 @@ class AgendaRepositoryErrorStub extends AgendaRepository {
   AgendaRepositoryErrorStub() : super("", DummyHttpClient());
 
   @override
-  Future<Agenda?> getAgenda(String userId, DateTime maintenant) async {
+  Future<Agenda?> getAgendaMissionLocale(String userId, DateTime maintenant) async {
     return null;
   }
 }

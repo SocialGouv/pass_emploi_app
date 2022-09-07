@@ -93,7 +93,7 @@ void main() {
 
     test('should be content on success state with content', () {
       // Given
-      final store = givenState().loggedInUser().agenda(actions: [userActionStub()], rendezvous: []).store();
+      final store = givenState().loggedInUser().agenda(actions: [userActionStub()]).store();
 
       // When
       final viewModel = AgendaPageViewModel.create(store);
@@ -106,7 +106,7 @@ void main() {
   group('events', () {
     test('should have delayed item at first position when there are some delayed actions', () {
       // Given
-      final store = givenState().loggedInUser().agenda(actions: [], rendezvous: [], delayedActions: 7).store();
+      final store = givenState().loggedInUser().agenda(delayedActions: 7).store();
 
       // When
       final viewModel = AgendaPageViewModel.create(store);
@@ -117,7 +117,7 @@ void main() {
 
     test('should not have delayed item if there isn\'t delayed any actions', () {
       // Given
-      final store = givenState().loggedInUser().agenda(actions: [], rendezvous: [], delayedActions: 0).store();
+      final store = givenState().loggedInUser().agenda(delayedActions: 0).store();
 
       // When
       final viewModel = AgendaPageViewModel.create(store);
@@ -229,7 +229,13 @@ void main() {
 
         test('starting sunday if event on sunday and none saturday', () {
           // Given
-          final actions = [actionDimancheMatin, actionLundiMatin, actionMardiMatin, actionVendredi, actionSamediProchain];
+          final actions = [
+            actionDimancheMatin,
+            actionLundiMatin,
+            actionMardiMatin,
+            actionVendredi,
+            actionSamediProchain
+          ];
           final rendezvous = [rendezvousLundiMatin, rendezvousLundiProchain];
           final store = givenState() //
               .loggedInUser()

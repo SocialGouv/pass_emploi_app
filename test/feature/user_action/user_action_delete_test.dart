@@ -18,7 +18,7 @@ void main() {
     final store = testStoreFactory.initializeReduxStore(
       initialState: givenState() //
           .loggedInUser() //
-          .agenda(actions: actions, rendezvous: []) //
+          .agenda(actions: actions) //
           .withActions(actions),
     );
     final displayedLoading = store.onChange.any((e) => e.userActionDeleteState is UserActionDeleteLoadingState);
@@ -42,7 +42,7 @@ void main() {
     final store = testStoreFactory.initializeReduxStore(
       initialState: givenState() //
           .loggedInUser() //
-          .agenda(actions: actions, rendezvous: []) //
+          .agenda(actions: actions) //
           .withActions(actions),
     );
     final displayedLoading = store.onChange.any((e) => e.userActionDeleteState is UserActionDeleteLoadingState);

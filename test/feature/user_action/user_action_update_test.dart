@@ -116,7 +116,7 @@ void main() {
 
     final state = givenState() //
         .loggedInUser() //
-        .agenda(actions: [], rendezvous: []) //
+        .agenda() //
         .withActions(actions);
 
     final testStoreFactory = TestStoreFactory();
@@ -184,7 +184,7 @@ void main() {
 
     final state = givenState() //
         .loggedInUser()
-        .agenda(actions: actions, rendezvous: []) //
+        .agenda(actions: actions) //
         .withActions(actions);
 
     final testStoreFactory = TestStoreFactory();

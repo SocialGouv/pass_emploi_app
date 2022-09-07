@@ -194,7 +194,7 @@ void main() {
         organism: 'Entreprise Bio Carburant',
         type: RendezvousType(RendezvousTypeCode.ATELIER, 'Atelier'),
       );
-      final store = givenState().loggedInUser().agenda(actions: [], rendezvous: [rdv]).store();
+      final store = givenState().loggedInUser().agenda(rendezvous: [rdv]).store();
 
       // When
       final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.agenda, '1');

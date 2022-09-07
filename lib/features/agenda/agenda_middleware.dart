@@ -14,7 +14,7 @@ class AgendaMiddleware extends MiddlewareClass<AppState> {
     next(action);
     final loggedIn = store.state.loginState;
     if (loggedIn is LoginSuccessState && action is AgendaRequestAction) {
-      final agenda = await _repository.getAgenda(loggedIn.user.id, action.maintenant);
+      final agenda = await _repository.getAgendaMissionLocale(loggedIn.user.id, action.maintenant);
       if (agenda != null) {
         store.dispatch(AgendaRequestSuccessAction(agenda));
       } else {
