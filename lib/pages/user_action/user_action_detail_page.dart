@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/pages/user_action/action_commentaires_page.dart'
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action/commentaires/action_commentaire_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -34,11 +35,11 @@ import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
 class UserActionDetailPage extends StatefulWidget {
   final String userActionId;
-  final StateSource source;
+  final UserActionStateSource source;
 
   UserActionDetailPage._(this.userActionId, this.source);
 
-  static MaterialPageRoute<void> materialPageRoute(String userActionId, StateSource source) {
+  static MaterialPageRoute<void> materialPageRoute(String userActionId, UserActionStateSource source) {
     return MaterialPageRoute(builder: (context) => UserActionDetailPage._(userActionId, source));
   }
 
@@ -60,7 +61,7 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
             store.dispatch(UserActionUpdateResetAction());
             store.dispatch(UserActionDeleteResetAction());
           },
-          converter: (store) => UserActionDetailsViewModel.create(store, widget.userActionId, widget.source),
+          converter: (store) => UserActionDetailsViewModel.create(store, widget.source, widget.userActionId),
           builder: _build,
           onDidChange: (previousVm, newVm) => _pageNavigationHandling(newVm),
           distinct: true,

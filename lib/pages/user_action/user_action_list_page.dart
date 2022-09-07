@@ -6,9 +6,8 @@ import 'package:pass_emploi_app/features/user_action/list/user_action_list_actio
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/campagne/campagne_details_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
-import 'package:pass_emploi_app/presentation/user_action/user_action_card_view_model.dart';
-import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_list_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -50,10 +49,10 @@ class _UserActionListPageState extends State<UserActionListPage> {
   }
 
   void _openDeeplinkIfNeeded(UserActionListPageViewModel viewModel, BuildContext context) {
-    if (viewModel.actionDetails != null) {
+    if (viewModel.deeplinkActionId != null) {
       Navigator.push(
         context,
-        UserActionDetailPage.materialPageRoute(viewModel.actionDetails!.id, StateSource.userActions),
+        UserActionDetailPage.materialPageRoute(viewModel.deeplinkActionId!, UserActionStateSource.list),
       );
       viewModel.onDeeplinkUsed();
     }
@@ -93,15 +92,26 @@ class _UserActionListPageState extends State<UserActionListPage> {
   Container _listSeparator() => Container(height: Margins.spacing_base);
 
   Widget _listItem(BuildContext context, UserActionListPageItem item, UserActionListPageViewModel viewModel) {
-    if (item is UserActionListSubtitle) {
+    if (item is SubtitleItem) {
       return Padding(
         padding: const EdgeInsets.only(top: Margins.spacing_base),
         child: Text(item.title, style: TextStyles.textMBold),
       );
-    } else if (item is UserActionCampagneItemViewModel) {
+    } else if (item is CampagneItem) {
       return _CampagneCard(title: item.titre, description: item.description);
     } else {
-      return _ActionCard(viewModel: (item as UserActionListItemViewModel).viewModel);
+      final actionId = (item as IdItem).userActionId;
+      return UserActionCard(
+        userActionId: actionId,
+        stateSource: UserActionStateSource.list,
+        onTap: () {
+          context.trackEvent(EventType.ACTION_DETAIL);
+          Navigator.push(
+            context,
+            UserActionDetailPage.materialPageRoute(actionId, UserActionStateSource.list),
+          );
+        },
+      );
     }
   }
 
@@ -136,26 +146,6 @@ class _CampagneCard extends StatelessWidget {
       },
       titre: title,
       description: description,
-    );
-  }
-}
-
-class _ActionCard extends StatelessWidget {
-  final UserActionCardViewModel viewModel;
-
-  _ActionCard({required this.viewModel});
-
-  @override
-  Widget build(BuildContext context) {
-    return UserActionCard(
-      onTap: () {
-        context.trackEvent(EventType.ACTION_DETAIL);
-        Navigator.push(
-          context,
-          UserActionDetailPage.materialPageRoute(viewModel.id, StateSource.userActions),
-        );
-      },
-      viewModel: viewModel,
     );
   }
 }

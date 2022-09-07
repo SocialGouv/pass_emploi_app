@@ -197,6 +197,10 @@ extension AppStateDSL on AppState {
     );
   }
 
+  AppState withUserActions(List<UserAction> userActions) {
+    return copyWith(userActionListState: UserActionListSuccessState(userActions));
+  }
+
   AppState withDemarches(List<Demarche> demarches) {
     return copyWith(demarcheListState: DemarcheListSuccessState(demarches, true));
   }

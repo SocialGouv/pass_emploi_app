@@ -10,14 +10,13 @@ import 'package:pass_emploi_app/features/user_action/update/user_action_update_s
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
-
-enum StateSource { agenda, userActions }
 
 enum DeleteDisplayState { NOT_INIT, SHOW_LOADING, SHOW_DELETE_ERROR, TO_DISMISS_AFTER_DELETION }
 
@@ -71,29 +70,8 @@ class UserActionDetailsViewModel extends Equatable {
     required this.deleteDisplayState,
   });
 
-  // tests pour la source agenda
-  factory UserActionDetailsViewModel.create(Store<AppState> store, String userActionId, StateSource source) {
-    switch (source) {
-      case StateSource.agenda:
-        return UserActionDetailsViewModel.createFromUserAgendaState(store, userActionId);
-      case StateSource.userActions:
-        return UserActionDetailsViewModel.createFromUserActionListState(store, userActionId);
-    }
-  }
-
-  factory UserActionDetailsViewModel.createFromUserAgendaState(Store<AppState> store, String userActionId) {
-    final agendaState = store.state.agendaState as AgendaSuccessState;
-    final userAction = agendaState.agenda.actions.firstWhereOrNull((e) => e.id == userActionId);
-    return UserActionDetailsViewModel.createWithAction(userAction, store);
-  }
-
-  factory UserActionDetailsViewModel.createFromUserActionListState(Store<AppState> store, String userActionId) {
-    final userActionListState = store.state.userActionListState as UserActionListSuccessState;
-    final userAction = userActionListState.userActions.firstWhereOrNull((e) => e.id == userActionId);
-    return UserActionDetailsViewModel.createWithAction(userAction, store);
-  }
-
-  factory UserActionDetailsViewModel.createWithAction(UserAction? userAction, Store<AppState> store) {
+  factory UserActionDetailsViewModel.create(Store<AppState> store, UserActionStateSource source, String userActionId) {
+    final userAction = _getAction(store, source, userActionId);
     final updateState = store.state.userActionUpdateState;
     final deleteState = store.state.userActionDeleteState;
     return UserActionDetailsViewModel._(
@@ -126,6 +104,17 @@ class UserActionDetailsViewModel extends Equatable {
         updateDisplayState,
         deleteDisplayState,
       ];
+}
+
+UserAction? _getAction(Store<AppState> store, UserActionStateSource stateSource, String actionId) {
+  switch (stateSource) {
+    case UserActionStateSource.agenda:
+      final state = store.state.agendaState as AgendaSuccessState;
+      return state.agenda.actions.firstWhereOrNull((e) => e.id == actionId);
+    case UserActionStateSource.list:
+      final state = store.state.userActionListState as UserActionListSuccessState;
+      return state.userActions.firstWhereOrNull((e) => e.id == actionId);
+  }
 }
 
 UserActionDetailDateEcheanceViewModel? _dateEcheanceViewModel(UserAction? userAction) {

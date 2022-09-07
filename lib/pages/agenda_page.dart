@@ -10,8 +10,8 @@ import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
 import 'package:pass_emploi_app/presentation/agenda/agenda_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
-import 'package:pass_emploi_app/presentation/user_action/user_action_card_view_model.dart';
-import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -143,7 +143,7 @@ class _Content extends StatelessWidget {
         itemCount: viewModel.events.length,
         itemBuilder: (context, index) {
           final item = viewModel.events[index];
-          if (item is DelayedActionsBanner) return _DelayedActionsBanner(item, onActionDelayedTap);
+          if (item is DelayedActionsBannerAgendaItem) return _DelayedActionsBanner(item, onActionDelayedTap);
           if (item is CurrentWeekAgendaItem) return _CurrentWeek(item.days);
           if (item is NextWeekAgendaItem) return _NextWeek(item.events);
           return SizedBox(height: 0);
@@ -154,7 +154,7 @@ class _Content extends StatelessWidget {
 }
 
 class _DelayedActionsBanner extends StatelessWidget {
-  final DelayedActionsBanner banner;
+  final DelayedActionsBannerAgendaItem banner;
   final Function() onActionDelayedTap;
 
   _DelayedActionsBanner(this.banner, this.onActionDelayedTap);
@@ -333,7 +333,7 @@ extension _EventWidget on EventAgenda {
   Widget widget(BuildContext context, bool simpleCard) {
     final event = this;
     if (event is UserActionEventAgenda) {
-      return _ActionCard(id: event.id, simpleCard: simpleCard);
+      return event.agendaCard(context, simpleCard);
     } else if (event is RendezvousEventAgenda) {
       return event.rendezvousCard(context, simpleCard);
     } else {
@@ -347,13 +347,13 @@ extension _RendezvousCard on RendezvousEventAgenda {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
       child: RendezvousCard(
-        converter: (store) => RendezvousCardViewModel.createFromAgendaState(store, id),
+        converter: (store) => RendezvousCardViewModel.create(store, RendezvousStateSource.agenda, id),
         simpleCard: simpleCard,
         onTap: () {
           context.trackEvent(EventType.RDV_DETAIL);
           Navigator.push(
             context,
-            RendezvousDetailsPage.materialPageRouteWithAgendaState(id),
+            RendezvousDetailsPage.materialPageRoute(RendezvousStateSource.agenda, id),
           );
         },
       ),
@@ -361,33 +361,19 @@ extension _RendezvousCard on RendezvousEventAgenda {
   }
 }
 
-// todo Refactoring (low) : mutualiser, onTap en param ?
-class _ActionCard extends StatelessWidget {
-  final String id;
-  final bool simpleCard;
-
-  _ActionCard({required this.id, required this.simpleCard});
-
-  @override
-  Widget build(BuildContext context) {
-    return StoreConnector<AppState, UserActionCardViewModel>(
-      builder: (context, viewModel) => _card(context, viewModel),
-      converter: (store) => UserActionCardViewModel.createFromAgendaState(store, id),
-      distinct: true,
-    );
-  }
-
-  Widget _card(BuildContext context, UserActionCardViewModel viewModel) {
+extension _ActionCard on UserActionEventAgenda {
+  Widget agendaCard(BuildContext context, bool simpleCard) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
       child: UserActionCard(
-        viewModel: viewModel,
+        userActionId: id,
+        stateSource: UserActionStateSource.agenda,
         simpleCard: simpleCard,
         onTap: () {
           context.trackEvent(EventType.ACTION_DETAIL);
           Navigator.push(
             context,
-            UserActionDetailPage.materialPageRoute(viewModel.id, StateSource.agenda),
+            UserActionDetailPage.materialPageRoute(id, UserActionStateSource.agenda),
           );
         },
       ),

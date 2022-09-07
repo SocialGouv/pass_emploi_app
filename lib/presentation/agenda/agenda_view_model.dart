@@ -52,7 +52,7 @@ List<AgendaItem> _events(Store<AppState> store) {
   final events = _allEventsSorted(agendaState.agenda);
 
   return [
-    if (agendaState.agenda.delayedActions > 0) DelayedActionsBanner(agendaState.agenda.delayedActions),
+    if (agendaState.agenda.delayedActions > 0) DelayedActionsBannerAgendaItem(agendaState.agenda.delayedActions),
     _makeCurrentWeek(events, agendaState.agenda.dateDeDebut),
     _makeNextWeek(events, agendaState.agenda.dateDeDebut),
   ];
@@ -120,11 +120,10 @@ NextWeekAgendaItem _makeNextWeek(List<EventAgenda> events, DateTime dateDeDebutA
 
 abstract class AgendaItem extends Equatable {}
 
-// todo rename *AgendaItem
-class DelayedActionsBanner extends AgendaItem {
+class DelayedActionsBannerAgendaItem extends AgendaItem {
   final int count;
 
-  DelayedActionsBanner(this.count);
+  DelayedActionsBannerAgendaItem(this.count);
 
   @override
   List<Object?> get props => [count];
