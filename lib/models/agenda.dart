@@ -23,7 +23,7 @@ class Agenda extends Equatable {
   factory Agenda.fromJson(dynamic json) {
     final rendezvous = (json["rendezVous"] as List).map((e) => JsonRendezvous.fromJson(e).toRendezvous()).toList();
     final metadata = json["metadata"];
-    final delayedActions = metadata["actionsEnRetard"] as int;
+    final delayedActions = _delayedActions(metadata);
     final dateDeDebut = (metadata["dateDeDebut"] as String).toDateTimeUtcOnLocalTimeZone();
     return Agenda(
       actions: _actions(json),
@@ -52,6 +52,12 @@ class Agenda extends Equatable {
 
   @override
   List<Object?> get props => [actions, demarches, rendezvous, delayedActions, dateDeDebut];
+}
+
+int _delayedActions(metadata) {
+  if (metadata["actionsEnRetard"] != null) return metadata["actionsEnRetard"] as int;
+  if (metadata["demarchesEnRetard"] != null) return metadata["demarchesEnRetard"] as int;
+  return 0;
 }
 
 List<UserAction> _actions(json) {
