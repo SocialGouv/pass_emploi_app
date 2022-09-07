@@ -54,6 +54,8 @@ extension AppStateDSL on AppState {
 
   AppState loggedInPoleEmploiUser() => copyWith(loginState: successPoleEmploiUserState());
 
+  AppState withDemoMode() => copyWith(demoState: true);
+
   AppState rendezvous(List<Rendezvous> rendezvous) => copyWith(rendezvousState: RendezvousState.successful(rendezvous));
 
   AppState rendezvousNotInitialized() => copyWith(rendezvousState: RendezvousState.notInitialized());
@@ -195,6 +197,10 @@ extension AppStateDSL on AppState {
     );
   }
 
+  AppState withUserActions(List<UserAction> userActions) {
+    return copyWith(userActionListState: UserActionListSuccessState(userActions));
+  }
+
   AppState withDemarches(List<Demarche> demarches) {
     return copyWith(demarcheListState: DemarcheListSuccessState(demarches, true));
   }
@@ -245,10 +251,6 @@ extension AppStateDSL on AppState {
 
   AppState deleteActionSuccess() {
     return copyWith(userActionDeleteState: UserActionDeleteSuccessState());
-  }
-
-  AppState deleteActionFromList() {
-    return copyWith(userActionDeleteState: UserActionDeleteFromListState());
   }
 
   AppState deleteActionLoading() {

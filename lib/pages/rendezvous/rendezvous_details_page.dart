@@ -5,6 +5,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_details_view_model.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -27,23 +28,17 @@ class RendezvousDetailsPage extends StatelessWidget {
 
   RendezvousDetailsPage._(this.rendezvousId, this._converter) : super();
 
-  static MaterialPageRoute<void> materialPageRouteWithRendezvousState(String rendezvousId) {
+  static MaterialPageRoute<void> materialPageRoute(RendezvousStateSource source, String rendezvousId) {
     return MaterialPageRoute(
       builder: (context) {
         return RendezvousDetailsPage._(
           rendezvousId,
-          (store) => RendezvousDetailsViewModel.createFromRendezvousState(store, rendezvousId, _platform),
-        );
-      },
-    );
-  }
-
-  static MaterialPageRoute<void> materialPageRouteWithAgendaState(String rendezvousId) {
-    return MaterialPageRoute(
-      builder: (context) {
-        return RendezvousDetailsPage._(
-          rendezvousId,
-          (store) => RendezvousDetailsViewModel.createFromAgendaState(store, rendezvousId, _platform),
+          (store) => RendezvousDetailsViewModel.create(
+            store: store,
+            source: source,
+            rdvId: rendezvousId,
+            platform: _platform,
+          ),
         );
       },
     );

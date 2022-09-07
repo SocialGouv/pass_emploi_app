@@ -3,11 +3,14 @@ import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_a
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 
 import '../../doubles/fixtures.dart';
 import '../../doubles/spies.dart';
@@ -15,6 +18,52 @@ import '../../dsl/app_state_dsl.dart';
 import '../../utils/expects.dart';
 
 void main() {
+  test(
+      "UserActionViewModel.create when creator is jeune and action has no comment should create view model properly and autorize delete",
+      () {
+    // Given
+    final action = mockUserAction(id: 'actionId', creator: JeuneActionCreator());
+    final store = givenState().withAction(action).actionWithoutComments().store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+
+    // Then
+    expect(viewModel.creator, Strings.you);
+    expect(viewModel.withDeleteOption, isTrue);
+  });
+
+  test(
+      "UserActionViewModel.create when creator is jeune and action has comments should create view model properly and not autorize delete",
+      () {
+    // Given
+    final action = mockUserAction(id: 'actionId', creator: JeuneActionCreator());
+    final store = givenState().withAction(action).actionWithComments().store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+
+    // Then
+    expect(viewModel.creator, Strings.you);
+    expect(viewModel.withDeleteOption, isFalse);
+  });
+
+  test(
+      "UserActionViewModel.create when creator is conseiller should create view model properly and not autorize delete",
+      () {
+    // Given
+    final store = givenState()
+        .withAction(mockUserAction(id: 'actionId', creator: ConseillerActionCreator(name: 'Nils Tavernier')))
+        .store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+
+    // Then
+    expect(viewModel.creator, 'Nils Tavernier');
+    expect(viewModel.withDeleteOption, isFalse);
+  });
+
   group("create when update action...", () {
     test("set status to NOT_STARTED should dismiss bottom sheet", () {
       // Given
@@ -24,7 +73,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
       // Then
       expect(viewModel.updateDisplayState, UpdateDisplayState.TO_DISMISS_AFTER_UPDATE);
@@ -38,7 +87,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
       // Then
       expect(viewModel.updateDisplayState, UpdateDisplayState.TO_DISMISS_AFTER_UPDATE);
@@ -52,7 +101,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
       // Then
       expect(viewModel.updateDisplayState, UpdateDisplayState.TO_DISMISS_AFTER_UPDATE);
@@ -66,7 +115,7 @@ void main() {
           .store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
       // Then
       expect(viewModel.updateDisplayState, UpdateDisplayState.SHOW_SUCCESS);
@@ -77,7 +126,7 @@ void main() {
       final store = givenState().withAction(mockUserAction(id: 'actionId')).updateActionLoading().store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
       // Then
       expect(viewModel.updateDisplayState, UpdateDisplayState.SHOW_LOADING);
@@ -88,7 +137,7 @@ void main() {
       final store = givenState().withAction(mockUserAction(id: 'actionId')).updateActionFailure().store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
       // Then
       expect(viewModel.updateDisplayState, UpdateDisplayState.SHOW_UPDATE_ERROR);
@@ -99,19 +148,19 @@ void main() {
       final store = givenState().withAction(mockUserAction(id: 'actionId')).updateActionNotInit().store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
       // Then
       expect(viewModel.updateDisplayState, UpdateDisplayState.NOT_INIT);
     });
   });
 
-  test("when action is on time should properly set texts, icons and active color", () {
+  test("UserActionViewModel.create when action is on time should properly set texts, icons and active color", () {
     // Given
     final store = givenState().withAction(mockUserAction(id: 'actionId', dateEcheance: DateTime(2041, 1, 1))).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
     // Then
     expect(
@@ -125,12 +174,12 @@ void main() {
     );
   });
 
-  test("when action is late should properly set texts, icons and warning color", () {
+  test("UserActionViewModel.create when action is late should properly set texts, icons and warning color", () {
     // Given
     final store = givenState().withAction(mockUserAction(id: 'actionId', dateEcheance: DateTime(2021, 1, 1))).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
     // Then
     expect(
@@ -144,26 +193,38 @@ void main() {
     );
   });
 
-  test("when action is DONE should not display date echeance", () {
+  test("UserActionViewModel.create when action is DONE should not display date echeance", () {
     // Given
     final store = givenState().withAction(mockUserAction(id: 'actionId', status: UserActionStatus.DONE)).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
     // Then
     expect(viewModel.dateEcheanceViewModel, isNull);
   });
 
-  test("when action is CANCELED should not display date echeance", () {
+  test("UserActionViewModel.create when action is CANCELED should not display date echeance", () {
     // Given
     final store = givenState().withAction(mockUserAction(id: 'actionId', status: UserActionStatus.CANCELED)).store();
 
     // When
-    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
     // Then
     expect(viewModel.dateEcheanceViewModel, isNull);
+  });
+
+  test("UserActionViewModel.create when source is agenda should create view model properly", () {
+    // Given
+    final action = mockUserAction(id: 'actionId', content: 'content');
+    final store = givenState().agenda(actions: [action], rendezvous: []).store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.agenda, 'actionId');
+
+    // Then
+    expect(viewModel.title, 'content');
   });
 
   group("create when delete action ...", () {
@@ -172,7 +233,7 @@ void main() {
       final store = givenState().withAction(mockUserAction(id: 'actionId')).deleteActionSuccess().store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
       // Then
       expect(viewModel.deleteDisplayState, DeleteDisplayState.TO_DISMISS_AFTER_DELETION);
@@ -183,7 +244,7 @@ void main() {
       final store = givenState().withAction(mockUserAction(id: 'actionId')).deleteActionLoading().store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
       // Then
       expect(viewModel.deleteDisplayState, DeleteDisplayState.SHOW_LOADING);
@@ -194,7 +255,7 @@ void main() {
       final store = givenState().withAction(mockUserAction(id: 'actionId')).deleteActionFailure().store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
       // Then
       expect(viewModel.deleteDisplayState, DeleteDisplayState.SHOW_DELETE_ERROR);
@@ -205,7 +266,7 @@ void main() {
       final store = givenState().withAction(mockUserAction(id: 'actionId')).deleteActionNotInit().store();
 
       // When
-      final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
+      final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
       // Then
       expect(viewModel.deleteDisplayState, DeleteDisplayState.NOT_INIT);
@@ -217,7 +278,7 @@ void main() {
     final store = StoreSpy.withState(givenState().loggedInMiloUser().withAction(mockUserAction(id: 'actionId')));
 
     // When
-    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
     viewModel.onRefreshStatus("actionId", UserActionStatus.NOT_STARTED);
 
     // Then
@@ -227,7 +288,7 @@ void main() {
   test('onDelete should dispatch UserActionDeleteRequestAction', () {
     // Given
     final store = StoreSpy.withState(givenState().withAction(mockUserAction(id: 'actionId')));
-    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
     // When
     viewModel.onDelete('actionId');
@@ -237,24 +298,10 @@ void main() {
     expect((store.dispatchedAction as UserActionDeleteRequestAction).actionId, 'actionId');
   });
 
-  test('deleteFromList should dispatch UserActionDeleteFromListAction', () async {
-    // Given
-    final store = StoreSpy.withState(givenState().withAction(mockUserAction(id: 'actionId')));
-    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
-
-    // When
-    viewModel.deleteFromList('actionId');
-
-    // Then
-    await Future.delayed(Duration(milliseconds: 350));
-    expect(store.dispatchedAction, isA<UserActionDeleteFromListAction>());
-    expect((store.dispatchedAction as UserActionDeleteFromListAction).actionId, 'actionId');
-  });
-
   test('resetUpdateStatus should dispatch UserActionUpdateResetAction', () {
     // Given
     final store = StoreSpy.withState(givenState().withAction(mockUserAction(id: 'actionId')));
-    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
     // When
     viewModel.resetUpdateStatus();
@@ -269,7 +316,7 @@ void main() {
     final store = StoreSpy.withState(
       AppState.initialState().copyWith(userActionListState: UserActionListSuccessState([mockUserAction(id: 'id')])),
     );
-    final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
     // When
     viewModel.onRefreshStatus("id", UserActionStatus.DONE);
@@ -278,30 +325,6 @@ void main() {
     expectTypeThen<UserActionUpdateRequestAction>(store.dispatchedAction, (action) {
       expect(action.actionId, "id");
       expect(action.newStatus, UserActionStatus.DONE);
-    });
-  });
-
-  group("create when action ...", () {
-    test("has no comments should set withComments to false", () {
-      // Given
-      final store = givenState().withAction(mockUserAction(id: 'actionId')).actionWithoutComments().store();
-
-      // When
-      final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
-
-      // Then
-      expect(viewModel.withComments, isFalse);
-    });
-
-    test("has comments should set withComments to true", () {
-      // Given
-      final store = givenState().withAction(mockUserAction(id: 'actionId')).actionWithComments().store();
-
-      // When
-      final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
-
-      // Then
-      expect(viewModel.withComments, isTrue);
     });
   });
 }

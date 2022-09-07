@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
@@ -18,7 +19,7 @@ void main() {
     );
 
     // Then
-    expect(() => RendezvousCardViewModel.createFromRendezvousState(store, '1'), throwsException);
+    expect(() => RendezvousCardViewModel.create(store, RendezvousStateSource.list, '1'), throwsException);
   });
 
   test('create when rendezvous state is successful but no rendezvous is matching ID throws exception', () {
@@ -30,7 +31,7 @@ void main() {
     );
 
     // Then
-    expect(() => RendezvousCardViewModel.createFromRendezvousState(store, '2'), throwsException);
+    expect(() => RendezvousCardViewModel.create(store, RendezvousStateSource.list, '2'), throwsException);
   });
 
   group('create when rendezvous state is successful…', () {
@@ -41,7 +42,7 @@ void main() {
       );
 
       // When
-      final viewModel = RendezvousCardViewModel.createFromRendezvousState(store, '1');
+      final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.list, '1');
 
       // Then
       expect(viewModel.tag, "Precision");
@@ -54,7 +55,7 @@ void main() {
       );
 
       // When
-      final viewModel = RendezvousCardViewModel.createFromRendezvousState(store, '1');
+      final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.list, '1');
 
       // Then
       expect(viewModel.tag, "Autre");
@@ -66,7 +67,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', date: DateTime(now.year, now.month, now.day, 10, 20)));
 
       // When
-      final viewModel = RendezvousCardViewModel.createFromRendezvousState(store, '1');
+      final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.list, '1');
 
       // Then
       expect(viewModel.date, "Aujourd'hui à 10h20");
@@ -80,7 +81,7 @@ void main() {
       );
 
       // When
-      final viewModel = RendezvousCardViewModel.createFromRendezvousState(store, '1');
+      final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.list, '1');
 
       // Then
       expect(viewModel.date, "Demain à 10h20");
@@ -91,7 +92,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', date: DateTime(2022, 3, 1, 10, 20)));
 
       // When
-      final viewModel = RendezvousCardViewModel.createFromRendezvousState(store, '1');
+      final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.list, '1');
 
       // Then
       expect(viewModel.date, "Le 01/03/2022 à 10h20");
@@ -107,7 +108,7 @@ void main() {
       ));
 
       // When
-      final viewModel = RendezvousCardViewModel.createFromRendezvousState(store, '1');
+      final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.list, '1');
 
       // Then
       expect(viewModel.subtitle, "En visio avec Nils Tavernier");
@@ -118,7 +119,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', modality: "en visio", withConseiller: false));
 
       // When
-      final viewModel = RendezvousCardViewModel.createFromRendezvousState(store, '1');
+      final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.list, '1');
 
       // Then
       expect(viewModel.subtitle, "En visio");
@@ -129,7 +130,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', modality: null, withConseiller: false));
 
       // When
-      final viewModel = RendezvousCardViewModel.createFromRendezvousState(store, '1');
+      final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.list, '1');
 
       // Then
       expect(viewModel.subtitle, isNull);
@@ -140,7 +141,7 @@ void main() {
       final store = _store(mockRendezvous(id: '1', isAnnule: true));
 
       // When
-      final viewModel = RendezvousCardViewModel.createFromRendezvousState(store, '1');
+      final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.list, '1');
 
       // Then
       expect(viewModel.isAnnule, isTrue);
@@ -163,7 +164,7 @@ void main() {
       );
 
       // When
-      final viewModel = RendezvousCardViewModel.createFromRendezvousState(store, '1');
+      final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.list, '1');
 
       // Then
       expect(
@@ -183,20 +184,20 @@ void main() {
     test('full view model test from agenda', () {
       // Given
       final rdv = Rendezvous(
-          id: '1',
-          date: DateTime(2021, 12, 23, 10, 20),
-          duration: 60,
-          modality: 'par téléphone',
-          isInVisio: false,
-          withConseiller: false,
-          isAnnule: false,
-          organism: 'Entreprise Bio Carburant',
-          type: RendezvousType(RendezvousTypeCode.ATELIER, 'Atelier'),
+        id: '1',
+        date: DateTime(2021, 12, 23, 10, 20),
+        duration: 60,
+        modality: 'par téléphone',
+        isInVisio: false,
+        withConseiller: false,
+        isAnnule: false,
+        organism: 'Entreprise Bio Carburant',
+        type: RendezvousType(RendezvousTypeCode.ATELIER, 'Atelier'),
       );
       final store = givenState().loggedInUser().agenda(actions: [], rendezvous: [rdv]).store();
 
       // When
-      final viewModel = RendezvousCardViewModel.createFromAgendaState(store, '1');
+      final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.agenda, '1');
 
       // Then
       expect(

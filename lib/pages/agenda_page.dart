@@ -10,8 +10,8 @@ import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
 import 'package:pass_emploi_app/presentation/agenda/agenda_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
-import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
-import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -31,9 +31,9 @@ import 'package:pass_emploi_app/widgets/empty_page.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
 class AgendaPage extends StatelessWidget {
-  final TabController tabController;
+  final Function() onActionDelayedTap;
 
-  AgendaPage(this.tabController);
+  AgendaPage(this.onActionDelayedTap);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class AgendaPage extends StatelessWidget {
       tracking: AnalyticsScreenNames.agenda,
       child: StoreConnector<AppState, AgendaPageViewModel>(
         onInit: (store) => store.dispatch(AgendaRequestAction(DateTime.now())),
-        builder: (context, viewModel) => _Scaffold(viewModel: viewModel, tabController: tabController),
+        builder: (context, viewModel) => _Scaffold(viewModel: viewModel, onActionDelayedTap: onActionDelayedTap),
         converter: (store) => AgendaPageViewModel.create(store),
         distinct: true,
       ),
@@ -51,16 +51,16 @@ class AgendaPage extends StatelessWidget {
 
 class _Scaffold extends StatelessWidget {
   final AgendaPageViewModel viewModel;
-  final TabController tabController;
+  final Function() onActionDelayedTap;
 
-  const _Scaffold({Key? key, required this.viewModel, required this.tabController}) : super(key: key);
+  const _Scaffold({Key? key, required this.viewModel, required this.onActionDelayedTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.grey100,
       body: Stack(children: [
-        DefaultAnimatedSwitcher(child: _Body(viewModel: viewModel, tabController: tabController)),
+        DefaultAnimatedSwitcher(child: _Body(viewModel: viewModel, onActionDelayedTap: onActionDelayedTap)),
         _CreateActionButton(resetCreateAction: viewModel.resetCreateAction),
       ]),
     );
@@ -94,9 +94,9 @@ class _CreateActionButton extends StatelessWidget {
 
 class _Body extends StatelessWidget {
   final AgendaPageViewModel viewModel;
-  final TabController tabController;
+  final Function() onActionDelayedTap;
 
-  const _Body({Key? key, required this.viewModel, required this.tabController}) : super(key: key);
+  const _Body({Key? key, required this.viewModel, required this.onActionDelayedTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +104,7 @@ class _Body extends StatelessWidget {
       case DisplayState.LOADING:
         return Center(child: CircularProgressIndicator());
       case DisplayState.CONTENT:
-        return _Content(viewModel: viewModel, tabController: tabController);
+        return _Content(viewModel: viewModel, onActionDelayedTap: onActionDelayedTap);
       case DisplayState.EMPTY:
         return Empty(description: Strings.agendaEmpty);
       case DisplayState.FAILURE:
@@ -130,9 +130,9 @@ class _Retry extends StatelessWidget {
 
 class _Content extends StatelessWidget {
   final AgendaPageViewModel viewModel;
-  final TabController tabController;
+  final Function() onActionDelayedTap;
 
-  const _Content({Key? key, required this.viewModel, required this.tabController}) : super(key: key);
+  const _Content({Key? key, required this.viewModel, required this.onActionDelayedTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -143,7 +143,7 @@ class _Content extends StatelessWidget {
         itemCount: viewModel.events.length,
         itemBuilder: (context, index) {
           final item = viewModel.events[index];
-          if (item is DelayedActionsBanner) return _DelayedActionsBanner(item, tabController);
+          if (item is DelayedActionsBannerAgendaItem) return _DelayedActionsBanner(item, onActionDelayedTap);
           if (item is CurrentWeekAgendaItem) return _CurrentWeek(item.days);
           if (item is NextWeekAgendaItem) return _NextWeek(item.events);
           return SizedBox(height: 0);
@@ -154,10 +154,10 @@ class _Content extends StatelessWidget {
 }
 
 class _DelayedActionsBanner extends StatelessWidget {
-  final DelayedActionsBanner banner;
-  final TabController tabController;
+  final DelayedActionsBannerAgendaItem banner;
+  final Function() onActionDelayedTap;
 
-  _DelayedActionsBanner(this.banner, this.tabController);
+  _DelayedActionsBanner(this.banner, this.onActionDelayedTap);
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +169,7 @@ class _DelayedActionsBanner extends StatelessWidget {
         child: Material(
           type: MaterialType.transparency,
           child: InkWell(
-            onTap: () => tabController.animateTo(1),
+            onTap: onActionDelayedTap,
             splashColor: AppColors.primaryLighten,
             child: Padding(
               padding: const EdgeInsets.all(Margins.spacing_base),
@@ -333,7 +333,7 @@ extension _EventWidget on EventAgenda {
   Widget widget(BuildContext context, bool simpleCard) {
     final event = this;
     if (event is UserActionEventAgenda) {
-      return _ActionCard(id: event.id, simpleCard: simpleCard);
+      return event.agendaCard(context, simpleCard);
     } else if (event is RendezvousEventAgenda) {
       return event.rendezvousCard(context, simpleCard);
     } else {
@@ -347,13 +347,13 @@ extension _RendezvousCard on RendezvousEventAgenda {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
       child: RendezvousCard(
-        converter: (store) => RendezvousCardViewModel.createFromAgendaState(store, id),
+        converter: (store) => RendezvousCardViewModel.create(store, RendezvousStateSource.agenda, id),
         simpleCard: simpleCard,
         onTap: () {
           context.trackEvent(EventType.RDV_DETAIL);
           Navigator.push(
             context,
-            RendezvousDetailsPage.materialPageRouteWithAgendaState(id),
+            RendezvousDetailsPage.materialPageRoute(RendezvousStateSource.agenda, id),
           );
         },
       ),
@@ -361,34 +361,19 @@ extension _RendezvousCard on RendezvousEventAgenda {
   }
 }
 
-// todo Refactoring (low) : mutualiser, onTap en param ?
-
-class _ActionCard extends StatelessWidget {
-  final String id;
-  final bool simpleCard;
-
-  _ActionCard({required this.id, required this.simpleCard});
-
-  @override
-  Widget build(BuildContext context) {
-    return StoreConnector<AppState, UserActionViewModel>(
-      builder: (context, viewModel) => _card(context, viewModel),
-      converter: (store) => UserActionViewModel.createFromAgendaState(store, id),
-      distinct: true,
-    );
-  }
-
-  Widget _card(BuildContext context, UserActionViewModel viewModel) {
+extension _ActionCard on UserActionEventAgenda {
+  Widget agendaCard(BuildContext context, bool simpleCard) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
       child: UserActionCard(
-        viewModel: viewModel,
+        userActionId: id,
+        stateSource: UserActionStateSource.agenda,
         simpleCard: simpleCard,
         onTap: () {
           context.trackEvent(EventType.ACTION_DETAIL);
           Navigator.push(
             context,
-            UserActionDetailPage.materialPageRoute(viewModel, StateSource.agenda),
+            UserActionDetailPage.materialPageRoute(id, UserActionStateSource.agenda),
           );
         },
       ),

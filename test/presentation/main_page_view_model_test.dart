@@ -65,41 +65,6 @@ void main() {
     });
   });
 
-  group('Create MainPageViewModel when user logged in…', () {
-    test('via Pôle Emploi should set isPoleEmploiLogin to true', () {
-      final state = AppState.initialState().copyWith(
-        loginState: successPoleEmploiUserState(),
-      );
-      final store = Store<AppState>(reducer, initialState: state);
-
-      final viewModel = MainPageViewModel.create(store);
-
-      expect(viewModel.isPoleEmploiLogin, true);
-    });
-
-    test('via Pass Emploi should set isPoleEmploiLogin to false', () {
-      final state = AppState.initialState().copyWith(
-        loginState: successPassEmploiUserState(),
-      );
-      final store = Store<AppState>(reducer, initialState: state);
-
-      final viewModel = MainPageViewModel.create(store);
-
-      expect(viewModel.isPoleEmploiLogin, false);
-    });
-
-    test('via Milo should set isPoleEmploiLogin to false', () {
-      final state = AppState.initialState().copyWith(
-        loginState: successMiloUserState(),
-      );
-      final store = Store<AppState>(reducer, initialState: state);
-
-      final viewModel = MainPageViewModel.create(store);
-
-      expect(viewModel.isPoleEmploiLogin, false);
-    });
-  });
-
   group('Create MainPageViewModel when rating app state is…', () {
     test('not initialized should not show rating banner', () {
       // Given

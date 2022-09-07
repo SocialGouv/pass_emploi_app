@@ -89,15 +89,15 @@ void main() {
       initialState: loggedInState().copyWith(
         userActionListState: UserActionListSuccessState(
           [
-            _userAction(status: UserActionStatus.DONE),
-            _userAction(status: UserActionStatus.CANCELED),
-            _userAction(status: UserActionStatus.IN_PROGRESS),
-            _userAction(status: UserActionStatus.DONE),
-            _userAction(status: UserActionStatus.NOT_STARTED),
-            _userAction(status: UserActionStatus.IN_PROGRESS),
-            _userAction(status: UserActionStatus.NOT_STARTED),
-            _userAction(status: UserActionStatus.DONE),
-            _userAction(status: UserActionStatus.IN_PROGRESS),
+            mockUserAction(id: 'DONE', status: UserActionStatus.DONE),
+            mockUserAction(id: 'CANCELED', status: UserActionStatus.CANCELED),
+            mockUserAction(id: 'IN_PROGRESS', status: UserActionStatus.IN_PROGRESS),
+            mockUserAction(id: 'DONE', status: UserActionStatus.DONE),
+            mockUserAction(id: 'NOT_STARTED', status: UserActionStatus.NOT_STARTED),
+            mockUserAction(id: 'IN_PROGRESS', status: UserActionStatus.IN_PROGRESS),
+            mockUserAction(id: 'NOT_STARTED', status: UserActionStatus.NOT_STARTED),
+            mockUserAction(id: 'DONE', status: UserActionStatus.DONE),
+            mockUserAction(id: 'IN_PROGRESS', status: UserActionStatus.IN_PROGRESS),
           ],
         ),
         campagneState: CampagneState(campagne(), []),
@@ -109,16 +109,16 @@ void main() {
 
     // Then
     expect(viewModel.items.length, 11);
-    expect(viewModel.items[0] is UserActionCampagneItemViewModel, isTrue);
+    expect(viewModel.items[0] is CampagneItem, isTrue);
     for (var i = 1; i < 6; ++i) {
-      expect(viewModel.items[i] is UserActionListItemViewModel, isTrue);
-      expect((viewModel.items[i] as UserActionListItemViewModel).viewModel.status.isCanceledOrDone(), false);
+      expect(viewModel.items[i] is IdItem, isTrue);
+      expect((viewModel.items[i] as IdItem).userActionId, isIn(['IN_PROGRESS', 'NOT_STARTED']));
     }
-    expect(viewModel.items[6] is UserActionListSubtitle, isTrue);
-    expect((viewModel.items[6] as UserActionListSubtitle).title, "Actions terminées et annulées");
+    expect(viewModel.items[6] is SubtitleItem, isTrue);
+    expect((viewModel.items[6] as SubtitleItem).title, "Actions terminées et annulées");
     for (var i = 7; i < 11; ++i) {
-      expect(viewModel.items[i] is UserActionListItemViewModel, isTrue);
-      expect((viewModel.items[i] as UserActionListItemViewModel).viewModel.status.isCanceledOrDone(), true);
+      expect(viewModel.items[i] is IdItem, isTrue);
+      expect((viewModel.items[i] as IdItem).userActionId, isIn(['DONE', 'CANCELED']));
     }
   });
 
@@ -144,7 +144,8 @@ void main() {
     expect(viewModel.items.length, 0);
   });
 
-  test('create when action state is success but there are no user_action but with campagne should display campagne card',
+  test(
+      'create when action state is success but there are no user_action but with campagne should display campagne card',
       () {
     // Given
     final store = Store<AppState>(
@@ -163,7 +164,7 @@ void main() {
     expect(viewModel.withFailure, false);
     expect(viewModel.withEmptyMessage, false);
     expect(viewModel.items.length, 1);
-    expect(viewModel.items[0] is UserActionCampagneItemViewModel, isTrue);
+    expect(viewModel.items[0] is CampagneItem, isTrue);
   });
 
   test("create when action state is success with only active user_action should display them", () {
@@ -189,12 +190,12 @@ void main() {
     // Then
     expect(viewModel.items.length, 5);
     for (var i = 0; i < 5; ++i) {
-      expect(viewModel.items[i] is UserActionListItemViewModel, isTrue);
-      expect((viewModel.items[i] as UserActionListItemViewModel).viewModel.status.isCanceledOrDone(), false);
+      expect(viewModel.items[i] is IdItem, isTrue);
     }
   });
 
-  test("create when all user_action are done/canceled should set item count to user_action count + 1 to display title", () {
+  test("create when all user_action are done/canceled should set item count to user_action count + 1 to display title",
+      () {
     // Given
     final store = Store<AppState>(
       reducer,
@@ -214,11 +215,10 @@ void main() {
 
     // Then
     expect(viewModel.items.length, 4);
-    expect(viewModel.items[0] is UserActionListSubtitle, isTrue);
-    expect((viewModel.items[0] as UserActionListSubtitle).title, "Actions terminées et annulées");
+    expect(viewModel.items[0] is SubtitleItem, isTrue);
+    expect((viewModel.items[0] as SubtitleItem).title, "Actions terminées et annulées");
     for (var i = 1; i < 4; ++i) {
-      expect(viewModel.items[i] is UserActionListItemViewModel, isTrue);
-      expect((viewModel.items[i] as UserActionListItemViewModel).viewModel.status.isCanceledOrDone(), true);
+      expect(viewModel.items[i] is IdItem, isTrue);
     }
   });
 
@@ -235,7 +235,7 @@ void main() {
     final viewModel = UserActionListPageViewModel.create(store);
 
     // Then
-    expect(viewModel.actionDetails?.id, 'id');
+    expect(viewModel.deeplinkActionId, 'id');
   });
 
   test('return isNull when action state is success and coming from deeplink but ID is not valid anymore', () {
@@ -251,7 +251,7 @@ void main() {
     final viewModel = UserActionListPageViewModel.create(store);
 
     // Then
-    expect(viewModel.actionDetails?.id, isNull);
+    expect(viewModel.deeplinkActionId, isNull);
   });
 
   test('onUserActionDetailsDismissed should dispatch DismissUserActionDetailsAction', () {

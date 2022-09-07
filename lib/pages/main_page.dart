@@ -113,9 +113,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case _indexOfMonSuiviPage:
         final initialTab = !_deepLinkHandled ? _initialTab() : null;
         _deepLinkHandled = true;
-        return MonSuiviTabPage(
-          viewModel: MonSuiviViewModel.create(isPoleEmploiLogin: viewModel.isPoleEmploiLogin, initialTab: initialTab),
-        );
+        return MonSuiviTabPage(initialTab);
       case _indexOfChatPage:
         return ChatPage();
       case _indexOfSolutionsPage:
@@ -125,7 +123,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
       case _indexOfPlusPage:
         return ProfilPage();
       default:
-        return MonSuiviTabPage(viewModel: MonSuiviViewModel.create(isPoleEmploiLogin: viewModel.isPoleEmploiLogin));
+        return MonSuiviTabPage();
     }
   }
 

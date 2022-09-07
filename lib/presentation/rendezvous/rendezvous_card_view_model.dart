@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_view_model_helper.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -26,18 +27,8 @@ class RendezvousCardViewModel extends Equatable {
     required this.greenTag,
   });
 
-  // todo Tests (low) avec une façon élégeante de faire 2-en-1
-  factory RendezvousCardViewModel.createFromAgendaState(Store<AppState> store, String rendezvousId) {
-    final rendezvous = getRendezvousFromAgendaState(store, rendezvousId);
-    return RendezvousCardViewModel.create(rendezvous);
-  }
-
-  factory RendezvousCardViewModel.createFromRendezvousState(Store<AppState> store, String rdvId) {
-    final rdv = getRendezvousFromRendezvousState(store, rdvId);
-    return RendezvousCardViewModel.create(rdv);
-  }
-
-  factory RendezvousCardViewModel.create(Rendezvous rdv) {
+  factory RendezvousCardViewModel.create(Store<AppState> store, RendezvousStateSource source, String rdvId) {
+    final rdv = getRendezvous(store, source, rdvId);
     return RendezvousCardViewModel(
       id: rdv.id,
       tag: takeTypeLabelOrPrecision(rdv),
