@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
@@ -68,10 +67,6 @@ RouterPageDisplayState _routerPageDisplayState(Store<AppState> store) {
 MainPageDisplayState _toMainPageDisplayState(DeepLinkState deepLinkState, Store<AppState> store) {
   if (deepLinkState is! NotInitializedDeepLinkState) {
     return _toMainPageDisplayStateByDeepLink(deepLinkState);
-  }
-  final loginState = store.state.loginState;
-  if (loginState is LoginSuccessState && loginState.user.loginMode == LoginMode.POLE_EMPLOI) {
-    return MainPageDisplayState.ACTIONS_TAB;
   }
   return MainPageDisplayState.DEFAULT;
 }

@@ -576,9 +576,17 @@ class Strings {
   static String developerOptionMatomoPage = 'Matomo';
 
   // Tutorial
+  static String tutoTitreOffreDebutant = "Trouvez plus facilement des offres d’emploi pour débutants";
+  static String tutoDescriptionOffreDebutant =
+      "Affichez uniquement les offres d’emploi “débutants acceptés” dans votre liste de résultats de recherche !";
+
+  static String tutoTitreOffrePartage = "Partagez vos offres d’emploi à votre conseiller";
+  static String tutoDescriptionOffrePartage =
+      "Vous pouvez désormais partager une offre d’emploi à votre conseiller directement depuis le chat";
+
   static String tutoTitleActionComments = "Commentez vos actions !";
   static String tutoDescriptionActionComments =
-      "Vous pouvez ajouter des commentaires à vos actions et ainsi les détailler d'avantage !";
+      "Vous pouvez ajouter des commentaires à vos actions et ainsi les détailler davantage !";
 
   static String tutoTitreMandatoryDate = "Renseignez une date à vos actions";
   static String tutoDescriptionMandatoryDate =
