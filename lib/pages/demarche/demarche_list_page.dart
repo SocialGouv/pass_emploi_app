@@ -126,12 +126,7 @@ class _AddDemarcheButton extends StatelessWidget {
         child: PrimaryActionButton(
           drawableRes: Drawables.icAdd,
           label: Strings.addADemarche,
-          onPressed: () {
-            Navigator.push(
-              context,
-              CreateDemarcheStep1Page.materialPageRoute(),
-            );
-          },
+          onPressed: () => Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute()),
         ),
       ),
     );

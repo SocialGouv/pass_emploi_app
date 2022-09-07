@@ -11,15 +11,19 @@ import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 import 'package:redux/redux.dart';
 
+enum CreateButton { userAction, demarche }
+
 class AgendaPageViewModel extends Equatable {
   final DisplayState displayState;
   final List<AgendaItem> events;
+  final CreateButton createButton;
   final Function() resetCreateAction;
   final Function(DateTime) retry;
 
   AgendaPageViewModel({
     required this.displayState,
     required this.events,
+    required this.createButton,
     required this.resetCreateAction,
     required this.retry,
   });
@@ -28,13 +32,20 @@ class AgendaPageViewModel extends Equatable {
     return AgendaPageViewModel(
       displayState: _displayState(store),
       events: _events(store),
+      createButton: _createButton(store),
       resetCreateAction: () => store.dispatch(UserActionCreateResetAction()),
       retry: (date) => store.dispatch(AgendaRequestAction(date)),
     );
   }
 
   @override
-  List<Object?> get props => [displayState, events];
+  List<Object?> get props => [displayState, events, createButton];
+}
+
+CreateButton _createButton(Store<AppState> store) {
+  final loginState = store.state.loginState;
+  final isPoleEmploi = loginState is LoginSuccessState && loginState.user.loginMode.isPe();
+  return isPoleEmploi ? CreateButton.demarche : CreateButton.userAction;
 }
 
 DisplayState _displayState(Store<AppState> store) {

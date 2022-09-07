@@ -118,6 +118,30 @@ void main() {
     });
   });
 
+  group('create button', () {
+    test('when user is from Mission Locale should set create button for user action', () {
+      // Given
+      final store = givenState().loggedInMiloUser().agenda().store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.createButton, CreateButton.userAction);
+    });
+
+    test('when user is from Pole Emploi should set create button for user action', () {
+      // Given
+      final store = givenState().loggedInPoleEmploiUser().agenda().store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.createButton, CreateButton.demarche);
+    });
+  });
+
   group('events', () {
     test('should have delayed item at first position when there are some delayed actions', () {
       // Given

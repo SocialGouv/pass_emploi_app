@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
@@ -64,16 +65,29 @@ class _Scaffold extends StatelessWidget {
       backgroundColor: AppColors.grey100,
       body: Stack(children: [
         DefaultAnimatedSwitcher(child: _Body(viewModel: viewModel, onActionDelayedTap: onActionDelayedTap)),
-        _CreateActionButton(resetCreateAction: viewModel.resetCreateAction),
+        if (viewModel.createButton == CreateButton.userAction)
+          _CreateButton(
+            label: Strings.addAnAction,
+            onPressed: () => showPassEmploiBottomSheet(
+              context: context,
+              builder: (context) => CreateUserActionBottomSheet(),
+            ).then((value) => viewModel.resetCreateAction()),
+          ),
+        if (viewModel.createButton == CreateButton.demarche)
+          _CreateButton(
+            label: Strings.addADemarche,
+            onPressed: () => Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute()),
+          ),
       ]),
     );
   }
 }
 
-class _CreateActionButton extends StatelessWidget {
-  final Function() resetCreateAction;
+class _CreateButton extends StatelessWidget {
+  final String label;
+  final VoidCallback onPressed;
 
-  _CreateActionButton({required this.resetCreateAction});
+  const _CreateButton({required this.label, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -82,13 +96,10 @@ class _CreateActionButton extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 24),
         child: PrimaryActionButton(
-          label: Strings.addAnAction,
+          label: label,
           drawableRes: Drawables.icAdd,
           rippleColor: AppColors.primaryDarken,
-          onPressed: () => showPassEmploiBottomSheet(
-            context: context,
-            builder: (context) => CreateUserActionBottomSheet(),
-          ).then((value) => {resetCreateAction()}),
+          onPressed: onPressed,
         ),
       ),
     );
