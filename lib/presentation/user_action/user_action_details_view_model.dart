@@ -2,6 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
+import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_actions.dart';
 import 'package:pass_emploi_app/features/user_action/delete/user_action_delete_state.dart';
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
@@ -74,6 +75,8 @@ class UserActionDetailsViewModel extends Equatable {
     final userAction = _getAction(store, source, userActionId);
     final updateState = store.state.userActionUpdateState;
     final deleteState = store.state.userActionDeleteState;
+    final commentsState = store.state.actionCommentaireListState;
+    final hasComments = commentsState is ActionCommentaireListSuccessState ? commentsState.comments.isNotEmpty : false;
     return UserActionDetailsViewModel._(
       id: userAction != null ? userAction.id : '',
       title: userAction != null ? userAction.content : '',
@@ -81,7 +84,7 @@ class UserActionDetailsViewModel extends Equatable {
       withSubtitle: userAction != null ? userAction.comment.isNotEmpty : false,
       status: userAction != null ? userAction.status : UserActionStatus.DONE,
       creator: userAction != null ? _displayName(userAction.creator) : '',
-      withDeleteOption: userAction != null ? userAction.creator is! ConseillerActionCreator : false,
+      withDeleteOption: userAction?.creator is JeuneActionCreator && !hasComments,
       dateEcheanceViewModel: _dateEcheanceViewModel(userAction),
       onRefreshStatus: (actionId, newStatus) => _refreshStatus(store, actionId, newStatus),
       onDelete: (actionId) => store.dispatch(UserActionDeleteRequestAction(actionId)),

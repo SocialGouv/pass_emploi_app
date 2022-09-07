@@ -18,19 +18,39 @@ import '../../dsl/app_state_dsl.dart';
 import '../../utils/expects.dart';
 
 void main() {
-  test("UserActionViewModel.create when creator is jeune should create view model properly", () {
+  test(
+      "UserActionViewModel.create when creator is jeune and action has no comment should create view model properly and autorize delete",
+      () {
     // Given
-    final store = givenState().withAction(mockUserAction(id: 'actionId', creator: JeuneActionCreator())).store();
+    final action = mockUserAction(id: 'actionId', creator: JeuneActionCreator());
+    final store = givenState().withAction(action).actionWithoutComments().store();
 
     // When
     final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
 
     // Then
     expect(viewModel.creator, Strings.you);
-    expect(viewModel.withDeleteOption, true);
+    expect(viewModel.withDeleteOption, isTrue);
   });
 
-  test("UserActionViewModel.create when creator is conseiller should create view model properly", () {
+  test(
+      "UserActionViewModel.create when creator is jeune and action has comments should create view model properly and not autorize delete",
+      () {
+    // Given
+    final action = mockUserAction(id: 'actionId', creator: JeuneActionCreator());
+    final store = givenState().withAction(action).actionWithComments().store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+
+    // Then
+    expect(viewModel.creator, Strings.you);
+    expect(viewModel.withDeleteOption, isFalse);
+  });
+
+  test(
+      "UserActionViewModel.create when creator is conseiller should create view model properly and not autorize delete",
+      () {
     // Given
     final store = givenState()
         .withAction(mockUserAction(id: 'actionId', creator: ConseillerActionCreator(name: 'Nils Tavernier')))
@@ -41,7 +61,7 @@ void main() {
 
     // Then
     expect(viewModel.creator, 'Nils Tavernier');
-    expect(viewModel.withDeleteOption, false);
+    expect(viewModel.withDeleteOption, isFalse);
   });
 
   group("create when update action...", () {
@@ -305,30 +325,6 @@ void main() {
     expectTypeThen<UserActionUpdateRequestAction>(store.dispatchedAction, (action) {
       expect(action.actionId, "id");
       expect(action.newStatus, UserActionStatus.DONE);
-    });
-  });
-
-  group("create when action ...", () {
-    test("has no comments should set withComments to false", () {
-      // Given
-      final store = givenState().withAction(mockUserAction(id: 'actionId')).actionWithoutComments().store();
-
-      // When
-      final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
-
-      // Then
-      expect(viewModel.withComments, isFalse);
-    });
-
-    test("has comments should set withComments to true", () {
-      // Given
-      final store = givenState().withAction(mockUserAction(id: 'actionId')).actionWithComments().store();
-
-      // When
-      final viewModel = UserActionDetailsViewModel.createFromUserActionListState(store, 'actionId');
-
-      // Then
-      expect(viewModel.withComments, isTrue);
     });
   });
 }
