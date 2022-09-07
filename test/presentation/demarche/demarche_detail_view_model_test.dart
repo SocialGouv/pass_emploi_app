@@ -41,7 +41,7 @@ void main() {
         modificationDate: DateTime(2022, 12, 23, 0, 0, 0),
         attributs: [],
       );
-      final store = givenState().copyWith(demarcheListState: DemarcheListSuccessState([demarche], true)).store();
+      final store = givenState().copyWith(demarcheListState: DemarcheListSuccessState([demarche])).store();
 
       // When
       final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.list, "8802034");
@@ -93,7 +93,7 @@ void main() {
         id: '8802034',
         endDate: parseDateTimeUtcWithCurrentTimeZone('2021-04-28T16:06:48.396Z'),
       );
-      final store = givenState().copyWith(demarcheListState: DemarcheListSuccessState([demarche], true)).store();
+      final store = givenState().copyWith(demarcheListState: DemarcheListSuccessState([demarche])).store();
 
       // When
       final viewModel = DemarcheDetailViewModel.create(store, DemarcheStateSource.list, "8802034");

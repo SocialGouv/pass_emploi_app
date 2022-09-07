@@ -5,8 +5,6 @@ DemarcheListState demarcheListReducer(DemarcheListState current, dynamic action)
   if (action is DemarcheListLoadingAction) return DemarcheListLoadingState();
   if (action is DemarcheListFailureAction) return DemarcheListFailureState();
   if (action is DemarcheListResetAction) return DemarcheListNotInitializedState();
-  if (action is DemarcheListSuccessAction) {
-    return DemarcheListSuccessState(action.demarches, action.isFonctionnalitesAvanceesJreActivees);
-  }
+  if (action is DemarcheListSuccessAction) return DemarcheListSuccessState(action.demarches);
   return current;
 }

@@ -58,6 +58,7 @@ import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dar
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
 import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
+import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/piece_jointe_repository.dart';
 import 'package:pass_emploi_app/repositories/rating_repository.dart';
 import 'package:pass_emploi_app/repositories/register_token_repository.dart';
@@ -70,11 +71,10 @@ import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
-import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
-import 'package:pass_emploi_app/utils/secure_storage_exception_handler_decorator.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
+import 'package:pass_emploi_app/utils/secure_storage_exception_handler_decorator.dart';
 import 'package:redux/redux.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -210,7 +210,6 @@ class AppInitializer {
       modeDemoRepository,
       CampagneRepository(baseUrl, httpClient, crashlytics),
       MatomoTracker(),
-      remoteConfig,
       UpdateDemarcheRepository(baseUrl, httpClient, crashlytics),
       CreateDemarcheRepository(baseUrl, httpClient, crashlytics),
       SearchDemarcheRepository(baseUrl, httpClient, crashlytics),

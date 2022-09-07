@@ -204,7 +204,7 @@ extension AppStateDSL on AppState {
   }
 
   AppState withDemarches(List<Demarche> demarches) {
-    return copyWith(demarcheListState: DemarcheListSuccessState(demarches, true));
+    return copyWith(demarcheListState: DemarcheListSuccessState(demarches));
   }
 
   AppState updateDemarcheNotInit() {

@@ -92,7 +92,6 @@ void main() {
             mockDemarche(id: 'DONE', status: DemarcheStatus.DONE),
             mockDemarche(id: 'CANCELLED', status: DemarcheStatus.CANCELLED),
           ],
-          false,
         ),
         campagneState: CampagneState(campagne(), []),
       ),
@@ -120,7 +119,7 @@ void main() {
     final store = Store<AppState>(
       reducer,
       initialState: loggedInState().copyWith(
-        demarcheListState: DemarcheListSuccessState([], false),
+        demarcheListState: DemarcheListSuccessState([]),
         campagneState: CampagneState(null, []),
       ),
     );
@@ -139,7 +138,7 @@ void main() {
     final store = Store<AppState>(
       reducer,
       initialState: loggedInState().copyWith(
-        demarcheListState: DemarcheListSuccessState([], false),
+        demarcheListState: DemarcheListSuccessState([]),
         campagneState: CampagneState(campagne(), []),
       ),
     );

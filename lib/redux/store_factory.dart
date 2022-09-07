@@ -1,4 +1,3 @@
-import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
@@ -135,7 +134,6 @@ class StoreFactory {
   final ModeDemoRepository modeDemoRepository;
   final CampagneRepository campagneRepository;
   final MatomoTracker matomoTracker;
-  final FirebaseRemoteConfig? remoteConfig;
   final UpdateDemarcheRepository updateDemarcheRepository;
   final CreateDemarcheRepository createDemarcheRepository;
   final SearchDemarcheRepository demarcheDuReferentielRepository;
@@ -179,7 +177,6 @@ class StoreFactory {
     this.modeDemoRepository,
     this.campagneRepository,
     this.matomoTracker,
-    this.remoteConfig,
     this.updateDemarcheRepository,
     this.createDemarcheRepository,
     this.demarcheDuReferentielRepository,
@@ -202,7 +199,7 @@ class StoreFactory {
         UserActionCreateMiddleware(pageActionRepository),
         UserActionUpdateMiddleware(pageActionRepository),
         UserActionDeleteMiddleware(pageActionRepository),
-        DemarcheListMiddleware(pageDemarcheRepository, remoteConfig),
+        DemarcheListMiddleware(pageDemarcheRepository),
         CreateDemarcheMiddleware(createDemarcheRepository),
         UpdateDemarcheMiddleware(updateDemarcheRepository),
         SearchDemarcheMiddleware(demarcheDuReferentielRepository),

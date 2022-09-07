@@ -57,7 +57,6 @@ void main() {
           mockDemarche(id: '2', status: DemarcheStatus.DONE),
           mockDemarche(id: '3', status: DemarcheStatus.IN_PROGRESS),
         ],
-        true,
       ),
     );
   });
@@ -107,7 +106,6 @@ void main() {
           mockDemarche(id: '2', status: DemarcheStatus.NOT_STARTED),
           mockDemarche(id: '3', status: DemarcheStatus.IN_PROGRESS),
         ],
-        true,
       ),
     );
   });
