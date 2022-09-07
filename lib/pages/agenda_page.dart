@@ -76,7 +76,8 @@ class _Scaffold extends StatelessWidget {
         if (viewModel.createButton == CreateButton.demarche)
           _CreateButton(
             label: Strings.addADemarche,
-            onPressed: () => Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute()),
+            onPressed: () => Navigator.push(context, CreateDemarcheStep1Page.materialPageRoute())
+                .then((value) => viewModel.reload(DateTime.now())),
           ),
       ]),
     );
@@ -136,8 +137,8 @@ class _Retry extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
         child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
-      child: Retry(Strings.agendaError, () => viewModel.retry(DateTime.now())),
+          padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+      child: Retry(Strings.agendaError, () => viewModel.reload(DateTime.now())),
     ));
   }
 }

@@ -106,9 +106,20 @@ void main() {
       expect(viewModel.displayState, DisplayState.EMPTY);
     });
 
-    test('should be content on success state with content', () {
+    test('should be content on success state with content for Mission Locale', () {
       // Given
       final store = givenState().loggedInMiloUser().agenda(actions: [userActionStub()]).store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.CONTENT);
+    });
+
+    test('should be content on success state with content for Pole Emploi', () {
+      // Given
+      final store = givenState().loggedInMiloUser().agenda(demarches: [demarcheStub()]).store();
 
       // When
       final viewModel = AgendaPageViewModel.create(store);
@@ -165,14 +176,14 @@ void main() {
       expect(viewModel.events.firstWhereOrNull((item) => item is DelayedActionsBannerAgendaItem), null);
     });
 
-    test('should retry fetching agenda', () {
+    test('should reload agenda', () {
       // Given
       final date = DateTime(2042);
       final store = StoreSpy();
       final viewModel = AgendaPageViewModel.create(store);
 
       // When
-      viewModel.retry(date);
+      viewModel.reload(date);
 
       // Then
       expectTypeThen<AgendaRequestAction>(store.dispatchedAction, (action) {

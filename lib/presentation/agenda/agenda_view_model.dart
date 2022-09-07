@@ -18,14 +18,14 @@ class AgendaPageViewModel extends Equatable {
   final List<AgendaItem> events;
   final CreateButton createButton;
   final Function() resetCreateAction;
-  final Function(DateTime) retry;
+  final Function(DateTime) reload;
 
   AgendaPageViewModel({
     required this.displayState,
     required this.events,
     required this.createButton,
     required this.resetCreateAction,
-    required this.retry,
+    required this.reload,
   });
 
   factory AgendaPageViewModel.create(Store<AppState> store) {
@@ -34,7 +34,7 @@ class AgendaPageViewModel extends Equatable {
       events: _events(store),
       createButton: _createButton(store),
       resetCreateAction: () => store.dispatch(UserActionCreateResetAction()),
-      retry: (date) => store.dispatch(AgendaRequestAction(date)),
+      reload: (date) => store.dispatch(AgendaRequestAction(date)),
     );
   }
 
@@ -53,7 +53,8 @@ DisplayState _displayState(Store<AppState> store) {
   if (agendaState is AgendaFailureState) {
     return DisplayState.FAILURE;
   } else if (agendaState is AgendaSuccessState) {
-    if (agendaState.agenda.actions.isEmpty && agendaState.agenda.rendezvous.isEmpty) {
+    final agenda = agendaState.agenda;
+    if (agenda.actions.isEmpty && agenda.demarches.isEmpty && agenda.rendezvous.isEmpty) {
       return DisplayState.EMPTY;
     } else {
       return DisplayState.CONTENT;
