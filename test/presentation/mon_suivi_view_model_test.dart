@@ -13,8 +13,8 @@ void main() {
       final viewModel = MonSuiviViewModel.create(store);
 
       // Then
-      expect(viewModel.tabs, [MonSuiviTab.DEMARCHE, MonSuiviTab.RENDEZVOUS]);
-      expect(viewModel.tabTitles, ['Démarches', 'Rendez-vous']);
+      expect(viewModel.tabs, [MonSuiviTab.AGENDA, MonSuiviTab.DEMARCHE, MonSuiviTab.RENDEZVOUS]);
+      expect(viewModel.tabTitles, ['Cette semaine', 'Démarches', 'Rendez-vous']);
     });
 
     test('via Milo should set proper tabs', () {
@@ -38,7 +38,7 @@ void main() {
     final viewModel = MonSuiviViewModel.create(store, MonSuiviTab.RENDEZVOUS);
 
     // Then
-    expect(viewModel.initialTabIndex, 1);
+    expect(viewModel.initialTabIndex, 2);
   });
 
   test('MonSuiviViewModel.create with initial tab should return it', () {

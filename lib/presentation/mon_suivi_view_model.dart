@@ -23,9 +23,11 @@ class MonSuiviViewModel extends Equatable {
   factory MonSuiviViewModel.create(Store<AppState> store, [MonSuiviTab? initialTab]) {
     final loginState = store.state.loginState;
     final loginMode = loginState is LoginSuccessState ? loginState.user.loginMode : null;
-    final tabs = loginMode.isPe()
-        ? [MonSuiviTab.DEMARCHE, MonSuiviTab.RENDEZVOUS]
-        : [MonSuiviTab.AGENDA, MonSuiviTab.ACTIONS, MonSuiviTab.RENDEZVOUS];
+    final tabs = [
+      MonSuiviTab.AGENDA,
+      loginMode.isPe() ? MonSuiviTab.DEMARCHE : MonSuiviTab.ACTIONS,
+      MonSuiviTab.RENDEZVOUS,
+    ];
     return MonSuiviViewModel._(
       tabs: tabs,
       tabTitles: _tabTitles(tabs),
