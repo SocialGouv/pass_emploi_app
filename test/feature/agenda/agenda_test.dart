@@ -13,7 +13,7 @@ import '../../utils/expects.dart';
 
 void main() {
   group('Agenda', () {
-    final sut = SUT();
+    final sut = StoreSut();
 
     group("when requesting agenda", () {
       sut.whenDispatching = () => AgendaRequestAction(DateTime(2022, 7, 7));

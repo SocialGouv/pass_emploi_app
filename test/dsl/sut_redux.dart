@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/src/store.dart';
 
-class SUT {
+class StoreSut {
   late Store<AppState> givenStore;
   late dynamic Function() whenDispatching;
 
