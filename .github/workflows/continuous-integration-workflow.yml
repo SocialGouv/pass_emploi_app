@@ -6,10 +6,8 @@ on:
   pull_request:
   workflow_dispatch:
 
-env:
-  FLUTTER_VERSION: 3.0.0
-
 jobs:
+
   test:
     runs-on: ubuntu-latest
     steps:
@@ -17,6 +15,10 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: '12.x'
+      - name: Set Environment Variables
+        uses: ./.github/actions/setvars
+        with:
+          varFilePath: ./.github/variables/myvars.env
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
@@ -42,6 +44,12 @@ jobs:
     needs: pre-build
     steps:
       - uses: actions/checkout@v2
+
+      - name: Set Environment Variables
+        uses: ./.github/actions/setvars
+        with:
+          varFilePath: ./.github/variables/myvars.env
+
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
@@ -101,6 +109,12 @@ jobs:
     needs: pre-build
     steps:
       - uses: actions/checkout@v2
+
+      - name: Set Environment Variables
+        uses: ./.github/actions/setvars
+        with:
+          varFilePath: ./.github/variables/myvars.env
+
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
