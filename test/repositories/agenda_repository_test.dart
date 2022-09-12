@@ -8,7 +8,7 @@ import '../utils/test_datetime.dart';
 
 void main() {
   group('AgendaRepository', () {
-    final sut = SUT<AgendaRepository>();
+    final sut = RepositorySut<AgendaRepository>();
     sut.givenRepository((client) => AgendaRepository("BASE_URL", client));
 
     group('getAgendaMissionLocale', () {

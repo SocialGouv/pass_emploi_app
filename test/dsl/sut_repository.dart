@@ -6,7 +6,7 @@ import '../doubles/fixtures.dart';
 import '../utils/pass_emploi_mock_client.dart';
 import '../utils/test_assets.dart';
 
-class SUT<REPO> {
+class RepositorySut<REPO> {
   late Response _response;
   late Request _request;
   late REPO _repository;
