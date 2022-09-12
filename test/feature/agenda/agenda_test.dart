@@ -13,47 +13,45 @@ import '../../utils/expects.dart';
 
 void main() {
   group('Agenda', () {
-    group('when requesting agenda for Mission Local user', () {
-      final sut = SUT();
+    final sut = SUT();
 
+    group("when requesting agenda", () {
       sut.whenDispatching = () => AgendaRequestAction(DateTime(2022, 7, 7));
 
-      test('should load then succeed when request succeed', () async {
-        sut.givenStore = givenState()
-            .loggedInMiloUser() //
-            .store((f) => {f.agendaRepository = AgendaRepositorySuccessStub()});
+      group('for Mission Local user', () {
+        test('should load then succeed when request succeed', () async {
+          sut.givenStore = givenState()
+              .loggedInMiloUser() //
+              .store((f) => {f.agendaRepository = AgendaRepositorySuccessStub()});
 
-        sut.thenExpectChangingStatesInOrder([_shouldLoad, _shouldSucceedForMissionLocaleUser]);
+          sut.thenExpectChangingStatesInOrder([_shouldLoad, _shouldSucceedForMissionLocaleUser]);
+        });
+
+        test('should load then fail when request fail', () async {
+          sut.givenStore = givenState()
+              .loggedInMiloUser() //
+              .store((f) => {f.agendaRepository = AgendaRepositoryErrorStub()});
+
+          sut.thenExpectChangingStatesInOrder([_shouldLoad, _shouldFail]);
+        });
       });
 
-      test('should load then fail when request fail', () async {
-        sut.givenStore = givenState()
-            .loggedInMiloUser() //
-            .store((f) => {f.agendaRepository = AgendaRepositoryErrorStub()});
+      group('for Pole Emploi user', () {
+        test('should load then succeed when request succeed', () async {
+          sut.givenStore = givenState()
+              .loggedInPoleEmploiUser() //
+              .store((f) => {f.agendaRepository = AgendaRepositorySuccessStub()});
 
-        sut.thenExpectChangingStatesInOrder([_shouldLoad, _shouldFail]);
-      });
-    });
+          sut.thenExpectChangingStatesInOrder([_shouldLoad, _shouldSucceedForPoleEmploiUser]);
+        });
 
-    group('when requesting agenda for Pole Emploi user', () {
-      final sut = SUT();
+        test('should load then fail when request fail', () async {
+          sut.givenStore = givenState()
+              .loggedInPoleEmploiUser() //
+              .store((f) => {f.agendaRepository = AgendaRepositoryErrorStub()});
 
-      sut.whenDispatching = () => AgendaRequestAction(DateTime(2022, 7, 7));
-
-      test('should load then succeed when request succeed', () async {
-        sut.givenStore = givenState()
-            .loggedInPoleEmploiUser() //
-            .store((f) => {f.agendaRepository = AgendaRepositorySuccessStub()});
-
-        sut.thenExpectChangingStatesInOrder([_shouldLoad, _shouldSucceedForPoleEmploiUser]);
-      });
-
-      test('should load then fail when request fail', () async {
-        sut.givenStore = givenState()
-            .loggedInPoleEmploiUser() //
-            .store((f) => {f.agendaRepository = AgendaRepositoryErrorStub()});
-
-        sut.thenExpectChangingStatesInOrder([_shouldLoad, _shouldFail]);
+          sut.thenExpectChangingStatesInOrder([_shouldLoad, _shouldFail]);
+        });
       });
     });
   });
