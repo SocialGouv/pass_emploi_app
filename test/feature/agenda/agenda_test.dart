@@ -16,7 +16,7 @@ void main() {
     final sut = StoreSut();
 
     group("when requesting agenda", () {
-      sut.whenDispatching = () => AgendaRequestAction(DateTime(2022, 7, 7));
+      sut.when(() => AgendaRequestAction(DateTime(2022, 7, 7)));
 
       group('for Mission Local user', () {
         test('should load then succeed when request succeed', () async {

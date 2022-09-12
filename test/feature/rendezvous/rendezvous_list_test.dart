@@ -1,5 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
@@ -8,117 +7,75 @@ import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.da
 
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
-import '../../utils/test_setup.dart';
+import '../../dsl/app_state_dsl.dart';
+import '../../dsl/sut_redux.dart';
 
 void main() {
-  group("rendezvous request action", () {
-    test("when user is not logged in should do nothing", () async {
-      // Given
-      final testStoreFactory = TestStoreFactory();
-      final store = testStoreFactory.initializeReduxStore(
-        initialState: AppState.initialState().copyWith(loginState: LoginFailureState()),
-      );
-      final unchangedRendezvousState = store.onChange.any((e) => e.rendezvousState.isNotInitialized());
+  group("Rendez-vous list", () {
+    final sut = StoreSut();
+    sut.setSkipFirstChange(true);
 
-      // When
-      store.dispatch(RendezvousRequestAction(RendezvousPeriod.FUTUR));
+    group("when requesting in FUTUR", () {
+      sut.when(() => RendezvousRequestAction(RendezvousPeriod.FUTUR));
 
-      // Then
-      expect(await unchangedRendezvousState, true);
-    });
+      test("should load and succeed when request succeed", () async {
+        sut.givenStore = givenState()
+            .loggedInUser() //
+            .store((f) => {f.rendezvousRepository = RendezvousRepositorySuccessStub(expectedUserId: "id")});
 
-    group("when user is logged in", () {
-      group("when fetching rendez-vous futurs", () {
-        test("should update to success state", () async {
-          // Given
-          final testStoreFactory = TestStoreFactory();
-          testStoreFactory.rendezvousRepository = RendezvousRepositorySuccessStub(expectedUserId: "id");
-          final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
-
-          final displayedLoading =
-              store.onChange.any((e) => e.rendezvousState.futurRendezVousStatus == RendezvousStatus.LOADING);
-          final successAppState =
-              store.onChange.firstWhere((e) => e.rendezvousState.futurRendezVousStatus == RendezvousStatus.SUCCESS);
-
-          // When
-          store.dispatch(RendezvousRequestAction(RendezvousPeriod.FUTUR));
-
-          // Then
-          expect(await displayedLoading, true);
-          final appState = await successAppState;
-          expect(appState.rendezvousState.rendezvous.length, 1);
-          expect(appState.rendezvousState.rendezvous.first.id, 'futur');
-        });
-
-        test("should update to failure state", () async {
-          // Given
-          final testStoreFactory = TestStoreFactory();
-          testStoreFactory.rendezvousRepository = RendezvousRepositoryFailureStub(expectedUserId: "id");
-          final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
-
-          final displayedLoading =
-              store.onChange.any((e) => e.rendezvousState.futurRendezVousStatus == RendezvousStatus.LOADING);
-          final failureAppState =
-              store.onChange.firstWhere((e) => e.rendezvousState.futurRendezVousStatus == RendezvousStatus.FAILURE);
-
-          // When
-          store.dispatch(RendezvousRequestAction(RendezvousPeriod.FUTUR));
-
-          // Then
-          expect(await displayedLoading, true);
-          final appState = await failureAppState;
-          expect(appState.rendezvousState.futurRendezVousStatus == RendezvousStatus.FAILURE, isTrue);
-        });
+        sut.thenExpectChangingStatesInOrder([_shouldLoadFutur, _shouldSucceedFutur]);
       });
 
-      group("when fetching rendez-vous passés", () {
-        test("should update to success state and concatenate rendezvous", () async {
-          // Given
-          final testStoreFactory = TestStoreFactory();
-          testStoreFactory.rendezvousRepository = RendezvousRepositorySuccessStub(expectedUserId: "id");
-          final rendezvousState = RendezvousState.successfulFuture([mockRendezvous(id: "futur")]);
-          final store = testStoreFactory.initializeReduxStore(
-            initialState: loggedInState().copyWith(rendezvousState: rendezvousState),
-          );
+      test("shoud load and fail when request fail", () async {
+        sut.givenStore = givenState()
+            .loggedInUser() //
+            .store((f) => {f.rendezvousRepository = RendezvousRepositoryFailureStub(expectedUserId: "id")});
 
-          final displayedLoading =
-              store.onChange.any((e) => e.rendezvousState.pastRendezVousStatus == RendezvousStatus.LOADING);
-          final successAppState =
-              store.onChange.firstWhere((e) => e.rendezvousState.pastRendezVousStatus == RendezvousStatus.SUCCESS);
+        sut.thenExpectChangingStatesInOrder([_shouldLoadFutur, _shouldFailFutur]);
+      });
+    });
 
-          // When
-          store.dispatch(RendezvousRequestAction(RendezvousPeriod.PASSE));
+    group("when requesting in PASSE", () {
+      sut.when(() => RendezvousRequestAction(RendezvousPeriod.PASSE));
 
-          // Then
-          expect(await displayedLoading, true);
-          final appState = await successAppState;
-          expect(appState.rendezvousState.rendezvous.length, 2);
-          expect(appState.rendezvousState.rendezvous[0].id, 'passe');
-          expect(appState.rendezvousState.rendezvous[1].id, 'futur');
-        });
+      test("should load and succeed with concatenated rendezvous when request succeed", () async {
+        sut.givenStore = givenState().loggedInUser() //
+            .rendezvousFutur([mockRendezvous(id: "futur")]) //
+            .store((f) => {f.rendezvousRepository = RendezvousRepositorySuccessStub(expectedUserId: "id")});
 
-        test("should update to failure state", () async {
-          // Given
-          final testStoreFactory = TestStoreFactory();
-          testStoreFactory.rendezvousRepository = RendezvousRepositoryFailureStub(expectedUserId: "id");
-          final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
+        sut.thenExpectChangingStatesInOrder([_shouldLoadPasse, _shouldSucceedPasse]);
+      });
 
-          final displayedLoading =
-              store.onChange.any((e) => e.rendezvousState.pastRendezVousStatus == RendezvousStatus.LOADING);
-          final failureAppState =
-              store.onChange.firstWhere((e) => e.rendezvousState.pastRendezVousStatus == RendezvousStatus.FAILURE);
+      test("shoud load and fail when request fail", () async {
+        sut.givenStore = givenState()
+            .loggedInUser() //
+            .store((f) => {f.rendezvousRepository = RendezvousRepositoryFailureStub(expectedUserId: "id")});
 
-          // When
-          store.dispatch(RendezvousRequestAction(RendezvousPeriod.PASSE));
-
-          // Then
-          expect(await displayedLoading, true);
-          final appState = await failureAppState;
-          expect(appState.rendezvousState.pastRendezVousStatus == RendezvousStatus.FAILURE, isTrue);
-        });
+        sut.thenExpectChangingStatesInOrder([_shouldLoadPasse, _shouldFailPasse]);
       });
     });
   });
+}
+
+void _shouldLoadFutur(AppState state) => expect(state.rendezvousState.futurRendezVousStatus, RendezvousStatus.LOADING);
+
+void _shouldLoadPasse(AppState state) => expect(state.rendezvousState.pastRendezVousStatus, RendezvousStatus.LOADING);
+
+void _shouldFailFutur(AppState state) => expect(state.rendezvousState.futurRendezVousStatus, RendezvousStatus.FAILURE);
+
+void _shouldFailPasse(AppState state) => expect(state.rendezvousState.pastRendezVousStatus, RendezvousStatus.FAILURE);
+
+void _shouldSucceedFutur(AppState state) {
+  expect(state.rendezvousState.futurRendezVousStatus, RendezvousStatus.SUCCESS);
+  expect(state.rendezvousState.rendezvous.length, 1);
+  expect(state.rendezvousState.rendezvous.first.id, 'futur');
+}
+
+void _shouldSucceedPasse(AppState state) {
+  expect(state.rendezvousState.pastRendezVousStatus, RendezvousStatus.SUCCESS);
+  expect(state.rendezvousState.rendezvous.length, 2);
+  expect(state.rendezvousState.rendezvous[0].id, 'passe');
+  expect(state.rendezvousState.rendezvous[1].id, 'futur');
 }
 
 class RendezvousRepositorySuccessStub extends RendezvousRepository {
