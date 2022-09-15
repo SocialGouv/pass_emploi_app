@@ -53,7 +53,7 @@ class ProfilPage extends StatelessWidget {
             children: [
               _UsernameTitle(userName: viewModel.userName, onTitleTap: viewModel.onTitleTap),
               SizedBox(height: Margins.spacing_m),
-              _ProfileCard(userEmail: viewModel.userName),
+              _ProfileCard(userEmail: viewModel.userEmail),
               SizedBox(height: Margins.spacing_m),
               if (viewModel.displayMonConseiller) MonConseillerCard(),
               Text(Strings.settingsLabel, style: TextStyles.textLBold()),
