@@ -2,69 +2,62 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 
 import '../../../doubles/stubs.dart';
 import '../../../dsl/app_state_dsl.dart';
+import '../../../dsl/sut_redux.dart';
+import '../../../utils/expects.dart';
+import '../../../utils/test_setup.dart';
 
 void main() {
-  test("create comment for action when repo succeeds should display loading and then create comment", () async {
-    // Given
-    final store = givenState()
-        .loggedInMiloUser()
-        .store((factory) => {factory.actionCommentaireRepository = ActionCommentaireRepositorySuccessStub()});
-    final displayedLoading =
-        store.onChange.any((e) => e.actionCommentaireCreateState is ActionCommentaireCreateLoadingState);
-    final successAppState =
-        store.onChange.firstWhere((e) => e.actionCommentaireCreateState is ActionCommentaireCreateSuccessState);
+  final sut = StoreSut();
+  sut.setSkipFirstChange(true);
 
-    // When
-    store.dispatch(ActionCommentaireCreateRequestAction(actionId: "actionId", comment: "new comment"));
+  group("when creating commentaire action", () {
+    sut.when(() => ActionCommentaireCreateRequestAction(actionId: "actionId", comment: "new comment"));
 
-    // Then
-    expect(await displayedLoading, true);
-    final success = await successAppState;
-    expect(success.actionCommentaireCreateState is ActionCommentaireCreateSuccessState, isTrue);
+    group("given request succeed", () {
+      void injectedRepository(TestStoreFactory? factory) {
+        factory?.actionCommentaireRepository = ActionCommentaireRepositorySuccessStub();
+      }
+
+      test("should load and display success", () {
+        sut.givenStore = givenState().actionWithComments().loggedInMiloUser().store(injectedRepository);
+        sut.thenExpectChangingStatesInOrder([_shouldLoad, _shouldSucceed]);
+      });
+
+      test("should load and add commentaire in list", () {
+        sut.givenStore = givenState().actionWithComments().loggedInMiloUser().store(injectedRepository);
+        sut.thenExpectChangingStatesInOrder([_shouldLoad, _shouldAddCommentInList]);
+      });
+    });
+
+    group("given request fail", () {
+      void injectedRepository(TestStoreFactory? factory) {
+        factory?.actionCommentaireRepository = ActionCommentaireRepositoryFailureStub();
+      }
+
+      test("should load and display failure", () {
+        sut.givenStore = givenState().actionWithComments().loggedInMiloUser().store(injectedRepository);
+        sut.thenExpectChangingStatesInOrder([_shouldLoad, _shouldFail]);
+      });
+    });
   });
+}
 
-  test("create comment for action when repo succeeds refresh list of comments", () async {
-    // Given
-    final store = givenState()
-        .actionWithComments()
-        .store((factory) => {factory.actionCommentaireRepository = ActionCommentaireRepositorySuccessStub()});
-    final successCreateState =
-        store.onChange.firstWhere((e) => e.actionCommentaireCreateState is ActionCommentaireCreateSuccessState);
-    final successListState =
-        store.onChange.firstWhere((e) => e.actionCommentaireListState is ActionCommentaireListSuccessState);
+void _shouldLoad(AppState state) => expect(state.actionCommentaireCreateState, ActionCommentaireCreateLoadingState());
 
-    // When
-    store.dispatch(ActionCommentaireCreateRequestAction(actionId: "actionId", comment: "new comment"));
+void _shouldFail(AppState state) =>
+    expect(state.actionCommentaireCreateState, ActionCommentaireCreateFailureState("new comment"));
 
-    // Then
-    await successCreateState;
-    final successList = await successListState;
-    expect(successList.actionCommentaireListState is ActionCommentaireListSuccessState, isTrue);
-    expect((successList.actionCommentaireListState as ActionCommentaireListSuccessState).comments, isNotEmpty);
-    expect((successList.actionCommentaireListState as ActionCommentaireListSuccessState).comments.last.content,
-        "new comment");
-  });
+void _shouldSucceed(AppState state) {
+  expect(state.actionCommentaireCreateState, isA<ActionCommentaireCreateSuccessState>());
+}
 
-  test("create comment for action when repo fails should display loading and then show failure", () async {
-    // Given
-    final store = givenState()
-        .loggedInMiloUser()
-        .store((factory) => {factory.actionCommentaireRepository = ActionCommentaireRepositoryFailureStub()});
-    final displayedLoading =
-        store.onChange.any((e) => e.actionCommentaireCreateState is ActionCommentaireCreateLoadingState);
-    final failureAppState =
-        store.onChange.firstWhere((e) => e.actionCommentaireCreateState is ActionCommentaireCreateFailureState);
-
-    // When
-    store.dispatch(ActionCommentaireCreateRequestAction(actionId: "actionId", comment: "commentaire"));
-
-    // Then
-    expect(await displayedLoading, true);
-    final failure = await failureAppState;
-    expect(failure.actionCommentaireCreateState is ActionCommentaireCreateFailureState, isTrue);
-    expect((failure.actionCommentaireCreateState as ActionCommentaireCreateFailureState).comment, "commentaire");
+void _shouldAddCommentInList(AppState state) {
+  expectTypeThen<ActionCommentaireListSuccessState>(state.actionCommentaireListState, (successState) {
+    expect(successState.comments, isNotEmpty);
+    expect(successState.comments.last.content, "new comment");
   });
 }
