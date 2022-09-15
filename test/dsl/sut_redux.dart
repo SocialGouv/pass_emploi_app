@@ -15,16 +15,14 @@ class StoreSut {
     setUp(() => _whenDispatching = when);
   }
 
-  Future<void> thenExpectChangingStatesInOrder(List<Function(AppState)> stateExpectations) async {
+  void thenExpectChangingStatesInOrder(List<Function(AppState)> stateExpectations) {
     givenStore.prepareExpectInOrder(expectations: stateExpectations, skipFirstChange: _skipFirstChange);
-
     givenStore.dispatch(_whenDispatching());
   }
 }
 
 extension _StoreTestExtension on Store<AppState> {
-  Future<void> prepareExpectInOrder<S>(
-      {required List<Function(AppState)> expectations, required bool skipFirstChange}) async {
+  void prepareExpectInOrder<S>({required List<Function(AppState)> expectations, required bool skipFirstChange}) async {
     final matchers = expectations.map(
       (expectation) => predicate<AppState>((state) {
         expectation(state);

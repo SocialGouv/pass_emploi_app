@@ -19,7 +19,7 @@ void main() {
       sut.when(() => AgendaRequestAction(DateTime(2022, 7, 7)));
 
       group('for Mission Local user', () {
-        test('should load then succeed when request succeed', () async {
+        test('should load then succeed when request succeed', () {
           sut.givenStore = givenState()
               .loggedInMiloUser() //
               .store((f) => {f.agendaRepository = AgendaRepositorySuccessStub()});
@@ -27,7 +27,7 @@ void main() {
           sut.thenExpectChangingStatesInOrder([_shouldLoad, _shouldSucceedForMissionLocaleUser]);
         });
 
-        test('should load then fail when request fail', () async {
+        test('should load then fail when request fail', () {
           sut.givenStore = givenState()
               .loggedInMiloUser() //
               .store((f) => {f.agendaRepository = AgendaRepositoryErrorStub()});
@@ -37,7 +37,7 @@ void main() {
       });
 
       group('for Pole Emploi user', () {
-        test('should load then succeed when request succeed', () async {
+        test('should load then succeed when request succeed', () {
           sut.givenStore = givenState()
               .loggedInPoleEmploiUser() //
               .store((f) => {f.agendaRepository = AgendaRepositorySuccessStub()});
@@ -45,7 +45,7 @@ void main() {
           sut.thenExpectChangingStatesInOrder([_shouldLoad, _shouldSucceedForPoleEmploiUser]);
         });
 
-        test('should load then fail when request fail', () async {
+        test('should load then fail when request fail', () {
           sut.givenStore = givenState()
               .loggedInPoleEmploiUser() //
               .store((f) => {f.agendaRepository = AgendaRepositoryErrorStub()});
