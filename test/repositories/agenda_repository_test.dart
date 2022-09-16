@@ -46,12 +46,10 @@ void main() {
       });
 
       group('when response is invalid', () {
-        sut.given500Response();
+        sut.givenResponseCode(500);
 
         test('response should be null', () async {
-          await sut.expectResult<Agenda?>((result) {
-            expect(result, isNull);
-          });
+          await sut.expectNullResult();
         });
       });
     });
@@ -91,7 +89,7 @@ void main() {
       });
 
       group('when response is invalid', () {
-        sut.given500Response();
+        sut.givenResponseCode(500);
 
         test('response should be null', () async {
           await sut.expectNullResult();

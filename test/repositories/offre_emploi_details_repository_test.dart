@@ -1,13 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 
 import '../doubles/fixtures.dart';
 import '../dsl/sut_repository.dart';
 import '../utils/mock_demo_client.dart';
-import '../utils/pass_emploi_mock_client.dart';
-import '../utils/test_assets.dart';
 
 void main() {
   final sut = RepositorySut<OffreEmploiDetailsRepository>();
@@ -37,7 +34,7 @@ void main() {
     });
 
     group('when response is invalid', () {
-      sut.given500Response();
+      sut.givenResponseCode(500);
 
       test('should flag response as not found', () async {
         await sut.expectResult<OffreDetailsResponse<OffreEmploiDetails>?>((result) {

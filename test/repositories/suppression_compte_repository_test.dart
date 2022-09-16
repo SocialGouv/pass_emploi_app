@@ -11,7 +11,7 @@ void main() {
     sut.when((repository) => repository.deleteUser("jeuneId"));
 
     group('when response is valid', () {
-      sut.given200Response();
+      sut.givenResponseCode(204);
 
       test('request should be valid', () async {
         await sut.expectRequestBody(
@@ -21,19 +21,15 @@ void main() {
       });
 
       test('response should be valid', () async {
-        await sut.expectResult<bool?>((result) {
-          expect(result, true);
-        });
+        await sut.expectTrueAsResult();
       });
     });
 
     group('when response is invalid', () {
-      sut.given500Response();
+      sut.givenResponseCode(500);
 
       test('response should be false', () async {
-        await sut.expectResult<bool?>((result) {
-          expect(result, false);
-        });
+        await sut.expectFalseAsResult();
       });
     });
   });

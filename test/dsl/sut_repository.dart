@@ -2,7 +2,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 
-import '../doubles/fixtures.dart';
 import '../utils/pass_emploi_mock_client.dart';
 import '../utils/test_assets.dart';
 
@@ -16,12 +15,8 @@ class RepositorySut<REPO> {
     givenResponse(() => Response.bytes(loadTestAssetsAsBytes(fromJson), headers: headers, 200));
   }
 
-  void given200Response() {
-    givenResponse(() => Response('', 200));
-  }
-
-  void given500Response() {
-    givenResponse(() => invalidHttpResponse());
+  void givenResponseCode(int code) {
+    givenResponse(() => Response('', code));
   }
 
   void givenThrowingExceptionResponse() {
@@ -66,5 +61,15 @@ class RepositorySut<REPO> {
   Future<void> expectNullResult() async {
     final result = await _when(_repository);
     expect(result, isNull);
+  }
+
+  Future<void> expectTrueAsResult() async {
+    final result = await _when(_repository);
+    expect(result, true);
+  }
+
+  Future<void> expectFalseAsResult() async {
+    final result = await _when(_repository);
+    expect(result, false);
   }
 }

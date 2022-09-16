@@ -40,7 +40,7 @@ void main() {
     });
 
     group('when response is invalid', () {
-      sut.given500Response();
+      sut.givenResponseCode(500);
 
       test('response should be null', () async {
         await sut.expectNullResult();
