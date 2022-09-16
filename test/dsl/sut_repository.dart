@@ -18,9 +18,9 @@ class RepositorySut<REPO> {
     });
   }
 
-  void given201Response() {
+  void given200Response() {
     setUp(() {
-      return _response = Response('', 201);
+      _response = Response('', 200);
     });
   }
 
