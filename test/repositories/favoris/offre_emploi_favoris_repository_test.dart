@@ -1,218 +1,185 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
-import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 
 import '../../doubles/dummies.dart';
-import '../../doubles/fixtures.dart';
+import '../../dsl/sut_repository.dart';
 import '../../utils/mock_demo_client.dart';
-import '../../utils/pass_emploi_mock_client.dart';
-import '../../utils/test_assets.dart';
 
 void main() {
-  test('getFavorisId when response is valid with all parameters should return offres', () async {
-    // Given
-    final httpClient = PassEmploiMockClient((request) async {
-      if (request.method != "GET") return invalidHttpResponse();
-      if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-emploi")) {
-        return invalidHttpResponse();
+  final sut = RepositorySut<OffreEmploiFavorisRepository>();
+  sut.givenRepository((client) => OffreEmploiFavorisRepository("BASE_URL", client, DummyPassEmploiCacheManager()));
+
+  group("getFavorisId", () {
+    sut.when((repository) => repository.getFavorisId("jeuneId"));
+
+    group('when response is valid', () {
+      sut.givenJsonResponse(fromJson: "offre_emploi_favoris_id.json");
+
+      test('request should be valid', () async {
+        await sut.expectRequestBody(
+          method: "GET",
+          url: "BASE_URL/jeunes/jeuneId/favoris/offres-emploi",
+        );
+      });
+
+      test('response should be valid', () async {
+        await sut.expectResult<Set<String>?>((result) {
+          expect(result, ["124GQRG", "124FGRM", "124FGFB", "124FGJJ"]);
+        });
+      });
+    });
+
+    group('when response is invalid', () {
+      sut.givenResponseCode(500);
+
+      test('response should be null', () async {
+        await sut.expectNullResult();
+      });
+    });
+  });
+
+  group("postFavori", () {
+    group("with partial data in request", () {
+      sut.when((repository) => repository.postFavori("jeuneId", _offreWithPartialData()));
+
+      group('when response is valid', () {
+        sut.givenResponseCode(201);
+
+        test('request should be valid', () async {
+          await sut.expectRequestBody(method: "POST", url: "BASE_URL/jeunes/jeuneId/favoris/offres-emploi", params: {
+            "idOffre": "offreId",
+            "titre": "title",
+            "typeContrat": "contractType",
+            "localisation": {"nom": "Paris"},
+            "alternance": false,
+            'duree': null,
+            'nomEntreprise': null,
+          });
+        });
+
+        test('response should be valid', () async {
+          await sut.expectTrueAsResult();
+        });
+      });
+
+      group('when response is invalid', () {
+        sut.givenResponseCode(500);
+
+        test('response should be false', () async {
+          await sut.expectFalseAsResult();
+        });
+      });
+
+      group('when response is 409', () {
+        sut.givenResponseCode(409);
+
+        test('response should be true', () async {
+          await sut.expectTrueAsResult();
+        });
+      });
+    });
+
+    group("with full data in request", () {
+      void expectValidRequestAndResponse({required bool isAlternance}) {
+        group("isAlternance : $isAlternance", () {
+          sut.when((repository) => repository.postFavori("jeuneId", _offreWithFullData(isAlternance: isAlternance)));
+
+          group('when response is valid', () {
+            sut.givenResponseCode(201);
+
+            test('request should be valid', () async {
+              await sut
+                  .expectRequestBody(method: "POST", url: "BASE_URL/jeunes/jeuneId/favoris/offres-emploi", params: {
+                "idOffre": "offreId2",
+                "titre": "otherTitle",
+                "typeContrat": "otherContractType",
+                "localisation": {"nom": "Marseille"},
+                "alternance": isAlternance,
+                'duree': "duration",
+                'nomEntreprise': "companyName",
+              });
+            });
+
+            test('response should be valid', () async {
+              await sut.expectResult<bool?>((result) {
+                expect(result, true);
+              });
+            });
+          });
+        });
       }
-      return Response.bytes(loadTestAssetsAsBytes("offre_emploi_favoris_id.json"), 200);
-    });
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
 
-    // When
-    final favoris = await repository.getFavorisId("jeuneId");
-
-    // Then
-    expect(favoris, ["124GQRG", "124FGRM", "124FGFB", "124FGJJ"]);
-  });
-
-  test('getFavorisId when response is invalid should return null', () async {
-    // Given
-    final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
-
-    // When
-    final favoris = await repository.getFavorisId("jeuneId");
-
-    // Then
-    expect(favoris, isNull);
-  });
-
-  test(
-      "postFavori when adding favori should post correct data when most fields are null and return true when response is valid",
-      () async {
-    // Given
-        final httpClient = _mockClientForPartialData();
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
-
-    // When
-    final result = await repository.postFavori("jeuneId", _offreWithPartialData());
-
-    // Then
-    expect(result, isTrue);
-  });
-
-  test(
-      "postFavori when adding favori should post correct data when all fields are not null and return true when response is valid",
-      () async {
-    // Given
-        final httpClient = _mockClientForFullData(expectedAlternance: false);
-
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
-
-    // When
-    final result = await repository.postFavori("jeuneId", _offreWithFullData(isAlternance: false));
-
-    // Then
-    expect(result, isTrue);
-  });
-
-  test("postFavori when adding alternance favori should post correct data and return true", () async {
-    // Given
-    final httpClient = _mockClientForFullData(expectedAlternance: true);
-
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
-
-    // When
-    final result = await repository.postFavori("jeuneId", _offreWithFullData(isAlternance: true));
-
-    // Then
-    expect(result, isTrue);
-  });
-
-  test("deleteFavori when removing favori should delete with correct id and return true when response is valid",
-      () async {
-    // Given
-        final httpClient = _successfulClientForDelete();
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
-
-    // When
-    final result = await repository.deleteFavori("jeuneId", "offreId");
-
-    // Then
-    expect(result, isTrue);
-  });
-
-  test("deleteFavori when removing favori should return true when response is a 404", () async {
-    // Given
-    final httpClient = _notFoundClient();
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
-
-    // When
-    final result = await repository.deleteFavori("jeuneId", "offreId");
-
-    // Then
-    expect(result, true);
-  });
-
-  test("deleteFavori when removing favori should return false when response is invalid", () async {
-    // Given
-    final httpClient = _failureClient();
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
-
-    // When
-    final result = await repository.deleteFavori("jeuneId", "offreId");
-
-    // Then
-    expect(result, isFalse);
-  });
-
-  test("postFavori when adding favori should return false when response is invalid", () async {
-    // Given
-    final httpClient = _failureClient();
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
-
-    // When
-    final result = await repository.postFavori("jeuneId", _offreWithPartialData());
-
-    // Then
-    expect(result, isFalse);
-  });
-
-  test("postFavori when adding favori should return true when response is 409", () async {
-    // Given
-    final httpClient = _alreadyExistsClient();
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
-
-    // When
-    final result = await repository.postFavori("jeuneId", _offreWithPartialData());
-
-    // Then
-    expect(result, isTrue);
-  });
-
-  test('getFavoris when response is valid with all parameters should return offres', () async {
-    // Given
-    final httpClient = _successfulClientForQuery();
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
-
-    // When
-    final favoris = await repository.getFavoris("jeuneId");
-
-    // Then
-    expect(favoris, {
-      "124PSHL": OffreEmploi(
-        id: "124PSHL",
-        duration: "Temps partiel",
-        location: "974 - STE MARIE",
-        contractType: "CDD",
-        isAlternance: false,
-        companyName: "SARL HAYA",
-        title: "Cuisinier / Cuisinière",
-      ),
-      "124PSJW": OffreEmploi(
-        id: "124PSJW",
-        duration: "Temps partiel",
-        location: "07 - LEMPS",
-        contractType: "CDD",
-        isAlternance: true,
-        companyName: "ATALIAN PROPRETE",
-        title: "Agent de nettoyage chez un particulier H/F",
-      ),
-      "124PSJS": OffreEmploi(
-        id: "124PSJS",
-        duration: "Temps partiel",
-        location: "80 - AMIENS",
-        contractType: "CDI",
-        isAlternance: false,
-        companyName: "CHARPENTE MENUISERIE ROUSSEAU",
-        title: "Vendeur / Vendeuse de fruits et légumes",
-      ),
-      "124PSJR": OffreEmploi(
-        id: "124PSJR",
-        duration: "Temps plein",
-        location: "63 - ISSOIRE",
-        contractType: "CDI",
-        isAlternance: false,
-        companyName: "SERVICES MAINTENANCE INDUSTRIELLE",
-        title: "Serrurier(ère) métallier(ère) industriel(le)                (H/F)",
-      ),
-      "123ZZZN1": OffreEmploi(
-        id: "123ZZZN1",
-        duration: "Temps plein",
-        location: null,
-        contractType: "CDI",
-        companyName: "SUPER TAXI",
-        title: "Chauffeur / Chauffeuse de taxi (H/F)",
-        isAlternance: false,
-      )
+      expectValidRequestAndResponse(isAlternance: true);
+      expectValidRequestAndResponse(isAlternance: false);
     });
   });
 
-  test('getFavoris when response is invalid should return null', () async {
-    // Given
-    final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
+  group("deleteFavori", () {
+    sut.when((repository) => repository.deleteFavori("jeuneId", "offreId"));
 
-    // When
-    final favoris = await repository.getFavoris("jeuneId");
+    group('when response is valid', () {
+      sut.givenResponseCode(204);
 
-    // Then
-    expect(favoris, isNull);
+      test('request should be valid', () async {
+        await sut.expectRequestBody(
+          method: "DELETE",
+          url: "BASE_URL/jeunes/jeuneId/favoris/offres-emploi/offreId",
+        );
+      });
+
+      test('response should be valid', () async {
+        await sut.expectTrueAsResult();
+      });
+    });
+
+    group('when response is 404', () {
+      sut.givenResponseCode(404);
+
+      test('response should be true', () async {
+        await sut.expectTrueAsResult();
+      });
+    });
+
+    group('when response is invalid', () {
+      sut.givenResponseCode(500);
+
+      test('response should be null', () async {
+        await sut.expectFalseAsResult();
+      });
+    });
   });
+
+  group("getFavoris", () {
+    sut.when((repository) => repository.getFavoris("jeuneId"));
+
+    group('when response is valid', () {
+      sut.givenJsonResponse(fromJson: "offre_emploi_favoris_data.json");
+
+      test('request should be valid', () async {
+        await sut.expectRequestBody(
+          method: "GET",
+          url: "BASE_URL/jeunes/jeuneId/favoris/offres-emploi?detail=true",
+        );
+      });
+
+      test('response should be valid', () async {
+        await sut.expectResult<Map<String, OffreEmploi>?>((result) {
+          expect(result, _expectedFavoriList());
+        });
+      });
+    });
+
+    group('when response is invalid', () {
+      sut.givenResponseCode(500);
+
+      test('response should be null', () async {
+        await sut.expectNullResult();
+      });
+    });
+  });
+
+  // TODO mode demo ?
 
   test('getFavorisId when mode demo', () async {
     // Given
@@ -239,79 +206,6 @@ void main() {
   });
 }
 
-BaseClient _successfulClientForQuery() {
-  return PassEmploiMockClient((request) async {
-    if (request.method != "GET") return invalidHttpResponse();
-    if (request.url.queryParameters["detail"] != "true") return invalidHttpResponse(message: "query KO");
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-emploi")) {
-      return invalidHttpResponse();
-    }
-    return Response.bytes(loadTestAssetsAsBytes("offre_emploi_favoris_data.json"), 200);
-  });
-}
-
-BaseClient _failureClient() {
-  return PassEmploiMockClient((request) async {
-    return Response("", 500);
-  });
-}
-
-BaseClient _notFoundClient() {
-  return PassEmploiMockClient((request) async {
-    return Response("", 404);
-  });
-}
-
-BaseClient _alreadyExistsClient() {
-  return PassEmploiMockClient((request) async {
-    return Response("", 409);
-  });
-}
-
-BaseClient _successfulClientForDelete() {
-  return PassEmploiMockClient((request) async {
-    if (request.method != "DELETE") return invalidHttpResponse();
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-emploi/offreId")) {
-      return invalidHttpResponse();
-    }
-    return Response("", 204);
-  });
-}
-
-BaseClient _mockClientForFullData({required bool expectedAlternance}) {
-  return PassEmploiMockClient((request) async {
-    if (request.method != "POST") return invalidHttpResponse();
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-emploi")) {
-      return invalidHttpResponse();
-    }
-    final requestJson = jsonUtf8Decode(request.bodyBytes);
-    if (requestJson["idOffre"] != "offreId2") return invalidHttpResponse(message: "idOffre KO");
-    if (requestJson["duree"] != "duration") return invalidHttpResponse(message: "idOffre KO");
-    if (requestJson["titre"] != "otherTitle") return invalidHttpResponse(message: "titre KO");
-    if (requestJson["nomEntreprise"] != "companyName") return invalidHttpResponse(message: "titre KO");
-    if (requestJson["typeContrat"] != "otherContractType") return invalidHttpResponse(message: "typeContrat KO");
-    if (requestJson["localisation"]["nom"] != "Marseille") return invalidHttpResponse(message: "alternance KO");
-    if (requestJson["alternance"] != expectedAlternance) return invalidHttpResponse(message: "alternance KO");
-    return Response("", 201);
-  });
-}
-
-BaseClient _mockClientForPartialData() {
-  return PassEmploiMockClient((request) async {
-    if (request.method != "POST") return invalidHttpResponse();
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId/favoris/offres-emploi")) {
-      return invalidHttpResponse();
-    }
-    final requestJson = jsonUtf8Decode(request.bodyBytes);
-    if (requestJson["idOffre"] != "offreId") return invalidHttpResponse(message: "idOffre KO");
-    if (requestJson["titre"] != "title") return invalidHttpResponse(message: "titre KO");
-    if (requestJson["typeContrat"] != "contractType") return invalidHttpResponse(message: "typeContrat KO");
-    if (requestJson["localisation"]["nom"] != "Paris") return invalidHttpResponse(message: "alternance KO");
-    if (requestJson["alternance"] != false) return invalidHttpResponse(message: "alternance KO");
-    return Response("", 201);
-  });
-}
-
 OffreEmploi _offreWithPartialData() {
   return OffreEmploi(
     id: "offreId",
@@ -334,4 +228,54 @@ OffreEmploi _offreWithFullData({required bool isAlternance}) {
     location: "Marseille",
     title: "otherTitle",
   );
+}
+
+Map<String, OffreEmploi> _expectedFavoriList() {
+  return {
+    "124PSHL": OffreEmploi(
+      id: "124PSHL",
+      duration: "Temps partiel",
+      location: "974 - STE MARIE",
+      contractType: "CDD",
+      isAlternance: false,
+      companyName: "SARL HAYA",
+      title: "Cuisinier / Cuisinière",
+    ),
+    "124PSJW": OffreEmploi(
+      id: "124PSJW",
+      duration: "Temps partiel",
+      location: "07 - LEMPS",
+      contractType: "CDD",
+      isAlternance: true,
+      companyName: "ATALIAN PROPRETE",
+      title: "Agent de nettoyage chez un particulier H/F",
+    ),
+    "124PSJS": OffreEmploi(
+      id: "124PSJS",
+      duration: "Temps partiel",
+      location: "80 - AMIENS",
+      contractType: "CDI",
+      isAlternance: false,
+      companyName: "CHARPENTE MENUISERIE ROUSSEAU",
+      title: "Vendeur / Vendeuse de fruits et légumes",
+    ),
+    "124PSJR": OffreEmploi(
+      id: "124PSJR",
+      duration: "Temps plein",
+      location: "63 - ISSOIRE",
+      contractType: "CDI",
+      isAlternance: false,
+      companyName: "SERVICES MAINTENANCE INDUSTRIELLE",
+      title: "Serrurier(ère) métallier(ère) industriel(le)                (H/F)",
+    ),
+    "123ZZZN1": OffreEmploi(
+      id: "123ZZZN1",
+      duration: "Temps plein",
+      location: null,
+      contractType: "CDI",
+      companyName: "SUPER TAXI",
+      title: "Chauffeur / Chauffeuse de taxi (H/F)",
+      isAlternance: false,
+    )
+  };
 }
