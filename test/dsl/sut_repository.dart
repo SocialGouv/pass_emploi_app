@@ -7,33 +7,37 @@ import '../utils/pass_emploi_mock_client.dart';
 import '../utils/test_assets.dart';
 
 class RepositorySut<REPO> {
-  late Response _response;
+  late Response Function() _response;
   late Request _request;
   late REPO _repository;
   late Future<dynamic> Function(REPO) _when;
 
-  void givenResponse({required String fromJson, Map<String, String> headers = const {}}) {
-    setUp(() {
-      return _response = Response.bytes(loadTestAssetsAsBytes(fromJson), headers: headers, 200);
-    });
+  void givenJsonResponse({required String fromJson, Map<String, String> headers = const {}}) {
+    givenResponse(() => Response.bytes(loadTestAssetsAsBytes(fromJson), headers: headers, 200));
   }
 
   void given200Response() {
-    setUp(() {
-      _response = Response('', 200);
-    });
+    givenResponse(() => Response('', 200));
   }
 
-  void givenInvalidResponse() {
+  void given500Response() {
+    givenResponse(() => invalidHttpResponse());
+  }
+
+  void givenThrowingExceptionResponse() {
+    givenResponse(() => throw Exception());
+  }
+
+  void givenResponse(Response Function() response) {
     setUp(() {
-      _response = invalidHttpResponse();
+      _response = response;
     });
   }
 
   Client _makeClient() {
     return PassEmploiMockClient((request) async {
       _request = request;
-      return _response;
+      return _response();
     });
   }
 

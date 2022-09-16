@@ -28,7 +28,7 @@ void main() {
     });
 
     group('when response is invalid', () {
-      sut.givenInvalidResponse();
+      sut.given500Response();
 
       test('response should be false', () async {
         await sut.expectResult<bool?>((result) {

@@ -20,7 +20,7 @@ void main() {
       );
 
       group('when response is valid', () {
-        sut.givenResponse(fromJson: "agenda_mission_locale.json");
+        sut.givenJsonResponse(fromJson: "agenda_mission_locale.json");
 
         test('request should be valid', () async {
           await sut.expectRequestBody(
@@ -46,7 +46,7 @@ void main() {
       });
 
       group('when response is invalid', () {
-        sut.givenInvalidResponse();
+        sut.given500Response();
 
         test('response should be null', () async {
           await sut.expectResult<Agenda?>((result) {
@@ -65,7 +65,7 @@ void main() {
       );
 
       group('when response is valid', () {
-        sut.givenResponse(fromJson: "agenda_pole_emploi.json");
+        sut.givenJsonResponse(fromJson: "agenda_pole_emploi.json");
 
         test('request should be valid', () async {
           await sut.expectRequestBody(
@@ -91,7 +91,7 @@ void main() {
       });
 
       group('when response is invalid', () {
-        sut.givenInvalidResponse();
+        sut.given500Response();
 
         test('response should be null', () async {
           await sut.expectNullResult();

@@ -14,7 +14,7 @@ void main() {
     sut.when((repository) => repository.fetch("id-jeune"));
 
     group('when response is valid', () {
-      sut.givenResponse(fromJson: "details_jeune.json");
+      sut.givenJsonResponse(fromJson: "details_jeune.json");
 
       test('request should be valid', () async {
         await sut.expectRequestBody(
@@ -40,7 +40,7 @@ void main() {
     });
 
     group('when response is invalid', () {
-      sut.givenInvalidResponse();
+      sut.given500Response();
 
       test('response should be null', () async {
         await sut.expectNullResult();
