@@ -94,9 +94,7 @@ void main() {
         sut.givenInvalidResponse();
 
         test('response should be null', () async {
-          await sut.expectResult<Agenda?>((result) {
-            expect(result, isNull);
-          });
+          await sut.expectNullResult();
         });
       });
     });

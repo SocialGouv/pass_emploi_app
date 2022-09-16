@@ -58,4 +58,9 @@ class RepositorySut<REPO> {
     final result = await _when(_repository) as RESULT;
     expectLambda(result);
   }
+
+  Future<void> expectNullResult() async {
+    final result = await _when(_repository);
+    expect(result, isNull);
+  }
 }
