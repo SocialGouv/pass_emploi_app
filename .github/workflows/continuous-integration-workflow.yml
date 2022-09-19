@@ -6,8 +6,8 @@ on:
   pull_request:
   workflow_dispatch:
 
-
 jobs:
+
   test:
     runs-on: ubuntu-latest
     steps:
@@ -15,9 +15,13 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: '12.x'
+      - name: Set Environment Variables
+        uses: ./.github/actions/setvars
+        with:
+          varFilePath: ./.github/variables/myvars.env
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.0.0'
+          flutter-version: ${{ env.FLUTTER_VERSION }}
       - name: Launch tests
         run: flutter test
 
@@ -40,9 +44,15 @@ jobs:
     needs: pre-build
     steps:
       - uses: actions/checkout@v2
+
+      - name: Set Environment Variables
+        uses: ./.github/actions/setvars
+        with:
+          varFilePath: ./.github/variables/myvars.env
+
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.0.0'
+          flutter-version: ${{ env.FLUTTER_VERSION }}
 
       - name: Write Google configuration for Android
         shell: bash
@@ -99,9 +109,15 @@ jobs:
     needs: pre-build
     steps:
       - uses: actions/checkout@v2
+
+      - name: Set Environment Variables
+        uses: ./.github/actions/setvars
+        with:
+          varFilePath: ./.github/variables/myvars.env
+
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.0.0'
+          flutter-version: ${{ env.FLUTTER_VERSION }}
 
       - name: Write p12 certificate
         shell: bash
