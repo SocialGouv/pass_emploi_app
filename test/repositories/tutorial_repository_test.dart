@@ -8,41 +8,38 @@ void main() {
   final SharedPreferencesSpy prefs = SharedPreferencesSpy();
   final TutorialRepository repository = TutorialRepository(prefs);
 
-  test("Returns tutorial pages for MILO when user didn't saw it yet", () async {
+  test("getMiloTutorial returns tutorial pages for MILO", () {
     // When
-    final pages = await repository.getMiloTutorial();
+    final pages = repository.getMiloTutorial();
 
     // Then
     expect(pages, Tutorial.milo);
   });
 
-  test("Returns tutorial pages for Pole Emploi when user didn't saw it yet", () async {
+  test("getMiloTutorial returns tutorial pages for Pole Emploi", () {
     // When
-    final pages = await repository.getPoleEmploiTutorial();
+    final pages = repository.getPoleEmploiTutorial();
 
     // Then
     expect(pages, Tutorial.poleEmploi);
   });
 
-  test("Returns empty tutorial pages for MILO when user already saw it", () async {
-    // Given
-    repository.setTutorialRead();
-
+  test("shouldShowTutorial returns true when user did not already saw it", () async {
     // When
-    final pages = await repository.getMiloTutorial();
+    final shouldShowTutorial = await repository.shouldShowTutorial();
 
     // Then
-    expect(pages, isEmpty);
+    expect(shouldShowTutorial, isTrue);
   });
 
-  test("Returns empty tutorial pages for Pole Emploi when user already saw it", () async {
+  test("shouldShowTutorial returns true when user already saw it", () async {
     // Given
     repository.setTutorialRead();
 
     // When
-    final pages = await repository.getPoleEmploiTutorial();
+    final shouldShowTutorial = await repository.shouldShowTutorial();
 
     // Then
-    expect(pages, isEmpty);
+    expect(shouldShowTutorial, isFalse);
   });
 }
