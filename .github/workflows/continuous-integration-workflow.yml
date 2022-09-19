@@ -223,7 +223,7 @@ jobs:
       - name: Deploy to staging
         run: |
           curl -sL https://firebase.tools | bash
-          firebase appdistribution:distribute build-output/ios/application_CEJ.ipa \
+          firebase appdistribution:distribute $(find $(pwd) -name "*.ipa") \
             --token "$STAGING_FIREBASE_CI_TOKEN" \
             --app "$STAGING_IOS_APP_ID" \
             --groups "$STAGING_FIREBASE_RELEASE_GROUPS"
