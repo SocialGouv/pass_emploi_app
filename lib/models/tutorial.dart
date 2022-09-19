@@ -3,51 +3,15 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 
 class Tutorial extends Equatable {
-  static const String version = '2';
+  static const String version = '3';
 
-  static List<Tutorial> milo = [
-    Tutorial._(
-      title: Strings.tutoTitreOffreDebutant,
-      description: Strings.tutoDescriptionOffreDebutant,
-      image: Drawables.icTutoOffreDebutant,
-    ),
-    Tutorial._(
-      title: Strings.tutoTitreOffrePartage,
-      description: Strings.tutoDescriptionOffrePartage,
-      image: Drawables.icTutoOffrePartager,
-    ),
-    Tutorial._(
-      title: Strings.tutoTitleActionComments,
-      description: Strings.tutoDescriptionActionComments,
-      image: Drawables.icTutoActionComment,
-    ),
-    Tutorial._(
-      title: Strings.tutoTitreMandatoryDate,
-      description: Strings.tutoDescriptionMandatoryDate,
-      image: Drawables.icTutoMandatoryDate,
-    ),
-    Tutorial._(
-      title: Strings.tutoTitreAgenda,
-      description: Strings.tutoDescriptionAgenda,
-      image: Drawables.icTutoAgenda,
-    ),
-  ];
+  static List<Tutorial> milo = [];
 
   static List<Tutorial> poleEmploi = [
-    Tutorial._(
-      title: Strings.tutoTitreOffreDebutant,
-      description: Strings.tutoDescriptionOffreDebutant,
-      image: Drawables.icTutoOffreDebutant,
-    ),
-    Tutorial._(
-      title: Strings.tutoTitreOffrePartage,
-      description: Strings.tutoDescriptionOffrePartage,
-      image: Drawables.icTutoOffrePartager,
-    ),
-    Tutorial._(
-      title: Strings.tutoTitreCreationDemarches,
-      description: Strings.tutoDescriptionCreationDemarches,
-      image: Drawables.icTutoCreationDemarche,
+    Tutorial(
+      title: Strings.tutoTitreAgenda,
+      description: Strings.tutoDescriptionAgenda,
+      image: Drawables.icTutoNewSuiviDemarches,
     ),
   ];
 
@@ -55,7 +19,7 @@ class Tutorial extends Equatable {
   final String description;
   final String image;
 
-  Tutorial._({required this.title, required this.description, required this.image});
+  Tutorial({required this.title, required this.description, required this.image});
 
   @override
   List<Object?> get props => [title, description, image];
