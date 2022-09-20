@@ -185,32 +185,6 @@ void main() {
       });
     });
   });
-
-  // TODO mode demo ?
-
-  test('getFavorisId when mode demo', () async {
-    // Given
-    final httpClient = MockModeDemoClient();
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
-
-    // When
-    final favoris = await repository.getFavorisId("jeuneId");
-
-    // Then
-    expect(favoris, isNotEmpty);
-  });
-
-  test('getFavoris when mode demo', () async {
-    // Given
-    final httpClient = MockModeDemoClient();
-    final repository = OffreEmploiFavorisRepository("BASE_URL", httpClient, DummyPassEmploiCacheManager());
-
-    // When
-    final favoris = await repository.getFavoris("jeuneId");
-
-    // Then
-    expect(favoris, isNotEmpty);
-  });
 }
 
 OffreEmploi _offreWithPartialData() {

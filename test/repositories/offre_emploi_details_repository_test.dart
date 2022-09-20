@@ -69,17 +69,4 @@ void main() {
       });
     });
   });
-
-  // TODO ?
-  test('getOffreEmploiDetails when mode demo', () async {
-    // Given
-    final httpClient = MockModeDemoClient();
-    final repository = OffreEmploiDetailsRepository("BASE_URL", httpClient);
-
-    // When
-    final offre = await repository.getOffreEmploiDetails(offreId: "ID");
-
-    // Then
-    expect(offre.details, isNotNull);
-  });
 }

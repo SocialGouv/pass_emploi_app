@@ -47,18 +47,4 @@ void main() {
       });
     });
   });
-
-  // TODO : utile ? Il n'y a pas un test général ?
-  // Si oui utile, alors ajouter un helper dans le RepositorySut
-  test('should return details jeune on valid request', () async {
-    // Given
-    final httpClient = MockModeDemoClient();
-    final repository = DetailsJeuneRepository("BASE_URL", httpClient);
-
-    // When
-    final response = await repository.fetch("id-jeune");
-
-    // Then
-    expect(response, isNotNull);
-  });
 }

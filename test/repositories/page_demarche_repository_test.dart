@@ -56,20 +56,4 @@ void main() {
       });
     });
   });
-
-  // todo demo ?
-
-  test('mode demo should return valid request', () async {
-    // Given
-    final httpClient = MockModeDemoClient();
-    final repository = PageDemarcheRepository("BASE_URL", httpClient);
-
-    // When
-    final response = await repository.getPageDemarches("UserID");
-
-    // Then
-    expect(response, isNotNull);
-    expect(response?.campagne, isNotNull);
-    expect(response?.demarches, isNotNull);
-  });
 }
