@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/repositories/agenda_repository.dart';
 import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
+import '../../dsl/matchers.dart';
 import '../../dsl/sut_redux.dart';
 
 void main() {

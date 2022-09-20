@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/features/user_action/commentaire/list/action_com
 
 import '../../../doubles/stubs.dart';
 import '../../../dsl/app_state_dsl.dart';
+import '../../../dsl/matchers.dart';
 import '../../../dsl/sut_redux.dart';
 
 void main() {

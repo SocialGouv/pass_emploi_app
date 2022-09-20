@@ -4,7 +4,6 @@ import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dar
 
 import '../doubles/fixtures.dart';
 import '../dsl/sut_repository.dart';
-import '../utils/mock_demo_client.dart';
 
 void main() {
   final sut = RepositorySut<OffreEmploiDetailsRepository>();

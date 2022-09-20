@@ -4,7 +4,6 @@ import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_reposi
 
 import '../../doubles/dummies.dart';
 import '../../dsl/sut_repository.dart';
-import '../../utils/mock_demo_client.dart';
 
 void main() {
   final sut = RepositorySut<OffreEmploiFavorisRepository>();

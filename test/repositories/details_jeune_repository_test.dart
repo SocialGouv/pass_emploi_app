@@ -3,7 +3,6 @@ import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
 
 import '../dsl/sut_repository.dart';
-import '../utils/mock_demo_client.dart';
 import '../utils/test_datetime.dart';
 
 void main() {

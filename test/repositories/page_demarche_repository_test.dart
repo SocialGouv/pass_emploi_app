@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/repositories/page_demarche_repository.dart';
 
 import '../doubles/fixtures.dart';
 import '../dsl/sut_repository.dart';
-import '../utils/mock_demo_client.dart';
 
 void main() {
   final sut = RepositorySut<PageDemarcheRepository>();

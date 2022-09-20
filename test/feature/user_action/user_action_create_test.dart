@@ -7,6 +7,7 @@ import 'package:pass_emploi_app/models/user_action.dart';
 
 import '../../doubles/stubs.dart';
 import '../../dsl/app_state_dsl.dart';
+import '../../dsl/matchers.dart';
 import '../../dsl/sut_redux.dart';
 
 void main() {
