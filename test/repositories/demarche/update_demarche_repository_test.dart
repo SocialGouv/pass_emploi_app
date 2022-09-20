@@ -26,7 +26,7 @@ void main() {
         await sut.expectRequestBody(
           method: "PUT",
           url: "BASE_URL/jeunes/user-id/demarches/8802034/statut",
-          params: {
+          bodyFields: {
             "statut": "A_FAIRE",
             "dateFin": "2021-12-24T12:08:10.000",
             "dateDebut": "2021-12-23T12:08:10.000",

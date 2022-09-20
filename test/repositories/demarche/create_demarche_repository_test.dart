@@ -25,7 +25,7 @@ void main() {
         await sut.expectRequestBody(
           method: "POST",
           url: "BASE_URL/jeunes/id/demarches",
-          params: {
+          jsonBody: {
             "codeQuoi": "codeQuoi",
             "codePourquoi": "codePourquoi",
             "codeComment": "codeComment",
@@ -64,7 +64,7 @@ void main() {
         await sut.expectRequestBody(
           method: "POST",
           url: "BASE_URL/jeunes/id/demarches",
-          params: {
+          jsonBody: {
             "description": "Description accentuée",
             "dateFin": "2021-12-23T12:08:10.000",
           },

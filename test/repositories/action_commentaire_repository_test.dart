@@ -72,9 +72,13 @@ void main() {
       sut.givenResponseCode(200);
 
       test('request should be valid', () async {
-        await sut.expectRequestBody(method: "POST", url: "BASE_URL/actions/actionId/commentaires", params: {
-          "commentaire": "Commentaire à envoyer",
-        });
+        await sut.expectRequestBody(
+          method: "POST",
+          url: "BASE_URL/actions/actionId/commentaires",
+          jsonBody: {
+            "commentaire": "Commentaire à envoyer",
+          },
+        );
       });
 
       test('response should be valid', () async {

@@ -44,13 +44,19 @@ class RepositorySut<REPO> {
     setUp(() => _when = when);
   }
 
-  Future<void> expectRequestBody({required String method, required String url, Map<String, dynamic>? params}) async {
+  Future<void> expectRequestBody({
+    required String method,
+    required String url,
+    Map<String, dynamic>? bodyFields,
+    Map<String, dynamic>? jsonBody,
+  }) async {
     await _when(_repository);
 
     expect(_request.method, method);
     expect(_request.url.toString(), url);
 
-    if (params != null) expect(jsonUtf8Decode(_request.bodyBytes), params);
+    if (bodyFields != null) expect(_request.bodyFields, bodyFields);
+    if (jsonBody != null) expect(jsonUtf8Decode(_request.bodyBytes), jsonBody);
   }
 
   Future<void> expectResult<RESULT>(Function(RESULT) expectLambda) async {

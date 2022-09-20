@@ -47,15 +47,19 @@ void main() {
         sut.givenResponseCode(201);
 
         test('request should be valid', () async {
-          await sut.expectRequestBody(method: "POST", url: "BASE_URL/jeunes/jeuneId/favoris/offres-emploi", params: {
-            "idOffre": "offreId",
-            "titre": "title",
-            "typeContrat": "contractType",
-            "localisation": {"nom": "Paris"},
-            "alternance": false,
-            'duree': null,
-            'nomEntreprise': null,
-          });
+          await sut.expectRequestBody(
+            method: "POST",
+            url: "BASE_URL/jeunes/jeuneId/favoris/offres-emploi",
+            jsonBody: {
+              "idOffre": "offreId",
+              "titre": "title",
+              "typeContrat": "contractType",
+              "localisation": {"nom": "Paris"},
+              "alternance": false,
+              'duree': null,
+              'nomEntreprise': null,
+            },
+          );
         });
 
         test('response should be valid', () async {
@@ -89,16 +93,19 @@ void main() {
             sut.givenResponseCode(201);
 
             test('request should be valid', () async {
-              await sut
-                  .expectRequestBody(method: "POST", url: "BASE_URL/jeunes/jeuneId/favoris/offres-emploi", params: {
-                "idOffre": "offreId2",
-                "titre": "otherTitle",
-                "typeContrat": "otherContractType",
-                "localisation": {"nom": "Marseille"},
-                "alternance": isAlternance,
-                'duree': "duration",
-                'nomEntreprise': "companyName",
-              });
+              await sut.expectRequestBody(
+                method: "POST",
+                url: "BASE_URL/jeunes/jeuneId/favoris/offres-emploi",
+                jsonBody: {
+                  "idOffre": "offreId2",
+                  "titre": "otherTitle",
+                  "typeContrat": "otherContractType",
+                  "localisation": {"nom": "Marseille"},
+                  "alternance": isAlternance,
+                  'duree': "duration",
+                  'nomEntreprise': "companyName",
+                },
+              );
             });
 
             test('response should be valid', () async {
