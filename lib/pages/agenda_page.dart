@@ -121,7 +121,7 @@ class _Body extends StatelessWidget {
       case DisplayState.CONTENT:
         return _Content(viewModel: viewModel, onActionDelayedTap: onActionDelayedTap);
       case DisplayState.EMPTY:
-        return Empty(description: Strings.agendaEmpty);
+        return Empty(description: viewModel.emptyMessage);
       case DisplayState.FAILURE:
         return _Retry(viewModel: viewModel);
     }
@@ -159,8 +159,8 @@ class _Content extends StatelessWidget {
         itemBuilder: (context, index) {
           final item = viewModel.events[index];
           if (item is DelayedActionsBannerAgendaItem) return _DelayedActionsBanner(item, onActionDelayedTap);
-          if (item is CurrentWeekAgendaItem) return _CurrentWeek(item.days);
-          if (item is NextWeekAgendaItem) return _NextWeek(item.events);
+          if (item is CurrentWeekAgendaItem) return _CurrentWeek(item.days, viewModel.noEventLabel);
+          if (item is NextWeekAgendaItem) return _NextWeek(item.events, viewModel.noEventLabel);
           return SizedBox(height: 0);
         },
       ),
@@ -192,7 +192,7 @@ class _DelayedActionsBanner extends StatelessWidget {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   _WarningIcon(),
-                  _NumberOfDelayedActions(banner.count),
+                  _NumberOfDelayedActions(banner.delayedLabel),
                   Text(Strings.see, style: TextStyles.textBaseRegular),
                   _ChevronIcon(),
                 ],
@@ -226,9 +226,9 @@ class _ChevronIcon extends StatelessWidget {
 }
 
 class _NumberOfDelayedActions extends StatelessWidget {
-  final int actions;
+  final String delayedLabel;
 
-  _NumberOfDelayedActions(this.actions);
+  _NumberOfDelayedActions(this.delayedLabel);
 
   @override
   Widget build(BuildContext context) {
@@ -237,7 +237,7 @@ class _NumberOfDelayedActions extends StatelessWidget {
         text: TextSpan(
           children: [
             TextSpan(text: Strings.late, style: TextStyles.textBaseBoldWithColor(AppColors.warning)),
-            TextSpan(text: Strings.numberOfActions(actions), style: TextStyles.textSRegularWithColor(AppColors.warning))
+            TextSpan(text: delayedLabel, style: TextStyles.textSRegularWithColor(AppColors.warning))
           ],
         ),
       ),
@@ -247,26 +247,31 @@ class _NumberOfDelayedActions extends StatelessWidget {
 
 class _CurrentWeek extends StatelessWidget {
   final List<DaySectionAgenda> days;
+  final String noEventLabel;
 
-  _CurrentWeek(this.days);
+  _CurrentWeek(this.days, this.noEventLabel);
 
   @override
   Widget build(BuildContext context) {
     if (days.isEmpty) {
-      return _CurrentWeekEmpty();
+      return _CurrentWeekEmpty(noEventLabel);
     }
-    return Column(children: days.map((e) => _DaySection(e)).toList());
+    return Column(children: days.map((e) => _DaySection(e, noEventLabel)).toList());
   }
 }
 
 class _CurrentWeekEmpty extends StatelessWidget {
+  final String noEventLabel;
+
+  const _CurrentWeekEmpty(this.noEventLabel);
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _SectionTitle(Strings.semaineEnCours),
-        _NoEventTitle(),
+        _NoEventTitle(noEventLabel),
       ],
     );
   }
@@ -274,8 +279,9 @@ class _CurrentWeekEmpty extends StatelessWidget {
 
 class _NextWeek extends StatelessWidget {
   final List<EventAgenda> events;
+  final String noEventLabel;
 
-  _NextWeek(this.events);
+  _NextWeek(this.events, this.noEventLabel);
 
   @override
   Widget build(BuildContext context) {
@@ -286,7 +292,7 @@ class _NextWeek extends StatelessWidget {
           padding: const EdgeInsets.only(top: Margins.spacing_m, bottom: Margins.spacing_s),
           child: BigTitleSeparator(Strings.nextWeek),
         ),
-        if (events.isEmpty) _NoEventTitle(),
+        if (events.isEmpty) _NoEventTitle(noEventLabel),
         if (events.isNotEmpty) ...events.widgets(context: context, simpleCard: true),
       ],
     );
@@ -295,8 +301,9 @@ class _NextWeek extends StatelessWidget {
 
 class _DaySection extends StatelessWidget {
   final DaySectionAgenda section;
+  final String noEventLabel;
 
-  _DaySection(this.section);
+  _DaySection(this.section, this.noEventLabel);
 
   @override
   Widget build(BuildContext context) {
@@ -305,7 +312,7 @@ class _DaySection extends StatelessWidget {
       children: [
         _SectionTitle(section.title),
         if (section.events.isNotEmpty) ...section.events.widgets(context: context, simpleCard: false),
-        if (section.events.isEmpty) _NoEventTitle(),
+        if (section.events.isEmpty) _NoEventTitle(noEventLabel),
       ],
     );
   }
@@ -329,10 +336,14 @@ class _SectionTitle extends StatelessWidget {
 }
 
 class _NoEventTitle extends StatelessWidget {
+  final String label;
+
+  const _NoEventTitle(this.label);
+
   @override
   Widget build(BuildContext context) {
     return Text(
-      Strings.agendaNoActionNoRendezvous,
+      label,
       style: TextStyles.textBaseRegularWithColor(AppColors.grey700),
     );
   }

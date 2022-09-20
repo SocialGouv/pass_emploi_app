@@ -114,9 +114,11 @@ class Strings {
   static String demarcheTabTitle = "Démarches";
 
   // Agenda
-  static String agendaEmpty = "Vous n'avez pas encore d'actions ni de rendez-vous prévus cette semaine.";
+  static String agendaEmptyMilo = "Vous n'avez pas encore d'actions ni de rendez-vous prévus cette semaine.";
+  static String agendaEmptyPoleEmploi = "Vous n'avez pas encore de démarches ni de rendez-vous prévus cette semaine.";
   static String agendaError = "Erreur lors de la récupération de vos actions et rendez-vous";
-  static String agendaNoActionNoRendezvous = "Pas d’action ni de rendez-vous";
+  static String agendaEmptyForDayMilo = "Pas d’action ni de rendez-vous";
+  static String agendaEmptyForDayPoleEmploi = "Pas de démarche ni de rendez-vous";
   static String nextWeek = "Semaine prochaine";
   static String semaineEnCours = "Semaine en cours";
 
@@ -225,6 +227,8 @@ class Strings {
   static String rappelSwitch = 'Recevoir une notification de rappel 3 jours avant l’échéance';
 
   static String numberOfActions(int count) => "$count actions";
+
+  static String numberOfDemarches(int count) => "$count démarches";
   static String see = "Voir";
 
   // Commentaires d'action

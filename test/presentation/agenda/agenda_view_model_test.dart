@@ -95,7 +95,7 @@ void main() {
       expect(viewModel.displayState, DisplayState.FAILURE);
     });
 
-    test('should be empty on success state without content', () {
+    test('when user is from Mission Locale should be empty on success state without content', () {
       // Given
       final store = givenState().loggedInMiloUser().emptyAgenda().store();
 
@@ -104,6 +104,19 @@ void main() {
 
       // Then
       expect(viewModel.displayState, DisplayState.EMPTY);
+      expect(viewModel.emptyMessage, "Vous n'avez pas encore d'actions ni de rendez-vous prévus cette semaine.");
+    });
+
+    test('when user is from Pole Emploi should be empty on success state without content', () {
+      // Given
+      final store = givenState().loggedInPoleEmploiUser().emptyAgenda().store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.displayState, DisplayState.EMPTY);
+      expect(viewModel.emptyMessage, "Vous n'avez pas encore de démarches ni de rendez-vous prévus cette semaine.");
     });
 
     test('should be content on success state with content for Mission Locale', () {
@@ -154,7 +167,9 @@ void main() {
   });
 
   group('events', () {
-    test('should have delayed item at first position when there are some delayed actions', () {
+    test(
+        'when user is from Mission Locale should have delayed item at first position when there are some delayed actions',
+        () {
       // Given
       final store = givenState().loggedInMiloUser().agenda(delayedActions: 7).store();
 
@@ -162,7 +177,19 @@ void main() {
       final viewModel = AgendaPageViewModel.create(store);
 
       // Then
-      expect(viewModel.events.first, DelayedActionsBannerAgendaItem(7));
+      expect(viewModel.events.first, DelayedActionsBannerAgendaItem("7 actions"));
+    });
+
+    test('when user is from Pole Emploi should have delayed item at first position when there are some delayed actions',
+        () {
+      // Given
+      final store = givenState().loggedInPoleEmploiUser().agenda(delayedActions: 7).store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.events.first, DelayedActionsBannerAgendaItem("7 démarches"));
     });
 
     test('should not have delayed item if there isn\'t delayed any actions', () {
@@ -359,6 +386,17 @@ void main() {
       });
     });
 
+    test('when there are no event for a day should return proper label', () {
+      // Given
+      final store = givenState().loggedInMiloUser().agenda().store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.noEventLabel, 'Pas d’action ni de rendez-vous');
+    });
+
     test('should reset create action', () {
       // Given
       final store = StoreSpy();
@@ -458,6 +496,17 @@ void main() {
           ]),
         );
       });
+    });
+
+    test('when there are no event for a day should return proper label', () {
+      // Given
+      final store = givenState().loggedInPoleEmploiUser().agenda().store();
+
+      // When
+      final viewModel = AgendaPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.noEventLabel, 'Pas de démarche ni de rendez-vous');
     });
 
     test('should reset create action', () {
