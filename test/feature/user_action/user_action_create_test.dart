@@ -4,18 +4,15 @@ import 'package:pass_emploi_app/features/user_action/create/user_action_create_s
 import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
-import 'package:pass_emploi_app/redux/app_state.dart';
 
 import '../../doubles/stubs.dart';
 import '../../dsl/app_state_dsl.dart';
 import '../../dsl/sut_redux.dart';
-import '../../utils/expects.dart';
 
 void main() {
   final sut = StoreSut();
-  sut.setSkipFirstChange(true);
 
-  group("when todo", () {
+  group("when creating user action", () {
     sut.when(() => UserActionCreateRequestAction(_request()));
 
     group("when request succeed", () {
@@ -23,18 +20,14 @@ void main() {
         sut.givenStore = givenState()
             .loggedInUser() //
             .store((f) => {f.pageActionRepository = PageActionRepositorySuccessStub()});
-        sut.thenExpectChangingStatesInOrder([_shouldLoad, _shouldSucceed]);
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoadState(), _shouldSucceedState()]);
       });
+
       test("should update list", () {
         sut.givenStore = givenState()
             .loggedInUser() //
             .store((f) => {f.pageActionRepository = PageActionRepositorySuccessStub()});
-        // TODO : ce test met en lumière le problème avec le emitInOrder. Qui n'est peut-être pas la bonne façon de faire.
-        // Pourquoi ? Parce que lorsqu'un dispatch d'action provoque plusieurs autres dispatch d'action, ça peut faire changer beaucoup de fois le state pour d'autres raisons qu'on ne veut pas tester ici
-        // Cf. user_action_create_middleware, on y dispatch pas mal de choses
-        // Dailleurs je viens de voir un problème des tests actuels : on peut inverser l'ordre loadingState/successState, ça ne fail pas.
-        sut.thenExpectChangingStatesInOrder(
-            [_shouldLoad, _shouldSucceed, _shouldSucceed, _shouldLoadList, _shouldLoadList, _shouldUpdateList]);
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoadList(), _shouldUpdateList()]);
       });
     });
 
@@ -43,24 +36,25 @@ void main() {
         sut.givenStore = givenState()
             .loggedInUser() //
             .store((f) => {f.pageActionRepository = PageActionRepositoryFailureStub()});
-        sut.thenExpectChangingStatesInOrder([_shouldLoad, _shouldFail]);
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoadState(), _shouldFailState()]);
       });
     });
   });
 }
 
-void _shouldLoad(AppState state) => expect(state.userActionCreateState, isA<UserActionCreateLoadingState>());
+Matcher _shouldLoadState() => StateIs<UserActionCreateLoadingState>((state) => state.userActionCreateState);
 
-void _shouldFail(AppState state) => expect(state.userActionCreateState, isA<UserActionCreateFailureState>());
+Matcher _shouldSucceedState() => StateIs<UserActionCreateSuccessState>((state) => state.userActionCreateState);
 
-void _shouldSucceed(AppState state) => expect(state.userActionCreateState, isA<UserActionCreateSuccessState>());
+Matcher _shouldFailState() => StateIs<UserActionCreateFailureState>((state) => state.userActionCreateState);
 
-void _shouldLoadList(AppState state) => expect(state.userActionListState, isA<UserActionListLoadingState>());
+Matcher _shouldLoadList() => StateIs<UserActionListLoadingState>((state) => state.userActionListState);
 
-void _shouldUpdateList(AppState state) {
-  expectTypeThen<UserActionListSuccessState>(state.userActionListState, (successState) {
-    expect(successState.userActions, isNotEmpty);
-  });
+Matcher _shouldUpdateList() {
+  return StateIs<UserActionListSuccessState>(
+    (state) => state.userActionListState,
+    (state) => expect(state.userActions, isNotEmpty),
+  );
 }
 
 UserActionCreateRequest _request() {

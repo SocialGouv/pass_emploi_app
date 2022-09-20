@@ -1,16 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_actions.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
-import 'package:pass_emploi_app/redux/app_state.dart';
 
 import '../../../doubles/stubs.dart';
 import '../../../dsl/app_state_dsl.dart';
 import '../../../dsl/sut_redux.dart';
-import '../../../utils/expects.dart';
 
 void main() {
   final sut = StoreSut();
-  sut.setSkipFirstChange(true);
 
   group("when requesting list", () {
     sut.when(() => ActionCommentaireListRequestAction("actionId"));
@@ -20,7 +17,7 @@ void main() {
           .loggedInMiloUser()
           .store((factory) => {factory.actionCommentaireRepository = ActionCommentaireRepositorySuccessStub()});
 
-      sut.thenExpectChangingStatesInOrder([_shouldLoad, _shouldHaveCommentaireList]);
+      sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldHaveCommentaireList()]);
     });
 
     test("should display load and failure when fetching failed", () {
@@ -28,18 +25,21 @@ void main() {
           .loggedInMiloUser()
           .store((factory) => {factory.actionCommentaireRepository = ActionCommentaireRepositoryFailureStub()});
 
-      sut.thenExpectChangingStatesInOrder([_shouldLoad, _shouldFail]);
+      sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
     });
   });
 }
 
-void _shouldLoad(AppState state) => expect(state.actionCommentaireListState, ActionCommentaireListLoadingState());
+Matcher _shouldLoad() => StateIs<ActionCommentaireListLoadingState>((state) => state.actionCommentaireListState);
 
-void _shouldFail(AppState state) => expect(state.actionCommentaireListState, ActionCommentaireListFailureState());
+Matcher _shouldFail() => StateIs<ActionCommentaireListFailureState>((state) => state.actionCommentaireListState);
 
-void _shouldHaveCommentaireList(AppState state) {
-  expectTypeThen<ActionCommentaireListSuccessState>(state.actionCommentaireListState, (successState) {
-    expect(successState.comments.length, 2);
-    expect(successState.comments[0].content, "Premier commentaire");
-  });
+Matcher _shouldHaveCommentaireList() {
+  return StateIs<ActionCommentaireListSuccessState>(
+    (state) => state.actionCommentaireListState,
+    (state) {
+      expect(state.comments.length, 2);
+      expect(state.comments[0].content, "Premier commentaire");
+    },
+  );
 }

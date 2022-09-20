@@ -2,17 +2,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_actions.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_state.dart';
-import 'package:pass_emploi_app/redux/app_state.dart';
 
 import '../../../doubles/stubs.dart';
 import '../../../dsl/app_state_dsl.dart';
 import '../../../dsl/sut_redux.dart';
-import '../../../utils/expects.dart';
 import '../../../utils/test_setup.dart';
 
 void main() {
   final sut = StoreSut();
-  sut.setSkipFirstChange(true);
 
   group("when creating commentaire action", () {
     sut.when(() => ActionCommentaireCreateRequestAction(actionId: "actionId", comment: "new comment"));
@@ -24,12 +21,12 @@ void main() {
 
       test("should load and display success", () {
         sut.givenStore = givenState().actionWithComments().loggedInMiloUser().store(injectedRepository);
-        sut.thenExpectChangingStatesInOrder([_shouldLoad, _shouldSucceed]);
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
       });
 
       test("should load and add commentaire in list", () {
         sut.givenStore = givenState().actionWithComments().loggedInMiloUser().store(injectedRepository);
-        sut.thenExpectChangingStatesInOrder([_shouldLoad, _shouldAddCommentInList]);
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldAddCommentInList()]);
       });
     });
 
@@ -40,24 +37,29 @@ void main() {
 
       test("should load and display failure", () {
         sut.givenStore = givenState().actionWithComments().loggedInMiloUser().store(injectedRepository);
-        sut.thenExpectChangingStatesInOrder([_shouldLoad, _shouldFail]);
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
       });
     });
   });
 }
 
-void _shouldLoad(AppState state) => expect(state.actionCommentaireCreateState, ActionCommentaireCreateLoadingState());
+Matcher _shouldLoad() => StateIs<ActionCommentaireCreateLoadingState>((state) => state.actionCommentaireCreateState);
 
-void _shouldFail(AppState state) =>
-    expect(state.actionCommentaireCreateState, ActionCommentaireCreateFailureState("new comment"));
-
-void _shouldSucceed(AppState state) {
-  expect(state.actionCommentaireCreateState, isA<ActionCommentaireCreateSuccessState>());
+Matcher _shouldFail() {
+  return StateIs<ActionCommentaireCreateFailureState>(
+    (state) => state.actionCommentaireCreateState,
+    (state) => expect(state.comment, "new comment"),
+  );
 }
 
-void _shouldAddCommentInList(AppState state) {
-  expectTypeThen<ActionCommentaireListSuccessState>(state.actionCommentaireListState, (successState) {
-    expect(successState.comments, isNotEmpty);
-    expect(successState.comments.last.content, "new comment");
-  });
+Matcher _shouldSucceed() => StateIs<ActionCommentaireCreateSuccessState>((state) => state.actionCommentaireCreateState);
+
+Matcher _shouldAddCommentInList() {
+  return StateIs<ActionCommentaireListSuccessState>(
+    (state) => state.actionCommentaireListState,
+    (state) {
+      expect(state.comments, isNotEmpty);
+      expect(state.comments.last.content, "new comment");
+    },
+  );
 }
