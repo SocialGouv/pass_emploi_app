@@ -18,10 +18,10 @@ class TutorialMiddleware extends MiddlewareClass<AppState> {
     next(action);
     if (action is LoginSuccessAction) {
       final loginState = store.state.loginState;
-      if (loginState is LoginSuccessState) {
+      if (loginState is LoginSuccessState && await _repository.shouldShowTutorial()) {
         final loginMode = loginState.user.loginMode;
-        if (_requestMiloTutorial(loginMode)) pages = await _repository.getMiloTutorial();
-        if (_requestPoleEmploiTutorial(loginMode)) pages = await _repository.getPoleEmploiTutorial();
+        if (_requestMiloTutorial(loginMode)) pages = _repository.getMiloTutorial();
+        if (_requestPoleEmploiTutorial(loginMode)) pages = _repository.getPoleEmploiTutorial();
         if (pages.isNotEmpty) store.dispatch(TutorialSuccessAction(pages));
       }
     }

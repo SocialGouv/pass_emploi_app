@@ -9,15 +9,15 @@ import 'package:pass_emploi_app/features/user_action/list/user_action_list_state
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_actions.dart';
 import 'package:pass_emploi_app/features/user_action/update/user_action_update_state.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
+import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
-
-enum StateSource { agenda, userActions }
 
 enum DeleteDisplayState { NOT_INIT, SHOW_LOADING, SHOW_DELETE_ERROR, TO_DISMISS_AFTER_DELETION }
 
@@ -41,67 +41,83 @@ class UserActionDetailDateEcheanceViewModel extends Equatable {
 }
 
 class UserActionDetailsViewModel extends Equatable {
+  final String id;
+  final String title;
+  final String subtitle;
+  final bool withSubtitle;
+  final UserActionStatus status;
+  final String creator;
+  final bool withDeleteOption;
   final UserActionDetailDateEcheanceViewModel? dateEcheanceViewModel;
   final Function(String actionId, UserActionStatus newStatus) onRefreshStatus;
   final Function(String actionId) onDelete;
-  final Function(String actionId) deleteFromList;
   final Function() resetUpdateStatus;
   final UpdateDisplayState updateDisplayState;
   final DeleteDisplayState deleteDisplayState;
-  final bool withComments;
 
   UserActionDetailsViewModel._({
+    required this.id,
+    required this.title,
+    required this.subtitle,
+    required this.withSubtitle,
+    required this.status,
+    required this.creator,
+    required this.withDeleteOption,
     required this.dateEcheanceViewModel,
     required this.onRefreshStatus,
     required this.onDelete,
-    required this.deleteFromList,
     required this.resetUpdateStatus,
     required this.updateDisplayState,
     required this.deleteDisplayState,
-    required this.withComments,
   });
 
-  // tests pour la source agenda
-  factory UserActionDetailsViewModel.create(Store<AppState> store, String userActionId, StateSource source) {
-    switch (source) {
-      case StateSource.agenda:
-        return UserActionDetailsViewModel.createFromUserAgendaState(store, userActionId);
-      case StateSource.userActions:
-        return UserActionDetailsViewModel.createFromUserActionListState(store, userActionId);
-    }
-  }
-
-  factory UserActionDetailsViewModel.createFromUserAgendaState(Store<AppState> store, String userActionId) {
-    final agendaState = store.state.agendaState as AgendaSuccessState;
-    final userAction = agendaState.agenda.actions.firstWhereOrNull((e) => e.id == userActionId);
-    return UserActionDetailsViewModel.createWithAction(userAction, store);
-  }
-
-  factory UserActionDetailsViewModel.createFromUserActionListState(Store<AppState> store, String userActionId) {
-    final userActionListState = store.state.userActionListState as UserActionListSuccessState;
-    final userAction = userActionListState.userActions.firstWhereOrNull((e) => e.id == userActionId);
-    return UserActionDetailsViewModel.createWithAction(userAction, store);
-  }
-
-  factory UserActionDetailsViewModel.createWithAction(UserAction? userAction, Store<AppState> store) {
+  factory UserActionDetailsViewModel.create(Store<AppState> store, UserActionStateSource source, String userActionId) {
+    final userAction = _getAction(store, source, userActionId);
     final updateState = store.state.userActionUpdateState;
     final deleteState = store.state.userActionDeleteState;
     final commentsState = store.state.actionCommentaireListState;
-    final successCommentsState = commentsState is ActionCommentaireListSuccessState;
+    final hasComments = commentsState is ActionCommentaireListSuccessState ? commentsState.comments.isNotEmpty : false;
     return UserActionDetailsViewModel._(
+      id: userAction != null ? userAction.id : '',
+      title: userAction != null ? userAction.content : '',
+      subtitle: userAction != null ? userAction.comment : '',
+      withSubtitle: userAction != null ? userAction.comment.isNotEmpty : false,
+      status: userAction != null ? userAction.status : UserActionStatus.DONE,
+      creator: userAction != null ? _displayName(userAction.creator) : '',
+      withDeleteOption: userAction?.creator is JeuneActionCreator && !hasComments,
       dateEcheanceViewModel: _dateEcheanceViewModel(userAction),
       onRefreshStatus: (actionId, newStatus) => _refreshStatus(store, actionId, newStatus),
       onDelete: (actionId) => store.dispatch(UserActionDeleteRequestAction(actionId)),
-      deleteFromList: (actionId) => _deleteFromActionList(store, actionId),
       resetUpdateStatus: () => store.dispatch(UserActionUpdateResetAction()),
       updateDisplayState: _updateStateDisplayState(updateState),
       deleteDisplayState: _deleteStateDisplayState(deleteState),
-      withComments: successCommentsState ? commentsState.comments.isNotEmpty : false,
     );
   }
 
   @override
-  List<Object?> get props => [dateEcheanceViewModel, updateDisplayState, deleteDisplayState, withComments];
+  List<Object?> get props => [
+        id,
+        title,
+        subtitle,
+        withSubtitle,
+        status,
+        creator,
+        withDeleteOption,
+        dateEcheanceViewModel,
+        updateDisplayState,
+        deleteDisplayState,
+      ];
+}
+
+UserAction? _getAction(Store<AppState> store, UserActionStateSource stateSource, String actionId) {
+  switch (stateSource) {
+    case UserActionStateSource.agenda:
+      final state = store.state.agendaState as AgendaSuccessState;
+      return state.agenda.actions.firstWhereOrNull((e) => e.id == actionId);
+    case UserActionStateSource.list:
+      final state = store.state.userActionListState as UserActionListSuccessState;
+      return state.userActions.firstWhereOrNull((e) => e.id == actionId);
+  }
 }
 
 UserActionDetailDateEcheanceViewModel? _dateEcheanceViewModel(UserAction? userAction) {
@@ -150,12 +166,8 @@ UpdateDisplayState _updateStateDisplayState(UserActionUpdateState state) {
   return UpdateDisplayState.NOT_INIT;
 }
 
+String _displayName(UserActionCreator creator) => creator is ConseillerActionCreator ? creator.name : Strings.you;
+
 void _refreshStatus(Store<AppState> store, String actionId, UserActionStatus newStatus) {
   store.dispatch(UserActionUpdateRequestAction(actionId: actionId, newStatus: newStatus));
-}
-
-void _deleteFromActionList(Store<AppState> store, String actionId) async {
-  // Wait some delay to ensure pop the details action page
-  await Future.delayed(Duration(milliseconds: 350));
-  store.dispatch(UserActionDeleteFromListAction(actionId));
 }

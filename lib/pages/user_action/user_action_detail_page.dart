@@ -12,7 +12,7 @@ import 'package:pass_emploi_app/pages/user_action/action_commentaires_page.dart'
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action/commentaires/action_commentaire_view_model.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_details_view_model.dart';
-import 'package:pass_emploi_app/presentation/user_action/user_action_view_model.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -34,13 +34,13 @@ import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 import 'package:pass_emploi_app/widgets/user_action_status_group.dart';
 
 class UserActionDetailPage extends StatefulWidget {
-  final UserActionViewModel actionViewModel;
-  final StateSource source;
+  final String userActionId;
+  final UserActionStateSource source;
 
-  UserActionDetailPage._(this.actionViewModel, this.source);
+  UserActionDetailPage._(this.userActionId, this.source);
 
-  static MaterialPageRoute<void> materialPageRoute(UserActionViewModel actionViewModel, StateSource source) {
-    return MaterialPageRoute(builder: (context) => UserActionDetailPage._(actionViewModel, source));
+  static MaterialPageRoute<void> materialPageRoute(String userActionId, UserActionStateSource source) {
+    return MaterialPageRoute(builder: (context) => UserActionDetailPage._(userActionId, source));
   }
 
   @override
@@ -48,15 +48,7 @@ class UserActionDetailPage extends StatefulWidget {
 }
 
 class _ActionDetailPageState extends State<UserActionDetailPage> {
-  late UserActionViewModel actionViewModel;
-  late UserActionStatus status;
-
-  @override
-  void initState() {
-    super.initState();
-    actionViewModel = widget.actionViewModel;
-    status = widget.actionViewModel.status;
-  }
+  UserActionStatus? newStatus;
 
   @override
   Widget build(BuildContext context) {
@@ -69,16 +61,17 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
             store.dispatch(UserActionUpdateResetAction());
             store.dispatch(UserActionDeleteResetAction());
           },
-          converter: (store) => UserActionDetailsViewModel.create(store, actionViewModel.id, widget.source),
-          builder: (context, detailsViewModel) => _build(context, detailsViewModel),
-          onDidChange: (_, viewModel) => _pageNavigationHandling(context, viewModel),
+          converter: (store) => UserActionDetailsViewModel.create(store, widget.source, widget.userActionId),
+          builder: _build,
+          onDidChange: (previousVm, newVm) => _pageNavigationHandling(newVm),
           distinct: true,
         ),
       ),
     );
   }
 
-  Widget _build(BuildContext context, UserActionDetailsViewModel detailsViewModel) {
+  Widget _build(BuildContext context, UserActionDetailsViewModel viewModel) {
+    _initializeNewStatus(viewModel);
     return Stack(
       children: [
         Column(
@@ -94,30 +87,30 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       SizedBox(height: Margins.spacing_l),
-                      _Title(title: actionViewModel.title),
+                      _Title(title: viewModel.title),
                       SizedBox(height: Margins.spacing_m),
                       _Description(
-                        withSubtitle: actionViewModel.withSubtitle,
-                        subtitle: actionViewModel.subtitle,
+                        withSubtitle: viewModel.withSubtitle,
+                        subtitle: viewModel.subtitle,
                       ),
                       SizedBox(height: Margins.spacing_base),
                       _Separator(),
                       SizedBox(height: Margins.spacing_m),
-                      _Creator(name: actionViewModel.creator),
+                      _Creator(name: viewModel.creator),
                       SizedBox(height: Margins.spacing_m),
-                      if (detailsViewModel.dateEcheanceViewModel != null) ...[
+                      if (viewModel.dateEcheanceViewModel != null) ...[
                         SizedBox(height: Margins.spacing_base),
                         DateEcheanceInDetail(
-                          icons: detailsViewModel.dateEcheanceViewModel!.icons,
-                          formattedTexts: detailsViewModel.dateEcheanceViewModel!.formattedTexts,
-                          textColor: detailsViewModel.dateEcheanceViewModel!.textColor,
-                          backgroundColor: detailsViewModel.dateEcheanceViewModel!.backgroundColor,
+                          icons: viewModel.dateEcheanceViewModel!.icons,
+                          formattedTexts: viewModel.dateEcheanceViewModel!.formattedTexts,
+                          textColor: viewModel.dateEcheanceViewModel!.textColor,
+                          backgroundColor: viewModel.dateEcheanceViewModel!.backgroundColor,
                         ),
                       ],
                       SizedBox(height: Margins.spacing_xl),
                       _Separator(),
                       SizedBox(height: Margins.spacing_base),
-                      _CommentCard(actionId: actionViewModel.id, actionTitle: actionViewModel.title),
+                      _CommentCard(actionId: viewModel.id, actionTitle: viewModel.title),
                       SizedBox(height: Margins.spacing_l),
                       _Separator(),
                       SizedBox(height: Margins.spacing_base),
@@ -130,34 +123,40 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
             Padding(
               padding: const EdgeInsets.all(24),
               child: PrimaryActionButton(
-                onPressed: (actionViewModel.status != status)
-                    ? () => detailsViewModel.onRefreshStatus(actionViewModel.id, status)
-                    : null,
+                onPressed:
+                    (viewModel.status != newStatus) ? () => viewModel.onRefreshStatus(viewModel.id, newStatus!) : null,
                 label: Strings.refreshActionStatus,
               ),
             ),
-            if (actionViewModel.withDeleteOption && !detailsViewModel.withComments)
-              _DeleteAction(viewModel: detailsViewModel, onDeleteAction: _onDeleteAction),
+            if (viewModel.withDeleteOption)
+              _DeleteAction(
+                viewModel: viewModel,
+                onDeleteAction: _onDeleteAction,
+              ),
           ],
         ),
-        if (_isLoading(detailsViewModel)) LoadingOverlay(),
+        if (_isLoading(viewModel)) LoadingOverlay(),
       ],
     );
   }
 
-  bool _isLoading(UserActionDetailsViewModel detailsViewModel) {
-    return detailsViewModel.updateDisplayState == UpdateDisplayState.SHOW_LOADING ||
-        detailsViewModel.deleteDisplayState == DeleteDisplayState.SHOW_LOADING;
+  void _initializeNewStatus(UserActionDetailsViewModel viewModel) {
+    newStatus ??= viewModel.status;
   }
 
-  void _onDeleteAction(UserActionDetailsViewModel detailsViewModel) {
-    if (detailsViewModel.deleteDisplayState != DeleteDisplayState.SHOW_LOADING) {
-      detailsViewModel.onDelete(actionViewModel.id);
+  bool _isLoading(UserActionDetailsViewModel viewModel) {
+    return viewModel.updateDisplayState == UpdateDisplayState.SHOW_LOADING ||
+        viewModel.deleteDisplayState == DeleteDisplayState.SHOW_LOADING;
+  }
+
+  void _onDeleteAction(UserActionDetailsViewModel viewModel) {
+    if (viewModel.deleteDisplayState != DeleteDisplayState.SHOW_LOADING) {
+      viewModel.onDelete(viewModel.id);
       MatomoTracker.trackScreenWithName(AnalyticsActionNames.deleteUserAction, AnalyticsScreenNames.userActionDetails);
     }
   }
 
-  void _pageNavigationHandling(BuildContext context, UserActionDetailsViewModel viewModel) {
+  void _pageNavigationHandling(UserActionDetailsViewModel viewModel) {
     if (viewModel.updateDisplayState == UpdateDisplayState.SHOW_UPDATE_ERROR) {
       showFailedSnackBar(context, Strings.updateStatusError);
       viewModel.resetUpdateStatus();
@@ -169,7 +168,6 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
     } else if (viewModel.deleteDisplayState == DeleteDisplayState.TO_DISMISS_AFTER_DELETION) {
       Navigator.pop(context, DeleteDisplayState.TO_DISMISS_AFTER_DELETION);
       showSuccessfulSnackBar(context, Strings.deleteActionSuccess);
-      viewModel.deleteFromList(actionViewModel.id);
     }
   }
 
@@ -185,8 +183,12 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
         Padding(
           padding: const EdgeInsets.only(bottom: Margins.spacing_base),
           child: UserActionStatusGroup(
-            status: status,
-            update: (newState) => setState(() => status = newState),
+            status: newStatus!,
+            update: (status) {
+              setState(() {
+                newStatus = status;
+              });
+            },
           ),
         ),
       ],

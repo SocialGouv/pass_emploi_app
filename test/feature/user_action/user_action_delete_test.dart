@@ -18,7 +18,7 @@ void main() {
     final store = testStoreFactory.initializeReduxStore(
       initialState: givenState() //
           .loggedInUser() //
-          .agenda(actions: actions, rendezvous: []) //
+          .agenda(actions: actions) //
           .withActions(actions),
     );
     final displayedLoading = store.onChange.any((e) => e.userActionDeleteState is UserActionDeleteLoadingState);
@@ -33,24 +33,26 @@ void main() {
     expect(successAppState.userActionDeleteState is UserActionDeleteSuccessState, isTrue);
   });
 
-  test("delete from list action should delete user action from actions list", () async {
+  test("delete user action when repo succeeds should locally remove action from UserActionListState and AgendaState",
+      () async {
     // Given
     final actions = [mockNotStartedAction(actionId: "1"), mockNotStartedAction(actionId: "2")];
     final testStoreFactory = TestStoreFactory();
     testStoreFactory.pageActionRepository = PageActionRepositorySuccessStub();
     final store = testStoreFactory.initializeReduxStore(
-      initialState: givenState()
-          .loggedInUser()
-          .agenda(actions: actions, rendezvous: [])
-          .withActions(actions)
-          .deleteActionFromList(),
+      initialState: givenState() //
+          .loggedInUser() //
+          .agenda(actions: actions) //
+          .withActions(actions),
     );
-    final success = store.onChange.firstWhere((e) => e.userActionDeleteState is UserActionDeleteFromListState);
+    final displayedLoading = store.onChange.any((e) => e.userActionDeleteState is UserActionDeleteLoadingState);
+    final success = store.onChange.firstWhere((e) => e.userActionDeleteState is UserActionDeleteSuccessState);
 
     // When
-    store.dispatch(UserActionDeleteFromListAction("1"));
+    store.dispatch(UserActionDeleteRequestAction("1"));
 
     // Then
+    expect(await displayedLoading, true);
     final successAppState = await success;
     expect(successAppState.userActionListState is UserActionListSuccessState, isTrue);
     expect((successAppState.userActionListState as UserActionListSuccessState).userActions.length, 1);

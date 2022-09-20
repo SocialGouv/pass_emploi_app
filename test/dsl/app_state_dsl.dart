@@ -54,6 +54,8 @@ extension AppStateDSL on AppState {
 
   AppState loggedInPoleEmploiUser() => copyWith(loginState: successPoleEmploiUserState());
 
+  AppState withDemoMode() => copyWith(demoState: true);
+
   AppState rendezvous(List<Rendezvous> rendezvous) => copyWith(rendezvousState: RendezvousState.successful(rendezvous));
 
   AppState rendezvousNotInitialized() => copyWith(rendezvousState: RendezvousState.notInitialized());
@@ -175,28 +177,34 @@ extension AppStateDSL on AppState {
   }
 
   AppState emptyAgenda() {
-    final agenda = Agenda(actions: [], rendezvous: [], delayedActions: 0, dateDeDebut: DateTime(2042));
+    final agenda = Agenda(actions: [], demarches: [], rendezvous: [], delayedActions: 0, dateDeDebut: DateTime(2042));
     return copyWith(agendaState: AgendaSuccessState(agenda));
   }
 
   AppState agenda({
-    required List<UserAction> actions,
-    required List<Rendezvous> rendezvous,
+    List<UserAction>? actions,
+    List<Demarche>? demarches,
+    List<Rendezvous>? rendezvous,
     int delayedActions = 0,
     DateTime? dateDeDebut,
   }) {
     return copyWith(
       agendaState: AgendaSuccessState(Agenda(
-        actions: actions,
-        rendezvous: rendezvous,
+        actions: actions ?? [],
+        demarches: demarches ?? [],
+        rendezvous: rendezvous ?? [],
         delayedActions: delayedActions,
         dateDeDebut: dateDeDebut ?? DateTime(2042),
       )),
     );
   }
 
+  AppState withUserActions(List<UserAction> userActions) {
+    return copyWith(userActionListState: UserActionListSuccessState(userActions));
+  }
+
   AppState withDemarches(List<Demarche> demarches) {
-    return copyWith(demarcheListState: DemarcheListSuccessState(demarches, true));
+    return copyWith(demarcheListState: DemarcheListSuccessState(demarches));
   }
 
   AppState updateDemarcheNotInit() {
@@ -245,10 +253,6 @@ extension AppStateDSL on AppState {
 
   AppState deleteActionSuccess() {
     return copyWith(userActionDeleteState: UserActionDeleteSuccessState());
-  }
-
-  AppState deleteActionFromList() {
-    return copyWith(userActionDeleteState: UserActionDeleteFromListState());
   }
 
   AppState deleteActionLoading() {

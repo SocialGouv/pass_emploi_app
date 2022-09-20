@@ -114,9 +114,11 @@ class Strings {
   static String demarcheTabTitle = "Démarches";
 
   // Agenda
-  static String agendaEmpty = "Vous n'avez pas encore d'actions ni de rendez-vous prévus cette semaine.";
+  static String agendaEmptyMilo = "Vous n'avez pas encore d'actions ni de rendez-vous prévus cette semaine.";
+  static String agendaEmptyPoleEmploi = "Vous n'avez pas encore de démarches ni de rendez-vous prévus cette semaine.";
   static String agendaError = "Erreur lors de la récupération de vos actions et rendez-vous";
-  static String agendaNoActionNoRendezvous = "Pas d’action ni de rendez-vous";
+  static String agendaEmptyForDayMilo = "Pas d’action ni de rendez-vous";
+  static String agendaEmptyForDayPoleEmploi = "Pas de démarche ni de rendez-vous";
   static String nextWeek = "Semaine prochaine";
   static String semaineEnCours = "Semaine en cours";
 
@@ -225,6 +227,8 @@ class Strings {
   static String rappelSwitch = 'Recevoir une notification de rappel 3 jours avant l’échéance';
 
   static String numberOfActions(int count) => "$count actions";
+
+  static String numberOfDemarches(int count) => "$count démarches";
   static String see = "Voir";
 
   // Commentaires d'action
@@ -576,29 +580,9 @@ class Strings {
   static String developerOptionMatomoPage = 'Matomo';
 
   // Tutorial
-  static String tutoTitreOffreDebutant = "Trouvez plus facilement des offres d’emploi pour débutants";
-  static String tutoDescriptionOffreDebutant =
-      "Affichez uniquement les offres d’emploi “débutants acceptés” dans votre liste de résultats de recherche !";
-
-  static String tutoTitreOffrePartage = "Partagez vos offres d’emploi à votre conseiller";
-  static String tutoDescriptionOffrePartage =
-      "Vous pouvez désormais partager une offre d’emploi à votre conseiller directement depuis le chat";
-
-  static String tutoTitleActionComments = "Commentez vos actions !";
-  static String tutoDescriptionActionComments =
-      "Vous pouvez ajouter des commentaires à vos actions et ainsi les détailler davantage !";
-
-  static String tutoTitreMandatoryDate = "Renseignez une date à vos actions";
-  static String tutoDescriptionMandatoryDate =
-      "Vous devez désormais renseigner une date d'échéance lorsque vous créez une action";
-
   static String tutoTitreAgenda = "Consultez votre agenda de la semaine !";
   static String tutoDescriptionAgenda =
-      "Retrouvez la liste de vos actions et rendez-vous de la semaine à un seul endroit";
-
-  static String tutoTitreCreationDemarches = "Renseignez vos démarches";
-  static String tutoDescriptionCreationDemarches =
-      "Vous pouvez désormais renseigner vos démarches directement sur l'application et ainsi recevoir des rappels et/ou tenir informé votre conseiller";
+      "Retrouvez la liste de vos démarches et rendez-vous de la semaine à un seul endroit";
 
   static String seeLater = "Voir plus tard";
   static String finish = "Terminer";

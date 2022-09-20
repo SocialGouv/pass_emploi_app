@@ -6,19 +6,15 @@ class TutorialRepository {
 
   TutorialRepository(this._preferences);
 
-  Future<List<Tutorial>> getMiloTutorial() async {
-    return await _shouldShowTutorial() ? Tutorial.milo.toList() : [];
-  }
+  List<Tutorial> getMiloTutorial() => Tutorial.milo.toList();
 
-  Future<List<Tutorial>> getPoleEmploiTutorial() async {
-    return await _shouldShowTutorial() ? Tutorial.poleEmploi.toList() : [];
-  }
+  List<Tutorial> getPoleEmploiTutorial() => Tutorial.poleEmploi.toList();
 
   Future<void> setTutorialRead() async {
     await _preferences.write(key: 'tutorialRead-' + Tutorial.version, value: 'read');
   }
 
-  Future<bool> _shouldShowTutorial() async {
+  Future<bool> shouldShowTutorial() async {
     final String? tutorialRead = await _preferences.read(key: 'tutorialRead-' + Tutorial.version);
     return tutorialRead == null;
   }

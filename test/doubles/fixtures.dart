@@ -335,6 +335,32 @@ UserAction userActionStub({String? id, DateTime? dateEcheance}) {
   );
 }
 
+Demarche demarcheStub({String? id, DateTime? dateEcheance}) {
+  return Demarche(
+    id: id ?? "1",
+    content: "Identification de ses compétences avec pole-emploi.fr",
+    status: DemarcheStatus.IN_PROGRESS,
+    endDate: dateEcheance ?? parseDateTimeUtcWithCurrentTimeZone('2021-12-21T09:00:00.000Z'),
+    deletionDate: null,
+    createdByAdvisor: true,
+    label: "Mon (nouveau) métier",
+    possibleStatus: [
+      DemarcheStatus.CANCELLED,
+      DemarcheStatus.DONE,
+      DemarcheStatus.NOT_STARTED,
+      DemarcheStatus.IN_PROGRESS
+    ],
+    creationDate: parseDateTimeUtcWithCurrentTimeZone('2022-05-11T09:04:00.000Z'),
+    modifiedByAdvisor: false,
+    sousTitre: "Par un autre moyen",
+    titre: "Identification de ses points forts et de ses compétences",
+    modificationDate: null,
+    attributs: [
+      DemarcheAttribut(key: "metier", value: "Agriculture"),
+    ],
+  );
+}
+
 UserAction mockUserAction({
   String? id,
   String? content,
@@ -359,6 +385,7 @@ Demarche mockDemarche({
   DemarcheStatus status = DemarcheStatus.NOT_STARTED,
   DateTime? endDate,
   DateTime? deletionDate,
+  List<DemarcheAttribut>? attributs,
 }) {
   return Demarche(
     id: id,
@@ -374,7 +401,7 @@ Demarche mockDemarche({
     sousTitre: null,
     titre: null,
     modificationDate: null,
-    attributs: [],
+    attributs: attributs ?? [],
   );
 }
 

@@ -2,9 +2,10 @@ import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
+import 'package:pass_emploi_app/features/user_action/list/user_action_list_state.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
-import 'package:pass_emploi_app/models/user_action_creator.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
+import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -22,50 +23,37 @@ class UserActionDateEcheanceViewModel extends Equatable {
   List<Object?> get props => [formattedTexts, color];
 }
 
-class UserActionViewModel extends Equatable {
+class UserActionCardViewModel extends Equatable {
   final String id;
   final String title;
   final String subtitle;
   final bool withSubtitle;
-  final UserActionStatus status;
   final UserActionDateEcheanceViewModel? dateEcheanceViewModel;
-  final String creator;
   final UserActionTagViewModel? tag;
-  final bool withDeleteOption;
 
-  UserActionViewModel({
+  UserActionCardViewModel({
     required this.id,
     required this.title,
     required this.subtitle,
     required this.withSubtitle,
-    required this.status,
     required this.dateEcheanceViewModel,
-    required this.creator,
     required this.tag,
-    required this.withDeleteOption,
   });
 
-  // todo Tests (low) avec une façon élégeante de faire 2-en-1
-  factory UserActionViewModel.createFromAgendaState(Store<AppState> store, String actionId) {
-    final state = store.state.agendaState;
-    if (state is! AgendaSuccessState) throw Exception('Invalid state.');
-    final action = state.agenda.actions.where((e) => e.id == actionId).firstOrNull;
-    if (action == null) throw Exception('No UserAction matching id $actionId');
-    return UserActionViewModel.create(action);
-  }
-
-  factory UserActionViewModel.create(UserAction userAction) {
-    final isLate = userAction.isLate();
-    return UserActionViewModel(
-      id: userAction.id,
-      title: userAction.content,
-      subtitle: userAction.comment,
-      withSubtitle: userAction.comment.isNotEmpty,
-      status: userAction.status,
-      dateEcheanceViewModel: _dateEcheanceViewModel(userAction, isLate),
-      creator: _displayName(userAction.creator),
-      tag: _userActionTagViewModel(userAction.status),
-      withDeleteOption: userAction.creator is! ConseillerActionCreator,
+  factory UserActionCardViewModel.create({
+    required Store<AppState> store,
+    required UserActionStateSource stateSource,
+    required String actionId,
+    required bool simpleCard,
+  }) {
+    final action = _getAction(store, stateSource, actionId);
+    return UserActionCardViewModel(
+      id: action.id,
+      title: action.content,
+      subtitle: action.comment,
+      withSubtitle: simpleCard ? false : action.comment.isNotEmpty,
+      dateEcheanceViewModel: simpleCard ? null : _dateEcheanceViewModel(action, action.isLate()),
+      tag: _userActionTagViewModel(action.status),
     );
   }
 
@@ -75,14 +63,34 @@ class UserActionViewModel extends Equatable {
         title,
         subtitle,
         withSubtitle,
-        status,
-        creator,
         tag,
-        withDeleteOption,
       ];
 }
 
-String _displayName(UserActionCreator creator) => creator is ConseillerActionCreator ? creator.name : Strings.you;
+UserAction _getAction(Store<AppState> store, UserActionStateSource stateSource, String actionId) {
+  switch (stateSource) {
+    case UserActionStateSource.agenda:
+      return _getFromAgendaState(store, actionId);
+    case UserActionStateSource.list:
+      return _getFromUserActionState(store, actionId);
+  }
+}
+
+UserAction _getFromAgendaState(Store<AppState> store, String actionId) {
+  final state = store.state.agendaState;
+  if (state is! AgendaSuccessState) throw Exception('Invalid state.');
+  final action = state.agenda.actions.where((e) => e.id == actionId).firstOrNull;
+  if (action == null) throw Exception('No UserAction matching id $actionId');
+  return action;
+}
+
+UserAction _getFromUserActionState(Store<AppState> store, String actionId) {
+  final state = store.state.userActionListState;
+  if (state is! UserActionListSuccessState) throw Exception('Invalid state.');
+  final action = state.userActions.where((e) => e.id == actionId).firstOrNull;
+  if (action == null) throw Exception('No UserAction matching id $actionId');
+  return action;
+}
 
 UserActionDateEcheanceViewModel? _dateEcheanceViewModel(UserAction userAction, bool isLate) {
   if ([UserActionStatus.DONE, UserActionStatus.CANCELED].contains(userAction.status)) return null;

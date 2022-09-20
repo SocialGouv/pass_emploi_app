@@ -6,8 +6,8 @@ on:
   pull_request:
   workflow_dispatch:
 
-
 jobs:
+
   test:
     runs-on: ubuntu-latest
     steps:
@@ -15,9 +15,13 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: '12.x'
+      - name: Set Environment Variables
+        uses: ./.github/actions/setvars
+        with:
+          varFilePath: ./.github/variables/myvars.env
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.0.0'
+          flutter-version: ${{ env.FLUTTER_VERSION }}
       - name: Launch tests
         run: flutter test
 
@@ -40,9 +44,15 @@ jobs:
     needs: pre-build
     steps:
       - uses: actions/checkout@v2
+
+      - name: Set Environment Variables
+        uses: ./.github/actions/setvars
+        with:
+          varFilePath: ./.github/variables/myvars.env
+
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.0.0'
+          flutter-version: ${{ env.FLUTTER_VERSION }}
 
       - name: Write Google configuration for Android
         shell: bash
@@ -99,9 +109,21 @@ jobs:
     needs: pre-build
     steps:
       - uses: actions/checkout@v2
+
+      - name: Set Environment Variables
+        uses: ./.github/actions/setvars
+        with:
+          varFilePath: ./.github/variables/myvars.env
+
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.0.0'
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+
+      - name: Install Codemagic CLI tools
+        shell: bash
+        run: |
+          pip3 install codemagic-cli-tools
+          xcrun xcodebuild -version
 
       - name: Write p12 certificate
         shell: bash
@@ -116,15 +138,40 @@ jobs:
           p12-filepath: "ios/cert.p12"
           p12-password: ${{ secrets.P12_PASSWORD }}
 
-      - name: Install the provisioning profile
-        env:
-          STAGING_IOS_PROVISIONING_PROFILE_B64: ${{ secrets.STAGING_IOS_PROVISIONING_PROFILE_B64 }}
+      - name: Write Apple prod API Key
+        shell: bash
         run: |
-          PP_PATH=$RUNNER_TEMP/frfabriquesocialgouvpassemploistaging.mobileprovision
-          echo -n "$STAGING_IOS_PROVISIONING_PROFILE_B64" | base64 --decode --output $PP_PATH
-          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
-          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
-          cd ~/Library/MobileDevice/Provisioning\ Profiles
+          mkdir ~/.private_keys
+          echo "$APPLE_PROD_API_KEY_B64" | base64 --decode > ios/AuthKey_"$APPLE_PROD_API_KEY".p8
+        env:
+          APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
+          APPLE_PROD_API_KEY_B64: ${{ secrets.APPLE_PROD_API_KEY_B64 }}
+
+      - name: Set up a temporary keychain for code signing
+        shell: bash
+        run: |
+          keychain initialize
+
+      - name: Fetch the code signing files from App Store Connect (TODO p12 ?)
+        shell: bash
+        run: |
+          export APP_STORE_CONNECT_ISSUER_ID="$APPLE_PROD_API_ISSUER"
+          export APP_STORE_CONNECT_KEY_IDENTIFIER="$APPLE_PROD_API_KEY"
+          export APP_STORE_CONNECT_PRIVATE_KEY=`cat ios/AuthKey_"$APPLE_PROD_API_KEY".p8`
+          app-store-connect fetch-signing-files $(xcode-project detect-bundle-id) \
+            --platform IOS \
+            --type IOS_APP_ADHOC \
+            --certificate-key=@env:APPLE_P12_PRIVATE_KEY \
+            --create
+        env:
+          APPLE_PROD_API_ISSUER: ${{ secrets.APPLE_PROD_API_ISSUER }}
+          APPLE_PROD_API_KEY: ${{ secrets.APPLE_PROD_API_KEY }}
+          APPLE_P12_PRIVATE_KEY: ${{secrets.APPLE_P12_PRIVATE_KEY}}
+
+      - name: Add fetched certificates to keychain
+        shell: bash
+        run: |
+          keychain add-certificates
 
       - name: Write Google configuration for ios
         shell: bash
@@ -148,34 +195,35 @@ jobs:
         env:
           STAGING_OPTIONS_PLIST_B64: ${{ secrets.STAGING_OPTIONS_PLIST_B64 }}
 
-      - name: Build iOS application bundle
+      - name: Update Xcode project settings with fetched code signing profiles and create staging_export_options.plist
+        shell: bash
+        run: |
+          xcode-project use-profiles --export-options-plist ios/staging_export_options.plist
+
+      - name: Install Flutter dependencies
+        shell: bash
         run: |
           flutter pub get
-          flutter build ios \
+
+      - name: Install CocoaPods dependencies
+        shell: bash
+        run: |
+          find . -name "Podfile" -execdir pod install \;
+
+      - name: Build IPA with generated staging_export_options.plist
+        shell: bash
+        run: |
+          flutter build ipa \
           --flavor staging \
           --build-number=${{ needs.pre-build.outputs.date }} \
-          --release --no-codesign
-
-      - name: Build resolve Swift dependencies
-        run: xcodebuild -resolvePackageDependencies -workspace ios/Runner.xcworkspace -scheme staging -configuration Release-staging
-
-      - name: Build xArchive
-        run: |
-          xcodebuild -workspace ios/Runner.xcworkspace -scheme staging \
-          -configuration Release-staging DEVELOPMENT_TEAM=$APPLE_TEAM_ID \
-          -sdk 'iphoneos' \
-          -destination 'generic/platform=iOS' \
-          -archivePath build-output/app.xcarchive PROVISIONING_PROFILE_SPECIFIER=$APPLE_PROVISIONNING_PROFILE_ID \
-          clean archive CODE_SIGN_IDENTITY="iPhone Distribution: Fabrique numerique des ministeres sociaux"
-          xcodebuild -exportArchive -archivePath build-output/app.xcarchive -exportPath build-output/ios -exportOptionsPlist ios/StagingOptionsPlist.plist
-        env:
-          APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
-          APPLE_PROVISIONNING_PROFILE_ID: ${{ secrets.APPLE_STAGING_PROVISIONNING_PROFILE_ID }}
+          --export-options-plist=ios/staging_export_options.plist \
+          --no-pub \
+          --verbose
 
       - name: Deploy to staging
         run: |
           curl -sL https://firebase.tools | bash
-          firebase appdistribution:distribute build-output/ios/application_CEJ.ipa \
+          firebase appdistribution:distribute $(find $(pwd) -name "*.ipa") \
             --token "$STAGING_FIREBASE_CI_TOKEN" \
             --app "$STAGING_IOS_APP_ID" \
             --groups "$STAGING_FIREBASE_RELEASE_GROUPS"

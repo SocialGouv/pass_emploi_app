@@ -1,4 +1,3 @@
-import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:matomo/matomo.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
@@ -79,7 +78,6 @@ class TestStoreFactory {
   CampagneRepository campagneRepository = DummyCampagneRepository();
   ModeDemoRepository demoRepository = ModeDemoRepository();
   MatomoTracker matomoTracker = DummyMatomoTracker();
-  FirebaseRemoteConfig? remoteConfig;
   UpdateDemarcheRepository updateDemarcheRepository = DummyUpdateDemarcheRepository();
   CreateDemarcheRepository createDemarcheRepository = DummySuccessCreateDemarcheRepository();
   SearchDemarcheRepository searchDemarcheRepository = DummyDemarcheDuReferentielRepository();
@@ -124,7 +122,6 @@ class TestStoreFactory {
       demoRepository,
       campagneRepository,
       matomoTracker,
-      remoteConfig,
       updateDemarcheRepository,
       createDemarcheRepository,
       searchDemarcheRepository,

@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_detail_view_model.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -20,11 +21,12 @@ import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class DemarcheDetailPage extends StatelessWidget {
   final String id;
+  final DemarcheStateSource source;
 
-  DemarcheDetailPage._(this.id);
+  DemarcheDetailPage._(this.id, this.source);
 
-  static MaterialPageRoute<void> materialPageRoute(String id) {
-    return MaterialPageRoute(builder: (context) => DemarcheDetailPage._(id));
+  static MaterialPageRoute<void> materialPageRoute(String id, DemarcheStateSource source) {
+    return MaterialPageRoute(builder: (context) => DemarcheDetailPage._(id, source));
   }
 
   @override
@@ -34,7 +36,7 @@ class DemarcheDetailPage extends StatelessWidget {
       child: Scaffold(
         appBar: passEmploiAppBar(label: Strings.demarcheDetails, context: context),
         body: StoreConnector<AppState, DemarcheDetailViewModel>(
-          converter: (store) => DemarcheDetailViewModel.create(store, id),
+          converter: (store) => DemarcheDetailViewModel.create(store, source, id),
           onDidChange: (oldViewModel, newViewModel) async {
             if (newViewModel.updateDisplayState == DisplayState.FAILURE) {
               showFailedSnackBar(context, Strings.updateStatusError);

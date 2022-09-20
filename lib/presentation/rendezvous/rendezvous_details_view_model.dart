@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_view_model_helper.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -64,18 +65,13 @@ class RendezvousDetailsViewModel extends Equatable {
     this.description,
   });
 
-  factory RendezvousDetailsViewModel.createFromRendezvousState(Store<AppState> store, String rdvId, Platform platform) {
-    final rdv = getRendezvousFromRendezvousState(store, rdvId);
-    return RendezvousDetailsViewModel.create(rdv, platform);
-  }
-
-  // todo Tests (low) avec une façon élégeante de faire 2-en-1
-  factory RendezvousDetailsViewModel.createFromAgendaState(Store<AppState> store, String rdvId, Platform platform) {
-    final rdv = getRendezvousFromAgendaState(store, rdvId);
-    return RendezvousDetailsViewModel.create(rdv, platform);
-  }
-
-  factory RendezvousDetailsViewModel.create(Rendezvous rdv, Platform platform) {
+  factory RendezvousDetailsViewModel.create({
+    required Store<AppState> store,
+    required RendezvousStateSource source,
+    required String rdvId,
+    required Platform platform,
+  }) {
+    final rdv = getRendezvous(store, source, rdvId);
     final address = _address(rdv);
     final comment = (rdv.comment != null && rdv.comment!.trim().isNotEmpty) ? rdv.comment : null;
     final isConseillerPresent = rdv.withConseiller ?? false;

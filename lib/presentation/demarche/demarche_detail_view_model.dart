@@ -1,9 +1,10 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_state.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
+import 'package:pass_emploi_app/presentation/demarche/demarche_view_model_helper.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/model/formatted_text.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_tag_view_model.dart';
@@ -51,9 +52,8 @@ class DemarcheDetailViewModel extends Equatable {
     required this.updateDisplayState,
   });
 
-  factory DemarcheDetailViewModel.create(Store<AppState> store, String id) {
-    final Demarche demarche =
-        (store.state.demarcheListState as DemarcheListSuccessState).demarches.firstWhere((element) => element.id == id);
+  factory DemarcheDetailViewModel.create(Store<AppState> store, DemarcheStateSource stateSource, String demarcheId) {
+    final demarche = getDemarche(store, stateSource, demarcheId);
     demarche.possibleStatus.sort((a, b) => a.compareTo(b));
     final isLate = _isLate(demarche.status, demarche.endDate);
     final updateState = store.state.updateDemarcheState;
