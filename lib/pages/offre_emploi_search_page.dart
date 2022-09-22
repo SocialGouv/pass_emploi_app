@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/suggestions_recherche_actions.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
@@ -16,6 +17,7 @@ import 'package:pass_emploi_app/utils/keyboard.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
+import 'package:pass_emploi_app/widgets/voir_suggestions_recherche_bandeau.dart';
 
 class OffreEmploiSearchPage extends StatefulWidget {
   final bool onlyAlternance;
@@ -36,6 +38,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
     return Tracker(
       tracking: widget.onlyAlternance ? AnalyticsScreenNames.alternanceResearch : AnalyticsScreenNames.emploiResearch,
       child: StoreConnector<AppState, OffreEmploiSearchViewModel>(
+        onInit: (store) => store.dispatch(SuggestionsRechercheRequestAction()),
         converter: (store) => OffreEmploiSearchViewModel.create(store),
         onWillChange: (_, newViewModel) {
           if (newViewModel.displayState == DisplayState.CONTENT && _shouldNavigate) {
@@ -59,7 +62,8 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _separator(),
+          if (!viewModel.hasSuggestionsRecherche) _separator(),
+          if (viewModel.hasSuggestionsRecherche) _suggestionsBandeau(),
           Text(Strings.keyWordsTitle, style: TextStyles.textBaseBold),
           Text(Strings.keyWordsTextHint, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
           SizedBox(height: Margins.spacing_base),
@@ -94,6 +98,13 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
   bool _isError(OffreEmploiSearchViewModel viewModel) => viewModel.displayState == DisplayState.FAILURE;
 
   SizedBox _separator() => SizedBox(height: Margins.spacing_m);
+
+  Widget _suggestionsBandeau() {
+    return Padding(
+      padding: const EdgeInsets.only(top: Margins.spacing_s, bottom: Margins.spacing_m),
+      child: VoirSuggestionsRechercheBandeau(),
+    );
+  }
 
   TextFormField _keywordTextFormField() {
     return TextFormField(

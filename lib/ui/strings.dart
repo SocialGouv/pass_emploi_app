@@ -597,4 +597,7 @@ class Strings {
   static String supportMail = "support@pass-emploi.beta.gouv.fr";
   static String titleSupportMail = "Mon avis sur l’application";
   static String contentSupportMail = "Aidez-nous à améliorer l’application en nous donnant votre avis :\n";
+
+  // Suggestions de recherche
+  static String vosSuggestionsDeRecherche = "Vos recherches suggerées";
 }
