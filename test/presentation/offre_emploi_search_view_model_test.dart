@@ -16,7 +16,6 @@ import '../doubles/spies.dart';
 import '../dsl/app_state_dsl.dart';
 
 void main() {
-
   test("shoud display suggestions recherche if suggestions exist", () {
     // Given
     final store = givenState().loggedInUser().withSuggestionsRecherche().store();
