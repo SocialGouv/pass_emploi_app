@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
 import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_actions.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/domain.dart';
@@ -17,6 +18,7 @@ class ServiceCiviqueViewModel extends Equatable {
   final Function(Location? location) onSearchRequest;
   final Function(String? input) onInputLocation;
   final DisplayState displayState;
+  final bool hasSuggestionsRecherche;
   final Function() onLoadMore;
   final Function() onRetry;
   final List<ServiceCivique> items;
@@ -28,6 +30,7 @@ class ServiceCiviqueViewModel extends Equatable {
     required this.onSearchRequest,
     required this.onInputLocation,
     required this.displayState,
+    required this.hasSuggestionsRecherche,
     required this.onLoadMore,
     required this.items,
     required this.displayLoaderAtBottomOfList,
@@ -42,6 +45,7 @@ class ServiceCiviqueViewModel extends Equatable {
             .map((location) => LocationViewModel.fromLocation(location))
             .toList(),
         displayState: _displayState(searchResultState),
+        hasSuggestionsRecherche: _hasSuggestionsRecherche(store.state.suggestionsRechercheState),
         onSearchRequest: (location) {
           store.dispatch(SearchServiceCiviqueAction(location: location));
         },
@@ -54,7 +58,7 @@ class ServiceCiviqueViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [locations, displayState, items, displayLoaderAtBottomOfList];
+  List<Object?> get props => [locations, displayState, items, displayLoaderAtBottomOfList, hasSuggestionsRecherche];
 
   static DisplayState _displayState(ServiceCiviqueSearchResultState state) {
     if (state is ServiceCiviqueSearchResultDataState) {
@@ -72,6 +76,11 @@ class ServiceCiviqueViewModel extends Equatable {
   static List<ServiceCivique> _items(ServiceCiviqueSearchResultState resultsState) {
     return resultsState is ServiceCiviqueSearchResultDataState ? resultsState.offres : [];
   }
+}
+
+bool _hasSuggestionsRecherche(SuggestionsRechercheState suggestionsRechercheState) {
+  return (suggestionsRechercheState is SuggestionsRechercheSuccessState &&
+      suggestionsRechercheState.suggestions.isNotEmpty);
 }
 
 int? _filtersCount(ServiceCiviqueSearchResultState state) {
