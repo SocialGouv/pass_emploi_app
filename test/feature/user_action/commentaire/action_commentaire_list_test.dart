@@ -4,47 +4,43 @@ import 'package:pass_emploi_app/features/user_action/commentaire/list/action_com
 
 import '../../../doubles/stubs.dart';
 import '../../../dsl/app_state_dsl.dart';
+import '../../../dsl/matchers.dart';
+import '../../../dsl/sut_redux.dart';
 
 void main() {
-  test("comments should be fetched and displayed when screen loads", () async {
-    // Given
-    final store = givenState()
-        .loggedInMiloUser()
-        .store((factory) => {factory.actionCommentaireRepository = ActionCommentaireRepositorySuccessStub()});
+  final sut = StoreSut();
 
-    final displayedLoading =
-        store.onChange.any((e) => e.actionCommentaireListState is ActionCommentaireListLoadingState);
-    final successAppState =
-        store.onChange.firstWhere((e) => e.actionCommentaireListState is ActionCommentaireListSuccessState);
+  group("when requesting list", () {
+    sut.when(() => ActionCommentaireListRequestAction("actionId"));
 
-    // When
-    await store.dispatch(ActionCommentaireListRequestAction("actionId"));
+    test("should display loading and list when fetching succeed", () {
+      sut.givenStore = givenState()
+          .loggedInMiloUser()
+          .store((factory) => {factory.actionCommentaireRepository = ActionCommentaireRepositorySuccessStub()});
 
-    // Then
-    expect(await displayedLoading, true);
-    final appState = await successAppState;
-    expect(appState.actionCommentaireListState is ActionCommentaireListSuccessState, isTrue);
-    expect((appState.actionCommentaireListState as ActionCommentaireListSuccessState).comments.length, 2);
-    expect((appState.actionCommentaireListState as ActionCommentaireListSuccessState).comments[0].content,
-        "Premier commentaire");
+      sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldHaveCommentaireList()]);
+    });
+
+    test("should display load and failure when fetching failed", () {
+      sut.givenStore = givenState()
+          .loggedInMiloUser()
+          .store((factory) => {factory.actionCommentaireRepository = ActionCommentaireRepositoryFailureStub()});
+
+      sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
+    });
   });
+}
 
-  test("comments should display an error when fetching failed", () async {
-    // Given
-    final store = givenState()
-        .loggedInMiloUser()
-        .store((factory) => {factory.actionCommentaireRepository = ActionCommentaireRepositoryFailureStub()});
-    final displayedLoading =
-        store.onChange.any((e) => e.actionCommentaireListState is ActionCommentaireListLoadingState);
-    final failureAppState =
-        store.onChange.firstWhere((e) => e.actionCommentaireListState is ActionCommentaireListFailureState);
+Matcher _shouldLoad() => StateIs<ActionCommentaireListLoadingState>((state) => state.actionCommentaireListState);
 
-    // When
-    await store.dispatch(ActionCommentaireListRequestAction("actionId"));
+Matcher _shouldFail() => StateIs<ActionCommentaireListFailureState>((state) => state.actionCommentaireListState);
 
-    // Then
-    expect(await displayedLoading, true);
-    final appState = await failureAppState;
-    expect(appState.actionCommentaireListState is ActionCommentaireListFailureState, isTrue);
-  });
+Matcher _shouldHaveCommentaireList() {
+  return StateIs<ActionCommentaireListSuccessState>(
+    (state) => state.actionCommentaireListState,
+    (state) {
+      expect(state.comments.length, 2);
+      expect(state.comments[0].content, "Premier commentaire");
+    },
+  );
 }

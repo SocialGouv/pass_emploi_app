@@ -1,42 +1,36 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 
-import '../doubles/fixtures.dart';
-import '../utils/pass_emploi_mock_client.dart';
+import '../dsl/sut_repository.dart';
 
 void main() {
-  test("deleteUser should return true when response is valid", () async {
-    // Given
-    final httpClient = _successfulClientForDelete();
-    final repository = SuppressionCompteRepository("BASE_URL", httpClient);
+  final sut = RepositorySut<SuppressionCompteRepository>();
+  sut.givenRepository((client) => SuppressionCompteRepository("BASE_URL", client));
 
-    // When
-    final result = await repository.deleteUser("jeuneId");
+  group("deleteUser", () {
+    sut.when((repository) => repository.deleteUser("jeuneId"));
 
-    // Then
-    expect(result, isTrue);
-  });
+    group('when response is valid', () {
+      sut.givenResponseCode(204);
 
-  test("deleteUser should return false when response is invalid", () async {
-    // Given
-    final httpClient = _failureClient();
-    final repository = SuppressionCompteRepository("BASE_URL", httpClient);
+      test('request should be valid', () async {
+        await sut.expectRequestBody(
+          method: "DELETE",
+          url: "BASE_URL/jeunes/jeuneId",
+        );
+      });
 
-    // When
-    final result = await repository.deleteUser("jeuneId");
+      test('response should be valid', () async {
+        await sut.expectTrueAsResult();
+      });
+    });
 
-    // Then
-    expect(result, isFalse);
-  });
-}
+    group('when response is invalid', () {
+      sut.givenResponseCode(500);
 
-BaseClient _failureClient() => PassEmploiMockClient((request) async => Response("", 500));
-
-BaseClient _successfulClientForDelete() {
-  return PassEmploiMockClient((request) async {
-    if (request.method != "DELETE") return invalidHttpResponse();
-    if (!request.url.toString().startsWith("BASE_URL/jeunes/jeuneId")) return invalidHttpResponse();
-    return Response("", 204);
+      test('response should be false', () async {
+        await sut.expectFalseAsResult();
+      });
+    });
   });
 }

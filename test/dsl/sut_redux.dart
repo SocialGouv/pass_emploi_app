@@ -2,25 +2,23 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/src/store.dart';
 
-class SUT {
+import 'matchers.dart';
+
+class StoreSut {
   late Store<AppState> givenStore;
-  late dynamic Function() whenDispatching;
+  late dynamic Function() _whenDispatching;
 
-  Future<void> thenExpectChangingStatesInOrder(List<Function(AppState)> stateExpectations) async {
-    givenStore.prepareExpectInOrder(stateExpectations);
-    givenStore.dispatch(whenDispatching());
+  void when(dynamic Function() when) {
+    setUp(() => _whenDispatching = when);
   }
-}
 
-extension _StoreTestExtension on Store<AppState> {
-  Future<void> prepareExpectInOrder<S>(List<Function(AppState)> expectations) async {
-    final matchers = expectations.map(
-      (expectation) => predicate<AppState>((state) {
-        expectation(state);
-        return true;
-      }),
-    );
+  void thenExpectChangingStatesThroughOrder(List<Matcher> matchers) {
+    expect(givenStore.onChange, emitsInOrder(matchers.map((matcher) => emitsThrough(matcher))));
+    givenStore.dispatch(_whenDispatching());
+  }
 
-    return expect(onChange, emitsInOrder(matchers));
+  void debug(dynamic Function(AppState) info) {
+    expect(givenStore.onChange, emitsThrough(DebugMatcher(info)));
+    givenStore.dispatch(_whenDispatching());
   }
 }

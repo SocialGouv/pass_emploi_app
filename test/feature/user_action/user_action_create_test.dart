@@ -5,62 +5,57 @@ import 'package:pass_emploi_app/features/user_action/list/user_action_list_state
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 
-import '../../doubles/fixtures.dart';
 import '../../doubles/stubs.dart';
-import '../../utils/test_setup.dart';
+import '../../dsl/app_state_dsl.dart';
+import '../../dsl/matchers.dart';
+import '../../dsl/sut_redux.dart';
 
 void main() {
-  test("create user action when repo succeeds should display loading and then create user action", () async {
-    // Given
-    final testStoreFactory = TestStoreFactory();
-    testStoreFactory.pageActionRepository = PageActionRepositorySuccessStub();
-    final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
-    final displayedLoading = store.onChange.any((e) => e.userActionCreateState is UserActionCreateLoadingState);
-    final success = store.onChange.firstWhere((e) => e.userActionCreateState is UserActionCreateSuccessState);
+  final sut = StoreSut();
 
-    // When
-    store.dispatch(UserActionCreateRequestAction(_request()));
+  group("when creating user action", () {
+    sut.when(() => UserActionCreateRequestAction(_request()));
 
-    // Then
-    expect(await displayedLoading, true);
-    final successAppState = await success;
-    expect(successAppState.userActionCreateState is UserActionCreateSuccessState, isTrue);
+    group("when request succeed", () {
+      test("should display loading and success", () {
+        sut.givenStore = givenState()
+            .loggedInUser() //
+            .store((f) => {f.pageActionRepository = PageActionRepositorySuccessStub()});
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoadState(), _shouldSucceedState()]);
+      });
+
+      test("should update list", () {
+        sut.givenStore = givenState()
+            .loggedInUser() //
+            .store((f) => {f.pageActionRepository = PageActionRepositorySuccessStub()});
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoadList(), _shouldUpdateList()]);
+      });
+    });
+
+    group("when request fail", () {
+      test("should display loading and failure", () {
+        sut.givenStore = givenState()
+            .loggedInUser() //
+            .store((f) => {f.pageActionRepository = PageActionRepositoryFailureStub()});
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoadState(), _shouldFailState()]);
+      });
+    });
   });
+}
 
-  test("create user action when repo succeeds refresh user user_action", () async {
-    // Given
-    final testStoreFactory = TestStoreFactory();
-    testStoreFactory.pageActionRepository = PageActionRepositorySuccessStub();
-    final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
-    final displayedLoading = store.onChange.any((e) => e.userActionListState is UserActionListLoadingState);
-    final success = store.onChange.firstWhere((e) => e.userActionListState is UserActionListSuccessState);
+Matcher _shouldLoadState() => StateIs<UserActionCreateLoadingState>((state) => state.userActionCreateState);
 
-    // When
-    store.dispatch(UserActionCreateRequestAction(_request()));
+Matcher _shouldSucceedState() => StateIs<UserActionCreateSuccessState>((state) => state.userActionCreateState);
 
-    // Then
-    expect(await displayedLoading, true);
-    final successAppState = await success;
-    expect(successAppState.userActionListState is UserActionListSuccessState, isTrue);
-    expect((successAppState.userActionListState as UserActionListSuccessState).userActions, isNotEmpty);
-  });
+Matcher _shouldFailState() => StateIs<UserActionCreateFailureState>((state) => state.userActionCreateState);
 
-  test("create user action when repo fails should display loading and then show failure", () async {
-    // Given
-    final testStoreFactory = TestStoreFactory();
-    testStoreFactory.pageActionRepository = PageActionRepositoryFailureStub();
-    final store = testStoreFactory.initializeReduxStore(initialState: loggedInState());
-    final displayedLoading = store.onChange.any((e) => e.userActionCreateState is UserActionCreateLoadingState);
-    final failure = store.onChange.firstWhere((e) => e.userActionCreateState is UserActionCreateFailureState);
+Matcher _shouldLoadList() => StateIs<UserActionListLoadingState>((state) => state.userActionListState);
 
-    // When
-    store.dispatch(UserActionCreateRequestAction(_request()));
-
-    // Then
-    expect(await displayedLoading, true);
-    final failureAppState = await failure;
-    expect(failureAppState.userActionCreateState is UserActionCreateFailureState, isTrue);
-  });
+Matcher _shouldUpdateList() {
+  return StateIs<UserActionListSuccessState>(
+    (state) => state.userActionListState,
+    (state) => expect(state.userActions, isNotEmpty),
+  );
 }
 
 UserActionCreateRequest _request() {

@@ -1,86 +1,71 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:http/http.dart';
+import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 
 import '../doubles/fixtures.dart';
-import '../utils/mock_demo_client.dart';
-import '../utils/pass_emploi_mock_client.dart';
-import '../utils/test_assets.dart';
+import '../dsl/sut_repository.dart';
 
 void main() {
-  test(
-      'getOffreEmploiDetails when response is valid with all parameters should return offres and flag response as error-free',
-      () async {
-    // Given
-        final httpClient = PassEmploiMockClient((request) async {
-      if (request.method != "GET") return invalidHttpResponse();
-      if (!request.url.toString().startsWith("BASE_URL/offres-emploi/ID")) return invalidHttpResponse();
-      return Response.bytes(loadTestAssetsAsBytes("offre_emploi_details.json"), 200);
+  final sut = RepositorySut<OffreEmploiDetailsRepository>();
+  sut.givenRepository((client) => OffreEmploiDetailsRepository("BASE_URL", client));
+
+  group("getOffreEmploiDetails", () {
+    sut.when((repository) => repository.getOffreEmploiDetails(offreId: "ID"));
+
+    group('when response is valid', () {
+      sut.givenJsonResponse(fromJson: "offre_emploi_details.json");
+
+      test('request should be valid', () async {
+        await sut.expectRequestBody(
+          method: "GET",
+          url: "BASE_URL/offres-emploi/ID",
+        );
+      });
+
+      test('response should be valid', () async {
+        await sut.expectResult<OffreDetailsResponse<OffreEmploiDetails>?>((result) {
+          expect(result?.details, isNotNull);
+          expect(result?.details, mockOffreEmploiDetails());
+          expect(result?.isGenericFailure, isFalse);
+          expect(result?.isOffreNotFound, isFalse);
+        });
+      });
     });
-    final repository = OffreEmploiDetailsRepository("BASE_URL", httpClient);
 
-    // When
-    final offre = await repository.getOffreEmploiDetails(offreId: "ID");
+    group('when response is invalid', () {
+      sut.givenResponseCode(500);
 
-    // Then
-    expect(offre.details, isNotNull);
-    expect(offre.details, mockOffreEmploiDetails());
-    expect(offre.isGenericFailure, isFalse);
-    expect(offre.isOffreNotFound, isFalse);
-  });
+      test('should flag response as not found', () async {
+        await sut.expectResult<OffreDetailsResponse<OffreEmploiDetails>?>((result) {
+          expect(result?.details, isNull);
+          expect(result?.isGenericFailure, isFalse);
+          expect(result?.isOffreNotFound, isTrue);
+        });
+      });
+    });
 
-  test('getOffreEmploiDetails when response is invalid should flag response as not found', () async {
-    // Given
-    final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
-    final repository = OffreEmploiDetailsRepository("BASE_URL", httpClient);
+    group('when response throws exception', () {
+      sut.givenThrowingExceptionResponse();
 
-    // When
-    final offre = await repository.getOffreEmploiDetails(offreId: "ID");
+      test('should flag response as generic failure', () async {
+        await sut.expectResult<OffreDetailsResponse<OffreEmploiDetails>?>((result) {
+          expect(result?.details, isNull);
+          expect(result?.isGenericFailure, isTrue);
+          expect(result?.isOffreNotFound, isFalse);
+        });
+      });
+    });
 
-    // Then
-    expect(offre.details, isNull);
-    expect(offre.isGenericFailure, isFalse);
-    expect(offre.isOffreNotFound, isTrue);
-  });
+    group('when response throws 404 exception', () {
+      sut.givenResponse(() => throw deletedOfferHttpResponse());
 
-  test('getOffreEmploiDetails when response throws exception should flag response as generic failure', () async {
-    // Given
-    final httpClient = PassEmploiMockClient((request) async => throw Exception());
-    final repository = OffreEmploiDetailsRepository("BASE_URL", httpClient);
-
-    // When
-    final offre = await repository.getOffreEmploiDetails(offreId: "ID");
-
-    // Then
-    expect(offre.details, isNull);
-    expect(offre.isGenericFailure, isTrue);
-    expect(offre.isOffreNotFound, isFalse);
-  });
-
-  test('getOffreEmploiDetails when response throws exception with 404 code should flag response as not found',
-      () async {
-    // Given
-        final httpClient = PassEmploiMockClient((request) async => throw deletedOfferHttpResponse());
-    final repository = OffreEmploiDetailsRepository("BASE_URL", httpClient);
-
-    // When
-    final offre = await repository.getOffreEmploiDetails(offreId: "ID");
-
-    // Then
-    expect(offre.details, isNull);
-    expect(offre.isGenericFailure, isFalse);
-    expect(offre.isOffreNotFound, isTrue);
-  });
-
-  test('getOffreEmploiDetails when mode demo', () async {
-    // Given
-    final httpClient = MockModeDemoClient();
-    final repository = OffreEmploiDetailsRepository("BASE_URL", httpClient);
-
-    // When
-    final offre = await repository.getOffreEmploiDetails(offreId: "ID");
-
-    // Then
-    expect(offre.details, isNotNull);
+      test('should flag response as not found', () async {
+        await sut.expectResult<OffreDetailsResponse<OffreEmploiDetails>?>((result) {
+          expect(result?.details, isNull);
+          expect(result?.isGenericFailure, isFalse);
+          expect(result?.isOffreNotFound, isTrue);
+        });
+      });
+    });
   });
 }
