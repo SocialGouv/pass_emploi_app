@@ -4,6 +4,8 @@ import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
 
+// todo cache ?
+
 class SuggestionsRechercheRepository {
   final String _baseUrl;
   final Client _httpClient;
