@@ -142,7 +142,7 @@ class _ServiceCiviqueSearchPageState extends State<ServiceCiviqueSearchPage> {
 
   Widget _suggestionsBandeau() {
     return Padding(
-      padding: const EdgeInsets.only(top: Margins.spacing_s, bottom: Margins.spacing_m),
+      padding: const EdgeInsets.only(top: Margins.spacing_xs, bottom: Margins.spacing_m),
       child: VoirSuggestionsRechercheBandeau(),
     );
   }
