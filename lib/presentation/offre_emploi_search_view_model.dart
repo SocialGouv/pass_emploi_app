@@ -48,7 +48,7 @@ class OffreEmploiSearchViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [displayState, errorMessage, locations];
+  List<Object?> get props => [displayState, errorMessage, locations, hasSuggestionsRecherche];
 }
 
 bool _hasSuggestionsRecherche(SuggestionsRechercheState suggestionsRechercheState) {

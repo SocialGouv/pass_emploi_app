@@ -7,6 +7,8 @@ import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
+// todo : refactoring : c'est ici qu'on regarde le state pour afficher ou non le bandeau, pour mutualiser le code et les tests de tous les VMs ?
+
 class VoirSuggestionsRechercheBandeau extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

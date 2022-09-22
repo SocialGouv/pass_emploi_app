@@ -55,7 +55,7 @@ class ImmersionSearchViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [displayState, locations, errorMessage, metiers];
+  List<Object?> get props => [displayState, locations, errorMessage, metiers, hasSuggestionsRecherche];
 }
 
 bool _hasSuggestionsRecherche(SuggestionsRechercheState suggestionsRechercheState) {
