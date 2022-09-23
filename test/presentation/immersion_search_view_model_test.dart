@@ -15,53 +15,8 @@ import 'package:redux/redux.dart';
 
 import '../doubles/fixtures.dart';
 import '../doubles/spies.dart';
-import '../dsl/app_state_dsl.dart';
 
 void main() {
-  test("shoud display suggestions recherche if suggestions exist", () {
-    // Given
-    final store = givenState().loggedInUser().withSuggestionsRecherche().store();
-
-    // When
-    final viewModel = ImmersionSearchViewModel.create(store);
-
-    // Then
-    expect(viewModel.hasSuggestionsRecherche, true);
-  });
-
-  test("shoud hide suggestions recherche if empty", () {
-    // Given
-    final store = givenState().loggedInUser().emptySuggestionsRecherche().store();
-
-    // When
-    final viewModel = ImmersionSearchViewModel.create(store);
-
-    // Then
-    expect(viewModel.hasSuggestionsRecherche, false);
-  });
-
-  test("shoud hide suggestions recherche if loading", () {
-    // Given
-    final store = givenState().loggedInUser().loadingSuggestionsRecherche().store();
-
-    // When
-    final viewModel = ImmersionSearchViewModel.create(store);
-
-    // Then
-    expect(viewModel.hasSuggestionsRecherche, false);
-  });
-
-  test("shoud hide suggestions recherche if failed", () {
-    // Given
-    final store = givenState().loggedInUser().failedSuggestionsRecherche().store();
-
-    // When
-    final viewModel = ImmersionSearchViewModel.create(store);
-
-    // Then
-    expect(viewModel.hasSuggestionsRecherche, false);
-  });
-
   test("create when state is loading should set display state properly", () {
     // Given
     final store = Store<AppState>(

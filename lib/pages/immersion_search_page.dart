@@ -67,8 +67,10 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (viewModel.hasSuggestionsRecherche) _suggestionsBandeau(),
-          SizedBox(height: Margins.spacing_m),
+          SizedBox(height: Margins.spacing_s),
+          VoirSuggestionsRechercheBandeau(
+            padding: const EdgeInsets.only(top: Margins.spacing_s, bottom: Margins.spacing_m),
+          ),
           Text(Strings.immersionLabel, style: TextStyles.textBaseBold),
           SizedBox(height: Margins.spacing_m),
           Text(Strings.metierCompulsoryLabel, style: TextStyles.textBaseBold),
@@ -179,12 +181,5 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
     _shouldNavigate = true;
     viewModel.onSearchingRequest(_selectedMetierCodeRome, _selectedLocationViewModel?.location, _selectedMetierTitle);
     Keyboard.dismiss(context);
-  }
-
-  Widget _suggestionsBandeau() {
-    return Padding(
-      padding: const EdgeInsets.only(top: Margins.spacing_s, bottom: Margins.spacing_xs),
-      child: VoirSuggestionsRechercheBandeau(),
-    );
   }
 }

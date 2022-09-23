@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/suggestions_recherche_actions.dart';
+import 'package:pass_emploi_app/presentation/voir_suggestions_recherche_view_model.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -7,21 +11,47 @@ import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
-// todo : refactoring : c'est ici qu'on regarde le state pour afficher ou non le bandeau, pour mutualiser le code et les tests de tous les VMs ?
-
 class VoirSuggestionsRechercheBandeau extends StatelessWidget {
+  final EdgeInsets? padding;
+
+  VoirSuggestionsRechercheBandeau({this.padding});
+
   @override
   Widget build(BuildContext context) {
-    return _Bandeau(
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          _Icon(),
-          _Text(),
-          _Chevron(),
-        ],
-      ),
+    return StoreConnector<AppState, VoirSuggestionsRechercheViewModel>(
+      onInit: (store) => store.dispatch(SuggestionsRechercheRequestAction()),
+      converter: (store) => VoirSuggestionsRechercheViewModel.create(store),
+      builder: (context, viewModel) => _Body(viewModel: viewModel, padding: padding),
+      distinct: true,
     );
+  }
+}
+
+class _Body extends StatelessWidget {
+  final VoirSuggestionsRechercheViewModel viewModel;
+  final EdgeInsets? padding;
+
+  _Body({required this.viewModel, this.padding});
+
+  @override
+  Widget build(BuildContext context) {
+    if (viewModel.hasSuggestionsRecherche) {
+      return Padding(
+        padding: padding ?? const EdgeInsets.all(0),
+        child: _Bandeau(
+          child: Row(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              _Icon(),
+              _Text(),
+              _Chevron(),
+            ],
+          ),
+        ),
+      );
+    } else {
+      return SizedBox(height: 0);
+    }
   }
 }
 

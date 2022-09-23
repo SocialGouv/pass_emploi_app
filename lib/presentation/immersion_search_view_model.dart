@@ -3,7 +3,6 @@ import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.d
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_state.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_actions.dart';
-import 'package:pass_emploi_app/features/suggestions_recherche/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
@@ -15,7 +14,6 @@ enum ImmersionSearchDisplayState { SHOW_SEARCH_FORM, SHOW_RESULTS, SHOW_LOADER, 
 
 class ImmersionSearchViewModel extends Equatable {
   final ImmersionSearchDisplayState displayState;
-  final bool hasSuggestionsRecherche;
   final List<LocationViewModel> locations;
   final List<Metier> metiers;
   final String errorMessage;
@@ -25,7 +23,6 @@ class ImmersionSearchViewModel extends Equatable {
 
   ImmersionSearchViewModel._({
     required this.displayState,
-    required this.hasSuggestionsRecherche,
     required this.locations,
     required this.metiers,
     required this.errorMessage,
@@ -38,7 +35,6 @@ class ImmersionSearchViewModel extends Equatable {
     final immersionListState = store.state.immersionListState;
     return ImmersionSearchViewModel._(
       displayState: _displayState(immersionListState),
-      hasSuggestionsRecherche: _hasSuggestionsRecherche(store.state.suggestionsRechercheState),
       locations: store.state.searchLocationState.locations
           .map((location) => LocationViewModel.fromLocation(location))
           .toList(),
@@ -55,12 +51,7 @@ class ImmersionSearchViewModel extends Equatable {
   }
 
   @override
-  List<Object?> get props => [displayState, locations, errorMessage, metiers, hasSuggestionsRecherche];
-}
-
-bool _hasSuggestionsRecherche(SuggestionsRechercheState suggestionsRechercheState) {
-  return (suggestionsRechercheState is SuggestionsRechercheSuccessState &&
-      suggestionsRechercheState.suggestions.isNotEmpty);
+  List<Object?> get props => [displayState, locations, errorMessage, metiers];
 }
 
 ImmersionSearchDisplayState _displayState(ImmersionListState immersionListState) {

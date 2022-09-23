@@ -61,7 +61,9 @@ class _ServiceCiviqueSearchPageState extends State<ServiceCiviqueSearchPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: Margins.spacing_s),
-          if (viewModel.hasSuggestionsRecherche) _suggestionsBandeau(),
+          VoirSuggestionsRechercheBandeau(
+            padding: const EdgeInsets.only(top: Margins.spacing_s, bottom: Margins.spacing_m),
+          ),
           Text(Strings.serviceCiviquePresentation, style: TextStyles.textBaseRegular),
           SizedBox(height: Margins.spacing_m),
           Text(Strings.villeNonCompulsoryLabel, style: TextStyles.textBaseBold),
@@ -138,12 +140,5 @@ class _ServiceCiviqueSearchPageState extends State<ServiceCiviqueSearchPage> {
       Text(Strings.knowMoreAboutServiceCiviqueLastTitle, style: TextStyles.textSBold),
       SizedBox(height: Margins.spacing_base),
     ];
-  }
-
-  Widget _suggestionsBandeau() {
-    return Padding(
-      padding: const EdgeInsets.only(top: Margins.spacing_xs, bottom: Margins.spacing_m),
-      child: VoirSuggestionsRechercheBandeau(),
-    );
   }
 }
