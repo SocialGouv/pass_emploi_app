@@ -41,6 +41,9 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
       tracking: AnalyticsScreenNames.serviceCiviqueDetail,
       child: StoreConnector<AppState, ServiceCiviqueDetailViewModel>(
         onInit: (store) => store.dispatch(GetServiceCiviqueDetailAction(idOffre)),
+        onInitialBuild: (_) {
+          context.trackEvent(EventType.OFFRE_SERVICE_CIVIQUE_AFFICHEE);
+        },
         converter: (store) => ServiceCiviqueDetailViewModel.create(store),
         builder: (context, viewModel) {
           return FavorisStateContext(
