@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_actions.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/suggestions_recherche_actions.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/pages/immersion_list_page.dart';
 import 'package:pass_emploi_app/presentation/immersion_search_view_model.dart';
@@ -18,6 +19,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
 import 'package:pass_emploi_app/widgets/metier_autocomplete.dart';
+import 'package:pass_emploi_app/widgets/voir_suggestions_recherche_bandeau.dart';
 
 class ImmersionSearchPage extends StatefulWidget {
   @override
@@ -37,6 +39,7 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
     return Tracker(
       tracking: AnalyticsScreenNames.immersionResearch,
       child: StoreConnector<AppState, ImmersionSearchViewModel>(
+        onInit: (store) => store.dispatch(SuggestionsRechercheRequestAction()),
         converter: (store) => ImmersionSearchViewModel.create(store),
         builder: (context, vm) => _content(context, vm),
         distinct: true,
@@ -64,7 +67,10 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: Margins.spacing_m),
+          SizedBox(height: Margins.spacing_s),
+          VoirSuggestionsRechercheBandeau(
+            padding: const EdgeInsets.only(top: Margins.spacing_s, bottom: Margins.spacing_m),
+          ),
           Text(Strings.immersionLabel, style: TextStyles.textBaseBold),
           SizedBox(height: Margins.spacing_m),
           Text(Strings.metierCompulsoryLabel, style: TextStyles.textBaseBold),

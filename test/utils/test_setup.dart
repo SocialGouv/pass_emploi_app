@@ -38,6 +38,7 @@ import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
+import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
@@ -87,6 +88,7 @@ class TestStoreFactory {
   RatingRepository ratingRepository = DummyRatingRepository();
   ActionCommentaireRepository actionCommentaireRepository = DummyActionCommentaireRepository();
   AgendaRepository agendaRepository = DummyAgendaRepository();
+  SuggestionsRechercheRepository suggestionsRechercheRepository = DummySuggestionsRechercheRepository();
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
@@ -131,6 +133,7 @@ class TestStoreFactory {
       ratingRepository,
       actionCommentaireRepository,
       agendaRepository,
+      suggestionsRechercheRepository,
     ).initializeReduxStore(initialState: initialState);
   }
 }

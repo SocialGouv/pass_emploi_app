@@ -84,7 +84,9 @@ String? _getFileName(String url, String query) {
 
 extension _UrlExtensions on String {
   bool isSupposedToBeMocked() {
-    return !contains("referentiels/communes-et-departements") && !contains("fichiers");
+    return !contains("referentiels/communes-et-departements") &&
+        !contains("fichiers") &&
+        !contains("recherches/suggestions");
   }
 
   String removeLastPath() => substring(0, lastIndexOf('/'));

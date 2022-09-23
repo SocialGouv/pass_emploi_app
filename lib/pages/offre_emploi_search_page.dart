@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/utils/keyboard.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
+import 'package:pass_emploi_app/widgets/voir_suggestions_recherche_bandeau.dart';
 
 class OffreEmploiSearchPage extends StatefulWidget {
   final bool onlyAlternance;
@@ -59,7 +60,10 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _separator(),
+          SizedBox(height: Margins.spacing_s),
+          VoirSuggestionsRechercheBandeau(
+            padding: const EdgeInsets.only(top: Margins.spacing_s, bottom: Margins.spacing_m),
+          ),
           Text(Strings.keyWordsTitle, style: TextStyles.textBaseBold),
           Text(Strings.keyWordsTextHint, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
           SizedBox(height: Margins.spacing_base),

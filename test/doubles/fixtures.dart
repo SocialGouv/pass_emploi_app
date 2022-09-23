@@ -19,6 +19,7 @@ import 'package:pass_emploi_app/models/partage_activite.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
+import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
@@ -436,20 +437,26 @@ List<Commentaire> mockCommentaires() => [
     ];
 
 List<Demarche> mockDemarches() {
-  return [Demarche(
-    id: "demarcheId",
-    content: null,
-    status: DemarcheStatus.NOT_STARTED,
-    endDate: DateTime.now(),
-    deletionDate: null,
-    createdByAdvisor: true,
-    label: null,
-    possibleStatus: [],
-    creationDate: DateTime.now(),
-    modifiedByAdvisor: false,
-    sousTitre: null,
-    titre: null,
-    modificationDate: null,
-    attributs: [],
-  )];
+  return [
+    Demarche(
+      id: "demarcheId",
+      content: null,
+      status: DemarcheStatus.NOT_STARTED,
+      endDate: DateTime.now(),
+      deletionDate: null,
+      createdByAdvisor: true,
+      label: null,
+      possibleStatus: [],
+      creationDate: DateTime.now(),
+      modifiedByAdvisor: false,
+      sousTitre: null,
+      titre: null,
+      modificationDate: null,
+      attributs: [],
+    )
+  ];
+}
+
+List<SuggestionRecherche> mockSuggestionsRecherche() {
+  return [SuggestionRecherche()];
 }

@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/suggestions_recherche_actions.dart';
 import 'package:pass_emploi_app/pages/service_civique/service_civique_list_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
@@ -14,6 +15,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/errors/error_text.dart';
 import 'package:pass_emploi_app/widgets/location_autocomplete.dart';
+import 'package:pass_emploi_app/widgets/voir_suggestions_recherche_bandeau.dart';
 
 class ServiceCiviqueSearchPage extends StatefulWidget {
   @override
@@ -30,6 +32,7 @@ class _ServiceCiviqueSearchPageState extends State<ServiceCiviqueSearchPage> {
     return Tracker(
       tracking: AnalyticsScreenNames.serviceCiviqueResearch,
       child: StoreConnector<AppState, ServiceCiviqueViewModel>(
+        onInit: (store) => store.dispatch(SuggestionsRechercheRequestAction()),
         converter: (store) => ServiceCiviqueViewModel.create(store),
         builder: _buildContent,
         onWillChange: (_, newViewModel) {
@@ -58,6 +61,9 @@ class _ServiceCiviqueSearchPageState extends State<ServiceCiviqueSearchPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: Margins.spacing_s),
+          VoirSuggestionsRechercheBandeau(
+            padding: const EdgeInsets.only(top: Margins.spacing_s, bottom: Margins.spacing_m),
+          ),
           Text(Strings.serviceCiviquePresentation, style: TextStyles.textBaseRegular),
           SizedBox(height: Margins.spacing_m),
           Text(Strings.villeNonCompulsoryLabel, style: TextStyles.textBaseBold),
