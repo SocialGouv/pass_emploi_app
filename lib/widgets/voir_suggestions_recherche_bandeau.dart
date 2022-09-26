@@ -19,7 +19,6 @@ class VoirSuggestionsRechercheBandeau extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, VoirSuggestionsRechercheViewModel>(
-      onInit: (store) => store.dispatch(SuggestionsRechercheRequestAction()),
       converter: (store) => VoirSuggestionsRechercheViewModel.create(store),
       builder: (context, viewModel) => _Body(viewModel: viewModel, padding: padding),
       distinct: true,
