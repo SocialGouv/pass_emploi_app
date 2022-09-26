@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
 enum SuggestionType { emploi, alternance, immersion, civique }
