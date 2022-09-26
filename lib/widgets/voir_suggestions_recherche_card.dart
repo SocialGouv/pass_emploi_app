@@ -12,15 +12,20 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 
 class VoirSuggestionsRechercheCard extends StatelessWidget {
+  final Function() onTapShowSuggestions;
   final EdgeInsets? padding;
 
-  VoirSuggestionsRechercheCard({this.padding});
+  VoirSuggestionsRechercheCard({required this.onTapShowSuggestions, this.padding});
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, VoirSuggestionsRechercheViewModel>(
       converter: (store) => VoirSuggestionsRechercheViewModel.create(store),
-      builder: (context, viewModel) => _Body(viewModel: viewModel, padding: padding),
+      builder: (context, viewModel) => _Body(
+        viewModel: viewModel,
+        padding: padding,
+        onTapShowSuggestions: onTapShowSuggestions,
+      ),
       distinct: true,
     );
   }
@@ -28,9 +33,10 @@ class VoirSuggestionsRechercheCard extends StatelessWidget {
 
 class _Body extends StatelessWidget {
   final VoirSuggestionsRechercheViewModel viewModel;
+  final Function() onTapShowSuggestions;
   final EdgeInsets? padding;
 
-  _Body({required this.viewModel, this.padding});
+  _Body({required this.viewModel, required this.onTapShowSuggestions, this.padding});
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +49,7 @@ class _Body extends StatelessWidget {
               _Icon(),
               _Title(),
               _Subitle(),
-              _Button(),
+              _Button(onTapShowSuggestions: onTapShowSuggestions),
             ],
           ),
         ),
@@ -89,6 +95,10 @@ class _Subitle extends StatelessWidget {
 }
 
 class _Button extends StatelessWidget {
+  final Function() onTapShowSuggestions;
+
+  _Button({required this.onTapShowSuggestions});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -97,7 +107,7 @@ class _Button extends StatelessWidget {
         label: Strings.voirSuggestionsDeRecherche,
         withShadow: false,
         heightPadding: 8,
-        onPressed: () => {},
+        onPressed: onTapShowSuggestions,
       ),
     );
   }

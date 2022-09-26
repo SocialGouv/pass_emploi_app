@@ -8,6 +8,7 @@ import 'package:pass_emploi_app/features/metier/search_metier_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/suggestions_recherche_actions.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/pages/immersion_list_page.dart';
+import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_recherche_list_page.dart';
 import 'package:pass_emploi_app/presentation/immersion_search_view_model.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -70,6 +71,7 @@ class _ImmersionSearchPageState extends State<ImmersionSearchPage> {
           SizedBox(height: Margins.spacing_s),
           VoirSuggestionsRechercheBandeau(
             padding: const EdgeInsets.only(top: Margins.spacing_s, bottom: Margins.spacing_m),
+            onTapShowSuggestions: () => Navigator.push(context, SuggestionsRechercheListPage.materialPageRoute()),
           ),
           Text(Strings.immersionLabel, style: TextStyles.textBaseBold),
           SizedBox(height: Margins.spacing_m),
