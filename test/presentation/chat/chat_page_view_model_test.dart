@@ -152,16 +152,20 @@ void main() {
     ]);
   });
 
-  test('should not display offre partagée from conseiller', () {
+  test('should display offre partagée from conseiller', () {
     // Given
     final messages = [
       Message(
         'Super offre',
-        DateTime.now(),
+        todayAtNoon,
         Sender.conseiller,
         MessageType.offre,
         [],
-        Offre("id", "Chevalier", OffreType.emploi),
+        Offre(
+          "343",
+          "Chevalier",
+          OffreType.emploi,
+        ),
       )
     ];
     final store = givenState().chatSuccess(messages).store();
@@ -173,9 +177,12 @@ void main() {
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.items, [
       DayItem('Aujourd\'hui'),
-      InformationItem(
-        "Le message est inaccessible",
-        "Pour avoir l'accès au contenu veuillez mettre à jour l'application",
+      OffreMessageItem(
+        content: "Super offre",
+        idOffre: "343",
+        titreOffre: "Chevalier",
+        type: OffreType.emploi,
+        caption: "12:00 · Envoyé",
       ),
     ]);
   });
