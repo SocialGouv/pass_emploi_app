@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:pass_emploi_app/features/suggestions_recherche/suggestions_recherche_actions.dart';
 import 'package:pass_emploi_app/presentation/voir_suggestions_recherche_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -20,7 +19,6 @@ class VoirSuggestionsRechercheCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, VoirSuggestionsRechercheViewModel>(
-      onInit: (store) => store.dispatch(SuggestionsRechercheRequestAction()),
       converter: (store) => VoirSuggestionsRechercheViewModel.create(store),
       builder: (context, viewModel) => _Body(viewModel: viewModel, padding: padding),
       distinct: true,

@@ -176,7 +176,8 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
 
   Widget _getSavedSearchOffreEmploi(SavedSearchListViewModel viewModel, bool isAlternance) {
     final offreEmplois = viewModel.getOffresEmploi(isAlternance);
-    if (offreEmplois.isEmpty) return Center(child: Text(Strings.noSavedSearchYet, style: TextStyles.textSmRegular()));
+    if (offreEmplois.isEmpty) return _noSavedSearch();
+
     return ListView.builder(
       scrollDirection: Axis.vertical,
       itemCount: offreEmplois.length + _oneMoreIndexForSuggestionsRechercheCard,
@@ -211,9 +212,8 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
 
   Widget _getSavedSearchImmersions(SavedSearchListViewModel viewModel) {
     final savedSearchsImmersion = viewModel.getImmersions();
-    if (savedSearchsImmersion.isEmpty) {
-      return Center(child: Text(Strings.noSavedSearchYet, style: TextStyles.textSmRegular()));
-    }
+    if (savedSearchsImmersion.isEmpty) return _noSavedSearch();
+
     return ListView.builder(
       scrollDirection: Axis.vertical,
       itemCount: savedSearchsImmersion.length + _oneMoreIndexForSuggestionsRechercheCard,
@@ -235,9 +235,8 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
 
   Widget _getSavedSearchServiceCivique(SavedSearchListViewModel viewModel) {
     final savedSearchsServiceCivique = viewModel.getServiceCivique();
-    if (savedSearchsServiceCivique.isEmpty) {
-      return Center(child: Text(Strings.noSavedSearchYet, style: TextStyles.textSmRegular()));
-    }
+    if (savedSearchsServiceCivique.isEmpty) return _noSavedSearch();
+
     return ListView.builder(
       scrollDirection: Axis.vertical,
       itemCount: savedSearchsServiceCivique.length + _oneMoreIndexForSuggestionsRechercheCard,
@@ -254,6 +253,19 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
           child: _buildServiceCiviqueCard(context, savedSearchsServiceCivique[position], viewModel),
         );
       },
+    );
+  }
+
+  Widget _noSavedSearch() {
+    return Column(
+      children: [
+        VoirSuggestionsRechercheCard(
+          padding: const EdgeInsets.fromLTRB(Margins.spacing_base, Margins.spacing_m, Margins.spacing_base, 0),
+        ),
+        Expanded(
+          child: Center(child: Text(Strings.noSavedSearchYet, style: TextStyles.textSmRegular())),
+        ),
+      ],
     );
   }
 
