@@ -23,4 +23,3 @@ class SuggestionsRechercheListPage extends StatelessWidget {
     );
   }
 }
-
