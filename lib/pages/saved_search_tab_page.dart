@@ -257,15 +257,18 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   }
 
   Widget _noSavedSearch() {
-    return Column(
-      children: [
-        VoirSuggestionsRechercheCard(
-          padding: const EdgeInsets.fromLTRB(Margins.spacing_base, Margins.spacing_m, Margins.spacing_base, 0),
-        ),
-        Expanded(
-          child: Center(child: Text(Strings.noSavedSearchYet, style: TextStyles.textSmRegular())),
-        ),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          VoirSuggestionsRechercheCard(
+            padding: const EdgeInsets.fromLTRB(Margins.spacing_base, Margins.spacing_m, Margins.spacing_base, 0),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: Margins.spacing_l),
+            child: Center(child: Text(Strings.noSavedSearchYet, style: TextStyles.textSmRegular())),
+          ),
+        ],
+      ),
     );
   }
 
