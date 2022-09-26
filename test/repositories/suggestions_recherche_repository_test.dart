@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 
+import '../doubles/fixtures.dart';
 import '../dsl/sut_repository.dart';
 
 void main() {
@@ -24,7 +25,7 @@ void main() {
       test('response should be valid', () async {
         await sut.expectResult<List<SuggestionRecherche>?>((result) {
           expect(result, isNotNull);
-          expect(result?.length, 3);
+          expect(result, mockSuggestionsRecherche());
         });
       });
     });

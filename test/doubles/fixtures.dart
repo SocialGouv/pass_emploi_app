@@ -458,5 +458,24 @@ List<Demarche> mockDemarches() {
 }
 
 List<SuggestionRecherche> mockSuggestionsRecherche() {
-  return [SuggestionRecherche()];
+  return [
+    SuggestionRecherche(
+      id: "1",
+      type: SuggestionType.emploi,
+      titre: "Cariste",
+      metier: "Conduite d'engins de déplacement des charges",
+      localisation: "Nord",
+      dateCreation: parseDateTimeUtcWithCurrentTimeZone("2022-09-22T12:00:00.000Z"),
+      dateMiseAJour: parseDateTimeUtcWithCurrentTimeZone("2022-09-26T13:00:00.000Z"),
+    ),
+    SuggestionRecherche(
+      id: "2",
+      type: SuggestionType.immersion,
+      titre: "Boulanger",
+      metier: "Chef boulanger",
+      localisation: "Valence",
+      dateCreation: parseDateTimeUtcWithCurrentTimeZone("2022-10-12T22:00:00.000Z"),
+      dateMiseAJour: parseDateTimeUtcWithCurrentTimeZone("2022-10-16T23:00:00.000Z"),
+    ),
+  ];
 }
