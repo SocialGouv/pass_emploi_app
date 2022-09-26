@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_actions.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/suggestions_recherche_actions.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
@@ -24,6 +25,7 @@ import 'package:pass_emploi_app/widgets/cards/saved_search_card.dart';
 import 'package:pass_emploi_app/widgets/dialogs/saved_search_delete_dialog.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
+import 'package:pass_emploi_app/widgets/voir_suggestions_recherche_card.dart';
 
 enum IndexOf { OFFRES_EMPLOI, ALTERNANCE, SERVICE_CIVIQUE, IMMERSION }
 
@@ -48,6 +50,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     return StoreConnector<AppState, SavedSearchListViewModel>(
       onInit: (store) {
         store.dispatch(SavedSearchListRequestAction());
+        store.dispatch(SuggestionsRechercheRequestAction());
         final DeepLinkState state = store.state.deepLinkState;
         if (state is SavedSearchDeepLinkState) store.dispatch(SavedSearchGetAction(state.idSavedSearch));
       },
@@ -169,13 +172,21 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     }
   }
 
+  final int _oneMoreIndexForSuggestionsRechercheCard = 1;
+
   Widget _getSavedSearchOffreEmploi(SavedSearchListViewModel viewModel, bool isAlternance) {
     final offreEmplois = viewModel.getOffresEmploi(isAlternance);
     if (offreEmplois.isEmpty) return Center(child: Text(Strings.noSavedSearchYet, style: TextStyles.textSmRegular()));
     return ListView.builder(
       scrollDirection: Axis.vertical,
-      itemCount: offreEmplois.length,
+      itemCount: offreEmplois.length + _oneMoreIndexForSuggestionsRechercheCard,
       itemBuilder: (context, position) {
+        if (position == 0) {
+          return VoirSuggestionsRechercheCard(
+            padding: const EdgeInsets.fromLTRB(Margins.spacing_base, Margins.spacing_m, Margins.spacing_base, 0),
+          );
+        }
+        position -= 1;
         final double topPadding = (position == 0) ? Margins.spacing_m : 0;
         return Padding(
           padding: EdgeInsets.fromLTRB(Margins.spacing_base, topPadding, Margins.spacing_base, Margins.spacing_base),
@@ -205,8 +216,14 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     }
     return ListView.builder(
       scrollDirection: Axis.vertical,
-      itemCount: savedSearchsImmersion.length,
+      itemCount: savedSearchsImmersion.length + _oneMoreIndexForSuggestionsRechercheCard,
       itemBuilder: (context, position) {
+        if (position == 0) {
+          return VoirSuggestionsRechercheCard(
+            padding: const EdgeInsets.fromLTRB(Margins.spacing_base, Margins.spacing_m, Margins.spacing_base, 0),
+          );
+        }
+        position -= 1;
         final double topPadding = (position == 0) ? Margins.spacing_m : 0;
         return Padding(
           padding: EdgeInsets.fromLTRB(Margins.spacing_base, topPadding, Margins.spacing_base, Margins.spacing_base),
@@ -223,8 +240,14 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     }
     return ListView.builder(
       scrollDirection: Axis.vertical,
-      itemCount: savedSearchsServiceCivique.length,
+      itemCount: savedSearchsServiceCivique.length + _oneMoreIndexForSuggestionsRechercheCard,
       itemBuilder: (context, position) {
+        if (position == 0) {
+          return VoirSuggestionsRechercheCard(
+            padding: const EdgeInsets.fromLTRB(Margins.spacing_base, Margins.spacing_m, Margins.spacing_base, 0),
+          );
+        }
+        position -= 1;
         final double topPadding = (position == 0) ? Margins.spacing_m : 0;
         return Padding(
           padding: EdgeInsets.fromLTRB(Margins.spacing_base, topPadding, Margins.spacing_base, Margins.spacing_base),

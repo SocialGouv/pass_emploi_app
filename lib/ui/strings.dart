@@ -600,4 +600,7 @@ class Strings {
 
   // Suggestions de recherche
   static String vosSuggestionsDeRecherche = "Vos recherches suggerées";
+  static String nouvellesSuggestionsDeRechercheTitre = "Vous avez de nouvelles recherches suggérés !";
+  static String nouvellesSuggestionsDeRechercheDescription = "Sur la base de votre profil Pôle Emploi, voici des suggestions de recherches à sauvegarder dans vos favoris";
+  static String voirSuggestionsDeRecherche = "Voir les suggestions";
 }
