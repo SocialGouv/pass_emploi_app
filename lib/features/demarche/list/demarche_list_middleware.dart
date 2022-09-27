@@ -1,5 +1,4 @@
 import 'package:pass_emploi_app/features/campagne/campagne_actions.dart';
-import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -15,8 +14,7 @@ class DemarcheListMiddleware extends MiddlewareClass<AppState> {
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
     final loginState = store.state.loginState;
-    if (loginState is LoginSuccessState &&
-        (action is DemarcheListRequestAction || action is CreateDemarcheSuccessAction)) {
+    if (loginState is LoginSuccessState && action is DemarcheListRequestAction) {
       store.dispatch(DemarcheListLoadingAction());
       final page = await _repository.getPageDemarches(loginState.user.id);
       store.dispatch(page != null ? DemarcheListSuccessAction(page.demarches) : DemarcheListFailureAction());
