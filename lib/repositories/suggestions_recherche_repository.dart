@@ -12,26 +12,6 @@ class SuggestionsRechercheRepository {
   SuggestionsRechercheRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
 
   Future<List<SuggestionRecherche>?> getSuggestions(String userId) async {
-    return [
-      SuggestionRecherche(
-        id: "1",
-        type: SuggestionType.emploi,
-        titre: "Cariste",
-        metier: "Conduite d'engins de déplacement des charges",
-        localisation: "Nord",
-        dateCreation: DateTime(2022, 09, 10),
-        dateMiseAJour: DateTime(2022, 09, 11),
-      ),
-      SuggestionRecherche(
-        id: "2",
-        type: SuggestionType.immersion,
-        titre: "Boulanger",
-        metier: "Chef boulanger",
-        localisation: "Valence",
-        dateCreation: DateTime(2022, 09, 18),
-        dateMiseAJour: DateTime(2022, 09, 19),
-      ),
-    ];
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/recherches/suggestions");
     try {
       final response = await _httpClient.get(url);
