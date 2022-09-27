@@ -1,7 +1,23 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 
-enum SuggestionType { emploi, alternance, immersion, civique }
+enum SuggestionType {
+  emploi, alternance, immersion, civique;
+
+  String label() {
+    switch (this) {
+      case SuggestionType.emploi:
+        return Strings.suggestionTypeEmploi;
+      case SuggestionType.alternance:
+        return Strings.suggestionTypeAlternance;
+      case SuggestionType.immersion:
+        return Strings.suggestionTypeImmersion;
+      case SuggestionType.civique:
+        return Strings.suggestionTypeServiceCivique;
+    }
+  }
+}
 
 SuggestionType? suggestionType(String value) {
   if (value == "OFFRES_EMPLOI") return SuggestionType.emploi;
