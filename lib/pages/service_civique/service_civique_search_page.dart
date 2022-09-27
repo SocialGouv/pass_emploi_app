@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/suggestions_recherche_actions.dart';
 import 'package:pass_emploi_app/pages/service_civique/service_civique_list_page.dart';
+import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_recherche_list_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/presentation/service_civique_view_model.dart';
@@ -63,6 +64,7 @@ class _ServiceCiviqueSearchPageState extends State<ServiceCiviqueSearchPage> {
           SizedBox(height: Margins.spacing_s),
           VoirSuggestionsRechercheBandeau(
             padding: const EdgeInsets.only(top: Margins.spacing_s, bottom: Margins.spacing_m),
+            onTapShowSuggestions: () => Navigator.push(context, SuggestionsRechercheListPage.materialPageRoute()),
           ),
           Text(Strings.serviceCiviquePresentation, style: TextStyles.textBaseRegular),
           SizedBox(height: Margins.spacing_m),

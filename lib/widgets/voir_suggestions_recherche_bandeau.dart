@@ -11,15 +11,20 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
 class VoirSuggestionsRechercheBandeau extends StatelessWidget {
+  final Function() onTapShowSuggestions;
   final EdgeInsets? padding;
 
-  VoirSuggestionsRechercheBandeau({this.padding});
+  VoirSuggestionsRechercheBandeau({required this.onTapShowSuggestions, this.padding});
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, VoirSuggestionsRechercheViewModel>(
       converter: (store) => VoirSuggestionsRechercheViewModel.create(store),
-      builder: (context, viewModel) => _Body(viewModel: viewModel, padding: padding),
+      builder: (context, viewModel) => _Body(
+        viewModel: viewModel,
+        onTapShowSuggestions: onTapShowSuggestions,
+        padding: padding,
+      ),
       distinct: true,
     );
   }
@@ -27,9 +32,10 @@ class VoirSuggestionsRechercheBandeau extends StatelessWidget {
 
 class _Body extends StatelessWidget {
   final VoirSuggestionsRechercheViewModel viewModel;
+  final Function() onTapShowSuggestions;
   final EdgeInsets? padding;
 
-  _Body({required this.viewModel, this.padding});
+  _Body({required this.viewModel, required this.onTapShowSuggestions, this.padding});
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +43,7 @@ class _Body extends StatelessWidget {
       return Padding(
         padding: padding ?? const EdgeInsets.all(0),
         child: _Bandeau(
+          onTapShowSuggestions: onTapShowSuggestions,
           child: Row(
             mainAxisSize: MainAxisSize.max,
             children: [
@@ -84,8 +91,9 @@ class _Chevron extends StatelessWidget {
 
 class _Bandeau extends StatelessWidget {
   final Widget child;
+  final Function() onTapShowSuggestions;
 
-  _Bandeau({required this.child});
+  _Bandeau({required this.child, required this.onTapShowSuggestions});
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +108,7 @@ class _Bandeau extends StatelessWidget {
         child: Material(
           type: MaterialType.transparency,
           child: InkWell(
-            onTap: () => {},
+            onTap: onTapShowSuggestions,
             splashColor: AppColors.primaryLighten,
             child: Padding(
               padding: const EdgeInsets.all(Margins.spacing_base),

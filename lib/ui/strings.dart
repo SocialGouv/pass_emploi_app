@@ -8,6 +8,9 @@ class Strings {
   static String close = "Fermer";
   static String yes = "Oui";
   static String no = "Non";
+  static String ajouter = "Ajouter";
+  static String cancelLabel = "Annuler";
+  static String suppressionLabel = "Supprimer";
 
   // Menu
   static String menuMonSuivi = "Mon suivi";
@@ -552,8 +555,6 @@ class Strings {
   static String savedSearchSeeResults = "Voir les résultats";
 
   static String savedSearchDeleteMessage = "Voulez-vous vraiment supprimer la recherche sauvegardée ?";
-  static String cancelLabel = "Annuler";
-  static String suppressionLabel = "Supprimer";
   static String savedSearchDeleteError = "Erreur lors de la suppression de la recherche.";
   static String savedSearchDeleteSuccess = "Votre recherche sauvegardée a été supprimée avec succès.";
 
@@ -603,4 +604,9 @@ class Strings {
   static String nouvellesSuggestionsDeRechercheTitre = "Vous avez de nouvelles recherches suggérés !";
   static String nouvellesSuggestionsDeRechercheDescription = "Sur la base de votre profil Pôle Emploi, voici des suggestions de recherches à sauvegarder dans vos favoris";
   static String voirSuggestionsDeRecherche = "Voir les suggestions";
+  static String suggestionsDeRechercheTitlePage = "Vos recherches suggérées";
+  static String suggestionTypeEmploi = "Emploi";
+  static String suggestionTypeAlternance = "Alternance";
+  static String suggestionTypeImmersion = "Immersion";
+  static String suggestionTypeServiceCivique = "Service civique";
 }

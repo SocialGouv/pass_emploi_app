@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/suggestions_recherche_actions.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
+import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_recherche_list_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart';
@@ -65,6 +66,7 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
           SizedBox(height: Margins.spacing_s),
           VoirSuggestionsRechercheBandeau(
             padding: const EdgeInsets.only(top: Margins.spacing_s, bottom: Margins.spacing_m),
+            onTapShowSuggestions: () => Navigator.push(context, SuggestionsRechercheListPage.materialPageRoute()),
           ),
           Text(Strings.keyWordsTitle, style: TextStyles.textBaseBold),
           Text(Strings.keyWordsTextHint, style: TextStyles.textSRegularWithColor(AppColors.contentColor)),
