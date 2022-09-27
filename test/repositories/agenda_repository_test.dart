@@ -8,7 +8,7 @@ import '../utils/test_datetime.dart';
 
 void main() {
   group('AgendaRepository', () {
-    final sut = SUT<AgendaRepository>();
+    final sut = RepositorySut<AgendaRepository>();
     sut.givenRepository((client) => AgendaRepository("BASE_URL", client));
 
     group('getAgendaMissionLocale', () {
@@ -20,7 +20,7 @@ void main() {
       );
 
       group('when response is valid', () {
-        sut.givenResponse(fromJson: "agenda_mission_locale.json");
+        sut.givenJsonResponse(fromJson: "agenda_mission_locale.json");
 
         test('request should be valid', () async {
           await sut.expectRequestBody(
@@ -46,12 +46,10 @@ void main() {
       });
 
       group('when response is invalid', () {
-        sut.givenInvalidResponse();
+        sut.givenResponseCode(500);
 
         test('response should be null', () async {
-          await sut.expectResult<Agenda?>((result) {
-            expect(result, isNull);
-          });
+          await sut.expectNullResult();
         });
       });
     });
@@ -65,7 +63,7 @@ void main() {
       );
 
       group('when response is valid', () {
-        sut.givenResponse(fromJson: "agenda_pole_emploi.json");
+        sut.givenJsonResponse(fromJson: "agenda_pole_emploi.json");
 
         test('request should be valid', () async {
           await sut.expectRequestBody(
@@ -91,12 +89,10 @@ void main() {
       });
 
       group('when response is invalid', () {
-        sut.givenInvalidResponse();
+        sut.givenResponseCode(500);
 
         test('response should be null', () async {
-          await sut.expectResult<Agenda?>((result) {
-            expect(result, isNull);
-          });
+          await sut.expectNullResult();
         });
       });
     });

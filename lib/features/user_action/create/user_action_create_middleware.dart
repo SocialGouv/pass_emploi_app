@@ -20,7 +20,6 @@ class UserActionCreateMiddleware extends MiddlewareClass<AppState> {
       final result = await _repository.createUserAction(loginState.user.id, action.request);
       if (result) {
         store.dispatch(UserActionCreateSuccessAction());
-        // todo Optimisation (high) : on pourrait éviter de faire des appels réseaux ici
         store.dispatch(UserActionListRequestAction());
         store.dispatch(AgendaRequestAction(DateTime.now()));
       } else {
