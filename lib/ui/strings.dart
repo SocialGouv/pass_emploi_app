@@ -600,9 +600,9 @@ class Strings {
   static String contentSupportMail = "Aidez-nous à améliorer l’application en nous donnant votre avis :\n";
 
   // Suggestions de recherche
-  static String vosSuggestionsDeRecherche = "Vos recherches suggerées";
-  static String nouvellesSuggestionsDeRechercheTitre = "Vous avez de nouvelles recherches suggérés !";
-  static String nouvellesSuggestionsDeRechercheDescription = "Sur la base de votre profil Pôle Emploi, voici des suggestions de recherches à sauvegarder dans vos favoris";
+  static String vosSuggestionsDeRecherche = "Vos recherches suggérées";
+  static String nouvellesSuggestionsDeRechercheTitre = "Vous avez de nouvelles recherches suggérées !";
+  static String nouvellesSuggestionsDeRechercheDescription = "Sur la base de votre profil Pôle emploi, voici des suggestions de recherches à sauvegarder dans vos favoris";
   static String voirSuggestionsDeRecherche = "Voir les suggestions";
   static String suggestionsDeRechercheTitlePage = "Vos recherches suggérées";
   static String suggestionTypeEmploi = "Emploi";
