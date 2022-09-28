@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
 import 'package:pass_emploi_app/features/saved_search/get/saved_search_get_action.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_actions.dart';
-import 'package:pass_emploi_app/features/suggestions_recherche/suggestions_recherche_actions.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_actions.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';

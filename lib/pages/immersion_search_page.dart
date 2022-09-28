@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_actions.dart';
-import 'package:pass_emploi_app/features/suggestions_recherche/suggestions_recherche_actions.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_actions.dart';
 import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/pages/immersion_list_page.dart';
 import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_recherche_list_page.dart';

@@ -38,7 +38,7 @@ import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
-import 'package:pass_emploi_app/features/suggestions_recherche/suggestions_recherche_state.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_state.dart';

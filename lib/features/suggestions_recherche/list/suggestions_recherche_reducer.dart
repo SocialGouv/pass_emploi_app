@@ -1,5 +1,5 @@
-import 'package:pass_emploi_app/features/suggestions_recherche/suggestions_recherche_actions.dart';
-import 'package:pass_emploi_app/features/suggestions_recherche/suggestions_recherche_state.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_actions.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 
 SuggestionsRechercheState suggestionsRechercheReducer(SuggestionsRechercheState current, dynamic action) {
   if (action is SuggestionsRechercheLoadingAction) return SuggestionsRechercheLoadingState();

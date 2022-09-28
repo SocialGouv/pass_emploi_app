@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/suggestions_recherche/suggestions_recherche_actions.dart';
-import 'package:pass_emploi_app/features/suggestions_recherche/suggestions_recherche_state.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_actions.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 

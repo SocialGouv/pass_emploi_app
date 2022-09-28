@@ -3,7 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
-import 'package:pass_emploi_app/features/suggestions_recherche/suggestions_recherche_actions.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_actions.dart';
 import 'package:pass_emploi_app/pages/service_civique/service_civique_list_page.dart';
 import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_recherche_list_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
