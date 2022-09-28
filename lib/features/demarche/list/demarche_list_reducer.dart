@@ -16,6 +16,7 @@ DemarcheListState _listWithUpdatedDemarches(DemarcheListState current, Demarche 
   if (current is DemarcheListSuccessState) {
     final currentDemarches = current.demarches.toList();
     final indexOfCurrentDemarche = currentDemarches.indexWhere((e) => e.id == modifiedDemarche.id);
+    if (indexOfCurrentDemarche == -1) return current;
     currentDemarches[indexOfCurrentDemarche] = modifiedDemarche;
     return DemarcheListSuccessState(currentDemarches);
   }
