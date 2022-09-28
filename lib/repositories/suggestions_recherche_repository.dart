@@ -23,4 +23,17 @@ class SuggestionsRechercheRepository {
     }
     return null;
   }
+
+  Future<bool> accepterSuggestion({required String userId, required String suggestionId}) async {
+    final url = Uri.parse(_baseUrl + "/jeunes/$userId/recherches/suggestions/$suggestionId/creer-recherche");
+    try {
+      final response = await _httpClient.post(url);
+      if (response.statusCode.isValid()) {
+        return true;
+      }
+    } catch (e, stack) {
+      _crashlytics?.recordNonNetworkException(e, stack, url);
+    }
+    return false;
+  }
 }

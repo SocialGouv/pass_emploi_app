@@ -38,4 +38,31 @@ void main() {
       });
     });
   });
+
+  group('accepterSuggestion', () {
+    sut.when((repository) => repository.accepterSuggestion(userId: "USERID", suggestionId: "SUGGID"));
+
+    group('when response is valid', () {
+      sut.givenResponseCode(200);
+
+      test('request should be valid', () async {
+        await sut.expectRequestBody(
+          method: "POST",
+          url: "BASE_URL/jeunes/USERID/recherches/suggestions/SUGGID/creer-recherche",
+        );
+      });
+
+      test('response should be valid', () async {
+        await sut.expectTrueAsResult();
+      });
+    });
+
+    group('when response is invalid', () {
+      sut.givenResponseCode(500);
+
+      test('response should be null', () async {
+        await sut.expectFalseAsResult();
+      });
+    });
+  });
 }
