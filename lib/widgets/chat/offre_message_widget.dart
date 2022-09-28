@@ -20,7 +20,7 @@ class OffreMessageWidget extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(top: 10, bottom: 10),
       child: Column(
-        crossAxisAlignment: item is ConseillerMessageItem ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+        crossAxisAlignment: item.sender == Sender.conseiller ? CrossAxisAlignment.start : CrossAxisAlignment.end,
         children: [
           _MessageBubble(item: item),
           SizedBox(height: Margins.spacing_xs),
@@ -39,16 +39,19 @@ class _MessageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(left: 77.0),
+      margin: EdgeInsets.only(
+        left: item.sender == Sender.jeune ? 77.0 : 0,
+        right: item.sender == Sender.conseiller ? 77.0 : 0,
+      ),
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color: AppColors.primary,
+        color: item.sender == Sender.jeune ? AppColors.primary : AppColors.primaryLighten,
         borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          _ContentMessage(content: item.content),
+          _ContentMessage(content: item.content, sender: item.sender),
           SizedBox(height: Margins.spacing_base),
           _OfferCard(titreOffre: item.titreOffre, offerId: item.idOffre, type: item.type),
         ],
@@ -59,16 +62,14 @@ class _MessageBubble extends StatelessWidget {
 
 class _ContentMessage extends StatelessWidget {
   final String content;
+  final Sender sender;
 
-  _ContentMessage({required this.content});
+  _ContentMessage({required this.content, required this.sender});
 
   @override
   Widget build(BuildContext context) {
-    return TextWithClickableLinks(
-      content,
-      linkStyle: TextStyles.textSRegular(color: Colors.white),
-      style: TextStyles.textSRegular(color: Colors.white),
-    );
+    final style = sender == Sender.jeune ? TextStyles.textSRegular(color: Colors.white) : TextStyles.textSRegular();
+    return TextWithClickableLinks(content, linkStyle: style, style: style);
   }
 }
 
