@@ -34,6 +34,7 @@ AgendaState _listWithUpdatedDemarches(AgendaState current, Demarche modifiedDema
   if (current is! AgendaSuccessState) return current;
   final currentDemarches = current.agenda.demarches.toList();
   final indexOfCurrentDemarche = currentDemarches.indexWhere((e) => e.id == modifiedDemarche.id);
+  if (indexOfCurrentDemarche == -1) return current;
   currentDemarches[indexOfCurrentDemarche] = modifiedDemarche;
   final newAgenda = current.agenda.copyWith(demarches: currentDemarches);
   return AgendaSuccessState(newAgenda);
