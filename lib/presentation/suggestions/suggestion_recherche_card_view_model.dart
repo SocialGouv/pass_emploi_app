@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/accepter/accepter_suggestion_recherche_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -11,8 +12,15 @@ class SuggestionRechercheCardViewModel extends Equatable {
   final String titre;
   final String? metier;
   final String? localisation;
+  final Function() ajouterSuggestion;
 
-  SuggestionRechercheCardViewModel({required this.type, required this.titre, this.metier, this.localisation});
+  SuggestionRechercheCardViewModel._({
+    required this.type,
+    required this.titre,
+    this.metier,
+    this.localisation,
+    required this.ajouterSuggestion,
+  });
 
   static SuggestionRechercheCardViewModel? create(Store<AppState> store, String suggestionId) {
     final state = store.state.suggestionsRechercheState;
@@ -21,11 +29,12 @@ class SuggestionRechercheCardViewModel extends Equatable {
     final suggestion = state.suggestions.firstWhereOrNull((element) => element.id == suggestionId);
     if (suggestion == null) return null;
 
-    return SuggestionRechercheCardViewModel(
+    return SuggestionRechercheCardViewModel._(
       type: _text(suggestion.type),
       titre: suggestion.titre,
       metier: suggestion.metier,
       localisation: suggestion.localisation,
+      ajouterSuggestion: () => store.dispatch(AccepterSuggestionRechercheRequestAction(suggestion)),
     );
   }
 

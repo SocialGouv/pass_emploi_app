@@ -106,7 +106,7 @@ class _Card extends StatelessWidget {
               _Localisation(viewModel.localisation!),
               _Space(),
             ],
-            _Buttons(),
+            _Buttons(onTapAjouter: viewModel.ajouterSuggestion),
           ],
         ),
       ),
@@ -206,6 +206,10 @@ class _Localisation extends StatelessWidget {
 }
 
 class _Buttons extends StatelessWidget {
+  final Function() onTapAjouter;
+
+  _Buttons({required this.onTapAjouter});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -218,7 +222,7 @@ class _Buttons extends StatelessWidget {
               children: [
                 _Supprimer(),
                 VerticalDivider(thickness: 1, color: AppColors.primaryLighten),
-                _Ajouter(),
+                _Ajouter(onTapAjouter: onTapAjouter),
               ],
             ),
           ),
@@ -253,6 +257,10 @@ class _Supprimer extends StatelessWidget {
 }
 
 class _Ajouter extends StatelessWidget {
+  final Function() onTapAjouter;
+
+  _Ajouter({required this.onTapAjouter});
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -263,7 +271,7 @@ class _Ajouter extends StatelessWidget {
             drawableRes: Drawables.icAdd,
             withShadow: false,
             heightPadding: 6,
-            onPressed: () => {},
+            onPressed: onTapAjouter,
           )),
     );
   }
