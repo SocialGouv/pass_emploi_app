@@ -1,6 +1,8 @@
+import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/accepter/accepter_suggestion_recherche_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/accepter/accepter_suggestion_recherche_state.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 
 import '../../doubles/dummies.dart';
@@ -21,6 +23,15 @@ void main() {
           .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositorySuccessStub()});
 
       sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
+    });
+
+    test('should remove suggestion when request succeed', () {
+      sut.givenStore = givenState()
+          .loggedInUser() //
+          .withSuggestionsRecherche()
+          .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositorySuccessStub()});
+
+      sut.thenExpectChangingStatesThroughOrder([_suggestionShouldBeRemoved()]);
     });
 
     test('should load then fail when request fail', () {
@@ -46,6 +57,14 @@ Matcher _shouldSucceed() {
       expect(state.suggestion, suggestionCariste());
     },
   );
+}
+
+Matcher _suggestionShouldBeRemoved() {
+  return StateMatch((state) {
+    final suggestionState = state.suggestionsRechercheState;
+    return suggestionState is SuggestionsRechercheSuccessState &&
+        suggestionState.suggestions.firstWhereOrNull((e) => e.id == suggestionCariste().id) == null;
+  });
 }
 
 class SuggestionsRechercheRepositorySuccessStub extends SuggestionsRechercheRepository {
