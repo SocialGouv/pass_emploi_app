@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pass_emploi_app/models/suggestion_recherche.dart';
+import 'package:pass_emploi_app/presentation/suggestions/suggestion_recherche_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/suggestions/suggestions_recherche_list_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -50,11 +50,11 @@ class _Scaffold extends StatelessWidget {
         withBackButton: true,
       ),
       body: ListView.separated(
-        itemCount: viewModel.suggestions.length,
+        itemCount: viewModel.suggestionIds.length,
         padding: const EdgeInsets.all(Margins.spacing_s),
         separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
         itemBuilder: (context, index) {
-          return _Card(suggestion: viewModel.suggestions[index]);
+          return _Card(suggestionId: viewModel.suggestionIds[index]);
         },
       ),
     );
@@ -62,12 +62,22 @@ class _Scaffold extends StatelessWidget {
 }
 
 class _Card extends StatelessWidget {
-  final SuggestionRecherche suggestion;
+  final String suggestionId;
 
-  _Card({required this.suggestion});
+  _Card({required this.suggestionId});
 
   @override
   Widget build(BuildContext context) {
+    return StoreConnector<AppState, SuggestionRechercheCardViewModel?>(
+      builder: (context, viewModel) => _builder(viewModel),
+      converter: (store) => SuggestionRechercheCardViewModel.create(store, suggestionId),
+      distinct: true,
+    );
+  }
+
+  Widget _builder(SuggestionRechercheCardViewModel? viewModel) {
+    if (viewModel == null) return SizedBox(height: 0);
+
     return DecoratedBox(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -84,16 +94,16 @@ class _Card extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _Type(suggestion.type.label()),
+            _Type(viewModel.type),
             _Space(),
-            _Titre(suggestion.titre),
+            _Titre(viewModel.titre),
             _Space(),
-            if (suggestion.metier != null) ...[
-              _Metier(suggestion.metier!),
+            if (viewModel.metier != null) ...[
+              _Metier(viewModel.metier!),
               _Space(),
             ],
-            if (suggestion.localisation != null) ...[
-              _Localisation(suggestion.localisation!),
+            if (viewModel.localisation != null) ...[
+              _Localisation(viewModel.localisation!),
               _Space(),
             ],
             _Buttons(),

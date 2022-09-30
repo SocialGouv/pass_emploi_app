@@ -13,6 +13,6 @@ void main() {
     final viewModel = SuggestionsRechercheListViewModel.create(store);
 
     // Then
-    expect(viewModel.suggestions, mockSuggestionsRecherche());
+    expect(viewModel.suggestionIds, ["1", "2"]);
   });
 }
