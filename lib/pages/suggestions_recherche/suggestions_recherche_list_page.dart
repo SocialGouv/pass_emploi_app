@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/suggestions/suggestion_recherche_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/suggestions/suggestions_recherche_list_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -12,6 +13,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/loading_overlay.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
 class SuggestionsRechercheListPage extends StatelessWidget {
@@ -49,13 +51,18 @@ class _Scaffold extends StatelessWidget {
         context: context,
         withBackButton: true,
       ),
-      body: ListView.separated(
-        itemCount: viewModel.suggestionIds.length,
-        padding: const EdgeInsets.all(Margins.spacing_s),
-        separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
-        itemBuilder: (context, index) {
-          return _Card(suggestionId: viewModel.suggestionIds[index]);
-        },
+      body: Stack(
+        children: [
+          ListView.separated(
+            itemCount: viewModel.suggestionIds.length,
+            padding: const EdgeInsets.all(Margins.spacing_s),
+            separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
+            itemBuilder: (context, index) {
+              return _Card(suggestionId: viewModel.suggestionIds[index]);
+            },
+          ),
+          if (viewModel.displayState == DisplayState.LOADING) LoadingOverlay(),
+        ],
       ),
     );
   }
