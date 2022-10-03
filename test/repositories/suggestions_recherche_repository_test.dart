@@ -49,7 +49,7 @@ void main() {
       test('request should be valid', () async {
         await sut.expectRequestBody(
           method: "POST",
-          url: "BASE_URL/jeunes/USERID/recherches/suggestions/SUGGID/creer-recherche",
+          url: "BASE_URL/jeunes/USERID/recherches/suggestions/SUGGID/accepter",
         );
       });
 

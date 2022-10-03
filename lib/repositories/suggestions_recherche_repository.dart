@@ -31,7 +31,7 @@ class SuggestionsRechercheRepository {
   }
 
   Future<bool> accepterSuggestion({required String userId, required String suggestionId}) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/recherches/suggestions/$suggestionId/creer-recherche");
+    final url = Uri.parse(_baseUrl + "/jeunes/$userId/recherches/suggestions/$suggestionId/accepter");
     try {
       final response = await _httpClient.post(url);
       if (response.statusCode.isValid()) {
