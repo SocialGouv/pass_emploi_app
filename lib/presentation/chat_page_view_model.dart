@@ -117,7 +117,7 @@ MessageItem _buildMessageItem(Message message, DateTime lastConseillerReading) {
 
 List<dynamic> _messagesWithDaySections(List<Message> messages) {
   final messagesWithDaySections = <dynamic>[];
-  groupBy(messages, (message) => _getDayLabel((message as Message).creationDate)).forEach((day, messagesOfDay) {
+  groupBy(messages, (message) => _getDayLabel(message.creationDate)).forEach((day, messagesOfDay) {
     messagesWithDaySections.add(day);
     messagesWithDaySections.addAll(messagesOfDay);
   });
