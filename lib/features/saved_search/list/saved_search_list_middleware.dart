@@ -1,4 +1,3 @@
-import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/accepter/accepter_suggestion_recherche_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
