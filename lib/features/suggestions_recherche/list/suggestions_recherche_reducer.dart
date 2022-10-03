@@ -8,9 +8,9 @@ SuggestionsRechercheState suggestionsRechercheReducer(SuggestionsRechercheState 
   if (action is SuggestionsRechercheFailureAction) return SuggestionsRechercheFailureState();
   if (action is AccepterSuggestionRechercheSuccessAction) {
     if (current is! SuggestionsRechercheSuccessState) return current;
-    final sugg = current.suggestions;
-    sugg.removeWhere((element) => element.id == action.suggestion.id);
-    return SuggestionsRechercheSuccessState(sugg);
+    final suggestion = current.suggestions;
+    suggestion.removeWhere((element) => element.id == action.suggestion.id);
+    return SuggestionsRechercheSuccessState(suggestion);
   }
   return current;
 }
