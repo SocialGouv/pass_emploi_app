@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:pass_emploi_app/models/suggestion_recherche.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/suggestions/suggestion_recherche_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/suggestions/suggestions_recherche_list_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -12,6 +13,7 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/loading_overlay.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
 class SuggestionsRechercheListPage extends StatelessWidget {
@@ -49,25 +51,40 @@ class _Scaffold extends StatelessWidget {
         context: context,
         withBackButton: true,
       ),
-      body: ListView.separated(
-        itemCount: viewModel.suggestions.length,
-        padding: const EdgeInsets.all(Margins.spacing_s),
-        separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
-        itemBuilder: (context, index) {
-          return _Card(suggestion: viewModel.suggestions[index]);
-        },
+      body: Stack(
+        children: [
+          ListView.separated(
+            itemCount: viewModel.suggestionIds.length,
+            padding: const EdgeInsets.all(Margins.spacing_s),
+            separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
+            itemBuilder: (context, index) {
+              return _Card(suggestionId: viewModel.suggestionIds[index]);
+            },
+          ),
+          if (viewModel.displayState == DisplayState.LOADING) LoadingOverlay(),
+        ],
       ),
     );
   }
 }
 
 class _Card extends StatelessWidget {
-  final SuggestionRecherche suggestion;
+  final String suggestionId;
 
-  _Card({required this.suggestion});
+  _Card({required this.suggestionId});
 
   @override
   Widget build(BuildContext context) {
+    return StoreConnector<AppState, SuggestionRechercheCardViewModel?>(
+      builder: (context, viewModel) => _builder(viewModel),
+      converter: (store) => SuggestionRechercheCardViewModel.create(store, suggestionId),
+      distinct: true,
+    );
+  }
+
+  Widget _builder(SuggestionRechercheCardViewModel? viewModel) {
+    if (viewModel == null) return SizedBox(height: 0);
+
     return DecoratedBox(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -84,19 +101,19 @@ class _Card extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _Type(suggestion.type.label()),
+            _Type(viewModel.type),
             _Space(),
-            _Titre(suggestion.titre),
+            _Titre(viewModel.titre),
             _Space(),
-            if (suggestion.metier != null) ...[
-              _Metier(suggestion.metier!),
+            if (viewModel.metier != null) ...[
+              _Metier(viewModel.metier!),
               _Space(),
             ],
-            if (suggestion.localisation != null) ...[
-              _Localisation(suggestion.localisation!),
+            if (viewModel.localisation != null) ...[
+              _Localisation(viewModel.localisation!),
               _Space(),
             ],
-            _Buttons(),
+            _Buttons(onTapAjouter: viewModel.ajouterSuggestion),
           ],
         ),
       ),
@@ -196,6 +213,10 @@ class _Localisation extends StatelessWidget {
 }
 
 class _Buttons extends StatelessWidget {
+  final Function() onTapAjouter;
+
+  _Buttons({required this.onTapAjouter});
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -208,7 +229,7 @@ class _Buttons extends StatelessWidget {
               children: [
                 _Supprimer(),
                 VerticalDivider(thickness: 1, color: AppColors.primaryLighten),
-                _Ajouter(),
+                _Ajouter(onTapAjouter: onTapAjouter),
               ],
             ),
           ),
@@ -243,6 +264,10 @@ class _Supprimer extends StatelessWidget {
 }
 
 class _Ajouter extends StatelessWidget {
+  final Function() onTapAjouter;
+
+  _Ajouter({required this.onTapAjouter});
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -253,7 +278,7 @@ class _Ajouter extends StatelessWidget {
             drawableRes: Drawables.icAdd,
             withShadow: false,
             heightPadding: 6,
-            onPressed: () => {},
+            onPressed: onTapAjouter,
           )),
     );
   }

@@ -1,9 +1,11 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
+import 'dummies_for_cache.dart';
 import 'fixtures.dart';
 
 class NextDispatcherSpy {
@@ -78,4 +80,28 @@ class SharedPreferencesSpy extends FlutterSecureStorage {
   }
 
   Future<void> simulateIoOperation() async => await Future.delayed(Duration(milliseconds: 10));
+}
+
+
+class SpyPassEmploiCacheManager extends PassEmploiCacheManager {
+  SpyPassEmploiCacheManager() : super(DummyConfig());
+
+  CachedRessource? removeRessourceParams;
+  bool removeSuggestionsRechercheRessourceWasCalled = false;
+
+  @override
+  void removeRessource(CachedRessource ressourceToRemove, String userId, String baseUrl) {
+    removeRessourceParams = ressourceToRemove;
+  }
+
+  @override
+  void removeActionCommentaireRessource(String actionId, String baseUrl) {}
+
+  @override
+  void removeSuggestionsRechercheRessource({required String baseUrl, required String userId}) {
+    removeSuggestionsRechercheRessourceWasCalled = true;
+  }
+
+  @override
+  Future<void> emptyCache() => Future<void>.value();
 }

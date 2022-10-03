@@ -457,9 +457,7 @@ List<Demarche> mockDemarches() {
   ];
 }
 
-List<SuggestionRecherche> mockSuggestionsRecherche() {
-  return [
-    SuggestionRecherche(
+SuggestionRecherche suggestionCariste() => SuggestionRecherche(
       id: "1",
       type: SuggestionType.emploi,
       titre: "Cariste",
@@ -467,8 +465,9 @@ List<SuggestionRecherche> mockSuggestionsRecherche() {
       localisation: "Nord",
       dateCreation: parseDateTimeUtcWithCurrentTimeZone("2022-09-22T12:00:00.000Z"),
       dateMiseAJour: parseDateTimeUtcWithCurrentTimeZone("2022-09-26T13:00:00.000Z"),
-    ),
-    SuggestionRecherche(
+    );
+
+SuggestionRecherche suggestionBoulanger() => SuggestionRecherche(
       id: "2",
       type: SuggestionType.immersion,
       titre: "Boulanger",
@@ -476,6 +475,8 @@ List<SuggestionRecherche> mockSuggestionsRecherche() {
       localisation: "Valence",
       dateCreation: parseDateTimeUtcWithCurrentTimeZone("2022-10-12T22:00:00.000Z"),
       dateMiseAJour: parseDateTimeUtcWithCurrentTimeZone("2022-10-16T23:00:00.000Z"),
-    ),
-  ];
+    );
+
+List<SuggestionRecherche> mockSuggestionsRecherche() {
+  return [suggestionCariste(), suggestionBoulanger()];
 }

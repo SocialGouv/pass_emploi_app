@@ -46,7 +46,8 @@ import 'package:pass_emploi_app/features/saved_search/init/saved_search_initiali
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_middleware.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_middleware.dart';
 import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_middleware.dart';
-import 'package:pass_emploi_app/features/suggestions_recherche/suggestions_recherche_middleware.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/accepter/accepter_suggestion_recherche_middleware.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_middleware.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_middleware.dart';
 import 'package:pass_emploi_app/features/tech/action_logging_middleware.dart';
 import 'package:pass_emploi_app/features/tech/crashlytics_middleware.dart';
@@ -254,6 +255,7 @@ class StoreFactory {
         ActionCommentaireCreateMiddleware(actionCommentaireRepository),
         AgendaMiddleware(agendaRepository),
         SuggestionsRechercheMiddleware(suggestionsRechercheRepository),
+        AccepterSuggestionRechercheMiddleware(suggestionsRechercheRepository),
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),
       ],

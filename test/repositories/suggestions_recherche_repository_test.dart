@@ -1,13 +1,18 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
+import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 
 import '../doubles/fixtures.dart';
+import '../doubles/spies.dart';
 import '../dsl/sut_repository.dart';
 
 void main() {
+  var cacheManager = SpyPassEmploiCacheManager();
+  setUp(() => cacheManager = SpyPassEmploiCacheManager());
+
   final sut = RepositorySut<SuggestionsRechercheRepository>();
-  sut.givenRepository((client) => SuggestionsRechercheRepository("BASE_URL", client));
+  sut.givenRepository((client) => SuggestionsRechercheRepository("BASE_URL", client, cacheManager));
 
   group('getSuggestions', () {
     sut.when((repository) => repository.getSuggestions("UID"));
@@ -35,6 +40,40 @@ void main() {
 
       test('response should be null', () async {
         await sut.expectNullResult();
+      });
+    });
+  });
+
+  group('accepterSuggestion', () {
+    sut.when((repository) => repository.accepterSuggestion(userId: "USERID", suggestionId: "SUGGID"));
+
+    group('when response is valid', () {
+      sut.givenResponseCode(200);
+
+      test('request should be valid', () async {
+        await sut.expectRequestBody(
+          method: "POST",
+          url: "BASE_URL/jeunes/USERID/recherches/suggestions/SUGGID/accepter",
+        );
+      });
+
+      test('response should be valid', () async {
+        await sut.expectTrueAsResult();
+      });
+
+      test('cache for saved search and suggestions should be reset', () async {
+        await sut.expectResult<dynamic>((result) {
+          expect(cacheManager.removeRessourceParams, CachedRessource.SAVED_SEARCH);
+          expect(cacheManager.removeSuggestionsRechercheRessourceWasCalled, true);
+        });
+      });
+    });
+
+    group('when response is invalid', () {
+      sut.givenResponseCode(500);
+
+      test('response should be null', () async {
+        await sut.expectFalseAsResult();
       });
     });
   });
