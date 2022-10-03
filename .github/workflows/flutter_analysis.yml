@@ -12,9 +12,13 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: '12.x'
+      - name: Set Environment Variables
+        uses: ./.github/actions/setvars
+        with:
+          varFilePath: ./.github/variables/myvars.env
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.0.0'
+          flutter-version: ${{ env.FLUTTER_VERSION }}
       - name: Launch Dart, Flutter & custom analysis
         run: |
           flutter analyze
