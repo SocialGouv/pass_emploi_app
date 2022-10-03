@@ -270,6 +270,9 @@ class DummyPassEmploiCacheManager extends PassEmploiCacheManager {
   void removeActionCommentaireRessource(String actionId, String baseUrl) {}
 
   @override
+  void removeSuggestionsRechercheRessource({required String baseUrl, required String userId}) {}
+
+  @override
   Future<void> emptyCache() => Future<void>.value();
 }
 
@@ -347,5 +350,5 @@ class DummyAgendaRepository extends AgendaRepository {
 }
 
 class DummySuggestionsRechercheRepository extends SuggestionsRechercheRepository {
-  DummySuggestionsRechercheRepository() : super("", DummyHttpClient());
+  DummySuggestionsRechercheRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 }

@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_reposi
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/partage_activite_repository.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
+import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 
 class PassEmploiCacheManager extends CacheManager {
   static const Duration requestCacheDuration = Duration(minutes: 20);
@@ -44,6 +45,10 @@ class PassEmploiCacheManager extends CacheManager {
 
   void removeActionCommentaireRessource(String actionId, String baseUrl) {
     removeFile(ActionCommentaireRepository.getCommentairesUri(baseUrl: baseUrl, actionId: actionId).toString());
+  }
+
+  void removeSuggestionsRechercheRessource({required String baseUrl, required String userId}) {
+    removeFile(SuggestionsRechercheRepository.getSuggestionsUri(baseUrl: baseUrl, userId: userId).toString());
   }
 }
 

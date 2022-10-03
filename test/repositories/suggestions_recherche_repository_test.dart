@@ -2,12 +2,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 
+import '../doubles/dummies.dart';
 import '../doubles/fixtures.dart';
 import '../dsl/sut_repository.dart';
 
 void main() {
   final sut = RepositorySut<SuggestionsRechercheRepository>();
-  sut.givenRepository((client) => SuggestionsRechercheRepository("BASE_URL", client));
+  sut.givenRepository((client) => SuggestionsRechercheRepository("BASE_URL", client, DummyPassEmploiCacheManager()));
 
   group('getSuggestions', () {
     sut.when((repository) => repository.getSuggestions("UID"));

@@ -50,7 +50,7 @@ Matcher _shouldSucceed() {
 }
 
 class SuggestionsRechercheRepositorySuccessStub extends SuggestionsRechercheRepository {
-  SuggestionsRechercheRepositorySuccessStub() : super("", DummyHttpClient());
+  SuggestionsRechercheRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
   Future<List<SuggestionRecherche>?> getSuggestions(String userId) async {
@@ -59,7 +59,7 @@ class SuggestionsRechercheRepositorySuccessStub extends SuggestionsRechercheRepo
 }
 
 class SuggestionsRechercheRepositoryErrorStub extends SuggestionsRechercheRepository {
-  SuggestionsRechercheRepositoryErrorStub() : super("", DummyHttpClient());
+  SuggestionsRechercheRepositoryErrorStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
   Future<List<SuggestionRecherche>?> getSuggestions(String userId) async {

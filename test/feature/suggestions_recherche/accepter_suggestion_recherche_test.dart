@@ -68,7 +68,7 @@ Matcher _suggestionShouldBeRemoved() {
 }
 
 class SuggestionsRechercheRepositorySuccessStub extends SuggestionsRechercheRepository {
-  SuggestionsRechercheRepositorySuccessStub() : super("", DummyHttpClient());
+  SuggestionsRechercheRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> accepterSuggestion({required String userId, required String suggestionId}) async {
@@ -77,7 +77,7 @@ class SuggestionsRechercheRepositorySuccessStub extends SuggestionsRechercheRepo
 }
 
 class SuggestionsRechercheRepositoryErrorStub extends SuggestionsRechercheRepository {
-  SuggestionsRechercheRepositoryErrorStub() : super("", DummyHttpClient());
+  SuggestionsRechercheRepositoryErrorStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> accepterSuggestion({required String userId, required String suggestionId}) async {
