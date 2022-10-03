@@ -36,6 +36,7 @@ class SuggestionsRechercheRepository {
       final response = await _httpClient.post(url);
       if (response.statusCode.isValid()) {
         _cacheManager.removeSuggestionsRechercheRessource(baseUrl: _baseUrl, userId: userId);
+        _cacheManager.removeRessource(CachedRessource.SAVED_SEARCH, userId, _baseUrl);
         return true;
       }
     } catch (e, stack) {

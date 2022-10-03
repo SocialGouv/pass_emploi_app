@@ -1,8 +1,11 @@
 import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/accepter/accepter_suggestion_recherche_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/accepter/accepter_suggestion_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
+import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
+import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 
 import '../../doubles/dummies.dart';
@@ -32,6 +35,18 @@ void main() {
           .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositorySuccessStub()});
 
       sut.thenExpectChangingStatesThroughOrder([_suggestionShouldBeRemoved()]);
+    });
+
+    test('should refresh saved search list when request succeed', () {
+      sut.givenStore = givenState()
+          .loggedInUser() //
+          .withSuggestionsRecherche()
+          .store((f) => {
+                f.suggestionsRechercheRepository = SuggestionsRechercheRepositorySuccessStub(),
+                f.getSavedSearchRepository = SavedSearchRepositorySuccessStub(),
+              });
+
+      sut.thenExpectChangingStatesThroughOrder([_shouldReloadSavedSearchList()]);
     });
 
     test('should load then fail when request fail', () {
@@ -67,6 +82,8 @@ Matcher _suggestionShouldBeRemoved() {
   });
 }
 
+Matcher _shouldReloadSavedSearchList() => StateIs<SavedSearchListSuccessState>((state) => state.savedSearchListState);
+
 class SuggestionsRechercheRepositorySuccessStub extends SuggestionsRechercheRepository {
   SuggestionsRechercheRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
@@ -82,5 +99,14 @@ class SuggestionsRechercheRepositoryErrorStub extends SuggestionsRechercheReposi
   @override
   Future<bool> accepterSuggestion({required String userId, required String suggestionId}) async {
     return false;
+  }
+}
+
+class SavedSearchRepositorySuccessStub extends GetSavedSearchRepository {
+  SavedSearchRepositorySuccessStub() : super("", DummyHttpClient(), DummyCrashlytics());
+
+  @override
+  Future<List<SavedSearch>?> getSavedSearch(String userId) async {
+    return [];
   }
 }
