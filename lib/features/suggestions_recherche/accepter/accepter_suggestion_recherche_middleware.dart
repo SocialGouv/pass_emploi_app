@@ -16,12 +16,21 @@ class AccepterSuggestionRechercheMiddleware extends MiddlewareClass<AppState> {
 
     if (action is AccepterSuggestionRechercheRequestAction) {
       store.dispatch(AccepterSuggestionRechercheLoadingAction());
-      final success = await _repository.accepterSuggestion(userId: userId, suggestionId: action.suggestion.id);
+      final success = await _traiterSuggestion(userId, action);
       if (success) {
-        store.dispatch(AccepterSuggestionRechercheSuccessAction(action.suggestion));
+        store.dispatch(AccepterSuggestionRechercheSuccessAction(action.suggestion, action.type));
       } else {
         store.dispatch(AccepterSuggestionRechercheFailureAction());
       }
+    }
+  }
+
+  Future<bool> _traiterSuggestion(String userId, AccepterSuggestionRechercheRequestAction action) async {
+    switch (action.type) {
+      case TraiterSuggestionType.accepter:
+        return await _repository.accepterSuggestion(userId: userId, suggestionId: action.suggestion.id);
+      case TraiterSuggestionType.refuser:
+        return await _repository.refuserSuggestion(userId: userId, suggestionId: action.suggestion.id);
     }
   }
 }

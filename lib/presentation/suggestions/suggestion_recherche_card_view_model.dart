@@ -34,7 +34,8 @@ class SuggestionRechercheCardViewModel extends Equatable {
       titre: suggestion.titre,
       metier: suggestion.metier,
       localisation: suggestion.localisation,
-      ajouterSuggestion: () => store.dispatch(AccepterSuggestionRechercheRequestAction(suggestion)),
+      ajouterSuggestion: () =>
+          store.dispatch(AccepterSuggestionRechercheRequestAction(suggestion, TraiterSuggestionType.accepter)),
     );
   }
 

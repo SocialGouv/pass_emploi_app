@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/features/partage_activite/partage_activites_stat
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/accepter/accepter_suggestion_recherche_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/accepter/accepter_suggestion_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
@@ -289,7 +290,12 @@ extension AppStateDSL on AppState {
   }
 
   AppState succeedAccepterSuggestionRecherche() {
-    return copyWith(accepterSuggestionRechercheState: AccepterSuggestionRechercheSuccessState(suggestionCariste()));
+    return copyWith(
+      accepterSuggestionRechercheState: AccepterSuggestionRechercheSuccessState(
+        suggestionCariste(),
+        TraiterSuggestionType.accepter,
+      ),
+    );
   }
 
   AppState failedAccepterSuggestionRecherche() {

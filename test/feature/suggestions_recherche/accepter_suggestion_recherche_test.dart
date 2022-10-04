@@ -17,22 +17,22 @@ import '../../dsl/sut_redux.dart';
 void main() {
   final sut = StoreSut();
 
-  group("when requesting to accept suggestion", () {
-    sut.when(() => AccepterSuggestionRechercheRequestAction(suggestionCariste()));
+  group("when requesting to accepter une suggestion", () {
+    sut.when(() => AccepterSuggestionRechercheRequestAction(suggestionCariste(), TraiterSuggestionType.accepter));
 
     test('should load then succeed when request succeed', () {
       sut.givenStore = givenState()
           .loggedInUser() //
-          .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositorySuccessStub()});
+          .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositoryStub(accepterSucceed: true)});
 
-      sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
+      sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceedAccepter()]);
     });
 
     test('should remove suggestion when request succeed', () {
       sut.givenStore = givenState()
           .loggedInUser() //
           .withSuggestionsRecherche()
-          .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositorySuccessStub()});
+          .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositoryStub(accepterSucceed: true)});
 
       sut.thenExpectChangingStatesThroughOrder([_suggestionShouldBeRemoved()]);
     });
@@ -42,7 +42,7 @@ void main() {
           .loggedInUser() //
           .withSuggestionsRecherche()
           .store((f) => {
-                f.suggestionsRechercheRepository = SuggestionsRechercheRepositorySuccessStub(),
+                f.suggestionsRechercheRepository = SuggestionsRechercheRepositoryStub(accepterSucceed: true),
                 f.getSavedSearchRepository = SavedSearchRepositorySuccessStub(),
               });
 
@@ -52,7 +52,36 @@ void main() {
     test('should load then fail when request fail', () {
       sut.givenStore = givenState()
           .loggedInUser() //
-          .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositoryErrorStub()});
+          .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositoryStub(accepterSucceed: false)});
+
+      sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
+    });
+  });
+
+  group("when requesting to refuser une suggestion", () {
+    sut.when(() => AccepterSuggestionRechercheRequestAction(suggestionCariste(), TraiterSuggestionType.refuser));
+
+    test('should load then succeed when request succeed', () {
+      sut.givenStore = givenState()
+          .loggedInUser() //
+          .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositoryStub(refuserSucceed: true)});
+
+      sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceedRefuser()]);
+    });
+
+    test('should remove suggestion when request succeed', () {
+      sut.givenStore = givenState()
+          .loggedInUser() //
+          .withSuggestionsRecherche()
+          .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositoryStub(refuserSucceed: true)});
+
+      sut.thenExpectChangingStatesThroughOrder([_suggestionShouldBeRemoved()]);
+    });
+
+    test('should load then fail when request fail', () {
+      sut.givenStore = givenState()
+          .loggedInUser() //
+          .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositoryStub(refuserSucceed: false)});
 
       sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
     });
@@ -65,11 +94,22 @@ Matcher _shouldLoad() =>
 Matcher _shouldFail() =>
     StateIs<AccepterSuggestionRechercheFailureState>((state) => state.accepterSuggestionRechercheState);
 
-Matcher _shouldSucceed() {
+Matcher _shouldSucceedAccepter() {
   return StateIs<AccepterSuggestionRechercheSuccessState>(
     (state) => state.accepterSuggestionRechercheState,
     (state) {
       expect(state.suggestion, suggestionCariste());
+      expect(state.type, TraiterSuggestionType.accepter);
+    },
+  );
+}
+
+Matcher _shouldSucceedRefuser() {
+  return StateIs<AccepterSuggestionRechercheSuccessState>(
+    (state) => state.accepterSuggestionRechercheState,
+    (state) {
+      expect(state.suggestion, suggestionCariste());
+      expect(state.type, TraiterSuggestionType.refuser);
     },
   );
 }
@@ -84,21 +124,21 @@ Matcher _suggestionShouldBeRemoved() {
 
 Matcher _shouldReloadSavedSearchList() => StateIs<SavedSearchListSuccessState>((state) => state.savedSearchListState);
 
-class SuggestionsRechercheRepositorySuccessStub extends SuggestionsRechercheRepository {
-  SuggestionsRechercheRepositorySuccessStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+class SuggestionsRechercheRepositoryStub extends SuggestionsRechercheRepository {
+  final bool accepterSucceed;
+  final bool refuserSucceed;
+
+  SuggestionsRechercheRepositoryStub({this.accepterSucceed = true, this.refuserSucceed = true})
+      : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
   Future<bool> accepterSuggestion({required String userId, required String suggestionId}) async {
-    return true;
+    return accepterSucceed;
   }
-}
-
-class SuggestionsRechercheRepositoryErrorStub extends SuggestionsRechercheRepository {
-  SuggestionsRechercheRepositoryErrorStub() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
-  Future<bool> accepterSuggestion({required String userId, required String suggestionId}) async {
-    return false;
+  Future<bool> refuserSuggestion({required String userId, required String suggestionId}) async {
+    return refuserSucceed;
   }
 }
 

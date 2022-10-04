@@ -8,7 +8,7 @@ AccepterSuggestionRechercheState accepterSuggestionRechercheReducer(
   if (action is AccepterSuggestionRechercheLoadingAction) return AccepterSuggestionRechercheLoadingState();
   if (action is AccepterSuggestionRechercheFailureAction) return AccepterSuggestionRechercheFailureState();
   if (action is AccepterSuggestionRechercheSuccessAction) {
-    return AccepterSuggestionRechercheSuccessState(action.suggestion);
+    return AccepterSuggestionRechercheSuccessState(action.suggestion, action.type);
   }
   return current;
 }

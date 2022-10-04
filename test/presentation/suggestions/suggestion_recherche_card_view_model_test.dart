@@ -42,6 +42,7 @@ void main() {
 
     // Then
     expect(viewModel, isNotNull);
-    expect(store.dispatchedAction, AccepterSuggestionRechercheRequestAction(suggestionCariste()));
+    expect(store.dispatchedAction,
+        AccepterSuggestionRechercheRequestAction(suggestionCariste(), TraiterSuggestionType.accepter));
   });
 }
