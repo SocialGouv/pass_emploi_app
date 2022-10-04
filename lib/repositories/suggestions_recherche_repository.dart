@@ -31,16 +31,26 @@ class SuggestionsRechercheRepository {
   }
 
   Future<bool> accepterSuggestion({required String userId, required String suggestionId}) async {
-    final url = Uri.parse(_baseUrl + "/jeunes/$userId/recherches/suggestions/$suggestionId/accepter");
+    final url = "/jeunes/$userId/recherches/suggestions/$suggestionId/accepter";
+    return _traiterSuggestion(url: url, userId: userId);
+  }
+
+  Future<bool> refuserSuggestion({required String userId, required String suggestionId}) async {
+    final url = "/jeunes/$userId/recherches/suggestions/$suggestionId/refuser";
+    return _traiterSuggestion(url: url, userId: userId);
+  }
+
+  Future<bool> _traiterSuggestion({required String url, required String userId}) async {
+    final uri = Uri.parse(_baseUrl + url);
     try {
-      final response = await _httpClient.post(url);
+      final response = await _httpClient.post(uri);
       if (response.statusCode.isValid()) {
         _cacheManager.removeSuggestionsRechercheRessource(baseUrl: _baseUrl, userId: userId);
         _cacheManager.removeRessource(CachedRessource.SAVED_SEARCH, userId, _baseUrl);
         return true;
       }
     } catch (e, stack) {
-      _crashlytics?.recordNonNetworkException(e, stack, url);
+      _crashlytics?.recordNonNetworkException(e, stack, uri);
     }
     return false;
   }
