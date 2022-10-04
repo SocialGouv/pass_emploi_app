@@ -113,7 +113,7 @@ class _Card extends StatelessWidget {
               _Localisation(viewModel.localisation!),
               _Space(),
             ],
-            _Buttons(onTapAjouter: viewModel.ajouterSuggestion),
+            _Buttons(onTapAjouter: viewModel.ajouterSuggestion, onTapRefuser: viewModel.refuserSuggestion),
           ],
         ),
       ),
@@ -214,8 +214,9 @@ class _Localisation extends StatelessWidget {
 
 class _Buttons extends StatelessWidget {
   final Function() onTapAjouter;
+  final Function() onTapRefuser;
 
-  _Buttons({required this.onTapAjouter});
+  _Buttons({required this.onTapAjouter, required this.onTapRefuser});
 
   @override
   Widget build(BuildContext context) {
@@ -227,7 +228,7 @@ class _Buttons extends StatelessWidget {
           child: IntrinsicHeight(
             child: Row(
               children: [
-                _Supprimer(),
+                _Supprimer(onTapRefuser: onTapRefuser),
                 VerticalDivider(thickness: 1, color: AppColors.primaryLighten),
                 _Ajouter(onTapAjouter: onTapAjouter),
               ],
@@ -240,23 +241,30 @@ class _Buttons extends StatelessWidget {
 }
 
 class _Supprimer extends StatelessWidget {
+  final Function() onTapRefuser;
+
+  _Supprimer({required this.onTapRefuser});
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.only(left: Margins.spacing_s),
-        child: Row(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(right: 12),
-              child: SvgPicture.asset(
-                Drawables.icTrash,
-                color: AppColors.primary,
-                height: 12,
+        child: TextButton(
+          onPressed: onTapRefuser,
+          child: Row(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(right: 12),
+                child: SvgPicture.asset(
+                  Drawables.icTrash,
+                  color: AppColors.primary,
+                  height: 12,
+                ),
               ),
-            ),
-            Text(Strings.suppressionLabel, style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
-          ],
+              Text(Strings.suppressionLabel, style: TextStyles.textBaseBoldWithColor(AppColors.primary)),
+            ],
+          ),
         ),
       ),
     );
