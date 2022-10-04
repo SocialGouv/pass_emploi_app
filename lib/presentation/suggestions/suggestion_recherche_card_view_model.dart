@@ -13,6 +13,7 @@ class SuggestionRechercheCardViewModel extends Equatable {
   final String? metier;
   final String? localisation;
   final Function() ajouterSuggestion;
+  final Function() refuserSuggestion;
 
   SuggestionRechercheCardViewModel._({
     required this.type,
@@ -20,6 +21,7 @@ class SuggestionRechercheCardViewModel extends Equatable {
     this.metier,
     this.localisation,
     required this.ajouterSuggestion,
+    required this.refuserSuggestion,
   });
 
   static SuggestionRechercheCardViewModel? create(Store<AppState> store, String suggestionId) {
@@ -36,6 +38,8 @@ class SuggestionRechercheCardViewModel extends Equatable {
       localisation: suggestion.localisation,
       ajouterSuggestion: () =>
           store.dispatch(AccepterSuggestionRechercheRequestAction(suggestion, TraiterSuggestionType.accepter)),
+      refuserSuggestion: () =>
+          store.dispatch(AccepterSuggestionRechercheRequestAction(suggestion, TraiterSuggestionType.refuser)),
     );
   }
 

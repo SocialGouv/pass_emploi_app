@@ -45,4 +45,18 @@ void main() {
     expect(store.dispatchedAction,
         AccepterSuggestionRechercheRequestAction(suggestionCariste(), TraiterSuggestionType.accepter));
   });
+
+  test("should dispatch refuser suggestion", () {
+    // Given
+    final store = givenState().withSuggestionsRecherche().spyStore();
+    final viewModel = SuggestionRechercheCardViewModel.create(store, suggestionCariste().id);
+
+    // When
+    viewModel?.refuserSuggestion();
+
+    // Then
+    expect(viewModel, isNotNull);
+    expect(store.dispatchedAction,
+        AccepterSuggestionRechercheRequestAction(suggestionCariste(), TraiterSuggestionType.refuser));
+  });
 }
