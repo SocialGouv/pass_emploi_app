@@ -37,7 +37,7 @@ import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_reducer.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_reducer.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_reducer.dart';
-import 'package:pass_emploi_app/features/suggestions_recherche/accepter/accepter_suggestion_recherche_reducer.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_reducer.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_reducer.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_reducer.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_reducer.dart';
@@ -130,7 +130,7 @@ AppState reducer(AppState current, dynamic action) {
     actionCommentaireCreateState: actionCommentaireCreateReducer(current.actionCommentaireCreateState, action),
     agendaState: agendaReducer(current.agendaState, action),
     suggestionsRechercheState: suggestionsRechercheReducer(current.suggestionsRechercheState, action),
-    accepterSuggestionRechercheState:
-        accepterSuggestionRechercheReducer(current.accepterSuggestionRechercheState, action),
+    traiterSuggestionRechercheState:
+        traiterSuggestionRechercheReducer(current.traiterSuggestionRechercheState, action),
   );
 }

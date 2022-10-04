@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/suggestions_recherche/accepter/accepter_suggestion_recherche_state.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -31,7 +31,7 @@ List<String> _ids(Store<AppState> store) {
 }
 
 DisplayState _displayState(Store<AppState> store) {
-  final state = store.state.accepterSuggestionRechercheState;
-  if (state is AccepterSuggestionRechercheLoadingState) return DisplayState.LOADING;
+  final state = store.state.traiterSuggestionRechercheState;
+  if (state is TraiterSuggestionRechercheLoadingState) return DisplayState.LOADING;
   return DisplayState.CONTENT;
 }

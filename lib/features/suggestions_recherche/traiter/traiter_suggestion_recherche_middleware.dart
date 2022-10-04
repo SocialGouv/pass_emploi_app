@@ -1,12 +1,12 @@
-import 'package:pass_emploi_app/features/suggestions_recherche/accepter/accepter_suggestion_recherche_actions.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 import 'package:redux/redux.dart';
 
-class AccepterSuggestionRechercheMiddleware extends MiddlewareClass<AppState> {
+class TraiterSuggestionRechercheMiddleware extends MiddlewareClass<AppState> {
   final SuggestionsRechercheRepository _repository;
 
-  AccepterSuggestionRechercheMiddleware(this._repository);
+  TraiterSuggestionRechercheMiddleware(this._repository);
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
@@ -14,18 +14,18 @@ class AccepterSuggestionRechercheMiddleware extends MiddlewareClass<AppState> {
     final userId = store.state.userId();
     if (userId == null) return;
 
-    if (action is AccepterSuggestionRechercheRequestAction) {
-      store.dispatch(AccepterSuggestionRechercheLoadingAction());
+    if (action is TraiterSuggestionRechercheRequestAction) {
+      store.dispatch(TraiterSuggestionRechercheLoadingAction());
       final success = await _traiterSuggestion(userId, action);
       if (success) {
-        store.dispatch(AccepterSuggestionRechercheSuccessAction(action.suggestion, action.type));
+        store.dispatch(TraiterSuggestionRechercheSuccessAction(action.suggestion, action.type));
       } else {
-        store.dispatch(AccepterSuggestionRechercheFailureAction());
+        store.dispatch(TraiterSuggestionRechercheFailureAction());
       }
     }
   }
 
-  Future<bool> _traiterSuggestion(String userId, AccepterSuggestionRechercheRequestAction action) async {
+  Future<bool> _traiterSuggestion(String userId, TraiterSuggestionRechercheRequestAction action) async {
     switch (action.type) {
       case TraiterSuggestionType.accepter:
         return await _repository.accepterSuggestion(userId: userId, suggestionId: action.suggestion.id);

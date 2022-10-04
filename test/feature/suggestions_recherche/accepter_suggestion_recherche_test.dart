@@ -1,8 +1,8 @@
 import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
-import 'package:pass_emploi_app/features/suggestions_recherche/accepter/accepter_suggestion_recherche_actions.dart';
-import 'package:pass_emploi_app/features/suggestions_recherche/accepter/accepter_suggestion_recherche_state.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
@@ -18,7 +18,7 @@ void main() {
   final sut = StoreSut();
 
   group("when requesting to accepter une suggestion", () {
-    sut.when(() => AccepterSuggestionRechercheRequestAction(suggestionCariste(), TraiterSuggestionType.accepter));
+    sut.when(() => TraiterSuggestionRechercheRequestAction(suggestionCariste(), TraiterSuggestionType.accepter));
 
     test('should load then succeed when request succeed', () {
       sut.givenStore = givenState()
@@ -59,7 +59,7 @@ void main() {
   });
 
   group("when requesting to refuser une suggestion", () {
-    sut.when(() => AccepterSuggestionRechercheRequestAction(suggestionCariste(), TraiterSuggestionType.refuser));
+    sut.when(() => TraiterSuggestionRechercheRequestAction(suggestionCariste(), TraiterSuggestionType.refuser));
 
     test('should load then succeed when request succeed', () {
       sut.givenStore = givenState()
@@ -89,14 +89,14 @@ void main() {
 }
 
 Matcher _shouldLoad() =>
-    StateIs<AccepterSuggestionRechercheLoadingState>((state) => state.accepterSuggestionRechercheState);
+    StateIs<TraiterSuggestionRechercheLoadingState>((state) => state.traiterSuggestionRechercheState);
 
 Matcher _shouldFail() =>
-    StateIs<AccepterSuggestionRechercheFailureState>((state) => state.accepterSuggestionRechercheState);
+    StateIs<TraiterSuggestionRechercheFailureState>((state) => state.traiterSuggestionRechercheState);
 
 Matcher _shouldSucceedAccepter() {
-  return StateIs<AccepterSuggestionRechercheSuccessState>(
-    (state) => state.accepterSuggestionRechercheState,
+  return StateIs<TraiterSuggestionRechercheSuccessState>(
+    (state) => state.traiterSuggestionRechercheState,
     (state) {
       expect(state.suggestion, suggestionCariste());
       expect(state.type, TraiterSuggestionType.accepter);
@@ -105,8 +105,8 @@ Matcher _shouldSucceedAccepter() {
 }
 
 Matcher _shouldSucceedRefuser() {
-  return StateIs<AccepterSuggestionRechercheSuccessState>(
-    (state) => state.accepterSuggestionRechercheState,
+  return StateIs<TraiterSuggestionRechercheSuccessState>(
+    (state) => state.traiterSuggestionRechercheState,
     (state) {
       expect(state.suggestion, suggestionCariste());
       expect(state.type, TraiterSuggestionType.refuser);
