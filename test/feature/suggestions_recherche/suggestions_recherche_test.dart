@@ -11,27 +11,25 @@ import '../../dsl/matchers.dart';
 import '../../dsl/sut_redux.dart';
 
 void main() {
-  group('Agenda', () {
-    final sut = StoreSut();
+  final sut = StoreSut();
 
-    group("when requesting suggestions", () {
-      sut.when(() => SuggestionsRechercheRequestAction());
+  group("when requesting suggestions", () {
+    sut.when(() => SuggestionsRechercheRequestAction());
 
-      test('should load then succeed when request succeed', () {
-        sut.givenStore = givenState()
-            .loggedInUser() //
-            .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositorySuccessStub()});
+    test('should load then succeed when request succeed', () {
+      sut.givenStore = givenState()
+          .loggedInUser() //
+          .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositorySuccessStub()});
 
-        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
-      });
+      sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
+    });
 
-      test('should load then fail when request fail', () {
-        sut.givenStore = givenState()
-            .loggedInPoleEmploiUser() //
-            .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositoryErrorStub()});
+    test('should load then fail when request fail', () {
+      sut.givenStore = givenState()
+          .loggedInPoleEmploiUser() //
+          .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositoryErrorStub()});
 
-        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
-      });
+      sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
     });
   });
 }
