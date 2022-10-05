@@ -1,25 +1,32 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 class SuggestionsRechercheListViewModel extends Equatable {
   final List<String> suggestionIds;
-  final DisplayState displayState;
+  final DisplayState traiterDisplayState;
+  final Function() resetTraiterState;
 
-  SuggestionsRechercheListViewModel._({required this.suggestionIds, required this.displayState});
+  SuggestionsRechercheListViewModel._({
+    required this.suggestionIds,
+    required this.traiterDisplayState,
+    required this.resetTraiterState,
+  });
 
   factory SuggestionsRechercheListViewModel.create(Store<AppState> store) {
     return SuggestionsRechercheListViewModel._(
       suggestionIds: _ids(store),
-      displayState: _displayState(store),
+      traiterDisplayState: _displayState(store),
+      resetTraiterState: () => store.dispatch(TraiterSuggestionRechercheResetAction()),
     );
   }
 
   @override
-  List<Object?> get props => [suggestionIds, displayState];
+  List<Object?> get props => [suggestionIds, traiterDisplayState];
 }
 
 List<String> _ids(Store<AppState> store) {
@@ -33,5 +40,6 @@ List<String> _ids(Store<AppState> store) {
 DisplayState _displayState(Store<AppState> store) {
   final state = store.state.traiterSuggestionRechercheState;
   if (state is TraiterSuggestionRechercheLoadingState) return DisplayState.LOADING;
-  return DisplayState.CONTENT;
+  if (state is TraiterSuggestionRechercheSuccessState) return DisplayState.CONTENT;
+  return DisplayState.EMPTY;
 }

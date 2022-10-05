@@ -1,9 +1,9 @@
 import 'package:collection/collection.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
-import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
@@ -52,7 +52,8 @@ void main() {
     test('should load then fail when request fail', () {
       sut.givenStore = givenState()
           .loggedInUser() //
-          .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositoryStub(accepterSucceed: false)});
+          .store(
+              (f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositoryStub(accepterSucceed: false)});
 
       sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
     });
@@ -84,6 +85,16 @@ void main() {
           .store((f) => {f.suggestionsRechercheRepository = SuggestionsRechercheRepositoryStub(refuserSucceed: false)});
 
       sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
+    });
+  });
+
+  group("when reseting traiter une suggestion", () {
+    sut.when(() => TraiterSuggestionRechercheResetAction());
+
+    test("should reset state", () {
+      sut.givenStore = givenState().succeedAccepterSuggestionRecherche().store();
+
+      sut.thenExpectChangingStatesThroughOrder([_shouldResetTraiterState()]);
     });
   });
 }
@@ -123,6 +134,9 @@ Matcher _suggestionShouldBeRemoved() {
 }
 
 Matcher _shouldReloadSavedSearchList() => StateIs<SavedSearchListSuccessState>((state) => state.savedSearchListState);
+
+Matcher _shouldResetTraiterState() =>
+    StateIs<TraiterSuggestionRechercheNotInitializedState>((state) => state.traiterSuggestionRechercheState);
 
 class SuggestionsRechercheRepositoryStub extends SuggestionsRechercheRepository {
   final bool accepterSucceed;

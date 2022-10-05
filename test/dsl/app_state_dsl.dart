@@ -289,6 +289,10 @@ extension AppStateDSL on AppState {
     return copyWith(traiterSuggestionRechercheState: TraiterSuggestionRechercheLoadingState());
   }
 
+  AppState notInitAccepterSuggestionRecherche() {
+    return copyWith(traiterSuggestionRechercheState: TraiterSuggestionRechercheNotInitializedState());
+  }
+
   AppState succeedAccepterSuggestionRecherche() {
     return copyWith(
       traiterSuggestionRechercheState: TraiterSuggestionRechercheSuccessState(
