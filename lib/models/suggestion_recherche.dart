@@ -18,7 +18,7 @@ class SuggestionRecherche extends Equatable {
   final String? metier;
   final String? localisation;
   final DateTime dateCreation;
-  final DateTime dateMiseAJour;
+  final DateTime dateRafraichissement;
 
   SuggestionRecherche({
     required this.id,
@@ -27,7 +27,7 @@ class SuggestionRecherche extends Equatable {
     required this.metier,
     required this.localisation,
     required this.dateCreation,
-    required this.dateMiseAJour,
+    required this.dateRafraichissement,
   });
 
   factory SuggestionRecherche.fromJson(dynamic json) {
@@ -38,7 +38,7 @@ class SuggestionRecherche extends Equatable {
       metier: json["metier"] as String?,
       localisation: json["localisation"] as String?,
       dateCreation: (json["dateCreation"] as String).toDateTimeUtcOnLocalTimeZone(),
-      dateMiseAJour: (json["dateMiseAJour"] as String).toDateTimeUtcOnLocalTimeZone(),
+      dateRafraichissement: (json["dateRafraichissement"] as String).toDateTimeUtcOnLocalTimeZone(),
     );
   }
 
@@ -49,7 +49,7 @@ class SuggestionRecherche extends Equatable {
     String? metier,
     String? localisation,
     DateTime? dateCreation,
-    DateTime? dateMiseAJour,
+    DateTime? dateRafraichissement,
   }) {
     return SuggestionRecherche(
       id: id ?? this.id,
@@ -58,10 +58,10 @@ class SuggestionRecherche extends Equatable {
       metier: metier ?? this.metier,
       localisation: localisation ?? this.localisation,
       dateCreation: dateCreation ?? this.dateCreation,
-      dateMiseAJour: dateMiseAJour ?? this.dateMiseAJour,
+      dateRafraichissement: dateRafraichissement ?? this.dateRafraichissement,
     );
   }
 
   @override
-  List<Object?> get props => [id, type, titre, metier, localisation, dateCreation, dateMiseAJour];
+  List<Object?> get props => [id, type, titre, metier, localisation, dateCreation, dateRafraichissement];
 }
