@@ -20,7 +20,7 @@ void main() {
 
   test("should display empty with suggestions when not init", () {
     // Given
-    final store = givenState().withSuggestionsRecherche().notInitAccepterSuggestionRecherche().store();
+    final store = givenState().withSuggestionsRecherche().notInitTraiterSuggestionRecherche().store();
 
     // When
     final viewModel = SuggestionsRechercheListViewModel.create(store);
@@ -32,7 +32,7 @@ void main() {
 
   test("should display loading with suggestions when loading", () {
     // Given
-    final store = givenState().withSuggestionsRecherche().loadingAccepterSuggestionRecherche().store();
+    final store = givenState().withSuggestionsRecherche().loadingTraiterSuggestionRecherche().store();
 
     // When
     final viewModel = SuggestionsRechercheListViewModel.create(store);
@@ -44,7 +44,7 @@ void main() {
 
   test("should display content with suggestions when succeed", () {
     // Given
-    final store = givenState().withSuggestionsRecherche().succeedAccepterSuggestionRecherche().store();
+    final store = givenState().withSuggestionsRecherche().succeedTraiterSuggestionRecherche().store();
 
     // When
     final viewModel = SuggestionsRechercheListViewModel.create(store);
@@ -56,7 +56,7 @@ void main() {
 
   test("should display content with suggestions when fail", () {
     // Given
-    final store = givenState().withSuggestionsRecherche().failedAccepterSuggestionRecherche().store();
+    final store = givenState().withSuggestionsRecherche().failedTraiterSuggestionRecherche().store();
 
     // When
     final viewModel = SuggestionsRechercheListViewModel.create(store);
@@ -68,7 +68,7 @@ void main() {
 
   test("should reset traiter state", () {
     // Given
-    final store = givenState().withSuggestionsRecherche().succeedAccepterSuggestionRecherche().spyStore();
+    final store = givenState().withSuggestionsRecherche().succeedTraiterSuggestionRecherche().spyStore();
     final viewModel = SuggestionsRechercheListViewModel.create(store);
 
     // When
