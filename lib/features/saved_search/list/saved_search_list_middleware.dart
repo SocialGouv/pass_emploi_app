@@ -1,5 +1,5 @@
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_actions.dart';
-import 'package:pass_emploi_app/features/suggestions_recherche/accepter/accepter_suggestion_recherche_actions.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
 import 'package:redux/redux.dart';
@@ -18,7 +18,7 @@ class SavedSearchListMiddleware extends MiddlewareClass<AppState> {
 
     if (action is SavedSearchListRequestAction) {
       await _fetchSavedSearch(store, userId);
-    } else if (action is AccepterSuggestionRechercheSuccessAction) {
+    } else if (action is TraiterSuggestionRechercheSuccessAction && action.type == TraiterSuggestionType.accepter) {
       await _fetchSavedSearch(store, userId);
     }
   }

@@ -14,7 +14,8 @@ import 'package:pass_emploi_app/features/partage_activite/partage_activites_stat
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
-import 'package:pass_emploi_app/features/suggestions_recherche/accepter/accepter_suggestion_recherche_state.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_state.dart';
@@ -285,14 +286,19 @@ extension AppStateDSL on AppState {
   }
 
   AppState loadingAccepterSuggestionRecherche() {
-    return copyWith(accepterSuggestionRechercheState: AccepterSuggestionRechercheLoadingState());
+    return copyWith(traiterSuggestionRechercheState: TraiterSuggestionRechercheLoadingState());
   }
 
   AppState succeedAccepterSuggestionRecherche() {
-    return copyWith(accepterSuggestionRechercheState: AccepterSuggestionRechercheSuccessState(suggestionCariste()));
+    return copyWith(
+      traiterSuggestionRechercheState: TraiterSuggestionRechercheSuccessState(
+        suggestionCariste(),
+        TraiterSuggestionType.accepter,
+      ),
+    );
   }
 
   AppState failedAccepterSuggestionRecherche() {
-    return copyWith(accepterSuggestionRechercheState: AccepterSuggestionRechercheFailureState());
+    return copyWith(traiterSuggestionRechercheState: TraiterSuggestionRechercheFailureState());
   }
 }

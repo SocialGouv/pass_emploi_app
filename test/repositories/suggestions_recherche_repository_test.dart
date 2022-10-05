@@ -77,4 +77,38 @@ void main() {
       });
     });
   });
+
+  group('refuserSuggestion', () {
+    sut.when((repository) => repository.refuserSuggestion(userId: "USERID", suggestionId: "SUGGID"));
+
+    group('when response is valid', () {
+      sut.givenResponseCode(200);
+
+      test('request should be valid', () async {
+        await sut.expectRequestBody(
+          method: "POST",
+          url: "BASE_URL/jeunes/USERID/recherches/suggestions/SUGGID/refuser",
+        );
+      });
+
+      test('response should be valid', () async {
+        await sut.expectTrueAsResult();
+      });
+
+      test('cache for saved search and suggestions should be reset', () async {
+        await sut.expectResult<dynamic>((result) {
+          expect(cacheManager.removeRessourceParams, CachedRessource.SAVED_SEARCH);
+          expect(cacheManager.removeSuggestionsRechercheRessourceWasCalled, true);
+        });
+      });
+    });
+
+    group('when response is invalid', () {
+      sut.givenResponseCode(500);
+
+      test('response should be null', () async {
+        await sut.expectFalseAsResult();
+      });
+    });
+  });
 }

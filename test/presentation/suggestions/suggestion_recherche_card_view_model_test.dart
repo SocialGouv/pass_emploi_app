@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/suggestions_recherche/accepter/accepter_suggestion_recherche_actions.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
 import 'package:pass_emploi_app/presentation/suggestions/suggestion_recherche_card_view_model.dart';
 
 import '../../doubles/fixtures.dart';
@@ -42,6 +42,21 @@ void main() {
 
     // Then
     expect(viewModel, isNotNull);
-    expect(store.dispatchedAction, AccepterSuggestionRechercheRequestAction(suggestionCariste()));
+    expect(store.dispatchedAction,
+        TraiterSuggestionRechercheRequestAction(suggestionCariste(), TraiterSuggestionType.accepter));
+  });
+
+  test("should dispatch refuser suggestion", () {
+    // Given
+    final store = givenState().withSuggestionsRecherche().spyStore();
+    final viewModel = SuggestionRechercheCardViewModel.create(store, suggestionCariste().id);
+
+    // When
+    viewModel?.refuserSuggestion();
+
+    // Then
+    expect(viewModel, isNotNull);
+    expect(store.dispatchedAction,
+        TraiterSuggestionRechercheRequestAction(suggestionCariste(), TraiterSuggestionType.refuser));
   });
 }
