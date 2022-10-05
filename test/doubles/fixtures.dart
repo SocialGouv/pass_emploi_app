@@ -464,7 +464,7 @@ SuggestionRecherche suggestionCariste() => SuggestionRecherche(
       metier: "Conduite d'engins de déplacement des charges",
       localisation: "Nord",
       dateCreation: parseDateTimeUtcWithCurrentTimeZone("2022-09-22T12:00:00.000Z"),
-      dateMiseAJour: parseDateTimeUtcWithCurrentTimeZone("2022-09-26T13:00:00.000Z"),
+      dateRafraichissement: parseDateTimeUtcWithCurrentTimeZone("2022-09-26T13:00:00.000Z"),
     );
 
 SuggestionRecherche suggestionBoulanger() => SuggestionRecherche(
@@ -474,7 +474,7 @@ SuggestionRecherche suggestionBoulanger() => SuggestionRecherche(
       metier: "Chef boulanger",
       localisation: "Valence",
       dateCreation: parseDateTimeUtcWithCurrentTimeZone("2022-10-12T22:00:00.000Z"),
-      dateMiseAJour: parseDateTimeUtcWithCurrentTimeZone("2022-10-16T23:00:00.000Z"),
+      dateRafraichissement: parseDateTimeUtcWithCurrentTimeZone("2022-10-16T23:00:00.000Z"),
     );
 
 List<SuggestionRecherche> mockSuggestionsRecherche() {

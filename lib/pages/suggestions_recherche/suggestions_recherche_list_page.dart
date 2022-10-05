@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/loading_overlay.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class SuggestionsRechercheListPage extends StatelessWidget {
   SuggestionsRechercheListPage._() : super();
@@ -32,6 +33,7 @@ class SuggestionsRechercheListPage extends StatelessWidget {
     return StoreConnector<AppState, SuggestionsRechercheListViewModel>(
       builder: (context, viewModel) => _Scaffold(viewModel: viewModel),
       converter: (store) => SuggestionsRechercheListViewModel.create(store),
+      onDidChange: (oldVM, newVM) => _displaySuccessSnackbar(context, newVM),
       distinct: true,
     );
   }
@@ -61,7 +63,7 @@ class _Scaffold extends StatelessWidget {
               return _Card(suggestionId: viewModel.suggestionIds[index]);
             },
           ),
-          if (viewModel.displayState == DisplayState.LOADING) LoadingOverlay(),
+          if (viewModel.traiterDisplayState == DisplayState.LOADING) LoadingOverlay(),
         ],
       ),
     );
@@ -290,4 +292,63 @@ class _Ajouter extends StatelessWidget {
           )),
     );
   }
+}
+
+void _displaySuccessSnackbar(BuildContext context, SuggestionsRechercheListViewModel newViewModel) {
+  if (newViewModel.traiterDisplayState != DisplayState.CONTENT) return;
+  newViewModel.resetTraiterState();
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      padding: const EdgeInsets.only(left: 24, bottom: 14),
+      duration: Duration(days: 365),
+      backgroundColor: AppColors.secondaryLighten,
+      content: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              DecoratedBox(
+                decoration: BoxDecoration(
+                  color: AppColors.secondary,
+                  shape: BoxShape.circle,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(3.0),
+                  child: SvgPicture.asset(
+                    Drawables.icDone,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              SizedBox(width: 10.0),
+              Expanded(
+                child: Text(
+                  Strings.suggestionRechercheAjoutee,
+                  style: TextStyles.textBaseBoldWithColor(AppColors.secondary),
+                ),
+              ),
+              InkWell(
+                onTap: () => snackbarKey.currentState?.hideCurrentSnackBar(),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 24, 16),
+                  child: SvgPicture.asset(
+                    Drawables.icClose,
+                    color: AppColors.secondary,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Text(
+            Strings.suggestionRechercheAjouteeDescription,
+            style: TextStyles.textBaseRegularWithColor(AppColors.secondary),
+          ),
+        ],
+      ),
+    ),
+  );
 }

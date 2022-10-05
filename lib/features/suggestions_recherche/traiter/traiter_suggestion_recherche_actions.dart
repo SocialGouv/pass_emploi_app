@@ -23,3 +23,5 @@ class TraiterSuggestionRechercheSuccessAction {
 
   TraiterSuggestionRechercheSuccessAction(this.suggestion, this.type);
 }
+
+class TraiterSuggestionRechercheResetAction {}

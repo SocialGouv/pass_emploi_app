@@ -5,6 +5,7 @@ TraiterSuggestionRechercheState traiterSuggestionRechercheReducer(
   TraiterSuggestionRechercheState current,
   dynamic action,
 ) {
+  if (action is TraiterSuggestionRechercheResetAction) return TraiterSuggestionRechercheNotInitializedState();
   if (action is TraiterSuggestionRechercheLoadingAction) return TraiterSuggestionRechercheLoadingState();
   if (action is TraiterSuggestionRechercheFailureAction) return TraiterSuggestionRechercheFailureState();
   if (action is TraiterSuggestionRechercheSuccessAction) {

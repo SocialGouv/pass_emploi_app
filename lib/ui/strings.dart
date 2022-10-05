@@ -609,4 +609,6 @@ class Strings {
   static String suggestionTypeAlternance = "Alternance";
   static String suggestionTypeImmersion = "Immersion";
   static String suggestionTypeServiceCivique = "Service civique";
+  static String suggestionRechercheAjoutee = "Recherche ajoutée";
+  static String suggestionRechercheAjouteeDescription = "La recherche a été ajoutée à vos favoris";
 }
