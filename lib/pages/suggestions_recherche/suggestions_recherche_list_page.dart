@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/loading_overlay.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
+import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
 class SuggestionsRechercheListPage extends StatelessWidget {
   SuggestionsRechercheListPage._() : super();
@@ -331,7 +332,7 @@ void _displaySuccessSnackbar(BuildContext context, SuggestionsRechercheListViewM
                 ),
               ),
               InkWell(
-                onTap: () => ScaffoldMessenger.of(context).removeCurrentSnackBar(),
+                onTap: () => snackbarKey.currentState?.hideCurrentSnackBar(),
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(16, 16, 24, 16),
                   child: SvgPicture.asset(
