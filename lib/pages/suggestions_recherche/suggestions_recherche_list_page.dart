@@ -347,6 +347,23 @@ void _displaySuccessSnackbar(BuildContext context, SuggestionsRechercheListViewM
             Strings.suggestionRechercheAjouteeDescription,
             style: TextStyles.textBaseRegularWithColor(AppColors.secondary),
           ),
+          SizedBox(height: Margins.spacing_s),
+          TextButton(
+            onPressed: () => print("todo"),
+            child: Row(
+              children: [
+                Text(
+                  Strings.voirResultatsSuggestion,
+                  style: TextStyles.textBaseBoldWithColor(AppColors.secondary)
+                      .copyWith(decoration: TextDecoration.underline),
+                ),
+                SvgPicture.asset(
+                  Drawables.icChevronRight,
+                  color: AppColors.secondary,
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     ),
