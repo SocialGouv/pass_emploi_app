@@ -42,9 +42,9 @@ void main() {
     expect(viewModel.traiterDisplayState, DisplayState.LOADING);
   });
 
-  test("should display content with suggestions when succeed", () {
+  test("should display content with suggestions when succeed accepter", () {
     // Given
-    final store = givenState().withSuggestionsRecherche().succeedTraiterSuggestionRecherche().store();
+    final store = givenState().withSuggestionsRecherche().succeedAccepterSuggestionRecherche().store();
 
     // When
     final viewModel = SuggestionsRechercheListViewModel.create(store);
@@ -54,7 +54,19 @@ void main() {
     expect(viewModel.traiterDisplayState, DisplayState.CONTENT);
   });
 
-  test("should display content with suggestions when fail", () {
+  test("should display empty with suggestions when succeed refuser", () {
+    // Given
+    final store = givenState().withSuggestionsRecherche().succeedRefuserSuggestionRecherche().store();
+
+    // When
+    final viewModel = SuggestionsRechercheListViewModel.create(store);
+
+    // Then
+    expect(viewModel.suggestionIds, isNotEmpty);
+    expect(viewModel.traiterDisplayState, DisplayState.EMPTY);
+  });
+
+  test("should display empty with suggestions when fail", () {
     // Given
     final store = givenState().withSuggestionsRecherche().failedTraiterSuggestionRecherche().store();
 
@@ -68,7 +80,7 @@ void main() {
 
   test("should reset traiter state", () {
     // Given
-    final store = givenState().withSuggestionsRecherche().succeedTraiterSuggestionRecherche().spyStore();
+    final store = givenState().withSuggestionsRecherche().succeedAccepterSuggestionRecherche().spyStore();
     final viewModel = SuggestionsRechercheListViewModel.create(store);
 
     // When

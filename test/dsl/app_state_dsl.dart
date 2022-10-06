@@ -293,11 +293,20 @@ extension AppStateDSL on AppState {
     return copyWith(traiterSuggestionRechercheState: TraiterSuggestionRechercheNotInitializedState());
   }
 
-  AppState succeedTraiterSuggestionRecherche() {
+  AppState succeedAccepterSuggestionRecherche() {
     return copyWith(
       traiterSuggestionRechercheState: TraiterSuggestionRechercheSuccessState(
         suggestionCariste(),
         TraiterSuggestionType.accepter,
+      ),
+    );
+  }
+
+  AppState succeedRefuserSuggestionRecherche() {
+    return copyWith(
+      traiterSuggestionRechercheState: TraiterSuggestionRechercheSuccessState(
+        suggestionCariste(),
+        TraiterSuggestionType.refuser,
       ),
     );
   }

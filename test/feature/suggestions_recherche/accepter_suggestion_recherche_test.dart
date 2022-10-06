@@ -92,7 +92,7 @@ void main() {
     sut.when(() => TraiterSuggestionRechercheResetAction());
 
     test("should reset state", () {
-      sut.givenStore = givenState().succeedTraiterSuggestionRecherche().store();
+      sut.givenStore = givenState().succeedAccepterSuggestionRecherche().store();
 
       sut.thenExpectChangingStatesThroughOrder([_shouldResetTraiterState()]);
     });
