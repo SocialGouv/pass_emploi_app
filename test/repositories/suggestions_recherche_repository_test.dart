@@ -1,6 +1,4 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
@@ -48,7 +46,7 @@ void main() {
   });
 
   group('accepterSuggestion', () {
-    sut.when((repository) => repository.accepterSuggestion222(userId: "USERID", suggestionId: "SUGGID"));
+    sut.when((repository) => repository.accepterSuggestion(userId: "USERID", suggestionId: "SUGGID"));
 
     group('when response is valid', () {
       sut.givenJsonResponse(fromJson: "suggestions_recherche_emploi_acceptee.json");
@@ -63,17 +61,7 @@ void main() {
       test('response should be valid', () async {
         await sut.expectResult<OffreEmploiSavedSearch?>((truc) {
           expect(truc, isNotNull);
-          expect(
-              truc,
-              OffreEmploiSavedSearch(
-                id: "890d8195-fd09-4e25-bfd0-f94f64d18192",
-                title: "Maître-chien / Maîtresse-chien d'avalanche",
-                metier: "Sécurité civile et secours",
-                location: Location(type: LocationType.DEPARTMENT, libelle: "Gironde", code: "33"),
-                keywords: "Maître-chien / Maîtresse-chien d'avalanche",
-                isAlternance: false,
-                filters: OffreEmploiSearchParametersFiltres.withFiltres(distance: 0),
-              ));
+          expect(truc, offreEmploiSavedSearch());
         });
       });
 

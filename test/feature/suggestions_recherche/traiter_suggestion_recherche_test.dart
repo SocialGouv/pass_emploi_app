@@ -146,8 +146,8 @@ class SuggestionsRechercheRepositoryStub extends SuggestionsRechercheRepository 
       : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
 
   @override
-  Future<bool> accepterSuggestion({required String userId, required String suggestionId}) async {
-    return accepterSucceed;
+  Future<SavedSearch?> accepterSuggestion({required String userId, required String suggestionId}) async {
+    return accepterSucceed ? offreEmploiSavedSearch() : null;
   }
 
   @override

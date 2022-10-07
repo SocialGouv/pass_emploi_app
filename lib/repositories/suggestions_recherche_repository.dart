@@ -33,21 +33,7 @@ class SuggestionsRechercheRepository {
     return null;
   }
 
-  Future<bool> accepterSuggestion({required String userId, required String suggestionId}) async {
-    final uri = Uri.parse(_baseUrl + "/jeunes/$userId/recherches/suggestions/$suggestionId/accepter");
-    try {
-      final response = await _httpClient.post(uri);
-      if (response.statusCode.isValid()) {
-        _cacheManager.invalidateSuggestionsAndSavedSearch(baseUrl: _baseUrl, userId: userId);
-        return true;
-      }
-    } catch (e, stack) {
-      _crashlytics?.recordNonNetworkException(e, stack, uri);
-    }
-    return false;
-  }
-
-  Future<SavedSearch?> accepterSuggestion222({required String userId, required String suggestionId}) async {
+  Future<SavedSearch?> accepterSuggestion({required String userId, required String suggestionId}) async {
     final uri = Uri.parse(_baseUrl + "/jeunes/$userId/recherches/suggestions/$suggestionId/accepter");
     try {
       final response = await _httpClient.post(uri);

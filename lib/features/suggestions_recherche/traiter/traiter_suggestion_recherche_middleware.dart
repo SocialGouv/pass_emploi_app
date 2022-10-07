@@ -28,7 +28,7 @@ class TraiterSuggestionRechercheMiddleware extends MiddlewareClass<AppState> {
   Future<bool> _traiterSuggestion(String userId, TraiterSuggestionRechercheRequestAction action) async {
     switch (action.type) {
       case TraiterSuggestionType.accepter:
-        return await _repository.accepterSuggestion(userId: userId, suggestionId: action.suggestion.id);
+        return await _repository.accepterSuggestion(userId: userId, suggestionId: action.suggestion.id) != null;
       case TraiterSuggestionType.refuser:
         return await _repository.refuserSuggestion(userId: userId, suggestionId: action.suggestion.id);
     }
