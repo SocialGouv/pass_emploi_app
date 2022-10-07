@@ -8,8 +8,9 @@ TraiterSuggestionRechercheState traiterSuggestionRechercheReducer(
   if (action is TraiterSuggestionRechercheResetAction) return TraiterSuggestionRechercheNotInitializedState();
   if (action is TraiterSuggestionRechercheLoadingAction) return TraiterSuggestionRechercheLoadingState();
   if (action is TraiterSuggestionRechercheFailureAction) return TraiterSuggestionRechercheFailureState();
-  if (action is TraiterSuggestionRechercheSuccessAction) {
-    return TraiterSuggestionRechercheSuccessState(action.suggestion, action.type);
+  if (action is RefuserSuggestionRechercheSuccessAction) return RefuserSuggestionRechercheSuccessState();
+  if (action is AccepterSuggestionRechercheSuccessAction) {
+    return AccepterSuggestionRechercheSuccessState(action.savedSearch);
   }
   return current;
 }

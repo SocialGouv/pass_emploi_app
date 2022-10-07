@@ -106,23 +106,16 @@ Matcher _shouldFail() =>
     StateIs<TraiterSuggestionRechercheFailureState>((state) => state.traiterSuggestionRechercheState);
 
 Matcher _shouldSucceedAccepter() {
-  return StateIs<TraiterSuggestionRechercheSuccessState>(
+  return StateIs<AccepterSuggestionRechercheSuccessState>(
     (state) => state.traiterSuggestionRechercheState,
     (state) {
-      expect(state.suggestion, suggestionCariste());
-      expect(state.type, TraiterSuggestionType.accepter);
+      expect(state.savedSearch, offreEmploiSavedSearch());
     },
   );
 }
 
 Matcher _shouldSucceedRefuser() {
-  return StateIs<TraiterSuggestionRechercheSuccessState>(
-    (state) => state.traiterSuggestionRechercheState,
-    (state) {
-      expect(state.suggestion, suggestionCariste());
-      expect(state.type, TraiterSuggestionType.refuser);
-    },
-  );
+  return StateIs<RefuserSuggestionRechercheSuccessState>((state) => state.traiterSuggestionRechercheState);
 }
 
 Matcher _suggestionShouldBeRemoved() {

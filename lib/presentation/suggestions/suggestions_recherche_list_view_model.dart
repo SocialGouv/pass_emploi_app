@@ -40,8 +40,6 @@ List<String> _ids(Store<AppState> store) {
 DisplayState _displayState(Store<AppState> store) {
   final state = store.state.traiterSuggestionRechercheState;
   if (state is TraiterSuggestionRechercheLoadingState) return DisplayState.LOADING;
-  if (state is TraiterSuggestionRechercheSuccessState && state.type == TraiterSuggestionType.accepter) {
-    return DisplayState.CONTENT;
-  }
+  if (state is AccepterSuggestionRechercheSuccessState) return DisplayState.CONTENT;
   return DisplayState.EMPTY;
 }

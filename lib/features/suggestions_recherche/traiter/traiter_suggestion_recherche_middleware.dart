@@ -16,21 +16,28 @@ class TraiterSuggestionRechercheMiddleware extends MiddlewareClass<AppState> {
 
     if (action is TraiterSuggestionRechercheRequestAction) {
       store.dispatch(TraiterSuggestionRechercheLoadingAction());
-      final success = await _traiterSuggestion(userId, action);
-      if (success) {
-        store.dispatch(TraiterSuggestionRechercheSuccessAction(action.suggestion, action.type));
-      } else {
-        store.dispatch(TraiterSuggestionRechercheFailureAction());
-      }
+      await _traiterSuggestion(action, userId, store);
     }
   }
 
-  Future<bool> _traiterSuggestion(String userId, TraiterSuggestionRechercheRequestAction action) async {
+  Future<void> _traiterSuggestion(TraiterSuggestionRechercheRequestAction action, String userId, Store<AppState> store) async {
     switch (action.type) {
       case TraiterSuggestionType.accepter:
-        return await _repository.accepterSuggestion(userId: userId, suggestionId: action.suggestion.id) != null;
+        final savedSearch = await _repository.accepterSuggestion(userId: userId, suggestionId: action.suggestion.id);
+        if (savedSearch != null) {
+          store.dispatch(AccepterSuggestionRechercheSuccessAction(action.suggestion.id, savedSearch));
+        } else {
+          store.dispatch(TraiterSuggestionRechercheFailureAction());
+        }
+        break;
       case TraiterSuggestionType.refuser:
-        return await _repository.refuserSuggestion(userId: userId, suggestionId: action.suggestion.id);
+        final success = await _repository.refuserSuggestion(userId: userId, suggestionId: action.suggestion.id);
+        if (success) {
+          store.dispatch(RefuserSuggestionRechercheSuccessAction(action.suggestion.id));
+        } else {
+          store.dispatch(TraiterSuggestionRechercheFailureAction());
+        }
+        break;
     }
   }
 }

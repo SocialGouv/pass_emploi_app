@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
-import 'package:pass_emploi_app/models/suggestion_recherche.dart';
+import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 
 abstract class TraiterSuggestionRechercheState extends Equatable {
   @override
@@ -13,12 +12,13 @@ class TraiterSuggestionRechercheLoadingState extends TraiterSuggestionRechercheS
 
 class TraiterSuggestionRechercheFailureState extends TraiterSuggestionRechercheState {}
 
-class TraiterSuggestionRechercheSuccessState extends TraiterSuggestionRechercheState {
-  final SuggestionRecherche suggestion;
-  final TraiterSuggestionType type;
+class AccepterSuggestionRechercheSuccessState extends TraiterSuggestionRechercheState {
+  final SavedSearch savedSearch;
 
-  TraiterSuggestionRechercheSuccessState(this.suggestion, this.type);
+  AccepterSuggestionRechercheSuccessState(this.savedSearch);
 
   @override
-  List<Object?> get props => [suggestion, type];
+  List<Object?> get props => [savedSearch];
 }
+
+class RefuserSuggestionRechercheSuccessState extends TraiterSuggestionRechercheState {}

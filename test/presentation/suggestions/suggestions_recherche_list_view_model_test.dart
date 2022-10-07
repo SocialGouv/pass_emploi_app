@@ -66,7 +66,7 @@ void main() {
     expect(viewModel.traiterDisplayState, DisplayState.EMPTY);
   });
 
-  test("should display empty with suggestions when fail", () {
+  test("should display content with suggestions when fail", () {
     // Given
     final store = givenState().withSuggestionsRecherche().failedTraiterSuggestionRecherche().store();
 
