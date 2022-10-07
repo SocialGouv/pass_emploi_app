@@ -349,7 +349,7 @@ void _displaySuccessSnackbar(BuildContext context, SuggestionsRechercheListViewM
           ),
           SizedBox(height: Margins.spacing_s),
           TextButton(
-            onPressed: () => print("todo"),
+            onPressed: newViewModel.seeOffreResults,
             child: Row(
               children: [
                 Text(

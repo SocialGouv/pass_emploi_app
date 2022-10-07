@@ -22,13 +22,7 @@ class SavedSearchGetMiddleware extends MiddlewareClass<AppState> {
       final search = (await _repository.getSavedSearch(loginState.user.id))
           ?.where((e) => e.getId() == action.savedSearchId)
           .firstOrNull;
-      if (search is ImmersionSavedSearch) {
-        SavedSearchListViewModel.onOffreImmersionSelected(search, store);
-      } else if (search is OffreEmploiSavedSearch) {
-        SavedSearchListViewModel.onOffreEmploiSelected(search, store);
-      } else if (search is ServiceCiviqueSavedSearch) {
-        SavedSearchListViewModel.onServiceCiviqueSelected(search, store);
-      }
+      if (search != null) SavedSearchListViewModel.dispatchSearchRequest(search, store);
     }
   }
 }

@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/saved_search/offre_emploi_saved_search_actions.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
@@ -491,4 +492,11 @@ OffreEmploiSavedSearch offreEmploiSavedSearch() => OffreEmploiSavedSearch(
       keywords: "Maître-chien / Maîtresse-chien d'avalanche",
       isAlternance: false,
       filters: OffreEmploiSearchParametersFiltres.withFiltres(distance: 0),
+    );
+
+SavedOffreEmploiSearchRequestAction savedOffreEmploiSearchRequestAction() => SavedOffreEmploiSearchRequestAction(
+      keywords: offreEmploiSavedSearch().keywords ?? "",
+      location: offreEmploiSavedSearch().location,
+      onlyAlternance: offreEmploiSavedSearch().isAlternance,
+      filtres: offreEmploiSavedSearch().filters,
     );

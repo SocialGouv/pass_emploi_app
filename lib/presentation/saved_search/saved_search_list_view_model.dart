@@ -125,6 +125,16 @@ class SavedSearchListViewModel extends Equatable {
     return savedSearches.whereType<ServiceCiviqueSavedSearch>().toList();
   }
 
+  static void dispatchSearchRequest(SavedSearch savedSearch, Store<AppState> store) {
+    if (savedSearch is ImmersionSavedSearch) {
+      SavedSearchListViewModel.onOffreImmersionSelected(savedSearch, store);
+    } else if (savedSearch is OffreEmploiSavedSearch) {
+      SavedSearchListViewModel.onOffreEmploiSelected(savedSearch, store);
+    } else if (savedSearch is ServiceCiviqueSavedSearch) {
+      SavedSearchListViewModel.onServiceCiviqueSelected(savedSearch, store);
+    }
+  }
+
   static void onOffreEmploiSelected(OffreEmploiSavedSearch savedSearch, Store<AppState> store) {
     store.dispatch(
       SavedOffreEmploiSearchRequestAction(
