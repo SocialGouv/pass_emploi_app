@@ -33,7 +33,7 @@ class GetSavedSearchRepository {
 }
 
 class SavedSearchJsonExtractor {
-  dynamic extract(SavedSearchResponse savedSearch) {
+  SavedSearch? extract(SavedSearchResponse savedSearch) {
     if (savedSearch.type == "OFFRES_IMMERSION") {
       return SavedSearchImmersionExtractor().extract(savedSearch);
     } else if (savedSearch.type == "OFFRES_SERVICES_CIVIQUE") {
