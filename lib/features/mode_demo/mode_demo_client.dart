@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
+import 'package:intl/intl.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 
 class ModeDemoClient extends BaseClient {
@@ -20,10 +23,17 @@ class ModeDemoClient extends BaseClient {
   }
 
   Stream<List<int>> readFileBytes(String stringUrl) {
+    final dateFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
     return rootBundle
-        .load("assets/mode_demo/" + stringUrl + ".json") //
-        .asStream() //
-        .map((event) => event.buffer.asUint8List());
+        .loadString("assets/mode_demo/" + stringUrl + ".json")
+        .then((json) => json.replaceAllMapped(
+              RegExp(r'(<NOW_PLUS_)(\d+)(>)'),
+              (Match m) {
+                return dateFormat.format(DateTime.now().add(Duration(days: int.parse(m[2]!))));
+              },
+            ))
+        .then((json) => utf8.encode(json))
+        .asStream();
   }
 }
 
