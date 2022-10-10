@@ -6,7 +6,6 @@ import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 
 import '../doubles/fixtures.dart';
-import '../utils/mock_demo_client.dart';
 import '../utils/pass_emploi_mock_client.dart';
 import '../utils/test_assets.dart';
 
@@ -426,28 +425,5 @@ void main() {
 
     // Then
     expect(search, isNull);
-  });
-
-  test('search when mode demo', () async {
-    // Given
-    final httpClient = MockModeDemoClient();
-    final repository = OffreEmploiRepository("BASE_URL", httpClient);
-
-    // When
-    final location = Location(libelle: "Paris", code: "75", type: LocationType.DEPARTMENT);
-    final search = await repository.search(
-      userId: "ID",
-      request: SearchOffreEmploiRequest(
-        keywords: "keywords",
-        location: location,
-        onlyAlternance: false,
-        page: 1,
-        filtres: OffreEmploiSearchParametersFiltres.noFiltres(),
-      ),
-    );
-
-    // Then
-    expect(search!, isNotNull);
-    expect(search.offres, isNotEmpty);
   });
 }
