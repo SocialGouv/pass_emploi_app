@@ -109,7 +109,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
   }
 
   Widget _content(BuildContext context, ChatPageViewModel viewModel) {
-    _controller = TextEditingController(text: viewModel.brouillon);
+    _controller = (_controller != null) ? _controller : TextEditingController(text: viewModel.brouillon);
     return Stack(
       children: [
         Container(
