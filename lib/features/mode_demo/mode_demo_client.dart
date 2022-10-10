@@ -23,15 +23,22 @@ class ModeDemoClient extends BaseClient {
   }
 
   Stream<List<int>> readFileBytes(String stringUrl) {
+    final now = DateTime.now();
     final dateFormat = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
     return rootBundle
         .loadString("assets/mode_demo/" + stringUrl + ".json")
-        .then((json) => json.replaceAllMapped(
-              RegExp(r'(<NOW_PLUS_)(\d+)(>)'),
-              (Match m) {
-                return dateFormat.format(DateTime.now().add(Duration(days: int.parse(m[2]!))));
-              },
-            ))
+        .then(
+          (json) => json.replaceAllMapped(
+            RegExp(r'(<NOW_PLUS_)(\d+)(>)'),
+            (Match m) => dateFormat.format(now.add(Duration(days: int.parse(m[2]!)))),
+          ),
+        )
+        .then(
+          (json) => json.replaceAllMapped(
+            RegExp(r'(<NOW_LESS_)(\d+)(>)'),
+            (Match m) => dateFormat.format(now.subtract(Duration(days: int.parse(m[2]!)))),
+          ),
+        )
         .then((json) => utf8.encode(json))
         .asStream();
   }
