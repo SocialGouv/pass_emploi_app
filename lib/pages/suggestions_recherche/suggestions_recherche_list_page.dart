@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
+import 'package:pass_emploi_app/pages/immersion_list_page.dart';
+import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
+import 'package:pass_emploi_app/pages/service_civique/service_civique_list_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/saved_search/saved_search_list_view_model.dart';
 import 'package:pass_emploi_app/presentation/suggestions/suggestion_recherche_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/suggestions/suggestions_recherche_list_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -17,7 +22,7 @@ import 'package:pass_emploi_app/widgets/loading_overlay.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
-class SuggestionsRechercheListPage extends StatelessWidget {
+class SuggestionsRechercheListPage extends StatefulWidget {
   SuggestionsRechercheListPage._() : super();
 
   static MaterialPageRoute<void> materialPageRoute() {
@@ -29,13 +34,50 @@ class SuggestionsRechercheListPage extends StatelessWidget {
   }
 
   @override
+  State<SuggestionsRechercheListPage> createState() => _SuggestionsRechercheListPageState();
+}
+
+class _SuggestionsRechercheListPageState extends State<SuggestionsRechercheListPage> {
+  bool _shouldNavigate = true;
+
+  @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, SuggestionsRechercheListViewModel>(
       builder: (context, viewModel) => _Scaffold(viewModel: viewModel),
       converter: (store) => SuggestionsRechercheListViewModel.create(store),
-      onDidChange: (oldVM, newVM) => _displaySuccessSnackbar(context, newVM),
+      onDidChange: (oldVM, newVM) => _onDidChange(context, oldVM, newVM),
       distinct: true,
     );
+  }
+
+  void _onDidChange(BuildContext context, SuggestionsRechercheListViewModel? oldViewModel,
+      SuggestionsRechercheListViewModel newViewModel) {
+    _displaySuccessSnackbar(context, oldViewModel, newViewModel);
+
+    if (!_shouldNavigate) return;
+
+    switch (newViewModel.searchNavigationState) {
+      case SavedSearchNavigationState.OFFRE_EMPLOI:
+        _goToPage(context, OffreEmploiListPage(onlyAlternance: false, fromSavedSearch: true));
+        break;
+      case SavedSearchNavigationState.OFFRE_ALTERNANCE:
+        _goToPage(context, OffreEmploiListPage(onlyAlternance: true, fromSavedSearch: true));
+        break;
+      case SavedSearchNavigationState.OFFRE_IMMERSION:
+        _goToPage(context, ImmersionListPage(true))
+            .then((value) => StoreProvider.of<AppState>(context).dispatch(ImmersionListResetAction()));
+        break;
+      case SavedSearchNavigationState.SERVICE_CIVIQUE:
+        _goToPage(context, ServiceCiviqueListPage(true));
+        break;
+      case SavedSearchNavigationState.NONE:
+        break;
+    }
+  }
+
+  Future<void> _goToPage(BuildContext context, Widget page) {
+    _shouldNavigate = false;
+    return Navigator.push(context, MaterialPageRoute(builder: (_) => page)).then((_) => _shouldNavigate = true);
   }
 }
 
@@ -294,9 +336,10 @@ class _Ajouter extends StatelessWidget {
   }
 }
 
-void _displaySuccessSnackbar(BuildContext context, SuggestionsRechercheListViewModel newViewModel) {
+void _displaySuccessSnackbar(BuildContext context, SuggestionsRechercheListViewModel? oldViewModel,
+    SuggestionsRechercheListViewModel newViewModel) {
   if (newViewModel.traiterDisplayState != DisplayState.CONTENT) return;
-  newViewModel.resetTraiterState();
+  if (oldViewModel?.traiterDisplayState == DisplayState.CONTENT) return;
 
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
@@ -332,7 +375,10 @@ void _displaySuccessSnackbar(BuildContext context, SuggestionsRechercheListViewM
                 ),
               ),
               InkWell(
-                onTap: () => snackbarKey.currentState?.hideCurrentSnackBar(),
+                onTap: () {
+                  newViewModel.resetTraiterState();
+                  snackbarKey.currentState?.hideCurrentSnackBar();
+                },
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(16, 16, 24, 16),
                   child: SvgPicture.asset(
@@ -349,7 +395,11 @@ void _displaySuccessSnackbar(BuildContext context, SuggestionsRechercheListViewM
           ),
           SizedBox(height: Margins.spacing_s),
           TextButton(
-            onPressed: newViewModel.seeOffreResults,
+            onPressed: () {
+              newViewModel.seeOffreResults();
+              newViewModel.resetTraiterState();
+              snackbarKey.currentState?.hideCurrentSnackBar();
+            },
             child: Row(
               children: [
                 Text(

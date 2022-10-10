@@ -10,12 +10,14 @@ import 'package:redux/redux.dart';
 class SuggestionsRechercheListViewModel extends Equatable {
   final List<String> suggestionIds;
   final DisplayState traiterDisplayState;
+  final SavedSearchNavigationState searchNavigationState;
   final Function() resetTraiterState;
   final Function() seeOffreResults;
 
   SuggestionsRechercheListViewModel._({
     required this.suggestionIds,
     required this.traiterDisplayState,
+    required this.searchNavigationState,
     required this.resetTraiterState,
     required this.seeOffreResults,
   });
@@ -24,13 +26,19 @@ class SuggestionsRechercheListViewModel extends Equatable {
     return SuggestionsRechercheListViewModel._(
       suggestionIds: _ids(store),
       traiterDisplayState: _displayState(store),
+      searchNavigationState: SavedSearchListViewModel.getSearchNavigationState(
+        store.state.offreEmploiListState,
+        store.state.offreEmploiSearchParametersState,
+        store.state.immersionListState,
+        store.state.serviceCiviqueSearchResultState,
+      ),
       resetTraiterState: () => store.dispatch(TraiterSuggestionRechercheResetAction()),
       seeOffreResults: () => _seeOffreResults(store),
     );
   }
 
   @override
-  List<Object?> get props => [suggestionIds, traiterDisplayState];
+  List<Object?> get props => [suggestionIds, traiterDisplayState, searchNavigationState];
 }
 
 List<String> _ids(Store<AppState> store) {

@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/location/search_location_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_actions.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
 import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_recherche_list_page.dart';
+import 'package:pass_emploi_app/pass_emploi_app.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart';
@@ -29,7 +30,7 @@ class OffreEmploiSearchPage extends StatefulWidget {
   State<OffreEmploiSearchPage> createState() => _OffreEmploiSearchPageState();
 }
 
-class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
+class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> with RouteAware {
   LocationViewModel? _selectedLocationViewModel;
   var _keyWord = "";
   var _shouldNavigate = true;
@@ -55,6 +56,41 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
         onDispose: (store) => store.dispatch(SearchLocationResetAction()),
       ),
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final modalRoute = ModalRoute.of(context);
+    if (modalRoute is PageRoute) {
+      PassEmploiApp.routeObserver.subscribe(this, modalRoute);
+    }
+  }
+
+  @override
+  void didPop() {
+    _shouldNavigate = true;
+  }
+
+  @override
+  void didPopNext() {
+    _shouldNavigate = true;
+  }
+
+  @override
+  void didPush() {
+    _shouldNavigate = false;
+  }
+
+  @override
+  void didPushNext() {
+    _shouldNavigate = false;
+  }
+
+  @override
+  void dispose() {
+    PassEmploiApp.routeObserver.unsubscribe(this);
+    super.dispose();
   }
 
   Widget _body(OffreEmploiSearchViewModel viewModel) {

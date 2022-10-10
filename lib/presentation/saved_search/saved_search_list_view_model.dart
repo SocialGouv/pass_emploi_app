@@ -65,7 +65,7 @@ class SavedSearchListViewModel extends Equatable {
       return SavedSearchListViewModel._(
         displayState: DisplayState.CONTENT,
         savedSearches: state.savedSearches.toList(),
-        searchNavigationState: _getSearchNavigationState(
+        searchNavigationState: getSearchNavigationState(
           searchResultState,
           searchParamsState,
           immersionListState,
@@ -90,7 +90,7 @@ class SavedSearchListViewModel extends Equatable {
         immersionsResults,
       ];
 
-  static SavedSearchNavigationState _getSearchNavigationState(
+  static SavedSearchNavigationState getSearchNavigationState(
     OffreEmploiListState searchResultState,
     OffreEmploiSearchParametersState searchParamsState,
     ImmersionListState immersionListState,
