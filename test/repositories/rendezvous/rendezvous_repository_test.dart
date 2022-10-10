@@ -6,7 +6,6 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 
 import '../../doubles/fixtures.dart';
-import '../../utils/mock_demo_client.dart';
 import '../../utils/pass_emploi_mock_client.dart';
 import '../../utils/test_assets.dart';
 import '../../utils/test_datetime.dart';
@@ -83,7 +82,7 @@ void main() {
 
   test('a rendezvous where conseiller and createur is same in payload should fonctionnaly return a null createur',
       () async {
-        final httpClient = PassEmploiMockClient((request) async {
+    final httpClient = PassEmploiMockClient((request) async {
       return Response.bytes(loadTestAssetsAsBytes('rendezvous_where_conseiller_is_createur.json'), 200);
     });
     final repository = RendezvousRepository('BASE_URL', httpClient);
@@ -194,17 +193,5 @@ void main() {
 
     // Then
     expect(rendezvous, isNull);
-  });
-
-  test('getRendezvous when mode demo', () async {
-    // Given
-    final httpClient = MockModeDemoClient();
-    final repository = RendezvousRepository('BASE_URL', httpClient);
-
-    // When
-    final rendezvous = await repository.getRendezvous('userID', RendezvousPeriod.FUTUR);
-
-    // Then
-    expect(rendezvous, isNotNull);
   });
 }

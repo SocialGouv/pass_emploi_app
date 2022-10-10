@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
 
 import '../../doubles/fixtures.dart';
-import '../../utils/mock_demo_client.dart';
 import '../../utils/pass_emploi_mock_client.dart';
 import '../../utils/test_assets.dart';
 
@@ -82,22 +81,5 @@ void main() {
 
     // Then
     expect(search, isNull);
-  });
-
-  test('search when response is valid with department location should return offres', () async {
-    // Given
-    final httpClient = MockModeDemoClient();
-    final repository = ServiceCiviqueRepository("BASE_URL", httpClient);
-
-    // When
-    final search = await repository.search(
-      userId: "ID",
-      request: mockServiceCiviqueRequest(),
-      previousOffers: [],
-    );
-
-    // Then
-    expect(search, isNotNull);
-    expect(search!.offres, isNotEmpty);
   });
 }
