@@ -47,8 +47,11 @@ class SuggestionsRechercheListPage extends StatelessWidget {
   void _onDidChange(BuildContext context, SuggestionsRechercheListViewModel? oldViewModel,
       SuggestionsRechercheListViewModel newViewModel) {
     _displaySuccessSnackbar(context, oldViewModel, newViewModel);
+    _navigateToSearch(context, newViewModel.searchNavigationState);
+  }
 
-    switch (newViewModel.searchNavigationState) {
+  void _navigateToSearch(BuildContext context, SavedSearchNavigationState searchNavigationState) {
+    switch (searchNavigationState) {
       case SavedSearchNavigationState.OFFRE_EMPLOI:
         _goToPage(context, OffreEmploiListPage(onlyAlternance: false, fromSavedSearch: true));
         break;
@@ -365,19 +368,7 @@ void _displaySuccessSnackbar(BuildContext context, SuggestionsRechercheListViewM
                   style: TextStyles.textBaseBoldWithColor(AppColors.secondary),
                 ),
               ),
-              InkWell(
-                onTap: () {
-                  newViewModel.resetTraiterState();
-                  snackbarKey.currentState?.hideCurrentSnackBar();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 24, 16),
-                  child: SvgPicture.asset(
-                    Drawables.icClose,
-                    color: AppColors.secondary,
-                  ),
-                ),
-              ),
+              _CloseSnackbar(newViewModel),
             ],
           ),
           Text(
@@ -385,28 +376,61 @@ void _displaySuccessSnackbar(BuildContext context, SuggestionsRechercheListViewM
             style: TextStyles.textBaseRegularWithColor(AppColors.secondary),
           ),
           SizedBox(height: Margins.spacing_s),
-          TextButton(
-            onPressed: () {
-              newViewModel.seeOffreResults();
-              newViewModel.resetTraiterState();
-              snackbarKey.currentState?.removeCurrentSnackBar();
-            },
-            child: Row(
-              children: [
-                Text(
-                  Strings.voirResultatsSuggestion,
-                  style: TextStyles.textBaseBoldWithColor(AppColors.secondary)
-                      .copyWith(decoration: TextDecoration.underline),
-                ),
-                SvgPicture.asset(
-                  Drawables.icChevronRight,
-                  color: AppColors.secondary,
-                ),
-              ],
-            ),
-          ),
+          _SeeResults(newViewModel),
         ],
       ),
     ),
   );
+}
+
+class _CloseSnackbar extends StatelessWidget {
+  final SuggestionsRechercheListViewModel viewModel;
+
+  _CloseSnackbar(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        viewModel.resetTraiterState();
+        snackbarKey.currentState?.hideCurrentSnackBar();
+      },
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 16, 24, 16),
+        child: SvgPicture.asset(
+          Drawables.icClose,
+          color: AppColors.secondary,
+        ),
+      ),
+    );
+  }
+}
+
+class _SeeResults extends StatelessWidget {
+  final SuggestionsRechercheListViewModel viewModel;
+
+  _SeeResults(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () {
+        viewModel.seeOffreResults();
+        viewModel.resetTraiterState();
+        snackbarKey.currentState?.removeCurrentSnackBar();
+      },
+      child: Row(
+        children: [
+          Text(
+            Strings.voirResultatsSuggestion,
+            style: TextStyles.textBaseBoldWithColor(AppColors.secondary).copyWith(decoration: TextDecoration.underline),
+          ),
+          SvgPicture.asset(
+            Drawables.icChevronRight,
+            color: AppColors.secondary,
+          ),
+        ],
+      ),
+    );
+  }
 }
