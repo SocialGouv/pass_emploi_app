@@ -1,9 +1,15 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/immersion/saved_search/immersion_saved_search_actions.dart';
+import 'package:pass_emploi_app/features/offre_emploi/saved_search/offre_emploi_saved_search_actions.dart';
+import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
+import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
+import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
+import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/presentation/saved_search/saved_search_list_view_model.dart';
+import 'package:pass_emploi_app/presentation/saved_search/saved_search_navigation_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
@@ -26,12 +32,7 @@ class SuggestionsRechercheListViewModel extends Equatable {
     return SuggestionsRechercheListViewModel._(
       suggestionIds: _ids(store),
       traiterDisplayState: _displayState(store),
-      searchNavigationState: SavedSearchListViewModel.getSearchNavigationState(
-        store.state.offreEmploiListState,
-        store.state.offreEmploiSearchParametersState,
-        store.state.immersionListState,
-        store.state.serviceCiviqueSearchResultState,
-      ),
+      searchNavigationState: SavedSearchNavigationState.fromAppState(store.state),
       resetTraiterState: () => store.dispatch(TraiterSuggestionRechercheResetAction()),
       seeOffreResults: () => _seeOffreResults(store),
     );
@@ -59,5 +60,8 @@ DisplayState _displayState(Store<AppState> store) {
 void _seeOffreResults(Store<AppState> store) {
   final traiterState = store.state.traiterSuggestionRechercheState;
   if (traiterState is! AccepterSuggestionRechercheSuccessState) return;
-  SavedSearchListViewModel.dispatchSearchRequest(traiterState.savedSearch, store);
+  final search = traiterState.savedSearch;
+  if (search is ImmersionSavedSearch) store.dispatch(ImmersionSavedSearchRequestAction.fromSearch(search));
+  if (search is OffreEmploiSavedSearch) store.dispatch(SavedOffreEmploiSearchRequestAction.fromSearch(search));
+  if (search is ServiceCiviqueSavedSearch) store.dispatch(ServiceCiviqueSavedSearchRequestAction(search));
 }
