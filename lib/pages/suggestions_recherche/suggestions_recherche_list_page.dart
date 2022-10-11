@@ -10,6 +10,7 @@ import 'package:pass_emploi_app/presentation/saved_search/saved_search_list_view
 import 'package:pass_emploi_app/presentation/suggestions/suggestion_recherche_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/suggestions/suggestions_recherche_list_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/redux/store_connector_aware.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -22,7 +23,7 @@ import 'package:pass_emploi_app/widgets/loading_overlay.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
-class SuggestionsRechercheListPage extends StatefulWidget {
+class SuggestionsRechercheListPage extends StatelessWidget {
   SuggestionsRechercheListPage._() : super();
 
   static MaterialPageRoute<void> materialPageRoute() {
@@ -34,15 +35,8 @@ class SuggestionsRechercheListPage extends StatefulWidget {
   }
 
   @override
-  State<SuggestionsRechercheListPage> createState() => _SuggestionsRechercheListPageState();
-}
-
-class _SuggestionsRechercheListPageState extends State<SuggestionsRechercheListPage> {
-  bool _shouldNavigate = true;
-
-  @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, SuggestionsRechercheListViewModel>(
+    return StoreConnectorAware<SuggestionsRechercheListViewModel>(
       builder: (context, viewModel) => _Scaffold(viewModel: viewModel),
       converter: (store) => SuggestionsRechercheListViewModel.create(store),
       onDidChange: (oldVM, newVM) => _onDidChange(context, oldVM, newVM),
@@ -53,8 +47,6 @@ class _SuggestionsRechercheListPageState extends State<SuggestionsRechercheListP
   void _onDidChange(BuildContext context, SuggestionsRechercheListViewModel? oldViewModel,
       SuggestionsRechercheListViewModel newViewModel) {
     _displaySuccessSnackbar(context, oldViewModel, newViewModel);
-
-    if (!_shouldNavigate) return;
 
     switch (newViewModel.searchNavigationState) {
       case SavedSearchNavigationState.OFFRE_EMPLOI:
@@ -76,8 +68,7 @@ class _SuggestionsRechercheListPageState extends State<SuggestionsRechercheListP
   }
 
   Future<void> _goToPage(BuildContext context, Widget page) {
-    _shouldNavigate = false;
-    return Navigator.push(context, MaterialPageRoute(builder: (_) => page)).then((_) => _shouldNavigate = true);
+    return Navigator.push(context, MaterialPageRoute(builder: (_) => page));
   }
 }
 

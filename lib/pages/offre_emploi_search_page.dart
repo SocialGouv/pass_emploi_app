@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/location/search_location_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_actions.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
 import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_recherche_list_page.dart';
-import 'package:pass_emploi_app/pass_emploi_app.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_search_view_model.dart';
-import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/redux/store_connector_aware.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -33,22 +31,17 @@ class OffreEmploiSearchPage extends StatefulWidget {
 class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> with RouteAware {
   LocationViewModel? _selectedLocationViewModel;
   var _keyWord = "";
-  var _shouldNavigate = true;
 
   @override
   Widget build(BuildContext context) {
     return Tracker(
       tracking: widget.onlyAlternance ? AnalyticsScreenNames.alternanceResearch : AnalyticsScreenNames.emploiResearch,
-      child: StoreConnector<AppState, OffreEmploiSearchViewModel>(
+      child: StoreConnectorAware<OffreEmploiSearchViewModel>(
         onInit: (store) => store.dispatch(SuggestionsRechercheRequestAction()),
         converter: (store) => OffreEmploiSearchViewModel.create(store),
         onWillChange: (_, newViewModel) {
-          if (newViewModel.displayState == DisplayState.CONTENT && _shouldNavigate) {
-            _shouldNavigate = false;
-            Navigator.push(context, OffreEmploiListPage.materialPageRoute(onlyAlternance: widget.onlyAlternance))
-                .then((value) {
-              _shouldNavigate = true;
-            });
+          if (newViewModel.displayState == DisplayState.CONTENT) {
+            Navigator.push(context, OffreEmploiListPage.materialPageRoute(onlyAlternance: widget.onlyAlternance));
           }
         },
         distinct: true,
@@ -56,41 +49,6 @@ class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> with Rout
         onDispose: (store) => store.dispatch(SearchLocationResetAction()),
       ),
     );
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final modalRoute = ModalRoute.of(context);
-    if (modalRoute is PageRoute) {
-      PassEmploiApp.routeObserver.subscribe(this, modalRoute);
-    }
-  }
-
-  @override
-  void didPop() {
-    _shouldNavigate = true;
-  }
-
-  @override
-  void didPopNext() {
-    _shouldNavigate = true;
-  }
-
-  @override
-  void didPush() {
-    _shouldNavigate = false;
-  }
-
-  @override
-  void didPushNext() {
-    _shouldNavigate = false;
-  }
-
-  @override
-  void dispose() {
-    PassEmploiApp.routeObserver.unsubscribe(this);
-    super.dispose();
   }
 
   Widget _body(OffreEmploiSearchViewModel viewModel) {
