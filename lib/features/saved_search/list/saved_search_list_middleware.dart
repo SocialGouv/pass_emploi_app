@@ -18,7 +18,7 @@ class SavedSearchListMiddleware extends MiddlewareClass<AppState> {
 
     if (action is SavedSearchListRequestAction) {
       await _fetchSavedSearch(store, userId);
-    } else if (action is TraiterSuggestionRechercheSuccessAction && action.type == TraiterSuggestionType.accepter) {
+    } else if (action is AccepterSuggestionRechercheSuccessAction) {
       await _fetchSavedSearch(store, userId);
     }
   }

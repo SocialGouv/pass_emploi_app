@@ -15,7 +15,6 @@ import 'package:pass_emploi_app/features/partage_activite/update/partage_activit
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
-import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_actions.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_state.dart';
@@ -295,20 +294,12 @@ extension AppStateDSL on AppState {
 
   AppState succeedAccepterSuggestionRecherche() {
     return copyWith(
-      traiterSuggestionRechercheState: TraiterSuggestionRechercheSuccessState(
-        suggestionCariste(),
-        TraiterSuggestionType.accepter,
-      ),
+      traiterSuggestionRechercheState: AccepterSuggestionRechercheSuccessState(offreEmploiSavedSearch()),
     );
   }
 
   AppState succeedRefuserSuggestionRecherche() {
-    return copyWith(
-      traiterSuggestionRechercheState: TraiterSuggestionRechercheSuccessState(
-        suggestionCariste(),
-        TraiterSuggestionType.refuser,
-      ),
-    );
+    return copyWith(traiterSuggestionRechercheState: RefuserSuggestionRechercheSuccessState());
   }
 
   AppState failedTraiterSuggestionRecherche() {

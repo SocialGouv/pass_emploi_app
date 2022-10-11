@@ -16,6 +16,7 @@ import 'package:pass_emploi_app/pages/service_civique/service_civique_list_page.
 import 'package:pass_emploi_app/pages/suggestions_recherche/suggestions_recherche_list_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/saved_search/saved_search_list_view_model.dart';
+import 'package:pass_emploi_app/presentation/saved_search/saved_search_navigation_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -262,9 +263,7 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
   Widget _suggestionsRechercheCard() {
     return VoirSuggestionsRechercheCard(
       padding: const EdgeInsets.fromLTRB(Margins.spacing_base, Margins.spacing_m, Margins.spacing_base, 0),
-      onTapShowSuggestions: () => {
-        Navigator.push(context, SuggestionsRechercheListPage.materialPageRoute())
-      },
+      onTapShowSuggestions: () => {Navigator.push(context, SuggestionsRechercheListPage.materialPageRoute())},
     );
   }
 

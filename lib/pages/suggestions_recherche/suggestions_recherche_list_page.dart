@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
+import 'package:pass_emploi_app/pages/immersion_list_page.dart';
+import 'package:pass_emploi_app/pages/offre_emploi_list_page.dart';
+import 'package:pass_emploi_app/pages/service_civique/service_civique_list_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/saved_search/saved_search_navigation_state.dart';
 import 'package:pass_emploi_app/presentation/suggestions/suggestion_recherche_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/suggestions/suggestions_recherche_list_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/redux/store_connector_aware.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -30,12 +36,42 @@ class SuggestionsRechercheListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, SuggestionsRechercheListViewModel>(
+    return StoreConnectorAware<SuggestionsRechercheListViewModel>(
       builder: (context, viewModel) => _Scaffold(viewModel: viewModel),
       converter: (store) => SuggestionsRechercheListViewModel.create(store),
-      onDidChange: (oldVM, newVM) => _displaySuccessSnackbar(context, newVM),
+      onDidChange: (oldVM, newVM) => _onDidChange(context, oldVM, newVM),
       distinct: true,
     );
+  }
+
+  void _onDidChange(BuildContext context, SuggestionsRechercheListViewModel? oldViewModel,
+      SuggestionsRechercheListViewModel newViewModel) {
+    _displaySuccessSnackbar(context, oldViewModel, newViewModel);
+    _navigateToSearch(context, newViewModel.searchNavigationState);
+  }
+
+  void _navigateToSearch(BuildContext context, SavedSearchNavigationState searchNavigationState) {
+    switch (searchNavigationState) {
+      case SavedSearchNavigationState.OFFRE_EMPLOI:
+        _goToPage(context, OffreEmploiListPage(onlyAlternance: false, fromSavedSearch: true));
+        break;
+      case SavedSearchNavigationState.OFFRE_ALTERNANCE:
+        _goToPage(context, OffreEmploiListPage(onlyAlternance: true, fromSavedSearch: true));
+        break;
+      case SavedSearchNavigationState.OFFRE_IMMERSION:
+        _goToPage(context, ImmersionListPage(true))
+            .then((value) => StoreProvider.of<AppState>(context).dispatch(ImmersionListResetAction()));
+        break;
+      case SavedSearchNavigationState.SERVICE_CIVIQUE:
+        _goToPage(context, ServiceCiviqueListPage(true));
+        break;
+      case SavedSearchNavigationState.NONE:
+        break;
+    }
+  }
+
+  Future<void> _goToPage(BuildContext context, Widget page) {
+    return Navigator.push(context, MaterialPageRoute(builder: (_) => page));
   }
 }
 
@@ -294,9 +330,10 @@ class _Ajouter extends StatelessWidget {
   }
 }
 
-void _displaySuccessSnackbar(BuildContext context, SuggestionsRechercheListViewModel newViewModel) {
+void _displaySuccessSnackbar(BuildContext context, SuggestionsRechercheListViewModel? oldViewModel,
+    SuggestionsRechercheListViewModel newViewModel) {
   if (newViewModel.traiterDisplayState != DisplayState.CONTENT) return;
-  newViewModel.resetTraiterState();
+  if (oldViewModel?.traiterDisplayState == DisplayState.CONTENT) return;
 
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
@@ -331,24 +368,69 @@ void _displaySuccessSnackbar(BuildContext context, SuggestionsRechercheListViewM
                   style: TextStyles.textBaseBoldWithColor(AppColors.secondary),
                 ),
               ),
-              InkWell(
-                onTap: () => snackbarKey.currentState?.hideCurrentSnackBar(),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 24, 16),
-                  child: SvgPicture.asset(
-                    Drawables.icClose,
-                    color: AppColors.secondary,
-                  ),
-                ),
-              ),
+              _CloseSnackbar(newViewModel),
             ],
           ),
           Text(
             Strings.suggestionRechercheAjouteeDescription,
             style: TextStyles.textBaseRegularWithColor(AppColors.secondary),
           ),
+          SizedBox(height: Margins.spacing_s),
+          _SeeResults(newViewModel),
         ],
       ),
     ),
   );
+}
+
+class _CloseSnackbar extends StatelessWidget {
+  final SuggestionsRechercheListViewModel viewModel;
+
+  _CloseSnackbar(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        viewModel.resetTraiterState();
+        snackbarKey.currentState?.hideCurrentSnackBar();
+      },
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 16, 24, 16),
+        child: SvgPicture.asset(
+          Drawables.icClose,
+          color: AppColors.secondary,
+        ),
+      ),
+    );
+  }
+}
+
+class _SeeResults extends StatelessWidget {
+  final SuggestionsRechercheListViewModel viewModel;
+
+  _SeeResults(this.viewModel);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () {
+        viewModel.seeOffreResults();
+        viewModel.resetTraiterState();
+        snackbarKey.currentState?.removeCurrentSnackBar();
+      },
+      child: Row(
+        children: [
+          Text(
+            Strings.voirResultatsSuggestion,
+            style: TextStyles.textBaseBoldWithColor(AppColors.secondary).copyWith(decoration: TextDecoration.underline),
+          ),
+          SvgPicture.asset(
+            Drawables.icChevronRight,
+            color: AppColors.secondary,
+          ),
+        ],
+      ),
+    );
+  }
 }

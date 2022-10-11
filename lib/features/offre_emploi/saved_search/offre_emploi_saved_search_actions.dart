@@ -1,7 +1,9 @@
+import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
+import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 
-class SavedOffreEmploiSearchRequestAction {
+class SavedOffreEmploiSearchRequestAction extends Equatable {
   final String keywords;
   final Location? location;
   final bool onlyAlternance;
@@ -13,4 +15,16 @@ class SavedOffreEmploiSearchRequestAction {
     required this.onlyAlternance,
     required this.filtres,
   });
+
+  factory SavedOffreEmploiSearchRequestAction.fromSearch(OffreEmploiSavedSearch search) {
+    return SavedOffreEmploiSearchRequestAction(
+      keywords: search.keywords ?? "",
+      location: search.location,
+      onlyAlternance: search.isAlternance,
+      filtres: search.filters,
+    );
+  }
+
+  @override
+  List<Object?> get props => [keywords, location, onlyAlternance, filtres];
 }

@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/saved_search/offre_emploi_saved_search_actions.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
@@ -15,8 +16,10 @@ import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
+import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/partage_activite.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
@@ -480,3 +483,20 @@ SuggestionRecherche suggestionBoulanger() => SuggestionRecherche(
 List<SuggestionRecherche> mockSuggestionsRecherche() {
   return [suggestionCariste(), suggestionBoulanger()];
 }
+
+OffreEmploiSavedSearch offreEmploiSavedSearch() => OffreEmploiSavedSearch(
+      id: "890d8195-fd09-4e25-bfd0-f94f64d18192",
+      title: "Maître-chien / Maîtresse-chien d'avalanche",
+      metier: "Sécurité civile et secours",
+      location: Location(type: LocationType.DEPARTMENT, libelle: "Gironde", code: "33"),
+      keywords: "Maître-chien / Maîtresse-chien d'avalanche",
+      isAlternance: false,
+      filters: OffreEmploiSearchParametersFiltres.withFiltres(distance: 0),
+    );
+
+SavedOffreEmploiSearchRequestAction savedOffreEmploiSearchRequestAction() => SavedOffreEmploiSearchRequestAction(
+      keywords: offreEmploiSavedSearch().keywords ?? "",
+      location: offreEmploiSavedSearch().location,
+      onlyAlternance: offreEmploiSavedSearch().isAlternance,
+      filtres: offreEmploiSavedSearch().filters,
+    );

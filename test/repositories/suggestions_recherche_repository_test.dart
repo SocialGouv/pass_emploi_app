@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
@@ -48,7 +49,7 @@ void main() {
     sut.when((repository) => repository.accepterSuggestion(userId: "USERID", suggestionId: "SUGGID"));
 
     group('when response is valid', () {
-      sut.givenResponseCode(200);
+      sut.givenJsonResponse(fromJson: "suggestions_recherche_emploi_acceptee.json");
 
       test('request should be valid', () async {
         await sut.expectRequestBody(
@@ -58,7 +59,10 @@ void main() {
       });
 
       test('response should be valid', () async {
-        await sut.expectTrueAsResult();
+        await sut.expectResult<OffreEmploiSavedSearch?>((truc) {
+          expect(truc, isNotNull);
+          expect(truc, offreEmploiSavedSearch());
+        });
       });
 
       test('cache for saved search and suggestions should be reset', () async {
@@ -73,7 +77,7 @@ void main() {
       sut.givenResponseCode(500);
 
       test('response should be null', () async {
-        await sut.expectFalseAsResult();
+        await sut.expectNullResult();
       });
     });
   });

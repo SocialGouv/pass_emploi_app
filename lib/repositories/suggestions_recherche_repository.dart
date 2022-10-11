@@ -1,9 +1,12 @@
 import 'package:http/http.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/network/cache_manager.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
+import 'package:pass_emploi_app/repositories/saved_search/get_saved_searches_repository.dart';
+import 'package:pass_emploi_app/repositories/saved_search/saved_search_response.dart';
 
 class SuggestionsRechercheRepository {
   final String _baseUrl;
@@ -30,28 +33,40 @@ class SuggestionsRechercheRepository {
     return null;
   }
 
-  Future<bool> accepterSuggestion({required String userId, required String suggestionId}) async {
-    final url = "/jeunes/$userId/recherches/suggestions/$suggestionId/accepter";
-    return _traiterSuggestion(url: url, userId: userId);
-  }
-
-  Future<bool> refuserSuggestion({required String userId, required String suggestionId}) async {
-    final url = "/jeunes/$userId/recherches/suggestions/$suggestionId/refuser";
-    return _traiterSuggestion(url: url, userId: userId);
-  }
-
-  Future<bool> _traiterSuggestion({required String url, required String userId}) async {
-    final uri = Uri.parse(_baseUrl + url);
+  Future<SavedSearch?> accepterSuggestion({required String userId, required String suggestionId}) async {
+    final uri = Uri.parse(_baseUrl + "/jeunes/$userId/recherches/suggestions/$suggestionId/accepter");
     try {
       final response = await _httpClient.post(uri);
       if (response.statusCode.isValid()) {
-        _cacheManager.removeSuggestionsRechercheRessource(baseUrl: _baseUrl, userId: userId);
-        _cacheManager.removeRessource(CachedRessource.SAVED_SEARCH, userId, _baseUrl);
+        final json = jsonUtf8Decode(response.bodyBytes);
+        final savedSearch = SavedSearchJsonExtractor().extract(SavedSearchResponse.fromJson(json));
+        _cacheManager.invalidateSuggestionsAndSavedSearch(baseUrl: _baseUrl, userId: userId);
+        return savedSearch;
+      }
+    } catch (e, stack) {
+      _crashlytics?.recordNonNetworkException(e, stack, uri);
+    }
+    return null;
+  }
+
+  Future<bool> refuserSuggestion({required String userId, required String suggestionId}) async {
+    final uri = Uri.parse(_baseUrl + "/jeunes/$userId/recherches/suggestions/$suggestionId/refuser");
+    try {
+      final response = await _httpClient.post(uri);
+      if (response.statusCode.isValid()) {
+        _cacheManager.invalidateSuggestionsAndSavedSearch(baseUrl: _baseUrl, userId: userId);
         return true;
       }
     } catch (e, stack) {
       _crashlytics?.recordNonNetworkException(e, stack, uri);
     }
     return false;
+  }
+}
+
+extension _CacheExt on PassEmploiCacheManager {
+  void invalidateSuggestionsAndSavedSearch({required String baseUrl, required String userId}) {
+    removeSuggestionsRechercheRessource(baseUrl: baseUrl, userId: userId);
+    removeRessource(CachedRessource.SAVED_SEARCH, userId, baseUrl);
   }
 }

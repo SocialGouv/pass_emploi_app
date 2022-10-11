@@ -6,11 +6,14 @@ SuggestionsRechercheState suggestionsRechercheReducer(SuggestionsRechercheState 
   if (action is SuggestionsRechercheLoadingAction) return SuggestionsRechercheLoadingState();
   if (action is SuggestionsRechercheSuccessAction) return SuggestionsRechercheSuccessState(action.suggestions);
   if (action is SuggestionsRechercheFailureAction) return SuggestionsRechercheFailureState();
-  if (action is TraiterSuggestionRechercheSuccessAction) {
-    if (current is! SuggestionsRechercheSuccessState) return current;
-    final suggestion = current.suggestions;
-    suggestion.removeWhere((element) => element.id == action.suggestion.id);
-    return SuggestionsRechercheSuccessState(suggestion);
-  }
+  if (action is AccepterSuggestionRechercheSuccessAction) return _removingSuggestion(current, action.suggestionId);
+  if (action is RefuserSuggestionRechercheSuccessAction) return _removingSuggestion(current, action.suggestionId);
   return current;
+}
+
+SuggestionsRechercheState _removingSuggestion(SuggestionsRechercheState current, String suggestionId) {
+  if (current is! SuggestionsRechercheSuccessState) return current;
+  final suggestions = current.suggestions;
+  suggestions.removeWhere((element) => element.id == suggestionId);
+  return SuggestionsRechercheSuccessState(suggestions);
 }

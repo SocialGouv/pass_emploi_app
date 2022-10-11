@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/saved_search/saved_search.dart';
 import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 
 enum TraiterSuggestionType { accepter, refuser }
@@ -17,11 +18,17 @@ class TraiterSuggestionRechercheLoadingAction {}
 
 class TraiterSuggestionRechercheFailureAction {}
 
-class TraiterSuggestionRechercheSuccessAction {
-  final SuggestionRecherche suggestion;
-  final TraiterSuggestionType type;
+class AccepterSuggestionRechercheSuccessAction {
+  final String suggestionId;
+  final SavedSearch savedSearch;
 
-  TraiterSuggestionRechercheSuccessAction(this.suggestion, this.type);
+  AccepterSuggestionRechercheSuccessAction(this.suggestionId, this.savedSearch);
+}
+
+class RefuserSuggestionRechercheSuccessAction {
+  final String suggestionId;
+
+  RefuserSuggestionRechercheSuccessAction(this.suggestionId);
 }
 
 class TraiterSuggestionRechercheResetAction {}
