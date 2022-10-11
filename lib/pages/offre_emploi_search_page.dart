@@ -28,7 +28,7 @@ class OffreEmploiSearchPage extends StatefulWidget {
   State<OffreEmploiSearchPage> createState() => _OffreEmploiSearchPageState();
 }
 
-class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> with RouteAware {
+class _OffreEmploiSearchPageState extends State<OffreEmploiSearchPage> {
   LocationViewModel? _selectedLocationViewModel;
   var _keyWord = "";
 
