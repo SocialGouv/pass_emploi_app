@@ -389,7 +389,7 @@ void _displaySuccessSnackbar(BuildContext context, SuggestionsRechercheListViewM
             onPressed: () {
               newViewModel.seeOffreResults();
               newViewModel.resetTraiterState();
-              snackbarKey.currentState?.hideCurrentSnackBar();
+              snackbarKey.currentState?.removeCurrentSnackBar();
             },
             child: Row(
               children: [
