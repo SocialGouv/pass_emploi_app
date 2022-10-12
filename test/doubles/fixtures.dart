@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
@@ -500,3 +501,11 @@ SavedOffreEmploiSearchRequestAction savedOffreEmploiSearchRequestAction() => Sav
       onlyAlternance: offreEmploiSavedSearch().isAlternance,
       filtres: offreEmploiSavedSearch().filters,
     );
+
+List<Metier> mockAutocompleteMetiers() {
+  return [
+    Metier(codeRome: "A1410", libelle: "Chevrier / Chevrière"),
+    Metier(codeRome: "A1416", libelle: "Céréalier / Céréalière"),
+    Metier(codeRome: "L1401", libelle: "Cavalier dresseur / Cavalière dresseuse de chevaux"),
+  ];
+}

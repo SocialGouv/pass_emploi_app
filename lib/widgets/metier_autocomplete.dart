@@ -14,7 +14,7 @@ class MetierAutocomplete extends StatelessWidget {
   final String? Function(String? input) validator;
   final GlobalKey<FormState> formKey;
 
-  final Debouncer _debouncer = Debouncer(duration: Duration(milliseconds: 200));
+  final Debouncer _debouncer = Debouncer(duration: Duration(milliseconds: 500));
 
   MetierAutocomplete({
     required this.onInputMetier,
@@ -116,7 +116,7 @@ class MetierAutocomplete extends StatelessWidget {
     }
   }
 
-  List<Metier> _fakeListMetierRequiredByAutocompleteToCallOptionsViewBuilderMethod() => [Metier.values.first];
+  List<Metier> _fakeListMetierRequiredByAutocompleteToCallOptionsViewBuilderMethod() => [Metier.conduiteEngin()];
 
   InputDecoration _inputDecoration(String textFieldString) {
     return InputDecoration(

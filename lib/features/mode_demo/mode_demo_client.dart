@@ -103,7 +103,8 @@ extension _UrlExtensions on String {
   bool isSupposedToBeMocked() {
     return !contains("referentiels/communes-et-departements") &&
         !contains("fichiers") &&
-        !contains("recherches/suggestions");
+        !contains("recherches/suggestions") &&
+        !contains("referentiels/metiers");
   }
 
   String removeLastPath() => substring(0, lastIndexOf('/'));

@@ -58,7 +58,7 @@ class TestStoreFactory {
   Crashlytics crashlytics = DummyCrashlytics();
   OffreEmploiFavorisRepository offreEmploiFavorisRepository = DummyOffreEmploiFavorisRepository();
   SearchLocationRepository searchLocationRepository = DummySearchLocationRepository();
-  MetierRepository metierRepository = MetierRepository();
+  MetierRepository metierRepository = DummyMetierRepository();
   ImmersionRepository immersionRepository = DummyImmersionRepository();
   ImmersionDetailsRepository immersionDetailsRepository = DummyImmersionDetailsRepository();
   ImmersionFavorisRepository immersionFavorisRepository = DummyImmersionFavorisRepository();
