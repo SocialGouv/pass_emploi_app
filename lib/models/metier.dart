@@ -13,10 +13,6 @@ class Metier extends Equatable {
     );
   }
 
-  factory Metier.conduiteEngin() {
-    return Metier(codeRome: "A1101", libelle: "Conduite d'engins agricoles et forestiers");
-  }
-
   @override
   List<Object?> get props => [codeRome, libelle];
 

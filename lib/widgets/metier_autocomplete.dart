@@ -116,7 +116,8 @@ class MetierAutocomplete extends StatelessWidget {
     }
   }
 
-  List<Metier> _fakeListMetierRequiredByAutocompleteToCallOptionsViewBuilderMethod() => [Metier.conduiteEngin()];
+  List<Metier> _fakeListMetierRequiredByAutocompleteToCallOptionsViewBuilderMethod() =>
+      [Metier(codeRome: "", libelle: "")];
 
   InputDecoration _inputDecoration(String textFieldString) {
     return InputDecoration(
