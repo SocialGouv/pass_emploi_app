@@ -3,14 +3,15 @@ import 'package:flutter_appauth/flutter_appauth.dart';
 import 'package:pass_emploi_app/auth/auth_refresh_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_request.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
-import 'package:pass_emploi_app/utils/log.dart';
+import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:synchronized/synchronized.dart';
 
 class AuthWrapper {
   final FlutterAppAuth _appAuth;
   final Lock _lock;
+  final Crashlytics? _crashlytics;
 
-  AuthWrapper(this._appAuth, this._lock);
+  AuthWrapper(this._appAuth, this._lock, [this._crashlytics]);
 
   Future<AuthTokenResponse> login(AuthTokenRequest request) async {
     return _lock.synchronized(() async {
@@ -38,18 +39,21 @@ class AuthWrapper {
           refreshToken: response.refreshToken!,
         );
       } else {
+        _crashlytics?.recordNonNetworkException("Incorrect Login output : response $response");
         throw AuthWrapperLoginException();
       }
-    } on PlatformException catch (e) {
-      if (e.code == "discovery_failed") {
+    } on PlatformException catch (e, stack) {
+      if (e.code == "discovery_failed" || e.code == "network") {
         throw AuthWrapperNetworkException();
       } else if (e.code == "authorize_and_exchange_code_failed") {
+        _crashlytics?.recordNonNetworkException(e, stack);
         if (_isUserCancelled(e)) {
           throw UserCanceledLoginException();
         } else {
           throw AuthWrapperCalledCancelException();
         }
       } else {
+        _crashlytics?.recordNonNetworkException(e, stack);
         throw AuthWrapperLoginException();
       }
     }
@@ -84,16 +88,18 @@ class AuthWrapper {
           refreshToken: response.refreshToken!,
         );
       } else {
+        _crashlytics?.recordNonNetworkException("Incorrect Refresh token output : response $response");
         throw AuthWrapperRefreshTokenException();
       }
-    } on PlatformException catch (e) {
-      if (e.code == "network") {
+    } on PlatformException catch (e, stack) {
+      if (e.code == "discovery_failed" || e.code == "network") {
         throw AuthWrapperNetworkException();
       } else if (e.code == "token_failed") {
+        _crashlytics?.recordNonNetworkException(e, stack);
         throw AuthWrapperRefreshTokenExpiredException();
       } else {
-        Log.w(e.toString());
-        rethrow;
+        _crashlytics?.recordNonNetworkException(e, stack);
+        throw AuthWrapperRefreshTokenException();
       }
     }
   }

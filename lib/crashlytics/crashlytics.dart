@@ -8,7 +8,7 @@ abstract class Crashlytics {
 
   void setUserIdentifier(String identifier);
 
-  void recordNonNetworkException(dynamic exception, StackTrace stack, [Uri? failingEndpoint]);
+  void recordNonNetworkException(dynamic exception, [StackTrace stack, Uri? failingEndpoint]);
 }
 
 class CrashlyticsWithFirebase extends Crashlytics {
@@ -23,14 +23,15 @@ class CrashlyticsWithFirebase extends Crashlytics {
   void setUserIdentifier(String identifier) => instance.setUserIdentifier(identifier);
 
   @override
-  void recordNonNetworkException(dynamic exception, StackTrace stack, [Uri? failingEndpoint]) {
-    final logPrefix = failingEndpoint != null ? 'Exception on $failingEndpoint' : 'Exception';
-    Log.e('$logPrefix: $exception');
+  void recordNonNetworkException(dynamic exception, [StackTrace? stack, Uri? failingEndpoint]) {
     if (exception is SocketException) return;
+    final logPrefix = failingEndpoint != null ? 'Exception on $failingEndpoint' : 'Exception';
+    Log.e(logPrefix, exception, stack);
     FirebaseCrashlytics.instance.recordError(
       exception,
       stack,
       reason: failingEndpoint != null ? 'Exception on $failingEndpoint' : null,
+      printDetails: false,
     );
   }
 }

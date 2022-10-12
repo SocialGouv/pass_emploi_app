@@ -143,7 +143,7 @@ class AppInitializer {
       crashlytics,
     );
     final authenticator = Authenticator(
-      AuthWrapper(FlutterAppAuth(), Lock()),
+      AuthWrapper(FlutterAppAuth(), Lock(), crashlytics),
       logoutRepository,
       configuration,
       securedPreferences,

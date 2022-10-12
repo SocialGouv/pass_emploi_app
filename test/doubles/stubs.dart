@@ -281,12 +281,8 @@ class AuthWrapperStub extends AuthWrapper {
   @override
   Future<AuthTokenResponse> refreshToken(AuthRefreshTokenRequest request) async {
     if (_throwsRefreshNetworkException) throw AuthWrapperNetworkException();
-    if (_throwsRefreshExpiredException) {
-      throw AuthWrapperRefreshTokenExpiredException();
-    }
-    if (_throwsRefreshGenericException) {
-      throw AuthWrapperRefreshTokenException();
-    }
+    if (_throwsRefreshExpiredException) throw AuthWrapperRefreshTokenExpiredException();
+    if (_throwsRefreshGenericException) throw AuthWrapperRefreshTokenException();
     if (request == _refreshParameters) return _refreshResult;
     throw Exception("Wrong parameters for refresh stub");
   }
