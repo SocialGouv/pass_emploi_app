@@ -92,6 +92,7 @@ String? _getFileName(String url, String query) {
   if (url.endsWith("/preferences")) return "preferences";
   if (url.endsWith("/referentiels/pole-emploi/types-demarches")) return "referentiel_demarches";
   if (url.endsWith("/commentaires")) return "commentaires";
+  if (url.contains("recherches/suggestions")) return "suggestions_recherche";
   if (url.removeLastPath().endsWith("/services-civique")) return "service_civique_detail";
   if (url.removeLastPath().endsWith("/offres-immersion")) return "immersion_detail";
   if (url.removeLastPath().endsWith("/offres-emploi")) return "offre_emploi_detail";
@@ -103,7 +104,6 @@ extension _UrlExtensions on String {
   bool isSupposedToBeMocked() {
     return !contains("referentiels/communes-et-departements") &&
         !contains("fichiers") &&
-        !contains("recherches/suggestions") &&
         !contains("referentiels/metiers");
   }
 
