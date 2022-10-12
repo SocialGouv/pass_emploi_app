@@ -6,7 +6,6 @@ import 'package:pass_emploi_app/features/location/search_location_state.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_actions.dart';
 import 'package:pass_emploi_app/features/metier/search_metier_state.dart';
 import 'package:pass_emploi_app/models/location.dart';
-import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/presentation/immersion_search_view_model.dart';
 import 'package:pass_emploi_app/presentation/location_view_model.dart';
 import 'package:pass_emploi_app/redux/app_reducer.dart';
@@ -148,7 +147,7 @@ void main() {
 
   test("create returns metier", () {
     // Given
-    final metier = Metier.values.first;
+    final metier = mockAutocompleteMetiers().first;
     final store = Store<AppState>(
       reducer,
       initialState: AppState.initialState().copyWith(searchMetierState: SearchMetierState([metier])),

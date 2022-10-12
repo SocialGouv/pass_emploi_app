@@ -5,7 +5,6 @@ import 'package:pass_emploi_app/features/metier/search_metier_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/parameters/offre_emploi_search_parameters_state.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/immersion_filtres_parameters.dart';
-import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/saved_search/immersion_saved_search.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
@@ -60,7 +59,7 @@ void main() {
         ville: "ville",
       )
     ]);
-    final searchedMetier = Metier.values.first;
+    final searchedMetier = mockAutocompleteMetiers().first;
     final AppState state = AppState.initialState().copyWith(
       searchMetierState: SearchMetierState([searchedMetier]),
       immersionListState: immersionState,
@@ -80,8 +79,8 @@ void main() {
       result,
       ImmersionSavedSearch(
         id: "",
-        title: "Conduite d'engins agricoles et forestiers - ville",
-        metier: "Conduite d'engins agricoles et forestiers",
+        title: "Chevrier / Chevrière - ville",
+        metier: "Chevrier / Chevrière",
         codeRome: searchedMetier.codeRome,
         location: mockCommuneLocation(label: "ville", lat: 12, lon: 34),
         ville: "ville",
@@ -101,7 +100,7 @@ void main() {
           secteurActivite: "secteurActivite",
           ville: "ville"),
     ]);
-    final searchedMetier = Metier.values.first;
+    final searchedMetier = mockAutocompleteMetiers().first;
     final AppState state = AppState.initialState().copyWith(
       searchMetierState: SearchMetierState([searchedMetier]),
       immersionListState: immersionState,

@@ -31,6 +31,7 @@ import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_reposi
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
+import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
@@ -351,4 +352,8 @@ class DummyAgendaRepository extends AgendaRepository {
 
 class DummySuggestionsRechercheRepository extends SuggestionsRechercheRepository {
   DummySuggestionsRechercheRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+}
+
+class DummyMetierRepository extends MetierRepository {
+  DummyMetierRepository() : super("", DummyHttpClient());
 }

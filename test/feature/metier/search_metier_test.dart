@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/metier_repository.dart';
 
+import '../../doubles/dummies.dart';
 import '../../doubles/fixtures.dart';
 import '../../utils/test_setup.dart';
 
@@ -21,7 +22,7 @@ void main() {
 
     // Then
     final newState = await newStateFuture;
-    expect(newState.searchMetierState.metiers, _metiers());
+    expect(newState.searchMetierState.metiers, mockAutocompleteMetiers());
   });
 
   test("Reset search metier remove previous metier results", () async {
@@ -29,7 +30,7 @@ void main() {
     final factory = TestStoreFactory();
     final store = factory.initializeReduxStore(
       initialState: AppState.initialState().copyWith(
-        searchMetierState: SearchMetierState(_metiers()),
+        searchMetierState: SearchMetierState(mockAutocompleteMetiers()),
       ),
     );
     final Future<AppState> newStateFuture = store.onChange.first;
@@ -44,11 +45,11 @@ void main() {
 }
 
 class MetierRepositorySuccessStub extends MetierRepository {
+  MetierRepositorySuccessStub(): super("", DummyHttpClient());
+
   @override
   Future<List<Metier>> getMetiers(String userInput) async {
-    if (userInput == "input") return _metiers();
+    if (userInput == "input") return mockAutocompleteMetiers();
     return [];
   }
 }
-
-List<Metier> _metiers() => [Metier.values.first];
