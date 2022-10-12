@@ -91,43 +91,52 @@ void main() {
     expect(message!.type, MessageType.message);
   });
 
-  test("toJson MESSAGE_OFFRE", () {
-    // Given
-    final chatCryptoSpy = _FakeChatCrypto();
+  group("toJson MESSAGE_OFFRE", () {
+    void assertMessageOffreWithType({required String offreTypeJson, required OffreType offreType}) {
+      test("with type $offreTypeJson", () {
+        // Given
+        final chatCryptoSpy = _FakeChatCrypto();
 
-    // When
-    final message = Message.fromJson(
-      {
-        "content": "toto-chiffré",
-        "creationDate": Timestamp.fromDate(DateTime(2021, 7, 30, 9, 43, 9)),
-        "iv": "ivvv",
-        "sentBy": "jeune",
-        "type": "MESSAGE_OFFRE",
-        "offre": {
-          "id": "343",
-          "titre": "Chevalier",
-          "type": "EMPLOI",
-        },
-      },
-      chatCryptoSpy,
-      DummyCrashlytics(),
-    );
+        // When
+        final message = Message.fromJson(
+          {
+            "content": "toto-chiffré",
+            "creationDate": Timestamp.fromDate(DateTime(2021, 7, 30, 9, 43, 9)),
+            "iv": "ivvv",
+            "sentBy": "jeune",
+            "type": "MESSAGE_OFFRE",
+            "offre": {
+              "id": "343",
+              "titre": "Chevalier",
+              "type": offreTypeJson,
+            },
+          },
+          chatCryptoSpy,
+          DummyCrashlytics(),
+        );
 
-    // Then
-    expect(
-        message,
-        Message(
-          "toto-chiffré-déchiffré",
-          DateTime(2021, 7, 30, 9, 43, 9),
-          Sender.jeune,
-          MessageType.offre,
-          [],
-          Offre(
-            "343",
-            "Chevalier",
-            OffreType.emploi,
-          ),
-        ));
+        // Then
+        expect(
+            message,
+            Message(
+              "toto-chiffré-déchiffré",
+              DateTime(2021, 7, 30, 9, 43, 9),
+              Sender.jeune,
+              MessageType.offre,
+              [],
+              Offre(
+                "343",
+                "Chevalier",
+                offreType,
+              ),
+            ));
+      });
+    }
+
+    assertMessageOffreWithType(offreTypeJson: "EMPLOI", offreType: OffreType.emploi);
+    assertMessageOffreWithType(offreTypeJson: "ALTERNANCE", offreType: OffreType.alternance);
+    assertMessageOffreWithType(offreTypeJson: "IMMERSION", offreType: OffreType.immersion);
+    assertMessageOffreWithType(offreTypeJson: "SERVICE_CIVIQUE", offreType: OffreType.civique);
   });
 
   test("toJson when message typed as NOUVEAU_CONSEILLER", () {

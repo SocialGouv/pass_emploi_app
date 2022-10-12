@@ -35,6 +35,12 @@ class ServiceCiviqueDetailPage extends StatelessWidget {
 
   ServiceCiviqueDetailPage(this.idOffre, [this.popPageWhenFavoriIsRemoved = false]);
 
+  static MaterialPageRoute<void> materialPageRoute(String idOffre, [bool popPageWhenFavoriIsRemoved = false]) {
+    return MaterialPageRoute(
+      builder: (context) => ServiceCiviqueDetailPage(idOffre, popPageWhenFavoriIsRemoved),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Tracker(
