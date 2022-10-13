@@ -256,7 +256,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "FIREBASE_APP_ID_PROD = \"1:1030756484608:ios:9ad9db7370ca7bc9e73ae5\"\nFIREBASE_APP_ID_STAGING = \"1:73788634172:ios:6be4504f02370f6b32ff39\"\n\n$PODS_ROOT/FirebaseCrashlytics/upload-symbols --build-phase --validate -ai FIREBASE_APP_ID_STAGING\n$PODS_ROOT/FirebaseCrashlytics/upload-symbols --build-phase -ai FIREBASE_APP_ID_STAGING\n";
+			shellScript = "PLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\n\nfind ${PROJECT_DIR} -name \"*.dSYM\" | xargs -I \\{\\} $PODS_ROOT/FirebaseCrashlytics/upload-symbols -gsp ${PLIST_DESTINATION}/GoogleService-Info.plist -p ios \\{\\}\n\n";
 		};
 		72EE6D38E43DBD8A7EFE6806 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
