@@ -163,6 +163,7 @@
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				FBC7C5AB346040EF73E6923F /* [CP] Embed Pods Frameworks */,
 				B1D65F9D6C13EAAAD3D60685 /* [CP] Copy Pods Resources */,
+				7042E32828F84FEC00D013FF /* [firebase_crashlytics] Crashlytics Upload Symbols */,
 			);
 			buildRules = (
 			);
@@ -236,6 +237,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin";
+		};
+		7042E32828F84FEC00D013FF /* [firebase_crashlytics] Crashlytics Upload Symbols */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = "[firebase_crashlytics] Crashlytics Upload Symbols";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "FIREBASE_APP_ID_PROD = \"1:1030756484608:ios:9ad9db7370ca7bc9e73ae5\"\nFIREBASE_APP_ID_STAGING = \"1:73788634172:ios:6be4504f02370f6b32ff39\"\n\n$PODS_ROOT/FirebaseCrashlytics/upload-symbols --build-phase --validate -ai FIREBASE_APP_ID_STAGING\n$PODS_ROOT/FirebaseCrashlytics/upload-symbols --build-phase -ai FIREBASE_APP_ID_STAGING\n";
 		};
 		72EE6D38E43DBD8A7EFE6806 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
