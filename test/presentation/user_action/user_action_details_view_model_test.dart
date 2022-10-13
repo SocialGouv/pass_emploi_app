@@ -33,6 +33,18 @@ void main() {
     expect(viewModel.withDeleteOption, isTrue);
   });
 
+  test("UserActionViewModel.create when status is done should not autorize delete", () {
+    // Given
+    final action = mockUserAction(id: 'actionId', creator: JeuneActionCreator(), status: UserActionStatus.DONE);
+    final store = givenState().withAction(action).store();
+
+    // When
+    final viewModel = UserActionDetailsViewModel.create(store, UserActionStateSource.list, 'actionId');
+
+    // Then
+    expect(viewModel.withDeleteOption, isFalse);
+  });
+
   test(
       "UserActionViewModel.create when creator is jeune and action has comments should create view model properly and not autorize delete",
       () {

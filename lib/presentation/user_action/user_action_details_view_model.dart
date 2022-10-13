@@ -84,7 +84,7 @@ class UserActionDetailsViewModel extends Equatable {
       withSubtitle: userAction != null ? userAction.comment.isNotEmpty : false,
       status: userAction != null ? userAction.status : UserActionStatus.DONE,
       creator: userAction != null ? _displayName(userAction.creator) : '',
-      withDeleteOption: userAction?.creator is JeuneActionCreator && !hasComments,
+      withDeleteOption: _withDeleteOption(userAction, hasComments),
       dateEcheanceViewModel: _dateEcheanceViewModel(userAction),
       onRefreshStatus: (actionId, newStatus) => _refreshStatus(store, actionId, newStatus),
       onDelete: (actionId) => store.dispatch(UserActionDeleteRequestAction(actionId)),
@@ -108,6 +108,9 @@ class UserActionDetailsViewModel extends Equatable {
         deleteDisplayState,
       ];
 }
+
+bool _withDeleteOption(UserAction? userAction, bool hasComments) =>
+    userAction?.creator is JeuneActionCreator && !hasComments && userAction?.status != UserActionStatus.DONE;
 
 UserAction? _getAction(Store<AppState> store, UserActionStateSource stateSource, String actionId) {
   switch (stateSource) {
