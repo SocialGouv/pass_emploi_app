@@ -94,7 +94,7 @@ class _OfferCard extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(16)),
         ),
         child: InkWell(
-          onTap: () => _showOffreEmploiDetailsPage(context),
+          onTap: () => _showOffreDetailsPage(context),
           splashColor: AppColors.primaryLighten,
           child: Padding(
             padding: const EdgeInsets.all(12.0),
@@ -123,7 +123,7 @@ class _OfferCard extends StatelessWidget {
     );
   }
 
-  void _showOffreEmploiDetailsPage(BuildContext context) {
+  void _showOffreDetailsPage(BuildContext context) {
     switch (type) {
       case OffreType.emploi:
         Navigator.push(
