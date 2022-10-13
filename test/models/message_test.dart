@@ -92,7 +92,7 @@ void main() {
   });
 
   group("toJson MESSAGE_OFFRE", () {
-    void assertMessageOffreWithType({required String offreTypeJson, required OffreType offreType}) {
+    void assertMessageOffreWithType({required String? offreTypeJson, required OffreType offreType}) {
       test("with type $offreTypeJson", () {
         // Given
         final chatCryptoSpy = _FakeChatCrypto();
@@ -133,6 +133,7 @@ void main() {
       });
     }
 
+    assertMessageOffreWithType(offreTypeJson: null, offreType: OffreType.emploi);
     assertMessageOffreWithType(offreTypeJson: "EMPLOI", offreType: OffreType.emploi);
     assertMessageOffreWithType(offreTypeJson: "ALTERNANCE", offreType: OffreType.alternance);
     assertMessageOffreWithType(offreTypeJson: "IMMERSION", offreType: OffreType.immersion);

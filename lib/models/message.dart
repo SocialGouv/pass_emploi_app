@@ -159,7 +159,9 @@ class Offre extends Equatable {
           return OffreType.inconnu;
       }
     } catch (e) {
-      return OffreType.inconnu;
+      return _defaultForRetrocompatibility();
     }
   }
 }
+
+OffreType _defaultForRetrocompatibility() => OffreType.emploi;
