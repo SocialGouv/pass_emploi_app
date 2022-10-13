@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/models/message.dart';
+import 'package:pass_emploi_app/pages/immersion_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
+import 'package:pass_emploi_app/pages/service_civique/service_civique_detail_page.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -92,7 +94,7 @@ class _OfferCard extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(16)),
         ),
         child: InkWell(
-          onTap: () => _showOffreEmploiDetailsPage(context),
+          onTap: () => _showOffreDetailsPage(context),
           splashColor: AppColors.primaryLighten,
           child: Padding(
             padding: const EdgeInsets.all(12.0),
@@ -121,14 +123,28 @@ class _OfferCard extends StatelessWidget {
     );
   }
 
-  void _showOffreEmploiDetailsPage(BuildContext context) {
-    Navigator.push(
-      context,
-      OffreEmploiDetailsPage.materialPageRoute(
-        offerId,
-        fromAlternance: type == OffreType.alternance,
-        showFavori: false,
-      ),
-    );
+  void _showOffreDetailsPage(BuildContext context) {
+    switch (type) {
+      case OffreType.emploi:
+        Navigator.push(
+          context,
+          OffreEmploiDetailsPage.materialPageRoute(offerId, fromAlternance: false, showFavori: false),
+        );
+        break;
+      case OffreType.alternance:
+        Navigator.push(
+          context,
+          OffreEmploiDetailsPage.materialPageRoute(offerId, fromAlternance: true, showFavori: false),
+        );
+        break;
+      case OffreType.immersion:
+        Navigator.push(context, ImmersionDetailsPage.materialPageRoute(offerId));
+        break;
+      case OffreType.civique:
+        Navigator.push(context, ServiceCiviqueDetailPage.materialPageRoute(offerId));
+        break;
+      case OffreType.inconnu:
+        break;
+    }
   }
 }
