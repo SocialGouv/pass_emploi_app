@@ -163,6 +163,7 @@
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				FBC7C5AB346040EF73E6923F /* [CP] Embed Pods Frameworks */,
 				B1D65F9D6C13EAAAD3D60685 /* [CP] Copy Pods Resources */,
+				7042E32828F84FEC00D013FF /* [firebase_crashlytics] Crashlytics Upload Symbols */,
 			);
 			buildRules = (
 			);
@@ -236,6 +237,26 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "/bin/sh \"$FLUTTER_ROOT/packages/flutter_tools/bin/xcode_backend.sh\" embed_and_thin";
+		};
+		7042E32828F84FEC00D013FF /* [firebase_crashlytics] Crashlytics Upload Symbols */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			name = "[firebase_crashlytics] Crashlytics Upload Symbols";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "echo \"Starting [firebase_crashlytics] Crashlytics Upload Symbols build phase.\"\n\nPLIST_DESTINATION=${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app\n\necho \"- plist path ${PLIST_DESTINATION}\"\necho \"- project path ${PROJECT_DIR}\"\n\nfind ${PROJECT_DIR} -name \"*.dSYM\" | xargs -I \\{\\} $PODS_ROOT/FirebaseCrashlytics/upload-symbols -gsp ${PLIST_DESTINATION}/GoogleService-Info.plist -p ios \\{\\}\n\necho \"Ending [firebase_crashlytics] Crashlytics Upload Symbols build phase.\"\n";
 		};
 		72EE6D38E43DBD8A7EFE6806 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
