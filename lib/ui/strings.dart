@@ -182,7 +182,7 @@ class Strings {
 
   // App evaluation
   static String evalTitle = "Votre expérience sur l’application";
-  static String evalDescription = "Aidez-nous à améliorer l’application en répondant à 2 questions.";
+  static String evalDescription = "Aidez-nous à améliorer l’application en répondant à quelques questions.";
   static String evalButton = "Donner son avis";
 
   static String questionIndexTitle(String index, String total) => "Votre expérience $index/$total";
