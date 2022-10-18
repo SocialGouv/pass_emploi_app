@@ -63,7 +63,7 @@ class DemarcheListPage extends StatelessWidget {
       case DisplayState.EMPTY:
         return Empty(description: Strings.emptyContentTitle(Strings.demarchesToDo));
       case DisplayState.FAILURE:
-        return Center(child: Retry(Strings.actionsError, () => viewModel.onRetry()));
+        return Center(child: Retry(Strings.demarchesError, () => viewModel.onRetry()));
     }
   }
 

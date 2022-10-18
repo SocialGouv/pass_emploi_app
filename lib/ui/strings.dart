@@ -247,6 +247,7 @@ class Strings {
   static String sendCommentError = "Erreur lors de l'envoi du commentaire. Veuillez réessayer";
 
   // Demarches
+  static String demarchesError = "Erreur lors de la récupération de vos démarches";
   static String modifierStatut = "Modifier le statut";
   static String historiqueDemarche = "Historique";
   static String modifiedBy = "Modifiée le ";
