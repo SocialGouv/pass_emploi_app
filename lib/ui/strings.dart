@@ -582,9 +582,10 @@ class Strings {
   static String developerOptionMatomoPage = 'Matomo';
 
   // Tutorial
-  static String tutoTitreAgenda = "Consultez votre agenda de la semaine !";
-  static String tutoDescriptionAgenda =
-      "Retrouvez la liste de vos démarches et rendez-vous de la semaine à un seul endroit";
+  static String tutoTitrePageUne = "Des suggestions de recherches adaptées à votre profil Pôle emploi !";
+  static String tutoDescriptionPageUne = "Sur l’onglet Favoris et l’onglet Recherche découvrez des suggestions de recherche.";
+  static String tutoTitrePageDeux = "Vous pourrez au choix :";
+  static String tutoDescriptionPageDeux = "- Ajouter ces suggestions : elles s'intègreront alors dans la liste de vos recherches mises en favoris. Vous serez alors notifié dès qu'une nouvelle annonce correspond à vos critères de recherche.\n\n- Supprimer la suggestion si elle ne vous convient pas.";
 
   static String seeLater = "Voir plus tard";
   static String finish = "Terminer";
