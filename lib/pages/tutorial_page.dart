@@ -232,7 +232,7 @@ class _Animation extends StatefulWidget {
 class _AnimationState extends State<_Animation> with SingleTickerProviderStateMixin {
   bool _animating = false;
 
-  late final AnimationController _controllerA = AnimationController(
+  late final AnimationController _animationController = AnimationController(
     duration: const Duration(milliseconds: 300),
     reverseDuration: Duration(milliseconds: 300),
     vsync: this,
@@ -241,17 +241,17 @@ class _AnimationState extends State<_Animation> with SingleTickerProviderStateMi
     begin: 0,
     end: 30,
   ).animate(CurvedAnimation(
-    parent: _controllerA,
+    parent: _animationController,
     curve: Curves.linear,
   ));
 
   Future<void> _playAnimation() async {
-    await _controllerA.forward(from: 0);
-    await _controllerA.reverse();
-    await _controllerA.forward(from: 0);
-    await _controllerA.reverse();
-    await _controllerA.forward(from: 0);
-    await _controllerA.reverse();
+    await _animationController.forward(from: 0);
+    await _animationController.reverse();
+    await _animationController.forward(from: 0);
+    await _animationController.reverse();
+    await _animationController.forward(from: 0);
+    await _animationController.reverse();
     setState(() {});
   }
 
@@ -270,6 +270,12 @@ class _AnimationState extends State<_Animation> with SingleTickerProviderStateMi
         );
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 }
 
