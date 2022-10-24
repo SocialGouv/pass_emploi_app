@@ -5,6 +5,7 @@ import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/auth_token_response.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
+import 'package:pass_emploi_app/features/offre_emploi/saved_search/offre_emploi_saved_search_actions.dart';
 import 'package:pass_emploi_app/models/campagne.dart';
 import 'package:pass_emploi_app/models/commentaire.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
@@ -13,12 +14,16 @@ import 'package:pass_emploi_app/models/demarche_du_referentiel.dart';
 import 'package:pass_emploi_app/models/details_jeune.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/location.dart';
+import 'package:pass_emploi_app/models/metier.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
+import 'package:pass_emploi_app/models/offre_emploi_filtres_parameters.dart';
 import 'package:pass_emploi_app/models/partage_activite.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/models/service_civique/service_civique_detail.dart';
+import 'package:pass_emploi_app/models/suggestion_recherche.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
 import 'package:pass_emploi_app/models/user_action_creator.dart';
@@ -436,20 +441,71 @@ List<Commentaire> mockCommentaires() => [
     ];
 
 List<Demarche> mockDemarches() {
-  return [Demarche(
-    id: "demarcheId",
-    content: null,
-    status: DemarcheStatus.NOT_STARTED,
-    endDate: DateTime.now(),
-    deletionDate: null,
-    createdByAdvisor: true,
-    label: null,
-    possibleStatus: [],
-    creationDate: DateTime.now(),
-    modifiedByAdvisor: false,
-    sousTitre: null,
-    titre: null,
-    modificationDate: null,
-    attributs: [],
-  )];
+  return [
+    Demarche(
+      id: "demarcheId",
+      content: null,
+      status: DemarcheStatus.NOT_STARTED,
+      endDate: DateTime.now(),
+      deletionDate: null,
+      createdByAdvisor: true,
+      label: null,
+      possibleStatus: [],
+      creationDate: DateTime.now(),
+      modifiedByAdvisor: false,
+      sousTitre: null,
+      titre: null,
+      modificationDate: null,
+      attributs: [],
+    )
+  ];
+}
+
+SuggestionRecherche suggestionCariste() => SuggestionRecherche(
+      id: "1",
+      type: SuggestionType.emploi,
+      titre: "Cariste",
+      metier: "Conduite d'engins de déplacement des charges",
+      localisation: "Nord",
+      dateCreation: parseDateTimeUtcWithCurrentTimeZone("2022-09-22T12:00:00.000Z"),
+      dateRafraichissement: parseDateTimeUtcWithCurrentTimeZone("2022-09-26T13:00:00.000Z"),
+    );
+
+SuggestionRecherche suggestionBoulanger() => SuggestionRecherche(
+      id: "2",
+      type: SuggestionType.immersion,
+      titre: "Boulanger",
+      metier: "Chef boulanger",
+      localisation: "Valence",
+      dateCreation: parseDateTimeUtcWithCurrentTimeZone("2022-10-12T22:00:00.000Z"),
+      dateRafraichissement: parseDateTimeUtcWithCurrentTimeZone("2022-10-16T23:00:00.000Z"),
+    );
+
+List<SuggestionRecherche> mockSuggestionsRecherche() {
+  return [suggestionCariste(), suggestionBoulanger()];
+}
+
+OffreEmploiSavedSearch offreEmploiSavedSearch() => OffreEmploiSavedSearch(
+      id: "890d8195-fd09-4e25-bfd0-f94f64d18192",
+      title: "Maître-chien / Maîtresse-chien d'avalanche",
+      metier: "Sécurité civile et secours",
+      location: Location(type: LocationType.DEPARTMENT, libelle: "Gironde", code: "33"),
+      keywords: "Maître-chien / Maîtresse-chien d'avalanche",
+      isAlternance: false,
+      filters: OffreEmploiSearchParametersFiltres.withFiltres(distance: 0),
+    );
+
+SavedOffreEmploiSearchRequestAction savedOffreEmploiSearchRequestAction() => SavedOffreEmploiSearchRequestAction(
+      keywords: offreEmploiSavedSearch().keywords ?? "",
+      location: offreEmploiSavedSearch().location,
+      onlyAlternance: offreEmploiSavedSearch().isAlternance,
+      filtres: offreEmploiSavedSearch().filters,
+    );
+
+List<Metier> mockAutocompleteMetiers() {
+  return [
+    Metier(codeRome: "A1410", libelle: "Chevrier / Chevrière"),
+    Metier(codeRome: "A1416", libelle: "Céréalier / Céréalière"),
+    Metier(codeRome: "L1401", libelle: "Cavalier dresseur / Cavalière dresseuse de chevaux"),
+  ];
 }

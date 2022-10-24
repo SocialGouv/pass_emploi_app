@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
 import 'package:pass_emploi_app/models/message.dart';
+import 'package:pass_emploi_app/models/offre_partagee.dart';
 import 'package:pass_emploi_app/models/page_actions.dart';
 import 'package:pass_emploi_app/models/page_demarches.dart';
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
@@ -280,12 +281,8 @@ class AuthWrapperStub extends AuthWrapper {
   @override
   Future<AuthTokenResponse> refreshToken(AuthRefreshTokenRequest request) async {
     if (_throwsRefreshNetworkException) throw AuthWrapperNetworkException();
-    if (_throwsRefreshExpiredException) {
-      throw AuthWrapperRefreshTokenExpiredException();
-    }
-    if (_throwsRefreshGenericException) {
-      throw AuthWrapperRefreshTokenException();
-    }
+    if (_throwsRefreshExpiredException) throw AuthWrapperRefreshTokenExpiredException();
+    if (_throwsRefreshGenericException) throw AuthWrapperRefreshTokenException();
     if (request == _refreshParameters) return _refreshResult;
     throw Exception("Wrong parameters for refresh stub");
   }
@@ -309,6 +306,11 @@ class ChatRepositoryStub extends ChatRepository {
   @override
   Stream<ConseillerMessageInfo> chatStatusStream(String userId) async* {
     yield _info;
+  }
+
+  @override
+  Future<bool> sendOffrePartagee(String userId, OffrePartagee offrePartagee) async {
+    return true;
   }
 }
 

@@ -74,17 +74,14 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
 }
 
 ChatItem _offreMessageItem(Message message, DateTime lastConseillerReading) {
-  if (message.sentBy == Sender.jeune) {
-    return OffreMessageItem(
-      content: message.content,
-      idOffre: message.offre?.id ?? "",
-      titreOffre: message.offre?.titre ?? "",
-      type: message.offre?.type ?? OffreType.inconnu,
-      caption: caption(message, lastConseillerReading),
-    );
-  } else {
-    return InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
-  }
+  return OffreMessageItem(
+    content: message.content,
+    idOffre: message.offre?.id ?? "",
+    titreOffre: message.offre?.titre ?? "",
+    type: message.offre?.type ?? OffreType.inconnu,
+    sender: message.sentBy,
+    caption: caption(message, lastConseillerReading),
+  );
 }
 
 ChatItem _pieceJointeItem(Message message) {
@@ -120,7 +117,7 @@ MessageItem _buildMessageItem(Message message, DateTime lastConseillerReading) {
 
 List<dynamic> _messagesWithDaySections(List<Message> messages) {
   final messagesWithDaySections = <dynamic>[];
-  groupBy(messages, (message) => _getDayLabel((message as Message).creationDate)).forEach((day, messagesOfDay) {
+  groupBy(messages, (message) => _getDayLabel(message.creationDate)).forEach((day, messagesOfDay) {
     messagesWithDaySections.add(day);
     messagesWithDaySections.addAll(messagesOfDay);
   });

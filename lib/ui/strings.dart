@@ -8,6 +8,9 @@ class Strings {
   static String close = "Fermer";
   static String yes = "Oui";
   static String no = "Non";
+  static String ajouter = "Ajouter";
+  static String cancelLabel = "Annuler";
+  static String suppressionLabel = "Supprimer";
 
   // Menu
   static String menuMonSuivi = "Mon suivi";
@@ -179,7 +182,7 @@ class Strings {
 
   // App evaluation
   static String evalTitle = "Votre expérience sur l’application";
-  static String evalDescription = "Aidez-nous à améliorer l’application en répondant à 2 questions.";
+  static String evalDescription = "Aidez-nous à améliorer l’application en répondant à quelques questions.";
   static String evalButton = "Donner son avis";
 
   static String questionIndexTitle(String index, String total) => "Votre expérience $index/$total";
@@ -244,6 +247,7 @@ class Strings {
   static String sendCommentError = "Erreur lors de l'envoi du commentaire. Veuillez réessayer";
 
   // Demarches
+  static String demarchesError = "Erreur lors de la récupération de vos démarches";
   static String modifierStatut = "Modifier le statut";
   static String historiqueDemarche = "Historique";
   static String modifiedBy = "Modifiée le ";
@@ -552,8 +556,6 @@ class Strings {
   static String savedSearchSeeResults = "Voir les résultats";
 
   static String savedSearchDeleteMessage = "Voulez-vous vraiment supprimer la recherche sauvegardée ?";
-  static String cancelLabel = "Annuler";
-  static String suppressionLabel = "Supprimer";
   static String savedSearchDeleteError = "Erreur lors de la suppression de la recherche.";
   static String savedSearchDeleteSuccess = "Votre recherche sauvegardée a été supprimée avec succès.";
 
@@ -580,9 +582,10 @@ class Strings {
   static String developerOptionMatomoPage = 'Matomo';
 
   // Tutorial
-  static String tutoTitreAgenda = "Consultez votre agenda de la semaine !";
-  static String tutoDescriptionAgenda =
-      "Retrouvez la liste de vos démarches et rendez-vous de la semaine à un seul endroit";
+  static String tutoTitrePageUne = "Des suggestions de recherches adaptées à votre profil Pôle emploi !";
+  static String tutoDescriptionPageUne = "Sur l’onglet Favoris et l’onglet Recherche découvrez des suggestions de recherche.";
+  static String tutoTitrePageDeux = "Vous pourrez au choix :";
+  static String tutoDescriptionPageDeux = "- Ajouter ces suggestions : elles s'intègreront alors dans la liste de vos recherches mises en favoris. Vous serez alors notifié dès qu'une nouvelle annonce correspond à vos critères de recherche.\n\n- Supprimer la suggestion si elle ne vous convient pas.";
 
   static String seeLater = "Voir plus tard";
   static String finish = "Terminer";
@@ -597,4 +600,18 @@ class Strings {
   static String supportMail = "support@pass-emploi.beta.gouv.fr";
   static String titleSupportMail = "Mon avis sur l’application";
   static String contentSupportMail = "Aidez-nous à améliorer l’application en nous donnant votre avis :\n";
+
+  // Suggestions de recherche
+  static String vosSuggestionsDeRecherche = "Vos recherches suggérées";
+  static String nouvellesSuggestionsDeRechercheTitre = "Vous avez de nouvelles recherches suggérées !";
+  static String nouvellesSuggestionsDeRechercheDescription = "Sur la base de votre profil Pôle emploi, voici des suggestions de recherches à sauvegarder dans vos favoris";
+  static String voirSuggestionsDeRecherche = "Voir les suggestions";
+  static String suggestionsDeRechercheTitlePage = "Vos recherches suggérées";
+  static String suggestionTypeEmploi = "Emploi";
+  static String suggestionTypeAlternance = "Alternance";
+  static String suggestionTypeImmersion = "Immersion";
+  static String suggestionTypeServiceCivique = "Service civique";
+  static String suggestionRechercheAjoutee = "Recherche ajoutée";
+  static String suggestionRechercheAjouteeDescription = "La recherche a été ajoutée à vos favoris";
+  static String voirResultatsSuggestion = "Voir les résultats";
 }

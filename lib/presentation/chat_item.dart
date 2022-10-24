@@ -62,6 +62,7 @@ class OffreMessageItem extends ChatItem {
   final String idOffre;
   final String titreOffre;
   final String caption;
+  final Sender sender;
   final OffreType type;
 
   OffreMessageItem({
@@ -69,9 +70,10 @@ class OffreMessageItem extends ChatItem {
     required this.idOffre,
     required this.titreOffre,
     required this.caption,
+    required this.sender,
     required this.type,
   });
 
   @override
-  List<Object?> get props => [content, idOffre, titreOffre, caption, type];
+  List<Object?> get props => [content, idOffre, titreOffre, caption, sender, type];
 }

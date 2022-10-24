@@ -7,8 +7,10 @@ import 'package:pass_emploi_app/features/chat/partage_offre/partage_offre_action
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/mode_demo/mode_demo_chat_repository.dart';
+import 'package:pass_emploi_app/features/tracking/tracking_event_action.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
+import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/repositories/chat_repository.dart';
 import 'package:redux/redux.dart';
@@ -50,6 +52,7 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(ChatPartageOffreLoadingAction());
     final succeed = await _repository.sendOffrePartagee(userId, offre);
     if (succeed) {
+      store.dispatch(TrackingEventAction(EventType.MESSAGE_OFFRE_PARTAGEE));
       store.dispatch(ChatPartageOffreSuccessAction());
     } else {
       store.dispatch(ChatPartageOffreFailureAction());

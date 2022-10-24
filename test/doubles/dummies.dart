@@ -31,6 +31,7 @@ import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_reposi
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_details_repository.dart';
 import 'package:pass_emploi_app/repositories/immersion_repository.dart';
+import 'package:pass_emploi_app/repositories/metier_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_details_repository.dart';
 import 'package:pass_emploi_app/repositories/offre_emploi_repository.dart';
 import 'package:pass_emploi_app/repositories/page_action_repository.dart';
@@ -48,6 +49,7 @@ import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
+import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
@@ -155,7 +157,7 @@ class DummyCrashlytics extends Crashlytics {
   void setUserIdentifier(String identifier) {}
 
   @override
-  void recordNonNetworkException(dynamic exception, StackTrace stack, [Uri? failingEndpoint]) {}
+  void recordNonNetworkException(dynamic exception, [StackTrace? stack, Uri? failingEndpoint]) {}
 }
 
 class DummyOffreEmploiRepository extends OffreEmploiRepository {
@@ -269,6 +271,9 @@ class DummyPassEmploiCacheManager extends PassEmploiCacheManager {
   void removeActionCommentaireRessource(String actionId, String baseUrl) {}
 
   @override
+  void removeSuggestionsRechercheRessource({required String baseUrl, required String userId}) {}
+
+  @override
   Future<void> emptyCache() => Future<void>.value();
 }
 
@@ -343,4 +348,12 @@ class DummyActionCommentaireRepository extends ActionCommentaireRepository {
 
 class DummyAgendaRepository extends AgendaRepository {
   DummyAgendaRepository() : super("", DummyHttpClient());
+}
+
+class DummySuggestionsRechercheRepository extends SuggestionsRechercheRepository {
+  DummySuggestionsRechercheRepository() : super("", DummyHttpClient(), DummyPassEmploiCacheManager());
+}
+
+class DummyMetierRepository extends MetierRepository {
+  DummyMetierRepository() : super("", DummyHttpClient());
 }

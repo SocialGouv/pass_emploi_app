@@ -7,7 +7,7 @@ enum Sender { jeune, conseiller }
 
 enum MessageType { message, nouveauConseiller, nouveauConseillerTemporaire, messagePj, offre, inconnu }
 
-enum OffreType { emploi, alternance, inconnu }
+enum OffreType { emploi, alternance, immersion, civique, inconnu }
 
 class Message extends Equatable {
   final String content;
@@ -151,11 +151,17 @@ class Offre extends Equatable {
           return OffreType.alternance;
         case "EMPLOI":
           return OffreType.emploi;
+        case "IMMERSION":
+          return OffreType.immersion;
+        case "SERVICE_CIVIQUE":
+          return OffreType.civique;
         default:
           return OffreType.inconnu;
       }
     } catch (e) {
-      return OffreType.inconnu;
+      return _defaultForRetrocompatibility();
     }
   }
 }
+
+OffreType _defaultForRetrocompatibility() => OffreType.emploi;

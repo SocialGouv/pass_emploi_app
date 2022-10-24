@@ -69,6 +69,12 @@ class RepositorySut<REPO> {
     expect(result, isNull);
   }
 
+  Future<void> expectEmptyListAsResult() async {
+    expectResult<List<dynamic>>((list) {
+      expect(list, isEmpty);
+    });
+  }
+
   Future<void> expectTrueAsResult() async {
     final result = await _when(_repository);
     expect(result, true);

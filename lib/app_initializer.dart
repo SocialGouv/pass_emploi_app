@@ -71,6 +71,7 @@ import 'package:pass_emploi_app/repositories/saved_search/service_civique_saved_
 import 'package:pass_emploi_app/repositories/search_location_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique/service_civique_repository.dart';
 import 'package:pass_emploi_app/repositories/service_civique_repository.dart';
+import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.dart';
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
@@ -142,7 +143,7 @@ class AppInitializer {
       crashlytics,
     );
     final authenticator = Authenticator(
-      AuthWrapper(FlutterAppAuth(), Lock()),
+      AuthWrapper(FlutterAppAuth(), Lock(), crashlytics),
       logoutRepository,
       configuration,
       securedPreferences,
@@ -192,7 +193,7 @@ class AppInitializer {
       ImmersionFavorisRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       ServiceCiviqueFavorisRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       SearchLocationRepository(baseUrl, httpClient, crashlytics),
-      MetierRepository(),
+      MetierRepository(baseUrl, httpClient),
       ImmersionRepository(baseUrl, httpClient, crashlytics),
       ImmersionDetailsRepository(baseUrl, httpClient, crashlytics),
       FirebaseAuthRepository(baseUrl, httpClient, crashlytics),
@@ -219,6 +220,7 @@ class AppInitializer {
       RatingRepository(securedPreferences),
       ActionCommentaireRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       AgendaRepository(baseUrl, httpClient, crashlytics),
+      SuggestionsRechercheRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
     authAccessChecker.setStore(reduxStore);

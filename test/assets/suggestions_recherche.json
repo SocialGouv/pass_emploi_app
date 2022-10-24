@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "titre": "Cariste",
+    "type": "OFFRES_EMPLOI",
+    "metier": "Conduite d'engins de déplacement des charges",
+    "localisation": "Nord",
+    "dateCreation": "2022-09-22T12:00:00.000Z",
+    "dateRafraichissement": "2022-09-26T13:00:00.000Z"
+  },
+  {
+    "id": "2",
+    "titre": "Boulanger",
+    "type": "OFFRES_IMMERSION",
+    "metier": "Chef boulanger",
+    "localisation": "Valence",
+    "dateCreation": "2022-10-12T22:00:00.000Z",
+    "dateRafraichissement": "2022-10-16T23:00:00.000Z"
+  }
+]
