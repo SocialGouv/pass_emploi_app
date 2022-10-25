@@ -87,6 +87,9 @@ jobs:
           --flavor prod \
           --build-number=${{ needs.pre-build.outputs.date }}
 
+      - uses: actions/upload-artifact@v3
+        with:
+          path: build/app/outputs/bundle/prodRelease/app-prod-release.aab
 
       - name: Deploy Android appbundle
         uses: r0adkll/upload-google-play@v1

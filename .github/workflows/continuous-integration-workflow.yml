@@ -91,6 +91,10 @@ jobs:
           --flavor staging \
           --build-number=${{ needs.pre-build.outputs.date }}
 
+      - uses: actions/upload-artifact@v3
+        with:
+          path: build/app/outputs/flutter-apk/app-staging-release.apk
+
       - name: Deploy Android apk
         run: |
           curl -sL https://firebase.tools | bash
