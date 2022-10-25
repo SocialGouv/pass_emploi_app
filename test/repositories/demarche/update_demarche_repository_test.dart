@@ -14,8 +14,8 @@ void main() {
         'user-id',
         '8802034',
         DemarcheStatus.NOT_STARTED,
-        DateTime(2021, 12, 24, 12, 8, 10),
-        DateTime(2021, 12, 23, 12, 8, 10),
+        DateTime.utc(2021, 12, 24, 12, 8, 10),
+        DateTime.utc(2021, 12, 23, 12, 8, 10),
       ),
     );
 
@@ -28,8 +28,8 @@ void main() {
           url: "BASE_URL/jeunes/user-id/demarches/8802034/statut",
           bodyFields: {
             "statut": "A_FAIRE",
-            "dateFin": "2021-12-24T12:08:10.000",
-            "dateDebut": "2021-12-23T12:08:10.000",
+            "dateFin": "2021-12-24T12:08:10+00:00",
+            "dateDebut": "2021-12-23T12:08:10+00:00",
           },
         );
       });
