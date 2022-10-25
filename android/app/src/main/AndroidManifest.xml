@@ -3,6 +3,9 @@
     package="fr.fabrique.social.gouv.pass_emploi_app">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission
+        android:name="android.permission.REQUEST_INSTALL_PACKAGES"
+        tools:node="remove" />
 
     <application
         android:fullBackupContent="@xml/backup_rules"
@@ -30,14 +33,14 @@
         </activity>
 
         <activity
-            tools:replace="android:exported"
             android:name="com.google.firebase.auth.internal.RecaptchaActivity"
-            android:exported="false" />
+            android:exported="false"
+            tools:replace="android:exported" />
 
         <activity
-            tools:replace="android:exported"
             android:name="com.google.firebase.auth.internal.GenericIdpActivity"
-            android:exported="false" />
+            android:exported="false"
+            tools:replace="android:exported" />
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data
