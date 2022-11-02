@@ -4,14 +4,12 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/models/requests/user_action_create_request.dart';
 import 'package:pass_emploi_app/models/user_action.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_create_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
@@ -232,7 +230,6 @@ class _CreateUserActionBottomSheetState extends State<CreateUserActionBottomShee
 
   void _dismissBottomSheetIfNeeded(BuildContext context, UserActionCreateViewModel viewModel) {
     if (viewModel.displayState == UserActionCreateDisplayState.TO_DISMISS) {
-      context.trackEvent(EventType.ACTION_CREEE_HORS_REFERENTIEL);
       Navigator.pop(context);
     }
   }
