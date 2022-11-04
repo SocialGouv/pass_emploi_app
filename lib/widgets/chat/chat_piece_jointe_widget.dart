@@ -26,7 +26,7 @@ class ChatPieceJointeWidget extends StatelessWidget {
         children: [
           _MessageBubble(
             children: [
-              Text(item.message, style: TextStyles.textSRegular()),
+              SelectableText(item.message, style: TextStyles.textSRegular()),
               SizedBox(height: 14),
               _PieceJointeName(item.filename),
               SizedBox(height: 20),

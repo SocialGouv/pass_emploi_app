@@ -29,7 +29,7 @@ class ChatMessageWidget extends StatelessWidget {
               color: item is ConseillerMessageItem ? AppColors.primaryLighten : AppColors.primary,
               borderRadius: BorderRadius.all(Radius.circular(16)),
             ),
-            child: TextWithClickableLinks(
+            child: SelectableTextWithClickableLinks(
               item.content,
               linkStyle: textStyle,
               style: textStyle,
