@@ -30,3 +30,30 @@ class TextWithClickableLinks extends StatelessWidget {
     );
   }
 }
+
+class SelectableTextWithClickableLinks extends StatelessWidget {
+  final String content;
+  final TextStyle style;
+  final TextStyle? linkStyle;
+
+  SelectableTextWithClickableLinks(this.content, {required this.style, this.linkStyle});
+
+  @override
+  Widget build(BuildContext context) {
+    return SelectableLinkify(
+      text: content,
+      style: style,
+      linkStyle: linkStyle ?? TextStyles.externalLink,
+      onOpen: (link) {
+        final String baseUrl = Uri.parse(link.url).origin;
+        MatomoTracker.trackOutlink(baseUrl);
+        launchExternalUrl(link.url);
+      },
+      options: LinkifyOptions(
+        humanize: true,
+        looseUrl: true,
+        defaultToHttps: true,
+      ),
+    );
+  }
+}
