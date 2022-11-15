@@ -34,7 +34,7 @@ class RendezvousCardViewModel extends Equatable {
       tag: takeTypeLabelOrPrecision(rdv),
       date: rdv.date.toDayAndHourContextualized(),
       isAnnule: rdv.isAnnule,
-      title: rdv.organism != null ? Strings.withOrganism(rdv.organism!) : null,
+      title: rdv.title,
       subtitle: _subtitle(rdv),
       greenTag: takeTypeLabelOrPrecision(rdv) == Strings.individualInterview ||
           takeTypeLabelOrPrecision(rdv) == Strings.publicInfo,

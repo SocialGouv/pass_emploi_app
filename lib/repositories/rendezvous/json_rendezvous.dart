@@ -14,6 +14,7 @@ class JsonRendezvous {
   final bool? withConseiller;
   final bool? isAnnule;
   final RendezvousType type;
+  final String? title;
   final String? comment;
   final String? organism;
   final bool? isInAgencePoleEmploi;
@@ -36,6 +37,7 @@ class JsonRendezvous {
     required this.withConseiller,
     required this.isAnnule,
     required this.type,
+    required this.title,
     required this.comment,
     required this.isInAgencePoleEmploi,
     required this.organism,
@@ -62,6 +64,7 @@ class JsonRendezvous {
       withConseiller: json['presenceConseiller'] as bool?,
       isAnnule: json['annule'] as bool?,
       type: _rendezvousType(json['type']),
+      title: _title(json),
       comment: json['comment'] as String?,
       organism: json['organisme'] as String?,
       isInAgencePoleEmploi: json['agencePE'] as bool?,
@@ -86,6 +89,7 @@ class JsonRendezvous {
       withConseiller: withConseiller,
       isAnnule: isAnnule ?? false,
       type: type,
+      title: title,
       comment: comment,
       organism: _organism(),
       address: address,
@@ -113,6 +117,12 @@ class JsonRendezvous {
 
 RendezvousType _rendezvousType(dynamic json) {
   return RendezvousType(_parseRendezvousTypeCode(json['code'] as String), json['label'] as String);
+}
+
+String? _title(dynamic json) {
+  final title = json['title'] as String?;
+  if (title == null || title.isEmpty) return null;
+  return title;
 }
 
 RendezvousTypeCode _parseRendezvousTypeCode(String rendezvousTypeCode) {

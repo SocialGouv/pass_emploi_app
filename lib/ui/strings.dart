@@ -178,8 +178,6 @@ class Strings {
 
   static String phone(String phone) => "Téléphone : $phone";
 
-  static String withOrganism(String organism) => "Avec : $organism";
-
   // App evaluation
   static String evalTitle = "Votre expérience sur l’application";
   static String evalDescription = "Aidez-nous à améliorer l’application en répondant à quelques questions.";
