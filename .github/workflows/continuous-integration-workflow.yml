@@ -33,15 +33,17 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
       - name: Versions info
         shell: bash
         run: |
           python --version
           which python
           pip3 --version
-
-      - name: Add Python bin to PATH
-        run: echo "/Library/Frameworks/Python.framework/Versions/Current/bin" >> $GITHUB_PATH
 
       - name: Install Codemagic CLI tools
         shell: bash
