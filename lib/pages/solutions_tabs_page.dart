@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/pages/boite_a_outils_page.dart';
+import 'package:pass_emploi_app/pages/event_list_page.dart';
 import 'package:pass_emploi_app/pages/search_annonces_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
@@ -9,6 +10,7 @@ import 'package:pass_emploi_app/widgets/pass_emploi_tab_bar.dart';
 class SolutionsTabPage extends StatelessWidget {
   final List<String> _solutionTabs = [
     Strings.offresTabTitle,
+    Strings.eventsTabTitle,
     Strings.boiteAOutilsTabTitle,
   ];
 
@@ -35,6 +37,7 @@ class SolutionsTabPage extends StatelessWidget {
           child: TabBarView(
             children: [
               SearchAnnoncesPage(),
+              EventListPage(),
               BoiteAOutilsPage(),
             ],
           ),
