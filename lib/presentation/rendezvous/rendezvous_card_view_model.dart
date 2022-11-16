@@ -36,8 +36,7 @@ class RendezvousCardViewModel extends Equatable {
       isAnnule: rdv.isAnnule,
       title: rdv.title,
       subtitle: _subtitle(rdv),
-      greenTag: takeTypeLabelOrPrecision(rdv) == Strings.individualInterview ||
-          takeTypeLabelOrPrecision(rdv) == Strings.publicInfo,
+      greenTag: isRendezvousGreenTag(rdv),
     );
   }
 

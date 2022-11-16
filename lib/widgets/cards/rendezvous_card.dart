@@ -61,7 +61,7 @@ class _Container extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (viewModel.isAnnule && simpleCard == false) _Annule(),
-                  _Tag(viewModel.tag, viewModel.greenTag),
+                  RendezvousTag(viewModel.tag, viewModel.greenTag),
                   _Date(viewModel.date),
                   if (viewModel.title != null && simpleCard == false) _Titre(viewModel.title!),
                   if (viewModel.subtitle != null && simpleCard == false) _SousTitre(viewModel.subtitle!),
@@ -100,8 +100,8 @@ class _Annule extends StatelessWidget {
   }
 }
 
-class _Tag extends StatelessWidget {
-  const _Tag(this.tag, this.isGreenTag, {Key? key}) : super(key: key);
+class RendezvousTag extends StatelessWidget {
+  const RendezvousTag(this.tag, this.isGreenTag, {Key? key}) : super(key: key);
 
   final String tag;
   final bool isGreenTag;
