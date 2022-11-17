@@ -34,6 +34,7 @@ class _Body extends StatelessWidget {
       case DisplayState.LOADING:
         return Center(child: CircularProgressIndicator());
       case DisplayState.EMPTY:
+        return Center(child: Text(Strings.eventListEmpty, textAlign: TextAlign.center));
       case DisplayState.CONTENT:
         return _Content(viewModel);
       case DisplayState.FAILURE:
@@ -54,7 +55,7 @@ class _Content extends StatelessWidget {
       padding: const EdgeInsets.all(Margins.spacing_s),
       separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
       itemBuilder: (context, index) {
-        return viewModel.events[index].card(onTap: (id) => {}); // todo tap
+        return viewModel.events[index].card(onTap: (id) => {});
       },
     );
   }
