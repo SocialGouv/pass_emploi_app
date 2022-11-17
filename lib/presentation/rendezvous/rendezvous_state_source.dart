@@ -1,1 +1,1 @@
-enum RendezvousStateSource { agenda, list }
+enum RendezvousStateSource { agenda, list, eventList } // todo rename list to rendezvousList

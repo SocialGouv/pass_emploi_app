@@ -7,10 +7,12 @@ import 'package:redux/redux.dart';
 class EventListPageViewModel extends Equatable {
   final DisplayState displayState;
   final List<String> events;
+  final Function onRetry;
 
   EventListPageViewModel({
     required this.displayState,
     required this.events,
+    required this.onRetry,
   });
 
   factory EventListPageViewModel.create(Store<AppState> store) {
@@ -18,6 +20,7 @@ class EventListPageViewModel extends Equatable {
     return EventListPageViewModel(
       displayState: _displayState(eventListState),
       events: _events(eventListState),
+      onRetry: () => {}, // todo
     );
   }
 

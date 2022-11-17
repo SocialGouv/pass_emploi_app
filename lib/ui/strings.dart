@@ -613,4 +613,7 @@ class Strings {
   static String suggestionRechercheAjoutee = "Recherche ajoutée";
   static String suggestionRechercheAjouteeDescription = "La recherche a été ajoutée à vos favoris";
   static String voirResultatsSuggestion = "Voir les résultats";
+
+  // Événements
+  static String eventListError = "Erreur lors de la récupération des événements";
 }
