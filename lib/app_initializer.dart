@@ -47,6 +47,7 @@ import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
+import 'package:pass_emploi_app/repositories/event_list_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
@@ -221,6 +222,7 @@ class AppInitializer {
       ActionCommentaireRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
       AgendaRepository(baseUrl, httpClient, crashlytics),
       SuggestionsRechercheRepository(baseUrl, httpClient, requestCacheManager, crashlytics),
+      EventListRepository(baseUrl, httpClient, crashlytics),
     ).initializeReduxStore(initialState: AppState.initialState(configuration: configuration));
     accessTokenRetriever.setStore(reduxStore);
     authAccessChecker.setStore(reduxStore);
