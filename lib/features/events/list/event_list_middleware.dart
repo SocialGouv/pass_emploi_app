@@ -13,7 +13,13 @@ class EventListMiddleware extends MiddlewareClass<AppState> {
     next(action);
     final userId = store.state.userId();
     if (userId != null && action is EventListRequestAction) {
-      // todo request
+      store.dispatch(EventListLoadingAction());
+      final rendezvous = await _repository.get(userId);
+      if (rendezvous != null) {
+        store.dispatch(EventListSuccessAction(rendezvous));
+      } else {
+        store.dispatch(EventListFailureAction());
+      }
     }
   }
 }
