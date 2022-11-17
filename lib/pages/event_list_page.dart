@@ -8,8 +8,11 @@ import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
+import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
+
+// todo : onglet qui s'affiche uniquement pour un jeune mission locale ?
 
 class EventListPage extends StatelessWidget {
   @override
@@ -50,13 +53,23 @@ class _Content extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      itemCount: viewModel.events.length,
-      padding: const EdgeInsets.all(Margins.spacing_s),
-      separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
-      itemBuilder: (context, index) {
-        return viewModel.events[index].card(onTap: (id) => {});
-      },
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(Margins.spacing_base),
+          child: Text(Strings.eventListHeaderText, style: TextStyles.textBaseRegular, textAlign: TextAlign.center),
+        ),
+        Expanded(
+          child: ListView.separated(
+            itemCount: viewModel.events.length,
+            padding: const EdgeInsets.all(Margins.spacing_s),
+            separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
+            itemBuilder: (context, index) {
+              return viewModel.events[index].card(onTap: (id) => {});
+            },
+          ),
+        ),
+      ],
     );
   }
 }

@@ -617,4 +617,5 @@ class Strings {
   // Événements
   static String eventListError = "Erreur lors de la récupération des événements";
   static String eventListEmpty = "Il n'y a actuellement aucun événement";
+  static String eventListHeaderText = "Retrouver ici l’ensemble des évènements organisés par votre Mission locale";
 }
