@@ -38,6 +38,7 @@ void main() {
           withConseiller: true,
           isAnnule: false,
           type: RendezvousType(RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER, 'Entretien individuel conseiller'),
+          title: "super entretien",
           comment: 'Amener votre CV',
           conseiller: Conseiller(id: '1', firstName: 'Nils', lastName: 'Tavernier'),
           createur: Conseiller(id: '2', firstName: 'Joe', lastName: 'Pesci'),
@@ -135,6 +136,7 @@ void main() {
       Rendezvous(
         id: '4995ea8a-4f6a-48be-925e-f45593c481f6',
         date: parseDateTimeUtcWithCurrentTimeZone('2021-11-28T13:34:00.000Z'),
+        title: "Super titre",
         modality: 'par visio',
         withConseiller: null,
         isAnnule: true,

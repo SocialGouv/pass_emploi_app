@@ -153,6 +153,7 @@ void main() {
         Rendezvous(
           id: '1',
           date: DateTime(2021, 12, 23, 10, 20),
+          title: "Super bio",
           duration: 60,
           modality: 'par téléphone',
           isInVisio: false,
@@ -174,7 +175,7 @@ void main() {
           tag: 'Atelier',
           date: 'Le 23/12/2021 à 10h20',
           isAnnule: false,
-          title: 'Avec : Entreprise Bio Carburant',
+          title: 'Super bio',
           subtitle: 'Par téléphone',
           greenTag: false,
         ),
@@ -186,6 +187,7 @@ void main() {
       final rdv = Rendezvous(
         id: '1',
         date: DateTime(2021, 12, 23, 10, 20),
+        title: "Super bio",
         duration: 60,
         modality: 'par téléphone',
         isInVisio: false,
@@ -207,7 +209,7 @@ void main() {
           tag: 'Atelier',
           date: 'Le 23/12/2021 à 10h20',
           isAnnule: false,
-          title: 'Avec : Entreprise Bio Carburant',
+          title: 'Super bio',
           subtitle: 'Par téléphone',
           greenTag: false,
         ),

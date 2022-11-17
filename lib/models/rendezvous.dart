@@ -10,6 +10,7 @@ class Rendezvous extends Equatable {
   final bool? withConseiller;
   final String? modality;
   final int? duration;
+  final String? title;
   final String? comment;
   final String? organism;
   final String? address;
@@ -30,6 +31,7 @@ class Rendezvous extends Equatable {
     this.withConseiller,
     this.modality,
     this.duration,
+    this.title,
     this.comment,
     this.organism,
     this.address,
@@ -58,6 +60,7 @@ class Rendezvous extends Equatable {
       isAnnule,
       type,
       withConseiller,
+      title,
       comment,
       organism,
       address,

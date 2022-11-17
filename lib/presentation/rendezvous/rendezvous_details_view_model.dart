@@ -15,7 +15,8 @@ import 'package:pass_emploi_app/utils/uri_handler.dart';
 import 'package:redux/redux.dart';
 
 class RendezvousDetailsViewModel extends Equatable {
-  final String title;
+  final String tag;
+  final bool greenTag;
   final String date;
   final String hourAndDuration;
   final String conseillerPresenceLabel;
@@ -26,6 +27,7 @@ class RendezvousDetailsViewModel extends Equatable {
   final bool withModalityPart;
   final VisioButtonState visioButtonState;
   final String trackingPageName;
+  final String? title;
   final String? commentTitle;
   final String? comment;
   final String? modality;
@@ -40,7 +42,8 @@ class RendezvousDetailsViewModel extends Equatable {
   final String? description;
 
   RendezvousDetailsViewModel({
-    required this.title,
+    required this.tag,
+    required this.greenTag,
     required this.date,
     required this.hourAndDuration,
     required this.conseillerPresenceLabel,
@@ -51,6 +54,7 @@ class RendezvousDetailsViewModel extends Equatable {
     required this.withModalityPart,
     required this.visioButtonState,
     required this.trackingPageName,
+    this.title,
     this.commentTitle,
     this.comment,
     this.modality,
@@ -76,7 +80,8 @@ class RendezvousDetailsViewModel extends Equatable {
     final comment = (rdv.comment != null && rdv.comment!.trim().isNotEmpty) ? rdv.comment : null;
     final isConseillerPresent = rdv.withConseiller ?? false;
     return RendezvousDetailsViewModel(
-      title: takeTypeLabelOrPrecision(rdv),
+      tag: takeTypeLabelOrPrecision(rdv),
+      greenTag: isRendezvousGreenTag(rdv),
       date: rdv.date.toDayWithFullMonthContextualized(),
       hourAndDuration: _hourAndDuration(rdv),
       modality: _modality(rdv),
@@ -91,6 +96,7 @@ class RendezvousDetailsViewModel extends Equatable {
       visioButtonState: _visioButtonState(rdv),
       visioRedirectUrl: rdv.visioRedirectUrl,
       trackingPageName: _trackingPageName(rdv.type.code),
+      title: rdv.title,
       commentTitle: _commentTitle(rdv, comment),
       comment: comment,
       organism: _shouldHidePresentielInformation(rdv) ? null : rdv.organism,
@@ -105,7 +111,8 @@ class RendezvousDetailsViewModel extends Equatable {
   @override
   List<Object?> get props {
     return [
-      title,
+      tag,
+      greenTag,
       date,
       hourAndDuration,
       modality,
@@ -119,6 +126,7 @@ class RendezvousDetailsViewModel extends Equatable {
       withModalityPart,
       visioButtonState,
       trackingPageName,
+      title,
       commentTitle,
       comment,
       organism,

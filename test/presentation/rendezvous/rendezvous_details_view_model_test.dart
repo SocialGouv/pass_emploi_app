@@ -51,57 +51,6 @@ void main() {
   });
 
   group('create when rendezvous state is successful…', () {
-    test('and type code is not "Autre" should set type label as titre', () {
-      // Given
-      final store = _store(mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.ATELIER, 'Atelier')));
-
-      // When
-      final viewModel = RendezvousDetailsViewModel.create(
-        store: store,
-        source: RendezvousStateSource.list,
-        rdvId: '1',
-        platform: Platform.IOS,
-      );
-
-      // Then
-      expect(viewModel.title, 'Atelier');
-    });
-
-    test('and type code is "Autre" but precision is not set should set type label as titre', () {
-      // Given
-      final store = _store(
-        mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.AUTRE, 'Autre'), precision: null),
-      );
-
-      // When
-      final viewModel = RendezvousDetailsViewModel.create(
-        store: store,
-        source: RendezvousStateSource.list,
-        rdvId: '1',
-        platform: Platform.IOS,
-      );
-
-      // Then
-      expect(viewModel.title, 'Autre');
-    });
-
-    test('and type code is "Autre" and precision is set should set precision as titre', () {
-      // Given
-      final store = _store(
-        mockRendezvous(id: '1', type: RendezvousType(RendezvousTypeCode.AUTRE, 'Autre'), precision: 'Precision'),
-      );
-
-      // When
-      final viewModel = RendezvousDetailsViewModel.create(
-        store: store,
-        source: RendezvousStateSource.list,
-        rdvId: '1',
-        platform: Platform.IOS,
-      );
-
-      // Then
-      expect(viewModel.title, 'Precision');
-    });
 
     test('and date is neither today neither tomorrow', () {
       // Given
@@ -663,6 +612,7 @@ void main() {
       // Given
       final store = _store(Rendezvous(
         id: '1',
+        title: "Super atelier",
         date: DateTime(2022, 3, 1),
         duration: 30,
         modality: 'Sur place : Mission Locale',
@@ -688,7 +638,8 @@ void main() {
       expect(
         viewModel,
         RendezvousDetailsViewModel(
-          title: 'Atelier',
+          tag: "Atelier",
+          greenTag: false,
           date: '01 mars 2022',
           hourAndDuration: '00:00 (30min)',
           conseillerPresenceLabel: 'Votre conseiller sera présent',
@@ -702,6 +653,7 @@ void main() {
           modality: 'Le rendez-vous se fera sur place : Mission Locale',
           conseiller: 'votre conseiller Nils Tavernier',
           commentTitle: 'Commentaire de mon conseiller',
+          title: 'Super atelier',
           comment: 'comment',
           organism: 'organism',
           address: 'address',

@@ -3,10 +3,16 @@ import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:redux/redux.dart';
 
 String takeTypeLabelOrPrecision(Rendezvous rdv) {
   return (rdv.type.code == RendezvousTypeCode.AUTRE && rdv.precision != null) ? rdv.precision! : rdv.type.label;
+}
+
+bool isRendezvousGreenTag(Rendezvous rdv) {
+  final tag = takeTypeLabelOrPrecision(rdv);
+  return tag == Strings.individualInterview || tag == Strings.publicInfo;
 }
 
 Rendezvous getRendezvous(Store<AppState> store, RendezvousStateSource source, String rdvId) {
