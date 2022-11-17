@@ -44,7 +44,7 @@ Matcher _shouldSucceed() {
   return StateIs<EventListSuccessState>(
     (state) => state.eventListState,
     (state) {
-      expect(state.rendezvous.length, 1);
+      expect(state.events.length, 1);
     },
   );
 }

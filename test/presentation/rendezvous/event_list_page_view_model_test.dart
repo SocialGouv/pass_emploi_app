@@ -7,6 +7,20 @@ import '../../doubles/fixtures.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
+  group('Events', () {
+    test('should have events when list succeed', () {
+      // Given
+      final rendezvous = [mockRendezvous(id: "id-1")];
+      final store = givenState().loggedInUser().succeedEventList(rendezvous).store();
+
+      // When
+      final viewModel = EventListPageViewModel.create(store);
+
+      // Then
+      expect(viewModel.events, ["id-1"]);
+    });
+  });
+
   group('Display state', () {
     test('should display LOADING when not init', () {
       // Given

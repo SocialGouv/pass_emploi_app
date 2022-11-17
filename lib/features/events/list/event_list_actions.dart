@@ -5,9 +5,9 @@ class EventListRequestAction {}
 class EventListLoadingAction {}
 
 class EventListSuccessAction {
-  final List<Rendezvous> rendezvous;
+  final List<Rendezvous> events;
 
-  EventListSuccessAction(this.rendezvous);
+  EventListSuccessAction(this.events);
 }
 
 class EventListFailureAction {}

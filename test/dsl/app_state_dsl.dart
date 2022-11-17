@@ -307,7 +307,7 @@ extension AppStateDSL on AppState {
     return copyWith(traiterSuggestionRechercheState: TraiterSuggestionRechercheFailureState());
   }
 
-  AppState succeedEventList(List<Rendezvous> rendezvous) {
-    return copyWith(eventListState: EventListSuccessState(rendezvous));
+  AppState succeedEventList(List<Rendezvous> events) {
+    return copyWith(eventListState: EventListSuccessState(events));
   }
 }

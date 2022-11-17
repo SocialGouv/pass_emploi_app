@@ -13,10 +13,10 @@ class EventListLoadingState extends EventListState {}
 class EventListFailureState extends EventListState {}
 
 class EventListSuccessState extends EventListState {
-  final List<Rendezvous> rendezvous;
+  final List<Rendezvous> events;
 
-  EventListSuccessState(this.rendezvous);
+  EventListSuccessState(this.events);
 
   @override
-  List<Object?> get props => [rendezvous];
+  List<Object?> get props => [events];
 }
