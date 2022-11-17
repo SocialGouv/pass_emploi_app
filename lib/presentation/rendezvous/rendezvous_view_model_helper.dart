@@ -20,7 +20,7 @@ Rendezvous getRendezvous(Store<AppState> store, RendezvousStateSource source, St
   switch (source) {
     case RendezvousStateSource.agenda:
       return _getRendezvousFromAgendaState(store, rdvId);
-    case RendezvousStateSource.list:
+    case RendezvousStateSource.rendezvousList:
       return _getRendezvousFromRendezvousState(store, rdvId);
     case RendezvousStateSource.eventList:
       return _getRendezvousFromEventListState(store, rdvId);

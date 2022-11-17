@@ -24,7 +24,7 @@ void main() {
     expect(
         () => RendezvousDetailsViewModel.create(
               store: store,
-              source: RendezvousStateSource.list,
+              source: RendezvousStateSource.rendezvousList,
               rdvId: '1',
               platform: Platform.IOS,
             ),
@@ -43,7 +43,7 @@ void main() {
     expect(
         () => RendezvousDetailsViewModel.create(
               store: store,
-              source: RendezvousStateSource.list,
+              source: RendezvousStateSource.rendezvousList,
               rdvId: '2',
               platform: Platform.IOS,
             ),
@@ -59,7 +59,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -75,7 +75,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -91,7 +91,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -107,7 +107,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -123,7 +123,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -139,7 +139,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -155,7 +155,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -173,7 +173,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -193,7 +193,7 @@ void main() {
           // When
           final viewModel = RendezvousDetailsViewModel.create(
             store: store,
-            source: RendezvousStateSource.list,
+            source: RendezvousStateSource.rendezvousList,
             rdvId: '1',
             platform: Platform.IOS,
           );
@@ -231,7 +231,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -247,7 +247,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -264,7 +264,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -281,7 +281,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -302,7 +302,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -319,7 +319,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -335,7 +335,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.ANDROID,
       );
@@ -356,7 +356,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -377,7 +377,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -393,7 +393,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -409,7 +409,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -425,7 +425,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -441,7 +441,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -457,7 +457,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -475,7 +475,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -493,7 +493,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -509,7 +509,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -526,7 +526,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -542,7 +542,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -560,7 +560,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -576,7 +576,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -599,7 +599,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -629,7 +629,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: RendezvousStateSource.list,
+        source: RendezvousStateSource.rendezvousList,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -689,7 +689,7 @@ void main() {
         // When
         final viewModel = RendezvousDetailsViewModel.create(
           store: store,
-          source: RendezvousStateSource.list,
+          source: RendezvousStateSource.rendezvousList,
           rdvId: '1',
           platform: Platform.IOS,
         );

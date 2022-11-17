@@ -71,7 +71,7 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
             context.trackEvent(EventType.RDV_DETAIL);
             return Navigator.push(
               context,
-              RendezvousDetailsPage.materialPageRoute(RendezvousStateSource.list, rdvId),
+              RendezvousDetailsPage.materialPageRoute(RendezvousStateSource.rendezvousList, rdvId),
             );
           },
         ),
@@ -83,7 +83,7 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
     if (viewModel.deeplinkRendezvousId != null) {
       Navigator.push(
         context,
-        RendezvousDetailsPage.materialPageRoute(RendezvousStateSource.list, viewModel.deeplinkRendezvousId!),
+        RendezvousDetailsPage.materialPageRoute(RendezvousStateSource.rendezvousList, viewModel.deeplinkRendezvousId!),
       );
       viewModel.onDeeplinkUsed();
     }
@@ -213,7 +213,7 @@ extension _RendezvousIdCards on List<String> {
       (id) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: Margins.spacing_s),
         child: RendezvousCard(
-          converter: (store) => RendezvousCardViewModel.create(store, RendezvousStateSource.list, id),
+          converter: (store) => RendezvousCardViewModel.create(store, RendezvousStateSource.rendezvousList, id),
           onTap: () => onTap(id),
         ),
       ),
