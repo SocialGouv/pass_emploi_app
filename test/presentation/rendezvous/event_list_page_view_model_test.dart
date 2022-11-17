@@ -1,9 +1,11 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:pass_emploi_app/features/events/list/event_list_actions.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/events/event_list_page_view_model.dart';
 
 import '../../doubles/fixtures.dart';
+import '../../doubles/spies.dart';
 import '../../dsl/app_state_dsl.dart';
 
 void main() {
@@ -76,5 +78,17 @@ void main() {
       // Then
       expect(viewModel.displayState, DisplayState.CONTENT);
     });
+  });
+
+  test('should retry', () {
+    // Given
+    final store = StoreSpy();
+    final viewModel = EventListPageViewModel.create(store);
+
+    // When
+    viewModel.onRetry();
+
+    // Then
+    expect(store.dispatchedAction, isA<EventListRequestAction>());
   });
 }

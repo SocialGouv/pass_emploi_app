@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/features/events/list/event_list_actions.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -20,7 +21,7 @@ class EventListPageViewModel extends Equatable {
     return EventListPageViewModel(
       displayState: _displayState(eventListState),
       events: _events(eventListState),
-      onRetry: () => {}, // todo
+      onRetry: () => {store.dispatch(EventListRequestAction())},
     );
   }
 
