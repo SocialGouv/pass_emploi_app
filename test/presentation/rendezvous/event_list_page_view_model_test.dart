@@ -19,7 +19,7 @@ void main() {
       final viewModel = EventListPageViewModel.create(store);
 
       // Then
-      expect(viewModel.events, ["id-1"]);
+      expect(viewModel.eventIds, ["id-1"]);
     });
   });
 

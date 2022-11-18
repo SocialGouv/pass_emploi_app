@@ -7,12 +7,12 @@ import 'package:redux/redux.dart';
 
 class EventListPageViewModel extends Equatable {
   final DisplayState displayState;
-  final List<String> events;
+  final List<String> eventIds;
   final Function onRetry;
 
   EventListPageViewModel({
     required this.displayState,
-    required this.events,
+    required this.eventIds,
     required this.onRetry,
   });
 
@@ -20,13 +20,13 @@ class EventListPageViewModel extends Equatable {
     final eventListState = store.state.eventListState;
     return EventListPageViewModel(
       displayState: _displayState(eventListState),
-      events: _events(eventListState),
+      eventIds: _events(eventListState),
       onRetry: () => {store.dispatch(EventListRequestAction())},
     );
   }
 
   @override
-  List<Object?> get props => [displayState, events];
+  List<Object?> get props => [displayState, eventIds];
 }
 
 DisplayState _displayState(EventListState eventListState) {

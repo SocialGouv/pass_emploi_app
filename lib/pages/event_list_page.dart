@@ -60,10 +60,10 @@ class _Content extends StatelessWidget {
           ),
           Expanded(
             child: ListView.separated(
-              itemCount: viewModel.events.length,
+              itemCount: viewModel.eventIds.length,
               separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
               itemBuilder: (context, index) {
-                return viewModel.events[index].rendezvousCard(
+                return viewModel.eventIds[index].rendezvousCard(
                   context: context,
                   stateSource: RendezvousStateSource.eventList,
                 );
