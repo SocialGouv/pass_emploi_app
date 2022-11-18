@@ -7,12 +7,10 @@ import 'package:pass_emploi_app/features/agenda/agenda_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/demarche/create_demarche_step1_page.dart';
 import 'package:pass_emploi_app/pages/demarche/demarche_detail_page.dart';
-import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/pages/user_action/user_action_detail_page.dart';
 import 'package:pass_emploi_app/presentation/agenda/agenda_view_model.dart';
 import 'package:pass_emploi_app/presentation/demarche/demarche_state_source.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/presentation/user_action/user_action_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -137,7 +135,7 @@ class _Retry extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
+      padding: const EdgeInsets.symmetric(horizontal: Margins.spacing_base),
       child: Retry(Strings.agendaError, () => viewModel.reload(DateTime.now())),
     ));
   }
@@ -363,7 +361,8 @@ extension _EventWidget on EventAgenda {
     } else if (event is DemarcheEventAgenda) {
       return event.demarcheCard(context, simpleCard);
     } else if (event is RendezvousEventAgenda) {
-      return event.rendezvousCard(context, simpleCard);
+      return event.id
+          .rendezvousCard(context: context, stateSource: RendezvousStateSource.agenda, simpleCard: simpleCard);
     } else {
       return SizedBox(height: 0);
     }
@@ -403,25 +402,6 @@ extension _DemarcheCard on DemarcheEventAgenda {
           Navigator.push(
             context,
             DemarcheDetailPage.materialPageRoute(id, DemarcheStateSource.agenda),
-          );
-        },
-      ),
-    );
-  }
-}
-
-extension _RendezvousCard on RendezvousEventAgenda {
-  Widget rendezvousCard(BuildContext context, bool simpleCard) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
-      child: RendezvousCard(
-        converter: (store) => RendezvousCardViewModel.create(store, RendezvousStateSource.agenda, id),
-        simpleCard: simpleCard,
-        onTap: () {
-          context.trackEvent(EventType.RDV_DETAIL);
-          Navigator.push(
-            context,
-            RendezvousDetailsPage.materialPageRoute(RendezvousStateSource.agenda, id),
           );
         },
       ),
