@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -6,7 +7,7 @@ import 'package:redux/redux.dart';
 
 enum SolutionsTab { offres, events, outils }
 
-class SolutionsTabPageViewModel {
+class SolutionsTabPageViewModel extends Equatable {
   final List<SolutionsTab> tabs;
 
   SolutionsTabPageViewModel._({
