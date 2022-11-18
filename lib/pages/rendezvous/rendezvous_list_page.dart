@@ -3,11 +3,9 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
-import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_view_model.dart';
-import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -15,7 +13,6 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
-import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/big_title_separator.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_icon_button.dart';
@@ -67,13 +64,6 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
               _pageOffset = viewModel.nextRendezvousPageOffset!;
             });
           },
-          onTap: (rdvId) {
-            context.trackEvent(EventType.RDV_DETAIL);
-            return Navigator.push(
-              context,
-              RendezvousDetailsPage.materialPageRoute(RendezvousStateSource.rendezvousList, rdvId),
-            );
-          },
         ),
       ),
     );
@@ -110,11 +100,9 @@ class _Body extends StatelessWidget {
     required this.viewModel,
     required this.onPageOffsetChanged,
     required this.onNextRendezvousButtonTap,
-    required this.onTap,
   }) : super(key: key);
 
   final RendezvousListViewModel viewModel;
-  final Function(String) onTap;
   final Function(int) onPageOffsetChanged;
   final Function() onNextRendezvousButtonTap;
 
@@ -126,7 +114,6 @@ class _Body extends StatelessWidget {
       case DisplayState.CONTENT:
         return _Content(
           viewModel: viewModel,
-          onTap: (rdvId) => onTap(rdvId),
           onPageOffsetChanged: onPageOffsetChanged,
           onNextRendezvousButtonTap: onNextRendezvousButtonTap,
         );
@@ -141,13 +128,11 @@ class _Content extends StatelessWidget {
   const _Content({
     Key? key,
     required this.viewModel,
-    required this.onTap,
     required this.onPageOffsetChanged,
     required this.onNextRendezvousButtonTap,
   }) : super(key: key);
 
   final RendezvousListViewModel viewModel;
-  final Function(String) onTap;
   final Function(int) onPageOffsetChanged;
   final Function() onNextRendezvousButtonTap;
 
@@ -173,7 +158,7 @@ class _Content extends StatelessWidget {
               separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
               itemBuilder: (context, index) {
                 final section = viewModel.rendezvous[index];
-                return _RendezvousSection(section: section, onTap: onTap);
+                return _RendezvousSection(section: section);
               },
             ),
           ),
@@ -184,22 +169,21 @@ class _Content extends StatelessWidget {
 
 class _RendezvousSection extends StatelessWidget {
   final RendezvousSection section;
-  final Function(String) onTap;
 
-  _RendezvousSection({required this.section, required this.onTap});
+  _RendezvousSection({required this.section});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         BigTitleSeparator(section.title),
-        ...section.displayedRendezvous.cards(onTap: onTap),
+        ...section.displayedRendezvous.cards(context),
         if (section.expandableRendezvous.isNotEmpty)
           Theme(
             data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
             child: ExpansionTile(
               title: Center(child: Text(Strings.seeMoreRendezvous)),
-              children: section.expandableRendezvous.cards(onTap: onTap),
+              children: section.expandableRendezvous.cards(context),
             ),
           ),
       ],
@@ -208,14 +192,11 @@ class _RendezvousSection extends StatelessWidget {
 }
 
 extension _RendezvousIdCards on List<String> {
-  List<Widget> cards({required Function(String) onTap}) {
+  List<Widget> cards(BuildContext context) {
     return map(
       (id) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: Margins.spacing_s),
-        child: RendezvousCard(
-          converter: (store) => RendezvousCardViewModel.create(store, RendezvousStateSource.rendezvousList, id),
-          onTap: () => onTap(id),
-        ),
+        child: id.rendezvousCard(context: context, stateSource: RendezvousStateSource.rendezvousList),
       ),
     ).toList();
   }
