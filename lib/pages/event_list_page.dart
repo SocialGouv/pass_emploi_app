@@ -15,8 +15,6 @@ import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
-// todo : onglet qui s'affiche uniquement pour un jeune mission locale ?
-
 class EventListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

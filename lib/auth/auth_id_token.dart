@@ -10,6 +10,8 @@ extension LoginModeExtension on LoginMode? {
   bool isDemo() => this == LoginMode.DEMO_PE || this == LoginMode.DEMO_MILO;
 
   bool isPe() => this == LoginMode.DEMO_PE || this == LoginMode.POLE_EMPLOI;
+
+  bool isMiLo() => this == LoginMode.DEMO_MILO || this == LoginMode.MILO || this == LoginMode.PASS_EMPLOI;
 }
 
 class AuthIdToken extends Equatable {
