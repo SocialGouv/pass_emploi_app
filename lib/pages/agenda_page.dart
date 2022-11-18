@@ -361,8 +361,7 @@ extension _EventWidget on EventAgenda {
     } else if (event is DemarcheEventAgenda) {
       return event.demarcheCard(context, simpleCard);
     } else if (event is RendezvousEventAgenda) {
-      return event.id
-          .rendezvousCard(context: context, stateSource: RendezvousStateSource.agenda, simpleCard: simpleCard);
+      return event.rendezvousCard(context, simpleCard);
     } else {
       return SizedBox(height: 0);
     }
@@ -405,6 +404,15 @@ extension _DemarcheCard on DemarcheEventAgenda {
           );
         },
       ),
+    );
+  }
+}
+
+extension _RendezvousCard on RendezvousEventAgenda {
+  Widget rendezvousCard(BuildContext context, bool simpleCard) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
+      child: id.rendezvousCard(context: context, stateSource: RendezvousStateSource.agenda, simpleCard: simpleCard),
     );
   }
 }

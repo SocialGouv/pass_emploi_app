@@ -179,19 +179,16 @@ extension RendezvousCardFromId on String {
     required RendezvousStateSource stateSource,
     bool simpleCard = false,
   }) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
-      child: RendezvousCard(
-        converter: (store) => RendezvousCardViewModel.create(store, stateSource, this),
-        simpleCard: simpleCard,
-        onTap: () {
-          context.trackEvent(EventType.RDV_DETAIL);
-          Navigator.push(
-            context,
-            RendezvousDetailsPage.materialPageRoute(stateSource, this),
-          );
-        },
-      ),
+    return RendezvousCard(
+      converter: (store) => RendezvousCardViewModel.create(store, stateSource, this),
+      simpleCard: simpleCard,
+      onTap: () {
+        context.trackEvent(EventType.RDV_DETAIL);
+        Navigator.push(
+          context,
+          RendezvousDetailsPage.materialPageRoute(stateSource, this),
+        );
+      },
     );
   }
 }
