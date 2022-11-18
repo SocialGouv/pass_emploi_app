@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_actions.dart';
+import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/events/event_list_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
@@ -9,6 +11,7 @@ import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/cards/rendezvous_card.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 
@@ -65,7 +68,13 @@ class _Content extends StatelessWidget {
             padding: const EdgeInsets.all(Margins.spacing_s),
             separatorBuilder: (context, index) => SizedBox(height: Margins.spacing_base),
             itemBuilder: (context, index) {
-              return viewModel.events[index].card(onTap: (id) => {});
+              return viewModel.events[index].card(onTap: (id) {
+                context.trackEvent(EventType.RDV_DETAIL);
+                Navigator.push(
+                  context,
+                  RendezvousDetailsPage.materialPageRoute(RendezvousStateSource.eventList, id),
+                );
+              });
             },
           ),
         ),
@@ -74,7 +83,7 @@ class _Content extends StatelessWidget {
   }
 }
 
-// todo presque doublon
+// todo presque doublon : on pourrait déplacer ces extensions dans le fichier de la card
 extension _RendezvousIdCard on String {
   Widget card({required Function(String) onTap}) {
     return Padding(
