@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_actions.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/events/event_list_page_view_model.dart';
@@ -14,11 +16,14 @@ import 'package:pass_emploi_app/widgets/retry.dart';
 class EventListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, EventListPageViewModel>(
-      onInit: (store) => store.dispatch(EventListRequestAction(DateTime.now())),
-      builder: (context, viewModel) => _Body(viewModel),
-      converter: (store) => EventListPageViewModel.create(store),
-      distinct: true,
+    return Tracker(
+      tracking: AnalyticsScreenNames.eventList,
+      child: StoreConnector<AppState, EventListPageViewModel>(
+        onInit: (store) => store.dispatch(EventListRequestAction(DateTime.now())),
+        builder: (context, viewModel) => _Body(viewModel),
+        converter: (store) => EventListPageViewModel.create(store),
+        distinct: true,
+      ),
     );
   }
 }
