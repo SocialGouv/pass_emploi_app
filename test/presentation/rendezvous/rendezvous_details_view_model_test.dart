@@ -51,7 +51,6 @@ void main() {
   });
 
   group('create when rendezvous state is successful…', () {
-
     test('and date is neither today neither tomorrow', () {
       // Given
       final store = _store(mockRendezvous(id: '1', date: DateTime(2022, 3, 1)));
@@ -608,6 +607,22 @@ void main() {
       expect(viewModel.withModalityPart, isFalse);
     });
 
+    test('should not display absent part if vm created from event list', () {
+      // Given
+      final store = givenState().loggedInUser().succeedEventList([mockRendezvous(id: '1')]).store();
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(
+        store: store,
+        source: RendezvousStateSource.eventList,
+        rdvId: '1',
+        platform: Platform.IOS,
+      );
+
+      // Then
+      expect(viewModel.withIfAbsentPart, false);
+    });
+
     test('full view model test', () {
       // Given
       final store = _store(Rendezvous(
@@ -648,6 +663,7 @@ void main() {
           withConseillerPresencePart: true,
           withDescriptionPart: false,
           withModalityPart: true,
+          withIfAbsentPart: true,
           visioButtonState: VisioButtonState.HIDDEN,
           trackingPageName: 'rdv/atelier',
           modality: 'Le rendez-vous se fera sur place : Mission Locale',

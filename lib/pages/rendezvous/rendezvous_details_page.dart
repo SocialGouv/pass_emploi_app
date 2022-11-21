@@ -71,7 +71,7 @@ class RendezvousDetailsPage extends StatelessWidget {
               if (viewModel.withDescriptionPart) _DescriptionPart(viewModel),
               SepLine(Margins.spacing_m, Margins.spacing_m),
               _ConseillerPart(viewModel),
-              _InformIfAbsent(),
+              if (viewModel.withIfAbsentPart) _InformIfAbsent(),
             ],
           ),
         ),
