@@ -15,7 +15,7 @@ void main() {
     final sut = StoreSut();
 
     group("when requesting agenda", () {
-      sut.when(() => EventListRequestAction());
+      sut.when(() => EventListRequestAction(DateTime.now()));
 
       test('should load then succeed when request succeed', () {
         sut.givenStore = givenState()
@@ -53,7 +53,7 @@ class EventListRepositorySuccessStub extends EventListRepository {
   EventListRepositorySuccessStub() : super("", DummyHttpClient());
 
   @override
-  Future<List<Rendezvous>?> get(String userId) async {
+  Future<List<Rendezvous>?> get(String userId, DateTime maintenant) async {
     return [mockRendezvous()];
   }
 }
@@ -62,7 +62,7 @@ class EventListRepositoryErrorStub extends EventListRepository {
   EventListRepositoryErrorStub() : super("", DummyHttpClient());
 
   @override
-  Future<List<Rendezvous>?> get(String userId) async {
+  Future<List<Rendezvous>?> get(String userId, DateTime maintenant) async {
     return null;
   }
 }

@@ -13,7 +13,7 @@ void main() {
 
     group('getAgendaPoleEmploi', () {
       sut.when(
-        (repository) => repository.get("UID"),
+        (repository) => repository.get("UID", DateTime.utc(2022, 11, 5)),
       );
 
       group('when response is valid', () {
@@ -22,7 +22,7 @@ void main() {
         test('request should be valid', () async {
           await sut.expectRequestBody(
             method: "GET",
-            url: "BASE_URL/jeunes/UID/animations-collectives",
+            url: "BASE_URL/jeunes/UID/animations-collectives?maintenant=2022-11-05T00%3A00%3A00%2B00%3A00",
           );
         });
 

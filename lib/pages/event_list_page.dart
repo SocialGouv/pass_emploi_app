@@ -15,7 +15,7 @@ class EventListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, EventListPageViewModel>(
-      onInit: (store) => store.dispatch(EventListRequestAction()),
+      onInit: (store) => store.dispatch(EventListRequestAction(DateTime.now())),
       builder: (context, viewModel) => _Body(viewModel),
       converter: (store) => EventListPageViewModel.create(store),
       distinct: true,
