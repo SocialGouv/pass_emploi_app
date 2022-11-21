@@ -13,7 +13,7 @@ class PostUserActionRequest implements JsonSerializable {
         "content": request.content,
         if (request.comment != null) "comment": request.comment,
         "status": _toString(request.initialStatus),
-        "dateEcheance": request.dateEcheance.toIso8601WithTimeZoneOffset(),
+        "dateEcheance": request.dateEcheance.toIso8601WithOffsetDateTime(),
         "rappel": request.rappel,
       };
 

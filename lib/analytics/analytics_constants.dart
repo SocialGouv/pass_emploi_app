@@ -70,6 +70,7 @@ class AnalyticsScreenNames {
   static const serviceCiviqueFiltres = "/recherche/service_civique/search_results/filters";
   static const serviceCiviqueCreateAlert = "/saved_search/service_civique/create";
 
+  static const eventList = "events/list";
   static const toolbox = "recherche/boite_a_outils";
   static const emploiFavoris = "favoris/list/emploi";
   static const alternanceFavoris = "favoris/list/alternance";

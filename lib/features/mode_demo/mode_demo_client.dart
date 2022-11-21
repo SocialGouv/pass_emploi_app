@@ -104,6 +104,7 @@ extension _UrlExtensions on String {
   bool isSupposedToBeMocked() {
     return !contains("referentiels/communes-et-departements") &&
         !contains("fichiers") &&
+        !contains("animations-collectives") && // todo demo event list ?
         !contains("referentiels/metiers");
   }
 

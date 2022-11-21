@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_card_view_model.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -9,6 +12,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/rendezvous_tag.dart';
 import 'package:redux/redux.dart';
 
@@ -165,6 +169,26 @@ class _Link extends StatelessWidget {
           SvgPicture.asset(Drawables.icChevronRight, color: AppColors.contentColor),
         ],
       ),
+    );
+  }
+}
+
+extension RendezvousCardFromId on String {
+  Widget rendezvousCard({
+    required BuildContext context,
+    required RendezvousStateSource stateSource,
+    bool simpleCard = false,
+  }) {
+    return RendezvousCard(
+      converter: (store) => RendezvousCardViewModel.create(store, stateSource, this),
+      simpleCard: simpleCard,
+      onTap: () {
+        context.trackEvent(EventType.RDV_DETAIL);
+        Navigator.push(
+          context,
+          RendezvousDetailsPage.materialPageRoute(stateSource, this),
+        );
+      },
     );
   }
 }

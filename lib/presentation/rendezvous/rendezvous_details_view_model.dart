@@ -25,6 +25,7 @@ class RendezvousDetailsViewModel extends Equatable {
   final bool withConseillerPresencePart;
   final bool withDescriptionPart;
   final bool withModalityPart;
+  final bool withIfAbsentPart;
   final VisioButtonState visioButtonState;
   final String trackingPageName;
   final String? title;
@@ -52,6 +53,7 @@ class RendezvousDetailsViewModel extends Equatable {
     required this.withConseillerPresencePart,
     required this.withDescriptionPart,
     required this.withModalityPart,
+    required this.withIfAbsentPart,
     required this.visioButtonState,
     required this.trackingPageName,
     this.title,
@@ -93,6 +95,7 @@ class RendezvousDetailsViewModel extends Equatable {
       withConseillerPresencePart: _shouldDisplayConseillerPresence(rdv),
       withDescriptionPart: rdv.description != null || rdv.theme != null,
       withModalityPart: _withModalityPart(rdv),
+      withIfAbsentPart: source != RendezvousStateSource.eventList,
       visioButtonState: _visioButtonState(rdv),
       visioRedirectUrl: rdv.visioRedirectUrl,
       trackingPageName: _trackingPageName(rdv.type.code),
@@ -124,6 +127,7 @@ class RendezvousDetailsViewModel extends Equatable {
       withConseillerPresencePart,
       withDescriptionPart,
       withModalityPart,
+      withIfAbsentPart,
       visioButtonState,
       trackingPageName,
       title,

@@ -26,6 +26,7 @@ class JsonRendezvous {
   final String? description;
   final Conseiller? conseiller;
   final Conseiller? createur;
+  final bool? inscrit;
 
   JsonRendezvous._({
     required this.id,
@@ -49,6 +50,7 @@ class JsonRendezvous {
     required this.precision,
     required this.conseiller,
     required this.createur,
+    required this.inscrit,
   });
 
   factory JsonRendezvous.fromJson(dynamic json) {
@@ -76,6 +78,7 @@ class JsonRendezvous {
       precision: json['precision'] as String?,
       conseiller: conseiller,
       createur: createur != conseiller ? createur : null,
+      inscrit: json['inscrit'] as bool?,
     );
   }
 
@@ -100,6 +103,7 @@ class JsonRendezvous {
       precision: precision,
       conseiller: conseiller,
       createur: createur,
+      inscrit: inscrit,
     );
   }
 

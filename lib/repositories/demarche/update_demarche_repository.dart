@@ -23,8 +23,8 @@ class UpdateDemarcheRepository {
     try {
       final response = await _httpClient.put(url, body: {
         "statut": _statusToString(status),
-        "dateFin": dateFin?.toIso8601WithTimeZoneOffset(),
-        "dateDebut": dateDebut?.toIso8601WithTimeZoneOffset(),
+        "dateFin": dateFin?.toIso8601WithOffsetDateTime(),
+        "dateDebut": dateDebut?.toIso8601WithOffsetDateTime(),
       });
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes);

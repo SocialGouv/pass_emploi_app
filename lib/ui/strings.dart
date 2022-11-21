@@ -305,6 +305,7 @@ class Strings {
   static String offresEmploiTitle = "Offres d'emploi";
   static String offreDetails = "Détails de l'offre";
   static String offresTabTitle = "Offres";
+  static String eventsTabTitle = "Évènements";
   static String boiteAOutilsTabTitle = "Boîte à outils";
   static String solutionsAppBarTitle = "Recherche";
   static String immersionButton = "Immersion";
@@ -612,4 +613,9 @@ class Strings {
   static String suggestionRechercheAjoutee = "Recherche ajoutée";
   static String suggestionRechercheAjouteeDescription = "La recherche a été ajoutée à vos favoris";
   static String voirResultatsSuggestion = "Voir les résultats";
+
+  // Événements
+  static String eventListError = "Erreur lors de la récupération des événements";
+  static String eventListEmpty = "Il n'y a actuellement aucun événement";
+  static String eventListHeaderText = "Retrouver ici l’ensemble des évènements organisés par votre Mission locale";
 }
