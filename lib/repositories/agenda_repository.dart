@@ -14,13 +14,13 @@ class AgendaRepository {
   AgendaRepository(this._baseUrl, this._httpClient, [this._crashlytics]);
 
   Future<Agenda?> getAgendaMissionLocale(String userId, DateTime maintenant) async {
-    final date = Uri.encodeComponent(maintenant.toIso8601WithTimeZoneOffset());
+    final date = Uri.encodeComponent(maintenant.toIso8601WithOffsetDateTime());
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/home/agenda?maintenant=$date");
     return _getAgenda(url);
   }
 
   Future<Agenda?> getAgendaPoleEmploi(String userId, DateTime maintenant) async {
-    final date = Uri.encodeComponent(maintenant.toIso8601WithTimeZoneOffset());
+    final date = Uri.encodeComponent(maintenant.toIso8601WithOffsetDateTime());
     final url = Uri.parse(_baseUrl + "/jeunes/$userId/home/agenda/pole-emploi?maintenant=$date");
     return _getAgenda(url);
   }
