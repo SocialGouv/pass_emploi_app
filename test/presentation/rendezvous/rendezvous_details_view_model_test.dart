@@ -623,6 +623,22 @@ void main() {
       expect(viewModel.withIfAbsentPart, false);
     });
 
+    test('should be shareable if vm created from event list', () {
+      // Given
+      final store = givenState().loggedInUser().succeedEventList([mockRendezvous(id: '1')]).store();
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(
+        store: store,
+        source: RendezvousStateSource.eventList,
+        rdvId: '1',
+        platform: Platform.IOS,
+      );
+
+      // Then
+      expect(viewModel.isShareable, true);
+    });
+
     test('full view model test', () {
       // Given
       final store = _store(Rendezvous(
@@ -664,6 +680,7 @@ void main() {
           withDescriptionPart: false,
           withModalityPart: true,
           withIfAbsentPart: true,
+          isShareable: false,
           visioButtonState: VisioButtonState.HIDDEN,
           trackingPageName: 'rdv/atelier',
           modality: 'Le rendez-vous se fera sur place : Mission Locale',
