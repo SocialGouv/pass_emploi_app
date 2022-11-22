@@ -2,7 +2,7 @@ import 'package:pass_emploi_app/features/agenda/agenda_reducer.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_reducer.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_reducer.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_reducer.dart';
-import 'package:pass_emploi_app/features/chat/partage_offre/partage_offre_reducer.dart';
+import 'package:pass_emploi_app/features/chat/partage/chat_partage_reducer.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_reducer.dart';
 import 'package:pass_emploi_app/features/chat/preview_file/preview_file_reducer.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_reducer.dart';
@@ -122,7 +122,7 @@ AppState reducer(AppState current, dynamic action) {
     matomoLoggingState: matomoLoggingReducer(current.matomoLoggingState, action),
     previewFileState: previewFileReducer(current.previewFileState, action),
     chatBrouillonState: chatBrouillonReducer(current.chatBrouillonState, action),
-    chatPartageOffreState: chatPartageOffreReducer(current.chatPartageOffreState, action),
+    chatPartageState: chatPartageReducer(current.chatPartageState, action),
     tutorialState: tutorialReducer(current.tutorialState, action),
     partageActiviteState: partageActiviteReducer(current.partageActiviteState, action),
     partageActiviteUpdateState: partageActiviteUpdateReducer(current.partageActiviteUpdateState, action),

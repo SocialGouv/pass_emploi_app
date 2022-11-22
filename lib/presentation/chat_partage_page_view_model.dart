@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
-import 'package:pass_emploi_app/features/chat/partage_offre/partage_offre_actions.dart';
-import 'package:pass_emploi_app/features/chat/partage_offre/partage_offre_state.dart';
+import 'package:pass_emploi_app/features/chat/partage/chat_partage_actions.dart';
+import 'package:pass_emploi_app/features/chat/partage/chat_partage_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
@@ -10,45 +10,46 @@ import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
-class PartageOffrePageViewModel extends Equatable {
-  final String offreTitle;
+class ChatPartagePageViewModel extends Equatable {
+  final String shareableTitle;
   final DisplayState snackbarState;
-  final Function(String message, OffreType type) onPartagerOffre;
+  final Function(String message, OffreType type) onShare;
   final Function snackbarDisplayed;
 
-  PartageOffrePageViewModel({
-    required this.offreTitle,
+  ChatPartagePageViewModel({
+    required this.shareableTitle,
     required this.snackbarState,
-    required this.onPartagerOffre,
+    required this.onShare,
     required this.snackbarDisplayed,
   });
 
-  factory PartageOffrePageViewModel.create(Store<AppState> store) {
+  factory ChatPartagePageViewModel.sharingOffre(Store<AppState> store) {
     final offreEmploiDetailsState = store.state.offreEmploiDetailsState;
     if (offreEmploiDetailsState is! OffreEmploiDetailsSuccessState) {
-      throw Exception("PartageOffrePageViewModel must be created with a OffreEmploiDetailsSuccessState.");
+      throw Exception("ChatPartagePageViewModel must be created with a OffreEmploiDetailsSuccessState.");
     }
-    return PartageOffrePageViewModel(
-      offreTitle: offreEmploiDetailsState.offre.title,
+    return ChatPartagePageViewModel(
+      shareableTitle: offreEmploiDetailsState.offre.title,
       snackbarState: _snackbarState(store),
-      onPartagerOffre: (message, isAlternance) => _partagerOffre(store, offreEmploiDetailsState.offre, message, isAlternance),
-      snackbarDisplayed: () => store.dispatch(ChatPartageOffreResetAction()),
+      onShare: (message, isAlternance) =>
+          _partagerOffre(store, offreEmploiDetailsState.offre, message, isAlternance),
+      snackbarDisplayed: () => store.dispatch(ChatPartageResetAction()),
     );
   }
 
   @override
-  List<Object?> get props => [offreTitle, snackbarState];
+  List<Object?> get props => [shareableTitle, snackbarState];
 }
 
 DisplayState _snackbarState(Store<AppState> store) {
-  switch (store.state.chatPartageOffreState) {
-    case ChatPartageOffreState.notInitialized:
+  switch (store.state.chatPartageState) {
+    case ChatPartageState.notInitialized:
       return DisplayState.EMPTY;
-    case ChatPartageOffreState.loading:
+    case ChatPartageState.loading:
       return DisplayState.LOADING;
-    case ChatPartageOffreState.success:
+    case ChatPartageState.success:
       return DisplayState.CONTENT;
-    case ChatPartageOffreState.failure:
+    case ChatPartageState.failure:
       return DisplayState.FAILURE;
   }
 }

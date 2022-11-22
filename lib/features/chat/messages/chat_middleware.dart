@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
-import 'package:pass_emploi_app/features/chat/partage_offre/partage_offre_actions.dart';
+import 'package:pass_emploi_app/features/chat/partage/chat_partage_actions.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/mode_demo/mode_demo_chat_repository.dart';
@@ -49,13 +49,13 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _partagerOffre(Store<AppState> store, String userId, OffrePartagee offre) async {
-    store.dispatch(ChatPartageOffreLoadingAction());
+    store.dispatch(ChatPartageLoadingAction());
     final succeed = await _repository.sendOffrePartagee(userId, offre);
     if (succeed) {
       store.dispatch(TrackingEventAction(EventType.MESSAGE_OFFRE_PARTAGEE));
-      store.dispatch(ChatPartageOffreSuccessAction());
+      store.dispatch(ChatPartageSuccessAction());
     } else {
-      store.dispatch(ChatPartageOffreFailureAction());
+      store.dispatch(ChatPartageFailureAction());
     }
   }
 

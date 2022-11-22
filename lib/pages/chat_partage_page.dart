@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
-import 'package:pass_emploi_app/presentation/partage_offre_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/chat_partage_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -15,22 +15,22 @@ import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
 
-class PartageOffrePage extends StatefulWidget {
+class ChatPartagePage extends StatefulWidget {
   final OffreType type;
 
-  PartageOffrePage._({required this.type});
+  ChatPartagePage._({required this.type});
 
   @override
-  _PartageOffrePageState createState() => _PartageOffrePageState();
+  _ChatPartagePageState createState() => _ChatPartagePageState();
 
   static MaterialPageRoute<void> materialPageRoute(OffreType type) {
     return MaterialPageRoute(builder: (context) {
-      return PartageOffrePage._(type: type);
+      return ChatPartagePage._(type: type);
     });
   }
 }
 
-class _PartageOffrePageState extends State<PartageOffrePage> {
+class _ChatPartagePageState extends State<ChatPartagePage> {
   late TextEditingController _controller;
 
   @override
@@ -38,8 +38,8 @@ class _PartageOffrePageState extends State<PartageOffrePage> {
     _controller = TextEditingController(text: Strings.partageOffreDefaultMessage);
     return Tracker(
       tracking: AnalyticsScreenNames.emploiPartagePage,
-      child: StoreConnector<AppState, PartageOffrePageViewModel>(
-        converter: (store) => PartageOffrePageViewModel.create(store),
+      child: StoreConnector<AppState, ChatPartagePageViewModel>(
+        converter: (store) => ChatPartagePageViewModel.sharingOffre(store),
         builder: (context, viewModel) => _scaffold(context, viewModel),
         onWillChange: (_, viewModel) => _displaySnackBar(viewModel),
         distinct: true,
@@ -53,7 +53,7 @@ class _PartageOffrePageState extends State<PartageOffrePage> {
     super.dispose();
   }
 
-  Scaffold _scaffold(BuildContext context, PartageOffrePageViewModel viewModel) {
+  Scaffold _scaffold(BuildContext context, ChatPartagePageViewModel viewModel) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: passEmploiAppBar(
@@ -65,7 +65,7 @@ class _PartageOffrePageState extends State<PartageOffrePage> {
     );
   }
 
-  Widget _body(BuildContext context, PartageOffrePageViewModel viewModel) {
+  Widget _body(BuildContext context, ChatPartagePageViewModel viewModel) {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -89,7 +89,7 @@ class _PartageOffrePageState extends State<PartageOffrePage> {
     );
   }
 
-  Widget _offre(PartageOffrePageViewModel viewModel) {
+  Widget _offre(ChatPartagePageViewModel viewModel) {
     return DecoratedBox(
       decoration: BoxDecoration(
         border: Border.all(color: AppColors.grey100, width: 1),
@@ -97,7 +97,7 @@ class _PartageOffrePageState extends State<PartageOffrePage> {
       ),
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Text(viewModel.offreTitle, style: TextStyles.textBaseBold),
+        child: Text(viewModel.shareableTitle, style: TextStyles.textBaseBold),
       ),
     );
   }
@@ -135,13 +135,13 @@ class _PartageOffrePageState extends State<PartageOffrePage> {
     );
   }
 
-  Widget _shareButton(BuildContext context, PartageOffrePageViewModel viewModel) {
+  Widget _shareButton(BuildContext context, ChatPartagePageViewModel viewModel) {
     if (viewModel.snackbarState == DisplayState.LOADING) {
       return Center(child: CircularProgressIndicator(color: AppColors.nightBlue));
     } else {
       return PrimaryActionButton(
         label: _setButtonTitle(),
-        onPressed: () => viewModel.onPartagerOffre(_controller.text, widget.type),
+        onPressed: () => viewModel.onShare(_controller.text, widget.type),
       );
     }
   }
@@ -153,7 +153,7 @@ class _PartageOffrePageState extends State<PartageOffrePage> {
       widget.type == OffreType.alternance ? Strings.partagerOffreAlternance : Strings.partagerOffreEmploi;
 
 
-  void _displaySnackBar(PartageOffrePageViewModel viewModel) {
+  void _displaySnackBar(ChatPartagePageViewModel viewModel) {
     switch (viewModel.snackbarState) {
       case DisplayState.EMPTY:
       case DisplayState.LOADING:
