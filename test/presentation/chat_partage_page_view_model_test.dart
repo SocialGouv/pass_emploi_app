@@ -4,6 +4,7 @@ import 'package:pass_emploi_app/features/chat/partage/chat_partage_actions.dart'
 import 'package:pass_emploi_app/features/chat/partage/chat_partage_state.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
+import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/chat_partage_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 
@@ -25,8 +26,36 @@ void main() {
       expect(viewModel.defaultMessage, "");
       expect(viewModel.information, "L’événement sera partagé à votre conseiller dans la messagerie");
       expect(viewModel.shareButtonTitle, "Partager à mon conseiller");
-      expect(viewModel.snackbarSuccessText, "L’événement a été partagée à votre conseiller sur la messagerie de l’application");
+      expect(viewModel.snackbarSuccessText,
+          "L’événement a été partagée à votre conseiller sur la messagerie de l’application");
       expect(viewModel.snackbarSuccessTracking, "todo");
+    });
+
+    test('should partager event', () {
+      // Given
+      final rdv = mockRendezvous(
+        id: "id-1",
+        title: "Fête foraine",
+        date: DateTime(2022),
+        type: RendezvousType(RendezvousTypeCode.ATELIER, 'Att'),
+      );
+      final store = givenState().succeedEventList([rdv]).spyStore();
+      final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageEventSource("id-1"));
+
+      // When
+      viewModel.onShare("Regardes ça");
+
+      // Then
+      expect(
+        store.dispatchedAction,
+        ChatPartagerEventAction(
+          id: "id-1",
+          type: RendezvousType(RendezvousTypeCode.ATELIER, 'Att'),
+          titre: "Fête foraine",
+          date: DateTime(2022),
+          message: "Regardes ça",
+        ),
+      );
     });
   });
 
@@ -44,7 +73,8 @@ void main() {
       expect(viewModel.defaultMessage, "Bonjour, je vous partage une offre d’emploi afin d’avoir votre avis");
       expect(viewModel.information, "L’offre d’emploi sera partagée à votre conseiller dans la messagerie");
       expect(viewModel.shareButtonTitle, "Partager l’offre d’alternance");
-      expect(viewModel.snackbarSuccessText, "L’offre d’emploi a été partagée à votre conseiller sur la messagerie de l’application");
+      expect(viewModel.snackbarSuccessText,
+          "L’offre d’emploi a été partagée à votre conseiller sur la messagerie de l’application");
       expect(viewModel.snackbarSuccessTracking, "/recherche/emploi/detail?partage-conseiller=true");
     });
 
@@ -61,7 +91,8 @@ void main() {
       expect(viewModel.defaultMessage, "Bonjour, je vous partage une offre d’emploi afin d’avoir votre avis");
       expect(viewModel.information, "L’offre d’emploi sera partagée à votre conseiller dans la messagerie");
       expect(viewModel.shareButtonTitle, "Partager l’offre d’emploi");
-      expect(viewModel.snackbarSuccessText, "L’offre d’emploi a été partagée à votre conseiller sur la messagerie de l’application");
+      expect(viewModel.snackbarSuccessText,
+          "L’offre d’emploi a été partagée à votre conseiller sur la messagerie de l’application");
       expect(viewModel.snackbarSuccessTracking, "/recherche/emploi/detail?partage-conseiller=true");
     });
 
