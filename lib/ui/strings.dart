@@ -161,6 +161,7 @@ class Strings {
   static String seeMoreRendezvous = "Voir plus de rendez-vous";
   static String individualInterview = "Entretien individuel conseiller";
   static String publicInfo = "Information collective";
+  static String shareToConseiller = "Partager à mon conseiller";
 
   static String rendezvousSinceDate(String date) => "depuis le $date";
 

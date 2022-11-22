@@ -72,7 +72,7 @@ class RendezvousDetailsPage extends StatelessWidget {
               SepLine(Margins.spacing_m, Margins.spacing_m),
               _ConseillerPart(viewModel),
               if (viewModel.withIfAbsentPart) _InformIfAbsent(),
-              if (viewModel.isShareable) Text("isShareable"),
+              if (viewModel.isShareable) _Share(),
             ],
           ),
         ),
@@ -331,6 +331,24 @@ class _Createur extends StatelessWidget {
             Flexible(child: Text(label, style: TextStyles.textBaseRegularWithColor(AppColors.primary))),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _Share extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: Margins.spacing_s),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          PrimaryActionButton(
+            label: Strings.shareToConseiller,
+            onPressed: () => print("yolo"),
+          ),
+        ],
       ),
     );
   }
