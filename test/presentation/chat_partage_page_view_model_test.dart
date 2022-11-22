@@ -20,13 +20,13 @@ void main() {
       final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageEventSource("id-1"));
 
       // Then
-      expect(viewModel.pageTitle, "pageTitle");
-      expect(viewModel.willShareTitle, "willShareTitle");
-      expect(viewModel.defaultMessage, "defaultMessage");
-      expect(viewModel.information, "information");
-      expect(viewModel.shareButtonTitle, "shareButtonTitle");
-      expect(viewModel.snackbarSuccessText, "snackbarSuccessText");
-      expect(viewModel.snackbarSuccessTracking, "snackbarSuccessTracking");
+      expect(viewModel.pageTitle, "Partage d’événement");
+      expect(viewModel.willShareTitle, "Ce que vous souhaitez partager");
+      expect(viewModel.defaultMessage, "");
+      expect(viewModel.information, "L’événement sera partagé à votre conseiller dans la messagerie");
+      expect(viewModel.shareButtonTitle, "Partager à mon conseiller");
+      expect(viewModel.snackbarSuccessText, "L’événement a été partagée à votre conseiller sur la messagerie de l’application");
+      expect(viewModel.snackbarSuccessTracking, "todo");
     });
   });
 

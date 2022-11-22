@@ -96,19 +96,18 @@ class ChatPartagePageViewModel extends Equatable {
     if (event == null) {
       throw Exception("Event not found.");
     }
-    // todo
     return ChatPartagePageViewModel(
-      pageTitle: "pageTitle",
-      willShareTitle: "willShareTitle",
-      defaultMessage: "defaultMessage",
-      information: "information",
-      shareButtonTitle: "shareButtonTitle",
-      shareableTitle: event.title ?? "todo-a-pas-title",
+      pageTitle: Strings.partageEventNavTitle,
+      willShareTitle: Strings.souhaitDePartagerEvent,
+      defaultMessage: "",
+      information: Strings.infoEventPartageChat,
+      shareButtonTitle: Strings.partagerAuConseiller,
+      shareableTitle: event.title ?? "",
       onShare: (message) {},
       snackbarState: _snackbarState(store),
       snackbarDisplayed: () => store.dispatch(ChatPartageResetAction()),
-      snackbarSuccessText: "snackbarSuccessText",
-      snackbarSuccessTracking: "snackbarSuccessTracking",
+      snackbarSuccessText: Strings.partageEventSuccess,
+      snackbarSuccessTracking: AnalyticsScreenNames.eventPartagePageSuccess,
     );
   }
 

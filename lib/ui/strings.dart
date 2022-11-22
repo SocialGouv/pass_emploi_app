@@ -328,6 +328,14 @@ class Strings {
   static String partagerOffreAlternance = "Partager l’offre d’alternance";
   static String partageOffreAlternanceNavTitle = "Partage de l’offre d’alternance";
 
+  // Event partage
+  static String infoEventPartageChat = "L’événement sera partagé à votre conseiller dans la messagerie";
+  static String souhaitDePartagerEvent = "Ce que vous souhaitez partager";
+  static String partagerAuConseiller = "Partager à mon conseiller";
+  static String partageEventNavTitle = "Partage d’événement";
+  static String partageEventSuccess =
+      "L’événement a été partagée à votre conseiller sur la messagerie de l’application";
+
   // Immersion
   static String immersionLabel = "Découvrez un métier en immersion dans une entreprise.";
   static String metierCompulsoryLabel = "* Métier";
