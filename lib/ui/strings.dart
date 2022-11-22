@@ -319,7 +319,7 @@ class Strings {
   static String partageOffreSuccess =
       "L’offre d’emploi a été partagée à votre conseiller sur la messagerie de l’application";
   static String messagePourConseiller = "Message destiné à votre conseiller";
-  static String offrePartageChat = "L’offre d’emploi sera partagée à votre conseiller dans la messagerie";
+  static String infoOffrePartageChat = "L’offre d’emploi sera partagée à votre conseiller dans la messagerie";
   static String partagerOffreEmploi = "Partager l’offre d’emploi";
 
   // Alternance

@@ -7,33 +7,90 @@ import 'package:pass_emploi_app/models/offre_partagee.dart';
 import 'package:pass_emploi_app/presentation/chat_partage_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 
+import '../doubles/fixtures.dart';
 import '../dsl/app_state_dsl.dart';
 
 void main() {
-  group('when sharing an offer', () {
-    test('should throw error on failure', () {
-      final store = givenState().store();
-      expect(() => ChatPartagePageViewModel.sharingOffre(store), throwsA(isA<Exception>()));
-    });
+  group('when sharing an event', () {
+    test('should have corresponding titles', () {
+      // Given
+      final store = givenState().succeedEventList([mockRendezvous(id: "id-1")]).store();
 
-    test('should display title on success', () {
+      // When
+      final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageEventSource("id-1"));
+
+      // Then
+      expect(viewModel.pageTitle, "pageTitle");
+      expect(viewModel.willShareTitle, "willShareTitle");
+      expect(viewModel.defaultMessage, "defaultMessage");
+      expect(viewModel.information, "information");
+      expect(viewModel.shareButtonTitle, "shareButtonTitle");
+      expect(viewModel.snackbarSuccessText, "snackbarSuccessText");
+      expect(viewModel.snackbarSuccessTracking, "snackbarSuccessTracking");
+    });
+  });
+
+  group('when sharing an offer', () {
+    test('should have titles corresponding for alternance', () {
       // Given
       final store = givenState().offreEmploiDetailsSuccess().store();
 
       // When
-      final viewModel = ChatPartagePageViewModel.sharingOffre(store);
+      final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageOffreEmploiSource(OffreType.alternance));
+
+      // Then
+      expect(viewModel.pageTitle, "Partage de l’offre d’alternance");
+      expect(viewModel.willShareTitle, "L’offre que vous souhaitez partager");
+      expect(viewModel.defaultMessage, "Bonjour, je vous partage une offre d’emploi afin d’avoir votre avis");
+      expect(viewModel.information, "L’offre d’emploi sera partagée à votre conseiller dans la messagerie");
+      expect(viewModel.shareButtonTitle, "Partager l’offre d’alternance");
+      expect(viewModel.snackbarSuccessText, "L’offre d’emploi a été partagée à votre conseiller sur la messagerie de l’application");
+      expect(viewModel.snackbarSuccessTracking, "/recherche/emploi/detail?partage-conseiller=true");
+    });
+
+    test('should have titles corresponding for emploi', () {
+      // Given
+      final store = givenState().offreEmploiDetailsSuccess().store();
+
+      // When
+      final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageOffreEmploiSource(OffreType.emploi));
+
+      // Then
+      expect(viewModel.pageTitle, "Partage de l’offre d’emploi");
+      expect(viewModel.willShareTitle, "L’offre que vous souhaitez partager");
+      expect(viewModel.defaultMessage, "Bonjour, je vous partage une offre d’emploi afin d’avoir votre avis");
+      expect(viewModel.information, "L’offre d’emploi sera partagée à votre conseiller dans la messagerie");
+      expect(viewModel.shareButtonTitle, "Partager l’offre d’emploi");
+      expect(viewModel.snackbarSuccessText, "L’offre d’emploi a été partagée à votre conseiller sur la messagerie de l’application");
+      expect(viewModel.snackbarSuccessTracking, "/recherche/emploi/detail?partage-conseiller=true");
+    });
+
+    test('should throw error on failure', () {
+      final store = givenState().store();
+      expect(
+        () => ChatPartagePageViewModel.fromSource(store, ChatPartageOffreEmploiSource(OffreType.emploi)),
+        throwsA(isA<Exception>()),
+      );
+    });
+
+    test('should display shareable title', () {
+      // Given
+      final store = givenState().offreEmploiDetailsSuccess().store();
+
+      // When
+      final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageOffreEmploiSource(OffreType.emploi));
 
       // Then
       expect(viewModel.shareableTitle, "Technicien / Technicienne d'installation de réseaux câblés  (H/F)");
     });
 
-    test('should partager offre', () {
+    test('should partager offre emploi', () {
       // Given
       final store = givenState().offreEmploiDetailsSuccess().spyStore();
-      final viewModel = ChatPartagePageViewModel.sharingOffre(store);
+      final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageOffreEmploiSource(OffreType.emploi));
 
       // When
-      viewModel.onShare("Regardes ça", OffreType.emploi);
+      viewModel.onShare("Regardes ça");
 
       // Then
       expect(store.dispatchedAction, isA<ChatPartagerOffreAction>());
@@ -58,7 +115,7 @@ void main() {
           final store = givenState().offreEmploiDetailsSuccess().copyWith(chatPartageState: state).store();
 
           // When
-          final viewModel = ChatPartagePageViewModel.sharingOffre(store);
+          final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageOffreEmploiSource(OffreType.emploi));
 
           // Then
           expect(viewModel.snackbarState, expected);
@@ -74,7 +131,7 @@ void main() {
     test('should reset snackbar', () {
       // Given
       final store = givenState().offreEmploiDetailsSuccess().spyStore();
-      final viewModel = ChatPartagePageViewModel.sharingOffre(store);
+      final viewModel = ChatPartagePageViewModel.fromSource(store, ChatPartageOffreEmploiSource(OffreType.emploi));
 
       // When
       viewModel.snackbarDisplayed();

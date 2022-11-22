@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/pages/chat_partage_page.dart';
+import 'package:pass_emploi_app/presentation/chat_partage_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -72,7 +74,7 @@ class RendezvousDetailsPage extends StatelessWidget {
               SepLine(Margins.spacing_m, Margins.spacing_m),
               _ConseillerPart(viewModel),
               if (viewModel.withIfAbsentPart) _InformIfAbsent(),
-              if (viewModel.isShareable) _Share(),
+              if (viewModel.isShareable) _Share(eventId: "id-1"), // todo event id
             ],
           ),
         ),
@@ -337,6 +339,10 @@ class _Createur extends StatelessWidget {
 }
 
 class _Share extends StatelessWidget {
+  final String eventId;
+
+  _Share({required this.eventId});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -346,7 +352,12 @@ class _Share extends StatelessWidget {
         children: [
           PrimaryActionButton(
             label: Strings.shareToConseiller,
-            onPressed: () => print("yolo"),
+            onPressed: () {
+              Navigator.push(
+                context,
+                ChatPartagePage.materialPageRoute(ChatPartageEventSource(eventId)),
+              );
+            },
           ),
         ],
       ),
