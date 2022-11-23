@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/partage/chat_partage_actions.dart';
 import 'package:pass_emploi_app/features/chat/partage/chat_partage_state.dart';
+import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
@@ -49,11 +50,13 @@ void main() {
       expect(
         store.dispatchedAction,
         ChatPartagerEventAction(
-          id: "id-1",
-          type: RendezvousType(RendezvousTypeCode.ATELIER, 'Att'),
-          titre: "Fête foraine",
-          date: DateTime(2022),
-          message: "Regardes ça",
+          EventPartage(
+            id: "id-1",
+            type: RendezvousType(RendezvousTypeCode.ATELIER, 'Att'),
+            titre: "Fête foraine",
+            date: DateTime(2022),
+            message: "Regardes ça",
+          ),
         ),
       );
     });

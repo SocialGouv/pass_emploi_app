@@ -5,9 +5,12 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_middleware.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/models/conseiller_messages_info.dart';
+import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
+import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:pass_emploi_app/utils/log.dart';
 
 const String _collectionPath = "chat";
@@ -120,6 +123,48 @@ class ChatRepository {
     return succeed;
   }
 
+  Future<bool> sendEventPartage(String userId, EventPartage eventPartage) async {
+    final chatDocumentId = await _getChatDocumentId(userId);
+    if (chatDocumentId == null) return false;
+
+    final messageCreationDate = FieldValue.serverTimestamp();
+    final encryptedMessage = _chatCrypto.encrypt(eventPartage.message);
+    final succeed = await FirebaseFirestore.instance
+        .runTransaction((transaction) async {
+          final newDocId = _chatCollection(chatDocumentId).collection('messages').doc(null);
+          transaction
+            ..set(newDocId, {
+              'iv': encryptedMessage.base64InitializationVector,
+              'content': encryptedMessage.base64Message,
+              'sentBy': "jeune",
+              'creationDate': messageCreationDate,
+              'evenement' : {
+                'id': eventPartage.id,
+                'type': _rdvTypeToString(eventPartage.type),
+                'titre': eventPartage.titre,
+                'date': eventPartage.date.toIso8601WithOffsetDateTime(),
+              },
+              'type': "MESSAGE_EVENEMENT",
+            })
+            ..update(_chatCollection(chatDocumentId), {
+              'lastMessageContent': encryptedMessage.base64Message,
+              'lastMessageIv': encryptedMessage.base64InitializationVector,
+              'lastMessageSentBy': "jeune",
+              'lastMessageSentAt': messageCreationDate,
+              'seenByConseiller': false,
+            });
+        })
+        .then((value) {
+          Log.d("New message sent ${eventPartage.message} with event ${eventPartage.titre} && chat status updated");
+          return true;
+        })
+        .catchError((e, StackTrace stack) {
+          _crashlytics.recordNonNetworkException(e, stack);
+          return false;
+        });
+    return succeed;
+  }
+
   Future<void> setLastMessageSeen(String userId) async {
     final chatDocumentId = await _getChatDocumentId(userId);
     if (chatDocumentId == null) return;
@@ -171,6 +216,27 @@ class ChatRepository {
         return "EMPLOI";
       default:
         return "INCONU";
+    }
+  }
+
+  String _rdvTypeToString(RendezvousType type) {
+    switch (type.code) {
+    case RendezvousTypeCode.ACTIVITE_EXTERIEURES:
+      return "ACTIVITE_EXTERIEURES";
+    case RendezvousTypeCode.ATELIER:
+      return "ATELIER";
+    case RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER:
+      return "ENTRETIEN_INDIVIDUEL_CONSEILLER";
+    case RendezvousTypeCode.ENTRETIEN_PARTENAIRE:
+      return "ENTRETIEN_PARTENAIRE";
+    case RendezvousTypeCode.INFORMATION_COLLECTIVE:
+      return "INFORMATION_COLLECTIVE";
+    case RendezvousTypeCode.VISITE:
+      return "VISITE";
+    case RendezvousTypeCode.PRESTATION:
+      return "PRESTATION";
+    case RendezvousTypeCode.AUTRE:
+      return "AUTRE";
     }
   }
 }

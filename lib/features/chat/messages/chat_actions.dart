@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
-import 'package:pass_emploi_app/models/rendezvous.dart';
 
 class ChatRequestAction {}
 
@@ -30,22 +30,12 @@ class ChatPartagerOffreAction {
 }
 
 class ChatPartagerEventAction extends Equatable {
-  final String id;
-  final RendezvousType type;
-  final String titre;
-  final DateTime date;
-  final String message;
+  final EventPartage eventPartage;
 
-  ChatPartagerEventAction({
-    required this.id,
-    required this.type,
-    required this.titre,
-    required this.date,
-    required this.message,
-  });
+  ChatPartagerEventAction(this.eventPartage);
 
   @override
-  List<Object?> get props => [id, type, titre, date, message];
+  List<Object?> get props => [eventPartage];
 }
 
 class LastMessageSeenAction {}

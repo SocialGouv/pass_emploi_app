@@ -6,6 +6,7 @@ import 'package:pass_emploi_app/features/chat/partage/chat_partage_actions.dart'
 import 'package:pass_emploi_app/features/chat/partage/chat_partage_state.dart';
 import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
+import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
@@ -13,7 +14,6 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
-import 'package:pass_emploi_app/utils/date_extensions.dart';
 import 'package:redux/redux.dart';
 
 abstract class ChatPartageSource {}
@@ -131,14 +131,15 @@ DisplayState _snackbarState(Store<AppState> store) {
 }
 
 void _partagerEvent(Store<AppState> store, Rendezvous event, String message) {
-  // todo est-ce qu'on traduit ici (type et date notamment) vers le payload firebase ? si non, y aura t il bien un test?
   store.dispatch(
     ChatPartagerEventAction(
-      id: event.id,
-      type: event.type,
-      titre: event.title ?? "",
-      date: event.date,
-      message: message,
+      EventPartage(
+        id: event.id,
+        type: event.type,
+        titre: event.title ?? "",
+        date: event.date,
+        message: message,
+      ),
     ),
   );
 }
