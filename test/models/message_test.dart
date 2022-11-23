@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/models/message.dart';
+import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
 
 import '../doubles/dummies.dart';
@@ -138,6 +139,56 @@ void main() {
     assertMessageOffreWithType(offreTypeJson: "ALTERNANCE", offreType: OffreType.alternance);
     assertMessageOffreWithType(offreTypeJson: "IMMERSION", offreType: OffreType.immersion);
     assertMessageOffreWithType(offreTypeJson: "SERVICE_CIVIQUE", offreType: OffreType.civique);
+  });
+
+  group("toJson MESSAGE_EVENEMENT", () {
+    void assertMessageEventWithType({required String rdvTypeJson, required RendezvousTypeCode rdvType}) {
+      test("with type $rdvTypeJson", () {
+        // Given
+        final chatCryptoSpy = _FakeChatCrypto();
+
+        // When
+        final message = Message.fromJson(
+          {
+            "content": "toto-chiffré",
+            "creationDate": Timestamp.fromDate(DateTime(2021, 7, 30, 9, 43, 9)),
+            "iv": "ivvv",
+            "sentBy": "jeune",
+            "type": "MESSAGE_EVENEMENT",
+            "evenement": {
+              "id": "343",
+              "type": rdvTypeJson,
+              "titre": "Chevalier",
+            },
+          },
+          chatCryptoSpy,
+          DummyCrashlytics(),
+        );
+
+        // Then
+        expect(
+            message,
+            Message(
+              "toto-chiffré-déchiffré",
+              DateTime(2021, 7, 30, 9, 43, 9),
+              Sender.jeune,
+              MessageType.event,
+              [],
+              null,
+              Event(
+                id: "343",
+                titre: "Chevalier",
+                type: rdvType,
+              ),
+            ));
+      });
+    }
+
+    assertMessageEventWithType(rdvTypeJson: "ATELIER", rdvType: RendezvousTypeCode.ATELIER);
+    assertMessageEventWithType(
+      rdvTypeJson: "ENTRETIEN_INDIVIDUEL_CONSEILLER",
+      rdvType: RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER,
+    );
   });
 
   test("toJson when message typed as NOUVEAU_CONSEILLER", () {
