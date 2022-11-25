@@ -78,8 +78,8 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
 ChatItem _offreMessageItem(Message message, DateTime lastConseillerReading) {
   return OffreMessageItem(
     content: message.content,
-    idOffre: message.offre?.id ?? "",
-    titreOffre: message.offre?.titre ?? "",
+    idPartage: message.offre?.id ?? "",
+    titrePartage: message.offre?.titre ?? "",
     type: message.offre?.type ?? OffreType.inconnu,
     sender: message.sentBy,
     caption: caption(message, lastConseillerReading),
@@ -89,8 +89,8 @@ ChatItem _offreMessageItem(Message message, DateTime lastConseillerReading) {
 ChatItem _eventMessageItem(Message message, DateTime lastConseillerReading) {
   return EventMessageItem(
     content: message.content,
-    idEvent: message.event?.id ?? "",
-    titreEvent: message.event?.titre ?? "",
+    idPartage: message.event?.id ?? "",
+    titrePartage: message.event?.titre ?? "",
     sender: message.sentBy,
     caption: caption(message, lastConseillerReading),
   );
@@ -119,7 +119,7 @@ String caption(Message message, DateTime lastConseillerReading) {
   }
 }
 
-MessageItem _buildMessageItem(Message message, DateTime lastConseillerReading) {
+UserMessageItem _buildMessageItem(Message message, DateTime lastConseillerReading) {
   if (message.sentBy == Sender.jeune) {
     return JeuneMessageItem(content: message.content, caption: caption(message, lastConseillerReading));
   } else {

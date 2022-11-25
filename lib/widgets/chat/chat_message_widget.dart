@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 
 class ChatMessageWidget extends StatelessWidget {
-  final MessageItem item;
+  final UserMessageItem item;
 
   const ChatMessageWidget(this.item) : super();
 

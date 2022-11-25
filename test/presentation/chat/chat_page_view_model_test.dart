@@ -145,8 +145,8 @@ void main() {
       DayItem('Aujourd\'hui'),
       OffreMessageItem(
         content: "Super offre",
-        idOffre: "343",
-        titreOffre: "Chevalier",
+        idPartage: "343",
+        titrePartage: "Chevalier",
         type: OffreType.emploi,
         sender: Sender.jeune,
         caption: "12:00 · Envoyé",
@@ -177,8 +177,8 @@ void main() {
       DayItem('Aujourd\'hui'),
       OffreMessageItem(
         content: "Super offre",
-        idOffre: "343",
-        titreOffre: "Chevalier",
+        idPartage: "343",
+        titrePartage: "Chevalier",
         type: OffreType.emploi,
         sender: Sender.conseiller,
         caption: "12:00",
@@ -214,8 +214,8 @@ void main() {
       DayItem('Aujourd\'hui'),
       EventMessageItem(
         content: "Super event",
-        idEvent: "id-1",
-        titreEvent: "atelier catapulte",
+        idPartage: "id-1",
+        titrePartage: "atelier catapulte",
         sender: Sender.jeune,
         caption: "12:00 · Envoyé",
       ),
@@ -250,8 +250,8 @@ void main() {
       DayItem('Aujourd\'hui'),
       EventMessageItem(
         content: "Super event",
-        idEvent: "id-1",
-        titreEvent: "atelier catapulte",
+        idPartage: "id-1",
+        titrePartage: "atelier catapulte",
         sender: Sender.conseiller,
         caption: "12:00",
       ),

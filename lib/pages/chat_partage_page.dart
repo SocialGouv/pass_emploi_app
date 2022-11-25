@@ -144,7 +144,7 @@ class _ChatPartagePageState extends State<ChatPartagePage> {
       );
     }
   }
-  // todo vm snackbar
+
   void _displaySnackBar(ChatPartagePageViewModel viewModel) {
     switch (viewModel.snackbarState) {
       case DisplayState.EMPTY:

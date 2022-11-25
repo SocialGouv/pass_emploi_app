@@ -32,12 +32,60 @@ abstract class MessageItem extends ChatItem {
   List<Object?> get props => [content, caption];
 }
 
-class JeuneMessageItem extends MessageItem {
+abstract class UserMessageItem extends MessageItem {
+
+  UserMessageItem(super.content, super.caption);
+
+  @override
+  List<Object?> get props => [content, caption];
+}
+
+class JeuneMessageItem extends UserMessageItem {
   JeuneMessageItem({required String content, required String caption}) : super(content, caption);
 }
 
-class ConseillerMessageItem extends MessageItem {
+class ConseillerMessageItem extends UserMessageItem {
   ConseillerMessageItem({required String content, required String caption}) : super(content, caption);
+}
+
+abstract class PartageMessageItem extends MessageItem {
+  final String idPartage;
+  final String titrePartage;
+  final Sender sender;
+
+  PartageMessageItem(super.content, super.caption, this.idPartage, this.titrePartage, this.sender);
+
+  @override
+  List<Object?> get props => [content, caption, idPartage, titrePartage, sender];
+}
+
+class OffreMessageItem extends PartageMessageItem {
+  final OffreType type;
+
+  OffreMessageItem({
+    required String content,
+    required String caption,
+    required Sender sender,
+    required String idPartage,
+    required String titrePartage,
+    required this.type,
+  }) : super(content, caption, idPartage, titrePartage, sender);
+
+  @override
+  List<Object?> get props => [content, caption, sender, idPartage, titrePartage, type];
+}
+
+class EventMessageItem extends PartageMessageItem {
+  EventMessageItem({
+    required String content,
+    required String caption,
+    required Sender sender,
+    required String idPartage,
+    required String titrePartage,
+  }) : super(content, caption, idPartage, titrePartage, sender);
+
+  @override
+  List<Object?> get props => [content, caption, sender, idPartage, titrePartage];
 }
 
 class PieceJointeConseillerMessageItem extends ChatItem {
@@ -55,44 +103,4 @@ class PieceJointeConseillerMessageItem extends ChatItem {
 
   @override
   List<Object?> get props => [id, message, filename, caption];
-}
-
-class OffreMessageItem extends ChatItem {
-  final String content;
-  final String idOffre;
-  final String titreOffre;
-  final String caption;
-  final Sender sender;
-  final OffreType type;
-
-  OffreMessageItem({
-    required this.content,
-    required this.idOffre,
-    required this.titreOffre,
-    required this.caption,
-    required this.sender,
-    required this.type,
-  });
-
-  @override
-  List<Object?> get props => [content, idOffre, titreOffre, caption, sender, type];
-}
-
-class EventMessageItem extends ChatItem {
-  final String content;
-  final String idEvent;
-  final String titreEvent;
-  final String caption;
-  final Sender sender;
-
-  EventMessageItem({
-    required this.content,
-    required this.idEvent,
-    required this.titreEvent,
-    required this.caption,
-    required this.sender,
-  });
-
-  @override
-  List<Object?> get props => [content, idEvent, titreEvent, caption, sender];
 }

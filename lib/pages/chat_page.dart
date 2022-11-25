@@ -125,7 +125,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                     style: TextStyles.textSRegular(),
                   ),
                 );
-              } else if (item is MessageItem) {
+              } else if (item is UserMessageItem) {
                 return ChatMessageWidget(item);
               } else if (item is InformationItem) {
                 return ChatInformationWidget(item.title, item.description);
@@ -133,6 +133,8 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
                 return ChatPieceJointeWidget(item);
               } else if (item is OffreMessageItem) {
                 return OffreMessageWidget(item);
+              } else if (item is EventMessageItem) {
+                return EventMessageWidget(item);
               } else {
                 return Container();
               }
