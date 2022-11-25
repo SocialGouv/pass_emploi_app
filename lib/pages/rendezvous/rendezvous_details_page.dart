@@ -74,7 +74,7 @@ class RendezvousDetailsPage extends StatelessWidget {
               SepLine(Margins.spacing_m, Margins.spacing_m),
               _ConseillerPart(viewModel),
               if (viewModel.withIfAbsentPart) _InformIfAbsent(),
-              if (viewModel.isShareable) _Share(eventId: "id-1"), // todo event id
+              if (viewModel.isShareable) _Share(eventId: viewModel.id),
             ],
           ),
         ),

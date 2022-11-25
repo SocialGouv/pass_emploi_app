@@ -152,7 +152,7 @@ class _PartageCard extends StatelessWidget {
     Navigator.push(
       context,
       RendezvousDetailsPage.materialPageRoute(RendezvousStateSource.eventList,
-          item.idPartage), // todo il faudra une source qui fetch sur la page de details
+          item.idPartage),
     );
   }
 }

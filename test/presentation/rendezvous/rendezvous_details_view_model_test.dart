@@ -669,6 +669,7 @@ void main() {
       expect(
         viewModel,
         RendezvousDetailsViewModel(
+          id: "1",
           tag: "Atelier",
           greenTag: false,
           date: '01 mars 2022',

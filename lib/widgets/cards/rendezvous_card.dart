@@ -183,7 +183,7 @@ extension RendezvousCardFromId on String {
       converter: (store) => RendezvousCardViewModel.create(store, stateSource, this),
       simpleCard: simpleCard,
       onTap: () {
-        context.trackEvent(EventType.RDV_DETAIL);
+        context.trackEvent(EventType.RDV_DETAIL); // todo
         Navigator.push(
           context,
           RendezvousDetailsPage.materialPageRoute(stateSource, this),
