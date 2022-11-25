@@ -118,8 +118,8 @@ class _PartageCard extends StatelessWidget {
     final item = this.item;
     if (item is OffreMessageItem) {
       _showOffreDetailsPage(context, item);
-    } else if (item is EventMessageItem) {
-      //_showEventDetailsPage(context, item);
+    } else if (item is EventMessageItem && 1 == 2) {
+      _showEventDetailsPage(context, item);
     }
   }
 
@@ -151,8 +151,10 @@ class _PartageCard extends StatelessWidget {
   void _showEventDetailsPage(BuildContext context, EventMessageItem item) {
     Navigator.push(
       context,
-      RendezvousDetailsPage.materialPageRoute(RendezvousStateSource.eventList,
-          item.idPartage),
+      RendezvousDetailsPage.materialPageRoute(
+        RendezvousStateSource.eventList,
+        item.idPartage,
+      ),
     );
   }
 }
