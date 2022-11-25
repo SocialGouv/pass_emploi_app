@@ -102,8 +102,10 @@ class _PartageCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(item.titrePartage, style: TextStyles.textBaseBold),
-                SizedBox(height: Margins.spacing_s),
-                _SeeSharedDetails(item),
+                if (item is OffreMessageItem) ...[
+                  SizedBox(height: Margins.spacing_s),
+                  _SeeSharedDetails(item),
+                ]
               ],
             ),
           ),
@@ -117,7 +119,7 @@ class _PartageCard extends StatelessWidget {
     if (item is OffreMessageItem) {
       _showOffreDetailsPage(context, item);
     } else if (item is EventMessageItem) {
-      _showEventDetailsPage(context, item);
+      //_showEventDetailsPage(context, item);
     }
   }
 
