@@ -14,33 +14,10 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 
-// todo n'avoir qu'un PartageMessageWidget en fait
+class PartageMessageWidget extends StatelessWidget {
+  final PartageMessageItem item;
 
-class EventMessageWidget extends StatelessWidget {
-  final EventMessageItem item;
-
-  EventMessageWidget(this.item);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 10, bottom: 10),
-      child: Column(
-        crossAxisAlignment: item.sender == Sender.conseiller ? CrossAxisAlignment.start : CrossAxisAlignment.end,
-        children: [
-          _MessageBubble(item: item),
-          SizedBox(height: Margins.spacing_xs),
-          Text(item.caption, style: TextStyles.textXsRegular())
-        ],
-      ),
-    );
-  }
-}
-
-class OffreMessageWidget extends StatelessWidget {
-  final OffreMessageItem item;
-
-  OffreMessageWidget(this.item);
+  PartageMessageWidget(this.item);
 
   @override
   Widget build(BuildContext context) {
