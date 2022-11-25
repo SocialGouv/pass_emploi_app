@@ -66,6 +66,8 @@ List<ChatItem> _messagesToChatItems(List<Message> messages, DateTime lastConseil
           return _pieceJointeItem(message);
         case MessageType.offre:
           return _offreMessageItem(message, lastConseillerReading);
+        case MessageType.event:
+          return _eventMessageItem(message, lastConseillerReading);
         case MessageType.inconnu:
           return InformationItem(Strings.unknownTypeTitle, Strings.unknownTypeDescription);
       }
@@ -79,6 +81,16 @@ ChatItem _offreMessageItem(Message message, DateTime lastConseillerReading) {
     idOffre: message.offre?.id ?? "",
     titreOffre: message.offre?.titre ?? "",
     type: message.offre?.type ?? OffreType.inconnu,
+    sender: message.sentBy,
+    caption: caption(message, lastConseillerReading),
+  );
+}
+
+ChatItem _eventMessageItem(Message message, DateTime lastConseillerReading) {
+  return EventMessageItem(
+    content: message.content,
+    idEvent: message.event?.id ?? "",
+    titreEvent: message.event?.titre ?? "",
     sender: message.sentBy,
     caption: caption(message, lastConseillerReading),
   );

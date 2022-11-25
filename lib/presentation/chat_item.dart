@@ -77,3 +77,22 @@ class OffreMessageItem extends ChatItem {
   @override
   List<Object?> get props => [content, idOffre, titreOffre, caption, sender, type];
 }
+
+class EventMessageItem extends ChatItem {
+  final String content;
+  final String idEvent;
+  final String titreEvent;
+  final String caption;
+  final Sender sender;
+
+  EventMessageItem({
+    required this.content,
+    required this.idEvent,
+    required this.titreEvent,
+    required this.caption,
+    required this.sender,
+  });
+
+  @override
+  List<Object?> get props => [content, idEvent, titreEvent, caption, sender];
+}
