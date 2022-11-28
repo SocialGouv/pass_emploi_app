@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/utils/uri_handler.dart';
 import 'package:redux/redux.dart';
 
 class RendezvousDetailsViewModel extends Equatable {
+  final String navbarTitle;
   final String id;
   final String tag;
   final bool greenTag;
@@ -23,6 +24,7 @@ class RendezvousDetailsViewModel extends Equatable {
   final String conseillerPresenceLabel;
   final Color conseillerPresenceColor;
   final bool isAnnule;
+  final bool isInscrit;
   final bool withConseillerPresencePart;
   final bool withDescriptionPart;
   final bool withModalityPart;
@@ -45,6 +47,7 @@ class RendezvousDetailsViewModel extends Equatable {
   final String? description;
 
   RendezvousDetailsViewModel({
+    required this.navbarTitle,
     required this.id,
     required this.tag,
     required this.greenTag,
@@ -52,6 +55,7 @@ class RendezvousDetailsViewModel extends Equatable {
     required this.hourAndDuration,
     required this.conseillerPresenceLabel,
     required this.conseillerPresenceColor,
+    required this.isInscrit,
     required this.isAnnule,
     required this.withConseillerPresencePart,
     required this.withDescriptionPart,
@@ -85,7 +89,9 @@ class RendezvousDetailsViewModel extends Equatable {
     final address = _address(rdv);
     final comment = (rdv.comment != null && rdv.comment!.trim().isNotEmpty) ? rdv.comment : null;
     final isConseillerPresent = rdv.withConseiller ?? false;
+    final isInscrit = rdv.inscrit ?? false;
     return RendezvousDetailsViewModel(
+      navbarTitle: _navbarTitle(source, rdv),
       id: rdv.id,
       tag: takeTypeLabelOrPrecision(rdv),
       greenTag: isRendezvousGreenTag(rdv),
@@ -96,12 +102,13 @@ class RendezvousDetailsViewModel extends Equatable {
       createur: _createur(rdv),
       conseillerPresenceLabel: isConseillerPresent ? Strings.conseillerIsPresent : Strings.conseillerIsNotPresent,
       conseillerPresenceColor: isConseillerPresent ? AppColors.secondary : AppColors.warning,
+      isInscrit: isInscrit,
       isAnnule: rdv.isAnnule,
       withConseillerPresencePart: _shouldDisplayConseillerPresence(rdv),
       withDescriptionPart: rdv.description != null || rdv.theme != null,
       withModalityPart: _withModalityPart(rdv),
-      withIfAbsentPart: source != RendezvousStateSource.eventList,
-      isShareable: source == RendezvousStateSource.eventList,
+      withIfAbsentPart: (source != RendezvousStateSource.eventList || isInscrit),
+      isShareable: (source == RendezvousStateSource.eventList && isInscrit == false),
       visioButtonState: _visioButtonState(rdv),
       visioRedirectUrl: rdv.visioRedirectUrl,
       trackingPageName: _trackingPageName(rdv.type.code),
@@ -120,6 +127,7 @@ class RendezvousDetailsViewModel extends Equatable {
   @override
   List<Object?> get props {
     return [
+      navbarTitle,
       id,
       tag,
       greenTag,
@@ -130,6 +138,7 @@ class RendezvousDetailsViewModel extends Equatable {
       createur,
       conseillerPresenceLabel,
       conseillerPresenceColor,
+      isInscrit,
       isAnnule,
       withConseillerPresencePart,
       withDescriptionPart,
@@ -237,4 +246,9 @@ String _trackingPageName(RendezvousTypeCode code) {
     case RendezvousTypeCode.AUTRE:
       return AnalyticsScreenNames.rendezvousAutre;
   }
+}
+
+String _navbarTitle(RendezvousStateSource source, Rendezvous rendezvous) {
+  if (source != RendezvousStateSource.eventList) return Strings.myRendezVous;
+  return rendezvous.inscrit == true ? Strings.myRendezVous : Strings.eventTitle;
 }

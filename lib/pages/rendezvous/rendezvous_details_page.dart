@@ -59,13 +59,17 @@ class RendezvousDetailsPage extends StatelessWidget {
     MatomoTracker.trackScreenWithName(viewModel.trackingPageName, "");
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: Strings.myRendezVous, context: context, withBackButton: true),
+      appBar: passEmploiAppBar(label: viewModel.navbarTitle, context: context, withBackButton: true),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(Margins.spacing_base),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              if (viewModel.isInscrit) ...[
+                _InscritTag(),
+                SizedBox(height: Margins.spacing_base),
+              ],
               RendezvousTag(viewModel.tag, viewModel.greenTag),
               SizedBox(height: Margins.spacing_base),
               _Header(viewModel),
@@ -359,6 +363,27 @@ class _Share extends StatelessWidget {
               );
             },
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _InscritTag extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: AppColors.accent1),
+      ),
+      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_xs, horizontal: Margins.spacing_base),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SvgPicture.asset(Drawables.icCalendar, color: AppColors.accent1),
+          SizedBox(width: Margins.spacing_s),
+          Text(Strings.eventVousEtesDejaInscrit, style: TextStyles.textSRegularWithColor(AppColors.accent1)),
         ],
       ),
     );

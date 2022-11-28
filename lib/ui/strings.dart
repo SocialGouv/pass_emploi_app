@@ -127,6 +127,7 @@ class Strings {
   static String semaineEnCours = "Semaine en cours";
 
   // Rendezvous
+  static String eventTitle = "Événement";
   static String myRendezVous = "Mon rendez-vous";
   static String rendezvousCardAnnule = "Annulé";
   static String rendezvousDetailsAnnule = "Rendez-vous annulé";
@@ -629,4 +630,5 @@ class Strings {
   static String eventListError = "Erreur lors de la récupération des événements";
   static String eventListEmpty = "Il n'y a actuellement aucun événement";
   static String eventListHeaderText = "Retrouver ici l’ensemble des évènements organisés par votre Mission locale";
+  static String eventVousEtesDejaInscrit = "Vous êtes déjà inscrit";
 }

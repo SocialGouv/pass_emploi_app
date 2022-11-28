@@ -66,7 +66,13 @@ class _Container extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (viewModel.isAnnule && simpleCard == false) _Annule(),
-                  RendezvousTag(viewModel.tag, viewModel.greenTag),
+                  Row(
+                    children: [
+                      RendezvousTag(viewModel.tag, viewModel.greenTag),
+                      Spacer(),
+                      if (viewModel.isInscrit) _InscritTag(),
+                    ],
+                  ),
                   _Date(viewModel.date),
                   if (viewModel.title != null && simpleCard == false) _Titre(viewModel.title!),
                   if (viewModel.subtitle != null && simpleCard == false) _SousTitre(viewModel.subtitle!),
@@ -190,6 +196,22 @@ extension RendezvousCardFromId on String {
           RendezvousDetailsPage.materialPageRoute(stateSource, this),
         );
       },
+    );
+  }
+}
+
+class _InscritTag extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        border: Border.all(color: AppColors.accent1),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SvgPicture.asset(Drawables.icCalendar, color: AppColors.accent1),
+      ),
     );
   }
 }
