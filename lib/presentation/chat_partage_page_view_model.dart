@@ -101,7 +101,7 @@ class ChatPartagePageViewModel extends Equatable {
     return ChatPartagePageViewModel(
       pageTitle: Strings.partageEventNavTitle,
       willShareTitle: Strings.souhaitDePartagerEvent,
-      defaultMessage: "",
+      defaultMessage: Strings.partageEventDefaultMessage,
       information: Strings.infoEventPartageChat,
       shareButtonTitle: Strings.partagerAuConseiller,
       shareableTitle: event.title ?? "",

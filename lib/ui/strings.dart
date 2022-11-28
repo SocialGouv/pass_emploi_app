@@ -332,6 +332,7 @@ class Strings {
   // Event partage
   static String infoEventPartageChat = "L’événement sera partagé à votre conseiller dans la messagerie";
   static String souhaitDePartagerEvent = "Ce que vous souhaitez partager";
+  static String partageEventDefaultMessage = "Bonjour, je vous partage un événement afin d’avoir votre avis";
   static String partagerAuConseiller = "Partager à mon conseiller";
   static String partageEventNavTitle = "Partage d’événement";
   static String partageEventSuccess =
