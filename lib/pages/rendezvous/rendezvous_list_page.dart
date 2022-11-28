@@ -3,6 +3,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
+import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_view_model.dart';
@@ -196,7 +197,11 @@ extension _RendezvousIdCards on List<String> {
     return map(
       (id) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: Margins.spacing_s),
-        child: id.rendezvousCard(context: context, stateSource: RendezvousStateSource.rendezvousList),
+        child: id.rendezvousCard(
+          context: context,
+          stateSource: RendezvousStateSource.rendezvousList,
+          trackedEvent: EventType.RDV_DETAIL,
+        ),
       ),
     ).toList();
   }

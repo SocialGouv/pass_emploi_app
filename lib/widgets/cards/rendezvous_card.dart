@@ -177,13 +177,14 @@ extension RendezvousCardFromId on String {
   Widget rendezvousCard({
     required BuildContext context,
     required RendezvousStateSource stateSource,
+    required EventType trackedEvent,
     bool simpleCard = false,
   }) {
     return RendezvousCard(
       converter: (store) => RendezvousCardViewModel.create(store, stateSource, this),
       simpleCard: simpleCard,
       onTap: () {
-        context.trackEvent(EventType.RDV_DETAIL); // todo
+        context.trackEvent(trackedEvent);
         Navigator.push(
           context,
           RendezvousDetailsPage.materialPageRoute(stateSource, this),

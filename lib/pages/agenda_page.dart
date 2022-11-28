@@ -412,7 +412,12 @@ extension _RendezvousCard on RendezvousEventAgenda {
   Widget rendezvousCard(BuildContext context, bool simpleCard) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Margins.spacing_s),
-      child: id.rendezvousCard(context: context, stateSource: RendezvousStateSource.agenda, simpleCard: simpleCard),
+      child: id.rendezvousCard(
+        context: context,
+        stateSource: RendezvousStateSource.agenda,
+        trackedEvent: EventType.RDV_DETAIL,
+        simpleCard: simpleCard,
+      ),
     );
   }
 }
