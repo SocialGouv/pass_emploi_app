@@ -66,6 +66,10 @@ class RendezvousDetailsPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              if (viewModel.isInscrit) ...[
+                _InscritTag(),
+                SizedBox(height: Margins.spacing_base),
+              ],
               RendezvousTag(viewModel.tag, viewModel.greenTag),
               SizedBox(height: Margins.spacing_base),
               _Header(viewModel),
@@ -359,6 +363,27 @@ class _Share extends StatelessWidget {
               );
             },
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class _InscritTag extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: AppColors.accent1),
+      ),
+      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_xs, horizontal: Margins.spacing_base),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SvgPicture.asset(Drawables.icCalendar, color: AppColors.accent1),
+          SizedBox(width: Margins.spacing_s),
+          Text(Strings.eventVousEtesDejaInscrit, style: TextStyles.textSRegularWithColor(AppColors.accent1)),
         ],
       ),
     );

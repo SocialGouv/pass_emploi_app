@@ -23,6 +23,7 @@ class RendezvousDetailsViewModel extends Equatable {
   final String conseillerPresenceLabel;
   final Color conseillerPresenceColor;
   final bool isAnnule;
+  final bool isInscrit;
   final bool withConseillerPresencePart;
   final bool withDescriptionPart;
   final bool withModalityPart;
@@ -52,6 +53,7 @@ class RendezvousDetailsViewModel extends Equatable {
     required this.hourAndDuration,
     required this.conseillerPresenceLabel,
     required this.conseillerPresenceColor,
+    required this.isInscrit,
     required this.isAnnule,
     required this.withConseillerPresencePart,
     required this.withDescriptionPart,
@@ -96,6 +98,7 @@ class RendezvousDetailsViewModel extends Equatable {
       createur: _createur(rdv),
       conseillerPresenceLabel: isConseillerPresent ? Strings.conseillerIsPresent : Strings.conseillerIsNotPresent,
       conseillerPresenceColor: isConseillerPresent ? AppColors.secondary : AppColors.warning,
+      isInscrit: rdv.inscrit ?? false,
       isAnnule: rdv.isAnnule,
       withConseillerPresencePart: _shouldDisplayConseillerPresence(rdv),
       withDescriptionPart: rdv.description != null || rdv.theme != null,
@@ -130,6 +133,7 @@ class RendezvousDetailsViewModel extends Equatable {
       createur,
       conseillerPresenceLabel,
       conseillerPresenceColor,
+      isInscrit,
       isAnnule,
       withConseillerPresencePart,
       withDescriptionPart,

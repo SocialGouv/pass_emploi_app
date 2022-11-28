@@ -623,6 +623,22 @@ void main() {
       expect(viewModel.withIfAbsentPart, false);
     });
 
+    test('should be inscrit when rendezvous is marked as inscrit', () {
+      // Given
+      final store = givenState().loggedInUser().succeedEventList([mockRendezvous(id: '1', isInscrit: true)]).store();
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(
+        store: store,
+        source: RendezvousStateSource.eventList,
+        rdvId: '1',
+        platform: Platform.IOS,
+      );
+
+      // Then
+      expect(viewModel.isInscrit, true);
+    });
+
     test('should be shareable if vm created from event list', () {
       // Given
       final store = givenState().loggedInUser().succeedEventList([mockRendezvous(id: '1')]).store();
@@ -676,6 +692,7 @@ void main() {
           hourAndDuration: '00:00 (30min)',
           conseillerPresenceLabel: 'Votre conseiller sera présent',
           conseillerPresenceColor: AppColors.secondary,
+          isInscrit: false,
           isAnnule: false,
           withConseillerPresencePart: true,
           withDescriptionPart: false,
