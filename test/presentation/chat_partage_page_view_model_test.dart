@@ -28,7 +28,7 @@ void main() {
       expect(viewModel.information, "L’événement sera partagé à votre conseiller dans la messagerie");
       expect(viewModel.shareButtonTitle, "Partager à mon conseiller");
       expect(viewModel.snackbarSuccessText,
-          "L’événement a été partagée à votre conseiller sur la messagerie de l’application");
+          "L’événement a été partagé à votre conseiller sur la messagerie de l’application");
       expect(viewModel.snackbarSuccessTracking, "events/detail?partage-conseiller=true");
     });
 
