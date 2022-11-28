@@ -3,8 +3,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/pages/immersion_details_page.dart';
 import 'package:pass_emploi_app/pages/offre_emploi_details_page.dart';
+import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/pages/service_civique/service_civique_detail_page.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
+import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -12,10 +14,10 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 
-class OffreMessageWidget extends StatelessWidget {
-  final OffreMessageItem item;
+class PartageMessageWidget extends StatelessWidget {
+  final PartageMessageItem item;
 
-  OffreMessageWidget(this.item);
+  PartageMessageWidget(this.item);
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,7 @@ class OffreMessageWidget extends StatelessWidget {
 }
 
 class _MessageBubble extends StatelessWidget {
-  final OffreMessageItem item;
+  final PartageMessageItem item;
 
   _MessageBubble({required this.item});
 
@@ -55,7 +57,7 @@ class _MessageBubble extends StatelessWidget {
         children: [
           _ContentMessage(content: item.content, sender: item.sender),
           SizedBox(height: Margins.spacing_base),
-          _OfferCard(titreOffre: item.titreOffre, offerId: item.idOffre, type: item.type),
+          _PartageCard(item: item),
         ],
       ),
     );
@@ -75,12 +77,10 @@ class _ContentMessage extends StatelessWidget {
   }
 }
 
-class _OfferCard extends StatelessWidget {
-  final String titreOffre;
-  final String offerId;
-  final OffreType type;
+class _PartageCard extends StatelessWidget {
+  final PartageMessageItem item;
 
-  _OfferCard({required this.titreOffre, required this.offerId, required this.type});
+  _PartageCard({required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -94,27 +94,18 @@ class _OfferCard extends StatelessWidget {
           borderRadius: BorderRadius.all(Radius.circular(16)),
         ),
         child: InkWell(
-          onTap: () => _showOffreDetailsPage(context),
+          onTap: () => _onTap(context),
           splashColor: AppColors.primaryLighten,
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(titreOffre, style: TextStyles.textBaseBold),
-                SizedBox(height: Margins.spacing_s),
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Expanded(child: Container()),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 4.0),
-                      child: Text(Strings.voirOffre, style: TextStyles.textSRegular()),
-                    ),
-                    SvgPicture.asset(Drawables.icChevronRight, color: AppColors.grey800)
-                  ],
-                )
+                Text(item.titrePartage, style: TextStyles.textBaseBold),
+                if (item is OffreMessageItem) ...[
+                  SizedBox(height: Margins.spacing_s),
+                  _SeeSharedDetails(item),
+                ]
               ],
             ),
           ),
@@ -123,28 +114,78 @@ class _OfferCard extends StatelessWidget {
     );
   }
 
-  void _showOffreDetailsPage(BuildContext context) {
-    switch (type) {
+  void _onTap(BuildContext context) {
+    final item = this.item;
+    if (item is OffreMessageItem) {
+      _showOffreDetailsPage(context, item);
+    } else if (item is EventMessageItem && 1 == 2) {
+      _showEventDetailsPage(context, item);
+    }
+  }
+
+  void _showOffreDetailsPage(BuildContext context, OffreMessageItem offreItem) {
+    switch (offreItem.type) {
       case OffreType.emploi:
         Navigator.push(
           context,
-          OffreEmploiDetailsPage.materialPageRoute(offerId, fromAlternance: false, showFavori: false),
+          OffreEmploiDetailsPage.materialPageRoute(offreItem.idPartage, fromAlternance: false, showFavori: false),
         );
         break;
       case OffreType.alternance:
         Navigator.push(
           context,
-          OffreEmploiDetailsPage.materialPageRoute(offerId, fromAlternance: true, showFavori: false),
+          OffreEmploiDetailsPage.materialPageRoute(offreItem.idPartage, fromAlternance: true, showFavori: false),
         );
         break;
       case OffreType.immersion:
-        Navigator.push(context, ImmersionDetailsPage.materialPageRoute(offerId));
+        Navigator.push(context, ImmersionDetailsPage.materialPageRoute(offreItem.idPartage));
         break;
       case OffreType.civique:
-        Navigator.push(context, ServiceCiviqueDetailPage.materialPageRoute(offerId));
+        Navigator.push(context, ServiceCiviqueDetailPage.materialPageRoute(offreItem.idPartage));
         break;
       case OffreType.inconnu:
         break;
     }
+  }
+
+  void _showEventDetailsPage(BuildContext context, EventMessageItem item) {
+    Navigator.push(
+      context,
+      RendezvousDetailsPage.materialPageRoute(
+        RendezvousStateSource.eventList,
+        item.idPartage,
+      ),
+    );
+  }
+}
+
+class _SeeSharedDetails extends StatelessWidget {
+  final PartageMessageItem item;
+
+  _SeeSharedDetails(this.item);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(child: Container()),
+        Padding(
+          padding: const EdgeInsets.only(right: 4.0),
+          child: Text(_title(), style: TextStyles.textSRegular()),
+        ),
+        SvgPicture.asset(Drawables.icChevronRight, color: AppColors.grey800)
+      ],
+    );
+  }
+
+  String _title() {
+    if (item is OffreMessageItem) {
+      return Strings.voirOffre;
+    } else if (item is EventMessageItem) {
+      return Strings.voirEvent;
+    }
+    return "";
   }
 }

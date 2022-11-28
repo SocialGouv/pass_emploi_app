@@ -120,7 +120,7 @@ class JsonRendezvous {
 }
 
 RendezvousType _rendezvousType(dynamic json) {
-  return RendezvousType(_parseRendezvousTypeCode(json['code'] as String), json['label'] as String);
+  return RendezvousType(parseRendezvousTypeCode(json['code'] as String), json['label'] as String);
 }
 
 String? _title(dynamic json) {
@@ -129,7 +129,7 @@ String? _title(dynamic json) {
   return title;
 }
 
-RendezvousTypeCode _parseRendezvousTypeCode(String rendezvousTypeCode) {
+RendezvousTypeCode parseRendezvousTypeCode(String rendezvousTypeCode) {
   return RendezvousTypeCode.values.firstWhere(
     (e) => e.name == rendezvousTypeCode,
     orElse: () => RendezvousTypeCode.AUTRE,

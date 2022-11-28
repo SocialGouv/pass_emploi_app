@@ -33,6 +33,7 @@ class Strings {
   static String unknownTypeTitle = "Le message est inaccessible";
   static String unknownTypeDescription = "Pour avoir l'accès au contenu veuillez mettre à jour l'application";
   static String voirOffre = "Voir l'offre";
+  static String voirEvent = "Voir l'événement";
 
   static String chatWith(firstName) => "Discuter avec $firstName";
 
@@ -161,6 +162,7 @@ class Strings {
   static String seeMoreRendezvous = "Voir plus de rendez-vous";
   static String individualInterview = "Entretien individuel conseiller";
   static String publicInfo = "Information collective";
+  static String shareToConseiller = "Partager à mon conseiller";
 
   static String rendezvousSinceDate(String date) => "depuis le $date";
 
@@ -318,7 +320,7 @@ class Strings {
   static String partageOffreSuccess =
       "L’offre d’emploi a été partagée à votre conseiller sur la messagerie de l’application";
   static String messagePourConseiller = "Message destiné à votre conseiller";
-  static String offrePartageChat = "L’offre d’emploi sera partagée à votre conseiller dans la messagerie";
+  static String infoOffrePartageChat = "L’offre d’emploi sera partagée à votre conseiller dans la messagerie";
   static String partagerOffreEmploi = "Partager l’offre d’emploi";
 
   // Alternance
@@ -326,6 +328,15 @@ class Strings {
   static String alternanceTitle = "Offres d'alternance";
   static String partagerOffreAlternance = "Partager l’offre d’alternance";
   static String partageOffreAlternanceNavTitle = "Partage de l’offre d’alternance";
+
+  // Event partage
+  static String infoEventPartageChat = "L’événement sera partagé à votre conseiller dans la messagerie";
+  static String souhaitDePartagerEvent = "Ce que vous souhaitez partager";
+  static String partageEventDefaultMessage = "Bonjour, je vous partage un événement afin d’avoir votre avis";
+  static String partagerAuConseiller = "Partager à mon conseiller";
+  static String partageEventNavTitle = "Partage d’événement";
+  static String partageEventSuccess =
+      "L’événement a été partagé à votre conseiller sur la messagerie de l’application";
 
   // Immersion
   static String immersionLabel = "Découvrez un métier en immersion dans une entreprise.";

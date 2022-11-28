@@ -241,6 +241,7 @@ Rendezvous mockRendezvous({
   bool isInVisio = false,
   bool isAnnule = false,
   RendezvousType type = const RendezvousType(RendezvousTypeCode.AUTRE, ''),
+  String? title,
   bool? withConseiller,
   DateTime? date,
   String? modality,
@@ -258,6 +259,7 @@ Rendezvous mockRendezvous({
 }) {
   return Rendezvous(
     id: id,
+    title: title,
     date: date ?? DateTime.now(),
     duration: duration,
     modality: modality,

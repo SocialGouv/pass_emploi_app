@@ -3,11 +3,12 @@ import 'dart:async';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_actions.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
-import 'package:pass_emploi_app/features/chat/partage_offre/partage_offre_actions.dart';
+import 'package:pass_emploi_app/features/chat/partage/chat_partage_actions.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/features/mode_demo/mode_demo_chat_repository.dart';
 import 'package:pass_emploi_app/features/tracking/tracking_event_action.dart';
+import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
@@ -41,6 +42,8 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
           _repository.sendMessage(userId, action.message);
         } else if (action is ChatPartagerOffreAction) {
           _partagerOffre(store, userId, action.offre);
+        } else if (action is ChatPartagerEventAction) {
+          _partagerEvent(store, userId, action.eventPartage);
         } else if (action is LastMessageSeenAction) {
           _repository.setLastMessageSeen(userId);
         }
@@ -49,13 +52,24 @@ class ChatMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _partagerOffre(Store<AppState> store, String userId, OffrePartagee offre) async {
-    store.dispatch(ChatPartageOffreLoadingAction());
+    store.dispatch(ChatPartageLoadingAction());
     final succeed = await _repository.sendOffrePartagee(userId, offre);
     if (succeed) {
       store.dispatch(TrackingEventAction(EventType.MESSAGE_OFFRE_PARTAGEE));
-      store.dispatch(ChatPartageOffreSuccessAction());
+      store.dispatch(ChatPartageSuccessAction());
     } else {
-      store.dispatch(ChatPartageOffreFailureAction());
+      store.dispatch(ChatPartageFailureAction());
+    }
+  }
+
+  void _partagerEvent(Store<AppState> store, String userId, EventPartage eventPartage) async {
+    store.dispatch(ChatPartageLoadingAction());
+    final succeed = await _repository.sendEventPartage(userId, eventPartage);
+    if (succeed) {
+      store.dispatch(TrackingEventAction(EventType.ANIMATION_COLLECTIVE_PARTAGEE));
+      store.dispatch(ChatPartageSuccessAction());
+    } else {
+      store.dispatch(ChatPartageFailureAction());
     }
   }
 

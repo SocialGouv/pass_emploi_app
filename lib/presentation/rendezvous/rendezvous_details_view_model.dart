@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/utils/uri_handler.dart';
 import 'package:redux/redux.dart';
 
 class RendezvousDetailsViewModel extends Equatable {
+  final String id;
   final String tag;
   final bool greenTag;
   final String date;
@@ -26,6 +27,7 @@ class RendezvousDetailsViewModel extends Equatable {
   final bool withDescriptionPart;
   final bool withModalityPart;
   final bool withIfAbsentPart;
+  final bool isShareable;
   final VisioButtonState visioButtonState;
   final String trackingPageName;
   final String? title;
@@ -43,6 +45,7 @@ class RendezvousDetailsViewModel extends Equatable {
   final String? description;
 
   RendezvousDetailsViewModel({
+    required this.id,
     required this.tag,
     required this.greenTag,
     required this.date,
@@ -54,6 +57,7 @@ class RendezvousDetailsViewModel extends Equatable {
     required this.withDescriptionPart,
     required this.withModalityPart,
     required this.withIfAbsentPart,
+    required this.isShareable,
     required this.visioButtonState,
     required this.trackingPageName,
     this.title,
@@ -82,6 +86,7 @@ class RendezvousDetailsViewModel extends Equatable {
     final comment = (rdv.comment != null && rdv.comment!.trim().isNotEmpty) ? rdv.comment : null;
     final isConseillerPresent = rdv.withConseiller ?? false;
     return RendezvousDetailsViewModel(
+      id: rdv.id,
       tag: takeTypeLabelOrPrecision(rdv),
       greenTag: isRendezvousGreenTag(rdv),
       date: rdv.date.toDayWithFullMonthContextualized(),
@@ -96,6 +101,7 @@ class RendezvousDetailsViewModel extends Equatable {
       withDescriptionPart: rdv.description != null || rdv.theme != null,
       withModalityPart: _withModalityPart(rdv),
       withIfAbsentPart: source != RendezvousStateSource.eventList,
+      isShareable: source == RendezvousStateSource.eventList,
       visioButtonState: _visioButtonState(rdv),
       visioRedirectUrl: rdv.visioRedirectUrl,
       trackingPageName: _trackingPageName(rdv.type.code),
@@ -114,6 +120,7 @@ class RendezvousDetailsViewModel extends Equatable {
   @override
   List<Object?> get props {
     return [
+      id,
       tag,
       greenTag,
       date,
@@ -128,6 +135,7 @@ class RendezvousDetailsViewModel extends Equatable {
       withDescriptionPart,
       withModalityPart,
       withIfAbsentPart,
+      isShareable,
       visioButtonState,
       trackingPageName,
       title,

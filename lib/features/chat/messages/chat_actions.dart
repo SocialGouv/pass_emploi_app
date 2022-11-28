@@ -1,3 +1,5 @@
+import 'package:equatable/equatable.dart';
+import 'package:pass_emploi_app/models/event_partage.dart';
 import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_partagee.dart';
 
@@ -25,6 +27,15 @@ class ChatPartagerOffreAction {
   final OffrePartagee offre;
 
   ChatPartagerOffreAction(this.offre);
+}
+
+class ChatPartagerEventAction extends Equatable {
+  final EventPartage eventPartage;
+
+  ChatPartagerEventAction(this.eventPartage);
+
+  @override
+  List<Object?> get props => [eventPartage];
 }
 
 class LastMessageSeenAction {}

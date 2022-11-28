@@ -77,6 +77,8 @@ class AnalyticsScreenNames {
   static const immersionFavoris = "favoris/list/immersion";
   static const profil = "profil";
 
+  static const eventPartagePageSuccess = "events/detail?partage-conseiller=true";
+
   static const savedSearchEmploiList = "/saved_searches/emploi/list";
   static const savedSearchAlternanceList = "/saved_searches/alternance/list";
   static const savedSearchImmersionList = "/saved_searches/immersion/list";

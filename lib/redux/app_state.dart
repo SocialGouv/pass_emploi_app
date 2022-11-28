@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
-import 'package:pass_emploi_app/features/chat/partage_offre/partage_offre_state.dart';
+import 'package:pass_emploi_app/features/chat/partage/chat_partage_state.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
 import 'package:pass_emploi_app/features/chat/preview_file/preview_file_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
@@ -101,7 +101,7 @@ class AppState extends Equatable {
   final MatomoLoggingState matomoLoggingState;
   final PreviewFileState previewFileState;
   final ChatBrouillonState chatBrouillonState;
-  final ChatPartageOffreState chatPartageOffreState;
+  final ChatPartageState chatPartageState;
   final TutorialState tutorialState;
   final PartageActiviteState partageActiviteState;
   final PartageActiviteUpdateState partageActiviteUpdateState;
@@ -157,7 +157,7 @@ class AppState extends Equatable {
     required this.matomoLoggingState,
     required this.previewFileState,
     required this.chatBrouillonState,
-    required this.chatPartageOffreState,
+    required this.chatPartageState,
     required this.tutorialState,
     required this.partageActiviteState,
     required this.partageActiviteUpdateState,
@@ -214,7 +214,7 @@ class AppState extends Equatable {
     final MatomoLoggingState? matomoLoggingState,
     final PreviewFileState? previewFileState,
     final ChatBrouillonState? chatBrouillonState,
-    final ChatPartageOffreState? chatPartageOffreState,
+    final ChatPartageState? chatPartageState,
     final TutorialState? tutorialState,
     final PartageActiviteState? partageActiviteState,
     final PartageActiviteUpdateState? partageActiviteUpdateState,
@@ -271,7 +271,7 @@ class AppState extends Equatable {
       matomoLoggingState: matomoLoggingState ?? this.matomoLoggingState,
       previewFileState: previewFileState ?? this.previewFileState,
       chatBrouillonState: chatBrouillonState ?? this.chatBrouillonState,
-      chatPartageOffreState: chatPartageOffreState ?? this.chatPartageOffreState,
+      chatPartageState: chatPartageState ?? this.chatPartageState,
       tutorialState: tutorialState ?? this.tutorialState,
       partageActiviteState: partageActiviteState ?? this.partageActiviteState,
       partageActiviteUpdateState: partageActiviteUpdateState ?? this.partageActiviteUpdateState,
@@ -330,7 +330,7 @@ class AppState extends Equatable {
       matomoLoggingState: MatomoLoggingState([]),
       previewFileState: PreviewFileNotInitializedState(),
       chatBrouillonState: ChatBrouillonState(null),
-      chatPartageOffreState: ChatPartageOffreState.notInitialized,
+      chatPartageState: ChatPartageState.notInitialized,
       tutorialState: TutorialNotInitializedState(),
       partageActiviteState: PartageActiviteNotInitializedState(),
       partageActiviteUpdateState: PartageActiviteUpdateNotInitializedState(),
@@ -382,7 +382,7 @@ class AppState extends Equatable {
         piecesJointesState,
         previewFileState,
         chatBrouillonState,
-        chatPartageOffreState,
+        chatPartageState,
         tutorialState,
         partageActiviteState,
         partageActiviteUpdateState,

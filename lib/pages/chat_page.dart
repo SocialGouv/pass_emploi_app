@@ -20,7 +20,7 @@ import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_information_widget.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_message_widget.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_piece_jointe_widget.dart';
-import 'package:pass_emploi_app/widgets/chat/offre_message_widget.dart';
+import 'package:pass_emploi_app/widgets/chat/partage_message_widget.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/loader.dart';
@@ -119,20 +119,15 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
             padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 100.0),
             children: viewModel.items.reversed.map((item) {
               if (item is DayItem) {
-                return Center(
-                  child: Text(
-                    item.dayLabel,
-                    style: TextStyles.textSRegular(),
-                  ),
-                );
-              } else if (item is MessageItem) {
+                return Center(child: Text(item.dayLabel, style: TextStyles.textSRegular()));
+              } else if (item is UserMessageItem) {
                 return ChatMessageWidget(item);
               } else if (item is InformationItem) {
                 return ChatInformationWidget(item.title, item.description);
               } else if (item is PieceJointeConseillerMessageItem) {
                 return ChatPieceJointeWidget(item);
-              } else if (item is OffreMessageItem) {
-                return OffreMessageWidget(item);
+              } else if (item is PartageMessageItem) {
+                return PartageMessageWidget(item);
               } else {
                 return Container();
               }

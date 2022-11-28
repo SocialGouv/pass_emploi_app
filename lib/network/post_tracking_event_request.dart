@@ -19,6 +19,8 @@ enum EventType {
   OFFRE_SERVICE_CIVIQUE_PARTAGEE,
   ACTION_LISTE,
   ACTION_DETAIL,
+  ANIMATION_COLLECTIVE_PARTAGEE,
+  ANIMATION_COLLECTIVE_AFFICHEE,
   RDV_DETAIL
 }
 
@@ -99,6 +101,10 @@ class PostTrackingEvent extends JsonSerializable {
         return "ACTION_LISTE";
       case EventType.ACTION_DETAIL:
         return "ACTION_DETAIL";
+      case EventType.ANIMATION_COLLECTIVE_PARTAGEE:
+        return "ANIMATION_COLLECTIVE_PARTAGEE";
+      case EventType.ANIMATION_COLLECTIVE_AFFICHEE:
+        return "ANIMATION_COLLECTIVE_AFFICHEE";
       case EventType.RDV_DETAIL:
         return "RDV_DETAIL";
     }
