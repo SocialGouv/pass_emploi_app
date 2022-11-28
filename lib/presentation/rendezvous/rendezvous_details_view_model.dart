@@ -15,6 +15,7 @@ import 'package:pass_emploi_app/utils/uri_handler.dart';
 import 'package:redux/redux.dart';
 
 class RendezvousDetailsViewModel extends Equatable {
+  final String navbarTitle;
   final String id;
   final String tag;
   final bool greenTag;
@@ -46,6 +47,7 @@ class RendezvousDetailsViewModel extends Equatable {
   final String? description;
 
   RendezvousDetailsViewModel({
+    required this.navbarTitle,
     required this.id,
     required this.tag,
     required this.greenTag,
@@ -89,6 +91,7 @@ class RendezvousDetailsViewModel extends Equatable {
     final isConseillerPresent = rdv.withConseiller ?? false;
     final isInscrit = rdv.inscrit ?? false;
     return RendezvousDetailsViewModel(
+      navbarTitle: _navbarTitle(source, rdv),
       id: rdv.id,
       tag: takeTypeLabelOrPrecision(rdv),
       greenTag: isRendezvousGreenTag(rdv),
@@ -124,6 +127,7 @@ class RendezvousDetailsViewModel extends Equatable {
   @override
   List<Object?> get props {
     return [
+      navbarTitle,
       id,
       tag,
       greenTag,
@@ -242,4 +246,9 @@ String _trackingPageName(RendezvousTypeCode code) {
     case RendezvousTypeCode.AUTRE:
       return AnalyticsScreenNames.rendezvousAutre;
   }
+}
+
+String _navbarTitle(RendezvousStateSource source, Rendezvous rendezvous) {
+  if (source != RendezvousStateSource.eventList) return Strings.myRendezVous;
+  return rendezvous.inscrit == true ? Strings.myRendezVous : Strings.eventTitle;
 }

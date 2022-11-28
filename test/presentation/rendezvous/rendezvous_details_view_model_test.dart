@@ -687,6 +687,22 @@ void main() {
       expect(viewModel.isShareable, false);
     });
 
+    test('should display "événement" page title if vm created from event list and is not inscrit', () {
+      // Given
+      final store = givenState().loggedInUser().succeedEventList([mockRendezvous(id: '1', isInscrit: false)]).store();
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(
+        store: store,
+        source: RendezvousStateSource.eventList,
+        rdvId: '1',
+        platform: Platform.IOS,
+      );
+
+      // Then
+      expect(viewModel.navbarTitle, "Événement");
+    });
+
     test('full view model test', () {
       // Given
       final store = _store(Rendezvous(
@@ -717,6 +733,7 @@ void main() {
       expect(
         viewModel,
         RendezvousDetailsViewModel(
+          navbarTitle: "Mon rendez-vous",
           id: "1",
           tag: "Atelier",
           greenTag: false,

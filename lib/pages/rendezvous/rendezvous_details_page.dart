@@ -59,7 +59,7 @@ class RendezvousDetailsPage extends StatelessWidget {
     MatomoTracker.trackScreenWithName(viewModel.trackingPageName, "");
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: Strings.myRendezVous, context: context, withBackButton: true),
+      appBar: passEmploiAppBar(label: viewModel.navbarTitle, context: context, withBackButton: true),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(Margins.spacing_base),

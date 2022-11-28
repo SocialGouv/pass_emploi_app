@@ -127,6 +127,7 @@ class Strings {
   static String semaineEnCours = "Semaine en cours";
 
   // Rendezvous
+  static String eventTitle = "Événement";
   static String myRendezVous = "Mon rendez-vous";
   static String rendezvousCardAnnule = "Annulé";
   static String rendezvousDetailsAnnule = "Rendez-vous annulé";
