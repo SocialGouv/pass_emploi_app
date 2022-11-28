@@ -228,7 +228,7 @@ void main() {
         modality: 'par téléphone',
         isInVisio: false,
         withConseiller: false,
-        inscrit: true,
+        estInscrit: true,
         isAnnule: false,
         organism: 'Entreprise Bio Carburant',
         type: RendezvousType(RendezvousTypeCode.ATELIER, 'Atelier'),

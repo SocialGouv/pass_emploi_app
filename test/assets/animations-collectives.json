@@ -27,7 +27,7 @@
       "prenom": "Joe",
       "nom": "Pesci"
     },
-    "inscrit": true
+    "estInscrit": true
   },
   {
     "id": "2d663392-b9ff-4b20-81ca-70a3c779e300",
@@ -49,7 +49,7 @@
     "organisme": "Entreprise Bio Carburant",
     "adresse": "1 rue de la Boétie, 67000 Strasbourg",
     "precision": "Visite",
-    "inscrit": false
+    "estInscrit": false
   },
   {
     "id": "2d663392-b9ff-4b20-81ca-70a3c779e300",

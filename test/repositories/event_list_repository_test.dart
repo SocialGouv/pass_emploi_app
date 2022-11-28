@@ -47,13 +47,13 @@ void main() {
                 comment: 'Amener votre CV',
                 conseiller: Conseiller(id: '1', firstName: 'Nils', lastName: 'Tavernier'),
                 createur: Conseiller(id: '2', firstName: 'Joe', lastName: 'Pesci'),
-                inscrit: true,
+                estInscrit: true,
               ),
             );
 
-            expect(result?[0].inscrit, true);
-            expect(result?[1].inscrit, false);
-            expect(result?[2].inscrit, null);
+            expect(result?[0].estInscrit, true);
+            expect(result?[1].estInscrit, false);
+            expect(result?[2].estInscrit, null);
           });
         });
       });

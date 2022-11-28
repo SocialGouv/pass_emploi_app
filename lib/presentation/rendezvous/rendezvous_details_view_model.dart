@@ -89,7 +89,7 @@ class RendezvousDetailsViewModel extends Equatable {
     final address = _address(rdv);
     final comment = (rdv.comment != null && rdv.comment!.trim().isNotEmpty) ? rdv.comment : null;
     final isConseillerPresent = rdv.withConseiller ?? false;
-    final isInscrit = rdv.inscrit ?? false;
+    final isInscrit = rdv.estInscrit ?? false;
     return RendezvousDetailsViewModel(
       navbarTitle: _navbarTitle(source, rdv),
       id: rdv.id,
@@ -250,5 +250,5 @@ String _trackingPageName(RendezvousTypeCode code) {
 
 String _navbarTitle(RendezvousStateSource source, Rendezvous rendezvous) {
   if (source != RendezvousStateSource.eventList) return Strings.myRendezVous;
-  return rendezvous.inscrit == true ? Strings.myRendezVous : Strings.eventTitle;
+  return rendezvous.estInscrit == true ? Strings.myRendezVous : Strings.eventTitle;
 }

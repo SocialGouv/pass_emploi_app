@@ -21,7 +21,7 @@ class Rendezvous extends Equatable {
   final String? precision;
   final Conseiller? conseiller;
   final Conseiller? createur;
-  final bool? inscrit;
+  final bool? estInscrit;
 
   Rendezvous({
     required this.id,
@@ -43,7 +43,7 @@ class Rendezvous extends Equatable {
     this.precision,
     this.conseiller,
     this.createur,
-    this.inscrit,
+    this.estInscrit,
   });
 
   RendezvousModalityType modalityType() {
@@ -73,7 +73,7 @@ class Rendezvous extends Equatable {
       precision,
       conseiller,
       createur,
-      inscrit,
+      estInscrit,
     ];
   }
 }

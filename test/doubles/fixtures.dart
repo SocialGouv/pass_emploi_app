@@ -265,7 +265,7 @@ Rendezvous mockRendezvous({
     duration: duration,
     modality: modality,
     isInVisio: isInVisio,
-    inscrit: isInscrit,
+    estInscrit: isInscrit,
     isAnnule: isAnnule,
     type: type,
     withConseiller: withConseiller,
