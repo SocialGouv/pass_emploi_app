@@ -607,9 +607,9 @@ void main() {
       expect(viewModel.withModalityPart, isFalse);
     });
 
-    test('should not display absent part if vm created from event list', () {
+    test('should not display absent part if vm created from event list and is not inscrit', () {
       // Given
-      final store = givenState().loggedInUser().succeedEventList([mockRendezvous(id: '1')]).store();
+      final store = givenState().loggedInUser().succeedEventList([mockRendezvous(id: '1', isInscrit: false)]).store();
 
       // When
       final viewModel = RendezvousDetailsViewModel.create(
@@ -621,6 +621,22 @@ void main() {
 
       // Then
       expect(viewModel.withIfAbsentPart, false);
+    });
+
+    test('should display absent part if vm created from event list and is inscrit', () {
+      // Given
+      final store = givenState().loggedInUser().succeedEventList([mockRendezvous(id: '1', isInscrit: true)]).store();
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(
+        store: store,
+        source: RendezvousStateSource.eventList,
+        rdvId: '1',
+        platform: Platform.IOS,
+      );
+
+      // Then
+      expect(viewModel.withIfAbsentPart, true);
     });
 
     test('should be inscrit when rendezvous is marked as inscrit', () {
@@ -639,9 +655,9 @@ void main() {
       expect(viewModel.isInscrit, true);
     });
 
-    test('should be shareable if vm created from event list', () {
+    test('should be shareable if vm created from event list and is not inscrit', () {
       // Given
-      final store = givenState().loggedInUser().succeedEventList([mockRendezvous(id: '1')]).store();
+      final store = givenState().loggedInUser().succeedEventList([mockRendezvous(id: '1', isInscrit: false)]).store();
 
       // When
       final viewModel = RendezvousDetailsViewModel.create(
@@ -653,6 +669,22 @@ void main() {
 
       // Then
       expect(viewModel.isShareable, true);
+    });
+
+    test('should not be shareable if vm created from event list and is inscrit', () {
+      // Given
+      final store = givenState().loggedInUser().succeedEventList([mockRendezvous(id: '1', isInscrit: true)]).store();
+
+      // When
+      final viewModel = RendezvousDetailsViewModel.create(
+        store: store,
+        source: RendezvousStateSource.eventList,
+        rdvId: '1',
+        platform: Platform.IOS,
+      );
+
+      // Then
+      expect(viewModel.isShareable, false);
     });
 
     test('full view model test', () {

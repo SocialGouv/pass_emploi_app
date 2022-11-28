@@ -87,6 +87,7 @@ class RendezvousDetailsViewModel extends Equatable {
     final address = _address(rdv);
     final comment = (rdv.comment != null && rdv.comment!.trim().isNotEmpty) ? rdv.comment : null;
     final isConseillerPresent = rdv.withConseiller ?? false;
+    final isInscrit = rdv.inscrit ?? false;
     return RendezvousDetailsViewModel(
       id: rdv.id,
       tag: takeTypeLabelOrPrecision(rdv),
@@ -98,13 +99,13 @@ class RendezvousDetailsViewModel extends Equatable {
       createur: _createur(rdv),
       conseillerPresenceLabel: isConseillerPresent ? Strings.conseillerIsPresent : Strings.conseillerIsNotPresent,
       conseillerPresenceColor: isConseillerPresent ? AppColors.secondary : AppColors.warning,
-      isInscrit: rdv.inscrit ?? false,
+      isInscrit: isInscrit,
       isAnnule: rdv.isAnnule,
       withConseillerPresencePart: _shouldDisplayConseillerPresence(rdv),
       withDescriptionPart: rdv.description != null || rdv.theme != null,
       withModalityPart: _withModalityPart(rdv),
-      withIfAbsentPart: source != RendezvousStateSource.eventList,
-      isShareable: source == RendezvousStateSource.eventList,
+      withIfAbsentPart: (source != RendezvousStateSource.eventList || isInscrit),
+      isShareable: (source == RendezvousStateSource.eventList && isInscrit == false),
       visioButtonState: _visioButtonState(rdv),
       visioRedirectUrl: rdv.visioRedirectUrl,
       trackingPageName: _trackingPageName(rdv.type.code),
