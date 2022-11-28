@@ -97,6 +97,7 @@ String? _getFileName(String url, String query) {
   if (url.removeLastPath().endsWith("/offres-immersion")) return "immersion_detail";
   if (url.removeLastPath().endsWith("/offres-emploi")) return "offre_emploi_detail";
   if (url.removeLastPath().endsWith("/jeunes")) return "jeune_detail";
+  if (url.contains("/animations-collectives")) return "event_list";
   return null;
 }
 
@@ -104,7 +105,6 @@ extension _UrlExtensions on String {
   bool isSupposedToBeMocked() {
     return !contains("referentiels/communes-et-departements") &&
         !contains("fichiers") &&
-        !contains("animations-collectives") &&
         !contains("referentiels/metiers");
   }
 
