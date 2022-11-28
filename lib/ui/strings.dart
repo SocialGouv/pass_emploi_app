@@ -336,7 +336,7 @@ class Strings {
   static String partagerAuConseiller = "Partager à mon conseiller";
   static String partageEventNavTitle = "Partage d’événement";
   static String partageEventSuccess =
-      "L’événement a été partagée à votre conseiller sur la messagerie de l’application";
+      "L’événement a été partagé à votre conseiller sur la messagerie de l’application";
 
   // Immersion
   static String immersionLabel = "Découvrez un métier en immersion dans une entreprise.";
