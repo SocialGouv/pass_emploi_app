@@ -174,6 +174,7 @@ void main() {
           id: '1',
           tag: 'Atelier',
           date: 'Le 23/12/2021 à 10h20',
+          isInscrit: false,
           isAnnule: false,
           title: 'Super bio',
           subtitle: 'Par téléphone',
@@ -208,6 +209,43 @@ void main() {
           id: '1',
           tag: 'Atelier',
           date: 'Le 23/12/2021 à 10h20',
+          isInscrit: false,
+          isAnnule: false,
+          title: 'Super bio',
+          subtitle: 'Par téléphone',
+          greenTag: false,
+        ),
+      );
+    });
+
+    test('full view model test from event list', () {
+      // Given
+      final rdv = Rendezvous(
+        id: '1',
+        date: DateTime(2021, 12, 23, 10, 20),
+        title: "Super bio",
+        duration: 60,
+        modality: 'par téléphone',
+        isInVisio: false,
+        withConseiller: false,
+        inscrit: true,
+        isAnnule: false,
+        organism: 'Entreprise Bio Carburant',
+        type: RendezvousType(RendezvousTypeCode.ATELIER, 'Atelier'),
+      );
+      final store = givenState().loggedInUser().succeedEventList([rdv]).store();
+
+      // When
+      final viewModel = RendezvousCardViewModel.create(store, RendezvousStateSource.eventList, '1');
+
+      // Then
+      expect(
+        viewModel,
+        RendezvousCardViewModel(
+          id: '1',
+          tag: 'Atelier',
+          date: 'Le 23/12/2021 à 10h20',
+          isInscrit: true,
           isAnnule: false,
           title: 'Super bio',
           subtitle: 'Par téléphone',
