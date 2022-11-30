@@ -138,7 +138,8 @@ class Strings {
 
   static String noUpcomingRendezVous =
       "Vous n’avez pas de rendez-vous prévus.\nContactez votre conseiller pour prendre rendez-vous";
-  static String rendezVousError = "Erreur lors de la récupération de vos rendez-vous";
+  static String rendezVousListError = "Erreur lors de la récupération de vos rendez-vous";
+  static String rendezVousDetailsError = "Erreur lors de la récupération de l'évènement";
   static String conseillerIsPresent = "Votre conseiller sera présent";
   static String conseillerIsNotPresent = "Votre conseiller ne sera pas présent";
   static String commentWithoutConseiller = "Commentaire de votre conseiller";

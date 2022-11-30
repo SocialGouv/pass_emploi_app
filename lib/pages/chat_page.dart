@@ -23,7 +23,6 @@ import 'package:pass_emploi_app/widgets/chat/chat_piece_jointe_widget.dart';
 import 'package:pass_emploi_app/widgets/chat/partage_message_widget.dart';
 import 'package:pass_emploi_app/widgets/default_animated_switcher.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
-import 'package:pass_emploi_app/widgets/loader.dart';
 import 'package:pass_emploi_app/widgets/preview_file_invisible_handler.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
@@ -102,7 +101,7 @@ class _ChatPageState extends State<ChatPage> with WidgetsBindingObserver {
       case DisplayState.CONTENT:
         return _content(context, viewModel);
       case DisplayState.LOADING:
-        return loader();
+        return Center(child: CircularProgressIndicator());
       default:
         return Center(child: Retry(Strings.chatError, () => viewModel.onRetry()));
     }

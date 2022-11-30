@@ -1,8 +1,12 @@
 import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
+import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_actions.dart';
+import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_view_model_helper.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -15,6 +19,7 @@ import 'package:pass_emploi_app/utils/uri_handler.dart';
 import 'package:redux/redux.dart';
 
 class RendezvousDetailsViewModel extends Equatable {
+  final DisplayState displayState;
   final String navbarTitle;
   final String id;
   final String tag;
@@ -31,7 +36,8 @@ class RendezvousDetailsViewModel extends Equatable {
   final bool withIfAbsentPart;
   final bool isShareable;
   final VisioButtonState visioButtonState;
-  final String trackingPageName;
+  final Function() onRetry;
+  final String? trackingPageName;
   final String? title;
   final String? commentTitle;
   final String? comment;
@@ -47,6 +53,7 @@ class RendezvousDetailsViewModel extends Equatable {
   final String? description;
 
   RendezvousDetailsViewModel({
+    required this.displayState,
     required this.navbarTitle,
     required this.id,
     required this.tag,
@@ -63,7 +70,8 @@ class RendezvousDetailsViewModel extends Equatable {
     required this.withIfAbsentPart,
     required this.isShareable,
     required this.visioButtonState,
-    required this.trackingPageName,
+    required this.onRetry,
+    this.trackingPageName,
     this.title,
     this.commentTitle,
     this.comment,
@@ -81,16 +89,18 @@ class RendezvousDetailsViewModel extends Equatable {
 
   factory RendezvousDetailsViewModel.create({
     required Store<AppState> store,
-    required RendezvousStateSource source,
+    required RendezvousStateSource? source,
     required String rdvId,
     required Platform platform,
   }) {
-    final rdv = getRendezvous(store, source, rdvId);
+    final rdv = _getRendezvous(store, source, rdvId);
+    if (rdv == null) return RendezvousDetailsViewModel._createBlankRendezvous(store, rdvId);
     final address = _address(rdv);
     final comment = (rdv.comment != null && rdv.comment!.trim().isNotEmpty) ? rdv.comment : null;
     final isConseillerPresent = rdv.withConseiller ?? false;
     final isInscrit = rdv.estInscrit ?? false;
     return RendezvousDetailsViewModel(
+      displayState: DisplayState.CONTENT,
       navbarTitle: _navbarTitle(source, rdv),
       id: rdv.id,
       tag: takeTypeLabelOrPrecision(rdv),
@@ -111,6 +121,7 @@ class RendezvousDetailsViewModel extends Equatable {
       isShareable: (source == RendezvousStateSource.eventList && isInscrit == false),
       visioButtonState: _visioButtonState(rdv),
       visioRedirectUrl: rdv.visioRedirectUrl,
+      onRetry: () => {},
       trackingPageName: _trackingPageName(rdv.type.code),
       title: rdv.title,
       commentTitle: _commentTitle(rdv, comment),
@@ -124,9 +135,34 @@ class RendezvousDetailsViewModel extends Equatable {
     );
   }
 
+  factory RendezvousDetailsViewModel._createBlankRendezvous(Store<AppState> store, String rdvId) {
+    final state = store.state.rendezvousDetailsState;
+    return RendezvousDetailsViewModel(
+      displayState: state is RendezvousDetailsFailureState ? DisplayState.FAILURE : DisplayState.LOADING,
+      navbarTitle: Strings.eventTitle,
+      id: '',
+      tag: '',
+      greenTag: false,
+      date: '',
+      hourAndDuration: '',
+      conseillerPresenceLabel: '',
+      conseillerPresenceColor: Colors.transparent,
+      isInscrit: false,
+      isAnnule: false,
+      withConseillerPresencePart: false,
+      withDescriptionPart: false,
+      withModalityPart: false,
+      withIfAbsentPart: false,
+      isShareable: false,
+      visioButtonState: VisioButtonState.HIDDEN,
+      onRetry: () => store.dispatch(RendezvousDetailsRequestAction(rdvId)),
+    );
+  }
+
   @override
   List<Object?> get props {
     return [
+      displayState,
       navbarTitle,
       id,
       tag,
@@ -162,6 +198,21 @@ class RendezvousDetailsViewModel extends Equatable {
 }
 
 enum VisioButtonState { ACTIVE, INACTIVE, HIDDEN }
+
+Rendezvous? _getRendezvous(Store<AppState> store, RendezvousStateSource? source, String rdvId) {
+  if (source != null) {
+    return getRendezvous(store, source, rdvId);
+  } else if (store.state.rendezvousDetailsState is RendezvousDetailsSuccessState) {
+    return (store.state.rendezvousDetailsState as RendezvousDetailsSuccessState).rendezvous;
+  } else {
+    return null;
+  }
+}
+
+String _navbarTitle(RendezvousStateSource? source, Rendezvous rendezvous) {
+  if (source != RendezvousStateSource.eventList) return Strings.myRendezVous;
+  return rendezvous.estInscrit == true ? Strings.myRendezVous : Strings.eventTitle;
+}
 
 bool _shouldHidePresentielInformation(Rendezvous rdv) {
   return rdv.isInVisio || rdv.modalityType() == RendezvousModalityType.TELEPHONE;
@@ -227,7 +278,7 @@ VisioButtonState _visioButtonState(Rendezvous rdv) {
   return VisioButtonState.HIDDEN;
 }
 
-String _trackingPageName(RendezvousTypeCode code) {
+String? _trackingPageName(RendezvousTypeCode code) {
   switch (code) {
     case RendezvousTypeCode.ACTIVITE_EXTERIEURES:
       return AnalyticsScreenNames.rendezvousActivitesExterieures;
@@ -246,9 +297,4 @@ String _trackingPageName(RendezvousTypeCode code) {
     case RendezvousTypeCode.AUTRE:
       return AnalyticsScreenNames.rendezvousAutre;
   }
-}
-
-String _navbarTitle(RendezvousStateSource source, Rendezvous rendezvous) {
-  if (source != RendezvousStateSource.eventList) return Strings.myRendezVous;
-  return rendezvous.estInscrit == true ? Strings.myRendezVous : Strings.eventTitle;
 }

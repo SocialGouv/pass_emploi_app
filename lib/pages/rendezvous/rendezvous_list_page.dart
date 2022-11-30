@@ -120,7 +120,7 @@ class _Body extends StatelessWidget {
         );
       case DisplayState.FAILURE:
       default:
-        return Retry(Strings.rendezVousError, () => viewModel.onRetry());
+        return Retry(Strings.rendezVousListError, () => viewModel.onRetry());
     }
   }
 }
