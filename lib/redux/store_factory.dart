@@ -37,6 +37,7 @@ import 'package:pass_emploi_app/features/partage_activite/partage_activite_middl
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_middleware.dart';
 import 'package:pass_emploi_app/features/push/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/features/rating/rating_middleware.dart';
+import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_middleware.dart';
 import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_middleware.dart';
 import 'package:pass_emploi_app/features/saved_search/create/immersion_saved_search_create_middleware.dart';
 import 'package:pass_emploi_app/features/saved_search/create/offre_emploi_saved_search_create_middleware.dart';
@@ -217,6 +218,7 @@ class StoreFactory {
         ChatMiddleware(chatRepository),
         ChatStatusMiddleware(chatRepository),
         RendezvousListMiddleware(rendezvousRepository),
+        RendezvousDetailsMiddleware(rendezvousRepository),
         RegisterPushNotificationTokenMiddleware(registerTokenRepository),
         OffreEmploiMiddleware(offreEmploiRepository),
         OffreEmploiDetailsMiddleware(offreEmploiDetailsRepository),
