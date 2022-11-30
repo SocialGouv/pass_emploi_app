@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
