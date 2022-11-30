@@ -16,7 +16,7 @@ class RendezvousMiddleware extends MiddlewareClass<AppState> {
     if (loginState is! LoginSuccessState || action is! RendezvousRequestAction) return;
 
     store.dispatch(RendezvousLoadingAction(action.period));
-    final result = await _repository.getRendezvous(loginState.user.id, action.period);
+    final result = await _repository.getRendezvousList(loginState.user.id, action.period);
     store.dispatch(
       result != null ? RendezvousSuccessAction(result, action.period) : RendezvousFailureAction(action.period),
     );

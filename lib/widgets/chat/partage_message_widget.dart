@@ -118,7 +118,7 @@ class _PartageCard extends StatelessWidget {
     final item = this.item;
     if (item is OffreMessageItem) {
       _showOffreDetailsPage(context, item);
-    } else if (item is EventMessageItem && 1 == 2) {
+    } else if (item is EventMessageItem) {
       _showEventDetailsPage(context, item);
     }
   }

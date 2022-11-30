@@ -6,12 +6,13 @@ import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 
 import '../../doubles/fixtures.dart';
+import '../../dsl/sut_repository.dart';
 import '../../utils/pass_emploi_mock_client.dart';
 import '../../utils/test_assets.dart';
 import '../../utils/test_datetime.dart';
 
 void main() {
-  group('should return rendezvous', () {
+  group('getRendezvousList should return rendezvous list', () {
     void expectRendezvousResult({required String andExpectedUrl, required RendezvousPeriod forPerdiod}) async {
       // Given
       final httpClient = PassEmploiMockClient((request) async {
@@ -22,7 +23,7 @@ void main() {
       final repository = RendezvousRepository('BASE_URL', httpClient);
 
       // When
-      final rendezvous = await repository.getRendezvous('userId', forPerdiod);
+      final rendezvous = await repository.getRendezvousList('userId', forPerdiod);
 
       // Then
       expect(rendezvous, isNotNull);
@@ -83,30 +84,21 @@ void main() {
 
   test('a rendezvous where conseiller and createur is same in payload should fonctionnaly return a null createur',
       () async {
-    final httpClient = PassEmploiMockClient((request) async {
+        final httpClient = PassEmploiMockClient((request) async {
       return Response.bytes(loadTestAssetsAsBytes('rendezvous_where_conseiller_is_createur.json'), 200);
     });
     final repository = RendezvousRepository('BASE_URL', httpClient);
 
-    final rendezvous = await repository.getRendezvous('userId', RendezvousPeriod.FUTUR);
+    final rendezvous = await repository.getRendezvousList('userId', RendezvousPeriod.FUTUR);
 
     expect(rendezvous!.first.conseiller, Conseiller(id: '1', firstName: 'Nils', lastName: 'Tavernier'));
     expect(rendezvous.first.createur, isNull);
   });
 
-  RendezvousRepository _rendezvousFutursRepositoryFromPoleEmploi() {
-    final httpClient = PassEmploiMockClient((request) async {
-      if (request.method != 'GET') return invalidHttpResponse();
-      if (request.url.toString() != 'BASE_URL/jeunes/userId/rendezvous?periode=FUTURS') return invalidHttpResponse();
-      return Response.bytes(loadTestAssetsAsBytes('rendezvous_pole_emploi.json'), 200);
-    });
-    return RendezvousRepository('BASE_URL', httpClient);
-  }
-
   test('an organism should be more important than an agence Pole Emploi', () async {
     final repository = _rendezvousFutursRepositoryFromPoleEmploi();
 
-    final rendezvous = await repository.getRendezvous('userId', RendezvousPeriod.FUTUR);
+    final rendezvous = await repository.getRendezvousList('userId', RendezvousPeriod.FUTUR);
 
     expect(rendezvous, isNotNull);
     expect(rendezvous!.length, 10);
@@ -116,17 +108,17 @@ void main() {
   test('an agence Pole Emploi should be an organism', () async {
     final repository = _rendezvousFutursRepositoryFromPoleEmploi();
 
-    final rendezvous = await repository.getRendezvous('userId', RendezvousPeriod.FUTUR);
+    final rendezvous = await repository.getRendezvousList('userId', RendezvousPeriod.FUTUR);
 
     expect(rendezvous, isNotNull);
     expect(rendezvous!.length, 10);
     expect(rendezvous[0].organism, "Agence Pôle Emploi");
   });
 
-  test('getRendezvous when response is valid with Pole Emploi rendezvous', () async {
+  test('getRendezvousList when response is valid with Pole Emploi rendezvous', () async {
     final repository = _rendezvousFutursRepositoryFromPoleEmploi();
 
-    final rendezvous = await repository.getRendezvous('userId', RendezvousPeriod.FUTUR);
+    final rendezvous = await repository.getRendezvousList('userId', RendezvousPeriod.FUTUR);
 
     expect(rendezvous, isNotNull);
     expect(rendezvous!.length, 10);
@@ -153,7 +145,8 @@ void main() {
     );
   });
 
-  test('getRendezvous when response is valid with unknown type should fallback to "Autre" rendezvous type', () async {
+  test('getRendezvousList when response is valid with unknown type should fallback to "Autre" rendezvous type',
+      () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async {
       if (request.method != 'GET') return invalidHttpResponse();
@@ -163,7 +156,7 @@ void main() {
     final repository = RendezvousRepository('BASE_URL', httpClient);
 
     // When
-    final rendezvous = await repository.getRendezvous('userId', RendezvousPeriod.FUTUR);
+    final rendezvous = await repository.getRendezvousList('userId', RendezvousPeriod.FUTUR);
 
     // Then
     expect(rendezvous, isNotNull);
@@ -173,27 +166,89 @@ void main() {
     );
   });
 
-  test('getRendezvous when response is invalid should return null', () async {
+  test('getRendezvousList when response is invalid should return null', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async => invalidHttpResponse());
     final repository = RendezvousRepository('BASE_URL', httpClient);
 
     // When
-    final rendezvous = await repository.getRendezvous('userID', RendezvousPeriod.FUTUR);
+    final rendezvous = await repository.getRendezvousList('userID', RendezvousPeriod.FUTUR);
 
     // Then
     expect(rendezvous, isNull);
   });
 
-  test('getRendezvous when response throws exception should return null', () async {
+  test('getRendezvousList when response throws exception should return null', () async {
     // Given
     final httpClient = PassEmploiMockClient((request) async => throw Exception());
     final repository = RendezvousRepository('BASE_URL', httpClient);
 
     // When
-    final rendezvous = await repository.getRendezvous('userID', RendezvousPeriod.FUTUR);
+    final rendezvous = await repository.getRendezvousList('userID', RendezvousPeriod.FUTUR);
 
     // Then
     expect(rendezvous, isNull);
   });
+
+  group('getRendezvous', () {
+    final sut = RepositorySut<RendezvousRepository>();
+    sut.givenRepository((client) => RendezvousRepository('BASE_URL', client));
+
+    sut.when(
+      (repository) => repository.getRendezvous('userID', 'rdvID'),
+    );
+
+    group('when response is valid', () {
+      sut.givenJsonResponse(fromJson: "rendezvous-detail.json");
+
+      test('request should be valid', () async {
+        await sut.expectRequestBody(
+          method: "GET",
+          url: "BASE_URL/jeunes/userID/rendezvous/rdvID",
+        );
+      });
+
+      test('response should be valid', () async {
+        await sut.expectResult<Rendezvous?>((result) {
+          expect(result, isNotNull);
+          expect(
+            result,
+            Rendezvous(
+              id: '2d663392-b9ff-4b20-81ca-70a3c779e299',
+              date: parseDateTimeUtcWithCurrentTimeZone('2021-11-28T13:34:00.000Z'),
+              modality: 'en présentiel : Misson locale / Permanence',
+              isInVisio: false,
+              duration: 23,
+              withConseiller: true,
+              isAnnule: false,
+              type:
+                  RendezvousType(RendezvousTypeCode.ENTRETIEN_INDIVIDUEL_CONSEILLER, 'Entretien individuel conseiller'),
+              title: "super entretien",
+              comment: 'Amener votre CV',
+              conseiller: Conseiller(id: '1', firstName: 'Nils', lastName: 'Tavernier'),
+              createur: Conseiller(id: '2', firstName: 'Joe', lastName: 'Pesci'),
+              estInscrit: true,
+            ),
+          );
+        });
+      });
+    });
+
+    group('when response is invalid', () {
+      sut.givenResponseCode(500);
+
+      test('response should be null', () async {
+        await sut.expectNullResult();
+      });
+    });
+  });
+}
+
+RendezvousRepository _rendezvousFutursRepositoryFromPoleEmploi() {
+  final httpClient = PassEmploiMockClient((request) async {
+    if (request.method != 'GET') return invalidHttpResponse();
+    if (request.url.toString() != 'BASE_URL/jeunes/userId/rendezvous?periode=FUTURS') return invalidHttpResponse();
+    return Response.bytes(loadTestAssetsAsBytes('rendezvous_pole_emploi.json'), 200);
+  });
+  return RendezvousRepository('BASE_URL', httpClient);
 }
