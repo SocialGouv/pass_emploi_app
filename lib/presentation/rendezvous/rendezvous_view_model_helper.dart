@@ -21,7 +21,7 @@ Rendezvous getRendezvous(Store<AppState> store, RendezvousStateSource source, St
     case RendezvousStateSource.agenda:
       return _getRendezvousFromAgendaState(store, rdvId);
     case RendezvousStateSource.rendezvousList:
-      return _getRendezvousFromRendezvousState(store, rdvId);
+      return _getRendezvousFromRendezvousListState(store, rdvId);
     case RendezvousStateSource.eventList:
       return _getRendezvousFromEventListState(store, rdvId);
   }
@@ -35,8 +35,8 @@ Rendezvous _getRendezvousFromEventListState(Store<AppState> store, String rdvId)
   return rendezvous.first;
 }
 
-Rendezvous _getRendezvousFromRendezvousState(Store<AppState> store, String rdvId) {
-  final state = store.state.rendezvousState;
+Rendezvous _getRendezvousFromRendezvousListState(Store<AppState> store, String rdvId) {
+  final state = store.state.rendezvousListState;
   final rendezvous = state.rendezvous.where((e) => e.id == rdvId);
   if (rendezvous.isEmpty) throw Exception('No Rendezvous matching id $rdvId');
   return rendezvous.first;

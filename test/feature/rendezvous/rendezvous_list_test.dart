@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
-import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
+import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_actions.dart';
+import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';
 
@@ -15,7 +15,7 @@ void main() {
     final sut = StoreSut();
 
     group("when requesting in FUTUR", () {
-      sut.when(() => RendezvousRequestAction(RendezvousPeriod.FUTUR));
+      sut.when(() => RendezvousListRequestAction(RendezvousPeriod.FUTUR));
 
       test("should load and succeed when request succeed", () async {
         sut.givenStore = givenState()
@@ -35,7 +35,7 @@ void main() {
     });
 
     group("when requesting in PASSE", () {
-      sut.when(() => RendezvousRequestAction(RendezvousPeriod.PASSE));
+      sut.when(() => RendezvousListRequestAction(RendezvousPeriod.PASSE));
 
       test("should load and succeed with concatenated rendezvous when request succeed", () async {
         sut.givenStore = givenState().loggedInUser() //
@@ -57,34 +57,34 @@ void main() {
 }
 
 Matcher _shouldLoadFutur() =>
-    StateMatch((state) => state.rendezvousState.futurRendezVousStatus == RendezvousStatus.LOADING);
+    StateMatch((state) => state.rendezvousListState.futurRendezVousStatus == RendezvousListStatus.LOADING);
 
 Matcher _shouldLoadPasse() =>
-    StateMatch((state) => state.rendezvousState.pastRendezVousStatus == RendezvousStatus.LOADING);
+    StateMatch((state) => state.rendezvousListState.pastRendezVousStatus == RendezvousListStatus.LOADING);
 
 Matcher _shouldFailFutur() =>
-    StateMatch((state) => state.rendezvousState.futurRendezVousStatus == RendezvousStatus.FAILURE);
+    StateMatch((state) => state.rendezvousListState.futurRendezVousStatus == RendezvousListStatus.FAILURE);
 
 Matcher _shouldFailPasse() =>
-    StateMatch((state) => state.rendezvousState.pastRendezVousStatus == RendezvousStatus.FAILURE);
+    StateMatch((state) => state.rendezvousListState.pastRendezVousStatus == RendezvousListStatus.FAILURE);
 
 Matcher _shouldSucceedFutur() {
   return StateMatch(
-    (state) => state.rendezvousState.futurRendezVousStatus == RendezvousStatus.SUCCESS,
+        (state) => state.rendezvousListState.futurRendezVousStatus == RendezvousListStatus.SUCCESS,
     (state) {
-      expect(state.rendezvousState.rendezvous.length, 1);
-      expect(state.rendezvousState.rendezvous.first.id, 'futur');
+      expect(state.rendezvousListState.rendezvous.length, 1);
+      expect(state.rendezvousListState.rendezvous.first.id, 'futur');
     },
   );
 }
 
 Matcher _shouldSucceedPasseAndKeepFutur() {
   return StateMatch(
-    (state) => state.rendezvousState.futurRendezVousStatus == RendezvousStatus.SUCCESS,
+        (state) => state.rendezvousListState.futurRendezVousStatus == RendezvousListStatus.SUCCESS,
     (state) {
-      expect(state.rendezvousState.rendezvous.length, 2);
-      expect(state.rendezvousState.rendezvous[0].id, 'passe');
-      expect(state.rendezvousState.rendezvous[1].id, 'futur');
+      expect(state.rendezvousListState.rendezvous.length, 2);
+      expect(state.rendezvousListState.rendezvous[0].id, 'passe');
+      expect(state.rendezvousListState.rendezvous[1].id, 'futur');
     },
   );
 }

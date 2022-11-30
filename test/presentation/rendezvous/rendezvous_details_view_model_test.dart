@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
+import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_details_view_model.dart';
@@ -17,7 +17,7 @@ void main() {
   test('create when rendezvous state is not successful throws exception', () {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
-      initialState: loggedInState().copyWith(rendezvousState: RendezvousState.loadingFuture()),
+      initialState: loggedInState().copyWith(rendezvousListState: RendezvousListState.loadingFuture()),
     );
 
     // Then
@@ -35,7 +35,7 @@ void main() {
     // Given
     final store = TestStoreFactory().initializeReduxStore(
       initialState: loggedInState().copyWith(
-        rendezvousState: RendezvousState.successfulFuture([mockRendezvous(id: '1')]),
+        rendezvousListState: RendezvousListState.successfulFuture([mockRendezvous(id: '1')]),
       ),
     );
 
@@ -844,7 +844,7 @@ void main() {
 Store<AppState> _store(Rendezvous rendezvous) {
   return TestStoreFactory().initializeReduxStore(
     initialState: loggedInState().copyWith(
-      rendezvousState: RendezvousState.successfulFuture([rendezvous]),
+      rendezvousListState: RendezvousListState.successfulFuture([rendezvous]),
     ),
   );
 }

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart';
-import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
+import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_actions.dart';
 import 'package:pass_emploi_app/models/conseiller.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/repositories/rendezvous/rendezvous_repository.dart';

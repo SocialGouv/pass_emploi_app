@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
-import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
+import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_actions.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
 import 'package:pass_emploi_app/pages/rendezvous/rendezvous_details_page.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -44,7 +44,7 @@ class _RendezvousListPageState extends State<RendezvousListPage> {
 
   @override
   void deactivate() {
-    StoreProvider.of<AppState>(context).dispatch(RendezvousResetAction());
+    StoreProvider.of<AppState>(context).dispatch(RendezvousListResetAction());
     super.deactivate();
   }
 
