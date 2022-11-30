@@ -83,30 +83,22 @@ class _PartageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColors.primaryLighten,
-        borderRadius: BorderRadius.all(Radius.circular(8.0)),
-      ),
-      child: Material(
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(16)),
-        ),
-        child: InkWell(
-          onTap: () => _onTap(context),
-          splashColor: AppColors.primaryLighten,
-          child: Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(item.titrePartage, style: TextStyles.textBaseBold),
-                if (item is OffreMessageItem) ...[
-                  SizedBox(height: Margins.spacing_s),
-                  _SeeSharedDetails(item),
-                ]
-              ],
-            ),
+    const border = RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8)));
+    return Material(
+      shape: border,
+      child: InkWell(
+        onTap: () => _onTap(context),
+        splashColor: AppColors.primaryLighten,
+        customBorder: border,
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(item.titrePartage, style: TextStyles.textBaseBold),
+              SizedBox(height: Margins.spacing_s),
+              _SeeSharedDetails(item),
+            ],
           ),
         ),
       ),
@@ -185,6 +177,6 @@ class _SeeSharedDetails extends StatelessWidget {
     } else if (item is EventMessageItem) {
       return Strings.voirEvent;
     }
-    return "";
+    return '';
   }
 }
