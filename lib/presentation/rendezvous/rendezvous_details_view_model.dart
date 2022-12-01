@@ -87,7 +87,7 @@ class RendezvousDetailsViewModel extends Equatable {
 
   factory RendezvousDetailsViewModel.create({
     required Store<AppState> store,
-    required RendezvousStateSource? source,
+    required RendezvousStateSource source,
     required String rdvId,
     required Platform platform,
   }) {
@@ -197,17 +197,15 @@ class RendezvousDetailsViewModel extends Equatable {
 
 enum VisioButtonState { ACTIVE, INACTIVE, HIDDEN }
 
-Rendezvous? _getRendezvous(Store<AppState> store, RendezvousStateSource? source, String rdvId) {
-  if (source != null) {
+Rendezvous? _getRendezvous(Store<AppState> store, RendezvousStateSource source, String rdvId) {
+  if (source != RendezvousStateSource.noSource || store.state.rendezvousDetailsState is RendezvousDetailsSuccessState) {
     return getRendezvous(store, source, rdvId);
-  } else if (store.state.rendezvousDetailsState is RendezvousDetailsSuccessState) {
-    return (store.state.rendezvousDetailsState as RendezvousDetailsSuccessState).rendezvous;
   } else {
     return null;
   }
 }
 
-String _navbarTitle(RendezvousStateSource? source, Rendezvous rendezvous) {
+String _navbarTitle(RendezvousStateSource source, Rendezvous rendezvous) {
   if (source != RendezvousStateSource.eventList) return Strings.myRendezVous;
   return rendezvous.estInscrit == true ? Strings.myRendezVous : Strings.eventTitle;
 }

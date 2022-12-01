@@ -799,7 +799,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: null,
+        source: RendezvousStateSource.noSource,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -818,7 +818,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: null,
+        source: RendezvousStateSource.noSource,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -837,7 +837,7 @@ void main() {
       // When
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: null,
+        source: RendezvousStateSource.noSource,
         rdvId: '1',
         platform: Platform.IOS,
       );
@@ -852,7 +852,7 @@ void main() {
       final store = StoreSpy();
       final viewModel = RendezvousDetailsViewModel.create(
         store: store,
-        source: null,
+        source: RendezvousStateSource.noSource,
         rdvId: rendezvousId,
         platform: Platform.IOS,
       );

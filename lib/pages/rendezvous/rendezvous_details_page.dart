@@ -29,13 +29,13 @@ import 'package:redux/redux.dart';
 
 class RendezvousDetailsPage extends StatelessWidget {
   final String _rendezvousId;
-  final RendezvousStateSource? _source;
+  final RendezvousStateSource _source;
   final RendezvousDetailsViewModel Function(Store<AppState>) _converter;
   static final _platform = io.Platform.isIOS ? Platform.IOS : Platform.ANDROID;
 
   RendezvousDetailsPage._(this._rendezvousId, this._source, this._converter) : super();
 
-  static MaterialPageRoute<void> materialPageRoute(RendezvousStateSource? source, String rendezvousId) {
+  static MaterialPageRoute<void> materialPageRoute(RendezvousStateSource source, String rendezvousId) {
     return MaterialPageRoute(
       builder: (context) {
         return RendezvousDetailsPage._(
@@ -55,10 +55,14 @@ class RendezvousDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RendezvousDetailsViewModel>(
-      onInit: (store) => _source == null ? store.dispatch(RendezvousDetailsRequestAction(_rendezvousId)) : {},
+      onInit: (store) {
+        _source == RendezvousStateSource.noSource ? store.dispatch(RendezvousDetailsRequestAction(_rendezvousId)) : {};
+      },
       converter: _converter,
       builder: _scaffold,
-      onDispose: (store) => _source == null ? store.dispatch(RendezvousDetailsResetAction()) : {},
+      onDispose: (store) {
+        _source == RendezvousStateSource.noSource ? store.dispatch(RendezvousDetailsResetAction()) : {};
+      },
     );
   }
 
