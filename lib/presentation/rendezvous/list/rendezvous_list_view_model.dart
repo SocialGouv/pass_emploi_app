@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
-import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
-import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
+import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_actions.dart';
+import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_builder.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -42,13 +42,13 @@ class RendezvousListViewModel extends Equatable {
   });
 
   factory RendezvousListViewModel.create(Store<AppState> store, DateTime now, int pageOffset) {
-    final rendezvousState = store.state.rendezvousState;
-    final builder = RendezVousListBuilder.create(rendezvousState, pageOffset, now);
+    final rendezvousListState = store.state.rendezvousListState;
+    final builder = RendezVousListBuilder.create(rendezvousListState, pageOffset, now);
     return RendezvousListViewModel(
       pageOffset: pageOffset,
-      displayState: _displayState(rendezvousState, pageOffset),
+      displayState: _displayState(rendezvousListState, pageOffset),
       rendezvous: builder.rendezvous(),
-      deeplinkRendezvousId: _deeplinkRendezvousId(store.state.deepLinkState, rendezvousState),
+      deeplinkRendezvousId: _deeplinkRendezvousId(store.state.deepLinkState, rendezvousListState),
       onRetry: () => _retry(store, pageOffset),
       onDeeplinkUsed: () => store.dispatch(ResetDeeplinkAction()),
       title: builder.makeTitle(),
@@ -63,14 +63,14 @@ class RendezvousListViewModel extends Equatable {
   }
 
   static void fetchRendezvous(Store<AppState> store, int pageOffset) {
-    final rendezvousState = store.state.rendezvousState;
+    final rendezvousListState = store.state.rendezvousListState;
     if (pageOffset.isInPast()) {
-      if (rendezvousState.pastRendezVousStatus == RendezvousStatus.NOT_INITIALIZED) {
-        store.dispatch(RendezvousRequestAction(RendezvousPeriod.PASSE));
+      if (rendezvousListState.pastRendezVousStatus == RendezvousListStatus.NOT_INITIALIZED) {
+        store.dispatch(RendezvousListRequestAction(RendezvousPeriod.PASSE));
       }
     } else {
-      if (rendezvousState.futurRendezVousStatus == RendezvousStatus.NOT_INITIALIZED) {
-        store.dispatch(RendezvousRequestAction(RendezvousPeriod.FUTUR));
+      if (rendezvousListState.futurRendezVousStatus == RendezvousListStatus.NOT_INITIALIZED) {
+        store.dispatch(RendezvousListRequestAction(RendezvousPeriod.FUTUR));
       }
     }
   }
@@ -87,29 +87,29 @@ class RendezvousListViewModel extends Equatable {
       ];
 }
 
-DisplayState _displayState(RendezvousState state, int pageOffset) {
+DisplayState _displayState(RendezvousListState state, int pageOffset) {
   if (state.isNotInitialized()) return DisplayState.LOADING;
   if (pageOffset.isInPast()) {
-    if (state.pastRendezVousStatus == RendezvousStatus.LOADING) return DisplayState.LOADING;
-    if (state.pastRendezVousStatus == RendezvousStatus.SUCCESS) return DisplayState.CONTENT;
+    if (state.pastRendezVousStatus == RendezvousListStatus.LOADING) return DisplayState.LOADING;
+    if (state.pastRendezVousStatus == RendezvousListStatus.SUCCESS) return DisplayState.CONTENT;
     return DisplayState.FAILURE;
   } else {
-    if (state.futurRendezVousStatus == RendezvousStatus.LOADING) return DisplayState.LOADING;
-    if (state.futurRendezVousStatus == RendezvousStatus.SUCCESS) return DisplayState.CONTENT;
+    if (state.futurRendezVousStatus == RendezvousListStatus.LOADING) return DisplayState.LOADING;
+    if (state.futurRendezVousStatus == RendezvousListStatus.SUCCESS) return DisplayState.CONTENT;
     return DisplayState.FAILURE;
   }
 }
 
 void _retry(Store<AppState> store, int pageOffset) {
   if (pageOffset.isInPast()) {
-    store.dispatch(RendezvousRequestAction(RendezvousPeriod.PASSE));
+    store.dispatch(RendezvousListRequestAction(RendezvousPeriod.PASSE));
   } else {
-    store.dispatch(RendezvousRequestAction(RendezvousPeriod.FUTUR));
+    store.dispatch(RendezvousListRequestAction(RendezvousPeriod.FUTUR));
   }
 }
 
-String? _deeplinkRendezvousId(DeepLinkState state, RendezvousState rendezvousState) {
-  final rdvIds = rendezvousState.rendezvous.map((e) => e.id);
+String? _deeplinkRendezvousId(DeepLinkState state, RendezvousListState rendezvousListState) {
+  final rdvIds = rendezvousListState.rendezvous.map((e) => e.id);
   return (state is DetailRendezvousDeepLinkState && rdvIds.contains(state.idRendezvous)) ? state.idRendezvous : null;
 }
 

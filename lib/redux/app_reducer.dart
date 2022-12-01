@@ -32,14 +32,15 @@ import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search
 import 'package:pass_emploi_app/features/partage_activite/partage_activite_reducer.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_reducer.dart';
 import 'package:pass_emploi_app/features/rating/rating_reducer.dart';
-import 'package:pass_emploi_app/features/rendezvous/rendezvous_reducer.dart';
+import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_reducer.dart';
+import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_reducer.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_reducer.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_reducer.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_reducer.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_reducer.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_reducer.dart';
-import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_reducer.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_reducer.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_reducer.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_reducer.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_reducer.dart';
@@ -94,7 +95,8 @@ AppState reducer(AppState current, dynamic action) {
     searchLocationState: searchLocationReducer(current.searchLocationState, action),
     searchMetierState: searchMetierReducer(current.searchMetierState, action),
     loginState: loginReducer(current.loginState, action),
-    rendezvousState: rendezvousReducer(current.rendezvousState, action),
+    rendezvousListState: rendezvousListReducer(current.rendezvousListState, action),
+    rendezvousDetailsState: rendezvousDetailsReducer(current.rendezvousDetailsState, action),
     immersionSearchParametersState: immersionSearchParametersState(current.immersionSearchParametersState, action),
     immersionListState: immersionListReducer(current.immersionListState, action),
     immersionDetailsState: immersionDetailsReducer(current.immersionDetailsState, action),
@@ -131,8 +133,7 @@ AppState reducer(AppState current, dynamic action) {
     actionCommentaireCreateState: actionCommentaireCreateReducer(current.actionCommentaireCreateState, action),
     agendaState: agendaReducer(current.agendaState, action),
     suggestionsRechercheState: suggestionsRechercheReducer(current.suggestionsRechercheState, action),
-    traiterSuggestionRechercheState:
-        traiterSuggestionRechercheReducer(current.traiterSuggestionRechercheState, action),
+    traiterSuggestionRechercheState: traiterSuggestionRechercheReducer(current.traiterSuggestionRechercheState, action),
     eventListState: eventListReducer(current.eventListState, action),
   );
 }

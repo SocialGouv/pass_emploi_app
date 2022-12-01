@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
-import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
+import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/current_week_rendezvous_list_builder.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/future_months_rendezvous_list_builder.dart';
@@ -28,18 +28,18 @@ abstract class RendezVousListBuilder {
   List<RendezvousSection> rendezvous();
 
   factory RendezVousListBuilder.create(
-    RendezvousState rendezvousState,
+    RendezvousListState rendezvousListState,
     int pageOffset,
     DateTime now,
   ) {
     if (pageOffset.isInPast()) {
-      return PastRendezVousListBuilder(rendezvousState, now);
+      return PastRendezVousListBuilder(rendezvousListState, now);
     } else if (pageOffset.isThisWeek()) {
-      return CurrentWeekRendezVousListBuilder(rendezvousState, pageOffset, now);
+      return CurrentWeekRendezVousListBuilder(rendezvousListState, pageOffset, now);
     } else if (pageOffset >= 1 && pageOffset < 5) {
-      return FutureWeekRendezVousListBuilder(rendezvousState, pageOffset, now);
+      return FutureWeekRendezVousListBuilder(rendezvousListState, pageOffset, now);
     } else {
-      return FutureMonthsRendezVousListBuilder(rendezvousState, now);
+      return FutureMonthsRendezVousListBuilder(rendezvousListState, now);
     }
   }
 

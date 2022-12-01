@@ -8,7 +8,6 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/cards/profil/profil_card.dart';
-import 'package:pass_emploi_app/widgets/loader.dart';
 
 class MonConseillerCard extends StatelessWidget {
   @override
@@ -34,7 +33,7 @@ class MonConseillerCard extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        loader(),
+        Center(child: CircularProgressIndicator()),
         SizedBox(height: Margins.spacing_m),
       ],
     );

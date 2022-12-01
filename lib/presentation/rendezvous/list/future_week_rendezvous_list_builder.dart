@@ -1,16 +1,16 @@
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
+import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_builder.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_view_model.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class FutureWeekRendezVousListBuilder implements RendezVousListBuilder {
-  final RendezvousState _rendezvousState;
+  final RendezvousListState _rendezvousListState;
   final int _pageOffset;
   final DateTime _now;
 
-  FutureWeekRendezVousListBuilder(this._rendezvousState, this._pageOffset, this._now);
+  FutureWeekRendezVousListBuilder(this._rendezvousListState, this._pageOffset, this._now);
 
   @override
   String makeTitle() => Strings.rendezSemaineTitre;
@@ -38,9 +38,9 @@ class FutureWeekRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   List<RendezvousSection> rendezvous() {
-    if (_rendezvousState.futurRendezVousStatus != RendezvousStatus.SUCCESS) return [];
+    if (_rendezvousListState.futurRendezVousStatus != RendezvousListStatus.SUCCESS) return [];
 
-    return _rendezvousState.rendezvous
+    return _rendezvousListState.rendezvous
         .sortedFromRecentToFuture()
         .filteredOnWeek(_pageOffset, _now)
         .sections(groupedBy: (element) => element.date.toDayOfWeekWithFullMonthContextualized());

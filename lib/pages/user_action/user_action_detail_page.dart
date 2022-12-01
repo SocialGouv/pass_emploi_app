@@ -26,7 +26,6 @@ import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/comment.dart';
 import 'package:pass_emploi_app/widgets/date_echeance_in_detail.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
-import 'package:pass_emploi_app/widgets/loader.dart';
 import 'package:pass_emploi_app/widgets/loading_overlay.dart';
 import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/snack_bar/show_snack_bar.dart';
@@ -355,7 +354,7 @@ class _CommentCard extends StatelessWidget {
       case DisplayState.FAILURE:
         return Center(child: Retry(Strings.miscellaneousErrorRetry, () => viewModel.onRetry()));
       default:
-        return loader();
+        return Center(child: CircularProgressIndicator());
     }
   }
 

@@ -33,7 +33,7 @@ class Strings {
   static String unknownTypeTitle = "Le message est inaccessible";
   static String unknownTypeDescription = "Pour avoir l'accès au contenu veuillez mettre à jour l'application";
   static String voirOffre = "Voir l'offre";
-  static String voirEvent = "Voir l'événement";
+  static String voirEvent = "Voir l'évènement";
 
   static String chatWith(firstName) => "Discuter avec $firstName";
 
@@ -138,7 +138,8 @@ class Strings {
 
   static String noUpcomingRendezVous =
       "Vous n’avez pas de rendez-vous prévus.\nContactez votre conseiller pour prendre rendez-vous";
-  static String rendezVousError = "Erreur lors de la récupération de vos rendez-vous";
+  static String rendezVousListError = "Erreur lors de la récupération de vos rendez-vous";
+  static String rendezVousDetailsError = "Erreur lors de la récupération de l'évènement";
   static String conseillerIsPresent = "Votre conseiller sera présent";
   static String conseillerIsNotPresent = "Votre conseiller ne sera pas présent";
   static String commentWithoutConseiller = "Commentaire de votre conseiller";
@@ -336,8 +337,7 @@ class Strings {
   static String partageEventDefaultMessage = "Bonjour, je vous partage un événement afin d’avoir votre avis";
   static String partagerAuConseiller = "Partager à mon conseiller";
   static String partageEventNavTitle = "Partage d’événement";
-  static String partageEventSuccess =
-      "L’événement a été partagé à votre conseiller sur la messagerie de l’application";
+  static String partageEventSuccess = "L’événement a été partagé à votre conseiller sur la messagerie de l’application";
 
   // Immersion
   static String immersionLabel = "Découvrez un métier en immersion dans une entreprise.";
@@ -593,10 +593,9 @@ class Strings {
   static String developerOptionMatomoPage = 'Matomo';
 
   // Tutorial
-  static String tutoTitrePageUne = "Des suggestions de recherches adaptées à votre profil Pôle emploi !";
-  static String tutoDescriptionPageUne = "Sur l’onglet Favoris et l’onglet Recherche découvrez des suggestions de recherche.";
-  static String tutoTitrePageDeux = "Vous pourrez au choix :";
-  static String tutoDescriptionPageDeux = "- Ajouter ces suggestions : elles s'intègreront alors dans la liste de vos recherches mises en favoris. Vous serez alors notifié dès qu'une nouvelle annonce correspond à vos critères de recherche.\n\n- Supprimer la suggestion si elle ne vous convient pas.";
+  static String tutoTitrePageUne = "Consultez la liste des ateliers et animations organisés dans votre Mission locale";
+  static String tutoDescriptionPageUne =
+      "Partagez un de ces évènement avec votre conseiller pour qu'il vous y inscrive !";
 
   static String seeLater = "Voir plus tard";
   static String finish = "Terminer";
@@ -615,7 +614,8 @@ class Strings {
   // Suggestions de recherche
   static String vosSuggestionsDeRecherche = "Vos recherches suggérées";
   static String nouvellesSuggestionsDeRechercheTitre = "Vous avez de nouvelles recherches suggérées !";
-  static String nouvellesSuggestionsDeRechercheDescription = "Sur la base de votre profil Pôle emploi, voici des suggestions de recherches à sauvegarder dans vos favoris";
+  static String nouvellesSuggestionsDeRechercheDescription =
+      "Sur la base de votre profil Pôle emploi, voici des suggestions de recherches à sauvegarder dans vos favoris";
   static String voirSuggestionsDeRecherche = "Voir les suggestions";
   static String suggestionsDeRechercheTitlePage = "Vos recherches suggérées";
   static String suggestionTypeEmploi = "Emploi";
@@ -629,6 +629,6 @@ class Strings {
   // Événements
   static String eventListError = "Erreur lors de la récupération des événements";
   static String eventListEmpty = "Il n'y a actuellement aucun événement";
-  static String eventListHeaderText = "Retrouver ici l’ensemble des évènements organisés par votre Mission locale";
+  static String eventListHeaderText = "Retrouver ici l’ensemble des événements organisés par votre Mission locale";
   static String eventVousEtesDejaInscrit = "Vous êtes déjà inscrit";
 }
