@@ -595,7 +595,7 @@ class Strings {
   // Tutorial
   static String tutoTitrePageUne = "Consultez la liste des ateliers et animations organisés dans votre Mission locale";
   static String tutoDescriptionPageUne =
-      "Partagez un de ces évènement avec votre conseiller pour qu'il vous y inscrive !";
+      "Partagez un de ces évènements avec votre conseiller pour qu'il vous y inscrive !";
 
   static String seeLater = "Voir plus tard";
   static String finish = "Terminer";
