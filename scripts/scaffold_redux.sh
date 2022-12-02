@@ -8,8 +8,40 @@ feature_snake_case=$1
 feature_camel_case=$2
 feature_first_char_lower_case="$(tr '[:upper:]' '[:lower:]' <<< ${feature_camel_case:0:1})${feature_camel_case:1}"
 
-echo "Creating scaffold for feature_snake_case: $feature_snake_case"
+repositoryClass="${feature_camel_case}Repository"
+
+echo "Creating folder for feature_snake_case: $feature_snake_case"
+
 mkdir -p "lib/features/$feature_snake_case"
+
+echo "Creating repository…"
+cat > "lib/repositories/${feature_snake_case}_repository.dart" <<- EOM
+import 'package:http/http.dart';
+import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/network/status_code.dart';
+
+class ${repositoryClass} {
+  final String _baseUrl;
+  final Client _httpClient;
+  final Crashlytics? _crashlytics;
+
+  ${repositoryClass}(this._baseUrl, this._httpClient, [this._crashlytics]);
+
+  Future<bool?> get() async {
+    final url = Uri.parse(_baseUrl + '/jeunes/todo');
+    try {
+      final response = await _httpClient.get(url);
+      if (response.statusCode.isValid()) {
+        //return response.bodyBytes.asListOf((json) => JsonRendezvous.fromJson(json).toRendezvous());
+        return true;
+      }
+    } catch (e, stack) {
+      _crashlytics?.recordNonNetworkException(e, stack, url);
+    }
+    return null;
+  }
+}
+EOM
 
 echo "Creating actions…"
 cat > "lib/features/$feature_snake_case/${feature_snake_case}_actions.dart" <<- EOM
