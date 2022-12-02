@@ -106,6 +106,7 @@ import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart'
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:redux/redux.dart' as redux;
+/*AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-MIDDLEWARE*/
 
 class StoreFactory {
   final Authenticator authenticator;
@@ -263,6 +264,7 @@ class StoreFactory {
         SuggestionsRechercheMiddleware(suggestionsRechercheRepository),
         TraiterSuggestionRechercheMiddleware(suggestionsRechercheRepository),
         EventListMiddleware(eventListRepository),
+        /*AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE*/
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),
       ],

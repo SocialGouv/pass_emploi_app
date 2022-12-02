@@ -30,6 +30,7 @@ stateClass="${feature_camel_case}State"
 reducerImport=$(generateImport "features/$feature_snake_case/${feature_snake_case}_reducer.dart")
 reducerFunction="${feature_first_char_lower_case}Reducer"
 
+middlewareImport=$(generateImport "features/$feature_snake_case/${feature_snake_case}_middleware.dart")
 middlewareVariable="${feature_first_char_lower_case}Middleware"
 middlewareClass="${feature_camel_case}Middleware"
 
@@ -68,6 +69,17 @@ addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-APP-STATE-FACTORY" "$value"
 
 value="${stateVariable},"
 addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-APP-STATE-EQUATABLE" "$value"
+
+dart format "$editing_file" -l 120
+
+
+
+editing_file="lib/redux/store_factory.dart"
+echo "Editing $editing_file"
+addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-MIDDLEWARE" "$middlewareImport"
+
+value="${middlewareClass}(),"
+addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE" "$value"
 
 dart format "$editing_file" -l 120
 
