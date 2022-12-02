@@ -84,4 +84,11 @@ addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE"
 dart format "$editing_file" -l 120
 
 
-# aussi générer des tests unitaires idiots sur la boucle redux (loading + succes, et loading + fail)
+# TODO :
+# générer le fichier repository
+# générer l'utilisation du repo dans le middleware
+# générer l'utilisation du repo dans le store_factory
+# générer l'utilisation du repo dans les dummies et bordel des tests
+# générer des tests unitaires pour le repo
+# générer des tests unitaires idiots sur la boucle redux (loading + succes, et loading + fail)
+# mettre ce machin dans scaffold_redux
