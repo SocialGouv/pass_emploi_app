@@ -115,6 +115,9 @@ jobs:
         with:
           flutter-version: ${{ env.FLUTTER_VERSION }}
 
+      - name: Add Python bin to PATH
+        run: echo "/Library/Frameworks/Python.framework/Versions/Current/bin" >> $GITHUB_PATH
+
       - name: Install Codemagic CLI tools
         shell: bash
         run: |
