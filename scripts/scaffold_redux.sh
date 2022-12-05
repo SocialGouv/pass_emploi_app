@@ -31,6 +31,8 @@ generateImport () {
 
 ### Variables
 
+dart_max_char_in_line=120
+
 feature_snake_case=$1
 feature_camel_case=$2
 feature_first_char_lower_case="$(tr '[:upper:]' '[:lower:]' <<< ${feature_camel_case:0:1})${feature_camel_case:1}"
@@ -197,7 +199,7 @@ addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-APP-REDUCER-IMPORT" "$reduce
 value="${stateVariable}: ${reducerFunction}(current.${stateVariable}, action),"
 addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-APP-REDUCER-STATE" "$value"
 
-dart format "$editing_file" -l 120
+dart format "$editing_file" -l $dart_max_char_in_line
 
 
 
@@ -224,7 +226,7 @@ addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-APP-STATE-FACTORY" "$value"
 value="${stateVariable},"
 addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-APP-STATE-EQUATABLE" "$value"
 
-dart format "$editing_file" -l 120
+dart format "$editing_file" -l $dart_max_char_in_line
 
 
 
@@ -244,7 +246,7 @@ addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-STOREFACTORY-CONSTRUCTOR-REP
 value="${middlewareClass}(${repositoryVariable}),"
 addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE" "$value"
 
-dart format "$editing_file" -l 120
+dart format "$editing_file" -l $dart_max_char_in_line
 
 
 
@@ -256,7 +258,7 @@ addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-I
 value="${repositoryClass}(baseUrl, httpClient, crashlytics),"
 addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-CONSTRUCTOR" "$value"
 
-dart format "$editing_file" -l 120
+dart format "$editing_file" -l $dart_max_char_in_line
 
 
 
@@ -271,7 +273,7 @@ addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-PROPER
 value="${repositoryVariable},"
 addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-CONSTRUCTOR" "$value"
 
-dart format "$editing_file" -l 120
+dart format "$editing_file" -l $dart_max_char_in_line
 
 
 
@@ -283,7 +285,7 @@ addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-IMPO
 value="class ${repositoryDummyClass} extends ${repositoryClass} { ${repositoryDummyClass}() : super(\"\", DummyHttpClient()); }"
 addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-DECLARATION" "$value"
 
-dart format "$editing_file" -l 120
+dart format "$editing_file" -l $dart_max_char_in_line
 
 
 
