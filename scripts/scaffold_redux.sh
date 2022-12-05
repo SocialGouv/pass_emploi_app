@@ -36,6 +36,7 @@ feature_camel_case=$2
 feature_first_char_lower_case="$(tr '[:upper:]' '[:lower:]' <<< ${feature_camel_case:0:1})${feature_camel_case:1}"
 
 repositoryClass="${feature_camel_case}Repository"
+repositoryVariable="${feature_first_char_lower_case}Repository"
 repositoryImport=$(generateImport "repositories/${feature_snake_case}_repository.dart")
 
 stateImport=$(generateImport "features/$feature_snake_case/${feature_snake_case}_state.dart")
@@ -162,6 +163,7 @@ EOM
 
 editing_file="lib/redux/app_reducer.dart"
 echo "Editing $editing_file"
+
 addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-APP-REDUCER-IMPORT" "$reducerImport"
 
 value="${stateVariable}: ${reducerFunction}(current.${stateVariable}, action),"
@@ -173,6 +175,7 @@ dart format "$editing_file" -l 120
 
 editing_file="lib/redux/app_state.dart"
 echo "Editing $editing_file"
+
 addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-APP-STATE-IMPORT" "$stateImport"
 
 value="final ${stateClass} ${stateVariable};"
@@ -199,9 +202,18 @@ dart format "$editing_file" -l 120
 
 editing_file="lib/redux/store_factory.dart"
 echo "Editing $editing_file"
+
 addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-MIDDLEWARE" "$middlewareImport"
 
-value="${middlewareClass}(),"
+addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-STOREFACTORY-IMPORT-REPOSITORY" "$repositoryImport"
+
+value="final ${repositoryClass} ${repositoryVariable};"
+addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-STOREFACTORY-PROPERTY-REPOSITORY" "$value"
+
+value="this.${repositoryVariable},"
+addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-STOREFACTORY-CONSTRUCTOR-REPOSITORY" "$value"
+
+value="${middlewareClass}(${repositoryVariable}),"
 addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-STOREFACTORY-ADD-MIDDLEWARE" "$value"
 
 dart format "$editing_file" -l 120
@@ -210,7 +222,6 @@ dart format "$editing_file" -l 120
 
 # TODO :
 # générer le success state et success action avec un param et avec equatable
-# générer l'utilisation du repo dans le store_factory
 # générer l'utilisation du repo dans les dummies et bordel des tests
 # générer des tests unitaires pour le repo
 # générer des tests unitaires idiots sur la boucle redux (loading + succes, et loading + fail)
