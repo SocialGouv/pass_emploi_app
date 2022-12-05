@@ -352,6 +352,7 @@ void main() {
 
       test('should load then succeed when request succeed', () {
         sut.givenStore = givenState() //
+            .loggedInUser()
             .store((f) => {f.${repositoryVariable} = ${repositoryClass}SuccessStub()});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
@@ -359,6 +360,7 @@ void main() {
 
       test('should load then fail when request fail', () {
         sut.givenStore = givenState() //
+            .loggedInUser()
             .store((f) => {f.${repositoryVariable} = ${repositoryClass}ErrorStub()});
 
         sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
