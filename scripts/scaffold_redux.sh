@@ -40,6 +40,8 @@ repositoryDummyClass="Dummy${repositoryClass}"
 repositoryVariable="${feature_first_char_lower_case}Repository"
 repositoryImport=$(generateImport "repositories/${feature_snake_case}_repository.dart")
 
+actionImport=$(generateImport "features/$feature_snake_case/${feature_snake_case}_actions.dart")
+
 stateImport=$(generateImport "features/$feature_snake_case/${feature_snake_case}_state.dart")
 stateVariable="${feature_first_char_lower_case}State"
 stateClass="${feature_camel_case}State"
@@ -60,6 +62,7 @@ notInitState="${feature_camel_case}NotInitializedState"
 echo "Creating folder for feature_snake_case: $feature_snake_case"
 
 mkdir -p "lib/features/$feature_snake_case"
+mkdir -p "test/feature/$feature_snake_case"
 
 
 
@@ -140,7 +143,7 @@ EOM
 
 echo "Creating reducer…"
 cat > "lib/features/$feature_snake_case/${feature_snake_case}_reducer.dart" <<- EOM
-import 'package:pass_emploi_app/features/$feature_snake_case/${feature_snake_case}_actions.dart';
+${actionImport}
 import 'package:pass_emploi_app/features/$feature_snake_case/${feature_snake_case}_state.dart';
 
 ${feature_camel_case}State ${feature_first_char_lower_case}Reducer(${feature_camel_case}State current, dynamic action) {
@@ -156,7 +159,7 @@ EOM
 
 echo "Creating middleware…"
 cat > "lib/features/$feature_snake_case/${feature_snake_case}_middleware.dart" <<- EOM
-import 'package:pass_emploi_app/features/$feature_snake_case/${feature_snake_case}_actions.dart';
+${actionImport}
 import 'package:pass_emploi_app/redux/app_state.dart';
 ${repositoryImport}
 import 'package:redux/redux.dart';
@@ -326,5 +329,70 @@ EOM
 
 
 
-# TODO :
-# générer des tests unitaires idiots sur la boucle redux (loading + succes, et loading + fail)
+echo "Creating redux test…"
+cat > "test/feature/${feature_snake_case}/${feature_snake_case}_test.dart" <<- EOM
+import 'package:flutter_test/flutter_test.dart';
+${actionImport}
+${stateImport}
+${repositoryImport}
+
+import '../../doubles/dummies.dart';
+import '../../dsl/app_state_dsl.dart';
+import '../../dsl/matchers.dart';
+import '../../dsl/sut_redux.dart';
+
+void main() {
+  group('${feature_camel_case}', () {
+    final sut = StoreSut();
+
+    group("when requesting", () {
+      sut.when(() => ${feature_camel_case}RequestAction());
+
+      test('should load then succeed when request succeed', () {
+        sut.givenStore = givenState() //
+            .store((f) => {f.${repositoryVariable} = ${repositoryClass}SuccessStub()});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldSucceed()]);
+      });
+
+      test('should load then fail when request fail', () {
+        sut.givenStore = givenState() //
+            .store((f) => {f.${repositoryVariable} = ${repositoryClass}ErrorStub()});
+
+        sut.thenExpectChangingStatesThroughOrder([_shouldLoad(), _shouldFail()]);
+      });
+    });
+  });
+}
+
+Matcher _shouldLoad() => StateIs<${feature_camel_case}LoadingState>((state) => state.${stateVariable});
+
+Matcher _shouldFail() => StateIs<${feature_camel_case}FailureState>((state) => state.${stateVariable});
+
+Matcher _shouldSucceed() {
+  return StateIs<${feature_camel_case}SuccessState>(
+    (state) => state.${stateVariable},
+    (state) {
+      expect(state.result, true);
+    },
+  );
+}
+
+class ${repositoryClass}SuccessStub extends ${repositoryClass} {
+  ${repositoryClass}SuccessStub() : super("", DummyHttpClient());
+
+  @override
+  Future<bool?> get() async {
+    return true;
+  }
+}
+
+class ${repositoryClass}ErrorStub extends ${repositoryClass} {
+  ${repositoryClass}ErrorStub() : super("", DummyHttpClient());
+
+  @override
+  Future<bool?> get() async {
+    return null;
+  }
+}
+EOM
