@@ -282,6 +282,49 @@ dart format "$editing_file" -l 120
 
 
 
+echo "Creating repository test…"
+cat > "test/repositories/${feature_snake_case}_repository_test.dart" <<- EOM
+import 'package:flutter_test/flutter_test.dart';
+${repositoryImport}
+
+import '../dsl/sut_repository.dart';
+
+void main() {
+  group('${repositoryClass}', () {
+    final sut = RepositorySut<${repositoryClass}>();
+    sut.givenRepository((client) => ${repositoryClass}("BASE_URL", client));
+
+    group('get', () {
+      sut.when((repository) => repository.get());
+
+      group('when response is valid', () {
+        sut.givenResponseCode(200);
+
+        test('request should be valid', () async {
+          await sut.expectRequestBody(
+            method: "GET",
+            url: "BASE_URL/jeunes/todo",
+          );
+        });
+
+        test('response should be valid', () async {
+          await sut.expectTrueAsResult();
+        });
+      });
+
+      group('when response is invalid', () {
+        sut.givenResponseCode(500);
+
+        test('response should be null', () async {
+          await sut.expectNullResult();
+        });
+      });
+    });
+  });
+}
+EOM
+
+
+
 # TODO :
-# générer des tests unitaires pour le repo
 # générer des tests unitaires idiots sur la boucle redux (loading + succes, et loading + fail)
