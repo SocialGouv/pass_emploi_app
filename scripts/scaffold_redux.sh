@@ -96,9 +96,17 @@ EOM
 echo "Creating actions…"
 cat > "lib/features/$feature_snake_case/${feature_snake_case}_actions.dart" <<- EOM
 class ${feature_camel_case}RequestAction {}
+
 class ${feature_camel_case}LoadingAction {}
-class ${feature_camel_case}SuccessAction {}
+
+class ${feature_camel_case}SuccessAction {
+  final bool result;
+
+  ${feature_camel_case}SuccessAction(this.result);
+}
+
 class ${feature_camel_case}FailureAction {}
+
 class ${feature_camel_case}ResetAction {}
 EOM
 
@@ -106,11 +114,25 @@ EOM
 
 echo "Creating state…"
 cat > "lib/features/$feature_snake_case/${feature_snake_case}_state.dart" <<- EOM
-abstract class ${feature_camel_case}State {}
+abstract class ${feature_camel_case}State extends Equatable {
+  @override
+  List<Object?> get props => [];
+}
+
 class ${feature_camel_case}NotInitializedState extends ${feature_camel_case}State {}
+
 class ${feature_camel_case}LoadingState extends ${feature_camel_case}State {}
-class ${feature_camel_case}SuccessState extends ${feature_camel_case}State {}
+
 class ${feature_camel_case}FailureState extends ${feature_camel_case}State {}
+
+class ${feature_camel_case}SuccessState extends ${feature_camel_case}State {
+  final bool result;
+
+  ${feature_camel_case}SuccessState(this.result);
+
+  @override
+  List<Object?> get props => [result];
+}
 EOM
 
 
@@ -123,7 +145,7 @@ import 'package:pass_emploi_app/features/$feature_snake_case/${feature_snake_cas
 ${feature_camel_case}State ${feature_first_char_lower_case}Reducer(${feature_camel_case}State current, dynamic action) {
   if (action is ${feature_camel_case}LoadingAction) return ${feature_camel_case}LoadingState();
   if (action is ${feature_camel_case}FailureAction) return ${feature_camel_case}FailureState();
-  if (action is ${feature_camel_case}SuccessAction) return ${feature_camel_case}SuccessState();
+  if (action is ${feature_camel_case}SuccessAction) return ${feature_camel_case}SuccessState(action.result);
   if (action is ${feature_camel_case}ResetAction) return ${feature_camel_case}NotInitializedState();
   return current;
 }
@@ -151,7 +173,7 @@ class ${middlewareClass} extends MiddlewareClass<AppState> {
       store.dispatch(${feature_camel_case}LoadingAction());
       final result = await _repository.get();
       if (result != null) {
-        store.dispatch(${feature_camel_case}SuccessAction());
+        store.dispatch(${feature_camel_case}SuccessAction(result));
       } else {
         store.dispatch(${feature_camel_case}FailureAction());
       }
@@ -221,8 +243,6 @@ dart format "$editing_file" -l 120
 
 
 # TODO :
-# générer le success state et success action avec un param et avec equatable
 # générer l'utilisation du repo dans les dummies et bordel des tests
 # générer des tests unitaires pour le repo
 # générer des tests unitaires idiots sur la boucle redux (loading + succes, et loading + fail)
-# mettre ce machin dans scaffold_redux
