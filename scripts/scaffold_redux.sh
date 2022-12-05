@@ -118,6 +118,8 @@ EOM
 
 echo "Creating state…"
 cat > "lib/features/$feature_snake_case/${feature_snake_case}_state.dart" <<- EOM
+import 'package:equatable/equatable.dart';
+
 abstract class ${feature_camel_case}State extends Equatable {
   @override
   List<Object?> get props => [];
