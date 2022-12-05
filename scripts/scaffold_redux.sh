@@ -36,6 +36,7 @@ feature_camel_case=$2
 feature_first_char_lower_case="$(tr '[:upper:]' '[:lower:]' <<< ${feature_camel_case:0:1})${feature_camel_case:1}"
 
 repositoryClass="${feature_camel_case}Repository"
+repositoryImport=$(generateImport "repositories/${feature_snake_case}_repository.dart")
 
 stateImport=$(generateImport "features/$feature_snake_case/${feature_snake_case}_state.dart")
 stateVariable="${feature_first_char_lower_case}State"
@@ -132,19 +133,27 @@ EOM
 echo "Creating middleware…"
 cat > "lib/features/$feature_snake_case/${feature_snake_case}_middleware.dart" <<- EOM
 import 'package:pass_emploi_app/features/$feature_snake_case/${feature_snake_case}_actions.dart';
-import 'package:pass_emploi_app/features/login/login_state.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+${repositoryImport}
 import 'package:redux/redux.dart';
 
-class ${feature_camel_case}Middleware extends MiddlewareClass<AppState> {
+class ${middlewareClass} extends MiddlewareClass<AppState> {
+  final ${repositoryClass} _repository;
+
+  ${middlewareClass}(this._repository);
+
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
-    final loginState = store.state.loginState;
-    if (loginState is LoginSuccessState && action is ${feature_camel_case}RequestAction) {
+    final userId = store.state.userId();
+    if (userId != null && action is ${feature_camel_case}RequestAction) {
       store.dispatch(${feature_camel_case}LoadingAction());
-      //TODO: call repository
-      //store.dispatch(result != null ? ${feature_camel_case}SuccessAction(action.) : ${feature_camel_case}FailureAction());
+      final result = await _repository.get();
+      if (result != null) {
+        store.dispatch(${feature_camel_case}SuccessAction());
+      } else {
+        store.dispatch(${feature_camel_case}FailureAction());
+      }
     }
   }
 }
@@ -200,7 +209,7 @@ dart format "$editing_file" -l 120
 
 
 # TODO :
-# générer l'utilisation du repo dans le middleware
+# générer le success state et success action avec un param et avec equatable
 # générer l'utilisation du repo dans le store_factory
 # générer l'utilisation du repo dans les dummies et bordel des tests
 # générer des tests unitaires pour le repo
