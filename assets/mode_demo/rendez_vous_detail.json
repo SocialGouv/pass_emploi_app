@@ -1,0 +1,20 @@
+{
+  "id": "1",
+  "comment": "Pensez à ramener votre CV pour relecture ensemble",
+  "date": "<NOW_PLUS_0>",
+  "isLocaleDate": true,
+  "modality": "par visio",
+  "duration": 60,
+  "title": "",
+  "jeune": {
+    "id": "SEVP",
+    "nom": "Sevier",
+    "prenom": "Paul"
+  },
+  "type": {
+    "code": "ENTRETIEN_INDIVIDUEL_CONSEILLER",
+    "label": "Entretien individuel conseiller"
+  },
+  "presenceConseiller": true,
+  "invitation": false
+}

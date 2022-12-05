@@ -70,11 +70,14 @@ class AnalyticsScreenNames {
   static const serviceCiviqueFiltres = "/recherche/service_civique/search_results/filters";
   static const serviceCiviqueCreateAlert = "/saved_search/service_civique/create";
 
+  static const eventList = "events/list";
   static const toolbox = "recherche/boite_a_outils";
   static const emploiFavoris = "favoris/list/emploi";
   static const alternanceFavoris = "favoris/list/alternance";
   static const immersionFavoris = "favoris/list/immersion";
   static const profil = "profil";
+
+  static const eventPartagePageSuccess = "events/detail?partage-conseiller=true";
 
   static const savedSearchEmploiList = "/saved_searches/emploi/list";
   static const savedSearchAlternanceList = "/saved_searches/alternance/list";

@@ -1,5 +1,5 @@
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
-import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
+import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/future_months_rendezvous_list_builder.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/future_week_rendezvous_list_builder.dart';
@@ -9,11 +9,11 @@ import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
-  final RendezvousState _rendezvousState;
+  final RendezvousListState _rendezvousListState;
   final int _pageOffset;
   final DateTime _now;
 
-  CurrentWeekRendezVousListBuilder(this._rendezvousState, this._pageOffset, this._now);
+  CurrentWeekRendezVousListBuilder(this._rendezvousListState, this._pageOffset, this._now);
 
   @override
   String makeTitle() => Strings.rendezVousCetteSemaineTitre;
@@ -27,10 +27,10 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   String makeEmptyLabel() {
-    if (_rendezvousState.futurRendezVousStatus == RendezvousStatus.SUCCESS) {
-      if (_rendezvousState.rendezvous.isEmpty) {
+    if (_rendezvousListState.futurRendezVousStatus == RendezvousListStatus.SUCCESS) {
+      if (_rendezvousListState.rendezvous.isEmpty) {
         return Strings.noRendezYet;
-      } else if (_haveRendezvousPreviousThisWeek(_rendezvousState.rendezvous)) {
+      } else if (_haveRendezvousPreviousThisWeek(_rendezvousListState.rendezvous)) {
         return Strings.noMoreRendezVousThisWeek;
       }
     }
@@ -45,7 +45,8 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   String? makeEmptySubtitleLabel() {
-    if (_rendezvousState.futurRendezVousStatus == RendezvousStatus.SUCCESS && _rendezvousState.rendezvous.isEmpty) {
+    if (_rendezvousListState.futurRendezVousStatus == RendezvousListStatus.SUCCESS &&
+        _rendezvousListState.rendezvous.isEmpty) {
       return Strings.noRendezYetSubtitle;
     }
     return null;
@@ -53,15 +54,15 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   int? nextRendezvousPageOffset() {
-    if (_rendezvousState.rendezvous.isEmpty) return null;
+    if (_rendezvousListState.rendezvous.isEmpty) return null;
     if (rendezvous().isNotEmpty) return null;
 
     final futureBuilders = [
-      FutureWeekRendezVousListBuilder(_rendezvousState, 1, _now),
-      FutureWeekRendezVousListBuilder(_rendezvousState, 2, _now),
-      FutureWeekRendezVousListBuilder(_rendezvousState, 3, _now),
-      FutureWeekRendezVousListBuilder(_rendezvousState, 4, _now),
-      FutureMonthsRendezVousListBuilder(_rendezvousState, _now),
+      FutureWeekRendezVousListBuilder(_rendezvousListState, 1, _now),
+      FutureWeekRendezVousListBuilder(_rendezvousListState, 2, _now),
+      FutureWeekRendezVousListBuilder(_rendezvousListState, 3, _now),
+      FutureWeekRendezVousListBuilder(_rendezvousListState, 4, _now),
+      FutureMonthsRendezVousListBuilder(_rendezvousListState, _now),
     ];
 
     final index = futureBuilders.indexWhere((element) => element.rendezvous().isNotEmpty);
@@ -73,9 +74,9 @@ class CurrentWeekRendezVousListBuilder implements RendezVousListBuilder {
 
   @override
   List<RendezvousSection> rendezvous() {
-    if (_rendezvousState.futurRendezVousStatus != RendezvousStatus.SUCCESS) return [];
+    if (_rendezvousListState.futurRendezVousStatus != RendezvousListStatus.SUCCESS) return [];
 
-    return _rendezvousState.rendezvous
+    return _rendezvousListState.rendezvous
         .sortedFromRecentToFuture()
         .filteredFromTodayToSunday(_now)
         .sections(groupedBy: (element) => element.date.toDayOfWeekWithFullMonthContextualized());

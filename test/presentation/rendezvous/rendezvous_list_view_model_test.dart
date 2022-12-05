@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_actions.dart';
-import 'package:pass_emploi_app/features/rendezvous/rendezvous_actions.dart';
-import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
+import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_actions.dart';
+import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/list/rendezvous_list_view_model.dart';
@@ -633,8 +633,8 @@ void main() {
 
       // Then
       final dispatchedAction = store.dispatchedAction;
-      expect(dispatchedAction, isA<RendezvousRequestAction>());
-      if (dispatchedAction is RendezvousRequestAction) {
+      expect(dispatchedAction, isA<RendezvousListRequestAction>());
+      if (dispatchedAction is RendezvousListRequestAction) {
         expect(dispatchedAction.period, expectedPeriod);
       }
     }
@@ -661,8 +661,8 @@ void main() {
             "-> ${shouldRequestPast ? "should request" : "should not request"}";
         test(msg, () {
           // Given
-          final state = hasFetchedPast ? RendezvousState.successful([]) : RendezvousState.successfulFuture([]);
-          final store = StoreSpy.withState(AppState.initialState().copyWith(rendezvousState: state));
+          final state = hasFetchedPast ? RendezvousListState.successful([]) : RendezvousListState.successfulFuture([]);
+          final store = StoreSpy.withState(AppState.initialState().copyWith(rendezvousListState: state));
 
           // When
           RendezvousListViewModel.fetchRendezvous(store, pageOffset);
@@ -670,8 +670,8 @@ void main() {
           // Then
           if (shouldRequestPast) {
             final dispatchedAction = store.dispatchedAction;
-            expect(dispatchedAction, isA<RendezvousRequestAction>());
-            if (dispatchedAction is RendezvousRequestAction) {
+            expect(dispatchedAction, isA<RendezvousListRequestAction>());
+            if (dispatchedAction is RendezvousListRequestAction) {
               expect(dispatchedAction.period, RendezvousPeriod.PASSE);
             }
           } else {
@@ -691,8 +691,9 @@ void main() {
             "-> ${shouldRequestFuture ? "should request" : "should not request"}";
         test(msg, () {
           // Given
-          final state = hasFetchedFuture ? RendezvousState.successfulFuture([]) : RendezvousState.notInitialized();
-          final store = StoreSpy.withState(AppState.initialState().copyWith(rendezvousState: state));
+          final state =
+              hasFetchedFuture ? RendezvousListState.successfulFuture([]) : RendezvousListState.notInitialized();
+          final store = StoreSpy.withState(AppState.initialState().copyWith(rendezvousListState: state));
 
           // When
           RendezvousListViewModel.fetchRendezvous(store, pageOffset);
@@ -700,8 +701,8 @@ void main() {
           // Then
           if (shouldRequestFuture) {
             final dispatchedAction = store.dispatchedAction;
-            expect(dispatchedAction, isA<RendezvousRequestAction>());
-            if (dispatchedAction is RendezvousRequestAction) {
+            expect(dispatchedAction, isA<RendezvousListRequestAction>());
+            if (dispatchedAction is RendezvousListRequestAction) {
               expect(dispatchedAction.period, RendezvousPeriod.FUTUR);
             }
           } else {

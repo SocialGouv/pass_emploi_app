@@ -33,6 +33,7 @@ class Strings {
   static String unknownTypeTitle = "Le message est inaccessible";
   static String unknownTypeDescription = "Pour avoir l'accès au contenu veuillez mettre à jour l'application";
   static String voirOffre = "Voir l'offre";
+  static String voirEvent = "Voir l'évènement";
 
   static String chatWith(firstName) => "Discuter avec $firstName";
 
@@ -126,6 +127,7 @@ class Strings {
   static String semaineEnCours = "Semaine en cours";
 
   // Rendezvous
+  static String eventTitle = "Événement";
   static String myRendezVous = "Mon rendez-vous";
   static String rendezvousCardAnnule = "Annulé";
   static String rendezvousDetailsAnnule = "Rendez-vous annulé";
@@ -136,7 +138,8 @@ class Strings {
 
   static String noUpcomingRendezVous =
       "Vous n’avez pas de rendez-vous prévus.\nContactez votre conseiller pour prendre rendez-vous";
-  static String rendezVousError = "Erreur lors de la récupération de vos rendez-vous";
+  static String rendezVousListError = "Erreur lors de la récupération de vos rendez-vous";
+  static String rendezVousDetailsError = "Erreur lors de la récupération de l'évènement";
   static String conseillerIsPresent = "Votre conseiller sera présent";
   static String conseillerIsNotPresent = "Votre conseiller ne sera pas présent";
   static String commentWithoutConseiller = "Commentaire de votre conseiller";
@@ -161,6 +164,7 @@ class Strings {
   static String seeMoreRendezvous = "Voir plus de rendez-vous";
   static String individualInterview = "Entretien individuel conseiller";
   static String publicInfo = "Information collective";
+  static String shareToConseiller = "Partager à mon conseiller";
 
   static String rendezvousSinceDate(String date) => "depuis le $date";
 
@@ -177,8 +181,6 @@ class Strings {
   static String rendezvousModalityCardMessage(String modality, String conseiller) => "$modality avec $conseiller";
 
   static String phone(String phone) => "Téléphone : $phone";
-
-  static String withOrganism(String organism) => "Avec : $organism";
 
   // App evaluation
   static String evalTitle = "Votre expérience sur l’application";
@@ -307,6 +309,7 @@ class Strings {
   static String offresEmploiTitle = "Offres d'emploi";
   static String offreDetails = "Détails de l'offre";
   static String offresTabTitle = "Offres";
+  static String eventsTabTitle = "Évènements";
   static String boiteAOutilsTabTitle = "Boîte à outils";
   static String solutionsAppBarTitle = "Recherche";
   static String immersionButton = "Immersion";
@@ -319,7 +322,7 @@ class Strings {
   static String partageOffreSuccess =
       "L’offre d’emploi a été partagée à votre conseiller sur la messagerie de l’application";
   static String messagePourConseiller = "Message destiné à votre conseiller";
-  static String offrePartageChat = "L’offre d’emploi sera partagée à votre conseiller dans la messagerie";
+  static String infoOffrePartageChat = "L’offre d’emploi sera partagée à votre conseiller dans la messagerie";
   static String partagerOffreEmploi = "Partager l’offre d’emploi";
 
   // Alternance
@@ -327,6 +330,14 @@ class Strings {
   static String alternanceTitle = "Offres d'alternance";
   static String partagerOffreAlternance = "Partager l’offre d’alternance";
   static String partageOffreAlternanceNavTitle = "Partage de l’offre d’alternance";
+
+  // Event partage
+  static String infoEventPartageChat = "L’événement sera partagé à votre conseiller dans la messagerie";
+  static String souhaitDePartagerEvent = "Ce que vous souhaitez partager";
+  static String partageEventDefaultMessage = "Bonjour, je vous partage un événement afin d’avoir votre avis";
+  static String partagerAuConseiller = "Partager à mon conseiller";
+  static String partageEventNavTitle = "Partage d’événement";
+  static String partageEventSuccess = "L’événement a été partagé à votre conseiller sur la messagerie de l’application";
 
   // Immersion
   static String immersionLabel = "Découvrez un métier en immersion dans une entreprise.";
@@ -582,10 +593,9 @@ class Strings {
   static String developerOptionMatomoPage = 'Matomo';
 
   // Tutorial
-  static String tutoTitrePageUne = "Des suggestions de recherches adaptées à votre profil Pôle emploi !";
-  static String tutoDescriptionPageUne = "Sur l’onglet Favoris et l’onglet Recherche découvrez des suggestions de recherche.";
-  static String tutoTitrePageDeux = "Vous pourrez au choix :";
-  static String tutoDescriptionPageDeux = "- Ajouter ces suggestions : elles s'intègreront alors dans la liste de vos recherches mises en favoris. Vous serez alors notifié dès qu'une nouvelle annonce correspond à vos critères de recherche.\n\n- Supprimer la suggestion si elle ne vous convient pas.";
+  static String tutoTitrePageUne = "Consultez la liste des ateliers et animations organisés dans votre Mission locale";
+  static String tutoDescriptionPageUne =
+      "Partagez un de ces évènements avec votre conseiller pour qu'il vous y inscrive !";
 
   static String seeLater = "Voir plus tard";
   static String finish = "Terminer";
@@ -604,7 +614,8 @@ class Strings {
   // Suggestions de recherche
   static String vosSuggestionsDeRecherche = "Vos recherches suggérées";
   static String nouvellesSuggestionsDeRechercheTitre = "Vous avez de nouvelles recherches suggérées !";
-  static String nouvellesSuggestionsDeRechercheDescription = "Sur la base de votre profil Pôle emploi, voici des suggestions de recherches à sauvegarder dans vos favoris";
+  static String nouvellesSuggestionsDeRechercheDescription =
+      "Sur la base de votre profil Pôle emploi, voici des suggestions de recherches à sauvegarder dans vos favoris";
   static String voirSuggestionsDeRecherche = "Voir les suggestions";
   static String suggestionsDeRechercheTitlePage = "Vos recherches suggérées";
   static String suggestionTypeEmploi = "Emploi";
@@ -614,4 +625,10 @@ class Strings {
   static String suggestionRechercheAjoutee = "Recherche ajoutée";
   static String suggestionRechercheAjouteeDescription = "La recherche a été ajoutée à vos favoris";
   static String voirResultatsSuggestion = "Voir les résultats";
+
+  // Événements
+  static String eventListError = "Erreur lors de la récupération des événements";
+  static String eventListEmpty = "Il n'y a actuellement aucun événement";
+  static String eventListHeaderText = "Retrouver ici l’ensemble des événements organisés par votre Mission locale";
+  static String eventVousEtesDejaInscrit = "Vous êtes déjà inscrit";
 }

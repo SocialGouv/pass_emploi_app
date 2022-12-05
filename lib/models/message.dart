@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
+import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/repositories/crypto/chat_crypto.dart';
+import 'package:pass_emploi_app/repositories/rendezvous/json_rendezvous.dart';
 
 enum Sender { jeune, conseiller }
 
-enum MessageType { message, nouveauConseiller, nouveauConseillerTemporaire, messagePj, offre, inconnu }
+enum MessageType { message, nouveauConseiller, nouveauConseillerTemporaire, messagePj, offre, event, inconnu }
 
 enum OffreType { emploi, alternance, immersion, civique, inconnu }
 
@@ -16,6 +18,7 @@ class Message extends Equatable {
   final MessageType type;
   final List<PieceJointe> pieceJointes;
   final Offre? offre;
+  final Event? event;
 
   Message(
     this.content,
@@ -24,6 +27,7 @@ class Message extends Equatable {
     this.type,
     this.pieceJointes, [
     this.offre,
+    this.event,
   ]);
 
   static Message? fromJson(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
@@ -38,6 +42,7 @@ class Message extends Equatable {
       _type(json),
       _pieceJointes(json, chatCrypto, crashlytics),
       _offre(json),
+      _event(json),
     );
   }
 
@@ -45,6 +50,12 @@ class Message extends Equatable {
     final offreJson = json["offre"];
     if (offreJson == null) return null;
     return Offre.fromJson(offreJson);
+  }
+
+  static Event? _event(dynamic json) {
+    final eventJson = json["evenement"];
+    if (eventJson == null) return null;
+    return Event.fromJson(eventJson);
   }
 
   static List<PieceJointe> _pieceJointes(dynamic json, ChatCrypto chatCrypto, Crashlytics crashlytics) {
@@ -79,6 +90,8 @@ class Message extends Equatable {
           return MessageType.messagePj;
         case "MESSAGE_OFFRE":
           return MessageType.offre;
+        case "MESSAGE_EVENEMENT":
+          return MessageType.event;
         default:
           return MessageType.inconnu;
       }
@@ -125,6 +138,24 @@ class PieceJointe extends Equatable {
   }
 }
 
+class Event extends Equatable {
+  final String id;
+  final RendezvousTypeCode type;
+  final String titre;
+
+  Event({required this.id, required this.type, required this.titre});
+
+  @override
+  List<Object?> get props => [id, titre, type];
+
+  static Event? fromJson(dynamic json) {
+    final id = json['id'] as String?;
+    final titre = json['titre'] as String?;
+    final type = parseRendezvousTypeCode(json['type'] as String? ?? "");
+    if (id == null || titre == null) return null;
+    return Event(id: id, titre: titre, type: type);
+  }
+}
 class Offre extends Equatable {
   final String id;
   final String titre;

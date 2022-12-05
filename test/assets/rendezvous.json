@@ -1,6 +1,7 @@
 [
   {
     "id": "2d663392-b9ff-4b20-81ca-70a3c779e299",
+    "title": "super entretien",
     "comment": "Amener votre CV",
     "date": "2021-11-28T13:34:00.000Z",
     "isLocaleDate": false,
@@ -16,7 +17,6 @@
       "label": "Entretien individuel conseiller"
     },
     "presenceConseiller": true,
-    "title": "Nils Tavernier",
     "conseiller": {
       "id": "1",
       "prenom": "Nils",
@@ -30,6 +30,7 @@
   },
   {
     "id": "2d663392-b9ff-4b20-81ca-70a3c779e300",
+    "title": "",
     "date": "2021-11-29T13:34:00.000Z",
     "isLocaleDate": false,
     "modality": "",
@@ -44,7 +45,6 @@
       "label": "Visite"
     },
     "presenceConseiller": false,
-    "title": "title",
     "organisme": "Entreprise Bio Carburant",
     "adresse": "1 rue de la Boétie, 67000 Strasbourg",
     "precision": "Visite"
@@ -65,7 +65,6 @@
       "label": "Visite"
     },
     "presenceConseiller": false,
-    "title": "title",
     "organisme": "Entreprise Bio Carburant",
     "adresse": "1 rue de la Boétie, 67000 Strasbourg",
     "precision": "Visite"

@@ -14,6 +14,7 @@ class JsonRendezvous {
   final bool? withConseiller;
   final bool? isAnnule;
   final RendezvousType type;
+  final String? title;
   final String? comment;
   final String? organism;
   final bool? isInAgencePoleEmploi;
@@ -25,6 +26,7 @@ class JsonRendezvous {
   final String? description;
   final Conseiller? conseiller;
   final Conseiller? createur;
+  final bool? estInscrit;
 
   JsonRendezvous._({
     required this.id,
@@ -36,6 +38,7 @@ class JsonRendezvous {
     required this.withConseiller,
     required this.isAnnule,
     required this.type,
+    required this.title,
     required this.comment,
     required this.isInAgencePoleEmploi,
     required this.organism,
@@ -47,6 +50,7 @@ class JsonRendezvous {
     required this.precision,
     required this.conseiller,
     required this.createur,
+    required this.estInscrit,
   });
 
   factory JsonRendezvous.fromJson(dynamic json) {
@@ -62,6 +66,7 @@ class JsonRendezvous {
       withConseiller: json['presenceConseiller'] as bool?,
       isAnnule: json['annule'] as bool?,
       type: _rendezvousType(json['type']),
+      title: _title(json),
       comment: json['comment'] as String?,
       organism: json['organisme'] as String?,
       isInAgencePoleEmploi: json['agencePE'] as bool?,
@@ -73,6 +78,7 @@ class JsonRendezvous {
       precision: json['precision'] as String?,
       conseiller: conseiller,
       createur: createur != conseiller ? createur : null,
+      estInscrit: json['estInscrit'] as bool?,
     );
   }
 
@@ -86,6 +92,7 @@ class JsonRendezvous {
       withConseiller: withConseiller,
       isAnnule: isAnnule ?? false,
       type: type,
+      title: title,
       comment: comment,
       organism: _organism(),
       address: address,
@@ -96,6 +103,7 @@ class JsonRendezvous {
       precision: precision,
       conseiller: conseiller,
       createur: createur,
+      estInscrit: estInscrit,
     );
   }
 
@@ -112,10 +120,16 @@ class JsonRendezvous {
 }
 
 RendezvousType _rendezvousType(dynamic json) {
-  return RendezvousType(_parseRendezvousTypeCode(json['code'] as String), json['label'] as String);
+  return RendezvousType(parseRendezvousTypeCode(json['code'] as String), json['label'] as String);
 }
 
-RendezvousTypeCode _parseRendezvousTypeCode(String rendezvousTypeCode) {
+String? _title(dynamic json) {
+  final title = json['title'] as String?;
+  if (title == null || title.isEmpty) return null;
+  return title;
+}
+
+RendezvousTypeCode parseRendezvousTypeCode(String rendezvousTypeCode) {
   return RendezvousTypeCode.values.firstWhere(
     (e) => e.name == rendezvousTypeCode,
     orElse: () => RendezvousTypeCode.AUTRE,

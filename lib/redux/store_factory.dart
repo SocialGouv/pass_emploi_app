@@ -18,6 +18,7 @@ import 'package:pass_emploi_app/features/demarche/update/update_demarche_middlew
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_middleware.dart';
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_middleware.dart';
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_middleware.dart';
+import 'package:pass_emploi_app/features/events/list/event_list_middleware.dart';
 import 'package:pass_emploi_app/features/favori/ids/favori_ids_middleware.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_middleware.dart';
 import 'package:pass_emploi_app/features/favori/update/data_from_id_extractor.dart';
@@ -36,7 +37,8 @@ import 'package:pass_emploi_app/features/partage_activite/partage_activite_middl
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_middleware.dart';
 import 'package:pass_emploi_app/features/push/register_push_notification_token_middleware.dart';
 import 'package:pass_emploi_app/features/rating/rating_middleware.dart';
-import 'package:pass_emploi_app/features/rendezvous/rendezvous_middleware.dart';
+import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_middleware.dart';
+import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_middleware.dart';
 import 'package:pass_emploi_app/features/saved_search/create/immersion_saved_search_create_middleware.dart';
 import 'package:pass_emploi_app/features/saved_search/create/offre_emploi_saved_search_create_middleware.dart';
 import 'package:pass_emploi_app/features/saved_search/create/service_civique_saved_search_create_middleware.dart';
@@ -46,8 +48,8 @@ import 'package:pass_emploi_app/features/saved_search/init/saved_search_initiali
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_middleware.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_middleware.dart';
 import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_middleware.dart';
-import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_middleware.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_middleware.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_middleware.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_middleware.dart';
 import 'package:pass_emploi_app/features/tech/action_logging_middleware.dart';
 import 'package:pass_emploi_app/features/tech/crashlytics_middleware.dart';
@@ -75,6 +77,7 @@ import 'package:pass_emploi_app/repositories/demarche/create_demarche_repository
 import 'package:pass_emploi_app/repositories/demarche/search_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/demarche/update_demarche_repository.dart';
 import 'package:pass_emploi_app/repositories/details_jeune/details_jeune_repository.dart';
+import 'package:pass_emploi_app/repositories/event_list_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/immersion_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/offre_emploi_favoris_repository.dart';
 import 'package:pass_emploi_app/repositories/favoris/service_civique_favoris_repository.dart';
@@ -147,6 +150,7 @@ class StoreFactory {
   final ActionCommentaireRepository actionCommentaireRepository;
   final AgendaRepository agendaRepository;
   final SuggestionsRechercheRepository suggestionsRechercheRepository;
+  final EventListRepository eventListRepository;
 
   StoreFactory(
     this.authenticator,
@@ -191,6 +195,7 @@ class StoreFactory {
     this.actionCommentaireRepository,
     this.agendaRepository,
     this.suggestionsRechercheRepository,
+    this.eventListRepository,
   );
 
   redux.Store<AppState> initializeReduxStore({required AppState initialState}) {
@@ -212,7 +217,8 @@ class StoreFactory {
         ChatInitializerMiddleware(firebaseAuthRepository, firebaseAuthWrapper, chatCrypto, modeDemoRepository),
         ChatMiddleware(chatRepository),
         ChatStatusMiddleware(chatRepository),
-        RendezvousMiddleware(rendezvousRepository),
+        RendezvousListMiddleware(rendezvousRepository),
+        RendezvousDetailsMiddleware(rendezvousRepository),
         RegisterPushNotificationTokenMiddleware(registerTokenRepository),
         OffreEmploiMiddleware(offreEmploiRepository),
         OffreEmploiDetailsMiddleware(offreEmploiDetailsRepository),
@@ -256,6 +262,7 @@ class StoreFactory {
         AgendaMiddleware(agendaRepository),
         SuggestionsRechercheMiddleware(suggestionsRechercheRepository),
         TraiterSuggestionRechercheMiddleware(suggestionsRechercheRepository),
+        EventListMiddleware(eventListRepository),
         ..._debugMiddlewares(),
         ..._stagingMiddlewares(initialState.configurationState.getFlavor()),
       ],

@@ -2,7 +2,7 @@ import 'package:pass_emploi_app/features/agenda/agenda_reducer.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_reducer.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_reducer.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_reducer.dart';
-import 'package:pass_emploi_app/features/chat/partage_offre/partage_offre_reducer.dart';
+import 'package:pass_emploi_app/features/chat/partage/chat_partage_reducer.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_reducer.dart';
 import 'package:pass_emploi_app/features/chat/preview_file/preview_file_reducer.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_reducer.dart';
@@ -14,6 +14,7 @@ import 'package:pass_emploi_app/features/demarche/update/update_demarche_reducer
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_reducer.dart';
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_reducer.dart';
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_reducer.dart';
+import 'package:pass_emploi_app/features/events/list/event_list_reducer.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_reducer.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_reducer.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_reducer.dart';
@@ -31,14 +32,15 @@ import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search
 import 'package:pass_emploi_app/features/partage_activite/partage_activite_reducer.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_reducer.dart';
 import 'package:pass_emploi_app/features/rating/rating_reducer.dart';
-import 'package:pass_emploi_app/features/rendezvous/rendezvous_reducer.dart';
+import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_reducer.dart';
+import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_reducer.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_reducer.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_reducer.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_reducer.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_reducer.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_reducer.dart';
-import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_reducer.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_reducer.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_reducer.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_reducer.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_reducer.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_reducer.dart';
@@ -93,7 +95,8 @@ AppState reducer(AppState current, dynamic action) {
     searchLocationState: searchLocationReducer(current.searchLocationState, action),
     searchMetierState: searchMetierReducer(current.searchMetierState, action),
     loginState: loginReducer(current.loginState, action),
-    rendezvousState: rendezvousReducer(current.rendezvousState, action),
+    rendezvousListState: rendezvousListReducer(current.rendezvousListState, action),
+    rendezvousDetailsState: rendezvousDetailsReducer(current.rendezvousDetailsState, action),
     immersionSearchParametersState: immersionSearchParametersState(current.immersionSearchParametersState, action),
     immersionListState: immersionListReducer(current.immersionListState, action),
     immersionDetailsState: immersionDetailsReducer(current.immersionDetailsState, action),
@@ -121,7 +124,7 @@ AppState reducer(AppState current, dynamic action) {
     matomoLoggingState: matomoLoggingReducer(current.matomoLoggingState, action),
     previewFileState: previewFileReducer(current.previewFileState, action),
     chatBrouillonState: chatBrouillonReducer(current.chatBrouillonState, action),
-    chatPartageOffreState: chatPartageOffreReducer(current.chatPartageOffreState, action),
+    chatPartageState: chatPartageReducer(current.chatPartageState, action),
     tutorialState: tutorialReducer(current.tutorialState, action),
     partageActiviteState: partageActiviteReducer(current.partageActiviteState, action),
     partageActiviteUpdateState: partageActiviteUpdateReducer(current.partageActiviteUpdateState, action),
@@ -130,7 +133,7 @@ AppState reducer(AppState current, dynamic action) {
     actionCommentaireCreateState: actionCommentaireCreateReducer(current.actionCommentaireCreateState, action),
     agendaState: agendaReducer(current.agendaState, action),
     suggestionsRechercheState: suggestionsRechercheReducer(current.suggestionsRechercheState, action),
-    traiterSuggestionRechercheState:
-        traiterSuggestionRechercheReducer(current.traiterSuggestionRechercheState, action),
+    traiterSuggestionRechercheState: traiterSuggestionRechercheReducer(current.traiterSuggestionRechercheState, action),
+    eventListState: eventListReducer(current.eventListState, action),
   );
 }

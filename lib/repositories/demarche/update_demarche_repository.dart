@@ -3,6 +3,7 @@ import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
 import 'package:pass_emploi_app/models/demarche.dart';
 import 'package:pass_emploi_app/network/json_utf8_decoder.dart';
 import 'package:pass_emploi_app/network/status_code.dart';
+import 'package:pass_emploi_app/utils/date_extensions.dart';
 
 class UpdateDemarcheRepository {
   final String _baseUrl;
@@ -22,8 +23,8 @@ class UpdateDemarcheRepository {
     try {
       final response = await _httpClient.put(url, body: {
         "statut": _statusToString(status),
-        "dateFin": dateFin?.toIso8601String(),
-        "dateDebut": dateDebut?.toIso8601String(),
+        "dateFin": dateFin?.toIso8601WithOffsetDateTime(),
+        "dateDebut": dateDebut?.toIso8601WithOffsetDateTime(),
       });
       if (response.statusCode.isValid()) {
         final json = jsonUtf8Decode(response.bodyBytes);

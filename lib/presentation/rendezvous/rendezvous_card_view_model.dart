@@ -12,6 +12,7 @@ class RendezvousCardViewModel extends Equatable {
   final String id;
   final String tag;
   final String date;
+  final bool isInscrit;
   final bool isAnnule;
   final String? title;
   final String? subtitle;
@@ -21,6 +22,7 @@ class RendezvousCardViewModel extends Equatable {
     required this.id,
     required this.tag,
     required this.date,
+    required this.isInscrit,
     required this.isAnnule,
     required this.title,
     required this.subtitle,
@@ -33,17 +35,17 @@ class RendezvousCardViewModel extends Equatable {
       id: rdv.id,
       tag: takeTypeLabelOrPrecision(rdv),
       date: rdv.date.toDayAndHourContextualized(),
+      isInscrit: rdv.estInscrit ?? false,
       isAnnule: rdv.isAnnule,
-      title: rdv.organism != null ? Strings.withOrganism(rdv.organism!) : null,
+      title: rdv.title,
       subtitle: _subtitle(rdv),
-      greenTag: takeTypeLabelOrPrecision(rdv) == Strings.individualInterview ||
-          takeTypeLabelOrPrecision(rdv) == Strings.publicInfo,
+      greenTag: isRendezvousGreenTag(rdv),
     );
   }
 
   @override
   List<Object?> get props {
-    return [id, tag, date, isAnnule, title, subtitle, greenTag];
+    return [id, tag, date, isInscrit, isAnnule, title, subtitle, greenTag];
   }
 }
 

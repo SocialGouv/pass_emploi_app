@@ -7,8 +7,9 @@ import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/models/offre_emploi.dart';
 import 'package:pass_emploi_app/models/offre_emploi_details.dart';
 import 'package:pass_emploi_app/network/post_tracking_event_request.dart';
+import 'package:pass_emploi_app/pages/chat_partage_page.dart';
 import 'package:pass_emploi_app/pages/offre_page.dart';
-import 'package:pass_emploi_app/pages/partage_offre_page.dart';
+import 'package:pass_emploi_app/presentation/chat_partage_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/offre_emploi_details_page_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -460,7 +461,8 @@ class _PartageOffre extends StatelessWidget {
         ),
         onPressed: () => Navigator.push(
           context,
-          PartageOffrePage.materialPageRoute(isAlternance ? OffreType.alternance : OffreType.emploi),
+          ChatPartagePage.materialPageRoute(
+              ChatPartageOffreEmploiSource(isAlternance ? OffreType.alternance : OffreType.emploi)),
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 16),

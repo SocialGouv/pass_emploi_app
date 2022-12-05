@@ -5,7 +5,7 @@ import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
 import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
-import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
+import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 
@@ -190,7 +190,7 @@ void main() {
     final store = factory.initializeReduxStore(
       initialState: AppState.initialState(configuration: configuration(flavor: Flavor.PROD)).copyWith(
         loginState: UserNotLoggedInState(),
-        rendezvousState: RendezvousState.loadingFuture(),
+        rendezvousListState: RendezvousListState.loadingFuture(),
       ),
     );
     final Future<AppState> newStateFuture = store.onChange.first;
@@ -201,7 +201,7 @@ void main() {
     // Then
     final newState = await newStateFuture;
     expect(newState.loginState is LoginNotInitializedState, isTrue);
-    expect(newState.rendezvousState.isNotInitialized(), isTrue);
+    expect(newState.rendezvousListState.isNotInitialized(), isTrue);
     expect(newState.configurationState.getFlavor(), Flavor.PROD);
     expect(authenticatorSpy.logoutCalled, isTrue);
   });

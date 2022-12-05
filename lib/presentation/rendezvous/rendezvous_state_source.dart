@@ -1,1 +1,1 @@
-enum RendezvousStateSource { agenda, list }
+enum RendezvousStateSource { noSource, agenda, rendezvousList, eventList }

@@ -4,6 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:matomo/matomo.dart';
+import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_actions.dart';
+import 'package:pass_emploi_app/pages/chat_partage_page.dart';
+import 'package:pass_emploi_app/presentation/chat_partage_page_view_model.dart';
+import 'package:pass_emploi_app/presentation/display_state.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_details_view_model.dart';
 import 'package:pass_emploi_app/presentation/rendezvous/rendezvous_state_source.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -17,22 +21,26 @@ import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
+import 'package:pass_emploi_app/widgets/rendezvous_tag.dart';
+import 'package:pass_emploi_app/widgets/retry.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 import 'package:redux/redux.dart';
 
 class RendezvousDetailsPage extends StatelessWidget {
-  final String rendezvousId;
+  final String _rendezvousId;
+  final RendezvousStateSource _source;
   final RendezvousDetailsViewModel Function(Store<AppState>) _converter;
   static final _platform = io.Platform.isIOS ? Platform.IOS : Platform.ANDROID;
 
-  RendezvousDetailsPage._(this.rendezvousId, this._converter) : super();
+  RendezvousDetailsPage._(this._rendezvousId, this._source, this._converter) : super();
 
   static MaterialPageRoute<void> materialPageRoute(RendezvousStateSource source, String rendezvousId) {
     return MaterialPageRoute(
       builder: (context) {
         return RendezvousDetailsPage._(
           rendezvousId,
+          source,
           (store) => RendezvousDetailsViewModel.create(
             store: store,
             source: source,
@@ -47,30 +55,58 @@ class RendezvousDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, RendezvousDetailsViewModel>(
+      onInit: (store) {
+        _source == RendezvousStateSource.noSource ? store.dispatch(RendezvousDetailsRequestAction(_rendezvousId)) : {};
+      },
       converter: _converter,
-      builder: _builder,
+      builder: _scaffold,
+      onDispose: (store) {
+        _source == RendezvousStateSource.noSource ? store.dispatch(RendezvousDetailsResetAction()) : {};
+      },
     );
   }
 
-  Widget _builder(BuildContext context, RendezvousDetailsViewModel viewModel) {
-    MatomoTracker.trackScreenWithName(viewModel.trackingPageName, "");
+  Widget _scaffold(BuildContext context, RendezvousDetailsViewModel viewModel) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: passEmploiAppBar(label: Strings.myRendezVous, context: context, withBackButton: true),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(Margins.spacing_base),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _Header(viewModel),
-              if (viewModel.withModalityPart) _Modality(viewModel),
-              if (viewModel.withDescriptionPart) _DescriptionPart(viewModel),
-              SepLine(Margins.spacing_m, Margins.spacing_m),
-              _ConseillerPart(viewModel),
-              _InformIfAbsent(),
+      appBar: passEmploiAppBar(label: viewModel.navbarTitle, context: context, withBackButton: true),
+      body: _body(context, viewModel),
+    );
+  }
+
+  Widget _body(BuildContext context, RendezvousDetailsViewModel viewModel) {
+    switch (viewModel.displayState) {
+      case DisplayState.CONTENT:
+        return _content(context, viewModel);
+      case DisplayState.LOADING:
+        return Center(child: CircularProgressIndicator());
+      default:
+        return Center(child: Retry(Strings.rendezVousDetailsError, () => viewModel.onRetry()));
+    }
+  }
+
+  Widget _content(BuildContext context, RendezvousDetailsViewModel viewModel) {
+    if (viewModel.trackingPageName != null) MatomoTracker.trackScreenWithName(viewModel.trackingPageName!, '');
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(Margins.spacing_base),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (viewModel.isInscrit) ...[
+              _InscritTag(),
+              SizedBox(height: Margins.spacing_base),
             ],
-          ),
+            RendezvousTag(viewModel.tag, viewModel.greenTag),
+            SizedBox(height: Margins.spacing_base),
+            _Header(viewModel),
+            if (viewModel.withModalityPart) _Modality(viewModel),
+            if (viewModel.withDescriptionPart) _DescriptionPart(viewModel),
+            SepLine(Margins.spacing_m, Margins.spacing_m),
+            _ConseillerPart(viewModel),
+            if (viewModel.withIfAbsentPart) _InformIfAbsent(),
+            if (viewModel.isShareable) _Share(eventId: viewModel.id),
+          ],
         ),
       ),
     );
@@ -88,7 +124,7 @@ class _Header extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         if (viewModel.isAnnule) _Annule(),
-        Text(viewModel.title, style: TextStyles.textLBold()),
+        if (viewModel.title != null) Text(viewModel.title!, style: TextStyles.textLBold()),
         SizedBox(height: Margins.spacing_m),
         Row(
           children: [
@@ -327,6 +363,54 @@ class _Createur extends StatelessWidget {
             Flexible(child: Text(label, style: TextStyles.textBaseRegularWithColor(AppColors.primary))),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _Share extends StatelessWidget {
+  final String eventId;
+
+  _Share({required this.eventId});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: Margins.spacing_s),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          PrimaryActionButton(
+            label: Strings.shareToConseiller,
+            onPressed: () {
+              Navigator.push(
+                context,
+                ChatPartagePage.materialPageRoute(ChatPartageEventSource(eventId)),
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _InscritTag extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: AppColors.accent1),
+      ),
+      padding: const EdgeInsets.symmetric(vertical: Margins.spacing_xs, horizontal: Margins.spacing_base),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SvgPicture.asset(Drawables.icCalendar, color: AppColors.accent1),
+          SizedBox(width: Margins.spacing_s),
+          Text(Strings.eventVousEtesDejaInscrit, style: TextStyles.textSRegularWithColor(AppColors.accent1)),
+        ],
       ),
     );
   }

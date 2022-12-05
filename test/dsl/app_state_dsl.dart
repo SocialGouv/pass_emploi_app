@@ -9,11 +9,12 @@ import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/demarche/list/demarche_list_state.dart';
 import 'package:pass_emploi_app/features/demarche/search/seach_demarche_state.dart';
 import 'package:pass_emploi_app/features/demarche/update/update_demarche_state.dart';
+import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/features/offre_emploi/details/offre_emploi_details_state.dart';
 import 'package:pass_emploi_app/features/partage_activite/partage_activites_state.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
-import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
+import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
@@ -59,19 +60,20 @@ extension AppStateDSL on AppState {
   AppState withDemoMode() => copyWith(demoState: true);
 
   AppState rendezvousFutur(List<Rendezvous> rendezvous) =>
-      copyWith(rendezvousState: RendezvousState.successfulFuture(rendezvous));
+      copyWith(rendezvousListState: RendezvousListState.successfulFuture(rendezvous));
 
-  AppState rendezvous(List<Rendezvous> rendezvous) => copyWith(rendezvousState: RendezvousState.successful(rendezvous));
+  AppState rendezvous(List<Rendezvous> rendezvous) =>
+      copyWith(rendezvousListState: RendezvousListState.successful(rendezvous));
 
-  AppState rendezvousNotInitialized() => copyWith(rendezvousState: RendezvousState.notInitialized());
+  AppState rendezvousNotInitialized() => copyWith(rendezvousListState: RendezvousListState.notInitialized());
 
-  AppState loadingFutureRendezvous() => copyWith(rendezvousState: RendezvousState.loadingFuture());
+  AppState loadingFutureRendezvous() => copyWith(rendezvousListState: RendezvousListState.loadingFuture());
 
-  AppState failedFutureRendezvous() => copyWith(rendezvousState: RendezvousState.failedFuture());
+  AppState failedFutureRendezvous() => copyWith(rendezvousListState: RendezvousListState.failedFuture());
 
-  AppState loadingPastRendezvous() => copyWith(rendezvousState: RendezvousState.loadingPast());
+  AppState loadingPastRendezvous() => copyWith(rendezvousListState: RendezvousListState.loadingPast());
 
-  AppState failedPastRendezvous() => copyWith(rendezvousState: RendezvousState.failedPast());
+  AppState failedPastRendezvous() => copyWith(rendezvousListState: RendezvousListState.failedPast());
 
   AppState campagne(Campagne campagne) => copyWith(campagneState: CampagneState(campagne, []));
 
@@ -304,5 +306,9 @@ extension AppStateDSL on AppState {
 
   AppState failedTraiterSuggestionRecherche() {
     return copyWith(traiterSuggestionRechercheState: TraiterSuggestionRechercheFailureState());
+  }
+
+  AppState succeedEventList(List<Rendezvous> events) {
+    return copyWith(eventListState: EventListSuccessState(events));
   }
 }

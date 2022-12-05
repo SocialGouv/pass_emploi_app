@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
 import 'package:pass_emploi_app/models/message.dart';
+import 'package:pass_emploi_app/models/rendezvous.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/presentation/chat_page_view_model.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
@@ -144,8 +145,8 @@ void main() {
       DayItem('Aujourd\'hui'),
       OffreMessageItem(
         content: "Super offre",
-        idOffre: "343",
-        titreOffre: "Chevalier",
+        idPartage: "343",
+        titrePartage: "Chevalier",
         type: OffreType.emploi,
         sender: Sender.jeune,
         caption: "12:00 · Envoyé",
@@ -176,9 +177,81 @@ void main() {
       DayItem('Aujourd\'hui'),
       OffreMessageItem(
         content: "Super offre",
-        idOffre: "343",
-        titreOffre: "Chevalier",
+        idPartage: "343",
+        titrePartage: "Chevalier",
         type: OffreType.emploi,
+        sender: Sender.conseiller,
+        caption: "12:00",
+      ),
+    ]);
+  });
+
+  test('should display event partagé from jeune', () {
+    // Given
+    final messages = [
+      Message(
+        'Super event',
+        todayAtNoon,
+        Sender.jeune,
+        MessageType.event,
+        [],
+        null,
+        Event(
+          id: "id-1",
+          type: RendezvousTypeCode.ATELIER,
+          titre: "atelier catapulte",
+        ),
+      ),
+    ];
+    final store = givenState().chatSuccess(messages).store();
+
+    // When
+    final viewModel = ChatPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.items, [
+      DayItem('Aujourd\'hui'),
+      EventMessageItem(
+        content: "Super event",
+        idPartage: "id-1",
+        titrePartage: "atelier catapulte",
+        sender: Sender.jeune,
+        caption: "12:00 · Envoyé",
+      ),
+    ]);
+  });
+
+  test('should display event partagé from conseiller', () {
+    // Given
+    final messages = [
+      Message(
+        'Super event',
+        todayAtNoon,
+        Sender.conseiller,
+        MessageType.event,
+        [],
+        null,
+        Event(
+          id: "id-1",
+          type: RendezvousTypeCode.ATELIER,
+          titre: "atelier catapulte",
+        ),
+      ),
+    ];
+    final store = givenState().chatSuccess(messages).store();
+
+    // When
+    final viewModel = ChatPageViewModel.create(store);
+
+    // Then
+    expect(viewModel.displayState, DisplayState.CONTENT);
+    expect(viewModel.items, [
+      DayItem('Aujourd\'hui'),
+      EventMessageItem(
+        content: "Super event",
+        idPartage: "id-1",
+        titrePartage: "atelier catapulte",
         sender: Sender.conseiller,
         caption: "12:00",
       ),

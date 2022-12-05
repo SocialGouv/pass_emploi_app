@@ -47,7 +47,7 @@ echo "Creating middleware…"
 cat > "lib/features/$feature_snake_case/${feature_snake_case}_middleware.dart" <<- EOM
 import 'package:pass_emploi_app/features/$feature_snake_case/${feature_snake_case}_actions.dart';
 import 'package:pass_emploi_app/features/login/login_state.dart';
-import 'package:pass_emploi_app/redux/states/app_state.dart';
+import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:redux/redux.dart';
 
 class ${feature_camel_case}Middleware extends MiddlewareClass<AppState> {

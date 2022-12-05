@@ -6,7 +6,7 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 
 class ChatMessageWidget extends StatelessWidget {
-  final MessageItem item;
+  final UserMessageItem item;
 
   const ChatMessageWidget(this.item) : super();
 
@@ -29,7 +29,7 @@ class ChatMessageWidget extends StatelessWidget {
               color: item is ConseillerMessageItem ? AppColors.primaryLighten : AppColors.primary,
               borderRadius: BorderRadius.all(Radius.circular(16)),
             ),
-            child: TextWithClickableLinks(
+            child: SelectableTextWithClickableLinks(
               item.content,
               linkStyle: textStyle,
               style: textStyle,

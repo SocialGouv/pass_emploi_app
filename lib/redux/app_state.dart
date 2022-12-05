@@ -4,7 +4,7 @@ import 'package:pass_emploi_app/features/agenda/agenda_state.dart';
 import 'package:pass_emploi_app/features/campagne/campagne_state.dart';
 import 'package:pass_emploi_app/features/chat/brouillon/chat_brouillon_state.dart';
 import 'package:pass_emploi_app/features/chat/messages/chat_state.dart';
-import 'package:pass_emploi_app/features/chat/partage_offre/partage_offre_state.dart';
+import 'package:pass_emploi_app/features/chat/partage/chat_partage_state.dart';
 import 'package:pass_emploi_app/features/chat/piece_jointe/piece_jointe_state.dart';
 import 'package:pass_emploi_app/features/chat/preview_file/preview_file_state.dart';
 import 'package:pass_emploi_app/features/chat/status/chat_status_state.dart';
@@ -17,6 +17,7 @@ import 'package:pass_emploi_app/features/demarche/update/update_demarche_state.d
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_state.dart';
 import 'package:pass_emploi_app/features/developer_option/activation/developer_options_state.dart';
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_state.dart';
+import 'package:pass_emploi_app/features/events/list/event_list_state.dart';
 import 'package:pass_emploi_app/features/favori/list/favori_list_state.dart';
 import 'package:pass_emploi_app/features/favori/update/favori_update_state.dart';
 import 'package:pass_emploi_app/features/immersion/details/immersion_details_state.dart';
@@ -32,14 +33,15 @@ import 'package:pass_emploi_app/features/offre_emploi/search/offre_emploi_search
 import 'package:pass_emploi_app/features/partage_activite/partage_activites_state.dart';
 import 'package:pass_emploi_app/features/partage_activite/update/partage_activite_update_state.dart';
 import 'package:pass_emploi_app/features/rating/rating_state.dart';
-import 'package:pass_emploi_app/features/rendezvous/rendezvous_state.dart';
+import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_state.dart';
+import 'package:pass_emploi_app/features/rendezvous/list/rendezvous_list_state.dart';
 import 'package:pass_emploi_app/features/saved_search/create/saved_search_create_state.dart';
 import 'package:pass_emploi_app/features/saved_search/delete/saved_search_delete_state.dart';
 import 'package:pass_emploi_app/features/saved_search/list/saved_search_list_state.dart';
 import 'package:pass_emploi_app/features/service_civique/detail/service_civique_detail_state.dart';
 import 'package:pass_emploi_app/features/service_civique/search/service_civique_search_result_state.dart';
-import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
 import 'package:pass_emploi_app/features/suggestions_recherche/list/suggestions_recherche_state.dart';
+import 'package:pass_emploi_app/features/suggestions_recherche/traiter/traiter_suggestion_recherche_state.dart';
 import 'package:pass_emploi_app/features/suppression_compte/suppression_compte_state.dart';
 import 'package:pass_emploi_app/features/tutorial/tutorial_state.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_state.dart';
@@ -81,7 +83,8 @@ class AppState extends Equatable {
   final FavoriUpdateState favoriUpdateState;
   final SearchLocationState searchLocationState;
   final SearchMetierState searchMetierState;
-  final RendezvousState rendezvousState;
+  final RendezvousListState rendezvousListState;
+  final RendezvousDetailsState rendezvousDetailsState;
   final ImmersionListState immersionListState;
   final ImmersionDetailsState immersionDetailsState;
   final SavedSearchCreateState<OffreEmploiSavedSearch> offreEmploiSavedSearchCreateState;
@@ -100,7 +103,7 @@ class AppState extends Equatable {
   final MatomoLoggingState matomoLoggingState;
   final PreviewFileState previewFileState;
   final ChatBrouillonState chatBrouillonState;
-  final ChatPartageOffreState chatPartageOffreState;
+  final ChatPartageState chatPartageState;
   final TutorialState tutorialState;
   final PartageActiviteState partageActiviteState;
   final PartageActiviteUpdateState partageActiviteUpdateState;
@@ -110,6 +113,7 @@ class AppState extends Equatable {
   final AgendaState agendaState;
   final SuggestionsRechercheState suggestionsRechercheState;
   final TraiterSuggestionRechercheState traiterSuggestionRechercheState;
+  final EventListState eventListState;
 
   AppState({
     required this.configurationState,
@@ -136,7 +140,8 @@ class AppState extends Equatable {
     required this.favoriUpdateState,
     required this.searchLocationState,
     required this.searchMetierState,
-    required this.rendezvousState,
+    required this.rendezvousListState,
+    required this.rendezvousDetailsState,
     required this.immersionListState,
     required this.immersionDetailsState,
     required this.offreEmploiSavedSearchCreateState,
@@ -155,7 +160,7 @@ class AppState extends Equatable {
     required this.matomoLoggingState,
     required this.previewFileState,
     required this.chatBrouillonState,
-    required this.chatPartageOffreState,
+    required this.chatPartageState,
     required this.tutorialState,
     required this.partageActiviteState,
     required this.partageActiviteUpdateState,
@@ -165,6 +170,7 @@ class AppState extends Equatable {
     required this.agendaState,
     required this.suggestionsRechercheState,
     required this.traiterSuggestionRechercheState,
+    required this.eventListState,
   });
 
   AppState copyWith({
@@ -190,7 +196,8 @@ class AppState extends Equatable {
     final FavoriUpdateState? favoriUpdateState,
     final SearchLocationState? searchLocationState,
     final SearchMetierState? searchMetierState,
-    final RendezvousState? rendezvousState,
+    final RendezvousListState? rendezvousListState,
+    final RendezvousDetailsState? rendezvousDetailsState,
     final OffreEmploiDetailsState? offreEmploiDetailsState,
     final ImmersionListState? immersionListState,
     final ImmersionDetailsState? immersionDetailsState,
@@ -211,7 +218,7 @@ class AppState extends Equatable {
     final MatomoLoggingState? matomoLoggingState,
     final PreviewFileState? previewFileState,
     final ChatBrouillonState? chatBrouillonState,
-    final ChatPartageOffreState? chatPartageOffreState,
+    final ChatPartageState? chatPartageState,
     final TutorialState? tutorialState,
     final PartageActiviteState? partageActiviteState,
     final PartageActiviteUpdateState? partageActiviteUpdateState,
@@ -221,6 +228,7 @@ class AppState extends Equatable {
     final AgendaState? agendaState,
     final SuggestionsRechercheState? suggestionsRechercheState,
     final TraiterSuggestionRechercheState? traiterSuggestionRechercheState,
+    final EventListState? eventListState,
   }) {
     return AppState(
       loginState: loginState ?? this.loginState,
@@ -246,7 +254,8 @@ class AppState extends Equatable {
       favoriUpdateState: favoriUpdateState ?? this.favoriUpdateState,
       searchLocationState: searchLocationState ?? this.searchLocationState,
       searchMetierState: searchMetierState ?? this.searchMetierState,
-      rendezvousState: rendezvousState ?? this.rendezvousState,
+      rendezvousListState: rendezvousListState ?? this.rendezvousListState,
+      rendezvousDetailsState: rendezvousDetailsState ?? this.rendezvousDetailsState,
       immersionListState: immersionListState ?? this.immersionListState,
       immersionDetailsState: immersionDetailsState ?? this.immersionDetailsState,
       offreEmploiSavedSearchCreateState: offreEmploiSavedSearchCreateState ?? this.offreEmploiSavedSearchCreateState,
@@ -267,7 +276,7 @@ class AppState extends Equatable {
       matomoLoggingState: matomoLoggingState ?? this.matomoLoggingState,
       previewFileState: previewFileState ?? this.previewFileState,
       chatBrouillonState: chatBrouillonState ?? this.chatBrouillonState,
-      chatPartageOffreState: chatPartageOffreState ?? this.chatPartageOffreState,
+      chatPartageState: chatPartageState ?? this.chatPartageState,
       tutorialState: tutorialState ?? this.tutorialState,
       partageActiviteState: partageActiviteState ?? this.partageActiviteState,
       partageActiviteUpdateState: partageActiviteUpdateState ?? this.partageActiviteUpdateState,
@@ -277,6 +286,7 @@ class AppState extends Equatable {
       agendaState: agendaState ?? this.agendaState,
       suggestionsRechercheState: suggestionsRechercheState ?? this.suggestionsRechercheState,
       traiterSuggestionRechercheState: traiterSuggestionRechercheState ?? this.traiterSuggestionRechercheState,
+      eventListState: eventListState ?? this.eventListState,
     );
   }
 
@@ -305,7 +315,8 @@ class AppState extends Equatable {
       favoriUpdateState: FavoriUpdateState({}),
       searchLocationState: SearchLocationState([]),
       searchMetierState: SearchMetierState([]),
-      rendezvousState: RendezvousState.notInitialized(),
+      rendezvousListState: RendezvousListState.notInitialized(),
+      rendezvousDetailsState: RendezvousDetailsNotInitializedState(),
       immersionListState: ImmersionListNotInitializedState(),
       immersionDetailsState: ImmersionDetailsNotInitializedState(),
       offreEmploiSavedSearchCreateState: SavedSearchCreateState<OffreEmploiSavedSearch>.notInitialized(),
@@ -325,7 +336,7 @@ class AppState extends Equatable {
       matomoLoggingState: MatomoLoggingState([]),
       previewFileState: PreviewFileNotInitializedState(),
       chatBrouillonState: ChatBrouillonState(null),
-      chatPartageOffreState: ChatPartageOffreState.notInitialized,
+      chatPartageState: ChatPartageState.notInitialized,
       tutorialState: TutorialNotInitializedState(),
       partageActiviteState: PartageActiviteNotInitializedState(),
       partageActiviteUpdateState: PartageActiviteUpdateNotInitializedState(),
@@ -335,6 +346,7 @@ class AppState extends Equatable {
       agendaState: AgendaNotInitializedState(),
       suggestionsRechercheState: SuggestionsRechercheNotInitializedState(),
       traiterSuggestionRechercheState: TraiterSuggestionRechercheNotInitializedState(),
+      eventListState: EventListNotInitializedState(),
     );
   }
 
@@ -361,7 +373,8 @@ class AppState extends Equatable {
         searchMetierState,
         loginState,
         userActionListState,
-        rendezvousState,
+        rendezvousListState,
+        rendezvousDetailsState,
         immersionListState,
         immersionDetailsState,
         offreEmploiSavedSearchCreateState,
@@ -376,7 +389,7 @@ class AppState extends Equatable {
         piecesJointesState,
         previewFileState,
         chatBrouillonState,
-        chatPartageOffreState,
+        chatPartageState,
         tutorialState,
         partageActiviteState,
         partageActiviteUpdateState,
@@ -386,6 +399,7 @@ class AppState extends Equatable {
         agendaState,
         suggestionsRechercheState,
         traiterSuggestionRechercheState,
+        eventListState,
       ];
 
   @override

@@ -97,6 +97,8 @@ String? _getFileName(String url, String query) {
   if (url.removeLastPath().endsWith("/offres-immersion")) return "immersion_detail";
   if (url.removeLastPath().endsWith("/offres-emploi")) return "offre_emploi_detail";
   if (url.removeLastPath().endsWith("/jeunes")) return "jeune_detail";
+  if (url.removeLastPath().endsWith("/rendezvous")) return "rendez_vous_detail";
+  if (url.contains("/animations-collectives")) return "event_list";
   return null;
 }
 
