@@ -242,6 +242,18 @@ dart format "$editing_file" -l 120
 
 
 
+editing_file="lib/app_initializer.dart"
+echo "Editing $editing_file"
+
+addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-IMPORT" "$repositoryImport"
+
+value="${repositoryClass}(baseUrl, httpClient, crashlytics),"
+addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-CONSTRUCTOR" "$value"
+
+dart format "$editing_file" -l 120
+
+
+
 # TODO :
 # générer l'utilisation du repo dans les dummies et bordel des tests
 # générer des tests unitaires pour le repo
