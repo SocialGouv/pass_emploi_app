@@ -43,6 +43,7 @@ import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.da
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
+/*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-IMPORT*/
 import 'package:redux/redux.dart';
 
 import '../doubles/dummies.dart';
@@ -91,6 +92,7 @@ class TestStoreFactory {
   AgendaRepository agendaRepository = DummyAgendaRepository();
   SuggestionsRechercheRepository suggestionsRechercheRepository = DummySuggestionsRechercheRepository();
   EventListRepository eventListRepository = DummyEventListRepository();
+  /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-PROPERTY*/
 
   Store<AppState> initializeReduxStore({required AppState initialState}) {
     return StoreFactory(
@@ -137,6 +139,7 @@ class TestStoreFactory {
       agendaRepository,
       suggestionsRechercheRepository,
       eventListRepository,
+      /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-CONSTRUCTOR*/
     ).initializeReduxStore(initialState: initialState);
   }
 }

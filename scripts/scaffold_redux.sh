@@ -36,6 +36,7 @@ feature_camel_case=$2
 feature_first_char_lower_case="$(tr '[:upper:]' '[:lower:]' <<< ${feature_camel_case:0:1})${feature_camel_case:1}"
 
 repositoryClass="${feature_camel_case}Repository"
+repositoryDummyClass="Dummy${repositoryClass}"
 repositoryVariable="${feature_first_char_lower_case}Repository"
 repositoryImport=$(generateImport "repositories/${feature_snake_case}_repository.dart")
 
@@ -254,7 +255,33 @@ dart format "$editing_file" -l 120
 
 
 
+editing_file="test/utils/test_setup.dart"
+echo "Editing $editing_file"
+
+addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-IMPORT" "$repositoryImport"
+
+value="${repositoryClass} ${repositoryVariable} = ${repositoryDummyClass}();"
+addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-PROPERTY" "$value"
+
+value="${repositoryVariable},"
+addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-CONSTRUCTOR" "$value"
+
+dart format "$editing_file" -l 120
+
+
+
+editing_file="test/doubles/dummies.dart"
+echo "Editing $editing_file"
+
+addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-IMPORT" "$repositoryImport"
+
+value="class ${repositoryDummyClass} extends ${repositoryClass} { ${repositoryDummyClass}() : super(\"\", DummyHttpClient()); }"
+addLineAboveTag "$editing_file" "AUTOGENERATE-REDUX-TEST-DUMMIES-REPOSITORY-DECLARATION" "$value"
+
+dart format "$editing_file" -l 120
+
+
+
 # TODO :
-# générer l'utilisation du repo dans les dummies et bordel des tests
 # générer des tests unitaires pour le repo
 # générer des tests unitaires idiots sur la boucle redux (loading + succes, et loading + fail)
