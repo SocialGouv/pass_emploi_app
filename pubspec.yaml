@@ -14,18 +14,22 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  flutter_svg: '1.0.3'
+  flutter_svg: '1.1.6'
   flutter_redux: '0.10.0'
-  package_info: '2.0.2'
-  flutter_local_notifications: '9.5.0'
+  flutter_local_notifications: '12.0.4'
   flutter_dotenv: '5.0.2'
-  url_launcher: '6.1.0'
   flutter_appauth: '2.4.1+1'
   flutter_linkify: '5.0.2'
-  share_plus: '4.0.4'
   flutter_secure_storage: '5.0.2'
-  open_file: '3.2.1'
+  flutter_cache_manager: '3.3.0'
+  package_info: '2.0.2'
+  url_launcher: '6.1.0'
+  share_plus: '4.0.4'
+  open_filex: '4.3.1'
   path_provider: '2.0.11'
+  google_fonts: '2.3.2'
+  smooth_page_indicator: '1.0.0+2'
+  in_app_review: '2.0.4'
   # Dart
   http: '0.13.5'
   http_interceptor: '1.0.2'
@@ -34,6 +38,9 @@ dependencies:
   equatable: '2.0.3'
   logger: '1.1.0'
   uuid: '3.0.7'
+  synchronized: '3.0.0+2'
+  encrypt: '5.0.1'
+  matomo_tracker: '2.0.0'
   # Firebase
   firebase_core: '1.16.0'
   firebase_crashlytics: '2.7.2'
@@ -41,27 +48,13 @@ dependencies:
   firebase_messaging: '11.3.0'
   firebase_auth: '3.3.17'
   cloud_firestore: '3.1.14'
-  synchronized: '3.0.0+2'
-  flutter_cache_manager: '3.3.0'
   flutterfire_installations: '0.1.0'
-  # UI
-  google_fonts: '2.3.2'
-  # Analytics
-  matomo_tracker: '2.0.0'
-
-  encrypt: '5.0.1'
-  smooth_page_indicator: '1.0.0+2'
-  in_app_review: '2.0.4'
-
-dependency_overrides:
-  ffi: '2.0.1'
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^1.0.4
   dart_code_metrics: ^4.14.0
-
 
 flutter:
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:open_file/open_file.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:pass_emploi_app/presentation/preview_file_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 
@@ -23,7 +23,7 @@ class PreviewFileInvisibleHandler extends StatelessWidget {
     final path = viewModel.path;
     if (path == null) return;
 
-    OpenFile.open(path);
+    OpenFilex.open(path);
 
     viewModel.viewClosed();
   }
