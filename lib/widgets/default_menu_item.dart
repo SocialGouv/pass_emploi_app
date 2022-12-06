@@ -67,17 +67,18 @@ class _ActiveIndicator extends StatelessWidget {
     final opacity = isActive ? 1.0 : 0.0;
     final animationDuration = Duration(milliseconds: 800);
     return AnimatedPositioned(
-        curve: Curves.fastLinearToSlowEaseIn,
-        bottom: bottomPosition,
+      curve: Curves.fastLinearToSlowEaseIn,
+      bottom: bottomPosition,
+      duration: animationDuration,
+      child: AnimatedOpacity(
+        opacity: opacity,
         duration: animationDuration,
-        child: AnimatedOpacity(
-          opacity: opacity,
-          duration: animationDuration,
-          curve: Curves.fastLinearToSlowEaseIn,
-          child: SvgPicture.asset(
-            Drawables.icMenuSelectedBullet,
-            color: DefaultMenuItem.currentColor(isActive),
-          ),
-        ));
+        curve: Curves.fastLinearToSlowEaseIn,
+        child: SvgPicture.asset(
+          Drawables.icMenuSelectedBullet,
+          color: DefaultMenuItem.currentColor(isActive),
+        ),
+      ),
+    );
   }
 }
