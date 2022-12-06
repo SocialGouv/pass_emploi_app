@@ -187,13 +187,6 @@ jobs:
         env:
           PROD_RUNTIME_ENV_B64: ${{ secrets.PROD_RUNTIME_ENV_B64 }}
 
-      - name: Write staging plist files (required for xcodebuild to succeed)
-        shell: bash
-        run: |
-          echo "$STAGING_OPTIONS_PLIST_B64" | base64 --decode > ios/StagingOptionsPlist.plist
-        env:
-          STAGING_OPTIONS_PLIST_B64: ${{ secrets.STAGING_OPTIONS_PLIST_B64 }}
-
       - name: Update Xcode project settings with fetched code signing profiles and create prod_export_options.plist
         shell: bash
         run: |
