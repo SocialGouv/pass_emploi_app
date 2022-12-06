@@ -56,10 +56,7 @@ build.env
 # prod build
 build.prod.env
 
-ios/StagingOptionsPlist.plist
-ios/ProdOptionsPlist.plist
-ios/StagingExportOptions.plist
-ios/ProdExportOptions.plist
+ios/*.plist
 ios/*.p12
 ios/*.p8
 

@@ -89,21 +89,6 @@ Une fois la montée de version de Flutter effectuée, mettre à jour :
    `key.properties.template`. Ce fichier ne doit JAMAIS être versionné.
 3. Renseigner les valeurs demandées (valeurs présentes dans le Drive du projet) dans ce fichier.
 
-### Spécificités iOS
-
-1. Vérifier que votre compte Apple Dev ait bien accès au compte Apple "Fabrique numérique des
-   ministères sociaux"
-2. Ouvrir le projet dans Xcode
-3. Configurer XCode, notamment sur la
-   partie `Signing & Capabilities` [https://flutter.dev/docs/deployment/ios] 
-   en renseignant le bon provisioning profile de l'app `fr.fabrique.socialgouv.passemploi.staging`
-4. Récupérer le fichier `StagingOptionsPlist.plist` dans le Drive du projet, et le placer dans le
-   dossier `ios`.
-5. Récupérer le fichier `DistCert_47M2TN7F3J.p12` dans le Drive du projet, et le placer dans le
-   dossier `ios` en le nommant `cert.p12`.
-6. Récupérer le fichier `frfabriquesocialgouvpassemploistaging.mobileprovision` dans le Drive du
-   projet, et le placer dans le dossier `ci`.
-
 ### Avec les github actions
 
 A chaque push sur la branche develop, un build et un déploiement est fait sur firebase. Lorsque des
