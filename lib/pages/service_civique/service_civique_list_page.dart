@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_actions.dart';
@@ -18,6 +17,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/date_extensions.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/utils/string_extensions.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/service_civique_saved_search_bottom_sheet.dart';
@@ -224,7 +224,7 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
   }
 
   Widget _empty(ServiceCiviqueViewModel viewModel) {
-    MatomoTracker.instance.trackScreenWithName(
+    PassEmploiMatomoTracker.instance.trackScreenWithName(
       widgetName: AnalyticsScreenNames.serviceCiviqueNoResults,
       eventName: AnalyticsScreenNames.serviceCiviqueNoResults,
     );

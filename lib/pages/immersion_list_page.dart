@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
@@ -15,6 +14,7 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/immersion_saved_search_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/filtre_button.dart';
@@ -187,6 +187,6 @@ class ImmersionListPage extends StatelessWidget {
   }
 
   void _trackEmptyResult(BuildContext context) {
-    MatomoTracker.instance.trackScreen(context, eventName: AnalyticsScreenNames.immersionNoResults);
+    PassEmploiMatomoTracker.instance.trackScreen(context, eventName: AnalyticsScreenNames.immersionNoResults);
   }
 }

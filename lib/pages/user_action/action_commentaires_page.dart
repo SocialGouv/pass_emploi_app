@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/create/action_commentaire_create_actions.dart';
@@ -14,6 +13,7 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/comment.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
 import 'package:pass_emploi_app/widgets/loading_overlay.dart';
@@ -198,7 +198,7 @@ class _CreateCommentaireWidgetState extends State<_CreateCommentaireWidget> {
               onPressed: () {
                 if (_controller.value.text.isNotEmpty && !_loading()) {
                   widget.viewModel.onSend(_controller.value.text);
-                  MatomoTracker.instance.trackScreenWithName(
+                  PassEmploiMatomoTracker.instance.trackScreenWithName(
                     widgetName: AnalyticsScreenNames.actionCommentsPage,
                     eventName: AnalyticsActionNames.sendComment,
                   );

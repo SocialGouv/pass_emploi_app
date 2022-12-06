@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/pages/choix_organisme_explaination_page.dart';
@@ -11,6 +10,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/primary_rounded_bottom_background.dart';
 
@@ -93,7 +93,7 @@ class ChoixOrganismePage extends StatelessWidget {
                             color: Colors.transparent,
                             child: InkWell(
                               onTap: () {
-                                MatomoTracker.instance.trackOutlink(noOrganismeLink);
+                                PassEmploiMatomoTracker.instance.trackOutlink(noOrganismeLink);
                                 launchExternalUrl(noOrganismeLink);
                               },
                               child: Padding(

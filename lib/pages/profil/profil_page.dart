@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_actions.dart';
@@ -17,6 +16,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/bottom_sheets.dart';
 import 'package:pass_emploi_app/widgets/bottom_sheets/rating_bottom_sheet.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
@@ -223,7 +223,7 @@ class _LegalInformationCard extends StatelessWidget {
   }
 
   void _launchAndTrackExternalLink(String link) {
-    MatomoTracker.instance.trackOutlink(link);
+    PassEmploiMatomoTracker.instance.trackOutlink(link);
     launchExternalUrl(link);
   }
 

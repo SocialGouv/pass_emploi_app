@@ -1,4 +1,3 @@
-import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/auth/auth_id_token.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
@@ -8,13 +7,14 @@ import 'package:pass_emploi_app/features/login/login_actions.dart';
 import 'package:pass_emploi_app/features/mode_demo/is_mode_demo_repository.dart';
 import 'package:pass_emploi_app/models/user.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:redux/redux.dart';
 
 class LoginMiddleware extends MiddlewareClass<AppState> {
   final Authenticator _authenticator;
   final FirebaseAuthWrapper _firebaseAuthWrapper;
   final ModeDemoRepository _modeDemoRepository;
-  final MatomoTracker _matomoTracker;
+  final PassEmploiMatomoTracker _matomoTracker;
 
   LoginMiddleware(this._authenticator, this._firebaseAuthWrapper, this._modeDemoRepository, this._matomoTracker);
 

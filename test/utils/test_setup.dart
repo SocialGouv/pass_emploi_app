@@ -1,4 +1,3 @@
-import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
@@ -43,6 +42,7 @@ import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.da
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 /*AUTOGENERATE-REDUX-TEST-SETUP-REPOSITORY-IMPORT*/
 import 'package:redux/redux.dart';
 
@@ -81,7 +81,7 @@ class TestStoreFactory {
   SuppressionCompteRepository suppressionCompteRepository = DummySuppressionCompteRepository();
   CampagneRepository campagneRepository = DummyCampagneRepository();
   ModeDemoRepository demoRepository = ModeDemoRepository();
-  MatomoTracker matomoTracker = DummyMatomoTracker();
+  PassEmploiMatomoTracker matomoTracker = DummyMatomoTracker();
   UpdateDemarcheRepository updateDemarcheRepository = DummyUpdateDemarcheRepository();
   CreateDemarcheRepository createDemarcheRepository = DummySuccessCreateDemarcheRepository();
   SearchDemarcheRepository searchDemarcheRepository = DummyDemarcheDuReferentielRepository();

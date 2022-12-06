@@ -12,7 +12,6 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:http/io_client.dart';
 import 'package:http_interceptor/http/intercepted_client.dart';
-import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:package_info/package_info.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/auth/auth_access_checker.dart';
@@ -76,6 +75,7 @@ import 'package:pass_emploi_app/repositories/suggestions_recherche_repository.da
 import 'package:pass_emploi_app/repositories/suppression_compte_repository.dart';
 import 'package:pass_emploi_app/repositories/tracking_analytics/tracking_event_repository.dart';
 import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 /*AUTOGENERATE-REDUX-APP-INITIALIZER-REPOSITORY-IMPORT*/
 import 'package:pass_emploi_app/utils/secure_storage_exception_handler_decorator.dart';
 import 'package:redux/redux.dart';
@@ -105,8 +105,8 @@ class AppInitializer {
   Future<void> _initializeMatomoTracker(Configuration configuration) async {
     final siteId = configuration.matomoSiteId;
     final url = configuration.matomoBaseUrl;
-    await MatomoTracker.instance.initialize(siteId: int.parse(siteId), url: url);
-    MatomoTracker.instance.trackDimensions({
+    await PassEmploiMatomoTracker.instance.initialize(siteId: int.parse(siteId), url: url);
+    PassEmploiMatomoTracker.instance.trackDimensions({
       AnalyticsCustomDimensions.userTypeId: AnalyticsCustomDimensions.appUserType,
     });
   }
@@ -214,7 +214,7 @@ class AppInitializer {
       SuppressionCompteRepository(baseUrl, httpClient, crashlytics),
       modeDemoRepository,
       CampagneRepository(baseUrl, httpClient, crashlytics),
-      MatomoTracker.instance,
+      PassEmploiMatomoTracker.instance,
       UpdateDemarcheRepository(baseUrl, httpClient, crashlytics),
       CreateDemarcheRepository(baseUrl, httpClient, crashlytics),
       SearchDemarcheRepository(baseUrl, httpClient, crashlytics),

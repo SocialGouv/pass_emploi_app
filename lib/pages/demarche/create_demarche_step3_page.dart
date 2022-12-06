@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
@@ -12,6 +11,7 @@ import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/date_pickers/date_picker.dart';
 import 'package:pass_emploi_app/widgets/default_app_bar.dart';
@@ -104,7 +104,7 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
   void _onDidChange(CreateDemarcheStep3ViewModel? oldVm, CreateDemarcheStep3ViewModel newVm) {
     if (newVm.shouldGoBack) {
       Navigator.popUntil(context, (route) => route.settings.name == Navigator.defaultRouteName);
-      MatomoTracker.instance.trackScreen(context, eventName: AnalyticsScreenNames.searchDemarcheStep3Success);
+      PassEmploiMatomoTracker.instance.trackScreen(context, eventName: AnalyticsScreenNames.searchDemarcheStep3Success);
       showSuccessfulSnackBar(context, Strings.demarcheCreationSuccess);
     }
   }

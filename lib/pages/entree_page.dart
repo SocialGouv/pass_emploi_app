@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/mode_demo/explication_page_mode_demo.dart';
@@ -13,6 +12,7 @@ import 'package:pass_emploi_app/ui/shadows.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
 import 'package:pass_emploi_app/widgets/entree_biseau_background.dart';
@@ -148,7 +148,7 @@ class Link extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
-          MatomoTracker.instance.trackOutlink(link);
+          PassEmploiMatomoTracker.instance.trackOutlink(link);
           launchExternalUrl(link);
         },
         child: Wrap(

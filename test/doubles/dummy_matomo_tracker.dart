@@ -8,9 +8,10 @@ import 'package:matomo_tracker/src/logger.dart';
 import 'package:matomo_tracker/src/matomo_event.dart';
 import 'package:matomo_tracker/src/session.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class DummyMatomoTracker implements MatomoTracker {
+class DummyMatomoTracker implements PassEmploiMatomoTracker {
   @override
   late String contentBase;
 
@@ -39,6 +40,27 @@ class DummyMatomoTracker implements MatomoTracker {
   String? userAgent;
 
   @override
+  String? get getAuthToken => null;
+
+  @override
+  bool getOptOut() => false;
+
+  @override
+  Logger get log => throw UnimplementedError();
+
+  @override
+  bool? get optOut => false;
+
+  @override
+  Queue<MatomoEvent> get queue => throw UnimplementedError();
+
+  @override
+  Visitor get visitor => throw UnimplementedError();
+
+  @override
+  Function(String screen)? onTrackScreen;
+
+  @override
   void clear() {
     // Do nothing
   }
@@ -54,25 +76,9 @@ class DummyMatomoTracker implements MatomoTracker {
   }
 
   @override
-  String? get getAuthToken => null;
-
-  @override
-  bool getOptOut() => false;
-
-  @override
-  Logger get log => throw UnimplementedError();
-
-  @override
-  bool? get optOut => false;
-
-  @override
   void pause() {
     // Do nothing
   }
-
-  @override
-  // Do nothing
-  Queue<MatomoEvent> get queue => throw UnimplementedError();
 
   @override
   void resume() {
@@ -80,9 +86,8 @@ class DummyMatomoTracker implements MatomoTracker {
   }
 
   @override
-  Future<void> setOptOut({required bool optout}) {
+  Future<void> setOptOut({required bool optout}) async {
     // Do nothing
-    throw UnimplementedError();
   }
 
   @override
@@ -159,9 +164,6 @@ class DummyMatomoTracker implements MatomoTracker {
       {required String searchKeyword, String? searchCategory, int? searchCount, Map<String, String>? dimensions}) {
     // Do nothing
   }
-
-  @override
-  Visitor get visitor => throw UnimplementedError();
 
   @override
   Future<void> initialize({

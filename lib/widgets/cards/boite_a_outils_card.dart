@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/models/outil.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/widgets/sepline.dart';
 
 class BoiteAOutilsCard extends StatelessWidget {
@@ -25,7 +25,7 @@ class BoiteAOutilsCard extends StatelessWidget {
       child: InkWell(
         customBorder: roundedCornerShape,
         onTap: () {
-          MatomoTracker.instance.trackOutlink(outil.urlRedirect);
+          PassEmploiMatomoTracker.instance.trackOutlink(outil.urlRedirect);
           launchExternalUrl(outil.urlRedirect);
         },
         child: Column(

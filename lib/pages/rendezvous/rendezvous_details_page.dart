@@ -3,7 +3,6 @@ import 'dart:io' as io;
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/features/rendezvous/details/rendezvous_details_actions.dart';
 import 'package:pass_emploi_app/pages/chat_partage_page.dart';
 import 'package:pass_emploi_app/presentation/chat_partage_page_view_model.dart';
@@ -17,6 +16,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/utils/launcher_utils.dart';
+import 'package:pass_emploi_app/utils/pass_emploi_matomo_tracker.dart';
 import 'package:pass_emploi_app/utils/platform.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/buttons/secondary_button.dart';
@@ -87,7 +87,7 @@ class RendezvousDetailsPage extends StatelessWidget {
 
   Widget _content(BuildContext context, RendezvousDetailsViewModel viewModel) {
     if (viewModel.trackingPageName != null) {
-      MatomoTracker.instance.trackScreen(context, eventName: viewModel.trackingPageName!);
+      PassEmploiMatomoTracker.instance.trackScreen(context, eventName: viewModel.trackingPageName!);
     }
     return SingleChildScrollView(
       child: Padding(
