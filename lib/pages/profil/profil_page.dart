@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:matomo/matomo.dart';
+import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/details_jeune/details_jeune_actions.dart';
@@ -223,7 +223,7 @@ class _LegalInformationCard extends StatelessWidget {
   }
 
   void _launchAndTrackExternalLink(String link) {
-    MatomoTracker.trackOutlink(link);
+    MatomoTracker.instance.trackOutlink(link);
     launchExternalUrl(link);
   }
 

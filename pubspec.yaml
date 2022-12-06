@@ -27,13 +27,13 @@ dependencies:
   open_file: '3.2.1'
   path_provider: '2.0.11'
   # Dart
-  http: '0.13.4'
+  http: '0.13.5'
   http_interceptor: '1.0.2'
   intl: '0.17.0'
   collection: '1.16.0'
   equatable: '2.0.3'
   logger: '1.1.0'
-  uuid: '3.0.6'
+  uuid: '3.0.7'
   # Firebase
   firebase_core: '1.16.0'
   firebase_crashlytics: '2.7.2'
@@ -47,14 +47,14 @@ dependencies:
   # UI
   google_fonts: '2.3.2'
   # Analytics
-  matomo:
-    git:
-      url: https://github.com/BonnetM/dart-matomo.git
-      ref: feat/add-outlink-support
+  matomo_tracker: '2.0.0'
 
   encrypt: '5.0.1'
   smooth_page_indicator: '1.0.0+2'
   in_app_review: '2.0.4'
+
+dependency_overrides:
+  ffi: '2.0.1'
 
 dev_dependencies:
   flutter_test:

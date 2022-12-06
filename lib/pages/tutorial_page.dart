@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:matomo/matomo.dart';
+import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/presentation/tutorial_page_view_model.dart';
@@ -93,15 +93,15 @@ class _TutorialPageState extends State<TutorialPage> {
                           duration: Duration(milliseconds: 600),
                           curve: Curves.linearToEaseOut,
                         );
-                        MatomoTracker.trackScreenWithName(
-                          AnalyticsActionNames.continueTutorial,
-                          AnalyticsScreenNames.tutorialPage,
+                        MatomoTracker.instance.trackScreenWithName(
+                          widgetName: AnalyticsScreenNames.tutorialPage,
+                          eventName: AnalyticsActionNames.continueTutorial,
                         );
                       } else {
                         viewModel.onDone();
-                        MatomoTracker.trackScreenWithName(
-                          AnalyticsActionNames.doneTutorial,
-                          AnalyticsScreenNames.tutorialPage,
+                        MatomoTracker.instance.trackScreenWithName(
+                          widgetName: AnalyticsScreenNames.tutorialPage,
+                          eventName: AnalyticsActionNames.doneTutorial,
                         );
                       }
                     },
@@ -154,10 +154,10 @@ class _SkipButton extends StatelessWidget {
           InkWell(
             onTap: active
                 ? () {
-                    viewModel.onDone();
-                    MatomoTracker.trackScreenWithName(
-                      AnalyticsActionNames.skipTutorial,
-                      AnalyticsScreenNames.tutorialPage,
+              viewModel.onDone();
+                    MatomoTracker.instance.trackScreenWithName(
+                      widgetName: AnalyticsScreenNames.tutorialPage,
+                      eventName: AnalyticsActionNames.skipTutorial,
                     );
                   }
                 : null,
@@ -294,9 +294,9 @@ class _DelayedButton extends StatelessWidget {
           child: InkWell(
             onTap: () {
               viewModel.onDelay();
-              MatomoTracker.trackScreenWithName(
-                AnalyticsActionNames.delayedTutorial,
-                AnalyticsScreenNames.tutorialPage,
+              MatomoTracker.instance.trackScreenWithName(
+                widgetName: AnalyticsScreenNames.tutorialPage,
+                eventName: AnalyticsActionNames.delayedTutorial,
               );
             },
             child: Wrap(

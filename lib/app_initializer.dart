@@ -12,7 +12,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart';
 import 'package:http/io_client.dart';
 import 'package:http_interceptor/http/intercepted_client.dart';
-import 'package:matomo/matomo.dart';
+import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:package_info/package_info.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/auth/auth_access_checker.dart';
@@ -105,8 +105,10 @@ class AppInitializer {
   Future<void> _initializeMatomoTracker(Configuration configuration) async {
     final siteId = configuration.matomoSiteId;
     final url = configuration.matomoBaseUrl;
-    await MatomoTracker().initialize(siteId: int.parse(siteId), url: url);
-    MatomoTracker.setCustomDimension(AnalyticsCustomDimensions.userTypeId, AnalyticsCustomDimensions.appUserType);
+    await MatomoTracker.instance.initialize(siteId: int.parse(siteId), url: url);
+    MatomoTracker.instance.trackDimensions({
+      AnalyticsCustomDimensions.userTypeId: AnalyticsCustomDimensions.appUserType,
+    });
   }
 
   Future<FirebaseRemoteConfig?> _remoteConfig() async {
@@ -212,7 +214,7 @@ class AppInitializer {
       SuppressionCompteRepository(baseUrl, httpClient, crashlytics),
       modeDemoRepository,
       CampagneRepository(baseUrl, httpClient, crashlytics),
-      MatomoTracker(),
+      MatomoTracker.instance,
       UpdateDemarcheRepository(baseUrl, httpClient, crashlytics),
       CreateDemarcheRepository(baseUrl, httpClient, crashlytics),
       SearchDemarcheRepository(baseUrl, httpClient, crashlytics),

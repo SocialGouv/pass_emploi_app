@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo/matomo.dart';
+import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/models/immersion.dart';
@@ -62,7 +62,7 @@ class ImmersionListPage extends StatelessWidget {
   }
 
   Widget _empty(BuildContext context, ImmersionSearchResultsViewModel viewModel) {
-    _trackEmptyResult();
+    _trackEmptyResult(context);
     return EmptyOffreWidget(
       withModifyButton: !fromSavedSearch,
       additional: Padding(
@@ -186,7 +186,7 @@ class ImmersionListPage extends StatelessWidget {
     );
   }
 
-  void _trackEmptyResult() {
-    MatomoTracker.trackScreenWithName(AnalyticsScreenNames.immersionNoResults, "");
+  void _trackEmptyResult(BuildContext context) {
+    MatomoTracker.instance.trackScreen(context, eventName: AnalyticsScreenNames.immersionNoResults);
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo/matomo.dart';
+import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/presentation/profil/suppression_compte_view_model.dart';
@@ -115,18 +115,18 @@ class _DeleteAccountButton extends StatelessWidget {
     await showDialog(
       context: context,
       builder: (_) {
-        MatomoTracker.trackScreenWithName(
-          AnalyticsActionNames.suppressionAccountConfirmation,
-          AnalyticsScreenNames.suppressionAccount,
+        MatomoTracker.instance.trackScreenWithName(
+          widgetName: AnalyticsScreenNames.suppressionAccount,
+          eventName: AnalyticsActionNames.suppressionAccountConfirmation,
         );
         return DeleteAlertDialog();
       },
     ).then((result) {
       if (result == true) {
         showSuccessfulSnackBar(context, Strings.accountDeletionSuccess);
-        MatomoTracker.trackScreenWithName(
-          AnalyticsActionNames.suppressionAccountSucceded,
-          AnalyticsScreenNames.suppressionAccount,
+        MatomoTracker.instance.trackScreenWithName(
+          widgetName: AnalyticsScreenNames.suppressionAccount,
+          eventName: AnalyticsActionNames.suppressionAccountSucceded,
         );
       } else if (result == false) {
         showFailedSnackBar(context, Strings.savedSearchDeleteError);

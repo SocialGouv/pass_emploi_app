@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:matomo/matomo.dart';
+import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/pages/choix_organisme_explaination_page.dart';
@@ -93,7 +93,7 @@ class ChoixOrganismePage extends StatelessWidget {
                             color: Colors.transparent,
                             child: InkWell(
                               onTap: () {
-                                MatomoTracker.trackOutlink(noOrganismeLink);
+                                MatomoTracker.instance.trackOutlink(noOrganismeLink);
                                 launchExternalUrl(noOrganismeLink);
                               },
                               child: Padding(

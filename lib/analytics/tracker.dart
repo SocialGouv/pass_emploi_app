@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:matomo/matomo.dart';
+import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/pass_emploi_app.dart';
 
 class Tracker extends StatefulWidget {
@@ -45,6 +45,6 @@ class _TrackerState extends State<Tracker> with RouteAware {
   }
 
   void _track() {
-    MatomoTracker.trackScreenWithName(widget.tracking, 'WidgetCreated');
+    MatomoTracker.instance.trackScreen(context, eventName: widget.tracking);
   }
 }

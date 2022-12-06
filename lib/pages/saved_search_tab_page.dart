@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo/matomo.dart';
+import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/features/deep_link/deep_link_state.dart';
 import 'package:pass_emploi_app/features/immersion/list/immersion_list_actions.dart';
@@ -145,20 +145,28 @@ class _SavedSearchTabPageState extends State<SavedSearchTabPage> {
     }
     switch (_selectedIndex) {
       case IndexOf.SERVICE_CIVIQUE:
-        MatomoTracker.trackScreenWithName(
-            AnalyticsScreenNames.savedSearchServiceCiviqueList, AnalyticsScreenNames.savedSearchServiceCiviqueList);
+        MatomoTracker.instance.trackScreenWithName(
+          widgetName: AnalyticsScreenNames.savedSearchServiceCiviqueList,
+          eventName: AnalyticsScreenNames.savedSearchServiceCiviqueList,
+        );
         return _getSavedSearchServiceCivique(viewModel);
       case IndexOf.OFFRES_EMPLOI:
-        MatomoTracker.trackScreenWithName(
-            AnalyticsScreenNames.savedSearchEmploiList, AnalyticsScreenNames.savedSearchEmploiList);
+        MatomoTracker.instance.trackScreenWithName(
+          widgetName: AnalyticsScreenNames.savedSearchEmploiList,
+          eventName: AnalyticsScreenNames.savedSearchEmploiList,
+        );
         return _getSavedSearchOffreEmploi(viewModel, false);
       case IndexOf.ALTERNANCE:
-        MatomoTracker.trackScreenWithName(
-            AnalyticsScreenNames.savedSearchAlternanceList, AnalyticsScreenNames.savedSearchAlternanceList);
+        MatomoTracker.instance.trackScreenWithName(
+          widgetName: AnalyticsScreenNames.savedSearchAlternanceList,
+          eventName: AnalyticsScreenNames.savedSearchAlternanceList,
+        );
         return _getSavedSearchOffreEmploi(viewModel, true);
       default:
-        MatomoTracker.trackScreenWithName(
-            AnalyticsScreenNames.savedSearchEmploiList, AnalyticsScreenNames.savedSearchEmploiList);
+        MatomoTracker.instance.trackScreenWithName(
+          widgetName: AnalyticsScreenNames.savedSearchEmploiList,
+          eventName: AnalyticsScreenNames.savedSearchEmploiList,
+        );
         return _getSavedSearchImmersions(viewModel);
     }
   }

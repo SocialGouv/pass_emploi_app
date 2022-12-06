@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:matomo/matomo.dart';
+import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.dart';
 import 'package:pass_emploi_app/presentation/saved_search_view_model.dart';
@@ -69,12 +69,15 @@ class _OffreEmploiBottomSheetFormState extends State<OffreEmploiBottomSheetForm>
             iconSize: 18,
             onPressed: (_isFormValid())
                 ? () {
-                    viewModel.createSavedSearch(searchTitle!);
-                    widget.onlyAlternance
-                        ? MatomoTracker.trackScreenWithName(AnalyticsActionNames.createSavedSearchAlternance,
-                            AnalyticsScreenNames.alternanceCreateAlert)
-                        : MatomoTracker.trackScreenWithName(
-                            AnalyticsActionNames.createSavedSearchEmploi, AnalyticsScreenNames.emploiCreateAlert);
+              viewModel.createSavedSearch(searchTitle!);
+                    MatomoTracker.instance.trackScreenWithName(
+                      eventName: widget.onlyAlternance
+                          ? AnalyticsScreenNames.alternanceCreateAlert
+                          : AnalyticsScreenNames.emploiCreateAlert,
+                      widgetName: widget.onlyAlternance
+                          ? AnalyticsActionNames.createSavedSearchAlternance
+                          : AnalyticsActionNames.createSavedSearchEmploi,
+                    );
                   }
                 : null,
           ),

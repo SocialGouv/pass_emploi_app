@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:matomo/matomo.dart';
+import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/pages/choix_organisme_page.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
@@ -32,7 +32,10 @@ class _CejInformationPageState extends State<CejInformationPage> {
       final _controllerPage = _controller.page?.floor();
       if (_controllerPage != null && _controllerPage != _displayedPage) {
         _displayedPage = _controllerPage;
-        MatomoTracker.trackScreenWithName(AnalyticsScreenNames.cejInformationPage(_controllerPage + 1), "");
+        MatomoTracker.instance.trackScreen(
+          context,
+          eventName: AnalyticsScreenNames.cejInformationPage(_controllerPage + 1),
+        );
       }
     });
     super.initState();

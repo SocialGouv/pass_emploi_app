@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo/matomo.dart';
+import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/presentation/chat_partage_page_view_model.dart';
@@ -151,7 +151,7 @@ class _ChatPartagePageState extends State<ChatPartagePage> {
       case DisplayState.LOADING:
         return;
       case DisplayState.CONTENT:
-        MatomoTracker.trackScreenWithName(viewModel.snackbarSuccessTracking, "");
+        MatomoTracker.instance.trackScreen(context, eventName: viewModel.snackbarSuccessTracking);
         showSuccessfulSnackBar(context, viewModel.snackbarSuccessText);
         viewModel.snackbarDisplayed();
         Navigator.pop(context);

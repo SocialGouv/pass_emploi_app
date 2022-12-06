@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo/matomo.dart';
+import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/service_civique/search/search_service_civique_actions.dart';
@@ -224,8 +224,10 @@ class _ServiceCiviqueListPage extends State<ServiceCiviqueListPage> {
   }
 
   Widget _empty(ServiceCiviqueViewModel viewModel) {
-    MatomoTracker.trackScreenWithName(
-        AnalyticsScreenNames.serviceCiviqueNoResults, AnalyticsScreenNames.serviceCiviqueNoResults);
+    MatomoTracker.instance.trackScreenWithName(
+      widgetName: AnalyticsScreenNames.serviceCiviqueNoResults,
+      eventName: AnalyticsScreenNames.serviceCiviqueNoResults,
+    );
     return EmptyOffreWidget(
       withModifyButton: !widget.fromSavedSearch,
       additional: Padding(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:matomo/matomo.dart';
+import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/presentation/rating_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
@@ -38,7 +38,7 @@ class _DismissSnackBar extends StatelessWidget {
     return StoreConnector<AppState, RatingViewModel>(
       converter: (store) => RatingViewModel.create(store),
       builder: (context, viewModel) => _body(context, viewModel),
-     );
+    );
   }
 
   Widget _body(BuildContext context, RatingViewModel viewModel) {
@@ -54,7 +54,10 @@ class _DismissSnackBar extends StatelessWidget {
   void _onDismiss(BuildContext context, RatingViewModel viewModel) {
     viewModel.onDone();
     snackbarKey.currentState?.hideCurrentSnackBar();
-    MatomoTracker.trackScreenWithName(AnalyticsActionNames.skipRating, AnalyticsScreenNames.ratingPage);
+    MatomoTracker.instance.trackScreenWithName(
+      widgetName: AnalyticsScreenNames.ratingPage,
+      eventName: AnalyticsActionNames.skipRating,
+    );
   }
 }
 

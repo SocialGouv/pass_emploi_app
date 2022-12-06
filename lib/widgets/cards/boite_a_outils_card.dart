@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:matomo/matomo.dart';
+import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/models/outil.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
@@ -25,7 +25,7 @@ class BoiteAOutilsCard extends StatelessWidget {
       child: InkWell(
         customBorder: roundedCornerShape,
         onTap: () {
-          MatomoTracker.trackOutlink(outil.urlRedirect);
+          MatomoTracker.instance.trackOutlink(outil.urlRedirect);
           launchExternalUrl(outil.urlRedirect);
         },
         child: Column(

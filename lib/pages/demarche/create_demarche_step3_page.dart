@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:matomo/matomo.dart';
+import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/demarche/create/create_demarche_actions.dart';
@@ -104,7 +104,7 @@ class _CreateDemarcheStep3PageState extends State<CreateDemarcheStep3Page> {
   void _onDidChange(CreateDemarcheStep3ViewModel? oldVm, CreateDemarcheStep3ViewModel newVm) {
     if (newVm.shouldGoBack) {
       Navigator.popUntil(context, (route) => route.settings.name == Navigator.defaultRouteName);
-      MatomoTracker.trackScreenWithName(AnalyticsScreenNames.searchDemarcheStep3Success, '');
+      MatomoTracker.instance.trackScreen(context, eventName: AnalyticsScreenNames.searchDemarcheStep3Success);
       showSuccessfulSnackBar(context, Strings.demarcheCreationSuccess);
     }
   }

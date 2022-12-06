@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:matomo/matomo.dart';
+import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/analytics/analytics_constants.dart';
 import 'package:pass_emploi_app/analytics/tracker.dart';
 import 'package:pass_emploi_app/features/user_action/commentaire/list/action_commentaire_list_actions.dart';
@@ -151,7 +151,10 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
   void _onDeleteAction(UserActionDetailsViewModel viewModel) {
     if (viewModel.deleteDisplayState != DeleteDisplayState.SHOW_LOADING) {
       viewModel.onDelete(viewModel.id);
-      MatomoTracker.trackScreenWithName(AnalyticsActionNames.deleteUserAction, AnalyticsScreenNames.userActionDetails);
+      MatomoTracker.instance.trackScreenWithName(
+        widgetName: AnalyticsScreenNames.userActionDetails,
+        eventName: AnalyticsActionNames.deleteUserAction,
+      );
     }
   }
 
@@ -199,7 +202,10 @@ class _ActionDetailPageState extends State<UserActionDetailPage> {
   }
 
   void _trackSuccessfulUpdate() {
-    MatomoTracker.trackScreenWithName(AnalyticsScreenNames.updateUserAction, AnalyticsScreenNames.userActionDetails);
+    MatomoTracker.instance.trackScreenWithName(
+      widgetName: AnalyticsScreenNames.userActionDetails,
+      eventName: AnalyticsScreenNames.updateUserAction,
+    );
   }
 }
 
@@ -377,9 +383,9 @@ class _CommentCard extends StatelessWidget {
   }
 
   void _onCommentClick(BuildContext context, String actionId, String actionTitle) {
-    MatomoTracker.trackScreenWithName(
-      AnalyticsActionNames.accessToActionComments,
-      AnalyticsScreenNames.userActionDetails,
+    MatomoTracker.instance.trackScreenWithName(
+      widgetName: AnalyticsScreenNames.userActionDetails,
+      eventName: AnalyticsActionNames.accessToActionComments,
     );
     Navigator.push(
       context,

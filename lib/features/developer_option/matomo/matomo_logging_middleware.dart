@@ -1,7 +1,6 @@
 import 'dart:async';
 
-import 'package:logging/logging.dart';
-import 'package:matomo/matomo.dart';
+import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/configuration/configuration.dart';
 import 'package:pass_emploi_app/features/bootstrap/bootstrap_action.dart';
 import 'package:pass_emploi_app/features/developer_option/matomo/matomo_logging_action.dart';
@@ -27,11 +26,11 @@ class MatomoLoggingMiddleware extends MiddlewareClass<AppState> {
 
   void _enableMatomoLogger() {
     hierarchicalLoggingEnabled = true;
-    MatomoTracker().log.level = Level.ALL;
+    MatomoTracker.instance.log.level = Level.ALL;
   }
 
   void _subscribeToMatomoLogger(Store<AppState> store) {
-    _subscription = MatomoTracker().log.onRecord.listen((event) {
+    MatomoTracker.instance.log._subscription = MatomoTracker.instance.log.onRecord.listen((event) {
       final trackingEvent = _getEventFromMessage(event.message);
       if (trackingEvent != null) store.dispatch(MatomoLoggingAction(trackingEvent));
     });

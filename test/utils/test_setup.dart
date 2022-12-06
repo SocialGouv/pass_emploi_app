@@ -1,4 +1,4 @@
-import 'package:matomo/matomo.dart';
+import 'package:matomo_tracker/matomo_tracker.dart';
 import 'package:pass_emploi_app/auth/authenticator.dart';
 import 'package:pass_emploi_app/auth/firebase_auth_wrapper.dart';
 import 'package:pass_emploi_app/crashlytics/crashlytics.dart';
@@ -47,6 +47,7 @@ import 'package:pass_emploi_app/repositories/tutorial_repository.dart';
 import 'package:redux/redux.dart';
 
 import '../doubles/dummies.dart';
+import '../doubles/dummy_matomo_tracker.dart';
 
 class TestStoreFactory {
   Authenticator authenticator = DummyAuthenticator();
