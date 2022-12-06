@@ -56,6 +56,7 @@ import 'package:pass_emploi_app/models/saved_search/offre_emploi_saved_search.da
 import 'package:pass_emploi_app/models/saved_search/service_civique_saved_search.dart';
 import 'package:pass_emploi_app/models/service_civique.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
+/*AUTOGENERATE-REDUX-APP-REDUCER-IMPORT*/
 
 AppState reducer(AppState current, dynamic action) {
   if (action is RequestLogoutAction) {
@@ -135,5 +136,6 @@ AppState reducer(AppState current, dynamic action) {
     suggestionsRechercheState: suggestionsRechercheReducer(current.suggestionsRechercheState, action),
     traiterSuggestionRechercheState: traiterSuggestionRechercheReducer(current.traiterSuggestionRechercheState, action),
     eventListState: eventListReducer(current.eventListState, action),
+    /*AUTOGENERATE-REDUX-APP-REDUCER-STATE*/
   );
 }
