@@ -143,81 +143,36 @@ pas être nécessaire d'être connecté, le script utilisant un token "ci".
 
 ## Déployer une nouvelle version de l'app en bêta test sur les stores publics
 
-1. Se mettre à jour sur `develop`
-2. Mettre à jour le version name dans le fichier `pubspec.yaml` (variable `version`)
-3. Commiter et push le changement
-4. Merger `develop` sur `master` :
+Lancer le script `release.sh` avec le numéro de version en paramètre :
 
 ```shell script
-$ git checkout master
-$ git pull
-$ git merge --no-ff develop
-$ git push
+$ ./scripts/release.sh <major.minor.patch> 
 ```
 
-6. Tagger la release pour générer et uploader les builds de production via la CI
+La pipeline de production se lancera automatiquement dans la foulée. À la fin du job, le build de
+l'appli se retrouve disponible :
 
-```shell script
-$ git tag -a <major.minor.patch> -m "major.minor.patch" # major.minor.patch étant le version name de l'étape 3
-$ git push --tags 
-```
-
-7. À la fin du job, le build de l'appli se retrouve disponible :
-    * Instantanément en test interne sur le Play Store Android. Il faut cependant attendre un moment
-      avant que les utilisateurs internes puissent le voir dans le Play Store.
-    * Sur Test Flight, même s'il faut environ 10 minutes pour qu'il soit automatiquement poussé au
-      groupe de testeurs internes "Équipe projet".
+* Instantanément en test interne sur le Play Store Android. Il faut cependant attendre un moment
+  avant que les utilisateurs internes puissent le voir dans le Play Store.
+* Sur Test Flight, même s'il faut environ 10 minutes pour qu'il soit automatiquement poussé au
+  groupe de testeurs internes "Équipe projet".
 
 ## Déployer un hotfix de l'app en bêta test sur les stores publics
 
-1. **Prérequis : avoir corrigé le bug rencontré sur la branche `develop`**
-2. Créer une branche de hotfix à partir du dernier tag en production, et appliquer le(s) correctif(
-   s) :
+1. **Prérequis : avoir corrigé le bug rencontré sur les branches `master` ET `develop`**
+2. Lancer le script `hotfix.sh` avec le numéro de version en paramètre :
 
 ```shell script
-$ git checkout <major.minor.patch> # major.minor.patch étant le tag sur lequel on veut appliquer un hotfix
-$ git checkout -b hotfix/<major.minor.patch+1> # ex: passer de 3.0.0 à 3.0.1
-$ git cherry-pick <hash-du-commit-correctif-sur-develop>
+$ ./scripts/hotfix.sh <major.minor.patch> 
 ```
 
-3. Mettre à jour le version name dans le fichier `pubspec.yaml` (variable `version`)
-4. Commiter le changement
-5. Merger la branche de hotfix sur `develop` :
+La pipeline de production se lancera automatiquement dans la foulée. À la fin du job, le build de
+l'appli se retrouve disponible :
 
-```shell script
-$ git checkout develop
-$ git pull
-$ git merge --no-ff <branche-de-hotfix>
-$ git push
-```
-
-6. Merger la branche de hotfix sur `master` :
-
-```shell script
-$ git checkout master
-$ git pull
-$ git merge --no-ff <branche-de-hotfix>
-$ git push
-```
-
-7. Supprimer la branche de hotfix en local :
-
-```shell script
-$ git branch -D <branche-de-hotfix>
-```
-
-8. Tagger la release pour générer et uploader les builds de production via la CI
-
-```shell script
-$ git tag -a major.minor.patch -m "major.minor.patch" # major.minor.patch étant le version name de l'étape 3
-$ git push --tags 
-```
-
-9. À la fin du job, le build de l'appli se retrouve disponible :
-    * Instantanément en test interne sur le Play Store Android. Il faut cependant attendre un moment
-      avant que les utilisateurs internes puissent le voir dans le Play Store.
-    * Sur Test Flight, même s'il faut environ 10 minutes pour qu'il soit automatiquement poussé au
-      groupe de testeurs internes "Équipe projet".
+* Instantanément en test interne sur le Play Store Android. Il faut cependant attendre un moment
+  avant que les utilisateurs internes puissent le voir dans le Play Store.
+* Sur Test Flight, même s'il faut environ 10 minutes pour qu'il soit automatiquement poussé au
+  groupe de testeurs internes "Équipe projet".
 
 ## Promouvoir la version pour tous les utilisateurs
 
