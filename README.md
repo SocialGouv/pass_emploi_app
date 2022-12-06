@@ -159,7 +159,7 @@ l'appli se retrouve disponible :
 
 ## Déployer un hotfix de l'app en bêta test sur les stores publics
 
-1. **Prérequis : avoir corrigé le bug rencontré sur la branche `master`**
+1. **Prérequis : avoir corrigé le bug rencontré sur les branches `master` ET `develop`**
 2. Lancer le script `hotfix.sh` avec le numéro de version en paramètre :
 
 ```shell script

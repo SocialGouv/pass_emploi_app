@@ -14,9 +14,10 @@ upgrade_version() {
 tag_and_update_develop() {
   git tag -a $new_version -m "$new_version"
   git push --tags
+  version_commit_sha=$(git rev-parse HEAD~1)
   git checkout develop
   git pull --rebase
-  git merge --no-ff --no-edit master
+  git cherry-pick $version_commit_sha
   git push
 }
 
