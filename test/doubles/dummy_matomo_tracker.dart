@@ -143,8 +143,13 @@ class DummyMatomoTracker implements PassEmploiMatomoTracker {
   }
 
   @override
-  void trackScreen(BuildContext context,
-      {required String eventName, String? currentScreenId, String? path, Map<String, String>? dimensions}) {
+  void trackScreen(
+    BuildContext context, {
+    required String eventName,
+    String? currentScreenId,
+    String? path,
+    Map<String, String>? dimensions,
+  }) {
     // Do nothing
   }
 
