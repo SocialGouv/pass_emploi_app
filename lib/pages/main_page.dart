@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/presentation/mon_suivi_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
+import 'package:pass_emploi_app/ui/font_sizes.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/utils/context_extensions.dart';
 import 'package:pass_emploi_app/widgets/menu_item.dart' as menu;
@@ -83,6 +84,9 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver {
         child: _content(_selectedIndex, viewModel),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        // Required to avoid having a disproportionate NavBar height
+        selectedFontSize: FontSizes.extraSmall,
+        unselectedFontSize: FontSizes.extraSmall,
         backgroundColor: Colors.white,
         type: BottomNavigationBarType.fixed,
         selectedItemColor: AppColors.secondary,

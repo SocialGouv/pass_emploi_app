@@ -19,14 +19,10 @@ class DefaultMenuItem extends StatelessWidget {
     required this.withBadge,
   }) : super();
 
-  static final List<String> _widgetAlreadyBuildForLabelList = [];
-
   @override
   Widget build(BuildContext context) {
-    final alreadyBuilt = _widgetAlreadyBuildForLabelList.contains(label);
-    if (!alreadyBuilt) _widgetAlreadyBuildForLabelList.add(label);
-    Color color = AppColors.grey800;
-    if (isActive) color = AppColors.secondary;
+    final Color color = currentColor(isActive);
+
     return Stack(
       alignment: Alignment.center,
       clipBehavior: Clip.none,
@@ -47,26 +43,41 @@ class DefaultMenuItem extends StatelessWidget {
             Text(label, style: TextStyles.textMenuRegular(color)),
           ],
         ),
-        TweenAnimationBuilder<double>(
-          tween: Tween<double>(begin: _beginTweenValue(), end: _endTweenValue()),
-          // When the widget is built for the first time, we don't want any animation => duration is set to 0.
-          duration: Duration(milliseconds: alreadyBuilt ? 800 : 0),
-          curve: Curves.fastLinearToSlowEaseIn,
-          builder: (context, value, child) {
-            return Positioned(
-                bottom: value,
-                child: Center(
-                    child: SvgPicture.asset(
-                  Drawables.icMenuSelectedBullet,
-                  color: AppColors.secondary,
-                )));
-          },
-        )
+        Builder(builder: (BuildContext context) {
+          return _ActiveIndicator(
+            isActive: isActive,
+          );
+        })
       ],
     );
   }
 
-  double _beginTweenValue() => isActive ? -20 : -6;
+  static Color currentColor(bool isActive) {
+    return isActive ? AppColors.secondary : AppColors.grey800;
+  }
+}
 
-  double _endTweenValue() => isActive ? -6 : -20;
+class _ActiveIndicator extends StatelessWidget {
+  const _ActiveIndicator({required this.isActive});
+  final bool isActive;
+
+  @override
+  Widget build(BuildContext context) {
+    final bottomPosition = isActive ? -6.0 : -20.0;
+    final opacity = isActive ? 1.0 : 0.0;
+    final animationDuration = Duration(milliseconds: 800);
+    return AnimatedPositioned(
+        curve: Curves.fastLinearToSlowEaseIn,
+        bottom: bottomPosition,
+        duration: animationDuration,
+        child: AnimatedOpacity(
+          opacity: opacity,
+          duration: animationDuration,
+          curve: Curves.fastLinearToSlowEaseIn,
+          child: SvgPicture.asset(
+            Drawables.icMenuSelectedBullet,
+            color: DefaultMenuItem.currentColor(isActive),
+          ),
+        ));
+  }
 }
