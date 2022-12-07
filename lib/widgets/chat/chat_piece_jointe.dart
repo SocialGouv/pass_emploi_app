@@ -7,11 +7,10 @@ import 'package:pass_emploi_app/presentation/piece_jointe_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
-import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
-import 'package:pass_emploi_app/widgets/chat/chat_bubble_widget.dart';
+import 'package:pass_emploi_app/widgets/chat/chat_message_container.dart';
 
 class ChatPieceJointe extends StatelessWidget {
   final PieceJointeConseillerMessageItem item;
@@ -20,27 +19,19 @@ class ChatPieceJointe extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 10, bottom: 10),
-      child: Column(
+    return ChatMessageContainer(
+      content: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ChatBubble(
-            isMyMessage: false,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SelectableText(item.message, style: TextStyles.textSRegular()),
-                SizedBox(height: 14),
-                _PieceJointeName(item.filename),
-                SizedBox(height: 20),
-                _DownloadButton(item: item),
-              ],
-            ),
-          ),
-          _Caption(item.caption),
+          SelectableText(item.message, style: TextStyles.textSRegular()),
+          SizedBox(height: 14),
+          _PieceJointeName(item.filename),
+          SizedBox(height: 20),
+          _DownloadButton(item: item),
         ],
       ),
+      isMyMessage: false,
+      caption: item.caption,
     );
   }
 }
@@ -62,23 +53,6 @@ class _PieceJointeName extends StatelessWidget {
             style: TextStyles.textSBoldWithColor(Colors.black),
           ),
         ),
-      ],
-    );
-  }
-}
-
-class _Caption extends StatelessWidget {
-  final String text;
-
-  const _Caption(this.text) : super();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: Margins.spacing_xs),
-        Text(text, style: TextStyles.textXsRegular()),
       ],
     );
   }
