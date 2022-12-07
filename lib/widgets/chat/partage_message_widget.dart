@@ -12,6 +12,7 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/chat/chat_bubble_widget.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 
 class PartageMessageWidget extends StatelessWidget {
@@ -42,16 +43,8 @@ class _MessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(
-        left: item.sender == Sender.jeune ? 77.0 : 0,
-        right: item.sender == Sender.conseiller ? 77.0 : 0,
-      ),
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: item.sender == Sender.jeune ? AppColors.primary : AppColors.primaryLighten,
-        borderRadius: BorderRadius.all(Radius.circular(16)),
-      ),
+    return ChatBubbleWidget(
+      isMyMessage: item.sender == Sender.jeune,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

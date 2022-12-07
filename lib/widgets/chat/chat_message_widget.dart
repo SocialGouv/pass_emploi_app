@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
-import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/chat/chat_bubble_widget.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 
 class ChatMessageWidget extends StatelessWidget {
@@ -19,16 +19,8 @@ class ChatMessageWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: item is ConseillerMessageItem ? CrossAxisAlignment.start : CrossAxisAlignment.end,
         children: [
-          Container(
-            margin: EdgeInsets.only(
-              left: item is JeuneMessageItem ? 77.0 : 0,
-              right: item is ConseillerMessageItem ? 77.0 : 0,
-            ),
-            padding: const EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              color: item is ConseillerMessageItem ? AppColors.primaryLighten : AppColors.primary,
-              borderRadius: BorderRadius.all(Radius.circular(16)),
-            ),
+          ChatBubbleWidget(
+            isMyMessage: item is JeuneMessageItem,
             child: SelectableTextWithClickableLinks(
               item.content,
               linkStyle: textStyle,

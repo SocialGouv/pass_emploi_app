@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:pass_emploi_app/presentation/piece_jointe_view_model.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/presentation/display_state.dart';
+import 'package:pass_emploi_app/presentation/piece_jointe_view_model.dart';
 import 'package:pass_emploi_app/redux/app_state.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 import 'package:pass_emploi_app/ui/drawables.dart';
@@ -11,6 +11,7 @@ import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
+import 'package:pass_emploi_app/widgets/chat/chat_bubble_widget.dart';
 
 class ChatPieceJointeWidget extends StatelessWidget {
   final PieceJointeConseillerMessageItem item;
@@ -47,16 +48,8 @@ class _MessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(
-        left: 0,
-        right: 77.0,
-      ),
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: AppColors.primaryLighten,
-        borderRadius: BorderRadius.all(Radius.circular(16)),
-      ),
+    return ChatBubbleWidget(
+      isMyMessage: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: children,
