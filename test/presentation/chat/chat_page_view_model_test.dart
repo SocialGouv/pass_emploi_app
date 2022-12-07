@@ -63,13 +63,13 @@ void main() {
     expect(viewModel.displayState, DisplayState.CONTENT);
     expect(viewModel.items, [
       DayItem('Le 01/01/2021'),
-      JeuneMessageItem(content: '1', caption: '12:30 · Lu'),
-      ConseillerMessageItem(content: '2', caption: '15:30'),
+      JeuneTextMessageItem(content: '1', caption: '12:30 · Lu'),
+      ConseillerTextMessageItem(content: '2', caption: '15:30'),
       DayItem('Le 02/01/2021'),
-      JeuneMessageItem(content: '3', caption: '16:00 · Lu'),
-      ConseillerMessageItem(content: '4', caption: '18:30'),
+      JeuneTextMessageItem(content: '3', caption: '16:00 · Lu'),
+      ConseillerTextMessageItem(content: '4', caption: '18:30'),
       DayItem('Aujourd\'hui'),
-      JeuneMessageItem(content: '5', caption: '12:00 · Envoyé'),
+      JeuneTextMessageItem(content: '5', caption: '12:00 · Envoyé'),
     ]);
   });
 

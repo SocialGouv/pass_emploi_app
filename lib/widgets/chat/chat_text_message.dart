@@ -5,22 +5,22 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_bubble_widget.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 
-class ChatMessageWidget extends StatelessWidget {
-  final UserMessageItem item;
+class ChatTextMessage extends StatelessWidget {
+  final TextMessageItem item;
 
-  const ChatMessageWidget(this.item) : super();
+  const ChatTextMessage(this.item) : super();
 
   @override
   Widget build(BuildContext context) {
     final TextStyle textStyle =
-        item is ConseillerMessageItem ? TextStyles.textSRegular() : TextStyles.textSRegular(color: Colors.white);
+        item is ConseillerTextMessageItem ? TextStyles.textSRegular() : TextStyles.textSRegular(color: Colors.white);
     return Container(
       margin: const EdgeInsets.only(top: 10, bottom: 10),
       child: Column(
-        crossAxisAlignment: item is ConseillerMessageItem ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+        crossAxisAlignment: item is ConseillerTextMessageItem ? CrossAxisAlignment.start : CrossAxisAlignment.end,
         children: [
-          ChatBubbleWidget(
-            isMyMessage: item is JeuneMessageItem,
+          ChatBubble(
+            isMyMessage: item is JeuneTextMessageItem,
             child: SelectableTextWithClickableLinks(
               item.content,
               linkStyle: textStyle,

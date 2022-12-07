@@ -13,10 +13,10 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/buttons/primary_action_button.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_bubble_widget.dart';
 
-class ChatPieceJointeWidget extends StatelessWidget {
+class ChatPieceJointe extends StatelessWidget {
   final PieceJointeConseillerMessageItem item;
 
-  const ChatPieceJointeWidget(this.item) : super();
+  const ChatPieceJointe(this.item) : super();
 
   @override
   Widget build(BuildContext context) {
@@ -25,34 +25,21 @@ class ChatPieceJointeWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _MessageBubble(
-            children: [
-              SelectableText(item.message, style: TextStyles.textSRegular()),
-              SizedBox(height: 14),
-              _PieceJointeName(item.filename),
-              SizedBox(height: 20),
-              _DownloadButton(item: item),
-            ],
+          ChatBubble(
+            isMyMessage: false,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SelectableText(item.message, style: TextStyles.textSRegular()),
+                SizedBox(height: 14),
+                _PieceJointeName(item.filename),
+                SizedBox(height: 20),
+                _DownloadButton(item: item),
+              ],
+            ),
           ),
           _Caption(item.caption),
         ],
-      ),
-    );
-  }
-}
-
-class _MessageBubble extends StatelessWidget {
-  final List<Widget> children;
-
-  const _MessageBubble({required this.children}) : super();
-
-  @override
-  Widget build(BuildContext context) {
-    return ChatBubbleWidget(
-      isMyMessage: false,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: children,
       ),
     );
   }

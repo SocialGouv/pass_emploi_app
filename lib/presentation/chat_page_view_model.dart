@@ -119,11 +119,11 @@ String caption(Message message, DateTime lastConseillerReading) {
   }
 }
 
-UserMessageItem _buildMessageItem(Message message, DateTime lastConseillerReading) {
+TextMessageItem _buildMessageItem(Message message, DateTime lastConseillerReading) {
   if (message.sentBy == Sender.jeune) {
-    return JeuneMessageItem(content: message.content, caption: caption(message, lastConseillerReading));
+    return JeuneTextMessageItem(content: message.content, caption: caption(message, lastConseillerReading));
   } else {
-    return ConseillerMessageItem(content: message.content, caption: caption(message, lastConseillerReading));
+    return ConseillerTextMessageItem(content: message.content, caption: caption(message, lastConseillerReading));
   }
 }
 

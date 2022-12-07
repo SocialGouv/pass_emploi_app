@@ -15,10 +15,10 @@ import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_bubble_widget.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 
-class PartageMessageWidget extends StatelessWidget {
+class PartageMessage extends StatelessWidget {
   final PartageMessageItem item;
 
-  PartageMessageWidget(this.item);
+  PartageMessage(this.item);
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class _MessageBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChatBubbleWidget(
+    return ChatBubble(
       isMyMessage: item.sender == Sender.jeune,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

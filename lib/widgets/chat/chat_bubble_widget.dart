@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pass_emploi_app/ui/app_colors.dart';
 
-class ChatBubbleWidget extends StatelessWidget {
-  const ChatBubbleWidget({super.key, required this.isMyMessage, required this.child});
+class ChatBubble extends StatelessWidget {
+  const ChatBubble({super.key, required this.isMyMessage, required this.child});
   final bool isMyMessage;
   final Widget child;
 
