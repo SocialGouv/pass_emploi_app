@@ -21,7 +21,7 @@ class DefaultMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Color color = currentColor(isActive);
+    final Color color = _itemColor(isActive);
 
     return Stack(
       alignment: Alignment.center,
@@ -51,10 +51,6 @@ class DefaultMenuItem extends StatelessWidget {
       ],
     );
   }
-
-  static Color currentColor(bool isActive) {
-    return isActive ? AppColors.secondary : AppColors.grey800;
-  }
 }
 
 class _ActiveIndicator extends StatelessWidget {
@@ -76,9 +72,13 @@ class _ActiveIndicator extends StatelessWidget {
         curve: Curves.fastLinearToSlowEaseIn,
         child: SvgPicture.asset(
           Drawables.icMenuSelectedBullet,
-          color: DefaultMenuItem.currentColor(isActive),
+          color: _itemColor(isActive),
         ),
       ),
     );
   }
+}
+
+Color _itemColor(bool isActive) {
+  return isActive ? AppColors.secondary : AppColors.grey800;
 }
