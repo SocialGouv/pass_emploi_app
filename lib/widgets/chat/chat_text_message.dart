@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pass_emploi_app/models/message.dart';
 import 'package:pass_emploi_app/presentation/chat_item.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 import 'package:pass_emploi_app/widgets/chat/chat_message_container.dart';
@@ -11,15 +12,15 @@ class ChatTextMessage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextStyle textStyle =
-        item is ConseillerTextMessageItem ? TextStyles.textSRegular() : TextStyles.textSRegular(color: Colors.white);
+    final bool isMyMessage = item.sender == Sender.jeune;
+    final TextStyle textStyle = isMyMessage ? TextStyles.textSRegular(color: Colors.white) : TextStyles.textSRegular();
     return ChatMessageContainer(
       content: SelectableTextWithClickableLinks(
         item.content,
         linkStyle: textStyle,
         style: textStyle,
       ),
-      isMyMessage: item is JeuneTextMessageItem,
+      isMyMessage: isMyMessage,
       caption: item.caption,
     );
   }

@@ -120,11 +120,11 @@ String caption(Message message, DateTime lastConseillerReading) {
 }
 
 TextMessageItem _buildMessageItem(Message message, DateTime lastConseillerReading) {
-  if (message.sentBy == Sender.jeune) {
-    return JeuneTextMessageItem(content: message.content, caption: caption(message, lastConseillerReading));
-  } else {
-    return ConseillerTextMessageItem(content: message.content, caption: caption(message, lastConseillerReading));
-  }
+  return TextMessageItem(
+    content: message.content,
+    caption: caption(message, lastConseillerReading),
+    sender: message.sentBy,
+  );
 }
 
 List<dynamic> _messagesWithDaySections(List<Message> messages) {
