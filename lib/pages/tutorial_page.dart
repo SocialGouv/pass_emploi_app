@@ -193,6 +193,7 @@ class _TutorialContentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
+      // TODO: GenericCard ??
       padding: const EdgeInsets.all(Margins.spacing_m),
       child: Material(
         elevation: 8,
