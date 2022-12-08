@@ -12,47 +12,18 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/strings.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
+import 'package:pass_emploi_app/widgets/chat/chat_message_container.dart';
 import 'package:pass_emploi_app/widgets/text_with_clickable_links.dart';
 
-class PartageMessageWidget extends StatelessWidget {
+class PartageMessage extends StatelessWidget {
   final PartageMessageItem item;
 
-  PartageMessageWidget(this.item);
+  PartageMessage(this.item);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 10, bottom: 10),
-      child: Column(
-        crossAxisAlignment: item.sender == Sender.conseiller ? CrossAxisAlignment.start : CrossAxisAlignment.end,
-        children: [
-          _MessageBubble(item: item),
-          SizedBox(height: Margins.spacing_xs),
-          Text(item.caption, style: TextStyles.textXsRegular())
-        ],
-      ),
-    );
-  }
-}
-
-class _MessageBubble extends StatelessWidget {
-  final PartageMessageItem item;
-
-  _MessageBubble({required this.item});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(
-        left: item.sender == Sender.jeune ? 77.0 : 0,
-        right: item.sender == Sender.conseiller ? 77.0 : 0,
-      ),
-      padding: const EdgeInsets.all(16.0),
-      decoration: BoxDecoration(
-        color: item.sender == Sender.jeune ? AppColors.primary : AppColors.primaryLighten,
-        borderRadius: BorderRadius.all(Radius.circular(16)),
-      ),
-      child: Column(
+    return ChatMessageContainer(
+      content: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _ContentMessage(content: item.content, sender: item.sender),
@@ -60,6 +31,8 @@ class _MessageBubble extends StatelessWidget {
           _PartageCard(item: item),
         ],
       ),
+      isMyMessage: item.sender == Sender.jeune,
+      caption: item.caption,
     );
   }
 }

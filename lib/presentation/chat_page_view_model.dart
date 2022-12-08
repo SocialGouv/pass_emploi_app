@@ -119,12 +119,12 @@ String caption(Message message, DateTime lastConseillerReading) {
   }
 }
 
-UserMessageItem _buildMessageItem(Message message, DateTime lastConseillerReading) {
-  if (message.sentBy == Sender.jeune) {
-    return JeuneMessageItem(content: message.content, caption: caption(message, lastConseillerReading));
-  } else {
-    return ConseillerMessageItem(content: message.content, caption: caption(message, lastConseillerReading));
-  }
+TextMessageItem _buildMessageItem(Message message, DateTime lastConseillerReading) {
+  return TextMessageItem(
+    content: message.content,
+    caption: caption(message, lastConseillerReading),
+    sender: message.sentBy,
+  );
 }
 
 List<dynamic> _messagesWithDaySections(List<Message> messages) {

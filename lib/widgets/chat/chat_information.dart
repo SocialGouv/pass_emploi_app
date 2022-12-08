@@ -5,11 +5,11 @@ import 'package:pass_emploi_app/ui/drawables.dart';
 import 'package:pass_emploi_app/ui/margins.dart';
 import 'package:pass_emploi_app/ui/text_styles.dart';
 
-class ChatInformationWidget extends StatelessWidget {
+class ChatInformation extends StatelessWidget {
   final String title;
   final String description;
 
-  const ChatInformationWidget(this.title, this.description, {Key? key}) : super(key: key);
+  const ChatInformation(this.title, this.description, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
